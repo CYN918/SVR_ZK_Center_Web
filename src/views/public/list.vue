@@ -70,9 +70,9 @@ import tables from '../common/tables.vue';
 				}
 				this.setStatusType=1;							
 				let params = {material_id:this.tableData[on].id,status:this.tableConfig.list[5].select.mode[on]};		
-				this.api.wallpaper_check({params}).then((datas)=>{					
+				this.api.wallpaper_check({params}).then(()=>{					
 					this.setStatusType = 0;			
-				}).catch((error)=>{
+				}).catch(()=>{
 					this.setStatusType = 0;
 					location.reload();
 				})			
@@ -99,7 +99,7 @@ import tables from '../common/tables.vue';
 				this.api.wallpaper_put({params}).then( (response)=> {
 					this.tableData = this.clData(response);
 					this.enloding();
-				}).catch((error)=>{
+				}).catch(()=>{
 					this.enloding();
 				})
 				
@@ -108,7 +108,6 @@ import tables from '../common/tables.vue';
 				let arr  = [];
 				let da = data.data;		
 				this.tableConfig.total=data.total;
-				console.log(da);
 				for(let i=0,n=da.length;i<n;i++){
 					arr.push(
 						{
@@ -152,12 +151,12 @@ import tables from '../common/tables.vue';
 						{title:'模糊搜索',type:'text',value:'search'},	
 					];	
 					
-				}).catch((error)=>{})				
+				}).catch(()=>{})				
 			},
 			downlod(on){
 				window.open(this.tableData[on].dowurl);
 			},
-			xzFn(data){
+			xzFn(){
 	
 			},			
 			checkTime(value){
@@ -166,7 +165,7 @@ import tables from '../common/tables.vue';
 			},
 			checkStatus(value){	
 				if(!value){return}
-				return value =='1102'?'待审核':value =='1103'?'已通过':value=='1002'?'不通过':'';				
+				return value =='1102'?'待审':value =='1103'?'已通过':value=='1002'?'不通过':'';				
 			},
 		}
 	};
@@ -196,8 +195,8 @@ import tables from '../common/tables.vue';
 }
 .qhstBtn{
 	position: absolute;
-	top: 19px;
-	right: 40px;
+top: 10px;
+    right: 44px;
 	background:rgba(255,216,191,1) !important;
 	border-color: rgba(255,216,191,1) !important;
 	color:rgba(255,255,255,1);
@@ -206,7 +205,7 @@ import tables from '../common/tables.vue';
 	border-bottom: 1px solid #e4e7ed;
 }
 .newdqgh{
-	    top: 8px;
-    right: 43px;
+	top: 8px !important;
+    right: 43px !important;
 }
 </style>

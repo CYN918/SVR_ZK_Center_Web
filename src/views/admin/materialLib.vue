@@ -75,22 +75,19 @@ export default {
 		this.getData();
 	}, 
 	methods: {
-
 		enloding(){
 			this.$refs.Tabledd.lodingfalse();		
-		},
-		
+		},		
 		setScreenConfig(){
 			this.screenConfig={};
 			this.$refs.Tabledd.initpage();		
-			console.log(12);
 			if(this.$route.fullPath=='/admin/library_picture'){				
 				this.tableConfig.list =  this.tabledd[0];
 				this.screens.types = 'm_picture,m_script_picture';
 			}
 			if(this.$route.fullPath=='/admin/library_resource'){
 				this.tableConfig.list =  this.tabledd[1];
-			    this.screens.types = 'm_resource,m_h5_resource';
+				this.screens.types = 'm_resource,m_h5_resource';
 			}
 			this.api.sysconfig_material().then((datas)=>{				
 				this.sxtjList = datas;					
@@ -121,19 +118,13 @@ export default {
 			})	
 		},
 		openmate(cs){		
-
 			this.$router.push({
-			   name:this.$route.fullPath.split('/')[2]+'s',
-			   query:{
-				lib_id:this.tableData[cs].id
-			 }
-			});
-			
+				name:this.$route.fullPath.split('/')[2]+'s',
+				query:{lib_id:this.tableData[cs].id}
+			});			
 		},
 		getData(sxtj){	
-			console.log(sxtj);
 			if(sxtj){	
-					console.log(3333333);
 				if(!sxtj.types){
 					if(this.$route.fullPath=='/admin/library_picture'){
 						sxtj.types = 'm_picture,m_script_picture';						
@@ -143,8 +134,6 @@ export default {
 						sxtj.types = 'm_resource,m_h5_resource';
 					}
 				}
-				
-			
 				Object.assign(this.screens, sxtj);				
 			}	
 			let params = this.screens;
@@ -173,7 +162,7 @@ export default {
 						channel_type:da[i].channel_type || ''
 					},					
 				);
-			};
+			}
 			return arr;
 
 		},

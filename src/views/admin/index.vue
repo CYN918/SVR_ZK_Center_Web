@@ -18,12 +18,11 @@ export default {
 			letNav:'',
 		}
 	},
-	 components: {
-	    topNav,
+	components: {
+		topNav,
 		leftNav
 	},
 	mounted: function () {
-		
 		this.letNav = JSON.parse(localStorage.getItem('letNav'))[0];
 	},	
 }

@@ -39,78 +39,19 @@
 	</div>	
 </template>
 <script>
-import tables from '../common/tables';
+import tables from '../common/newTable';
 export default {
+	props:['tableConfig','getType'],
 	components:{tables},
     data() {
 		return {
+			screens:{
+				p:10,
+				page:1,	
+			},
+			tableData:[],
 			uploadUrl:'http://ts-i.idatachain.cn/api/upload/attachment',
-			tableData:[],	
 			tabsd:{},
-			tableConfig:{
-				total:0,
-				ischeck:false,
-				list:[],				
-			},	
-			tabledd:[
-				[{prop:'material_id',lable:'素材Id'},
-				{prop:'preview_url',lable:'预览图',type:'imgs'},
-				{prop:'material_type',lable:'素材类型'},
-				{prop:'position',lable:'广告位类型'},
-				{prop:'description',lable:'投放内容描述'},
-				{prop:'size',lable:'素材尺寸'},
-				{prop:'link',lable:'投放链接'},
-				{prop:'material_status',lable:'状态'},
-				{prop:'created_at',lable:'创建时间'},
-				{prop:'attachment.url',lable:'附件下载',
-					temps:[{cls:'bjysdicon iconfont',type:'text',value:'&#xe61a;',fnName:'downlod'}]							
-				},
-				{prop:'attachment.url',lable:'审核',widht:210,
-					temps:[
-						{type:'primary',size:'mini',cls:'xqshticon',value:'通过',fnName:'opentg',round:'round'},
-						{type:'primary',size:'mini',cls:'xqshjicon',value:'拒绝',fnName:'openjj',round:'round'},
-						// {type:'primary',size:'mini',value:'转审',fnName:'open4',round:'round'},
-					]							
-				}],		  	
-				[{prop:'material_id',lable:'素材Id'},
-				{prop:'preview_url',lable:'预览图',type:'imgs'},
-				{prop:'material_type',lable:'素材类型'},
-				{prop:'position',lable:'广告位类型'},
-						
-				{prop:'size',lable:'素材尺寸'},
-				
-				{prop:'material_status',lable:'状态'},
-				{prop:'created_at',lable:'创建时间'},
-				{prop:'attachment.url',lable:'附件下载',
-					temps:[{cls:'bjysdicon iconfont',type:'text',value:'&#xe61a;',fnName:'downlod'}]							
-				},
-				{prop:'attachment.url',lable:'审核',widht:210,
-					temps:[
-						{type:'primary',size:'mini',cls:'xqshticon',value:'通过',fnName:'opentg',round:'round'},
-						{type:'primary',size:'mini',cls:'xqshjicon',value:'拒绝',fnName:'openjj',round:'round'},
-						// {type:'primary',size:'mini',value:'转审',fnName:'open4',round:'round'},
-					]							
-				}],		  	
-				[{prop:'material_id',lable:'素材Id'},
-				{prop:'preview_url',lable:'预览图',type:'imgs'},
-				{prop:'material_type',lable:'素材类型'},
-				{prop:'position',lable:'广告位类型'},
-						
-				{prop:'size',lable:'素材尺寸'},
-						
-				{prop:'material_status',lable:'状态'},
-				{prop:'created_at',lable:'创建时间'},
-				{prop:'attachment.url',lable:'附件下载',
-					temps:[{cls:'bjysdicon iconfont',type:'text',value:'&#xe61a;',fnName:'downlod'}]							
-				},
-				{prop:'attachment.url',lable:'审核',widht:210,
-					temps:[
-						{type:'primary',size:'mini',cls:'xqshticon',value:'通过',fnName:'opentg',round:'round'},
-						{type:'primary',size:'mini',cls:'xqshjicon',value:'拒绝',fnName:'openjj',round:'round'},
-						// {type:'primary',size:'mini',value:'转审',fnName:'open4',round:'round'},
-					]							
-				}]		  	
-			],
 			statusType:0,
 			dialogFormVisible: false,
 			form:{},
@@ -128,29 +69,59 @@ export default {
 		}
     },
 	mounted: function () {	
-		this.setConfig();
+		this.checkUrl();
 		this.getData();
 	}, 
 	methods: {
 		checkUrl(){
+			this.uerAd.user = localStorage.getItem('userAd');
 			if(window.location.host=='c.zookingsoft.com'){			
 				this.uploadUrl ='http://c.zookingsoft.com/api/upload/attachment';
 			}			
 		},
-		open4(){
-			
+		setLoding(type){
+			this.$refs.Tabledd.setLoding(type);	
+		},		
+		getData(sxtj){
+			this.setLoding(true);
+			let params = this.screens;
+			if(sxtj){
+				Object.assign(params, sxtj);
+			}				
+			params.type = this.getType;
+			this.api.handle_lists({params}).then((data)=>{					
+				this.tableData = this.clData(data);
+				this.setLoding(false);																		
+			}).catch(()=>{
+				this.setLoding(false);
+			});
 		},
-		setConfig(){
-			this.uerAd.user = localStorage.getItem('userAd');
-			if(this.$route.fullPath=='/user/user_picture'){					
-				this.tableConfig.list =  this.tabledd[0];		
-			}
-			if(this.$route.fullPath=='/user/user_resource'){					
-				this.tableConfig.list =  this.tabledd[1];		
-			}
-			if(this.$route.fullPath=='/user/user_wallpaper'){			
-				this.tableConfig.list =  this.tabledd[2];
-			}
+		clData(data){
+			let arr  = [];
+			this.tableConfig.total=data.total;			
+			let da = data.data;	
+			for(let i=0,n=da.length;i<n;i++){
+				arr.push(
+					{
+						material_id:da[i].material_id,
+						preview_url:da[i].preview_url=='null'?'/img/log.jpg':da[i].preview_url ,						
+						material_type:this.checkNr(da[i].material_type),
+						position:da[i].position,
+						description:da[i].description,
+						size:da[i].size,
+						link:da[i].link,
+						material_status:da[i].status,
+						created_at:this.checkTime(da[i].created_at),
+						attachmentUrl:da[i].attachment_url,
+						type:da[i].type,
+						work_id:da[i].work_id,
+						flow_id:da[i].flow_id,
+						put_id:da[i].put_id,
+						flow_detail:da[i].flow_detail,						
+					},
+				);
+			}			
+			return arr;		
 		},
 		downlod(on){
 			if(this.tableData[on].attachmentUrl){
@@ -184,9 +155,6 @@ export default {
 				this.closeFor();
 			});		
 		},
-		enloding(){
-			this.$refs.Tabledd.lodingfalse();		
-		},
 		onsuc(response){
 			if(response.code==0){
 				this.form.file = response.data.id;
@@ -195,23 +163,18 @@ export default {
 			}		
 			this.$message.error(response.message); 
 		},
-		opentg(on){
-		
-			if(this.tableData[on].type=='work'){
-				this.openTgWork(this.tableData[on].work_id,this.tableData[on].type);
-				return
-			}
+		opentg(on){		
 			if(this.tableData[on].type=='flow'){
 				this.openTgFlow(on);
+				return
 			}
+			let idd = this.tableData[on].work_id;
 			if(this.tableData[on].type=='put'){
-				this.openTgWork(this.tableData[on].put_id,this.tableData[on].type);
-			
-			}
-
+				idd = this.tableData[on].put_id;
+			}			
+			this.openTgWork(idd,this.tableData[on].type);
 		},
-		openTgWork(on,on2){
-			
+		openTgWork(on,on2){			
 			this.$confirm('是否确认通过', '提示', {
 				confirmButtonText: '确定',
 				cancelButtonText: '取消',
@@ -253,8 +216,7 @@ export default {
 				this.handle_reject(id,type,msg);
 			}).catch(() => {});		 
 		},	
-		handle_pass(id,type){
-		
+		handle_pass(id,type){		
 			let datas = {
 				id:id,
 				type:type
@@ -268,77 +230,6 @@ export default {
 				msg : msg,
 			};
 			this.api.handle_reject(datas)			
-		},
-		opentip1(on,type){
-			if(this.statusType==1){
-				return
-			}
-			this.$confirm('是否确认通过', '提示', {
-				confirmButtonText: '确定',
-				cancelButtonText: '取消',
-				type: 'warning'
-			}).then(() => {
-				this.setStatus(on,type);
-			}).catch(() => {});
-		},
-		getData(sxtj){
-		
-			let params = {
-				p:10,
-				page:1,				
-			};
-			if(sxtj){
-				Object.assign(params, sxtj);
-			}	
-
-			params.type = this.$route.fullPath.split('_')[1];
-			this.api.handle_lists({params}).then((data)=>{	
-				this.tableData =this.clData(data);	
-				this.enloding();
-			})
-
-		},
-		clData(data){
-			let arr  = [];
-			this.tableConfig.total=data.total;
-	
-			let da = data.data;
-		
-			for(let i=0,n=da.length;i<n;i++){
-				arr.push(
-					{
-						material_id:da[i].material_id,
-						preview_url:da[i].preview_url=='null'?'/img/log.jpg':da[i].preview_url ,						
-						material_type:this.checkNr(da[i].material_type),
-						position:da[i].position,
-						description:da[i].description,
-						size:da[i].size,
-						link:da[i].link,
-						material_status:da[i].status,
-						created_at:this.checkTime(da[i].created_at),
-						attachmentUrl:da[i].attachment_url,
-						type:da[i].type,
-						work_id:da[i].work_id,
-						flow_id:da[i].flow_id,
-						put_id:da[i].put_id,
-						flow_detail:da[i].flow_detail,						
-					},
-				);
-			}
-			
-			return arr;
-
-		},
-		filterTag(value, row) {
-			return row.material_type === value;
-		},	
-		handleSizeChange(val) {     
-			this.currentPage = val;
-			this.getListData();
-		},
-		handleCurrentChange(val) {
-			this.onpage = val-1;
-			this.getListData();
 		},
 		checkNr(value){		
 			if(!value){return}
@@ -361,17 +252,6 @@ export default {
 			if(!value){return}
 			return value.substring(0,10);
 		},			
-	},
-	watch: {   
-		$route: {
-			handler: function () {
-				this.$refs.Tabledd.initpage();
-				this.setConfig();
-				this.getData();
-				
-			},
-			deep: true
-		}
 	},
 }	
 	

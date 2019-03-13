@@ -32,9 +32,7 @@ export default {
 			tableConfig:{
 				total:0,
 				ischeck:true,
-				list:[
-					
-				],
+				list:[],
 				btns:[
 					{fnName:'showAddB',cls:'hsan',value:'新增素材'},
 					{fnName:'xzFn',cls:'pldc ',value:'批量导出',check:'1'},
@@ -156,7 +154,7 @@ export default {
 			this.api.materialLib_materials({params}).then((data)=>{	
 				this.tableData =this.clData(data);	
 				this.enloding();
-			}).catch((error)=>{
+			}).catch(()=>{
 				this.enloding();
 			})	
 
@@ -190,9 +188,8 @@ export default {
 						ad_type:da[i].extend.ad_type || '',
 					},				
 				);
-			};
+			}
 			return arr;
-
 		},
 		checkNr(value){		
 			if(!value){return}

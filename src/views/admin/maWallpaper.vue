@@ -39,21 +39,17 @@ export default {
 		this.getData();
 	}, 
 	methods: {
-
 		enloding(){
 			this.$refs.Tabledd.lodingfalse();		
 		},
 		showAddZ(on){
 			this.$refs.AddZ.showAdd(this.tableData[on].user);	
 		},
-		getData(sxtj){
-
+		getData(){
 			this.api.material_wallpaper().then((data)=>{	
-				this.tableData = this.clData(data);	
-			
+				this.tableData = this.clData(data);				
 				this.enloding();
 			})
-
 		},
 		clData(data){
 			let arr  = [];
@@ -63,13 +59,13 @@ export default {
 				arr.push(
 					{
 						user:da[i].user,					
-						reviewing:da[i].origin,
+						reviewing:da[i].reviewing,
 						review_success:da[i].review_success,
 						review_fail:da[i].review_fail,						
-						origin:da[i].reviewing,
+						origin:da[i].origin,
 					},	
 				);
-			};
+			}
 			return arr;
 
 		},

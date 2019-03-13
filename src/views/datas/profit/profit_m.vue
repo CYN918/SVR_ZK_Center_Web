@@ -38,15 +38,26 @@ export default {
 				ischeck:false,
 				'show-summary':true,
 				list:[
-					{prop:'create_time',lable:'周期'},
+					{prop:'create_time',lable:'月份',sor:true},
 					{prop:'ad_income',lable:'广告流水'},
-					{prop:'designer_cost',lable:'设计师成本'},					
-					{prop:'channel_cost',lable:'渠道成本'},
-					{prop:'income',lable:'收益'},
+					{prop:'designer_cost',lable:'设计师成本',sor:true,
+						poclick:{cls:' ',type:'text',value:'查看',fnName:'seeXx3'},		
+					},					
+					{prop:'channel_cost',lable:'渠道成本',sor:true,
+						poclick:{cls:' ',type:'text',value:'查看',fnName:'seeXx4'},		
+					},
+					{prop:'income',lable:'收益',sor:true},
 					{prop:'gross_profit',lable:'毛利率'},
-					{prop:'channel',lable:'渠道'},
-					{prop:'admaster',lable:'广告主'},
-				
+					{prop:'channel',lable:'渠道',
+						temps:[
+							{cls:'hsetext',type:'text',value:'查看详情',fnName:'seeXx1'},								
+						]	
+					},
+					{prop:'admaster',lable:'广告主',
+						temps:[
+							{cls:'hsetext',type:'text',value:'查看详情',fnName:'seeXx2'},								
+						]	
+					},				
 				],
 				btns:[
 					{fnName:'xzFn',cls:'pldc ',value:'导出数据'},
@@ -72,8 +83,7 @@ export default {
 						{name:'渠道成本',type:'bar',color: 'rgba(105,192,255,1)',stack: '广告',data:[]},
 						{name:'设计师成本',type:'bar',color: 'rgba(230,0,18,1)',stack: '广告',data:[]},
 					]					
-				},
-				
+				},				
 				config2:{ 
 					title: {text: '产品维度'},
 					tooltip : {trigger: 'axis',axisPointer:{type : 'shadow'}},
@@ -87,52 +97,38 @@ export default {
 						{name:'设计师成本',type:'bar',color: 'rgba(230,0,18,1)',stack: '广告',data:[]},
 					]	
 				},
-				
-			
 				config3:{
-					  title: {
-						text: '广告位维度'
-					},
-								tooltip : {
-					    trigger: 'axis',
-					    axisPointer : {     
-					        type : 'shadow'       
-					    }
-					},
-					legend: {
-						 y:'bottom',
-					    data:['收益','渠道成本','设计师成本']
-					},
-					grid: {
-					    left: '3%',
-					    right: '4%',
-					    bottom: '8%',
-					    containLabel: true
-					},
-					xAxis : [
-					    {
-					        type : 'category',
-					        data : []
-					    }
-					],
-					yAxis : [
-					    {
-					        type : 'value'
-					    }
-					],
-					series : [
+					title:{text:'广告位维度'},
+					tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
+					legend: {y:'bottom',data:['收益','渠道成本','设计师成本']},
+					grid: {left:'3%',right:'4%',bottom:'8%',containLabel:true},
+					xAxis:[{type:'category',data:[]}],
+					yAxis:[{type:'value'}],
+					series:[
 						{name:'收益',type:'bar',color: 'rgba(255,206,85,1)',stack: '广告', data:[]},
 						{name:'渠道成本',type:'bar',color: 'rgba(105,192,255,1)',stack: '广告',data:[]},
 						{name:'设计师成本',type:'bar',color: 'rgba(230,0,18,1)',stack: '广告',data:[]},
-					]},	
-					
-				},
+					],
+				},						
+			},
 		}
 	},
 	mounted: function () {	
 		this.getData();
 	}, 
 	methods: {	
+		seeXx1(on){
+			window.open('/#/data/profit_channel?time='+this.tableData[on].create_time)
+		},
+		seeXx2(on){
+			window.open('/#/data/profit_user?time='+this.tableData[on].create_time)
+		},
+		seeXx3(on){
+			window.open('/#/data/cost_channel?time='+this.tableData[on].create_time)
+		},
+		seeXx4(on){
+			window.open('/#/data/cost_designer?time='+this.tableData[on].create_time)
+		},
 		lodingfalse(){
 			this.$refs.Tablde.lodingfalse();	
 		},
@@ -152,7 +148,7 @@ export default {
 			this.api.data_income_report({params}).then((datas)=>{	
 				this.tableData = this.clDatax(datas);		
 				this.lodingfalse();
-			}).catch((error)=>{
+			}).catch(()=>{
 				this.lodingfalse();
 			})	
 			this.api.data_income_overall({params}).then((datas)=>{
@@ -162,7 +158,7 @@ export default {
 			{name:'渠道成本',num:datas.data.channel_cost,fp:datas.rate.channel_cost},
 			{name:'收益',num:datas.data.gross_profit,fp:datas.rate.gross_profit},
 				];
-			}).catch((error)=>{})			
+			}).catch(()=>{})			
 		},	
 		
 		clDatax(data){		
@@ -172,15 +168,15 @@ export default {
 				{name:'收益',type:'line',color: 'rgba(105,192,255,1)', data:[]},
 				{name:'设计师成本',type:'line',color: 'rgba(24,237,79,1)',data:[]},
 				{ name:'渠道成本',type:'line',color: 'rgba(255,206,85,1)',data:[]}
-			],arr3=[],da = data.data;
+			],da = data.data;
 			this.tableConfig.total=data.total_count;
 			for(let el in da){
 				arr.push({
 					create_time:el,
-					ad_income:da[el].ad_income,
-					designer_cost:da[el].designer_cost,
-					channel_cost:da[el].channel_cost,
-					income:da[el].income,
+					ad_income:+da[el].ad_income,
+					designer_cost:+da[el].designer_cost,
+					channel_cost:+da[el].channel_cost,
+					income:+da[el].income,
 					gross_profit:da[el].gross_profit,
 					channel:da[el].channel,
 					admaster:da[el].admaster,
@@ -226,7 +222,7 @@ export default {
 			setChar(data.channel_data,'config');
 //			setChar(data.product_data,'config2');
 			setChar(data.ad_space_data,'config3');
-   			this.setData(this.ChartConfig);
+			this.setData(this.ChartConfig);
 			return arr;
 		},
 		chb(num){

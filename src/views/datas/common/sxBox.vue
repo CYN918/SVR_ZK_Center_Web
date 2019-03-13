@@ -192,6 +192,9 @@ export default {
 				xz='';
 			}
 		    let arr = [];
+			if(!data){
+				return arr;
+			}
 		    for(let i=0,n=data.length;i<n;i++){
 		    	if(String(data[i]).indexOf(xz)==0){
 		    		arr.push({value:data[i]});

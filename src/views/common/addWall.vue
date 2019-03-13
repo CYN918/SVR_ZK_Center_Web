@@ -68,7 +68,6 @@ export default {
 			},
 			xzData:'',
 			addAjaxType:0,
-
 		}
     },
 	mounted: function () {	
@@ -110,9 +109,9 @@ export default {
 				material_id:id.substring(1),	
 			};	
 
-			this.api.material_wallpaperPutmat({params}).then((data)=>{	
+			this.api.material_wallpaperPutmat({params}).then(()=>{	
 				this.addAjaxType =0;					
-			}).catch((error)=>{
+			}).catch(()=>{
 				this.addAjaxType =0;
 			})				
 		},
@@ -147,7 +146,7 @@ export default {
 							
 					];	
 					
-				}).catch((error)=>{})		
+				}).catch(()=>{})		
 		},
 		getData(sxtj){	
 			if(sxtj){
@@ -166,7 +165,7 @@ export default {
 			this.api.material_wallpaperPut({params}).then((data)=>{	
 				this.tableData =this.clData(data);	
 				this.enloding();
-			}).catch((error)=>{
+			}).catch(()=>{
 				this.enloding();
 			})	
 
@@ -190,7 +189,7 @@ export default {
 
 					},
 				);
-			};
+			}
 			return arr;
 
 		},

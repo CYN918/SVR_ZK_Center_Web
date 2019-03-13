@@ -16,24 +16,29 @@ export default {
 			searchConfig:{
 				title:"设计师成本详细数据",
 				tipData:[
-					{h1:"展示量",p:"所选日期内，素材展示次数PV"},
-					{h1:"点击量",p:"所选日期内，素材点击次数PV"},
-					{h1:"点击率",p:"点击量/展示量"},
-					{h1:"下载量",p:"所选日期内，素材上对应的广告的成功下载次数"},
-					{h1:"安装量",p:"所选日期内，素材上对应的广告的成功安装次数"},
-					{h1:"激活量",p:"所选日期内，素材上对应的广告的激活次数"},
-					{h1:"流水",p:"所选日期内，素材上对应的广告的流水收入"},
-					{h1:"ECPM",p:"每一千次展示可获得的广告流水收入"},
-					{h1:"ECPC",p:"单次点击可获得的广告流水收入"},
+					{h1:"展示量",p:"素材展示次数PV"},
+					{h1:"广告图/广告模板设计师成本",p:"广告图/广告模板设计师成本=素材对应汇总的展示量/1000*CPM"},
+					{h1:"壁纸设计师成本",p:"壁纸设计师成本=对应素材的单价"},
+					{h1:"入库日期",p:"素材入库日期"},
 				],
 				list:[					
 					{title:'日期',type:'times',value:'start_time'},
-					{title:'素材ID',type:'text',value:'picture_id'},
-					{title:'广告ID',type:'text',value:'ad_id'},					
+					{title:'素材类型',type:'select',value:'material_type',list:[
+						{label:'全部',value:''},
+						{label:'广告静态图',value:'picture'},
+						{label:'广告脚本图',value:'script_picture'},
+						{label:'广告脚本模板',value:'resource'},
+						{label:'广告H5模板',value:'h5_resource'},
+						{label:'锁屏壁纸脚本图',value:'wallpaper'},
+					]},
+					
+					{title:'素材ID',type:'text',value:'picture_id'},							
 					{title:'渠道',type:'get_channel',value:'channel'},
+					{title:'产品',type:'get_product',value:'product'},
 					{title:'广告位类型',type:'get_ad_space_type',value:'ad_space_type'},
-					{title:'广告位名称',type:'get_ad_space_name',value:'ad_space_name'},
 					{title:'广告位ID',type:'get_ad_space_id',value:'ad_space_id'},
+					{title:'广告ID',type:'text',value:'ad_id'},	
+					
 				],
 			},
 			tableConfig:{
@@ -89,7 +94,24 @@ export default {
 				}																
 			}
 			let params = this.screens;
+			if(this.$route.query.channel && !params.start_time){
+				params.channel = this.$route.query.channel;
+				if(sxtj){
+					sxtj.channel = this.$route.query.channel;
+				}
 				
+			}	
+			if(this.$route.query.time && !params.start_time){
+				this.screens.end_time = this.$route.query.time;
+				this.screens.start_time = this.$route.query.time;
+				if(sxtj){
+					sxtj.start_time = [this.$route.query.time,this.$route.query.time];
+				}
+				
+			}	
+			
+			
+			
 			this.api.data_cost_designer_detail({params}).then((datas)=>{									
 				this.tableData = this.clData(datas);		
 				this.lodingfalse();

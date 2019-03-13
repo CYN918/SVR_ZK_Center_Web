@@ -27,9 +27,7 @@ export default {
 			sxtjList:'',
 			tableData:[],			
 			screenConfig:[],
-			tjData:[
-			
-			],
+			tjData:[],
 			tableConfig:{
 				total:0,
 				ischeck:true,
@@ -57,8 +55,6 @@ export default {
 		}
     },
 	mounted: function () {	
-		console.log(11111111111111111);
-		console.log(window.location.host);
 		this.setScreenConfig();
 		this.need_stat();
 		this.getData();
@@ -66,42 +62,32 @@ export default {
 	methods: {
 		need_export(){
 			let form = document.createElement('form'),
-			input1 =  document.createElement('input'),
-			input2 =  document.createElement('input'),
-			input3 =  document.createElement('input'),
-			input4 =  document.createElement('input'),
-			input5 =  document.createElement('input');
-			input1.setAttribute('name','need_type');
-			input1.setAttribute('value',this.screens.need_type || '');		
-			input2.setAttribute('name','needs_picture');
-			input2.setAttribute('value',this.screens.needs_picture  || '');
-			input3.setAttribute('name','status');
-			input3.setAttribute('value',this.screens.status  || '');
-			input4.setAttribute('name','position');
-			input4.setAttribute('value',this.screens.position  || '');
-			input5.setAttribute('name','size');
-			input5.setAttribute('value',this.screens.size  || '');
-			
+			arr = [
+				{n:'need_type',d:this.screens.needs_picture || ''},
+				{n:'status',d:this.screens.status || ''},
+				{n:'position',d:this.screens.position || ''},
+				{n:'size',d:this.screens.size || ''},
+			];						
+			for(let i=0,n=arr.length;i<n;i++){
+				let dom = document.createElement('input');
+				dom.setAttribute('name',arr[i].n);
+				dom.setAttribute('value',arr[i].d);	
+				form.appendChild(dom);
+			}
 			form.setAttribute('style', 'display:none');
 			form.setAttribute('target', '');
 			form.setAttribute('method', 'get');	
-			form.setAttribute('action', 'http://ts-i.idatachain.cn/api/need/export');
-	        form.appendChild(input1);	
-			form.appendChild(input2);
-			form.appendChild(input3);
-			form.appendChild(input4);
-			form.appendChild(input5);			
+			form.setAttribute('action', 'http://ts-i.idatachain.cn/api/need/export');		
 			document.body.appendChild(form);
 			form.submit();
 		},
 		need_stat(){
 			this.api.need_stat().then((data)=>{
-				console.log(data);
 				this.tjData = [
 					{name:'有效需求数（个）',num:data.needs || 0},
-				  	{name:'待收素材数（个）',num:data.wait || 0},
-				  	{name:'审核通过素材数（个）',num:data.success || 0},
-				  	{name:'审核未通过素材数（个）',num:data.failed || 0},
+					{name:'待收素材数（个）',num:data.wait  || 0},
+					{name:'审核通过素材数（个）',num:data.success  || 0},
+					{name:'审核未通过素材数（个）',num:data.failed  || 0}
 				];
 			});
 		},
@@ -111,24 +97,27 @@ export default {
 			}
 			this.setStatusType=1;	
 			let params = {id:this.tableData[on].id,base_status:this.tableConfig.list[10].select.mode[on]};		
-			this.api.need_check({params}).then((datas)=>{					
+			this.api.need_check({params}).then(()=>{					
 				this.setStatusType = 0;			
-			}).catch((error)=>{
+			}).catch(()=>{
 				this.setStatusType = 0;
 				location.reload();
 			})			
 		},
-		enloding(){
-			this.$refs.Tabledd.lodingfalse();		
-		},
+		setLoding(type){
+			this.$refs.Tabledd.setLoding(type);	
+		},	
 		getData(sxtj){
+			this.setLoding(true);
 			if(sxtj){
 				Object.assign(this.screens, sxtj);				
 			}	
 			let params = this.screens;												
-			this.api.need_list({params}).then((response)=>{		
+			this.api.need_list({params}).then((response)=>{						
 				this.tableData = this.clData(response);		
-				this.enloding();
+				this.setLoding(false);
+			}).catch(()=>{
+				this.setLoding(false);
 			});
 		},
 		clocs(){				
@@ -157,12 +146,11 @@ export default {
 						status:this.checkStatus(da[i].status),							
 					},
 				);
-			};
+			}
 			return arr;
 		},
 		setScreenConfig(){
 			this.api.sysconfig_material().then((datas)=>{	
-
 				this.sxtjList = datas;					
 				let p = datas.platform_position,
 				sz = datas.material_size;
@@ -173,8 +161,7 @@ export default {
 				let list2 = [{label:'全部',value:''},];
 				for(let i=0,n=sz.length;i<n;i++){
 					list2.push({label:sz[i],value:sz[i]})
-				}
-				
+				}				
 				this.screenConfig = [
 					{title:'素材类型',type:'select',value:'need_type',list:[
 						{label:'全部',value:''},
@@ -191,17 +178,13 @@ export default {
 						{label:'待审核',value:'0'},
 						{label:'未通过',value:'1'},
 						{label:'上线',value:'2'},
-						{label:'下线',value:'3'},
-						
+						{label:'下线',value:'3'},						
 					]},
-					{title:'模糊搜索',type:'text',value:'search'},
-					
+					{title:'模糊搜索',type:'text',value:'search'},					
 				];
 			})	
 		},
 		getXqxq(on){	
-			
-			
 			if(this.tableData[on].status=='上线中'){
 				this.$message('上线中不可修改！');
 				return;
@@ -217,20 +200,20 @@ export default {
 				this.updataType=0;			
 				let p = data;
 				this.$refs.taglod.setData({
-					  title: p.title,
-					  extend_type:p.extend_type,
-					  size:p.size,
-					  position:p.position,
-					  position_desc:p.position_desc,
-					  end_at:p.end_at,
-					  num:p.num,
-					  description:p.extend.description,
-					  note:p.extend.note,
-					  link:p.extend.link,
-					  status:p.status,
-					  id:p.id,
+					title: p.title,
+					extend_type:p.extend_type,
+					size:p.size,
+					position:p.position,
+					position_desc:p.position_desc,
+					end_at:p.end_at,
+					num:p.num,
+					description:p.extend.description,
+					note:p.extend.note,
+					link:p.extend.link,
+					status:p.status,
+					id:p.id,
 				});					
-			}).catch((error)=>{
+			}).catch(()=>{
 				this.updataType = 0;	
 			})	
 		},
@@ -256,18 +239,15 @@ export default {
 		checkTime(value){
 			if(!value){return}
 			return value.substring(0,10);
-		},
-		
+		},		
 		numcheck(nm,nm2,type){
 			if(type ==2){
 				return nm+nm2;
 			}
 			return nm;
 		},
-		checkStatus(value){	
-		
-			return value ==2?'上线':value ==3?'下线':value==1?'未通过':value==0?'待审核':'';	
-			
+		checkStatus(value){			
+			return value ==2?'上线':value ==3?'下线':value==1?'未通过':value==0?'待审核':'';				
 		},
 		
     },

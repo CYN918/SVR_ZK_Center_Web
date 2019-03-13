@@ -8,7 +8,7 @@
 <script>
 import sxBox from '../../components/sxBox';
 import tjBox from '../../components/tjcom';
-import scTable from '../../components/scTable';
+import scTable from '../../components/newTable';
 export default {
 	components:{sxBox,tjBox,scTable},
 	props:['screenConfig','tableConfig','tableDatas','screenFn','tjData'],
@@ -34,8 +34,9 @@ export default {
 			this.$refs.Table.initPage();
 		},
 		sxFn(d){	
+			this.$refs.Table.initPage();
+			d.p = 10;
 			d.page =1;
-			this.$refs.Table.setPage(1);				
 			this.$emit("screenFn",d); 
 		},				
 		setCurrentPage(num){

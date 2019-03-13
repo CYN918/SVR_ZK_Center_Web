@@ -16,12 +16,9 @@ export default {
 			searchConfig:{
 				title:"设计师成本",
 				tipData:[
-					{h1:"广告流水",p:"所选日期内，汇总的广告流水收入"},
-					{h1:"设计师成本",p:"所选日期内，汇总的设计师成本（广告图成本+广告模板成本+锁屏壁纸成本）"},
-					{h1:"渠道成本",p:"所选日期内，汇总的渠道成本"},
-					{h1:"收益",p:"收益=广告流水-设计师成本-渠道成本"},
-					{h1:"毛利率",p:"毛利率=收益/广告流水*100%"},
-					
+					{h1:"广告图/广告模板设计师成本",p:"广告图/广告模板设计师成本=素材对应汇总的展示量/1000*CPM"},
+					{h1:"壁纸设计师成本",p:"壁纸设计师成本=对应素材的单价"},
+					{h1:"入库日期",p:"素材入库日期"},					
 				],
 				list:[					
 					{title:'日期',type:'times',value:'start_time'},
@@ -43,7 +40,9 @@ export default {
 				'show-summary':true,
 				list:[
 					{prop:'create_time',lable:'日期'},
-					{prop:'material_id',lable:'素材ID'},
+					{prop:'material_id',lable:'素材ID',
+						poclick:{cls:' ',type:'text',value:'查看',fnName:'seeXx1'},				
+					},
 					{prop:'material_type',lable:'素材类型'},					
 					{prop:'cost',lable:'设计师成本'},
 					{prop:'create_time',lable:'入库日期'},
@@ -170,7 +169,14 @@ export default {
 	mounted: function () {	
 		this.getData();
 	}, 
-	methods: {	
+	methods: {
+		seeXx1(on){
+			if(this.tableData[on].img_url){
+				window.open(this.tableData[on].img_url);
+			}else{
+				this.$message('该素材图片错误！');
+			}
+		},
 		lodingfalse(){
 			this.$refs.Tablde.lodingfalse();	
 		},
@@ -202,6 +208,7 @@ export default {
 						material_type:this.checkNr(da[i].material_type),
 						cost:da[i].cost,
 						create_time:da[i].create_time,
+						img_url:da[i].img_url,
 					},
 				);
 			};

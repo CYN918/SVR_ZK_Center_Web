@@ -14,14 +14,10 @@
 					<div class="cembox3">
 						<div class="cembox2T">权限信息</div>
 						<ul>
-							<li v-for="(el,index) in userData.roles">{{el.role_name}}</li>
-							
+							<li v-for="(el,index) in userData.roles" :key="index">{{el.role_name}}</li>							
 						</ul>
 					</div>
 				</div>
-				
-				
-				
 			</el-tab-pane>	
 			<el-tab-pane label="帐号安全" name="2">
 				<div class="cembox cemboxy">
@@ -88,9 +84,6 @@ export default {
 			this.api.edit_account_password(params);
 		}
 	}
-	
-	
-	
 }
 </script>
 
@@ -111,9 +104,9 @@ export default {
 }
 .cembox2T{
 	font-size:14px;
-font-family:PingFang-SC-Regular;
-font-weight:400;
-color:rgba(0,0,0,1);
+	font-family:PingFang-SC-Regular;
+	font-weight:400;
+	color:rgba(0,0,0,1);
 }
 .cembox2P1{
 	font-size:12px;
@@ -129,25 +122,21 @@ opacity:0.65;
 	width: 60px;
 }
 .cemboxy{
-	padding: 181px 0 384px;
-	
+	padding: 181px 0 384px;	
 }
 .cemboxy>div{
 	width: 250px;
-	margin: 0 auto 25px;
-	
+	margin: 0 auto 25px;	
 }
 .cemboxyT{
 	text-align: center;
 	font-size:14px;
-font-family:PingFang-SC-Regular;
-font-weight:400;
-color:rgba(0,0,0,1);
-padding:  0 25px !important;
+	font-family:PingFang-SC-Regular;
+	font-weight:400;
+	color:rgba(0,0,0,1);
+	padding:  0 25px !important;
 }
-.cemboxyB{text-align: center;
-
-}
+.cemboxyB{text-align: center;}
 .cemboxyB>div{
 	display: inline-block;
 	width:72px;
@@ -158,9 +147,9 @@ padding:  0 25px !important;
 	line-height: 28px;
 	cursor: pointer;
 	font-size:14px;
-font-family:PingFang-SC-Regular;
-font-weight:400;
-color:rgba(255,255,255,1);
+	font-family:PingFang-SC-Regular;
+	font-weight:400;
+	color:rgba(255,255,255,1);
 }
 .cemboxyB>div:hover{
 	opacity: .7;
@@ -170,7 +159,7 @@ color:rgba(255,255,255,1);
 	background:rgba(245,245,245,1);
 }
 .cembox3 ul{
-	    margin: 17px 0 0 26px;
+	margin: 17px 0 0 26px;
 }
 .cembox3 li{
 	display: inline-block;

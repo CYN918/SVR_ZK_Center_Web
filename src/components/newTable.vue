@@ -141,9 +141,6 @@ export default {
 			this.$parent.setPage(1); 
 			
 		},	
-		setPage(on){
-			this.page = on;
-		},
 		getSummaries(param) {       
 			const {columns} = param;   
 			const sums = [];

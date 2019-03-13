@@ -1,27 +1,17 @@
 <template>
 	<div class="topNav">
-		<div @click="goindex" class="log">
-			<img  src="/img/log.jpg"/>
-			掌酷综合平台
-		</div>
-<!-- 		<div class="sszj">		
-			<span class="ssicon iconfont">&#xe619;</span>
-			<el-input class="sskzd" v-model="input" placeholder="请输入内容"></el-input>
-		</div> -->
+		<div @click="goindex" class="log"><img  src="/img/log.jpg"/>掌酷综合平台</div>
 		<el-dropdown trigger="click" class="user-ci">
-		  <span class="el-dropdown-link iconfont">
-		   &#xe686;
-		  </span>
-		  <el-dropdown-menu slot="dropdown">
-		    <el-dropdown-item ><span @click="loginout()">退出</span></el-dropdown-item>
-		   
-		  </el-dropdown-menu>
+			<span class="el-dropdown-link iconfont">&#xe686;</span>
+			<el-dropdown-menu slot="dropdown">
+				<el-dropdown-item ><span @click="loginout()">退出</span></el-dropdown-item>		   
+			</el-dropdown-menu>
 		</el-dropdown>
 		<ul class="navd" v-if="config.showL!=-1">
 			<router-link  to="/index"><li>首页</li></router-link>
-			<router-link  to="/admin/needList"><li>管理</li></router-link>
+			<router-link  to="/admin"><li>管理</li></router-link>
 			<router-link  to="/data"><li>数据</li></router-link>
-			<router-link  to="/user/user_need"><li>个人中心</li></router-link>
+			<router-link  to="/user"><li>个人中心</li></router-link>
 			<a><li class="iconfont">&#xe628;</li></a>
 		</ul>
 		<el-menu v-if="config.showL!=-1"  class="el-menu-demo appTopNav" mode="horizontal" @select="handleSelect"> 
@@ -39,19 +29,17 @@
 
 <script>
 export default { 
-    name: 'app', 
+    name: 'topNav', 
 	props:['config'],
-	
     data(){
-    	return{
-    		input:'',
+		return{
+			input:'',
 			topNacd:'首页',
 			todata:[{name:'首页',url:'/index'},{name:'管理',url:'/admin/needList'},{name:'数据',url:'/data/pData'},{name:'个人中心',url:'/user/user_need'}],
-    	}
+		}
     },
 	methods:{
-		handleSelect(key){
-				
+		handleSelect(key){				
 			this.topNacd = this.todata[key].name;
 			this.$router.push(this.todata[key].url);
 		},
@@ -62,25 +50,24 @@ export default {
 			let urld = 'http://ts-i.idatachain.cn';
 			if(window.location.host=='c.zookingsoft.com'){
 				urld = 'http://c.zookingsoft.com';
-			}
-			
+			}			
 			this.$ajax({
-			      method: 'get',
-			      timeout: 10000,
-			      url: urld+'/api/logout',			     
+				method: 'get',
+				timeout: 10000,
+				url:urld+'/api/logout',			     
 			}).then((msg)=>{	
-					if(msg.data.code==0){
-						localStorage.setItem('token','');
-						let cent = 'center';
-						if(window.location.host=='ts-centerweb.idatachain.cn'){
-							cent = 'center_dev';
-						}else
-						if(window.location.host=='localhost:8080'){
-							cent = 'center_local';
-						}
-						window.location.href="http://account.zookingsoft.com/auth/logout?from="+cent;
-					}						
-			}).catch((error)=>{
+				if(msg.data.code==0){
+					localStorage.setItem('token','');
+					let cent = 'center';
+					if(window.location.host=='ts-centerweb.idatachain.cn'){
+						cent = 'center_dev';
+					}else
+					if(window.location.host=='localhost:8080'){
+						cent = 'center_local';
+					}
+					window.location.href="http://account.zookingsoft.com/auth/logout?from="+cent;
+				}							
+			}).catch(()=>{
 // 				localStorage.setItem('token','');
 // 				window.location.href="http://account.zookingsoft.com/login?from=center_local";
 			})
@@ -91,19 +78,19 @@ export default {
 
 <style>
 @font-face {
-  font-family: 'iconfont';
-  src: url('/font/iconfont.eot');
-  src: url('/font/iconfont.eot?#iefix') format('embedded-opentype'),
-  url('/font/iconfont.woff') format('woff'),
-  url('/font/iconfont.ttf') format('truetype'),
-  url('/font/iconfont.svg#iconfont') format('svg');
+	font-family: 'iconfont';
+	src: url('/font/iconfont.eot');
+	src: url('/font/iconfont.eot?#iefix') format('embedded-opentype'),
+	url('/font/iconfont.woff') format('woff'),
+	url('/font/iconfont.ttf') format('truetype'),
+	url('/font/iconfont.svg#iconfont') format('svg');
 }
 .iconfont{
-  font-family:"iconfont" !important;
-  font-size:16px;font-style:normal;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-stroke-width: 0.2px;
-  -moz-osx-font-smoothing: grayscale;
+	font-family:"iconfont" !important;
+	font-size:16px;font-style:normal;
+	-webkit-font-smoothing: antialiased;
+	-webkit-text-stroke-width: 0.2px;
+	-moz-osx-font-smoothing: grayscale;
 }
 .topNav{
 	position: fixed;
@@ -111,9 +98,9 @@ export default {
 	left: 0;
 	z-index: 9;
 	width: 100%;
-height:63px;
-background:rgba(255,255,255,1);
-box-shadow:0px 2px 8px 0px rgba(0, 0, 0, 0.08);
+	height:63px;
+	background:rgba(255,255,255,1);
+	box-shadow:0px 2px 8px 0px rgba(0, 0, 0, 0.08);
 }
 .log{
 	cursor: pointer;
@@ -122,12 +109,12 @@ box-shadow:0px 2px 8px 0px rgba(0, 0, 0, 0.08);
 	margin-top: 22px;
 	height:23px;
 	border-right:1px solid rgba(0,0,0,.2);
-font-size:14px;
-line-height: 23px;
-font-family:PingFang-SC-Medium;
-font-weight:500;
-color:rgba(0,0,0,1);
-opacity:0.85;
+	font-size:14px;
+	line-height: 23px;
+	font-family:PingFang-SC-Medium;
+	font-weight:500;
+	color:rgba(0,0,0,1);
+	opacity:0.85;
 }
 .log>img{vertical-align:top;display: inline-block;width: 37px;margin: 0 21px 0  48px;}
 .sszj{
@@ -139,8 +126,7 @@ opacity:0.85;
 	margin: 0 17px 0 16px;
 	line-height: 63px;
 }
-.sskzd{
-	
+.sskzd{	
 	width: 220px !important;
 	border: none;
 }
@@ -152,37 +138,23 @@ opacity:0.85;
 	display: inline-block;
 }
 .navd a{
-	
 	display: inline-block;
 	height: 100%;
 	width: 80px;
 	text-align: center;
 	font-size:14px;
-font-family:PingFang-SC-Medium;
-font-weight:500;
-color:rgba(0,0,0,85);
-line-height: 65px;
-
-margin: 0 20px;
+	font-family:PingFang-SC-Medium;
+	font-weight:500;
+	color:rgba(0,0,0,85);
+	line-height: 65px;
+	margin: 0 20px;
 }
-.navd a.router-link-active{
-	
+.navd a.router-link-active{	
 	display: inline-block;
 	height: 100%;
 	color:rgba(255,156,110,.85);
-
 	border-top: 1px solid rgba(255,156,110,1);
 }
-@media only screen  and (max-width: 1040px) {
-	.appTopNav{display: block !important;}
-	.navd{display: none;}
-}
-@media only screen  and (max-width: 720px) {
-	.tcVbox{left: 0 !important;}
-    .tjzsd{padding: 20px 85px;}
-}
-
-
 .tableBuee .el-button{
 	background:rgba(255,120,117,1);
 	color:rgba(255,255,255,1);
@@ -202,7 +174,7 @@ margin: 0 20px;
 	cursor: pointer;
 	float: right;
 	margin-right: 96px;
-	    height: 100%;
+	height: 100%;
     width: 80px;
     text-align: center;
     font-size: 14px;
@@ -218,13 +190,20 @@ margin: 0 20px;
     right: 0;
     top: 2px;
 }
-
+.appTopNav .el-submenu__title{
+	border: none !important;
+}
 @media only screen  and (max-width:1040px) {
 	.appTopNav{display: block !important;}
 	.sszj{display: none;}
 	.log{width: 230px;}
 }
-.appTopNav .el-submenu__title{
-	border: none !important;
+@media only screen  and (max-width: 1040px) {
+	.appTopNav{display: block !important;}
+	.navd{display: none;}
+}
+@media only screen  and (max-width: 720px) {
+	.tcVbox{left: 0 !important;}
+    .tjzsd{padding: 20px 85px;}
 }
 </style>

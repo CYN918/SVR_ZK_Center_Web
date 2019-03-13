@@ -1,9 +1,9 @@
 <template>
-<div v-show="dialogVisible" class="tcBOx">
-	<div @click="clocs()" class="tcBoxbg"></div>
+	<div v-show="dialogVisible" class="tcBOx">
+		<div @click="clocs()" class="tcBoxbg"></div>
 		<div class="tcboxff">
 			<div class="tcboxff2">
-				<el-form   ref="form" :model="form" :rules="rules" label-width="80px">
+				<el-form ref="form" :model="form" :rules="rules" label-width="80px">
 					<div class="innerfor">
 						<el-form-item  label="需求标题" prop="title">
 							<el-input :disabled="clicType==1" v-model="form.title"></el-input>
@@ -14,52 +14,32 @@
 								<el-option label="广告脚本图" value="needs_script_picture"></el-option>
 								<el-option label="广告脚本模板" value="needs_resource"></el-option>
 								<el-option label="广告H5模板" value="needs_h5_resource"></el-option>
-								<el-option label="锁屏壁纸脚本图'" value="needs_wallpaper"></el-option>
-								
+								<el-option label="锁屏壁纸脚本图" value="needs_wallpaper"></el-option>								
 							</el-select>
 						</el-form-item>
 						<el-form-item  label="广告位类型" prop="position">
-							 <el-select :disabled="clicType==1" v-model="form.position"   placeholder="请选择">
-							  <el-option
-							    v-for="item in cslist.platform_position"							
-							    :label="item"
-							    :value="item">
-							  </el-option>
+							<el-select :disabled="clicType==1" v-model="form.position"   placeholder="请选择">
+								<el-option v-for="item in cslist.platform_position" :key="item" :label="item" :value="item">
+								</el-option>
 							</el-select>							
 						</el-form-item>
 						<el-form-item v-show="adType"  label="广告类型" prop="ad_type">
-							 <el-select :disabled="clicType==1" v-model="form.ad_type"  placeholder="请选择">
-							  <el-option
-							    v-for="item in cslist.platform_ad_type"							
-							    :label="item"
-							    :value="item">
-							  </el-option>
+							<el-select :disabled="clicType==1" v-model="form.ad_type"  placeholder="请选择">
+								<el-option v-for="item in cslist.platform_ad_type" :key="item" :label="item" :value="item">
+								</el-option>
 							</el-select>							
-						</el-form-item>
-						
+						</el-form-item>						
 						<el-form-item v-show="adType"  label="渠道类型" prop="channel_type">
-							 <el-select :disabled="clicType==1" v-model="form.channel_type"  placeholder="请选择">
-							  <el-option
-							    v-for="item in cslist.platform_channel_type"							
-							    :label="item"
-							    :value="item">
-							  </el-option>
+							<el-select :disabled="clicType==1" v-model="form.channel_type"  placeholder="请选择">
+								<el-option v-for="item in cslist.platform_channel_type" :key="item" :label="item" :value="item">
+								</el-option>
 							</el-select>							
 						</el-form-item>
-						
-						
-					</div>
-					
-					<el-form-item class="sixwz wztopdw"   label="投放位置说明" prop="position_desc">
-						<el-upload :disabled="clicType==1"
-						  class="avatar-uploader"
-						  action="http://ts-i.idatachain.cn/api/upload/file"
-						  :show-file-list="false"
-						  :on-success="handleAvatarSuccess"
-						  :on-error="errd"
-						  >
-						  <img v-if="form.position_desc" :src="form.position_desc" class="avatar">
-						  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+					</div>					
+					<el-form-item class="sixwz wztopdw" label="投放位置说明" prop="position_desc">
+						<el-upload :disabled="clicType==1" class="avatar-uploader" :action="uploadUrl" :show-file-list="false" :on-success="handleAvatarSuccess" :on-error="errd">
+							<img v-if="form.position_desc" :src="form.position_desc" class="avatar">
+							<i v-else class="el-icon-plus avatar-uploader-icon"></i>
 						</el-upload>
 					</el-form-item>
 					<el-form-item  class="sixwz wztopdw" label="投放内容描述"  prop="description">
@@ -71,253 +51,229 @@
 					<el-form-item class="sixwz" label="设计要求" prop="note">
 						<el-input :disabled="clicType==1" type="textarea" v-model="form.note"></el-input>
 					</el-form-item>
-					<div class="innerfor">
-						
+					<div class="innerfor">						
 						<el-form-item label="素材尺寸" prop="size">
 							<el-select :disabled="clicType==1" v-model="form.size"  placeholder="请选择">
-							  <el-option
-							    v-for="item in cslist.material_size"							
-							    :label="item"
-							    :value="item">
-							  </el-option>
+								<el-option v-for="item in cslist.material_size" :key="item" :label="item" :value="item">
+								</el-option>
 							</el-select>			
 						</el-form-item>
 						<el-form-item  label="需求数量" prop="num">
 							<el-input v-model="form.num"></el-input>
 						</el-form-item>
 						<el-form-item class="sixwz2"  label="投稿截止时间">
-							<el-date-picker
-							  v-model="form.end_at"
-							  type="datetime"
-							  format="yyyy-MM-dd HH:mm:ss"
-							  value-format="yyyy-MM-dd HH:mm:ss"
-							  :picker-options="pickerOptions1"		
-							  onchange="fon()"
-							  placeholder="选择日期">
+							<el-date-picker v-model="form.end_at" type="datetime" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" :picker-options="pickerOptions1" onchange="fon()" placeholder="选择日期">
 							</el-date-picker>
 						</el-form-item>
 					</div>
 					<el-form-item class="bdbtnd">
-					<el-button type="primary" @click="pushData()" round>提交</el-button><el-button type="primary" @click="clocs()" round>取消</el-button>
+						<el-button type="primary" @click="pushData()" round>提交</el-button><el-button type="primary" @click="clocs()" round>取消</el-button>
 					</el-form-item>
 				</el-form>
-					</div>
-			</div>
 			</div>
 		</div>
+	</div>
 </template>
-
 <script>
-	export default {
-		props:['cslist'],
-		data() {
-			return {
-				pickerOptions1: {
-				 disabledDate(time) {			
+export default {
+	props:['cslist'],
+	data() {
+		return {
+			uploadUrl:'http://ts-i.idatachain.cn/api/upload/file',
+			pickerOptions1: {
+				disabledDate(time) {			
 					return time.getTime() < Date.now() - 8.64e7;
-				  },
-				}, 
-				ajaxt:0,
-				dialogVisible: false,
-				form: {
-				  title: '',
-				  extend_type:'',
-				  size:'',
-				  position:'',
-				  position_desc:'',
-				  end_at:new Date(),
-				  num:'',
-				  description:'',
-				  note:'',
-				  link:'',
-				  ad_type:'',
-				  
 				},
-				imageUrl:'',
-				value8:'',
-				value1:'',
-				clicType:0,
-				adType:0,
-				rules:{
-					'title': [
-						{ required: true, message: ' ', trigger: 'blur' },					
-					],
-					'extend_type': [
-						{ required: true, message: ' ', trigger: 'blur' },					
-					],
-					'size': [
-						{ required: true, message: ' ', trigger: 'blur' },				
-					],
-					'position': [
-						{ required: true, message: ' ', trigger: 'blur' },					
-					],
-					'position_desc': [
-						{ required: true, message: ' ', trigger: 'blur' },					
-					],
-					'num': [
-						{ required: true, message: ' ', trigger: 'blur' },					
-					],
-					'note': [
-						{ required: true, message: ' ', trigger: 'blur' },					
-					],
-					'ad_type': [
-						{ required: true, message: ' ', trigger: 'blur' },					
-					],
-					'description': [
-						{ required: true, message: ' ', trigger: 'blur' },					
-					],
-				}
-			};
-		},
-		methods: {
-			 fon(){
-				 console.log(111);
-			 }     ,
-			setData(newData){
-				this.form = newData;
-				this.clicType=1;
-				this.open();
+			}, 
+			ajaxt:0,
+			dialogVisible: false,
+			form: {
+				title: '',
+				extend_type:'',
+				size:'',
+				position:'',
+				position_desc:'',
+				end_at:new Date(),
+				num:'',
+				description:'',
+				note:'',
+				link:'',
+				ad_type:'', 
 			},
+			imageUrl:'',
+			value8:'',
+			value1:'',
+			clicType:0,
+			adType:0,	
+			rules:{
+				'title': [
+					{ required: true, message: ' ', trigger: 'blur' },					
+				],
+				'extend_type': [
+					{ required: true, message: ' ', trigger: 'blur' },					
+				],
+				'size': [
+					{ required: true, message: ' ', trigger: 'blur' },				
+				],
+				'position': [
+					{ required: true, message: ' ', trigger: 'blur' },					
+				],
+				'position_desc': [
+					{ required: true, message: ' ', trigger: 'blur' },					
+				],
+				'num': [
+					{ required: true, message: ' ', trigger: 'blur' },					
+				],
+				'note': [
+					{ required: true, message: ' ', trigger: 'blur' },					
+				],
+				'ad_type': [
+					{ required: true, message: ' ', trigger: 'blur' },					
+				],
+				'description': [
+					{ required: true, message: ' ', trigger: 'blur' },					
+				],
+			}	
+		};
+	},
+	mounted: function () {	
+		this.checkUrl();
+	}, 	
+	methods: {
+		checkUrl(){
+			if(window.location.host=='c.zookingsoft.com'){			
+				this.uploadUrl ='http://c.zookingsoft.com/api/upload/file';
+			}			
+		},
+		fon(){
 			
-			clocs(){
-				this.dialogVisible= false;
-				
-				if(this.clicType==1){
-					this.form={
-					  title: '',
-					  extend_type:'',
-					  size:'',
-					  position:'',
-					  position_desc:'',
-					  end_at:new Date(),
-					  num:'',
-					  description:'',
-					  note:'',
-					  link:'',
-					  ad_type:'',
-					  
-					};
-				};
-				this.clicType = 0;
-			},
-			open(){
-				this.dialogVisible= true;
-			},
-			pushData(){
-				let pd = Date.parse(new Date(this.form.end_at));				
-				if(pd<Date.parse(new Date())){
-					this.$message("截至时间不能小于当前时间");
-					return
-				}
-				if(!this.form.extend_type){
-					this.$message("素材类型 不能为空。");
-					return
-				}
-				if(!this.form.title){
-					this.$message("标题 不能为空。");
-					return
-				}
-				if(!this.form.size){
-					this.$message("大小/尺寸 不能为空。");
-					return
-				}
-				if(!this.form.position){
-					this.$message("广告位类型 不能为空。");
-					return
-				}	
-				if(!this.form.position_desc){
-					this.$message("投放位置说明 不能为空。");
-					return
-				}
-				if(!this.form.num){
-					this.$message("需求数量 不能为空。");
-					return
-				}	
-				if(!this.form.description){
-					this.$message("描述 不能为空。");
-					return
-				}	
-				if(!this.form.note){
-					this.$message("设计要示 不能为空。");
-					return
-				}
-				if(this.form.extend_type=='needs_wallpaper' && !this.form.link){
-					this.$message("投放链接 不能为空。");
-					return
-				}
-				if(this.clicType==0){
-					this.addData();
-				}else{
-					this.upDate();
-				}
-			},
-			addData(){
-				let data = this.form;
-				this.api.need_create(data)				
-			},
-			upDate(){
-				let data = {id:this.form.id,end_at:this.form.end_at,num:+this.form.num};
-				if(this.ajaxt==1){
-					return
-				}
-					this.ajaxt=1;
-					this.api.need_update(data).then((data)=>{	
-					this.ajaxt=0;
-				}).catch((error)=>{
-					this.ajaxt=0;	
-				})	
-				
-			},
-			errd(){
-				this.form.position_desc='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
-			},
-			handleAvatarSuccess(res, file) {
-				if(res.code==0){
-					this.form.position_desc = URL.createObjectURL(file.raw);
-					this.form.position_desc=res.data.url;
-				}else{
-						this.$message(res.message);
-				}
-				
-			},
-      beforeAvatarUpload(file) {
-
-      }
 		},
-		  watch: {
-// 			  "form.end_at"(newv,oldv){
-// 	
-// 				let pd = Date.parse(new Date(this.form.end_at));				
-// 				 if(pd<Date.parse(new Date())){
-// 					 this.form.end_at = new Date();
-// 				 }
-// 			
-// 				  
-// 			  },
-			  
-		
-			  
-			"form.extend_type"(newv,oldv){
-				if(newv=='needs_resource' || newv == 'needs_h5_resource'){
-					this.adType = true;
-				}else{
-					this.adType =false;
-					this.form.ad_type = '';
-				}
+		setData(newData){
+			this.form = newData;
+			this.clicType=1;
+			this.open();
+		},				
+		clocs(){
+			this.dialogVisible= false;				
+			if(this.clicType==1){
+				this.form={
+					title: '',
+					extend_type:'',
+					size:'',
+					position:'',
+					position_desc:'',
+					end_at:new Date(),
+					num:'',
+					description:'',
+					note:'',
+					link:'',
+					ad_type:'',					  
+				};
 			}
-		}
+			this.clicType = 0;
+		},
+		open(){
+			this.dialogVisible= true;
+		},	
+		pushData(){
+			let pd = Date.parse(new Date(this.form.end_at));				
+			if(pd<Date.parse(new Date())){
+				this.$message("截至时间不能小于当前时间");
+				return
+			}
+			if(!this.form.extend_type){
+				this.$message("素材类型 不能为空。");
+				return
+			}
+			if(!this.form.title){
+				this.$message("标题 不能为空。");
+				return
+			}
+			if(!this.form.size){
+				this.$message("大小/尺寸 不能为空。");
+				return
+			}
+			if(!this.form.position){
+				this.$message("广告位类型 不能为空。");
+				return
+			}	
+			if(!this.form.position_desc){
+				this.$message("投放位置说明 不能为空。");
+				return
+			}
+			if(!this.form.num){
+				this.$message("需求数量 不能为空。");
+				return
+			}	
+			if(!this.form.description){
+				this.$message("描述 不能为空。");
+				return
+			}	
+			if(!this.form.note){
+				this.$message("设计要示 不能为空。");
+				return
+			}
+			if(this.form.extend_type=='needs_wallpaper' && !this.form.link){
+				this.$message("投放链接 不能为空。");
+				return
+			}
+			if(this.clicType==0){
+				this.addData();
+			}else{
+				this.upDate();
+			}
+		},	
+		addData(){
+			let data = this.form;
+			this.api.need_create(data)				
+		},
+		upDate(){
+			let data = {id:this.form.id,end_at:this.form.end_at,num:+this.form.num};
+			if(this.ajaxt==1){
+				return
+			}
+				this.ajaxt=1;
+				this.api.need_update(data).then(()=>{	
+				this.ajaxt=0;
+			}).catch(()=>{
+				this.ajaxt=0;	
+			})	
+			
+		},
+		errd(){
+			this.form.position_desc='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+		},
+		handleAvatarSuccess(res, file) {
+			if(res.code==0){
+				this.form.position_desc = URL.createObjectURL(file.raw);
+				this.form.position_desc=res.data.url;
+			}else{
+					this.$message(res.message);
+			}
+			
+		},	
+	},
+	watch: {
+		"form.extend_type"(newv){
+			if(newv=='needs_resource' || newv == 'needs_h5_resource'){
+				this.adType = true;
+			}else{
+				this.adType =false;
+				this.form.ad_type = '';
+			}
+		}	
 	}
+}
 </script>
 
 <style>
-.tcBOx{position: fixed;
-z-index: 9;
-top: 65px;
-left: 316px;
-bottom: 0;
-right: 0;
-
-
+.tcBOx{
+	position: fixed;
+	z-index: 9;
+	top: 65px;
+	left: 316px;
+	bottom: 0;
+	right: 0;
 }
 .tcBoxbg{
 	background: rgba(0,0,0,.3);
@@ -331,139 +287,110 @@ right: 0;
 	right: 94px;
 	bottom: 35px;
 	background:rgba(255,255,255,1);
-box-shadow:0px 1px 8px 0px rgba(0, 0, 0, 0.08);
-border-radius: 14px;
+	box-shadow:0px 1px 8px 0px rgba(0, 0, 0, 0.08);
+	border-radius: 14px;
 }
  .avatar-uploader .el-upload {
-	 width: 100%;
+	width: 100%;
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
     cursor: pointer;
     position: relative;
     overflow: hidden;
-  }
-  .avatar-uploader .el-upload:hover {
+}
+.avatar-uploader .el-upload:hover {
     border-color: #409EFF;
-  }
-  .avatar-uploader-icon {
+}
+.avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
     width: 100%;
     height: 284px !important;
     line-height: 284px !important;
     text-align: center;
-  }
-  .avatar {
+}
+.avatar {
     width: 100%;
     height: 284px;
     display: block;
-  }
-  .tcboxff2{
-	  margin: 41px 170px 31px;
+}
+.tcboxff2{
+	margin: 41px 170px 31px;
 	
-  }
-  .tcboxff{
-	  overflow: auto;
-	  overflow-x: hidden;
-  }
-  .bdbtnd{text-align: center;margin-top: 55px;}
-
- .tcboxff .el-input__inner{
-	
-	  height: 28px !important;
-	  
-  }
-  
-
- 
- .bdbtnd .el-button{
-	   width:82px;
-	 height:28px;
-	 line-height: 0;
-	 font-size:14px;
-font-family:MicrosoftYaHei;
-font-weight:400;
-color:rgba(255,255,255,1);
- }
- .bdbtnd .el-button:nth-child(1){
-	 margin-right: 70px;
-	 background:rgba(255,120,117,1);
-	 border-color: rgba(255,120,117,1);
- }
-  .bdbtnd .el-button:nth-child(2){
-
- 	 background:rgba(191,191,191,1);
- 	 border-color:rgba(191,191,191,1);
- }
- .bdbtnd .el-form-item__content{
-	 margin-left: 0 !important;
- }
- /* .innerfor>.el-form-item{
-	 display: inline-block;
-	 margin-right: 0px;
- }
-  .innerfor .el-input__inner{
-	   width: 185px;
-  }
- 
-  .innerfor>.el-form-item:last-child{
-	  margin-right:0; 
-  } */
-  .tcboxff .el-form-item{
-	  margin-bottom: 22px;
-  }
-  @media only screen  and (max-width: 720px) {
-  	.tcBOx{left: 0;}
+}
+.tcboxff{
+	overflow: auto;
+	overflow-x: hidden;
+}
+.bdbtnd{text-align: center;margin-top: 55px;}
+.tcboxff .el-input__inner{
+	height: 28px !important;
+}
+.bdbtnd .el-button{
+	width:82px;
+	height:28px;
+	line-height: 0;
+	font-size:14px;
+	font-family:MicrosoftYaHei;
+	font-weight:400;
+	color:rgba(255,255,255,1);
+}
+.bdbtnd .el-button:nth-child(1){
+	margin-right: 70px;
+	background:rgba(255,120,117,1);
+	border-color: rgba(255,120,117,1);
+}
+.bdbtnd .el-button:nth-child(2){
+	background:rgba(191,191,191,1);
+	border-color:rgba(191,191,191,1);
+}
+.bdbtnd .el-form-item__content{
+	margin-left: 0 !important;
+}
+.tcboxff .el-form-item{
+	margin-bottom: 22px;
+}
+@media only screen  and (max-width: 720px) {
+	.tcBOx{left: 0;}
 	.tcboxff2{margin: 20px;}
-  }
-  .sixwz label{
-	      width: 100px !important;
+}
+.sixwz label{
+	width: 100px !important;
     text-align: left;
     padding: 0;
-  }
-  
- .sixwz .el-form-item__content{
-	     margin-left: 137px !important;
-		     padding-right: 127px;
- }
- .wztopdw .el-form-item__label{
-	 line-height: 15px;
- }
- .sixwz2 label{
+} 
+.sixwz .el-form-item__content{
+	margin-left: 137px !important;
+	padding-right: 127px;
+}
+.wztopdw .el-form-item__label{
+	line-height: 15px;
+}
+.sixwz2 label{
 	width: 94px !important;
-	   text-align: right;
-	   padding: 0;
-
- }
- /* .innerfor .el-form-item__content{
- 	 margin-left: 81px !important;
- } */
- .sixwz2 .el-form-item__content{
-	 margin-left: 24px !important;
- }
-/* .innerfor .el-form-item{
-	 margin-right: 152px;
- }
- .innerfor .el-form-item:last-child{
-	 margin-right: 0;
- } */
- .innerfor>div{
-	 display: inline-block;
-	 width: 33%;
- }
- .innerfor>div>div{display: inline-block;    margin-left: 0 !important;}
-  .innerfor>div:nth-child(2){
-	  text-align: center;
-  }
-   .innerfor>div:nth-child(3){
-  	  text-align: right;
-  }
-  .innerfor .el-form-item__label{
-	  float: none;
-  }
- @media only screen  and (max-width: 720px) {
- 	.tcboxff{left: 30px !important;right: 30px !important;}
- } 
+	text-align: right;
+	padding: 0;
+}
+.sixwz2 .el-form-item__content{
+	margin-left: 24px !important;
+}
+.innerfor>div{
+	display: inline-block;
+	width: 33%;
+}
+.innerfor>div>div{display: inline-block;margin-left: 0 !important;}
+.innerfor>div:nth-child(2){
+	text-align: center;
+}
+.innerfor>div:nth-child(3){
+	text-align: right;
+}
+.innerfor .el-form-item__label{
+	float: none;
+}
+@media only screen  and (max-width: 720px) {
+	.tcboxff{left: 30px !important;right: 30px !important;}
+} 
 .texfg{
 	text-align: left !important; 
 }

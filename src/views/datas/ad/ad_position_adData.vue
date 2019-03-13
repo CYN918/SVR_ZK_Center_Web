@@ -42,21 +42,21 @@ export default {
 				ischeck:false,
 				'show-summary':true,
 				list:[
-					{prop:'create_time',lable:'日期'},
-					{prop:'ad_id',lable:'广告位ID'},
-					{prop:'ad_name',lable:'广告位名称'},
+					{prop:'create_time',lable:'日期',sor:true},
+					{prop:'ad_space_id',lable:'广告位ID'},
+					{prop:'ad_space_name',lable:'广告位名称'},
 					{prop:'channel',lable:'渠道'},
 					{prop:'product',lable:'产品'},
 					{prop:'ad_space_type',lable:'广告位类型'},					
-					{prop:'pv',lable:'展示量'},					
-					{prop:'click',lable:'点击量'},
+					{prop:'pv',lable:'展示量',sor:true},					
+					{prop:'click',lable:'点击量',sor:true},
 					{prop:'click_ratio',lable:'点击率'},
-					{prop:'download',lable:'下载量'},
-					{prop:'install',lable:'安装量'},
-					{prop:'activ',lable:'激活量'},
-					{prop:'income',lable:'流水'},
-					{prop:'ecpm',lable:'ECPM'},
-					{prop:'ecpc',lable:'ECPC'},
+					{prop:'download',lable:'下载量',sor:true},
+					{prop:'install',lable:'安装量',sor:true},
+					{prop:'activ',lable:'激活量',sor:true},
+					{prop:'income',lable:'流水',sor:true},
+					{prop:'ecpm',lable:'ECPM',sor:true},
+					{prop:'ecpc',lable:'ECPC',sor:true},
 					{prop:'description',lable:'广告详情',
 						temps:[
 							{cls:'hsetext',type:'text',value:'查看详情',fnName:'seeXx2'},								
@@ -80,14 +80,10 @@ export default {
 	}, 
 	methods: {
 		seeXx2(on){
-			window.open('/#/data/ad_position_ad?ad_space_id='+this.tableData[on].ad_space_id)
+			window.open('/#/data/ad_position_ads?ad_space_id='+this.tableData[on].ad_space_id)
 		},
 		lodingfalse(){
 			this.$refs.Tablde.lodingfalse();	
-		},
-		ajaxget(data,fn){
-			console.log(fn);
-			fn([{value:1}])
 		},
 		getData(sxtj){
 			if(sxtj){
@@ -98,14 +94,14 @@ export default {
 				}																
 			}	
 			let params = this.screens;	
-			if(this.$route.query.product){
-				params.product = this.$route.query.product;
+			if(this.$route.query.ad_space_type && !params.ad_space_type){
+				params.ad_space_type = this.$route.query.ad_space_type;
 			}
 			params.data_type='ad_space_id';
 			this.api.data_ad_ad_space({params}).then((datas)=>{									
 				this.tableData = this.clData(datas);		
 				this.lodingfalse();
-			}).catch((error)=>{
+			}).catch(()=>{
 				this.lodingfalse();
 			})			
 		},			
@@ -117,24 +113,23 @@ export default {
 				arr.push(
 					{
 						create_time:da[i].create_time,
-						ad_id:da[i].ad_id,	
-						ad_name:da[i].ad_name,													
+						ad_space_id:da[i].ad_space_id,	
+						ad_space_name:da[i].ad_space_name,													
 						channel:da[i].channel,
 						product:da[i].product,
 						ad_space_type:da[i].ad_space_type,
-						ad_space_id:da[i].ad_space_id,
-						pv:da[i].pv,
-						click:da[i].click,
+						pv:+da[i].pv,
+						click:+da[i].click,
 						click_ratio:da[i].click_ratio,
-						download:da[i].download,
-						install:da[i].install,
-						activ:da[i].activ,
-						income:da[i].income,
-						ecpm:da[i].ecpm,
-						ecpc:da[i].ecpc,
+						download:+da[i].download,
+						install:+da[i].install,
+						activ:+da[i].activ,
+						income:+da[i].income,
+						ecpm:+da[i].ecpm,
+						ecpc:+da[i].ecpc,
 					},
 				);
-			};
+			}
 			this.tableConfig.cont = [
 				'汇总',
 				'--',

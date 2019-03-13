@@ -1,23 +1,13 @@
 <template>
-	<div class="sler">
-		<div v-if="sxDatas.length>0" v-for="(el,index) in sxDatas"> 
+	<div class="sler" v-if="sxDatas.length>0">
+		<div  v-for="el in sxDatas" :key="el.title"> 
 			<span>{{el.title}}</span>
 			<template>
 				<el-select v-if="el.type=='select'" v-model="bind[el.value]" filterable placeholder="请选择">
-					<el-option
-					  v-for="item in el.list"
-					  :label="item.label"
-					  :value="item.value">
+					<el-option v-for="item in el.list" :key="item.value" :label="item.label" :value="item.value" >
 					</el-option>
 				</el-select>
-				<el-date-picker v-if="el.type=='times'"
-				  v-model="bind[el.value]"
-				  type="daterange"
-				  format="yyyy-MM-dd"
-				  value-format="yyyy-MM-dd"
-				  range-separator="至"
-				  start-placeholder="开始日期"
-				  end-placeholder="结束日期">
+				<el-date-picker v-if="el.type=='times'" v-model="bind[el.value]" type="daterange" format="yyyy-MM-dd" value-format="yyyy-MM-dd" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
 				</el-date-picker>
 				<el-input class="sxtext" v-if="el.type=='text'"  v-model="bind[el.value]" placeholder="请输入内容"></el-input>
 			</template>					
@@ -39,8 +29,7 @@
 				console.log(this.bind);
 				this.$emit("sxFn",this.bind);  
 			},
-		}
-		
+		}		
 	}
 </script>
 

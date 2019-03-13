@@ -8,8 +8,7 @@
 			:tableDatas="tableData"
 			@screenFn="getData"
 			ref="Tabledd"
-		></tables>
-		
+		></tables>		
 		<div class="tcVbox" v-show="isshowd">
 			<div class="tcVboxBg" @click="hindjse"></div>		
 			<div class="tjzsd">
@@ -21,11 +20,16 @@
 				<el-input v-model="form.email" :value="form.email" placeholder=""></el-input>
 				</el-form-item>	
 				<el-form-item label="所属角色">
-					<div>
-						<el-checkbox-group v-model="form.roles" >						
-							<el-checkbox :disabled="(ckon==1 || form.roles.indexOf(el.id)!=-1)?false:true" v-for="(el,index) in options"  :label="el.id" >{{el.role_name}}</el-checkbox>
-						</el-checkbox-group>
-					</div>
+					<div><el-checkbox-group v-model="form.roles" >						
+						<el-checkbox 
+						:disabled="(ckon==1 || form.roles.indexOf(el.id)!=-1)?false:true" 
+						v-for="el in options" 
+						:key="el.id"
+						:label="el.id" 
+						>
+							{{el.role_name}}
+						</el-checkbox>
+					</el-checkbox-group></div>
 				</el-form-item>	
 				<el-form-item v-show="onTd=='add'" label="密码">
 				<el-input v-model="form.password" :value="form.name" type="password" placeholder=""></el-input>
@@ -39,12 +43,9 @@
 				<div class="btnds" v-if="ckon==1">
 					<div @click="add_account" class="btnd honse">提交</div>
 					<div @click="hindjse" class="btnd hyse">返回</div>
-				</div>		
-		  
+				</div>			  
 			</div>
 		</div>
-		
-	
 	</div>	
 </template>
 <script>
@@ -76,16 +77,13 @@ export default {
 						
 					},	
 					{prop:'attachment.url',lable:'操作',
-						temps:[
-		
+						temps:[		
 							{cls:' ',type:'text',value:'编辑',fnName:'edit_fn'},
 							// {cls:' ',type:'text',value:'删除',fnName:'delete_account'}
 						]							
 					},			
 				],
-				btns:[
-					// {fnName:'addjse',cls:'hsan',value:'添加账号'},
-				],
+				btns:[/* {fnName:'addjse',cls:'hsan',value:'添加账号'},*/],
 			},
 			onTd:'',
 			form:{},
@@ -96,11 +94,7 @@ export default {
 		this.getOpd();
 		this.getData();
 	}, 
-	methods: {
-		handleCheckedCitiesChange(){
-			
-		},
-		
+	methods: {	
 		addjse(){
 			this.onTd='add';	
 			if(this.options.length>0){
@@ -111,7 +105,6 @@ export default {
 					
 		},
 		showBoxd(obj){
-	
 			if(this.onTd=='add'){				
 				this.form={roles:[]};
 			}
@@ -172,9 +165,7 @@ export default {
 		},
 		chetype(on){
 			let params = {email:this.tableData[on].email,status:this.tableData[on].status==1?0:1};	
-			this.api.edit_account_status(params).then((response)=>{		
-				
-			}).catch((error)=>{
+			this.api.edit_account_status(params).catch(()=>{
 				this.tableConfig.list[5].switch.mode[on] = this.tableData[on].status==1?true:false;
 			});	
 		},
@@ -202,7 +193,7 @@ export default {
 				this.showBoxd(obj);
 			})
 		},
-		getOpd(obj){
+		getOpd(){
 			this.api.get_account_roles().then((response)=>{		
 				for(let i=0,n=response.length;i<n;i++){
 					if(response[i].status==1){
@@ -225,7 +216,7 @@ export default {
 			this.api.get_accounts({params}).then((response)=>{		
 				this.tableData = this.clData(response);		
 				this.enloding();
-			}).catch((error)=>{
+			}).catch(()=>{
 				this.enloding();
 			});	
 		},
@@ -247,12 +238,11 @@ export default {
 					},
 
 				);
-			};
+			}
 		
 			return arr;
 		},				
-    },
-	
+    },	
 }	
 </script>
 <style>

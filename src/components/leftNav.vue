@@ -1,119 +1,47 @@
 <template>
-<div :class="['leftNavBox',apptyped]" >
-	<div class="navbtn iconfont" @click="checkNav">&#xe8d1;</div>
-	<div class="leftNavBg"></div>
-	<div class="leftNav" >		
-		<div class="let_title">{{navData.title}}</div>
-		 <el-menu
-			:default-active="$route.fullPath.split('?')[0]"
-			class="el-menu-vertical-demo"
-			:router="true"
-		>	
-			<el-submenu v-for="(el,index) in navData.children" :index="el.url">
-				<template slot="title">         
-					<span>{{el.title}}</span>
-				</template>				
-				<el-menu-item-group v-if="el.list">   				   
-					<el-menu-item v-for="(elx,indexx) in el.list" :index="elx.url">{{elx.title}}</el-menu-item>					
-				</el-menu-item-group> 
-				<el-menu-item-group v-else-if="el.children">  
-					<el-submenu v-for="(el2,index) in el.children" :index="el2.url">
-						<template slot="title">         
-							<span>{{el2.title}}</span>
-						</template>				
-						<el-menu-item-group v-if="el2.list">   				   
-							<el-menu-item v-for="(elx,indexx) in el2.list" :index="elx.url">{{elx.title}}</el-menu-item>
-						</el-menu-item-group> 
-						<el-menu-item-group v-else-if="el2.children">  
-							<el-submenu v-for="(el3,index) in el2.children" :index="el3.url">
-								<template slot="title">         
-									<span>{{el3.title}}</span>
-								</template>				
-								<el-menu-item-group v-if="el3.list">   				   
-									<el-menu-item v-for="(elx,indexx) in el3.list" :index="elx.url">{{elx.title}}</el-menu-item>
-								</el-menu-item-group> 
-								
-								
-							</el-submenu>	
-						</el-menu-item-group> 	
-						
-					</el-submenu>
-						
-				</el-menu-item-group> 
-				<el-menu-item v-else :index="el.url">
-					<span >{{el.title}}</span>
-				</el-menu-item>	
-			</el-submenu>
-		
-		
-		
-		
-		
-		
-		
-			<!-- <div v-for="(el,index) in navData.children">
-				<el-submenu  v-if="el.list" :index="el.url">
-				  <template slot="title">         
-					<span>{{el.title}}</span>
-				  </template>				
-				  <el-menu-item-group v-if="">   				   
-					<el-menu-item v-for="(elx,indexx) in el.list" :index="elx.url">{{elx.title}}</el-menu-item>
-				  </el-menu-item-group> 
-						
-						
+	<div :class="['leftNavBox',apptyped]" >
+		<div class="navbtn iconfont" @click="checkNav">&#xe8d1;</div>
+		<div class="leftNavBg"></div>
+		<div class="leftNav" >		
+			<div class="let_title">{{navData.title}}</div>
+			<el-menu :default-active="$route.fullPath.split('?')[0]" class="el-menu-vertical-demo" :router="true">
+				<el-menu-item class="first_o" v-for="(el,index) in navData.list" :index="el.url" :key="index">
+					{{el.title}}
+				</el-menu-item>			
+				<el-submenu v-for="(el,index) in navData.children" :index="el.url" :key="index">
+					<template slot="title">         
+						<span>{{el.title}}</span>
+					</template>				
+					<el-menu-item-group v-if="el.list">   				   
+						<el-menu-item v-for="(elx,indexx) in el.list" :index="elx.url" :key="indexx">{{elx.title}}</el-menu-item>					
+					</el-menu-item-group> 
+					<el-menu-item-group v-else-if="el.children">  
+						<el-submenu v-for="(el2,index) in el.children" :index="el2.url" :key="index">
+							<template slot="title">         
+								<span>{{el2.title}}</span>
+							</template>				
+							<el-menu-item-group v-if="el2.list">   				   
+								<el-menu-item v-for="(elx,indexx) in el2.list" :index="elx.url" :key="indexx">{{elx.title}}</el-menu-item>
+							</el-menu-item-group> 
+							<el-menu-item-group v-else-if="el2.children">  
+								<el-submenu v-for="(el3,index) in el2.children" :index="el3.url" :key="index">
+									<template slot="title">         
+										<span>{{el3.title}}</span>
+									</template>				
+									<el-menu-item-group v-if="el3.list">   				   
+										<el-menu-item v-for="(elx,indexx) in el3.list" :index="elx.url" :key="indexx">{{elx.title}}</el-menu-item>
+									</el-menu-item-group> 
+								</el-submenu>	
+							</el-menu-item-group> 	
+							
+						</el-submenu>							
+					</el-menu-item-group> 
+					<el-menu-item v-else :index="el.url">
+						<span >{{el.title}}</span>
+					</el-menu-item>	
 				</el-submenu>
-				
-				<div v-else-if="el.children" v-for="(el2,index2) in el.children">
-					<el-submenu  v-if="el2.list" :index="el2.url">
-					  <template slot="title">         
-						<span>{{el2.title}}</span>
-					  </template>				
-					  <el-menu-item-group>  					   
-						<el-menu-item v-for="(elx,indexx) in el2.list" :index="elx.url">{{elx.title}}</el-menu-item>
-						
-					  </el-menu-item-group>       
-					</el-submenu>
-					<div v-else-if="el2.children" v-for="(el3,index3) in el2.children">
-						<el-submenu  v-if="el3.list" :index="el3.url">
-						  <template slot="title">         
-							<span>{{el3.title}}</span>
-						  </template>				
-						  <el-menu-item-group>   
-							<el-menu-item v-for="(elx,indexx) in el3.list" :index="elx.url">{{elx.title}}</el-menu-item>
-						  </el-menu-item-group>       
-						</el-submenu>
-					</div>	
-				</div>				
-				<el-menu-item v-else :index="el.url">
-					<span >{{el.title}}</span>
-				</el-menu-item>	
-			</div>
-		 -->
-		
-				
-			
-			<!-- <div v-if="navData.list" >
-				
-				
-				
-				<el-submenu  v-if="el.list"  :index="el.url">
-				  <template slot="title">         
-					<span>{{el.title}}</span>
-				  </template>				
-				  <el-menu-item-group v-if="">   
-					<el-menu-item v-for="(el2,index2) in el.list" :index="el2.url">{{el2.title}}</el-menu-item>
-				  </el-menu-item-group>       
-				</el-submenu>
-				
-				  
-			
-				<el-menu-item v-else :index="el.url">
-					<span >{{el.title}}</span>
-				</el-menu-item>			 -->
-			<!-- </div>     -->
-		</el-menu>
-
-	</div>
+			</el-menu>
+		</div>
 	</div>
 </template>
 <script>
@@ -121,13 +49,12 @@ export default {
     name: 'app', 
 	props:['navData'],
     data(){
-    	return{
+		return{
 			apptyped:'',	
-		
-    	}
+		}
     },
     methods:{
-		checkNav(e){
+		checkNav(){
 			this.apptyped = this.apptyped==''?'oncheac':'';
 		},
 		
@@ -163,20 +90,20 @@ export default {
 	left: 0;
 	width: 316px;
 	height: 100%;
-background:rgba(255,255,255,1);
-box-shadow:0px 2px 8px 0px rgba(0, 0, 0, 0.08);
+	background:rgba(255,255,255,1);
+	box-shadow:0px 2px 8px 0px rgba(0, 0, 0, 0.08);
 }
 .let_title{
 	margin-left: 47px;
 	width:222px;
-height:54px;
-line-height: 54px;
-font-size:18px;
-margin-bottom: 28px;
-font-family:PingFang-SC-Medium;
-font-weight:500;
-color:rgba(0,0,0,1);
-border-bottom:1px solid rgba(0,0,0,.2);
+	height:54px;
+	line-height: 54px;
+	font-size:18px;
+	margin-bottom: 28px;
+	font-family:PingFang-SC-Medium;
+	font-weight:500;
+	color:rgba(0,0,0,1);
+	border-bottom:1px solid rgba(0,0,0,.2);
 
 }
 .leftNav .el-submenu__title{
@@ -206,8 +133,8 @@ border-bottom:1px solid rgba(0,0,0,.2);
 }
 .leftNav .el-menu-item.is-active{
 	background:rgba(255,242,232,1) !important;
-	    border-right: 1px solid;
-		    margin-right: -1px;
+	border-right: 1px solid;
+	margin-right: -1px;
 	color: #FA541C !important;
 }
 @media only screen  and (max-width: 720px) {
@@ -232,5 +159,8 @@ border-bottom:1px solid rgba(0,0,0,.2);
 }    
 .leftNav .el-submenu .el-submenu .el-submenu .el-menu-item{
     text-indent: 154px;
+}
+.first_o{
+	text-indent: 22px !important;
 }
 </style>

@@ -36,14 +36,14 @@ export default {
 				ischeck:false,
 				'show-summary':true,
 				list:[
-					{prop:'create_time',lable:'日期'},
+					{prop:'create_time',lable:'日期',sor:true},
 					{prop:'channel',lable:'渠道'},
-					{prop:'ad_income',lable:'广告流水'},
-					{prop:'designer_cost',lable:'设计师成本',
+					{prop:'ad_income',lable:'广告流水',sor:true},
+					{prop:'ds_cost',lable:'设计师成本',sor:true,
 						poclick:{cls:' ',type:'text',value:'查看',fnName:'seeXx1'},				
 					},
-					{prop:'channel_cost',lable:'渠道成本'},
-					{prop:'income',lable:'收益'},					
+					{prop:'channel_cost',lable:'渠道成本',sor:true},
+					{prop:'total_income',lable:'收益',sor:true},					
 					{prop:'gross_profit',lable:'毛利率'},
 					{prop:'product',lable:'产品',
 						temps:[{cls:'',type:'text',value:'查看详情',fnName:'seeXx2'}]
@@ -66,21 +66,11 @@ export default {
 				config:{
 					title: {text:'每日数据趋势图',textStyle: {fontSize:14}},
 					tooltip: {trigger: 'axis'},
-					legend: {
-						y:'bottom',
-					    data:['广告流水','收益','设计师成本','渠道成本']
-					},
+					legend:{y:'bottom',data:['广告流水','收益','设计师成本','渠道成本']},
 					calculable : true,
-					xAxis : [
-						{
-						    type : 'category',
-						    boundaryGap : false,
-						   data:[]
-						}
-					],
-					yAxis : [{type : 'value',axisLabel : {formatter: '{value}'}}],
-					series : []		,
-						
+					xAxis:[{type:'category',boundaryGap:false,data:[]}],
+					yAxis:[{type : 'value',axisLabel : {formatter: '{value}'}}],
+					series:[],					
 				},
 				config2:{
 					title: {text: 'TOP5渠道收益占比',textStyle: {fontSize:14}},
@@ -102,17 +92,21 @@ export default {
 						}
 					]
 				}
-		    },
-			tableData:[],
-			chartData:{
 			},
-			
+			tableData:[],
+			chartData:{},
 		}
 	},
 	mounted: function () {	
 		this.getData();
 	}, 
 	methods: {	
+		seeXx1(on){
+			window.open('/#/data/cost_designers?channel='+this.tableData[on].channel+'&time='+this.tableData[on].create_time)
+		},
+		seeXx2(on){
+			window.open('/#/data/profit_products?channel='+this.tableData[on].channel+'&time='+this.tableData[on].create_time)
+		},
 		lodingfalse(){
 			this.$refs.Tablde.lodingfalse();	
 		},
@@ -132,17 +126,17 @@ export default {
 			this.api.data_income_related({params}).then((datas)=>{	
 				this.tableData = this.clDatax(datas);		
 				this.lodingfalse();
-			}).catch((error)=>{
+			}).catch(()=>{
 				this.lodingfalse();
 			})	
 			this.api.data_income_overall({params}).then((datas)=>{
 				this.ChartConfig.numbcont = [
-						{name:'广告流水',num:datas.data.ad,fp:datas.rate.ad},
-					{name:'设计师成本',num:datas.data.designer_cost,fp:datas.rate.designer_cost},
-					{name:'渠道成本',num:datas.data.channel_cost,fp:datas.rate.channel_cost},
-					{name:'收益',num:datas.data.gross_profit,fp:datas.rate.gross_profit},
+					{name:'广告流水',num:datas.data.ad,fp:datas.rate.ad},
+					{name:'设计师成本',num:datas.data.designer,fp:datas.rate.designer},
+					{name:'渠道成本',num:datas.data.channel,fp:datas.rate.channel},
+					{name:'收益',num:datas.data.income,fp:datas.rate.income},
 				];
-			}).catch((error)=>{})			
+			}).catch(()=>{})			
 		},	
 
 		clDatax(data){		
@@ -155,35 +149,34 @@ export default {
 			],arr3=[],da = data.data;
 			this.tableConfig.total=data.total_count;
 			for(let el in da){
-				console.log(el);
 				arr.push({
-					create_time:el,
-					ad_income:da[el].ad_income,
-					designer_cost:da[el].designer_cost,
-					channel_cost:da[el].channel_cost,
-					income:da[el].income,
+					create_time:da[el].create_time,
 					channel:da[el].channel,
-					admaster:da[el].admaster,
+					ad_income:+da[el].ad_income,
+					ds_cost:+da[el].ds_cost,
+					channel_cost:+da[el].channel_cost,
+					total_income:+da[el].total_income,
 					gross_profit:da[el].gross_profit,
 					product:da[el].product,
 				});
-				arr1.push(el.substring(5,10));
+				arr1.push(da[el].create_time);
 				arr2[0].data.push(da[el].ad_income);
-				arr2[1].data.push(da[el].income);
-				arr2[2].data.push(da[el].designer_cost);
+				arr2[1].data.push(da[el].total_income);
+				arr2[2].data.push(da[el].ds_cost);
 				arr2[3].data.push(da[el].channel_cost);
 			}	
 			this.tableConfig.cont=[
 				'汇总',
-				data.total_data.ad_income,
-				data.total_data.designer_cost,
-				data.total_data.channel_cost,
-				data.total_data.income,					
 				'--',
+				data.total_data.ad_income,
+				data.total_data.ds_cost,
+				data.total_data.channel_cost,
+				data.total_data.total_income,
+				data.total_data.gross_profit,
 				'--'
 			];
-			for(let el in data.channelIncome){
-				arr3.push({value:data.channelIncome[el], name:el});
+			for(let el in data.channel_income){
+				arr3.push({value:data.channel_income[el], name:el});
 			}
 			this.ChartConfig.config.xAxis = [{
 				type : 'category',

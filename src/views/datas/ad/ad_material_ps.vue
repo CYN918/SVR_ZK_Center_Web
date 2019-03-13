@@ -28,7 +28,6 @@ export default {
 				],
 				list:[					
 					{title:'日期',type:'times',value:'start_time'},
-							// fetch
 					{title:'素材ID',type:'text',value:'picture_id'},
 					{title:'广告ID',type:'text',value:'ad_id'},
 					{title:'渠道',type:'get_channel',value:'channel'},
@@ -42,23 +41,25 @@ export default {
 				ischeck:false,
 				'show-summary':true,
 				list:[
-					{prop:'create_time',lable:'日期'},
-					{prop:'picture_id',lable:'素材ID'},
+					{prop:'create_time',lable:'日期',sor:true},
+					{prop:'picture_id',lable:'素材ID',
+						poclick:{cls:' ',type:'text',value:'查看',fnName:'seeXx1'},				
+					},
 					{prop:'ad_id',lable:'广告ID'},	
 					{prop:'ad_name',lable:'广告名称'},
 					{prop:'channel',lable:'渠道'},
 					{prop:'ad_space_id',lable:'广告位ID'},
 					{prop:'ad_space_type',lable:'广告位类型'},
 					{prop:'ad_space_name',lable:'广告位名称'},
-					{prop:'pv',lable:'展示量'},					
-					{prop:'click',lable:'点击量'},
+					{prop:'pv',lable:'展示量',sor:true},					
+					{prop:'click',lable:'点击量',sor:true},
 					{prop:'click_ratio',lable:'点击率'},
-					{prop:'download',lable:'下载量'},
-					{prop:'install',lable:'安装量'},
-					{prop:'activ',lable:'激活量'},
-					{prop:'income',lable:'流水'},
-					{prop:'ecpm',lable:'ECPM'},
-					{prop:'ecpc',lable:'ECPC'},
+					{prop:'download',lable:'下载量',sor:true},
+					{prop:'install',lable:'安装量',sor:true},
+					{prop:'activ',lable:'激活量',sor:true},
+					{prop:'income',lable:'流水',sor:true},
+					{prop:'ecpm',lable:'ECPM',sor:true},
+					{prop:'ecpc',lable:'ECPC',sor:true},
 	
 				],
 				btns:[
@@ -76,6 +77,13 @@ export default {
 		this.getData();
 	}, 
 	methods: {
+		seeXx1(on){
+			if(this.tableData[on].img_url){
+				window.open(this.tableData[on].img_url);
+			}else{
+				this.$message('该素材图片错误！');
+			}
+		},
 		lodingfalse(){
 			this.$refs.Tablde.lodingfalse();	
 		},
@@ -87,16 +95,18 @@ export default {
 					this.screens.start_time = this.screens.start_time[0];
 				}																
 			}
-				let params = this.screens;
-				console.log(this.$route.query.picture_id)
-			if(this.$route.query.picture_id){
+			let params = this.screens;			
+			if(this.$route.query.picture_id && !params.picture_id){
 				params.picture_id = this.$route.query.picture_id;
 			}
-				
+			if(this.$route.query.timed && !params.start_time){
+				params.start_time = this.$route.query.timed;
+				params.end_time = this.$route.query.timed;
+			}	
 			this.api.data_ad_material_picture_detail({params}).then((datas)=>{									
 				this.tableData = this.clData(datas);		
 				this.lodingfalse();
-			}).catch((error)=>{
+			}).catch(()=>{
 				this.lodingfalse();
 			})			
 		},			
@@ -109,15 +119,15 @@ export default {
 					{
 						create_time:da[i].create_time,
 						picture_id:da[i].picture_id,
-						pv:da[i].pv,
-						click:da[i].click,
+						pv:+da[i].pv,
+						click:+da[i].click,
 						click_ratio:da[i].click_ratio,
-						download:da[i].download,
-						install:da[i].install,
-						activ:da[i].activ,
-						income:da[i].income,
-						ecpm:da[i].ecpm,
-						ecpc:da[i].ecpc,
+						download:+da[i].download,
+						install:+da[i].install,
+						activ:+da[i].activ,
+						income:+da[i].income,
+						ecpm:+da[i].ecpm,
+						ecpc:+da[i].ecpc,
 						ad_id:da[i].ad_id,
 						ad_name:da[i].ad_name,
 						channel:da[i].channel,
@@ -127,7 +137,7 @@ export default {
 						img_url:da[i].img_url
 					},
 				);
-			};
+			}
 			this.tableConfig.cont = [
 				'汇总',
 				'--',

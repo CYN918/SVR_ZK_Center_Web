@@ -30,9 +30,7 @@ export default {
 			tableConfig:{
 				total:0,
 				ischeck:true,
-				list:[
-					
-				],
+				list:[],
 				btns:[
 					{fnName:'addsc',cls:'hsan',value:'确认'},
 					{fnName:'hindAdd',cls:'pldc ',value:'取消',check:'1'},
@@ -123,9 +121,9 @@ export default {
 				material_id:id,	
 			};	
 
-			this.api.materialLib_attach(params).then((data)=>{	
+			this.api.materialLib_attach(params).then(()=>{	
 				this.addAjaxType =0;					
-			}).catch((error)=>{
+			}).catch(()=>{
 				this.addAjaxType =0;
 			})				
 		},
@@ -171,7 +169,7 @@ export default {
 
 				this.tableData =this.clData(data);	
 				this.enloding();
-			}).catch((error)=>{
+			}).catch(()=>{
 				this.enloding();
 			})	
 
@@ -201,7 +199,7 @@ export default {
 						
 					},				
 				);
-			};
+			}
 			return arr;
 
 		},

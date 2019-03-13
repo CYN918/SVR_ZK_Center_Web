@@ -20,11 +20,13 @@
 			
 			return {
 				topConfig:{showL:-1},
-				letNav:{title:'锁屏壁纸平台',default:'/indexs/message',defaultopen:['1'],
-				list:[					
-					{title:'公司信息',url:'/indexs/message'},
-					{title:'锁屏壁纸列表',url:'/indexs/list'},
-				]},
+				letNav:{title:'锁屏壁纸平台',
+					list:[
+						{title:'公司信息',url:'/indexs/message'},
+						{title:'锁屏壁纸列表',url:'/indexs/list'},
+					],
+				}
+				
 			};
 		},
 

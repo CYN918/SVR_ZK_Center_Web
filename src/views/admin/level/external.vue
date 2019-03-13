@@ -114,16 +114,12 @@ export default {
 				this.form = response;
 				this.isaff = 'edit';
 				this.isshowd= true;		
-			}).catch((error)=>{
-				
-			});	
+			})
 		},
 		chetype(on){
 		
 			let params = {email:this.tableData[on].email,status:this.tableData[on].status==1?0:1};	
-			this.api.edit_account_status(params).then((response)=>{		
-				
-			}).catch((error)=>{
+			this.api.edit_account_status(params).catch(()=>{
 				this.tableConfig.list[5].switch.mode[on] = this.tableData[on].status==1?true:false;
 			});	
 		
@@ -174,7 +170,7 @@ export default {
 		enloding(){
 			this.$refs.Tabledd.lodingfalse();		
 		},
-	    sx(){
+		sx(){
 			if(this.search){
 				this.getData(this.search);
 			} 
@@ -182,16 +178,13 @@ export default {
 		getData(data){	
 			let params;
 			if(data){
-				
 				params = {search:data};	
 			}
-			
-			
 			this.api.get_external_accounts({params}).then((response)=>{		
 
 				this.tableData = this.clData(response);		
 				this.enloding();
-			}).catch((error)=>{
+			}).catch(()=>{
 				this.enloding();
 			});	
 		},
@@ -213,27 +206,26 @@ export default {
 						contact_email:da[i].contact_email,
 						name:da[i].name,
 						phone:da[i].phone,
-						name:da[i].name,
 						created_at:this.checkTime(da[i].created_at),
 						login:da[i].login,						
 						type:da[i].type,
 						status:da[i].status
 					},					
 				);
-			};
+			}
 			return arr;
 		},				
-    },
-	
+    },	
 }	
 </script>
 <style>
 .seebox{
 	font-size:14px;
-font-family:MicrosoftYaHei;
-font-weight:400;
-color:rgba(2,2,2,1);
-opacity:0.85;
+	font-family:MicrosoftYaHei;
+	font-weight:400;
+	color:rgba(2,2,2,1);
+	opacity:0.85;
+	margin-bottom: 40px;
 }
 .seebox>div{
 	margin-bottom: 13px;
@@ -244,13 +236,13 @@ opacity:0.85;
 .hsbtn{
 	cursor: pointer;
 	width:82px;
-height:28px;
-line-height: 28px;
-color: #fff;
-background:rgba(191,191,191,1);
-border-radius:14px;
-text-align: center;
-margin: 112px auto 76px !important;
+	height:28px;
+	line-height: 28px;
+	color: #fff;
+	background:rgba(191,191,191,1);
+	border-radius:14px;
+	text-align: center;
+	margin: 112px auto 76px !important;
 }
 .hsbtn:hover{
 	opacity: .7;

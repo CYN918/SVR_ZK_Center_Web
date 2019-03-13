@@ -37,6 +37,7 @@ export default {
 		return {
 			form:{},
 			datasd:{},
+			addType:0,
 			tableData:[],	
 			isshowd:false,
 			tableConfig:{
@@ -71,7 +72,7 @@ export default {
 	}, 
 	methods: {
 		seeQux(on){
-			//getqx
+			
 			this.$refs.roqx.showAdd(this.tableData[on]);
 		
 		},
@@ -81,15 +82,23 @@ export default {
 					cancelButtonText: '取消',
 					type: 'warning'
 				}).then(() => {
+					if(this.addType==1){
+						return;
+					}
+					this.addType=1;
 					let params = {id:this.tableData[on].id};	
-					this.api.delete_role(params)
+					this.api.delete_role(params).then(()=>{
+						this.addType=0;
+					}).catch(()=>{
+						this.addType=0;
+					});
 				}).catch(() => {
-					 
+					
 				});
 		},
-		edit_roles(on){
+		edit_roles(on){			
 			let params = {id:this.tableData[on].id};	
-			this.api.edit_roles({params}).then((datas)=>{	
+			this.api.edit_roles({params}).then((datas)=>{
 				this.form = {
 					name:datas.role_name,
 					description:datas.description,
@@ -97,30 +106,33 @@ export default {
 				}
 				this.onTd='eid';
 				this.isshowd= true;
-			}).catch((error)=>{
-			
-			})	
+			})
 		},
 
 		chetype(on){
 		
 			let params = {id:this.tableData[on].id,status:this.tableData[on].status==1?0:1};	
-			this.api.change_role_status(params).then((response)=>{		
-				
-			}).catch((error)=>{
-				// this.tableConfig.list[4].mode[on]
-			});	
-		
-	
+			this.api.change_role_status(params);	
 		},
 		add_role(){
-			
+			if(this.addType==1){
+				return;
+			}
+			this.addType=1;
 			let params = this.form;
 			if(this.onTd=='add'){
-				this.api.add_role(params);
+				this.api.add_role(params).then(()=>{
+					this.addType=0;
+				}).catch(()=>{
+					this.addType=0;
+				});
 			}			
 			if(this.onTd=='eid'){
-				this.api.edit_rolex(params);				
+				this.api.edit_rolex(params).then(()=>{
+					this.addType=0;
+				}).catch(()=>{
+					this.addType=0;
+				});			
 			}
 		},
 		enloding(){
@@ -138,7 +150,7 @@ export default {
 			this.api.get_roles().then((response)=>{		
 				this.tableData = this.clData(response);						
 				this.enloding();
-			}).catch((error)=>{
+			}).catch(()=>{
 				this.enloding();
 			});	
 		},
@@ -146,7 +158,6 @@ export default {
 			let arr  = [];
 			this.tableConfig.total=-1;
 			let da = data;		
-				console.log(da);
 			for(let i=0,n=da.length;i<n;i++){
 				this.tableConfig.list[3].switch.mode.push(da[i].status==0?false:true);			
 				arr.push(
@@ -160,8 +171,7 @@ export default {
 						permissions:da[i].permissions
 					},
 				);
-			};
-			console.log(arr);
+			}
 			return arr;
 		},				
     },
@@ -178,7 +188,10 @@ export default {
 	-webkit-transform: translate(-50%,-50%);
 	transform: translate(-50%,-50%);
 	background:rgba(255,255,255,1);
-box-shadow:0px 1px 8px 0px rgba(0, 0, 0, 0.08);
+	box-shadow:0px 1px 8px 0px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    overflow-y: auto;
+    max-height: 80%;
 }
 .btnds{
 	min-width: 240px;
@@ -188,15 +201,14 @@ box-shadow:0px 1px 8px 0px rgba(0, 0, 0, 0.08);
 	display: inline-block;
 	cursor: pointer;
 	width:82px;
-height:28px;
-
-border-radius:14px;
-text-align: center;
-line-height: 28px;
-font-size:14px;
-font-family:MicrosoftYaHei;
-font-weight:400;
-color:rgba(255,255,255,1);
+	height:28px;
+	border-radius:14px;
+	text-align: center;
+	line-height: 28px;
+	font-size:14px;
+	font-family:MicrosoftYaHei;
+	font-weight:400;
+	color:rgba(255,255,255,1);
 }
 .btnd:hover{
 	opacity: .7;
@@ -206,7 +218,7 @@ color:rgba(255,255,255,1);
 	background:rgba(255,120,117,1);
 }
 .hyse{
-background:rgba(191,191,191,1);
+	background:rgba(191,191,191,1);
 }
 .hesd{
 	color: #FFA39E !important;

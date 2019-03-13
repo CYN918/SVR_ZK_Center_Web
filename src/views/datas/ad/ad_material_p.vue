@@ -1,6 +1,3 @@
-
-
-
 <template>
 	<scTable ref="Tablde" @screenFn="getData" :searchConfig="searchConfig" :tableConfig="tableConfig" :ChartConfig="ChartConfig" :chartData="chartData" :tableData="tableData"></scTable>
 </template>
@@ -30,9 +27,7 @@ export default {
 				],
 				list:[					
 					{title:'日期',type:'times',value:'start_time'},
-							// fetch
-					{title:'素材ID',type:'text',value:'picture_id'},
-					
+					{title:'素材ID',type:'text',value:'picture_id'},					
 				],
 			},
 			tableConfig:{
@@ -40,19 +35,19 @@ export default {
 				ischeck:false,
 				'show-summary':true,
 				list:[
-					{prop:'create_time',lable:'日期'},
+					{prop:'create_time',lable:'日期',sor:true},
 					{prop:'picture_id',lable:'素材ID',
 						poclick:{cls:' ',type:'text',value:'查看',fnName:'seeXx1'},				
 					},
-					{prop:'pv',lable:'展示量'},					
-					{prop:'click',lable:'点击量'},
+					{prop:'pv',lable:'展示量',sor:true},					
+					{prop:'click',lable:'点击量',sor:true},
 					{prop:'click_ratio',lable:'点击率'},
-					{prop:'download',lable:'下载量'},
-					{prop:'install',lable:'安装量'},
-					{prop:'activ',lable:'激活量'},
-					{prop:'income',lable:'流水'},
-					{prop:'ecpm',lable:'ECPM'},
-					{prop:'ecpc',lable:'ECPC'},
+					{prop:'download',lable:'下载量',sor:true},
+					{prop:'install',lable:'安装量',sor:true},
+					{prop:'activ',lable:'激活量',sor:true},
+					{prop:'income',lable:'流水',sor:true},
+					{prop:'ecpm',lable:'ECPM',sor:true},
+					{prop:'ecpc',lable:'ECPC',sor:true},
 					{prop:'description',lable:'广告详情',
 						temps:[
 							{cls:'hsetext',type:'text',value:'查看详情',fnName:'seeXx2'},								
@@ -84,7 +79,7 @@ export default {
 			}
 		},
 		seeXx2(on){
-			window.open('/#/data/ad_material_ps?picture_id='+this.tableData[on].picture_id)
+			window.open('/#/data/ad_material_ps?picture_id='+this.tableData[on].picture_id+'&timed='+this.tableData[on].create_time)
 		},
 		lodingfalse(){
 			this.$refs.Tablde.lodingfalse();	
@@ -101,7 +96,7 @@ export default {
 			this.api.data_ad_material_picture({params}).then((datas)=>{									
 				this.tableData = this.clData(datas);		
 				this.lodingfalse();
-			}).catch((error)=>{
+			}).catch(()=>{
 				this.lodingfalse();
 			})			
 		},			
@@ -114,21 +109,21 @@ export default {
 					{
 						create_time:da[i].create_time,
 						picture_id:da[i].picture_id,
-						pv:da[i].pv,
-						click:da[i].click,
+						pv:+da[i].pv,
+						click:+da[i].click,
 						click_ratio:da[i].click_ratio,
-						download:da[i].download,
-						install:da[i].install,
-						activ:da[i].activ,
-						income:da[i].income,
-						ecpm:da[i].ecpm,
-						ecpc:da[i].ecpc,
+						download:+da[i].download,
+						install:+da[i].install,
+						activ:+da[i].activ,
+						income:+da[i].income,
+						ecpm:+da[i].ecpm,
+						ecpc:+da[i].ecpc,
 						ad_id:da[i].ad_id,
 						img_url:da[i].img_url
 						
 					},
 				);
-			};
+			}
 			this.tableConfig.cont = [
 				'汇总',
 				'--',

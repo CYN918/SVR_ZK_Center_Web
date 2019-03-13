@@ -107,7 +107,6 @@ import tables from '../common/tables.vue';
 		}, 
 		methods: {
 			need_export(){
-					console.log(222222222)
 				let form = document.createElement('form'),
 				arr = [
 					{n:'status',d:this.screens.status || ''},
@@ -118,8 +117,7 @@ import tables from '../common/tables.vue';
 					{n:'start_date',d:this.screens.start_date || ''},
 					{n:'end_date',d:this.screens.end_date || ''},
 					{n:'search',d:this.screens.search || ''}
-				];
-			
+				];			
 				for(let i=0,n=arr.length;i<n;i++){
 					let dom = document.createElement('input');
 					dom.setAttribute('name',arr[i].n);
@@ -134,7 +132,7 @@ import tables from '../common/tables.vue';
 				form.submit();
 			},
 			
-			handleClick(tab, event) {
+			handleClick() {
 				this.screenConfig = [];
 				this.setScreenConfig();	
 				this.$refs.Tabledd.initpage();				
@@ -160,9 +158,9 @@ import tables from '../common/tables.vue';
 				}
 				this.setStatusType=1;			
 				let params = {id:this.tableData[on].id,base_status:this.tableConfig.list[9].select.mode[on]};		
-				this.api.need_check({params}).then((datas)=>{					
+				this.api.need_check({params}).then(()=>{					
 					this.setStatusType = 0;			
-				}).catch((error)=>{
+				}).catch(()=>{
 					this.setStatusType = 0;
 					location.reload();
 				})			
@@ -194,11 +192,7 @@ import tables from '../common/tables.vue';
 							{name:'下线数（个）',num:response.offline},
 						];
 					}
-					
-					
-				}).catch((error)=>{
-					
-				})
+				}).catch(()=>{})
 			},
 			getData(sxtj){
 				if(sxtj){
@@ -218,13 +212,11 @@ import tables from '../common/tables.vue';
 					}
 				}	
 				let params = this.screens;	
-			    params.is_finished=1;
+				params.is_finished=1;
 				this.api.material_lists({params}).then( (response)=> {
 					this.tableData = this.clData(response);
 					this.enloding();
-				}).catch((error)=>{
-					
-				})				
+				}).catch(()=>{})				
 			},	
 			clData(data){
 				let arr  = [];
@@ -281,13 +273,10 @@ import tables from '../common/tables.vue';
 						{title:'模糊搜索',type:'text',value:'search'},	
 					];	
 					
-				}).catch((error)=>{})				
+				}).catch(()=>{})				
 			},
 			downlod(on){
 				window.open(this.tableData[on].dowurl);
-			},
-			xzFn(data){
-	
 			},
 			checkNr(value){		
 				if(!value){return}
@@ -328,7 +317,6 @@ import tables from '../common/tables.vue';
 	background:rgba(255,255,255,1);
 	box-shadow:0px 1px 3px 0px rgba(0, 0, 0, 0.06);
 	margin-bottom: 0 !important;
-
 }
 .centNavBox .el-tabs__item{
 	background:rgba(250,247,246,1);
@@ -356,12 +344,10 @@ import tables from '../common/tables.vue';
 }
 .el-tabs--card>.el-tabs__header{
 	border: none;
-	    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.06);
+	box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.06);
 }
 .el-tabs--card>.el-tabs__header .el-tabs__item{
 	border: none;
-	    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.06);
+	box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.06);
 }
-/* background:rgba(250,247,246,1);
-box-shadow:0px 1px 3px 0px rgba(0, 0, 0, 0.06); */
 </style>

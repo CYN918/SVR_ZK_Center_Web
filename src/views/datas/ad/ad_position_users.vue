@@ -44,7 +44,7 @@ export default {
 				ischeck:false,
 				'show-summary':true,
 				list:[
-					{prop:'create_time',lable:'日期'},
+					{prop:'create_time',lable:'日期',sor:true},
 					{prop:'admaster',lable:'广告主'},
 					{prop:'work_type_name',lable:'合作类型'},
 					{prop:'ad_id',lable:'广告ID'},
@@ -52,15 +52,15 @@ export default {
 					{prop:'ad_space_id',lable:'广告位ID'},
 					{prop:'ad_space_type',lable:'广告位类型'},
 					{prop:'product',lable:'产品'},
-					{prop:'pv',lable:'展示量'},					
-					{prop:'click',lable:'点击量'},
+					{prop:'pv',lable:'展示量',sor:true},					
+					{prop:'click',lable:'点击量',sor:true},
 					{prop:'click_ratio',lable:'点击率'},
-					{prop:'download',lable:'下载量'},
-					{prop:'install',lable:'安装量'},
-					{prop:'activ',lable:'激活量'},
-					{prop:'income',lable:'流水'},
-					{prop:'ecpm',lable:'ECPM'},
-					{prop:'ecpc',lable:'ECPC'},					
+					{prop:'download',lable:'下载量',sor:true},
+					{prop:'install',lable:'安装量',sor:true},
+					{prop:'activ',lable:'激活量',sor:true},
+					{prop:'income',lable:'流水',sor:true},
+					{prop:'ecpm',lable:'ECPM',sor:true},
+					{prop:'ecpc',lable:'ECPC',sor:true},					
 				],
 				btns:[
 					{fnName:'xzFn',cls:'pldc ',value:'导出数据'},
@@ -79,11 +79,6 @@ export default {
 		lodingfalse(){
 			this.$refs.Tablde.lodingfalse();	
 		},
-
-		ajaxget(data,fn){
-		
-			fn([{value:1}])
-		},
 		getData(sxtj){
 			if(sxtj){
 				Object.assign(this.screens, sxtj);	
@@ -100,7 +95,7 @@ export default {
 			this.api.data_ad_master_detail({params}).then((datas)=>{									
 				this.tableData = this.clData(datas);		
 				this.lodingfalse();
-			}).catch((error)=>{
+			}).catch(()=>{
 				this.lodingfalse();
 			})			
 		},			
@@ -119,19 +114,19 @@ export default {
 						ad_space_id:da[i].work_type,
 						ad_space_type:da[i].work_type,
 						product:da[i].product,
-						pv:da[i].pv,
-						click:da[i].click,
+						pv:+da[i].pv,
+						click:+da[i].click,
 						click_ratio:da[i].click_ratio,
-						download:da[i].download,
-						install:da[i].install,
-						activ:da[i].activ,
-						income:da[i].income,
-						ecpm:da[i].ecpm,
-						ecpc:da[i].ecpc,
+						download:+da[i].download,
+						install:+da[i].install,
+						activ:+da[i].activ,
+						income:+da[i].income,
+						ecpm:+da[i].ecpm,
+						ecpc:+da[i].ecpc,
 						
 					},
 				);
-			};
+			}
 			this.tableConfig.cont = [
 				'汇总',
 				'--',

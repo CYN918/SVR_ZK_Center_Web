@@ -26,7 +26,6 @@
 		<el-button round @click="sx()" class="sxbtnd">筛选</el-button>
 	</div>	
 </template>
-
 <script>
 	export default {
 		props:['sxDatas','sxFn'],

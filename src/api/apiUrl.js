@@ -4,9 +4,6 @@ export default {
 	sysconfig_material:{
 		url:'/sysconfig/material',method:'get',
 	},
-	
-	
-	
 	need_stat:{
 		url:'/need/stat',method:'get',
 	},
@@ -30,22 +27,14 @@ export default {
 	need_update:{
 		url:'/need/update_need',method:'post',isType:{suktip:1,reload:1}
 	},
-/*需求审核相关*/	
 	/*获取列表*/
 	need_list_check:{
 		url:'/need/list_check',method:'get'
 	},
-
-/*素材相关*/
 	/*获取列表*/
 	material_lists:{
 		url:'/material/lists',method:'get'
 	},
-	/*获取筛选配置*/
-// 	material_configs:{
-// 		url:'/material/configs',method:'get',
-// 	},
-	//
 	handle_lists:{
 		url:'/handle/lists',method:'get',
 	},
@@ -54,16 +43,13 @@ export default {
 	},
 	handle_reject:{
 		url:'/handle/reject',method:'post',isType:{suktip:1,reload:1}
-	},
-	
+	},	
 	materialLib_lists:{
 		url:'/material/lib/lists',method:'get'
-	},
-	
+	},	
 	materialLib_materials:{
 		url:'/material/lib/materials',method:'get'
-	},
-	
+	},	
 	materialLib_detach:{
 		url:'/material/lib/detach',method:'post',isType:{suktip:1,reload:1}
 	},
@@ -72,8 +58,7 @@ export default {
 	},
 	materialLib_attach:{
 		url:'/material/lib/attach',method:'post',isType:{suktip:1,reload:1}
-	},
-	
+	},	
 	material_stat:{
 		url:'/material/stat',method:'get'
 	},
@@ -89,8 +74,6 @@ export default {
 	material_wallpaperPutmat:{
 		url:'/wallpaper/put/material-put',method:'get',isType:{suktip:1,reload:1}
 	},
-
-/*角色*/
 	get_roles:{
 		url:'/get_roles',method:'get'
 	},
@@ -121,13 +104,11 @@ export default {
 	get_external_accounts:{
 		url:'/get_external_accounts',method:'get',
 	},
-
 	wallpaper_put:{
 		url:'/wallpaper/put/wallpapers',method:'get',
 	},
 	add_external_account:{
-		url:'/add_external_account',method:'post',isType:{suktip:1,reload:1}	
-		
+		url:'/add_external_account',method:'post',isType:{suktip:1,reload:1}			
 	},
 	wallpaper_check:{
 		url:'/wallpaper/put/check',method:'get',isType:{suktip:1,reload:1}	
@@ -154,8 +135,7 @@ export default {
 	/* 获取所有的权限*/
 	get_permissions:{
 		url:'/get_permissions',method:'get'
-	},
-	
+	},	
 	/* 删除帐号*/
 	delete_account:{
 		url:'/delete_account',method:'post',isType:{suktip:1,reload:1}	
@@ -172,8 +152,6 @@ export default {
 	edit_account:{
 		url:'/edit_account',method:'post',isType:{suktip:1,reload:1}	
 	},
-	
-	
 	/* 修改权限*/
 	edit_role_permission:{
 		url:'/edit_role_permission',method:'post',isType:{suktip:1,reload:1}
@@ -185,16 +163,10 @@ export default {
 	get_role_permission:{
 		url:'/get_role_permission',method:'get',
 	},
-	get_role_permission:{
-		url:'/get_role_permission',method:'get',
-	},
 	/*修改密码*/
 	edit_account_password:{
 		url:'/edit_account_password',method:'post',isType:{suktip:1,reload:1}
 	},
-	
-	/*导出需求*/
-	
 	need_export:{
 		url:'/need/export',method:'get'
 	},
@@ -231,16 +203,10 @@ export default {
 	data_ad_detail:{
 		url:'/data/ad/detail',method:'get'
 	},
-	/*获取广告位ID列表*/
-	data_filter_ad_space_id:{
-		url:'/data/filter/ad_space_id',method:'get'
-	},
 	/*获取广告位相关数据*/
 	data_ad_ad_space:{
 		url:'/data/ad/ad_space',method:'get'
 	},
-	
-
 	/*获取广告主数据*/
 	data_ad_master:{
 		url:'/data/ad/ad_master',method:'get'
@@ -249,17 +215,6 @@ export default {
 	data_ad_master_detail:{
 		url:'/data/ad/ad_master/detail',method:'get'
 	},
-	/*获取广告数据*/
-	data_ad:{
-		url:'/data/ad',method:'get'
-	},
-	/*获取广告详细数据*/
-	data_ad_detail:{
-		url:'/data/ad/detail',method:'get'
-	},
-	
-	
-	
 	/*获取壁纸渠道数据*/
 	data_polling_product_channel:{
 		url:'/data/polling/product/channel',method:'get'
@@ -271,10 +226,8 @@ export default {
 	/*获取壁纸行为数据*/
 	data_gionee_lock_behavior_wallpaper:{
 		url:'/data/gionee_lock/behavior/wallpaper',method:'get'
-	},
-	
-	/*获取壁纸渠道详细数据*/
-	
+	},	
+	/*获取壁纸渠道详细数据*/	
 	data_gionee_lock_behavior_wallpaper_channel:{
 		url:'/data/gionee_lock/behavior/wallpaper/channel',method:'get'
 	},
@@ -282,15 +235,10 @@ export default {
 	data_gionee_lock_behavior_wallpaper_ad:{
 		url:'/data/gionee_lock/behavior/wallpaper/ad',method:'get'
 	},
-
-	
-	
-	
 	/*获取收益详表*/
 	data_income_detail:{
 		url:'/data/income/detail',method:'get'
-	},
-	
+	},	
 	/*获取相关收益*/
 	data_income_related:{
 		url:'/data/income/related',method:'get'
@@ -298,8 +246,7 @@ export default {
 	/*获取渠道成本*/
 	data_cost_channel:{
 		url:'/data/cost/channel',method:'get'
-	},
-	
+	},	
 	/*获取设计师成本*/
 	data_cost_designer:{
 		url:'/data/cost/designer',method:'get'
@@ -307,10 +254,6 @@ export default {
 	/*获取设计师成本详细数据*/
 	data_cost_designer_detail:{
 		url:'/data/cost/designer/detail',method:'get'
-	},
-	/*获取收益详表*/
-	data_income_detail:{
-		url:'/data/income/detail',method:'get'
 	},
 	/*获取收益日周月*/
 	data_income_report:{
@@ -320,10 +263,6 @@ export default {
 	data_income_overall:{
 		url:'/data/income/overall',method:'get'
 	},
-	
-	
-	
-	
 	/*获取产品列表*/
 	data_filter_product:{
 		url:'/data/filter/product',method:'get'

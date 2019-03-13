@@ -25,15 +25,22 @@ export default {
 					{h1:"流水",p:"所选日期内，素材上对应的广告的流水收入"},
 					{h1:"ECPM",p:"每一千次展示可获得的广告流水收入"},
 					{h1:"ECPC",p:"单次点击可获得的广告流水收入"},
+					{h1:"广告图设计师成本",p:"广告图设计师成本=广告对应的广告图设计师成本"},					
+					{h1:"广告模板设计师成本",p:"广告模板设计师成本=广告对应的广告模板设计师成本"},
+					{h1:"渠道成本",p:"所选日期内，广告对应的渠道成本"},
+					{h1:"收益",p:"所选日期内，广告对应的渠道成本"},
+					{h1:"毛利率",p:"毛利率=收益/广告流水*100%"},
+					
 				],
 				list:[					
 					{title:'日期',type:'times',value:'start_time'},
-					{title:'素材ID',type:'text',value:'picture_id'},
-					{title:'广告ID',type:'text',value:'ad_id'},
 					{title:'渠道',type:'get_channel',value:'channel'},
-					{title:'广告位名称',type:'get_ad_space_name',value:'ad_space_name'},
+					{title:'产品',type:'get_product',value:'product'},
+					{title:'广告位类型',type:'get_ad_space_type',value:'ad_space_type'},
 					{title:'广告位ID',type:'get_ad_space_id',value:'ad_space_id'},
-					{title:'广告ID',type:'text',value:'ad_id'},
+					{title:'广告主',type:'get_ad_master',value:'admaster'},
+					{title:'广告ID',type:'text',value:'ad_id'},					
+					{title:'广告名称',type:'text',value:'ad_name'},										
 				],
 			},
 			tableConfig:{
@@ -63,7 +70,7 @@ export default {
 					{prop:'picture_cost',lable:'广告图成本'},
 					{prop:'template_cost',lable:'模板成本'},
 					{prop:'channel_cost',lable:'渠道成本'},
-					{prop:'income',lable:'收益'},
+					{prop:'total_income',lable:'收益'},
 					{prop:'gross_profit',lable:'毛利率'},
 	
 				],
@@ -127,18 +134,17 @@ export default {
 			let arr  = [];
 			this.tableConfig.total=data.total_count;
 			let da = data.data;		
-							console.log(22222222);
 			for(let i in da){
 				arr.push(
 					{
 						create_time:da[i].create_time,
-						material_id:da[i].material_id,
+						channel:da[i].channel,
+						product:da[i].product,
+						ad_space_type:da[i].ad_space_type,
+						ad_space_id:da[i].ad_space_id,
+						admaster:da[i].admaster,
 						ad_id:da[i].ad_id,
 						ad_name:da[i].ad_name,
-						channel:da[i].channel,
-						ad_space_id:da[i].ad_space_id,
-						ad_space_type:da[i].ad_space_type,
-						ad_space_name:da[i].ad_space_name,
 						pv:da[i].pv,
 						click:da[i].click,
 						click_ratio:da[i].click_ratio,
@@ -148,14 +154,15 @@ export default {
 						income:da[i].income,
 						ecpm:da[i].ecpm,
 						ecpc:da[i].ecpc,
-						img_url:da[i].img_url
+						picture_cost:da[i].picture_cost,
+						template_cost:da[i].template_cost,
+						channel_cost:da[i].channel_cost,
+						total_income:da[i].total_income,
+						gross_profit:da[i].gross_profit,
 					},
 				);
 				
 			}
-		
-			console.log(arr);
-			console.log(22222222);
 			this.tableConfig.cont = [
 				'汇总',
 				'--',
@@ -174,9 +181,12 @@ export default {
 				data.total_data.income,
 				data.total_data.ecpm,
 				data.total_data.ecpc,
-				'--'
+				data.total_data.picture_cost,
+				data.total_data.template_cost,
+				data.total_data.channel_cost,
+				data.total_data.total_income,
+				data.total_data.gross_profit,
 			];
-			console.log(22222222);
 			return arr;
 		},
 

@@ -6,11 +6,14 @@
 				<span class="qxB1_1">设置权限</span>
 				<span class="qxB1_2">当前角色：{{roledata.role_name}}</span>
 			</div>
-			<div class="qxB2" v-for="(el,index) in datas">
+			<div class="qxB2" v-for="(el,index) in datas" :key="el.name">
 				<div class="qxB2_1"><el-checkbox  v-model="el.checkAll" @change="handleCheckAllChange(el.checkAll,index)">{{el.name}}</el-checkbox></div>
 				<div class="qxB2_2">
 					<el-checkbox-group v-model="qxlist"  @change="handleCheckedCitiesChange">
-						<div v-for="el2 in el.list"><el-checkbox  :label="el2.id">{{el2.name}}</el-checkbox></div><div v-for="(el3,index3) in el.list" v-if="index3<4-el.list.length%4"></div>
+						<div v-for="el2 in el.list" :key="el2.id">
+							<el-checkbox  :label="el2.id">{{el2.name}}</el-checkbox>
+						</div>
+						<div v-for="(el3,index3) in new Array((4-el.list.length%4)==4?0:(4-el.list.length%4))" :key="index3"></div>
 					</el-checkbox-group>
 				</div>
 			</div>
@@ -30,6 +33,7 @@ export default {
 			isShow:false,
 			datas:[
 			],
+			addType:0,
 			udf:{},
 			qxlist:[],
         checkAll: {},
@@ -53,10 +57,16 @@ export default {
 			this.isShow=true;
 		},
 		addqxd(){
-
-			
+			if(this.addType==1){
+				return
+			}
+			this.addType=1;
 			let params = {role_id:this.roledata.id,permission_id:this.qxlist};	
-			this.api.edit_role_permission(params)
+			this.api.edit_role_permission(params).then(()=>{
+				this.addType=0;
+			}).catch(()=>{
+				this.addType=0;
+			});
 		},
 		getData(){
 			this.api.get_permissions().then((data)=>{

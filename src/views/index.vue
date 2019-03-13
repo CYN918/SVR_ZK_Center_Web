@@ -1,71 +1,69 @@
 <template>
 	<div>
-	<topNav :config="topConfig"></topNav>
-	<div class="HomeBox">
-		<div class="HomeBox_n">
-			<div class="HomeBox_nl">			
-				<div class="HomeBox_nlxf">				
-				<div class="hoBox1_t">待处理事项</div>
-				<div class="Hcentbox">
-					<div>
-						<div>{{dt.need}}</div>
-						<div>需求待处理</div>
-					</div>
-					<div>
-						<div>{{dt.picture}}</div>
-						<div>广告图待处理</div>
-					</div>
-					<div>
-						<div>{{dt.resource}}</div>
-						<div>广告模板待处理</div>
-					</div>
-					<div>
-						<div>{{dt.wallpaper}}</div>
-						<div>锁屏壁纸待处理</div>
-					</div>
-				</div>
-				</div>
-				<div class="HomeBox_nlxf">
-				<div class="homBoxlboxt">常用操作</div>
-				<div class="Hcentbox">
-					<div @click="tzd('/data/ad_material_p')"><div><img src="/img/datas.png"></div><div>广告位数据</div></div>
-					<div @click="tzd('/admin/needList')"><div><img src="/img/xq_xqlist.png"></div><div>需求管理</div></div>
-					<div @click="tzd('/admin/library_picture')"><div><img src="/img/xq_materialLibt_picture.png"></div><div>广告图库投放管理</div></div>
-					<div @click="tzd('/admin/library_resource')"><div><img src="/img/xq_materialLib_resource.png"></div><div>广告图模板库投放管理</div></div>
-					<div @click="tzd('/admin/external')"><div><img src="/img/xq_external.png"></div><div>外部账号管理</div></div>					
-				</div>
-				</div>
-				<div class="HomeBox_nlxf">
-				<div class="homBoxlboxt">历史操作</div>
-				<div class="Hcentbox">
-					<div @click="tzd('/data/ad_material_p')"><div><img src="/img/datas.png"></div><div>广告位数据</div></div>
-					<div @click="tzd('/admin/needList')"><div><img src="/img/xq_xqlist.png"></div><div>需求管理</div></div>
-					<div @click="tzd('/admin/library_picture')"><div><img src="/img/xq_materialLibt_picture.png"></div><div>广告图投放管理</div></div>
-					<div @click="tzd('/admin/library_resource')"><div><img src="/img/xq_materialLib_resource.png"></div><div>广告图模板管理</div></div>
-					<div @click="tzd('/admin/external')"><div><img src="/img/xq_external.png"></div><div>外部账号管理</div></div>	
-				</div>
-				</div>
-			</div>
-		
-			<div class="HomeBox_nr">
-				<div class="homBoxlboxt ndf">登录记录</div>
-				<div class="homBoxr2">
-					<div v-for="(el,index) in loind" v-if="index<15">
-						<div class="homBoxr2_1">
-							<h1 v-if="index==0">时间</h1>
-							<div>{{el.created_at}}</div>
+		<topNav :config="topConfig"></topNav>
+		<div class="HomeBox">
+			<div class="HomeBox_n">
+				<div class="HomeBox_nl">			
+					<div class="HomeBox_nlxf">				
+					<div class="hoBox1_t">待处理事项</div>
+					<div class="Hcentbox">
+						<div>
+							<div>{{dt.need}}</div>
+							<div>需求待处理</div>
 						</div>
-						<div class="homBoxr2_2">
-							<h1 v-if="index==0">地点</h1>
-							<div>{{el.login_address}}</div>
+						<div>
+							<div>{{dt.picture}}</div>
+							<div>广告图待处理</div>
 						</div>
-						
+						<div>
+							<div>{{dt.resource}}</div>
+							<div>广告模板待处理</div>
+						</div>
+						<div>
+							<div>{{dt.wallpaper}}</div>
+							<div>锁屏壁纸待处理</div>
+						</div>
 					</div>
-					
+					</div>
+					<div class="HomeBox_nlxf">
+					<div class="homBoxlboxt">常用操作</div>
+					<div class="Hcentbox">
+						<div @click="tzd('/data/ad_material_p')"><div><img src="/img/datas.png"></div><div>广告位数据</div></div>
+						<div @click="tzd('/admin/needList')"><div><img src="/img/xq_xqlist.png"></div><div>需求管理</div></div>
+						<div @click="tzd('/admin/library_picture')"><div><img src="/img/xq_materialLibt_picture.png"></div><div>广告图库投放管理</div></div>
+						<div @click="tzd('/admin/library_resource')"><div><img src="/img/xq_materialLib_resource.png"></div><div>广告图模板库投放管理</div></div>
+						<div @click="tzd('/admin/external')"><div><img src="/img/xq_external.png"></div><div>外部账号管理</div></div>					
+					</div>
+					</div>
+					<div class="HomeBox_nlxf">
+					<div class="homBoxlboxt">历史操作</div>
+					<div class="Hcentbox">
+						<div @click="tzd('/data/ad_material_p')"><div><img src="/img/datas.png"></div><div>广告位数据</div></div>
+						<div @click="tzd('/admin/needList')"><div><img src="/img/xq_xqlist.png"></div><div>需求管理</div></div>
+						<div @click="tzd('/admin/library_picture')"><div><img src="/img/xq_materialLibt_picture.png"></div><div>广告图投放管理</div></div>
+						<div @click="tzd('/admin/library_resource')"><div><img src="/img/xq_materialLib_resource.png"></div><div>广告图模板管理</div></div>
+						<div @click="tzd('/admin/external')"><div><img src="/img/xq_external.png"></div><div>外部账号管理</div></div>	
+					</div>
+					</div>
+				</div>
+			
+				<div class="HomeBox_nr">
+					<div class="homBoxlboxt ndf">登录记录</div>
+					<div class="homBoxr2">
+						<div v-for="(el,index) in loind.slice(0, 15)" :key="index">
+							<div class="homBoxr2_1">
+								<h1 v-if="index==0">时间</h1>
+								<div>{{el.created_at}}</div>
+							</div>
+							<div class="homBoxr2_2">
+								<h1 v-if="index==0">地点</h1>
+								<div>{{el.login_address}}</div>
+							</div>							
+						</div>						
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 		</div>
 </template>
 
@@ -83,8 +81,8 @@ export default {
 			dt:{}
 		}
 	},
-	 components: {
-	    topNav,
+	components: {
+		topNav,
 	},
 	mounted: function () {	
 	this.get_logs();
@@ -119,7 +117,7 @@ export default {
 </script>
 
 <style>
-	li{list-style-type: none;}
+li{list-style-type: none;}
 .HomeBox{
 	position: absolute;
 	top: 0;
@@ -131,9 +129,7 @@ export default {
 	background: #fff;
 }	
 .HomeBox_n{
-
-    padding:51px 79px 0;
-	
+    padding:51px 79px 0;	
 	box-sizing: border-box;
     width: 100%;
 	display: flex;
@@ -144,29 +140,26 @@ export default {
 	
 }
 .HomeBox_nlxf{
-
 	width: 100%;
 	background:rgba(255,255,255,1);
-box-shadow:0px 1px 8px 0px rgba(0, 0, 0, 0.08);
-margin-bottom: 51px;
-padding-bottom: 20px;
+	box-shadow:0px 1px 8px 0px rgba(0, 0, 0, 0.08);
+	margin-bottom: 51px;
+	padding-bottom: 20px;
 }
 
 .Hcentbox>div{
-flex: 1;
+	flex: 1;
 	text-align: center;
 	font-size:14px;
-font-family:PingFang-SC-Medium;
-font-weight:500;
-color:rgba(0,0,0,1);
+	font-family:PingFang-SC-Medium;
+	font-weight:500;
+	color:rgba(0,0,0,1);
 }
 .Hcentbox{
-			display: flex;
+	display: flex;
 }
-
 .Hcentbox>div>div:nth-child(1){
-	width: 100px;
-	
+	width: 100px;	
 	margin:20px auto 15px;
 	font-size:28px;
 	font-family:PingFang-SC-Bold;
@@ -177,23 +170,19 @@ color:rgba(0,0,0,1);
 	width: 100px;
 	cursor: pointer;
 }
-
-
-
-
 .Hcentbox>div>div>h1{
 	font-size:14px;
-font-family:PingFang-SC-Regular;
-font-weight:400;
-color:rgba(0,0,0,1);
-margin-bottom: 12px;
+	font-family:PingFang-SC-Regular;
+	font-weight:400;
+	color:rgba(0,0,0,1);
+	margin-bottom: 12px;
 }
 .Hcentbox>div>div>div{
 	font-size:12px;
-font-family:PingFang-SC-Light;
-font-weight:300;
-color:rgba(0,0,0,1);
-opacity:0.85;
+	font-family:PingFang-SC-Light;
+	font-weight:300;
+	color:rgba(0,0,0,1);
+	opacity:0.85;
 }
 .HomeBox_nr{
 	width:366px;
@@ -201,11 +190,7 @@ opacity:0.85;
 	height:820px;
 	background:rgba(255,255,255,1);
 	box-shadow:0px 1px 8px 0px rgba(0, 0, 0, 0.08);
-}
-
-	
-	
-	
+}			
 .homBox{
 	margin-top: 63px;
 }
@@ -213,7 +198,6 @@ opacity:0.85;
 	display: inline-block;
 }
 .homBoxr{
-
 	margin: 51px 96px 0 0;
 	float: right;
 	height:820px;
@@ -226,22 +210,21 @@ opacity:0.85;
 	width: 65%;
 }
 .homBoxlbox{
-background:rgba(255,255,255,1);
-box-shadow:0px 1px 8px 0px rgba(0, 0, 0, 0.08);	
-margin-bottom: 50px;
+	background:rgba(255,255,255,1);
+	box-shadow:0px 1px 8px 0px rgba(0, 0, 0, 0.08);	
+	margin-bottom: 50px;
 }
 .homBoxlboxt{
 	width: 100%;
-height:66px;
-font-size:14px;
-font-family:PingFang-SC-Regular;
-font-weight:400;
-color:rgba(0,0,0,1);
-line-height: 66px;
-background:rgba(250,247,246,1);
-box-shadow:0px 1px 3px 0px rgba(0, 0, 0, 0.06);
-text-indent: 38px;
-
+	height:66px;
+	font-size:14px;
+	font-family:PingFang-SC-Regular;
+	font-weight:400;
+	color:rgba(0,0,0,1);
+	line-height: 66px;
+	background:rgba(250,247,246,1);
+	box-shadow:0px 1px 3px 0px rgba(0, 0, 0, 0.06);
+	text-indent: 38px;
 }
 
 @media only screen  and (max-width: 1380) {
@@ -258,30 +241,28 @@ text-indent: 38px;
 }
 .homBoxr2>div>div>h1{
 	font-size:14px;
-font-family:PingFang-SC-Regular;
-font-weight:400;
-color:rgba(0,0,0,1);
-margin-bottom: 12px;
+	font-family:PingFang-SC-Regular;
+	font-weight:400;
+	color:rgba(0,0,0,1);
+	margin-bottom: 12px;
 }
 .homBoxr2>div>div>div{
 	font-size:12px;
-font-family:PingFang-SC-Light;
-font-weight:300;
-color:rgba(0,0,0,1);
-opacity:0.85;
+	font-family:PingFang-SC-Light;
+	font-weight:300;
+	color:rgba(0,0,0,1);
+	opacity:0.85;
 }
 .homBoxr2>div>div:nth-child(1){
 	margin-right: 138px;
 }
 .homBoxlbox_a{
 	padding: 0 80px;
-
 }
 .homBoxlbox_a>div{
 	display: inline-block;
 	cursor: pointer;
 	text-align: center;
-
 }
 .homBoxlbox_a>div:hover{
 	opacity: .7;
@@ -291,29 +272,25 @@ opacity:0.85;
 }
 .homBoxlbox_a>div>div:nth-child(1){
 	font-size:28px;
-font-family:PingFang-SC-Bold;
-font-weight:bold;
-color:rgba(255,120,117,1);
-
+	font-family:PingFang-SC-Bold;
+	font-weight:bold;
+	color:rgba(255,120,117,1);
 }
 .homBoxlbox_a>div>div:nth-child(2){
-font-size:14px;
-font-family:PingFang-SC-Medium;
-font-weight:500;
-color:rgba(0,0,0,1);
+	font-size:14px;
+	font-family:PingFang-SC-Medium;
+	font-weight:500;
+	color:rgba(0,0,0,1);
 }
-.homBoxlbox_a>div img{
-	
+.homBoxlbox_a>div img{	
 	width: 100px;
-
 }
 .homBoxlbox_b>div{
 	margin-right: 22%;
 }
 .homBoxlbox_b>div:hover{
 	opacity: 1;
-	cursor: auto;
-	
+	cursor: auto;	
 }
 .tipboxd{
 	margin: 51px 0 0 79px;
@@ -321,16 +298,16 @@ color:rgba(0,0,0,1);
 	width: 65%;
 }
 .tipboxdtit{
-width: 100%;
-height:66px;
-font-size:14px;
-font-family:PingFang-SC-Regular;
-font-weight:400;
-color:rgba(0,0,0,1);
-line-height: 66px;
-background:rgba(250,247,246,1);
-box-shadow:0px 1px 3px 0px rgba(0, 0, 0, 0.06);
-text-indent: 38px;
+	width: 100%;
+	height:66px;
+	font-size:14px;
+	font-family:PingFang-SC-Regular;
+	font-weight:400;
+	color:rgba(0,0,0,1);
+	line-height: 66px;
+	background:rgba(250,247,246,1);
+	box-shadow:0px 1px 3px 0px rgba(0, 0, 0, 0.06);
+	text-indent: 38px;
 }
 .tipboxdtit1{
 	width: 100%;
@@ -358,7 +335,6 @@ text-indent: 38px;
 }
 .hoBox{
 	position: relative;
-
 	width: 100%;
 	min-height: 100%;
 	background: #fff;
@@ -371,28 +347,27 @@ text-indent: 38px;
 .hoBox1{
 	width: 100%;
 	height:251px;
-
 }
 .hoBox2{
 	position: absolute;
 	right: 96px;
 	top: 0;
 	width:366px;
-height:855px;
-background:rgba(255,255,255,1);
-box-shadow:0px 1px 8px 0px rgba(0, 0, 0, 0.08);
+	height:855px;
+	background:rgba(255,255,255,1);
+	box-shadow:0px 1px 8px 0px rgba(0, 0, 0, 0.08);
 }
 .hoBox1_t{
-width: 100%;
-height:66px;
-font-size:14px;
-font-family:PingFang-SC-Regular;
-font-weight:400;
-color:rgba(0,0,0,1);
-line-height: 66px;
-background:rgba(250,247,246,1);
-box-shadow:0px 1px 3px 0px rgba(0, 0, 0, 0.06);
-text-indent: 38px;
+	width: 100%;
+	height:66px;
+	font-size:14px;
+	font-family:PingFang-SC-Regular;
+	font-weight:400;
+	color:rgba(0,0,0,1);
+	line-height: 66px;
+	background:rgba(250,247,246,1);
+	box-shadow:0px 1px 3px 0px rgba(0, 0, 0, 0.06);
+	text-indent: 38px;
 }
 .hoBox1_c1{
 	box-sizing: border-box;
@@ -405,9 +380,7 @@ text-indent: 38px;
 	display: inline-block;
 	width: 25%;
 	text-align: center;
-
 }
-
 .xqList{
 	position: relative;
 	margin: 114px 75px 50px 365px;

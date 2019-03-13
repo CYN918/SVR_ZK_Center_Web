@@ -7,7 +7,6 @@
 		</div>
 	</div>
 </template>
-
 <script>
 import topNav from '../../components/topNav';
 import leftNav from '../../components/leftNav';	
@@ -18,8 +17,8 @@ export default {
 			letNav:'',
 		}
 	},
-	 components: {
-	    topNav,
+	components: {
+		topNav,
 		leftNav
 	},
 	mounted: function () {

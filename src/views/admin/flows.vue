@@ -63,7 +63,7 @@ import tables from '../common/tables.vue';
 						{title:'模糊搜索',type:'text',value:'search'},	
 					];	
 					
-				}).catch((error)=>{})				
+				}).catch(()=>{})				
 			},
 			settableConfig(){
 				this.tableConfig = {
@@ -77,8 +77,7 @@ import tables from '../common/tables.vue';
 						{prop:'description',lable:'投放内容描述'},
 						{prop:'size',lable:'素材尺寸'},
 						{prop:'finish_at',lable:'入库时间',sor:true},
-						{prop:'material_status',lable:'状态'},	
-						
+						{prop:'material_status',lable:'状态'},							
 					],
 					expand:[
 						{prop:'work_id',lable:'作品ID'},
@@ -90,17 +89,16 @@ import tables from '../common/tables.vue';
 						},
 					],
 					btns:[
-						{fnName:'xzFn',cls:'pldc',value:'批量导出',check:'1'},
+						{fnName:'need_export',cls:'pldc',value:'批量导出',check:'1'},
 					],
 				};
 			},
-			enloding(){				
-				this.$refs.Tabledd.lodingfalse();				
-			},
+			setLoding(type){
+				this.$refs.Tabledd.setLoding(type);	
+			},	
 			getData(sxtj){
+				this.setLoding(true);
 				if(sxtj){
-					
-					
 					Object.assign(this.screens, sxtj);
 					if(sxtj.type){
 						this.screens.type = [sxtj.type];
@@ -121,16 +119,14 @@ import tables from '../common/tables.vue';
 					} else{
 						delete this.screens.is_finished;
 					}
-					
-			
-					
 				}	
 				let params=this.screens;	
 				this.api.material_lists({params}).then( (response)=> {
-					this.tableData = this.clData(response);
-					this.enloding();
-				}).catch((error)=>{
 					
+					this.tableData = this.clData(response);
+					this.setLoding(false);
+				}).catch(()=>{
+					this.setLoding(false);
 				})				
 			},	
 			clData(data){
@@ -167,7 +163,7 @@ import tables from '../common/tables.vue';
 			downlods(on){
 				window.open(this.tableData[on.on].works[on.ons].attachment_url);
 			},
-			xzFn(data){
+			need_export(){
 	
 			},
 			checkNr(value){		
@@ -195,59 +191,14 @@ import tables from '../common/tables.vue';
 			},
 			checkStatus(value,on){	
 				if(!value){return}
-				console.log(on);
 				if(on==1){
 					return value =='1001'?'入库':value =='1101'?'使用中':value=='1201'?'使用过':'';
 				}
-				return value =='1001'?'待审核':value =='1101'?'使用中':value=='1201'?'使用过':'';
-								
+				return value =='1001'?'待审核':value =='1101'?'使用中':value=='1201'?'使用过':'';								
 			},
 		}
 	};
 </script>
 
 <style>
-.centNavBox{
-	position: relative;
-}
-.centNavBox .el-tabs__header{
-	background:rgba(255,255,255,1);
-	box-shadow:0px 1px 3px 0px rgba(0, 0, 0, 0.06);
-	margin-bottom: 0 !important;
-
-}
-.centNavBox .el-tabs__item{
-	background:rgba(250,247,246,1);
-	height: 60px;
-	font-size:14px;
-	line-height:60px ;
-	padding: 0 33px;
-	color:rgba(0,0,0,.65) !important;
-}
-.centNavBox .is-active{
-	background:rgba(255,255,255,1);
-	color:rgba(0,0,0,1) !important;
-}
-.qhstBtn{
-	position: absolute;
-	top: 19px;
-	right: 40px;
-	background:rgba(255,216,191,1) !important;
-	border-color: rgba(0, 0, 0, 0.06) !important;
-	color:rgba(255,255,255,1);
-}
-.centNavBox .el-tabs--card>.el-tabs__header .el-tabs__nav{
-	border: none !important;
-	padding-bottom:2px;
-}
-.el-tabs--card>.el-tabs__header{
-	border: none;
-	    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.06);
-}
-.el-tabs--card>.el-tabs__header .el-tabs__item{
-	border: none;
-	    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.06);
-}
-/* background:rgba(250,247,246,1);
-box-shadow:0px 1px 3px 0px rgba(0, 0, 0, 0.06); */
 </style>

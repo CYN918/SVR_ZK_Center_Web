@@ -66,23 +66,12 @@ export default {
 				config:{
 					title: {text:'每日数据趋势图',textStyle: {fontSize:14}},
 					tooltip: {trigger: 'axis'},
-					legend: {
-						y:'bottom',
-					    data:['广告流水','收益','设计师成本','渠道成本']
-					},
-					calculable : true,
-					xAxis : [
-						{
-						    type : 'category',
-						    boundaryGap : false,
-						   data:[]
-						}
-					],
-					yAxis : [{type : 'value',axisLabel : {formatter: '{value}'}}],
-					series : []		,
-						
-				},
-				
+					legend:{y:'bottom',data:['广告流水','收益','设计师成本','渠道成本']},
+					calculable:true,
+					xAxis:[{type:'category',boundaryGap:false,data:[]}],
+					yAxis:[{type:'value',axisLabel:{formatter:'{value}'}}],
+					series:[],						
+				},				
 				config2:{
 					title: {text: '产品收益占比',textStyle: {fontSize:14}},
 					tooltip: {title:"产品收益占比",trigger: 'item',formatter: "{a} <br/>{b}: {c} ({d}%)"}, 
@@ -103,7 +92,7 @@ export default {
 						}
 					]
 				}
-		    },
+			},
 			tableData:[],
 			chartData:{
 			},
@@ -133,7 +122,7 @@ export default {
 			this.api.data_income_related({params}).then((datas)=>{	
 				this.tableData = this.clDatax(datas);		
 				this.lodingfalse();
-			}).catch((error)=>{
+			}).catch(()=>{
 				this.lodingfalse();
 			})	
 			this.api.data_income_overall({params}).then((datas)=>{
@@ -143,7 +132,7 @@ export default {
 		{name:'渠道成本',num:datas.data.channel_cost,fp:datas.rate.channel_cost},
 		{name:'收益',num:datas.data.gross_profit,fp:datas.rate.gross_profit},
 				];
-			}).catch((error)=>{})			
+			}).catch(()=>{})			
 		},	
 
 		clDatax(data){		
@@ -159,10 +148,10 @@ export default {
 				console.log(el);
 				arr.push({
 					create_time:el,
-					ad_income:da[el].ad_income,
-					designer_cost:da[el].designer_cost,
-					channel_cost:da[el].channel_cost,
-					income:da[el].income,
+					ad_income:+da[el].ad_income,
+					designer_cost:+da[el].designer_cost,
+					channel_cost:+da[el].channel_cost,
+					income:+da[el].income,
 					channel:da[el].channel,
 					admaster:da[el].admaster,
 					gross_profit:da[el].gross_profit,
@@ -176,11 +165,12 @@ export default {
 			}	
 			this.tableConfig.cont=[
 				'汇总',
+				'--',
 				data.total_data.ad_income,
 				data.total_data.designer_cost,
 				data.total_data.channel_cost,
 				data.total_data.income,					
-				'--',
+				data.total_data.gross_profit,	
 				'--'
 			];
 			for(let el in data.channelIncome){
