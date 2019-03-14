@@ -14,7 +14,7 @@ export default {
 				total:0,
 			},
 			searchConfig:{
-				title:"广告图详细数据",
+				title:"锁屏壁纸详细数据",
 				tipData:[
 					{h1:"展示量",p:"所选日期内，素材展示次数PV"},
 					{h1:"点击量",p:"所选日期内，素材点击次数PV"},
@@ -28,7 +28,7 @@ export default {
 				],
 				list:[					
 					{title:'日期',type:'times',value:'start_time'},
-					{title:'素材ID',type:'text',value:'picture_id'},
+					{title:'素材ID',type:'text',value:'wallpaper_id'},
 					{title:'广告ID',type:'text',value:'ad_id'},
 					{title:'渠道',type:'get_channel',value:'channel'},
 					{title:'广告位类型',type:'get_ad_space_type',value:'ad_space_type'},
@@ -36,14 +36,15 @@ export default {
 					{title:'广告位ID',type:'get_ad_space_id',value:'ad_space_id'},
 				],
 			},
-		
 			tableConfig:{
 				total:0,
 				ischeck:false,
 				'show-summary':true,
 				list:[
-					{prop:'create_time',lable:'日期',sor:true},				
-					{prop:'picture_id',lable:'素材ID',wzimg:{cls:'',type:'text'}},
+					{prop:'create_time',lable:'日期',sor:true},
+					{prop:'wallpaper_id',lable:'素材ID',
+						poclick:{cls:' ',type:'text',value:'查看',fnName:'seeXx1'},				
+					},
 					{prop:'ad_id',lable:'广告ID'},	
 					{prop:'ad_name',lable:'广告名称'},
 					{prop:'channel',lable:'渠道'},
@@ -69,13 +70,14 @@ export default {
 			ChartConfig:{},
 			tableData:[],
 			chartData:[],
-			
 		}
 	},
-	mounted: function () {		
+	mounted: function () {	
+	
 		this.getData();
 	}, 
 	methods: {
+
 		seeXx1(on){
 			if(this.tableData[on].img_url){
 				window.open(this.tableData[on].img_url);
@@ -86,6 +88,10 @@ export default {
 		lodingfalse(){
 			this.$refs.Tablde.lodingfalse();	
 		},
+		ajaxget(data,fn){
+			console.log(fn);
+			fn([{value:1}])
+		},
 		getData(sxtj){
 			if(sxtj){
 				Object.assign(this.screens, sxtj);	
@@ -93,18 +99,13 @@ export default {
 					this.screens.end_time = this.screens.start_time[1];
 					this.screens.start_time = this.screens.start_time[0];
 				}																
-			}
-			let params = this.screens;			
-			if(this.$route.query.picture_id && !params.picture_id){
-				params.picture_id = this.$route.query.picture_id;
-			}
-			if(this.$route.query.times && !params.start_time){
-				params.start_time = this.$route.query.times;
-				params.end_time = this.$route.query.times;
 			}	
-			this.api.data_ad_material_picture_detail({params}).then((datas)=>{									
-				this.tableData = this.clData(datas);
-				this.$previewRefresh();		
+			let params = this.screens;	
+			if(this.$route.query.bizi_id && !params.bizi_id){
+				params.bizi_id = this.$route.query.bizi_id;
+			}
+			this.api.data_ad_material_wallpaper_detail({params}).then((datas)=>{									
+				this.tableData = this.clData(datas);		
 				this.lodingfalse();
 			}).catch(()=>{
 				this.lodingfalse();
@@ -118,7 +119,7 @@ export default {
 				arr.push(
 					{
 						create_time:da[i].create_time,
-						picture_id:da[i].picture_id,
+						bizi_id:da[i].bizi_id,
 						pv:+da[i].pv,
 						click:+da[i].click,
 						click_ratio:da[i].click_ratio,

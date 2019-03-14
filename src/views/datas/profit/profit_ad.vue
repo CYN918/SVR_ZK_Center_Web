@@ -39,14 +39,14 @@ export default {
 				ischeck:false,
 				'show-summary':true,
 				list:[
-					{prop:'create_time',lable:'日期'},
+					{prop:'create_time',lable:'日期',sor:true},
 					{prop:'ad_id',lable:'广告ID'},
 					{prop:'ad_name',lable:'广告名称'},
 					{prop:'admaster',lable:'广告主'},
-					{prop:'ad_income',lable:'广告流水'},
-					{prop:'designer_cost',lable:'设计师成本'},
-					{prop:'channel_cost',lable:'渠道成本'},
-					{prop:'income',lable:'收益'},					
+					{prop:'ad_income',lable:'广告流水',sor:true},
+					{prop:'ds_cost',lable:'设计师成本',sor:true},
+					{prop:'channel_cost',lable:'渠道成本',sor:true},
+					{prop:'total_income',lable:'收益',sor:true},					
 					{prop:'gross_profit',lable:'毛利率'},
 				],
 				btns:[
@@ -68,10 +68,7 @@ export default {
 		lodingfalse(){
 			this.$refs.Tablde.lodingfalse();	
 		},
-		ajaxget(data,fn){
-			console.log(fn);
-			fn([{value:1}])
-		},
+
 		getData(sxtj){
 			if(sxtj){
 				Object.assign(this.screens, sxtj);	
@@ -85,7 +82,7 @@ export default {
 			this.api.data_income_related({params}).then((datas)=>{	
 				this.tableData = this.clDatax(datas);		
 				this.lodingfalse();
-			}).catch((error)=>{
+			}).catch(()=>{
 				this.lodingfalse();
 			})				
 		},	
@@ -99,10 +96,10 @@ export default {
 					ad_id:da[el].ad_id,
 					ad_name:da[el].ad_name,
 					admaster:da[el].admaster,
-					ad_income:da[el].ad_income,
-					designer_cost:da[el].designer_cost,
-					channel_cost:da[el].channel_cost,
-					income:da[el].income,
+					ad_income:+da[el].ad_income,
+					ds_cost:+da[el].ds_cost,
+					channel_cost:+da[el].channel_cost,
+					total_income:+da[el].total_income,
 					gross_profit:da[el].gross_profit,
 				});
 				
@@ -114,9 +111,9 @@ export default {
 				'--',
 				'--',
 				data.total_data.ad_income,
-				data.total_data.designer_cost,
+				data.total_data.ds_cost,
 				data.total_data.channel_cost,
-				data.total_data.income,
+				data.total_data.total_income,
 				data.total_data.gross_profit,				
 				'--',
 			];

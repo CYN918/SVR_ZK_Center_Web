@@ -14,7 +14,7 @@ export default {
 				total:0,
 			},
 			searchConfig:{
-				title:"广告图详细数据",
+				title:"广告主详细数据",
 				tipData:[
 					{h1:"展示量",p:"所选日期内，素材展示次数PV"},
 					{h1:"点击量",p:"所选日期内，素材点击次数PV"},
@@ -27,29 +27,31 @@ export default {
 					{h1:"ECPC",p:"单次点击可获得的广告流水收入"},
 				],
 				list:[					
-					{title:'日期',type:'times',value:'start_time'},
-					{title:'素材ID',type:'text',value:'picture_id'},
+					{title:'日期',type:'times',value:'start_date'},		
+					{title:'广告主',type:'get_ad_master',value:'admaster'},
 					{title:'广告ID',type:'text',value:'ad_id'},
-					{title:'渠道',type:'get_channel',value:'channel'},
+					{title:'广告名称',type:'text',value:'ad_name'},
+					{title:'广告位ID',type:'get_ad_space_id',value:'ad_space_id'},				
 					{title:'广告位类型',type:'get_ad_space_type',value:'ad_space_type'},
-					{title:'广告位名称',type:'get_ad_space_name',value:'ad_space_name'},
-					{title:'广告位ID',type:'get_ad_space_id',value:'ad_space_id'},
+					{title:'产品',type:'get_product',value:'product'},
+					{title:'合作类型',type:'get_work_type',value:'work_type'},
+					
+					
 				],
 			},
-		
 			tableConfig:{
 				total:0,
 				ischeck:false,
 				'show-summary':true,
 				list:[
-					{prop:'create_time',lable:'日期',sor:true},				
-					{prop:'picture_id',lable:'素材ID',wzimg:{cls:'',type:'text'}},
-					{prop:'ad_id',lable:'广告ID'},	
+					{prop:'create_time',lable:'日期',sor:true},
+					{prop:'admaster',lable:'广告主'},
+					{prop:'work_type_name',lable:'合作类型'},
+					{prop:'ad_id',lable:'广告ID'},
 					{prop:'ad_name',lable:'广告名称'},
-					{prop:'channel',lable:'渠道'},
 					{prop:'ad_space_id',lable:'广告位ID'},
 					{prop:'ad_space_type',lable:'广告位类型'},
-					{prop:'ad_space_name',lable:'广告位名称'},
+					{prop:'product',lable:'产品'},
 					{prop:'pv',lable:'展示量',sor:true},					
 					{prop:'click',lable:'点击量',sor:true},
 					{prop:'click_ratio',lable:'点击率'},
@@ -58,8 +60,7 @@ export default {
 					{prop:'activ',lable:'激活量',sor:true},
 					{prop:'income',lable:'流水',sor:true},
 					{prop:'ecpm',lable:'ECPM',sor:true},
-					{prop:'ecpc',lable:'ECPC',sor:true},
-	
+					{prop:'ecpc',lable:'ECPC',sor:true},					
 				],
 				btns:[
 					{fnName:'xzFn',cls:'pldc ',value:'导出数据'},
@@ -69,20 +70,12 @@ export default {
 			ChartConfig:{},
 			tableData:[],
 			chartData:[],
-			
 		}
 	},
-	mounted: function () {		
+	mounted: function () {	
 		this.getData();
 	}, 
-	methods: {
-		seeXx1(on){
-			if(this.tableData[on].img_url){
-				window.open(this.tableData[on].img_url);
-			}else{
-				this.$message('该素材图片错误！');
-			}
-		},
+	methods: {	
 		lodingfalse(){
 			this.$refs.Tablde.lodingfalse();	
 		},
@@ -93,18 +86,14 @@ export default {
 					this.screens.end_time = this.screens.start_time[1];
 					this.screens.start_time = this.screens.start_time[0];
 				}																
-			}
-			let params = this.screens;			
-			if(this.$route.query.picture_id && !params.picture_id){
-				params.picture_id = this.$route.query.picture_id;
-			}
-			if(this.$route.query.times && !params.start_time){
-				params.start_time = this.$route.query.times;
-				params.end_time = this.$route.query.times;
 			}	
-			this.api.data_ad_material_picture_detail({params}).then((datas)=>{									
-				this.tableData = this.clData(datas);
-				this.$previewRefresh();		
+			let params = this.screens;	
+			if(this.$route.query.admaster){
+				params.admaster = this.$route.query.admaster;
+			}
+		
+			this.api.data_ad_master_detail({params}).then((datas)=>{									
+				this.tableData = this.clData(datas);		
 				this.lodingfalse();
 			}).catch(()=>{
 				this.lodingfalse();
@@ -118,7 +107,13 @@ export default {
 				arr.push(
 					{
 						create_time:da[i].create_time,
-						picture_id:da[i].picture_id,
+						admaster:da[i].admaster,
+						work_type_name:da[i].work_type_name,						
+						ad_id:da[i].ad_id,
+						ad_name:da[i].ad_name,
+						ad_space_id:da[i].work_type,
+						ad_space_type:da[i].work_type,
+						product:da[i].product,
 						pv:+da[i].pv,
 						click:+da[i].click,
 						click_ratio:da[i].click_ratio,
@@ -128,13 +123,7 @@ export default {
 						income:+da[i].income,
 						ecpm:+da[i].ecpm,
 						ecpc:+da[i].ecpc,
-						ad_id:da[i].ad_id,
-						ad_name:da[i].ad_name,
-						channel:da[i].channel,
-						ad_space_id:da[i].ad_space_id,
-						ad_space_type:da[i].ad_space_type,
-						ad_space_name:da[i].ad_space_name,
-						img_url:da[i].img_url
+						
 					},
 				);
 			}
@@ -160,11 +149,10 @@ export default {
 			];
 			return arr;
 		},
-
+		
 	}
 }
 </script>
 
 <style>
-
 </style>

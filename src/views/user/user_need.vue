@@ -9,7 +9,7 @@
 	</div>	
 </template>
 <script>
-import tables from '../common/newTable';
+import tables from '../common/tables';
 export default {	
 	components:{tables},
     data() {		

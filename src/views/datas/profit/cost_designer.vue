@@ -40,11 +40,9 @@ export default {
 				'show-summary':true,
 				list:[
 					{prop:'create_time',lable:'日期'},
-					{prop:'material_id',lable:'素材ID',
-						poclick:{cls:' ',type:'text',value:'查看',fnName:'seeXx1'},				
-					},
+					{prop:'material_id',lable:'素材ID',wzimg:{cls:'',type:'text'}},
 					{prop:'material_type',lable:'素材类型'},					
-					{prop:'cost',lable:'设计师成本'},
+					{prop:'cost',lable:'设计师成本',sor:true},
 					{prop:'create_time',lable:'入库日期'},
 				],
 				btns:[
@@ -54,72 +52,28 @@ export default {
 			},
 			ChartConfig:{
 				onched:'日活PV',
-				 
-		        topldNav:['日活PV','月活UV','PV/UV','新增用户','累积用户','周活跃用户','月活跃用户','新增用户次日留存','平均单次使用时长','平均日使用时长'],
+				topldNav:['日活PV','月活UV','PV/UV','新增用户','累积用户','周活跃用户','月活跃用户','新增用户次日留存','平均单次使用时长','平均日使用时长'],
 				config:{
-				 title: {
-					text: '每日数据趋势图',
-					textStyle:{fontSize:14}
-				},
+					title: {text: '每日数据趋势图',textStyle:{fontSize:14}},
 					tooltip: {trigger: 'axis'},
-					legend: {
-						 y:'bottom',
-					    data:['A1007','D1009','A1009']
-					},
+					legend: {y:'bottom',data:['A1007','D1009','A1009']},
 								
 					
 					calculable : true,
-					 xAxis : [
-					    {
-					        type : 'category',
-					        boundaryGap : false,
-					        data : ['2018-12-21','2018-12-21','2018-12-21','2018-12-21','2018-12-21','2018-12-21','2018-12-21']
-					    }
-					],
-					yAxis : [
-					    {
-					        type : 'value',
-					        axisLabel : {
-					            formatter: '{value} k'
-					        }
-					    }
-					],
+					xAxis:[{type:'category',boundaryGap:false,data:[]}],
+					yAxis:[{type : 'value',axisLabel : {formatter: '{value} k'}}],
 					series : [
-					    {
-					        name:'A1007',
-					        type:'line',
-							
-							color: 'rgba(105,192,255,1)',
-							 
-					        data:[11, 11, 15, 13, 12, 30, 40],
-					     
-					    },
-					    {
-					        name:'D1009',
-					        type:'line',
-							color: 'rgba(230,0,18,1)',
-					        data:[1, 30, 2, 5, 3, 2, 0],
-					       
-					        
-					    },
-						{
-						    name:'A1009',
-						    type:'line',
-							color: 'rgba(24,237,79,1)',
-						    data:[1, 0, 2, 5, 3, 2, 0],
-						   
-						    
-						}
+						
 					]
 					
 				},
 				config2:{
-					  title: {
-						text: '极坐标双数值轴',
+					title: {
+						text: '素材类型成本占比',
 						textStyle:{fontSize:14}
 					},
 					tooltip: {
-						title:"TOP5渠道收益占比",
+						title:"素材类型成本占比",
         trigger: 'item',
         formatter: "{a} <br/>{b}: {c} ({d}%)"
     },
@@ -157,11 +111,8 @@ export default {
             ]
         }
     ]
-				}
-				
-		       
-		        
-		    },
+				}  
+			},
 			tableData:[],
 			chartData:{},
 		}
@@ -180,6 +131,9 @@ export default {
 		lodingfalse(){
 			this.$refs.Tablde.lodingfalse();	
 		},
+		setData(data){
+			this.$refs.Tablde.setData(data);	
+		},
 		getData(sxtj){
 			if(sxtj){
 				Object.assign(this.screens, sxtj);	
@@ -190,14 +144,20 @@ export default {
 			}	
 			let params = this.screens;	
 			this.api.data_cost_designer({params}).then((datas)=>{									
-				this.tableData = this.clData(datas);		
+				this.tableData = this.clData(datas);
+				this.$previewRefresh();
 				this.lodingfalse();
-			}).catch((error)=>{
+			}).catch(()=>{
 				this.lodingfalse();
 			})			
 		},			
 		clData(data){
-			let arr  = [];
+			let arr  = [],arr1=[],arr2=arr2=[
+				{name:'总成本',type:'line',color:'rgb(91,155,213)',data:[]},
+				{name:'广告图成本',type:'line',color:'rgb(255,192,0)',data:[]},
+				{name:'广告模版成本',type:'line',color:'rgb(165,165,165)',data:[]},
+				{name:'锁屏壁纸成本',type:'line',color:'rgb(237,128,54)',data:[]}
+			],arr3=[];
 			this.tableConfig.total=data.total_count;
 			let da = data.data;						
 			for(let i=0,n=da.length;i<n;i++){
@@ -206,12 +166,26 @@ export default {
 						create_time:da[i].create_time,
 						material_id:da[i].material_id,
 						material_type:this.checkNr(da[i].material_type),
-						cost:da[i].cost,
-						create_time:da[i].create_time,
+						cost:+da[i].cost,
+			
 						img_url:da[i].img_url,
 					},
 				);
-			};
+			}
+			let pn=0;
+			console.log("xx")
+			for(let el in data.daily_data){
+				if(pn>30){
+					break
+				}				
+				arr1.push(el);
+				arr2[0].data.push(data.daily_data[el].total);
+				arr2[1].data.push(data.daily_data[el].picture);
+				arr2[2].data.push(data.daily_data[el].template);
+				arr2[3].data.push(data.daily_data[el].wallpaper);
+				pn++;
+			}
+			console.log("pp")
 			this.tableConfig.cont = [
 				'汇总',
 				'--',
@@ -220,7 +194,22 @@ export default {
 				'--'
 			];
 			
-		
+			for(let el in data.material_type_data){
+				arr3.push({value:data.material_type_data[el], name:el});
+			}
+			this.ChartConfig.config.xAxis = [{
+				type : 'category',
+				boundaryGap : false,
+				data:arr1
+			}];
+			this.ChartConfig.config.series =arr2;
+			
+			this.ChartConfig.config2.series[0].data = arr3;	
+			let bztno = false;
+			if(this.screens.channel || this.screens.product || this.screens.ad_space_type || this.screens.admaster){
+				bztno = true;
+			}
+			this.setData({one:this.ChartConfig.config,two:this.ChartConfig.config2,bztno:bztno});
 			return arr;
 		},
 		checkNr(value){		

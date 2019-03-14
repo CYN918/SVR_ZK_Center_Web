@@ -19,10 +19,15 @@ import AdminIndex from './views/admin/index.vue'
 mode['admin'] = AdminIndex
 import AdminNeed from './views/admin/needList.vue'
 mode['needList'] = AdminNeed
-import AdminMaterial from './views/admin/material.vue'
-mode['material_picture'] = AdminMaterial
-mode['material_resource'] = AdminMaterial
-mode['material_wallpaper'] = AdminMaterial
+// import AdminMaterial from './views/admin/material.vue'
+import material_picture from './views/admin/material_picture.vue'
+import material_resource from './views/admin/material_resource.vue'
+import material_wallpaper from './views/admin/material_wallpaper.vue'
+mode['material_picture'] = material_picture
+mode['material_resource'] = material_resource
+mode['material_wallpaper'] = material_wallpaper
+
+
 import AdminFlows from './views/admin/flows.vue'
 mode['material_flows'] = AdminFlows
 import AdminMaterialLib from './views/admin/materialLib.vue'

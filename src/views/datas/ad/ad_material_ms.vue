@@ -42,9 +42,7 @@ export default {
 				'show-summary':true,
 				list:[
 					{prop:'create_time',lable:'日期',sor:true},
-					{prop:'template_id',lable:'素材ID',
-						poclick:{cls:' ',type:'text',value:'查看',fnName:'seeXx1'},				
-					},
+					{prop:'template_id',lable:'素材ID',wzimg:{cls:'',type:'text'}},
 					{prop:'ad_id',lable:'广告ID'},	
 					{prop:'ad_name',lable:'广告名称'},
 					{prop:'channel',lable:'渠道'},
@@ -78,21 +76,8 @@ export default {
 		this.getData();
 	}, 
 	methods: {
-
-		seeXx1(on){
-			if(this.tableData[on].img_url){
-				window.open(this.tableData[on].img_url);
-			}else{
-				this.$message('该素材图片错误！');
-			}
-		},
-
 		lodingfalse(){
 			this.$refs.Tablde.lodingfalse();	
-		},
-		ajaxget(data,fn){
-			console.log(fn);
-			fn([{value:1}])
 		},
 		getData(sxtj){
 			if(sxtj){
@@ -106,8 +91,15 @@ export default {
 			if(this.$route.query.template_id && !params.template_id){
 				params.template_id = this.$route.query.template_id;
 			}
+			if(this.$route.query.times && !params.start_time){
+				params.start_time = this.$route.query.times;
+				params.end_time = this.$route.query.times;
+			}	
+			
+			
 			this.api.data_ad_material_template_detail({params}).then((datas)=>{									
-				this.tableData = this.clData(datas);		
+				this.tableData = this.clData(datas);
+				this.$previewRefresh();
 				this.lodingfalse();
 			}).catch(()=>{
 				this.lodingfalse();

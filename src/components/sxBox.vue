@@ -26,7 +26,6 @@
 		},
 		methods: {
 			sx(){		
-				console.log(this.bind);
 				this.$emit("sxFn",this.bind);  
 			},
 		}		

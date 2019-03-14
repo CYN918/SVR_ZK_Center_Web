@@ -23,7 +23,7 @@ export default {
 					{h1:"平均停留时长",p:"所选日期内，广告落地页的平均停留时长"},
 				],
 				list:[					
-					{title:'日期',type:'timed',value:'date'},	
+					{title:'日期',type:'times',value:'start_time'},	
 					{title:'素材ID',type:'text',value:'search'},
 					{title:'渠道',type:'get_channel',value:'channel'},
 				],
@@ -162,7 +162,16 @@ export default {
 																		
 			}
 			let params = this.screens;
-				
+			if(this.$route.query.bz_id && !params.bz_id){
+				params.bz_id = this.$route.query.bz_id;
+			}
+			if(this.$route.query.channel && !params.channel){
+				params.channel = this.$route.query.channel;
+			}
+			if(this.$route.query.times && !params.start_time){
+				params.start_time = this.$route.query.times;
+				params.end_time = this.$route.query.times;
+			}		
 			this.api.data_gionee_lock_behavior_wallpaper_ad({params}).then((datas)=>{									
 				this.tableData = this.clData(datas);		
 				this.lodingfalse();

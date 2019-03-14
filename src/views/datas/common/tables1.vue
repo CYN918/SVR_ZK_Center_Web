@@ -2,9 +2,9 @@
 	<div>
 		<sxbox :searchConfig="searchConfig" @sxFn="sxFn"></sxbox>
 		<div class="nTableBox">
-			<div class="newTile2 mag1">数据总览</div>
-			<div class="dataszl">
-				<span v-for="el in ChartConfig.numbcont"><div>{{el.num}}<span>{{el.fp}}</span></div><div>{{el.name}}</div></span>		
+			<div v-if="ChartConfig.numbcont" class="newTile2 mag1">数据总览</div>
+			<div v-if="ChartConfig.numbcont" class="dataszl">
+				<span v-for="el in ChartConfig.numbcont" :key="el.name"><div>{{el.num}}<span>{{el.fp}}</span></div><div>{{el.name}}</div></span>		
 			</div>
 			<div class="newTile2 mag1">数据趋势</div>
 			<div class="mychfbox">
@@ -20,11 +20,10 @@
 </template>
 <script>
 import sxbox from './sxBox';
-import myChart from './chare';
 import scTable from '../../../components/scTable';
 export default {
 	props:['searchConfig','tableConfig','ChartConfig','chartData','tableData'],
-	components:{sxbox,scTable,myChart},
+	components:{sxbox,scTable},
 	data(){
 		return{
 			bind:{},
@@ -55,6 +54,9 @@ export default {
 					window.myChart_profit_d2.resize();
 				}				
 			},false);
+		},
+		setLoding(type){
+			this.$refs.Table.setLoding(type);	
 		},
 		setData(data){
 			if(!data.bztno){				
@@ -87,7 +89,6 @@ export default {
 		},
 		setPage(num){
 			this.onSxData.page = num;
-			console.log(22222222);
 			this.$emit("screenFn",{page:num}); 
 		},
 		xzFn(data){
@@ -136,7 +137,7 @@ export default {
 	background: #fff;
 }
 .dataszl{
-display:-webkit-box;
+	display:-webkit-box;
     display:-webkit-flex;
     display:-ms-flexbox;
     display:flex;
@@ -164,13 +165,13 @@ display:-webkit-box;
 .mag1{margin-bottom: 17px;}
 .dataszl>span>div:nth-child(1){
 	font-size:32px;
-font-family:PingFang-SC-Regular;
-font-weight:400;
-color:rgba(0,0,0,1);
+	font-family:PingFang-SC-Regular;
+	font-weight:400;
+	color:rgba(0,0,0,1);
 }
 .dataszl>span>div:nth-child(1)>span{
 	margin-left: 16px;
-	    text-align: center;
+	text-align: center;
 	vertical-align: middle;
 	font-size:12px;
 	font-family:PingFang-SC-Light;
@@ -178,8 +179,7 @@ color:rgba(0,0,0,1);
 	color:rgba(0,0,0,1);
 }
 .dataszl>span>div:nth-child(2){
-
-       text-align: left;
+	text-align: left;
     text-indent: 3px;
     vertical-align: top;
 	font-size:12px;

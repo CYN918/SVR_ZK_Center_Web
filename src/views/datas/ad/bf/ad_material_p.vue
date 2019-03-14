@@ -14,14 +14,14 @@ export default {
 					{title:'素材ID',type:'text',value:'picture_id'},					
 				],
 				api:'data_ad_material_picture',
-				url:'/#/data/ad_material_ps?',
-				pr:[{k:'picture_id',v:'picture_id'},{k:'times',v:'create_time'}],
-				
+				url:'/#/data/ad_material_ps?picture_id='
 			},
-			tableConfig:[
-				{prop:'picture_id',lable:'素材ID',wzimg:{cls:'',type:'text'}},
-				{prop:'description',lable:'广告详情',temps:[{cls:'hsetext',type:'text',value:'查看详情',fnName:'seeXx2'}]}				
-			]
+			tableConfig:{prop:'description',lable:'广告详情',
+				temps:[
+					{cls:'hsetext',type:'text',value:'查看详情',fnName:'seeXx2'},								
+				]	
+			},	
+			
 		}
 	},
 }

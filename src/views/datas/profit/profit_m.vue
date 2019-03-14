@@ -41,21 +41,21 @@ export default {
 					{prop:'create_time',lable:'月份',sor:true},
 					{prop:'ad_income',lable:'广告流水'},
 					{prop:'designer_cost',lable:'设计师成本',sor:true,
-						poclick:{cls:' ',type:'text',value:'查看',fnName:'seeXx3'},		
+						poclick:{cls:' ',type:'text',value:'查看',fnName:'seeXx1'},		
 					},					
 					{prop:'channel_cost',lable:'渠道成本',sor:true,
-						poclick:{cls:' ',type:'text',value:'查看',fnName:'seeXx4'},		
+						poclick:{cls:' ',type:'text',value:'查看',fnName:'seeXx2'},		
 					},
 					{prop:'income',lable:'收益',sor:true},
 					{prop:'gross_profit',lable:'毛利率'},
 					{prop:'channel',lable:'渠道',
 						temps:[
-							{cls:'hsetext',type:'text',value:'查看详情',fnName:'seeXx1'},								
+							{cls:'hsetext',type:'text',value:'查看详情',fnName:'seeXx3'},								
 						]	
 					},
 					{prop:'admaster',lable:'广告主',
 						temps:[
-							{cls:'hsetext',type:'text',value:'查看详情',fnName:'seeXx2'},								
+							{cls:'hsetext',type:'text',value:'查看详情',fnName:'seeXx4'},								
 						]	
 					},				
 				],
@@ -118,24 +118,26 @@ export default {
 	}, 
 	methods: {	
 		seeXx1(on){
-			window.open('/#/data/profit_channel?time='+this.tableData[on].create_time)
+			window.open('/#/data/cost_designer?times='+this.tableData[on].create_time)					
 		},
 		seeXx2(on){
-			window.open('/#/data/profit_user?time='+this.tableData[on].create_time)
+			window.open('/#/data/cost_channel?times='+this.tableData[on].create_time)
+			
 		},
 		seeXx3(on){
-			window.open('/#/data/cost_channel?time='+this.tableData[on].create_time)
+			window.open('/#/data/profit_channel?times='+this.tableData[on].create_time)
 		},
 		seeXx4(on){
-			window.open('/#/data/cost_designer?time='+this.tableData[on].create_time)
+			window.open('/#/data/profit_user?times='+this.tableData[on].create_time)	
 		},
-		lodingfalse(){
-			this.$refs.Tablde.lodingfalse();	
+		setLoding(type){
+			this.$refs.Tablde.setLoding(type);	
 		},
 		setData(data){
 			this.$refs.Tablde.setData(data);	
 		},
 		getData(sxtj){
+			this.setLoding(true);
 			if(sxtj){
 				Object.assign(this.screens, sxtj);	
 				if(sxtj.start_time){
@@ -147,9 +149,9 @@ export default {
 			params.date_type = 'month';
 			this.api.data_income_report({params}).then((datas)=>{	
 				this.tableData = this.clDatax(datas);		
-				this.lodingfalse();
+				this.setLoding(false);
 			}).catch(()=>{
-				this.lodingfalse();
+				this.setLoding(false);
 			})	
 			this.api.data_income_overall({params}).then((datas)=>{
 				this.ChartConfig.numbcont = [

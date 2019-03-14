@@ -38,7 +38,7 @@ export default {
 					{prop:'id',lable:'素材Id'},
 					{prop:'preview_url',lable:'预览图',type:'imgs'},
 					{prop:'material_type',lable:'风格分类'},
-					{prop:'position',lable:'广告位数量'},
+					{prop:'space_num',lable:'广告位数量'},
 					{prop:'size',lable:'素材尺寸'},
 					{prop:'price',lable:'价格'},
 					{prop:'material_status',lable:'状态'},
@@ -115,8 +115,8 @@ export default {
 				this.addAjaxType =0;
 			})				
 		},
-		enloding(){
-			this.$refs.Tabledd.lodingfalse();		
+		setLoding(type){
+			this.$refs.Tabledd.setLoding(type);	
 		},		
 		setScreenConfig(){
 			this.api.sysconfig_material().then((data)=>{	
@@ -149,6 +149,7 @@ export default {
 				}).catch(()=>{})		
 		},
 		getData(sxtj){	
+			this.setLoding(true);
 			if(sxtj){
 				Object.assign(this.screens, sxtj);	
 				if(sxtj.start_date){
@@ -164,9 +165,9 @@ export default {
 		
 			this.api.material_wallpaperPut({params}).then((data)=>{	
 				this.tableData =this.clData(data);	
-				this.enloding();
+				this.setLoding(false);
 			}).catch(()=>{
-				this.enloding();
+				this.setLoding(false);
 			})	
 
 		},
@@ -180,7 +181,7 @@ export default {
 						id:da[i].id,
 						preview_url:da[i].preview_url,
 						material_type:this.checkNr(da[i].material_type),
-						position:da[i].position,
+						space_num:da[i].extend.space_num,
 						description:da[i].description,
 						size:da[i].size,
 						price:da[i].price,

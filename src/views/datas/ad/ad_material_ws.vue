@@ -42,9 +42,7 @@ export default {
 				'show-summary':true,
 				list:[
 					{prop:'create_time',lable:'日期',sor:true},
-					{prop:'wallpaper_id',lable:'素材ID',
-						poclick:{cls:' ',type:'text',value:'查看',fnName:'seeXx1'},				
-					},
+					{prop:'wallpaper_id',lable:'素材ID',wzimg:{cls:'',type:'text'}},
 					{prop:'ad_id',lable:'广告ID'},	
 					{prop:'ad_name',lable:'广告名称'},
 					{prop:'channel',lable:'渠道'},
@@ -104,8 +102,13 @@ export default {
 			if(this.$route.query.bizi_id && !params.bizi_id){
 				params.bizi_id = this.$route.query.bizi_id;
 			}
+			if(this.$route.query.times && !params.start_time){
+				params.start_time = this.$route.query.times;
+				params.end_time = this.$route.query.times;
+			}	
 			this.api.data_ad_material_wallpaper_detail({params}).then((datas)=>{									
-				this.tableData = this.clData(datas);		
+				this.tableData = this.clData(datas);
+				this.$previewRefresh();
 				this.lodingfalse();
 			}).catch(()=>{
 				this.lodingfalse();

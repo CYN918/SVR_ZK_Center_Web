@@ -123,6 +123,12 @@ export default {
 			}	
 			let params = this.screens;	
 			params.type = 1;
+			if(this.$route.query.times && !params.start_time){
+				params.start_time = this.$route.query.times;
+				params.end_time = this.$route.query.times;
+			}	
+			
+			
 			this.api.data_income_related({params}).then((datas)=>{	
 				this.tableData = this.clDatax(datas);		
 				this.lodingfalse();
@@ -159,12 +165,20 @@ export default {
 					gross_profit:da[el].gross_profit,
 					product:da[el].product,
 				});
-				arr1.push(da[el].create_time);
-				arr2[0].data.push(da[el].ad_income);
-				arr2[1].data.push(da[el].total_income);
-				arr2[2].data.push(da[el].ds_cost);
-				arr2[3].data.push(da[el].channel_cost);
+				
 			}	
+			let pn=0;
+			for(let el in data.daily_data){
+				if(pn>30){
+					break
+				}				
+				arr1.push(el);
+				arr2[0].data.push(data.daily_data[el].ad_income);
+				arr2[1].data.push(data.daily_data[el].income);
+				arr2[2].data.push(data.daily_data[el].designer_cost);
+				arr2[3].data.push(data.daily_data[el].channel_cost);
+				pn++;
+			}
 			this.tableConfig.cont=[
 				'汇总',
 				'--',

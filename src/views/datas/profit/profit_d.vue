@@ -39,21 +39,21 @@ export default {
 					{prop:'create_time',lable:'日期',sor:true},
 					{prop:'ad_income',lable:'广告流水',sor:true},
 					{prop:'designer_cost',lable:'设计师成本',sor:true,
-						poclick:{cls:' ',type:'text',value:'查看',fnName:'seeXx3'},		
+						poclick:{cls:' ',type:'text',value:'查看',fnName:'seeXx1'},		
 					},					
 					{prop:'channel_cost',lable:'渠道成本',sor:true,
-						poclick:{cls:' ',type:'text',value:'查看',fnName:'seeXx4'},		
+						poclick:{cls:' ',type:'text',value:'查看',fnName:'seeXx2'},		
 					},
 					{prop:'income',lable:'收益',sor:true},
 					{prop:'gross_profit',lable:'毛利率'},
 					{prop:'channel',lable:'渠道',
 						temps:[
-							{cls:'hsetext',type:'text',value:'查看详情',fnName:'seeXx1'},								
+							{cls:'hsetext',type:'text',value:'查看详情',fnName:'seeXx3'},								
 						]	
 					},
 					{prop:'admaster',lable:'广告主',
 						temps:[
-							{cls:'hsetext',type:'text',value:'查看详情',fnName:'seeXx2'},								
+							{cls:'hsetext',type:'text',value:'查看详情',fnName:'seeXx4'},								
 						]	
 					},
 					
@@ -114,24 +114,26 @@ export default {
 	}, 
 	methods: {			
 		seeXx1(on){
-			window.open('/#/data/profit_channel?time='+this.tableData[on].create_time)
+			window.open('/#/data/cost_designer?times='+this.tableData[on].create_time)					
 		},
 		seeXx2(on){
-			window.open('/#/data/profit_user?time='+this.tableData[on].create_time)
+			window.open('/#/data/cost_channel?times='+this.tableData[on].create_time)
+			
 		},
 		seeXx3(on){
-			window.open('/#/data/cost_channel?time='+this.tableData[on].create_time)
+			window.open('/#/data/profit_channel?times='+this.tableData[on].create_time)
 		},
 		seeXx4(on){
-			window.open('/#/data/cost_designer?time='+this.tableData[on].create_time)
+			window.open('/#/data/profit_user?times='+this.tableData[on].create_time)	
 		},
-		lodingfalse(){
-			this.$refs.Tablde.lodingfalse();	
+		setLoding(type){
+			this.$refs.Tablde.setLoding(type);	
 		},
 		setData(data){
 			this.$refs.Tablde.setData(data);	
 		},
 		getData(sxtj){
+			this.setLoding(true);
 			if(sxtj){
 				Object.assign(this.screens, sxtj);	
 				if(sxtj.start_time){
@@ -143,9 +145,9 @@ export default {
 			params.date_type = 'day';
 			this.api.data_income_report({params}).then((datas)=>{	
 				this.tableData = this.clDatax(datas);		
-				this.lodingfalse();
+				this.setLoding(false);
 			}).catch(()=>{
-				this.lodingfalse();
+				this.setLoding(false);
 			})	
 			this.api.data_income_overall({params}).then((datas)=>{
 				this.ChartConfig.numbcont = [
@@ -166,6 +168,7 @@ export default {
 				{ name:'渠道成本',type:'line',color: 'rgba(255,206,85,1)',data:[]}
 			],arr3=[],da = data.data;
 			this.tableConfig.total=data.total_count;
+		
 			for(let el in da){
 				arr.push({
 					create_time:el,
@@ -177,12 +180,22 @@ export default {
 					channel:da[el].channel,
 					admaster:da[el].admaster,
 				});
-				arr1.push(el.substring(5,10));
-				arr2[0].data.push(da[el].ad_income);
-				arr2[1].data.push(da[el].income);
-				arr2[2].data.push(da[el].designer_cost);
-				arr2[3].data.push(da[el].channel_cost);
-			}	
+				
+				
+			}
+	
+			let pn=0;
+			for(let el in data.daily_data){
+				if(pn>30){
+					break
+				}				
+				arr1.push(el);
+				arr2[0].data.push(data.daily_data[el].ad_income);
+				arr2[1].data.push(data.daily_data[el].income);
+				arr2[2].data.push(data.daily_data[el].designer_cost);
+				arr2[3].data.push(data.daily_data[el].channel_cost);
+				pn++;
+			}
 			this.tableConfig.cont=[
 				'汇总',
 				data.total_data.ad_income,
@@ -202,12 +215,12 @@ export default {
 				data:arr1
 			}];
 			this.ChartConfig.config.series =arr2;
+			
 			this.ChartConfig.config2.series[0].data = arr3;	
 			let bztno = false;
 			if(this.screens.channel || this.screens.product || this.screens.ad_space_type || this.screens.admaster){
 				bztno = true;
 			}
-		
 			this.setData({one:this.ChartConfig.config,two:this.ChartConfig.config2,bztno:bztno});
 			return arr;
 		},

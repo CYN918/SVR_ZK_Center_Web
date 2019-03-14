@@ -37,25 +37,19 @@ export default {
 				total:0,
 				ischeck:false,
 				list:[
-					{prop:'email',lable:'日期'},
-					{prop:'description',lable:'素材ID',
-						temps:[
-							{cls:' ',type:'text',value:'查看',fnName:'seeXx'},
-								
-						]	
-					},
-					{prop:'email',lable:'渠道'},
-					{prop:'company',lable:'展示量'},
-					
-					{prop:'created_at',lable:'展示用户数'},
-					{prop:'login',lable:'有效停留量'},
-					{prop:'login',lable:'有效停留用户数'},
-					{prop:'login',lable:'广告展示量'},
-					{prop:'login',lable:'广告展示用户数'},
-					{prop:'login',lable:'壁纸点击量'},
-					{prop:'login',lable:'壁纸点击用户数'},
-					{prop:'login',lable:'广告点击量'},
-					{prop:'login',lable:'广告点击用户数'},
+					{prop:'create_time',lable:'日期'},
+					{prop:'bz_id',lable:'素材ID',wzimg:{cls:'',type:'text'}},
+					{prop:'channel',lable:'渠道'},
+					{prop:'in_pv',lable:'展示量'},					
+					{prop:'in_uv',lable:'展示用户数'},
+					{prop:'bz_load_pv',lable:'有效停留量'},
+					{prop:'bz_load_uv',lable:'有效停留用户数'},
+					{prop:'ad_show_pv',lable:'广告展示量'},
+					{prop:'ad_show_uv',lable:'广告展示用户数'},
+					{prop:'bz_click_pv',lable:'壁纸点击量'},
+					{prop:'bz_click_uv',lable:'壁纸点击用户数'},
+					{prop:'ad_click_pv',lable:'广告点击量'},
+					{prop:'ad_click_uv',lable:'广告点击用户数'},
 					{prop:'description',lable:'广告详情',
 						temps:[
 							{cls:' ',type:'text',value:'查看详情',fnName:'seeXx'},
@@ -79,6 +73,9 @@ export default {
 		this.lodingfalse();
 	}, 
 	methods: {	
+		seeXx(on){
+			window.open('/#/data/wallxw_ad?times='+this.tableData[on].create_time+'&bz_id='+this.tableData[on].bz_id+'&channel='+this.tableData[on].channel)					
+		},
 		lodingfalse(){
 			this.$refs.Tablde.lodingfalse();	
 		},
@@ -107,45 +104,36 @@ export default {
 				arr.push(
 					{
 						create_time:da[i].create_time,
-						picture_id:da[i].picture_id,
-						pv:da[i].pv,
-						click:da[i].click,
-						click_ratio:da[i].click_ratio,
-						download:da[i].download,
-						install:da[i].install,
-						activ:da[i].activ,
-						income:da[i].income,
-						ecpm:da[i].ecpm,
-						ecpc:da[i].ecpc,
-						ad_id:da[i].ad_id,
-						ad_name:da[i].ad_name,
+						bz_id:da[i].bz_id,
 						channel:da[i].channel,
-						ad_space_id:da[i].ad_space_id,
-						ad_space_type:da[i].ad_space_type,
-						ad_space_name:da[i].ad_space_name,
+						in_pv:da[i].in_pv,
+						in_uv:da[i].in_uv,
+						bz_load_pv:da[i].bz_load_pv,
+						bz_load_uv:da[i].bz_load_uv,
+						ad_show_pv:da[i].ad_show_pv,
+						ad_show_uv:da[i].ad_show_uv,
+						bz_click_pv:0,
+						bz_click_uv:0,
+						ad_click_pv:da[i].ad_click_pv,
+						ad_click_uv:da[i].ad_click_uv,
 						img_url:da[i].img_url
-					},
+					}					
 				);
-			};
+			}
 			this.tableConfig.cont = [
 				'汇总',
 				'--',
 				'--',
-				'--',
-				'--',
-				'--',
-				'--',
-				'--',
-				data.total_data.pv,
-				data.total_data.click,
-				data.total_data.click_ratio,
-				data.total_data.download,
-				data.total_data.install,
-				data.total_data.activ,
-				data.total_data.income,
-				data.total_data.ecpm,
-				data.total_data.ecpc,
-				'--'
+				data.total_data.in_pv,
+				data.total_data.in_uv,
+				data.total_data.bz_load_pv,
+				data.total_data.bz_load_uv,
+				data.total_data.ad_show_pv,
+				data.total_data.ad_show_uv,
+				0,
+				0,
+				data.total_data.ad_click_pv,
+				data.total_data.ad_click_uv,
 			];
 			return arr;
 		},

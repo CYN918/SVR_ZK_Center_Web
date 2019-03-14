@@ -127,9 +127,9 @@ export default {
 				this.addAjaxType =0;
 			})				
 		},
-		enloding(){
-			this.$refs.Tabledd.lodingfalse();		
-		},		
+		setLoding(type){
+			this.$refs.Tabledd.setLoding(type);	
+		},	
 		downlod(on){
 			window.open(this.tableData[on].dowurl);
 		},
@@ -151,7 +151,7 @@ export default {
 			];
 		},
 		getData(sxtj){	
-			
+			this.setLoding(true);
 			let params = {
 				p:10,
 				page:1,	
@@ -160,7 +160,7 @@ export default {
 				params = sxtj;
 			}
 			if(!this.$route.query.lib_id){
-				this.enloding();
+				this.setLoding(false);
 				return
 			}
 			params.lib_id = this.$route.query.lib_id;
@@ -168,9 +168,9 @@ export default {
 			this.api.materialLib_materialList({params}).then((data)=>{	
 
 				this.tableData =this.clData(data);	
-				this.enloding();
+				this.setLoding(false);
 			}).catch(()=>{
-				this.enloding();
+				this.setLoding(false);
 			})	
 
 		},
