@@ -92,7 +92,7 @@ export default {
 			this.api.data_gionee_lock_behavior_wallpaper_channel({params}).then((datas)=>{									
 				this.tableData = this.clData(datas);		
 				this.lodingfalse();
-			}).catch((error)=>{
+			}).catch(()=>{
 				this.lodingfalse();
 			})			
 		},			

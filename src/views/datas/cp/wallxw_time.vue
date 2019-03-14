@@ -20,7 +20,7 @@ export default {
 					{h1:"上线日期",p:"素材上线日期"},
 				],
 				list:[					
-					{title:'日期',type:'timed',value:'start_time'},	
+					{title:'日期',type:'timed',value:'date'},	
 					{title:'素材ID',type:'text',value:'bz_id'},
 					{title:'渠道',type:'get_channel',value:'channel'},
 				],
@@ -51,30 +51,24 @@ export default {
 			ChartConfig:{
 				onched:'日活PV',
 				title:'指标详解',
-		        config:{
-				    title: {
+				config:{
+					title: {
 						x:'center',
 						text: '壁纸使用时长分布',
 						textStyle:{fontSize:14}
-				   },
-				   color: ['#3398DB'],
-				   legend: {
-					   y:"bottom",
-				       data:['汇总']
-				   },
-				   
+					},
+					color: ['#3398DB'],
+					legend: {
+						y:"bottom",
+						data:['汇总']
+					},
 					tooltip : {
 						trigger: 'axis',
 						axisPointer : {            // 坐标轴指示器，坐标轴触发有效
 							type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
 						}
 					},
-					 grid: {
-					    left: '3%',
-					    right: '4%',
-					    bottom: '8%',
-					    containLabel: true
-					},
+					grid: {left: '3%', right: '4%',bottom: '8%',containLabel: true},
 					xAxis : [
 						{
 							type : 'category',
@@ -97,14 +91,9 @@ export default {
 							barWidth: '40%',
 							data:[0, 0,0 ,0, 0, 0, 0,0]
 						}
-					]
-				   
+					],
 				},
-			
-				
-		       
-		        
-		    },
+			},
 			tableData:[],
 			chartData:[],
 		}
@@ -128,11 +117,7 @@ export default {
 		},
 		getData(sxtj){
 			if(sxtj){
-				Object.assign(this.screens, sxtj);	
-				if(sxtj.start_time){
-					this.screens.end_time = sxtj.start_time;
-					this.screens.start_time = sxtj.start_time;
-				}																		
+				Object.assign(this.screens, sxtj);																		
 			}	
 			let params = this.screens;	
 			
@@ -141,7 +126,7 @@ export default {
 				this.tableData = this.clData(datas);
 				this.$previewRefresh();
 				this.lodingfalse();
-			}).catch((error)=>{
+			}).catch(()=>{
 				this.lodingfalse();
 			})			
 		},			
@@ -166,7 +151,7 @@ export default {
 						img_url:da[i].img_url
 					},
 				);
-			};
+			}
 			if(data.total_data.length>0){
 				this.tableConfig.cont = [
 					'汇总',

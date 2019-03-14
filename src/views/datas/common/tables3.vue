@@ -40,7 +40,7 @@ export default {
 			this.$refs.Table.lodingfalse();	
 		},
 		sxFn(d){
-			// this.$emit("screenFn",this.onSxData); 
+	
 		},
 		setLoding(type){
 			this.$refs.Table.setLoding(type);	

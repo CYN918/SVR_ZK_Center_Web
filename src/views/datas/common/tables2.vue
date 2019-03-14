@@ -16,8 +16,7 @@
 				
 			
 			<div class="newTile2 mag3">数据详情</div>
-		</div>
-		
+		</div>	
 		<scTable :tableConfig="tableConfig" :tableDatas="tableData"  ref="Table"></scTable>				
 	</div>		
 </template>

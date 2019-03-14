@@ -19,6 +19,7 @@ export default {
 				url:'/#/data/ad_position_adData?',
 				pr:[{k:'ad_space_type',v:'ad_space_type'},{k:'times',v:'create_time'}],
 				data_type:'ad_space_type',
+				getUc:'product',
 			},
 			tableConfig:[
 				{prop:'create_time',lable:'日期',sor:true},
@@ -34,7 +35,7 @@ export default {
 				{prop:'income',lable:'流水',sor:true},
 				{prop:'ecpm',lable:'ECPM',sor:true},
 				{prop:'ecpc',lable:'ECPC',sor:true},
-				{prop:'description',lable:'广告位类型',
+				{prop:'description',lable:'广告位',
 					temps:[
 						{cls:'hsetext',type:'text',value:'查看详情',fnName:'seeXx2'},								
 					]	

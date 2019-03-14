@@ -279,7 +279,7 @@ let leftNav =[{title:'管理',
 				]},
 			]},
 		]},
-		{title:'收益日报',url:'3',list:[
+		{title:'收益报表',url:'3',list:[
 			{title:'收益日报',url:'/data/profit_d'},
 			{title:'收益周报',url:'/data/profit_w'},
 			{title:'收益月报',url:'/data/profit_m'},
