@@ -61,10 +61,6 @@ export default {
 								
 						]	
 					},
-
-					
-					
-				
 				],
 				btns:[
 					{fnName:'xzFn',cls:'pldc ',value:'导出数据'},
@@ -74,95 +70,18 @@ export default {
 			ChartConfig:{
 				onched:'展示量',
 				title:'指标详解',
-		        topldNav:['展示量','展示用户数','有效停留量','有效停留用户数','广告展示量','广告展示用户数','壁纸点击量','壁纸点击用户数','广告点击量','广告点击用户数'],
+				topldNav:['展示量','展示用户数','有效停留量','有效停留用户数','广告展示量','广告展示用户数','壁纸点击量','壁纸点击用户数','广告点击量','广告点击用户数'],
 				config:{
-					tooltip: {trigger: 'axis'},
-					legend: {
-						 y:'bottom',
-					    data:['A1007','D1009','A1009']
-					},
-								
-					
+					tooltip:{trigger:'axis'},
+					legend:{y:'bottom',data:[]},
 					calculable : true,
-					 xAxis : [
-					    {
-					        type : 'category',
-					        boundaryGap : false,
-					        data : ['2018-12-21','2018-12-21','2018-12-21','2018-12-21','2018-12-21','2018-12-21','2018-12-21']
-					    }
-					],
-					yAxis : [
-					    {
-					        type : 'value',
-					        axisLabel : {
-					            formatter: '{value} k'
-					        }
-					    }
-					],
-					series : [
-					    {
-					        name:'A1007',
-					        type:'line',
-							
-							color: 'rgba(105,192,255,1)',
-							 
-					        data:[11, 11, 15, 13, 12, 30, 40],
-					     
-					    },
-					    {
-					        name:'D1009',
-					        type:'line',
-							color: 'rgba(230,0,18,1)',
-					        data:[1, 30, 2, 5, 3, 2, 0],
-					       
-					        
-					    },
-						{
-						    name:'A1009',
-						    type:'line',
-							color: 'rgba(24,237,79,1)',
-						    data:[1, 0, 2, 5, 3, 2, 0],
-						   
-						    
-						}
-					]
-					
+					xAxis : [{type:'category',boundaryGap:false,data:[]}],
+					yAxis:[{type:'value',axisLabel:{formatter:'{value}'}}],
+					series:[]					
 				},
-			
-				
-		       
-		        
-		    },
-			tableData:[],
-			chartData:{
-				series : [
-				    {
-				        name:'A1007',
-				        type:'line',
-						
-						color: 'rgba(105,192,255,1)',
-						 
-				        data:[11, 11, 15, 13, 12, 30, 40],
-				     
-				    },
-				    {
-				        name:'D1009',
-				        type:'line',
-						color: 'rgba(230,0,18,1)',
-				        data:[1, 30, 2, 5, 3, 2, 0],
-				       
-				        
-				    },
-					{
-					    name:'A1009',
-					    type:'line',
-						color: 'rgba(24,237,79,1)',
-					    data:[1, 0, 2, 5, 3, 2, 0],
-					   
-					    
-					}
-				]
 			},
+			tableData:[],
+			chartData:{},
 		}
 	},
 	mounted: function () {	
@@ -186,7 +105,7 @@ export default {
 			this.api.data_gionee_lock_behavior_wallpaper({params}).then((datas)=>{									
 				this.tableData = this.clData(datas);		
 				this.lodingfalse();
-			}).catch((error)=>{
+			}).catch(()=>{
 				this.lodingfalse();
 			})			
 		},			
@@ -217,7 +136,7 @@ export default {
 						img_url:da[i].img_url
 					},
 				);
-			};
+			}
 			this.tableConfig.cont = [
 				'汇总',
 				'--',

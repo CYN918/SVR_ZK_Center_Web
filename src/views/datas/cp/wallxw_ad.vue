@@ -24,44 +24,36 @@ export default {
 				],
 				list:[					
 					{title:'日期',type:'times',value:'start_time'},	
-					{title:'素材ID',type:'text',value:'search'},
+					{title:'素材ID',type:'text',value:'bz_id'},
 					{title:'渠道',type:'get_channel',value:'channel'},
+					{title:'广告位ID',type:'get_ad_space_id',value:'ad_space_id'},
+					{title:'广告ID',type:'text',value:'ad_id'},
+					
 				],
 			},
 			tableConfig:{
 				total:0,
 				ischeck:false,
 				list:[
-					{prop:'email',lable:'日期'},
-					{prop:'description',lable:'素材ID',
+					{prop:'create_time',lable:'日期'},
+					{prop:'bz_id',lable:'素材ID',wzimg:{cls:'',type:'text'}},
+					{prop:'channel',lable:'渠道'},
+					{prop:'ad_space_id',lable:'广告位ID'},
+					{prop:'ad_id',lable:'广告ID',
 						temps:[
-							{cls:' ',type:'text',value:'查看详情',fnName:'seeXx'},
-								
+							{cls:' ',type:'text',value:'查看详情',fnName:'seeXx1'},								
 						]	
 					},
-					{prop:'email',lable:'渠道'},
-					{prop:'email',lable:'广告位ID'},
-					{prop:'description',lable:'广告ID',
-						temps:[
-							{cls:' ',type:'text',value:'查看详情',fnName:'seeXx'},
-								
-						]	
-					},
-					
-					{prop:'created_at',lable:'广告展示量'},
-					{prop:'login',lable:'广告展示用户量'},
-					{prop:'login',lable:'广告点击量'},
-					{prop:'login',lable:'广告点击用户数'},
-					{prop:'login',lable:'平均停留时长'},
-			
+					{prop:'ad_show_pv',lable:'广告展示量'},
+					{prop:'ad_show_uv',lable:'广告展示用户量'},
+					{prop:'ad_click_pv',lable:'广告点击量'},
+					{prop:'ad_click_uv',lable:'广告点击用户数'},
+					{prop:'bz_click_uv',lable:'平均停留时长'},					
 					{prop:'description',lable:'链接详情',
 						temps:[
-							{cls:' ',type:'text',value:'查看详情',fnName:'seeXx'},
-								
+							{cls:' ',type:'text',value:'查看详情',fnName:'seeXx2'},								
 						]	
 					},
-					
-				
 				],
 				btns:[
 					{fnName:'xzFn',cls:'pldc ',value:'导出数据'},
@@ -71,81 +63,31 @@ export default {
 			ChartConfig:{
 				onched:'日活PV',
 				title:'指标详解',
-		       config:{
-				   
-				   color: ['#3398DB'],
-				   legend: {
-					   y:"bottom",
-				       data:['直接访问']
-				   },
-					tooltip : {
-						trigger: 'axis',
-						axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-							type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-						}
-					},
-					grid: {
-						left: '3%',
-						right: '4%',
-						bottom: '3%',
-						containLabel: true
-					},
-					xAxis : [
+				config:{
+					color: ['#3398DB'],
+					legend:{y:"bottom",data:['落地页停留时长分布']},
+					tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
+					grid:{left:'3%',right:'4%',bottom:'3%',containLabel:true},
+					xAxis:[
 						{
-							type : 'category',
+							type:'category',
 							data : ['1s-3s', '4s-10s', '11s-30s', '31s-60s', '1m-3m', '4m-10m', '10m-30m','30m+'],
-
-							axisTick: {
-								alignWithLabel: true
-							}
+							axisTick:{alignWithLabel: true}
 						}
 					],
-					yAxis : [
+					yAxis:[{type:'value'}],
+					series:[
 						{
-							type : 'value'
-						}
-					],
-					series : [
-						{
-							name:'直接访问',
+							name:'落地页停留时长分布',
 							type:'bar',
 							barWidth: '40%',
 							data:[10, 52, 200, 334, 390, 330, 220,100]
 						}
 					]
-
 				},
-		    },
-			tableData:[],
-			chartData:{
-				series : [
-				    {
-				        name:'A1007',
-				        type:'line',
-						
-						color: 'rgba(105,192,255,1)',
-						 
-				        data:[11, 11, 15, 13, 12, 30, 40],
-				     
-				    },
-				    {
-				        name:'D1009',
-				        type:'line',
-						color: 'rgba(230,0,18,1)',
-				        data:[1, 30, 2, 5, 3, 2, 0],
-				       
-				        
-				    },
-					{
-					    name:'A1009',
-					    type:'line',
-						color: 'rgba(24,237,79,1)',
-					    data:[1, 0, 2, 5, 3, 2, 0],
-					   
-					    
-					}
-				]
 			},
+			tableData:[],
+			chartData:{},
 		}
 	},
 	mounted: function () {	
@@ -175,7 +117,7 @@ export default {
 			this.api.data_gionee_lock_behavior_wallpaper_ad({params}).then((datas)=>{									
 				this.tableData = this.clData(datas);		
 				this.lodingfalse();
-			}).catch((error)=>{
+			}).catch(()=>{
 				this.lodingfalse();
 			})			
 		},			
@@ -206,7 +148,7 @@ export default {
 						img_url:da[i].img_url
 					},
 				);
-			};
+			}
 			this.tableConfig.cont = [
 				'汇总',
 				'--',

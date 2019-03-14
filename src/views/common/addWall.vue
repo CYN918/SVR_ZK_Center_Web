@@ -217,7 +217,7 @@ export default {
 		},
 		checkStatus(value){	
 			if(!value){return}
-			return value =='1001'?'未绑定':value =='1101'?'已绑定':value=='1201'?'已下线':'';				
+			return value =='1001'?'未使用':value =='1101'?'使用中':value=='1201'?'使用过':'';				
 		},
 	},
 	watch: {   

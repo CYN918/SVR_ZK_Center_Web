@@ -98,21 +98,11 @@ export default {
 				this.$message('该素材图片错误！');
 			}
 		},
-		seeXx2(on){
-			this.$router.push({
-			  
-			   query:{
-				lib_id:this.tableData[on].ad_id
-			 }
-			});
-		},
+
 		lodingfalse(){
 			this.$refs.Tablde.lodingfalse();	
 		},
-		ajaxget(data,fn){
-			console.log(fn);
-			fn([{value:1}])
-		},
+
 		getData(sxtj){
 			if(sxtj){
 				Object.assign(this.screens, sxtj);	
@@ -126,7 +116,7 @@ export default {
 			this.api.data_income_detail({params}).then((datas)=>{									
 				this.tableData = this.clData(datas);		
 				this.lodingfalse();
-			}).catch((error)=>{
+			}).catch(()=>{
 				this.lodingfalse();
 			})			
 		},			
