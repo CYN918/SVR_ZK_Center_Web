@@ -1,20 +1,19 @@
-
 <template>
 	<scTable ref="Tablde" @screenFn="getData" :searchConfig="searchConfig" :tableConfig="tableConfig" :ChartConfig="ChartConfig" :chartData="chartData" :tableData="tableData"></scTable>
 </template>
 <script>
 import scTable from '../common/tables';
 export default {
+	props:['searc','tabled'],
 	components:{scTable},
     data() {
 		return{
 			screens:{
 				p:10,
 				page:1,	
-				total:0,
 			},
 			searchConfig:{
-				title:"广告图详细数据",
+				title:"",
 				tipData:[
 					{h1:"展示量",p:"所选日期内，素材展示次数PV"},
 					{h1:"点击量",p:"所选日期内，素材点击次数PV"},
@@ -26,30 +25,17 @@ export default {
 					{h1:"ECPM",p:"每一千次展示可获得的广告流水收入"},
 					{h1:"ECPC",p:"单次点击可获得的广告流水收入"},
 				],
-				list:[					
-					{title:'日期',type:'times',value:'start_time'},
-					{title:'素材ID',type:'text',value:'picture_id'},
-					{title:'广告ID',type:'text',value:'ad_id'},
-					{title:'渠道',type:'get_channel',value:'channel'},
-					{title:'广告位类型',type:'get_ad_space_type',value:'ad_space_type'},
-					{title:'广告位名称',type:'get_ad_space_name',value:'ad_space_name'},
-					{title:'广告位ID',type:'get_ad_space_id',value:'ad_space_id'},
-				],
+				list:[],
 			},
-		
 			tableConfig:{
 				total:0,
 				ischeck:false,
 				'show-summary':true,
 				list:[
-					{prop:'create_time',lable:'日期',sor:true},				
-					{prop:'picture_id',lable:'素材ID',wzimg:{cls:'',type:'text'}},
-					{prop:'ad_id',lable:'广告ID'},	
-					{prop:'ad_name',lable:'广告名称'},
-					{prop:'channel',lable:'渠道'},
-					{prop:'ad_space_id',lable:'广告位ID'},
-					{prop:'ad_space_type',lable:'广告位类型'},
-					{prop:'ad_space_name',lable:'广告位名称'},
+					{prop:'create_time',lable:'日期',sor:true},
+					{prop:'picture_id',lable:'素材ID',
+						poclick:{cls:' ',type:'text',value:'查看',fnName:'seeXx1'},				
+					},
 					{prop:'pv',lable:'展示量',sor:true},					
 					{prop:'click',lable:'点击量',sor:true},
 					{prop:'click_ratio',lable:'点击率'},
@@ -58,8 +44,7 @@ export default {
 					{prop:'activ',lable:'激活量',sor:true},
 					{prop:'income',lable:'流水',sor:true},
 					{prop:'ecpm',lable:'ECPM',sor:true},
-					{prop:'ecpc',lable:'ECPC',sor:true},
-	
+					{prop:'ecpc',lable:'ECPC',sor:true},				
 				],
 				btns:[
 					{fnName:'xzFn',cls:'pldc ',value:'导出数据'},
@@ -72,10 +57,16 @@ export default {
 			
 		}
 	},
-	mounted: function () {		
+	mounted: function () {	
+		this.init();
 		this.getData();
 	}, 
 	methods: {
+		init(){
+			this.searchConfig.title = this.searc.title;
+			this.searchConfig.list = this.searc.list;
+			this.tableConfig.list.push(this.tabled);
+		},
 		seeXx1(on){
 			if(this.tableData[on].img_url){
 				window.open(this.tableData[on].img_url);
@@ -83,31 +74,27 @@ export default {
 				this.$message('该素材图片错误！');
 			}
 		},
-		lodingfalse(){
-			this.$refs.Tablde.lodingfalse();	
+		seeXx2(on){
+			window.open(this.searc.url+this.tableData[on].picture_id+'&timed='+this.tableData[on].create_time)
+		},
+		setLoding(type){
+			this.$refs.Tablde.setLoding(type);	
 		},
 		getData(sxtj){
+			this.setLoding(true);
 			if(sxtj){
 				Object.assign(this.screens, sxtj);	
 				if(sxtj.start_time){
 					this.screens.end_time = this.screens.start_time[1];
 					this.screens.start_time = this.screens.start_time[0];
 				}																
-			}
-			let params = this.screens;			
-			if(this.$route.query.picture_id && !params.picture_id){
-				params.picture_id = this.$route.query.picture_id;
-			}
-			if(this.$route.query.times && !params.start_time){
-				params.start_time = this.$route.query.times;
-				params.end_time = this.$route.query.times;
 			}	
-			this.api.data_ad_material_picture_detail({params}).then((datas)=>{									
-				this.tableData = this.clData(datas);
-				this.$previewRefresh();		
-				this.lodingfalse();
+			let params = this.screens;	
+			this.api[this.searc.api]({params}).then((datas)=>{									
+				this.tableData = this.clData(datas);		
+				this.setLoding(false);
 			}).catch(()=>{
-				this.lodingfalse();
+				this.setLoding(false);
 			})			
 		},			
 		clData(data){
@@ -129,23 +116,13 @@ export default {
 						ecpm:+da[i].ecpm,
 						ecpc:+da[i].ecpc,
 						ad_id:da[i].ad_id,
-						ad_name:da[i].ad_name,
-						channel:da[i].channel,
-						ad_space_id:da[i].ad_space_id,
-						ad_space_type:da[i].ad_space_type,
-						ad_space_name:da[i].ad_space_name,
 						img_url:da[i].img_url
+						
 					},
 				);
 			}
 			this.tableConfig.cont = [
 				'汇总',
-				'--',
-				'--',
-				'--',
-				'--',
-				'--',
-				'--',
 				'--',
 				data.total_data.pv,
 				data.total_data.click,
@@ -158,13 +135,13 @@ export default {
 				data.total_data.ecpc,
 				'--'
 			];
+			
+
 			return arr;
 		},
 
 	}
 }
 </script>
-
 <style>
-
 </style>

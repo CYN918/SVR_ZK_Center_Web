@@ -4,7 +4,7 @@
 		<div class="nTableBox">
 			<div class="newTile2 mag1">数据总览</div>
 			<div class="dataszl">
-				<span v-for="el in ChartConfig.numbcont"><div>{{el.num}}<span>{{el.fp}}</span></div><div>{{el.name}}</div></span>		
+				<span v-for="el in ChartConfig.numbcont" :key="el.name"><div>{{el.num}}<span>{{el.fp}}</span></div><div>{{el.name}}</div></span>		
 			</div>
 			<div class="newTile2 mag1">数据趋势</div>
 			
@@ -23,11 +23,11 @@
 </template>
 <script>
 import sxbox from './sxBox';
-import myChart from './chare';
+
 import scTable from '../../../components/scTable';
 export default {
 	props:['searchConfig','tableConfig','ChartConfig','chartData','tableData'],
-	components:{sxbox,scTable,myChart},
+	components:{sxbox,scTable},
 	data(){
 		return{
 			bind:{},
@@ -65,6 +65,9 @@ export default {
 					window.myChart_profit_d3.resize();
 				}			
 			},false);
+		},
+		setLoding(type){
+			this.$refs.Table.setLoding(type);	
 		},
 		setData(data){
 			

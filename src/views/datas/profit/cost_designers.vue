@@ -46,16 +46,16 @@ export default {
 				ischeck:false,
 				'show-summary':true,
 				list:[
-					{prop:'create_time',lable:'日期'},
-					{prop:'material_id',lable:'素材ID'},
+					{prop:'create_time',lable:'日期',sor:true},
+					{prop:'material_id',lable:'素材ID',wzimg:{cls:'',type:'text'}},
 					{prop:'material_type',lable:'素材类型'},
 					{prop:'channel',lable:'渠道'},
 					{prop:'product',lable:'产品'},
 					{prop:'ad_space_type',lable:'广告位类型'},
 					{prop:'ad_space_id',lable:'广告位ID'},
 					{prop:'ad_id',lable:'广告ID'},	
-					{prop:'pv',lable:'展示量'},										
-					{prop:'cost',lable:'设计师成本'},
+					{prop:'pv',lable:'展示量',sor:true},										
+					{prop:'cost',lable:'设计师成本',sor:true},
 	
 				],
 				btns:[
@@ -74,14 +74,6 @@ export default {
 		this.getData();
 	}, 
 	methods: {
-
-		seeXx1(on){
-			if(this.tableData[on].img_url){
-				window.open(this.tableData[on].img_url);
-			}else{
-				this.$message('该素材图片错误！');
-			}
-		},
 		lodingfalse(){
 			this.$refs.Tablde.lodingfalse();	
 		},
@@ -106,16 +98,13 @@ export default {
 				this.screens.start_time = this.$route.query.time;
 				if(sxtj){
 					sxtj.start_time = [this.$route.query.time,this.$route.query.time];
-				}
-				
+				}				
 			}	
-			
-			
-			
 			this.api.data_cost_designer_detail({params}).then((datas)=>{									
-				this.tableData = this.clData(datas);		
+				this.tableData = this.clData(datas);
+				this.$previewRefresh();
 				this.lodingfalse();
-			}).catch((error)=>{
+			}).catch(()=>{
 				this.lodingfalse();
 			})			
 		},			
@@ -134,12 +123,12 @@ export default {
 						ad_space_type:da[i].ad_space_type,
 						ad_space_id:da[i].ad_space_id,
 						ad_id:da[i].ad_id,						
-						pv:da[i].pv,
-						cost:da[i].cost,
+						pv:+da[i].pv,
+						cost:+da[i].cost,
 						img_url:da[i].img_url
 					},
 				);
-			};
+			}
 			this.tableConfig.cont = [
 				'汇总',
 				'--',

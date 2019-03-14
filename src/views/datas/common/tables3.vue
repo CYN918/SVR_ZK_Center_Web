@@ -42,11 +42,11 @@ export default {
 		sxFn(d){
 			// this.$emit("screenFn",this.onSxData); 
 		},
+		setLoding(type){
+			this.$refs.Table.setLoding(type);	
+		},
 		clickfn(name,cs){
 			this.$parent[name](cs); 
-		},
-		ajaxget(data, fn){
-			this.$parent.ajaxget(data, fn); 		
 		},
 		init(){
 			this.onched = this.ChartConfig.onched;

@@ -39,7 +39,7 @@
 	</div>	
 </template>
 <script>
-import tables from '../common/newTable';
+import tables from '../common/tables';
 export default {
 	props:['tableConfig','getType'],
 	components:{tables},

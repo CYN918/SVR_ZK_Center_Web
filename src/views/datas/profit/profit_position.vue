@@ -36,17 +36,17 @@ export default {
 				ischeck:false,
 				'show-summary':true,
 				list:[
-					{prop:'create_time',lable:'日期'},
+					{prop:'create_time',lable:'日期',sor:true},
 					{prop:'channel',lable:'渠道'},
 					{prop:'product',lable:'产品'},
 					{prop:'ad_space_type',lable:'广告位类型'},
 					{prop:'ad_space_id',lable:'广告位ID'},
-					{prop:'ad_income',lable:'广告流水'},
-					{prop:'designer_cost',lable:'设计师成本',
+					{prop:'ad_income',lable:'广告流水',sor:true},
+					{prop:'ds_cost',lable:'设计师成本',sor:true,
 						poclick:{cls:' ',type:'text',value:'查看',fnName:'seeXx1'},				
 					},
-					{prop:'channel_cost',lable:'渠道成本'},
-					{prop:'income',lable:'收益'},					
+					{prop:'channel_cost',lable:'渠道成本',sor:true},
+					{prop:'total_income',lable:'收益',sor:true},					
 					{prop:'gross_profit',lable:'毛利率'},
 					{prop:'ad_id',lable:'广告',
 						temps:[{cls:'',type:'text',value:'查看详情',fnName:'seeXx2'}]
@@ -69,18 +69,9 @@ export default {
 				config:{
 					title: {text:'每日数据趋势图',textStyle: {fontSize:14}},
 					tooltip: {trigger: 'axis'},
-					legend: {
-						y:'bottom',
-					    data:['广告流水','收益','设计师成本','渠道成本']
-					},
+					legend: {y:'bottom',data:['广告流水','收益','设计师成本','渠道成本']},
 					calculable : true,
-					xAxis : [
-						{
-						    type : 'category',
-						    boundaryGap : false,
-						   data:[]
-						}
-					],
+					xAxis : [{type:'category',boundaryGap : false,data:[]}],
 					yAxis : [{type : 'value',axisLabel : {formatter: '{value}'}}],
 					series : []		,
 						
@@ -100,13 +91,11 @@ export default {
 								emphasis: {show: true,textStyle: {fontSize: '30',fontWeight: 'bold'}}
 							},
 							labelLine: {normal: {show: false}},
-							data:[
-								
-							]
+							data:[]
 						}
 					]
 				}
-		    },
+			},
 			tableData:[],
 			chartData:{
 			},
@@ -117,13 +106,20 @@ export default {
 		this.getData();
 	}, 
 	methods: {	
-		lodingfalse(){
-			this.$refs.Tablde.lodingfalse();	
+		setLoding(type){
+			this.$refs.Tablde.setLoding(type);	
+		},
+		seeXx1(on){
+			window.open('/#/data/cost_designer?times='+this.tableData[on].create_time)					
+		},		
+		seeXx2(on){
+			window.open('/#/data/profits?times='+this.tableData[on].create_time)	
 		},
 		setData(data){
 			this.$refs.Tablde.setData(data);	
 		},
 		getData(sxtj){
+			this.setLoding(true);
 			if(sxtj){
 				Object.assign(this.screens, sxtj);	
 				if(sxtj.start_time){
@@ -135,18 +131,18 @@ export default {
 			params.type = 4;
 			this.api.data_income_related({params}).then((datas)=>{	
 				this.tableData = this.clDatax(datas);		
-				this.lodingfalse();
-			}).catch((error)=>{
-				this.lodingfalse();
+				this.setLoding(false);
+			}).catch(()=>{
+				this.setLoding(false);
 			})	
 			this.api.data_income_overall({params}).then((datas)=>{
 				this.ChartConfig.numbcont = [
 					{name:'广告流水',num:datas.data.ad,fp:datas.rate.ad},
-				{name:'设计师成本',num:datas.data.designer_cost,fp:datas.rate.designer_cost},
+				{name:'设计师成本',num:datas.data.ds_cost,fp:datas.rate.ds_cost},
 				{name:'渠道成本',num:datas.data.channel_cost,fp:datas.rate.channel_cost},
 				{name:'收益',num:datas.data.gross_profit,fp:datas.rate.gross_profit},
 				];
-			}).catch((error)=>{})			
+			}).catch(()=>{})			
 		},	
 
 		clDatax(data){		
@@ -156,7 +152,7 @@ export default {
 				{name:'收益',type:'line',color: 'rgba(105,192,255,1)', data:[]},
 				{name:'设计师成本',type:'line',color: 'rgba(24,237,79,1)',data:[]},
 				{ name:'渠道成本',type:'line',color: 'rgba(255,206,85,1)',data:[]}
-			],arr3=[],da = data.data;
+			],da = data.data;
 			this.tableConfig.total=data.total_count;
 			for(let el in da){
 				arr.push({
@@ -165,40 +161,46 @@ export default {
 					product:da[el].product,
 					ad_space_type:da[el].ad_space_type,
 					ad_space_id:da[el].ad_space_id,
-					ad_income:da[el].ad_income,
-					designer_cost:da[el].designer_cost,
-					channel_cost:da[el].channel_cost,
-					income:da[el].income,
+					ad_income:+da[el].ad_income,
+					ds_cost:+da[el].ds_cost,
+					channel_cost:+da[el].channel_cost,
+					total_income:+da[el].total_income,
 					gross_profit:da[el].gross_profit,
 					ad_id:da[el].ad_id,
 					designer_id:da[el].designer_id,
 					
 				});
-				arr1.push(el.substring(5,10));
-				arr2[0].data.push(da[el].ad_income);
-				arr2[1].data.push(da[el].income);
-				arr2[2].data.push(da[el].designer_cost);
-				arr2[3].data.push(da[el].channel_cost);
 			}	
+			let pn=0;
+			for(let el in data.daily_data){
+				if(pn>30){
+					break
+				}				
+				arr1.push(el);
+				arr2[0].data.push(data.daily_data[el].ad_income);
+				arr2[1].data.push(data.daily_data[el].income);
+				arr2[2].data.push(data.daily_data[el].designer_cost);
+				arr2[3].data.push(data.daily_data[el].channel_cost);
+				pn++;
+			}
+			
 			this.tableConfig.cont=[
 				'汇总',
 				data.total_data.ad_income,
-				data.total_data.designer_cost,
+				data.total_data.ds_cost,
 				data.total_data.channel_cost,
-				data.total_data.income,					
+				data.total_data.total_income,					
 				'--',
 				'--'
 			];
-			for(let el in data.channelIncome){
-				arr3.push({value:data.channelIncome[el], name:el});
-			}
+			
 			this.ChartConfig.config.xAxis = [{
 				type : 'category',
 				boundaryGap : false,
 				data:arr1
 			}];
 			this.ChartConfig.config.series =arr2;
-			this.ChartConfig.config2.series[0].data = arr3;	
+			
 			let bztno = true;
 			this.setData({one:this.ChartConfig.config,two:this.ChartConfig.config2,bztno:bztno});
 			return arr;

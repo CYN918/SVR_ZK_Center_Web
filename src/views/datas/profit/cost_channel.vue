@@ -30,7 +30,7 @@ export default {
 				list:[
 					{prop:'create_time',lable:'日期'},				
 					{prop:'channel',lable:'渠道'},
-					{prop:'cost',lable:'渠道成本'},
+					{prop:'cost',lable:'渠道成本',sor:true},
 				],
 				btns:[
 					{fnName:'xzFn',cls:'pldc ',value:'导出数据'},
@@ -80,7 +80,7 @@ export default {
 					{
 						create_time:da[i].create_time,
 						channel:da[i].channel,
-						cost:da[i].cost,
+						cost:+da[i].cost,
 					},
 				);
 			};

@@ -172,9 +172,9 @@ import tables from '../common/tables.vue';
 				switch (value){
 					case 'm_picture':a= '广告静态图';
 						break;
-					case 'm_script_picture':a= '广告脚本模板';
+					case 'm_script_picture':a= '广告脚本图';
 						break;
-					case 'm_resource':a= '脚本模板';
+					case 'm_resource':a= '广告脚本模板';
 						break;
 					case 'm_h5_resource':a= '广告H5模板';
 						break;

@@ -36,14 +36,15 @@ export default {
 					{title:'广告位ID',type:'get_ad_space_id',value:'ad_space_id'},
 				],
 			},
-		
 			tableConfig:{
 				total:0,
 				ischeck:false,
 				'show-summary':true,
 				list:[
-					{prop:'create_time',lable:'日期',sor:true},				
-					{prop:'picture_id',lable:'素材ID',wzimg:{cls:'',type:'text'}},
+					{prop:'create_time',lable:'日期',sor:true},
+					{prop:'picture_id',lable:'素材ID',
+						poclick:{cls:' ',type:'text',value:'查看',fnName:'seeXx1'},				
+					},
 					{prop:'ad_id',lable:'广告ID'},	
 					{prop:'ad_name',lable:'广告名称'},
 					{prop:'channel',lable:'渠道'},
@@ -98,13 +99,12 @@ export default {
 			if(this.$route.query.picture_id && !params.picture_id){
 				params.picture_id = this.$route.query.picture_id;
 			}
-			if(this.$route.query.times && !params.start_time){
-				params.start_time = this.$route.query.times;
-				params.end_time = this.$route.query.times;
+			if(this.$route.query.timed && !params.start_time){
+				params.start_time = this.$route.query.timed;
+				params.end_time = this.$route.query.timed;
 			}	
 			this.api.data_ad_material_picture_detail({params}).then((datas)=>{									
-				this.tableData = this.clData(datas);
-				this.$previewRefresh();		
+				this.tableData = this.clData(datas);		
 				this.lodingfalse();
 			}).catch(()=>{
 				this.lodingfalse();

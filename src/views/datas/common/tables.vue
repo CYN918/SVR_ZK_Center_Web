@@ -25,6 +25,9 @@ export default {
 	
 	}, 
 	methods: {	
+		setLoding(type){
+			this.$refs.Table.setLoding(type);	
+		},
 		qhTables(){				
 			this.$refs.Table.checkSt();				
 		},
@@ -34,15 +37,10 @@ export default {
 		initpage(){
 			this.$refs.Table.initPage();
 		},
-		setData(data){
-			
+		setData(data){		
 			this.$refs.myChart.setData(data);
 		},
 		sxFn(d){	
-			
-		
-			this.$refs.Table.initPage();
-			d.p = 10;
 			d.page =1;
 			this.$emit("screenFn",d); 
 		},				
@@ -57,9 +55,9 @@ export default {
 		xzFn(data){
 			this.$parent.xzFn(data); 
 		},
-		clickfn(name,cs){
+		clickfn(name,cs){			
 			this.$parent[name](cs); 
-		},		
+		},
 	}
 
   }	

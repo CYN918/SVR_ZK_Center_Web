@@ -29,6 +29,11 @@
 						<span v-else-if="el.poclick" @click="clickfn(el.poclick.fnName,scope.$index)" :class="['jscbtn',el.poclick.cls]">	
 							{{scope.row[el.prop]}}				
 						</span>
+						<span v-else-if="el.wzimg" :class="['jscbtn',el.wzimg.cls]">	
+							{{scope.row[el.prop]}}	
+							<img class="ycpic" preview="0" :preview-text="el.lable"  :src="[scope.row['img_url']?scope.row['img_url']:'/img/log.jpg']"/>			
+						</span>
+						
 						<el-switch v-else-if="el.switch" @change="clickfn(el.switch.fnName,scope.$index)" v-model="el.switch.mode[scope.$index]" active-color="#FFA39E" inactive-color="#CFCDCD">
 						</el-switch>						
 						<span v-else>{{scope.row[el.prop]}}</span>
@@ -118,8 +123,7 @@ export default {
 			this.tdata = data;				
 			this.endloding();
 		},
-		clickfn(name,cs){
-		
+		clickfn(name,cs){		
 			this.$parent.clickfn(name,cs); 
 		},
 		checkSt(){
@@ -249,7 +253,7 @@ export default {
     line-height: 16px;
     font-size: 12px;
     opacity: .3;
--	webkit-opacity: .3;
+	-webkit-opacity: .3;
 }
 .btmysd{opacity: 1;-webkit-opacity: 1;}
 .noeflow{float: none !important;}
@@ -274,4 +278,14 @@ td{
 	color: #096DD9;
 }
 .hsetext{color: #FFA39E !important;}
+img.ycpic {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+	-webkit-opacity: 0;
+	-moz-opacity: 0;
+	opacity: 0;
+}
 </style>
