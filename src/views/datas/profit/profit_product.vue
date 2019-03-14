@@ -103,13 +103,14 @@ export default {
 		this.getData();
 	}, 
 	methods: {	
-		lodingfalse(){
-			this.$refs.Tablde.lodingfalse();	
+		setLoding(type){
+			this.$refs.Tablde.setLoding(type);	
 		},
 		setData(data){
 			this.$refs.Tablde.setData(data);	
 		},
 		getData(sxtj){
+			this.setLoding(true);
 			if(sxtj){
 				Object.assign(this.screens, sxtj);	
 				if(sxtj.start_time){
@@ -121,9 +122,9 @@ export default {
 			params.type = 2;
 			this.api.data_income_related({params}).then((datas)=>{	
 				this.tableData = this.clDatax(datas);		
-				this.lodingfalse();
+				this.setLoding(false);
 			}).catch(()=>{
-				this.lodingfalse();
+				this.setLoding(false);
 			})	
 			this.api.data_income_overall({params}).then((datas)=>{
 				this.ChartConfig.numbcont = [

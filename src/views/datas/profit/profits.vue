@@ -98,12 +98,11 @@ export default {
 				this.$message('该素材图片错误！');
 			}
 		},
-
-		lodingfalse(){
-			this.$refs.Tablde.lodingfalse();	
+		setLoding(type){
+			this.$refs.Tablde.setLoding(type);	
 		},
-
 		getData(sxtj){
+			this.setLoding(true);
 			if(sxtj){
 				Object.assign(this.screens, sxtj);	
 				if(sxtj.start_time){
@@ -115,9 +114,9 @@ export default {
 				
 			this.api.data_income_detail({params}).then((datas)=>{									
 				this.tableData = this.clData(datas);		
-				this.lodingfalse();
+				this.setLoding(false);
 			}).catch(()=>{
-				this.lodingfalse();
+				this.setLoding(false);
 			})			
 		},			
 		clData(data){

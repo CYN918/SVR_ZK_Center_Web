@@ -28,7 +28,7 @@ export default {
 				ischeck:false,
 				'show-summary':true,
 				list:[
-					{prop:'create_time',lable:'日期'},				
+					{prop:'c_date',lable:'日期'},				
 					{prop:'channel',lable:'渠道'},
 					{prop:'cost',lable:'渠道成本',sor:true},
 				],
@@ -48,14 +48,11 @@ export default {
 		this.getData();
 	}, 
 	methods: {	
-		lodingfalse(){
-			this.$refs.Tablde.lodingfalse();	
-		},
-		ajaxget(data,fn){
-			console.log(fn);
-			fn([{value:1}])
+		setLoding(type){
+			this.$refs.Tablde.setLoding(type);	
 		},
 		getData(sxtj){
+			this.setLoding(true);
 			if(sxtj){
 				Object.assign(this.screens, sxtj);	
 				if(sxtj.start_time){
@@ -66,9 +63,9 @@ export default {
 			let params = this.screens;	
 			this.api.data_cost_channel({params}).then((datas)=>{									
 				this.tableData = this.clData(datas);		
-				this.lodingfalse();
-			}).catch((error)=>{
-				this.lodingfalse();
+				this.setLoding(false);
+			}).catch(()=>{
+				this.setLoding(false);
 			})			
 		},			
 		clData(data){
@@ -78,12 +75,12 @@ export default {
 			for(let i=0,n=da.length;i<n;i++){
 				arr.push(
 					{
-						create_time:da[i].create_time,
+						c_date:da[i].c_date,
 						channel:da[i].channel,
 						cost:+da[i].cost,
 					},
 				);
-			};
+			}
 			this.tableConfig.cont = [
 				'汇总',
 				'--',

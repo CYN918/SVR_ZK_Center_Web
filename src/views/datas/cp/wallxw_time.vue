@@ -102,8 +102,8 @@ export default {
 		this.getData();
 	}, 
 	methods: {	
-		lodingfalse(){
-			this.$refs.Tablde.lodingfalse();	
+		setLoding(type){
+			this.$refs.Tablde.setLoding(type);	
 		},
 		setData(data){
 			this.$refs.Tablde.setData(data);	
@@ -116,6 +116,7 @@ export default {
 			}
 		},
 		getData(sxtj){
+			this.setLoding(true);
 			if(sxtj){
 				Object.assign(this.screens, sxtj);																		
 			}	
@@ -125,9 +126,9 @@ export default {
 			this.api.data_gionee_lock_behavior_channel_time({params}).then((datas)=>{									
 				this.tableData = this.clData(datas);
 				this.$previewRefresh();
-				this.lodingfalse();
+				this.setLoding(false);
 			}).catch(()=>{
-				this.lodingfalse();
+				this.setLoding(false);
 			})			
 		},			
 		clData(data){

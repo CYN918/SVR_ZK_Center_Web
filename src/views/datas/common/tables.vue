@@ -24,7 +24,10 @@ export default {
 	mounted: function () {	
 	
 	}, 
-	methods: {	
+	methods: {
+		chedh(on){		
+			this.$parent.setchad(on);
+		},
 		setLoding(type){
 			this.$refs.Table.setLoding(type);	
 		},

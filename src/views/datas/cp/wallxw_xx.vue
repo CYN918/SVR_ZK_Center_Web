@@ -70,16 +70,17 @@ export default {
 		}
 	},
 	mounted: function () {	
-		this.lodingfalse();
+		this.getData();
 	}, 
 	methods: {	
 		seeXx(on){
 			window.open('/#/data/wallxw_ad?times='+this.tableData[on].create_time+'&bz_id='+this.tableData[on].bz_id+'&channel='+this.tableData[on].channel)					
 		},
-		lodingfalse(){
-			this.$refs.Tablde.lodingfalse();	
+		setLoding(type){
+			this.$refs.Tablde.setLoding(type);	
 		},
 		getData(sxtj){
+			this.setLoding(true);
 			if(sxtj){
 				Object.assign(this.screens, sxtj);	
 				if(sxtj.start_time){
@@ -89,11 +90,20 @@ export default {
 			}
 			let params = this.screens;
 				
+				
+			if(this.$route.query.bz_id && !params.bz_id){
+				params.bz_id = this.$route.query.bz_id;			
+			}	
+			if(this.$route.query.times && !params.start_time){
+				this.screens.end_time = this.$route.query.times;
+				this.screens.start_time = this.$route.query.times;				
+			}		
 			this.api.data_gionee_lock_behavior_wallpaper_channel({params}).then((datas)=>{									
-				this.tableData = this.clData(datas);		
-				this.lodingfalse();
+				this.tableData = this.clData(datas);	
+				this.$previewRefresh();
+				this.setLoding(false);
 			}).catch(()=>{
-				this.lodingfalse();
+				this.setLoding(false);
 			})			
 		},			
 		clData(data){
