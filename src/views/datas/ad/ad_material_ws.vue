@@ -29,11 +29,11 @@ export default {
 				list:[					
 					{title:'日期',type:'times',value:'start_time'},
 					{title:'素材ID',type:'text',value:'wallpaper_id'},
-					{title:'广告ID',type:'text',value:'ad_id'},
 					{title:'渠道',type:'get_channel',value:'channel'},
+					{title:'广告位ID',type:'get_ad_space_id',value:'ad_space_id'},
 					{title:'广告位类型',type:'get_ad_space_type',value:'ad_space_type'},
 					{title:'广告位名称',type:'get_ad_space_name',value:'ad_space_name'},
-					{title:'广告位ID',type:'get_ad_space_id',value:'ad_space_id'},
+					{title:'广告ID',type:'text',value:'ad_id'},					
 				],
 			},
 			tableConfig:{
@@ -43,12 +43,11 @@ export default {
 				list:[
 					{prop:'create_time',lable:'日期',sor:true},
 					{prop:'wallpaper_id',lable:'素材ID',wzimg:{cls:'',type:'text'}},
-					{prop:'ad_id',lable:'广告ID'},	
-					{prop:'ad_name',lable:'广告名称'},
 					{prop:'channel',lable:'渠道'},
 					{prop:'ad_space_id',lable:'广告位ID'},
 					{prop:'ad_space_type',lable:'广告位类型'},
 					{prop:'ad_space_name',lable:'广告位名称'},
+					{prop:'ad_id',lable:'广告ID'},					
 					{prop:'pv',lable:'展示量',sor:true},					
 					{prop:'click',lable:'点击量',sor:true},
 					{prop:'click_ratio',lable:'点击率'},
@@ -83,14 +82,11 @@ export default {
 				this.$message('该素材图片错误！');
 			}
 		},
-		lodingfalse(){
-			this.$refs.Tablde.lodingfalse();	
-		},
-		ajaxget(data,fn){
-			console.log(fn);
-			fn([{value:1}])
+		setLoding(type){
+			this.$refs.Tablde.setLoding(type);	
 		},
 		getData(sxtj){
+			this.setLoding(true);
 			if(sxtj){
 				Object.assign(this.screens, sxtj);	
 				if(sxtj.start_time){
@@ -109,9 +105,9 @@ export default {
 			this.api.data_ad_material_wallpaper_detail({params}).then((datas)=>{									
 				this.tableData = this.clData(datas);
 				this.$previewRefresh();
-				this.lodingfalse();
+				this.setLoding(false);
 			}).catch(()=>{
-				this.lodingfalse();
+				this.setLoding(false);
 			})			
 		},			
 		clData(data){
@@ -123,6 +119,11 @@ export default {
 					{
 						create_time:da[i].create_time,
 						bizi_id:da[i].bizi_id,
+						channel:da[i].channel,
+						ad_space_id:da[i].ad_space_id,
+						ad_space_type:da[i].ad_space_type,
+						ad_space_name:da[i].ad_space_name,
+						ad_id:da[i].ad_id,
 						pv:+da[i].pv,
 						click:+da[i].click,
 						click_ratio:da[i].click_ratio,
@@ -132,19 +133,12 @@ export default {
 						income:+da[i].income,
 						ecpm:+da[i].ecpm,
 						ecpc:+da[i].ecpc,
-						ad_id:da[i].ad_id,
-						ad_name:da[i].ad_name,
-						channel:da[i].channel,
-						ad_space_id:da[i].ad_space_id,
-						ad_space_type:da[i].ad_space_type,
-						ad_space_name:da[i].ad_space_name,
 						img_url:da[i].img_url
 					},
 				);
-			}
+			}			
 			this.tableConfig.cont = [
 				'汇总',
-				'--',
 				'--',
 				'--',
 				'--',

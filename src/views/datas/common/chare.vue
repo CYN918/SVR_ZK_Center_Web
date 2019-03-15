@@ -3,11 +3,11 @@
 		<div class="topdtnav">
 			<div v-if="ChartConfig.topldNav" class="topdtnav2">
 				<span>指标详解</span>
-				<span v-for="(el,index) in ChartConfig.topldNav" :key="index" @click="chedh(el)" :class="[el==onched?'onched':'']">{{el}}</span>
+				<span v-for="(el,index) in ChartConfig.topldNav" :key="index" @click="chedh(index)"  :class="[index==onched?'onched':'']">{{el}}</span>
 			</div>
 		</div>
 		<div class="zxtBox">
-			<div class="newTile" @click="tiodp">数据趋势</div>
+			<div class="newTile">数据趋势</div>
 			<div id="myChart"></div>
 			<div class="newTile"  >数据详情</div>						
 		</div>
@@ -19,7 +19,7 @@ export default {
 	props:['ChartConfig','chartData'],
 	data(){
 		return{
-			onched:'',		
+			onched:0,		
 			hfn:"",
 		}
 	},
@@ -38,17 +38,16 @@ export default {
 	
 			window.myChart.setOption(this.ChartConfig.config);
 		},
-		tiodp(){
-			
-		},
-		chedh(){
-		
-		},
 		setData(data){
-			this.onData = data;
 			window.myChart.setOption(data);
-			
+			window.myChart.resize();
 		},
+		chedh(on){		
+			console.log(on);
+			this.onched = on;
+			this.$parent.chedh(on);
+		},
+
 
 	},
 }

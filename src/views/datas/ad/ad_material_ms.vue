@@ -76,10 +76,11 @@ export default {
 		this.getData();
 	}, 
 	methods: {
-		lodingfalse(){
-			this.$refs.Tablde.lodingfalse();	
+		setLoding(type){
+			this.$refs.Tablde.setLoding(type);	
 		},
 		getData(sxtj){
+			this.setLoding(true);
 			if(sxtj){
 				Object.assign(this.screens, sxtj);	
 				if(sxtj.start_time){
@@ -100,9 +101,9 @@ export default {
 			this.api.data_ad_material_template_detail({params}).then((datas)=>{									
 				this.tableData = this.clData(datas);
 				this.$previewRefresh();
-				this.lodingfalse();
+				this.setLoding(false);
 			}).catch(()=>{
-				this.lodingfalse();
+				this.setLoding(false);
 			})			
 		},			
 		clData(data){

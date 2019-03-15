@@ -13,6 +13,11 @@ export default {
 				page:1,	
 				total:0,
 			},
+			channelArray:[],
+			timesAarray:[],
+			channelData:[],
+			adData:[],
+			wdData:[],
 			searchConfig:{
 				title:"壁纸渠道数据",
 				tipData:[
@@ -52,38 +57,22 @@ export default {
 					{fnName:'xzFn',cls:'pldc ',value:'导出数据'},
 				],
 			},
+			onched:0,
 			ChartConfig:{
-				onched:'日活PV',
+				onched:0,
 				title:'指标详解',
-				topldNav:['日活PV','月活UV','PV/UV','新增用户','累积用户','周活跃用户','月活跃用户','新增用户次日留存','平均单次使用时长','平均日使用时长'],
+				topldNav:['日活PV','日活UV','PV/UV','新增用户','累积用户','周活跃用户','月活跃用户','新增用户次日留存','平均单次使用时长','平均日使用时长'],
 				config:{
 					tooltip: {trigger: 'axis'},
 					legend: {
 						y:'bottom',
-						data:['A1007','D1009','A1009']
-					},
-					grid: {
-						left: '3%',
-						right: '4%',
-						bottom: '10%'
-					},
+						data:[]
+					},					
+					grid:{left: '8%',right: '8%',bottom: '10%'},
 					calculable : true,
-					xAxis : [
-						{
-							type : 'category',
-							boundaryGap : false,
-							data : ['2018-12-21','2018-12-21','2018-12-21','2018-12-21','2018-12-21','2018-12-21','2018-12-21']
-						}
-					],
-					yAxis : [
-						{type : 'value',axisLabel : {formatter: '{value} k'}}
-					],
-					series : [
-						{name:'A1007',type:'line',color: 'rgba(105,192,255,1)',data:[11, 11, 15, 13, 12, 30, 40]},
-						{name:'D1009',type:'line',color: 'rgba(230,0,18,1)',data:[1, 30, 2, 5, 3, 2, 0]},
-						{name:'A1009',type:'line',color: 'rgba(24,237,79,1)',data:[1, 0, 2, 5, 3, 2, 0]}
-					]
-					
+					xAxis:[{type:'category',boundaryGap:false,data:[]}],
+					yAxis:[{type:'value',axisLabel : {formatter: '{value}'}}],
+					series:[]
 				},
 			},
 			tableData:[],
@@ -94,10 +83,25 @@ export default {
 		this.getData();
 	}, 
 	methods: {	
-		lodingfalse(){
-			this.$refs.Tablde.lodingfalse();	
+		setchad(on){
+			this.onched=on;
+			this.ChartConfig.config.legend.data = this.channelArray;
+			this.ChartConfig.config.xAxis[0].data = this.timesAarray;
+			for(let i=0,n=this.channelArray.length;i<n;i++){
+				this.channelData[i].data=[];
+				this.channelData[i].data = this.adData[this.channelArray[i]][on];
+			}
+			this.ChartConfig.config.series = this.channelData;
+			this.setData(this.ChartConfig.config);
+		},
+		setLoding(type){
+			this.$refs.Tablde.setLoding(type);	
+		},
+		setData(data){
+			this.$refs.Tablde.setData(data);	
 		},
 		getData(sxtj){
+			this.setLoding(true);
 			if(sxtj){
 				Object.assign(this.screens, sxtj);	
 				if(sxtj.start_time){
@@ -108,9 +112,9 @@ export default {
 			let params = this.screens;	
 			this.api.data_polling_product_channel({params}).then((datas)=>{									
 				this.tableData = this.clData(datas);		
-				this.lodingfalse();
+				this.setLoding(false);
 			}).catch(()=>{
-				this.lodingfalse();
+				this.setLoding(false);
 			})			
 		},			
 		clData(data){
@@ -129,9 +133,43 @@ export default {
 						acc:+da[i].acc,
 						week:+da[i].week,
 						month:+da[i].month,
+						login:"暂无"
 					},
 				);
 			}
+			for(let el in data.trend_data){
+				this.channelArray.push(el);
+				this.channelData.push({name:el,type:'line',data:[]});
+				let arr1=[],arr2=[],arr3=[],arr4=[],arr5=[],arr6=[],arr7=[],arr8=[],
+				arr9=[],arr10=[];
+				for(let el2 in data.trend_data[el]){
+					this.timesAarray.push(el2);	
+					let d = data.trend_data[el][el2];
+					arr1.push(d.pv);			
+					arr2.push(d.uv);
+					arr3.push(d.pv_uv);
+					arr4.push(d.new);
+					arr5.push(d.acc);
+					arr6.push(d.week);
+					arr7.push(d.month);
+					arr8.push(0);
+					arr9.push(0);
+					arr10.push(0);				
+				}
+				this.adData[el] = [];
+				this.adData[el].push(arr1);
+				this.adData[el].push(arr2);
+				this.adData[el].push(arr3);
+				this.adData[el].push(arr4);
+				this.adData[el].push(arr5);
+				this.adData[el].push(arr6);
+				this.adData[el].push(arr7);
+				this.adData[el].push(arr8);
+				this.adData[el].push(arr9);
+				this.adData[el].push(arr10);
+			}
+			
+			this.setchad(this.onched);
 			return arr;
 		},
 		
