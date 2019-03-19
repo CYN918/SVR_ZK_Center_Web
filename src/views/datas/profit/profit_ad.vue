@@ -93,7 +93,7 @@ export default {
 			this.tableConfig.total=data.total_count;
 			for(let el in da){
 				arr.push({
-					create_time:el,
+					create_time:da[el].create_time,
 					ad_id:da[el].ad_id,
 					ad_name:da[el].ad_name,
 					admaster:da[el].admaster,

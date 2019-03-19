@@ -35,10 +35,10 @@ export default {
 					},
 				],
 				btns:[
-					{fnName:'need_export',cls:'pldc',value:'批量导出',check:'1'},
+					{fnName:'need_work',cls:'pldc',value:'批量导出',check:'1'},
 				],
 			},
-			
+
 		}
 	},
 }

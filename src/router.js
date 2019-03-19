@@ -207,12 +207,12 @@ router.addRoutes(nb);
 let leftNav =[{title:'管理',
 	children:[
 		{title:'需求管理',url:'1',list:[{title:'需求列表',url:'/admin/needList'}]},
-		{title:'素材管理',url:'2',list:[
+		{title:'素材库',url:'2',list:[
 			{title:'素材完整库',url:'/admin/material_picture'},
 			{title:'素材作品库',url:'/admin/material_flows'}
 		]},
 		{title:'投放管理',url:'3',list:[					
-			{title:'广告图管理',url:'/admin/library_picture'},
+			{title:'广告图库管理',url:'/admin/library_picture'},
 			{title:'广告图素材管理',url:'/admin/library_pictures'},
 			{title:'广告模版库投放管理',url:'/admin/library_resource'},
 			{title:'广告模版库素材管理',url:'/admin/library_resources'},

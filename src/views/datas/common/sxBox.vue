@@ -19,8 +19,6 @@
 					  :value="item.value">
 					</el-option>
 				</el-select>
-				
-				
 				<el-date-picker v-if="el.type=='times'"
 				  v-model="bind[el.value]"
 				  type="daterange"
@@ -36,8 +34,14 @@
 				  type="date"
 				  format="yyyy-MM-dd"
 				  value-format="yyyy-MM-dd"
-				
 				  >
+				</el-date-picker>
+				<el-date-picker v-if="el.type=='month'"
+								v-model="bind[el.value]"
+								type="month"
+								format="yyyy-MM"
+								value-format="yyyy-MM"
+				>
 				</el-date-picker>
 				<el-input class="sxtext" v-if="el.type=='text'"  v-model="bind[el.value]" placeholder="请输入内容"></el-input>
 				<el-autocomplete v-if="el.type=='get_product'" v-model="bind[el.value]" :fetch-suggestions="get_product" placeholder="请输入内容" ></el-autocomplete>

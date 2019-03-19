@@ -29,6 +29,7 @@ export default {
 						{label:'广告脚本模板',value:'resource'},
 						{label:'广告H5模板',value:'h5_resource'},
 						{label:'锁屏壁纸脚本图',value:'wallpaper'},
+						{label:'模板',value:'template'},
 					]},
 					
 					{title:'素材ID',type:'text',value:'material_id'},
@@ -227,6 +228,8 @@ export default {
 					break;
 				case 'wallpaper':a= '锁屏壁纸脚本图';
 					break;
+                case 'template':a= '模板';
+                    break;
 				default:
 					break;
 			}

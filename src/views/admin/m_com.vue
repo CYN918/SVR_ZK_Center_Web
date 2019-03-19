@@ -46,6 +46,9 @@ export default {
 				this.getTj();
 				this.setScreenConfig();				
 			},
+            // clickfn(name,cs){
+            //     this[name](cs);
+            // },
 			need_export(){
 				let form = document.createElement('form'),
 				arr = [
@@ -71,6 +74,42 @@ export default {
 				document.body.appendChild(form);
 				form.submit();
 			},
+            need_work(){
+					let form = document.createElement('form'),
+						arr = [
+							{n:'status',d:this.screens.status || ''},
+							{n:'type[]',d:this.screens.type || ''},
+							{n:'position',d:this.screens.position || ''},
+							{n:'size',d:this.screens.size || ''},
+							{n:'is_finished',d:this.screens.is_finished || ''},
+							{n:'start_date',d:this.screens.start_date || ''},
+							{n:'end_date',d:this.screens.end_date || ''},
+							{n:'search',d:this.screens.search || ''}
+						];
+					for(let i=0,n=arr.length;i<n;i++){
+						let dom = document.createElement('input');
+						dom.setAttribute('name',arr[i].n);
+						dom.setAttribute('value',arr[i].d);
+						form.appendChild(dom);
+					}
+                   var xmlResquest = new XMLHttpRequest();
+                   xmlResquest.open("get","http://ts-i.idatachain.cn/api/material/export",true);
+                   xmlResquest.setRequestHeader("Content-type","application/json");
+                   xmlResquest.setRequestHeader("Authorization",'Bearer '+localStorage.getItem('token'));
+                   xmlResquest.responseType = "blob";
+                   xmlResquest.onload = function (oEvent) {
+                		var content = xmlResquest.response;
+                		var eLink = document.createElement("a");
+                		eLink.download = "test.xlsx";
+                		eLink.style.display = 'none';
+                		var blob = new Blob([content]);
+                		eLink.href = URL.createObjectURL(blob);
+                		document.body.appendChild(eLink);
+                		eLink.click();
+                		document.body.removeChild(eLink);
+                   };
+                   xmlResquest.send(form);
+                },
 			
 			handleClick() {
 				let urld = ['/admin/material_picture','/admin/material_resource','/admin/material_wallpaper']

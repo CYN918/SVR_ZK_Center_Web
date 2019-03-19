@@ -156,7 +156,7 @@ export default {
 			this.tableConfig.total=data.total_count;
 			for(let el in da){
 				arr.push({
-					create_time:el,
+					create_time:da[el].create_time,
 					channel:da[el].channel,
 					product:da[el].product,
 					ad_space_type:da[el].ad_space_type,

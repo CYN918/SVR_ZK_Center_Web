@@ -48,7 +48,7 @@ export default {
 				list:[
 					{prop:'create_time',lable:'日期',sor:true},
 					{prop:'material_id',lable:'素材ID',wzimg:{cls:'',type:'text'}},
-					{prop:'material_type',lable:'素材类型'},
+					{prop:'material_type_name',lable:'素材类型'},
 					{prop:'channel',lable:'渠道'},
 					{prop:'product',lable:'产品'},
 					{prop:'ad_space_type',lable:'广告位类型'},
@@ -119,6 +119,7 @@ export default {
 						create_time:da[i].create_time,
 						material_id:da[i].material_id,
 						material_type:da[i].material_type,
+                        material_type_name:da[i].material_type_name,
 						channel:da[i].channel,
 						product:da[i].product,
 						ad_space_type:da[i].ad_space_type,

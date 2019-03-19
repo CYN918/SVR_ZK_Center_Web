@@ -26,7 +26,7 @@ export default {
 					
 				],
 				list:[					
-					{title:'月份',type:'timed',value:'month'},		
+					{title:'月份',type:'month',value:'month'},
 					{title:'渠道',type:'get_channel',value:'channel'},
 					{title:'产品',type:'get_product',value:'product'},
 					{title:'广告位类型',type:'get_ad_space_type',value:'ad_space_type'},

@@ -10,8 +10,9 @@ export default {
 			searchConfig:{
 				title:"广告主详细数据",				
 				list:[					
-					{title:'日期',type:'times',value:'start_date'},		
-					{title:'广告主',type:'get_ad_master',value:'admaster'},
+					{title:'日期',type:'times',value:'start_time'},
+                    {title:'日期',type:'times',value:'end_time'},
+                    {title:'广告主',type:'get_ad_master',value:'admaster'},
 					{title:'广告ID',type:'text',value:'ad_id'},
 					{title:'广告名称',type:'text',value:'ad_name'},
 					{title:'广告位ID',type:'get_ad_space_id',value:'ad_space_id'},				
