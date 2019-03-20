@@ -90,7 +90,7 @@ export default {
 						dom.setAttribute('name',arr[i].n);
 						dom.setAttribute('value',arr[i].d);
 					}
-				   var url = "http://ts-i.idatachain.cn/api/material/export?status="+this.screens.status+'&position='+this.screens.position+"&size="+this.screens.size+"&type[]="+this.screens.type+'&is_finished='+this.screens.is_finished+'&start_date='+this.screens.start_date+"&end_date="+this.screens.end_date+"&search="+this.screens.search;
+				   var url = "http://ts-i.idatachain.cn/api/material/export?status="+(this.screens.status==undefined?"":this.screens.status)+'&position='+(this.screens.position==undefined?"":this.screens.position)+"&size="+(this.screens.size==undefined?"":this.screens.size)+"&type[]="+(this.screens.type==undefined?"":this.screens.type)+'&is_finished='+(this.screens.is_finished==undefined?"":this.screens.is_finished)+'&start_date='+(this.screens.start_date==undefined?"":this.screens.start_date)+"&end_date="+(this.screens.end_date==undefined?"":this.screens.end_date)+"&search="+(this.screens.search==undefined?"":this.screens.search);
                    var xmlResquest = new XMLHttpRequest();
                    xmlResquest.open("get",url,true);
                    xmlResquest.setRequestHeader("Content-type","application/json");
