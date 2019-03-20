@@ -75,8 +75,7 @@ export default {
 				form.submit();
 			},
             need_work(){
-					let form = document.createElement('form'),
-						arr = [
+						var arr = [
 							{n:'status',d:this.screens.status || ''},
 							{n:'type[]',d:this.screens.type || ''},
 							{n:'position',d:this.screens.position || ''},
@@ -90,10 +89,10 @@ export default {
 						let dom = document.createElement('input');
 						dom.setAttribute('name',arr[i].n);
 						dom.setAttribute('value',arr[i].d);
-						form.appendChild(dom);
 					}
+				   var url = "http://ts-i.idatachain.cn/api/material/export?status="+this.screens.status+'&position='+this.screens.position+"&size="+this.screens.size+"&type[]="+this.screens.type+'&is_finished='+this.screens.is_finished+'&start_date='+this.screens.start_date+"&end_date="+this.screens.end_date+"&search="+this.screens.search;
                    var xmlResquest = new XMLHttpRequest();
-                   xmlResquest.open("get","http://ts-i.idatachain.cn/api/material/export",true);
+                   xmlResquest.open("get",url,true);
                    xmlResquest.setRequestHeader("Content-type","application/json");
                    xmlResquest.setRequestHeader("Authorization",'Bearer '+localStorage.getItem('token'));
                    xmlResquest.responseType = "blob";
@@ -108,7 +107,7 @@ export default {
                 		eLink.click();
                 		document.body.removeChild(eLink);
                    };
-                   xmlResquest.send(form);
+                   xmlResquest.send();
                 },
 			
 			handleClick() {
@@ -166,6 +165,7 @@ export default {
 					arr.push(
 						{
 							id:da[i].id,
+                            space_num:da[i].extend.space_num,
 							preview_url:da[i].preview_url=='null'?'/img/log.jpg':da[i].preview_url ,
 							material_type:this.checkNr(da[i].material_type),
 							position:da[i].position,

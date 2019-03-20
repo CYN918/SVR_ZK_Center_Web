@@ -25,7 +25,7 @@ export default {
 					{prop:'preview_url',lable:'预览图',type:'imgs'},
 					{prop:'material_type',lable:'素材类型'},
 					{prop:'position',lable:'风格分类'},
-					{prop:'description',lable:'广告位数量'},
+					{prop:'space_num',lable:'广告位数量'},
 					{prop:'size',lable:'素材尺寸'},				
 					{prop:'price',lable:'价格'},			
 					{prop:'material_status',lable:'状态'},
@@ -35,7 +35,7 @@ export default {
 					},
 				],
 				btns:[
-					{fnName:'need_export',cls:'pldc',value:'批量导出',check:'1'},
+					{fnName:'need_work',cls:'pldc',value:'批量导出',check:'1'},
 				],
 			},
 			
