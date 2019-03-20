@@ -33,7 +33,6 @@
 							{{scope.row[el.prop]}}	
 							<img class="ycpic" preview="0" :preview-text="el.lable"  :src="[scope.row['img_url']?scope.row['img_url']:'/img/log.jpg']"/>			
 						</span>
-						
 						<el-switch v-else-if="el.switch" @change="clickfn(el.switch.fnName,scope.$index)" v-model="el.switch.mode[scope.$index]" active-color="#FFA39E" inactive-color="#CFCDCD">
 						</el-switch>						
 						<span v-else>{{scope.row[el.prop]}}</span>

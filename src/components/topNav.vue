@@ -4,6 +4,7 @@
 		<el-dropdown trigger="click" class="user-ci">
 			<span class="el-dropdown-link iconfont">&#xe686;</span>
 			<el-dropdown-menu slot="dropdown">
+				<el-dropdown-item ><span @click="gouser()">个人信息</span></el-dropdown-item>
 				<el-dropdown-item ><span @click="loginout()">退出</span></el-dropdown-item>		   
 			</el-dropdown-menu>
 		</el-dropdown>
@@ -46,6 +47,9 @@ export default {
 		goindex(){
 			window.location.href= '#/index';
 		},
+        gouser(){
+            window.location.href= '#/user/user_message';
+        },
 		loginout(){	
 			let urld = 'http://ts-i.idatachain.cn';
 			if(window.location.host=='c.zookingsoft.com'){

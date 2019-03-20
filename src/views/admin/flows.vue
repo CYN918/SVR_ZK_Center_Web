@@ -53,8 +53,7 @@ import tables from '../common/tables.vue';
 						{title:'素材尺寸',type:'select',value:'size',list:list2},
 						{title:'素材状态',type:'select',value:'status',list:[
 							{label:'全部',value:''},
-							{label:'待审核',value:'待审核'},
-							{label:'入库',value:'入库'},
+							{label:'待入库',value:'待审核'},
 							{label:'使用中',value:'1101'},
 							{label:'使用过',value:'1201'},
 						
@@ -71,6 +70,7 @@ import tables from '../common/tables.vue';
 					ischeck:true,
 					list:[
 						{prop:'id',lable:'素材Id'},
+                        {prop:'need_id',lable:'需求Id'},
 						{prop:'preview_url',lable:'预览图',type:'imgs'},
 						{prop:'material_type',lable:'素材类型'},
 						{prop:'position',lable:'广告位类型'},
@@ -120,7 +120,8 @@ import tables from '../common/tables.vue';
 						delete this.screens.is_finished;
 					}
 				}	
-				let params=this.screens;	
+				let params=this.screens;
+                params.is_finished=0;
 				this.api.material_lists({params}).then( (response)=> {
 					
 					this.tableData = this.clData(response);
@@ -137,6 +138,7 @@ import tables from '../common/tables.vue';
 					arr.push(
 						{
 							id:da[i].id,
+                            need_id:da[i].need_id,
 							preview_url:da[i].preview_url=='null'?'/img/log.jpg':da[i].preview_url ,
 							material_type:this.checkNr(da[i].material_type),
 							position:da[i].position,
@@ -194,7 +196,7 @@ import tables from '../common/tables.vue';
 				if(on==1){
 					return value =='1001'?'入库':value =='1101'?'使用中':value=='1201'?'使用过':'';
 				}
-				return value =='1001'?'待审核':value =='1101'?'使用中':value=='1201'?'使用过':'';								
+				return value =='1001'?'待入库':value =='1101'?'使用中':value=='1201'?'使用过':'';
 			},
 		}
 	};

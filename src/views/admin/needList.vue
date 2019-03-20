@@ -1,8 +1,8 @@
 <template>
-	<div>
-		<tables 
-			:screenConfig="screenConfig" 
-			:tableConfig="tableConfig" 
+	<div id="ssTOP">
+		<tables
+			:screenConfig="screenConfig"
+			:tableConfig="tableConfig"
 			:tableDatas="tableData"
 			:tjData="tjData"
 			@screenFn="getData"
@@ -31,6 +31,7 @@ export default {
 			tableConfig:{
 				total:0,
 				ischeck:true,
+
 				list:[
 					{prop:'id',lable:'需求ID'},
 					{prop:'title',lable:'需求标题'},
@@ -48,8 +49,8 @@ export default {
 					},
 				],
 				btns:[
-					{fnName:'addXq',cls:'hsan',value:'新增需求'},
-					{fnName:'need_export',cls:'pldc ',value:'批量导出',check:'1'},
+					{fnName:'addXq',cls:'hsan',value:'新增需求',class:'aaa'},
+					{fnName:'need_export',cls:'pldc ',value:'批量导出',check:'1',class:'bbb'},
 				],
 			},
 		}
@@ -255,4 +256,5 @@ export default {
 }	
 </script>
 <style>
+
 </style>

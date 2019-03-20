@@ -4,7 +4,7 @@
 			<el-tab-pane label="详细资料" name="1">
 				<div class="cembox">
 					<div class="cembox1">
-						<img :src="'/img/tx.png'" alt="">
+						<!--<img :src="'/img/tx.png'" alt="">-->
 					</div>
 					<div class="cembox2">
 						<div class="cembox2T">基本信息</div>

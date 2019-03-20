@@ -93,6 +93,7 @@ export default {
 				   var url = "http://ts-i.idatachain.cn/api/material/export?status="+(this.screens.status==undefined?"":this.screens.status)+'&position='+(this.screens.position==undefined?"":this.screens.position)+"&size="+(this.screens.size==undefined?"":this.screens.size)+"&type[]="+(this.screens.type==undefined?"":this.screens.type)+'&is_finished='+(this.screens.is_finished==undefined?"":this.screens.is_finished)+'&start_date='+(this.screens.start_date==undefined?"":this.screens.start_date)+"&end_date="+(this.screens.end_date==undefined?"":this.screens.end_date)+"&search="+(this.screens.search==undefined?"":this.screens.search);
                    var xmlResquest = new XMLHttpRequest();
                    xmlResquest.open("get",url,true);
+                   xmlResquest.setRequestHeader("Accept","application/json, text/plain, */*");
                    xmlResquest.setRequestHeader("Content-type","application/json");
                    xmlResquest.setRequestHeader("Authorization",'Bearer '+localStorage.getItem('token'));
                    xmlResquest.responseType = "blob";
@@ -200,11 +201,11 @@ export default {
 						{title:'投放位置',type:'select',value:'position',list:list1},
 						{title:'素材尺寸',type:'select',value:'size',list:list2},
 						{title:'素材状态',type:'select',value:'status',list:[
-							{label:'全部',value:''},						
+							{label:'全部',value:''},
 							{label:'入库',value:'1001'},
 							{label:'使用中',value:'1101'},
 							{label:'使用过',value:'1201'},
-						]},	
+						]},
 						{title:'入库时间',type:'times',value:'start_date'},		
 						{title:'模糊搜索',type:'text',value:'search'},		
 					];						

@@ -1,32 +1,38 @@
 <template>
 	<div>
-		<tables 
-			:tableConfig="tableConfig" 
-			:tableDatas="tableData"
-			@screenFn="getData"
-			ref="Tabledd"
-		></tables>
-		<div class="tcVbox" v-show="isshowd">
-			<div class="tcVboxBg" @click="hindjse"></div>
-		
-			<div class="tjzsd">
-				<el-form ref="form" :model="form" label-width="80px">
-				<el-form-item label="角色名称">
-				<el-input v-model="form.name" :value="form.name" placeholder=""></el-input>
-				</el-form-item>		
-				<el-form-item label="角色描述">
-				<el-input type="textarea" v-model="form.description">{{form.description}}</el-input>	
-				</el-form-item>
-				</el-form>				 
-				<div class="btnds">
-					<div @click="add_role" class="btnd honse">提交</div>
-					<div @click="hindjse" class="btnd hyse">返回</div>
-				</div>		
-  
-			</div>
+		<div class="sler">
+			<el-input class=" wdhf"  v-model="search" placeholder="角色名称/角色描述"></el-input><el-button round @click="sx()" class="sxbtnde">查询</el-button>
 		</div>
-		<roqxList :datas="datasd" ref="roqx"></roqxList>
-	</div>	
+		<div>
+			<tables
+					:tableConfig="tableConfig"
+					:tableDatas="tableData"
+					@screenFn="getData"
+					ref="Tabledd"
+			></tables>
+			<div class="tcVbox" v-show="isshowd">
+				<div class="tcVboxBg" @click="hindjse"></div>
+
+				<div class="tjzsd">
+					<el-form ref="form" :model="form" label-width="80px">
+						<el-form-item label="角色名称">
+							<el-input v-model="form.name" :value="form.name" placeholder=""></el-input>
+						</el-form-item>
+						<el-form-item label="角色描述">
+							<el-input type="textarea" v-model="form.description">{{form.description}}</el-input>
+						</el-form-item>
+					</el-form>
+					<div class="btnds">
+						<div @click="add_role" class="btnd honse">提交</div>
+						<div @click="hindjse" class="btnd hyse">返回</div>
+					</div>
+
+				</div>
+			</div>
+			<roqxList :datas="datasd" ref="roqx"></roqxList>
+		</div>
+	</div>
+
 </template>
 <script>
 import tables from '../../common/tables';
@@ -38,6 +44,7 @@ export default {
 			form:{},
 			datasd:{},
 			addType:0,
+            search:'',
 			tableData:[],	
 			isshowd:false,
 			tableConfig:{
@@ -50,7 +57,8 @@ export default {
 					{prop:'status',lable:'是否启用','switch':{cls:'',mode:[],fnName:'chetype'},
 						
 					},
-					{prop:'users_count',lable:'绑定人数'},		
+					{prop:'users_count',lable:'绑定人数'},
+					{prop:'updator',lable:"最近操作人"},
 					{prop:'attachment.url',lable:'操作',
 						temps:[
 							{cls:'hesd',type:'text',value:'设置权限',fnName:'seeQux'},
@@ -136,7 +144,7 @@ export default {
 			}
 		},
 		enloding(){
-			this.$refs.Tabledd.lodingfalse();		
+			this.$refs.Tabledd.lodingfalse();
 		},
 		addjse(){
 			this.form = {};
@@ -146,13 +154,22 @@ export default {
 		hindjse(){
 			this.isshowd= false;
 		},
-		getData(){												
-			this.api.get_roles().then((response)=>{		
-				this.tableData = this.clData(response);						
+        sx(){
+            if(this.search){
+                this.getData(this.search);
+            }
+        },
+		getData(search){
+            let params;
+            if(search){
+                params = {search:search};
+            }
+			this.api.get_roles({params}).then((response)=>{
+				this.tableData = this.clData(response);
 				this.enloding();
 			}).catch(()=>{
 				this.enloding();
-			});	
+			});
 		},
 		clData(data){
 			let arr  = [];
@@ -163,6 +180,7 @@ export default {
 				arr.push(
 					{
 						id:da[i].id,
+                        updator:da[i].updator,
 						role_name:da[i].role_name,
 						description:da[i].description,
 						created_at:da[i].created_at,						

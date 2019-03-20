@@ -208,8 +208,8 @@ let leftNav =[{title:'管理',
 	children:[
 		{title:'需求管理',url:'1',list:[{title:'需求列表',url:'/admin/needList'}]},
 		{title:'素材库',url:'2',list:[
-			{title:'素材完整库',url:'/admin/material_picture'},
-			{title:'素材作品库',url:'/admin/material_flows'}
+			{title:'已入库',url:'/admin/material_picture'},
+			{title:'待入库',url:'/admin/material_flows'}
 		]},
 		{title:'投放管理',url:'3',list:[					
 			{title:'广告图库管理',url:'/admin/library_picture'},
@@ -221,7 +221,7 @@ let leftNav =[{title:'管理',
 		{title:'权限管理',url:'4',list:[
 			{title:'角色管理',url:'/admin/roles'},
 			{title:'内部帐号管理',url:'/admin/inside'},
-			{title:'外部帐号管理',url:'/admin/external'},						
+			{title:'外部帐号管理',url:'/admin/external'},
 		]},
 	]},{title:'个人中心',default:'/user/user_need',defaultopen:['1'],				
 	children:[
