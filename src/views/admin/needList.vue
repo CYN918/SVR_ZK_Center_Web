@@ -121,10 +121,11 @@ export default {
 				this.setLoding(false);
 			});
 		},
-		clocs(){				
+		clocs(){
 			this.$refs.taglod.clocs();
 		},
 		addXq(){
+
 			this.$refs.taglod.open();
 		},	
 		clData(data){

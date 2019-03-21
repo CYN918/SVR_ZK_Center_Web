@@ -13,6 +13,7 @@ export default {
 				ischeck:false,
 				list:[
 					{prop:'material_id',lable:'素材Id'},
+                    {prop:'need_id',lable:'需求Id'},
 					{prop:'preview_url',lable:'预览图',type:'imgs'},
 					{prop:'material_type',lable:'素材类型'},
 					{prop:'position',lable:'广告位类型'},							

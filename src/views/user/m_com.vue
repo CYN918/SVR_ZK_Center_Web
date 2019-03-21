@@ -104,6 +104,7 @@ export default {
 				arr.push(
 					{
 						material_id:da[i].material_id,
+                        need_id:da[i].need.id,
 						preview_url:da[i].preview_url=='null'?'/img/log.jpg':da[i].preview_url ,						
 						material_type:this.checkNr(da[i].material_type),
 						position:da[i].position,

@@ -12,7 +12,7 @@
 			<router-link  to="/index"><li>首页</li></router-link>
 			<router-link  to="/admin"><li>管理</li></router-link>
 			<router-link  to="/data"><li>数据</li></router-link>
-			<router-link  to="/user"><li>个人中心</li></router-link>
+			<router-link  to="/user"><li>审核台</li></router-link>
 			<a><li class="iconfont">&#xe628;</li></a>
 		</ul>
 		<el-menu v-if="config.showL!=-1"  class="el-menu-demo appTopNav" mode="horizontal" @select="handleSelect"> 
@@ -21,7 +21,7 @@
 				<el-menu-item index="0">首页</el-menu-item>
 				<el-menu-item index="1">管理</el-menu-item>
 				<el-menu-item index="2">数据</el-menu-item>
-				<el-menu-item index="3">个人中心</el-menu-item>
+				<el-menu-item index="3">审核台</el-menu-item>
 				<el-menu-item @click="loginout" index="4">退出</el-menu-item>				
 			</el-submenu>		  
 		</el-menu>
@@ -36,7 +36,7 @@ export default {
 		return{
 			input:'',
 			topNacd:'首页',
-			todata:[{name:'首页',url:'/index'},{name:'管理',url:'/admin/needList'},{name:'数据',url:'/data/pData'},{name:'个人中心',url:'/user/user_need'}],
+			todata:[{name:'首页',url:'/index'},{name:'管理',url:'/admin/needList'},{name:'数据',url:'/data/pData'},{name:'审核台',url:'/user/user_need'}],
 		}
     },
 	methods:{
@@ -48,7 +48,7 @@ export default {
 			window.location.href= '#/index';
 		},
         gouser(){
-            window.location.href= '#/user/user_message';
+            window.location.href= '#/userinfo/user_info';
         },
 		loginout(){	
 			let urld = 'http://ts-i.idatachain.cn';

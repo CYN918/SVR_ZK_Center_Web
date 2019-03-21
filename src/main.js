@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router'
 import axios from 'axios'
 import api from './api/index'
 import echarts from 'echarts'
+import router from './router'
 
 Vue.prototype.$echarts = echarts 
 Vue.prototype.$ajax = axios

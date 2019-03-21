@@ -41,6 +41,7 @@
 							<img v-if="form.position_desc" :src="form.position_desc" class="avatar">
 							<i v-else class="el-icon-plus avatar-uploader-icon"></i>
 						</el-upload>
+
 					</el-form-item>
 					<el-form-item  class="sixwz wztopdw" label="投放内容描述"  prop="description">
 						<el-input :disabled="clicType==1" type="textarea" v-model="form.description"></el-input>
@@ -155,7 +156,7 @@ export default {
 		},				
 		clocs(){
 			this.dialogVisible= false;				
-			if(this.clicType==1){
+			if(this.clicType==0){          //this.clicType==1
 				this.form={
 					title: '',
 					extend_type:'',
@@ -167,16 +168,18 @@ export default {
 					description:'',
 					note:'',
 					link:'',
-					ad_type:'',					  
+					ad_type:'',
 				};
+				console.log(this.clicType)
 			}
 			this.clicType = 0;
+
 		},
 		open(){
 			this.dialogVisible= true;
 		},	
 		pushData(){
-			let pd = Date.parse(new Date(this.form.end_at));				
+			let pd = Date.parse(new Date(this.form.end_at));
 			if(pd<Date.parse(new Date())){
 				this.$message("截至时间不能小于当前时间");
 				return

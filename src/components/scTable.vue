@@ -9,7 +9,7 @@
 						<table class="mytabled" width="100%">
 							<tr><th v-for="(el,index) in tableConfig.expand" :key="index">{{el.lable}}</th></tr>
 							<tr  v-for="(el,indexx) in props.row.works" :key="indexx">
-								<td v-for="(el2,index2) in tableConfig.expand" :key="index2">	
+								<td v-for="(el2,index2) in tableConfig.expand" :key="index2">
 									<span v-if="el2.temps" class="el-button el-button--text bjysdicon iconfont"	 @click="clickfn('downlods',{on:props.$index,ons:indexx})">{{el2[0]}}&#xe61a;</span>
 									<span v-else>{{props.row.works[indexx][el2.prop]}}</span>
 								</td>

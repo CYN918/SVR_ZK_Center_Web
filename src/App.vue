@@ -32,4 +32,5 @@ html,body{
   top:40px;
   right: 34px
 }
+  .el-table_1_column_4:hover{color: red}
 </style>

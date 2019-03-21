@@ -44,7 +44,8 @@ import AdminInside from './views/admin/level/inside.vue'
 mode['inside'] = AdminInside
 import AdminExternal from './views/admin/level/external.vue'
 mode['external'] = AdminExternal
-// 个人中心
+
+//审核台
 import userIndex from './views/user/index.vue'
 mode['user'] = userIndex
 import userNeed from './views/user/user_need.vue'
@@ -55,10 +56,12 @@ import user_resource from './views/user/user_resource.vue'
 mode['user_resource'] = user_resource
 import user_wallpaper from './views/user/user_wallpaper.vue'
 mode['user_wallpaper'] = user_wallpaper
-import userMessage from './views/user/userMessage.vue'
-mode['user_message'] = userMessage
+// import userMessage from './views/user/userMessage.vue'
+// mode['user_message'] = userMessage
+
 import axios from 'axios'
 import api from './api/index'
+
 /*数据*/
 import dataIndex from './views/datas/index.vue'
 mode['data'] = dataIndex
@@ -126,6 +129,14 @@ import cost_designers from './views/datas/profit/cost_designers'
 mode['cost_designers'] = cost_designers
 import profits from './views/datas/profit/profits'
 mode['profits'] = profits
+
+// 个人中心
+import infoIndex from './views/userinfo/index.vue'
+mode['info'] = infoIndex
+import userinfo from './views/userinfo/user_info.vue'
+mode['userinfo'] = userinfo
+
+
 Vue.use(Router)
 const router = new Router({routes: []})		
 let tonek = localStorage.getItem('token');
@@ -194,17 +205,24 @@ let nb = [
 		{path:'/data/cost_designers',name:'cost_designers',component:mode['cost_designers']},	
 		{path:'/data/profits',name:'profits',component:mode['profits']},				
 	]},
-	{path:'/user',name:'个人中心',component:mode['user'],children:[	
+	{path:'/user',name:'审核台',componpent:mode['user'],children:[
 		{path:'/user/user_need',name:'需求审核',component:mode['user_need']},
 		{path:'/user/user_picture',name:'图片审核',component:mode['user_picture']},
 		{path:'/user/user_resource',name:'模版审核',component:mode['user_resource']},
 		{path:'/user/user_wallpaper',name:'壁纸审核',component:mode['user_wallpaper']},
-		{path:'/user/user_message',name:'个人信息',component:mode['user_message']},				
-	]},			
+		// {path:'/user/user_message',name:'个人信息',component:mode['user_message']},
+	]},
+    {path:'/userinfo',name:'个人中心',component:mode['info'],
+		children:[
+            {path:'/userinfo/user_info',name:'个人信息',component:mode['userinfo']},
+        ]
+	},
+
 ];
 router.addRoutes(nb);
 /*动态生成左边菜单*/
-let leftNav =[{title:'管理',
+let leftNav =[
+	{title:'管理',
 	children:[
 		{title:'需求管理',url:'1',list:[{title:'需求列表',url:'/admin/needList'}]},
 		{title:'素材库',url:'2',list:[
@@ -223,20 +241,16 @@ let leftNav =[{title:'管理',
 			{title:'内部帐号管理',url:'/admin/inside'},
 			{title:'外部帐号管理',url:'/admin/external'},
 		]},
-	]},{title:'个人中心',default:'/user/user_need',defaultopen:['1'],				
-	children:[
-		{title:'待处理',url:'1',list:[
-			{title:'需求待处理',url:'/user/user_need'},
-			{title:'广告图待处理',url:'/user/user_picture'},
-			{title:'广告模版待处理',url:'/user/user_resource'},
-			{title:'锁屏壁纸待处理',url:'/user/user_wallpaper'},
-
-			
-		],
-		},
-		
-		{title:'个人信息',url:'/user/user_message'},
 	]},
+	{title:'审核台',default:'/user/user_need',defaultopen:['1'],
+        children:[
+            {title:'待处理',url:'1',list:[
+                    {title:'需求待处理',url:'/user/user_need'},
+                    {title:'广告图待处理',url:'/user/user_picture'},
+                    {title:'广告模版待处理',url:'/user/user_resource'},
+                    {title:'锁屏壁纸待处理',url:'/user/user_wallpaper'},],},
+        ]
+	},
 	{title:'数据',default:'/data',defaultopen:['1'],
 	children:[
 		{title:'广告分析数据',url:'1',children:[					
@@ -293,10 +307,18 @@ let leftNav =[{title:'管理',
 			{title:'设计师成本',url:'/data/cost_designer'},
 			{title:'设计师成本详细数据',url:'/data/cost_designers'},
 			{title:'收益详表',url:'/data/profits'},
-			
 		]}
-	]},				
-];				
+	]},
+    {title:'个人中心',default:'/userinfo/user_info',defaultopen:['1'],
+        list:[
+            {title:'个人信息', url:'/userinfo/user_info'},
+            {title:'退出',url:'/api/logout'},
+        ]
+	},
+];
+
+
+
 localStorage.setItem('letNav',JSON.stringify(leftNav));
 router.beforeEach((to, from, next) => {
 	/*登录过期*/
@@ -334,8 +356,14 @@ router.beforeEach((to, from, next) => {
 		}	
 		if(to.fullPath=='/user'){
 			next({ path: '/user/user_need'});
-		}	
-		if(to.fullPath=='/indexs'){
+		}
+        if(to.fullPath=='/userinfo'){
+            next({ path: '/userinfo/user_info'});
+        }
+        // if (to.fullPath=='/api/logout'){
+        //
+		// }
+        if(to.fullPath=='/indexs'){
 			next({ path: '/indexs/list'});
 		}				
 						

@@ -9,12 +9,12 @@
 					{{el.title}}
 				</el-menu-item>			
 				<el-submenu v-for="(el,index) in navData.children" :index="el.url" :key="index">
-					<template slot="title">         
+					<template slot="title">
 						<span>{{el.title}}</span>
-					</template>				
-					<el-menu-item-group v-if="el.list">   				   
-						<el-menu-item v-for="(elx,indexx) in el.list" :index="elx.url" :key="indexx">{{elx.title}}</el-menu-item>					
-					</el-menu-item-group> 
+					</template>
+					<el-menu-item-group v-if="el.list">
+						<el-menu-item v-for="(elx,indexx) in el.list" :index="elx.url" :key="indexx">{{elx.title}}</el-menu-item>
+					</el-menu-item-group>
 					<el-menu-item-group v-else-if="el.children">  
 						<el-submenu v-for="(el2,index) in el.children" :index="el2.url" :key="index">
 							<template slot="title">         
