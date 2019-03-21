@@ -56,8 +56,8 @@ import user_resource from './views/user/user_resource.vue'
 mode['user_resource'] = user_resource
 import user_wallpaper from './views/user/user_wallpaper.vue'
 mode['user_wallpaper'] = user_wallpaper
-// import userMessage from './views/user/userMessage.vue'
-// mode['user_message'] = userMessage
+import userMessage from './views/user/userMessage.vue'
+mode['user_message'] = userMessage
 
 import axios from 'axios'
 import api from './api/index'
@@ -205,12 +205,12 @@ let nb = [
 		{path:'/data/cost_designers',name:'cost_designers',component:mode['cost_designers']},	
 		{path:'/data/profits',name:'profits',component:mode['profits']},				
 	]},
-	{path:'/user',name:'审核台',componpent:mode['user'],children:[
+	{path:'/user',name:'审核台',component:mode['user'],children:[
 		{path:'/user/user_need',name:'需求审核',component:mode['user_need']},
 		{path:'/user/user_picture',name:'图片审核',component:mode['user_picture']},
 		{path:'/user/user_resource',name:'模版审核',component:mode['user_resource']},
 		{path:'/user/user_wallpaper',name:'壁纸审核',component:mode['user_wallpaper']},
-		// {path:'/user/user_message',name:'个人信息',component:mode['user_message']},
+		{path:'/user/user_message',name:'个人信息',component:mode['user_message']},
 	]},
     {path:'/userinfo',name:'个人中心',component:mode['info'],
 		children:[
@@ -242,7 +242,7 @@ let leftNav =[
 			{title:'外部帐号管理',url:'/admin/external'},
 		]},
 	]},
-	{title:'审核台',default:'/user/user_need',defaultopen:['1'],
+	{title:'审核台',default:'/user',defaultopen:['1'],
         children:[
             {title:'待处理',url:'1',list:[
                     {title:'需求待处理',url:'/user/user_need'},
