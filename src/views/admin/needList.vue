@@ -125,7 +125,6 @@ export default {
 			this.$refs.taglod.clocs();
 		},
 		addXq(){
-
 			this.$refs.taglod.open();
 		},	
 		clData(data){

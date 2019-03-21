@@ -6,7 +6,7 @@
 				<div class="innerInput filePs">
 					<el-form-item label="附件"><el-input v-model="fileName" clearable autocomplete="off"></el-input></el-form-item> 
 					<el-upload ref="upload" class="upload-demo" :action="uploadUrl" :limit="1" :name="'file'" :data="uerAd" :on-success="onsuc">
-						<el-button size="small" type="primary">点击上传</el-button>					 
+						<el-button size="small" type="primary">点击上传</el-button>  <span style="">上传提示：仅支持单文件上传，如需上传多个文件，请先将文件打包处理再进行上传！</span>
 					</el-upload>
 					<div v-if="tabsd.flow_detail && tabsd.flow_detail.fields && tabsd.flow_detail.type == 'field_edit'">
 						<div v-for="el in tabsd.flow_detail.fields" :key="el.type">

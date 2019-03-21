@@ -17,8 +17,15 @@
 								<el-option label="锁屏壁纸脚本图" value="needs_wallpaper"></el-option>								
 							</el-select>
 						</el-form-item>
+						<el-form-item  label="优先级" prop="priority">
+							<el-select :disabled="clicType==1" v-model="form.priority" placeholder="优先级">
+								<el-option label="高" value="tall"></el-option>
+								<el-option label="中" value="centre"></el-option>
+								<el-option label="低" value="low"></el-option>
+							</el-select>
+						</el-form-item>
 						<el-form-item  label="广告位类型" prop="position">
-							<el-select :disabled="clicType==1" v-model="form.position"   placeholder="请选择">
+							<el-select :disabled="clicType==1" @change="getHint" v-model="form.position"   placeholder="请选择">
 								<el-option v-for="item in cslist.platform_position" :key="item" :label="item" :value="item">
 								</el-option>
 							</el-select>							
@@ -35,14 +42,19 @@
 								</el-option>
 							</el-select>							
 						</el-form-item>
-					</div>					
-					<el-form-item class="sixwz wztopdw" label="投放位置说明" prop="position_desc">
-						<el-upload :disabled="clicType==1" class="avatar-uploader" :action="uploadUrl" :show-file-list="false" :on-success="handleAvatarSuccess" :on-error="errd">
-							<img v-if="form.position_desc" :src="form.position_desc" class="avatar">
-							<i v-else class="el-icon-plus avatar-uploader-icon"></i>
-						</el-upload>
+					</div>
+					<div>
+						<el-form-item class="shiyi" label="广告类型示意" prop="position_desc" style="display: inline-block">
+							<img  style="width: 200px;height: 284px;margin-left: 50px" :src="Reminders">
+						</el-form-item>
+						<el-form-item class="imgs" label="投放位置说明" prop="position_desc">
+							<el-upload :disabled="clicType==1" class="avatar-uploader" :action="uploadUrl" :show-file-list="false" :on-success="handleAvatarSuccess" :on-error="errd">
+								<img v-if="form.position_desc" :src="form.position_desc" class="avatar">
+								<i v-else class="el-icon-plus avatar-uploader-icon"></i>
+							</el-upload>
+						</el-form-item>
+					</div>
 
-					</el-form-item>
 					<el-form-item  class="sixwz wztopdw" label="投放内容描述"  prop="description">
 						<el-input :disabled="clicType==1" type="textarea" v-model="form.description"></el-input>
 					</el-form-item>
@@ -88,9 +100,11 @@ export default {
 			}, 
 			ajaxt:0,
 			dialogVisible: false,
+            Reminders:'',
 			form: {
 				title: '',
 				extend_type:'',
+                priority:'',
 				size:'',
 				position:'',
 				position_desc:'',
@@ -113,6 +127,9 @@ export default {
 				'extend_type': [
 					{ required: true, message: ' ', trigger: 'blur' },					
 				],
+                'priority': [
+                    { required: true, message: ' ', trigger: 'blur' },
+                ],
 				'size': [
 					{ required: true, message: ' ', trigger: 'blur' },				
 				],
@@ -147,9 +164,8 @@ export default {
 			}			
 		},
 		fon(){
-			
 		},
-		setData(newData){
+            setData(newData){
 			this.form = newData;
 			this.clicType=1;
 			this.open();
@@ -160,8 +176,9 @@ export default {
 				this.form={
 					title: '',
 					extend_type:'',
+                    priority:'',
 					size:'',
-					position:'',
+					position:'PUSH',
 					position_desc:'',
 					end_at:new Date(),
 					num:'',
@@ -177,7 +194,19 @@ export default {
 		},
 		open(){
 			this.dialogVisible= true;
-		},	
+		},
+        getHint(){
+            this.api.need_adtype().then((res)=>{
+                for(var i=0 ;i<res.length;i++){
+                    if(this.form.position==res[i].ad_type){
+                        this.Reminders = res[i].url;
+                        console.log(i);
+                        return
+                    }
+                }
+                console.log(res);
+            })
+        },
 		pushData(){
 			let pd = Date.parse(new Date(this.form.end_at));
 			if(pd<Date.parse(new Date())){
@@ -188,6 +217,10 @@ export default {
 				this.$message("素材类型 不能为空。");
 				return
 			}
+            if(!this.form.priority){
+                this.$message("优先级不能为空。");
+                return
+            }
 			if(!this.form.title){
 				this.$message("标题 不能为空。");
 				return
@@ -357,7 +390,23 @@ export default {
 	.tcBOx{left: 0;}
 	.tcboxff2{margin: 20px;}
 }
-.sixwz label{
+.shiyi{display: inline-block}
+.shiyi label{
+	width: 140px !important;
+	text-align: left;
+	padding: 0;
+}
+.imgs>label{
+	width: 100px !important;
+	text-align: left;
+	padding: 0;
+}
+.imgs{
+	margin-left: 50px;
+	width: 64%;
+	display: inline-block;
+}
+.sixwz>label{
 	width: 100px !important;
     text-align: left;
     padding: 0;

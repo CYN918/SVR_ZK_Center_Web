@@ -19,17 +19,17 @@ export default {
 					{prop:'position',lable:'广告位类型'},							
 					{prop:'size',lable:'素材尺寸'},					
 					{prop:'material_status',lable:'状态'},
-					{prop:'created_at',lable:'创建时间'},
-					{prop:'attachment.url',lable:'附件下载',
-						temps:[{cls:'bjysdicon iconfont',type:'text',value:'&#xe61a;',fnName:'downlod'}]							
-					},
-					{prop:'attachment.url',lable:'审核',widht:210,
-						temps:[
-							{type:'primary',size:'mini',cls:'xqshticon',value:'通过',fnName:'opentg',round:'round'},
-							{type:'primary',size:'mini',cls:'xqshjicon',value:'拒绝',fnName:'openjj',round:'round'},
-							// {type:'primary',size:'mini',value:'转审',fnName:'open4',round:'round'},
-						]							
-					}
+					{prop:'created_at',lable:'最新更新时间'},
+					// {prop:'attachment.url',lable:'附件下载',
+					// 	temps:[{cls:'bjysdicon iconfont',type:'text',value:'&#xe61a;',fnName:'downlod'}]
+					// },
+					// {prop:'attachment.url',lable:'审核',widht:210,
+					// 	temps:[
+					// 		{type:'primary',size:'mini',cls:'xqshticon',value:'通过',fnName:'opentg',round:'round'},
+					// 		{type:'primary',size:'mini',cls:'xqshjicon',value:'拒绝',fnName:'openjj',round:'round'},
+					// 		// {type:'primary',size:'mini',value:'转审',fnName:'open4',round:'round'},
+					// 	]
+					// }
 				]
 			},
 			

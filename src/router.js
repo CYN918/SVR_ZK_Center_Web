@@ -50,6 +50,8 @@ import userIndex from './views/user/index.vue'
 mode['user'] = userIndex
 import userNeed from './views/user/user_need.vue'
 mode['user_need'] = userNeed
+import userChecked from './views/user/user_checked.vue'
+mode['user_checked'] = userChecked
 import user_picture from './views/user/user_picture.vue'
 mode['user_picture'] = user_picture
 import user_resource from './views/user/user_resource.vue'
@@ -201,12 +203,13 @@ let nb = [
 		{path:'/data/profit_user',name:'profit_user',component:mode['profit_user']},	
 		{path:'/data/profit_ad',name:'profit_ad',component:mode['profit_ad']},	
 		{path:'/data/cost_channel',name:'cost_channel',component:mode['cost_channel']},	
-		{path:'/data/cost_designer',name:'cost_designer',component:mode['cost_designer']},	
+		{path:'/data/cost_designer',name:'cost_designer',component:mode['cost_designer']},
 		{path:'/data/cost_designers',name:'cost_designers',component:mode['cost_designers']},	
 		{path:'/data/profits',name:'profits',component:mode['profits']},				
 	]},
 	{path:'/user',name:'审核台',component:mode['user'],children:[
-		{path:'/user/user_need',name:'需求审核',component:mode['user_need']},
+		{path:'/user/user_need',name:'待审核',component:mode['user_need']},
+            {path:'/user/user_checked',name:'已审核',component:mode['user_checked']},
 		{path:'/user/user_picture',name:'图片审核',component:mode['user_picture']},
 		{path:'/user/user_resource',name:'模版审核',component:mode['user_resource']},
 		{path:'/user/user_wallpaper',name:'壁纸审核',component:mode['user_wallpaper']},
@@ -244,11 +247,18 @@ let leftNav =[
 	]},
 	{title:'审核台',default:'/user',defaultopen:['1'],
         children:[
-            {title:'待处理',url:'1',list:[
-                    {title:'需求待处理',url:'/user/user_need'},
-                    {title:'广告图待处理',url:'/user/user_picture'},
-                    {title:'广告模版待处理',url:'/user/user_resource'},
-                    {title:'锁屏壁纸待处理',url:'/user/user_wallpaper'},],},
+            {title:'需求审核',url:'1',list:[
+                    {title:'待处理',url:'/user/user_need'},
+                    {title:'已处理',url:'/user/user_checked'},
+                    // {title:'广告图待处理',url:'/user/user_picture'},
+                    // {title:'广告模版待处理',url:'/user/user_resource'},
+                    // {title:'锁屏壁纸待处理',url:'/user/user_wallpaper'},
+				],},
+            {title:'素材审核',url:'2',list:[
+                    {title:'待处理',url:'/user/user_picture'},
+                    {title:'已处理',url:'/user/user_resource'},
+                    // {title:'锁屏壁纸待处理',url:'/user/user_wallpaper'},
+					],},
         ]
 	},
 	{title:'数据',default:'/data',defaultopen:['1'],

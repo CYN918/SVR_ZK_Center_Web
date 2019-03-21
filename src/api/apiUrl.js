@@ -19,6 +19,10 @@ export default {
 	need_get:{
 		url:'/need/get',method:'get',
 	},
+    /*获取展示图详情*/
+    need_adtype:{
+        url:'/need/adtype',method:'get',
+    },
 	/*添加*/
 	need_create:{
 		url:'/need/create_need',method:'post',isType:{suktip:1,reload:1}
