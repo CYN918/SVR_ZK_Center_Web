@@ -6,15 +6,24 @@
 				</el-table-column>
 				<el-table-column v-if="tableConfig.expand" type="expand">
 					<template slot-scope="props">
-						<table class="mytabled" width="100%">
-							<tr><th v-for="(el,index) in tableConfig.expand" :key="index">{{el.lable}}</th></tr>
-							<tr  v-for="(el,indexx) in props.row.works" :key="indexx">
-								<td v-for="(el2,index2) in tableConfig.expand" :key="index2">
-									<span v-if="el2.temps" class="el-button el-button--text bjysdicon iconfont"	 @click="clickfn('downlods',{on:props.$index,ons:indexx})">{{el2[0]}}&#xe61a;</span>
-									<span v-else>{{props.row.works[indexx][el2.prop]}}</span>
-								</td>
-							</tr>
-						</table>
+							<!--<table class="mytabled" width="100%">-->
+								<!--<tr><th v-for="(el,index) in tableConfig.expand" :key="index">{{el.lable}}</th></tr>-->
+								<!--<tr  v-for="(el,indexx) in props.row.works" :key="indexx">-->
+									<!--<td v-for="(el2,index2) in tableConfig.expand" :key="index2">-->
+										<!--<span v-if="el2.temps" class="el-button el-button&#45;&#45;text bjysdicon iconfont"	 @click="clickfn('downlods',{on:props.$index,ons:indexx})">{{el2[0]}}&#xe61a;</span>-->
+										<!--<span v-else>{{props.row.works[indexx][el2.prop]}}</span>-->
+									<!--</td>-->
+								<!--</tr>-->
+						<!--</table>-->
+						<el-steps :active="3" align-center process-status="wait" finish-status="success">
+							<el-step title="作品审核" description="2019-2-20 14:20" name="zhanghui"></el-step>
+							<el-step title="作品资源审核"></el-step>
+							<el-step title="切图制作"></el-step>
+							<el-step title="脚本制作" ></el-step>
+							<el-step title="测试审核"></el-step>
+							<el-step title="入库" ></el-step>
+						</el-steps>
+
 					</template>
 				</el-table-column>
 				<el-table-column show-overflow-tooltip :width="el.widht" v-for="(el,index) in tableConfig.list" :key="index" :prop="el.prop" :label="el.lable" :sortable="el.sor">							 

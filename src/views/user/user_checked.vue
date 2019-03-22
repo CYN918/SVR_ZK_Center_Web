@@ -17,6 +17,7 @@
                 screens:{
                     p:10,
                     page:1,
+                    status:1
                 },
                 statusType:0,
                 tableData:[],
@@ -44,6 +45,7 @@
                         // },
 
                     ],
+
                 },
             }
         },
@@ -96,6 +98,7 @@
                             end_at:da[i].end_at,
                             created_at:da[i].created_at,
                             status:this.checkStatus(da[i].status),
+                            // status:da[i].status
                         },
                     );
                 }
@@ -121,7 +124,20 @@
                 return a;
             },
             checkStatus(value){
-                return value ==0?'待审核':'';
+                // return value ==3?'上线':'';
+                if(value==0){
+                    return '待审核';
+                }
+                if(value==1){
+                    return  '未通过';
+                }
+                if(value==2){
+                    return '上线';
+                }
+                if(value==3){
+                    return  '下线';
+                }
+
             },
             open3(on) {
                 if(this.statusType==1){

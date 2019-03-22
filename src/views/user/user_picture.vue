@@ -32,7 +32,8 @@ export default {
 							// {type:'primary',size:'mini',value:'转审',fnName:'open4',round:'round'},
 						]							
 					}
-				]
+				],
+                expand:[]
 			},
 			
 		}

@@ -85,7 +85,7 @@ import tables from '../common/tables.vue';
 						{prop:'created_at',lable:'更新时间'},
 						{prop:'status',lable:'状态信息'},
 						{prop:'attachment_url',lable:'附件下载',
-							temps:[{cls:'bjysdicon iconfont',type:'text',value:'&#xe61a;',fnName:'downlod'}]							
+							temps:[{cls:'bjysdicon iconfont',type:'text',value:'&#xe61a;',fnName:'downlod'}]
 						},
 					],
 					btns:[

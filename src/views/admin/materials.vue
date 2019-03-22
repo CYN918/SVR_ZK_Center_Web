@@ -1,7 +1,7 @@
 <template>
 	<div class="centNavBox">
-		<el-tabs v-model="activeName2" type="card" >
-			<el-tab-pane :label="namedd" name="1"></el-tab-pane>			
+		<el-tabs v-model="activeName2" type="card"  @tab-click="jupm">
+			<el-tab-pane :label="namedd" name="1"></el-tab-pane>
 		</el-tabs>
 		<tables 
 		:screenConfig="screenConfig" 
@@ -94,6 +94,12 @@ export default {
 	methods: {
 		showAddB(){
 			this.$refs.AddX.showAdd();	
+		},
+		jupm(){
+		    console.log('dsadsadsda');
+		    this.$router.push({
+                path: '/admin/library_picture'
+            })
 		},
 		qhTable(){				
 			this.$refs.Tabledd.qhTables();				
@@ -227,7 +233,9 @@ export default {
 			deep: true
 		}
 	},
-}	
+
+
+    }
 	
 </script>
 

@@ -7,7 +7,7 @@ export default {
 	components:{comd},
 	data(){
 		return{
-			getType:'resource',
+			getType:'',
 			tableConfig:{
 				total:0,
 				ischeck:false,
@@ -30,7 +30,8 @@ export default {
 					// 		// {type:'primary',size:'mini',value:'转审',fnName:'open4',round:'round'},
 					// 	]
 					// }
-				]
+				],
+                expand:[]
 			},
 			
 		}

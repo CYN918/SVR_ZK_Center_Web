@@ -35,7 +35,8 @@ mode['library_picture'] = AdminMaterialLib
 mode['library_resource'] = AdminMaterialLib
 import AdminMaterialLibs from './views/admin/materials.vue'
 mode['library_pictures'] = AdminMaterialLibs
-mode['library_resources'] = AdminMaterialLibs
+import AdminAD from './views/admin/AD_templates.vue'
+mode['library_resources'] = AdminAD
 import AdminWallpaper from './views/admin/maWallpaper.vue'
 mode['library_wallpaper'] = AdminWallpaper
 import AdminRole from './views/admin/level/role.vue'
@@ -60,6 +61,11 @@ import user_wallpaper from './views/user/user_wallpaper.vue'
 mode['user_wallpaper'] = user_wallpaper
 import userMessage from './views/user/userMessage.vue'
 mode['user_message'] = userMessage
+import wallpaperProcessed from './views/user/wallpaper_ processed.vue'
+mode['wallpaper_processed'] = wallpaperProcessed
+import wallpaperUntreated from './views/user/wallpaper_untreated.vue'
+mode['wallpaper_untreated'] = wallpaperUntreated
+
 
 import axios from 'axios'
 import api from './api/index'
@@ -214,6 +220,8 @@ let nb = [
 		{path:'/user/user_resource',name:'模版审核',component:mode['user_resource']},
 		{path:'/user/user_wallpaper',name:'壁纸审核',component:mode['user_wallpaper']},
 		{path:'/user/user_message',name:'个人信息',component:mode['user_message']},
+        {path:'/user/wallpaper_processed',name:'壁纸已处理',component:mode['wallpaper_processed']},
+		{path:'/user/wallpaper_untreated',name:'壁纸待处理',component:mode['wallpaper_untreated']},
 	]},
     {path:'/userinfo',name:'个人中心',component:mode['info'],
 		children:[
@@ -234,9 +242,9 @@ let leftNav =[
 		]},
 		{title:'投放管理',url:'3',list:[					
 			{title:'广告图库管理',url:'/admin/library_picture'},
-			{title:'广告图素材管理',url:'/admin/library_pictures'},
+			// {title:'广告图素材管理',url:'/admin/library_pictures'},
 			{title:'广告模版库投放管理',url:'/admin/library_resource'},
-			{title:'广告模版库素材管理',url:'/admin/library_resources'},
+			// {title:'广告模版库素材管理',url:'/admin/library_resources'},
 			{title:'锁屏壁纸投放管理',url:'/admin/library_wallpaper'},						
 		]},					
 		{title:'权限管理',url:'4',list:[
@@ -259,6 +267,10 @@ let leftNav =[
                     {title:'已处理',url:'/user/user_resource'},
                     // {title:'锁屏壁纸待处理',url:'/user/user_wallpaper'},
 					],},
+            {title:'壁纸推送',url:'3',list:[
+                    {title:'待处理',url:'/user/wallpaper_processed'},
+                    {title:'已处理',url:'/user/wallpaper_untreated'},
+                ],},
         ]
 	},
 	{title:'数据',default:'/data',defaultopen:['1'],
