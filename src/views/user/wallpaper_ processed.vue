@@ -93,7 +93,9 @@
                             preview_url:da[i].preview_url,
                             size:da[i].size,
                             status:da[i].status,
-                            created_at:da[i].created_at
+                            created_at:da[i].created_at,
+                            put_id:da[i].put_id,
+                            type:da[i].type
                         },
                     );
                 }
@@ -135,8 +137,11 @@
             },
             setStatus(on,type){
                 this.statusType=1;
-                let params = {id:this.tableData[on].id,base_status:type};
-                this.api.handle_pass({params}).then(()=>{
+                let datas = {
+                    id:this.tableData[on].put_id,
+                    type:this.tableData[on].type
+                };
+                this.api.handle_pass(datas).then(()=>{
                     this.statusType = 0;
                 }).catch(()=>{
                     this.statusType = 0;
