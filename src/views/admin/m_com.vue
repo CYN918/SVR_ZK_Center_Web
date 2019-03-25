@@ -133,6 +133,8 @@ export default {
 				}).catch(()=>{})				
 			},
 			getData(sxtj){
+                console.log(logs)
+                console.log("dnsjadksa")
 				this.setLoding(true);
 				this.screens.type = this.getType;
 				if(sxtj){
@@ -179,10 +181,24 @@ export default {
 							ad_type:da[i].extend.ad_type || "",
 							channel_type:da[i].extend.channel_type || "",
 							price:da[i].price || "",
+                            logs:this.sss(da[i].logs)
+
 						},
 					);
 				}			
 				return arr;
+			},
+			sss(data){
+				let ary = [];
+				let history = data;
+				console.log(data)
+				for(let j = 0;j<history.length;j++){
+				    ary.push(
+						{
+							msg:history[j].msg,
+						}
+					)
+				}
 			},
 			setScreenConfig(){
 				this.api.sysconfig_material().then((data)=>{	

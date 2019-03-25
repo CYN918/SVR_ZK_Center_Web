@@ -18,7 +18,7 @@
                     p:10,
                     page:1,
                     type:'wallpaper',
-                    processed:0
+                    processed:'0'
                 },
                 statusType:0,
                 tableData:[],

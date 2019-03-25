@@ -22,6 +22,7 @@ export default {
 					// {prop:'link',lable:'投放链接'},
 					{prop:'material_status',lable:'状态'},
 					{prop:'created_at',lable:'最近更新时间'},
+                    {prop:'msg',lable:'msg'},
 					// {prop:'attachment.url',lable:'附件下载',
 					// 	temps:[{cls:'bjysdicon iconfont',type:'text',value:'&#xe61a;',fnName:'downlod'}]
 					// },
@@ -33,7 +34,9 @@ export default {
 						]							
 					}
 				],
-                expand:[]
+                expand:[
+
+				]
 			},
 			
 		}

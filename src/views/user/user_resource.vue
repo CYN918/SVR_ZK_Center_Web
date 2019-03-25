@@ -42,6 +42,10 @@
                         // },
 
                     ],
+                    expand:[
+                        {prop:'id',lable:'作品ID'},
+                        {prop:'status',lable:'状态信息'},
+					],
                 },
             }
         },
@@ -63,41 +67,66 @@
                 }).catch(() => {
                 });
             },
-            getData(sxtj){
-                console.log('aaaaaa');
+            getData(){
                 this.setLoding(true);
                 let params = this.screens;
-                if(sxtj){
-                    Object.assign(params, sxtj);
-                }
-                this.api.getLists({params}).then((response)=>{
-                    this.tableData = this.clData(response);
-                    this.setLoding(false);
+                this.api.get_processed({params}).then((response)=>{
                     console.log(response)
+                    this.tableData = this.clData(response);
+                    this.tableConfig.expand = this.logData(response);
+                    this.setLoding(false);
                 }).catch(()=>{
                     this.setLoding(false);
                 });
             },
+			logData(data){
+                let arr  = [];
+                let da = data.data;
+                // console.log(da[0].need.id,)
+                for(let i=0,n=da.length;i<n;i++){
+                    arr.push(
+                        {
+                            logs:da[i].logs, //协议,
+                        },
+                    );
+                }
+
+                return arr;
+			},
             clData(data){
                 let arr  = [];
                 this.tableConfig.total=data.total;
                 let da = data.data;
-                console.log(da[0].need.id,)
+                // console.log(da[0].need.id,)
                 for(let i=0,n=da.length;i<n;i++){
                     arr.push(
                         {
-                            material_id:da[i].material_id,
+                            material_id:da[i].work.id,
                             id:da[i].need.id,
-                            work_type:this.checkNr(da[i].steps.work_type),
-                            position:da[i].position,
-                            preview_url:da[i].preview_url,
-                            size:da[i].size,
-                            status:da[i].status,
-                            created_at:da[i].created_at
+                            preview_url:da[i].work.preview_url,
+							work_type:this.checkNr(da[i].steps.work_type),//协议
+                            size:da[i].need.size,
+							status:da[i].need.status,//协议
+							created_at:da[i].created_at, //协议,
+                            logs:da[i].logs, //协议,
                         },
                     );
                 }
+
                 return arr;
+            },
+            sss(data){
+                let ary = [];
+                let history = data;
+                console.log(data);
+                for(let j = 0;j<history.length;j++){
+                    ary.push(
+                        {
+                            msg:history[j].msg,
+                        }
+                    )
+                }
+                return ary;
             },
             checkNr(value){
                 if(!value){return}

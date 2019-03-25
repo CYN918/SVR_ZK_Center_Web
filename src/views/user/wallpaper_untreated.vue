@@ -33,13 +33,6 @@
                         {prop:'size',lable:'素材尺寸'},
                         {prop:'status',lable:'状态'},
                         {prop:'created_at',lable:'最近更新时间'},
-                        {prop:'attachment.url',lable:'操作',widht:210,
-                            temps:[
-                                {type:'primary',size:'mini',cls:'xqshticon',value:'通过',fnName:'opentip',round:'round'},
-                                {type:'primary',size:'mini',cls:'xqshjicon',value:'拒绝',fnName:'open3',round:'round'},
-                                // {type:'primary',size:'mini',value:'转审',fnName:'open4',round:'round'},
-                            ]
-                        },
 
                     ],
                 },
@@ -64,13 +57,12 @@
                 });
             },
             getData(sxtj){
-                console.log('aaaaaa');
                 this.setLoding(true);
                 let params = this.screens;
                 if(sxtj){
                     Object.assign(params, sxtj);
                 }
-                this.api.getLists({params}).then((response)=>{
+                this.api.get_processed({params}).then((response)=>{
                     this.tableData = this.clData(response);
                     this.setLoding(false);
                     console.log(response)
