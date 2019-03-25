@@ -16,16 +16,18 @@
 									<!--</td>-->
 								<!--</tr>-->
 						<!--</table>-->
-						<el-steps  :active="props.row.logs.length" align-center process-status="wait" finish-status="success" >
+						<el-steps  :active="props.row.logs_length" align-center process-status="wait" finish-status="success" >
 							<el-step v-for="(el,indexx) in props.row.logs" :key="indexx"
 									 :title="el.msg"
 									 :description="el.created_at"
-									 :name="el.creator"></el-step>
+									 :name="el.creator">
+							</el-step>
+
 						</el-steps>
 
 					</template>
 				</el-table-column>
-				<el-table-column show-overflow-tooltip :width="el.widht" v-for="(el,index) in tableConfig.list" :key="index" :logs="setLogs(tableConfig.expand[index])" :prop="el.prop" :label="el.lable" :sortable="el.sor">
+				<el-table-column show-overflow-tooltip :width="el.widht" v-for="(el,index) in tableConfig.list" :key="index"  :prop="el.prop" :label="el.lable" :sortable="el.sor">
 					<template  slot-scope="scope" >
 						<img v-if="el.type=='imgs'" preview="0" :preview-text="el.lable" class="xyipmg" :src="scope.row[el.prop]"/>
 						<el-select v-else-if="el.select &&  ['未通过','已通过','待审核'].indexOf(scope.row[el.prop])==-1" v-model="el.select.mode[scope.$index]" @change="clickfn(el.fnName,scope.$index)" :placeholder="scope.row[el.prop]">

@@ -108,7 +108,8 @@
                             size:da[i].need.size,
 							status:da[i].need.status,//协议
 							created_at:da[i].created_at, //协议,
-                            logs:da[i].logs, //协议,
+                            logs:da[i].logs,
+							logs_length:da[i].logs_length,//协议,
                         },
                     );
                 }

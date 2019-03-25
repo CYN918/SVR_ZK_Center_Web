@@ -18,7 +18,6 @@
                     p:10,
                     page:1,
                     type:'wallpaper',
-                    processed:'0'
                 },
                 statusType:0,
                 tableData:[],
@@ -71,7 +70,7 @@
                 if(sxtj){
                     Object.assign(params, sxtj);
                 }
-                this.api.putLists({params}).then((response)=>{
+                this.api.put_lists({params}).then((response)=>{
                     this.tableData = this.clData(response);
                     this.setLoding(false);
                     console.log(response)
