@@ -17,9 +17,7 @@ export default {
 					{prop:'preview_url',lable:'预览图',type:'imgs'},
 					{prop:'material_type',lable:'素材类型'},
 					{prop:'position',lable:'广告位类型'},
-					// {prop:'description',lable:'投放内容描述'},
 					{prop:'size',lable:'素材尺寸'},
-					// {prop:'link',lable:'投放链接'},
 					{prop:'material_status',lable:'状态'},
 					{prop:'created_at',lable:'最近更新时间'},
                     {prop:'msg',lable:'msg'},
@@ -34,9 +32,9 @@ export default {
 						]							
 					}
 				],
-                expand:[
-
-				]
+                // expand:[
+                //
+				// ]
 			},
 			
 		}

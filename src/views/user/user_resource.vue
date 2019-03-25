@@ -104,7 +104,8 @@
                             material_id:da[i].work.id,
                             id:da[i].need.id,
                             preview_url:da[i].work.preview_url,
-							work_type:this.checkNr(da[i].steps.work_type),//协议
+                            position:da[i].need.position,
+							work_type:this.checkNr(da[i].work.work_type),//协议
                             size:da[i].need.size,
 							status:da[i].need.status,//协议
 							created_at:da[i].created_at, //协议,
@@ -133,7 +134,7 @@
                 if(!value){return}
                 let a = '';
                 switch (value){
-                    case 'needs_picture':a= '广告静态图';
+                    case 'picture':a= '广告静态图';
                         break;
                     case 'needs_script_picture':a= '广告脚本图';
                         break;

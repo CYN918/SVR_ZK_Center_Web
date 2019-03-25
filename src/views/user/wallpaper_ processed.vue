@@ -134,10 +134,9 @@
                 });
             },
             setStatus(on,type){
-                console.log("sakdhskahdskaj")
                 this.statusType=1;
                 let params = {id:this.tableData[on].id,base_status:type};
-                this.api.need_check({params}).then(()=>{
+                this.api.handle_pass({params}).then(()=>{
                     this.statusType = 0;
                 }).catch(()=>{
                     this.statusType = 0;

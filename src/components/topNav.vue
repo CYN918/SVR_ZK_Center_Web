@@ -59,7 +59,8 @@ export default {
 				method: 'get',
 				timeout: 10000,
 				url:urld+'/api/logout',			     
-			}).then((msg)=>{	
+			}).then((msg)=>{
+			    console.log(msg);
 				if(msg.data.code==0){
 					localStorage.setItem('token','');
 					let cent = 'center';

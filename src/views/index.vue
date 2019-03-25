@@ -103,7 +103,7 @@ export default {
 			})
 		},
 		get_logs(){
-			this.api.get_logs().then((datas)=>{									
+			this.api.get_logs().then((datas)=>{
 				this.loind = datas;
 			})
 		},
