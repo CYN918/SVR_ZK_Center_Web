@@ -16,7 +16,7 @@
 									<!--</td>-->
 								<!--</tr>-->
 						<!--</table>-->
-						<el-steps  :active="props.row.logs_length" align-center process-status="wait" finish-status="success" >
+						<el-steps  :active="props.row.logs_length" align-center  >
 							<el-step v-for="(el,indexx) in props.row.logs" :key="indexx"
 									 :title="el.msg"
 									 :description="el.created_at"

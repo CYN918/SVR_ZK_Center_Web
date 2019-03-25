@@ -69,7 +69,7 @@ import tables from '../common/tables.vue';
 					total:0,
 					ischeck:true,
 					list:[
-						{prop:'id',lable:'素材Id'},
+						{prop:'work_id',lable:'素材Id'},
                         {prop:'need_id',lable:'需求Id'},
 						{prop:'preview_url',lable:'预览图',type:'imgs'},
 						{prop:'material_type',lable:'素材类型'},
@@ -137,7 +137,7 @@ import tables from '../common/tables.vue';
 				for(let i=0,n=da.length;i<n;i++){
 					arr.push(
 						{
-							id:da[i].id,
+							work_id:da[i].work_id,
                             need_id:da[i].need_id,
 							preview_url:da[i].preview_url=='null'?'/img/log.jpg':da[i].preview_url ,
 							material_type:this.checkNr(da[i].material_type),

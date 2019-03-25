@@ -25,7 +25,7 @@
                     total:0,
                     ischeck:false,
                     list:[
-                        {prop:'material_id',lable:'素材ID'},
+                        {prop:'work_id',lable:'素材ID'},
                         {prop:'id',lable:'需求ID'},
                         {prop:'preview_url',lable:'预览图',type:'imgs'},
                         {prop:'work_type',lable:'素材类型'},
@@ -78,13 +78,14 @@
                 for(let i=0,n=da.length;i<n;i++){
                     arr.push(
                         {
-                            material_id:da[i].work.id,
+                            work_id:da[i].work.id,
                             id:da[i].need.id,
                             preview_url:da[i].work.preview_url,
-                            work_type:this.checkNr(da[i].steps.work_type),//协议
+                            position:da[i].need.position,
+                            work_type:this.checkNr(da[i].work.work_type),//协议
                             size:da[i].need.size,
                             status:da[i].need.status,//协议
-                            created_at:da[i].created_at, //协议,
+                            created_at:da[i].work.created_at, //协议,
                             logs:da[i].logs,
                             logs_length:da[i].logs_length,//协议,
                         },

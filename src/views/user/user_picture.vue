@@ -12,7 +12,7 @@ export default {
 				total:0,
 				ischeck:false,
 				list:[
-					{prop:'material_id',lable:'素材Id'},
+					{prop:'work_id',lable:'素材Id'},
                     {prop:'need_id',lable:'需求Id'},
 					{prop:'preview_url',lable:'预览图',type:'imgs'},
 					{prop:'material_type',lable:'素材类型'},
@@ -20,7 +20,6 @@ export default {
 					{prop:'size',lable:'素材尺寸'},
 					{prop:'material_status',lable:'状态'},
 					{prop:'created_at',lable:'最近更新时间'},
-                    {prop:'msg',lable:'msg'},
 					// {prop:'attachment.url',lable:'附件下载',
 					// 	temps:[{cls:'bjysdicon iconfont',type:'text',value:'&#xe61a;',fnName:'downlod'}]
 					// },
