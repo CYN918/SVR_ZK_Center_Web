@@ -35,6 +35,14 @@ export default {
 	need_list_check:{
 		url:'/need/list_check',method:'get'
 	},
+    /*获取壁纸推送待处理*/
+    putLists:{
+        url:'/handle/putlists',method:'get'
+    },
+    /*获取壁纸推送待处理*/
+    getLists:{
+        url:'/handle/processed',method:'get'
+    },
 	/*获取列表*/
 	material_lists:{
 		url:'/material/lists',method:'get'

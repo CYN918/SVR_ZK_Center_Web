@@ -2,7 +2,7 @@
 	<div>
 		<sxBox v-if="screenConfig && screenConfig.length>0" @sxFn="sxFn" :sxDatas="screenConfig" ref="sxBox" ></sxBox>
 		<tjBox v-if="tjData && tjData.length>0"  :tjData="tjData"></tjBox>
-		<scTable :tableConfig="tableConfig" :tableDatas="tableDatas"  ref="Table"></scTable>	
+		<scTable :tableConfig="tableConfig" :tableDatas="tableDatas"  ref="Table"></scTable>
 	</div>		
 </template>
 <script>

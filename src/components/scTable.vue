@@ -28,7 +28,7 @@
 				</el-table-column>
 				<el-table-column show-overflow-tooltip :width="el.widht" v-for="(el,index) in tableConfig.list" :key="index" :prop="el.prop" :label="el.lable" :sortable="el.sor">							 
 					<template  slot-scope="scope" >
-						<img v-if="el.type=='imgs'" preview="0" :preview-text="el.lable" class="xyipmg" :src="scope.row[el.prop]"/>					
+						<img v-if="el.type=='imgs'" preview="0" :preview-text="el.lable" class="xyipmg" :src="scope.row[el.prop]"/>
 						<el-select v-else-if="el.select &&  ['未通过','已通过','待审核'].indexOf(scope.row[el.prop])==-1" v-model="el.select.mode[scope.$index]" @change="clickfn(el.fnName,scope.$index)" :placeholder="scope.row[el.prop]">
 							<el-option v-for="item in el.select.list" :label="item.label" :key="item.value" :value="item.value">
 							</el-option>
@@ -95,7 +95,8 @@ export default {
 			loading:true,
 			ids:[],
 		};
-	},		
+	},
+
 	methods: {
 		handleSelectionChange(val){
 			this.multipleSelection = val;		
