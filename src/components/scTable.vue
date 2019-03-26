@@ -16,7 +16,7 @@
 									<!--</td>-->
 								<!--</tr>-->
 						<!--</table>-->
-						<el-steps  :active="props.row.logs_length" align-center  >
+						<el-steps  :active="props.row.logs_length" align-center finish-status="success" :space="200" >
 							<el-step v-for="(el,indexx) in props.row.logs" :key="indexx" @click.native="down(el.attachment_url)"
 									 :title="el.msg"
 									 :description="currentStep(el.created_at,el.creator,el.attachment_url)">

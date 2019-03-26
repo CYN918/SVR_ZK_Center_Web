@@ -118,7 +118,9 @@ export default {
 						work_id:da[i].work_id,
 						flow_id:da[i].flow_id,
 						put_id:da[i].put_id,
-						flow_detail:da[i].flow_detail,						
+						flow_detail:da[i].flow_detail,
+                        logs:da[i].logs,
+                        logs_length:da[i].logs_length,
 					},
 				);
 			}			
