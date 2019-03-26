@@ -70,7 +70,11 @@ export default {
 	},
 	materialLib_attach:{
 		url:'/material/lib/attach',method:'post',isType:{suktip:1,reload:1}
-	},	
+	},
+	//获取新增需求素材类型
+    material_type:{
+        url:'/material_type',method:'get'
+	},
 	material_stat:{
 		url:'/material/stat',method:'get'
 	},

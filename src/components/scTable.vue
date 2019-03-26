@@ -19,12 +19,9 @@
 						<el-steps  :active="props.row.logs_length" align-center  >
 							<el-step v-for="(el,indexx) in props.row.logs" :key="indexx"
 									 :title="el.msg"
-									 :description="el.created_at"
-									 :name="el.creator">
+									 :description="currentStep(el.created_at,el.creator,el.msg,el.attachment_url)">
 							</el-step>
-
 						</el-steps>
-
 					</template>
 				</el-table-column>
 				<el-table-column show-overflow-tooltip :width="el.widht" v-for="(el,index) in tableConfig.list" :key="index"  :prop="el.prop" :label="el.lable" :sortable="el.sor">
@@ -175,7 +172,12 @@ export default {
 		    console.log(logs)
             this.logs = logs;
         },
+        currentStep(a,b,c,d){
 
+                return a + b;
+
+
+		}
 	},
 	watch:{
 		multipleSelection(val){

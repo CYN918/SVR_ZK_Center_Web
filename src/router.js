@@ -36,7 +36,7 @@ mode['library_resource'] = AdminMaterialLib
 import AdminMaterialLibs from './views/admin/materials.vue'
 mode['library_pictures'] = AdminMaterialLibs
 import AdminAD from './views/admin/AD_templates.vue'
-mode['library_resources'] = AdminAD
+mode['library_resources'] = AdminMaterialLibs
 import AdminWallpaper from './views/admin/maWallpaper.vue'
 mode['library_wallpaper'] = AdminWallpaper
 import AdminRole from './views/admin/level/role.vue'
@@ -244,7 +244,7 @@ let leftNav =[
 			{title:'广告图库管理',url:'/admin/library_picture'},
 			// {title:'广告图素材管理',url:'/admin/library_pictures'},
 			{title:'广告模版库投放管理',url:'/admin/library_resource'},
-			// {title:'广告模版库素材管理',url:'/admin/library_resources'},
+			{title:'广告模版库素材管理',url:'/admin/library_resources'},
 			{title:'锁屏壁纸投放管理',url:'/admin/library_wallpaper'},						
 		]},					
 		{title:'权限管理',url:'4',list:[
@@ -413,12 +413,15 @@ router.beforeEach((to, from, next) => {
 			timeout: 10000,
 			url: urld,
 			data:{ticket:to.query.ticket}
-		}).then((msg)=>{	
+		}).then((msg)=>{
+			console.log(msg);
 			localStorage.setItem('token',msg.data.data.token);
 			localStorage.setItem('logintime',Date.parse(new Date()));
 			localStorage.setItem('userAd',msg.data.data.user.email);			
 			localStorage.setItem('userType',msg.data.data.user.type);		
 			localStorage.setItem('status',msg.data.data.user.status);
+            // localStorage.setItem('leftNav',msg.data.data.user.leftNav);    //存储动态菜单
+            // localStorage.setItem('wb',msg.data.data.user.wb);
 			if(msg.data.data.user.type==1){
 				next({ path: '/indexs/list'});
 				return;
