@@ -31,7 +31,7 @@
                         {prop:'work_type',lable:'素材类型'},
                         {prop:'position',lable:'广告位类型'},
                         {prop:'size',lable:'素材尺寸'},
-                        {prop:'status',lable:'状态'},
+                        {prop:'status_desc',lable:'状态'},
                         {prop:'created_at',lable:'最近更新时间'},
 
                     ],
@@ -84,7 +84,7 @@
                             position:da[i].need.position,
                             work_type:this.checkNr(da[i].work.work_type),//协议
                             size:da[i].need.size,
-                            status:da[i].need.status,//协议
+                            status_desc:da[i].work.status_desc,//协议
                             created_at:da[i].work.created_at, //协议,
                             logs:da[i].logs,
                             logs_length:da[i].logs_length,//协议,

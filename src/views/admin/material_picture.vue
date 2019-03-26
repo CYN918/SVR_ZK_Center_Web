@@ -35,7 +35,7 @@ export default {
 					},
 				],
 				btns:[
-					{fnName:'need_work',cls:'pldc',value:'批量导出',check:'1'},
+					{fnName:'nedd_work',cls:'pldc',value:'批量导出',check:'1'},
 				],
 			},
 

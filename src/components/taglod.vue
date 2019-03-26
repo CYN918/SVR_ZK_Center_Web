@@ -8,13 +8,14 @@
 						<el-form-item  label="需求标题" prop="title">
 							<el-input :disabled="clicType==1" v-model="form.title"></el-input>
 						</el-form-item>
-						<el-form-item  label="素材类型" prop="extend_type">
-							<el-select :disabled="clicType==1" v-model="form.extend_type" placeholder="请选择素材类型">
-								<el-option label="广告静态图" value="needs_picture"></el-option>
-								<el-option label="广告脚本图" value="needs_script_picture"></el-option>
-								<el-option label="广告脚本模板" value="needs_resource"></el-option>
-								<el-option label="广告H5模板" value="needs_h5_resource"></el-option>
-								<el-option label="锁屏壁纸脚本图" value="needs_wallpaper"></el-option>
+						<el-form-item   label="素材类型" prop="extend_type">
+							<el-select  :disabled="clicType==1" v-model="form.extend_type" placeholder="请选择素材类型">
+								<el-option :label="itemValue(item)" :value="item" v-for="item in old_type"></el-option>
+								<!--<el-option label="广告静态图" value="needs_picture"></el-option>-->
+								<!--<el-option label="广告脚本图" value="needs_script_picture"></el-option>-->
+								<!--<el-option label="广告脚本模板" value="needs_resource"></el-option>-->
+								<!--<el-option label="广告H5模板" value="needs_h5_resource"></el-option>-->
+								<!--<el-option label="锁屏壁纸脚本图" value="needs_wallpaper"></el-option>-->
 							</el-select>
 							<!--<el-select :disabled="clicType==1" v-for="itme in this.old_type" v-model="form.extend_type" placeholder="请选择素材类型">-->
 								<!--<el-option value="">{{itme}}</el-option>-->
@@ -170,8 +171,27 @@ export default {
 		},
         advertising(){
 		    this.api.material_type().then((res)=>{
-               this.old_type=res.data;
+               this.old_type=res;
+               console.log(this.old_type)
+				console.log(localStorage.getItem('leftNav'))
 			})
+		},
+        itemValue(item){
+		  if(item=='needs_picture'){
+		      return '广告静态图'
+		  }
+		  if(item=='needs_script_picture'){
+			  return '广告脚本图'
+            }
+          if(item=='needs_resource'){
+              return '广告脚本模板'
+          }
+          if(item=='needs_h5_resource'){
+             return '广告H5模板'
+          }
+          if(item=='needs_wallpaper'){
+              return '锁屏壁纸脚本图'
+          }
 		},
 		fon(){
 		},

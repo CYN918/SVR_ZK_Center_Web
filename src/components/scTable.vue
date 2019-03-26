@@ -17,10 +17,12 @@
 								<!--</tr>-->
 						<!--</table>-->
 						<el-steps  :active="props.row.logs_length" align-center  >
-							<el-step v-for="(el,indexx) in props.row.logs" :key="indexx"
+							<el-step v-for="(el,indexx) in props.row.logs" :key="indexx" @click.native="down(el.attachment_url)"
 									 :title="el.msg"
-									 :description="currentStep(el.created_at,el.creator,el.msg,el.attachment_url)">
+									 :description="currentStep(el.created_at,el.creator,el.attachment_url)">
+
 							</el-step>
+
 						</el-steps>
 					</template>
 				</el-table-column>
@@ -84,6 +86,7 @@ export default {
 	props:['tableConfig','tableDatas'],
 	data() {
 		return {
+            Cut:false,
 			typeOnde:0,
 			dcan:'ysd',
 			tdata:{},
@@ -101,7 +104,10 @@ export default {
 		handleSelectionChange(val){
 			this.multipleSelection = val;		
 			this.$parent.xzFn(this.multipleSelection); 
-		},	
+		},
+        down(urls){
+            window.location.href= urls;
+		},
 		cheaxz(id){
 			let on = this.ids.indexOf(id);
 			if(on!=-1){
@@ -172,10 +178,14 @@ export default {
 		    console.log(logs)
             this.logs = logs;
         },
-        currentStep(a,b,c,d){
-
-                return a + b;
-
+        currentStep(a,b,c){
+		    a=a+"            ";
+		    b=b+"            ";
+		    if(c!=''){
+                return  a + b+'下载';
+			}else {
+                return  a + b
+			}
 
 		}
 	},

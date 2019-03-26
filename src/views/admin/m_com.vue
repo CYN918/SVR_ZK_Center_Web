@@ -137,6 +137,7 @@ export default {
                 console.log("dnsjadksa")
 				this.setLoding(true);
 				this.screens.type = this.getType;
+
 				if(sxtj){
 					Object.assign(this.screens, sxtj);					
 					if(sxtj.type){						
@@ -151,11 +152,12 @@ export default {
 						this.screens.end_date?delete this.screens.end_date:'';
 					}
 				}	
-				let params = this.screens;	
+				let params = this.screens;
 				params.is_finished=1;
 				this.api.material_lists({params}).then( (response)=> {
 					this.tableData = this.clData(response);
 					this.setLoding(false);
+
 				}).catch(()=>{
 					this.setLoding(false);
 				})				
@@ -181,25 +183,16 @@ export default {
 							ad_type:da[i].extend.ad_type || "",
 							channel_type:da[i].extend.channel_type || "",
 							price:da[i].price || "",
+
                             // logs:this.sss(da[i].logs)
+
 
 						},
 					);
 				}			
 				return arr;
 			},
-			sss(data){
-				let ary = [];
-				let history = data;
-				console.log(data)
-				for(let j = 0;j<history.length;j++){
-				    ary.push(
-						{
-							msg:history[j].msg,
-						}
-					)
-				}
-			},
+
 			setScreenConfig(){
 				this.api.sysconfig_material().then((data)=>{	
 					let p = data.platform_position,

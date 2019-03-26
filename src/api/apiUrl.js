@@ -73,7 +73,7 @@ export default {
 	},
 	//获取新增需求素材类型
     material_type:{
-        url:'/material_type',method:'get'
+        url:'/need/add_material_type',method:'get'
 	},
 	material_stat:{
 		url:'/material/stat',method:'get'

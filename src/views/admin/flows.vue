@@ -13,7 +13,7 @@ import tables from '../common/tables.vue';
 	export default {
 		components:{tables},
 		data() {
-			return {				
+			return {
 				screenConfig:[],
 				tableConfig:{},
 				tableData:[],
@@ -76,17 +76,17 @@ import tables from '../common/tables.vue';
 						{prop:'position',lable:'广告位类型'},
 						{prop:'description',lable:'投放内容描述'},
 						{prop:'size',lable:'素材尺寸'},
-						{prop:'finish_at',lable:'入库时间',sor:true},
+						{prop:'updated_at',lable:'最近更新时间',sor:true},
 						{prop:'material_status',lable:'状态'},							
 					],
 					expand:[
-						{prop:'work_id',lable:'作品ID'},
-						{prop:'ext',lable:'作品格式'},
-						{prop:'created_at',lable:'更新时间'},
-						{prop:'status',lable:'状态信息'},
-						{prop:'attachment_url',lable:'附件下载',
-							temps:[{cls:'bjysdicon iconfont',type:'text',value:'&#xe61a;',fnName:'downlod'}]
-						},
+						// {prop:'work_id',lable:'作品ID'},
+						// {prop:'ext',lable:'作品格式'},
+						// {prop:'created_at',lable:'更新时间'},
+						// {prop:'status',lable:'状态信息'},
+						// {prop:'attachment_url',lable:'附件下载',
+						// 	temps:[{cls:'bjysdicon iconfont',type:'text',value:'&#xe61a;',fnName:'downlod'}]
+						// },
 					],
 					btns:[
 						{fnName:'need_export',cls:'pldc',value:'批量导出',check:'1'},
@@ -144,6 +144,7 @@ import tables from '../common/tables.vue';
 							position:da[i].position,
 							description:da[i].need.extend.description,
 							size:da[i].size,
+                            updated_at:da[i].work.updated_at,
 							link:da[i].need.extend.link,
 							material_status:this.checkStatus(da[i].material_status,da[i].is_finished),
 							finish_at:this.checkTime(da[i].finish_at),
@@ -152,19 +153,20 @@ import tables from '../common/tables.vue';
 							channel_type:da[i].extend.channel_type || "",
 							price:da[i].price || "",
 							works:da[i].works,
-			
+                            logs:this.works(da[i].works),
+                            logs_length:this.worksLength(da[i].works),
 						},
 					);
 				}			
 				return arr;
 			},
 			
-			downlod(on){
-				window.open(this.tableData[on].dowurl);
-			},
-			downlods(on){
-				window.open(this.tableData[on.on].works[on.ons].attachment_url);
-			},
+			// downlod(on){
+			// 	window.open(this.tableData[on].dowurl);
+			// },
+			// downlods(on){
+			// 	window.open(this.tableData[on.on].works[on.ons].attachment_url);
+			// },
 			need_export(){
 	
 			},
@@ -190,6 +192,16 @@ import tables from '../common/tables.vue';
 			checkTime(value){
 				if(value==null || !value){return '--'}
 				return value.substring(0,10);
+			},
+			works(data){
+			    for(let a=0;a<data.length;a++){
+			        return data[a].logs
+				}
+			},
+			worksLength(len){
+			    for(let b = 0;b<len.length;b++){
+			        return len[b].logs_length
+				}
 			},
 			checkStatus(value,on){	
 				if(!value){return}
