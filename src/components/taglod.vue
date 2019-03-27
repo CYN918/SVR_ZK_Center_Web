@@ -48,8 +48,8 @@
 						</el-form-item>
 					</div>
 					<div>
-						<el-form-item class="shiyi" label="广告类型示意" prop="position_desc" style="display: inline-block">
-							<img  style="width: 200px;height: 284px;margin-left: 50px" :src="Reminders">
+						<el-form-item class="shiyi" label="广告类型示意" prop="position_desc" style="display: inline-block; ">
+							<img style="width: 200px;height: 284px;margin-left: 50px;border: 1px solid #e4e4e4" :src="Reminders" >
 						</el-form-item>
 						<el-form-item class="imgs" label="投放位置说明" prop="position_desc">
 							<el-upload :disabled="clicType==1" class="avatar-uploader" :action="uploadUrl" :show-file-list="false" :on-success="handleAvatarSuccess" :on-error="errd">
@@ -104,7 +104,7 @@ export default {
 			}, 
 			ajaxt:0,
 			dialogVisible: false,
-            Reminders:'',
+            Reminders:'img/1.jpg',
 			old_type:[],
 			form: {
 				title: '',
@@ -229,7 +229,7 @@ export default {
                 for(var i=0 ;i<res.length;i++){
                     if(this.form.position==res[i].ad_type){
                         this.Reminders = res[i].url;
-                        console.log(i);
+                        console.log(res[i].url);
                         return
                     }
                 }
