@@ -67,9 +67,12 @@
                 }).catch(() => {
                 });
             },
-            getData(){
+            getData(sxtj){
                 this.setLoding(true);
                 let params = this.screens;
+                if(sxtj){
+                    Object.assign(params, sxtj);
+                }
                 this.api.get_processed({params}).then((response)=>{
                     console.log(response)
                     this.tableData = this.clData(response);
