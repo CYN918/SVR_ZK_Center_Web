@@ -22,7 +22,7 @@ export default {
 	components:{tables,addsc},
     data() {		
 		return {
-			namedd:'广告图库-广告图库管理',
+			namedd:'广告图库投放管理-管理广告图',
 			activeName2: '1',
 			tableData:[],
 			screens:{
@@ -113,14 +113,14 @@ export default {
 			if(this.$route.fullPath.split('?')[0]=='/admin/library_pictures'){
 					
 				this.tableConfig.list =  this.tabledd[0];
-				this.namedd = '广告图库-广告图库管理';
+				this.namedd = '广告图库投放管理-管理广告图';
 				this.tableConfig.btns=[
 					{fnName:'showAddB',cls:'hsan',value:'新增广告图'},
 					{fnName:'xzFn',cls:'pldc ',value:'批量导出',check:'1'},
 				];
 			}
 			if(this.$route.fullPath.split('?')[0]=='/admin/library_resources'){
-				this.namedd = '广告模板库-模板管理';	
+				this.namedd = '广告模板库投放管理-管理模板';
 				this.tableConfig.list =  this.tabledd[1];
 				this.tableConfig.btns=[
 					{fnName:'showAddB',cls:'hsan',value:'新增模板'},

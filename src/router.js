@@ -36,7 +36,7 @@ mode['library_resource'] = AdminMaterialLib
 import AdminMaterialLibs from './views/admin/materials.vue'
 mode['library_pictures'] = AdminMaterialLibs
 import AdminAD from './views/admin/AD_templates.vue'
-mode['library_resources'] = AdminMaterialLibs
+mode['library_resources'] = AdminAD
 import AdminWallpaper from './views/admin/maWallpaper.vue'
 mode['library_wallpaper'] = AdminWallpaper
 import AdminRole from './views/admin/level/role.vue'
@@ -243,11 +243,11 @@ let leftNav =
 			{title:'待入库',url:'/admin/material_flows'}
 		]},
 		{title:'投放管理',url:'3',list:[
-			{title:'广告图库管理',url:'/admin/library_picture'},
+			{title:'广告图库投放管理',url:'/admin/library_picture'},
 			// {title:'广告图素材管理',url:'/admin/library_pictures'},
 			{title:'广告模版库投放管理',url:'/admin/library_resource'},
-			{title:'广告模版库素材管理',url:'/admin/library_resources'},
-			{title:'锁屏壁纸投放管理',url:'/admin/library_wallpaper'},
+			// {title:'广告模版库素材管理',url:'/admin/library_resources'},
+			{title:'锁屏壁纸库投放管理',url:'/admin/library_wallpaper'},
 		]},
 		{title:'权限管理',url:'4',list:[
 			{title:'角色管理',url:'/admin/roles'},

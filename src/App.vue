@@ -32,5 +32,18 @@ html,body{
   top:40px;
   right: 34px
 }
-  .el-table_1_column_4:hover{color: red}
+.el-table_1_column_4:hover{color: red}
+.pswp__caption__center{display: none}
+#tab-3:hover{
+  color: #453dff!important;
+  border-bottom: 1px solid #453dff;
+}
+#tab-2:hover{
+  color: #453dff!important;
+  border-bottom: 1px solid #453dff;
+}
+#tab-1:hover{
+  color: #453dff!important;
+  border-bottom: 1px solid #453dff;
+}
 </style>

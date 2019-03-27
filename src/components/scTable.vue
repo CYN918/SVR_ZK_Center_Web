@@ -96,6 +96,7 @@ export default {
 			loading:true,
 			ids:[],
             logs:[],
+
 		};
 	},
 

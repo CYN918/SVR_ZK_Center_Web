@@ -278,7 +278,7 @@ export default {
 				this.$message("设计要示 不能为空。");
 				return
 			}
-			if(this.form.extend_type=='needs_wallpaper' && !this.form.link){
+			if(this.form.extend_type=='needs_picture' && !this.form.link){
 				this.$message("投放链接 不能为空。");
 				return
 			}
