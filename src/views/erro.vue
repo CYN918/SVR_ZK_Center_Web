@@ -3,7 +3,10 @@
 </template>
 
 <script>
-export default {	
+export default {
+    mounted:function (){
+        this.loginout()
+	},
 	methods:{
 		loginout(){	
 			let urld = 'http://ts-i.idatachain.cn';

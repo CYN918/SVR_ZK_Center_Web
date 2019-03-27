@@ -226,6 +226,7 @@ let nb = [
     {path:'/userinfo',name:'个人中心',component:mode['info'],
 		children:[
             {path:'/userinfo/user_info',name:'个人信息',component:mode['userinfo']},
+            {path:'/userinfo/user_info',name:'退出',component:mode['userinfo']},
         ]
 	},
 
@@ -383,9 +384,9 @@ router.beforeEach((to, from, next) => {
         if(to.fullPath=='/userinfo'){
             next({ path: '/userinfo/user_info'});
         }
-        // if (to.fullPath=='/api/logout'){
-        //
-		// }
+        if (to.fullPath=='/api/logout'){
+            next({ path: '/erro'});
+		}
         if(to.fullPath=='/indexs'){
 			next({ path: '/indexs/list'});
 		}				
@@ -403,6 +404,7 @@ router.beforeEach((to, from, next) => {
 	if(window.location.host=='ts-centerweb.idatachain.cn'){
 		cent = 'center_dev';
 		urld ='http://ts-i.idatachain.cn/api/login';
+
 	}
 	if(window.location.host=='localhost:8080'){
 		cent = 'center_local';
