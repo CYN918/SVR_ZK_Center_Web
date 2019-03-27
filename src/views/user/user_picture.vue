@@ -20,9 +20,9 @@ export default {
 					{prop:'size',lable:'素材尺寸'},
 					{prop:'material_status',lable:'状态'},
 					{prop:'created_at',lable:'最近更新时间'},
-					// {prop:'attachment.url',lable:'附件下载',
-					// 	temps:[{cls:'bjysdicon iconfont',type:'text',value:'&#xe61a;',fnName:'downlod'}]
-					// },
+					{prop:'attachment.url',lable:'作品附件下载',
+						temps:[{cls:'bjysdicon iconfont',type:'text',value:'&#xe61a;',fnName:'downlod'}]
+					},
 					{prop:'attachment.url',lable:'操作',widht:210,
 						temps:[
 							{type:'primary',size:'mini',cls:'xqshticon',value:'通过',fnName:'opentg',round:'round'},

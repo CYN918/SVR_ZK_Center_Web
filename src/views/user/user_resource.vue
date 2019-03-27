@@ -117,30 +117,17 @@
 
                 return arr;
             },
-            sss(data){
-                let ary = [];
-                let history = data;
-                console.log(data);
-                for(let j = 0;j<history.length;j++){
-                    ary.push(
-                        {
-                            msg:history[j].msg,
-                        }
-                    )
-                }
-                return ary;
-            },
             checkNr(value){
                 if(!value){return}
                 let a = '';
                 switch (value){
                     case 'picture':a= '广告静态图';
                         break;
-                    case 'needs_script_picture':a= '广告脚本图';
+                    case 'script_picture':a= '广告脚本图';
                         break;
-                    case 'needs_resource':a= '广告脚本模板';
+                    case 'resource':a= '广告脚本模板';
                         break;
-                    case 'needs_h5_resource':a= '广告H5模板';
+                    case 'h5_resource':a= '广告H5模板';
                         break;
                     case 'wallpaper':a= '锁屏壁纸脚本图';
                         break;

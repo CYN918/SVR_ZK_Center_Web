@@ -173,7 +173,6 @@ export default {
 		    this.api.material_type().then((res)=>{
                this.old_type=res;
                console.log(this.old_type)
-				console.log(localStorage.getItem('leftNav'))
 			})
 		},
         itemValue(item){
