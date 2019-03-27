@@ -106,7 +106,10 @@ export default {
 			this.$parent.xzFn(this.multipleSelection); 
 		},
         down(urls){
-            window.location.href= urls;
+		    if(urls!=''){
+                window.location.href= urls;
+                return
+			}
 		},
 		cheaxz(id){
 			let on = this.ids.indexOf(id);
