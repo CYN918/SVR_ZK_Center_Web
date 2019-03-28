@@ -183,7 +183,7 @@ export default {
 							ad_type:da[i].extend.ad_type || "",
 							channel_type:da[i].extend.channel_type || "",
 							price:da[i].price || "",
-
+                            picture_style:da[i].extend.picture_style
                             // logs:this.sss(da[i].logs)
 
 

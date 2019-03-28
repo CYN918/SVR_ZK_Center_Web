@@ -24,7 +24,7 @@ export default {
 					{prop:'id',lable:'素材Id'},
 					{prop:'preview_url',lable:'预览图',type:'imgs'},
 					{prop:'material_type',lable:'素材类型'},
-					{prop:'position',lable:'风格分类'},
+					{prop:'picture_style',lable:'风格分类'},
 					{prop:'space_num',lable:'广告位数量'},
 					{prop:'size',lable:'素材尺寸'},				
 					{prop:'price',lable:'价格'},			
