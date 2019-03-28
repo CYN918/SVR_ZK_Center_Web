@@ -16,11 +16,11 @@
 									<!--</td>-->
 								<!--</tr>-->
 						<!--</table>-->
-						<el-steps  :active="props.row.logs_length" align-center finish-status="success" :space="200" >
+						<el-steps  :active="props.row.logs_length" align-center >
 							<el-step v-for="(el,indexx) in props.row.logs" :key="indexx" @click.native="down(el.attachment_url)"
 									 :title="el.msg"
-									 :description="currentStep(el.created_at,el.creator,el.attachment_url)" :style="{ cursor : ['pointer'] }">
-
+									 :status="win(el.reject)"
+									 :description="currentStep(el.created_at,el.creator,el.attachment_url)" :style="{ cursor : ['pointer'] }" >
 							</el-step>
 
 						</el-steps>
@@ -96,7 +96,7 @@ export default {
 			loading:true,
 			ids:[],
             logs:[],
-
+			a:'success'
 		};
 	},
 
@@ -182,6 +182,14 @@ export default {
 		    console.log(logs)
             this.logs = logs;
         },
+		win(d){
+		    if(d==0){
+		        return 'success'
+			}
+            if(d==1){
+                return 'error'
+            }
+		},
         currentStep(a,b,c){
 		    a=a+"            ";
 		    b=b+"            ";

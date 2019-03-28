@@ -74,7 +74,7 @@
                 let arr  = [];
                 this.tableConfig.total=data.total;
                 let da = data.data;
-                console.log(da[0].need.id,)
+                console.log(da[0].work.id)
                 for(let i=0,n=da.length;i<n;i++){
                     arr.push(
                         {
