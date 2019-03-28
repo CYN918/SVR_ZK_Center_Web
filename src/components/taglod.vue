@@ -8,14 +8,9 @@
 						<el-form-item  label="需求标题" prop="title">
 							<el-input :disabled="clicType==1" v-model="form.title"></el-input>
 						</el-form-item>
-						<el-form-item   label="素材类型" prop="extend_type">
-							<el-select  :disabled="clicType==1" v-model="form.extend_type" placeholder="请选择素材类型">
+						<el-form-item   label="素材类型" prop="extend_type" >
+							<el-select  :disabled="clicType==1" v-model="form.extend_type" placeholder="请选择素材类型" @change="putLine">
 								<el-option :label="itemValue(item)" :value="item" v-for="item in old_type"></el-option>
-								<!--<el-option label="广告静态图" value="needs_picture"></el-option>-->
-								<!--<el-option label="广告脚本图" value="needs_script_picture"></el-option>-->
-								<!--<el-option label="广告脚本模板" value="needs_resource"></el-option>-->
-								<!--<el-option label="广告H5模板" value="needs_h5_resource"></el-option>-->
-								<!--<el-option label="锁屏壁纸脚本图" value="needs_wallpaper"></el-option>-->
 							</el-select>
 							<!--<el-select :disabled="clicType==1" v-for="itme in this.old_type" v-model="form.extend_type" placeholder="请选择素材类型">-->
 								<!--<el-option value="">{{itme}}</el-option>-->
@@ -62,7 +57,7 @@
 					<el-form-item  class="sixwz wztopdw" label="投放内容描述"  prop="description">
 						<el-input :disabled="clicType==1" type="textarea" v-model="form.description"></el-input>
 					</el-form-item>
-					<el-form-item class="sixwz" label="* 投放链接">
+					<el-form-item class="sixwz" label="* 投放链接" v-if="hiden">
 						<el-input :disabled="clicType==1" v-model="form.link"></el-input>
 					</el-form-item>
 					<el-form-item class="sixwz" label="设计要求" prop="note">
@@ -106,6 +101,7 @@ export default {
 			dialogVisible: false,
             Reminders:'img/1.jpg',
 			old_type:[],
+			hiden:false,
 			form: {
 				title: '',
 				extend_type:'',
@@ -236,6 +232,13 @@ export default {
                 console.log(res);
             })
         },
+        putLine(){
+		    if(this.form.extend_type=='needs_picture'||this.form.extend_type=='needs_script_picture'){
+		        return this.hiden=true;
+			}else {
+		        return this.hiden=false;
+			}
+		},
 		pushData(){
 			let pd = Date.parse(new Date(this.form.end_at));
 			if(pd<Date.parse(new Date())){
@@ -279,6 +282,9 @@ export default {
 				return
 			}
 			if(this.form.extend_type=='needs_picture' && !this.form.link){
+				this.$message("投放链接 不能为空。");
+				return
+			}if(this.form.extend_type=='needs_script_picture' && !this.form.link){
 				this.$message("投放链接 不能为空。");
 				return
 			}
