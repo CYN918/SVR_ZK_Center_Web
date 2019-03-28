@@ -183,9 +183,7 @@ export default {
             this.logs = logs;
         },
 		win(d){
-		    if(d==0){
-		        return 'success'
-			}
+
             if(d==1){
                 return 'error'
             }
