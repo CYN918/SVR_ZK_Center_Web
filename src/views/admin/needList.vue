@@ -199,9 +199,11 @@ export default {
 			this.api.need_get({params}).then((data)=>{	
 				this.updataType=0;			
 				let p = data;
-				console.log(p.priority);
+				console.log(p);
 				this.$refs.taglod.setData({
 					title: p.title,
+                    ad_type:p.extend.ad_type,
+                    channel_type:p.extend.channel_type,
 					extend_type:p.extend_type,
 					size:p.size,
 					position:p.position,
