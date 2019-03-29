@@ -193,6 +193,7 @@ export default {
             setData(newData){
 			this.form = newData;
 			this.putLine();
+			this.getHint();
 			this.clicType=1;
 			this.open();
 		},				
