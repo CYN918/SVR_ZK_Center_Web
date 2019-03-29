@@ -205,7 +205,7 @@ export default {
 					extend_type:'',
                     priority:'',
 					size:'',
-					position:'PUSH',
+					position:'',
 					position_desc:'',
 					end_at:new Date(),
 					num:'',
@@ -213,7 +213,9 @@ export default {
 					note:'',
 					link:'',
 					ad_type:'',
+
 				};
+				this.Reminders='img/1.jpg';
 				console.log(this.clicType)
 			}
 			this.clicType = 0;
