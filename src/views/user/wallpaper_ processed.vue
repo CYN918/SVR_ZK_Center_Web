@@ -26,13 +26,15 @@
                     ischeck:false,
                     list:[
                         {prop:'work_id',lable:'素材ID'},
-                        {prop:'id',lable:'需求ID'},
+                        // {prop:'id',lable:'需求ID'},
                         {prop:'preview_url',lable:'预览图',type:'imgs'},
-                        {prop:'work_type',lable:'素材类型'},
-                        {prop:'position',lable:'广告位类型'},
+                        // {prop:'work_type',lable:'素材类型'},
+                        {prop:'picture_style',lable:'风格类型'},
+                        {prop:'space_num',lable:'广告位数量'},
                         {prop:'size',lable:'素材尺寸'},
+                        {prop:'user',lable:'推送至'},
                         {prop:'status',lable:'状态'},
-                        {prop:'created_at',lable:'最近更新时间'},
+                        {prop:'date',lable:'最近更新时间'},
                         {prop:'attachment.url',lable:'操作',widht:210,
                             temps:[
                                 {type:'primary',size:'mini',cls:'xqshticon',value:'通过',fnName:'opentip',round:'round'},
@@ -87,15 +89,15 @@
                     arr.push(
                         {
                             work_id:da[i].work_id,
-                            id:da[i].need.id,
-                            work_type:this.checkNr(da[i].steps.work_type),
-                            position:da[i].position,
+                            // id:da[i].need.id,
+                            // work_type:this.checkNr(da[i].steps.work_type),
+                            picture_style:da[i].picture_style,
                             preview_url:da[i].preview_url,
                             size:da[i].size,
                             status:da[i].status,
-                            created_at:da[i].created_at,
-                            put_id:da[i].put_id,
-                            type:da[i].type
+                            date:da[i].updated_at.date,
+                            user:da[i].user,
+                            space_num:da[i].space_num
                         },
                     );
                 }

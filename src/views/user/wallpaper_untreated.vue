@@ -26,13 +26,13 @@
                     ischeck:false,
                     list:[
                         {prop:'work_id',lable:'素材ID'},
-                        {prop:'id',lable:'需求ID'},
                         {prop:'preview_url',lable:'预览图',type:'imgs'},
-                        {prop:'work_type',lable:'素材类型'},
-                        {prop:'position',lable:'广告位类型'},
+                        {prop:'picture_style',lable:'风格类型'},
+                        {prop:'space_num',lable:'广告位数量'},
                         {prop:'size',lable:'素材尺寸'},
+                        {prop:'user',lable:'推送至'},
                         {prop:'status_desc',lable:'状态'},
-                        {prop:'created_at',lable:'最近更新时间'},
+                        {prop:'updated_at',lable:'最近更新时间'},
 
                     ],
                 },
@@ -79,13 +79,15 @@
                     arr.push(
                         {
                             work_id:da[i].work.id,
-                            id:da[i].need.id,
+                            // id:da[i].need.id,
                             preview_url:da[i].work.preview_url,
-                            position:da[i].need.position,
-                            work_type:this.checkNr(da[i].work.work_type),//协议
+                            picture_style:da[i].puts.picture_style,
+                            // work_type:this.checkNr(da[i].work.work_type),//协议
+                            space_num:da[i].puts.space_num,
                             size:da[i].need.size,
-                            status_desc:da[i].work.status_desc,//协议
-                            created_at:da[i].work.created_at, //协议,
+                            user:da[i].puts.user,//协议
+                            status_desc:da[i].puts.status_desc, //协议,
+                            updated_at:da[i].puts.updated_at,
                             logs:da[i].logs,
                             logs_length:da[i].logs_length,//协议,
                         },
