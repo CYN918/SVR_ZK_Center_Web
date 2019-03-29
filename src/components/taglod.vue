@@ -101,7 +101,7 @@ export default {
 			dialogVisible: false,
             Reminders:'img/1.jpg',
 			old_type:[],
-			hiden:false,
+            hiden:false,
 			form: {
 				title: '',
 				extend_type:'',
@@ -192,6 +192,7 @@ export default {
 		},
             setData(newData){
 			this.form = newData;
+			this.putLine();
 			this.clicType=1;
 			this.open();
 		},				
@@ -296,6 +297,7 @@ export default {
 		},	
 		addData(){
 			let data = this.form;
+			console.log(data)
 			this.api.need_create(data)				
 		},
 		upDate(){

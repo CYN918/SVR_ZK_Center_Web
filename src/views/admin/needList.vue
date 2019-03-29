@@ -31,7 +31,6 @@ export default {
 			tableConfig:{
 				total:0,
 				ischeck:true,
-
 				list:[
 					{prop:'id',lable:'需求ID'},
 					{prop:'title',lable:'需求标题'},
@@ -130,7 +129,7 @@ export default {
 		clData(data){
 			let arr  = [];
 			this.tableConfig.total=data.total;
-			let da = data.data;			
+			let da = data.data;
 			for(let i=0,n=da.length;i<n;i++){
 				arr.push(
 					{
@@ -200,11 +199,13 @@ export default {
 			this.api.need_get({params}).then((data)=>{	
 				this.updataType=0;			
 				let p = data;
+				console.log(p.priority);
 				this.$refs.taglod.setData({
 					title: p.title,
 					extend_type:p.extend_type,
 					size:p.size,
 					position:p.position,
+                    priority:p.priority,
 					position_desc:p.position_desc,
 					end_at:p.end_at,
 					num:p.num,
