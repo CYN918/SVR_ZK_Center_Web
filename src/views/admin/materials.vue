@@ -53,7 +53,7 @@ export default {
 						temps:[{cls:'bjysdicon iconfont',type:'text',value:'&#xe61a;',fnName:'downlod'}]							
 					},
 					{prop:'attachment.url',lable:'操作',
-						temps:[{type:'primary',size:'mini',value:'下线',fnName:'detach',round:'round'},]							
+						temps:[{type:'primary',size:'mini',value:'下线',fnName:'opentip',round:'round'},]
 					},],
 				[{prop:'lib_id',lable:'模板库ID'},
 					{prop:'id',lable:'素材Id'},
@@ -68,7 +68,7 @@ export default {
 						temps:[{cls:'bjysdicon iconfont',type:'text',value:'&#xe61a;',fnName:'downlod'}]							
 					},
 					{prop:'attachment.url',lable:'操作',
-						temps:[{type:'primary',size:'mini',value:'下线',fnName:'detach',round:'round'},]							
+						temps:[{type:'primary',size:'mini',value:'下线',fnName:'opentip',round:'round'},]
 					},],
 			],
 			screenConfig:[],	
@@ -132,6 +132,18 @@ export default {
 				{title:'模糊搜索',type:'text',value:'search'},	
 			];
 		},
+        opentip(on){
+            console.log(this.tableData[on].id)
+            if(this.statusType==1){return}
+            this.$confirm('是否确认通过', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                this. detach(on);
+            }).catch(() => {
+            });
+        },
 		detach(on){
 			let params = {
 				lib_id:+this.$route.query.lib_id,

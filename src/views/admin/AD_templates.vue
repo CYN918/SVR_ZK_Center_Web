@@ -12,7 +12,6 @@
         ></tables>
         <el-button class="qhstBtn" @click="qhTable()" type="primary" size="mini" round>切换视图</el-button>
         <addsc ref="AddX"></addsc>
-
     </div>
 </template>
 <script>
@@ -22,6 +21,7 @@
         components:{tables,addsc},
         data() {
             return {
+                yesOrNo:false,
                 namedd:'广告图库-广告图库管理',
                 activeName2: '1',
                 tableData:[],
@@ -53,7 +53,7 @@
                             temps:[{cls:'bjysdicon iconfont',type:'text',value:'&#xe61a;',fnName:'downlod'}]
                         },
                         {prop:'attachment.url',lable:'操作',
-                            temps:[{type:'primary',size:'mini',value:'下线',fnName:'detach',round:'round'},]
+                            temps:[{type:'primary',size:'mini',value:'下线',fnName:'opentip',round:'round'},]
                         },],
                     [{prop:'lib_id',lable:'模板库ID'},
                         {prop:'id',lable:'素材Id'},
@@ -68,7 +68,7 @@
                             temps:[{cls:'bjysdicon iconfont',type:'text',value:'&#xe61a;',fnName:'downlod'}]
                         },
                         {prop:'attachment.url',lable:'操作',
-                            temps:[{type:'primary',size:'mini',value:'下线',fnName:'detach',round:'round'},]
+                            temps:[{type:'primary',size:'mini',value:'下线',fnName:'opentip',round:'round'},]
                         },],
                 ],
                 screenConfig:[],
@@ -132,7 +132,20 @@
                     {title:'模糊搜索',type:'text',value:'search'},
                 ];
             },
-            detach(on){
+
+            opentip(on){
+                console.log(this.tableData[on].id)
+                if(this.statusType==1){return}
+                this.$confirm('是否确认通过', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this. detach(on);
+                }).catch(() => {
+                });
+            },
+                detach(on){
                 let params = {
                     lib_id:+this.$route.query.lib_id,
                     material_id:+this.tableData[on].id,
