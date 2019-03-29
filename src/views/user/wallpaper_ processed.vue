@@ -89,16 +89,19 @@
                     arr.push(
                         {
                             work_id:da[i].work_id,
-                            // id:da[i].need.id,
-                            // work_type:this.checkNr(da[i].steps.work_type),
+                            id:da[i].need.id,
+                            work_type:this.checkNr(da[i].steps.work_type),
                             picture_style:da[i].picture_style,
                             preview_url:da[i].preview_url,
                             size:da[i].size,
                             status:da[i].status,
                             date:da[i].updated_at.date,
                             user:da[i].user,
-                            space_num:da[i].space_num
+                            space_num:da[i].space_num,
+                            put_id:da[i].put_id,
+                            type:da[i].type
                         },
+
                     );
                 }
                 return arr;
