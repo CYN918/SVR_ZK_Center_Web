@@ -197,6 +197,7 @@ export default {
 				}).catch(() => {});	
 			}else{
 				this.tabsd = this.tableData[on];
+				// console.log(this.tabsd);
 				this.dialogFormVisible = true;
 			}
 			
@@ -244,7 +245,7 @@ export default {
 					break;
 				case 'm_resource':a= '广告脚本模板';
 					break;
-				case 'm_h5_resource':a= '广告广告H5模板';
+				case 'm_h5_resource':a= '广告H5模板';
 					break;
 				case 'm_wallpaper':a= '锁屏壁纸脚本图';
 					break;
