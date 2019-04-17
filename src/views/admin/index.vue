@@ -23,7 +23,22 @@ export default {
 		leftNav
 	},
 	mounted: function () {
-		this.letNav = JSON.parse(localStorage.getItem('letNav'))[0];
+
+		if(JSON.parse(localStorage.getItem('letNav'))[0].children.length<=0){
+            this.$message({
+                type: 'error',
+                message: `您沒有該權限`
+            });
+		}else{
+            this.letNav = JSON.parse(localStorage.getItem('letNav'))[0];
+		}
+        // let Nav = JSON.parse(localStorage.getItem('leftNav'));
+        // for(let i = 0;i<Nav.length;i++){
+	     //  if(Nav[i].title=='管理'){
+         //      this.letNav = Nav[i];
+         //      console.log(i)
+		//   }
+		// }
 	},	
 }
 </script>

@@ -303,4 +303,8 @@ export default {
 	data_filter_channel:{
 		url:'/data/filter/channel',method:'get'
 	},
+	// 获取管理角色及角色列表
+    perm_manage_role:{
+		url:'/perm/manage/role',method:'get'
+   }
 }

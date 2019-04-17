@@ -1,34 +1,59 @@
 <template>
 	<div class="centNavBox">
-		<el-tabs v-model="activeName2" type="card" >
-			<el-tab-pane label="详细资料" name="1">
-				<div class="cembox">
-					<div class="cembox1">
-						<!--<img :src="'/img/tx.png'" alt="">-->
-					</div>
-					<div class="cembox2">
-						<div class="cembox2T">基本信息</div>
-						<div class="cembox2P1"><span>手机号</span><span>{{userData.phone}}</span></div>
-						<div class="cembox2P1"><span>邮箱</span><span>{{userData.email}}</span></div>
-					</div>
-					<div class="cembox3">
-						<div class="cembox2T">权限信息</div>
-						<ul>
-							<li v-for="(el,index) in userData.roles" :key="index">{{el.role_name}}</li>							
-						</ul>
-					</div>
-				</div>
-			</el-tab-pane>	
-			<el-tab-pane label="帐号安全" name="2">
-				<div class="cembox cemboxy">
-					<div class="cemboxyT">修改密码</div>
-					<div><el-input v-model="input1" type="password" placeholder="原始密码"></el-input></div>
-					<div><el-input v-model="input2" type="password" placeholder="新密码"></el-input></div>
-					<div><el-input v-model="input3" type="password" placeholder="确认新密码"></el-input></div>
-					<div class="cemboxyB" @click="edit_account_password"><div>确认</div></div>
-				</div>
-			</el-tab-pane>
-		</el-tabs>
+		<div class="center">
+			<div class="userImg">
+				<img src="../../../public/img/user.jpg">
+			</div>
+			<div class="message">
+				<span>用户名</span>
+				<input type="text"/>
+			</div>
+			<div class="message">
+				<span>账号</span>
+				<input type="text"/>
+			</div>
+			<div class="message">
+				<span>角色</span>
+				<input type="text"/>
+			</div>
+			<div class="message">
+				<span>公司名称</span>
+				<input type="text"/>
+			</div>
+			<div class="message">
+				<span>联系方式</span>
+				<input type="text"/>
+			</div>
+		</div>
+		<!--<el-tabs v-model="activeName2" type="card" >-->
+			<!--&lt;!&ndash;<el-tab-pane label="详细资料" name="1">&ndash;&gt;-->
+				<!--&lt;!&ndash;<div class="cembox">&ndash;&gt;-->
+					<!--&lt;!&ndash;<div class="cembox1">&ndash;&gt;-->
+						<!--&lt;!&ndash;&lt;!&ndash;<img :src="'/img/tx.png'" alt="">&ndash;&gt;&ndash;&gt;-->
+					<!--&lt;!&ndash;</div>&ndash;&gt;-->
+					<!--&lt;!&ndash;<div class="cembox2">&ndash;&gt;-->
+						<!--&lt;!&ndash;<div class="cembox2T">基本信息</div>&ndash;&gt;-->
+						<!--&lt;!&ndash;<div class="cembox2P1"><span>手机号</span><span>{{userData.phone}}</span></div>&ndash;&gt;-->
+						<!--&lt;!&ndash;<div class="cembox2P1"><span>邮箱</span><span>{{userData.email}}</span></div>&ndash;&gt;-->
+					<!--&lt;!&ndash;</div>&ndash;&gt;-->
+					<!--&lt;!&ndash;<div class="cembox3">&ndash;&gt;-->
+						<!--&lt;!&ndash;<div class="cembox2T">权限信息</div>&ndash;&gt;-->
+						<!--&lt;!&ndash;<ul>&ndash;&gt;-->
+							<!--&lt;!&ndash;<li v-for="(el,index) in userData.roles" :key="index">{{el.role_name}}</li>&ndash;&gt;-->
+						<!--&lt;!&ndash;</ul>&ndash;&gt;-->
+					<!--&lt;!&ndash;</div>&ndash;&gt;-->
+				<!--&lt;!&ndash;</div>&ndash;&gt;-->
+			<!--&lt;!&ndash;</el-tab-pane>&ndash;&gt;-->
+			<!--&lt;!&ndash;<el-tab-pane label="帐号安全" name="2">&ndash;&gt;-->
+				<!--&lt;!&ndash;<div class="cembox cemboxy">&ndash;&gt;-->
+					<!--&lt;!&ndash;<div class="cemboxyT">修改密码</div>&ndash;&gt;-->
+					<!--&lt;!&ndash;<div><el-input v-model="input1" type="password" placeholder="原始密码"></el-input></div>&ndash;&gt;-->
+					<!--&lt;!&ndash;<div><el-input v-model="input2" type="password" placeholder="新密码"></el-input></div>&ndash;&gt;-->
+					<!--&lt;!&ndash;<div><el-input v-model="input3" type="password" placeholder="确认新密码"></el-input></div>&ndash;&gt;-->
+					<!--&lt;!&ndash;<div class="cemboxyB" @click="edit_account_password"><div>确认</div></div>&ndash;&gt;-->
+				<!--&lt;!&ndash;</div>&ndash;&gt;-->
+			<!--&lt;!&ndash;</el-tab-pane>&ndash;&gt;-->
+		<!--</el-tabs>-->
 	</div>
 </template>
 
@@ -88,6 +113,37 @@ export default {
 </script>
 
 <style>
+.centNavBox{
+	width: 100%;
+	padding: 24px 45px 24px;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	background: #FFF;
+}
+.userImg{
+	margin-bottom: 50px;
+}
+.userImg>img{
+	width: 150px;
+    margin-left: 70px;
+}
+.center{
+	text-align: center;
+}
+.message {
+	margin-bottom: 30px;
+}
+input{
+	width: 300px;
+	height: 30px;
+	padding-left: 10px;
+}
+.message>span{
+	display: inline-block;
+	width: 100px;
+	text-align: right;
+	margin-right: 20px;
+}
 .cembox{width: 100%;background: #fff;}
 .cembox>div{padding: 0 30px;}
 .cembox1{text-align: center;padding: 49px 30px 0 !important;margin-bottom: 36px;}

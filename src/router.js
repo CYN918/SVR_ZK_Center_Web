@@ -143,6 +143,13 @@ import infoIndex from './views/userinfo/index.vue'
 mode['info'] = infoIndex
 import userinfo from './views/userinfo/user_info.vue'
 mode['userinfo'] = userinfo
+import passWord from './views/userinfo/password'
+mode['passWord'] = passWord
+import MyPerm from './views/userinfo/MyPermission'
+mode['MyPerm'] = MyPerm
+import account from  './views/userinfo/account'
+mode['account'] = account
+
 
 
 Vue.use(Router)
@@ -176,7 +183,7 @@ let nb = [
 			{path:'/admin/library_wallpaper',name:'锁屏壁纸库投放管理',component: mode['library_wallpaper']},				
 			{path:'/admin/roles',name:'角色管理',component: mode['roles']},
 			{path:'/admin/inside',name:'内部帐号管理',component: mode['inside']},
-			{path:'/admin/external',name:'外部帐号管理',component:mode['external']},		
+			{path:'/admin/external',name:'外部帐号管理',component:mode['external']},
 		]
 	},
 	{path:'/data',name:'数据中心',component:mode['data'],children:[	
@@ -225,8 +232,11 @@ let nb = [
 	]},
     {path:'/userinfo',name:'个人中心',component:mode['info'],
 		children:[
-            {path:'/userinfo/user_info',name:'个人信息',component:mode['userinfo']},
+            {path:'/userinfo/user_info',name:'基本信息',component:mode['userinfo']},
+            {path:'/userinfo/passWord',name:'修改密码',component:mode['passWord']},
             {path:'/userinfo/user_info',name:'退出',component:mode['userinfo']},
+            {path:'/userinfo/MyPerm',name:'修改密码',component:mode['MyPerm']},
+            {path:'/userinfo/account',name:'修改密码',component:mode['account']},
         ]
 	},
 
@@ -235,7 +245,7 @@ router.addRoutes(nb);
 /*动态生成左边菜单*/
 let leftNav =
 	[
-	{title:'管理',
+	{title:'管理',default:'/admin',defaultopen:['1'],
 	children:[
 		{title:'需求管理',url:'1',list:[{title:'需求列表',url:'/admin/needList'}]},
 		{title:'素材库',url:'2',list:[
@@ -255,19 +265,17 @@ let leftNav =
 			{title:'外部帐号管理',url:'/admin/external'},
 		]},
 	]},
-	{title:'审核台',default:'/user',defaultopen:['1'],
+	{title:'审核台',defaultopen:['1'],
         children:[
             {title:'需求审核',url:'1',list:[
                     {title:'待处理',url:'/user/user_need'},
                     {title:'已处理',url:'/user/user_checked'},
-                    // {title:'广告图待处理',url:'/user/user_picture'},
-                    // {title:'广告模版待处理',url:'/user/user_resource'},
-                    // {title:'锁屏壁纸待处理',url:'/user/user_wallpaper'},
+
 				],},
             {title:'素材审核',url:'2',list:[
                     {title:'待处理',url:'/user/user_picture'},
                     {title:'已处理',url:'/user/user_resource'},
-                    // {title:'锁屏壁纸待处理',url:'/user/user_wallpaper'},
+
 					],},
             {title:'壁纸推送',url:'3',list:[
                     {title:'待处理',url:'/user/wallpaper_processed'},
@@ -334,15 +342,22 @@ let leftNav =
 		]}
 	]},
     {title:'个人中心',default:'/userinfo/user_info',defaultopen:['1'],
-        list:[
-            {title:'个人信息', url:'/userinfo/user_info'},
-            {title:'退出',url:'/api/logout'},
+        children:[
+            {title:'个人中心',url:'1',list:[
+            {title:'基本信息', url:'/userinfo/user_info'},
+            {title:'修改密码', url:'/userinfo/passWord'},
+            {title:'消息通知', url:'/userinfo/'},
+                ]},
+			{title:'账号权限',url:'1-2',list:[
+			{title:'我的权限',url:'/userinfo/MyPerm'},
+            {title:'账号管理',url:'/userinfo/account'},
+            {title:'角色管理',url:'/userinfo/'},
+            {title:'流程管理',url:'/userinfo/'},
+            {title:'账号审核',url:'/userinfo/'},
+                ]}
         ]
 	},
 ];
-
-
-
 localStorage.setItem('letNav',JSON.stringify(leftNav));
 router.beforeEach((to, from, next) => {
 	/*登录过期*/
@@ -359,7 +374,6 @@ router.beforeEach((to, from, next) => {
 			next();	
 			return
 		}
-		
 		if(localStorage.getItem('userType')==1){
 			if(to.fullPath.substring(0,7)!='/indexs'){
 				next({ path: '/indexs/list'});
@@ -376,10 +390,14 @@ router.beforeEach((to, from, next) => {
 		}	
 						
 		if(to.fullPath=='/admin'){
-			next({ path: '/admin/needList'});
-		}	
+			if(JSON.parse(localStorage.getItem('letNav'))[0].children.length>0){
+                next({ path: '/admin/needList'});
+			}
+		}
 		if(to.fullPath=='/user'){
-			next({ path: '/user/user_need'});
+			if(JSON.parse(localStorage.getItem('letNav'))[1].children.length>0){
+                next({ path: '/user/user_need'});
+			}
 		}
         if(to.fullPath=='/userinfo'){
             next({ path: '/userinfo/user_info'});
@@ -409,6 +427,7 @@ router.beforeEach((to, from, next) => {
 	if(window.location.host=='localhost:8080'){
 		cent = 'center_local';
 		urld ='http://ts-i.idatachain.cn/api/login';
+		// urld = "http://center.zk.com/api/login";
 	}
 	if(to.query.ticket){	
 		axios({

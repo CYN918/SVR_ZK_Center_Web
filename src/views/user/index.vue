@@ -22,8 +22,16 @@ export default {
 		leftNav
 	},
 	mounted: function () {
-		this.letNav = JSON.parse(localStorage.getItem('letNav'))[1];
-	},	
+	    if(JSON.parse(localStorage.getItem('letNav'))[1].children.length<=0){
+            this.$message({
+                type: 'error',
+                message: `您沒有該權限`
+            });
+		}else{
+            this.letNav = JSON.parse(localStorage.getItem('letNav'))[1]
+		}
+
+	 },
 }
 </script>
 <style>

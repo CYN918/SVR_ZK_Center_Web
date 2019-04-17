@@ -50,7 +50,7 @@ export default {
         gouser(){
             window.location.href= '#/userinfo/user_info';
         },
-		loginout(){	
+		loginout(){
 			let urld = 'http://ts-i.idatachain.cn';
 			if(window.location.host=='c.zookingsoft.com'){
 				urld = 'http://c.zookingsoft.com';

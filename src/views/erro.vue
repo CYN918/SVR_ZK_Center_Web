@@ -8,7 +8,8 @@ export default {
         this.loginout()
 	},
 	methods:{
-		loginout(){	
+		loginout(){
+		    window.localStorage.clear();
 			let urld = 'http://ts-i.idatachain.cn';
 			if(window.location.host=='c.zookingsoft.com'){
 				urld = 'http://c.zookingsoft.com';

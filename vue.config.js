@@ -67,6 +67,17 @@ devServer: {
         hotOnly: false,
         disableHostCheck: true,
         proxy: null// 设置代理
+        // proxy: {
+        // '/host center.zk.com':{
+        //     target:'http://192.168.0.236', //接口域名
+        //     ws:true,                       //代理WEBSOCKETS
+        //     secure:false,                 //如HTTPS接口，需要配置
+        //     changeOrigin:true,
+        //     pathRewrite:{
+        //         '^/host center.zk.com':''
+        //     }
+        // }
+        // }
 
 },
 // 第三方插件配置

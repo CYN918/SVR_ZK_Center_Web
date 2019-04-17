@@ -67,6 +67,7 @@
                 });
             },
             getData(sxtj){
+                console.log(localStorage.getItem('leftNav'));
                 this.setLoding(true);
                 let params = this.screens;
                 if(sxtj){
