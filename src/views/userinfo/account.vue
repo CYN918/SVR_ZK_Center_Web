@@ -5,19 +5,19 @@
                 <span>可管理账号</span>
             </div>
             <div class="box_input">
-                <div class="box" v-for="item in list">
+                <div class="box" v-for="(item,index1) in list">
                     <div class="box_1">
                         <img src="../../../public/img/user.jpg"/>
                     </div>
                     <div class="box_2">
                         <p class="box_txt">{{item.role_name}}</p>
-                        <p>{{time}}创建</p>
+                        <p>{{item.created_at}}创建</p>
                     </div>
                     <div class="box_3">
                         <p class="box_txt">{{item.users.length}}</p>
                         <p>已绑定账号数</p>
                     </div>
-                    <div class="box_4" @click="details">
+                    <div class="box_4" @click="details(index1)">
                         <img src="../../../public/img/timg.jpg">
                     </div>
                 </div>
@@ -27,8 +27,8 @@
                 <span class="btn">查询</span>
                 <span class="btn_2" @click="add">添加账号</span>
             </div>
-            <div class="box_input_3" v-for="item in list">
-                <div class="name">{{item.role_name}}</div>
+            <div class="box_input_3">
+                <div class="name" v-for="(item,index) in list" @click="aaa(index)">{{item.role_name}}</div>
             </div>
             <tab :tableData2="tableData2"></tab>
             <div class="detail" v-if="show">
@@ -38,17 +38,17 @@
                     </div>
                     <el-table
                             :header-cell-style="getRowClass"
-                            :data="tableData2"
+                            :data="tableData"
                             border
                             style="width: 75%;color: black;margin: 20px 0 0 200px">
                         <el-table-column
-                                prop="date"
-                                label="日期"
+                                prop="group_name"
+                                label="权限名称"
                                 width="180">
                         </el-table-column>
                         <el-table-column
-                                prop="name"
-                                label="姓名">
+                                prop="note"
+                                label="权限说明">
                         </el-table-column>
                     </el-table>
                     <div class="detail_1_2" @click="shut">
@@ -58,10 +58,44 @@
             </div>
             <div class="detail" v-if="management">
             <div class="detail_1">
-                <div class="detail_1_1">
+                <div class="detail_1_1_1">
                     <span>添加账号</span>
                 </div>
-
+                <div class="detail_1_1_2">
+                    <span class="btn_1_1" @click="inner" :class="{active:isActive==1}">内部账号</span>
+                    <span class="btn_1_2" @click="external" :class="{active:isActive==2}">外部账号</span>
+                </div>
+                <div class="detail_1_1_3">
+                    <span>所属角色：</span>
+                    <select>
+                        <option></option>
+                    </select>
+                    <span class="btn_1_3">查看权限</span>
+                </div>
+                <div class="detail_1_1_4">
+                    <span>用户名:</span>
+                    <input type="text"/>
+                </div>
+                <div class="detail_1_1_5">
+                    <span>邮箱:</span>
+                    <input type="text"/>
+                </div>
+                <div class="detail_1_1_6">
+                    <span>初始密码:</span>
+                    <input type="text"/>
+                </div>
+                <div class="detail_1_1_7" v-if="listTab">
+                    <span>公司名称:</span>
+                    <input type="text"/>
+                </div>
+                <div class="detail_1_1_8" v-if="listTab">
+                    <span>联系电话:</span>
+                    <input type="text"/>
+                </div>
+                <div class="operate">
+                    <span class="btn_txt_1">添加</span>
+                    <span class="btn_txt_2" @click="qx">取消</span>
+                </div>
             </div>
         </div>
         </div>
@@ -74,20 +108,27 @@
         name: "account",
         data(){
             return{
+                tableData:[
+                    {
+                        group_name:'',
+                        note:''
+                    }
+                ],
+                isActive:1,
+                listTab:false,
                 list:[],
+                role_id:'',
+                name:'',
                 management:false,
                 show:false,
-                name:'运营',
-                time:'2019/4/17',
-                num:'23',
                 tableData2:[
                     {
-                        date:966/444/44,
-                        address:'电视剧阿达集散地'
-                    },
-                    {
-                        date:16156,
-                        address:'大萨达撒多撒多撒'
+                        user_id:'',
+                        created_at:'',
+                        email:'',
+                        status:'1',
+                        user_name:'',
+                        updated_at:'',
                     }
                 ]
             }
@@ -96,8 +137,14 @@
             this.getList();
         },
         methods:{
-            details(){
-                this.show=true
+
+            details(c){
+                this.show=true;
+                this.api.role_user().then((res)=>{
+                   this.role_id= res[c].role_id;
+                   this.name=res[c].role_name;
+                   this.role();
+                })
             },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
@@ -106,15 +153,39 @@
                     return ''
                 }
             },
-            shut(){
+            inner(){
+                this.listTab=false;
+                this.isActive=1;
+            },
+            external(){
+                this.listTab=true;
+                this.isActive=2;
+            },
+                shut(){
                 this.show=false
             },
             add(){
                 this.management=true;
             },
+            qx(){
+                this.management=false;
+            },
             getList(){
-                this.api.perm_manage_role().then((res)=>{
+                this.api.role_user().then((res)=>{
                     this.list = res;
+                    this.tableData2 = res[0].users;
+                    console.log(res)
+                })
+            },
+            aaa(a){
+                this.api.role_user().then((res)=>{
+                    this.tableData2 = res[a].users;
+                })
+            },
+            role(){
+                let params = {role_id:this.role_id};
+                this.api.perm_userperm({params}).then((res)=>{
+                    this.tableData = res;
                     console.log(res)
                 })
             }
@@ -133,7 +204,7 @@
 }
 .box{
     display: inline-block;
-    width: 350px;
+    width: 400px;
     height: 100px;
     border:1px solid #ddd;
     border-radius: 15px;
@@ -200,6 +271,7 @@ input{
     background: #75ba42;
     text-align: center;
     border-radius: 15px 15px 0 0 ;
+    display: inline-block;
 }
 .box_4{
     display: inline-block;
@@ -226,6 +298,7 @@ input{
     background: #fff;
     margin: 20px;
     border-radius: 20px;
+    text-align: center;
 }
 .detail_1_1{
     text-align: center;
@@ -241,5 +314,72 @@ input{
 .detail_1_2>img{
     width: 30px;
 }
-
+.detail input{
+    margin-left:20px;
+}
+.detail div{
+    margin-bottom:30px ;
+}
+.detail span{
+    display: inline-block;
+    width: 100px;
+    text-align: right;
+    margin-right: 20px
+}
+.detail select{
+    width: 165px;
+    height: 35px;
+    margin-right: 20px;
+}
+.btn_1_1{
+    margin-left: 110px;
+}
+.btn_1_1,.btn_1_2{
+    width: 155px!important;
+    margin-right: 0 !important;
+    height: 35px;
+    line-height: 35px;
+    border: 1px solid #000;
+    text-align: center!important;
+    cursor: pointer;
+}
+.btn_1_3{
+    display: inline-block;
+    width: 120px;
+    height: 35px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    line-height: 35px;
+   text-align: center!important;
+    margin-left: 20px;
+    cursor: pointer;
+}
+.detail_1_1_1{text-align: left;}
+.detail_1_1_1>span{
+    display: inline-block;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 80px;
+    margin-left: 25%;
+}
+.active{
+    background: #ddd;
+}
+.btn_txt_1,.btn_txt_2{
+    display: inline-block;
+    width: 150px!important;
+    height: 35px;
+    line-height: 35px;
+    cursor: pointer;
+    text-align: center!important;
+    border-radius: 8px;
+}
+.btn_txt_1{
+    background: aquamarine;
+    color: #fff;
+    margin:0 100px!important;
+}
+.btn_txt_2{
+    border: 1px solid #000;
+}
 </style>

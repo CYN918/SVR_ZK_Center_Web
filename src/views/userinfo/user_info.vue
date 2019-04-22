@@ -6,23 +6,23 @@
 			</div>
 			<div class="message">
 				<span>用户名</span>
-				<input type="text"/>
+				<input type="text" v-model="userData.name"/>
 			</div>
 			<div class="message">
 				<span>账号</span>
-				<input type="text"/>
+				<input type="text" v-model="userData.email"/>
 			</div>
 			<div class="message">
 				<span>角色</span>
-				<input type="text"/>
+				<input type="text" v-model="userData.roles[0].role_name"/>
 			</div>
 			<div class="message">
 				<span>公司名称</span>
-				<input type="text"/>
+				<input type="text" v-model="userData.company"/>
 			</div>
 			<div class="message">
 				<span>联系方式</span>
-				<input type="text"/>
+				<input type="text" v-model="userData.phone"/>
 			</div>
 		</div>
 		<!--<el-tabs v-model="activeName2" type="card" >-->

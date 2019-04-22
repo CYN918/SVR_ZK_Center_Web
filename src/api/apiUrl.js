@@ -304,7 +304,31 @@ export default {
 		url:'/data/filter/channel',method:'get'
 	},
 	// 获取管理角色及角色列表
-    perm_manage_role:{
-		url:'/perm/manage/role',method:'get'
-   }
+    role_user:{
+		url:'/role/user',method:'get'
+   },
+   // 获取角色权限列表
+    perm_userperm:{
+		url:'perm/userperm',method:'get'
+	},
+	//获取全部权限组
+	perm_group:{
+		url:'/perm/group',method:'get'
+	},
+	//编辑角色权限
+    perm_role_edit:{
+		url:'perm/role/edit',method:'get'
+	},
+	//添加角色
+	perm_role_add:{
+		url:'perm/role/add',method:'post'
+	},
+	//获取可作为上级的角色
+    role_leader:{
+		url:'role/leader',method:'get'
+	},
+	//获取用户反馈列表
+    feedback_list:{
+		url:'feedback/list',method:'get'
+	},
 }

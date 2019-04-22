@@ -149,6 +149,16 @@ import MyPerm from './views/userinfo/MyPermission'
 mode['MyPerm'] = MyPerm
 import account from  './views/userinfo/account'
 mode['account'] = account
+import roleManagement from './views/userinfo/role_management'
+mode['roleManagement'] = roleManagement
+import AddRole from './views/userinfo/AddRole'
+mode['AddRole'] = AddRole
+import AccounAudit from  './views/userinfo/AccounAudit'
+mode['AccounAudit'] = AccounAudit
+import feedback from  './views/userinfo/feedback'
+mode['feedback'] = feedback
+import Details from './views/userinfo/details'
+mode['Details'] = Details
 
 
 
@@ -236,7 +246,12 @@ let nb = [
             {path:'/userinfo/passWord',name:'修改密码',component:mode['passWord']},
             {path:'/userinfo/user_info',name:'退出',component:mode['userinfo']},
             {path:'/userinfo/MyPerm',name:'修改密码',component:mode['MyPerm']},
-            {path:'/userinfo/account',name:'修改密码',component:mode['account']},
+            {path:'/userinfo/account',name:'账号管理',component:mode['account']},
+            {path:'/userinfo/roleManagement',name:'角色管理',component:mode['roleManagement']},
+            {path:'/userinfo/AddRole',name:'添加角色',component:mode['AddRole']},
+            {path:'/userinfo/AccounAudit',name:'账户审核',component:mode['AccounAudit']},
+            {path:'/userinfo/feedback',name:'意见反馈',component:mode['feedback']},
+            {path:'/userinfo/Details',name:'反馈详情',component:mode['Details']},
         ]
 	},
 
@@ -351,10 +366,14 @@ let leftNav =
 			{title:'账号权限',url:'1-2',list:[
 			{title:'我的权限',url:'/userinfo/MyPerm'},
             {title:'账号管理',url:'/userinfo/account'},
-            {title:'角色管理',url:'/userinfo/'},
+            {title:'角色管理',url:'/userinfo/roleManagement'},
             {title:'流程管理',url:'/userinfo/'},
-            {title:'账号审核',url:'/userinfo/'},
-                ]}
+            {title:'账号审核',url:'/userinfo/AccounAudit'},
+                ]},
+			{title:'意见反馈',url:"1-3",list:[
+			{title:'意见反馈',url:'/userinfo/feedback'}
+				]}
+
         ]
 	},
 ];

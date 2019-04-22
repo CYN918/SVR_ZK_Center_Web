@@ -7,7 +7,7 @@
                         <img src="../../../public/img/user.jpg"/>
                     </div>
                     <div class="tab_title_1_2">
-                        <p class="text_message">{{name}}</p>
+                        <p class="text_message">{{user.role_name}}</p>
                         <p >{{permission}}</p>
                     </div>
                 </div>
@@ -29,12 +29,12 @@
                     border
                     style="width: 80%;color:#000;margin: 30px 120px">
                 <el-table-column
-                        prop="date"
+                        prop="group_name"
                         label="权限名称"
                         width="300">
                 </el-table-column>
                 <el-table-column
-                        prop="address"
+                        prop="note"
                         label="权限说明">
                 </el-table-column>
             </el-table>
@@ -51,24 +51,13 @@
                 permission: '负责产品跟进把控',
                 time: '2019/4/17',
                 state: '开启',
-                tableData2: [{
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄',
-                }, {
-                    date: '2016-05-04',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                    date: '2016-05-01',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄',
-                }, {
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                }],
+                tableData2: [],
+                user:{},
             }
+        },
+        mounted(){
+            this.getUser();
+            this.getUserMessgae()
         },
         methods: {
             getRowClass({row, column, rowIndex, columnIndex}) {
@@ -78,6 +67,18 @@
                     return ''
                 }
             },
+            getUser(){
+                this.api.perm_userperm().then((res)=>{
+                    this.tableData2 = res
+                })
+            },
+            getUserMessgae(){
+                let params = {email:localStorage.getItem('userAd')}
+                this.api.get_account({params}).then((res)=>{
+                    this.user = res.roles[0]
+                    console.log(res.roles)
+                })
+            }
         }
     }
 </script>

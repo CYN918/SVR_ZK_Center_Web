@@ -8,37 +8,41 @@
             border
             style="width: 100%;color:#000">
         <el-table-column
-                prop="date"
-                label="用户ID"
-                width="150">
-        </el-table-column>
-        <el-table-column
-                prop="address"
+                prop="user_name"
                 label="用户名">
         </el-table-column>
         <el-table-column
-                prop="address"
+                prop="email"
                 label="用户邮箱">
         </el-table-column>
         <el-table-column
-                prop="address"
+                prop="created_at"
                 label="创建时间">
         </el-table-column>
         <el-table-column
-                prop="address"
+                prop="updated_at"
                 label="最近记录">
         </el-table-column>
         <el-table-column
-                prop="address"
+                prop="status"
                 label="账号状态">
             <template slot-scope="scope">
-                <el-switch active-color="#13ce66" inactive-color="#ff4949" v-model="scope.row.status" @change=change(scope.$index,scope.row)>
+                <el-switch
+                        :active-value="1"
+                        :inactive-value="0"
+                        active-color="#13ce66"
+                        inactive-color="#ff4949"
+                        v-model="scope.row.status"
+                        @change=change(scope.$index,scope.row.status)>
                 </el-switch>
             </template>
         </el-table-column>
         <el-table-column
                 prop="address"
                 label="操作">
+            <template slot-scope="scope">
+                <el-button type="text" size="small">编辑</el-button>
+            </template>
         </el-table-column>
     </el-table>
 </template>
@@ -48,7 +52,8 @@
         props:['tableData2'],
         name: "table",
         data(){
-            return{}
+            return{
+            }
         },
         methods:{
             getRowClass({row, column, rowIndex, columnIndex}) {
@@ -60,7 +65,12 @@
             },
             cell({row, column, rowIndex, columnIndex}){
                 return 'text-align:center;'
-            }
+            },
+            change(a,b){
+                this.api.edit_account_status({email:this.tableData2[a].email,status:b}).then((res)=>{
+
+                })
+            },
         }
     }
 </script>
