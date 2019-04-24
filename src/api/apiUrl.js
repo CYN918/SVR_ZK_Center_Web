@@ -303,4 +303,20 @@ export default {
 	data_filter_channel:{
 		url:'/data/filter/channel',method:'get'
 	},
+	//上传文件
+    file_upload:{
+		url:'/file/upload',method:'post'
+	},
+	//获取锁屏列表
+    lockwallpaper_list:{
+		url:'lockwallpaper/list',method:'get'
+	},
+	//新增锁屏壁纸
+    lockwallpaper_add:{
+		url:'/lockwallpaper/add',method:'get'
+	},
+	//删除锁屏壁纸
+    lockwallpaper_del:{
+		url:'/lockwallpaper/del',method:'get'
+	},
 }
