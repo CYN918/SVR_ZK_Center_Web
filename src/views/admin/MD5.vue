@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div class="top" @click="uploadData">
-            <span>上传</span>
+        <div class="top">
+            <span @click="uploadData">上传</span>
         </div>
         <div class="centNavBox">
             <template>
