@@ -126,6 +126,7 @@
             },
             uploadData(){
                 this.show = true;
+                this.MD5 = '';
             },
             qx(){
                 this.show = false;
@@ -153,11 +154,6 @@
                this.ext = response.data.ext;
                this.size = response.data.size;
             },
-            warning(a){
-                if(a.code!=0){
-                    return this.$message.error(res.msg);
-                }
-            },
             uploading(){
                 if(!this.file){
                     this.$message.error('请上传文件，文件不能为空！');
@@ -166,11 +162,13 @@
                 let params = {name:this.name,size:this.size,ext:this.ext,url:this.url,md5:this.MD5};
                 this.api.lockwallpaper_add({params}).then((res)=>{
                     this.show = false;
-                    this.warning(res);
+                    console.log(res);
                     this.msgData();
                 },error => {
                         console.log(error)
-                });
+                }).catch(()=>{
+
+                })
 
             },
             msgData(){
