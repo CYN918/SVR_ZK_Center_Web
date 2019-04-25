@@ -138,7 +138,7 @@
                 this.file = file;
 
                 console.log(this.file)
-                const isJPG = file.type === 'application/x-zip-compressed';
+                const isJPG = file.type === 'application/zip';
                 if (!isJPG) {
                     this.$message.error('只支持ZIP格式!');
                 }
