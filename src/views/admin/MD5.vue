@@ -71,7 +71,6 @@
                             action="http://ts-i.idatachain.cn//api/file/upload"
                             :on-exceed="handleExceed"
                             :before-upload="beforeAvatarUpload"
-                            accept="application/x-zip-compressed"
                             :on-remove="handleRemove"
                          >
                         <el-button size="small" type="primary">上传物料包</el-button>
@@ -138,11 +137,12 @@
                 this.file = file;
 
                 console.log(this.file)
-                const isJPG = file.type === 'application/zip';
-                if (!isJPG) {
+                const isXzip = file.type === 'application/x-zip-compressed';
+                const iszip = file.type === 'application/zip';
+                if (!(isXzip||iszip)) {
                     this.$message.error('只支持ZIP格式!');
                 }
-                return isJPG;
+                return isXzip||iszip;
             },
             handleRemove(file, fileList) {
                 this.file = '';
