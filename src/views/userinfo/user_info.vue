@@ -1,8 +1,11 @@
 <template>
 	<div class="centNavBox">
+		<div class="title_left">
+			<span>基本信息</span>
+		</div>
 		<div class="center">
 			<div class="userImg">
-				<img src="../../../public/img/user.jpg">
+				<img src="../../../public/img/user.png">
 			</div>
 			<div class="message">
 				<span>用户名</span>
@@ -124,25 +127,38 @@ export default {
 	margin-bottom: 50px;
 }
 .userImg>img{
-	width: 150px;
-    margin-left: 70px;
+	width: 100px;
+    margin-left: 40px;
+}
+.xqList{
+	margin: 82px 20px 20px 337px !important;
 }
 .center{
 	text-align: center;
+	margin-bottom: 210px;
+
 }
 .message {
 	margin-bottom: 30px;
 }
 input{
-	width: 300px;
-	height: 30px;
-	padding-left: 10px;
+	width:320px;
+	height:50px;
+	border:1px solid rgba(230,230,230,1);
+	border-radius:5px;
+	margin-left: 30px;
+	padding-left: 15px;
 }
 .message>span{
 	display: inline-block;
 	width: 100px;
 	text-align: right;
 	margin-right: 20px;
+	font-size:16px;
+	font-family:PingFang-SC-Regular;
+	font-weight:400;
+	color:rgba(54,54,54,1);
+	line-height:36px;
 }
 .cembox{width: 100%;background: #fff;}
 .cembox>div{padding: 0 30px;}
@@ -226,5 +242,15 @@ opacity:0.65;
     font-weight: 400;
     color: rgba(0,0,0,1);
     opacity: 0.65;
+}
+.title_left{
+	margin-bottom: 100px;
+}
+.title_left>span{
+	font-size:20px;
+	font-family:PingFang-SC-Regular;
+	font-weight:400;
+	color:rgba(54,54,54,1);
+	line-height:36px;
 }
 </style>

@@ -331,4 +331,28 @@ export default {
     feedback_list:{
 		url:'feedback/list',method:'get'
 	},
+	//获取用户反馈详情
+    feedback_detail:{
+		url:'feedback/detail',method:'get'
+	},
+	//获取角色下的用户列表
+    role_user_list:{
+		url:'role/user/list',method:'get'
+	},
+	//获取角色权限组
+    perm_role_group:{
+		url:'perm/role/group',method:'get'
+	},
+	//获取所有角色
+    api_get_roles:{
+		url:'get_roles',method:'get'
+	},
+	//获取反馈类型
+    feedback_type:{
+		url:'feedback/type',method:'get'
+	},
+	//提交反馈
+    feedback_add:{
+		url:'feedback/add',method:'post'
+	},
 }

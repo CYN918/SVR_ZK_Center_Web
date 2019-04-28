@@ -46,4 +46,23 @@ html,body{
   color: #453dff!important;
   border-bottom: 1px solid #453dff;
 }
+.el-textarea{
+  display: inline-block;
+  width: 87%;
+}
+.el-switch__core{
+  margin-left: 28px;
+}
+.el-upload--picture-card{
+  width: 230px;
+  height: 205px;
+}
+.el-upload--picture-card i{
+  margin-top: 50px;
+  vertical-align: middle;
+}
+.el-upload-list--picture-card .el-upload-list__item{
+  width: 230px;
+  height: 205px;
+}
 </style>

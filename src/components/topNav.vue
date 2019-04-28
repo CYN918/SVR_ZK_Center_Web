@@ -1,27 +1,30 @@
 <template>
 	<div class="topNav">
 		<div @click="goindex" class="log"><img  src="/img/log.jpg"/>掌酷综合平台</div>
-		<el-dropdown trigger="click" class="user-ci">
-			<span class="el-dropdown-link iconfont">&#xe686;</span>
-			<el-dropdown-menu slot="dropdown">
-				<el-dropdown-item ><span @click="gouser()">个人信息</span></el-dropdown-item>
-				<el-dropdown-item ><span @click="loginout()">退出</span></el-dropdown-item>		   
-			</el-dropdown-menu>
-		</el-dropdown>
+		<!--<el-dropdown trigger="click" class="user-ci">-->
+			<!--<span class="el-dropdown-link iconfont">&#xe686;</span>-->
+			<!--<el-dropdown-menu slot="dropdown">-->
+				<!--<el-dropdown-item ><span @click="gouser()">个人信息</span></el-dropdown-item>-->
+				<!--<el-dropdown-item ><span @click="loginout()">退出</span></el-dropdown-item>-->
+			<!--</el-dropdown-menu>-->
+		<!--</el-dropdown>-->
 		<ul class="navd" v-if="config.showL!=-1">
-			<router-link  to="/index"><li>首页</li></router-link>
-			<router-link  to="/admin"><li>管理</li></router-link>
-			<router-link  to="/data"><li>数据</li></router-link>
-			<router-link  to="/user"><li>审核台</li></router-link>
-			<a><li class="iconfont">&#xe628;</li></a>
+			<router-link  to="/index"><li><img src="../../public/img/gzt.png" class="imgs_size"/>工作台</li></router-link>
+			<router-link  to="/admin"><li><img src="../../public/img/sj.png" class="imgs_size"/>数据中心</li></router-link>
+			<router-link  to="/data"><li><img src="../../public/img/sy.png" class="imgs_size"/>收益中心</li></router-link>
+			<router-link  to="/admin"><li><img src="../../public/img/sc.png" class="imgs_size"/>素材中心</li></router-link>
+			<router-link  to="/user"><li><img src="../../public/img/cp.png" class="imgs_size"/>产品中心</li></router-link>
+			<router-link  to="/userinfo"><li class="right"><img src="../../public/img/user.png" class="imgs_user"/>{{name}}</li></router-link>
+			<router-link  to="/login"><li class="right" @click="loginout()">退出登录</li></router-link>
 		</ul>
 		<el-menu v-if="config.showL!=-1"  class="el-menu-demo appTopNav" mode="horizontal" @select="handleSelect"> 
 			<el-submenu index="2">
 				<template slot="title">{{topNacd}}</template>
-				<el-menu-item index="0">首页</el-menu-item>
-				<el-menu-item index="1">管理</el-menu-item>
-				<el-menu-item index="2">数据</el-menu-item>
-				<el-menu-item index="3">审核台</el-menu-item>
+				<el-menu-item index="0">工作台</el-menu-item>
+				<el-menu-item index="1">收益中心</el-menu-item>
+				<el-menu-item index="2">数据中心</el-menu-item>
+				<el-menu-item index="3">素材中心</el-menu-item>
+				<el-menu-item index="3">产品中心</el-menu-item>
 				<el-menu-item @click="loginout" index="4">退出</el-menu-item>				
 			</el-submenu>		  
 		</el-menu>
@@ -34,11 +37,15 @@ export default {
 	props:['config'],
     data(){
 		return{
+		    name:'',
 			input:'',
 			topNacd:'首页',
 			todata:[{name:'首页',url:'/index'},{name:'管理',url:'/admin/needList'},{name:'数据',url:'/data/pData'},{name:'审核台',url:'/user/user_need'}],
 		}
     },
+	mounted(){
+        this.getUser()
+	},
 	methods:{
 		handleSelect(key){				
 			this.topNacd = this.todata[key].name;
@@ -76,7 +83,14 @@ export default {
 // 				localStorage.setItem('token','');
 // 				window.location.href="http://account.zookingsoft.com/login?from=center_local";
 			})
-		}
+		},
+		getUser(){
+		    let params = {email:localStorage.getItem('userAd')};
+		    this.api.get_account({params}).then((res)=>{
+		        this.name = res.name
+				console.log(res)
+			})
+		},
 	}
 }    
 </script>
@@ -104,7 +118,7 @@ export default {
 	z-index: 9;
 	width: 100%;
 	height:63px;
-	background:rgba(255,255,255,1);
+	background:rgba(50,50,50,1);
 	box-shadow:0px 2px 8px 0px rgba(0, 0, 0, 0.08);
 }
 .log{
@@ -121,6 +135,7 @@ export default {
 	color:rgba(0,0,0,1);
 	opacity:0.85;
 }
+
 .log>img{vertical-align:top;display: inline-block;width: 37px;margin: 0 21px 0  48px;}
 .sszj{
 	float: left;
@@ -138,27 +153,41 @@ export default {
 .sskzd>input{
 	border: none;
 }
-.navd{float: right;height: 100%;}
+.navd{height: 100%;}
 .navd li{
 	display: inline-block;
+	width: 100%;
+	height: 100%;
 }
 .navd a{
 	display: inline-block;
 	height: 100%;
-	width: 80px;
+	width:143px;
 	text-align: center;
-	font-size:14px;
-	font-family:PingFang-SC-Medium;
-	font-weight:500;
-	color:rgba(0,0,0,85);
+	font-size:16px;
+	font-family:PingFang-SC-Regular;
+	font-weight:400;
+	color:rgba(255,255,255,1);
 	line-height: 65px;
-	margin: 0 20px;
+}
+.navd a:nth-child(6){
+	margin-left:37.5%;
 }
 .navd a.router-link-active{	
 	display: inline-block;
 	height: 100%;
-	color:rgba(255,156,110,.85);
-	border-top: 1px solid rgba(255,156,110,1);
+	background:rgba(19,159,248,1);
+}
+.imgs_size{
+	width: 20px;
+	height: 18px;
+	vertical-align: middle;
+	margin-right: 10px;
+}
+.imgs_user{
+	width: 32px;
+	vertical-align: middle;
+	margin-right: 10px;
 }
 .tableBuee .el-button{
 	background:rgba(255,120,117,1);

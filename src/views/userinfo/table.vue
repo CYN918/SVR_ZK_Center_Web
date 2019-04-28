@@ -1,7 +1,6 @@
 <template>
     <el-table
             :data="tableData2"
-            height="250"
             header-align="center"
             :header-cell-style="getRowClass"
             :cell-style="cell"
@@ -41,7 +40,7 @@
                 prop="address"
                 label="操作">
             <template slot-scope="scope">
-                <el-button type="text" size="small">编辑</el-button>
+                <el-button type="text" size="small" @click="getUSERdATA(scope.$index)">编辑</el-button>
             </template>
         </el-table-column>
     </el-table>
@@ -49,7 +48,7 @@
 
 <script>
     export default {
-        props:['tableData2'],
+        props:['tableData2','management'],
         name: "table",
         data(){
             return{
@@ -58,18 +57,21 @@
         methods:{
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
-                    return 'background:#ddd;color:#000;text-align:center;font-size:9px;font-weight:500;'
+                    return 'background:rgba(246,246,246,1);color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:400;height:48px;font-family:PingFang-SC-Regular;'
                 } else {
                     return ''
                 }
             },
             cell({row, column, rowIndex, columnIndex}){
-                return 'text-align:center;'
+                return 'text-align:center;color:rgba(153,153,153,1);font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
             change(a,b){
                 this.api.edit_account_status({email:this.tableData2[a].email,status:b}).then((res)=>{
 
                 })
+            },
+            getUSERdATA(a){
+                this.management = true;
             },
         }
     }

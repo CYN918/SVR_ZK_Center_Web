@@ -1,11 +1,17 @@
 <template>
     <div class="centNavBox">
+        <div class="title_left">
+            <span>基本信息</span>
+        </div>
         <div class="center">
             <div class="message">
-                <span>初始密码</span>
+                <span class="fs">初始密码</span>
                 <input type="password" v-if="show_1" v-model="input1"/>
                 <input type="text" v-if="show" v-model="input1"/>
-                <i @click="heid">hs</i>
+                <div class="imgs_1">
+                    <img src="../../../public/img/icon.png" @click="heid"/>
+                </div>
+
             </div>
             <div class="message">
                 <span>新密码</span>
@@ -73,20 +79,64 @@
 </script>
 
 <style scoped>
-.btn{text-align: center;margin-top: 100px}
+.center{margin-bottom: 70px}
+.btn{text-align: center;margin-bottom: 440px}
 .btn>span{
     display: inline-block;
-    width: 120px;
-    height: 35px;
-    line-height: 35px;
+    width:140px;
+    height:40px;
+    line-height:40px;
     border:1px solid #ddd;
-    border-radius: 8px;
+    border-radius: 5px;
     margin-left: 50px;
+    font-size:16px;
+    font-family:PingFang-SC-Regular;
+    font-weight:400;
+}
+.message{margin-bottom: 20px}
+.message>span{
+    font-size:16px;
+    font-family:PingFang-SC-Regular;
+    font-weight:400;
+    color:rgba(54,54,54,1);
+    line-height:36px;
+    margin-right: 19px;
+}
+.message>input{
+    margin-left: 0;
+    width:320px;
+    height:50px;
+    border:1px solid rgba(230,230,230,1);
+    border-radius:5px;
 }
 .btn_txt{
     margin-left: 0;
-    margin-right: 50px;
-    background: #57a314;
+    margin-right: 40px;
+    background:rgba(19,159,248,1);
     color: #fff;
+}
+.fs{
+    margin-left: 40px;
+}
+.title_left{
+    margin-bottom: 100px;
+}
+.imgs_1{
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    margin-left: 15px;
+    border: 1px dashed #ddd;
+    vertical-align: middle;
+}
+img{
+    width: 28px;
+}
+.title_left>span{
+    font-size:20px;
+    font-family:PingFang-SC-Regular;
+    font-weight:400;
+    color:rgba(54,54,54,1);
+    line-height:36px;
 }
 </style>

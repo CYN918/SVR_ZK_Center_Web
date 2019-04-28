@@ -1,23 +1,26 @@
 <template>
     <div class="centNavBox">
         <div class="content">
+            <div class="title_name">
+                <span>我的权限</span>
+            </div>
             <div class="tab_title">
                 <div class="tab_title_1">
                     <div class="tab_title_1_1">
-                        <img src="../../../public/img/user.jpg"/>
+                        <img src="../../../public/img/user.png"/>
                     </div>
                     <div class="tab_title_1_2">
                         <p class="text_message">{{user.role_name}}</p>
-                        <p >{{permission}}</p>
+                        <p class="text_message_1">{{user.note}}</p>
                     </div>
                 </div>
                 <div class="tab_title_1_2">
                     <p class="text_message">创建时间</p>
-                    <p >{{time}}</p>
+                    <p class="text_message_1">{{time}}</p>
                 </div>
                 <div class="tab_title_1_3">
                     <p class="text_message">状态</p>
-                    <p>{{state}}</p>
+                    <p class="text_message_1">{{user.state=1?'启用':'禁用'}}</p>
                 </div>
             </div>
             <div class="particulars"><span>权限详情</span></div>
@@ -27,7 +30,7 @@
                     header-align="center"
                     :header-cell-style="getRowClass"
                     border
-                    style="width: 80%;color:#000;margin: 30px 120px">
+                    style="width: 96%;color:#000;margin: 0 30px">
                 <el-table-column
                         prop="group_name"
                         label="权限名称"
@@ -47,10 +50,7 @@
         name: "my-permission",
         data() {
             return {
-                name: '产品经理',
-                permission: '负责产品跟进把控',
                 time: '2019/4/17',
-                state: '开启',
                 tableData2: [],
                 user:{},
             }
@@ -62,7 +62,7 @@
         methods: {
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
-                    return 'background:#c90a5b;color:#fff;text-align:center;font-size:9px;font-weight:500;'
+                    return 'background:rgba(246,246,246,1);color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
                 } else {
                     return ''
                 }
@@ -85,46 +85,78 @@
 
 <style scoped>
 .content{
-    border:1px solid #ddd;
-    border-radius: 20px;
     margin: 20px;
 }
 .tab_title{
     margin: 0 30px;
-    border-bottom: 1px solid #1e1e1e;
+    height:130px;
+    background:rgba(255,255,255,1);
+    box-shadow:0px 0px 10px 0px rgba(0, 0, 0, 0.08);
+    border-radius:5px;
 }
 .tab_title_1{
     width: 300px;
-    margin: 10px 50px 10px 0;
-    border-right: 1px solid #ddd;
     display: inline-block;
+}
+.tab_title_1>.tab_title_1_2{
+    margin-left: 0!important;
 }
 .tab_title_1_1{
     display: inline-block;
     width: 70px;
-    margin-right: 20px;
+    margin:25px 30px 25px 63px;
 }
+
 img{
-    width: 70px;
+    width: 80px;
 }
 .tab_title_1_2,.tab_title_1_3{
     display: inline-block;
     height: 100%;
     position: relative;
     top:50%;
-    transform: translateY(-30%);
+    transform: translateY(-50%);
+    margin-left: 223px;
 }
 .tab_title_1_2{
     margin-right: 80px;
 }
 .text_message{
     margin-bottom: 10px;
+    font-size:18px;
+    font-family:PingFang-SC-Regular;
+    font-weight:400;
+    color:rgba(51,51,51,1);
+    line-height:36px;
 }
 .particulars{
-    text-align: center;
-    margin: 30px 0;
+    margin: 40px 0;
 }
 .particulars>span{
-    font-size: 18px;
+    font-size:20px;
+    font-family:PingFang-SC-Regular;
+    font-weight:400;
+    color:rgba(51,51,51,1);
+    line-height:36px;
+}
+.title_name{
+    margin-bottom: 38px;
+}
+.title_name>span{
+    display: inline-block;
+    width:80px;
+    height:20px;
+    font-size:20px;
+    font-family:PingFang-SC-Regular;
+    font-weight:400;
+    color:rgba(51,51,51,1);
+    line-height:36px;
+}
+.text_message_1{
+    font-size:16px;
+    font-family:PingFang-SC-Regular;
+    font-weight:400;
+    color:rgba(153,153,153,1);
+    line-height:36px;
 }
 </style>

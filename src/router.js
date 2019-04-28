@@ -159,6 +159,8 @@ import feedback from  './views/userinfo/feedback'
 mode['feedback'] = feedback
 import Details from './views/userinfo/details'
 mode['Details'] = Details
+import quantuty from './views/userinfo/quantity'
+mode['quantuty'] = quantuty
 
 
 
@@ -252,6 +254,7 @@ let nb = [
             {path:'/userinfo/AccounAudit',name:'账户审核',component:mode['AccounAudit']},
             {path:'/userinfo/feedback',name:'意见反馈',component:mode['feedback']},
             {path:'/userinfo/Details',name:'反馈详情',component:mode['Details']},
+            {path:'/userinfo/quantuty',name:'账号数量',component:mode['quantuty']},
         ]
 	},
 
