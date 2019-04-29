@@ -319,4 +319,8 @@ export default {
     lockwallpaper_del:{
 		url:'/lockwallpaper/del',method:'get'
 	},
+	//zip文件上传
+    file_zip_upload:{
+		url:'/file/zip/upload',method:'post'
+	},
 }
