@@ -303,6 +303,7 @@ export default {
 	data_filter_channel:{
 		url:'/data/filter/channel',method:'get'
 	},
+
 	// 获取管理角色及角色列表
     role_user:{
 		url:'/role/user',method:'get'
@@ -352,7 +353,27 @@ export default {
 		url:'feedback/type',method:'get'
 	},
 	//提交反馈
-    feedback_add:{
-		url:'feedback/add',method:'post'
+    feedback_add: {
+        url: 'feedback/add', method: 'post'
+    },
+	//上传文件
+    file_upload:{
+		url:'/file/upload',method:'post'
+	},
+	//获取锁屏列表
+    lockwallpaper_list:{
+		url:'lockwallpaper/list',method:'get'
+	},
+	//新增锁屏壁纸
+    lockwallpaper_add:{
+		url:'/lockwallpaper/add',method:'get'
+	},
+	//删除锁屏壁纸
+    lockwallpaper_del:{
+		url:'/lockwallpaper/del',method:'get'
+	},
+	//zip文件上传
+    file_zip_upload:{
+		url:'/file/zip/upload',method:'post'
 	},
 }
