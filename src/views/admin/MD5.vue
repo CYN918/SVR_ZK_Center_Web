@@ -73,7 +73,7 @@
                             class="upload-demo"
                             :limit="1"
                             :on-success="handleAvatarSuccess"
-                             action="/api/file/zip/upload"
+                             action="http://ts-i.idatachain.cn/api/file/zip/upload"
                             :on-exceed="handleExceed"
                             :before-upload="beforeAvatarUpload"
                             :on-remove="handleRemove"
@@ -138,8 +138,8 @@
             qx(){
                 this.show = false;
             },
-            // upLoad(file){
-            //     this.api.file_zip_upload({file:file}).then((res)=>{
+            // upLoad(){
+            //     this.api.file_zip_upload({file:this.file}).then((res)=>{
             //     })
             // },
             handleExceed(files, fileList) {
@@ -147,7 +147,6 @@
             },
             beforeAvatarUpload(file) {
                 this.file = file;
-
                 console.log(this.file)
                 const isXzip = file.type === 'application/x-zip-compressed';
                 const iszip = file.type === 'application/zip';
