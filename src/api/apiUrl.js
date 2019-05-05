@@ -113,8 +113,8 @@ export default {
 		url:'/change_role_status',method:'post',isType:{suktip:1,reload:1}	
 	},
 	/*获取内部帐号*/
-	get_accounts:{
-		url:'/get_accounts',method:'get',
+    account_all:{
+		url:'/account/all',method:'get',
 	},
 	/*获取外部帐号*/
 	get_external_accounts:{
@@ -376,4 +376,8 @@ export default {
     file_zip_upload:{
 		url:'/file/zip/upload',method:'post'
 	},
+	//增加外部账户
+    account_external_add:{
+		url:'/account/external/add',method:'post'
+	}
 }

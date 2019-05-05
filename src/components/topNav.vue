@@ -171,7 +171,7 @@ export default {
 	line-height: 65px;
 }
 .navd a:nth-child(6){
-	margin-left:37.5%;
+	margin-left:30.5%;
 }
 .navd a.router-link-active{	
 	display: inline-block;

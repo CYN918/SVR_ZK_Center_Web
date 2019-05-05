@@ -75,7 +75,7 @@ export default {
 	left: 0;
 	bottom: 0;
 	z-index: 9;
-	width: 316px;
+	width: 220px;
 	transition: transform .5s;
 }
 .leftNavBg{
@@ -88,7 +88,7 @@ export default {
 	overflow-y: auto;
 	top: 0;
 	left: 0;
-	width: 316px;
+	width: 220px;
 	height: 100%;
 	background:rgba(255,255,255,1);
 	box-shadow:0px 2px 8px 0px rgba(0, 0, 0, 0.08);

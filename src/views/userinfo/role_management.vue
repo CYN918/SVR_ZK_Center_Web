@@ -113,10 +113,12 @@
     box-shadow:0px 0px 10px 0px rgba(0, 0, 0, 0.08);
     border-radius:5px;
     margin: 0 24px 20px 0;
-
+}
+.box:nth-child(3n){
+    margin: 0 0 20px 0!important;
 }
 .box_input{
-    margin-left: 80px;
+    margin-left:35px;
 }
 .box_1{
     width:80px ;

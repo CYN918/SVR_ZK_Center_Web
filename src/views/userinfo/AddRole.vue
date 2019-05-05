@@ -99,8 +99,14 @@
                 let params = {role_id:this.$route.query.role_id};
                 this.api.perm_role_group({params}).then((res)=>{
                     this.name = res.role.role_name;
-                    // this.checkedCities1 = res.permGroup
-                        console.log(res)
+                    let dataId = res.permGroup;
+                    for(let id in dataId){
+                        for(let permid in dataId[id].perm_group){
+                            if(dataId[id].perm_group[permid].valid==1){
+                                this.checkedCities1.push(dataId[id].perm_group[permid].group_key);
+                            }
+                        }
+                    }
                 })
             },
         },

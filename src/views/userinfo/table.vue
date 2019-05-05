@@ -1,57 +1,65 @@
 <template>
-    <el-table
-            :data="tableData2"
-            header-align="center"
-            :header-cell-style="getRowClass"
-            :cell-style="cell"
-            border
-            style="width: 100%;color:#000">
-        <el-table-column
-                prop="user_name"
-                label="用户名">
-        </el-table-column>
-        <el-table-column
-                prop="email"
-                label="用户邮箱">
-        </el-table-column>
-        <el-table-column
-                prop="created_at"
-                label="创建时间">
-        </el-table-column>
-        <el-table-column
-                prop="updated_at"
-                label="最近记录">
-        </el-table-column>
-        <el-table-column
-                prop="status"
-                label="账号状态">
-            <template slot-scope="scope">
-                <el-switch
-                        :active-value="1"
-                        :inactive-value="0"
-                        active-color="#13ce66"
-                        inactive-color="#ff4949"
-                        v-model="scope.row.status"
-                        @change=change(scope.$index,scope.row.status)>
-                </el-switch>
-            </template>
-        </el-table-column>
-        <el-table-column
-                prop="address"
-                label="操作">
-            <template slot-scope="scope">
-                <el-button type="text" size="small" @click="getUSERdATA(scope.$index)">编辑</el-button>
-            </template>
-        </el-table-column>
-    </el-table>
+    <div>
+        <el-table
+                :data="tableData2"
+                header-align="center"
+                :header-cell-style="getRowClass"
+                :cell-style="cell"
+                border
+                style="width: 100%;color:#000">
+            <el-table-column
+                    prop="user_name"
+                    label="用户名">
+            </el-table-column>
+            <el-table-column
+                    prop="email"
+                    label="用户邮箱">
+            </el-table-column>
+            <el-table-column
+                    prop="created_at"
+                    label="创建时间">
+            </el-table-column>
+            <el-table-column
+                    prop="updated_at"
+                    label="最近记录">
+            </el-table-column>
+            <el-table-column
+                    prop="status"
+                    label="账号状态">
+                <template slot-scope="scope">
+                    <el-switch
+                            :active-value="1"
+                            :inactive-value="0"
+                            active-color="#13ce66"
+                            inactive-color="#ff4949"
+                            v-model="scope.row.status"
+                            @change=change(scope.$index,scope.row.status)>
+                    </el-switch>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    prop="address"
+                    label="操作">
+                <template slot-scope="scope">
+                    <el-button type="text" size="small" @click="getUSERdATA(scope.$index)">编辑</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <ADD v-if="User" :userMessage="userMessage"></ADD>
+    </div>
+
 </template>
 
 <script>
+    import ADD from './ADDuser'
     export default {
+        components:{ADD},
         props:['tableData2','management'],
         name: "table",
         data(){
             return{
+                User:false,
+                userMessage:{},
             }
         },
         methods:{
@@ -70,8 +78,11 @@
 
                 })
             },
+            qx(){this.User=false},
             getUSERdATA(a){
-                this.management = true;
+               this.User= true;
+               this.userMessage=this.tableData2[a];
+               console.log(this.userMessage);
             },
         }
     }
