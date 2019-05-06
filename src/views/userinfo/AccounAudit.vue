@@ -1,8 +1,8 @@
 <template>
     <div class="centNavBox">
         <div class="cx">
-            <input type="text" placeholder="输入用户名或邮箱快速查询"/>
-            <span>查询</span>
+            <input type="text" placeholder="输入用户名或邮箱快速查询" v-model="search"/>
+            <span @click="getAccountList()">查询</span>
             <span class="right_btn" @click="addUser">添加账号</span>
         </div>
         <template>
@@ -15,7 +15,7 @@
                     :default-sort = "{prop: 'date', order: 'descending'}"
             >
                 <el-table-column
-                        prop="name"
+                        prop="user_name"
                         label="用户名"
                 >
                 </el-table-column>
@@ -96,6 +96,7 @@
                 total: 0,
                 management:false,
                 userMessage:{},
+                search:'',
             }
         },
         mounted(){
@@ -103,7 +104,7 @@
         },
         methods:{
             getAccountList(){
-                let params ={p:this.pageSize,page:this.currentPage};
+                let params ={p:this.pageSize,page:this.currentPage,search:this.search};
                 this.api.account_all({params}).then((res)=>{
                     this.tableData = res.data;
                     console.log(res.data)
@@ -112,7 +113,7 @@
             },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
-                    return 'background:rgba(246,246,246,1);color:#000;text-align:center;font-size:9px;font-weight:500;height:48px;'
+                    return 'background:rgba(246,246,246,1);color:#000;text-align:center;font-size:16px;font-weight:500;height:48px;'
                 } else {
                     return ''
                 }
@@ -137,7 +138,7 @@
             },
             handleSizeChange1() { // 每页条数切换
                 this.pageSize = pageSize;
-                console.log(this.pagesize)
+                console.log(this.pagesize);
                 this.getAccountList();
             },
             handleCurrentChange1(currentPage) {//页码切换
@@ -177,4 +178,5 @@
     cursor: pointer;
 }
 .right_btn{margin-left: 60px}
+.block{text-align: right}
 </style>

@@ -65,4 +65,54 @@ html,body{
   width: 230px;
   height: 205px;
 }
+.block .el-pagination{margin-top: 38px}
+
+.block .el-pagination .btn-prev{
+  margin-right: 28px;
+}
+.block .el-pagination .btn-next{
+  margin-left: 8px;
+}
+.block .el-pagination .btn-prev,.block .el-pagination .btn-next{
+  width: 40px;
+  height:40px;
+  border:1px solid rgba(153,153,153,1);
+  border-radius:5px;
+  padding: 0!important;
+}
+.block .el-pagination .el-pager .number{
+  width:40px;
+  height:40px;
+  border:1px solid rgba(153,153,153,1);
+  border-radius:5px;
+  font-size:14px;
+  font-family:PingFang-SC-Regular;
+  font-weight:400;
+  line-height: 40px;
+  margin-right:20px;
+}
+.block .el-pagination .el-pager .active{
+  background:rgba(19,159,248,1);
+  color:rgba(255,255,255,1);
+}
+.block .el-pagination  .el-pagination__total{
+  font-size:14px;
+  font-family:PingFang-SC-Regular;
+  font-weight:400;
+  margin-left: 20px;
+  line-height: 44px;
+}
+.block .el-pagination  .el-pagination__jump{
+  display: inline-block;
+  line-height: 44px;
+  margin-left: 0;
+
+}
+.block .el-pagination  .el-pagination__jump .el-input__inner{
+  width:50px;
+  height:40px;
+  border:1px solid rgba(153,153,153,1);
+  border-radius:5px;
+  margin-left: 0px;
+}
 </style>

@@ -109,30 +109,33 @@
                 })
             },
             inner(){
-                if(this.messageData!=undefined){
-                    if(this.messageData.type==0){
+                if(this.userMessage!=undefined){
+
+                    if(this.userMessage.type==0){
                         this.listTab=false;
                         this.isActive=1;
-                    } return
-                }
-                if(this.messageData==undefined){
+                    }else{
+                        this.listTab=true;
+                        this.isActive=2;
+                    }
+                }else {
                     this.listTab=false;
                     this.isActive=1;
                 }
-
             },
             external(){
-                if(this.messageData!=undefined){
-                    if(this.messageData.type==1){
+                if(this.userMessage!=undefined){
+                    if(this.userMessage.type==1){
                         this.listTab=true;
                         this.isActive=2;
-                        return
-                    }
-                    return
+
+                    }else{
+                            this.listTab=false;
+                            this.isActive=1;
+                         }
                 }else{this.listTab=true;
-                    this.isActive=2;}
-
-
+                       this.isActive=2;
+                      }
 
             },
         },

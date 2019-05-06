@@ -30,7 +30,7 @@
             <div class="box_input_3">
                 <div class="name" v-for="(item,index) in list" @click="aaa(index)"><span>{{item.role_name}}</span></div>
             </div>
-            <tab :tableData2="tableData2" :management="management"></tab>
+            <tab :tableData2="tableData2" :management="management" style="margin:0 35px"></tab>
             <div class="detail" v-if="show">
                 <div class="detail_1">
                     <div class="detail_1_1">
@@ -251,7 +251,7 @@ input{
 }
 .box_input_2{
     margin-bottom: 100px;
-    margin-left: 75px;
+    margin-left: 35px;
 }
 .name{
     width:100px;
@@ -270,6 +270,9 @@ input{
     font-weight:400;
     color:#139FF8;line-height: 40px;
 
+}
+.box_input_3{
+    margin-left: 35px;
 }
 .box_num{
     font-size:24px;
@@ -294,5 +297,61 @@ input{
     width:20px;
     position: relative;
     top: -18px;
+}
+.detail{
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.3);
+    position: fixed;
+    z-index: 9;
+    top: 65px;
+    left: 220px;
+    bottom: 0;
+    right: 0;
+}
+.detail_1{
+    position: absolute;
+    top: 50%;
+    left: 44%;
+    padding: 30px 60px 0;
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    background: rgba(255,255,255,1);
+    -webkit-box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.08);
+    box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    overflow-y: auto;
+    border-radius: 8px;
+    width: 862px;
+    height: 673px;
+    text-align: center;
+}
+.detail_1_1{
+    text-align: center;
+    /*padding: 40px 0;*/
+}
+.detail_1_2{
+    width: 30px;
+    position: absolute;
+    right: 80px;
+    top:40px;
+    cursor: pointer;
+}
+
+.detail_1_2>img{
+    width: 30px;
+    position: absolute;
+    top: -28px;
+    right: -65px;
+}
+.detail input{
+    margin-left:30px;
+    width:320px;
+    height:50px;
+    border:1px solid rgba(230,230,230,1);
+    border-radius:5px;
+}
+.detail div{
+    margin-bottom:30px ;
 }
 </style>
