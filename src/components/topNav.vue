@@ -10,8 +10,8 @@
 		<!--</el-dropdown>-->
 		<ul class="navd" v-if="config.showL!=-1">
 			<router-link  to="/index"><li><img src="../../public/img/gzt.png" class="imgs_size"/>工作台</li></router-link>
-			<router-link  to="/admin"><li><img src="../../public/img/sj.png" class="imgs_size"/>数据中心</li></router-link>
-			<router-link  to="/data"><li><img src="../../public/img/sy.png" class="imgs_size"/>收益中心</li></router-link>
+			<router-link  to="/data"><li><img src="../../public/img/sj.png" class="imgs_size"/>数据中心</li></router-link>
+			<router-link  to="/admin"><li><img src="../../public/img/sy.png" class="imgs_size"/>收益中心</li></router-link>
 			<router-link  to="/admin"><li><img src="../../public/img/sc.png" class="imgs_size"/>素材中心</li></router-link>
 			<router-link  to="/user"><li><img src="../../public/img/cp.png" class="imgs_size"/>产品中心</li></router-link>
 			<router-link  to="/userinfo"><li class="right"><img src="../../public/img/user.png" class="imgs_user"/>{{name}}</li></router-link>
@@ -24,7 +24,7 @@
 				<el-menu-item index="1">收益中心</el-menu-item>
 				<el-menu-item index="2">数据中心</el-menu-item>
 				<el-menu-item index="3">素材中心</el-menu-item>
-				<el-menu-item index="3">产品中心</el-menu-item>
+				<el-menu-item index="4">产品中心</el-menu-item>
 				<el-menu-item @click="loginout" index="4">退出</el-menu-item>				
 			</el-submenu>		  
 		</el-menu>

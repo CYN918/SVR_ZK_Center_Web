@@ -21,8 +21,8 @@
                 <div class="role_parent">
                     上级角色
                     <select v-model="parent">
-                        <option>无</option>
-                        <option v-for="item in parentList" value="item">{{item.role_name}}</option>
+                        <option value="0">无</option>
+                        <option v-for="(item,index) in parentList" :value="index+1">{{item.role_name}}</option>
                     </select>
                 </div>
             </div>
@@ -79,11 +79,20 @@
                 })
             },
             AddRole(){
-                this.api.perm_role_add({role_name:this.name,role_desc:this.description,group_key:this.checkedCities1,parent:this.parent}).then((res)=>{
-                    this.$router.push({
-                        path:'/userinfo/roleManagement'
+                if(this.$route.query.role_id !=undefined){
+                    this.api.perm_role_edit({role_id:this.$route.query.role_id,status:this.status,group_key:this.checkedCities1,parent:this.parent}).then((res)=>{
+                        this.$router.push({
+                            path:'/userinfo/roleManagement'
+                        })
                     })
-                })
+                }else{
+                    this.api.perm_role_add({role_name:this.name,role_desc:this.description,group_key:this.checkedCities1,parent:this.parent}).then((res)=>{
+                        this.$router.push({
+                            path:'/userinfo/roleManagement'
+                        })
+                    })
+                }
+
             },
             getParent(){
                 this.api.role_leader().then((res)=>{

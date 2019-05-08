@@ -2,7 +2,7 @@
 	<div>
 		<div class="top_name">
 			<span class="inner">|</span>
-			<span class="top_txt">素材库>广告模板</span>
+			<span class="top_txt">素材库>动效</span>
 		</div>
 		<div class="content">
 			<div class="Search">

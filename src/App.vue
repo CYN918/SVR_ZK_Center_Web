@@ -115,4 +115,24 @@ html,body{
   border-radius:5px;
   margin-left: 0px;
 }
+.AddIMG_switch .el-switch__core{
+  margin-left: 0!important;
+}
+.AddIMG_input_box  .el-upload .el-button--small{
+  width: 140px!important;
+  height: 50px!important;
+  border: 0!important;
+}
+.AddIMG_yl_upload .el-upload .el-button--small{
+  width: 140px!important;
+  height: 50px!important;
+  background:rgba(19,159,248,.1);
+  border: 0!important;
+}
+.AddIMG_yl_upload .el-upload .el-button--small span {
+  font-size: 16px;
+  font-family: PingFang-SC-Regular;
+  font-weight: 400;
+  color: rgba(19, 159, 248, 1);
+}
 </style>

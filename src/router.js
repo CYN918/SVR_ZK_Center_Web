@@ -17,19 +17,19 @@ import erro from './views/erro.vue'
 mode['erro'] = erro
 import AdminIndex from './views/admin/index.vue'
 mode['admin'] = AdminIndex
-import AdminNeed from './views/admin/needList.vue'
+import AdminNeed from './views/admin/advertising.vue'
 mode['needList'] = AdminNeed
 // import AdminMaterial from './views/admin/material.vue'
-import material_picture from './views/admin/material_picture.vue'
-import material_resource from './views/admin/material_resource.vue'
+import AD_templates from './views/admin/AD_templates.vue'
+import dynamic from './views/admin/dynamic.vue'
 import material_wallpaper from './views/admin/material_wallpaper.vue'
-mode['material_picture'] = material_picture
-mode['material_resource'] = material_resource
+mode['AD_templates'] = AD_templates
+mode['dynamic'] = dynamic
 mode['material_wallpaper'] = material_wallpaper
 
 
-import AdminFlows from './views/admin/flows.vue'
-mode['material_flows'] = AdminFlows
+import wallpaper from './views/admin/wallpaper.vue'
+mode['wallpaper'] = wallpaper
 import AdminMaterialLib from './views/admin/materialLib.vue'
 mode['library_picture'] = AdminMaterialLib
 mode['library_resource'] = AdminMaterialLib
@@ -165,7 +165,6 @@ import quantuty from './views/userinfo/quantity'
 mode['quantuty'] = quantuty
 
 
-
 Vue.use(Router)
 const router = new Router({routes: []})		
 let tonek = localStorage.getItem('token');
@@ -183,12 +182,12 @@ let nb = [
 	{path:'/',name:'首页',component:Index},
 	{path:'/erro',name:'cuwi',component:erro},
 	{path:'/index',name:'首页',component:Index},
-	{path:'/admin',name:'管理',component:mode['admin'],
+	{path:'/admin',name:'素材中心',component:mode['admin'],
 		children:[			
-			{path:'/admin/needList',name:'需求列表',component: mode['needList']},				
-			{path:'/admin/material_picture',name:'广告图成品管理',component: mode['material_picture']},
-			{path:'/admin/material_resource',name:'模板成品管理',component: mode['material_resource']},
-			{path:'/admin/material_wallpaper',name:'锁屏壁纸成品管理',component: mode['material_wallpaper']},
+			{path:'/admin/advertising',name:'广告图',component: mode['needList']},
+			{path:'/admin/AD_templates',name:'广告图模板',component: mode['AD_templates']},
+			{path:'/admin/wallpaper',name:'壁纸',component: mode['wallpaper']},
+			{path:'/admin/dynamic',name:'动效',component: mode['dynamic']},
             {path:'/admin/MD5',name:'锁屏壁纸MD5库',component: mode['MD5']},
 			{path:'/admin/material_flows',name:'素材中间件管理',component: mode['material_flows']},				
 			{path:'/admin/library_picture',name:'广告图库投放管理',component: mode['library_picture']},
@@ -266,26 +265,28 @@ router.addRoutes(nb);
 /*动态生成左边菜单*/
 let leftNav =
 	[
-	{title:'管理',default:'/admin',defaultopen:['1'],
+	{title:'素材中心',default:'/admin',defaultopen:['1'],
 	children:[
-		{title:'需求管理',url:'1',list:[{title:'需求列表',url:'/admin/needList'}]},
-		{title:'素材库',url:'2',list:[
-			{title:'已入库',url:'/admin/material_picture'},
-			{title:'待入库',url:'/admin/material_flows'},
-            {title:'锁屏壁纸MD5库',url:'/admin/MD5'}
+		{title:'素材库',url:'1',list:[
+			{title:'广告图',url:'/admin/advertising'},
+			{title:'广告模板',url:'/admin/AD_templates'},
+			]},
+		{title:'场景锁屏',url:'2',list:[
+			{title:'动效',url:'/admin/dynamic'},
+			{title:'壁纸',url:'/admin/wallpaper'},
 		]},
-		{title:'投放管理',url:'3',list:[
-			{title:'广告图库投放管理',url:'/admin/library_picture'},
-			// {title:'广告图素材管理',url:'/admin/library_pictures'},
-			{title:'广告模版库投放管理',url:'/admin/library_resource'},
-			// {title:'广告模版库素材管理',url:'/admin/library_resources'},
-			{title:'锁屏壁纸库投放管理',url:'/admin/library_wallpaper'},
-		]},
-		{title:'权限管理',url:'4',list:[
-			{title:'角色管理',url:'/admin/roles'},
-			{title:'内部帐号管理',url:'/admin/inside'},
-			{title:'外部帐号管理',url:'/admin/external'},
-		]},
+		// {title:'投放管理',url:'3',list:[
+		// 	{title:'广告图库投放管理',url:'/admin/library_picture'},
+		// 	// {title:'广告图素材管理',url:'/admin/library_pictures'},
+		// 	{title:'广告模版库投放管理',url:'/admin/library_resource'},
+		// 	// {title:'广告模版库素材管理',url:'/admin/library_resources'},
+		// 	{title:'锁屏壁纸库投放管理',url:'/admin/library_wallpaper'},
+		// ]},
+		// {title:'权限管理',url:'4',list:[
+		// 	{title:'角色管理',url:'/admin/roles'},
+		// 	{title:'内部帐号管理',url:'/admin/inside'},
+		// 	{title:'外部帐号管理',url:'/admin/external'},
+		// ]},
 	]},
 	{title:'审核台',defaultopen:['1'],
         children:[
@@ -417,7 +418,7 @@ router.beforeEach((to, from, next) => {
 						
 		if(to.fullPath=='/admin'){
 			if(JSON.parse(localStorage.getItem('letNav'))[0].children.length>0){
-                next({ path: '/admin/needList'});
+                next({ path: '/admin/advertising'});
 			}
 		}
 		if(to.fullPath=='/user'){

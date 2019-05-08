@@ -318,7 +318,7 @@ export default {
 	},
 	//编辑角色权限
     perm_role_edit:{
-		url:'perm/role/edit',method:'get'
+		url:'perm/role/edit',method:'post'
 	},
 	//添加角色
 	perm_role_add:{

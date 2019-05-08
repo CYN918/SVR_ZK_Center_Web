@@ -61,6 +61,7 @@
                 name:'',
                 email:'',
                 roles:'',
+                rolesList:[],
                 company:'',
                 password:'',
                 phone:'',
@@ -84,11 +85,20 @@
         },
         methods:{
             tj(){
-                if(this.isActive==1){
-                    this.addUSER()
+                if(this.userMessage!=undefined){
+                    if(this.isActive==1){
+
+                    }else{
+                        this.setWBUser();
+                    }
                 }else{
-                    this.addWbUser();
+                    if(this.isActive==1){
+                        this.addUSER()
+                    }else{
+                        this.addWbUser();
+                    }
                 }
+
             },
             qx(){
                 this.$parent.qx()
@@ -99,7 +109,11 @@
                 })
             },
             addWbUser(){
-                this.api.account_external_add({name:this.name,email:this.email,password:this.password,password_confirmation:this.password_confirmation,roles_id:this.roles,company:this.company,phone:this.phone}).then((res)=>{
+                this.api.account_external_add({name:this.name,email:this.email,password:this.password,password_confirmation:this.password_confirmation,roles_id:this.roles,company:this.company,phone:this.phone,contact_email:this.email}).then((res)=>{
+                })
+            },
+            setWBUser(){
+                this.api.edit_external_account({name:this.name,email:this.email,password:this.password,password_confirmation:this.password_confirmation,roles_id:this.roles,company:this.company,phone:this.phone}).then((res)=>{
                     console.log(res)
                 })
             },
@@ -158,7 +172,7 @@
         position: absolute;
         top: 50%;
         left: 44%;
-        padding: 30px 60px 0;
+        padding: 30px 40px 0;
         -webkit-transform: translate(-50%,-50%);
         transform: translate(-50%,-50%);
         background: rgba(255,255,255,1);
@@ -167,8 +181,8 @@
         overflow: hidden;
         overflow-y: auto;
         border-radius: 8px;
-        width: 862px;
-        height: 673px;
+        width: 500px;
+        min-height: 673px;
         text-align: center;
     }
     .detail_1_1{
