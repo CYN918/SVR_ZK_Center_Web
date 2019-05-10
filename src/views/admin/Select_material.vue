@@ -11,28 +11,29 @@
                         <option>广告图</option>
                     </select>
                 </div>
-                <input type="text" placeholder="输入用户名或邮箱快速查询"/>
+                <input type="text" placeholder="输入用户名或邮箱快速查询" v-model="search"/>
                 <img src="../../../public/img/ss.png" />
             </div>
             <div class="contentImg">
                 <div class="label">
                     <span class="label_txt">预置标签:</span>
-                    <span class="labelName"></span>
+                    <span v-for="(item,index) in preset_tags" class="labelName">{{item.name}}</span>
                 </div>
                 <div>
                     <span class="label_txt">个性标签:</span>
-                    <span class="labelName"></span>
+                    <span v-for="(item,index) in self_tags" class="labelName">{{item.name}}</span>
                 </div>
                 <div class="box">
-                    <div class="box_select">
-                        <input type="checkbox"/>
+                    <div class="box_select" v-for="(DL,index) in IMGList">
+                        <!--<input type="radio"/>-->
+                        <el-radio v-model="radioSize" :label="index" @change="getID(index)"></el-radio>
                         <div class="boxImg">
-                            <img src="../../../public/img/IMG.png"/>
+                            <img :src="DL.prev_uri"/>
                             <div class="boxImg_right">
                                 <div class="boxImg_right_1">
                                     <div>
                                         <span class="boxImg_text">素材ID:</span>
-                                        <span class="boxImg_content"></span>
+                                        <span class="boxImg_content">{{DL.mid}}</span>
                                     </div>
                                     <div>
                                         <span class="boxImg_text">尺寸:</span>
@@ -40,15 +41,14 @@
                                     </div>
                                     <div>
                                         <span class="boxImg_text">素材状态:</span>
-                                        <span class="boxImg_content"></span>
+                                        <span class="boxImg_content">{{DL.status==1201?'禁用':'启用'}}</span>
                                     </div>
                                     <div>
                                         <span class="boxImg_text boxImg_bq">标签:</span>
                                         <div class="boxImg_xz">
-                                            <span class="box_box">下载</span>
-                                            <span class="box_box">下载看看</span>
-                                            <span class="box_box">下载看看</span>
-                                            <img src="../../../public/img/add.png"/>
+                                            <span class="box_box" v-for="(tag,index2) in DL.self_tags">{{tag}}</span>
+                                            <span class="box_box" v-for="(ta,index3) in DL.tags">{{ta}}</span>
+                                            <img src="../../../public/img/add.png" />
                                         </div>
                                     </div>
                                 </div>
@@ -63,63 +63,12 @@
                                     </div>
                                     <div>
                                         <span class="boxImg_text">更新时间:</span>
-                                        <span class="boxImg_content"></span>
+                                        <span class="boxImg_content">{{DL.updated_at}}</span>
                                     </div>
                                     <div>
                                         <span class="boxImg_text">附件:</span>
-                                        <span class="boxImg_content">3.6M</span>
-                                        <span class="dowload">下载</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <img src="../../../public/img/bj.png" class="bjImg"/>
-                        </div>
-                    </div>
-                    <div class="box_select">
-                        <input type="checkbox"/>
-                        <div class="boxImg">
-                            <img src="../../../public/img/IMG.png"/>
-                            <div class="boxImg_right">
-                                <div class="boxImg_right_1">
-                                    <div>
-                                        <span class="boxImg_text">素材ID:</span>
-                                        <span class="boxImg_content"></span>
-                                    </div>
-                                    <div>
-                                        <span class="boxImg_text">尺寸:</span>
-                                        <span class="boxImg_content"></span>
-                                    </div>
-                                    <div>
-                                        <span class="boxImg_text">素材状态:</span>
-                                        <span class="boxImg_content"></span>
-                                    </div>
-                                    <div>
-                                        <span class="boxImg_text boxImg_bq">标签:</span>
-                                        <div class="boxImg_xz">
-                                            <span class="box_box">下载</span>
-                                            <span class="box_box">下载看看</span>
-                                            <span class="box_box">下载看看</span>
-                                            <img src="../../../public/img/add.png"/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div  class="boxImg_right_2">
-                                    <div>
-                                        <span class="boxImg_text">素材使用记录:</span>
-                                        <span class="ck">查看详情</span>
-                                    </div>
-                                    <div>
-                                        <span class="boxImg_text">相关素材:</span>
-                                        <span class="ck">查看详情</span>
-                                    </div>
-                                    <div>
-                                        <span class="boxImg_text">更新时间:</span>
-                                        <span class="boxImg_content"></span>
-                                    </div>
-                                    <div>
-                                        <span class="boxImg_text">附件:</span>
-                                        <span class="boxImg_content">3.6M</span>
-                                        <span class="dowload">下载</span>
+                                        <span class="boxImg_content">{{parseInt(DL.attach.size/1024)}}kb</span>
+                                        <a class="dowload" :href="DL.attach.url">下载</a>
                                     </div>
                                 </div>
                             </div>
@@ -127,6 +76,20 @@
                         </div>
                     </div>
                 </div>
+                <div class="block">
+                    <el-pagination
+                            @size-change="handleSizeChange1"
+                            @current-change="handleCurrentChange1"
+                            :current-page.sync="currentPage"
+                            :page-size="pageSize"
+                            layout="prev, pager, next,total, jumper"
+                            :total="total">
+                    </el-pagination>
+                </div>
+            </div>
+            <div class="select_btn">
+                <span class="select_btn_left" @click="messageID">确定</span>
+                <span @click="YCset">取消</span>
             </div>
         </div>
     </div>
@@ -134,7 +97,63 @@
 
 <script>
     export default {
-        name: "select_material"
+        name: "select_material",
+        props:['type'],
+        data(){
+            return {
+                radioSize:'',
+                pageSize: 10,
+                total: 0,
+                currentPage: 1,
+                preset_tags:[],
+                self_tags:[],
+                IMGList:[],
+                search:'',
+                scMid:'',
+                scUrl:''
+            }
+        },
+        mounted() {
+            this.getList()
+
+        },
+        methods:{
+            getID(index){
+              this.scMid =  this.IMGList[index].mid;
+              this.scUrl = this.IMGList[index].prev_uri;
+            },
+            YCset(){this.$parent.SCsc();this.$parent.YCset()},
+            messageID(){
+                this.$emit('listenToChildEvent', this.scMid,this.scUrl,true);
+                this.$parent.SCsc();
+                this.$parent.YCset();
+            },
+            getList(){
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search}
+                this.api.material_search({params}).then((res)=>{
+                    this.IMGList=res.data;
+                    this.total=res.total;
+                    this.getTagsList()
+                })
+            },
+            getTagsList(){
+                let params = {preset:this.preset};
+                this.api.tags_search({params}).then((da)=>{
+                    this.preset_tags = da.data.preset_tags;
+                    this.self_tags = da.data.self_tags
+                })
+            },
+            handleSizeChange1() { // 每页条数切换
+                this.pageSize = pageSize;
+                console.log(this.pagesize);
+                this.getList()
+            },
+            handleCurrentChange1(currentPage) {//页码切换
+                console.log(currentPage);
+                this.currentPage = currentPage;
+                this.getList()
+            },
+        },
     }
 </script>
 
@@ -246,7 +265,7 @@
         border:1px solid rgba(19,159,248,1);
     }
     .box{
-        margin: 30px 14px ;
+        margin: 30px 14px !important;
     }
     .box_select{display: inline-block}
     .box_select:nth-child(2n){
@@ -360,5 +379,28 @@
         margin-right: 0!important;
         right: -20px;
         top: -180px;
+    }
+    .select_btn{
+        text-align: center;
+    }
+    .select_btn span{
+        display: inline-block;
+        width:140px;
+        height:50px;
+        background:rgba(255,255,255,1);
+        border:1px solid rgba(153,153,153,1);
+        border-radius:5px;
+        font-size:16px;
+        font-family:PingFang-SC-Regular;
+        font-weight:400;
+        color:rgba(54,54,54,1);
+        line-height: 50px;
+        cursor: pointer;
+    }
+    .select_btn_left{
+        border: 0!important;
+        background:rgba(19,159,248,1)!important;
+        color:rgba(255,255,255,1)!important;
+        margin-right: 40px;
     }
 </style>

@@ -379,5 +379,25 @@ export default {
 	//增加外部账户
     account_external_add:{
 		url:'/account/external/add',method:'post'
-	}
+	},
+	//获取标签列表
+    tags_search:{
+		url:'/tags/search',method:'get'
+	},
+	//获取素材库列表
+     material_search:{
+		url:'/material/search',method:'get'
+	 },
+	//添加素材
+	 material_add:{
+		url:'/material/add',method:'post'
+	 },
+	 //获取素材详细内容
+    material_detail:{
+		url:'/material/detail',method:'get'
+	},
+	//获取类型
+    config_material_type:{
+		url:'/config/material/type',method:'get'
+	},
 }
