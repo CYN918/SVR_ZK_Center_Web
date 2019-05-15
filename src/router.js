@@ -19,7 +19,8 @@ import AdminIndex from './views/admin/index.vue'
 mode['admin'] = AdminIndex
 import AdminNeed from './views/admin/advertising.vue'
 mode['needList'] = AdminNeed
-// import AdminMaterial from './views/admin/material.vue'
+import MaterialResource from './views/admin/material_resource.vue'
+mode['MaterialResource']=MaterialResource
 import AD_templates from './views/admin/AD_templates.vue'
 import dynamic from './views/admin/dynamic.vue'
 import material_wallpaper from './views/admin/material_wallpaper.vue'
@@ -30,15 +31,14 @@ mode['material_wallpaper'] = material_wallpaper
 
 import wallpaper from './views/admin/wallpaper.vue'
 mode['wallpaper'] = wallpaper
-import AdminMaterialLib from './views/admin/materialLib.vue'
-mode['library_picture'] = AdminMaterialLib
-mode['library_resource'] = AdminMaterialLib
+import WLtemplate from './views/admin/wlTemplate.vue'
+mode['WLtemplate'] = WLtemplate
 import AdminMaterialLibs from './views/admin/materials.vue'
 mode['library_pictures'] = AdminMaterialLibs
 import AdminAD from './views/admin/AD_templates.vue'
 mode['library_resources'] = AdminAD
-import AdminWallpaper from './views/admin/maWallpaper.vue'
-mode['library_wallpaper'] = AdminWallpaper
+import lockScreen from './views/admin/lockScreen.vue'
+mode['lockScreen'] = lockScreen
 import AdminRole from './views/admin/level/role.vue'
 mode['roles'] = AdminRole
 import AdminInside from './views/admin/level/inside.vue'
@@ -188,16 +188,17 @@ let nb = [
 			{path:'/admin/AD_templates',name:'广告图模板',component: mode['AD_templates']},
 			{path:'/admin/wallpaper',name:'壁纸',component: mode['wallpaper']},
 			{path:'/admin/dynamic',name:'动效',component: mode['dynamic']},
+            {path:'/admin/MaterialResource',name:'广告图',component: mode['MaterialResource']},
             {path:'/admin/MD5',name:'锁屏壁纸MD5库',component: mode['MD5']},
-			{path:'/admin/material_flows',name:'素材中间件管理',component: mode['material_flows']},				
-			{path:'/admin/library_picture',name:'广告图库投放管理',component: mode['library_picture']},
-			{path:'/admin/library_pictures',name:'library_pictures',component: mode['library_pictures']},
-			{path:'/admin/library_resource',name:'广告模版库投放管理',component: mode['library_resource']},
-			{path:'/admin/library_resources',name:'library_resources',component: mode['library_resources']},
-			{path:'/admin/library_wallpaper',name:'锁屏壁纸库投放管理',component: mode['library_wallpaper']},				
-			{path:'/admin/roles',name:'角色管理',component: mode['roles']},
-			{path:'/admin/inside',name:'内部帐号管理',component: mode['inside']},
-			{path:'/admin/external',name:'外部帐号管理',component:mode['external']},
+			// {path:'/admin/material_flows',name:'素材中间件管理',component: mode['material_flows']},
+			// {path:'/admin/library_picture',name:'广告图库投放管理',component: mode['library_picture']},
+			// {path:'/admin/library_pictures',name:'library_pictures',component: mode['library_pictures']},
+			{path:'/admin/WLtemplate',name:'广告模版',component: mode['WLtemplate']},
+			{path:'/admin/lockScreen',name:'场景锁屏',component: mode['lockScreen']},
+			// {path:'/admin/library_wallpaper',name:'锁屏壁纸库投放管理',component: mode['library_wallpaper']},
+			// {path:'/admin/roles',name:'角色管理',component: mode['roles']},
+			// {path:'/admin/inside',name:'内部帐号管理',component: mode['inside']},
+			// {path:'/admin/external',name:'外部帐号管理',component:mode['external']},
 		]
 	},
 	{path:'/data',name:'数据中心',component:mode['data'],children:[	
@@ -271,17 +272,15 @@ let leftNav =
 			{title:'广告图',url:'/admin/advertising'},
 			{title:'广告模板',url:'/admin/AD_templates'},
 			]},
-		{title:'场景锁屏',url:'2',list:[
-			{title:'动效',url:'/admin/dynamic'},
-			{title:'壁纸',url:'/admin/wallpaper'},
+        {title:'场景锁屏',url:'1-1',list:[
+                {title:'动效',url:'/admin/dynamic'},
+                {title:'壁纸',url:'/admin/wallpaper'},
+            ]},
+		{title:'物料库',url:'3',list:[
+			{title:'广告图',url:'/admin/MaterialResource'},
+			{title:'广告模版',url:'/admin/WLtemplate'},
+			{title:'场景锁屏',url:'/admin/lockScreen'},
 		]},
-		// {title:'投放管理',url:'3',list:[
-		// 	{title:'广告图库投放管理',url:'/admin/library_picture'},
-		// 	// {title:'广告图素材管理',url:'/admin/library_pictures'},
-		// 	{title:'广告模版库投放管理',url:'/admin/library_resource'},
-		// 	// {title:'广告模版库素材管理',url:'/admin/library_resources'},
-		// 	{title:'锁屏壁纸库投放管理',url:'/admin/library_wallpaper'},
-		// ]},
 		// {title:'权限管理',url:'4',list:[
 		// 	{title:'角色管理',url:'/admin/roles'},
 		// 	{title:'内部帐号管理',url:'/admin/inside'},

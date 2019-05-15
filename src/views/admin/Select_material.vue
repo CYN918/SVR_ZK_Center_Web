@@ -7,11 +7,11 @@
             <div class="Search">
                 <div class="Search_select">
                     <span class="Search_select_tit">素材类型：</span>
-                    <select>
-                        <option>广告图</option>
+                    <select v-model="type" @change="getList()">
+                        <option v-for="item in scType" :value="item.type">{{item.name}}</option>
                     </select>
                 </div>
-                <input type="text" placeholder="输入用户名或邮箱快速查询" v-model="search"/>
+                <input type="text" placeholder="输入用户名或邮箱快速查询" v-model="search" @input="getList()"/>
                 <img src="../../../public/img/ss.png" />
             </div>
             <div class="contentImg">
@@ -26,7 +26,13 @@
                 <div class="box">
                     <div class="box_select" v-for="(DL,index) in IMGList">
                         <!--<input type="radio"/>-->
-                        <el-radio v-model="radioSize" :label="index" @change="getID(index)"></el-radio>
+                        <el-radio v-model="radioSize" :label="index" @change="getID(index)"v-if="material==1"></el-radio>
+                        <template>
+                            <el-checkbox-group v-model="checked" v-if="material==0">
+                                <el-checkbox :label="index" @change="getID(index)"></el-checkbox>
+                            </el-checkbox-group>
+                        </template>
+                        <!--<el-checkbox v-model="checked" v-if="material==0" :label="index"></el-checkbox>-->
                         <div class="boxImg">
                             <img :src="DL.prev_uri"/>
                             <div class="boxImg_right">
@@ -98,9 +104,10 @@
 <script>
     export default {
         name: "select_material",
-        props:['type'],
+        props:['material','typeSC'],
         data(){
             return {
+                checked:[],
                 radioSize:'',
                 pageSize: 10,
                 total: 0,
@@ -110,34 +117,60 @@
                 IMGList:[],
                 search:'',
                 scMid:'',
-                scUrl:''
+                scUrl:'',
+                scType:'',
+                type:'',
+                mid_list:[],
+                url_list:[],
             }
         },
         mounted() {
-            this.getList()
-
+            this.getList();
         },
         methods:{
             getID(index){
-              this.scMid =  this.IMGList[index].mid;
-              this.scUrl = this.IMGList[index].prev_uri;
+                if(this.material==1){
+                    this.scMid =  this.IMGList[index].mid;
+                    this.scUrl = this.IMGList[index].prev_uri;
+                    console.log(this.scMid,this.scUrl)
+                }
             },
             YCset(){this.$parent.SCsc();this.$parent.YCset()},
             messageID(){
-                this.$emit('listenToChildEvent', this.scMid,this.scUrl,true);
-                this.$parent.SCsc();
-                this.$parent.YCset();
+                if(this.material==1){
+                    this.$emit('listenToChildEvent', this.scMid,this.scUrl,true);
+                    this.$parent.SCsc();
+                    this.$parent.YCset();
+                }else{
+                    for(let i=0;i<this.checked.length;i++){
+                        this.mid_list.push(this.IMGList[this.checked[i]].mid);
+                        this.url_list.push(this.IMGList[this.checked[i]].prev_uri);
+                    }
+                    this.$emit('listenToChildEvent', this.mid_list,this.url_list,true);
+                    this.$parent.getCon();
+                    this.$parent.YCset();
+
+                }
+
             },
             getList(){
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search}
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search};
                 this.api.material_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     this.total=res.total;
-                    this.getTagsList()
+                    this.getTagsList();
+                    this.getType()
+                })
+            },
+
+            getType(){
+                let params={material:1};
+                this.api.config_material_type({params}).then((res)=>{
+                    this.scType=res;
                 })
             },
             getTagsList(){
-                let params = {preset:this.preset};
+                let params = {preset:this.preset,material:1,type:this.type,search:this.search};
                 this.api.tags_search({params}).then((da)=>{
                     this.preset_tags = da.data.preset_tags;
                     this.self_tags = da.data.self_tags
@@ -153,6 +186,15 @@
                 this.currentPage = currentPage;
                 this.getList()
             },
+            // getWl(){
+            //     let params={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search};
+            //     this.api.mfinal_search({params}).then((res)=>{
+            //         this.IMGList=res.data;
+            //         this.total=res.total;
+            //         this.getTagsList();
+            //         this.getType()
+            //     })
+            // },
         },
     }
 </script>

@@ -29,7 +29,7 @@
 					<span v-for="(item,index) in self_tags" class="labelName">{{item.name}}</span>
 				</div>
 			</div>
-			<con v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type"></con>
+			<AM v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type"></AM>
 			<hin v-if='hint' ></hin>
 			<tag v-if="tags" :message="message" :typeSC='type' :material="material"></tag>
 			<set v-if="sets" :typeSC='type'  @listenToChildEvent="listen" :material="material"></set>
@@ -101,118 +101,112 @@
 
 </template>
 <script>
-import con from './content_component'
-import hin from './hintMessage'
-import tag from './tag'
-import set from './Select_material'
-export default {
-	components:{con,hin,tag,set},
-    data() {
-		return {
-			sc:false,
-			hint:false,
-			tags:false,
-			sets:false,
-			IMGList:[],
-            search:'',
-            pageSize: 4,
-            total: 0,
-            currentPage: 1,
-            type:'ad_picture',
-			message:{},
-            preset_tags:[],
-            self_tags:[],
-            bindMid:'',
-			hqUrl:'',
-            material:1
-		}
-    },
-	mounted() {
-        this.getList()
-	}, 
-	methods: {
-        getCon(){
-            this.sc = true;
-		},
-	    SCsc(){
-            this.sc = true
-		},
+    import AM from './AddMaterial'
+    import hin from './hintMessage'
+    import tag from './tag'
+    import set from './Select_material'
+    export default {
+        components:{AM,hin,tag,set},
+        data() {
+            return {
+                sc:false,
+                hint:false,
+                tags:false,
+                sets:false,
+                IMGList:[],
+                search:'',
+                pageSize: 4,
+                total: 0,
+                currentPage: 1,
+                type:'f_ad_picture',
+                message:{},
+                preset_tags:[],
+                preset:[],
+                self_tags:[],
+                bindMid:[],
+                hqUrl:[],
+                material:0
+            }
+        },
+        mounted() {
+            this.getWl()
+        },
+        methods: {
+            getCon(){
+                this.sc = true;
+            },
+            SCsc(){
+                this.sc = true
+            },
 
-		heidSc(){
-			this.sc = false
-		},
-		ShowHint(){
-		    this.hint = true;
-		    this.sc = false
-		},
-		YCHint(){
-            this.hint = false;
-		},
-		XStag(a){
-            let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search}
-            this.api.material_search({params}).then((res)=>{
-                this.IMGList=res.data;
-                if(a!=undefined){
-                    this.message = res.data[a];
-                    this.tags = true;
-                }
-            })
-		},
-        YCtag(){
-            this.tags = false
-        },
-        XSset(){
-            this.sc = false;
-            this.sets = true
-		},
-		YCset(){
-            this.sets = false
-		},
-        listen(msg,ddd){
-			this.bindMid=msg;
-			this.hqUrl=ddd;
+            heidSc(){
+                this.sc = false
+            },
+            ShowHint(){
+                this.hint = true;
+                this.sc = false
+            },
+            YCHint(){
+                this.hint = false;
+            },
+            XStag(){
+                this.tags = true
+            },
+            YCtag(){
+                this.tags = false
+            },
+            XSset(){
+                this.sc = false;
+                this.sets = true
+            },
+            YCset(){
+                this.sets = false
+            },
+            listen(msg,ddd){
+                this.bindMid=msg;
+                this.hqUrl=ddd
 
-		},
-        handleSizeChange1() { // 每页条数切换
-            this.pageSize = pageSize;
-            console.log(this.pagesize);
-			this.getList()
-        },
-        handleCurrentChange1(currentPage) {//页码切换
-            console.log(currentPage);
-            this.currentPage = currentPage;
-            this.getList()
-        },
-        getLt(a){
-            let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search}
-            this.api.material_search({params}).then((res)=>{
-                this.IMGList=res.data;
-                if(a!=undefined){
-                    this.message = res.data[a];
-                    this.sc = true;
-                }
-            })
-        },
-        getTagsList(){
-            let params = {preset:this.preset,material:this.material,type:this.type};
-            this.api.tags_search({params}).then((da)=>{
-                console.log(da);
-                this.preset_tags = da.data.preset_tags;
-                this.self_tags = da.data.self_tags
-            })
-        },
-		getList(){
-		    let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search}
-		    this.api.material_search({params}).then((res)=>{
-				this.IMGList=res.data;
-                this.total=res.total;
-                this.getTagsList()
-			})
-		},
+            },
+            handleSizeChange1() { // 每页条数切换
+                this.pageSize = pageSize;
+                console.log(this.pagesize);
+                this.getWl()()
+            },
+            handleCurrentChange1(currentPage) {//页码切换
+                console.log(currentPage);
+                this.currentPage = currentPage;
+                this.getWl()()
+            },
+            getLt(a){
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search}
+                this.api.mfinal_search({params}).then((res)=>{
+                    this.IMGList=res.data;
+                    if(a!=undefined){
+                        this.message = res.data[a];
+                        this.sc = true;
+                    }
+                })
+            },
+            getTagsList(){
+                let params = {preset:this.preset,material:this.material,type:this.type};
+                this.api.tags_search({params}).then((da)=>{
+                    console.log(da);
+                    this.preset_tags = da.data.preset_tags;
+                    this.self_tags = da.data.self_tags
+                })
+            },
+            getWl(){
+                let params={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search};
+                this.api.mfinal_search({params}).then((res)=>{
+                    this.IMGList=res.data;
+                    this.total=res.total;
+                    this.getTagsList();
+                })
+            },
 
-    },
-	
-}	
+        },
+
+    }
 </script>
 <style>
 

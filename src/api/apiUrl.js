@@ -60,7 +60,7 @@ export default {
 		url:'/material/lib/lists',method:'get'
 	},	
 	materialLib_materials:{
-		url:'/material/lib/materials',method:'get'
+		url:'/material/lib/materials_resource',method:'get'
 	},	
 	materialLib_detach:{
 		url:'/material/lib/detach',method:'post',isType:{suktip:1,reload:1}
@@ -392,6 +392,10 @@ export default {
 	 material_add:{
 		url:'/material/add',method:'post'
 	 },
+	//编辑素材
+    material_edit:{
+		url:'/material/edit',method:'post'
+	},
 	 //获取素材详细内容
     material_detail:{
 		url:'/material/detail',method:'get'
@@ -400,4 +404,28 @@ export default {
     config_material_type:{
 		url:'/config/material/type',method:'get'
 	},
+	//添加标签
+    tags_add:{
+		url:'/tags/add',method:'post'
+	},
+	//获取物料库列表
+    mfinal_search:{
+		url:'/mfinal/search',method:'get'
+	},
+	//添加物料
+    mfinal_add:{
+		url:'/mfinal/add',method:'post'
+	},
+	//编辑物料
+    mfinal_edit:{
+		url:'/mfinal/edit',method:'post'
+	},
+    //获取素材详细内容
+    mfinal_detail:{
+        url:'/mfinal/detail',method:'get'
+    },
+	//编辑素材标签
+    material_edit_tags:{
+		url:'/material/edit/tags',method:'post'
+	}
 }
