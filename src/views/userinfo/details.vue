@@ -1,41 +1,47 @@
 <template>
-    <div class="centNavBox">
-        <div class="title_name">
-            <span>查看意见详情</span>
-        </div>
-        <div class="titl_right">
-            <div class="message">
-                <span class="message_name">用户名:</span>
-                <span class="message_box">{{messageData.user.user_name}}</span>
-            </div>
-            <div class="message">
-                <span class="message_name">用户账号:</span>
-                <span class="message_box">{{messageData.user.email}}</span>
-            </div>
-            <div class="message">
-                <span class="message_name">问题类型:</span>
-                <span class="message_box">{{messageData.fd_type}}</span>
-            </div>
-            <div class="message">
-                <span class="message_name">提交时间:</span>
-                <span class="message_box">{{messageData.created_at}}</span>
-            </div>
-            <div class="message">
-                <span class="message_name message_top">问题描述:</span>
-                <div class="issue">{{messageData.fd_desc}}</div>
-            </div>
-            <div class="message">
-                <span class="message_name message_top">相关图片:</span>
-                <div class="ps" v-for="(item,index) in messageData.fd_pics"><img :src="item"/></div>
+    <div>
+        <div class="top_name">
+            <span class="top_txt">个人中心/查看意见详情</span>
+            <div class="title_left">
+                <span>查看意见详情</span>
             </div>
         </div>
-        <div class="btn_bottom" @click="back">
+        <div class="centNavBox">
+            <div class="titl_right">
+                <div class="message">
+                    <span class="message_name">用户名:</span>
+                    <span class="message_box">{{messageData.user.user_name}}</span>
+                </div>
+                <div class="message">
+                    <span class="message_name">用户账号:</span>
+                    <span class="message_box">{{messageData.user.email}}</span>
+                </div>
+                <div class="message">
+                    <span class="message_name">问题类型:</span>
+                    <span class="message_box">{{messageData.fd_type}}</span>
+                </div>
+                <div class="message">
+                    <span class="message_name">提交时间:</span>
+                    <span class="message_box">{{messageData.created_at}}</span>
+                </div>
+                <div class="message">
+                    <span class="message_name message_top">问题描述:</span>
+                    <div class="issue">{{messageData.fd_desc}}</div>
+                </div>
+                <div class="message">
+                    <span class="message_name message_top">相关图片:</span>
+                    <div class="ps" v-for="(item,index) in messageData.fd_pics"><img :src="item"/></div>
+                </div>
+            </div>
+            <div class="btn_bottom" @click="back">
             <span>
                 返回
             </span>
-        </div>
+            </div>
 
+        </div>
     </div>
+
 </template>
 
 <script>
@@ -66,6 +72,30 @@
 </script>
 
 <style scoped>
+    .top_name{
+        height: 109px;
+        z-index: 999999;
+    }
+    .top_txt{
+        display: inline-block;
+        margin-left: 24px;
+    }
+    .title_left>span{
+        display: inline-block;
+        margin-left: 24px;
+        font-size:20px;
+        font-family:PingFang-SC-Medium;
+        font-weight:500;
+        color:rgba(50,50,50,1);
+    }
+    .centNavBox{
+        width: 100%;
+        padding: 24px;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        background: #FFF;
+        margin-top:194px;
+    }
 .title_name>span{
     font-size:20px;
     font-family:PingFang-SC-Regular;
@@ -73,22 +103,19 @@
     color:rgba(54,54,54,1);
     display: block;
 }
-.titl_right{
-    margin-left: 256px;
-    margin-top: 42px;
-}
+
 .message{
-    margin-bottom: 30px;
+    margin-bottom: 46px;
 }
 .message_name{
     display: inline-block;
     width: 70px;
     text-align: left;
-    margin-right: 20px;
-    font-size:16px;
-    font-family:PingFang-SC-Regular;
-    font-weight:400;
-    color:rgba(54,54,54,1);
+    margin-right: 64px;
+    font-size:14px;
+    font-family:PingFang-SC-Medium;
+    font-weight:500;
+    color:rgba(31,46,77,1);
 }
 .message_top{
     vertical-align: top;
@@ -104,35 +131,36 @@
 }
 .ps{
     display: inline-block;
-    width: 329px;
-    height: 212px;
+    width:160px;
+    height:153px;
     border: 1px solid #ddd;
-    margin-right: 25px;
+    margin-right: 20px;
 }
 .ps>img{
-    width: 329px;
-    height: 212px;
+    width:160px;
+    height:153px;
 }
 .ps:last-child{
     margin-right: 0;
 }
 .btn_bottom{
-    text-align: center;
+    text-align: left;
     margin-top: 100px;
 }
 .btn_bottom>span{
     display: inline-block;
-    width:140px;
-    height:48px;
-    line-height: 48px;
-    background:rgba(19,159,248,1);
-    box-shadow:0px 0px 10px 0px rgba(153,153,153,0.14);
-    border-radius:5px;
+    width:68px;
+    height:36px;
+    text-align: center;
+    background:rgba(255,255,255,1);
+    border-radius:4px;
+    border:1px solid rgba(211,219,235,1);
     cursor: pointer;
+   line-height: 36px;
     font-size:14px;
-    font-family:MicrosoftYaHei;
+    font-family:PingFangSC-Regular;
     font-weight:400;
-    color:rgba(255,255,255,1);
+    color:rgba(61,73,102,1);
 }
 .message_box{
     display: inline-block;

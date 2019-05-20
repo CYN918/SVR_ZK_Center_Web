@@ -420,12 +420,44 @@ export default {
     mfinal_edit:{
 		url:'/mfinal/edit',method:'post'
 	},
-    //获取素材详细内容
+    //获取物料详细内容
     mfinal_detail:{
         url:'/mfinal/detail',method:'get'
     },
 	//编辑素材标签
     material_edit_tags:{
 		url:'/material/edit/tags',method:'post'
-	}
+	},
+	//编辑物料标签
+    mfinal_edit_tags:{
+		url:'/mfinal/edit/tags',method:'post'
+	},
+
+
+	//工作台
+	//新增素材需求
+    demand_material_add:{
+		url:'/demand/material/add',method:'post'
+	},
+	//获取设计规范列表
+	config_standards:{
+		url:'/config/standards',method:'get'
+	},
+	//获取尺寸列表
+    config_size:{
+		url:'/config/size',method:'get'
+	},
+	//获取广告位类型列表
+	config_position_type:{
+		url:'/config/position/type',method:'get'
+	},
+	//新增业务需求
+	demand_business_add:{
+		url:"/demand/business/add",method:'post'
+	},
+	//获取全部需求列表
+	demand_search:{
+		url:'/demand/search',method:'get'
+	},
+
 }

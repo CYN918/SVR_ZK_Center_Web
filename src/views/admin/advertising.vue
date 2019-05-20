@@ -133,9 +133,10 @@ export default {
 	methods: {
         getCon(){
             this.sc = true;
+            this.message='';
 		},
 	    SCsc(){
-            this.sc = true
+            this.sc = true;
 		},
 
 		heidSc(){
@@ -152,6 +153,7 @@ export default {
             let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search}
             this.api.material_search({params}).then((res)=>{
                 this.IMGList=res.data;
+                console.log(res.data);
                 if(a!=undefined){
                     this.message = res.data[a];
                     this.tags = true;
@@ -159,7 +161,7 @@ export default {
             })
 		},
         YCtag(){
-            this.tags = false
+            this.tags = false;
         },
         XSset(){
             this.sc = false;
@@ -197,7 +199,7 @@ export default {
             let params = {preset:this.preset,material:this.material,type:this.type};
             this.api.tags_search({params}).then((da)=>{
                 console.log(da);
-                this.preset_tags = da.data.preset_tags;
+                this.preset_tags = da.data.tags;
                 this.self_tags = da.data.self_tags
             })
         },

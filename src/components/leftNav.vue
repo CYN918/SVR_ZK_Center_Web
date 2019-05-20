@@ -3,7 +3,7 @@
 		<div class="navbtn iconfont" @click="checkNav">&#xe8d1;</div>
 		<div class="leftNavBg"></div>
 		<div class="leftNav" >		
-			<div class="let_title">{{navData.title}}</div>
+			<!--<div class="let_title">{{navData.title}}</div>-->
 			<el-menu :default-active="$route.fullPath.split('?')[0]" class="el-menu-vertical-demo" :router="true">
 				<el-menu-item class="first_o" v-for="(el,index) in navData.list" :index="el.url" :key="index">
 					{{el.title}}

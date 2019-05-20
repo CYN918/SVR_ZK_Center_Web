@@ -5,6 +5,7 @@
                 <span>编辑标签</span>
             </div>
             <div class="AddIMG_bq">
+                <span class="bq">选择标签</span>
                 <div class="AddIMG_bq_boxs">
                     <div class="AddIMG_bq_box_top">
                         <div class="AddIMG_bq_box_top_tit">预置标签:</div>
@@ -34,6 +35,10 @@
                     </div>
                 </div>
             </div>
+            <div class="bg_btn">
+                <span class="bg_btn_up" @click="setTags()">保存</span>
+                <span @click=" QXtag()">取消</span>
+            </div>
         </div>
     </div>
 </template>
@@ -52,7 +57,7 @@
                 tagsName:'',
             }
         },
-        mounted(){this. getTagsList()},
+        mounted(){this. getTagsList(); console.log(this.message)},
         methods:{
             QXtag(){
                 this.$parent.YCtag()
@@ -60,9 +65,9 @@
             getTagsList(){
                 let params = {preset:this.preset,material:this.material,type:this.typeSC,search:this.tagsName,p:50,page:1};
                 this.api.tags_search({params}).then((da)=>{
-                    console.log(da);
-                    this.preset_tags = da.data.preset_tags;
+                    this.preset_tags = da.data.tags;
                     this.self_tags = da.data.self_tags;
+                    console.log(da)
                     this.getMatterDetails();
                 })
             },
@@ -78,11 +83,43 @@
                 })
             },
             getMatterDetails(){
-                let params ={mid:this.message.mid};
-                this.api.material_detail({params}).then((res)=>{
-                    this.preinstall=res.tags;
-                    this.bardian=res.self_tags;
-                })
+                console.log(this.material)
+                if(this.material==1){
+                    let params ={mid:this.message.mid};
+                    this.api.material_detail({params}).then((res)=>{
+                        this.preinstall=res.tags;
+                        this.bardian=res.self_tags;
+                    })
+                }else{
+                    console.log(this.message);
+                    let params ={mfid:this.message.mfid};
+                    this.api.mfinal_detail({params}).then((res)=>{
+                        this.preinstall= res.tags;
+                        this.bardian=res.self_tags;
+                        console.log(res)
+                    })
+                }
+
+            },
+            setTags(){
+                if(this.material==1){
+                    let formData = new FormData;
+                    formData.append('mid',this.message.mid);
+                    formData.append('tags',this.preinstall);
+                    formData.append('self_tags',this.bardian)
+                    this.api.material_edit_tags(formData).then((res)=>{
+
+                    })
+                }else{
+                    let formData = new FormData;
+                    formData.append('mfid',this.message.mfid);
+                    formData.append('tags',this.preinstall);
+                    formData.append('self_tags',this.bardian);
+                    this.api.mfinal_edit_tags(formData).then((res)=>{
+                        console.log(res);
+                    })
+                }
+
             },
         }
 
@@ -104,14 +141,22 @@
     left: 50%;
     top:30%;
     transform:translate(-50%,-50%);
-    width:775px;
-    height:498px;
+    width:560px;
+    height:472px;
     background:rgba(255,255,255,1);
     border-radius:5px;
 }
-.tit{text-align: center;margin: 39px 0 30px 0}
+.tit{
+    text-align: center;
+    margin-bottom: 20px;
+    width:100%;
+    height: 56px;
+    border-bottom: 1px solid #E6E9F0;
+
+}
 .tit span{
     display: inline-block;
+    line-height: 56px;
     font-size:20px;
     font-family:PingFang-SC-Regular;
     font-weight:400;
@@ -151,15 +196,21 @@
     margin-right: 40px;
 }
 
-
 .AddIMG_bq_boxs{
-    width: 740px;
-    height: 100%;
-    margin: 0 30px;
+    width:395px;
+    height:280px;
+    background:rgba(255,255,255,1);
+    border-radius:4px;
+    border:1px solid rgba(211,219,235,1);
+    overflow-y: auto;
+    position: relative;
+    left: 38%;
+    transform: translateX(-50%);
+    display: inline-block;
 }
 .AddIMG_bq_box_top{
-    border-bottom: 1px solid rgba(230,230,230,1);
     overflow-y: auto;
+    border-bottom: 0!important;
 }
 .AddIMG_bq_box_top_tit{
     margin: 17px 0 15px 17px;
@@ -169,7 +220,7 @@
     color:rgba(54,54,54,1);
 }
 .AddIMG_bq_box_top_bq,.AddIMG_bq_box_top_zdy{
-    margin:0 20px 0px 20px ;
+    margin:0 20px 0px 0px !important;
 }
 
 
@@ -182,6 +233,15 @@
     border:1px solid rgba(220,220,220,1);
     border-radius:5px;
     padding-right: 25px;
+}
+.bq{
+    display: inline-block;
+    font-size:14px;
+    font-family:PingFang-SC-Medium;
+    font-weight:500;
+    color:rgba(31,46,77,1);
+    padding-left: 40px;
+    vertical-align: top;
 }
 .bg_btn{
     text-align: center;
@@ -199,12 +259,15 @@
     font-weight:400;
     color:rgba(54,54,54,1);
     line-height: 50px;
+    margin-right: 157px;
+    cursor: pointer;
 }
 .bg_btn_up{
     border:0!important;
     background:rgba(19,159,248,1);
     color:rgba(255,255,255,1)!important;
-    margin-right: 40px;
+    margin-right: 20px!important;
+    margin-left: 0!important;
 }
 .ADDtag{
     display: inline-block;
@@ -239,7 +302,7 @@
     border-bottom: 1px solid rgba(230,230,230,1);
 }
 .AddIMG_bq_box_top_tit{
-    margin: 14px 0 14px 14px;
+    margin: 18px 0 18px 18px;
     font-size:12px;
     font-family:PingFangSC-Regular;
     font-weight:400;
@@ -252,13 +315,16 @@
 
 
 .AddIMG_bq_box_top_tit input{
+    float: left!important;
     display: block;
     width:326px;
     height:28px;
     background:rgba(255,255,255,1);
     border-radius:4px;
     border:1px solid rgba(211,219,235,1);
-    margin-top: 10px;
+    margin: 10px 0 10px 0px!important;
+    padding-right: 0!important;
+
 }
 .bg_btn{
 

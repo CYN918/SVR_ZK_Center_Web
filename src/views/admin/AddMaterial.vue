@@ -11,7 +11,7 @@
                             <span>素材预览图</span>
                         </div>
                         <div class="AddIMG_box">
-                            <img :src="item"  v-for="item in hqUrl" :class="{img1:hqUrl.length>1&&hqUrl.length<3,img1:3<hqUrl.length<7}"/>
+                            <img :src="item"  v-for="item in hqUrl"/>
                         </div>
                         <div class="AddIMG_box_txt">
                             <span v-for="item in bindMid">{{item}}</span>
@@ -37,11 +37,12 @@
                                 >
                                     <el-button size="small" type="primary">上传</el-button>
                                 </el-upload>
+
                             </div>
                             <img src="../../../public/img/msg.png" @click="showHint"/>
+                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="chenck"/><span>仅图片</span>
                             <div class="upChenck">
-                                <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="chenck"/><span>仅图片</span>
-                                <span class="upTIT">勾选后可直接上传图片、且无需再次上传预览图</span>
+                                <p>勾选后可直接上传图片、且无需再次上传预览图</p>
                             </div>
                         </div>
                         <div class="AddIMG_sc">
@@ -49,7 +50,7 @@
                             <input type="text" placeholder="请输入素材ID" v-model="bind_mid" :disabled="(this.message.mfid!=undefined)"/>
                             <span class="AddIMG_sc_btn" @click="XSset" :class="{AddIMG_sc_btn_jy:(this.message.mfid!=undefined)}">从素材库选择</span>
                             <input type="checkbox" class="AddIMG_sc_cjeckbox"/><span>与素材库内已有素材无关</span>
-                            <p>若由素材库内文件处理后上传，必须填写对应的素材ID，仅可填写一个</p>
+                            <p>若由素材库内文件处理后上传，必须填写对应的素材ID,最多九个</p>
                         </div>
                         <div class="AddIMG_select">
                             <span class="tit">素材类型:</span>
@@ -100,10 +101,10 @@
                                 </div>
                                 <div class="AddIMG_bq_box_bottom">
                                     <div class="AddIMG_bq_box_top_tit">个性标签:
-                                        <input type="text" placeholder="请输入标签" v-model="tagsName" @input="getTagsList()"/>
-                                        <span class="ADDtag" @click="ADDtags()">+</span>
+                                        <input type="text" placeholder="创建或搜索个性标签" v-model="tagsName" @input="getTagsList()"/>
                                     </div>
                                     <div class="AddIMG_bq_box_top_bq AddIMG_bq_box_top_zdy">
+                                        <span class="CJ" v-if="tagsName!=''" @click="ADDtags()">创建“{{tagsName}}”标签</span>
                                         <template>
                                             <el-checkbox-group
                                                     v-model="bardian">
@@ -122,15 +123,15 @@
                                 <option value="脚本">脚本</option>
                             </select>
                         </div>
-                        <div v-if="model=='H5'">
+                        <div v-if="model=='H5'" class="link">
                             <span class="tit">H5链接:</span>
                             <input type="text" v-model="link">
                         </div>
+                        <div class="bg_btn">
+                            <span class="bg_btn_up" @click="AddMatter">上传</span>
+                            <span @click="heidSc">取消</span>
+                        </div>
                     </div>
-                </div>
-                <div class="bg_btn">
-                    <span class="bg_btn_up" @click="AddMatter">上传</span>
-                    <span @click="heidSc">取消</span>
                 </div>
             </div>
         </div>
@@ -176,8 +177,6 @@
         },
         mounted(){
             this.getTagsList();
-            console.log(this.bindMid);
-            console.log(this.url);
             if(this.message.mfid!=undefined){
                 this.getMatterDetails();
                 this.title='编辑物料'
@@ -244,7 +243,7 @@
                 let params = {preset:this.preset,material:this.material,type:this.types,search:this.tagsName,p:50,page:1};
                 this.api.tags_search({params}).then((da)=>{
                     console.log(da);
-                    this.preset_tags = da.data.preset_tags;
+                    this.preset_tags = da.data.tags;
                     this.self_tags = da.data.self_tags;
                     this. getType();
                 })
@@ -321,9 +320,7 @@
 <style scoped>
     input{
         margin-left: 0;
-        width: 226px;
     }
-
     .bg{
         width: 100%;
         height: 100%;
@@ -338,70 +335,72 @@
         left: 50%;
         top:15px;
         transform: translateX(-50%);
-        width:1177px;
-        min-height:903px;
+        width:1115px;
+        height:884px;
         background:rgba(255,255,255,1);
-        border-radius:5px;
+        border-radius:4px;
     }
     .AddIMG_tit{
-        text-align: center;
-        margin: 20px 0;
+        text-align: left;
+        height: 55px;
+        border-bottom: 1px solid #E6E9F0;
 
+        margin-bottom: 24px;
     }
     .AddIMG_tit span{
-        font-size:20px;
-        font-family:PingFang-SC-Regular;
-        font-weight:400;
+        display: inline-block;
+        margin-left: 24px;
         color:rgba(54,54,54,1);
+        font-size:18px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(61,73,102,1);
+        line-height: 55px;
     }
     .AddIMG_content_right{
         display: inline-block;
+        width: 750px;
+        margin-top: 25px;
     }
     .AddIMG_content_left{
-        margin-left: 60px;
+        margin-left: 24px;
         display: inline-block;
-        margin-right: 85px;
+        margin-right: 20px;
         vertical-align: top;
     }
     .AddIMG_content_left span,.AddIMG_content_right span{
         display: inline-block;
-        margin-bottom: 20px;
-        font-size:16px;
-        font-family:PingFang-SC-Regular;
+        margin-bottom: 10px;
+        font-size:14px;
+        font-family:PingFangSC-Regular;
         font-weight:400;
+        color:rgba(61,73,102,1);
     }
+
     .AddIMG_content_left img{
         width: 100%;
         height: 100%;
+        border:0px!important;
     }
     .AddIMG_content_right span{
         margin-bottom: 0px;
     }
     .AddIMG_box{
-        width:141px;
-        height:252px;
-        background:rgba(255,255,255,1);
-        border:1px solid rgba(238,238,238,1);
-        border-radius:5px;
-        margin-left: 45px;
+        width:216px;
+        padding: 0 8px;
+        height:326px;
+        background:rgba(247,249,252,1);
+        border-radius:4px;
     }
-    .img1{
-        width: 45%!important;
-        height: 45%!important;
-        margin-right: 10px;
-        margin-bottom: 10px;
+    .AddIMG_box img{
+        width:68px;
+        height:90px;
+        background:rgba(227,231,235,1);
+        border-radius:4px;
+        margin: 14px 11px 17px 0;
     }
-    .img1:nth-child(2n){
-        margin-right: 0px;
-    }
-    .img2{
-        width: 45%!important;
-        height: 33%!important;
-        margin-right: 10px;
-        margin-bottom: 5px;
-    }
-    .img2:nth-child(2n){
-        margin-right: 0;
+    .AddIMG_box img:nth-child(3n){
+        margin: 14px 0 17px 0!important;
     }
     .AddIMG_box_txt{
         margin-left: 45px;
@@ -410,51 +409,52 @@
         margin-top: 19px;
     }
     .AddIMG_box_txt span{
-        display: block;
+        display: inline-block;
         font-size:16px;
-        margin-bottom: 5px!important;
         font-family:PingFang-SC-Regular;
         font-weight:400;
         color:rgba(54,54,54,1);
         background:rgba(0,153,255,.1);
     }
-    .AddIMG_input,.AddIMG_sc,.AddIMG_zp,.AddIMG_select,.AddIMG_switch,.AddIMG_yl,.box_sel,.AddIMG_bq{
-        margin-bottom: 30px;
+    .AddIMG_input,.AddIMG_sc,.AddIMG_bq,.AddIMG_select,.AddIMG_yl,.box_sel{
+        margin-bottom: 20px;
     }
-    /*.AddIMG_input input{*/
-        /*width:140px;*/
-        /*height:50px;*/
-        /*margin-left: 0;*/
-        /*position: relative;*/
-        /*left: -140px;*/
-        /*padding: 0;*/
-        /*opacity:0;*/
-        /*top:-14px;*/
-    /*}*/
+    .AddIMG_switch{
+        display: inline-block;
+    }
+    .AddIMG_sc input{
+        width:254px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+    }
+    .AddIMG_input input{
+       margin: 3px 10px 0 20px;
+    }
     .AddIMG_input img{
         margin-left: 16px;
         vertical-align: middle;
         cursor: pointer;
     }
     .AddIMG_input_box{
-
         display: inline-block;
-        width:140px;
-        height:50px;
-        background:rgba(19,159,248,1);
-        border-radius:5px;
-        text-align: center;
-        line-height: 50px;
-        font-size:16px;
-        font-family:PingFang-SC-Regular;
+        width:106px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        font-size:14px;
+        font-family:PingFangSC-Regular;
         font-weight:400;
-        color:rgba(255,255,255,1);
+        color:rgba(61,73,102,1)!important;
     }
     .tit{
         display: inline-block;
         width:117px;
         margin-right: 16px;
-        vertical-align: top;
+        vertical-align: middle;
+        text-align: right;
     }
     .AddIMG_sc_cjeckbox{
         width: 14px!important;
@@ -465,22 +465,23 @@
         display: inline-block;
         margin-left: 20px;
         margin-right: 21px;
-        width:140px;
-        height:50px;
-        background:rgba(19,159,248,.1);
-        border-radius:5px;
-        font-size:16px;
-        font-family:PingFang-SC-Regular;
+        width:124px;
+        height:36px;
+        background:rgba(242,246,252,1);
+        border-radius:4px;
+        border:1px solid rgba(51,119,255,1);
+        font-size:14px;
+        font-family:PingFangSC-Regular;
         font-weight:400;
-        color:rgba(19,159,248,1);
+        color:rgba(51,119,255,1)!important;
         text-align: center;
-        line-height: 50px;
+        line-height: 38px;
     }
     .AddIMG_sc_btn_jy{
         background:rgba(153,153,153,1)!important;
         color:rgba(255,255,255,1)!important;
     }
-    .AddIMG_sc p,.AddIMG_zp p ,.AddIMG_yl p,.AddIMG_input p{
+    .AddIMG_sc p,.AddIMG_zp p ,.AddIMG_yl p,.AddIMG_input p,.upChenck p{
         margin:10px 0 0 133px;
         padding: 0;
         font-size:12px;
@@ -489,22 +490,41 @@
         color:rgba(153,153,153,1);
     }
     .AddIMG_zp_text{
+        width:254px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
         margin-right: 21px;
     }
-    select{
-        width:242px;
-        height:50px;
+    .link input{
+        width:185px;
+        height:36px;
         background:rgba(255,255,255,1);
-        border:1px solid rgba(230,230,230,1);
-        border-radius:5px;
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+    }
+    .AddIMG_select{
+        display: inline-block;
+    }
+    .AddIMG_select select,.box_sel select{
+        width:200px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        font-size:14px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(61,73,102,1);
     }
     .AddIMG_yl_size{
         display: inline-block;
-        width: 226px;
-        height: 50px;
-        padding-left: 10px;
-        border:1px solid rgba(230,230,230,1);
-        border-radius:5px;
+        width:200px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
     }
     .AddIMG_yl input{
         width:125px;
@@ -516,10 +536,10 @@
     }
     .AddIMG_yl_upload{
         display: inline-block;
-        width:140px;
-        height:50px;
-        background:rgba(19,159,248,.1);
-        border-radius:5px;
+        font-size:14px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(51,119,255,1);
         text-align: center;
         vertical-align: top;
         margin-left: 20px;
@@ -534,95 +554,72 @@
     }
     .AddIMG_bq_box{
         display: inline-block;
-        width:655px;
-        min-height:240px;
+        width:395px;
+        height:258px;
         background:rgba(255,255,255,1);
-        border:1px solid rgba(230,230,230,1);
-        border-radius:5px;
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        overflow-y: auto;
     }
     .AddIMG_bq_box_top{
         border-bottom: 1px solid rgba(230,230,230,1);
     }
     .AddIMG_bq_box_top_tit{
-        margin: 17px 0 15px 17px;
-        font-size:16px;
-        font-family:PingFang-SC-Regular;
+        margin: 14px 0 14px 14px;
+        font-size:12px;
+        font-family:PingFangSC-Regular;
         font-weight:400;
-        color:rgba(54,54,54,1);
+        color:rgba(143,155,179,1);
     }
     .AddIMG_bq_box_top_bq,.AddIMG_bq_box_top_zdy{
         margin:0 20px 0px 20px ;
+
     }
 
-    .AddIMG_bq_box_top_zdy{
-        width: 638px;
-        height: 80px;
-        overflow-y: auto;
-    }
+
     .AddIMG_bq_box_top_tit input{
-        float: right;
-        margin-right: 10px;
-        width:91px;
-        height:26px;
+        display: block;
+        width:326px;
+        height:28px;
         background:rgba(255,255,255,1);
-        border:1px solid rgba(220,220,220,1);
-        border-radius:5px;
-        padding-right: 25px;
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        margin-top: 10px;
     }
     .bg_btn{
-        text-align: center;
+
         margin: 40px 0;
     }
     .bg_btn span{
         display: inline-block;
-
-        width:140px;
-        height:50px;
-        border:1px solid rgba(153,153,153,1);
-        border-radius:5px;
-        font-size:16px;
-        font-family:PingFang-SC-Regular;
+        width:68px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        font-size:14px;
+        font-family:PingFangSC-Regular;
         font-weight:400;
-        color:rgba(54,54,54,1);
-        line-height: 50px;
+        color:rgba(61,73,102,1);
+        line-height: 36px;
+        text-align: center;
     }
     .bg_btn_up{
         border:0!important;
-        background:rgba(19,159,248,1);
+        background:rgba(51,119,255,1)!important;
         color:rgba(255,255,255,1)!important;
-        margin-right: 40px;
+        margin-right: 14px;
+        margin-left: 133px;
     }
-    .ADDtag{
+    .CJ{
         display: inline-block;
         line-height: 26px;
         text-align: center;
-        width: 25px;
-        height: 26px;
-        color: #fff;
-        border: 1px solid #cfcfcf;
-        float: right;
-        background: #d1d1d1;
-        position: relative;
-        left: 132px;
-        top:1px;
-        border-radius: 5px;
         cursor: pointer;
-    }
-    .upChenck{
-        display: inline-block;
-        margin-left: 31px;
-        vertical-align: bottom;
-    }
-    .upTIT{
-        display: block!important;
-        font-size:12px;
-        font-family:PingFang-SC-Regular;
-        font-weight:400;
-        color:rgba(153,153,153,1);
-        margin-top: 10px;
-    }
-    .AddIMG_sc_btn_jy{
-        background:rgba(153,153,153,1)!important;
-        color:rgba(255,255,255,1)!important;
+        padding: 3px 5px ;
+        background: #d7d7d7;
+        font-size: 12px;
+        border-radius: 5px;
+        margin-bottom: 10px!important;
     }
 </style>

@@ -1,52 +1,69 @@
 <template>
-    <div class="centNavBox">
-        <div class="role_Add">
-            <span v-if="this.$route.query.role_id !=undefined">当前角色：{{name}}</span>
-            <span v-else>添加角色</span>
+    <div>
+        <div class="top_name">
+            <span class="top_txt">个人中心/角色管理</span>
+            <div class="title_left">
+                <span v-if="this.$route.query.role_id !=undefined">角色管理</span>
+                <span v-else>添加角色</span>
+            </div>
         </div>
-        <div class="marg">
-            <div class="role_Add_switch">
-                是否启用
-                <el-switch
-                        v-model="status"
-                        active-value="1"
-                        inactive-value="0"
-                        active-color="#13ce66"
-                        inactive-color="#ff4949">
-                </el-switch>
-            </div>
-            <div class="role_name">
-                <span v-if="this.$route.query.role_id ==undefined">角色名称</span>
-                <input type="text" placeholder="最多输入10个字" v-model="name" v-if="this.$route.query.role_id ==undefined"/>
-                <div class="role_parent">
-                    上级角色
-                    <select v-model="parent">
-                        <option value="0">无</option>
-                        <option v-for="(item,index) in parentList" :value="index+1">{{item.role_name}}</option>
-                    </select>
+        <div class="centNavBox">
+            <div class="marg">
+                <div class="role_Add_switch">
+                    是否启用
+                    <el-switch
+                            v-model="status"
+                            active-value="1"
+                            inactive-value="0"
+                            active-color="#13ce66"
+                            inactive-color="#ff4949">
+                    </el-switch>
                 </div>
-            </div>
-            <div class="role_message" v-for="(item,index) in list">
-                <div class="role_message_1">
-                    <span class="dysfunction">{{item.group.group_name}}</span>
-                    <div class="role_message_1_1">
-                        <template>
-                            <el-checkbox-group
-                                    v-model="checkedCities1">
-                                <el-checkbox v-for="(bq,index2) in item.perm_group" :label="bq.group_key" :key="bq.group_key">{{bq.group_name}}</el-checkbox>
-                            </el-checkbox-group>
-                        </template>
+                <div class="role_name">
+                    <span v-if="this.$route.query.role_id ==undefined">角色名称</span>
+                    <input type="text" placeholder="最多输入10个字" v-model="name" v-if="this.$route.query.role_id ==undefined"/>
+                    <div class="wb" v-if="this.$route.query.role_id ==undefined">
+                       <span>是否为外部角色</span>
+                        <select>
+                            <option value="1">是</option>
+                            <option value="0">否</option>
+                        </select>
                     </div>
+                    <div class="DQrole_name" v-if="this.$route.query.role_id !=undefined">
+                        <span>当前角色:{{this.$route.query.role_name}}</span>
 
+                    </div>
+                    <div class="role_parent">
+                        上级角色
+                        <select v-model="parent">
+                            <option value="0">无</option>
+                            <option v-for="(item,index) in parentList" :value="index+1">{{item.role_name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="role_message" v-for="(item,index) in list">
+                    <div class="role_message_1">
+                        <span class="dysfunction">{{item.group.group_name}}</span>
+                        <div class="role_message_1_1">
+                            <template>
+                                <el-checkbox-group
+                                        v-model="checkedCities1">
+                                    <el-checkbox v-for="(bq,index2) in item.perm_group" :label="bq.group_key" :key="bq.group_key">{{bq.group_name}}</el-checkbox>
+                                </el-checkbox-group>
+                            </template>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="btn">
+                    <span class="btn_txt" @click="AddRole()">添加</span>
+                    <span @click="jumpReturn">取消</span>
                 </div>
             </div>
-            <div class="btn">
-                <span class="btn_txt" @click="AddRole()">添加</span>
-                <span @click="jumpReturn">取消</span>
-            </div>
-        </div>
 
+        </div>
     </div>
+
 </template>
 
 <script>
@@ -123,6 +140,30 @@
 </script>
 
 <style scoped>
+    .top_name{
+        height: 109px;
+        z-index: 999999;
+    }
+    .top_txt{
+        display: inline-block;
+        margin-left: 24px;
+    }
+    .title_left>span{
+        display: inline-block;
+        margin-left: 24px;
+        font-size:20px;
+        font-family:PingFang-SC-Medium;
+        font-weight:500;
+        color:rgba(50,50,50,1);
+    }
+    .centNavBox{
+        width: 100%;
+        padding: 24px 0 24px;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        background: #FFF;
+        margin-top:194px;
+    }
 .role_Add{
     display: inline-block;
 }
@@ -131,15 +172,28 @@
     overflow: hidden;
 }
 .role_name>input{
-    width:400px;
-    height:50px;
+    width:394px;
+    padding-left: 10px;
+    height:36px;
     background:rgba(255,255,255,1);
-    box-shadow:0px 0px 10px 0px rgba(0, 0, 0, 0.08);
-    border-radius:5px;
-    margin-left: 16px!important;
+    border-radius:4px;
+    border:1px solid rgba(211,219,235,1);
+    margin-left: 24px!important;
+}
+.wb{
+    display: inline-block;
+    margin:0 50px;
+}
+.wb select{
+    width:64px;
+    height:36px;
+    background:rgba(255,255,255,1);
+    border-radius:4px;
+    border:1px solid rgba(211,219,235,1);
+    margin-left: 24px;
 }
 .marg{
-    margin:0 80px;
+    margin:0 24px;
 }
 .role_Add>span{
     font-size:20px;
@@ -148,11 +202,12 @@
     color:rgba(54,54,54,1);
     line-height:36px;
 }
-.role_name>span{
-    font-size:16px;
-    font-family:PingFang-SC-Regular;
-    font-weight:400;
-    color:rgba(54,54,54,1);
+.role_name span{
+    display: inline-block;
+    font-size:14px;
+    font-family:PingFang-SC-Medium;
+    font-weight:500;
+    color:rgba(31,46,77,1);
     line-height:36px;
 }
 .role_message{
@@ -160,63 +215,74 @@
     height: 120px;
     margin: 20px 20px 20px 0;
     background:rgba(255,255,255,1);
-    box-shadow:0px 0px 10px 0px rgba(0, 0, 0, 0.08);
     border-radius:5px;
 }
 .role_message_1{
-    margin-left:50px;
+    margin-left:24px;
 }
 .role_message_1>span{
     display: block;
     margin-bottom: 30px;
     line-height: 50px;
     font-size:18px;
-    font-family:PingFang-SC-Regular;
-    font-weight:400;
-    color:rgba(54,54,54,1);
+    font-family:PingFang-SC-Medium;
+    font-weight:500;
+    color:rgba(31,46,77,1);
 }
 .el-checkbox{margin-right: 100px}
 .btn{
-    text-align: center;
+    text-align: left;
     margin-top: 40px;
 }
 .btn>span{
     display: inline-block;
-    width:140px;
-    height:40px;
+    width:68px;
+    text-align: center;
+    height:36px;
     border: 1px solid #ddd;
     line-height: 40px;
     border-radius: 5px;
     cursor: pointer;
-    font-size:16px;
-    font-family:PingFang-SC-Regular;
+    font-size:14px;
+    font-family:PingFangSC-Regular;
     font-weight:400;
+    color:#000;
 }
 
 .btn_txt{
     background:rgba(19,159,248,1);
     border: 1px solid transparent;
-    margin-right: 40px;
-    color:#fff;
+    margin-right: 14px;
+    color:rgba(255,255,255,1)!important;
 }
 .role_Add_switch{
     float: right;
+    font-size:14px;
+    font-family:PingFang-SC-Medium;
+    font-weight:500;
+    color:rgba(31,46,77,1);
+    line-height:36px;
 }
 
 .role_parent{
-    float:right;
-    margin-right: 25%;
-    font-size:16px;
-    font-family:PingFang-SC-Regular;
-    font-weight:400;
-    color:rgba(54,54,54,1);
+    display: inline-block;
+    font-size:14px;
+    font-family:PingFang-SC-Medium;
+    font-weight:500;
+    color:rgba(31,46,77,1);
+    line-height:36px;
 }
 .role_parent>select{
-    width:257px;
-    height:50px;
+    width:200px;
+    height:36px;
     background:rgba(255,255,255,1);
-    border:1px solid rgba(230,230,230,1);
-    border-radius:5px;
-    margin-left: 16px;
+    border-radius:4px;
+    border:1px solid rgba(211,219,235,1);
+    margin-left: 24px;
+}
+.DQrole_name{
+    display: inline-block;
+    margin:0 50px 0 24px;
+
 }
 </style>

@@ -1,32 +1,47 @@
 <template>
-    <div class="centNavBox">
-        <div class="btn">
-            <div class="btn_title">
+    <div>
+        <div class="top_name">
+            <span class="top_txt">个人中心/可管理账号</span>
+            <div class="title_left">
                 <span>可管理账号</span>
             </div>
-            <div class="btn_1">
-                <span @click="jump">添加角色</span>
-            </div>
         </div>
-        <div class="box_input" v-if="listShow" >
-            <div class="box" v-for="(item,index) in list">
-                <div class="box_1">
-                    <img src="../../../public/img/user.png"/>
+        <div class="centNavBox">
+            <div class="box_input">
+                <div class="btn" @click="jump">
+                    <span>+ 添加角色</span>
                 </div>
-                <div class="box_2">
-                    <p class="box_txt">{{item.role_name}}</p>
-                    <p class="masg">{{item.created_at}}创建</p>
+                <div class="box" v-for="(item,index) in list" v-if="listShow">
+                    <div class="box_1">
+                        <img src="../../../public/img/user.png"/>
+                    </div>
+                    <div class="box_2">
+                        <p class="box_txt">{{item.role_name}}</p>
+                        <p class="masg">{{item.created_at}}创建</p>
+                    </div>
+                    <div class="box_3">
+                        <p class="box_txt box_num" @click="nums(index)">{{item.users_count}}</p>
+                        <p class="masg">已绑定账号数</p>
+                    </div>
+                    <div class="box_4" @click="enter(index)">
+                        <img src="../../../public/img/xiugai.png">
+                    </div>
                 </div>
-                <div class="box_3">
-                    <p class="box_txt box_num" @click="nums(index)">{{item.users_count}}</p>
-                    <p class="masg">已绑定账号数</p>
-                </div>
-                <div class="box_4" @click="enter(index)">
-                    <img src="../../../public/img/xiugai.png">
-                </div>
+            </div>
+            <div class="block">
+                <el-pagination
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page="page"
+                        :page-sizes="[30, 40, 50, 60]"
+                        :page-size="p"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="400">
+                </el-pagination>
             </div>
         </div>
     </div>
+
 </template>
 
 <script>
@@ -34,9 +49,12 @@
         name: "role_management",
         data(){
             return {
-                listShow:true,
+                listShow:false,
                 list:[],
                 id:9,
+                p:30,
+                page:1,
+                total:0
             }
         },
         mounted(){
@@ -51,14 +69,18 @@
             getRole(){
                 this.api.get_roles().then((res)=>{
                     this.list = res;
-                    console.log(res)
+                    if(this.list!=''){
+                        this.listShow=true
+                    }
                 })
             },
             enter(a){
                 this.$router.push({
                     path:'/userinfo/AddRole',
                     query:{
-                        role_id: this.list[a].id
+                        role_id: this.list[a].id,
+                        role_name:this.list[a].role_name
+
                     }
                 })
             },
@@ -71,55 +93,81 @@
                     }
                 })
             },
+            handleSizeChange(p){
+                this.p = p
+            },
+            handleCurrentChange(page){
+                this.page =page
+            },
         }
     }
 </script>
 
 <style scoped>
-
+    .top_name{
+        height: 109px;
+        z-index: 999999;
+    }
+    .top_txt{
+        display: inline-block;
+        margin-left: 24px;
+    }
+    .title_left>span{
+        display: inline-block;
+        margin-left: 24px;
+        font-size:20px;
+        font-family:PingFang-SC-Medium;
+        font-weight:500;
+        color:rgba(50,50,50,1);
+    }
+    .centNavBox{
+        width: 100%;
+        padding: 24px 0 24px;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        margin-top:194px;
+    }
 .btn{
-    width: 100%;
-    height: 50px;
-    margin-bottom: 41px;
-}
-.btn_1{
-    float: right;
     display: inline-block;
-    width:140px;
-    height:48px;
-    margin-right: 100px;
+    text-align: center;
+    width:523px;
+    height:128px;
+    background:rgba(255,255,255,1);
+    border-radius:4px;
+    vertical-align: top;
+    margin: 0 24px 24px 0;
+    cursor: pointer;
 }
-.btn_1>span{
+
+    .btn>span{
     display: inline-block;
-    width:140px;
-    height:48px;
-    background:rgba(19,159,248,1);
     border-radius:5px;
     text-align: center;
-    line-height:48px;
+    line-height:128px;
     margin-right: 20px;
     cursor: pointer;
-    font-size:16px;
-    font-family:PingFang-SC-Regular;
-    font-weight:400;
-    color:rgba(255,255,255,1);
+    font-size:14px;
+    font-family:PingFang-SC-Medium;
+    font-weight:500;
+    color:rgba(61,73,102,1);
     }
 
 .box{
     display: inline-block;
-    width:484px;
-    height:130px;
+    width:523px;
+    height:128px;
     background:rgba(255,255,255,1);
-    box-shadow:0px 0px 10px 0px rgba(0, 0, 0, 0.08);
-    border-radius:5px;
+    border-radius:4px;
     margin: 0 24px 20px 0;
 
+}
+.box:nth-child(3){
+    margin: 0 0 20px 0!important;
 }
 .box:nth-child(3n){
     margin: 0 0 20px 0!important;
 }
 .box_input{
-    margin-left:35px;
     position: relative;
     top:0;
     left: 0;
@@ -165,8 +213,8 @@ p{
     width: 0;
     height: 0;
     position: relative;
-    top: -84px;
-    right: -444px;
+    top: -39px;
+    right: -37px;
     cursor: pointer;
     border:20px solid;
     border-color:#139FF8 #139FF8 transparent transparent ;
@@ -194,5 +242,6 @@ p{
 .box_num{
     text-decoration:underline;
     color:rgba(19,159,248,1);
+    cursor: pointer;
 }
 </style>

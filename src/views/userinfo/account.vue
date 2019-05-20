@@ -1,64 +1,71 @@
 <template>
-
+<div>
+    <div class="top_name">
+        <span class="top_txt">个人中心/可管理账号</span>
+        <div class="title_left">
+            <span>可管理账号</span>
+        </div>
+    </div>
+    <div class="box_input">
+        <div class="box" v-for="(item,index1) in list">
+            <div class="box_1">
+                <img src="../../../public/img/user.png"/>
+            </div>
+            <div class="box_2">
+                <p class="box_txt">{{item.role_name}}</p>
+                <p>{{item.created_at}}创建</p>
+            </div>
+            <div class="box_3">
+                <p class="box_txt box_num">{{item.users.length}}</p>
+                <p>已绑定账号数</p>
+            </div>
+            <div class="box_4" @click="details(index1)">
+                <img src="../../../public/img/mesg.png">
+            </div>
+        </div>
+    </div>
     <div class="centNavBox">
-            <div class="title">
-                <span>可管理账号</span>
-            </div>
-            <div class="box_input">
-                <div class="box" v-for="(item,index1) in list">
-                    <div class="box_1">
-                        <img src="../../../public/img/user.png"/>
-                    </div>
-                    <div class="box_2">
-                        <p class="box_txt">{{item.role_name}}</p>
-                        <p>{{item.created_at}}创建</p>
-                    </div>
-                    <div class="box_3">
-                        <p class="box_txt box_num">{{item.users.length}}</p>
-                        <p>已绑定账号数</p>
-                    </div>
-                    <div class="box_4" @click="details(index1)">
-                        <img src="../../../public/img/mesg.png">
-                    </div>
+
+
+        <div class="box_input_2">
+            <input type="text" placeholder="输入用户名或邮箱快速查询"/>
+            <span class="btn">查询</span>
+            <span class="btn_2" @click="add">添加账号</span>
+        </div>
+        <div class="box_input_3">
+            <div class="name" v-for="(item,index) in list" @click="aaa(index)" :class="{active:num ==index}"><span>{{item.role_name}}</span></div>
+        </div>
+        <tab :tableData2="tableData2" :management="management" style="margin:0 24px"></tab>
+        <div class="detail" v-if="show">
+            <div class="detail_1">
+                <div class="detail_1_1">
+                    <span>{{name}}权限详情</span>
+                </div>
+                <el-table
+                        :header-cell-style="getRowClass"
+                        :data="tableData"
+                        border
+                        style="width: 100%;color: black;">
+                    <el-table-column
+                            prop="group_name"
+                            label="权限名称"
+                            width="180">
+                    </el-table-column>
+                    <el-table-column
+                            prop="note"
+                            label="权限说明">
+                    </el-table-column>
+                </el-table>
+                <div class="detail_1_2" @click="shut">
+                    <img src="../../../public/img/gb.png"/>
                 </div>
             </div>
-            <div class="box_input_2">
-                <input type="text" placeholder="输入用户名或邮箱快速查询"/>
-                <span class="btn">查询</span>
-                <span class="btn_2" @click="add">添加账号</span>
-            </div>
-            <div class="box_input_3">
-                <div class="name" v-for="(item,index) in list" @click="aaa(index)"><span>{{item.role_name}}</span></div>
-            </div>
-            <tab :tableData2="tableData2" :management="management" style="margin:0 35px"></tab>
-            <div class="detail" v-if="show">
-                <div class="detail_1">
-                    <div class="detail_1_1">
-                        <span>{{name}}权限详情</span>
-                    </div>
-                    <el-table
-                            :header-cell-style="getRowClass"
-                            :data="tableData"
-                            border
-                            style="width: 100%;color: black;">
-                        <el-table-column
-                                prop="group_name"
-                                label="权限名称"
-                                width="180">
-                        </el-table-column>
-                        <el-table-column
-                                prop="note"
-                                label="权限说明">
-                        </el-table-column>
-                    </el-table>
-                    <div class="detail_1_2" @click="shut">
-                        <img src="../../../public/img/gb.png"/>
-                    </div>
-                </div>
-            </div>
+        </div>
 
         <ADD v-if="management"></ADD>
-        </div>
+    </div>
+</div>
+
 </template>
 
 <script>
@@ -75,6 +82,7 @@
                         note:''
                     }
                 ],
+                num:0,
                 selectData:[],
                 isActive:1,
                 listTab:false,
@@ -115,7 +123,7 @@
             },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
-                    return 'background:rgba(246,246,246,1);color:#000;text-align:center;font-size:9px;font-weight:500;height:48px;'
+                    return 'background:rgba(246,246,246,1);color:rgba(31,46,77,1);text-align:center;font-size:14px;font-weight:500;height:48px;'
                 } else {
                     return ''
                 }
@@ -137,9 +145,12 @@
                     console.log(res)
                 })
             },
-            aaa(a){
+            aaa(index){
                 this.api.role_user().then((res)=>{
-                    this.tableData2 = res[a].users;
+                    this.tableData2 = res[index].users;
+                    this.num = index;
+                    console.log(this.num);
+
                 })
             },
             role(){
@@ -161,21 +172,38 @@
 </script>
 
 <style scoped>
-.title{
-    font-size:20px;
-    font-family:PingFang-SC-Regular;
-    font-weight:400;
-    color:rgba(51,51,51,1);
-    margin-bottom: 40px;
-}
+    .top_name{
+        height: 109px;
+        z-index: 999999;
+    }
+    .top_txt{
+        display: inline-block;
+        margin-left: 24px;
+    }
+    .title_left>span{
+        display: inline-block;
+        margin-left: 24px;
+        font-size:20px;
+        font-family:PingFang-SC-Medium;
+        font-weight:500;
+        color:rgba(50,50,50,1);
+    }
+    .centNavBox{
+        width: 100%;
+        padding: 24px 0 24px;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        background: #FFF;
+        margin-top:24px;
+    }
+
 .box_input{
-    margin-left: 35px;
-    margin-bottom: 40px;
+    margin-top: 173px;
 }
 .box{
     display: inline-block;
-    width:484px;
-    height:130px;
+    width:523px;
+    height:128px;
     margin-right: 24px;
     background:rgba(255,255,255,1);
     box-shadow:0px 0px 10px 0px rgba(0, 0, 0, 0.08);
@@ -198,7 +226,6 @@
 .box_2{
     display: inline-block;
     margin-right: 30px;
-    text-align: center;
     position: relative;
     top:33%;
     transform: translateY(-50%);
@@ -212,53 +239,68 @@
 }
 p{
     font-size:16px;
-    font-family:PingFang-SC-Regular;
-    font-weight:400;
-    color:rgba(153,153,153,1);
+    font-family:PingFang-SC-Medium;
+    font-weight:500;
+    color:rgba(143,155,179,1);
 }
 .box_txt{
     margin-bottom: 15px;
     font-size:18px;
-    font-family:PingFang-SC-Regular;
-    font-weight:400;
-    color:rgba(51,51,51,1);
+    font-family:PingFang-SC-Medium;
+    font-weight:500;
+    color:rgba(50,50,50,1);
 }
 input{
-    margin-right: 40px;
     margin-left: 0px;
-    width:435px;
-    height:50px;
+    width:384px;
+    height:36px;
     background:rgba(255,255,255,1);
-    box-shadow:0px 0px 10px 0px rgba(0, 0, 0, 0.08);
-    border-radius:5px;
+    border-radius:4px 0px 0px 4px;
+    border:1px solid rgba(211,219,235,1);
+    padding-left: 20px;
 }
-.btn,.btn_2{
+.btn{
     display: inline-block;
-    width:140px;
-    height:48px;
-    background:rgba(19,159,248,1);
-    border-radius:5px;
-    text-align: center;
-    line-height: 48px;
+    width:68px;
+    height:40px;
+    line-height:40px;
+    background:rgba(51,119,255,1);
+    border-radius:0px 4px 4px 0px;
     cursor: pointer;
-    font-size:16px;
-    font-family:PingFang-SC-Regular;
+    text-align: center;
+    font-size:14px;
+    font-family:PingFangSC-Regular;
     font-weight:400;
     color:rgba(255,255,255,1);
+}
+.btn_2{
+    display: inline-block;
+    width:112px;
+    height:36px;
+    line-height: 36px;
+    background:rgba(242,246,252,1);
+    border-radius:4px;
+    border:1px solid rgba(211,219,235,1);
+    float: right;
+    text-align: center;
+    margin-right: 24px;
+    font-size:14px;
+    font-family:PingFang-SC-Medium;
+    font-weight:500;
+    color:rgba(61,73,102,1);
 }
 .btn_2{
    margin-left: 60px;
 }
 .box_input_2{
     margin-bottom: 100px;
-    margin-left: 35px;
+    margin-left: 24px;
 }
 .name{
-    width:100px;
-    height:40px;
-    background:rgba(19,159,248,0.1);
-    box-shadow:0px 0px 10px 0px rgba(0, 0, 0, 0.14);
-    border-radius:5px 5px 0px 0px;
+    width:104px;
+    height:36px;
+    background:rgba(255,255,255,1);
+    border:1px solid rgba(211,219,235,1);
     display: inline-block;
     text-align: center;
     cursor: pointer;
@@ -266,20 +308,20 @@ input{
 .name>span{
     display: inline-block;
     font-size:16px;
-    font-family:PingFang-SC-Regular;
+    font-family:PingFangSC-Regular;
     font-weight:400;
-    color:#139FF8;line-height: 40px;
+    color:rgba(143,155,179,1);
+    line-height: 36px;
 
 }
 .box_input_3{
-    margin-left: 35px;
+    margin-left: 24px;
 }
 .box_num{
-    font-size:24px;
-    font-family:PingFang-SC-Regular;
-    font-weight:400;
-    text-decoration:underline;
-    color:rgba(19,159,248,1);
+    font-size:18px;
+    font-family:PingFang-SC-Bold;
+    font-weight:bold;
+    color:rgba(48,144,240,1);
 }
 .box_4{
     display: inline-block;
@@ -287,11 +329,11 @@ input{
     height: 0;
     position: relative;
     top: -40px;
-    right: -8px;
+    right: -48px;
     cursor: pointer;
     border:20px solid;
     border-color:#139FF8 #139FF8 transparent transparent ;
-    border-radius: 5px;
+    border-radius:0 5px 0 0;
 }
 .box_4>img{
     width:20px;
@@ -313,7 +355,7 @@ input{
     position: absolute;
     top: 50%;
     left: 44%;
-    padding: 30px 60px 0;
+    padding: 30px 24px 0;
     -webkit-transform: translate(-50%,-50%);
     transform: translate(-50%,-50%);
     background: rgba(255,255,255,1);
@@ -327,8 +369,14 @@ input{
     text-align: center;
 }
 .detail_1_1{
-    text-align: center;
-    /*padding: 40px 0;*/
+    text-align: left;
+}
+.detail_1_1>span{
+    display: inline-block;
+    font-size:18px;
+    font-family:PingFangSC-Regular;
+    font-weight:400;
+    color:rgba(61,73,102,1);
 }
 .detail_1_2{
     width: 30px;
@@ -339,10 +387,10 @@ input{
 }
 
 .detail_1_2>img{
-    width: 30px;
+    width: 16px;
     position: absolute;
-    top: -28px;
-    right: -65px;
+    top: -16px;
+    right: -54px;
 }
 .detail input{
     margin-left:30px;
@@ -353,5 +401,11 @@ input{
 }
 .detail div{
     margin-bottom:30px ;
+}
+.active{
+    background:rgba(51,119,255,1)!important;
+}
+.active>span{
+    color:rgba(255,255,255,1)!important;
 }
 </style>

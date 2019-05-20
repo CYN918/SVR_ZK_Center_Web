@@ -9,11 +9,11 @@
 			<!--</el-dropdown-menu>-->
 		<!--</el-dropdown>-->
 		<ul class="navd" v-if="config.showL!=-1">
-			<router-link  to="/index"><li><img src="../../public/img/gzt.png" class="imgs_size"/>工作台</li></router-link>
-			<router-link  to="/data"><li><img src="../../public/img/sj.png" class="imgs_size"/>数据中心</li></router-link>
-			<router-link  to="/admin"><li><img src="../../public/img/sy.png" class="imgs_size"/>收益中心</li></router-link>
-			<router-link  to="/admin"><li><img src="../../public/img/sc.png" class="imgs_size"/>素材中心</li></router-link>
-			<router-link  to="/user"><li><img src="../../public/img/cp.png" class="imgs_size"/>产品中心</li></router-link>
+			<router-link  to="/workbench"><li>工作台</li></router-link>
+			<router-link  to="/data"><li>数据中心</li></router-link>
+			<router-link  to="/admin"><li>收益中心</li></router-link>
+			<router-link  to="/admin"><li>素材中心</li></router-link>
+			<router-link  to="/user"><li>产品中心</li></router-link>
 			<router-link  to="/userinfo"><li class="right"><img src="../../public/img/user.png" class="imgs_user"/>{{name}}</li></router-link>
 			<router-link  to="/login"><li class="right" @click="loginout()">退出登录</li></router-link>
 		</ul>
@@ -118,8 +118,8 @@ export default {
 	z-index: 9;
 	width: 100%;
 	height:63px;
-	background:rgba(50,50,50,1);
-	box-shadow:0px 2px 8px 0px rgba(0, 0, 0, 0.08);
+	background:rgba(255,255,255,1);
+	box-shadow:0px 6px 12px 0px rgba(230,233,240,0.3);
 }
 .log{
 	cursor: pointer;
@@ -165,9 +165,9 @@ export default {
 	width:143px;
 	text-align: center;
 	font-size:16px;
-	font-family:PingFang-SC-Regular;
-	font-weight:400;
-	color:rgba(255,255,255,1);
+	font-family:PingFang-SC-Bold;
+	font-weight:bold;
+	color:rgba(143,155,179,1);
 	line-height: 65px;
 }
 .navd a:nth-child(6){
@@ -176,7 +176,11 @@ export default {
 .navd a.router-link-active{	
 	display: inline-block;
 	height: 100%;
-	background:rgba(19,159,248,1);
+	font-size:16px;
+	font-family:PingFang-SC-Bold;
+	font-weight:bold;
+	color:rgba(51,119,255,1);
+	border-bottom: 2px solid rgba(51,119,255,1);
 }
 .imgs_size{
 	width: 20px;

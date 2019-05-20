@@ -133,6 +133,7 @@
         methods: {
             getCon(){
                 this.sc = true;
+                this.message='';
             },
             SCsc(){
                 this.sc = true
@@ -190,7 +191,7 @@
                 let params = {preset:this.preset,material:this.material,type:this.type};
                 this.api.tags_search({params}).then((da)=>{
                     console.log(da);
-                    this.preset_tags = da.data.preset_tags;
+                    this.preset_tags = da.data.tags;
                     this.self_tags = da.data.self_tags
                 })
             },

@@ -4,10 +4,6 @@
             <div class="detail_1_1_1">
                 <span>添加账号</span>
             </div>
-            <div class="detail_1_1_2">
-                <span class="btn_1_1" @click="inner" :class="{active:isActive==1}">内部账号</span>
-                <span class="btn_1_2" @click="external" :class="{active:isActive==2}">外部账号</span>
-            </div>
             <div class="detail_1_1_3">
                 <span class="txt txt_right">所属角色</span>
                 <select v-model="roles">
@@ -28,14 +24,14 @@
                 <input type="text" v-model="password"/>
             </div>
             <div class="detail_1_1_6">
-                <span  class="txt">确认密码</span>
+                <span  class="txt">再次输入密码</span>
                 <input type="text" v-model="password_confirmation"/>
             </div>
-            <div class="detail_1_1_7" v-if="listTab">
+            <div class="detail_1_1_7" >
                 <span  class="txt">公司名称</span>
                 <input type="text" v-model="company"/>
             </div>
-            <div class="detail_1_1_8" v-if="listTab">
+            <div class="detail_1_1_8" >
                 <span  class="txt">联系电话</span>
                 <input type="text" v-model="phone"/>
             </div>
@@ -70,33 +66,22 @@
         },
         mounted(){
                 this.getuserDATA();
-
                 if(this.userMessage!=undefined){
                     this.roles = this.userMessage.roles;
                     this.email = this.userMessage.email;
                     this.password = this.userMessage.password;
                     this.password_confirmation = this.userMessage.password_confirmation;
-                    if(this.isActive==2){
-                        this.company = this.userMessage.company;
-                        this.phone = this.userMessage.phone;
-                    }
+                    this.company = this.userMessage.company;
+                    this.phone = this.userMessage.phone;
                 }
 
         },
         methods:{
             tj(){
                 if(this.userMessage!=undefined){
-                    if(this.isActive==1){
-
-                    }else{
-                        this.setWBUser();
-                    }
+                    this.setWBUser();
                 }else{
-                    if(this.isActive==1){
-                        this.addUSER()
-                    }else{
-                        this.addWbUser();
-                    }
+                    this.addWbUser()
                 }
 
             },
@@ -162,7 +147,7 @@
         height: 100%;
         background: rgba(0,0,0,0.3);
         position: fixed;
-        z-index: 9;
+        z-index: 99999999;
         top: 65px;
         left: 220px;
         bottom: 0;
@@ -172,29 +157,17 @@
         position: absolute;
         top: 50%;
         left: 44%;
-        padding: 30px 40px 0;
         -webkit-transform: translate(-50%,-50%);
         transform: translate(-50%,-50%);
-        background: rgba(255,255,255,1);
         -webkit-box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.08);
         box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.08);
         overflow: hidden;
         overflow-y: auto;
-        border-radius: 8px;
-        width: 500px;
-        min-height: 673px;
+        width:584px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;;
         text-align: center;
-    }
-    .detail_1_1{
-        text-align: center;
-        /*padding: 40px 0;*/
-    }
-    .detail_1_2{
-        width: 30px;
-        position: absolute;
-        right: 80px;
-        top:40px;
-        cursor: pointer;
+        z-index: 9999999;
     }
 
     .detail_1_2>img{
@@ -204,99 +177,97 @@
         right: -65px;
     }
     .detail input{
-        margin-left:30px;
-        width:320px;
-        height:50px;
-        border:1px solid rgba(230,230,230,1);
-        border-radius:5px;
+        margin-left:24px;
+        width:404px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
     }
     .detail div{
-        margin-bottom:30px ;
+        margin-bottom:24px ;
     }
     .txt{
-        font-size:16px;
-        font-family:PingFang-SC-Regular;
-        font-weight:400;
-        color:rgba(54,54,54,1);
+        font-size:14px;
+        font-family:PingFang-SC-Medium;
+        font-weight:500;
+        color:rgba(31,46,77,1);
         display: inline-block;
         width: 90px;
         text-align: right;
     }
     .detail select{
-        width:170px;
-        height:50px;
-        border:1px solid rgba(230,230,230,1);
-        border-radius:5px;
-        margin-left: 26px;
+        width:200px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        margin-right: 24px;
+        margin-left:24px;
     }
-    .btn_1_1,.btn_1_2{
-        display: inline-block;
-        width:210px;
-        height:40px;
-        border:1px solid rgba(19,159,248,1);
-        border-radius:5px 0px 0px 5px;
-        cursor: pointer;
-        font-size:16px!important;
-        font-family:PingFang-SC-Regular;
-        font-weight:400;
-        color:rgba(19,159,248,1)!important;
-        text-align: center;
-        line-height: 40px;
-    }
-    .btn_1_2{
-        border-radius:0px 5px 5px 0px;
-    }
+
     .btn_1_3{
         display: inline-block;
-        width: 158px;
-        height: 50px;
-        border: 1px solid rgba(19,159,248,1);
-        border-radius: 5px;
-        text-align: center!important;
-        margin-left: 10px;
-        line-height: 50px;
-        font-size: 16px;
-        font-family: PingFang-SC-Regular;
-        font-weight: 400;
-        color: rgba(19,159,248,1);
-        margin-right: 42px;
+        width:96px;
+        height:36px;
+        text-align: center;
+        background:rgba(242,246,252,1);
+        border-radius:4px;
+        border:1px solid rgba(51,119,255,1);
+        font-size:14px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(51,119,255,1);
+        line-height: 36px;
         cursor: pointer;
     }
-    .detail_1_1_1{text-align: center;}
+    .detail_1_1_1{
+        text-align: left;
+        height: 55px;
+        border-bottom: 1px solid #E6E9F0;
+    }
     .detail_1_1_1>span{
         display: inline-block;
-        font-size:20px;
-        font-family:PingFang-SC-Regular;
+        line-height: 55px;
+        margin-left: 20px;
+        font-size:18px;
+        font-family:PingFangSC-Regular;
         font-weight:400;
-        color:rgba(54,54,54,1);
+        color:rgba(61,73,102,1);
     }
-    .active{
-        background:rgba(19,159,248,0.1);;
+    .operate{
+        text-align: left;
+        margin-left: 116px;
     }
     .btn_txt_1{
         display: inline-block;
-        width:140px;
-        height:40px;
-        background:rgba(19,159,248,1);
-        border-radius:5px;
-        font-size:16px;
-        font-family:PingFang-SC-Regular;
+        width:68px;
+        height:36px;
+        text-align: center;
+        background:rgba(51,119,255,1);
+        border-radius:4px;
+        font-size:14px;
+        font-family:PingFangSC-Regular;
         font-weight:400;
         color:rgba(255,255,255,1);
-        line-height: 40px;
-        margin-right: 40px;
+        line-height: 36px;
+        margin-right: 14px;
     }
     .btn_txt_2{
         display: inline-block;
-        width:140px;
-        height:40px;
-        border:1px solid rgba(153,153,153,1);
-        border-radius:5px;
-        font-size:16px;
-        font-family:PingFang-SC-Regular;
+        width:68px;
+        height:36px;
+        text-align: center;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        font-size:14px;
+        font-family:PingFangSC-Regular;
         font-weight:400;
-        color:rgba(51,51,51,1);
-        line-height: 40px;
+        color:rgba(61,73,102,1);
+        line-height: 36px;
     }
-
+    .detail_1_1_3,.detail_1_1_4,.detail_1_1_5,.detail_1_1_6,.detail_1_1_7,.detail_1_1_8{
+        text-align: left;
+    }
 </style>

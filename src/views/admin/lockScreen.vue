@@ -2,7 +2,7 @@
 	<div>
 		<div class="top_name">
 			<span class="inner">|</span>
-			<span class="top_txt">素材库>广告</span>
+			<span class="top_txt">物料库>场景锁屏</span>
 		</div>
 		<div class="content">
 			<div class="Search">
@@ -29,7 +29,7 @@
 					<span v-for="(item,index) in self_tags" class="labelName">{{item.name}}</span>
 				</div>
 			</div>
-			<con v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type"></con>
+			<AM v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type"></AM>
 			<hin v-if='hint' ></hin>
 			<tag v-if="tags" :message="message" :typeSC='type' :material="material"></tag>
 			<set v-if="sets" :typeSC='type'  @listenToChildEvent="listen" :material="material"></set>
@@ -40,8 +40,8 @@
 				<div class="boxImg_right" >
 					<div class="boxImg_right_1">
 						<div>
-							<span class="boxImg_text">素材ID:</span>
-							<span class="boxImg_content">{{DL.mid}}</span>
+							<span class="boxImg_text">物料ID:</span>
+							<span class="boxImg_content">{{DL.mfid}}</span>
 						</div>
 						<div>
 							<span class="boxImg_text boxImg_bq">标签:</span>
@@ -52,24 +52,37 @@
 							</div>
 						</div>
 						<div>
-							<span class="boxImg_text">尺寸:</span>
-							<span class="boxImg_content">{{DL.size}}</span>
+							<div class="zt">
+								<span class="boxImg_text">素材状态:</span>
+								<span class="boxImg_content">{{DL.status==1201?'禁用':'启用'}}</span>
+							</div>
+							<div class="cc">
+								<span class="boxImg_text">预览图尺寸:</span>
+								<span class="boxImg_content">{{DL.size}}</span>
+							</div>
 						</div>
 						<div>
-							<span class="boxImg_text">相关素材:</span>
+							<div class="xgsc">
+								<span class="boxImg_text">相关素材:</span>
+								<span class="ck">查看详情</span>
+							</div>
+							<div class="dx">
+								<span class="boxImg_text">预览图大小:</span>
+								<span class="boxImg_content">{{DL.size}}</span>
+							</div>
+						</div>
+
+						<div>
+							<span class="boxImg_text">物料使用记录:</span>
 							<span class="ck">查看详情</span>
 						</div>
 						<div>
-							<span class="boxImg_text">相关物料:</span>
-							<span class="ck">查看详情</span>
+							<span class="boxImg_text">动效实现方式:</span>
+							<span class="boxImg_content">{{DL.model}}</span>
 						</div>
 						<div>
-							<span class="boxImg_text">素材使用记录:</span>
-							<span class="ck">查看详情</span>
-						</div>
-						<div>
-							<span class="boxImg_text">素材状态:</span>
-							<span class="boxImg_content">{{DL.status==1201?'禁用':'启用'}}</span>
+							<span class="boxImg_text">链接:</span>
+							<span class="boxImg_content">{{DL.link}}</span>
 						</div>
 						<div>
 							<span class="boxImg_text">更新时间:</span>
@@ -134,6 +147,7 @@
         methods: {
             getCon(){
                 this.sc = true;
+                this.message='';
             },
             SCsc(){
                 this.sc = true

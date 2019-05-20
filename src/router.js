@@ -49,25 +49,31 @@ import MD5 from './views/admin/MD5.vue'
 mode['MD5'] = MD5
 
 //审核台
-import userIndex from './views/user/index.vue'
-mode['user'] = userIndex
-import userNeed from './views/user/user_need.vue'
-mode['user_need'] = userNeed
-import userChecked from './views/user/user_checked.vue'
-mode['user_checked'] = userChecked
-import user_picture from './views/user/user_picture.vue'
-mode['user_picture'] = user_picture
-import user_resource from './views/user/user_resource.vue'
-mode['user_resource'] = user_resource
-import user_wallpaper from './views/user/user_wallpaper.vue'
-mode['user_wallpaper'] = user_wallpaper
-import userMessage from './views/user/userMessage.vue'
-mode['user_message'] = userMessage
-import wallpaperProcessed from './views/user/wallpaper_ processed.vue'
-mode['wallpaper_processed'] = wallpaperProcessed
-import wallpaperUntreated from './views/user/wallpaper_untreated.vue'
-mode['wallpaper_untreated'] = wallpaperUntreated
+// import userIndex from './views/user/index.vue'
+// mode['user'] = userIndex
+// import userNeed from './views/user/user_need.vue'
+// mode['user_need'] = userNeed
+// import userChecked from './views/user/user_checked.vue'
+// mode['user_checked'] = userChecked
+// import user_picture from './views/user/user_picture.vue'
+// mode['user_picture'] = user_picture
+// import user_resource from './views/user/user_resource.vue'
+// mode['user_resource'] = user_resource
+// import user_wallpaper from './views/user/user_wallpaper.vue'
+// mode['user_wallpaper'] = user_wallpaper
+// import userMessage from './views/user/userMessage.vue'
+// mode['user_message'] = userMessage
+// import wallpaperProcessed from './views/user/wallpaper_ processed.vue'
+// mode['wallpaper_processed'] = wallpaperProcessed
+// import wallpaperUntreated from './views/user/wallpaper_untreated.vue'
+// mode['wallpaper_untreated'] = wallpaperUntreated
 
+
+//工作台
+import workbench from './views/workbench/index'
+mode['workbench'] = workbench
+import workbenchPadding from './views/workbench/workbench_padding'
+mode['workbenchPadding'] = workbenchPadding
 
 import axios from 'axios'
 import api from './api/index'
@@ -235,15 +241,12 @@ let nb = [
 		{path:'/data/cost_designers',name:'cost_designers',component:mode['cost_designers']},	
 		{path:'/data/profits',name:'profits',component:mode['profits']},				
 	]},
-	{path:'/user',name:'审核台',component:mode['user'],children:[
-		{path:'/user/user_need',name:'待审核',component:mode['user_need']},
-            {path:'/user/user_checked',name:'已审核',component:mode['user_checked']},
-		{path:'/user/user_picture',name:'图片审核',component:mode['user_picture']},
-		{path:'/user/user_resource',name:'模版审核',component:mode['user_resource']},
-		{path:'/user/user_wallpaper',name:'壁纸审核',component:mode['user_wallpaper']},
-		{path:'/user/user_message',name:'个人信息',component:mode['user_message']},
-        {path:'/user/wallpaper_processed',name:'壁纸已处理',component:mode['wallpaper_processed']},
-		{path:'/user/wallpaper_untreated',name:'壁纸待处理',component:mode['wallpaper_untreated']},
+
+
+	{path:'/workbench',name:'工作台',component:mode['workbench'],children:[
+		{path:'/workbench/workbenchPadding',name:'待审核',component:mode['workbenchPadding']},
+
+
 	]},
     {path:'/userinfo',name:'个人中心',component:mode['info'],
 		children:[
@@ -287,22 +290,16 @@ let leftNav =
 		// 	{title:'外部帐号管理',url:'/admin/external'},
 		// ]},
 	]},
-	{title:'审核台',defaultopen:['1'],
+	{title:'工作台',default:'/workbench',defaultopen:['1'],
         children:[
-            {title:'需求审核',url:'1',list:[
-                    {title:'待处理',url:'/user/user_need'},
-                    {title:'已处理',url:'/user/user_checked'},
-
-				],},
-            {title:'素材审核',url:'2',list:[
-                    {title:'待处理',url:'/user/user_picture'},
-                    {title:'已处理',url:'/user/user_resource'},
+            {title:'素材审核',url:'1',list:[
+                    {title:'待处理',url:'/workbench/workbenchPadding'},
 
 					],},
-            {title:'壁纸推送',url:'3',list:[
-                    {title:'待处理',url:'/user/wallpaper_processed'},
-                    {title:'已处理',url:'/user/wallpaper_untreated'},
-                ],},
+            // {title:'壁纸推送',url:'3',list:[
+            //         {title:'待处理',url:'/user/wallpaper_processed'},
+            //         {title:'已处理',url:'/user/wallpaper_untreated'},
+            //     ],},
         ]
 	},
 	{title:'数据',default:'/data',defaultopen:['1'],

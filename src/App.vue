@@ -58,12 +58,12 @@ html,body{
   height: 205px;
 }
 .el-upload--picture-card i{
-  margin-top: 50px;
+  margin-top: -50px;
   vertical-align: middle;
 }
 .el-upload-list--picture-card .el-upload-list__item{
-  width: 230px;
-  height: 205px;
+  width: 104px;
+  height: 104px;
 }
 .block .el-pagination{margin-top: 38px}
 
@@ -91,6 +91,7 @@ html,body{
   line-height: 40px;
   margin-right:20px;
 }
+
 .block .el-pagination .el-pager .active{
   background:rgba(19,159,248,1);
   color:rgba(255,255,255,1);
@@ -119,9 +120,13 @@ html,body{
   margin-left: 0!important;
 }
 .AddIMG_input_box  .el-upload .el-button--small{
-  width: 140px!important;
-  height: 50px!important;
-  border: 0!important;
+    width:106px!important;
+    height:36px!important;
+    background: transparent!important;
+}
+.AddIMG_input_box .el-button--primary{
+    color:rgba(61,73,102,1)!important;
+    border: 0!important;
 }
 .AddIMG_yl_upload .el-upload .el-button--small{
   width:110px;
@@ -280,7 +285,6 @@ html,body{
 }
 .labelName{
   display: inline-block;
-  width:50px;
   height:30px;
   background:rgba(255,255,255,1);
   border-radius:5px;
@@ -310,7 +314,7 @@ html,body{
 }
 .boxImg{
   display: inline-block;
-  width:795px;
+  width:793px;
   height:328px;
   background:rgba(255,255,255,1);
   border-radius:4px;
@@ -434,4 +438,50 @@ html,body{
   text-align: right;
   margin-bottom: 60px;
 }
+.zt,.cc,.xgsc,.dx{
+    display: inline-block;
+}
+.zt>.boxImg_content,.xgsc>.ck{
+    display: inline-block;
+    width: 100px;
+}
+.boxCheck .el-checkbox__label{
+    display: none;
+}
+.work_tab .el-table th{
+  height: 40px!important;
+}
+  .time .el-input__inner{
+    width:400px!important;
+    height:36px;
+    background:rgba(255,255,255,1);
+    border-radius:4px;
+    border:1px solid rgba(211,219,235,1);
+  }
+  .times .el-input__inner{
+    width:514px!important;
+    height:36px;
+    background:rgba(255,255,255,1);
+    border-radius:4px;
+    border:1px solid rgba(211,219,235,1);
+  }
+.input_type .el-textarea{
+  width: 60%;
+}
+.input_type .el-textarea__inner{
+  display: inline-block!important;
+  width:400px!important;
+  height:92px!important;
+  background:rgba(255,255,255,1);
+  border-radius:4px;
+  border:1px solid rgba(211,219,235,1);
+}
+.box_uploading .el-upload--picture-card{
+  width:104px;
+  height:104px;
+  background:rgba(247,249,252,1);
+  border-radius:4px;
+  border:1px solid rgba(211,219,235,1);
+}
+
 </style>

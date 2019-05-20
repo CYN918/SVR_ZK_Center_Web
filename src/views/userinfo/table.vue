@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="work_tab">
         <el-table
                 :data="tableData2"
                 header-align="center"

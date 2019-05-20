@@ -1,48 +1,58 @@
 <template>
-    <div class="centNavBox">
-        <div class="content">
-            <div class="title_name">
+    <div>
+        <div class="top_name">
+            <span class="top_txt">个人中心/我的权限</span>
+            <div class="title_left">
                 <span>我的权限</span>
             </div>
-            <div class="tab_title">
+            <div>
                 <div class="tab_title_1">
                     <div class="tab_title_1_1">
                         <img src="../../../public/img/user.png"/>
                     </div>
-                    <div class="tab_title_1_2">
-                        <p class="text_message">{{user.role_name}}</p>
+                    <div class="tab_title_1_1_1">
+                        <p class="text_messages">{{user.role_name}}</p>
                         <p class="text_message_1">{{user.note}}</p>
                     </div>
                 </div>
-                <div class="tab_title_1_2">
-                    <p class="text_message">创建时间</p>
-                    <p class="text_message_1">{{time}}</p>
+                <div class="tab_right">
+                    <div class="tab_title_1_2">
+                        <p class="text_message">创建时间</p>
+                        <p class="text_message_1">{{time}}</p>
+                    </div>
+                    <div class="tab_title_1_3">
+                        <p class="text_message">状态</p>
+                        <p class="text_message_1">{{user.state=1?'启用':'禁用'}}</p>
+                    </div>
                 </div>
-                <div class="tab_title_1_3">
-                    <p class="text_message">状态</p>
-                    <p class="text_message_1">{{user.state=1?'启用':'禁用'}}</p>
-                </div>
+
             </div>
-            <div class="particulars"><span>权限详情</span></div>
-            <el-table
-                    :data="tableData2"
-                    height="250"
-                    header-align="center"
-                    :header-cell-style="getRowClass"
-                    border
-                    style="width: 96%;color:#000;margin: 0 30px">
-                <el-table-column
-                        prop="group_name"
-                        label="权限名称"
-                        width="300">
-                </el-table-column>
-                <el-table-column
-                        prop="note"
-                        label="权限说明">
-                </el-table-column>
-            </el-table>
+
+        </div>
+        <div class="centNavBox">
+            <div class="content">
+                <div class="particulars"><span>权限详情</span></div>
+                <el-table
+                        :data="tableData2"
+                        height="250"
+                        header-align="center"
+                        :header-cell-style="getRowClass"
+                        border
+                        style="width: 96%;color:#000;margin: 0 30px">
+                    <el-table-column
+                            prop="group_name"
+                            label="权限名称"
+                            width="300">
+                    </el-table-column>
+                    <el-table-column
+                            prop="note"
+                            label="权限说明">
+                    </el-table-column>
+                </el-table>
+            </div>
         </div>
     </div>
+
 </template>
 
 <script>
@@ -84,9 +94,18 @@
 </script>
 
 <style scoped>
-.content{
-    margin: 20px;
+    .top_name{
+        height: 237px;
+        z-index: 999999;
+    }
+    .top_txt{
+        display: inline-block;
+        margin-left: 24px;
+    }
+.centNavBox{
+    margin-top: 324px;
 }
+
 .tab_title{
     margin: 0 30px;
     height:130px;
@@ -95,16 +114,17 @@
     border-radius:5px;
 }
 .tab_title_1{
-    width: 300px;
     display: inline-block;
+    margin:0 0px 24px 44px;
 }
+
 .tab_title_1>.tab_title_1_2{
     margin-left: 0!important;
 }
 .tab_title_1_1{
     display: inline-block;
     width: 70px;
-    margin:25px 30px 25px 63px;
+
 }
 
 img{
@@ -112,36 +132,44 @@ img{
 }
 .tab_title_1_2,.tab_title_1_3{
     display: inline-block;
-    height: 100%;
-    position: relative;
-    top:50%;
-    transform: translateY(-50%);
-    margin-left: 223px;
+   width: 146px;
+    text-align: center;
 }
-.tab_title_1_2{
-    margin-right: 80px;
+.tab_title_1_3{
+    border-left: 1px solid rgb(211, 211, 211);
 }
-.text_message{
+.text_messages{
     margin-bottom: 10px;
     font-size:18px;
-    font-family:PingFang-SC-Regular;
-    font-weight:400;
-    color:rgba(51,51,51,1);
+    font-family:PingFang-SC-Medium;
+    font-weight:500;
+    color:rgba(50,50,50,1);
     line-height:36px;
+}
+.tab_title_1_1_1{
+    display: inline-block;
+    margin-left: 24px;
+}
+.text_message{
+    font-size:16px;
+    font-family:PingFang-SC-Medium;
+    font-weight:500;
+    color:rgba(143,155,179,1);
 }
 .particulars{
     margin: 40px 0;
 }
 .particulars>span{
-    font-size:20px;
-    font-family:PingFang-SC-Regular;
-    font-weight:400;
-    color:rgba(51,51,51,1);
+    display: inline-block;
+    font-size:16px;
+    font-family:PingFang-SC-Medium;
+    font-weight:500;
+    color:rgba(61,73,102,1);
     line-height:36px;
+    margin-left: 24px;
+    margin-top: 20px;
 }
-.title_name{
-    margin-bottom: 38px;
-}
+
 .title_name>span{
     display: inline-block;
     width:80px;
@@ -153,10 +181,25 @@ img{
     line-height:36px;
 }
 .text_message_1{
-    font-size:16px;
-    font-family:PingFang-SC-Regular;
-    font-weight:400;
-    color:rgba(153,153,153,1);
+    font-size:18px;
+    font-family:PingFang-SC-Medium;
+    font-weight:500;
+    color:rgba(61,73,102,1);
     line-height:36px;
+    margin-top: 19px;
+}
+.title_left{margin-bottom: 24px}
+.title_left>span{
+    display: inline-block;
+    margin-left: 24px;
+    font-size:20px;
+    font-family:PingFang-SC-Medium;
+    font-weight:500;
+    color:rgba(50,50,50,1);
+}
+.tab_right{
+    display: inline-block;
+    float: right;
+    margin-right: 225px;
 }
 </style>

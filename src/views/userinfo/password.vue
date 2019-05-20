@@ -1,34 +1,40 @@
 <template>
-    <div class="centNavBox">
-        <div class="title_left">
-            <span>基本信息</span>
+    <div>
+        <div class="top_name">
+            <span class="top_txt">个人中心/修改密码</span>
+            <div class="title_left">
+                <span>修改密码</span>
+            </div>
         </div>
-        <div class="center">
-            <div class="message">
-                <span class="fs">初始密码</span>
-                <input type="password" v-if="show_1" v-model="input1"/>
-                <input type="text" v-if="show" v-model="input1"/>
-                <div class="imgs_1">
-                    <img src="../../../public/img/icon.png" @click="heid"/>
-                </div>
+        <div class="centNavBox">
+            <div class="center">
+                <div class="message">
+                    <span class="fs">初始密码</span>
+                    <input type="password" v-if="show_1" v-model="input1"/>
+                    <input type="text" v-if="show" v-model="input1"/>
+                    <div class="imgs_1">
+                        <img src="../../../public/img/icon.png" @click="heid"/>
+                    </div>
 
+                </div>
+                <div class="message">
+                    <span>新密码</span>
+                    <input type="password" v-if="show_1" v-model="input2"/>
+                    <input type="text" v-if="show" v-model="input2"/>
+                </div>
+                <div class="message">
+                    <span>确认信密码</span>
+                    <input type="password" v-if="show_1" v-model="input3"/>
+                    <input type="text" v-if="show" v-model="input3"/>
+                </div>
             </div>
-            <div class="message">
-                <span>新密码</span>
-                <input type="password" v-if="show_1" v-model="input2"/>
-                <input type="text" v-if="show" v-model="input2"/>
+            <div class="btn">
+                <span class="btn_txt" @click="edit_account_password">修改</span>
+                <span>取消</span>
             </div>
-            <div class="message">
-                <span>确认信密码</span>
-                <input type="password" v-if="show_1" v-model="input3"/>
-                <input type="text" v-if="show" v-model="input3"/>
-            </div>
-        </div>
-        <div class="btn">
-            <span class="btn_txt" @click="edit_account_password">修改</span>
-            <span>取消</span>
         </div>
     </div>
+
 </template>
 
 <script>
@@ -79,41 +85,65 @@
 </script>
 
 <style scoped>
-.center{margin-bottom: 70px}
-.btn{text-align: center;margin-bottom: 440px}
+.centNavBox{
+    width: 100%;
+    padding: 24px 0 24px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    background: #FFF;
+    margin-top:194px;
+}
+.top_name{
+    height: 109px;
+    z-index: 999999;
+}
+.top_txt{
+    display: inline-block;
+    margin-left: 24px;
+}
+.center{margin-bottom: 24px}
+.btn{text-align:left;margin-left: 104px}
 .btn>span{
     display: inline-block;
-    width:140px;
-    height:40px;
-    line-height:40px;
-    border:1px solid #ddd;
-    border-radius: 5px;
-    margin-left: 50px;
-    font-size:16px;
-    font-family:PingFang-SC-Regular;
+    width:68px;
+    height:36px;
+    background:rgba(255,255,255,1);
+    border-radius:4px;
+    border:1px solid rgba(211,219,235,1);
+    font-size:14px;
+    font-family:PingFangSC-Regular;
     font-weight:400;
+    color:rgba(61,73,102,1);
+    text-align: center;
+    cursor: pointer;
+    line-height: 36px;
 }
-.message{margin-bottom: 20px}
+.message{margin-bottom: 24px}
+
 .message>span{
-    font-size:16px;
-    font-family:PingFang-SC-Regular;
-    font-weight:400;
-    color:rgba(54,54,54,1);
+    display: inline-block;
+    width: 80px;
+    margin-left: 24px;
+    text-align: left;
+    font-size:14px;
+    font-family:PingFang-SC-Medium;
+    font-weight:500;
+    color:rgba(31,46,77,1);
     line-height:36px;
-    margin-right: 19px;
 }
 .message>input{
     margin-left: 0;
-    width:320px;
-    height:50px;
-    border:1px solid rgba(230,230,230,1);
-    border-radius:5px;
+    width:404px;
+    height:36px;
+    background:rgba(255,255,255,1);
+    border-radius:4px;
+    border:1px solid rgba(211,219,235,1);
 }
 .btn_txt{
-    margin-left: 0;
-    margin-right: 40px;
-    background:rgba(19,159,248,1);
-    color: #fff;
+    background:rgba(51,119,255,1)!important;
+    border: 0!important;
+    color:rgba(255,255,255,1)!important;
+    margin-right: 14px;
 }
 .fs{
     margin-left: 40px;
@@ -133,10 +163,11 @@ img{
     width: 28px;
 }
 .title_left>span{
+    display: inline-block;
+    margin-left: 24px;
     font-size:20px;
-    font-family:PingFang-SC-Regular;
-    font-weight:400;
-    color:rgba(54,54,54,1);
-    line-height:36px;
+    font-family:PingFang-SC-Medium;
+    font-weight:500;
+    color:rgba(50,50,50,1);
 }
 </style>

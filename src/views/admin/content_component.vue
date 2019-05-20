@@ -429,18 +429,16 @@ input{
     cursor: pointer;
 }
 .AddIMG_input_box{
-
     display: inline-block;
-    width:140px;
-    height:50px;
-    background:rgba(19,159,248,1);
-    border-radius:5px;
-    text-align: center;
-    line-height: 50px;
-    font-size:16px;
-    font-family:PingFang-SC-Regular;
+    width:106px;
+    height:36px;
+    background:rgba(255,255,255,1);
+    border-radius:4px;
+    border:1px solid rgba(211,219,235,1);
+    font-size:14px;
+    font-family:PingFangSC-Regular;
     font-weight:400;
-    color:rgba(255,255,255,1);
+    color:rgba(61,73,102,1)!important;
 }
 .tit{
     display: inline-block;

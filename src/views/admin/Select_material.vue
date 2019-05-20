@@ -5,14 +5,15 @@
                 <span>从素材库选择素材</span>
             </div>
             <div class="Search">
+                <img src="../../../public/img/ss.png" />
+                <input type="text" placeholder="搜索标签或ID" v-model="search" @input="getList()"/>
                 <div class="Search_select">
                     <span class="Search_select_tit">素材类型：</span>
                     <select v-model="type" @change="getList()">
                         <option v-for="item in scType" :value="item.type">{{item.name}}</option>
                     </select>
                 </div>
-                <input type="text" placeholder="输入用户名或邮箱快速查询" v-model="search" @input="getList()"/>
-                <img src="../../../public/img/ss.png" />
+
             </div>
             <div class="contentImg">
                 <div class="label">
@@ -24,16 +25,17 @@
                     <span v-for="(item,index) in self_tags" class="labelName">{{item.name}}</span>
                 </div>
                 <div class="box">
-                    <div class="box_select" v-for="(DL,index) in IMGList">
-                        <!--<input type="radio"/>-->
-                        <el-radio v-model="radioSize" :label="index" @change="getID(index)"v-if="material==1"></el-radio>
-                        <template>
-                            <el-checkbox-group v-model="checked" v-if="material==0">
-                                <el-checkbox :label="index" @change="getID(index)"></el-checkbox>
-                            </el-checkbox-group>
-                        </template>
-                        <!--<el-checkbox v-model="checked" v-if="material==0" :label="index"></el-checkbox>-->
-                        <div class="boxImg">
+                        <div class="boxImg" v-for="(DL,index) in IMGList">
+
+                            <div class="boxCheck">
+                                <el-radio v-model="checked" :label="index" v-if="material==1" @change="getID(index)"></el-radio>
+                                <template>
+                                    <el-checkbox-group v-model="checked" v-if="material==0">
+                                        <el-checkbox :label="index" @change="getID(index)"></el-checkbox>
+                                    </el-checkbox-group>
+                                </template>
+                            </div>
+
                             <img :src="DL.prev_uri"/>
                             <div class="boxImg_right">
                                 <div class="boxImg_right_1">
@@ -49,48 +51,9 @@
                                         <span class="boxImg_text">素材状态:</span>
                                         <span class="boxImg_content">{{DL.status==1201?'禁用':'启用'}}</span>
                                     </div>
-                                    <div>
-                                        <span class="boxImg_text boxImg_bq">标签:</span>
-                                        <div class="boxImg_xz">
-                                            <span class="box_box" v-for="(tag,index2) in DL.self_tags">{{tag}}</span>
-                                            <span class="box_box" v-for="(ta,index3) in DL.tags">{{ta}}</span>
-                                            <img src="../../../public/img/add.png" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div  class="boxImg_right_2">
-                                    <div>
-                                        <span class="boxImg_text">素材使用记录:</span>
-                                        <span class="ck">查看详情</span>
-                                    </div>
-                                    <div>
-                                        <span class="boxImg_text">相关素材:</span>
-                                        <span class="ck">查看详情</span>
-                                    </div>
-                                    <div>
-                                        <span class="boxImg_text">更新时间:</span>
-                                        <span class="boxImg_content">{{DL.updated_at}}</span>
-                                    </div>
-                                    <div>
-                                        <span class="boxImg_text">附件:</span>
-                                        <span class="boxImg_content">{{parseInt(DL.attach.size/1024)}}kb</span>
-                                        <a class="dowload" :href="DL.attach.url">下载</a>
-                                    </div>
                                 </div>
                             </div>
-                            <img src="../../../public/img/bj.png" class="bjImg"/>
                         </div>
-                    </div>
-                </div>
-                <div class="block">
-                    <el-pagination
-                            @size-change="handleSizeChange1"
-                            @current-change="handleCurrentChange1"
-                            :current-page.sync="currentPage"
-                            :page-size="pageSize"
-                            layout="prev, pager, next,total, jumper"
-                            :total="total">
-                    </el-pagination>
                 </div>
             </div>
             <div class="select_btn">
@@ -129,11 +92,11 @@
         },
         methods:{
             getID(index){
-                if(this.material==1){
+                // if(this.material==1){
                     this.scMid =  this.IMGList[index].mid;
                     this.scUrl = this.IMGList[index].prev_uri;
                     console.log(this.scMid,this.scUrl)
-                }
+                // }
             },
             YCset(){this.$parent.SCsc();this.$parent.YCset()},
             messageID(){
@@ -186,15 +149,6 @@
                 this.currentPage = currentPage;
                 this.getList()
             },
-            // getWl(){
-            //     let params={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search};
-            //     this.api.mfinal_search({params}).then((res)=>{
-            //         this.IMGList=res.data;
-            //         this.total=res.total;
-            //         this.getTagsList();
-            //         this.getType()
-            //     })
-            // },
         },
     }
 </script>
@@ -211,23 +165,27 @@
     }
     .content{
         position: absolute;
-        width:1660px;
-        height:1005px;
+        width:1416px;
+        height:912px;
         background:rgba(255,255,255,1);
-        border-radius:5px;
-        top:40%;
+        border-radius:4px;
+        top:-84px;
         left: 50%;
-        transform: translate(-50%,-50%);
+        transform: translateX(-50%);
+        overflow-y: auto;
     }
     .tit_name{
-        margin: 50px 0 28px 0;
-        text-align: center;
+        height: 55px;
+        border: 1px solid #E6E9F0;
     }
     .tit_name span{
-        font-size:20px;
-        font-family:PingFang-SC-Regular;
+        display: inline-block;
+        line-height: 55px;
+        margin-left: 24px;
+        font-size:12px;
+        font-family:PingFangSC-Regular;
         font-weight:400;
-        color:rgba(54,54,54,1);
+        color:rgba(0,0,0,1);
     }
     .Search_select{
         display: inline-block;
@@ -235,84 +193,76 @@
     }
     .Search_select_tit{
         display: inline-block;
-        font-size:16px;
-        font-family:PingFang-SC-Regular;
-        font-weight:400;
-        color:rgba(54,54,54,1);
-        line-height: 50px;
+        font-size:14px;
+        font-family:PingFang-SC-Medium;
+        font-weight:500;
+        color:rgba(31,46,77,1);
         margin-right: 16px;
     }
     .Search_select>select{
-        width:260px;
-        height:50px;
-        border:1px solid rgba(230,230,230,1);
-        border-radius:5px;
+        width:200px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
     }
     .top_name>span{
         display: inline-block;
         line-height: 50px;
     }
     .Search{
-        margin-left: 40px;
+        margin-left: 0!important;
         margin-bottom: 34px;
     }
     .Search img{
         width: 28px;
         position: relative;
-        left: -40px;
+        left: 40px;
         top: 10px;
         cursor: pointer;
     }
     .Search input{
-        width:435px;
-        height:50px;
+        width:404px;
+        height:36px;
         background:rgba(255,255,255,1);
-        box-shadow:0px 0px 10px 0px rgba(0, 0, 0, 0.08);
-        border-radius:5px;
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
         margin-left: 0;
         margin-top: 29px;
     }
-
     .label{
-        margin-bottom: 18px;
+        margin-left: 0!important;
     }
     .labelName{
         display: inline-block;
         width:78px;
         height:38px;
         background:rgba(255,255,255,1);
-        border:1px solid rgba(153,153,153,1);
         border-radius:5px;
-        font-size:16px;
-        font-family:PingFang-SC-Regular;
-        font-weight:400;
-        color:rgba(54,54,54,1);
+        font-size:14px;
+        font-family:PingFang-SC-Medium;
+        font-weight:500;
+        color:rgba(31,46,77,1);
         margin-right: 18px;
         text-align: center;
         line-height: 38px;
         cursor: pointer;
     }
     .label_txt{
-        font-size:16px;
-        font-family:PingFang-SC-Regular;
-        font-weight:400;
-        color:rgba(102,102,102,1);
+        font-size:14px;
+        font-family:PingFang-SC-Medium;
+        font-weight:500;
+        color:rgba(143,155,179,1);
         margin-right: 16px;
     }
     .contentImg{
-        margin: 0 40px;
+        margin: 0 26px;
     }
     .active{
         background:rgba(255,255,255,1);
         border:1px solid rgba(19,159,248,1);
     }
-    .box{
-        margin: 30px 14px !important;
-    }
-    .box_select{display: inline-block}
-    .box_select:nth-child(2n){
-        margin-left: 26px;
-    }
+
     .box_select input{
         display: inline-block;
         width: 16px;
@@ -322,22 +272,28 @@
     }
     .boxImg{
         display: inline-block;
-        width:690px;
+        width:408px;
+        height:141px;
+        background:rgba(245,247,250,1);
+        border-radius:4px;
+        border:1px solid rgba(51,119,255,1);
         padding: 18px 0 18px 30px;
-        height:201px;
-        background:rgba(255,255,255,1);
         box-shadow:0px 0px 10px 0px rgba(153,153,153,0.14);
-        border-radius:5px;
-        margin-right: 60px;
+        margin: 0 20px 20px 0!important;
     }
     .boxImg:nth-child(2n){
-        margin-right: 0px;
-
+        margin: 0 20px 20px 0!important;
+    }
+    .boxImg:nth-child(3n){
+        margin: 0 0 20px 0!important;
     }
     .boxImg img{
-        width: 113px;
-        height: 201px;
+        width:99px;
+        height:149px;
         margin-right: 24px;
+    }
+    .boxImg_right_1{
+        margin-top: 23px;
     }
     .boxImg_right{
         display: inline-block;
@@ -353,15 +309,23 @@
         display: inline-block;
         vertical-align: top;
     }
-    .boxImg_text,.boxImg_content{
+    .boxImg_text{
         display: inline-block;
-        font-size:16px;
-        font-family:PingFang-SC-Regular;
-        font-weight:400;
-        color:rgba(54,54,54,1);
+        font-size:14px;
+        font-family:PingFang-SC-Medium;
+        font-weight:500;
+        color:rgba(143,155,179,1);
+        margin-bottom: 15px;
+        text-align: left;
+    }
+    .boxImg_content{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFang-SC-Medium;
+        font-weight:500;
+        color:rgba(31,46,77,1);
         margin-bottom: 15px;
     }
-
     .boxImg_right_1 .boxImg_text{
         width: 70px;
         margin-right: 11px;
@@ -423,26 +387,34 @@
         top: -180px;
     }
     .select_btn{
-        text-align: center;
+        text-align: right;
+        margin-right: 26px;
     }
     .select_btn span{
         display: inline-block;
-        width:140px;
-        height:50px;
+        width:68px;
+        height:36px;
         background:rgba(255,255,255,1);
-        border:1px solid rgba(153,153,153,1);
-        border-radius:5px;
-        font-size:16px;
-        font-family:PingFang-SC-Regular;
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        font-size:14px;
+        font-family:PingFangSC-Regular;
         font-weight:400;
-        color:rgba(54,54,54,1);
-        line-height: 50px;
+        color:rgba(61,73,102,1);
+        line-height: 36px;
         cursor: pointer;
+        text-align: center;
     }
     .select_btn_left{
         border: 0!important;
-        background:rgba(19,159,248,1)!important;
+        background:rgba(51,119,255,1)!important;
         color:rgba(255,255,255,1)!important;
-        margin-right: 40px;
+        margin-right: 20px;
+    }
+    .boxCheck{
+        display: inline-block;
+        margin-right: 20px;
+        vertical-align: top;
+        margin-top: 60px;
     }
 </style>

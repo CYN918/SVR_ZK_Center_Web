@@ -1,86 +1,84 @@
 <template>
-    <div class="centNavBox">
-        <div class="cx">
-            <input type="text" placeholder="输入用户名或邮箱快速查询" v-model="search"/>
-            <span @click="getAccountList()">查询</span>
-            <span class="right_btn" @click="addUser">添加账号</span>
-        </div>
-        <template>
-            <el-table
-                    :data="tableData"
-                    :header-cell-style="getRowClass"
-                    :cell-style="cell"
-                    style="width: 100%"
-                    border
-                    :default-sort = "{prop: 'date', order: 'descending'}"
-            >
-                <el-table-column
-                        prop="user_name"
-                        label="用户名"
-                >
-                </el-table-column>
-                <el-table-column
-                        prop="email"
-                        label="用户账号"
-                        width="180">
-                </el-table-column>
-                <!--<el-table-column-->
-                        <!--prop="roles[0].role_name"-->
-                        <!--label="账号角色"-->
-
-                        <!--&gt;-->
-                <!--</el-table-column>-->
-                <!--<el-table-column-->
-                        <!--prop="status"-->
-                        <!--label="状态"-->
-                       <!--&gt;-->
-                <!--</el-table-column>-->
-                <el-table-column
-                        prop="created_at"
-                        label="注册时间"
-                       >
-                </el-table-column>
-                <el-table-column
-                        prop="updated_at"
-                        label="最近记录"
-                        >
-                </el-table-column>
-                <el-table-column
-                        label="是否启用"
-                        prop="status"
-                >
-                    <template slot-scope="scope">
-                        <el-switch
-                                :active-value="1"
-                                :inactive-value="0"
-                                active-color="#13ce66"
-                                inactive-color="#ff4949"
-                                v-model="scope.row.status"
-                                @change=change(scope.$index,scope.row.status)>
-                        </el-switch>
-                    </template>
-                </el-table-column>
-                <el-table-column
-                        prop="address"
-                        label="操作">
-                    <template slot-scope="scope">
-                        <el-button type="text" size="small" @click="getUSERdATA(scope.$index)">编辑</el-button>
-                    </template>
-                </el-table-column>
-            </el-table>
-            <div class="block">
-                <el-pagination
-                        @size-change="handleSizeChange1"
-                        @current-change="handleCurrentChange1"
-                        :current-page.sync="currentPage"
-                        :page-size="pageSize"
-                        layout="prev, pager, next,total, jumper"
-                        :total="total">
-                </el-pagination>
+    <div>
+        <div class="top_name">
+            <span class="top_txt">个人中心/账户管理</span>
+            <div class="title_left">
+                <span>账户管理</span>
             </div>
-        </template>
-        <ADD v-if="management" :userMessage="userMessage"></ADD>
+        </div>
+        <div class="centNavBox">
+            <div class="cx">
+                <input type="text" placeholder="输入用户名或邮箱快速查询" v-model="search"/>
+                <span @click="getAccountList()">查询</span>
+                <span class="right_btn" @click="addUser">添加账号</span>
+            </div>
+            <template>
+                <el-table
+                        :data="tableData"
+                        :header-cell-style="getRowClass"
+                        :cell-style="cell"
+                        style="width: 100%"
+                        border
+                        :default-sort = "{prop: 'date', order: 'descending'}"
+                >
+                    <el-table-column
+                            prop="user_name"
+                            label="用户名"
+                    >
+                    </el-table-column>
+                    <el-table-column
+                            prop="email"
+                            label="用户账号"
+                            width="180">
+                    </el-table-column>
+                    <el-table-column
+                            prop="created_at"
+                            label="注册时间"
+                    >
+                    </el-table-column>
+                    <el-table-column
+                            prop="updated_at"
+                            label="最近记录"
+                    >
+                    </el-table-column>
+                    <el-table-column
+                            label="是否启用"
+                            prop="status"
+                    >
+                        <template slot-scope="scope">
+                            <el-switch
+                                    :active-value="1"
+                                    :inactive-value="0"
+                                    active-color="#13ce66"
+                                    inactive-color="#ff4949"
+                                    v-model="scope.row.status"
+                                    @change=change(scope.$index,scope.row.status)>
+                            </el-switch>
+                        </template>
+                    </el-table-column>
+                    <el-table-column
+                            prop="address"
+                            label="操作">
+                        <template slot-scope="scope">
+                            <el-button type="text" size="small" @click="getUSERdATA(scope.$index)">编辑</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <div class="block">
+                    <el-pagination
+                            @size-change="handleSizeChange1"
+                            @current-change="handleCurrentChange1"
+                            :current-page.sync="currentPage"
+                            :page-size="pageSize"
+                            layout="prev, pager, next,total, jumper"
+                            :total="total">
+                    </el-pagination>
+                </div>
+            </template>
+            <ADD v-if="management" :userMessage="userMessage"></ADD>
+        </div>
     </div>
+
 </template>
 
 <script>
@@ -113,7 +111,7 @@
             },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
-                    return 'background:rgba(246,246,246,1);color:#000;text-align:center;font-size:16px;font-weight:500;height:48px;'
+                    return 'background:rgba(247,249,252,1);color:rgba(31,46,77,1);text-align:center;font-family:PingFangSC-Medium;font-size:14px;font-weight:500;height:48px;font-weight:500;'
                 } else {
                     return ''
                 }
@@ -130,7 +128,7 @@
                 this.management=false;
             },
             cell({row, column, rowIndex, columnIndex}){
-                return 'text-align:center;color:rgba(54,54,54,1);font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
+                return 'text-align:center;color:rgba(61,73,102,1);font-size:14px;font-weight:400;font-family:PingFangSC-Regula;'
             },
             change(a,b){
                 this.api.edit_account_status({email:this.tableData[a].email,status:b}).then((res)=>{
@@ -151,32 +149,70 @@
 </script>
 
 <style scoped>
+    .top_name{
+        height: 109px;
+        z-index: 9999;
+    }
+    .top_txt{
+        display: inline-block;
+        margin-left: 24px;
+    }
+    .title_left>span{
+        display: inline-block;
+        margin-left: 24px;
+        font-size:20px;
+        font-family:PingFang-SC-Medium;
+        font-weight:500;
+        color:rgba(50,50,50,1);
+    }
 .centNavBox{
-    padding: 24px 80px!important;
+    width: 100%;
+    padding:24px ;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    background: #FFF;
+    margin-top:194px;
 }
 .Aud_title{
     text-align: center;
 }
 .cx{margin-bottom: 28px}
 .cx>input{
-    margin-right: 40px;
-    margin-left: 0!important;
-    width: 418px!important;
+    width:394px;
+    padding-left: 10px;
+    height:36px;
+    background:rgba(255,255,255,1);
+    border-radius:4px 0px 0px 4px;
+    border:1px solid rgba(211,219,235,1);
 }
 .cx>span{
     display: inline-block;
-    width:120px;
-    height:48px;
-    line-height: 48px;
-    font-size:16px;
-    font-family:PingFang-SC-Regular;
+    width:68px;
+    height:36px;
+    background:rgba(51,119,255,1);
+    border:1px solid rgba(51,119,255,1);
+    border-radius:0px 4px 4px 0px;
+    line-height: 36px;
+    font-size:14px;
+    font-family:PingFangSC-Regular;
     font-weight:400;
     color:rgba(255,255,255,1);
-    background:rgba(19,159,248,1);
-    border-radius:5px;
     text-align: center;
     cursor: pointer;
 }
-.right_btn{margin-left: 60px}
+.right_btn{
+    float: right;
+    width:112px!important;
+    height:36px!important;
+    background:rgba(242,246,252,1)!important;
+    border-radius:4px!important;
+    border:1px solid rgba(211,219,235,1);
+    font-size:14px;
+    font-family:PingFang-SC-Medium;
+    font-weight:500;
+    border:1px solid rgba(211,219,235,1)!important;
+    text-align: center;
+    color:rgba(61,73,102,1)!important;
+}
 .block{text-align: right}
 </style>
