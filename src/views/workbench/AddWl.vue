@@ -3,7 +3,7 @@
         <div class="bg">
             <div class="AddIMG">
                 <div class="AddIMG_tit">
-                    <span>{{title}}</span>
+                    <span>上传物料</span>
                 </div>
                 <div class="AddIMG_content">
                     <div class="AddIMG_content_left">
@@ -11,10 +11,10 @@
                             <span>素材预览图</span>
                         </div>
                         <div class="AddIMG_box">
-                            <img :src="item"  v-for="item in hqUrl"/>
+                            <img :src="item"  v-for="item in ylurl"/>
                         </div>
                         <div class="AddIMG_box_txt">
-                            <span v-for="item in bindMid">{{item}}</span>
+                            <span v-for="item in bind_mid">{{item}}</span>
                         </div>
                         <div>
                             <span>上传预览图</span>
@@ -39,7 +39,7 @@
                                 </el-upload>
 
                             </div>
-                            <img src="../../../public/img/msg.png" @click="showHint"/>
+                            <img src="../../../public/img/msg.png" />
                             <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="chenck"/><span>仅图片</span>
                             <div class="upChenck">
                                 <p>勾选后可直接上传图片、且无需再次上传预览图</p>
@@ -47,14 +47,14 @@
                         </div>
                         <div class="AddIMG_sc">
                             <span class="tit">绑定素材:</span>
-                            <input type="text" placeholder="请输入素材ID" v-model="bind_mid" :disabled="(this.message.mfid!=undefined)"/>
-                            <span class="AddIMG_sc_btn" @click="XSset" :class="{AddIMG_sc_btn_jy:(this.message.mfid!=undefined)}">从素材库选择</span>
+                            <input type="text" placeholder="请输入素材ID" v-model="bind_mid" />
+                            <span class="AddIMG_sc_btn" @click="XSset" >从素材库选择</span>
                             <input type="checkbox" class="AddIMG_sc_cjeckbox"/><span>与素材库内已有素材无关</span>
                             <p>若由素材库内文件处理后上传，必须填写对应的素材ID,最多九个</p>
                         </div>
                         <div class="AddIMG_select">
                             <span class="tit">素材类型:</span>
-                            <select v-model="type" :disabled="(this.message.mfid!=undefined)">
+                            <select v-model="type" >
                                 <option :value="item.type" v-for="item in scType">{{item.name}}</option>
                             </select>
                         </div>
@@ -140,7 +140,7 @@
 
 <script>
     export default {
-        props:['message','bindMid','hqUrl','material','types',],
+        props:['message','material','types','scMessage'],
         name: "content_component",
         data(){
             return {
@@ -173,38 +173,19 @@
                 chenck:false,
                 model:'',
                 link:'',
+                ylurl:[],
             }
         },
         mounted(){
-
             this.getTagsList();
-            if(this.message.mfid!=undefined){
-                this.getMatterDetails();
-                this.title='编辑物料'
-            }else{
-                this.title='添加物料'
-            }
-            // if(this.bindMid!=undefined){
-            //     this.bind_mid=this.bindMid.join(";");
-            //     // if(this.hqUrl.length>6){
-            //     //     this.hqUrl=this.hqUrl.slice(0,7);
-            //     // }
-            // }
-            // console.log(this.bindMid)
+            this.bind_mid=this.scMessage
         },
         methods:{
-            GETbindmid(){ this.bind_mid=this.bindMid.join(";");},
             heidSc(){
-                this.$parent.heidSc();
-            },
-            showHint(){
-                this.$parent.ShowHint()
+                this.$parent.HeidWl();
             },
             XSset(){
-                if(this.message.mfid!=undefined){
-                    return
-                }
-                this.$parent.XSset()
+                this.$parent.getSet()
             },
             uploadF(file){
                 let formData = new FormData;
@@ -260,22 +241,9 @@
                     this. getTagsList();
                 })
             },
-            setMatter(){
-                let formData = new FormData;
-                formData.append('mid',this.message.mfid);
-                formData.append('type',this.type);
-                formData.append('status',(this.value2==true?1:0));
-                formData.append('prev_uri',this.prev_uri);
-                formData.append('attach',JSON.stringify(this.attach));
-                formData.append('tags',this.preinstall);
-                formData.append('self_tags',this.bardian);
-                formData.append('size',this.sjSize)
-                this.api.mfinal_edit(formData).then((res)=>{
 
-                })
-            },
             AddMatter(){
-                if(this.message.mfid==undefined){
+
                     let formData = new FormData;
                     formData.append('type',this.type);
                     formData.append('ispic',(this.chenck==true?1:0));
@@ -288,11 +256,7 @@
                     formData.append('size',this.sjSize);
                     formData.append('link',this.link)
                     this.api.mfinal_add(formData).then((res)=>{
-
                     }).catch(this.$message(message))
-                }else{
-                    this.setMatter();
-                }
 
             },
             getMatterDetails(){
@@ -315,11 +279,16 @@
                 })
             },
         },
-        watch: {
-            'bindMid': function(newVal){
-                this.bind_mid = newVal.join(';')
-            },
-
+        watch:{
+            'scMessage': function (newVal) {
+                var list = this.bind_mid;
+                var urlList = this.ylurl;
+                for(let i=0;i<newVal.length;i++){
+                    list.push(newVal[i].mid);
+                    urlList.push(newVal[i].prev_uri);
+                }
+                this.bind_mid = list.join(';')
+            }
         },
     }
 </script>
@@ -437,7 +406,7 @@
         border:1px solid rgba(211,219,235,1);
     }
     .AddIMG_input input{
-       margin: 3px 10px 0 20px;
+        margin: 3px 10px 0 20px;
     }
     .AddIMG_input img{
         margin-left: 16px;

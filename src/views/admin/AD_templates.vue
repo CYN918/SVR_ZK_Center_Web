@@ -128,7 +128,9 @@
             },
 
             heidSc(){
-                this.sc = false
+                this.sc = false;
+                this.hqUrl='';
+                this.bindMid='';
             },
             ShowHint(){
                 this.hint = true;
@@ -144,7 +146,6 @@
                 this.tags = false
             },
             XSset(){
-                this.sc = false;
                 this.sets = true
             },
             YCset(){

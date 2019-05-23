@@ -27,9 +27,9 @@
                     <div class="boxImg" v-for="(DL,index) in IMGList">
 
                         <div class="boxCheck">
-                            <el-radio v-model="checked" :label="index" v-if="material==1" @change="getID(index)"></el-radio>
+                            <!--<el-radio v-model="checked" :label="index" @change="getID(index)"></el-radio>-->
                             <template>
-                                <el-checkbox-group v-model="checked" v-if="material==0">
+                                <el-checkbox-group v-model="checked">
                                     <el-checkbox :label="index" @change="getID(index)"></el-checkbox>
                                 </el-checkbox-group>
                             </template>
@@ -65,8 +65,8 @@
 
 <script>
     export default {
+        props:['typesLisck', 'imgIndex'],
         name: "select_material",
-        props:['material','typeSC'],
         data(){
             return {
                 checked:[],
@@ -78,42 +78,29 @@
                 self_tags:[],
                 IMGList:[],
                 search:'',
-                scMid:'',
-                scUrl:'',
                 scType:'',
                 type:'',
-                mid_list:[],
-                url_list:[],
+                scMessagelist:[],
+                scMessage:''
             }
         },
         mounted() {
             this.getList();
-
         },
         methods:{
             getID(index){
-                if(this.material==1){
-                this.scMid=this.IMGList[index].mid;
-                this.scUrl=this.IMGList[index].prev_uri;
-                console.log(this.scMid,this.scUrl)
-                }
+                this.scMessage =  this.IMGList[index].mid;
             },
-            YCset(){this.$parent.SCsc();this.$parent.YCset()},
+            YCset(){this.$parent.SCsc()},
             messageID(){
-                if(this.material==1){
-                    this.$emit('listenToChildEvent',this.scMid,this.scUrl,true);
-                    this.$parent.SCsc();
-                    this.$parent.YCset();
-                }else{
-                    for(let i=0;i<this.checked.length;i++){
-                        this.mid_list.push(this.IMGList[this.checked[i]].mid);
-                        this.url_list.push(this.IMGList[this.checked[i]].prev_uri);
+                    for(let i=0;i<this.checked.length;i++) {
+                        this.scMessagelist.push(this.IMGList[this.checked[i]]);
                     }
-                    this.$emit('listenToChildEvent', this.mid_list,this.url_list,true);
-                    this.$parent.getCon();
-                    this.$parent.YCset();
-            }
-
+                    // let arr = [];
+                    // arr.push(this.scMessagelist);
+                    // arr.push(this.imgIndex)
+                    this.$emit('listenToChildEvent', this.scMessagelist,true);
+                    this.$parent.SCsc();
             },
             getList(){
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search};

@@ -147,7 +147,7 @@
         methods: {
             getCon(){
                 this.sc = true;
-                this.message='';
+                this.message=''
             },
             SCsc(){
                 this.sc = true
@@ -155,10 +155,11 @@
 
             heidSc(){
                 this.sc = false;
+                this.hqUrl=''
+				this.bindMid=''
             },
             ShowHint(){
                 this.hint = true;
-                this.sc = false
             },
             YCHint(){
                 this.hint = false;
@@ -178,7 +179,6 @@
                 this.tags = false
             },
             XSset(){
-                this.sc = false;
                 this.sets = true
             },
             YCset(){
@@ -187,7 +187,7 @@
             listen(msg,ddd){
                 this.bindMid=msg;
                 this.hqUrl=ddd
-
+                console.log(this.bindMid,this.hqUrl);
             },
             handleSizeChange1() { // 每页条数切换
                 this.pageSize = pageSize;

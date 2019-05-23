@@ -459,5 +459,13 @@ export default {
 	demand_search:{
 		url:'/demand/search',method:'get'
 	},
+	//审核通过
+    demand_audit:{
+		url:"/demand/audit",method:'post'
+	},
+	//驳回
+    demand_reject:{
+		url:"/demand/reject",method:'post'
+	},
 
 }

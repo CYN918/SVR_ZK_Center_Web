@@ -195,7 +195,7 @@
             getTypes(){
                 let params ={material:1};
                 this.api.config_material_type({params}).then((res)=>{
-                   this.types=res
+                   this.types=res;
                     this.getSJlist()
                 })
             },

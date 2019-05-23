@@ -138,9 +138,10 @@ export default {
 	    SCsc(){
             this.sc = true;
 		},
-
 		heidSc(){
-			this.sc = false
+			this.sc = false;
+			this.hqUrl='';
+			this.bindMid='';
 		},
 		ShowHint(){
 		    this.hint = true;
@@ -164,7 +165,6 @@ export default {
             this.tags = false;
         },
         XSset(){
-            this.sc = false;
             this.sets = true
 		},
 		YCset(){
@@ -173,7 +173,7 @@ export default {
         listen(msg,ddd){
 			this.bindMid=msg;
 			this.hqUrl=ddd;
-
+            console.log(this.bindMid,this.hqUrl)
 		},
         handleSizeChange1() { // 每页条数切换
             this.pageSize = pageSize;

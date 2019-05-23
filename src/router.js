@@ -74,6 +74,8 @@ import workbench from './views/workbench/index'
 mode['workbench'] = workbench
 import workbenchPadding from './views/workbench/workbench_padding'
 mode['workbenchPadding'] = workbenchPadding
+import ALL from './views/workbench/all'
+mode['ALL']=ALL
 
 import axios from 'axios'
 import api from './api/index'
@@ -169,6 +171,8 @@ import Details from './views/userinfo/details'
 mode['Details'] = Details
 import quantuty from './views/userinfo/quantity'
 mode['quantuty'] = quantuty
+import Process from './views/userinfo/process'
+mode['Process'] = Process
 
 
 Vue.use(Router)
@@ -245,6 +249,7 @@ let nb = [
 
 	{path:'/workbench',name:'工作台',component:mode['workbench'],children:[
 		{path:'/workbench/workbenchPadding',name:'待审核',component:mode['workbenchPadding']},
+		{path:'/workbench/ALL',name:'全部',component:mode['ALL']},
 
 
 	]},
@@ -261,6 +266,7 @@ let nb = [
             {path:'/userinfo/feedback',name:'意见反馈',component:mode['feedback']},
             {path:'/userinfo/Details',name:'反馈详情',component:mode['Details']},
             {path:'/userinfo/quantuty',name:'账号数量',component:mode['quantuty']},
+            {path:'/userinfo/Process',name:'流程管理',component:mode['Process']},
         ]
 	},
 
@@ -292,14 +298,11 @@ let leftNav =
 	]},
 	{title:'工作台',default:'/workbench',defaultopen:['1'],
         children:[
-            {title:'素材审核',url:'1',list:[
+            {title:'任务中心',url:'1',list:[
                     {title:'待处理',url:'/workbench/workbenchPadding'},
-
+                    {title:'全部',url:'/workbench/ALL'},
 					],},
-            // {title:'壁纸推送',url:'3',list:[
-            //         {title:'待处理',url:'/user/wallpaper_processed'},
-            //         {title:'已处理',url:'/user/wallpaper_untreated'},
-            //     ],},
+
         ]
 	},
 	{title:'数据',default:'/data',defaultopen:['1'],
@@ -371,13 +374,12 @@ let leftNav =
 			{title:'我的权限',url:'/userinfo/MyPerm'},
             {title:'账号管理',url:'/userinfo/account'},
             {title:'角色管理',url:'/userinfo/roleManagement'},
-            {title:'流程管理',url:'/userinfo/'},
             {title:'账号审核',url:'/userinfo/AccounAudit'},
+			{title:'流程管理',url:'/userinfo/Process'},
                 ]},
 			{title:'意见反馈',url:"1-3",list:[
 			{title:'意见反馈',url:'/userinfo/feedback'}
 				]}
-
         ]
 	},
 ];
@@ -430,7 +432,10 @@ router.beforeEach((to, from, next) => {
 		}
         if(to.fullPath=='/indexs'){
 			next({ path: '/indexs/list'});
-		}				
+		}
+        if(to.fullPath=='/workbench'){
+            next({ path: '/workbench/workbenchPadding'});
+        }
 						
 		let params ={'url':to.fullPath.split('&')[0]} ;
 		if(to.fullPath!='index'){

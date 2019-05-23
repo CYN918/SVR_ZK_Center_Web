@@ -140,11 +140,12 @@
             },
 
             heidSc(){
-                this.sc = false
+                this.sc = false;
+                this.hqUrl=''
+                this.bindMid=''
             },
             ShowHint(){
                 this.hint = true;
-                this.sc = false
             },
             YCHint(){
                 this.hint = false;

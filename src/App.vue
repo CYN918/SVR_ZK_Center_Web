@@ -483,5 +483,30 @@ html,body{
   border-radius:4px;
   border:1px solid rgba(211,219,235,1);
 }
-
+.table_material .el-button--text{
+  height:36px;
+  background:rgba(51,119,255,1);
+  border-radius:4px;
+  padding: 10px;
+  font-size:14px;
+  font-family:PingFangSC-Regular;
+  font-weight:400;
+  color:rgba(255,255,255,1);
+}
+  .problem .el-button{
+    display: inline-block;
+    padding: 0!important;
+    border: 0!important;
+    font-size:14px;
+    font-family:PingFangSC-Regular;
+    font-weight:400;
+    color:rgba(48,144,240,1)
+  }
+  .block .el-range-editor.el-input__inner{
+    width:318px;
+    height:36px;
+    background:rgba(255,255,255,1);
+    border-radius:4px;
+    border:1px solid rgba(211,219,235,1);
+  }
 </style>

@@ -3,29 +3,31 @@
         <div class="bg">
             <div class="AddIMG">
                 <div class="AddIMG_tit">
-                    <span>{{title}}</span>
+                    <span>添加素材</span>
                 </div>
                 <div class="AddIMG_content">
                     <div class="AddIMG_content_left">
                         <div>
-                            <span>素材预览图</span>
+                            <span>绑定素材预览图</span>
                         </div>
                         <div class="AddIMG_box">
-                            <img :src="item"  v-for="item in hqUrl"/>
+                            <img :src="scUrl"/>
                         </div>
                         <div class="AddIMG_box_txt">
-                            <span v-for="item in bindMid">{{item}}</span>
+                            <span>{{bind_mid}}</span>
                         </div>
                         <div>
-                            <span>上传预览图</span>
+                            <span>上传素材预览图</span>
                         </div>
                         <div class="AddIMG_box">
-                            <img :src="chenck==false?prev_uri:attach.url"/>
+                            <img :src="prev_uri"/>
                         </div>
                     </div>
                     <div class="AddIMG_content_right">
                         <div class="AddIMG_input">
                             <span class="tit">附件:</span>
+                            <!--<span class="AddIMG_input_box">上传</span>-->
+                            <!--<input type="file" />-->
                             <div class="AddIMG_input_box">
                                 <el-upload
                                         class="upload-demo"
@@ -37,24 +39,26 @@
                                 >
                                     <el-button size="small" type="primary">上传</el-button>
                                 </el-upload>
-
                             </div>
                             <img src="../../../public/img/msg.png" @click="showHint"/>
-                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="chenck"/><span>仅图片</span>
-                            <div class="upChenck">
-                                <p>勾选后可直接上传图片、且无需再次上传预览图</p>
-                            </div>
                         </div>
                         <div class="AddIMG_sc">
                             <span class="tit">绑定素材:</span>
-                            <input type="text" placeholder="请输入素材ID" v-model="bind_mid" :disabled="(this.message.mfid!=undefined)"/>
-                            <span class="AddIMG_sc_btn" @click="XSset" :class="{AddIMG_sc_btn_jy:(this.message.mfid!=undefined)}">从素材库选择</span>
+                            <input type="text" placeholder="请输入素材ID" v-model="bind_mid"/>
+                            <span class="AddIMG_sc_btn" @click="XSset" >从素材库选择</span>
                             <input type="checkbox" class="AddIMG_sc_cjeckbox"/><span>与素材库内已有素材无关</span>
-                            <p>若由素材库内文件处理后上传，必须填写对应的素材ID,最多九个</p>
+                            <p>若由素材库内文件处理后上传，必须填写对应的素材ID，仅可填写一个</p>
+                        </div>
+                        <div class="AddIMG_zp">
+                            <span class="tit">绑定设计师作品:</span>
+                            <input type="text" class="AddIMG_zp_text" v-model="bind_workid" />
+                            <input type="checkbox" class="AddIMG_sc_cjeckbox"/>
+                            <span>与设计师无关</span>
+                            <p>由设计师站获得的素材，必须填写对应的作品ID</p>
                         </div>
                         <div class="AddIMG_select">
                             <span class="tit">素材类型:</span>
-                            <select v-model="type" :disabled="(this.message.mfid!=undefined)">
+                            <select v-model="type"  >
                                 <option :value="item.type" v-for="item in scType">{{item.name}}</option>
                             </select>
                         </div>
@@ -68,7 +72,7 @@
                         </div>
                         <div class="AddIMG_yl">
                             <span class="tit">尺寸:</span>
-                            <span class="AddIMG_yl_size" v-model="sjSize">{{chenck==false?sjSize:attach.size}}</span>
+                            <span class="AddIMG_yl_size" v-model="sjSize">{{sjSize}}</span>
                             <!--<div class="AddIMG_yl_upload"><span>上传预览图</span></div>-->
                             <!--<input type="file"/>-->
                             <div class="AddIMG_yl_upload">
@@ -115,24 +119,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="box_sel">
-                            <span class="tit">实现方式:</span>
-                            <select v-model="model">
-                                <option value="无">无</option>
-                                <option value="H5">H5</option>
-                                <option value="脚本">脚本</option>
-                            </select>
-                        </div>
-                        <div v-if="model=='H5'" class="link">
-                            <span class="tit">H5链接:</span>
-                            <input type="text" v-model="link">
-                        </div>
                         <div class="bg_btn">
                             <span class="bg_btn_up" @click="AddMatter">上传</span>
                             <span @click="heidSc">取消</span>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -140,7 +133,7 @@
 
 <script>
     export default {
-        props:['message','bindMid','hqUrl','material','types',],
+        props:['scMessage','material','types'],
         name: "content_component",
         data(){
             return {
@@ -170,42 +163,23 @@
                 scUrl:'',
                 scType:'',
                 tagsName:'',
-                chenck:false,
-                model:'',
-                link:'',
             }
         },
         mounted(){
-
             this.getTagsList();
-            if(this.message.mfid!=undefined){
-                this.getMatterDetails();
-                this.title='编辑物料'
-            }else{
-                this.title='添加物料'
-            }
-            // if(this.bindMid!=undefined){
-            //     this.bind_mid=this.bindMid.join(";");
-            //     // if(this.hqUrl.length>6){
-            //     //     this.hqUrl=this.hqUrl.slice(0,7);
-            //     // }
-            // }
-            // console.log(this.bindMid)
         },
         methods:{
-            GETbindmid(){ this.bind_mid=this.bindMid.join(";");},
+
             heidSc(){
-                this.$parent.heidSc();
+                this.$parent.heidBD()
             },
             showHint(){
                 this.$parent.ShowHint()
             },
             XSset(){
-                if(this.message.mfid!=undefined){
-                    return
-                }
-                this.$parent.XSset()
+                this.$parent.getSet();
             },
+
             uploadF(file){
                 let formData = new FormData;
                 formData.append('file',file.file);
@@ -218,7 +192,7 @@
                 })
             },
             getType(){
-                let params={material:this.material}
+                let params={material:this.material};
                 this.api.config_material_type({params}).then((res)=>{
                     this.scType=res;
                 })
@@ -243,7 +217,6 @@
             getTagsList(){
                 let params = {preset:this.preset,material:this.material,type:this.types,search:this.tagsName,p:50,page:1};
                 this.api.tags_search({params}).then((da)=>{
-                    console.log(da);
                     this.preset_tags = da.data.tags;
                     this.self_tags = da.data.self_tags;
                     this. getType();
@@ -260,66 +233,32 @@
                     this. getTagsList();
                 })
             },
-            setMatter(){
-                let formData = new FormData;
-                formData.append('mid',this.message.mfid);
-                formData.append('type',this.type);
-                formData.append('status',(this.value2==true?1:0));
-                formData.append('prev_uri',this.prev_uri);
-                formData.append('attach',JSON.stringify(this.attach));
-                formData.append('tags',this.preinstall);
-                formData.append('self_tags',this.bardian);
-                formData.append('size',this.sjSize)
-                this.api.mfinal_edit(formData).then((res)=>{
 
-                })
-            },
             AddMatter(){
-                if(this.message.mfid==undefined){
                     let formData = new FormData;
                     formData.append('type',this.type);
-                    formData.append('ispic',(this.chenck==true?1:0));
+                    formData.append('status',(this.value2==true?1:0));
                     formData.append('prev_uri',this.prev_uri);
                     formData.append('attach',JSON.stringify(this.attach));
                     formData.append('tags',this.preinstall);
                     formData.append('self_tags',this.bardian);
-                    formData.append('bind_mid',this.bind_mid);
-                    formData.append('model',this.model);
-                    formData.append('size',this.sjSize);
-                    formData.append('link',this.link)
-                    this.api.mfinal_add(formData).then((res)=>{
-
-                    }).catch(this.$message(message))
-                }else{
-                    this.setMatter();
-                }
+                    formData.append('bind_mid',this.bind_mid)
+                    formData.append('bind_workid',this.bind_workid)
+                    formData.append('size',this.sjSize)
+                    this.api.material_add(formData).then((res)=>{
+                        let list  = [];
+                        list.push({type:res.type,mid:res.mid,prev_uri:res.prev_uri})
+                        this.$emit('listen',list)
+                    }).catch();
 
             },
-            getMatterDetails(){
-                let params ={mfid:this.message.mfid};
-                this.api.mfinal_detail({params}).then((res)=>{
-                    this.sw=true;
-                    this.prev_uri=res.prev_uri;
-                    this.preinstall=res.tags;
-                    this.bardian=res.self_tags;
-                    this.sjSize=res.size;
-                    this.type=res.type;
-                    this.link = res.link;
-                    this.model = res.model
-                    if(res.status==1201){
-                        this.value2=false;
-                    }else{
-                        this.value2=true;
-                    }
-                    console.log(this.preinstall)
-                })
-            },
+
         },
-        watch: {
-            'bindMid': function(newVal){
-                this.bind_mid = newVal.join(';')
-            },
-
+        watch:{
+            'scMessage': function (newVal) {
+                this.bind_mid=newVal[0].mid;
+                this.scUrl=newVal[0].prev_uri;
+            }
         },
     }
 </script>
@@ -382,8 +321,8 @@
         font-family:PingFangSC-Regular;
         font-weight:400;
         color:rgba(61,73,102,1);
-    }
 
+    }
     .AddIMG_content_left img{
         width: 100%;
         height: 100%;
@@ -393,21 +332,11 @@
         margin-bottom: 0px;
     }
     .AddIMG_box{
-        width:216px;
-        padding: 0 8px;
-        height:326px;
+        width:276px;
+        padding: 0 17px;
+        height:328px;
         background:rgba(247,249,252,1);
         border-radius:4px;
-    }
-    .AddIMG_box img{
-        width:68px;
-        height:90px;
-        background:rgba(227,231,235,1);
-        border-radius:4px;
-        margin: 14px 11px 17px 0;
-    }
-    .AddIMG_box img:nth-child(3n){
-        margin: 14px 0 17px 0!important;
     }
     .AddIMG_box_txt{
         margin-left: 45px;
@@ -423,7 +352,7 @@
         color:rgba(54,54,54,1);
         background:rgba(0,153,255,.1);
     }
-    .AddIMG_input,.AddIMG_sc,.AddIMG_bq,.AddIMG_select,.AddIMG_yl,.box_sel{
+    .AddIMG_input,.AddIMG_sc,.AddIMG_zp,.AddIMG_select,.AddIMG_yl{
         margin-bottom: 20px;
     }
     .AddIMG_switch{
@@ -437,7 +366,14 @@
         border:1px solid rgba(211,219,235,1);
     }
     .AddIMG_input input{
-       margin: 3px 10px 0 20px;
+        width:140px;
+        height:50px;
+        margin-left: 0;
+        position: relative;
+        left: -140px;
+        padding: 0;
+        opacity:0;
+        top:-14px;
     }
     .AddIMG_input img{
         margin-left: 16px;
@@ -488,7 +424,7 @@
         background:rgba(153,153,153,1)!important;
         color:rgba(255,255,255,1)!important;
     }
-    .AddIMG_sc p,.AddIMG_zp p ,.AddIMG_yl p,.AddIMG_input p,.upChenck p{
+    .AddIMG_sc p,.AddIMG_zp p ,.AddIMG_yl p,.AddIMG_input p{
         margin:10px 0 0 133px;
         padding: 0;
         font-size:12px;
@@ -504,17 +440,10 @@
         border:1px solid rgba(211,219,235,1);
         margin-right: 21px;
     }
-    .link input{
-        width:185px;
-        height:36px;
-        background:rgba(255,255,255,1);
-        border-radius:4px;
-        border:1px solid rgba(211,219,235,1);
-    }
     .AddIMG_select{
         display: inline-block;
     }
-    .AddIMG_select select,.box_sel select{
+    .AddIMG_select select{
         width:200px;
         height:36px;
         background:rgba(255,255,255,1);

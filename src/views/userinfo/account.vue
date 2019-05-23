@@ -106,10 +106,15 @@
                         user_name:'',
                         updated_at:'',
                     }
-                ]
+                ],
+                rolesList:[],
             }
         },
         mounted(){
+            this.getData();
+            if(this.rolesList.indexOf("admin")!=-1){
+                path:'/userinfo/AccounAudit'
+            }
             this.getList();
         },
         methods:{
@@ -166,6 +171,20 @@
                 this.api.get_account({params}).then((res)=>{
 
                 })
+            },
+            getData(){
+                let params = {
+                    email:localStorage.getItem('userAd'),
+                };
+                this.api.get_account({params}).then((datas)=>{
+                    this.userData = datas;
+                    console.log(datas.roles)
+                    var rolesList=[];
+                    for(let i=0;i<this.userData.roles.length;i++){
+                        rolesList.push(this.userData.roles[i].role_name);
+                    }
+                    this.rolesList=rolesList;
+                });
             },
         }
     }

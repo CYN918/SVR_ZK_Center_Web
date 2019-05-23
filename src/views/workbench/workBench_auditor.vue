@@ -9,7 +9,7 @@
                 <span>请确定是否通过审核</span>
             </div>
             <div class="btn">
-                <span class="btn_qd">确定</span>
+                <span class="btn_qd" @click="audit">确定</span>
                 <span  @click="heid">取消</span>
             </div>
         </div>
@@ -19,13 +19,20 @@
 <script>
     export default {
         name: "work-bench_auditor",
+        props:['id'],
         data(){
             return{}
         },
         methods:{
             heid(){
                 this.$parent.heidSH()
-            }
+            },
+            audit(){
+                let formData = new FormData;
+                formData.append('id',this.id);
+                    this.api.demand_audit(formData).then((res)=>{
+                    })
+            },
         }
     }
 </script>

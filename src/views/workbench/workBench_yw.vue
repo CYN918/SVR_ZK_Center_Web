@@ -160,7 +160,7 @@
                 })
             },
             getYWtype(){
-                let params ={material:1}
+                let params ={material:0}
                 this.api.config_material_type({params}).then((res)=>{
                     this.YWtypeList = res
                 })
