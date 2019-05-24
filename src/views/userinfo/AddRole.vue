@@ -13,6 +13,7 @@
                     是否启用
                     <el-switch
                             v-model="status"
+                            @change=GetSwitch
                             active-value="1"
                             inactive-value="0"
                             active-color="#13ce66"
@@ -73,7 +74,7 @@
             return {
                 radio:3,
                 titleName:'',
-                status:'1',
+                status:"1",
                 name:'',
                 checkedCities1:[],
                 parent:'',
@@ -133,6 +134,14 @@
                             }
                         }
                     }
+                })
+            },
+            GetSwitch(){
+                let formData = new FormData;
+                formData.append('id',this.$route.query.role_id)
+                formData.append('status',this.status)
+                this.api.change_role_status(formData).then((res)=>{
+
                 })
             },
         },

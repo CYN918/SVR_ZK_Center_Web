@@ -4,7 +4,7 @@
 
 <script>
     export default {
-        name: "material-img"
+        name: "set_tags"
     }
 </script>
 

@@ -20,13 +20,13 @@
 			<div class="contentImg">
 				<div class="label">
 					<span class="label_txt">预置标签:</span>
-					<span class="labelName">全部</span>
-					<span v-for="(item,index) in preset_tags" class="labelName" @click="">{{item.name}}</span>
+					<span class="labelName" @click="getListTag()">全部</span>
+					<span v-for="(item,index) in preset_tags" class="labelName" @click="getListTag(item.name,index)" :class="{active:inx==index}">{{item.name}}</span>
 				</div>
 				<div class="label">
 					<span class="label_txt">个性标签:</span>
-					<span class="labelName">全部</span>
-					<span v-for="(item,index) in self_tags" class="labelName">{{item.name}}</span>
+					<span class="labelName" @click="getListTags()">全部</span>
+					<span v-for="(item,index) in self_tags" class="labelName" @click="getListTags(item.name,index)" :class="{active:inde==index}">{{item.name}}</span>
 				</div>
 			</div>
 			<con v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type"></con>
@@ -124,7 +124,9 @@ export default {
             self_tags:[],
             bindMid:'',
 			hqUrl:'',
-            material:1
+            material:1,
+			inx:null,
+			inde:null,
 		}
     },
 	mounted() {
@@ -203,6 +205,24 @@ export default {
                 this.self_tags = da.data.self_tags
             })
         },
+        getListTags(name,index){
+            this.inde=index;
+            let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:name}
+            this.api.material_search({params}).then((res)=>{
+                this.IMGList=res.data;
+                this.total=res.total;
+                this.getTagsList()
+            })
+        },
+        getListTag(name,index){
+            this.inx=index;
+            let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:name}
+            this.api.material_search({params}).then((res)=>{
+                this.IMGList=res.data;
+                this.total=res.total;
+                this.getTagsList()
+            })
+        },
 		getList(){
 		    let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search}
 		    this.api.material_search({params}).then((res)=>{
@@ -216,6 +236,9 @@ export default {
 	
 }	
 </script>
-<style>
-
+<style scoped>
+.active{
+	color: #1583e2!important;
+	border:0!important;
+}
 </style>

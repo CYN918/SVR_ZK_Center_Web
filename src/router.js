@@ -12,7 +12,7 @@ import Home from './views/home.vue'
 mode['Home'] = Home
 import Index from './views/index.vue'
 mode['Index'] = Index
-/*管理*/
+/*素材库*/
 import erro from './views/erro.vue'
 mode['erro'] = erro
 import AdminIndex from './views/admin/index.vue'
@@ -47,6 +47,8 @@ import AdminExternal from './views/admin/level/external.vue'
 mode['external'] = AdminExternal
 import MD5 from './views/admin/MD5.vue'
 mode['MD5'] = MD5
+import standard from './views/admin/standard'
+mode['standard']=standard
 
 //审核台
 // import userIndex from './views/user/index.vue'
@@ -200,7 +202,7 @@ let nb = [
 			{path:'/admin/dynamic',name:'动效',component: mode['dynamic']},
             {path:'/admin/MaterialResource',name:'广告图',component: mode['MaterialResource']},
             {path:'/admin/MD5',name:'锁屏壁纸MD5库',component: mode['MD5']},
-			// {path:'/admin/material_flows',name:'素材中间件管理',component: mode['material_flows']},
+			{path:'/admin/standard',name:'设计规范库',component: mode['standard']},
 			// {path:'/admin/library_picture',name:'广告图库投放管理',component: mode['library_picture']},
 			// {path:'/admin/library_pictures',name:'library_pictures',component: mode['library_pictures']},
 			{path:'/admin/WLtemplate',name:'广告模版',component: mode['WLtemplate']},
@@ -280,6 +282,7 @@ let leftNav =
 		{title:'素材库',url:'1',list:[
 			{title:'广告图',url:'/admin/advertising'},
 			{title:'广告模板',url:'/admin/AD_templates'},
+
 			]},
         {title:'场景锁屏',url:'1-1',list:[
                 {title:'动效',url:'/admin/dynamic'},
@@ -290,11 +293,11 @@ let leftNav =
 			{title:'广告模版',url:'/admin/WLtemplate'},
 			{title:'场景锁屏',url:'/admin/lockScreen'},
 		]},
-		// {title:'权限管理',url:'4',list:[
-		// 	{title:'角色管理',url:'/admin/roles'},
-		// 	{title:'内部帐号管理',url:'/admin/inside'},
-		// 	{title:'外部帐号管理',url:'/admin/external'},
-		// ]},
+		{title:'配制管理',url:'4',list:[
+			{title:'设计规范库',url:'/admin/standard'},
+			{title:'标签管理',url:'/admin/inside'},
+			// {title:'外部帐号管理',url:'/admin/external'},
+		]},
 	]},
 	{title:'工作台',default:'/workbench',defaultopen:['1'],
         children:[

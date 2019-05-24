@@ -46,13 +46,13 @@
                             <span class="tit">绑定素材:</span>
                             <input type="text" placeholder="请输入素材ID" v-model="bind_mid" :disabled="(this.message.mid!=undefined)"/>
                             <span class="AddIMG_sc_btn" @click="XSset" :class="{AddIMG_sc_btn_jy:(this.message.mid!=undefined)}">从素材库选择</span>
-                            <input type="checkbox" class="AddIMG_sc_cjeckbox"/><span>与素材库内已有素材无关</span>
+                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="is_bind_mid"/><span>与素材库内已有素材无关</span>
                             <p>若由素材库内文件处理后上传，必须填写对应的素材ID，仅可填写一个</p>
                         </div>
                         <div class="AddIMG_zp">
                             <span class="tit">绑定设计师作品:</span>
                             <input type="text" class="AddIMG_zp_text" v-model="bind_workid" :disabled="(this.message.mid!=undefined)"/>
-                            <input type="checkbox" class="AddIMG_sc_cjeckbox"/>
+                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="is_bind_workid"/>
                             <span>与设计师无关</span>
                             <p>由设计师站获得的素材，必须填写对应的作品ID</p>
                         </div>
@@ -163,6 +163,8 @@
                 scUrl:'',
                 scType:'',
                 tagsName:'',
+                is_bind_mid:false,
+                is_bind_workid:false,
             }
         },
         mounted(){
@@ -256,6 +258,20 @@
                 })
             },
             setMatter(){
+
+                if(!this.prev_uri){
+                    this.$message('未上传预览图')
+                }
+                if(!this.attach){
+                    this.$message('未上传文件')
+                }
+                if(!this.preinstall){
+                    this.$message('标签为空')
+                }
+                if(!this.bardian){
+                    this.$message('标签为空')
+                }
+
                 let formData = new FormData;
                 formData.append('mid',this.message.mid);
                 formData.append('type',this.type);
@@ -267,10 +283,36 @@
                 formData.append('size',this.sjSize)
                 this.api.material_edit(formData).then((res)=>{
                     this.setTags();
+                    this.getTagsList();
+                    if(res!=undefined){
+                        this. heidSc();
+                    }
                 })
             },
             AddMatter(){
                 if(this.message.mid==undefined){
+                    if(!this.type){
+                        this.$message('类型不能为空')
+                    }
+                    if(!this.prev_uri){
+                        this.$message('未上传预览图')
+                    }
+                    if(!this.attach){
+                        this.$message('未上传文件')
+                    }
+                    if(!this.preinstall){
+                        this.$message('标签为空')
+                    }
+                    if(!this.bardian){
+                        this.$message('标签为空')
+                    }
+                    if(!this.bind_mid&&this.is_bind_mid!=true){
+                        this.$message('未绑定素材ID')
+                    }
+                    if(!this.bind_workid&&this.is_bind_workid!=true){
+                        this.$message('未绑定作品ID')
+                    }
+
                     let formData = new FormData;
                     formData.append('type',this.type);
                     formData.append('status',(this.value2==true?1:0));
@@ -278,11 +320,17 @@
                     formData.append('attach',JSON.stringify(this.attach));
                     formData.append('tags',this.preinstall);
                     formData.append('self_tags',this.bardian);
-                    formData.append('bind_mid',this.bind_mid)
-                    formData.append('bind_workid',this.bind_workid)
-                    formData.append('size',this.sjSize)
+                    formData.append('bind_mid',this.bind_mid);
+                    formData.append('bind_workid',this.bind_workid);
+                    formData.append('size',this.sjSize);
+                    formData.append('is_bind_mid',this.is_bind_mid==true?1:0);
+                    formData.append('is_bind_workid',this.is_bind_workid==true?1:0);
                     this.api.material_add(formData).then((res)=>{
-                    }).catch(this.$message(message))
+                        this.getTagsList();
+                      if(res!=undefined){
+                          this. heidSc();
+                      }
+                    })
                 }else{
                     this.setMatter();
                 }

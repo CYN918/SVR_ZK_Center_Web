@@ -276,6 +276,25 @@
             },
             AddMatter(){
                 if(this.message.mfid==undefined){
+                    if(!this.type){
+                        this.$message('类型不能为空')
+                    }
+                    if(!this.prev_uri){
+                        this.$message('未上传预览图')
+                    }
+                    if(!this.attach){
+                        this.$message('未上传文件')
+                    }
+                    if(!this.preinstall){
+                        this.$message('标签为空')
+                    }
+                    if(!this.bardian){
+                        this.$message('标签为空')
+                    }
+                    if(!this.bind_mid&&this.is_bind_mid!=true){
+                        this.$message('未绑定素材ID')
+                    }
+
                     let formData = new FormData;
                     formData.append('type',this.type);
                     formData.append('ispic',(this.chenck==true?1:0));

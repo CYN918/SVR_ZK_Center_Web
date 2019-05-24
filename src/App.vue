@@ -509,4 +509,15 @@ html,body{
     border-radius:4px;
     border:1px solid rgba(211,219,235,1);
   }
+  .up .el-button--primary{
+    width:106px;
+    height:36px;
+    background:rgba(255,255,255,1)!important;
+    border-radius:4px;
+    border:1px solid rgba(211,219,235,1);
+    font-size:14px;
+    font-family:PingFangSC-Regular;
+    font-weight:400;
+    color:rgba(61,73,102,1)!important;
+  }
 </style>

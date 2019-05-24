@@ -129,9 +129,21 @@ export default {
 	wallpaper_check:{
 		url:'/wallpaper/put/check',method:'get',isType:{suktip:1,reload:1}	
 	},
+	//获取流程处理人列表
+    process_list:{
+		url:'/process/list',method:'get'
+	},
+	//添加流程处理人
+    process_add_auditor:{
+		url:'/process/add/auditor',method:'post'
+	},
 	/*获取账户信息*/
 	get_account:{
 		url:'/get_account',method:'get'
+	},
+	//获取所有内部用户
+	get_accounts:{
+		url:"/get_accounts",method:'get'
 	},
 	add_account:{
 		url:'/add_account',method:'post',isType:{suktip:1,reload:1}
@@ -142,7 +154,7 @@ export default {
 	},
 	/*记录路径*/
 	create_menu:{
-		url:'/log/menu/create',method:'post'
+		url:'/log/menu/create',method:'post',
 	},
 	/*获取路径记录*/
 	get_menulog:{
@@ -318,11 +330,11 @@ export default {
 	},
 	//编辑角色权限
     perm_role_edit:{
-		url:'perm/role/edit',method:'post'
+		url:'perm/role/edit',method:'post',isType:{suktip:1,reload:1}
 	},
 	//添加角色
 	perm_role_add:{
-		url:'perm/role/add',method:'post'
+		url:'perm/role/add',method:'post',isType:{suktip:1,reload:1}
 	},
 	//获取可作为上级的角色
     role_leader:{
@@ -354,11 +366,11 @@ export default {
 	},
 	//提交反馈
     feedback_add: {
-        url: 'feedback/add', method: 'post'
+        url: 'feedback/add', method: 'post',isType:{suktip:1,reload:1}
     },
 	//上传文件
     file_upload:{
-		url:'/file/upload',method:'post'
+		url:'/file/upload',method:'post',isType:{suktip:1}
 	},
 	//获取锁屏列表
     lockwallpaper_list:{
@@ -374,11 +386,11 @@ export default {
 	},
 	//zip文件上传
     file_zip_upload:{
-		url:'/file/zip/upload',method:'post'
+		url:'/file/zip/upload',method:'post',isType:{suktip:1,reload:1}
 	},
 	//增加外部账户
     account_external_add:{
-		url:'/account/external/add',method:'post'
+		url:'/account/external/add',method:'post',isType:{suktip:1,reload:1}
 	},
 	//获取标签列表
     tags_search:{
@@ -390,11 +402,11 @@ export default {
 	 },
 	//添加素材
 	 material_add:{
-		url:'/material/add',method:'post'
+		url:'/material/add',method:'post',isType:{suktip:1}
 	 },
 	//编辑素材
     material_edit:{
-		url:'/material/edit',method:'post'
+		url:'/material/edit',method:'post',isType:{suktip:1,reload:1}
 	},
 	 //获取素材详细内容
     material_detail:{
@@ -406,7 +418,7 @@ export default {
 	},
 	//添加标签
     tags_add:{
-		url:'/tags/add',method:'post'
+		url:'/tags/add',method:'post',isType:{suktip:1,reload:1}
 	},
 	//获取物料库列表
     mfinal_search:{
@@ -414,11 +426,11 @@ export default {
 	},
 	//添加物料
     mfinal_add:{
-		url:'/mfinal/add',method:'post'
+		url:'/mfinal/add',method:'post',isType:{suktip:1,reload:1}
 	},
 	//编辑物料
     mfinal_edit:{
-		url:'/mfinal/edit',method:'post'
+		url:'/mfinal/edit',method:'post',isType:{suktip:1,reload:1}
 	},
     //获取物料详细内容
     mfinal_detail:{
@@ -426,18 +438,33 @@ export default {
     },
 	//编辑素材标签
     material_edit_tags:{
-		url:'/material/edit/tags',method:'post'
+		url:'/material/edit/tags',method:'post',isType:{suktip:1,reload:1}
 	},
 	//编辑物料标签
     mfinal_edit_tags:{
-		url:'/mfinal/edit/tags',method:'post'
+		url:'/mfinal/edit/tags',method:'post',isType:{suktip:1,reload:1}
 	},
-
+	//修改设计规范
+	config_standard_edit:{
+		url:'/config/standard/edit',method:'post',isType:{suktip:1,reload:1}
+	},
+	//新增设计规范
+	config_standard_add:{
+		url:'/config/standard/add',method:'post',isType:{suktip:1,reload:1}
+	},
+	//修改设计规范
+    config_standar_edit:{
+		url:'/config/standard/edit',method:'post',isType:{suktip:1,reload:1}
+	},
+	//删除设计规范
+	config_standard_del:{
+		url:'/config/standard/del',method:'get'
+	},
 
 	//工作台
 	//新增素材需求
     demand_material_add:{
-		url:'/demand/material/add',method:'post'
+		url:'/demand/material/add',method:'post',isType:{suktip:1,reload:1}
 	},
 	//获取设计规范列表
 	config_standards:{
@@ -453,7 +480,7 @@ export default {
 	},
 	//新增业务需求
 	demand_business_add:{
-		url:"/demand/business/add",method:'post'
+		url:"/demand/business/add",method:'post',isType:{suktip:1,reload:1}
 	},
 	//获取全部需求列表
 	demand_search:{
@@ -461,11 +488,11 @@ export default {
 	},
 	//审核通过
     demand_audit:{
-		url:"/demand/audit",method:'post'
+		url:"/demand/audit",method:'post',isType:{suktip:1,reload:1}
 	},
 	//驳回
     demand_reject:{
-		url:"/demand/reject",method:'post'
+		url:"/demand/reject",method:'post',isType:{suktip:1,reload:1}
 	},
 
 }
