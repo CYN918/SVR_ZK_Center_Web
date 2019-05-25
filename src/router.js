@@ -27,6 +27,12 @@ import material_wallpaper from './views/admin/material_wallpaper.vue'
 mode['AD_templates'] = AD_templates
 mode['dynamic'] = dynamic
 mode['material_wallpaper'] = material_wallpaper
+import settags from './views/admin/set_tags'
+mode['settags'] =settags
+import library from './views/admin/library'
+mode['library'] = library
+import tags_details from './views/admin/tags_details'
+mode['tags_details'] = tags_details
 
 
 import wallpaper from './views/admin/wallpaper.vue'
@@ -49,6 +55,10 @@ import MD5 from './views/admin/MD5.vue'
 mode['MD5'] = MD5
 import standard from './views/admin/standard'
 mode['standard']=standard
+import add_library from './views/admin/add_library'
+mode['add_library'] = add_library
+import details_library from './views/admin/details_library'
+mode['details_library'] = details_library
 
 //审核台
 // import userIndex from './views/user/index.vue'
@@ -203,13 +213,13 @@ let nb = [
             {path:'/admin/MaterialResource',name:'广告图',component: mode['MaterialResource']},
             {path:'/admin/MD5',name:'锁屏壁纸MD5库',component: mode['MD5']},
 			{path:'/admin/standard',name:'设计规范库',component: mode['standard']},
-			// {path:'/admin/library_picture',name:'广告图库投放管理',component: mode['library_picture']},
-			// {path:'/admin/library_pictures',name:'library_pictures',component: mode['library_pictures']},
+			{path:'/admin/settags',name:'标签管理',component: mode['settags']},
+			{path:'/admin/library',name:'投放库',component: mode['library']},
 			{path:'/admin/WLtemplate',name:'广告模版',component: mode['WLtemplate']},
 			{path:'/admin/lockScreen',name:'场景锁屏',component: mode['lockScreen']},
-			// {path:'/admin/library_wallpaper',name:'锁屏壁纸库投放管理',component: mode['library_wallpaper']},
-			// {path:'/admin/roles',name:'角色管理',component: mode['roles']},
-			// {path:'/admin/inside',name:'内部帐号管理',component: mode['inside']},
+			{path:'/admin/add_library',name:'添加投放库',component: mode['add_library']},
+			{path:'/admin/details_library',name:'详情库',component: mode['details_library']},
+			{path:'/admin/details_library',name:'标签管理',component: mode['details_library']},
 			// {path:'/admin/external',name:'外部帐号管理',component:mode['external']},
 		]
 	},
@@ -295,9 +305,12 @@ let leftNav =
 		]},
 		{title:'配制管理',url:'4',list:[
 			{title:'设计规范库',url:'/admin/standard'},
-			{title:'标签管理',url:'/admin/inside'},
+			{title:'标签管理',url:'/admin/settags'},
 			// {title:'外部帐号管理',url:'/admin/external'},
 		]},
+		{title:'投放库',url:'5',list:[
+				{title:'投放库',url:'/admin/library'}
+			]}
 	]},
 	{title:'工作台',default:'/workbench',defaultopen:['1'],
         children:[

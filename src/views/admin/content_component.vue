@@ -337,6 +337,7 @@
 
             },
             getMatterDetails(){
+
                 let params ={mid:this.message.mid};
                 this.api.material_detail({params}).then((res)=>{
                     this.sw=true;
@@ -346,6 +347,11 @@
                     this.bardian=res.self_tags;
                     this.sjSize=res.size;
                     this.type=res.type;
+                    for(let i=0;i<res.bind_mid.length;i++){
+                        this.bind_mid=res.bind_mid[i].mid;
+                        this.hqUrl = res.bind_mid[i].prev_uri;
+                    }
+
                     if(res.status==1201){
                         this.value2=false;
                     }else{
@@ -359,7 +365,7 @@
                 this.bind_mid=newVal;
             },
             'hqUrl': function (newVal) {
-                this.this.scUrl=newVal;
+                this.scUrl=newVal;
             }
 
         },

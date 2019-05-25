@@ -29,6 +29,7 @@
 					<span v-for="(item,index) in self_tags" class="labelName" @click="getListTags(item.name,index)" :class="{active:inde==index}">{{item.name}}</span>
 				</div>
 			</div>
+			<rel v-if="getRe" :num="num" :material="material" ></rel>
 			<con v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type"></con>
 			<hin v-if='hint' ></hin>
 			<tag v-if="tags" :message="message" :typeSC='type' :material="material"></tag>
@@ -57,7 +58,7 @@
 						</div>
 						<div>
 							<span class="boxImg_text">相关素材:</span>
-							<span class="ck">查看详情</span>
+							<span class="ck" @click="getRel(index)">查看详情</span>
 						</div>
 						<div>
 							<span class="boxImg_text">相关物料:</span>
@@ -65,7 +66,7 @@
 						</div>
 						<div>
 							<span class="boxImg_text">素材使用记录:</span>
-							<span class="ck">查看详情</span>
+							<span class="ck" >查看详情</span>
 						</div>
 						<div>
 							<span class="boxImg_text">素材状态:</span>
@@ -101,12 +102,13 @@
 
 </template>
 <script>
+import rel from './relevant_matreial'
 import con from './content_component'
 import hin from './hintMessage'
 import tag from './tag'
 import set from './Select_material'
 export default {
-	components:{con,hin,tag,set},
+	components:{con,hin,tag,set,rel},
     data() {
 		return {
 			sc:false,
@@ -127,6 +129,8 @@ export default {
             material:1,
 			inx:null,
 			inde:null,
+            getRe:false,
+			num:'',
 		}
     },
 	mounted() {
@@ -149,6 +153,13 @@ export default {
 		    this.hint = true;
 		    this.sc = false
 		},
+		getRel(index){
+            this.getRe=true;
+            this.num =this.IMGList[index].mid;
+		},
+        heidRel(){
+            this.getRe=false;
+        },
 		YCHint(){
             this.hint = false;
 		},

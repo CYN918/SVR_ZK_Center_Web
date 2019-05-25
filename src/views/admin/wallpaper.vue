@@ -2,7 +2,7 @@
 	<div>
 		<div class="top_name">
 			<span class="inner">|</span>
-			<span class="top_txt">素材库>广告</span>
+			<span class="top_txt">素材库>壁纸</span>
 		</div>
 		<div class="content">
 			<div class="Search">
@@ -20,15 +20,16 @@
 			<div class="contentImg">
 				<div class="label">
 					<span class="label_txt">预置标签:</span>
-					<span class="labelName">全部</span>
-					<span v-for="(item,index) in preset_tags" class="labelName" @click="">{{item.name}}</span>
+					<span class="labelName" @click="getListTag()">全部</span>
+					<span v-for="(item,index) in preset_tags" class="labelName" @click="getListTag(item.name,index)" :class="{active:inx==index}">{{item.name}}</span>
 				</div>
 				<div class="label">
 					<span class="label_txt">个性标签:</span>
-					<span class="labelName">全部</span>
-					<span v-for="(item,index) in self_tags" class="labelName">{{item.name}}</span>
+					<span class="labelName" @click="getListTags()">全部</span>
+					<span v-for="(item,index) in self_tags" class="labelName" @click="getListTags(item.name,index)" :class="{active:inde==index}">{{item.name}}</span>
 				</div>
 			</div>
+			<rel v-if="getRe" :num="num" :material="material" ></rel>
 			<con v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type"></con>
 			<hin v-if='hint' ></hin>
 			<tag v-if="tags" :message="message" :typeSC='type' :material="material"></tag>
@@ -57,7 +58,7 @@
 						</div>
 						<div>
 							<span class="boxImg_text">相关素材:</span>
-							<span class="ck">查看详情</span>
+							<span class="ck" @click="getRel(index)">查看详情</span>
 						</div>
 						<div>
 							<span class="boxImg_text">相关物料:</span>
@@ -65,7 +66,7 @@
 						</div>
 						<div>
 							<span class="boxImg_text">素材使用记录:</span>
-							<span class="ck">查看详情</span>
+							<span class="ck" >查看详情</span>
 						</div>
 						<div>
 							<span class="boxImg_text">素材状态:</span>
@@ -101,12 +102,13 @@
 
 </template>
 <script>
+    import rel from './relevant_matreial'
     import con from './content_component'
     import hin from './hintMessage'
     import tag from './tag'
     import set from './Select_material'
     export default {
-        components:{con,hin,tag,set},
+        components:{con,hin,tag,set,rel},
         data() {
             return {
                 sc:false,
@@ -124,7 +126,11 @@
                 self_tags:[],
                 bindMid:'',
                 hqUrl:'',
-                material:1
+                material:1,
+                inx:null,
+                inde:null,
+                getRe:false,
+                num:'',
             }
         },
         mounted() {
@@ -136,28 +142,42 @@
                 this.message='';
             },
             SCsc(){
-                this.sc = true
+                this.sc = true;
             },
-
             heidSc(){
                 this.sc = false;
-                this.hqUrl=''
-                this.bindMid=''
+                this.hqUrl='';
+                this.bindMid='';
             },
             ShowHint(){
                 this.hint = true;
+                this.sc = false
+            },
+            getRel(index){
+                this.getRe=true;
+                this.num =this.IMGList[index].mid;
+            },
+            heidRel(){
+                this.getRe=false;
             },
             YCHint(){
                 this.hint = false;
             },
-            XStag(){
-                this.tags = true
+            XStag(a){
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search}
+                this.api.material_search({params}).then((res)=>{
+                    this.IMGList=res.data;
+                    console.log(res.data);
+                    if(a!=undefined){
+                        this.message = res.data[a];
+                        this.tags = true;
+                    }
+                })
             },
             YCtag(){
-                this.tags = false
+                this.tags = false;
             },
             XSset(){
-                this.sc = false;
                 this.sets = true
             },
             YCset(){
@@ -165,8 +185,8 @@
             },
             listen(msg,ddd){
                 this.bindMid=msg;
-                this.hqUrl=ddd
-
+                this.hqUrl=ddd;
+                console.log(this.bindMid,this.hqUrl)
             },
             handleSizeChange1() { // 每页条数切换
                 this.pageSize = pageSize;
@@ -196,6 +216,24 @@
                     this.self_tags = da.data.self_tags
                 })
             },
+            getListTags(name,index){
+                this.inde=index;
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:name}
+                this.api.material_search({params}).then((res)=>{
+                    this.IMGList=res.data;
+                    this.total=res.total;
+                    this.getTagsList()
+                })
+            },
+            getListTag(name,index){
+                this.inx=index;
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:name}
+                this.api.material_search({params}).then((res)=>{
+                    this.IMGList=res.data;
+                    this.total=res.total;
+                    this.getTagsList()
+                })
+            },
             getList(){
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search}
                 this.api.material_search({params}).then((res)=>{
@@ -209,6 +247,9 @@
 
     }
 </script>
-<style>
-
+<style scoped>
+	.active{
+		color: #1583e2!important;
+		border:0!important;
+	}
 </style>

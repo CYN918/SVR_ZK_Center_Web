@@ -110,7 +110,7 @@ export default {
 	},
 	/*改变角色状态*/
 	change_role_status:{
-		url:'/change_role_status',method:'post',isType:{suktip:1,reload:1}	
+		url:'/change_role_status',method:'post',isType:{suktip:1,reload:1}
 	},
 	/*获取内部帐号*/
     account_all:{
@@ -166,7 +166,7 @@ export default {
 	},	
 	/* 删除帐号*/
 	delete_account:{
-		url:'/delete_account',method:'post',isType:{suktip:1,reload:1}	
+		url:'/delete_account',method:'post',isType:{suktip:1,reload:1}
 	},
 	/* 修改帐号状态*/
 	edit_account_status:{
@@ -408,6 +408,14 @@ export default {
     material_edit:{
 		url:'/material/edit',method:'post',isType:{suktip:1,reload:1}
 	},
+	//获取相绑定素材
+	material_bind_get:{
+		url:'/material/bind/get',method:'get',
+	},
+	//获取物料绑定素材
+    mfinal_bind_get:{
+		url:'/mfinal/bind/get',method:'get'
+	},
 	 //获取素材详细内容
     material_detail:{
 		url:'/material/detail',method:'get'
@@ -458,7 +466,7 @@ export default {
 	},
 	//删除设计规范
 	config_standard_del:{
-		url:'/config/standard/del',method:'get'
+		url:'/config/standard/del',method:'post',isType:{suktip:1,reload:1}
 	},
 
 	//工作台

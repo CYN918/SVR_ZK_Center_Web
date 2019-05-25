@@ -29,6 +29,7 @@
 					<span v-for="(item,index) in self_tags" class="labelName">{{item.name}}</span>
 				</div>
 			</div>
+			<rel v-if="getRe" :num="num" :material="material" ></rel>
 			<AM v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type"></AM>
 			<hin v-if='hint' ></hin>
 			<tag v-if="tags" :message="message" :typeSC='type' :material="material"></tag>
@@ -64,7 +65,7 @@
 						<div>
 							<div class="xgsc">
 								<span class="boxImg_text">相关素材:</span>
-								<span class="ck">查看详情</span>
+								<span class="ck" @click="getRel(index)">查看详情</span>
 							</div>
 							<div class="dx">
 								<span class="boxImg_text">预览图大小:</span>
@@ -114,12 +115,13 @@
 
 </template>
 <script>
+    import rel from './relevant_matreial'
     import AM from './AddMaterial'
     import hin from './hintMessage'
     import tag from './tag'
     import set from './Select_material'
     export default {
-        components:{AM,hin,tag,set},
+        components:{AM,hin,tag,set,rel},
         data() {
             return {
                 sc:false,
@@ -138,7 +140,9 @@
                 self_tags:[],
                 bindMid:[],
                 hqUrl:[],
-                material:0
+                material:0,
+                getRe:false,
+                num:'',
             }
         },
         mounted() {
@@ -175,6 +179,13 @@
                     }
                 })
             },
+            getRel(index){
+                this.getRe=true;
+                this.num =this.IMGList[index].mfid;
+            },
+            heidRel(){
+                this.getRe=false;
+            },
             YCtag(){
                 this.tags = false
             },
@@ -186,18 +197,18 @@
             },
             listen(msg,ddd){
                 this.bindMid=msg;
-                this.hqUrl=ddd
+                this.hqUrl=ddd;
                 console.log(this.bindMid,this.hqUrl);
             },
             handleSizeChange1() { // 每页条数切换
                 this.pageSize = pageSize;
                 console.log(this.pagesize);
-                this.getWl()()
+                this.getWl()
             },
             handleCurrentChange1(currentPage) {//页码切换
                 console.log(currentPage);
                 this.currentPage = currentPage;
-                this.getWl()()
+                this.getWl()
             },
             getLt(a){
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search}

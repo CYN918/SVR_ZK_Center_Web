@@ -19,7 +19,7 @@
                         <div>
                             <span>上传预览图</span>
                         </div>
-                        <div class="AddIMG_box">
+                        <div class="AddIMG_box_1">
                             <img :src="chenck==false?prev_uri:attach.url"/>
                         </div>
                     </div>
@@ -193,7 +193,7 @@
             // console.log(this.bindMid)
         },
         methods:{
-            GETbindmid(){ this.bind_mid=this.bindMid.join(";");},
+            // GETbindmid(){ this.bind_mid=this.bindMid.join(";");},
             heidSc(){
                 this.$parent.heidSc();
             },
@@ -302,7 +302,7 @@
                     formData.append('attach',JSON.stringify(this.attach));
                     formData.append('tags',this.preinstall);
                     formData.append('self_tags',this.bardian);
-                    formData.append('bind_mid',this.bind_mid);
+                    formData.append('bind_mid',this.bindMid);
                     formData.append('model',this.model);
                     formData.append('size',this.sjSize);
                     formData.append('link',this.link)
@@ -324,7 +324,16 @@
                     this.sjSize=res.size;
                     this.type=res.type;
                     this.link = res.link;
-                    this.model = res.model
+                    this.model = res.model;
+                    var a = [];
+                    var b = [];
+                    for(let i=0;i<res.bind_mid.length;i++){
+                       a.push(res.bind_mid[i].mid);
+                       b.push(res.bind_mid[i].prev_uri);
+                    }
+                    this.bind_mid = a.join(';');
+                    this.hqUrl = b;
+
                     if(res.status==1201){
                         this.value2=false;
                     }else{
@@ -419,11 +428,25 @@
         border-radius:4px;
     }
     .AddIMG_box img{
-        width:68px;
+        width:64px;
         height:90px;
         background:rgba(227,231,235,1);
         border-radius:4px;
         margin: 14px 11px 17px 0;
+    }
+    .AddIMG_box_1{
+        text-align: center;
+        width:216px;
+        padding: 0 8px;
+        height:326px;
+        background:rgba(247,249,252,1);
+        border-radius:4px;
+    }
+    .AddIMG_box_1 img{
+        margin: 14px 11px 17px 0;
+        display: inline-block;
+        width:218px;
+
     }
     .AddIMG_box img:nth-child(3n){
         margin: 14px 0 17px 0!important;

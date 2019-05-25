@@ -202,8 +202,7 @@
             AnewUpload(index){
                 this.updataList=true;
                 this.index=index;
-                this.advertisingType();
-                this.dataTypeList();
+
             },
             setUpload(){
                 if(!this.type){
@@ -255,9 +254,9 @@
 
             },
             delData(index){
-                let params ={'id':this.tableData[index].id};
-                this.api.config_standard_del({params}).then((res)=>{
-                    this.$message.success('删除成功');
+                let formData = new FormData;
+                formData.append('id',this.tableData[index].id);
+                this.api.config_standard_del(formData).then((res)=>{
                     this.getTableList()
                 })
             }

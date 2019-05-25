@@ -2,99 +2,113 @@
 	<div>
 		<div class="top_name">
 			<span class="inner">|</span>
-			<span class="top_txt">素材库>模板</span>
+			<span class="top_txt">素材库>广告模板</span>
 		</div>
 		<div class="content">
 			<div class="Search">
 				<input type="text" placeholder="输入用户名或邮箱快速查询" v-model="search" @input="getList()"/>
 				<img src="../../../public/img/ss.png" @click="getList()"/>
+				<span style="font-size:14px;font-family:PingFangSC-Regular;font-weight:400;color:rgba(31,46,77,1);margin-right: 20px">状态</span>
+				<select>
+					<option value="" selected>全部</option>
+					<option value="1101">使用中</option>
+					<option value="1001">未使用</option>
+					<option value="1201">禁用</option>
+				</select>
 				<span class="Search_tit" @click="getCon">添加本地素材</span>
 			</div>
 			<div class="contentImg">
 				<div class="label">
 					<span class="label_txt">预置标签:</span>
-					<span v-for="(item,index) in preset_tags" class="labelName" @click="">{{item.name}}</span>
+					<span class="labelName" @click="getListTag()">全部</span>
+					<span v-for="(item,index) in preset_tags" class="labelName" @click="getListTag(item.name,index)" :class="{active:inx==index}">{{item.name}}</span>
 				</div>
 				<div class="label">
 					<span class="label_txt">个性标签:</span>
-					<span v-for="(item,index) in self_tags" class="labelName">{{item.name}}</span>
-				</div>
-				<div class="box">
-					<div class="boxImg" v-for="(DL,index) in IMGList">
-						<img :src="DL.prev_uri"/>
-						<div class="boxImg_right" >
-							<div class="boxImg_right_1">
-								<div>
-									<span class="boxImg_text">素材ID:</span>
-									<span class="boxImg_content">{{DL.mid}}</span>
-								</div>
-								<div>
-									<span class="boxImg_text">尺寸:</span>
-									<span class="boxImg_content"></span>
-								</div>
-								<div>
-									<span class="boxImg_text">素材状态:</span>
-									<span class="boxImg_content">{{DL.status==1201?'禁用':'启用'}}</span>
-								</div>
-								<div>
-									<span class="boxImg_text boxImg_bq">标签:</span>
-									<div class="boxImg_xz">
-										<span class="box_box" v-for="(tag,index2) in DL.self_tags">{{tag}}</span>
-										<span class="box_box" v-for="(ta,index3) in DL.tags">{{ta}}</span>
-										<img src="../../../public/img/add.png" @click="XStag"/>
-									</div>
-
-								</div>
-							</div>
-							<div  class="boxImg_right_2">
-								<div>
-									<span class="boxImg_text">素材使用记录:</span>
-									<span class="ck">查看详情</span>
-								</div>
-								<div>
-									<span class="boxImg_text">相关素材:</span>
-									<span class="ck">查看详情</span>
-								</div>
-								<div>
-									<span class="boxImg_text">更新时间:</span>
-									<span class="boxImg_content">{{DL.updated_at}}</span>
-								</div>
-								<div>
-									<span class="boxImg_text">附件:</span>
-									<span class="boxImg_content">{{parseInt(DL.attach.size/1024)}}kb</span>
-									<a class="dowload" :href="DL.attach.url">下载</a>
-								</div>
-							</div>
-						</div>
-						<img src="../../../public/img/bj.png" class="bjImg" @click="getLt(index)"/>
-					</div>
-				</div>
-				<div class="block">
-					<el-pagination
-							@size-change="handleSizeChange1"
-							@current-change="handleCurrentChange1"
-							:current-page.sync="currentPage"
-							:page-size="pageSize"
-							layout="prev, pager, next,total, jumper"
-							:total="total">
-					</el-pagination>
+					<span class="labelName" @click="getListTags()">全部</span>
+					<span v-for="(item,index) in self_tags" class="labelName" @click="getListTags(item.name,index)" :class="{active:inde==index}">{{item.name}}</span>
 				</div>
 			</div>
+			<rel v-if="getRe" :num="num" :material="material" ></rel>
 			<con v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type"></con>
-			<hin v-if='hint'></hin>
-			<tag v-if="tags"></tag>
-			<set v-if="sets" :type='type'  @listenToChildEvent="listen" :material="material"></set>
+			<hin v-if='hint' ></hin>
+			<tag v-if="tags" :message="message" :typeSC='type' :material="material"></tag>
+			<set v-if="sets" :typeSC='type'  @listenToChildEvent="listen" :material="material"></set>
+		</div>
+		<div class="box">
+			<div class="boxImg" v-for="(DL,index) in IMGList">
+				<img :src="DL.prev_uri"/>
+				<div class="boxImg_right" >
+					<div class="boxImg_right_1">
+						<div>
+							<span class="boxImg_text">素材ID:</span>
+							<span class="boxImg_content">{{DL.mid}}</span>
+						</div>
+						<div>
+							<span class="boxImg_text boxImg_bq">标签:</span>
+							<div class="boxImg_xz">
+								<span class="box_box" v-for="(tag,index2) in DL.self_tags">{{tag}}</span>
+								<span class="box_box" v-for="(ta,index3) in DL.tags">{{ta}}</span>
+								<span class="img"  @click="XStag(index)">+ 标签</span>
+							</div>
+						</div>
+						<div>
+							<span class="boxImg_text">尺寸:</span>
+							<span class="boxImg_content">{{DL.size}}</span>
+						</div>
+						<div>
+							<span class="boxImg_text">相关素材:</span>
+							<span class="ck" @click="getRel(index)">查看详情</span>
+						</div>
+						<div>
+							<span class="boxImg_text">相关物料:</span>
+							<span class="ck">查看详情</span>
+						</div>
+						<div>
+							<span class="boxImg_text">素材使用记录:</span>
+							<span class="ck" >查看详情</span>
+						</div>
+						<div>
+							<span class="boxImg_text">素材状态:</span>
+							<span class="boxImg_content">{{DL.status==1201?'禁用':'启用'}}</span>
+						</div>
+						<div>
+							<span class="boxImg_text">更新时间:</span>
+							<span class="boxImg_content">{{DL.updated_at}}</span>
+						</div>
+						<div>
+							<span class="boxImg_text">附件:</span>
+							<span class="boxImg_content">{{parseInt(DL.attach.size/1024)}}kb</span>
+							<a class="dowload" :href="DL.attach.url">下载</a>
+						</div>
+					</div>
+				</div>
+				<div class="bjImg" @click="getLt(index)">
+					<span>编辑素材</span>
+				</div>
+			</div>
+		</div>
+		<div class="block">
+			<el-pagination
+					@size-change="handleSizeChange1"
+					@current-change="handleCurrentChange1"
+					:current-page.sync="currentPage"
+					:page-size="pageSize"
+					layout="prev, pager, next,total, jumper"
+					:total="total">
+			</el-pagination>
 		</div>
 	</div>
 
 </template>
 <script>
+    import rel from './relevant_matreial'
     import con from './content_component'
     import hin from './hintMessage'
     import tag from './tag'
     import set from './Select_material'
     export default {
-        components:{con,hin,tag,set},
+        components:{con,hin,tag,set,rel},
         data() {
             return {
                 sc:false,
@@ -112,7 +126,11 @@
                 self_tags:[],
                 bindMid:'',
                 hqUrl:'',
-                material:1
+                material:1,
+                inx:null,
+                inde:null,
+                getRe:false,
+                num:'',
             }
         },
         mounted() {
@@ -124,9 +142,8 @@
                 this.message='';
             },
             SCsc(){
-                this.sc = true
+                this.sc = true;
             },
-
             heidSc(){
                 this.sc = false;
                 this.hqUrl='';
@@ -136,14 +153,29 @@
                 this.hint = true;
                 this.sc = false
             },
+            getRel(index){
+                this.getRe=true;
+                this.num =this.IMGList[index].mid;
+            },
+            heidRel(){
+                this.getRe=false;
+            },
             YCHint(){
                 this.hint = false;
             },
-            XStag(){
-                this.tags = true
+            XStag(a){
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search}
+                this.api.material_search({params}).then((res)=>{
+                    this.IMGList=res.data;
+                    console.log(res.data);
+                    if(a!=undefined){
+                        this.message = res.data[a];
+                        this.tags = true;
+                    }
+                })
             },
             YCtag(){
-                this.tags = false
+                this.tags = false;
             },
             XSset(){
                 this.sets = true
@@ -153,8 +185,8 @@
             },
             listen(msg,ddd){
                 this.bindMid=msg;
-                this.hqUrl=ddd
-
+                this.hqUrl=ddd;
+                console.log(this.bindMid,this.hqUrl)
             },
             handleSizeChange1() { // 每页条数切换
                 this.pageSize = pageSize;
@@ -173,7 +205,6 @@
                     if(a!=undefined){
                         this.message = res.data[a];
                         this.sc = true;
-
                     }
                 })
             },
@@ -183,6 +214,24 @@
                     console.log(da);
                     this.preset_tags = da.data.tags;
                     this.self_tags = da.data.self_tags
+                })
+            },
+            getListTags(name,index){
+                this.inde=index;
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:name}
+                this.api.material_search({params}).then((res)=>{
+                    this.IMGList=res.data;
+                    this.total=res.total;
+                    this.getTagsList()
+                })
+            },
+            getListTag(name,index){
+                this.inx=index;
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:name}
+                this.api.material_search({params}).then((res)=>{
+                    this.IMGList=res.data;
+                    this.total=res.total;
+                    this.getTagsList()
                 })
             },
             getList(){
@@ -198,6 +247,9 @@
 
     }
 </script>
-<style>
-
+<style scoped>
+	.active{
+		color: #1583e2!important;
+		border:0!important;
+	}
 </style>

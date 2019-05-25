@@ -14,8 +14,8 @@
                     <el-switch
                             v-model="status"
                             @change=GetSwitch
-                            active-value="1"
-                            inactive-value="0"
+                            active-value=1
+                            inactive-value=0
                             active-color="#13ce66"
                             inactive-color="#ff4949">
                     </el-switch>
@@ -74,7 +74,7 @@
             return {
                 radio:3,
                 titleName:'',
-                status:"1",
+                status:0,
                 name:'',
                 checkedCities1:[],
                 parent:'',
@@ -126,6 +126,8 @@
                 let params = {role_id:this.$route.query.role_id};
                 this.api.perm_role_group({params}).then((res)=>{
                     this.name = res.role.role_name;
+                    this.status = res.role.status;
+                    console.log(res.role.status);
                     let dataId = res.permGroup;
                     for(let id in dataId){
                         for(let permid in dataId[id].perm_group){
@@ -138,8 +140,8 @@
             },
             GetSwitch(){
                 let formData = new FormData;
-                formData.append('id',this.$route.query.role_id)
-                formData.append('status',this.status)
+                formData.append('id',this.$route.query.role_id);
+                formData.append('status',this.status);
                 this.api.change_role_status(formData).then((res)=>{
 
                 })
