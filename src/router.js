@@ -219,7 +219,7 @@ let nb = [
 			{path:'/admin/lockScreen',name:'场景锁屏',component: mode['lockScreen']},
 			{path:'/admin/add_library',name:'添加投放库',component: mode['add_library']},
 			{path:'/admin/details_library',name:'详情库',component: mode['details_library']},
-			{path:'/admin/details_library',name:'标签管理',component: mode['details_library']},
+			{path:'/admin/tags_details',name:'标签管理',component: mode['tags_details']},
 			// {path:'/admin/external',name:'外部帐号管理',component:mode['external']},
 		]
 	},

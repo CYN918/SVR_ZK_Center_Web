@@ -40,7 +40,7 @@
         },
         methods:{
             heid(){
-                this.$parent.YCHint()
+                this.$parent.YCHint();
             }
         }
 

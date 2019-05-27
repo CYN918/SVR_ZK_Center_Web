@@ -11,7 +11,7 @@
                 <div class="btn" @click="jump">
                     <span>+ 添加角色</span>
                 </div>
-                <div class="box" v-for="(item,index) in list" v-if="listShow">
+                <div class="box" v-for="(item,index) in list">
                     <div class="box_1">
                         <img src="../../../public/img/user.png"/>
                     </div>
@@ -20,7 +20,7 @@
                         <p class="masg">{{item.created_at}}创建</p>
                     </div>
                     <div class="box_3">
-                        <p class="box_txt box_num" @click="nums(index)">{{item.users_count}}</p>
+                        <p class="box_txt box_num" @click="nums(index)">{{item.user_count}}</p>
                         <p class="masg">已绑定账号数</p>
                     </div>
                     <div class="box_4" @click="enter(index)">
@@ -36,7 +36,7 @@
                         :page-sizes="[30, 40, 50, 60]"
                         :page-size="p"
                         layout="total, sizes, prev, pager, next, jumper"
-                        :total="400">
+                        :total="total">
                 </el-pagination>
             </div>
         </div>
@@ -51,10 +51,11 @@
             return {
                 listShow:false,
                 list:[],
-                id:9,
+                id:null,
                 p:30,
                 page:1,
-                total:0
+                total:0,
+                search:''
             }
         },
         mounted(){
@@ -67,11 +68,13 @@
                 })
             },
             getRole(){
-                this.api.get_roles().then((res)=>{
-                    this.list = res;
-                    if(this.list!=''){
-                        this.listShow=true
-                    }
+                let params = {search:this.search,p:this.p,page:this.page};
+                this.api.role_roles({params}).then((res)=>{
+                    console.log(res);
+                    this.list = res.data;
+                    // if(this.list!=''){
+                    //     this.listShow=true
+                    // }
                 })
             },
             enter(a){

@@ -337,6 +337,7 @@ html,body{
   vertical-align: top;
 }
 .boxImg_right_1 .img{
+  vertical-align: top;
   display: inline-block;
   width:58px;
   height:28px;
@@ -353,6 +354,12 @@ html,body{
 .boxImg_right_1,.boxImg_right_2{
   display: inline-block;
   vertical-align: top;
+}
+.boxImg_xz_yz{
+  display: inline-block;
+  max-width: 180px !important;
+  height:35px;
+  overflow: hidden;
 }
 .boxImg_text{
   display: inline-block;

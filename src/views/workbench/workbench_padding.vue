@@ -82,21 +82,21 @@
                 this.active=0;
                 let params ={p:this.p,page:this.page,search:this.search,status:1}
                 this.api.demand_search({params}).then((res)=>{
-                    for(var i = 0; i < res.data.length; i++) {
-                        var subData = [];
-                        var obj = {};
-                        var currentStatus = res.data[i].audit_logs[res.data[i].audit_logs.length-1].status;
-                        res.data[i]['currentStatus'] = currentStatus
-                        for (var j = 0; j < res.data[i].audit_logs.length; j++) {
-                            if (!obj[res.data[i].audit_logs[j].status]) {
-                                subData.push(res.data[i].audit_logs[j])
-                                obj[res.data[i].audit_logs[j].status] = 1;
-                            }
-                        }
-                        res.data[i]['SubData'] = subData;
-                    }
+                    // for(var i = 0; i < res.data.length; i++) {
+                    //     var subData = [];
+                    //     var obj = {};
+                    //     var currentStatus = res.data[i].audit_logs[res.data[i].audit_logs.length-1].status;
+                    //     res.data[i]['currentStatus'] = currentStatus
+                    //     for (var j = 0; j < res.data[i].audit_logs.length; j++) {
+                    //         if (!obj[res.data[i].audit_logs[j].status]) {
+                    //             subData.push(res.data[i].audit_logs[j])
+                    //             obj[res.data[i].audit_logs[j].status] = 1;
+                    //         }
+                    //     }
+                    //     res.data[i]['SubData'] = subData;
+                    // }
                     this.tableData = res.data;
-                    console.log(res.data)
+                    console.log(res.data);
                     this.total = res.total;
                     for (let i=0;i<this.tableData.length;i++){
                         if(this.tableData[i].demand_type=='demand_business'){
@@ -109,21 +109,21 @@
             },
             getDataList(){
                 this.active=1;
-                let params ={p:this.p,page:this.page,search:this.search,status:1}
+                let params ={p:this.p,page:this.page,search:this.search,status:1};
                 this.api.demand_search({params}).then((res)=>{
-                    for(var i = 0; i < res.data.length; i++) {
-                        var subData = [];
-                        var obj = {};
-                        var currentStatus = res.data[i].audit_logs[res.data[i].audit_logs.length-1].status;
-                        res.data[i]['currentStatus'] = currentStatus
-                        for (var j = 0; j < res.data[i].audit_logs.length; j++) {
-                            if (!obj[res.data[i].audit_logs[j].status]) {
-                                subData.push(res.data[i].audit_logs[j])
-                                obj[res.data[i].audit_logs[j].status] = 1;
-                            }
-                        }
-                        res.data[i]['SubData'] = subData;
-                    }
+                    // for(var i = 0; i < res.data.length; i++) {
+                    //     var subData = [];
+                    //     var obj = {};
+                    //     var currentStatus = res.data[i].audit_logs[res.data[i].audit_logs.length-1].status;
+                    //     res.data[i]['currentStatus'] = currentStatus
+                    //     for (var j = 0; j < res.data[i].audit_logs.length; j++) {
+                    //         if (!obj[res.data[i].audit_logs[j].status]) {
+                    //             subData.push(res.data[i].audit_logs[j])
+                    //             obj[res.data[i].audit_logs[j].status] = 1;
+                    //         }
+                    //     }
+                    //     res.data[i]['SubData'] = subData;
+                    // }
                     this.tableData = res.data;
                     console.log(res.data)
                     this.total = res.total;

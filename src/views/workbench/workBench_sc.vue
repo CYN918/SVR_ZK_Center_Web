@@ -311,8 +311,13 @@
     }
     .btn{
         text-align: right;
+        width:840px;
+        height:58px;
         background:rgba(247,249,252,1);
         border-radius:0px 0px 4px 4px;
+        margin-bottom: 0!important;
+        position:fixed ;
+        bottom: 0;
     }
     .btn span{
         display: inline-block;
@@ -329,6 +334,7 @@
         margin-right: 44px;
         line-height: 36px;
         cursor: pointer;
+        margin-top: 10px;
     }
     .btn_fb{
         background:rgba(51,119,255,1)!important;
@@ -337,5 +343,9 @@
     }
     .uplaod{
         display: inline-block;
+        margin-bottom: 0!important;
+    }
+    .upload-demo{
+        margin-bottom: 0!important;
     }
 </style>

@@ -47,8 +47,10 @@
 						<div>
 							<span class="boxImg_text boxImg_bq">标签:</span>
 							<div class="boxImg_xz">
-								<span class="box_box" v-for="(tag,index2) in DL.self_tags">{{tag}}</span>
-								<span class="box_box" v-for="(ta,index3) in DL.tags">{{ta}}</span>
+								<div class="boxImg_xz_yz">
+									<span class="box_box" v-if="DL.tags.length>=0" v-for="(tag,index2) in DL.tags">{{tag}}</span>
+									<span class="box_box" v-if="DL.tags.length<3" v-for="(ta,index3) in DL.self_tags">{{ta}}</span>
+								</div>
 								<span class="img"  @click="XStag(index)">+ 标签</span>
 							</div>
 						</div>
@@ -151,7 +153,7 @@ export default {
 		},
 		ShowHint(){
 		    this.hint = true;
-		    this.sc = false
+		    // this.sc = false
 		},
 		getRel(index){
             this.getRe=true;
@@ -252,4 +254,10 @@ export default {
 	color: #1583e2!important;
 	border:0!important;
 }
+/*.boxImg_xz_yz{*/
+	/*display: inline-block;*/
+	/*max-width: 180px !important;*/
+	/*height:35px;*/
+	/*overflow: hidden;*/
+/*}*/
 </style>

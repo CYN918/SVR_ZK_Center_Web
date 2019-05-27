@@ -54,53 +54,53 @@
                     </el-table-column>
                     <el-table-column type="expand" label="查看完整流程" width="200">
                         <template slot-scope="props">
-                            <div>
-                                <div class="step_box" v-for="(item,index2) in tableData[props.$index].audit_process" >
+                            <!--<div>-->
+                                <!--<div class="step_box" v-for="(item,index2) in tableData[props.$index].audit_process" >-->
 
-                                    <div class="step" v-if="tableData[props.$index].currentStatus == tableData[props.$index].audit_process[index2].status">{{tableData[props.$index].audit_process[index2].status}}</div>
+                                    <!--<div class="step" v-if="tableData[props.$index].currentStatus == tableData[props.$index].audit_process[index2].status">{{tableData[props.$index].audit_process[index2].status}}</div>-->
 
-                                    <div class="step" v-else-if="tableData[props.$index].SubData[index2] && tableData[props.$index].SubData[index2].msg == '已驳回'">X</div>
-                                    <div class="step" v-else-if="tableData[props.$index].currentStatus < tableData[props.$index].audit_process[index2].status">{{tableData[props.$index].audit_process[index2].status}}</div>
-                                    <div class="step" v-else>√</div>
-                                    <div class="step_tit">{{item.status_name}}</div>
-                                    <div class="step_time" v-if="tableData[props.$index].SubData[index2]">{{item.created_at}}</div>
-                                    <div class="step_contnet" v-if="tableData[props.$index].SubData[index2]">
-                                        <span class="step_txt">状态</span>
-                                        <span >{{tableData[props.$index].SubData[index2] && tableData[props.$index].SubData[index2].msg}}</span>
-                                    </div>
-                                    <div class="step_contnet" v-if="tableData[props.$index].SubData[index2]">
-                                        <span class="step_txt" v-if="index2=='0'">来源</span>
-                                        <span class="step_txt" v-if="index2!='0'">处理人</span>
-                                        <span>{{tableData[props.$index].SubData[index2] && tableData[props.$index].SubData[index2].creator}}</span>
-                                    </div>
-                                    <div class="step_contnet" v-if="tableData[props.$index].SubData[index2]">
-                                        <span class="step_txt" v-if="index2=='0'">需求内容</span>
-                                        <span class="step_txt" v-if="index2!='0'">处理结果</span>
-                                        <span>查看详情</span>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <!--<div v-else>-->
-                                <!--<div class="step_box" v-for="(item,index2) in tableData[props.$index].audit_logs">-->
-                                    <!--<div class="step" >√</div>-->
-                                    <!--<div class="step_tit">{{item.note}}</div>-->
-                                    <!--<div class="step_time">{{item.created_at}}</div>-->
-                                    <!--<div class="step_contnet">-->
+                                    <!--<div class="step" v-else-if="tableData[props.$index].SubData[index2] && tableData[props.$index].SubData[index2].msg == '已驳回'">X</div>-->
+                                    <!--<div class="step" v-else-if="tableData[props.$index].currentStatus < tableData[props.$index].audit_process[index2].status">{{tableData[props.$index].audit_process[index2].status}}</div>-->
+                                    <!--<div class="step" v-else>√</div>-->
+                                    <!--<div class="step_tit">{{item.status_name}}</div>-->
+                                    <!--<div class="step_time" v-if="tableData[props.$index].SubData[index2]">{{item.created_at}}</div>-->
+                                    <!--<div class="step_contnet" v-if="tableData[props.$index].SubData[index2]">-->
                                         <!--<span class="step_txt">状态</span>-->
-                                        <!--<span>{{item.status}}</span>-->
+                                        <!--<span >{{tableData[props.$index].SubData[index2] && tableData[props.$index].SubData[index2].msg}}</span>-->
                                     <!--</div>-->
-                                    <!--<div class="step_contnet">-->
+                                    <!--<div class="step_contnet" v-if="tableData[props.$index].SubData[index2]">-->
                                         <!--<span class="step_txt" v-if="index2=='0'">来源</span>-->
                                         <!--<span class="step_txt" v-if="index2!='0'">处理人</span>-->
-                                        <!--<span>{{item.creator}}</span>-->
+                                        <!--<span>{{tableData[props.$index].SubData[index2] && tableData[props.$index].SubData[index2].creator}}</span>-->
                                     <!--</div>-->
-                                    <!--<div class="step_contnet">-->
+                                    <!--<div class="step_contnet" v-if="tableData[props.$index].SubData[index2]">-->
                                         <!--<span class="step_txt" v-if="index2=='0'">需求内容</span>-->
                                         <!--<span class="step_txt" v-if="index2!='0'">处理结果</span>-->
-                                        <!--<span>点击查看</span>-->
+                                        <!--<span>查看详情</span>-->
                                     <!--</div>-->
                                 <!--</div>-->
+
+                            <!--</div>-->
+                            <div v-else>
+                                <div class="step_box" v-for="(item,index2) in tableData(props.$index).audit_process">
+                                    <div class="step" >√</div>
+                                    <div class="step_tit">{{item.note}}</div>
+                                    <div class="step_time">{{item.created_at}}</div>
+                                    <div class="step_contnet">
+                                        <span class="step_txt">状态</span>
+                                        <span>{{item.status}}</span>
+                                    </div>
+                                    <div class="step_contnet">
+                                        <span class="step_txt" v-if="index2=='0'">来源</span>
+                                        <span class="step_txt" v-if="index2!='0'">处理人</span>
+                                        <span>{{item.creator}}</span>
+                                    </div>
+                                    <div class="step_contnet">
+                                        <span class="step_txt" v-if="index2=='0'">需求内容</span>
+                                        <span class="step_txt" v-if="index2!='0'">处理结果</span>
+                                        <span>点击查看</span>
+                                    </div>
+                                </div>
                                 <!--<div class="step_box_2">-->
                                     <!--<div class="step">{{tableData[props.$index].audit_logs.length+1}}</div>-->
                                     <!--<div class="step_tit">{{tableData[props.$index].audit_process[tableData[props.$index].audit_logs.length].note}}</div>-->
@@ -135,7 +135,7 @@
                                     <!--<span >{{da.msg}}</span>-->
                                     <!--</div>-->
                                 <!--</div>-->
-                            <!--</div>-->
+                            </div>
                         </template>
                     </el-table-column>
                 </el-table>

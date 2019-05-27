@@ -7,14 +7,16 @@
         <div class="content">
             <div class="con_select">
                 <span>投放库名称</span>
-                <input type="=text" placeholder="请输入投放库名称"/>
+                <input type="text" placeholder="请输入投放库名称" v-model="search"/>
                 <span>投放库类型</span>
-                <input type="=text" placeholder="请输入投放库类型"/>
-                <span>广告位类型</span>
-                <select>
+                <select v-model="put_type">
                     <option>aaa</option>
                 </select>
-                <span class="cx">查询</span>
+                <span>广告位类型</span>
+                <select v-model="pos_type">
+                    <option v-for="item in oddList" :value="item.pos_type">{{item.pos_type}}</option>
+                </select>
+                <span class="cx" @click="getDataList">查询</span>
                 <span class="addTF"  @click="jump()">新建投放库</span>
             </div>
             <div>
@@ -23,7 +25,7 @@
                             :data="tableData"
                             style="width: 100%">
                         <el-table-column
-                                prop="date"
+                                prop="id"
                                 label="投放库ID"
                                 >
                         </el-table-column>
@@ -37,17 +39,17 @@
                                 label="投放库类型">
                         </el-table-column>
                         <el-table-column
-                                prop="date"
+                                prop="pos_type"
                                 label="广告位类型"
                                >
                         </el-table-column>
                         <el-table-column
-                                prop="name"
+                                prop="size"
                                 label="素材尺寸"
                                 >
                         </el-table-column>
                         <el-table-column
-                                prop="address"
+                                prop="ad_type"
                                 label="广告类型">
                         </el-table-column>
                         <el-table-column
@@ -61,7 +63,7 @@
                                >
                         </el-table-column>
                         <el-table-column
-                                prop="address"
+                                prop="updated_at"
                                 label="更新时间">
                         </el-table-column>
                         <el-table-column
@@ -69,7 +71,7 @@
                                 label="操作">
                             <template slot-scope="scope">
                                 <el-button type="text" size="small"  @click="look(scope.$index)">查看详情</el-button>
-                                <el-button type="text" size="small" >删除</el-button>
+                                <el-button type="text" size="small"  @click="delData(scope.$index)">删除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -97,26 +99,30 @@
                 tableData:[{
                     date: '2016-05-02',
                     name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
+
                 }, {
                     date: '2016-05-04',
                     name: '王小虎',
-                    address: '上海市普陀区金沙江路 1517 弄'
+
                 }, {
                     date: '2016-05-01',
                     name: '王小虎',
-                    address: '上海市普陀区金沙江路 1519 弄'
+
                 }, {
                     date: '2016-05-03',
                     name: '王小虎',
-                    address: '上海市普陀区金沙江路 1516 弄'
+
                 }],
                 p:20,
                 page:1,
-                total:0
+                total:0,
+                search:'',
+                put_type:'',
+                pos_type:'',
+                oddList:[],
             }
         },
-        mounted(){},
+        mounted(){this.getOddList()},
         methods:{
             jump(){
                 this.$router.push({
@@ -127,7 +133,35 @@
                 this.$router.push({
                     path:'/admin/details_library'
                 })
-            }
+            },
+
+            getOddList(){
+                this.api.config_position_type({}).then((res)=>{
+                    this.oddList=res;
+                    this.getDataList()
+                })
+            },
+            getDataList(){
+                let params = {search:this.search,put_type:this.put_type,pos_type:this.pos_type}
+                this.api.putlib_search({params}).then((res)=>{
+                    this.tableData = res;
+                    console.log(res)
+
+                })
+            },
+            delData(index){
+                let formData = new FormData;
+                formData.append('id',this.tableData[index].id);
+                this.api.putlib_del(formData).then((res)=>{
+                    this.getDataList();
+                })
+            },
+            handleSizeChange1(page){
+                this.page=page
+            },
+            handleCurrentChange1(p){
+                this.p=p;
+            },
         },
     }
 </script>

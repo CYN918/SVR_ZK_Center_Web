@@ -151,7 +151,7 @@
             },
             ShowHint(){
                 this.hint = true;
-                this.sc = false
+                // this.sc = false
             },
             getRel(index){
                 this.getRe=true;

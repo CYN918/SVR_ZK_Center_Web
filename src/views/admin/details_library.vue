@@ -89,7 +89,15 @@
 
 <script>
     export default {
-        name: "details_library"
+        name: "details_library",
+        data(){
+            return{}
+        },
+        methods:{
+            fh(){
+                this.$router.go(-1)
+            },
+        }
     }
 </script>
 

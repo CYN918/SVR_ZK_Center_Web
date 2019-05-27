@@ -90,6 +90,7 @@ export default {
 	material_wallpaperPutmat:{
 		url:'/wallpaper/put/material-put',method:'get',isType:{suktip:1,reload:1}
 	},
+	//获取所有角色
 	get_roles:{
 		url:'/get_roles',method:'get'
 	},
@@ -110,7 +111,7 @@ export default {
 	},
 	/*改变角色状态*/
 	change_role_status:{
-		url:'/change_role_status',method:'post',isType:{suktip:1,reload:1}
+		url:'/change_role_status',method:'post',
 	},
 	/*获取内部帐号*/
     account_all:{
@@ -127,7 +128,11 @@ export default {
 		url:'/add_external_account',method:'post',isType:{suktip:1,reload:1}			
 	},
 	wallpaper_check:{
-		url:'/wallpaper/put/check',method:'get',isType:{suktip:1,reload:1}	
+		url:'/wallpaper/put/check',method:'get',isType:{suktip:1,reload:1}
+	},
+	//获取所有角色
+	role_roles:{
+		url:'/role/roles',method:'get'
 	},
 	//获取流程处理人列表
     process_list:{
@@ -396,6 +401,14 @@ export default {
     tags_search:{
 		url:'/tags/search',method:'get'
 	},
+	//获取投放库列表
+	putlib_search:{
+		url:"/putlib/search",method:'get'
+	},
+	//获取标签数量统计
+    tags_count:{
+		url:'tags/count',method:'get'
+	},
 	//获取素材库列表
      material_search:{
 		url:'/material/search',method:'get'
@@ -407,6 +420,10 @@ export default {
 	//编辑素材
     material_edit:{
 		url:'/material/edit',method:'post',isType:{suktip:1,reload:1}
+	},
+	//删除标签
+	tags_del:{
+		url:'/tags/del',method:'post',isType:{suktip:1}
 	},
 	//获取相绑定素材
 	material_bind_get:{
@@ -426,7 +443,7 @@ export default {
 	},
 	//添加标签
     tags_add:{
-		url:'/tags/add',method:'post',isType:{suktip:1,reload:1}
+		url:'/tags/add',method:'post',isType:{suktip:1}
 	},
 	//获取物料库列表
     mfinal_search:{
@@ -485,6 +502,14 @@ export default {
 	//获取广告位类型列表
 	config_position_type:{
 		url:'/config/position/type',method:'get'
+	},
+	//新增投放库
+	putlib_add:{
+		url:'/putlib/add',method:'post',isType:{suktip:1}
+	},
+	//删除投放库
+	putlib_del:{
+		url:'/putlib/del',method:'post',isType:{suktip:1}
 	},
 	//新增业务需求
 	demand_business_add:{

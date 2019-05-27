@@ -12,39 +12,39 @@
             <div class="con_left">
                 <div>
                     <span>投放库名称</span>
-                    <input type="text" placeholder="请输入投放库名称"/>
+                    <input type="text" placeholder="请输入投放库名称" v-model="name"/>
                 </div>
                <div>
                    <span>广告位类型</span>
-                   <select>
-                       <option>sss</option>
+                   <select v-model="pos_type">
+                       <option v-for="item in oddList" :value="item.pos_type">{{item.pos_type}}</option>
                    </select>
                </div>
                 <div>
                     <span>素材尺寸</span>
-                    <select>
-                        <option>sss</option>
+                    <select v-model="size">
+                        <option v-for="da in sizeList" :value="da.size">{{da.size}}</option>
                     </select>
                 </div>
                 <div>
                     <span>广告类型</span>
-                    <select>
-                        <option>sss</option>
+                    <select v-model="ad_type">
+                        <option v-for="da in typeList" :value="da">{{da}}</option>
                     </select>
                 </div>
                 <div>
                     <span>渠道类型</span>
-                    <select>
+                    <select v-model="channel_type">
                         <option>sss</option>
                     </select>
                 </div>
                 <div>
                     <span>投放库类型</span>
-                    <select>
+                    <select v-model="put_type">
                         <option>sss</option>
                     </select>
                 </div>
-                <span class="xj">新建</span>
+                <span class="xj" @click="AddLibrary">新建</span>
             </div>
         </div>
     </div>
@@ -54,12 +54,59 @@
     export default {
         name: "add_library",
         data(){
-            return{}
+            return{
+                oddList:[],
+                sizeList:[],
+                typeList:[],
+                channel_type:'',
+                name:'',
+                put_type:'',
+                pos_type:'',
+                size:'',
+                ad_type:'',
+
+
+            }
+        },
+        mounted(){
+            this.getOddList()
         },
         methods:{
             fh(){
                 this.$router.go(-1)
             },
+            getOddList(){
+                this.api.config_position_type({}).then((res)=>{
+                    this.oddList=res;
+                    this.getSize();
+                    this.getTypeList()
+                })
+            },
+            getSize(){
+                this.api.config_size().then((res)=>{
+                   this.sizeList= res
+                })
+            },
+            getTypeList(){
+                let params = {material:1};
+                this.api.material_type({params}).then((res)=>{
+                    console.log(res);
+                    this.typeList = res
+
+                })
+            },
+            AddLibrary(){
+                let formData = new FormData;
+                formData.append('name',this.name);
+                formData.append('put_type',"put_type");
+                formData.append('pos_type',this.pos_type);
+                formData.append('size',this.size);
+                formData.append('ad_type',this.ad_type);
+                formData.append('channel_type','channel_type');
+                this.api.putlib_add(formData).then((res)=>{
+                    console.log(res)
+                })
+    },
         },
     }
 </script>

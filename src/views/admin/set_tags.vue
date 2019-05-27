@@ -17,24 +17,24 @@
                             border
                             style="width: 100%">
                         <el-table-column
-                                prop="date"
+                                prop="type_name"
                                 label="分类"
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="name"
+                                prop="self_tags_count"
                                 label="预置标签"
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="address"
+                                prop="tags_count"
                                 label="个性标签">
                         </el-table-column>
                         <el-table-column
                                 prop="address"
                                 label="操作">
                             <template slot-scope="scope">
-                                <el-button type="text" size="small">管理</el-button>
+                                <el-button type="text" size="small" @click="details(scope.$index)">管理</el-button>
 
                             </template>
                         </el-table-column>
@@ -53,24 +53,24 @@
                             border
                             style="width: 100%">
                         <el-table-column
-                                prop="date"
+                                prop="type_name"
                                 label="分类"
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="name"
+                                prop="self_tags_count"
                                 label="预置标签"
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="address"
+                                prop="tags_count"
                                 label="个性标签">
                         </el-table-column>
                         <el-table-column
                                 prop="address"
                                 label="操作">
                             <template slot-scope="scope">
-                                <el-button type="text" size="small" @click="details(scope.$index)">管理</el-button>
+                                <el-button type="text" size="small">管理</el-button>
 
                             </template>
                         </el-table-column>
@@ -86,42 +86,11 @@
         name: "set_tags",
         data(){
             return{
-                tableData2:[{
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                    date: '2016-05-04',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1517 弄'
-                }, {
-                    date: '2016-05-01',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1519 弄'
-                }, {
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1516 弄'
-                }],
-                tableData:[{
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                    date: '2016-05-04',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1517 弄'
-                }, {
-                    date: '2016-05-01',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1519 弄'
-                }, {
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1516 弄'
-                }],
+                tableData2:[],
+                tableData:[],
             }
         },
+        mounted(){this.getTagslist()},
         methods:{
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
@@ -134,10 +103,22 @@
                 return 'color:rgba(153,153,153,1);font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;margin-left:44px;'
             },
             details(index){
+                console.log(this.tableData[index]);
+
                 this.$router.push({
+                    query: {
+                        material:this.tableData[index].material,
+                        type:this.tableData[index].type
+                    },
                     path:'/admin/tags_details'
                 })
-            }
+            },
+            getTagslist(){
+                this.api.tags_count().then((res)=>{
+                    this.tableData = res.material;
+                    this.tableData2 = res.mfinal;
+                })
+            },
         },
     }
 </script>

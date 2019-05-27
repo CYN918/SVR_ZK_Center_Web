@@ -80,6 +80,7 @@
                 parent:'',
                 list:[],
                 parentList:[],
+                value5:"1"
             }
         },
         mounted(){

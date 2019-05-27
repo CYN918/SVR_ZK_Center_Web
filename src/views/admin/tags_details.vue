@@ -2,17 +2,455 @@
     <div>
         <div class="top_name">
             <span class="inner">|</span>
-            <span class="top_txt">投放库/面包屑</span>
+            <span class="top_txt">标签管理/广告图标签管理</span>
+            <div class="fh">
+                <img src="../../../public/img/fh.png"/>
+                <span @click="fh">素材库-广告图标签管理</span>
+            </div>
+        </div>
+        <div class="content">
+            <div class="yz_tags">
+                <span class="yz_tit">预置标签</span>
+                <span class="tag_con" v-for="(item,index) in yz_tags" @click="getDEL(index)">{{item.name}}</span>
+                <span class="tag_add" @click="getAdd">添加标签</span>
+                <div class="bg" v-if="add">
+                    <div class="ADD_tags">
+                        <div class="title">
+                            <span>添加标签</span>
+                            <img src="../../../public/img/gb.png" @click="heidTags"/>
+                        </div>
+                        <input type="text" v-model="name"/>
+                        <div class="btn">
+                            <span class="qd" @click="AddTags">添加</span>
+                            <span>取消</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="zdy_tags">
+            <div class="zdy_tags_tit">
+                <span class="zdy_tags_tit_1">个性标签</span>
+                <img src="../../../public/img/ss.png"/>
+                <input type="text" placeholder="搜索标签"/>
+                <div class="zdy_btn">
+                    <input type="checkbox"/>
+                    <span class="check">本页全选</span>
+                    <span class="del" @click="delTags()">删除()</span>
+                    <div class="bg" v-if="dele">
+                        <div class="ADD_tags">
+                            <div class="title">
+                                <span>删除标签</span>
+                                <img src="../../../public/img/gb.png" @click="heidDEL"/>
+                            </div>
+                            <span class="sc">请去确认是否删除标签</span>
+                            <div class="btn">
+                                <span class="qd" @click="del">确认</span>
+                                <span>取消</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tableList">
+                <div class="tab">
+                    <template>
+                        <el-table
+                                :data="tableData"
+                                border
+                                style="width: 100%">
+                            <el-table-column
+                                    type="selection"
+                            >
+                            </el-table-column>
+                            <el-table-column
+                                    prop="name"
+                                    label="标签"
+                            >
+                            </el-table-column>
+                            <el-table-column
+                                    prop="name"
+                                    label="操作"
+                            >
+                                <template slot-scope="props">
+                                    <el-button type="text">管理</el-button>
+                                    <el-button type="text" @click="delTags(props.$index)">删除</el-button>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </template>
+                </div>
+                <div class="tab">
+                    <template>
+                        <el-table
+                                :data="tableData1"
+                                border
+                                style="width: 100%">
+                            <el-table-column
+                                    type="selection"
+                            >
+                            </el-table-column>
+                            <el-table-column
+                                    prop="name"
+                                    label="标签"
+                            >
+                            </el-table-column>
+                            <el-table-column
+                                    prop="name"
+                                    label="操作"
+                            >
+                                <template slot-scope="props">
+                                    <el-button type="text">管理</el-button>
+                                    <el-button type="text" @click="delTags1(props.$index)">删除</el-button>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </template>
+                </div>
+                <div class="tab">
+                   <template>
+                    <el-table
+                            :data="tableData2"
+                            border
+                            style="width: 100%">
+                        <el-table-column
+                                type="selection"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                prop="name"
+                                label="标签"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                prop="name"
+                                label="操作"
+                        >
+                            <template slot-scope="props">
+                                <el-button type="text">管理</el-button>
+                                <el-button type="text" @click="delTags2(props.$index)">删除</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </template>
+                </div>
+            </div>
+
         </div>
     </div>
 </template>
 
 <script>
     export default {
-        name: "tags_details"
+        name: "tags_details",
+        data(){
+            return{
+                tableData: [],
+                tableData1: [],
+                tableData2: [],
+                yz_tags:[],
+                add:false,
+                name:'',
+                dele:false,
+                index:null,
+            }
+        },
+        mounted(){
+            this.getTogsList()
+        },
+        methods:{
+            fh(){
+                this.$router.go(-1)
+            },
+            getTogsList(){
+                let params={p:15,page:1,type:this.$route.query.type, material:this.$route.query.material,search:this.search}
+                this.api.tags_search({params}).then((res)=>{
+                   this.yz_tags = res.data.tags;
+                   this.tableData= res.data.self_tags.splice(0,5);
+                    this.tableData1= res.data.self_tags.splice(0,5);
+                    this.tableData2= res.data.self_tags.splice(0,5);
+                })
+            },
+            delTags(index){
+                let formData = new FormData;
+                formData.append('id',this.tableData[index].id);
+                this.api.tags_del(formData).then((res)=>{
+                    this.getTogsList();
+                })
+            },
+            delTags1(index){
+                let formData = new FormData;
+                formData.append('id',this.tableData1[index].id);
+                this.api.tags_del(formData).then((res)=>{
+                    this.getTogsList();
+                })
+            },
+            delTags2(index){
+                let formData = new FormData;
+                formData.append('id',this.tableData2[index].id);
+                this.api.tags_del(formData).then((res)=>{
+                    this.getTogsList();
+                })
+            },
+            getAdd(){
+                this.add=true;
+            },
+            heidTags(){
+                this.add=false;
+            },
+            getDEL(index){
+                this.dele=true;
+                this.index = index
+            },
+           heidDEL(){
+                this.dele=false;
+            },
+            AddTags(){
+                let formData = new FormData;
+                formData.append('name',this.name);
+                formData.append('preset',1);
+                formData.append('material',this.$route.query.material);
+                formData.append('type',this.$route.query.type);
+                this.api.tags_add(formData).then((res)=>{
+                    this. heidTags();
+                    this.getTogsList();
+                })
+            },
+            del(){
+                let formData = new FormData;
+                formData.append('id',this.yz_tags(this.index).id);
+                this.api.tags_del(formData).then((res)=>{
+                    getTogsList();
+                })
+            },
+        },
+
     }
 </script>
 
 <style scoped>
+    .bg{
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.3);
+        position: fixed;
+        z-index: 9;
+        bottom: 0;
+        right: 0;
+    }
+    .ADD_tags{
+        position: absolute;
+        left: 50%;
+        top: 30%;
+        -webkit-transform: translateX(-50%);
+        transform: translateX(-50%);
+        width:560px;
+        height:194px;
+        background: rgba(255,255,255,1);
+        -webkit-box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.2);
+        box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.2);
+        border-radius: 4px;
+    }
+    .ADD_tags input{
+        width:505px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        margin: 15px 24px;
+        padding-left: 5px;
+    }
+    .btn{
+        text-align: right;
+    }
+    .btn span{
+        display: inline-block;
+        width:68px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        line-height: 36px;
+        text-align: center;
+        cursor: pointer;
+        font-size:14px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(61,73,102,1);
+        margin-right: 24px;
+    }
+    .qd{
+        background:rgba(51,119,255,1)!important;
+        color:rgba(255,255,255,1)!important;
+    }
+    .title{
+        height: 56px;
+        border-bottom: 1px solid #ddd;
+    }
+    .title span{
+        font-size:18px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(61,73,102,1);
+        line-height: 56px;
+        margin-left: 24px;
+    }
+    .title img{
+        width: 16px;
+        height: 16px;
+        position: relative;
+        right: -432px;
+    }
+    .sc{
+        display: inline-block;
+        font-size:18px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(61,73,102,1);
+        margin:15px 24px;
 
+
+    }
+.top_name{
+    height:113px;
+}
+.top_name img{
+    display: inline-block;
+    width:20px;
+    margin-left: 24px;
+}
+
+.fh span{
+    display: inline-block;
+    font-size:14px;
+    font-family:PingFangSC-Regular;
+    font-weight:400;
+    color:rgba(51,119,255,1);
+    cursor: pointer;
+    line-height: 36px;
+}
+.content{
+    margin-top: 198px!important;
+}
+.tag_add{
+    display: inline-block;
+    width:58px;
+    height:28px;
+    background:rgba(255,255,255,1);
+    border-radius:4px;
+    border:1px dotted rgba(211,219,235,1);
+    line-height: 28px;
+    text-align: center;
+    font-size:12px;
+    font-family:PingFangSC-Regular;
+    font-weight:400;
+    color:rgba(143,155,179,1);
+    cursor: pointer;
+    margin-top: 30px;
+}
+.yz_tit{
+    display: inline-block;
+    font-size:14px;
+    font-family:PingFang-SC-Medium;
+    font-weight:500;
+    color:rgba(143,155,179,1);
+    margin-right:36px ;
+}
+.yz_tags{
+    margin: 0 24px;
+    height: 84px;
+}
+.tag_con{
+    display: inline-block;
+    font-size:12px;
+    font-family:PingFangSC-Regular;
+    font-weight:400;
+    color:rgba(143,155,179,1);
+    padding: 5px 10px;
+    border:1px solid rgba(211,219,235,1);
+    border-radius:4px;
+    background:rgba(247,249,252,1);
+    cursor: pointer;
+    margin-right: 14px;
+}
+.zdy_tags{
+    width: 100%;
+    height: 100%;
+    background:rgba(255,255,255,1);
+    box-shadow:0px 0px 6px 0px rgba(0, 0, 0, 0.04);
+    margin-top: 41px;
+}
+.zdy_tags_tit{
+    margin-left: 24px;
+}
+.zdy_tags_tit_1{
+    display: inline-block;
+    font-size:14px;
+    font-family:PingFang-SC-Medium;
+    font-weight:500;
+    color:rgba(31,46,77,1);
+}
+.zdy_tags_tit>input{
+    width:404px;
+    height:36px;
+    background:rgba(255,255,255,1);
+    border-radius:4px;
+    border:1px solid rgba(211,219,235,1);
+    padding-left: 30px;
+    margin-top: 24px;
+}
+.zdy_tags_tit>img{
+    width: 25px;
+    height: 25px;
+    position: relative;
+    right: -30px; top:8px;
+}
+.zdy_btn{
+    display: inline-block;
+    float: right;
+    margin-right: 24px;
+    margin-top: 24px;
+}
+.zdy_btn>input{
+    width:16px;
+    height:16px;
+    background:rgba(242,246,252,1);
+    border-radius:4px;
+    border:1px solid rgba(211,219,235,1);
+    margin-right: 14px;
+}
+.check{
+    display: inline-block;
+    font-size:14px;
+    font-family:PingFangSC-Regular;
+    font-weight:400;
+    color:rgba(143,155,179,1);
+}
+.del{
+    display: inline-block;
+    width:95px;
+    height:36px;
+    background:rgba(51,119,255,1);
+    border-radius:4px;
+    cursor: pointer;
+    text-align: center;
+    line-height: 36px;
+    font-size:14px;
+    font-family:PingFangSC-Regular;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    margin-left: 20px;
+}
+.tab{
+    display: inline-block;
+    width: 30%;
+    margin-right: 52px;
+    vertical-align: top;
+}
+    .tab:nth-child(3){
+        margin-right: 0!important;
+    }
+.tableList{
+    margin: 24px;
+}
 </style>
