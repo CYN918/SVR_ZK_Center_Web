@@ -36,7 +36,7 @@
                 <div class="zdy_btn">
                     <input type="checkbox"/>
                     <span class="check">本页全选</span>
-                    <span class="del" @click="delTags()">删除()</span>
+                    <span class="del" @click="delTags()">删除({{this.tags.length}})</span>
                     <div class="bg" v-if="dele">
                         <div class="ADD_tags">
                             <div class="title">
@@ -58,7 +58,8 @@
                         <el-table
                                 :data="tableData"
                                 border
-                                style="width: 100%">
+                                style="width: 100%"
+                                @selection-change="handleSelectionChange">
                             <el-table-column
                                     type="selection"
                             >
@@ -85,7 +86,8 @@
                         <el-table
                                 :data="tableData1"
                                 border
-                                style="width: 100%">
+                                style="width: 100%"
+                                @selection-change="handleSelectionChange1">
                             <el-table-column
                                     type="selection"
                             >
@@ -101,7 +103,7 @@
                             >
                                 <template slot-scope="props">
                                     <el-button type="text">管理</el-button>
-                                    <el-button type="text" @click="delTags1(props.$index)">删除</el-button>
+                                    <el-button type="text" @click="delTags">删除</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -112,7 +114,8 @@
                     <el-table
                             :data="tableData2"
                             border
-                            style="width: 100%">
+                            style="width: 100%"
+                            @selection-change="handleSelectionChange2">
                         <el-table-column
                                 type="selection"
                         >
@@ -128,7 +131,7 @@
                         >
                             <template slot-scope="props">
                                 <el-button type="text">管理</el-button>
-                                <el-button type="text" @click="delTags2(props.$index)">删除</el-button>
+                                <el-button type="text" @click="delTags">删除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -153,10 +156,11 @@
                 name:'',
                 dele:false,
                 index:null,
+                tags:[],
             }
         },
         mounted(){
-            this.getTogsList()
+            this.getTogsList();
         },
         methods:{
             fh(){
@@ -171,27 +175,16 @@
                     this.tableData2= res.data.self_tags.splice(0,5);
                 })
             },
-            delTags(index){
+            delTags(){
                 let formData = new FormData;
-                formData.append('id',this.tableData[index].id);
+                console.log(JSON.stringify(this.tags));
+                formData.append('tags',JSON.stringify(this.tags));
                 this.api.tags_del(formData).then((res)=>{
                     this.getTogsList();
+                    this.tags=[]
                 })
             },
-            delTags1(index){
-                let formData = new FormData;
-                formData.append('id',this.tableData1[index].id);
-                this.api.tags_del(formData).then((res)=>{
-                    this.getTogsList();
-                })
-            },
-            delTags2(index){
-                let formData = new FormData;
-                formData.append('id',this.tableData2[index].id);
-                this.api.tags_del(formData).then((res)=>{
-                    this.getTogsList();
-                })
-            },
+
             getAdd(){
                 this.add=true;
             },
@@ -218,11 +211,34 @@
             },
             del(){
                 let formData = new FormData;
-                formData.append('id',this.yz_tags(this.index).id);
+                formData.append('tags',JSON.stringify([this.yz_tags[this.index].id]));
                 this.api.tags_del(formData).then((res)=>{
-                    getTogsList();
+                    this.heidDEL();
+                    this.getTogsList();
                 })
             },
+            handleSelectionChange(val){
+                this.multipleSelection = val;
+
+                for(let i = 0;i<val.length;i++){
+                    this.tags.push(val[i].id);
+                }
+                console.log(this.tags);
+            },
+            handleSelectionChange1(val){
+                this.multipleSelection = val;
+                for(let i = 0;i<val.length;i++){
+                    this.tags.push(val[i].id);
+                }
+                console.log(this.tags);
+            },
+            handleSelectionChange2(val){
+                this.multipleSelection = val;
+                for(let i = 0;i<val.length;i++){
+                    this.tags.push(val[i].id);
+                }
+                console.log(this.tags);
+            }
         },
 
     }

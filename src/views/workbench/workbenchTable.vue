@@ -28,11 +28,11 @@
                             width="200">
                     </el-table-column>
                     <el-table-column
-                            label="状态" prop="reject_name"
+                            label="状态" prop="status"
                             width="180">
                     </el-table-column>
                     <el-table-column
-                            label="当前流转人员" prop="status"
+                            label="当前流转人员" prop="creator"
                             width="180">
                     </el-table-column>
                     <el-table-column
@@ -41,100 +41,43 @@
                     </el-table-column>
                     <el-table-column label="操作">
                         <template slot-scope="props">
-                            <el-button v-if="tableData[props.$index].status_name=='上传物料'">查看需求</el-button>
-                            <el-button v-if="tableData[props.$index].status_name!='上传物料'">查看物料</el-button>
-                            <el-button  @click="AddMaterial(props.$index)">添加素材</el-button>
+                            <el-button v-if="tableData[props.$index].status_name=='素材准备'">查看需求</el-button>
+                            <el-button v-if="tableData[props.$index].status_name=='物料审核'">查看物料</el-button>
+                            <el-button  @click="AddMaterial(props.$index)" v-if="tableData[props.$index].status_name=='素材准备'">添加素材</el-button>
                             <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name=='上传物料'">上传物料</el-button>
                             <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name=='测试通过'">测试通过</el-button>
                             <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name!='完成入库'">审核通过</el-button>
                             <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name=='完成入库'">查看投放结果</el-button>
                             <el-button  @click="getBH(props.$index)" v-if="tableData[props.$index].status_name!='完成入库'">驳回</el-button>
-                            <el-button  @click="remove(props.$index)" v-if="rolesList.indexOf('admin')!=-1">删除</el-button>
                         </template>
                     </el-table-column>
                     <el-table-column type="expand" label="查看完整流程" width="200">
                         <template slot-scope="props">
-                            <!--<div>-->
-                                <!--<div class="step_box" v-for="(item,index2) in tableData[props.$index].audit_process" >-->
+                            <div>
+                                <div class="step_box" v-for="(item,index) in tableData[props.$index].audit_process">
 
-                                    <!--<div class="step" v-if="tableData[props.$index].currentStatus == tableData[props.$index].audit_process[index2].status">{{tableData[props.$index].audit_process[index2].status}}</div>-->
-
-                                    <!--<div class="step" v-else-if="tableData[props.$index].SubData[index2] && tableData[props.$index].SubData[index2].msg == '已驳回'">X</div>-->
-                                    <!--<div class="step" v-else-if="tableData[props.$index].currentStatus < tableData[props.$index].audit_process[index2].status">{{tableData[props.$index].audit_process[index2].status}}</div>-->
-                                    <!--<div class="step" v-else>√</div>-->
-                                    <!--<div class="step_tit">{{item.status_name}}</div>-->
-                                    <!--<div class="step_time" v-if="tableData[props.$index].SubData[index2]">{{item.created_at}}</div>-->
-                                    <!--<div class="step_contnet" v-if="tableData[props.$index].SubData[index2]">-->
-                                        <!--<span class="step_txt">状态</span>-->
-                                        <!--<span >{{tableData[props.$index].SubData[index2] && tableData[props.$index].SubData[index2].msg}}</span>-->
-                                    <!--</div>-->
-                                    <!--<div class="step_contnet" v-if="tableData[props.$index].SubData[index2]">-->
-                                        <!--<span class="step_txt" v-if="index2=='0'">来源</span>-->
-                                        <!--<span class="step_txt" v-if="index2!='0'">处理人</span>-->
-                                        <!--<span>{{tableData[props.$index].SubData[index2] && tableData[props.$index].SubData[index2].creator}}</span>-->
-                                    <!--</div>-->
-                                    <!--<div class="step_contnet" v-if="tableData[props.$index].SubData[index2]">-->
-                                        <!--<span class="step_txt" v-if="index2=='0'">需求内容</span>-->
-                                        <!--<span class="step_txt" v-if="index2!='0'">处理结果</span>-->
-                                        <!--<span>查看详情</span>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-
-                            <!--</div>-->
-                            <div v-else>
-                                <div class="step_box" v-for="(item,index2) in tableData(props.$index).audit_process">
-                                    <div class="step" >√</div>
-                                    <div class="step_tit">{{item.note}}</div>
-                                    <div class="step_time">{{item.created_at}}</div>
-                                    <div class="step_contnet">
+                                    <div class="step_wwc" v-if="item.did==undefined&&item.msg!='已驳回'&&tableData[props.$index].status!=item.status">{{item.status}}</div>
+                                    <div class="step_dq" v-if="item.did==undefined&&item.msg!='已驳回'&&tableData[props.$index].status==item.status">{{item.status}}</div>
+                                    <div class="step_bh" v-if="item.msg=='已驳回'">X</div>
+                                    <div class="step" v-if="item.did!=undefined">√</div>
+                                    <div class="step_tit" >{{item.status_name}}</div>
+                                    <div class="step_time" >{{item.updated_at}}</div>
+                                    <div class="step_contnet" v-if="item.creator!=''||tableData[props.$index].status==item.status">
                                         <span class="step_txt">状态</span>
-                                        <span>{{item.status}}</span>
+                                        <span>{{item.msg}}</span>
+                                        <span v-if="tableData[props.$index].status==item.status">待处理</span>
                                     </div>
-                                    <div class="step_contnet">
-                                        <span class="step_txt" v-if="index2=='0'">来源</span>
-                                        <span class="step_txt" v-if="index2!='0'">处理人</span>
+                                    <div class="step_contnet" v-if="item.creator!=''||tableData[props.$index].status==item.status">
+                                        <span class="step_txt" v-if="item.status==1">来源</span>
+                                        <span class="step_txt" v-if="item.status!=1">处理人</span>
                                         <span>{{item.creator}}</span>
                                     </div>
-                                    <div class="step_contnet">
-                                        <span class="step_txt" v-if="index2=='0'">需求内容</span>
-                                        <span class="step_txt" v-if="index2!='0'">处理结果</span>
-                                        <span>点击查看</span>
+                                    <div class="step_contnet" v-if="item.creator!=''||tableData[props.$index].status==item.status">
+                                        <span class="step_txt" v-if="index=='0'">需求内容</span>
+                                        <span class="step_txt" v-if="index!='0'">处理结果</span>
+                                        <span>查看详情</span>
                                     </div>
                                 </div>
-                                <!--<div class="step_box_2">-->
-                                    <!--<div class="step">{{tableData[props.$index].audit_logs.length+1}}</div>-->
-                                    <!--<div class="step_tit">{{tableData[props.$index].audit_process[tableData[props.$index].audit_logs.length].note}}</div>-->
-                                    <!--<div class="step_time">{{tableData[props.$index].audit_process[tableData[props.$index].audit_logs.length].created_at}}</div>-->
-                                    <!--<div class="step_contnet">-->
-                                        <!--<span class="step_txt">状态</span>-->
-                                        <!--<span>{{tableData[props.$index].audit_process[tableData[props.$index].audit_logs.length].status}}</span>-->
-                                    <!--</div>-->
-                                    <!--<div class="step_contnet">-->
-                                        <!--<span class="step_txt">处理人</span>-->
-                                        <!--<span>{{tableData[props.$index].audit_process[tableData[props.$index].audit_logs.length].creator}}</span>-->
-                                    <!--</div>-->
-                                    <!--<div class="step_contnet">-->
-                                        <!--<span class="step_txt">处理结果</span>-->
-                                        <!--<span >{{tableData[props.$index].audit_process[tableData[props.$index].audit_logs.length].msg}}</span>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                                <!--<div class="step_box_3" v-for="(da,index3) in tableData[props.$index].audit_process.slice(tableData[props.$index].audit_logs.length+1)">-->
-                                    <!--<div class="step" >{{tableData[props.$index].audit_logs.length+2+index3}}</div>-->
-                                    <!--<div class="step_tit">{{da.note}}</div>-->
-                                    <!--<div class="step_time">{{da.created_at}}</div>-->
-                                    <!--<div class="step_contnet">-->
-                                    <!--<span class="step_txt">状态</span>-->
-                                    <!--<span>{{da.status}}</span>-->
-                                    <!--</div>-->
-                                    <!--<div class="step_contnet">-->
-                                    <!--<span class="step_txt">处理人</span>-->
-                                    <!--<span>{{da.creator}}</span>-->
-                                    <!--</div>-->
-                                    <!--<div class="step_contnet">-->
-                                    <!--<span class="step_txt">处理结果</span>-->
-                                    <!--<span >{{da.msg}}</span>-->
-                                    <!--</div>-->
-                                <!--</div>-->
                             </div>
                         </template>
                     </el-table-column>
@@ -175,13 +118,13 @@
 
         mounted(){
             this.getData();
-            var msg =[];
-            for(let i=0;i<this.tableData.length;i++){
-                for (let j=0;j<this.tableData[i].audit_logs.length;j++){
-                    msg.push(this.tableData[i].audit_logs[j].msg);
-                }
-            };
-            this.msgList=msg;
+            // var msg =[];
+            // for(let i=0;i<this.tableData.length;i++){
+            //     for (let j=0;j<this.tableData[i].audit_logs.length;j++){
+            //         msg.push(this.tableData[i].audit_logs[j].msg);
+            //     }
+            // };
+            // this.msgList=msg;
 
         },
         methods:{
@@ -246,12 +189,13 @@
             },
 
             getData(){
+                console.log(this.tableData);
                 let params = {
                     email:localStorage.getItem('userAd'),
                 };
                 this.api.get_account({params}).then((datas)=>{
                     this.userData = datas;
-                    console.log(datas.roles)
+                    console.log(datas.roles);
                     var rolesList=[];
                     for(let i=0;i<this.userData.roles.length;i++){
                         rolesList.push(this.userData.roles[i].role_name);
@@ -281,7 +225,7 @@
 .step_box_3{
     vertical-align: top;
 }
-.step{
+.step,.step_bh,.step_dq,.step_wwc{
     width:32px;
     height:32px;
     background:rgba(51,119,255,0.2);
@@ -290,6 +234,19 @@
     color: #2E5BFF;
     border-radius: 50%;
     margin-bottom: 12px;
+}
+.step_bh{
+    background:#E4393C!important;
+    color: #fff!important;
+}
+.step_dq{
+    background:rgba(51,119,255,1)!important;
+    color: #fff!important;
+}
+.step_wwc{
+    background: transparent!important;
+    border:2px solid rgb(178, 188, 191);
+    color: rgba(178, 188, 191,1)!important;
 }
 .step_tit{
     width:96px;

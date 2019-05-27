@@ -96,7 +96,6 @@
                     //     res.data[i]['SubData'] = subData;
                     // }
                     this.tableData = res.data;
-                    console.log(res.data);
                     this.total = res.total;
                     for (let i=0;i<this.tableData.length;i++){
                         if(this.tableData[i].demand_type=='demand_business'){

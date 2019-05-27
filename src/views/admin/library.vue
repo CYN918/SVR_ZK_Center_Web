@@ -96,23 +96,7 @@
         name: "library",
         data(){
             return{
-                tableData:[{
-                    date: '2016-05-02',
-                    name: '王小虎',
-
-                }, {
-                    date: '2016-05-04',
-                    name: '王小虎',
-
-                }, {
-                    date: '2016-05-01',
-                    name: '王小虎',
-
-                }, {
-                    date: '2016-05-03',
-                    name: '王小虎',
-
-                }],
+                tableData:[],
                 p:20,
                 page:1,
                 total:0,
@@ -130,8 +114,12 @@
                 })
             },
             look(index){
+
                 this.$router.push({
-                    path:'/admin/details_library'
+                    path:'/admin/details_library',
+                    query:{
+                        id:this.tableData[index].id
+                    }
                 })
             },
 
@@ -142,9 +130,10 @@
                 })
             },
             getDataList(){
-                let params = {search:this.search,put_type:this.put_type,pos_type:this.pos_type}
+                let params = {search:this.search,put_type:this.put_type,pos_type:this.pos_type,p:this.p,page:this.page};
                 this.api.putlib_search({params}).then((res)=>{
-                    this.tableData = res;
+                    this.tableData = res.data;
+                    this.total = res.total;
                     console.log(res)
 
                 })
@@ -157,10 +146,12 @@
                 })
             },
             handleSizeChange1(page){
-                this.page=page
+                this.page=page;
+                this.getDataList()
             },
             handleCurrentChange1(p){
                 this.p=p;
+                this.getDataList()
             },
         },
     }

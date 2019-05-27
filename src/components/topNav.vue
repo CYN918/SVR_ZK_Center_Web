@@ -13,7 +13,7 @@
 			<router-link  to="/data"><li>数据中心</li></router-link>
 			<router-link  to="/admin"><li>收益中心</li></router-link>
 			<router-link  to="/admin"><li>素材中心</li></router-link>
-			<router-link  to="/user"><li>产品中心</li></router-link>
+			<!--<router-link  to="/user"><li>产品中心</li></router-link>-->
 			<router-link  to="/userinfo"><li class="right"><img src="../../public/img/user.png" class="imgs_user"/>{{name}}</li></router-link>
 			<router-link  to="/login"><li class="right" @click="loginout()">退出登录</li></router-link>
 		</ul>
@@ -24,7 +24,7 @@
 				<el-menu-item index="1">收益中心</el-menu-item>
 				<el-menu-item index="2">数据中心</el-menu-item>
 				<el-menu-item index="3">素材中心</el-menu-item>
-				<el-menu-item index="4">产品中心</el-menu-item>
+				<!--<el-menu-item index="4">产品中心</el-menu-item>-->
 				<el-menu-item @click="loginout" index="4">退出</el-menu-item>				
 			</el-submenu>		  
 		</el-menu>

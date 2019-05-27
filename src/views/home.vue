@@ -409,6 +409,6 @@ text-indent: 38px;
 
 .xqList{
 	position: relative;
-	margin: 114px 24px 50px 240px;
+	margin: 114px 24px 50px 276px!important;
 }
 </style>

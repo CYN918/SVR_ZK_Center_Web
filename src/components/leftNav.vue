@@ -88,7 +88,7 @@ export default {
 	overflow-y: auto;
 	top: 0;
 	left: 0;
-	width: 220px;
+	width: 256px;
 	height: 100%;
 	background:rgba(255,255,255,1);
 	box-shadow:0px 2px 8px 0px rgba(0, 0, 0, 0.08);
@@ -125,9 +125,9 @@ export default {
 
 .leftNav  .el-submenu .el-menu-item{
 	padding: 0 !important;
-	height: 30px;
+	height: 60px;
 	margin-bottom: 19px;
-	line-height: 30px;
+	line-height: 60px;
 	text-align: center;
 }
 
@@ -138,7 +138,11 @@ export default {
 	color:rgba(19,159,248,1);
 
 }
-.leftNav .el-submenu__title.active{
+.leftNav .el-submenu__title.is-active{
+	color:rgba(19,159,248,1)!important;
+	background:rgba(19,159,248,0.1)!important;
+}
+.leftNav .el-submenu__title .active{
 	font-size:14px;
 	font-family:PingFang-SC-Regular;
 	font-weight:400;
@@ -146,11 +150,13 @@ export default {
 	background:rgba(19,159,248,0.1)!important;
 }
 .leftNav .el-menu-item.is-active{
-	font-size:14px;
-	font-family:PingFang-SC-Regular;
+	width:256px;
+	height:60px;
+	background:rgba(0,122,255,0.1)!important;
+	font-size:16px;
+	font-family:PingFangSC-Regular;
 	font-weight:400;
-	color:rgba(19,159,248,1)!important;
-	background:rgba(19,159,248,0.1)!important;
+	color:rgba(0,122,255,1)!important;
 }
 @media only screen  and (max-width: 720px) {
 	.leftNavBox{transform: translateX(-100%);background: rgba(0,0,0,.5);    width: 100%;}

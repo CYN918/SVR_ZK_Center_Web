@@ -120,7 +120,7 @@ export default {
 	width: 100px;
 }
 .xqList{
-	margin: 82px 24px 20px 240px !important;
+	margin: 114px 24px 50px 276px!important;
 }
 .center{
 	margin-bottom: 210px;

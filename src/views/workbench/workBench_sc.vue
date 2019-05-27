@@ -8,7 +8,7 @@
                 <div>
                     <div>
                         <span class="tit_txt">素材类型</span>
-                        <select style="margin-right: 24px" v-model="type">
+                        <select style="margin-right: 24px" v-model="type" @change="getSJlist()">
                             <option v-for="(item,index) in types" :value="item.type">{{item.name}}</option>
                         </select>
                         <select>
@@ -196,12 +196,13 @@
                 let params ={material:1};
                 this.api.config_material_type({params}).then((res)=>{
                    this.types=res;
-                    this.getSJlist()
                 })
             },
             getSJlist(){
-                this.api.config_standards().then((res)=>{
-                    this.sj = res
+                let params = {type:this.type};
+                this.api.config_standards({params}).then((res)=>{
+                    this.sj = res.data;
+                    console.log(res)
                 })
             },
         }

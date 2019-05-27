@@ -405,6 +405,10 @@ export default {
 	putlib_search:{
 		url:"/putlib/search",method:'get'
 	},
+	//獲取投放庫詳情
+	putlib_binds:{
+		url:'/putlib/binds',method:'get'
+	},
 	//获取标签数量统计
     tags_count:{
 		url:'tags/count',method:'get'

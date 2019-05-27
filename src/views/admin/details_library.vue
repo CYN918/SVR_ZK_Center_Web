@@ -10,8 +10,8 @@
             <div class="top_con">
                 <input type="text" placeholder="输入用户名或邮箱快速查询"/>
                 <div class="top_btn">
-                    <span class="wl">从物料库添加</span>
-                    <span class="xq">发布业务需求</span>
+                    <span class="wl" @click="getWl">从物料库添加</span>
+                    <span class="xq" @click="Addyw">发布业务需求</span>
                     <span class="gl">管理</span>
                 </div>
             </div>
@@ -84,18 +84,39 @@
                 </div>
             </div>
         </div>
+        <YW v-if="yw"></YW>
     </div>
 </template>
 
 <script>
+    import YW from './Add_business'
     export default {
+        components:{YW},
         name: "details_library",
         data(){
-            return{}
+            return{
+                IMGList:[],
+                yw:false,
+            }
+        },
+        mounted(){
+            this.getDATAlist();
         },
         methods:{
             fh(){
                 this.$router.go(-1)
+            },
+            getDATAlist(){
+                let params = {id:this.$route.query.id};
+                this.api.putlib_binds({params}).then((res)=>{
+                    this.IMGList = res;
+                })
+            },
+            getWl(){
+
+            },
+            Addyw(){
+                this.yw = true;
             },
         }
     }
