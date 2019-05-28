@@ -27,7 +27,11 @@
                     <div class="boxImg" v-for="(DL,index) in IMGList">
 
                         <div class="boxCheck">
-                            <el-radio v-model="checked" :label="index"  @change="getID(index)"></el-radio>
+                            <template>
+                                <el-checkbox-group v-model="checked">
+                                    <el-checkbox :label="index" @change="getID(index)"></el-checkbox>
+                                </el-checkbox-group>
+                            </template>
                         </div>
                         <img :src="DL.prev_uri"/>
                         <div class="boxImg_right">
@@ -73,7 +77,7 @@
         props:['material','typeSC'],
         data(){
             return {
-                checked:'',
+                checked:[],
                 radioSize:'',
                 pageSize: 6,
                 currentPage:1,
@@ -83,7 +87,7 @@
                 self_tags:[],
                 IMGList:[],
                 search:'',
-                scMid:'',
+                scMid:[],
                 scUrl:'',
                 scType:'',
                 type:'',
@@ -99,7 +103,8 @@
         },
         methods:{
             getID(index){
-                    this.scMid=this.IMGList[index].mfid;
+                    this.scMid.push(this.IMGList[index].mfid);
+                    console.log(this.scMid);
             },
             YCset(){this.$parent.heidWL();},
             messageID(){

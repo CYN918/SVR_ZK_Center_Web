@@ -487,7 +487,7 @@ export default {
 	},
 	//新增设计规范
 	config_standard_add:{
-		url:'/config/standard/add',method:'post',isType:{suktip:1,reload:1}
+		url:'/config/standard/add',method:'post',isType:{suktip:1}
 	},
 	//修改设计规范
     config_standar_edit:{

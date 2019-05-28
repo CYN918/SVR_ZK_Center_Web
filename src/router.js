@@ -62,25 +62,9 @@ mode['add_library'] = add_library
 import details_library from './views/admin/details_library'
 mode['details_library'] = details_library
 
-//审核台
-// import userIndex from './views/user/index.vue'
-// mode['user'] = userIndex
-// import userNeed from './views/user/user_need.vue'
-// mode['user_need'] = userNeed
-// import userChecked from './views/user/user_checked.vue'
-// mode['user_checked'] = userChecked
-// import user_picture from './views/user/user_picture.vue'
-// mode['user_picture'] = user_picture
-// import user_resource from './views/user/user_resource.vue'
-// mode['user_resource'] = user_resource
-// import user_wallpaper from './views/user/user_wallpaper.vue'
-// mode['user_wallpaper'] = user_wallpaper
-// import userMessage from './views/user/userMessage.vue'
-// mode['user_message'] = userMessage
-// import wallpaperProcessed from './views/user/wallpaper_ processed.vue'
-// mode['wallpaper_processed'] = wallpaperProcessed
-// import wallpaperUntreated from './views/user/wallpaper_untreated.vue'
-// mode['wallpaper_untreated'] = wallpaperUntreated
+//收益中心
+import income from './views/income/index.vue'
+mode['income'] = income
 
 
 //工作台
@@ -265,8 +249,12 @@ let nb = [
 		{path:'/workbench/workbenchPadding',name:'待审核',component:mode['workbenchPadding']},
 		{path:'/workbench/ALL',name:'全部',component:mode['ALL']},
 
-
 	]},
+    {path:'/income',name:'收益中心',component:mode['income'],children:[
+            // {path:'/workbench/workbenchPadding',name:'待审核',component:mode['workbenchPadding']},
+            // {path:'/workbench/ALL',name:'全部',component:mode['ALL']},
+
+        ]},
     {path:'/userinfo',name:'个人中心',component:mode['info'],
 		children:[
             {path:'/userinfo/user_info',name:'基本信息',component:mode['userinfo']},
@@ -400,6 +388,14 @@ let leftNav =
 				]}
         ]
 	},
+    {title:'收益中心',default:'/income/user_info',defaultopen:['1'],
+            children:[
+                {title:'收益中心',url:'1',list:[
+                        {title:'基本信息', url:'/userinfo/user_info'},
+
+                    ]},
+            ]
+        },
 ];
 localStorage.setItem('letNav',JSON.stringify(leftNav));
 router.beforeEach((to, from, next) => {

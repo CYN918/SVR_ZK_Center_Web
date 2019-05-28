@@ -8,7 +8,7 @@
                 <span @click="fh">新建投放库</span>
             </div>
             <div class="top_con">
-                <input type="text" placeholder="输入用户名或邮箱快速查询"/>
+                <input type="text" placeholder="输入物料ID快速查询"/>
                 <div class="top_btn">
                     <span class="wl" @click="getWl">从物料库添加</span>
                     <span class="xq" @click="Addyw">发布业务需求</span>

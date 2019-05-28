@@ -11,7 +11,7 @@
 		<ul class="navd" v-if="config.showL!=-1">
 			<router-link  to="/workbench"><li>工作台</li></router-link>
 			<router-link  to="/data"><li>数据中心</li></router-link>
-			<router-link  to="/admin"><li>收益中心</li></router-link>
+			<router-link  to="/income"><li>收益中心</li></router-link>
 			<router-link  to="/admin"><li>素材中心</li></router-link>
 			<!--<router-link  to="/user"><li>产品中心</li></router-link>-->
 			<router-link  to="/userinfo"><li class="right"><img src="../../public/img/user.png" class="imgs_user"/>{{name}}</li></router-link>
