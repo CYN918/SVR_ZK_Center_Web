@@ -57,7 +57,7 @@
                 tagsName:'',
             }
         },
-        mounted(){this.getTagsList(); console.log(this.message)},
+        mounted(){this.getTagsList(); },
         methods:{
             QXtag(){
                 this.$parent.YCtag()
@@ -67,7 +67,7 @@
                 this.api.tags_search({params}).then((da)=>{
                     this.preset_tags = da.data.tags;
                     this.self_tags = da.data.self_tags;
-                    console.log(da)
+                    console.log(this.preset_tags)
                     this.getMatterDetails();
                 })
             },

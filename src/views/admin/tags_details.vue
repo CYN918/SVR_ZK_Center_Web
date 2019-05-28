@@ -22,7 +22,7 @@
                         <input type="text" v-model="name"/>
                         <div class="btn">
                             <span class="qd" @click="AddTags">添加</span>
-                            <span>取消</span>
+                            <span @click="heidTags">取消</span>
                         </div>
                     </div>
                 </div>
@@ -75,7 +75,7 @@
                             >
                                 <template slot-scope="props">
                                     <el-button type="text">管理</el-button>
-                                    <el-button type="text" @click="delTags(props.$index)">删除</el-button>
+                                    <el-button type="text" @click=" delTag(tableData[props.$index].id)">删除</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -103,7 +103,7 @@
                             >
                                 <template slot-scope="props">
                                     <el-button type="text">管理</el-button>
-                                    <el-button type="text" @click="delTags">删除</el-button>
+                                    <el-button type="text" @click=" delTag(tableData1[props.$index].id)">删除</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -131,7 +131,7 @@
                         >
                             <template slot-scope="props">
                                 <el-button type="text">管理</el-button>
-                                <el-button type="text" @click="delTags">删除</el-button>
+                                <el-button type="text" @click=" delTag(tableData2[props.$index].id)">删除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -194,6 +194,14 @@
                     this.tableData2= res.data.self_tags.splice(0,5);
                 })
             },
+            delTag(id){
+                let formData = new FormData;
+                formData.append('tags',JSON.stringify([id]));
+                this.api.tags_del(formData).then((res)=>{
+                    this.getTogsList();
+                    this.tags=[]
+                })
+            },
             delTags(){
                 let formData = new FormData;
                 formData.append('tags',JSON.stringify(this.tags1.concat(this.tags2).concat(this.tags3)));
@@ -237,6 +245,7 @@
                 formData.append('material',this.$route.query.material);
                 formData.append('type',this.$route.query.type);
                 this.api.tags_add(formData).then((res)=>{
+                    this.name='';
                     this. heidTags();
                     this.getTogsList();
                 })

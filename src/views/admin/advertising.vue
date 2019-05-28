@@ -21,12 +21,12 @@
 				<div class="label">
 					<span class="label_txt">预置标签:</span>
 					<span class="labelName" @click="getListTag()">全部</span>
-					<span v-for="(item,index) in preset_tags" class="labelName" @click="getListTag(item.name,index)" :class="{active:inx==index}">{{item.name}}</span>
+					<span v-for="(item,index) in preset_tags" class="labelName" @click="getListTag(item.name,index)" :class="{active:inx==index}" >{{item.name}}</span>
 				</div>
 				<div class="label">
 					<span class="label_txt">个性标签:</span>
 					<span class="labelName" @click="getListTags()">全部</span>
-					<span v-for="(item,index) in self_tags" class="labelName" @click="getListTags(item.name,index)" :class="{active:inde==index}">{{item.name}}</span>
+					<span v-for="(item,index) in self_tags" class="labelName" @click="getListTags(item.name,index)" :class="{active:inde==index}" >{{item.name}}</span>
 				</div>
 			</div>
 			<rel v-if="getRe" :num="num" :material="material" ></rel>
@@ -48,8 +48,8 @@
 							<span class="boxImg_text boxImg_bq">标签:</span>
 							<div class="boxImg_xz">
 								<div class="boxImg_xz_yz">
-									<span class="box_box" v-if="DL.tags.length>=0" v-for="(tag,index2) in DL.tags">{{tag}}</span>
-									<span class="box_box" v-if="DL.tags.length<3" v-for="(ta,index3) in DL.self_tags">{{ta}}</span>
+									<span class="box_box"  v-for="(tag,index2) in DL.tags" v-if="tag!=''">{{tag}}</span>
+									<span class="box_box"  v-for="(ta,index3) in DL.self_tags" v-if="ta!=''">{{ta}}</span>
 								</div>
 								<span class="img"  @click="XStag(index)">+ 标签</span>
 							</div>
@@ -219,20 +219,11 @@ export default {
             this.api.tags_search({params}).then((da)=>{
                 console.log(da);
                 this.preset_tags = da.data.tags;
+                console.log(this.preset_tags);
                 this.self_tags = da.data.self_tags
             })
         },
-        XStag(a){
-            let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search}
-            this.api.mfinal_search({params}).then((res)=>{
-                this.IMGList=res.data;
-                console.log(res.data);
-                if(a!=undefined){
-                    this.message = res.data[a];
-                    this.tags = true;
-                }
-            })
-        },
+
         getListTags(name,index){
             this.inde=index;
             let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:name,status:this.status}

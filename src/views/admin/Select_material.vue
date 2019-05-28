@@ -17,11 +17,11 @@
             <div class="contentImg">
                 <div class="label">
                     <span class="label_txt">预置标签:</span>
-                    <span v-for="(item,index) in preset_tags" class="labelName">{{item.name}}</span>
+                    <span v-for="(item,index) in preset_tags" class="labelName" @click="getListTag(item.name,index)" :class="{active:inx==index}">{{item.name}}</span>
                 </div>
                 <div>
                     <span class="label_txt">个性标签:</span>
-                    <span v-for="(item,index) in self_tags" class="labelName">{{item.name}}</span>
+                    <span v-for="(item,index) in self_tags" class="labelName" @click="getListTag2(item.name,index)" :class="{active:inde==index}">{{item.name}}</span>
                 </div>
                 <div class="box">
                     <div class="boxImg" v-for="(DL,index) in IMGList">
@@ -84,6 +84,8 @@
                 type:'',
                 mid_list:[],
                 url_list:[],
+                inx:null,
+                inde:null
             }
         },
         mounted() {
@@ -138,6 +140,24 @@
                     this.self_tags = da.data.self_tags
                 })
             },
+            getListTag(name,index){
+                this.inx=index;
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:name,status:this.status}
+                this.api.mfinal_search({params}).then((res)=>{
+                    this.IMGList=res.data;
+                    this.total=res.total;
+                    this.getTagsList()
+                })
+            },
+            getListTag2(name,index){
+                this.inde=index;
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:name,status:this.status}
+                this.api.mfinal_search({params}).then((res)=>{
+                    this.IMGList=res.data;
+                    this.total=res.total;
+                    this.getTagsList()
+                })
+            },
             handleSizeChange1() { // 每页条数切换
                 this.pageSize = pageSize;
                 console.log(this.pagesize);
@@ -168,7 +188,7 @@
         height:912px;
         background:rgba(255,255,255,1);
         border-radius:4px;
-        top:-84px;
+        top:-122px;
         left: 50%;
         transform: translateX(-50%);
         overflow-y: auto;
@@ -255,11 +275,11 @@
         margin-right: 16px;
     }
     .contentImg{
-        margin: 0 26px;
+        margin: 0 24px;
     }
     .active{
-        background:rgba(255,255,255,1);
-        border:1px solid rgba(19,159,248,1);
+        color: #1583e2!important;
+        border:0!important;
     }
 
     .box_select input{
@@ -278,10 +298,10 @@
         border:1px solid rgba(51,119,255,1);
         padding: 18px 0 18px 30px;
         box-shadow:0px 0px 10px 0px rgba(153,153,153,0.14);
-        margin: 0 20px 20px 0!important;
+        margin: 0 15px 20px 0!important;
     }
     .boxImg:nth-child(2n){
-        margin: 0 20px 20px 0!important;
+        margin: 0 15px 20px 0!important;
     }
     .boxImg:nth-child(3n){
         margin: 0 0 20px 0!important;
