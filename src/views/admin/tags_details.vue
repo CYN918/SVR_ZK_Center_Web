@@ -31,8 +31,8 @@
         <div class="zdy_tags">
             <div class="zdy_tags_tit">
                 <span class="zdy_tags_tit_1">个性标签</span>
-                <img src="../../../public/img/ss.png"/>
-                <input type="text" placeholder="搜索标签"/>
+                <img src="../../../public/img/ss.png" @click="getTogsList()"/>
+                <input type="text" placeholder="搜索标签" v-model="search" @input="getTogsList()"/>
                 <div class="zdy_btn">
                     <input type="checkbox"/>
                     <span class="check">本页全选</span>
@@ -43,10 +43,10 @@
                                 <span>删除标签</span>
                                 <img src="../../../public/img/gb.png" @click="heidDEL"/>
                             </div>
-                            <span class="sc">请去确认是否删除标签</span>
+                            <span class="sc">请确认是否<span class="red">删除</span>标签</span>
                             <div class="btn">
                                 <span class="qd" @click="del">确认</span>
-                                <span>取消</span>
+                                <span @click="heidDEL">取消</span>
                             </div>
                         </div>
                     </div>
@@ -159,6 +159,7 @@
                 tags1:[],
                 tags2:[],
                 tags3:[],
+                search:'',
             }
         },
         mounted(){
@@ -326,8 +327,6 @@
         font-weight:400;
         color:rgba(61,73,102,1);
         margin:15px 24px;
-
-
     }
 .top_name{
     height:113px;
@@ -471,4 +470,7 @@
 .tableList{
     margin: 24px;
 }
+    .red{
+        color: red;
+    }
 </style>
