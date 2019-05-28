@@ -106,7 +106,7 @@
                 am:false,
                 getRe:false,
                 num:'',
-                bind_id:'',
+                bind_id:[],
                 sc:false,
             }
         },
@@ -160,7 +160,7 @@
                 this.bind_id = a;
                let formData = new FormData;
                 formData.append('id',this.$route.query.id);
-                formData.append('bind_mfid',this.bind_id);
+                formData.append('bind_mfid',JSON.stringify(this.bind_id));
                 this.api.putlib_add_mfinal(formData).then((res)=>{
                     this.getDATAlist();
                 })

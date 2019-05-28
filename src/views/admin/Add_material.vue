@@ -29,7 +29,7 @@
                         <div class="boxCheck">
                             <template>
                                 <el-checkbox-group v-model="checked">
-                                    <el-checkbox :label="index" @change="getID(index)"></el-checkbox>
+                                    <el-checkbox :label="index" ></el-checkbox>
                                 </el-checkbox-group>
                             </template>
                         </div>
@@ -102,12 +102,16 @@
 
         },
         methods:{
-            getID(index){
-                    this.scMid.push(this.IMGList[index].mfid);
-                    console.log(this.scMid);
-            },
+            // getID(index){
+            //         this.scMid.push(this.IMGList[index].mfid);
+            //         console.log(this.scMid);
+            // },
             YCset(){this.$parent.heidWL();},
             messageID(){
+                    for (let i=0;i<this.checked.length;i++){
+                        this.scMid.push(this.IMGList[this.checked[i]].mfid)
+                    }
+                    console.log(this.scMid);
                     this.$emit('listenToChildEvent',this.scMid,true);
                     this.$parent.heidWL();
             },
