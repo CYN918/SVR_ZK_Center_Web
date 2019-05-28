@@ -108,6 +108,8 @@
                     formData.append('tags',this.preinstall);
                     formData.append('self_tags',this.bardian)
                     this.api.material_edit_tags(formData).then((res)=>{
+                        this.$emit('updata','aa');
+                        this.$parent.YCtag();
 
                     })
                 }else{
@@ -116,7 +118,8 @@
                     formData.append('tags',this.preinstall);
                     formData.append('self_tags',this.bardian);
                     this.api.mfinal_edit_tags(formData).then((res)=>{
-                        console.log(res);
+                        this.$emit('updata','aa');
+                        this.$parent.YCtag();
                     })
                 }
 

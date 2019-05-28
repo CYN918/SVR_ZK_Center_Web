@@ -9,7 +9,7 @@
 				<input type="text" placeholder="输入用户名或邮箱快速查询" v-model="search" @input="getList()"/>
 				<img src="../../../public/img/ss.png" @click="getList()"/>
 				<span style="font-size:14px;font-family:PingFangSC-Regular;font-weight:400;color:rgba(31,46,77,1);margin-right: 20px">状态</span>
-				<select v-model="status" @click="getWl()">
+				<select>
 					<option value="" selected>全部</option>
 					<option value="1101">使用中</option>
 					<option value="1001">未使用</option>
@@ -32,7 +32,7 @@
 			<rel v-if="getRe" :num="num" :material="material" ></rel>
 			<AM v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type"></AM>
 			<hin v-if='hint' ></hin>
-			<tag v-if="tags" :message="message" :typeSC='type' :material="material"></tag>
+			<tag v-if="tags" :message="message" :typeSC='type' :material="material" @updata="updata"></tag>
 			<set v-if="sets" :typeSC='type'  @listenToChildEvent="listen" :material="material"></set>
 		</div>
 		<div class="box">
@@ -189,6 +189,9 @@
             YCset(){
                 this.sets = false
             },
+            updata(){
+                this.getList();
+            },
             listen(msg,ddd){
                 this.bindMid=msg;
                 this.hqUrl=ddd;
@@ -203,6 +206,17 @@
                 console.log(currentPage);
                 this.currentPage = currentPage;
                 this.getWl()
+            },
+            XStag(a){
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search}
+                this.api.mfinal_search({params}).then((res)=>{
+                    this.IMGList=res.data;
+                    console.log(res.data);
+                    if(a!=undefined){
+                        this.message = res.data[a];
+                        this.tags = true;
+                    }
+                })
             },
             getLt(a){
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,status:this.status}

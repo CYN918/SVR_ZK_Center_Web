@@ -35,7 +35,7 @@
                 <input type="text" placeholder="搜索标签" v-model="search" @input="getTogsList()"/>
                 <div class="zdy_btn">
                     <input type="checkbox"/>
-                    <span class="check">本页全选</span>
+                    <span class="check" v-model="check" @click="setCheckAll">本页全选</span>
                     <span class="del" @click="delTags()">删除({{this.tags1.concat(this.tags2).concat(this.tags3).length}})</span>
                     <div class="bg" v-if="dele">
                         <div class="ADD_tags">
@@ -173,6 +173,7 @@
                 p:15,
                 page:1,
                 total:0,
+                check:false,
             }
         },
         mounted(){
@@ -221,6 +222,13 @@
             },
            heidDEL(){
                 this.dele=false;
+            },
+            setCheckAll(){
+                if(this.check==true){
+                    this.handleSelectionChange(val);
+                    this.handleSelectionChange1(val);
+                    this.handleSelectionChange2(val);
+                }
             },
             AddTags(){
                 let formData = new FormData;

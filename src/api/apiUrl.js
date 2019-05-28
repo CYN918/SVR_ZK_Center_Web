@@ -475,11 +475,11 @@ export default {
     },
 	//编辑素材标签
     material_edit_tags:{
-		url:'/material/edit/tags',method:'post',isType:{suktip:1,reload:1}
+		url:'/material/edit/tags',method:'post',isType:{suktip:1}
 	},
 	//编辑物料标签
     mfinal_edit_tags:{
-		url:'/mfinal/edit/tags',method:'post',isType:{suktip:1,reload:1}
+		url:'/mfinal/edit/tags',method:'post',isType:{suktip:1}
 	},
 	//修改设计规范
 	config_standard_edit:{

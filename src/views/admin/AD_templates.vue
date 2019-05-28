@@ -32,7 +32,7 @@
 			<rel v-if="getRe" :num="num" :material="material" ></rel>
 			<con v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type"></con>
 			<hin v-if='hint' ></hin>
-			<tag v-if="tags" :message="message" :typeSC='type' :material="material"></tag>
+			<tag v-if="tags" :message="message" :typeSC='type' :material="material" @updata="updata"></tag>
 			<set v-if="sets" :typeSC='type'  @listenToChildEvent="listen" :material="material"></set>
 		</div>
 		<div class="box">
@@ -166,6 +166,9 @@
             YCHint(){
                 this.hint = false;
             },
+            updata(){
+                this.getList();
+			},
             XStag(a){
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search}
                 this.api.material_search({params}).then((res)=>{

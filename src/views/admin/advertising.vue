@@ -32,7 +32,7 @@
 			<rel v-if="getRe" :num="num" :material="material" ></rel>
 			<con v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type"></con>
 			<hin v-if='hint' ></hin>
-			<tag v-if="tags" :message="message" :typeSC='type' :material="material"></tag>
+			<tag v-if="tags" :message="message" :typeSC='type' :material="material" @updata="updata"></tag>
 			<set v-if="sets" :typeSC='type'  @listenToChildEvent="listen" :material="material"></set>
 		</div>
 		<div class="box">
@@ -160,6 +160,9 @@ export default {
             this.getRe=true;
             this.num =this.IMGList[index].mid;
 		},
+        updata(){
+            this.getList();
+        },
         heidRel(){
             this.getRe=false;
         },
@@ -217,6 +220,17 @@ export default {
                 console.log(da);
                 this.preset_tags = da.data.tags;
                 this.self_tags = da.data.self_tags
+            })
+        },
+        XStag(a){
+            let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search}
+            this.api.mfinal_search({params}).then((res)=>{
+                this.IMGList=res.data;
+                console.log(res.data);
+                if(a!=undefined){
+                    this.message = res.data[a];
+                    this.tags = true;
+                }
             })
         },
         getListTags(name,index){
