@@ -140,6 +140,16 @@
             </div>
 
         </div>
+        <div class="block">
+            <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page.sync="page"
+                    :page-size="p"
+                    layout="prev, pager, next,total, jumper"
+                    :total="total">
+            </el-pagination>
+        </div>
     </div>
 </template>
 
@@ -160,6 +170,9 @@
                 tags2:[],
                 tags3:[],
                 search:'',
+                p:15,
+                page:1,
+                total:0,
             }
         },
         mounted(){
@@ -171,8 +184,9 @@
                 this.$router.go(-1)
             },
             getTogsList(){
-                let params={p:15,page:1,type:this.$route.query.type, material:this.$route.query.material,search:this.search}
+                let params={p:this.p,page:this.page,type:this.$route.query.type, material:this.$route.query.material,search:this.search}
                 this.api.tags_search({params}).then((res)=>{
+                    this.total = res.total;
                    this.yz_tags = res.data.tags;
                    this.tableData= res.data.self_tags.splice(0,5);
                     this.tableData1= res.data.self_tags.splice(0,5);
@@ -187,7 +201,14 @@
                     this.tags=[]
                 })
             },
-
+            handleSizeChange(p){
+                this.p = p;
+                this.getTogsList()
+            },
+            handleCurrentChange(page){
+                this.page = page;
+                this.getTogsList()
+            },
             getAdd(){
                 this.add=true;
             },
