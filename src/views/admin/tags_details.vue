@@ -36,7 +36,7 @@
                 <div class="zdy_btn">
                     <input type="checkbox"/>
                     <span class="check">本页全选</span>
-                    <span class="del" @click="delTags()">删除('{{this.tags.length}})</span>
+                    <span class="del" @click="delTags()">删除({{this.tags.length}})</span>
                     <div class="bg" v-if="dele">
                         <div class="ADD_tags">
                             <div class="title">
@@ -157,6 +157,7 @@
                 dele:false,
                 index:null,
                 tags:[],
+                Tgs:[],
             }
         },
         mounted(){
@@ -218,22 +219,21 @@
                 })
             },
             handleSelectionChange(val){
-                this.multipleSelection = val;
-
-                for(let i = 0;i<val.length;i++){
-                    this.tags.push(val[i].id);
-                }
+                    for(let i = 0;i<val.length;i++){
+                        this.tags.push(val[i].id);
+                    }
+                    if(val.length==0){
+                        this.tags=[]
+                    }
                 console.log(this.tags);
             },
             handleSelectionChange1(val){
-                this.multipleSelection = val;
                 for(let i = 0;i<val.length;i++){
                     this.tags.push(val[i].id);
                 }
                 console.log(this.tags);
             },
             handleSelectionChange2(val){
-                this.multipleSelection = val;
                 for(let i = 0;i<val.length;i++){
                     this.tags.push(val[i].id);
                 }
