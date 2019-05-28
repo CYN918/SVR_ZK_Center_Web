@@ -36,7 +36,7 @@
                 <div class="zdy_btn">
                     <input type="checkbox"/>
                     <span class="check">本页全选</span>
-                    <span class="del" @click="delTags()">删除({{this.tags.length}})</span>
+                    <span class="del" @click="delTags()">删除({{this.tags1.concat(this.tags2).concat(this.tags3).length}})</span>
                     <div class="bg" v-if="dele">
                         <div class="ADD_tags">
                             <div class="title">
@@ -156,12 +156,14 @@
                 name:'',
                 dele:false,
                 index:null,
-                tags:[],
-                Tgs:[],
+                tags1:[],
+                tags2:[],
+                tags3:[],
             }
         },
         mounted(){
             this.getTogsList();
+
         },
         methods:{
             fh(){
@@ -178,8 +180,7 @@
             },
             delTags(){
                 let formData = new FormData;
-                console.log(JSON.stringify(this.tags));
-                formData.append('tags',JSON.stringify(this.tags));
+                formData.append('tags',JSON.stringify(this.tags1.concat(this.tags2).concat(this.tags3)));
                 this.api.tags_del(formData).then((res)=>{
                     this.getTogsList();
                     this.tags=[]
@@ -219,25 +220,26 @@
                 })
             },
             handleSelectionChange(val){
-                    for(let i = 0;i<val.length;i++){
-                        this.tags.push(val[i].id);
-                    }
-                    if(val.length==0){
-                        this.tags=[]
-                    }
+               var ary =[];
+                for(let i = 0;i<val.length;i++){
+                    ary.push(val[i].id);
+                }
+               this.tags1=ary;
                 console.log(this.tags);
             },
             handleSelectionChange1(val){
+                var ary =[];
                 for(let i = 0;i<val.length;i++){
-                    this.tags.push(val[i].id);
+                    ary.push(val[i].id);
                 }
-                console.log(this.tags);
+                this.tags2=ary;
             },
             handleSelectionChange2(val){
+                var ary =[];
                 for(let i = 0;i<val.length;i++){
-                    this.tags.push(val[i].id);
+                    ary.push(val[i].id);
                 }
-                console.log(this.tags);
+                this.tags3=ary;
             }
         },
 

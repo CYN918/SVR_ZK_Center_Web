@@ -102,10 +102,6 @@
 
         },
         methods:{
-            // getID(index){
-            //         this.scMid.push(this.IMGList[index].mfid);
-            //         console.log(this.scMid);
-            // },
             YCset(){this.$parent.heidWL();},
             messageID(){
                     for (let i=0;i<this.checked.length;i++){

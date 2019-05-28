@@ -94,7 +94,7 @@ html,body{
 
 .block .el-pagination .el-pager .active{
   background:rgba(19,159,248,1);
-  color:rgba(255,255,255,1);
+  color:rgba(255,255,255,1)!important;
 }
 .block .el-pagination  .el-pagination__total{
   font-size:14px;

@@ -36,7 +36,7 @@
                                 label="操作">
                             <template slot-scope="scope">
                                 <el-button type="text" size="small" @click="AnewUpload(scope.$index)">重新上传</el-button>
-                                <el-button type="text" size="small" >下载</el-button>
+                                <a :href=" tableData[scope.$index].attach_url">下载</a>
                                 <el-button type="text" size="small" @click="delData(scope.$index)">删除</el-button>
                             </template>
                         </el-table-column>
@@ -123,6 +123,7 @@
                     md5:'',
                 },
                 index:'',
+                url:'',
             }
         },
         mounted(){
@@ -190,6 +191,10 @@
                     console.log(res);
                     this.TypeDataList = res
                 })
+            },
+            xz(index){
+                this.url = this.tableData[index].attach_url;
+                alert(this.url);
             },
             upload(){
                 this.updataList=true;
@@ -419,5 +424,9 @@
         border: 1px solid rgba(211,219,235,1);
         margin-left: 24px;
     }
-
+    a{
+        color: #66b1ff;
+        text-decoration:none;
+        margin: 0 10px;
+    }
 </style>

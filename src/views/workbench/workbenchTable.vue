@@ -41,7 +41,7 @@
                     </el-table-column>
                     <el-table-column label="操作">
                         <template slot-scope="props">
-                            <el-button v-if="tableData[props.$index].status_name=='素材准备'">查看需求</el-button>
+                            <el-button v-if="tableData[props.$index].status=='2'">查看需求</el-button>
                             <el-button v-if="tableData[props.$index].status_name=='物料审核'">查看物料</el-button>
                             <el-button  @click="AddMaterial(props.$index)" v-if="tableData[props.$index].status_name=='素材准备'">添加素材</el-button>
                             <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name=='上传物料'">上传物料</el-button>
@@ -118,14 +118,6 @@
 
         mounted(){
             this.getData();
-            // var msg =[];
-            // for(let i=0;i<this.tableData.length;i++){
-            //     for (let j=0;j<this.tableData[i].audit_logs.length;j++){
-            //         msg.push(this.tableData[i].audit_logs[j].msg);
-            //     }
-            // };
-            // this.msgList=msg;
-
         },
         methods:{
             getRowClass({row, column, rowIndex, columnIndex}) {
@@ -219,7 +211,7 @@
 <style scoped>
 .step_box{
     display: inline-block;
-    margin-right: 80px;
+    margin-right: 40px;
     vertical-align: top;
 }
 

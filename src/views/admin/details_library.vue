@@ -121,9 +121,7 @@
                 let params = {id:this.$route.query.id};
                 this.api.putlib_binds({params}).then((res)=>{
                     this.IMGList = res;
-                    for(let i = 0;i<this.IMGList.length;i++){
-                        this.push(this.IMGList[i]);
-                    }
+                    console.log(this.IMGList)
                 })
             },
             getCon(){

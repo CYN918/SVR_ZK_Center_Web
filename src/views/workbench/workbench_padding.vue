@@ -62,7 +62,7 @@
             }
         },
         mounted(){
-            this.getDataList();
+            this.getList();
         },
         methods:{
             getSC(){

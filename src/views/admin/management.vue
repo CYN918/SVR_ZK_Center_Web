@@ -19,6 +19,7 @@
             <div class="box">
                 <div class="boxImg" v-for="(DL,index) in IMGList">
                     <div class="border" :class="{active:ind==index}" @click="ADDclass(index)">
+                        <!--<div class="img_right" :class="{active_class:ind==index}"><span>√</span></div>-->
                     <img :src="DL.prev_uri"/>
                     <div class="boxImg_right" >
                         <div class="boxImg_right_1">
@@ -73,14 +74,15 @@
                             </div>
                             <div>
                                 <span class="boxImg_text">附件:</span>
-                                <span class="boxImg_content">{{parseInt(DL.attach.size/1024)}}kb</span>
-                                <a class="dowload" :href="DL.attach.url">下载</a>
+                                <span class="boxImg_content">{{parseInt(DL.size/1024)}}kb</span>
+                                <a class="dowload" :href="DL.attach_uri">下载</a>
                             </div>
                         </div>
                     </div>
                     <div class="bjImg" @click="getLt(index)">
                         <span>编辑素材</span>
                     </div>
+                        <div class="img_right" :class="{active_class:ind==index}"><span>√</span></div>
                 </div>
                 </div>
             </div>
@@ -118,6 +120,7 @@
                 let params = {id:this.$route.query.id};
                 this.api.putlib_binds({params}).then((res)=>{
                     this.IMGList = res;
+                    console.log(this.IMGList)
                 })
             },
             ADDclass(index){
@@ -127,7 +130,7 @@
             delWL(){
                 let formData = new FormData;
                 formData.append('id',this.$route.query.id);
-                formData.append('bind_mfid',this.bind_mfid);
+                formData.append('bind_mfid',JSON.stringify([this.bind_mfid]));
                 this.api.putlib_del_mfinal(formData).then((res)=>{
                     this.getDATAlist();
                 })
@@ -184,12 +187,18 @@
     }
     .boxImg{
         padding: 0!important;
+        width:793px!important;
+        height:353px!important;
+        margin-right: 13px;
     }
     .border{
         padding:13px 0 14px 14px ;
         width: 98%;
         height: 91%;
         border: 2px solid #ddd;
+    }
+    .active_class{
+        border-color: #1583e2 #1583e2 transparent transparent!important;
     }
     .active{
         border: 2px solid #3377FF!important;
@@ -208,6 +217,27 @@
         background:rgba(51,119,255,1);
         border-radius:4px;
         color:rgba(255,255,255,1) ;
+    }
+    .img_right{
+        display: inline-block;
+        width: 0!important;
+        height: 0!important;
+        position: relative;
+        top: -384px;
+        right: -738px;
+        cursor: pointer;
+        border: 20px solid;
+        border-color: rgba(211,219,235,1) rgba(211,219,235,1) transparent transparent;
+
+
+    }
+    .img_right span{
+        display: inline-block;
+        color: #fff;
+        position: relative;
+        right: -3px;
+        top: -17px;
+
     }
     .con{
         width: 100%;
