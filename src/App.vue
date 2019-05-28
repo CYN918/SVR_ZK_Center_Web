@@ -181,7 +181,7 @@ html,body{
   line-height: 237px;
 
 }
-.box_select .el-radio .el-radio__label{
+.box_select .el-radio .el-radio__label,.boxCheck .el-radio__label{
   opacity: 0;
 }
 .box_select .el-radio .el-radio__input .el-radio__inner{
@@ -314,13 +314,13 @@ html,body{
 }
 .boxImg{
   display: inline-block;
-  width:793px;
+  width:779px;
   height:328px;
   background:rgba(255,255,255,1);
   border-radius:4px;
   padding: 13px 0 14px 14px;
   box-shadow:0px 0px 10px 0px rgba(153,153,153,0.14);
-  margin: 0px 24px 24px 0!important;
+  margin: 0px 16px 24px 0!important;
 }
 .boxImg:nth-child(2n){
   margin-right: 0!important;

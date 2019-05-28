@@ -122,23 +122,10 @@
             },
 
             getDataList(){
-                this.active=1;
                 let params ={p:this.p,page:this.page,search:this.search,status:this.status,demand_type:this.demand_type,start_time:this.value[0],end_time:this.value[1],reject:this.reject,processor:this.processor}
                 this.api.demand_search({params}).then((res)=>{
                     console.log(res)
-                    for(var i = 0; i < res.data.length; i++) {
-                        var subData = [];
-                        var obj = {};
-                        var currentStatus = res.data[i].audit_logs[res.data[i].audit_logs.length-1].status;
-                        res.data[i]['currentStatus'] = currentStatus
-                        for (var j = 0; j < res.data[i].audit_logs.length; j++) {
-                            if (!obj[res.data[i].audit_logs[j].status]) {
-                                subData.push(res.data[i].audit_logs[j])
-                                obj[res.data[i].audit_logs[j].status] = 1;
-                            }
-                        }
-                        res.data[i]['SubData'] = subData;
-                    }
+
                     this.tableData = res.data;
                     this.total = res.total;
                     for (let i=0;i<this.tableData.length;i++){
@@ -241,7 +228,7 @@
         font-weight:400;
         color:rgba(255,255,255,1)!important;
         float: right;
-        margin-right: 239px!important;
+        margin-right: 257px!important;
         cursor: pointer;
     }
     .padding_btn{

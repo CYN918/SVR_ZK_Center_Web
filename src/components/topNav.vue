@@ -170,7 +170,7 @@ export default {
 	color:rgba(143,155,179,1);
 	line-height: 65px;
 }
-.navd a:nth-child(6){
+.navd a:nth-child(5){
 	margin-left:30.5%;
 }
 .navd a.router-link-active{	

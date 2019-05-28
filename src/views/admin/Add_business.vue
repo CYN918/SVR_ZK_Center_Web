@@ -47,6 +47,10 @@
                     <span class="tit_txt">投放链接</span>
                     <input type="text" class="link" v-model="link"/>
                 </div>
+                <div>
+                    <span class="tit_txt">投放库</span>
+                    <span class="tfk">{{libraryName}}</span><span class="xz" @click="getlIBRARY">选择</span>
+                </div>
                 <div class="times">
                     <span class="tit_txt">截止时间</span>
                     <el-date-picker
@@ -69,12 +73,14 @@
                 </div>
             </div>
         </div>
+        <put v-if="putList" @listenToChildEvent="listenToChildEvent"></put>
     </div>
-
 </template>
 
 <script>
+    import put from './Put_library'
     export default {
+        components:{put},
         name: "work-bench_yw",
         data(){
             return {
@@ -92,6 +98,8 @@
                 link:'',
                 requirement:'',
                 url:'',
+                putList:false,
+                libraryName:''
             }
         },
         mounted(){
@@ -164,7 +172,16 @@
                 this.api.config_material_type({params}).then((res)=>{
                     this.YWtypeList = res
                 })
-            }
+            },
+            getlIBRARY(){
+                this.putList=true;
+            },
+            heidLibrary(){
+                this.putList=false;
+            },
+            listenToChildEvent(name){
+                this.libraryName = name;
+            },
         }
     }
 </script>
@@ -268,6 +285,33 @@
         border:1px solid rgba(211,219,235,1);
         padding-left: 8px;
     }
+    .tfk{
+        display: inline-block;
+        line-height: 36px;
+        width:422px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        padding-left: 8px;
+    }
+    .xz{
+        vertical-align: top;
+        display: inline-block;
+        width:68px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1)!important;
+        line-height: 36px;
+        text-align: center;
+        cursor: pointer;
+        font-size:14px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(51,119,255,1);
+        margin-left:20px;
+    }
     .right{
         margin-left: 20px;
     }
@@ -299,7 +343,8 @@
         border-radius:0px 0px 4px 4px;
         margin-left: 0!important;
         margin-bottom: 0!important;
-        margin-top:190px ;
+       position: relative;
+        top:60px;
         text-align: right!important;
     }
     .btn span{

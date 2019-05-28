@@ -121,7 +121,6 @@
                 let formData = new FormData;
                 formData.append("id",this.id);
                 formData.append("",)
-
                 this.api.demand_audit().then((res)=>{
 
                 })

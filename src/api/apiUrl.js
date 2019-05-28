@@ -417,6 +417,14 @@ export default {
      material_search:{
 		url:'/material/search',method:'get'
 	 },
+	//添加投放物料
+	putlib_add_mfinal:{
+		url:'/putlib/add/mfinal',method:'post',isType:{suktip:1}
+	},
+	//删除投放物料
+	putlib_del_mfinal:{
+		url:'/putlib/del/mfinal',method:'post',isType:{suktip:1}
+	},
 	//添加素材
 	 material_add:{
 		url:'/material/add',method:'post',isType:{suktip:1}
@@ -515,9 +523,13 @@ export default {
 	putlib_del:{
 		url:'/putlib/del',method:'post',isType:{suktip:1}
 	},
-	//新增业务需求
+	//
 	demand_business_add:{
 		url:"/demand/business/add",method:'post',isType:{suktip:1,reload:1}
+	},
+	//获取待处理列表
+	demand_await:{
+		url:'/demand/await',method:'get'
 	},
 	//获取全部需求列表
 	demand_search:{

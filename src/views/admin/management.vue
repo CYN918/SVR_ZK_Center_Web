@@ -10,15 +10,15 @@
             <div class="top_con">
                 <input type="text" placeholder="输入用户名或邮箱快速查询"/>
                 <div class="top_btn">
-                    <span class="wl" @click="getWl">从物料库添加</span>
-                    <span class="xq" @click="Addyw">发布业务需求</span>
-                    <span class="gl" @click="ment">管理</span>
+                    <span class="xq" @click="delWL()">删除</span>
+                    <span class="xq" @click="qx()">取消</span>
                 </div>
             </div>
         </div>
         <div class="con">
             <div class="box">
                 <div class="boxImg" v-for="(DL,index) in IMGList">
+                    <div class="border" :class="{active:ind==index}" @click="ADDclass(index)">
                     <img :src="DL.prev_uri"/>
                     <div class="boxImg_right" >
                         <div class="boxImg_right_1">
@@ -82,32 +82,29 @@
                         <span>编辑素材</span>
                     </div>
                 </div>
+                </div>
             </div>
         </div>
-        <rel v-if="getRe" :num="num" :material="material" ></rel>
-        <YW v-if="yw"></YW>
-        <AM v-if ='am' @listenToChildEvent="listenToChildEvent"></AM>
-        <am v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type"></am>
+
     </div>
 </template>
 
 <script>
-    import am from './AddMaterial'
-    import rel from './relevant_matreial'
-    import YW from './Add_business'
-    import AM from './Add_material'
+
     export default {
-        components:{YW,AM,rel,am},
         name: "details_library",
         data(){
             return{
-                IMGList:[],
-                yw:false,
-                am:false,
-                getRe:false,
-                num:'',
-                bind_id:'',
-                sc:false,
+                IMGList:[{
+                    mfid: "FADP_000003",
+                    prev_uri: "http://static.zookingsoft.com/center/201905/2019051053995110.jpg",
+                    type: "f_ad_picture",
+                    type_name: "广告图",
+                    updated_at: "2019-05-10 20:52:29",
+                    size:522,
+                }],
+                ind:null,
+                bind_mfid:'',
             }
         },
         mounted(){
@@ -121,69 +118,25 @@
                 let params = {id:this.$route.query.id};
                 this.api.putlib_binds({params}).then((res)=>{
                     this.IMGList = res;
-                    for(let i = 0;i<this.IMGList.length;i++){
-                        this.push(this.IMGList[i]);
-                    }
                 })
             },
-            getCon(){
-                this.sc = true;
-                this.message=''
+            ADDclass(index){
+                this.ind =index;
+                this.bind_mfid = this.IMGList[index].mfid;
             },
-            SCsc(){
-                this.sc = true
-            },
-
-            heidSc(){
-                this.sc = false;
-            },
-            getRel(index){
-                this.getRe=true;
-                this.num =this.IMGList[index].mfid;
-            },
-            heidRel(){
-                this.getRe=false;
-            },
-            getWl(){
-                this.am = true
-            },
-            heidWL(){
-                this.am = false;
-            },
-            Addyw(){
-                this.yw = true;
-            },
-            heidYW(){
-                this.yw = false;
-            },
-            listenToChildEvent(a){
-                this.bind_id = a;
-               let formData = new FormData;
+            delWL(){
+                let formData = new FormData;
                 formData.append('id',this.$route.query.id);
-                formData.append('bind_mfid',this.bind_id);
-                this.api.putlib_add_mfinal(formData).then((res)=>{
+                formData.append('bind_mfid',this.bind_mfid);
+                this.api.putlib_del_mfinal(formData).then((res)=>{
                     this.getDATAlist();
                 })
             },
-            getLt(a){
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search};
-                this.api.mfinal_search({params}).then((res)=>{
-                    this.IMGList=res.data;
-                    if(a!=undefined){
-                        this.message = res.data[a];
-                        this.sc = true;
-                    }
-                })
-            },
-            ment(){
-                this.$router.push({
-                    query:{
-                        id:this.$route.query.id
-                    },
-                    path:'/admin/mangement'
-                })
-            },
-        }
+            qx(){
+                this.ind=null;
+                this.bind_mfid=''
+            }
+        },
     }
 </script>
 
@@ -228,6 +181,18 @@
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);
         margin-right: 24px;
+    }
+    .boxImg{
+        padding: 0!important;
+    }
+    .border{
+        padding:13px 0 14px 14px ;
+        width: 98%;
+        height: 91%;
+        border: 2px solid #ddd;
+    }
+    .active{
+        border: 2px solid #3377FF!important;
     }
     .xq{
         width:124px;

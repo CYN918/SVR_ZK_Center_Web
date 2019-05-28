@@ -217,14 +217,12 @@
 </script>
 
 <style scoped>
-.step_box,.step_box_2,.step_box_3{
+.step_box{
     display: inline-block;
-    margin-right: 100px;
+    margin-right: 80px;
     vertical-align: top;
 }
-.step_box_3{
-    vertical-align: top;
-}
+
 .step,.step_bh,.step_dq,.step_wwc{
     width:32px;
     height:32px;

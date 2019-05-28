@@ -36,7 +36,7 @@
                 <div class="zdy_btn">
                     <input type="checkbox"/>
                     <span class="check">本页全选</span>
-                    <span class="del" @click="delTags()">删除({{this.tags.length}})</span>
+                    <span class="del" @click="delTags()">删除('{{this.tags.length}})</span>
                     <div class="bg" v-if="dele">
                         <div class="ADD_tags">
                             <div class="title">

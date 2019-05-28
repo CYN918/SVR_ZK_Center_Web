@@ -9,7 +9,7 @@
 				<input type="text" placeholder="输入用户名或邮箱快速查询" v-model="search" @input="getList()"/>
 				<img src="../../../public/img/ss.png" @click="getList()"/>
 				<span style="font-size:14px;font-family:PingFangSC-Regular;font-weight:400;color:rgba(31,46,77,1);margin-right: 20px">状态</span>
-				<select>
+				<select v-model="status" @click="getWl()">
 					<option value="" selected>全部</option>
 					<option value="1101">使用中</option>
 					<option value="1001">未使用</option>
@@ -20,13 +20,13 @@
 			<div class="contentImg">
 				<div class="label">
 					<span class="label_txt">预置标签:</span>
-					<span class="labelName">全部</span>
-					<span v-for="(item,index) in preset_tags" class="labelName" @click="">{{item.name}}</span>
+					<span class="labelName" @click="getListTag()">全部</span>
+					<span v-for="(item,index) in preset_tags" class="labelName" @click="getListTag(item.name,index)" :class="{active:inx==index}">{{item.name}}</span>
 				</div>
 				<div class="label">
 					<span class="label_txt">个性标签:</span>
-					<span class="labelName">全部</span>
-					<span v-for="(item,index) in self_tags" class="labelName">{{item.name}}</span>
+					<span class="labelName" @click="getListTag()">全部</span>
+					<span v-for="(item,index) in self_tags" class="labelName" @click="getListTag2(item.name,index)" :class="{active:inde==index}">{{item.name}}</span>
 				</div>
 			</div>
 			<rel v-if="getRe" :num="num" :material="material" ></rel>
@@ -145,6 +145,9 @@
                 material:0,
                 getRe:false,
                 num:'',
+                inx:null,
+                inde:null,
+                status:null,
             }
         },
         mounted() {
@@ -169,17 +172,6 @@
             },
             YCHint(){
                 this.hint = false;
-            },
-            XStag(a){
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search}
-                this.api.mfinal_search({params}).then((res)=>{
-                    this.IMGList=res.data;
-                    console.log(res.data);
-                    if(a!=undefined){
-                        this.message = res.data[a];
-                        this.tags = true;
-                    }
-                })
             },
             getRel(index){
                 this.getRe=true;
@@ -213,7 +205,7 @@
                 this.getWl()
             },
             getLt(a){
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search}
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,status:this.status}
                 this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     if(a!=undefined){
@@ -232,11 +224,29 @@
                 })
             },
             getWl(){
-                let params={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search};
+                let params={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,status:this.status};
                 this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     this.total=res.total;
                     this.getTagsList();
+                })
+            },
+            getListTag(name,index){
+                this.inx=index;
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:name,status:this.status}
+                this.api.mfinal_search({params}).then((res)=>{
+                    this.IMGList=res.data;
+                    this.total=res.total;
+                    this.getTagsList()
+                })
+            },
+            getListTag2(name,index){
+                this.inde=index;
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:name,status:this.status}
+                this.api.mfinal_search({params}).then((res)=>{
+                    this.IMGList=res.data;
+                    this.total=res.total;
+                    this.getTagsList()
                 })
             },
 
@@ -245,5 +255,7 @@
     }
 </script>
 <style>
-
+	.active{
+		color: #1583e2!important;
+		border:0!important;}
 </style>

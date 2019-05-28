@@ -14,7 +14,7 @@
                             <template>
                                 <el-checkbox-group
                                         v-model="preinstall">
-                                    <el-checkbox v-for="(item,index) in preset_tags" :label="item.name" >{{item.name}}</el-checkbox>
+                                    <el-checkbox v-for="(item,index) in preset_tags" :label="item.name" v-if="item.name!=''">{{item.name}}</el-checkbox>
                                 </el-checkbox-group>
                             </template>
                         </div>
@@ -57,7 +57,7 @@
                 tagsName:'',
             }
         },
-        mounted(){this. getTagsList(); console.log(this.message)},
+        mounted(){this.getTagsList(); console.log(this.message)},
         methods:{
             QXtag(){
                 this.$parent.YCtag()

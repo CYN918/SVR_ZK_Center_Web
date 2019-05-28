@@ -33,6 +33,8 @@ import library from './views/admin/library'
 mode['library'] = library
 import tags_details from './views/admin/tags_details'
 mode['tags_details'] = tags_details
+import mangement from './views/admin/management'
+mode['mangement'] =mangement
 
 
 import wallpaper from './views/admin/wallpaper.vue'
@@ -220,7 +222,7 @@ let nb = [
 			{path:'/admin/add_library',name:'添加投放库',component: mode['add_library']},
 			{path:'/admin/details_library',name:'详情库',component: mode['details_library']},
 			{path:'/admin/tags_details',name:'标签管理',component: mode['tags_details']},
-			// {path:'/admin/external',name:'外部帐号管理',component:mode['external']},
+			{path:'/admin/mangement',name:'投放库管理',component:mode['mangement']},
 		]
 	},
 	{path:'/data',name:'数据中心',component:mode['data'],children:[	

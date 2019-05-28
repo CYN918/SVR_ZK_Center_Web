@@ -2,14 +2,14 @@
 	<div>
 		<div class="top_name">
 			<span class="inner">|</span>
-			<span class="top_txt">物料库>场景锁屏</span>
+			<span class="top_txt">物料库>广告</span>
 		</div>
 		<div class="content">
 			<div class="Search">
 				<input type="text" placeholder="输入用户名或邮箱快速查询" v-model="search" @input="getList()"/>
 				<img src="../../../public/img/ss.png" @click="getList()"/>
 				<span style="font-size:14px;font-family:PingFangSC-Regular;font-weight:400;color:rgba(31,46,77,1);margin-right: 20px">状态</span>
-				<select>
+				<select v-model="status" @click="getWl()">
 					<option value="" selected>全部</option>
 					<option value="1101">使用中</option>
 					<option value="1001">未使用</option>
@@ -20,15 +20,16 @@
 			<div class="contentImg">
 				<div class="label">
 					<span class="label_txt">预置标签:</span>
-					<span class="labelName">全部</span>
-					<span v-for="(item,index) in preset_tags" class="labelName" @click="">{{item.name}}</span>
+					<span class="labelName" @click="getListTag()">全部</span>
+					<span v-for="(item,index) in preset_tags" class="labelName" @click="getListTag(item.name,index)" :class="{active:inx==index}">{{item.name}}</span>
 				</div>
 				<div class="label">
 					<span class="label_txt">个性标签:</span>
-					<span class="labelName">全部</span>
-					<span v-for="(item,index) in self_tags" class="labelName">{{item.name}}</span>
+					<span class="labelName" @click="getListTag()">全部</span>
+					<span v-for="(item,index) in self_tags" class="labelName" @click="getListTag2(item.name,index)" :class="{active:inde==index}">{{item.name}}</span>
 				</div>
 			</div>
+			<rel v-if="getRe" :num="num" :material="material" ></rel>
 			<AM v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type"></AM>
 			<hin v-if='hint' ></hin>
 			<tag v-if="tags" :message="message" :typeSC='type' :material="material"></tag>
@@ -66,7 +67,7 @@
 						<div>
 							<div class="xgsc">
 								<span class="boxImg_text">相关素材:</span>
-								<span class="ck">查看详情</span>
+								<span class="ck" @click="getRel(index)">查看详情</span>
 							</div>
 							<div class="dx">
 								<span class="boxImg_text">预览图大小:</span>
@@ -116,12 +117,13 @@
 
 </template>
 <script>
+    import rel from './relevant_matreial'
     import AM from './AddMaterial'
     import hin from './hintMessage'
     import tag from './tag'
     import set from './Select_material'
     export default {
-        components:{AM,hin,tag,set},
+        components:{AM,hin,tag,set,rel},
         data() {
             return {
                 sc:false,
@@ -140,7 +142,12 @@
                 self_tags:[],
                 bindMid:[],
                 hqUrl:[],
-                material:0
+                material:0,
+                getRe:false,
+                num:'',
+                inx:null,
+                inde:null,
+                status:null,
             }
         },
         mounted() {
@@ -149,7 +156,7 @@
         methods: {
             getCon(){
                 this.sc = true;
-                this.message='';
+                this.message=''
             },
             SCsc(){
                 this.sc = true
@@ -157,8 +164,8 @@
 
             heidSc(){
                 this.sc = false;
-                this.hqUrl='';
-                this.bindMid='';
+                this.hqUrl=''
+                this.bindMid=''
             },
             ShowHint(){
                 this.hint = true;
@@ -166,14 +173,17 @@
             YCHint(){
                 this.hint = false;
             },
-            XStag(){
-                this.tags = true
+            getRel(index){
+                this.getRe=true;
+                this.num =this.IMGList[index].mfid;
+            },
+            heidRel(){
+                this.getRe=false;
             },
             YCtag(){
                 this.tags = false
             },
             XSset(){
-                this.sc = false;
                 this.sets = true
             },
             YCset(){
@@ -181,43 +191,62 @@
             },
             listen(msg,ddd){
                 this.bindMid=msg;
-                this.hqUrl=ddd
-
+                this.hqUrl=ddd;
+                console.log(this.bindMid,this.hqUrl);
             },
             handleSizeChange1() { // 每页条数切换
                 this.pageSize = pageSize;
                 console.log(this.pagesize);
-                this.getWl()()
+                this.getWl()
             },
             handleCurrentChange1(currentPage) {//页码切换
                 console.log(currentPage);
                 this.currentPage = currentPage;
-                this.getWl()()
+                this.getWl()
             },
             getLt(a){
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search}
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,status:this.status}
                 this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     if(a!=undefined){
                         this.message = res.data[a];
                         this.sc = true;
                     }
+
                 })
             },
             getTagsList(){
                 let params = {preset:this.preset,material:this.material,type:this.type};
                 this.api.tags_search({params}).then((da)=>{
                     console.log(da);
-                    this.preset_tags = da.data.preset_tags;
+                    this.preset_tags = da.data.tags;
                     this.self_tags = da.data.self_tags
                 })
             },
             getWl(){
-                let params={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search};
+                let params={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,status:this.status};
                 this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     this.total=res.total;
                     this.getTagsList();
+                })
+            },
+            getListTag(name,index){
+                this.inx=index;
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:name,status:this.status}
+                this.api.mfinal_search({params}).then((res)=>{
+                    this.IMGList=res.data;
+                    this.total=res.total;
+                    this.getTagsList()
+                })
+            },
+            getListTag2(name,index){
+                this.inde=index;
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:name,status:this.status}
+                this.api.mfinal_search({params}).then((res)=>{
+                    this.IMGList=res.data;
+                    this.total=res.total;
+                    this.getTagsList()
                 })
             },
 
@@ -226,5 +255,7 @@
     }
 </script>
 <style>
-
+	.active{
+		color: #1583e2!important;
+		border:0!important;}
 </style>

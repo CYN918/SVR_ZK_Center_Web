@@ -22,12 +22,12 @@
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="self_tags_count"
+                                prop="tags_count"
                                 label="预置标签"
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="tags_count"
+                                prop="self_tags_count"
                                 label="个性标签">
                         </el-table-column>
                         <el-table-column
@@ -58,19 +58,19 @@
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="self_tags_count"
+                                prop="tags_count"
                                 label="预置标签"
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="tags_count"
+                                prop="self_tags_count"
                                 label="个性标签">
                         </el-table-column>
                         <el-table-column
                                 prop="address"
                                 label="操作">
                             <template slot-scope="scope">
-                                <el-button type="text" size="small">管理</el-button>
+                                <el-button type="text" size="small" @click="details2(scope.$index)">管理</el-button>
 
                             </template>
                         </el-table-column>
@@ -113,10 +113,21 @@
                     path:'/admin/tags_details'
                 })
             },
+            details2(index){
+                console.log(this.tableData2[index]);
+                this.$router.push({
+                    query: {
+                        material:this.tableData2[index].material,
+                        type:this.tableData2[index].type
+                    },
+                    path:'/admin/tags_details'
+                })
+            },
             getTagslist(){
                 this.api.tags_count().then((res)=>{
                     this.tableData = res.material;
                     this.tableData2 = res.mfinal;
+                    console.log(this.tableData2)
                 })
             },
         },

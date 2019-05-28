@@ -108,9 +108,9 @@ export default {
 }
 .leftNav .el-submenu__title{
 	padding: 0 !important;
-	height: 30px;
-	margin-bottom: 19px;
-	line-height: 30px;
+	height: 60px;
+	margin-bottom: 10px;
+	line-height: 60px;
 	text-align: center;
 }
 /*.leftNav .el-submenu__title>span{*/
@@ -150,8 +150,9 @@ export default {
 	background:rgba(19,159,248,0.1)!important;
 }
 .leftNav .el-menu-item.is-active{
-	width:256px;
+	width:254px;
 	height:60px;
+	border-right: 4px solid rgba(0,122,255,1);
 	background:rgba(0,122,255,0.1)!important;
 	font-size:16px;
 	font-family:PingFangSC-Regular;

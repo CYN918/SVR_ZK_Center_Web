@@ -80,21 +80,9 @@
 
             getList(){
                 this.active=0;
-                let params ={p:this.p,page:this.page,search:this.search,status:1}
-                this.api.demand_search({params}).then((res)=>{
-                    // for(var i = 0; i < res.data.length; i++) {
-                    //     var subData = [];
-                    //     var obj = {};
-                    //     var currentStatus = res.data[i].audit_logs[res.data[i].audit_logs.length-1].status;
-                    //     res.data[i]['currentStatus'] = currentStatus
-                    //     for (var j = 0; j < res.data[i].audit_logs.length; j++) {
-                    //         if (!obj[res.data[i].audit_logs[j].status]) {
-                    //             subData.push(res.data[i].audit_logs[j])
-                    //             obj[res.data[i].audit_logs[j].status] = 1;
-                    //         }
-                    //     }
-                    //     res.data[i]['SubData'] = subData;
-                    // }
+                let params ={p:this.p,page:this.page,search:this.search,all:0}
+                this.api.demand_await({params}).then((res)=>{
+
                     this.tableData = res.data;
                     this.total = res.total;
                     for (let i=0;i<this.tableData.length;i++){
@@ -108,21 +96,8 @@
             },
             getDataList(){
                 this.active=1;
-                let params ={p:this.p,page:this.page,search:this.search,status:1};
-                this.api.demand_search({params}).then((res)=>{
-                    // for(var i = 0; i < res.data.length; i++) {
-                    //     var subData = [];
-                    //     var obj = {};
-                    //     var currentStatus = res.data[i].audit_logs[res.data[i].audit_logs.length-1].status;
-                    //     res.data[i]['currentStatus'] = currentStatus
-                    //     for (var j = 0; j < res.data[i].audit_logs.length; j++) {
-                    //         if (!obj[res.data[i].audit_logs[j].status]) {
-                    //             subData.push(res.data[i].audit_logs[j])
-                    //             obj[res.data[i].audit_logs[j].status] = 1;
-                    //         }
-                    //     }
-                    //     res.data[i]['SubData'] = subData;
-                    // }
+                let params ={p:this.p,page:this.page,search:this.search,all:1};
+                this.api.demand_await({params}).then((res)=>{
                     this.tableData = res.data;
                     console.log(res.data)
                     this.total = res.total;
@@ -217,7 +192,7 @@
         font-weight:400;
         color:rgba(255,255,255,1);
         float: right;
-        margin-right: 239px;
+        margin-right: 276px;
         cursor: pointer;
     }
     .padding_btn{

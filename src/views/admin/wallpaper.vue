@@ -2,14 +2,14 @@
 	<div>
 		<div class="top_name">
 			<span class="inner">|</span>
-			<span class="top_txt">素材库>壁纸</span>
+			<span class="top_txt">素材库>广告</span>
 		</div>
 		<div class="content">
 			<div class="Search">
-				<input type="text" placeholder="输入用户名或邮箱快速查询" v-model="search" @input="getList()"/>
+				<input type="text" placeholder="输入素材id快速查询" v-model="search" @input="getList()"/>
 				<img src="../../../public/img/ss.png" @click="getList()"/>
 				<span style="font-size:14px;font-family:PingFangSC-Regular;font-weight:400;color:rgba(31,46,77,1);margin-right: 20px">状态</span>
-				<select>
+				<select v-model="status" @click="getList()">
 					<option value="" selected>全部</option>
 					<option value="1101">使用中</option>
 					<option value="1001">未使用</option>
@@ -47,8 +47,10 @@
 						<div>
 							<span class="boxImg_text boxImg_bq">标签:</span>
 							<div class="boxImg_xz">
-								<span class="box_box" v-for="(tag,index2) in DL.self_tags">{{tag}}</span>
-								<span class="box_box" v-for="(ta,index3) in DL.tags">{{ta}}</span>
+								<div class="boxImg_xz_yz">
+									<span class="box_box" v-if="DL.tags.length>=0" v-for="(tag,index2) in DL.tags">{{tag}}</span>
+									<span class="box_box" v-if="DL.tags.length<3" v-for="(ta,index3) in DL.self_tags">{{ta}}</span>
+								</div>
 								<span class="img"  @click="XStag(index)">+ 标签</span>
 							</div>
 						</div>
@@ -131,6 +133,7 @@
                 inde:null,
                 getRe:false,
                 num:'',
+                status:null,
             }
         },
         mounted() {
@@ -199,7 +202,7 @@
                 this.getList()
             },
             getLt(a){
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search}
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,status:this.status}
                 this.api.material_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     if(a!=undefined){
@@ -218,7 +221,7 @@
             },
             getListTags(name,index){
                 this.inde=index;
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:name}
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:name,status:this.status}
                 this.api.material_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     this.total=res.total;
@@ -227,7 +230,7 @@
             },
             getListTag(name,index){
                 this.inx=index;
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:name}
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:name,status:this.status}
                 this.api.material_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     this.total=res.total;
@@ -235,7 +238,7 @@
                 })
             },
             getList(){
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search}
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,status:this.status}
                 this.api.material_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     this.total=res.total;
@@ -252,4 +255,10 @@
 		color: #1583e2!important;
 		border:0!important;
 	}
+	/*.boxImg_xz_yz{*/
+	/*display: inline-block;*/
+	/*max-width: 180px !important;*/
+	/*height:35px;*/
+	/*overflow: hidden;*/
+	/*}*/
 </style>
