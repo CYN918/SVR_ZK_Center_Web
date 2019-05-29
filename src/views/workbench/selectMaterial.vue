@@ -155,7 +155,7 @@
         height:912px;
         background:rgba(255,255,255,1);
         border-radius:4px;
-        top:-84px;
+        top:-122px;
         left: 50%;
         transform: translateX(-50%);
         overflow-y: auto;
@@ -263,12 +263,12 @@
         background:rgba(245,247,250,1);
         border-radius:4px;
         border:1px solid rgba(51,119,255,1);
-        padding: 18px 0 18px 30px;
+        /*padding: 18px 0 18px 30px;*/
         box-shadow:0px 0px 10px 0px rgba(153,153,153,0.14);
-        margin: 0 20px 20px 0!important;
+        margin: 0 15px 20px 0!important;
     }
     .boxImg:nth-child(2n){
-        margin: 0 20px 20px 0!important;
+        margin: 0 15px 20px 0!important;
     }
     .boxImg:nth-child(3n){
         margin: 0 0 20px 0!important;

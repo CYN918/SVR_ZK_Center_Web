@@ -106,6 +106,9 @@ export default {
 	border-bottom:1px solid rgba(0,0,0,.2);
 
 }
+.el-submenu{
+	width: 256px;
+}
 .leftNav .el-submenu__title{
 	padding: 0 !important;
 	height: 60px;
