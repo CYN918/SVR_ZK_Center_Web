@@ -53,7 +53,7 @@
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="props">
-                                <el-button type="text">查看详情</el-button>
+                                <el-button type="text" @click="jump()">查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -105,7 +105,12 @@
             },
             fh(){
                 this.$router.go(-1)
-            }
+            },
+            jump(){
+                this.$touter.push({
+
+                })
+            },
         },
     }
 </script>

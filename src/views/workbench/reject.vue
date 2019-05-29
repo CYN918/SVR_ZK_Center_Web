@@ -6,7 +6,7 @@
                 <img src="../../../public/img/gb.png" @click="heid"/>
             </div>
             <div class="tishi">
-                <textarea placeholder="请输入驳回原因" v-model="node"></textarea>
+                <textarea placeholder="请输入驳回原因" v-model="note"></textarea>
             </div>
             <div class="btn">
                 <span class="btn_qd" @click="tj">确定</span>
@@ -22,7 +22,7 @@
         props:["dbid"],
         data(){
             return{
-                node:'',
+                note:'',
             }
         },
         methods:{
@@ -34,7 +34,7 @@
                     this.$message.error("必须填写驳回原因")
                 }
                let formData = new FormData;
-               formData.append("node",this.node);
+               formData.append("note",this.note);
                formData.append('id',this.dbid);
                 this.api.demand_reject(formData).then((res)=>{
 
