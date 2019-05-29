@@ -173,10 +173,12 @@ export default {
 .navd a:nth-child(5){
 	position: fixed;
 	right: 200px;
+	height: 63px!important;
 }
 .navd a:nth-child(6){
 	position: fixed;
 	right: 24px;
+	height: 63px!important;
 }
 .navd a.router-link-active{	
 	display: inline-block;

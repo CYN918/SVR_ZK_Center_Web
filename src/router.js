@@ -279,15 +279,19 @@ let leftNav =
 	[
 	{title:'素材中心',default:'/admin',defaultopen:['1'],
 	children:[
-		{title:'素材库',url:'1',list:[
-			{title:'广告图',url:'/admin/advertising'},
-			{title:'广告模板',url:'/admin/AD_templates'},
-
+		{title:'素材库',url:'1',children:[
+			{title:'广告图',url:'1-1',list:[
+                  {title:'广告图',url:'/admin/advertising'},
+					]},
+			{title:'广告模板',url:'1-2',list:[
+                  {title:'广告模板',url:'/admin/AD_templates'},
+                    ]},
+			{title:'场景锁屏',url:'1-3',list:[
+                 {title:'动效',url:'/admin/dynamic'},
+                 {title:'壁纸',url:'/admin/wallpaper'},
+                    ]},
 			]},
-        {title:'场景锁屏',url:'1-1',list:[
-                {title:'动效',url:'/admin/dynamic'},
-                {title:'壁纸',url:'/admin/wallpaper'},
-            ]},
+
 		{title:'物料库',url:'3',list:[
 			{title:'广告图',url:'/admin/MaterialResource'},
 			{title:'广告模版',url:'/admin/WLtemplate'},
@@ -448,7 +452,7 @@ router.beforeEach((to, from, next) => {
 			next({ path: '/indexs/list'});
 		}
         if(to.fullPath=='/workbench'){
-            next({ path: '/workbench/workbenchPadding'});
+            next({ path: '/workbench/advertising'});
         }
 						
 		let params ={'url':to.fullPath.split('&')[0]} ;
