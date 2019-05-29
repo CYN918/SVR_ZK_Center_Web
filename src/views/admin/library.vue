@@ -14,6 +14,7 @@
                 </select>
                 <span>广告位类型</span>
                 <select v-model="pos_type">
+                    <option value="" selected>全部</option>
                     <option v-for="item in oddList" :value="item.pos_type">{{item.pos_type}}</option>
                 </select>
                 <span class="cx" @click="getDataList">查询</span>
