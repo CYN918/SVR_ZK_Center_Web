@@ -41,14 +41,20 @@
                     </el-table-column>
                     <el-table-column label="操作">
                         <template slot-scope="props">
-                            <el-button v-if="tableData[props.$index].status=='2'">查看需求</el-button>
-                            <el-button v-if="tableData[props.$index].status_name=='物料审核'">查看物料</el-button>
+                            <el-button v-if="tableData[props.$index].status_name=='素材准备'">查看需求</el-button>
+                            <el-button v-if="tableData[props.$index].status_name=='上传物料'">查看需求</el-button>
+                            <el-button v-if="tableData[props.$index].status_name=='发布审核'||tableData[props.$index].status_name=='活动发布'">查看需求</el-button>
+                            <el-button v-if="tableData[props.$index].status_name=='物料审核'||tableData[props.$index].status_name=='测试验收'">查看物料</el-button>
+                            <el-button v-if="tableData[props.$index].status_name=='素材审核'">查看活动</el-button>
+                            <el-button v-if="tableData[props.$index].status_name=='素材入库'">查看素材</el-button>
                             <el-button  @click="AddMaterial(props.$index)" v-if="tableData[props.$index].status_name=='素材准备'">添加素材</el-button>
                             <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name=='上传物料'">上传物料</el-button>
-                            <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name=='测试通过'">测试通过</el-button>
-                            <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name!='完成入库'">审核通过</el-button>
+                            <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name=='测试验收'">测试通过</el-button>
+                            <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name=='物料审核'||tableData[props.$index].status_name=='发布审核'">审核通过</el-button>
                             <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name=='完成入库'">查看投放结果</el-button>
-                            <el-button  @click="getBH(props.$index)" v-if="tableData[props.$index].status_name!='完成入库'">驳回</el-button>
+                            <el-button  @click="getBH(props.$index)" v-if="tableData[props.$index].status_name!='完成入库'&&tableData[props.$index].status_name!='活动发布'">驳回</el-button>
+                            <el-button  @click="getBH(props.$index)" v-if="tableData[props.$index].status_name=='活动发布'">驳回</el-button>
+                            <el-button  @click="getBH(props.$index)" v-if="tableData[props.$index].status_name=='完成入库'">查看投放结果</el-button>
                         </template>
                     </el-table-column>
                     <el-table-column type="expand" label="查看完整流程" width="200">

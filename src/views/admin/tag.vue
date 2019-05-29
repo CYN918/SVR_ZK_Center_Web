@@ -110,7 +110,6 @@
                     this.api.material_edit_tags(formData).then((res)=>{
                         this.$emit('updata','aa');
                         this.$parent.YCtag();
-
                     })
                 }else{
                     let formData = new FormData;

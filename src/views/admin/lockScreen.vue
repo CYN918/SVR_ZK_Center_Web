@@ -190,7 +190,7 @@
                 this.sets = false
             },
             updata(){
-                this.getList();
+                this.getWl()
             },
             listen(msg,ddd){
                 this.bindMid=msg;

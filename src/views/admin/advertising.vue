@@ -219,8 +219,9 @@ export default {
             this.api.tags_search({params}).then((da)=>{
                 console.log(da);
                 this.preset_tags = da.data.tags;
-                console.log(this.preset_tags);
                 this.self_tags = da.data.self_tags
+                console.log(this.self_tags);
+                console.log(da.data.tags);
             })
         },
 
