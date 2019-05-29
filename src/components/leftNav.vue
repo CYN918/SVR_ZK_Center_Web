@@ -184,13 +184,13 @@ export default {
 	 color:rgba(54,54,54,1);
 }
 .leftNav .el-submenu .el-submenu .el-submenu__title>span {
-    margin-left: 91px;
+    margin-left: 50px;
 }
 .leftNav .el-submenu .el-submenu .el-menu-item{
-    text-indent: 140px;
+    text-indent: 50px;
 }
 .leftNav .el-submenu .el-submenu .el-submenu .el-submenu__title>span {
-    margin-left: 140px;
+    margin-left: 50px;
 }    
 .leftNav .el-submenu .el-submenu .el-submenu .el-menu-item{
     text-indent: 154px;

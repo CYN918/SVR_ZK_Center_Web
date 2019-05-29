@@ -65,6 +65,16 @@ mode['details_library'] = details_library
 //收益中心
 import income from './views/income/index.vue'
 mode['income'] = income
+import earnings from './views/income/earnings_all'
+mode['earnings'] = earnings
+import settlement from './views/income/settlement'
+mode['settlement'] = settlement
+import money_details from './views/income/money_details'
+mode['money_details'] = money_details
+import cost_management from './views/income/cost_management'
+mode['cost_management'] = cost_management
+import divided_details from './views/income/divided_details'
+mode['divided_details'] = divided_details
 
 
 //工作台
@@ -251,8 +261,11 @@ let nb = [
 
 	]},
     {path:'/income',name:'收益中心',component:mode['income'],children:[
-            // {path:'/workbench/workbenchPadding',name:'待审核',component:mode['workbenchPadding']},
-            // {path:'/workbench/ALL',name:'全部',component:mode['ALL']},
+            {path:'/income/earnings',name:'收益总览',component:mode['earnings']},
+            {path:'/income/settlement',name:'设计师结算管理',component:mode['settlement']},
+            {path:'/income/money_details',name:'收益详情',component:mode['money_details']},
+            {path:'/income/cost_management',name:'设计师成本管理',component:mode['cost_management']},
+            {path:'/income/divided_details',name:'分成详情',component:mode['divided_details']},
 
         ]},
     {path:'/userinfo',name:'个人中心',component:mode['info'],
@@ -316,63 +329,64 @@ let leftNav =
         ]
 	},
 	{title:'数据',default:'/data',defaultopen:['1'],
-	children:[
-		{title:'广告分析数据',url:'1',children:[
-			{title:'素材数据',url:'1-1',children:[
-				{title:'广告图数据',url:'1-1-1',list:[
-					{title:'广告图数据',url:'/data/ad_material_p'},
-					{title:'广告图详细数据',url:'/data/ad_material_ps'},
-				]},
-				{title:'广告模板数据',url:'1-1-2',list:[
-					{title:'广告模板数据',url:'/data/ad_material_m'},
-					{title:'广告模板详细数据',url:'/data/ad_material_ms'},
-				]},
-				{title:'锁屏壁纸数据',url:'1-1-3',list:[
-					{title:'锁屏壁纸数据',url:'/data/ad_material_w'},
-					{title:'锁屏壁纸详细数据',url:'/data/ad_material_ws'},
-				]},
-			]},
-			{title:'广告位相关数据',url:'1-2',list:[
-				{title:'渠道数据',url:'/data/ad_position_channel'},
-				{title:'产品数据',url:'/data/ad_position_product'},
-				{title:'广告位类型数据',url:'/data/ad_position_adType'},
-				{title:'广告位数据',url:'/data/ad_position_adData'},
-			]},
-			{title:'广告相关数据',url:'1-3',list:[
-				{title:'广告主数据',url:'/data/ad_position_user'},
-				{title:'广告主详细数据',url:'/data/ad_position_users'},
-				{title:'广告数据',url:'/data/ad_position_ad'},
-				{title:'广告详细数据',url:'/data/ad_position_ads'},
-			]},
-
-		]},
-		{title:'产品分析数据',url:'2',children:[
-			{title:'锁屏壁纸数据',url:'2-1',children:[
-				{title:'壁纸行为分析',url:'2-1-1',list:[
-					{title:'壁纸渠道数据',url:'/data/wallxw_channel'},
-					{title:'壁纸使用时长分布',url:'/data/wallxw_time'},
-					{title:'壁纸行为数据',url:'/data/wallxw_data'},
-					{title:'壁纸渠道详细数据',url:'/data/wallxw_xx'},
-					{title:'壁纸广告分析数据',url:'/data/wallxw_ad'},
-				]},
-			]},
-		]},
-		{title:'收益报表',url:'3',list:[
-			{title:'收益日报',url:'/data/profit_d'},
-			{title:'收益周报',url:'/data/profit_w'},
-			{title:'收益月报',url:'/data/profit_m'},
-			{title:'渠道收益',url:'/data/profit_channel'},
-			{title:'产品收益',url:'/data/profit_product'},
-			{title:'广告位类型收益',url:'/data/profit_position_type'},
-			{title:'广告位收益',url:'/data/profit_position'},
-			{title:'广告主收益',url:'/data/profit_user'},
-			{title:'广告收益',url:'/data/profit_ad'},
-			{title:'渠道成本',url:'/data/cost_channel'},
-			{title:'设计师成本',url:'/data/cost_designer'},
-			{title:'设计师成本详细数据',url:'/data/cost_designers'},
-			{title:'收益详表',url:'/data/profits'},
-		]}
-	]},
+	// children:[
+	// 	{title:'广告分析数据',url:'1',children:[
+	// 		{title:'素材数据',url:'1-1',children:[
+	// 			{title:'广告图数据',url:'1-1-1',list:[
+	// 				{title:'广告图数据',url:'/data/ad_material_p'},
+	// 				{title:'广告图详细数据',url:'/data/ad_material_ps'},
+	// 			]},
+	// 			{title:'广告模板数据',url:'1-1-2',list:[
+	// 				{title:'广告模板数据',url:'/data/ad_material_m'},
+	// 				{title:'广告模板详细数据',url:'/data/ad_material_ms'},
+	// 			]},
+	// 			{title:'锁屏壁纸数据',url:'1-1-3',list:[
+	// 				{title:'锁屏壁纸数据',url:'/data/ad_material_w'},
+	// 				{title:'锁屏壁纸详细数据',url:'/data/ad_material_ws'},
+	// 			]},
+	// 		]},
+	// 		{title:'广告位相关数据',url:'1-2',list:[
+	// 			{title:'渠道数据',url:'/data/ad_position_channel'},
+	// 			{title:'产品数据',url:'/data/ad_position_product'},
+	// 			{title:'广告位类型数据',url:'/data/ad_position_adType'},
+	// 			{title:'广告位数据',url:'/data/ad_position_adData'},
+	// 		]},
+	// 		{title:'广告相关数据',url:'1-3',list:[
+	// 			{title:'广告主数据',url:'/data/ad_position_user'},
+	// 			{title:'广告主详细数据',url:'/data/ad_position_users'},
+	// 			{title:'广告数据',url:'/data/ad_position_ad'},
+	// 			{title:'广告详细数据',url:'/data/ad_position_ads'},
+	// 		]},
+    //
+	// 	]},
+	// 	{title:'产品分析数据',url:'2',children:[
+	// 		{title:'锁屏壁纸数据',url:'2-1',children:[
+	// 			{title:'壁纸行为分析',url:'2-1-1',list:[
+	// 				{title:'壁纸渠道数据',url:'/data/wallxw_channel'},
+	// 				{title:'壁纸使用时长分布',url:'/data/wallxw_time'},
+	// 				{title:'壁纸行为数据',url:'/data/wallxw_data'},
+	// 				{title:'壁纸渠道详细数据',url:'/data/wallxw_xx'},
+	// 				{title:'壁纸广告分析数据',url:'/data/wallxw_ad'},
+	// 			]},
+	// 		]},
+	// 	]},
+	// 	{title:'收益报表',url:'3',list:[
+	// 		{title:'收益日报',url:'/data/profit_d'},
+	// 		{title:'收益周报',url:'/data/profit_w'},
+	// 		{title:'收益月报',url:'/data/profit_m'},
+	// 		{title:'渠道收益',url:'/data/profit_channel'},
+	// 		{title:'产品收益',url:'/data/profit_product'},
+	// 		{title:'广告位类型收益',url:'/data/profit_position_type'},
+	// 		{title:'广告位收益',url:'/data/profit_position'},
+	// 		{title:'广告主收益',url:'/data/profit_user'},
+	// 		{title:'广告收益',url:'/data/profit_ad'},
+	// 		{title:'渠道成本',url:'/data/cost_channel'},
+	// 		{title:'设计师成本',url:'/data/cost_designer'},
+	// 		{title:'设计师成本详细数据',url:'/data/cost_designers'},
+	// 		{title:'收益详表',url:'/data/profits'},
+	// 	]}
+	// ]
+},
     {title:'个人中心',default:'/userinfo/user_info',defaultopen:['1'],
         children:[
             {title:'个人中心',url:'1',list:[
@@ -393,12 +407,19 @@ let leftNav =
         ]
 	},
     {title:'收益中心',default:'/income/user_info',defaultopen:['1'],
-            children:[
-                {title:'收益中心',url:'1',list:[
-                        {title:'基本信息', url:'/userinfo/user_info'},
-
-                    ]},
-            ]
+        children:[
+            {title:'收益数据',url:'1',children:[
+                    {title:'收益总览', url:'1-1',list:[
+                            {title:'收益总览',url:'/income/earnings'}
+                        ]},
+            ]},
+            {title:'设计师成本管理',url:'2',list:[
+                    {title:'设计师成本管理',url:'/income/cost_management'}
+                ]},
+            {title:'结算管理',url:'3',list:[
+                   {title:'设计师结算管理',url:'/income/settlement'}
+                ]},
+        ]
         },
 ];
 localStorage.setItem('letNav',JSON.stringify(leftNav));
@@ -452,7 +473,7 @@ router.beforeEach((to, from, next) => {
 			next({ path: '/indexs/list'});
 		}
         if(to.fullPath=='/workbench'){
-            next({ path: '/workbench/advertising'});
+            next({ path: '/workbench/workbenchPadding'});
         }
 						
 		let params ={'url':to.fullPath.split('&')[0]} ;

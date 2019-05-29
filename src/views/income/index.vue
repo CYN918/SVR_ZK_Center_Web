@@ -24,13 +24,13 @@
         },
         mounted: function () {
 
-            if(JSON.parse(localStorage.getItem('letNav'))[3].children.length<=0){
+            if(JSON.parse(localStorage.getItem('letNav'))[4].children.length<=0){
                 this.$message({
                     type: 'error',
                     message: `您沒有該權限`
                 });
             }else{
-                this.letNav = JSON.parse(localStorage.getItem('letNav'))[1];
+                this.letNav = JSON.parse(localStorage.getItem('letNav'))[4];
             }
             // let Nav = JSON.parse(localStorage.getItem('leftNav'));
             // for(let i = 0;i<Nav.length;i++){
