@@ -473,6 +473,7 @@ export default {
     mfinal_detail:{
         url:'/mfinal/detail',method:'get'
     },
+
 	//编辑素材标签
     material_edit_tags:{
 		url:'/material/edit/tags',method:'post',isType:{suktip:1}
@@ -523,7 +524,10 @@ export default {
 	putlib_del:{
 		url:'/putlib/del',method:'post',isType:{suktip:1}
 	},
-	//
+	//获取业务需求详细信息
+    demand_business_detail:{
+		url:'/demand/business/detail',method:'get'
+	},
 	demand_business_add:{
 		url:"/demand/business/add",method:'post',isType:{suktip:1,reload:1}
 	},

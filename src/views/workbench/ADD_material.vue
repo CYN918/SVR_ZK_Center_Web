@@ -54,12 +54,14 @@
 
                 </div>
                 <div class="zz">
-                    <div> <template>
-                        <el-checkbox v-model="zzyq">制作要求</el-checkbox>
-                    </template></div>
+                    <div>
+                        <template>
+                             <el-checkbox v-model="zzyq">制作要求</el-checkbox>
+                        </template>
+                    </div>
                 </div>
                 <div class="require_txt">
-                    <textarea></textarea>
+                    <textarea v-model="note"></textarea>
                 </div>
                 <div class="Add_btn">
                     <span class="Add_btn_ADD" @click="ADD">添加</span>
@@ -81,15 +83,14 @@
                 list:[],
                 mfid:[],
                 checkList:[],
+                note:'',
             }
         },
         mounted(){
-            console.log('aaaa',this.scMessage)
-            let a=this.list;
+            let a =this.list;
             for(var i=0;i<this.num;i++){
                 a.push(i);
             }
-
         },
         methods:{
             getRowClass({row, column, rowIndex, columnIndex}) {
@@ -109,6 +110,7 @@
                 this.$parent.heidAddMaterial();
             },
             handleClick(index){
+                alert(index);
                 this.$parent.getSet(index);
             },
             getBD(){
@@ -120,7 +122,8 @@
             ADD(){
                 let formData = new FormData;
                 formData.append("id",this.id);
-                formData.append("",)
+                formData.append("mfid",JSON.stringify());
+                formData.append("note",this.note);
                 this.api.demand_audit().then((res)=>{
 
                 })

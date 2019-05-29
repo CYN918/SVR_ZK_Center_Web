@@ -6,7 +6,7 @@
         <sct v-if="set" @listenToChildEvent="listenToChildEvent" ></sct>
         <QD v-if="sh" :id="id"></QD>
         <BH v-if="bh" :dbid="dbid"></BH>
-
+        <ywxq v-if="yw" :YWid="YWid"></ywxq>
         <div class="problem">
             <template>
                 <el-table
@@ -41,7 +41,7 @@
                     </el-table-column>
                     <el-table-column label="操作">
                         <template slot-scope="props">
-                            <el-button v-if="tableData[props.$index].status_name=='素材准备'">查看需求</el-button>
+                            <el-button v-if="tableData[props.$index].status_name=='素材准备'" @click="getYW(tableData[props.$index].did)">查看需求</el-button>
                             <el-button v-if="tableData[props.$index].status_name=='上传物料'">查看需求</el-button>
                             <el-button v-if="tableData[props.$index].status_name=='发布审核'||tableData[props.$index].status_name=='活动发布'">查看需求</el-button>
                             <el-button v-if="tableData[props.$index].status_name=='物料审核'||tableData[props.$index].status_name=='测试验收'">查看物料</el-button>
@@ -95,6 +95,7 @@
 </template>
 
 <script>
+    import ywxq from './yw_details'
     import BH from './reject'
     import QD from './workBench_auditor'
     import AddWL from './AddWl'
@@ -102,7 +103,7 @@
     import sct from './selectMaterial'
     import ADD from './ADD_material'
     export default {
-        components:{QD,BH,ADD,sct,BDadd,AddWL},
+        components:{QD,BH,ADD,sct,BDadd,AddWL,ywxq},
         props:['tableData','active'],
         name: "workbench-table",
         data(){
@@ -116,9 +117,11 @@
                 wl:false,
                 set:false,
                 BD:false,
+                yw:false,
                 scMessage:[],
                 num:'',
                 rolesList:[],
+                YWid:''
             }
         },
 
@@ -175,6 +178,14 @@
             },
             heidSH(){
                 this.sh=false
+            },
+            getYW(id){
+                console.log(id)
+                this.yw = true;
+                this.YWid = id;
+            },
+            heidYW(){
+                this.yw = false
             },
             getBH(index){
                 this.bh = true;

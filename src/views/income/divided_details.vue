@@ -107,8 +107,8 @@
                 this.$router.go(-1)
             },
             jump(){
-                this.$touter.push({
-
+                this.$router.push({
+                    path:'/income/data_details'
                 })
             },
         },

@@ -75,6 +75,8 @@ import cost_management from './views/income/cost_management'
 mode['cost_management'] = cost_management
 import divided_details from './views/income/divided_details'
 mode['divided_details'] = divided_details
+import data_details from './views/income/data_details'
+mode['data_details'] = data_details
 
 
 //工作台
@@ -266,6 +268,7 @@ let nb = [
             {path:'/income/money_details',name:'收益详情',component:mode['money_details']},
             {path:'/income/cost_management',name:'设计师成本管理',component:mode['cost_management']},
             {path:'/income/divided_details',name:'分成详情',component:mode['divided_details']},
+            {path:'/income/data_details',name:'分成详细数据',component:mode['data_details']},
 
         ]},
     {path:'/userinfo',name:'个人中心',component:mode['info'],
