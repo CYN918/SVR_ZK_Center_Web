@@ -157,7 +157,7 @@ export default {
 	font-family:PingFangSC-Regular;
 	font-weight:500;
 	color:rgba(61,73,102,1);
-	margin-left: 52px;
+	margin-left: 70px;
 }
 .el-submenu__title>span:hover{
 	color:rgba(0,122,255,1)!important;
@@ -220,7 +220,7 @@ export default {
     margin-left: 50px;
 }
 .leftNav .el-submenu .el-submenu .el-menu-item{
-    text-indent: 72px;
+    text-indent: 90px;
 }
 .leftNav .el-submenu .el-submenu .el-submenu .el-submenu__title>span {
     margin-left: 50px;
