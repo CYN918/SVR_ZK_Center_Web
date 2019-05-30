@@ -295,7 +295,7 @@ let leftNav =
 	[
 	{title:'素材中心',default:'/admin',defaultopen:['1'],
 	children:[
-		{title:'素材库',url:'1',children:[
+		{title:'素材库',url:'1', img:'img/us.png',children:[
 			{title:'广告图',url:'1-1',list:[
                   {title:'广告图',url:'/admin/advertising'},
 					]},
@@ -308,17 +308,17 @@ let leftNav =
                     ]},
 			]},
 
-		{title:'物料库',url:'3',list:[
+		{title:'物料库',url:'3',img:'img/qx.png',list:[
 			{title:'广告图',url:'/admin/MaterialResource'},
 			{title:'广告模版',url:'/admin/WLtemplate'},
 			{title:'场景锁屏',url:'/admin/lockScreen'},
 		]},
-		{title:'配制管理',url:'4',list:[
+		{title:'配制管理',url:'4',img:'img/qx.png',list:[
 			{title:'设计规范库',url:'/admin/standard'},
 			{title:'标签管理',url:'/admin/settags'},
 			// {title:'外部帐号管理',url:'/admin/external'},
 		]},
-		{title:'投放库',url:'5',list:[
+		{title:'投放库',url:'5',img:'img/qx.png',list:[
 				{title:'投放库',url:'/admin/library'}
 			]}
 	]},

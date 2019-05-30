@@ -26,11 +26,11 @@
                 <input type="text" placeholder="请输入渠道ID"/>
             </div>
             <div>
-                <span>广告位ID</span>
+                <span class="gg_left">广告位ID</span>
                 <input type="text" placeholder="请输入广告位ID"/>
-                <span>广告ID</span>
+                <span class="id_left">广告ID</span>
                 <input type="text" placeholder="请输入广告ID"/>
-                <span>查询</span>
+                <span class="span_btn">查询</span>
             </div>
         </div>
     </div>
@@ -77,5 +77,45 @@
     .content{
         margin-top: 199px!important;
     }
-    .timesDate{display: inline-block}
+    .timesDate{
+        display: inline-block;
+        margin:24px  44px 24px 24px;
+    }
+    .content span{
+        display: inline-block;
+        margin-right: 24px;
+        font-size:14px;
+        font-family:PingFang-SC-Medium;
+        font-weight:500;
+        color:rgba(31,46,77,1);
+    }
+    .content input{
+        margin-right: 44px;
+        width:190px;
+        height:36px;
+        padding-left: 10px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+    }
+    .gg_left{
+        margin-left: 24px;
+    }
+    .id_left{
+        margin-left: 66px;
+    }
+    .span_btn{
+        display: inline-block;
+        line-height: 36px;
+        text-align: center;
+        width:68px;
+        height:36px;
+        background:rgba(51,119,255,1);
+        border-radius:4px;
+        font-size:14px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(255,255,255,1)!important;
+        cursor: pointer;
+    }
 </style>

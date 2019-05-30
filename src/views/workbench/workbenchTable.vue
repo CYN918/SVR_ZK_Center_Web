@@ -7,6 +7,7 @@
         <QD v-if="sh" :id="id"></QD>
         <BH v-if="bh" :dbid="dbid"></BH>
         <ywxq v-if="yw" :YWid="YWid"></ywxq>
+        <scxq v-if="sc" :SCid="SCid"></scxq>
         <div class="problem">
             <template>
                 <el-table
@@ -41,20 +42,19 @@
                     </el-table-column>
                     <el-table-column label="操作">
                         <template slot-scope="props">
-                            <el-button v-if="tableData[props.$index].status_name=='素材准备'" @click="getYW(tableData[props.$index].did)">查看需求</el-button>
-                            <el-button v-if="tableData[props.$index].status_name=='上传物料'">查看需求</el-button>
-                            <el-button v-if="tableData[props.$index].status_name=='发布审核'||tableData[props.$index].status_name=='活动发布'">查看需求</el-button>
+                            <el-button v-if="tableData[props.$index].status_name=='素材准备'||tableData[props.$index].status_name=='上传物料'" @click="getYW(tableData[props.$index].bdid)">查看需求</el-button>
+                            <el-button v-if="tableData[props.$index].status_name=='发布审核'||tableData[props.$index].status_name=='活动发布'" @click="getSC(tableData[props.$index].mdid)">查看需求</el-button>
                             <el-button v-if="tableData[props.$index].status_name=='物料审核'||tableData[props.$index].status_name=='测试验收'">查看物料</el-button>
                             <el-button v-if="tableData[props.$index].status_name=='素材审核'">查看活动</el-button>
                             <el-button v-if="tableData[props.$index].status_name=='素材入库'">查看素材</el-button>
                             <el-button  @click="AddMaterial(props.$index)" v-if="tableData[props.$index].status_name=='素材准备'">添加素材</el-button>
-                            <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name=='上传物料'">上传物料</el-button>
+                            <el-button   v-if="tableData[props.$index].status_name=='上传物料'">上传物料</el-button>
                             <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name=='测试验收'">测试通过</el-button>
                             <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name=='物料审核'||tableData[props.$index].status_name=='发布审核'">审核通过</el-button>
-                            <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name=='完成入库'">查看投放结果</el-button>
+                            <el-button  v-if="tableData[props.$index].status_name=='完成入库'">查看投放结果</el-button>
                             <el-button  @click="getBH(props.$index)" v-if="tableData[props.$index].status_name!='完成入库'&&tableData[props.$index].status_name!='活动发布'">驳回</el-button>
                             <el-button  @click="getBH(props.$index)" v-if="tableData[props.$index].status_name=='活动发布'">驳回</el-button>
-                            <el-button  @click="getBH(props.$index)" v-if="tableData[props.$index].status_name=='完成入库'">查看投放结果</el-button>
+                            <el-button   v-if="tableData[props.$index].status_name=='完成入库'">查看投放结果</el-button>
                         </template>
                     </el-table-column>
                     <el-table-column type="expand" label="查看完整流程" width="200">
@@ -95,6 +95,7 @@
 </template>
 
 <script>
+    import scxq from './sc_details'
     import ywxq from './yw_details'
     import BH from './reject'
     import QD from './workBench_auditor'
@@ -103,7 +104,7 @@
     import sct from './selectMaterial'
     import ADD from './ADD_material'
     export default {
-        components:{QD,BH,ADD,sct,BDadd,AddWL,ywxq},
+        components:{QD,BH,ADD,sct,BDadd,AddWL,ywxq,scxq},
         props:['tableData','active'],
         name: "workbench-table",
         data(){
@@ -118,10 +119,12 @@
                 set:false,
                 BD:false,
                 yw:false,
+                sc:false,
                 scMessage:[],
                 num:'',
                 rolesList:[],
-                YWid:''
+                YWid:'',
+                SCid:''
             }
         },
 
@@ -186,6 +189,13 @@
             },
             heidYW(){
                 this.yw = false
+            },
+            getSC(id){
+                this.sc = true;
+                this.SCid = id;
+            },
+            heidSC(){
+                this.sc = false;
             },
             getBH(index){
                 this.bh = true;

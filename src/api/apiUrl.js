@@ -525,8 +525,8 @@ export default {
 		url:'/putlib/del',method:'post',isType:{suktip:1}
 	},
 	//获取业务需求详细信息
-    demand_business_detail:{
-		url:'/demand/business/detail',method:'get'
+    demand_detail:{
+		url:'/demand/detail',method:'get'
 	},
 	demand_business_add:{
 		url:"/demand/business/add",method:'post',isType:{suktip:1,reload:1}

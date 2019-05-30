@@ -11,29 +11,33 @@
                 <div class="title_txt">
                     <span>发布业务需求详情</span>
                 </div>
-                <div>
+                <div class="two">
                     <span class="tit_txt">业务类型</span>
                     <span class="tit_txt_2 logs">{{this.list.type_name}}</span>
 
                     <span class="tit_txt right" >广告位类型</span>
                     <span class="tit_txt_2">{{this.list.typeIndex}}</span>
                 </div>
-                <div>
+                <div class="two">
                     <span class="tit_txt">尺寸</span>
                     <span class="tit_txt_2 logs">{{this.list.size}}</span>
                     <span class="tit_txt right">优先级</span>
                     <span class="tit_txt_2">{{this.list.priority}}</span>
 
                 </div>
-                <div>
+                <div class="two">
                     <span class="tit_txt">需求数量</span>
                     <span class="tit_txt_2 logs">{{this.list.num}}</span>
                     <span class="tit_txt right">实现方式</span>
                     <span class="tit_txt_2">{{this.list.model}}</span>
                 </div>
-                <div>
+                <div v-if="this.list.type_name!='场景锁屏'">
                     <span class="tit_txt">投放链接</span>
                     <span class="tit_txt_2">{{this.list.link}}</span>
+                </div>
+                <div v-if="this.list.type_name!='场景锁屏'">
+                    <span>投放库</span>
+                    <span></span>
                 </div>
                 <div class="times">
                     <span class="tit_txt">截止时间</span>
@@ -85,7 +89,7 @@
             },
             getData(){
                 let params ={id:this.YWid};
-                this.api.demand_business_detail({params}).then((res)=>{
+                this.api.demand_detail({params}).then((res)=>{
                     this.list = res;
                     console.log(res)
                 })

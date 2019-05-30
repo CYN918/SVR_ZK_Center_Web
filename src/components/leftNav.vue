@@ -9,15 +9,14 @@
 					{{el.title}}
 				</el-menu-item>
 				<el-submenu v-for="(el,index) in navData.children" :index="el.url" :key="index">
-
 					<template slot="title">
-						<!--<img src="../../public/img/qx.png" style="width: 16px;margin-right: 20px "/>-->
+						<img :src="el.img" style="width: 16px; position: relative;left: 28px" />
 						<span class="title">{{el.title}}</span>
 					</template>
 
 
 					<el-menu-item-group v-if="el.list">
-						<el-menu-item v-for="(elx,indexx) in el.list" :index="elx.url" :key="indexx">{{elx.title}}</el-menu-item>
+						<el-menu-item v-for="(elx,indexx) in el.list" :index="elx.url" :key="indexx"><span>{{elx.title}}</span></el-menu-item>
 					</el-menu-item-group>
 					<el-menu-item-group v-else-if="el.children">
 						<el-submenu v-for="(el2,index) in el.children" :index="el2.url" :key="index">
@@ -54,7 +53,8 @@ export default {
 	props:['navData'],
     data(){
 		return{
-			apptyped:'',	
+			apptyped:'',
+			url:'',
 		}
     },
     methods:{
@@ -118,18 +118,50 @@ export default {
 	height: 60px;
 	margin-bottom: 10px;
 	line-height: 60px;
-	text-align: center;
+	/*text-align: center;*/
 }
-/*.leftNav .el-submenu__title>span{*/
-	/*margin-left: 47px;*/
-/*}*/
+.leftNav .el-submenu .el-menu-item{
+	text-align: left!important;
+	font-size:16px;
+	font-family:PingFangSC-Regular;
+	font-weight:400;
+	color:rgba(122,135,161,1)!important;
+}
+.leftNav .el-submenu .el-menu-item span{
+	margin-left: 72px;
+}
+.leftNav .el-submenu__title>.title{
+	font-size:16px!important;
+	font-family:PingFangSC-Medium;
+	font-weight:bold!important;
+	color:rgba(31,46,77,1);
+	margin-left: 52px;
+}
+.el-menu-item-group__title .el-menu-item{
+	font-size:16px!important;
+	font-family:PingFangSC-Regular;
+	font-weight:400;
+	color:rgba(122,135,161,1);
+}
+.leftNav .el-submenu__title:hover span{
+	color:rgba(19,159,248,1);
+}
 .leftNav .el-submenu__title:hover{
 	background:rgba(19,159,248,0.1)!important;
-	font-size:14px;
+	font-size:16px;
 	font-family:PingFang-SC-Regular;
 	color:rgba(19,159,248,1);
 }
-
+.el-submenu__title>span{
+	font-size:16px;
+	font-family:PingFangSC-Regular;
+	font-weight:500;
+	color:rgba(61,73,102,1);
+	margin-left: 52px;
+}
+.el-submenu__title>span:hover{
+	color:rgba(0,122,255,1)!important;
+}
 .leftNav  .el-submenu .el-menu-item{
 	padding: 0 !important;
 	height: 60px;
@@ -140,9 +172,9 @@ export default {
 
 .leftNav .el-menu-item:focus, .el-menu-item:hover{
 	background:rgba(19,159,248,0.1)!important;
-	font-size:14px;
+	font-size:16px;
 	font-family:PingFang-SC-Regular;
-	color:rgba(19,159,248,1);
+	color:rgba(0,122,255,1);
 
 }
 .leftNav .el-submenu__title.is-active{
@@ -150,7 +182,7 @@ export default {
 	background:rgba(19,159,248,0.1)!important;
 }
 .leftNav .el-submenu__title .active{
-	font-size:14px;
+	font-size:16px;
 	font-family:PingFang-SC-Regular;
 	font-weight:400;
 	color:rgba(19,159,248,1)!important;
@@ -178,16 +210,17 @@ export default {
 	margin-left: 27px;
 }
  .el-menu-item{
-	 font-size:14px;
+	 font-size:16px;
 	 font-family:PingFang-SC-Regular;
 	 font-weight:400;
 	 color:rgba(54,54,54,1);
 }
-.leftNav .el-submenu .el-submenu .el-submenu__title>span {
+
+.leftNav .el-submenu .el-submenu .el-submenu .el-submenu__title>span {
     margin-left: 50px;
 }
 .leftNav .el-submenu .el-submenu .el-menu-item{
-    text-indent: 50px;
+    text-indent: 72px;
 }
 .leftNav .el-submenu .el-submenu .el-submenu .el-submenu__title>span {
     margin-left: 50px;
