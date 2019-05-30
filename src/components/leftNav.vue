@@ -1,51 +1,54 @@
 <template>
-	<div :class="['leftNavBox',apptyped]" >
-		<div class="navbtn iconfont" @click="checkNav">&#xe8d1;</div>
-		<div class="leftNavBg"></div>
-		<div class="leftNav" >		
-			<!--<div class="let_title">{{navData.title}}</div>-->
-			<el-menu :default-active="$route.fullPath.split('?')[0]" class="el-menu-vertical-demo" :router="true">
-				<el-menu-item class="first_o" v-for="(el,index) in navData.list" :index="el.url" :key="index">
-					{{el.title}}
-				</el-menu-item>
-				<el-submenu v-for="(el,index) in navData.children" :index="el.url" :key="index">
-					<template slot="title">
-						<img :src="el.img" style="width: 16px; position: relative;left: 28px" />
-						<span class="title">{{el.title}}</span>
-					</template>
-
-
-					<el-menu-item-group v-if="el.list">
-						<el-menu-item v-for="(elx,indexx) in el.list" :index="elx.url" :key="indexx"><span>{{elx.title}}</span></el-menu-item>
-					</el-menu-item-group>
-					<el-menu-item-group v-else-if="el.children">
-						<el-submenu v-for="(el2,index) in el.children" :index="el2.url" :key="index">
-							<template slot="title">
-								<span>{{el2.title}}</span>
-							</template>
-							<el-menu-item-group v-if="el2.list">
-								<el-menu-item v-for="(elx,indexx) in el2.list" :index="elx.url" :key="indexx">{{elx.title}}</el-menu-item>
-							</el-menu-item-group>
-							<el-menu-item-group v-else-if="el2.children">
-								<el-submenu v-for="(el3,index) in el2.children" :index="el3.url" :key="index">
-									<template slot="title">
-										<span>{{el3.title}}</span>
-									</template>
-									<el-menu-item-group v-if="el3.list">
-										<el-menu-item v-for="(elx,indexx) in el3.list" :index="elx.url" :key="indexx">{{elx.title}}</el-menu-item>
-									</el-menu-item-group>
-								</el-submenu>
-							</el-menu-item-group>
-
-						</el-submenu>
-					</el-menu-item-group>
-					<el-menu-item v-else :index="el.url">
-						<span >{{el.title}}</span>
+	<div class="left_nav">
+		<div :class="['leftNavBox',apptyped]" >
+			<div class="navbtn iconfont" @click="checkNav">&#xe8d1;</div>
+			<div class="leftNavBg"></div>
+			<div class="leftNav" >
+				<!--<div class="let_title">{{navData.title}}</div>-->
+				<el-menu :default-active="$route.fullPath.split('?')[0]" class="el-menu-vertical-demo" :router="true">
+					<el-menu-item class="first_o" v-for="(el,index) in navData.list" :index="el.url" :key="index">
+						{{el.title}}
 					</el-menu-item>
-				</el-submenu>
-			</el-menu>
+					<el-submenu v-for="(el,index) in navData.children" :index="el.url" :key="index">
+						<template slot="title">
+							<img :src="el.img" style="width: 16px; position: relative;left: 28px" />
+							<span class="title">{{el.title}}</span>
+						</template>
+
+
+						<el-menu-item-group v-if="el.list">
+							<el-menu-item v-for="(elx,indexx) in el.list" :index="elx.url" :key="indexx"><span>{{elx.title}}</span></el-menu-item>
+						</el-menu-item-group>
+						<el-menu-item-group v-else-if="el.children">
+							<el-submenu v-for="(el2,index) in el.children" :index="el2.url" :key="index">
+								<template slot="title">
+									<span>{{el2.title}}</span>
+								</template>
+								<el-menu-item-group v-if="el2.list">
+									<el-menu-item v-for="(elx,indexx) in el2.list" :index="elx.url" :key="indexx">{{elx.title}}</el-menu-item>
+								</el-menu-item-group>
+								<el-menu-item-group v-else-if="el2.children">
+									<el-submenu v-for="(el3,index) in el2.children" :index="el3.url" :key="index">
+										<template slot="title">
+											<span>{{el3.title}}</span>
+										</template>
+										<el-menu-item-group v-if="el3.list">
+											<el-menu-item v-for="(elx,indexx) in el3.list" :index="elx.url" :key="indexx">{{elx.title}}</el-menu-item>
+										</el-menu-item-group>
+									</el-submenu>
+								</el-menu-item-group>
+
+							</el-submenu>
+						</el-menu-item-group>
+						<el-menu-item v-else :index="el.url">
+							<span >{{el.title}}</span>
+						</el-menu-item>
+					</el-submenu>
+				</el-menu>
+			</div>
 		</div>
 	</div>
+
 </template>
 <script>
 export default { 
@@ -92,7 +95,7 @@ export default {
 	overflow-y: auto;
 	top: 0;
 	left: 0;
-	width: 256px;
+	/*width: 256px;*/
 	height: 100%;
 	background:rgba(255,255,255,1);
 	box-shadow:0px 2px 8px 0px rgba(0, 0, 0, 0.08);
@@ -137,6 +140,9 @@ export default {
 	color:rgba(31,46,77,1);
 	margin-left: 52px;
 }
+.el-menu-item-group__title{
+	padding: 0!important;
+}
 .el-menu-item-group__title .el-menu-item{
 	font-size:16px!important;
 	font-family:PingFangSC-Regular;
@@ -144,10 +150,10 @@ export default {
 	color:rgba(122,135,161,1);
 }
 .leftNav .el-submenu__title:hover span{
-	color:rgba(19,159,248,1);
+	color:rgba(0,122,255,1)!important;
 }
 .leftNav .el-submenu__title:hover{
-	background:rgba(19,159,248,0.1)!important;
+	background:transparent!important;
 	font-size:16px;
 	font-family:PingFang-SC-Regular;
 	color:rgba(19,159,248,1);
@@ -165,17 +171,19 @@ export default {
 .leftNav  .el-submenu .el-menu-item{
 	padding: 0 !important;
 	height: 60px;
-	margin-bottom: 19px;
+	margin-bottom: 10px;
 	line-height: 60px;
 	text-align: center;
 }
 
 .leftNav .el-menu-item:focus, .el-menu-item:hover{
-	background:rgba(19,159,248,0.1)!important;
+	background:transparent!important;
 	font-size:16px;
 	font-family:PingFang-SC-Regular;
 	color:rgba(0,122,255,1);
-
+}
+.leftNav .el-menu-item:focus, .el-menu-item:hover span{
+	color:rgba(0,122,255,1);
 }
 .leftNav .el-submenu__title.is-active{
 	color:rgba(19,159,248,1)!important;
@@ -231,4 +239,5 @@ export default {
 .first_o{
 	text-indent: 22px !important;
 }
+
 </style>

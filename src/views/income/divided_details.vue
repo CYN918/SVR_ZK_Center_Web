@@ -21,7 +21,7 @@
                     </el-date-picker>
                 </div>
                 <span class="ts">数据推送</span>
-                <span class="fc">分成管理</span>
+                <span class="fc" @click="divide">分成管理</span>
             </div>
             <div>
                 <template>
@@ -109,6 +109,11 @@
             jump(){
                 this.$router.push({
                     path:'/income/data_details'
+                })
+            },
+            divide(){
+                this.$router.push({
+                    path:'/income/divided_management'
                 })
             },
         },

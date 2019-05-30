@@ -25,13 +25,76 @@
                 <span>渠道ID</span>
                 <input type="text" placeholder="请输入渠道ID"/>
             </div>
-            <div>
+            <div class="bottom">
                 <span class="gg_left">广告位ID</span>
                 <input type="text" placeholder="请输入广告位ID"/>
                 <span class="id_left">广告ID</span>
                 <input type="text" placeholder="请输入广告ID"/>
                 <span class="span_btn">查询</span>
             </div>
+            <div>
+                <template>
+                    <el-table
+                            :data="tableData"
+                            header-align="center"
+                            :header-cell-style="getRowClass"
+                            :cell-style="cell"
+                            style="width: 100%;color:#000">
+                        <el-table-column
+                                label="日期" prop="demand_type"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                label="广告ID" prop="did"
+                        >
+                        </el-table-column>
+                        <el-table-column type="expand" label="渠道ID" prop="did">
+                            <template slot-scope="props">
+
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                                label="有效率" prop="status"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                label="广告位ID" prop="status"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                label="素材ID" prop="status"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                label="有效展示量" prop="status"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                label="有效点击量" prop="status"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                label="结算方式" prop="status"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                label="设计师分成" prop="status"
+                        >
+                        </el-table-column>
+                    </el-table>
+                </template>
+            </div>
+        </div>
+        <div class="block">
+            <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="page"
+                    :page-sizes="[10, 20, 30, 40]"
+                    :page-size="p"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total">
+            </el-pagination>
         </div>
     </div>
 </template>
@@ -42,12 +105,32 @@
         data(){
             return{
                 time:[],
+                tableData:[{did:22}],
+                p:10,
+                page:1,
+                total:0
             }
         },
         methods:{
             fh(){
                 this.$router.go(-1)
-            }
+            },
+            getRowClass({row, column, rowIndex, columnIndex}) {
+                if (rowIndex === 0) {
+                    return 'background:rgba(247,249,252,1);color:rgba(31,46,77,1);text-align:center;font-size:14px;font-weight:500;font-family:PingFang-SC-Medium;height:56px'
+                } else {
+                    return ''
+                }
+            },
+            cell({row, column, rowIndex, columnIndex}){
+                return 'text-align:center;color:rgba(61,73,102,1);font-size:14px;font-weight:400;font-family:PingFangSC-Regula;'
+            },
+            handleSizeChange(p) { // 每页条数切换
+                this.p = p;
+            },
+            handleCurrentChange(page) {//页码切换
+                this.page = page;
+            },
         }
     }
 </script>
@@ -117,5 +200,8 @@
         font-weight:400;
         color:rgba(255,255,255,1)!important;
         cursor: pointer;
+    }
+    .bottom{
+        margin-bottom: 24px;
     }
 </style>

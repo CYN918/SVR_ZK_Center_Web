@@ -86,7 +86,7 @@
                 </div>
                 <div class="btn">
                     <span class="qd" @click=" tj()">确定</span>
-                    <span click="qx">取消</span>
+                    <span @click="qx()">取消</span>
                 </div>
             </div>
 
@@ -265,6 +265,7 @@
         font-family:PingFangSC-Regular;
         font-weight:400;
         color:rgba(61,73,102,1);
+        cursor: pointer;
     }
     .qd{
         background:rgba(51,119,255,1)!important;

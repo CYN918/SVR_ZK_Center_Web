@@ -131,8 +131,12 @@
                 if(!this.model){
                     this.$message.error('实现方式不能为空')
                 }
+                if(!this.type!='f_sls_lockscreen'&&!this.libraryName){
+                    this.$message.error('投放库不能为空')
+                }
                 let formData=new FormData;
                 formData.append('type',this.type);
+                formData.append('libraryName',this.libraryName);
                 formData.append('num',this.num);
                 formData.append('priority',this.priority);
                 formData.append('endtime',this.endtime);
