@@ -15,7 +15,6 @@
 							<span class="title">{{el.title}}</span>
 						</template>
 
-
 						<el-menu-item-group v-if="el.list">
 							<el-menu-item v-for="(elx,indexx) in el.list" :index="elx.url" :key="indexx"><span>{{elx.title}}</span></el-menu-item>
 						</el-menu-item-group>

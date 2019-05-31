@@ -1,6 +1,6 @@
 <template>
 	<div class="topNav">
-		<div @click="goindex" class="log"><img  src="/img/log.jpg"/>掌酷综合平台</div>
+		<div @click="goindex" class="log"><img  src="../../public/img/logo.png"/></div>
 		<!--<el-dropdown trigger="click" class="user-ci">-->
 			<!--<span class="el-dropdown-link iconfont">&#xe686;</span>-->
 			<!--<el-dropdown-menu slot="dropdown">-->
@@ -9,13 +9,13 @@
 			<!--</el-dropdown-menu>-->
 		<!--</el-dropdown>-->
 		<ul class="navd" v-if="config.showL!=-1">
-			<router-link  to="/workbench"><li>工作台</li></router-link>
-			<router-link  to="/data"><li>数据中心</li></router-link>
-			<router-link  to="/income"><li>收益中心</li></router-link>
-			<router-link  to="/admin"><li>素材中心</li></router-link>
+			<router-link  to="/workbench"><li><span>工作台</span></li></router-link>
+			<router-link  to="/data"><li><span>数据中心</span></li></router-link>
+			<router-link  to="/income"><li><span>收益中心</span></li></router-link>
+			<router-link  to="/admin"><li> <span>素材中心</span></li></router-link>
 			<!--<router-link  to="/user"><li>产品中心</li></router-link>-->
 			<router-link  to="/userinfo"><li class="right"><img src="../../public/img/user.png" class="imgs_user"/>{{name}}</li></router-link>
-			<router-link  to="/login"><li class="right" @click="loginout()">退出登录</li></router-link>
+			<router-link  to="/login"><li class="right" @click="loginout()"><span>退出登录</span></li></router-link>
 		</ul>
 		<el-menu v-if="config.showL!=-1"  class="el-menu-demo appTopNav" mode="horizontal" @select="handleSelect"> 
 			<el-submenu index="2">
@@ -124,9 +124,10 @@ export default {
 .log{
 	cursor: pointer;
 	float: left;
-	width: 316px;
-	margin-top: 22px;
-	height:23px;
+	width:256px;
+	height:64px;
+	background:linear-gradient(270deg,rgba(48,160,255,1) 0%,rgba(51,119,255,1) 100%);
+	/*margin-top: 22px;*/
 	border-right:1px solid rgba(0,0,0,.2);
 	font-size:14px;
 	line-height: 23px;
@@ -134,9 +135,17 @@ export default {
 	font-weight:500;
 	color:rgba(0,0,0,1);
 	opacity:0.85;
+	text-align: center;
 }
 
-.log>img{vertical-align:top;display: inline-block;width: 37px;margin: 0 21px 0  48px;}
+.log>img{
+	vertical-align:top;
+	display: inline-block;
+	max-width: 159px;
+	position: relative;
+	top:50%;
+	transform: translateY(-50%);
+}
 .sszj{
 	float: left;
 }
@@ -187,7 +196,7 @@ export default {
 	font-family:PingFang-SC-Bold;
 	font-weight:bold;
 	color:rgba(51,119,255,1);
-	border-bottom: 2px solid rgba(51,119,255,1);
+	/*border-bottom: 2px solid rgba(51,119,255,1);*/
 }
 .imgs_size{
 	width: 20px;
@@ -250,5 +259,11 @@ export default {
 @media only screen  and (max-width: 720px) {
 	.tcVbox{left: 0 !important;}
     .tjzsd{padding: 20px 85px;}
+}
+.navd a.router-link-active span{
+	display: inline-block;
+	line-height: 60px;
+	border-bottom: 4px solid rgba(51,119,255,1);
+	vertical-align: top;
 }
 </style>

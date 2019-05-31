@@ -299,9 +299,9 @@ let leftNav =
 	{title:'素材中心',default:'/admin',defaultopen:['1'],
 	children:[
 		{title:'素材库',url:'1', img:'img/us.png',children:[
-			{title:'广告图',url:'1-1',list:[
-                  {title:'广告图',url:'/admin/advertising'},
-					]},
+
+			{title:'广告图',url:'/admin/advertising'},
+
 			{title:'广告模板',url:'1-2',list:[
                   {title:'广告模板',url:'/admin/AD_templates'},
                     ]},

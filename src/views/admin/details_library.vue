@@ -19,7 +19,9 @@
         <div class="con">
             <div class="box">
                 <div class="boxImg" v-for="(DL,index) in IMGList">
-                    <img :src="DL.prev_uri"/>
+                    <div class="img_box">
+                        <img :src="DL.prev_uri"/>
+                    </div>
                     <div class="boxImg_right" >
                         <div class="boxImg_right_1">
                             <div>

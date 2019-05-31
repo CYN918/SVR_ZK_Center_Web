@@ -11,7 +11,7 @@ html,body,div,h1,ul,li,a,p,img{
 html,body{
 	width: 100%;
 	min-height: 100%;
-	background: #FAF7F6;
+    background: rgba(239,244,248,1);
 }
 #app{
 	width: 100%;
@@ -68,11 +68,11 @@ html,body{
 .block .el-pagination{margin-top: 38px}
 
 .block .el-pagination .btn-prev{
-  margin-right: 28px;
+  margin-right: 10px;
 }
-.block .el-pagination .btn-next{
-  margin-left: 8px;
-}
+/*.block .el-pagination .btn-next{*/
+  /*margin-left: 10px;*/
+/*}*/
 .block .el-pagination .btn-prev,.block .el-pagination .btn-next{
   width: 40px;
   height:40px;
@@ -89,11 +89,11 @@ html,body{
   font-family:PingFang-SC-Regular;
   font-weight:400;
   line-height: 40px;
-  margin-right:20px;
+  margin-right:10px;
 }
 
 .block .el-pagination .el-pager .active{
-  background:rgba(19,159,248,1);
+  background:rgba(19,159,248,1)!important;
   color:rgba(255,255,255,1)!important;
 }
 .block .el-pagination  .el-pagination__total{
@@ -180,6 +180,10 @@ html,body{
 .box_select .el-radio .el-radio__input{
   line-height: 237px;
 
+}
+.block .el-pagination .el-pagination__jump .el-input__inner{
+  width: 40px!important;
+  height: 40px!important;
 }
 .box_select .el-radio .el-radio__label,.boxCheck .el-radio__label{
   opacity: 0;
@@ -314,23 +318,32 @@ html,body{
 }
 .boxImg{
   display: inline-block;
-  width:779px;
-  height:328px;
+  width:776px;
+  height:327px;
   background:rgba(255,255,255,1);
   border-radius:4px;
   padding: 13px 0 14px 14px;
   box-shadow:0px 0px 10px 0px rgba(153,153,153,0.14);
-  margin: 0px 16px 24px 0!important;
+  margin: 0px 23px 24px 0!important;
 }
 .boxImg:nth-child(2n){
   margin-right: 0!important;
 }
-.boxImg img{
-  width:310px;
-  height:328px;
+.boxImg .img_box{
+  display: inline-block;
+  width:252px;
+  height:326px;
   background:rgba(216,216,216,1);
   border-radius:4px;
   margin-right: 24px;
+  text-align: center;
+}
+.boxImg img{
+  width:218px;
+  max-height:326px;
+  position: relative;
+  top:50%;
+  transform: translateY(-50%);
 }
 .boxImg_right{
   display: inline-block;
@@ -426,8 +439,8 @@ html,body{
   margin-left: 20px;
 }
 .bjImg{
-  width:310px;
-  height:38px;
+  width:252px;
+  height:40px;
   background:rgba(134,134,134,0.503);
   border-radius:0px 0px 4px 4px;
   position: relative;
@@ -536,5 +549,21 @@ html,body{
   }
 .timesDate  .el-date-editor .el-range-input{
   vertical-align: top;
+}
+ .block .el-pagination .btn-prev, .block .el-pagination .btn-next{
+    width:40px;
+    height:36px;
+    background:rgba(255,255,255,1);
+    border-radius:4px;
+    border:1px solid rgba(211,219,235,1);
+
+  }
+.block .el-pagination .el-pager .number{
+  width:40px;
+  height:36px;
+  line-height: 36px;
+  background:rgba(255,255,255,1);
+  border-radius:4px;
+  border:1px solid rgba(211,219,235,1);
 }
 </style>
