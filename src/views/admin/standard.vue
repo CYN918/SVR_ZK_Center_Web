@@ -15,6 +15,7 @@
                     <el-table
                             :data="tableData"
                             :header-cell-style="getRowClass"
+                            :cell-style="cell"
                             border
                             style="width: 100%">
                         <el-table-column
@@ -133,10 +134,13 @@
         methods:{
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
-                    return 'background:rgba(246,246,246,1);color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:400;height:48px;font-family:PingFang-SC-Regular;'
+                    return 'background:#f7f9fc;color:#8F9BB3;text-align:center;font-size:14px;font-weight:Medium;height:48px;font-family:PingFang-SC-Regular;'
                 } else {
                     return ''
                 }
+            },
+            cell({row, column, rowIndex, columnIndex}){
+                return 'text-align:center;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
             handleSizeChange1(p) { // 每页条数切换
                 this.p = p;
@@ -426,7 +430,7 @@
         margin-left: 24px;
     }
     a{
-        color: #66b1ff;
+        color: #3377ff;
         text-decoration:none;
         margin: 0 10px;
     }

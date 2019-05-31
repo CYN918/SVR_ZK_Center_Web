@@ -30,7 +30,8 @@
                 </div>
                 <div class="message">
                     <span class="message_name message_top">相关图片</span>
-                    <div class="ps" v-for="(item,index) in messageData.fd_pics"><img :src="item"/></div>
+                    <div v-if="messageData.fd_pics.length>0" class="ps" v-for="(item,index) in messageData.fd_pics"><img :src="item"/></div>
+                    <span v-if="messageData.fd_pics.length==0" class="message_box">无</span>
                 </div>
             </div>
             <div class="btn_bottom" @click="back">
@@ -128,6 +129,7 @@
     border-radius:5px;
     word-wrap :break-word;
     padding: 10px;
+    color:#8F9BB3;
 }
 .ps{
     display: inline-block;
@@ -168,7 +170,7 @@
     font-size:16px;
     font-family:PingFang-SC-Regular;
     font-weight:400;
-    color:rgba(54,54,54,1);
+    color:#8F9BB3;
     text-align: left!important;
 }
 </style>

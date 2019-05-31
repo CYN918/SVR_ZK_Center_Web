@@ -16,7 +16,7 @@
                     <span>搜索</span>
                 </div>
                 <div class="title_tj" @click="submit">
-                    <span>提交反馈</span>
+                    <span><img src="../../../public/img/add_msg.png" style="width: 12px;margin-right: 14px">提交反馈</span>
                 </div>
             </div>
             <div>
@@ -142,13 +142,13 @@
         methods:{
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
-                    return 'background:#f7f9fc;color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:Medium;height:48px;font-family:PingFang-SC-Regular;'
+                    return 'background:#f7f9fc;color:#8F9BB3;text-align:center;font-size:14px;font-weight:Medium;height:48px;font-family:PingFang-SC-Regular;'
                 } else {
                     return ''
                 }
             },
             cell({row, column, rowIndex, columnIndex}){
-                return 'text-align:center;'
+                return 'text-align:center;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
             getList(){
                 this.api.feedback_list().then((res)=>{
@@ -368,7 +368,7 @@
 
 .txt{
     display: inline-block;
-    margin-right:50px;
+    margin-right:24px;
     font-size:14px;
     font-family:PingFang-SC-Medium;
     font-weight:500;
@@ -407,7 +407,7 @@
     cursor: pointer;
 }
 .tj{
-    margin-left: 119px;
+    margin-left: 106px;
     color:rgba(255,255,255,1)!important;
     background:rgba(51,119,255,1)!important;
     margin-right: 14px;
@@ -418,7 +418,7 @@
     width:340px;
     height: 110px;
     overflow: hidden;
-    padding-left: 94px;
+    padding-left: 81px;
 }
 
 

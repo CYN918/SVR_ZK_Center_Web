@@ -65,13 +65,13 @@
         methods:{
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
-                    return 'background:#f7f9fc;color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:Medium;height:48px;font-family:PingFang-SC-Regular;'
+                    return 'background:#f7f9fc;color:#8F9BB3;text-align:center;font-size:14px;font-weight:Medium;height:48px;font-family:PingFang-SC-Regular;'
                 } else {
                     return ''
                 }
             },
             cell({row, column, rowIndex, columnIndex}){
-                return 'text-align:center;color:#3d4966;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
+                return 'text-align:center;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
             change(a,b){
                 this.api.edit_account_status({email:this.tableData2[a].email,status:b}).then((res)=>{

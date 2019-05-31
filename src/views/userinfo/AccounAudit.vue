@@ -10,7 +10,7 @@
             <div class="cx">
                 <input type="text" placeholder="输入用户名或邮箱快速查询" v-model="search"/>
                 <span @click="getAccountList()">查询</span>
-                <span class="right_btn" @click="addUser">添加账号</span>
+                <span class="right_btn" @click="addUser"><img src="../../../public/img/add_msg.png" style="width: 12px;margin-right: 14px">添加账号</span>
             </div>
             <template>
                 <el-table
@@ -111,10 +111,13 @@
             },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
-                    return 'background:#f7f9fc;color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:Medium;height:48px;font-family:PingFang-SC-Regular;'
+                    return 'background:#f7f9fc;color:#8F9BB3;text-align:center;font-size:14px;font-weight:Medium;height:48px;font-family:PingFang-SC-Regular;'
                 } else {
                     return ''
                 }
+            },
+            cell({row, column, rowIndex, columnIndex}){
+                return 'text-align:center;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
             getUSERdATA(a){
                 this.management= true;
@@ -127,9 +130,7 @@
             qx(){
                 this.management=false;
             },
-            cell({row, column, rowIndex, columnIndex}){
-                return 'text-align:center;color:rgba(61,73,102,1);font-size:14px;font-weight:400;font-family:PingFangSC-Regula;'
-            },
+
             change(a,b){
                 this.api.edit_account_status({email:this.tableData[a].email,status:b}).then((res)=>{
                 })

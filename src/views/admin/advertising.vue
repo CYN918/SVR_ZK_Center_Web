@@ -15,7 +15,7 @@
 					<option value="1001">未使用</option>
 					<option value="1201">禁用</option>
 				</select>
-				<span class="Search_tit" @click="getCon">添加本地素材</span>
+				<span class="Search_tit" @click="getCon"><img src="../../../public/img/add_msg.png" style="width: 12px;margin-right: 14px">添加本地素材</span>
 			</div>
 			<div class="contentImg">
 				<div class="label">
@@ -23,6 +23,7 @@
 					<span class="labelName" @click="getListTag()">全部</span>
 					<span v-for="(item,index) in preset_tags" class="labelName" @click="getListTag(item.name,index)" :class="{active:inx==index}" >{{item.name}}</span>
 				</div>
+				<hr style="margin: 0 24px;border-color:#E6E9F0;opacity: 0.1"/>
 				<div class="label">
 					<span class="label_txt">个性标签:</span>
 					<span class="labelName" @click="getListTags()">全部</span>

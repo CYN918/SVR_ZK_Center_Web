@@ -217,7 +217,7 @@
     }
 
 .box_input{
-    margin-top: 173px;
+    margin-top: 197px;
 }
 .box{
     display: inline-block;
@@ -356,7 +356,7 @@ input{
     right: 0px;
     cursor: pointer;
     border:20px solid;
-    border-color:#139FF8 #139FF8 transparent transparent ;
+    border-color:#3377ff #3377ff transparent transparent ;
     border-radius:0 5px 0 0;
 }
 .box_4>img{

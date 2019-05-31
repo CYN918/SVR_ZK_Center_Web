@@ -243,9 +243,8 @@ html,body{
 }
 .Search{
   margin-left: 24px;
-  margin-bottom: 34px;
 }
-.Search img{
+.Search>img{
   width: 28px;
   position: relative;
   left: -485px;
@@ -288,21 +287,20 @@ html,body{
   margin-right: 40px;
 }
 .label{
-  margin-bottom: 18px;
-  margin-left: 24px;
+  margin:18px 0 18px 24px;
 }
 .labelName{
   display: inline-block;
-  height:30px;
+  height:28px;
   background:rgba(255,255,255,1);
   border-radius:5px;
-  font-size:14px;
+  font-size:12px;
   font-family:PingFang-SC-Medium;
   font-weight:500;
   color:rgba(31,46,77,1);
   margin-right: 24px;
   text-align: center;
-  line-height: 38px;
+  line-height: 28px;
   cursor: pointer;
 }
 .label_txt{
@@ -313,6 +311,15 @@ html,body{
   margin-right: 16px;
 }
 
+.contentImg .label .active,.labelName:hover{
+  display: inline-block;
+  padding: 0 10px;
+  background: #3377ff;
+  border-radius: 4px;
+  margin-right: 10px!important;
+  color: #fff!important;
+  font-size: 12px!important;
+}
 .active{
   background:rgba(255,255,255,1);
   border:1px solid rgba(19,159,248,1);
@@ -402,7 +409,7 @@ html,body{
   margin-right: 12px;
 }
 .ck{
-  color:rgba(19,159,248,1);
+  color:#3377ff;
   cursor: pointer;
 }
 .box_box{
@@ -433,11 +440,12 @@ html,body{
   height:28px;
   background:rgba(247,249,252,1);
   border-radius:4px;
-  border:1px solid rgba(211,219,235,1);
+  border:1px solid #3377ff;
   font-size:12px;
   font-family:PingFangSC-Regular;
   font-weight:400;
-  color:rgba(143,155,179,1);
+  color:#3377ff;
+  text-decoration: none;
   text-align: center;
   line-height: 28px;
   margin-left: 20px;

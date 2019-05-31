@@ -130,8 +130,8 @@
 .message>span{
     display: inline-block;
     width: 80px;
+    margin-left: 10px;
     margin-right: 24px;
-    margin-left: 0!important;
     font-size:14px;
     font-family:PingFang-SC-Medium;
     font-weight:500;

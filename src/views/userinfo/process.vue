@@ -19,26 +19,30 @@
             </div>
             <div class="steplist">
                 <div class="step " v-for="(item,index) in list">
-                    <span class="step_box">{{item.status}}</span>
-                    <span class="step_text">{{item.status_name}}</span>
-                    <div class="step_name">
-                        <div class="step_img" v-for="(da,index2) in item.user">
-                            <span class="step_txt">{{da}}</span>
+                    <div style="display: inline-block">
+                        <span class="step_box">{{item.status}}</span>
+                        <span class="step_text">{{item.status_name}}</span>
+                        <div class="step_name">
+                            <div class="step_img" v-for="(da,index2) in item.user">
+                                <span class="step_txt">{{da}}</span>
+                            </div>
+                            <div class="add" @click="getBan(index)">
+                                <span class="step_add"><img src="../../../public/img/add_msg.png" style="width: 12px;margin-top: 12px"></span>
+                                <span class="step_add_txt">添加</span>
+                            </div>
                         </div>
-                        <div class="add" @click="getBan(index)">
-                            <span class="step_add">+</span>
-                            <span class="step_add_txt">添加</span>
-                        </div>
+                        <div class="tag" v-if="item.status_name=='物料审核'">
+                            <span :class="{active:audit_type==0}" @click="tag">或签</span>
+                            <span :class="{active:audit_type==1}" @click="tagTwo">会签</span>
                     </div>
-                    <div class="tag" v-if="item.status_name=='物料审核'">
-                        <span :class="{active:audit_type==0}" @click="tag">或签</span>
-                        <span :class="{active:audit_type==1}" @click="tagTwo">会签</span>
+
                     </div>
+                    <div v-if="item.status!=6" style="width: 120px;height: 1px;background: #E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
                 </div>
                 <div class="banner" v-if="ban">
                     <span class="tit">负责人</span>
                     <div>
-                        <input  type="text"/>
+                        <input  type="text" v-model="search" @click="getListUser"/>
                     </div>
                     <div class="banner_btn">
                         <span class="qd" @click="ADDuserName()">确定</span>
@@ -60,26 +64,29 @@
             </div>
             <div class="steplist">
                 <div class="step " v-for="(item,index) in YClist">
-                    <span class="step_box">{{item.status}}</span>
-                    <span class="step_text">{{item.status_name}}</span>
-                    <div class="step_name">
-                        <div class="step_img" v-for="(da,index2) in item.user">
-                            <span class="step_txt">{{da}}</span>
+                    <div style="display: inline-block">
+                        <span class="step_box">{{item.status}}</span>
+                        <span class="step_text">{{item.status_name}}</span>
+                        <div class="step_name">
+                            <div class="step_img" v-for="(da,index2) in item.user">
+                                <span class="step_txt">{{da}}</span>
+                            </div>
+                            <div class="add" @click="getBan(index)">
+                                <span class="step_add"><img src="../../../public/img/add_msg.png" style="width: 12px;margin-top: 12px"></span>
+                                <span class="step_add_txt">添加</span>
+                            </div>
                         </div>
-                        <div class="add" @click="getBan(index)">
-                            <span class="step_add">+</span>
-                            <span class="step_add_txt">添加</span>
+                        <div class="tag" v-if="item.status_name=='发布审核'">
+                            <span :class="{active1:audit_type==0}" @click=" SCtag">或签</span>
+                            <span :class="{active1:audit_type==1}" @click="SCtagTwo">会签</span>
                         </div>
                     </div>
-                    <div class="tag" v-if="item.status_name=='发布审核'">
-                        <span :class="{active1:audit_type==0}" @click=" SCtag">或签</span>
-                        <span :class="{active1:audit_type==1}" @click="SCtagTwo">会签</span>
-                    </div>
+                    <div v-if="item.status!=5" style="width: 120px;height: 1px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
                 </div>
                 <div class="banner" v-if="ban">
                     <span class="tit">负责人</span>
                     <div>
-                        <input  type="text" v-model="search" @input="getListUser()"/>
+                        <input  type="text" v-model="search" @input="getUSER()"/>
                         <div></div>
                     </div>
                     <div class="banner_btn">
@@ -178,7 +185,7 @@
                 this.ban=false;
             },
             getListUser(){
-                let params = {search:this.search};
+                let params = {search:this.search}
                 this.api.get_accounts({params}).then((res)=>{
                     console.log(res)
                 })
@@ -297,11 +304,12 @@
     .step{
         display: inline-block;
         text-align: center;
-        margin-right: 168px;
-        margin-left: 62px;
         vertical-align: top;
     }
-    .step:last-child{
+    .step:first-child{
+        margin-left: 62px;
+    }
+    .steplist:last-child{
         margin-right: 0px!important;
     }
     .step_box{
