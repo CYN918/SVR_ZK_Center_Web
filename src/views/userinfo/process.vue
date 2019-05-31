@@ -79,7 +79,8 @@
                 <div class="banner" v-if="ban">
                     <span class="tit">负责人</span>
                     <div>
-                        <input  type="text"/>
+                        <input  type="text" v-model="search" @input="getListUser()"/>
+                        <div></div>
                     </div>
                     <div class="banner_btn">
                         <span class="qd" @click="ADDuserName()">确定</span>
@@ -120,6 +121,8 @@
                 audit_type:0,
                 SCaudit_type:0,
                 title:false,
+                search:'',
+                user:[],
             }
         },
         mounted(){
@@ -128,14 +131,14 @@
         },
         methods:{
             getYWtype(){
-                let params ={material:0}
+                let params ={material:0};
                 this.api.config_material_type({params}).then((res)=>{
                     this.YWtypeList = res;
                     this.getSCtype();
                 })
             },
             getSCtype(){
-                let params ={material:1}
+                let params ={material:1};
                 this.api.config_material_type({params}).then((res)=>{
                     this.SCtypeList = res;
                     this. getConductorList();
@@ -175,7 +178,8 @@
                 this.ban=false;
             },
             getListUser(){
-                this.api.get_accounts({}).then((res)=>{
+                let params = {search:this.search};
+                this.api.get_accounts({params}).then((res)=>{
                     console.log(res)
                 })
             },
@@ -197,6 +201,7 @@
             heidTitle(){
                 this.title=false;
             },
+
         }
     }
 </script>
@@ -292,7 +297,12 @@
     .step{
         display: inline-block;
         text-align: center;
-        margin-right: 116px;
+        margin-right: 168px;
+        margin-left: 62px;
+        vertical-align: top;
+    }
+    .step:last-child{
+        margin-right: 0px!important;
     }
     .step_box{
         display: inline-block;
@@ -310,10 +320,10 @@
     }
     .step_text{
         display: block;
-        font-size:16px;
+        font-size:14px;
         font-family:PingFangSC-Regular;
-        font-weight:400;
-        color:rgba(61,73,102,1);
+        font-weight:bold;
+        color:#8f9bb3;
     }
     .step_add{
         display: inline-block;
@@ -324,6 +334,7 @@
         text-align: center;
         line-height: 36px;
         color: #ffff;
+        margin-top: 14px;
     }
     .step_img{
         display: inline-block;
@@ -343,6 +354,7 @@
         font-family:PingFang-SC-Medium;
         font-weight:500;
         color:rgba(48,144,240,1);
+        margin-top: 12px;
     }
     .add{
         display: inline-block;
@@ -358,6 +370,8 @@
         margin-top: 10px;
         width:240px;
         height:164px;
+        position: relative;
+        top: -200px;
         background:rgba(255,255,255,1);
         box-shadow:0px 1px 6px 0px rgba(0,0,0,0.06);
         border-radius:4px;
@@ -404,7 +418,8 @@
         margin-right: 14px;
     }
     .tag{
-        margin-top: 20px;
+        margin-top: 160px;
+        margin-bottom: 24px;
     }
     .tag span{
         display: inline-block;
@@ -412,7 +427,7 @@
         height:20px;
         background:rgba(255,255,255,1);
         border-radius:2px 0px 0px 2px;
-        border:1px solid rgb(72, 74, 80);
+        border:1px solid #D3DBEB;
         font-size:12px;
         font-family:PingFangSC-Regular;
         font-weight:400;

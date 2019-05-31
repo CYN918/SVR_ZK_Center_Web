@@ -128,7 +128,7 @@ export default {
 	height:64px;
 	background:linear-gradient(270deg,rgba(48,160,255,1) 0%,rgba(51,119,255,1) 100%);
 	/*margin-top: 22px;*/
-	border-right:1px solid rgba(0,0,0,.2);
+	/*border-right:1px solid rgba(0,0,0,.2);*/
 	font-size:14px;
 	line-height: 23px;
 	font-family:PingFang-SC-Medium;

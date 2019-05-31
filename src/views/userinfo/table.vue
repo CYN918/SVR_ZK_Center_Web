@@ -30,8 +30,8 @@
                     <el-switch
                             :active-value="1"
                             :inactive-value="0"
-                            active-color="#13ce66"
-                            inactive-color="#ff4949"
+                            active-color="#3377ff"
+                            inactive-color="#e6e9f0"
                             v-model="scope.row.status"
                             @change=change(scope.$index,scope.row.status)>
                     </el-switch>
@@ -65,13 +65,13 @@
         methods:{
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
-                    return 'background:rgba(246,246,246,1);color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:400;height:48px;font-family:PingFang-SC-Regular;'
+                    return 'background:#f7f9fc;color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:Medium;height:48px;font-family:PingFang-SC-Regular;'
                 } else {
                     return ''
                 }
             },
             cell({row, column, rowIndex, columnIndex}){
-                return 'text-align:center;color:rgba(153,153,153,1);font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
+                return 'text-align:center;color:#3d4966;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
             change(a,b){
                 this.api.edit_account_status({email:this.tableData2[a].email,status:b}).then((res)=>{

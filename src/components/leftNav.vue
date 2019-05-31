@@ -91,7 +91,7 @@ export default {
 }
 .leftNav{
 	position: absolute;
-	overflow-y: auto;
+	overflow-y:auto;
 	top: 0;
 	left: 0;
 	/*width: 256px;*/

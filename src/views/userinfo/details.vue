@@ -9,27 +9,27 @@
         <div class="centNavBox">
             <div class="titl_right">
                 <div class="message">
-                    <span class="message_name">用户名:</span>
+                    <span class="message_name">用户名</span>
                     <span class="message_box">{{messageData.user.user_name}}</span>
                 </div>
                 <div class="message">
-                    <span class="message_name">用户账号:</span>
+                    <span class="message_name">用户账号</span>
                     <span class="message_box">{{messageData.user.email}}</span>
                 </div>
                 <div class="message">
-                    <span class="message_name">问题类型:</span>
+                    <span class="message_name">问题类型</span>
                     <span class="message_box">{{messageData.fd_type}}</span>
                 </div>
                 <div class="message">
-                    <span class="message_name">提交时间:</span>
+                    <span class="message_name">提交时间</span>
                     <span class="message_box">{{messageData.created_at}}</span>
                 </div>
                 <div class="message">
-                    <span class="message_name message_top">问题描述:</span>
+                    <span class="message_name message_top">问题描述</span>
                     <div class="issue">{{messageData.fd_desc}}</div>
                 </div>
                 <div class="message">
-                    <span class="message_name message_top">相关图片:</span>
+                    <span class="message_name message_top">相关图片</span>
                     <div class="ps" v-for="(item,index) in messageData.fd_pics"><img :src="item"/></div>
                 </div>
             </div>
@@ -110,8 +110,8 @@
 .message_name{
     display: inline-block;
     width: 70px;
-    text-align: left;
-    margin-right: 64px;
+    text-align: right;
+    margin-right: 24px;
     font-size:14px;
     font-family:PingFang-SC-Medium;
     font-weight:500;
@@ -124,7 +124,7 @@
     display: inline-block;
     width:1020px;
     height:170px;
-    border:1px solid rgba(230,230,230,1);
+    border:1px solid #f7f9fc;
     border-radius:5px;
     word-wrap :break-word;
     padding: 10px;

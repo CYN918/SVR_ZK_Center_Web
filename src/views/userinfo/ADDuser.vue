@@ -195,6 +195,7 @@
         display: inline-block;
         width: 90px;
         text-align: right;
+        margin-left: 10px;
     }
     .detail select{
         width:200px;

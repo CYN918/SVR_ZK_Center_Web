@@ -9,7 +9,7 @@
         <div class="centNavBox">
             <div class="box_input">
                 <div class="btn" @click="jump">
-                    <span>+ 添加角色</span>
+                    <span><img src="../../../public/img/add_msg.png" style="width: 12px;margin-right: 14px">添加角色</span>
                 </div>
                 <div class="box" v-for="(item,index) in list">
                     <div class="box_1">
@@ -133,13 +133,14 @@
 .btn{
     display: inline-block;
     text-align: center;
-    width:523px;
-    height:128px;
+    width:519px;
+    height:124px;
     background:rgba(255,255,255,1);
     border-radius:4px;
     vertical-align: top;
     margin: 0 24px 24px 0;
     cursor: pointer;
+    border: 2px dotted #d3dbeb;
 }
 
     .btn>span{
@@ -162,7 +163,7 @@
     background:rgba(255,255,255,1);
     border-radius:4px;
     margin: 0 24px 20px 0;
-
+    position: relative;
 }
 .box:nth-child(3){
     margin: 0 0 20px 0!important;
@@ -205,7 +206,7 @@ img{
     font-size:20px;
     font-family:PingFang-SC-Regular;
     font-weight:400;
-    color:rgba(51,51,51,1);
+    color:#1f2e4d;
     line-height:36px;
 }
 p{
@@ -215,12 +216,12 @@ p{
     display: inline-block;
     width: 0;
     height: 0;
-    position: relative;
-    top: -39px;
-    right: -37px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
     cursor: pointer;
     border:20px solid;
-    border-color:#139FF8 #139FF8 transparent transparent ;
+    border-color:#3377ff #3377ff transparent transparent ;
     border-radius: 5px;
 }
 .box_4>img{
@@ -234,17 +235,17 @@ p{
     font-size:18px;
     font-family:PingFang-SC-Regular;
     font-weight:400;
-    color:rgba(51,51,51,1);
+    color:#1f2e4d;
 }
 .masg{
-    font-size:16px;
+    font-size:14px;
     font-family:PingFang-SC-Regular;
     font-weight:400;
-    color:rgba(153,153,153,1);
+    color:#8f9bb3;
 }
 .box_num{
     text-decoration:underline;
-    color:rgba(19,159,248,1);
+    color:#3377ff;
     cursor: pointer;
 }
 </style>

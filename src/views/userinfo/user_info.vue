@@ -16,23 +16,23 @@
 				</div>
 				<div class="message" v-if="this.userData.type==0">
 					<span>用户名</span>
-					<input type="text" v-model="userData.name"/>
+					<input type="text" v-model="userData.name" disabled="disabled"/>
 				</div>
 				<div class="message">
 					<span>账号</span>
-					<input type="text" v-model="userData.email"/>
+					<input type="text" v-model="userData.email" disabled="disabled"/>
 				</div>
 				<div class="message" v-if="this.userData.type==0">
 					<span>角色</span>
-					<input type="text" v-model="userData.roles[0].role_name"/>
+					<input type="text" v-model="userData.roles[0].role_name" disabled="disabled"/>
 				</div>
 				<div class="message" v-if="this.userData.type==1">
 					<span>公司名称</span>
-					<input type="text" v-model="userData.company"/>
+					<input type="text" v-model="userData.company" disabled="disabled"/>
 				</div>
 				<div class="message" v-if="this.userData.type==1">
 					<span>联系方式</span>
-					<input type="text" v-model="userData.phone"/>
+					<input type="text" v-model="userData.phone" disabled="disabled"/>
 				</div>
 			</div>
 
@@ -134,14 +134,15 @@ input{
 	height:36px;
 	background:rgba(255,255,255,1);
 	border-radius:4px;
-	border:1px solid rgba(230,233,240,1);
+	border:1px solid #F7F9FC;
 	padding-left: 15px;
 }
 .message>span{
 	display: inline-block;
 	width: 80px;
-	margin-left: 24px;
-	text-align: left;
+	margin-right: 24px;
+	margin-left: 0!important;
+	text-align: right;
 	font-size:14px;
 	font-family:PingFang-SC-Medium;
 	font-weight:500;

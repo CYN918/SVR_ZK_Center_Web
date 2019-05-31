@@ -7,7 +7,7 @@
         <div class="content">
             <div class="ss">
                 <img src="../../../public/img/ss.png"/>
-                <input type="text" placeholder="搜索关键字"/>
+                <input type="text" placeholder="搜索关键字或ID" v-model="search"/>
                 <span @click="upload">上传</span>
             </div>
             <div class="table_content">
@@ -124,6 +124,7 @@
                 },
                 index:'',
                 url:'',
+                search:'',
             }
         },
         mounted(){
@@ -137,18 +138,18 @@
                     return ''
                 }
             },
-            handleSizeChange1(page) { // 每页条数切换
-                this.page = page;
-                console.log(this.page);
+            handleSizeChange1(p) { // 每页条数切换
+                this.p = p;
+                console.log(this.p);
                 this.getTableList();
             },
-            handleCurrentChange1(p) {//页码切换
-                console.log(p);
-                this.p = p;
+            handleCurrentChange1(page) {//页码切换
+                // console.log(p);
+                this.page = page;
                 this.getTableList();
             },
             getTableList(){
-                let params ={p:this.p,page:this.page};
+                let params ={p:this.p,page:this.page,search:this.search};
                 this.api.config_standards({params}).then((res)=>{
                     this.tableData = res.data;
                     this.total=res.total;

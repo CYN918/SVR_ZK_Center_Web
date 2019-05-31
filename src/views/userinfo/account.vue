@@ -30,7 +30,7 @@
         <div class="box_input_2">
             <input type="text" placeholder="输入用户名或邮箱快速查询"/>
             <span class="btn">查询</span>
-            <span class="btn_2" @click="add">添加账号</span>
+            <span class="btn_2" @click="add"><img src="../../../public/img/add_msg.png">添加账号</span>
         </div>
         <div class="box_input_3">
             <div class="name" v-for="(item,index) in list" @click="aaa(index)" :class="{active:num ==index}"><span>{{item.role_name}}</span></div>
@@ -193,7 +193,7 @@
 <style scoped>
     .top_name{
         height: 109px;
-        z-index: 999999;
+        z-index: 999;
     }
     .top_txt{
         display: inline-block;
@@ -224,6 +224,7 @@
     width:523px;
     height:128px;
     margin-right: 24px;
+    position: relative;
     background:rgba(255,255,255,1);
     box-shadow:0px 0px 10px 0px rgba(0, 0, 0, 0.08);
     border-radius:5px;
@@ -257,7 +258,7 @@
     transform: translateY(-50%);
 }
 p{
-    font-size:16px;
+    font-size:14px;
     font-family:PingFang-SC-Medium;
     font-weight:500;
     color:rgba(143,155,179,1);
@@ -311,8 +312,12 @@ input{
 .btn_2{
    margin-left: 60px;
 }
+.btn_2 img{
+    width: 12px;
+    margin-right: 14px;
+}
 .box_input_2{
-    margin-bottom: 100px;
+    margin-bottom: 34px;
     margin-left: 24px;
 }
 .name{
@@ -346,9 +351,9 @@ input{
     display: inline-block;
     width: 0;
     height: 0;
-    position: relative;
-    top: -40px;
-    right: -48px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
     cursor: pointer;
     border:20px solid;
     border-color:#139FF8 #139FF8 transparent transparent ;
@@ -364,11 +369,12 @@ input{
     height: 100%;
     background: rgba(0,0,0,0.3);
     position: fixed;
-    z-index: 9;
+    z-index: 99999;
     top: 65px;
     left: 220px;
     bottom: 0;
     right: 0;
+    margin-left: 38px;
 }
 .detail_1{
     position: absolute;

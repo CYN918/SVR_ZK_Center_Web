@@ -13,7 +13,7 @@
                     <input type="password" v-if="show_1" v-model="input1"/>
                     <input type="text" v-if="show" v-model="input1"/>
                     <div class="imgs_1">
-                        <img src="../../../public/img/icon.png" @click="heid"/>
+                        <img :src="url" @click="heid"/>
                     </div>
 
                 </div>
@@ -47,12 +47,19 @@
                 input1:'',
                 input2:'',
                 input3:'',
+                url:'img/eye2.png'
             }
         },
         methods:{
             heid(){
                 this.show = !(this.show);
-                this.show_1 = !(this.show_1)
+                this.show_1 = !(this.show_1);
+                if(this.url=='img/eye2.png'){
+                    this.url = 'img/eye.png'
+                }else {
+                    this.url='img/eye2.png'
+                }
+
             },
             edit_account_password(){
 
@@ -123,21 +130,23 @@
 .message>span{
     display: inline-block;
     width: 80px;
-    margin-left: 24px;
-    text-align: left;
+    margin-right: 24px;
+    margin-left: 0!important;
     font-size:14px;
     font-family:PingFang-SC-Medium;
     font-weight:500;
     color:rgba(31,46,77,1);
     line-height:36px;
+    text-align: right;
 }
 .message>input{
     margin-left: 0;
-    width:404px;
+    width:394px;
     height:36px;
     background:rgba(255,255,255,1);
     border-radius:4px;
     border:1px solid rgba(211,219,235,1);
+    padding-left: 10px;
 }
 .btn_txt{
     background:rgba(51,119,255,1)!important;
@@ -156,11 +165,11 @@
     width: 28px;
     height: 28px;
     margin-left: 15px;
-    border: 1px dashed #ddd;
+    /*border: 1px dashed #ddd;*/
     vertical-align: middle;
 }
 img{
-    width: 28px;
+    width: 16px;
 }
 .title_left>span{
     display: inline-block;

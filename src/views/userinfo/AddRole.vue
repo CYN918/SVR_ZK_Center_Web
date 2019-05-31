@@ -16,8 +16,8 @@
                             @change=GetSwitch
                             active-value=1
                             inactive-value=0
-                            active-color="#13ce66"
-                            inactive-color="#ff4949">
+                            active-color="#3377ff"
+                            inactive-color="#e6e9f0">
                     </el-switch>
                 </div>
                 <div class="role_name">
@@ -229,12 +229,9 @@
     background:rgba(255,255,255,1);
     border-radius:5px;
 }
-.role_message_1{
-    margin-left:24px;
-}
 .role_message_1>span{
     display: block;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
     line-height: 50px;
     font-size:18px;
     font-family:PingFang-SC-Medium;
@@ -262,7 +259,7 @@
 }
 
 .btn_txt{
-    background:rgba(19,159,248,1);
+    background:#3377ff;
     border: 1px solid transparent;
     margin-right: 14px;
     color:rgba(255,255,255,1)!important;

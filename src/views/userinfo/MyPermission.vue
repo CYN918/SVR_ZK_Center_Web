@@ -12,7 +12,7 @@
                     </div>
                     <div class="tab_title_1_1_1">
                         <p class="text_messages">{{user.role_name}}</p>
-                        <p class="text_message_1">{{user.note}}</p>
+                        <p class="text_message_1 top_msg">{{user.note}}</p>
                     </div>
                 </div>
                 <div class="tab_right">
@@ -20,6 +20,7 @@
                         <p class="text_message">创建时间</p>
                         <p class="text_message_1">{{time}}</p>
                     </div>
+                    <span class="line"></span>
                     <div class="tab_title_1_3">
                         <p class="text_message">状态</p>
                         <p class="text_message_1">{{user.state=1?'启用':'禁用'}}</p>
@@ -72,7 +73,7 @@
         methods: {
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
-                    return 'background:rgba(246,246,246,1);color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
+                        return 'background:#f7f9fc;color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:Medium;font-family:PingFang-SC-Regular;'
                 } else {
                     return ''
                 }
@@ -135,9 +136,7 @@ img{
    width: 146px;
     text-align: center;
 }
-.tab_title_1_3{
-    border-left: 1px solid rgb(211, 211, 211);
-}
+
 .text_messages{
     margin-bottom: 10px;
     font-size:18px;
@@ -146,9 +145,13 @@ img{
     color:rgba(50,50,50,1);
     line-height:36px;
 }
+.top_msg{
+    margin-top: 0!important;
+}
 .tab_title_1_1_1{
     display: inline-block;
     margin-left: 24px;
+    vertical-align: top;
 }
 .text_message{
     font-size:16px;
@@ -156,9 +159,7 @@ img{
     font-weight:500;
     color:rgba(143,155,179,1);
 }
-.particulars{
-    margin: 40px 0;
-}
+
 .particulars>span{
     display: inline-block;
     font-size:16px;
@@ -166,10 +167,11 @@ img{
     font-weight:500;
     color:rgba(61,73,102,1);
     line-height:36px;
-    margin-left: 24px;
-    margin-top: 20px;
+    margin: 24px;
 }
-
+.content .el-table--border, .el-table--group{
+    margin-bottom: 24px;
+}
 .title_name>span{
     display: inline-block;
     width:80px;
@@ -181,7 +183,7 @@ img{
     line-height:36px;
 }
 .text_message_1{
-    font-size:18px;
+    font-size:16px;
     font-family:PingFang-SC-Medium;
     font-weight:500;
     color:rgba(61,73,102,1);
@@ -200,6 +202,12 @@ img{
 .tab_right{
     display: inline-block;
     float: right;
-    margin-right: 225px;
+    margin-right: 270px;
 }
+    .line{
+        display: inline-block;
+        height: 56px;
+        width: 1px;
+        background: #e6e9f0;
+    }
 </style>

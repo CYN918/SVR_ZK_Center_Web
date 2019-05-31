@@ -142,7 +142,7 @@
         methods:{
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
-                    return 'background:rgba(242,242,242,1);color:rgba(54,54,54,1);text-align:center;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
+                    return 'background:#f7f9fc;color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:Medium;height:48px;font-family:PingFang-SC-Regular;'
                 } else {
                     return ''
                 }
@@ -261,9 +261,10 @@
 .title_ss span{
     display: inline-block;
     width:68px;
-    height:36px;
+    height: 38px;
     background:rgba(51,119,255,1);
     border-radius:0px 4px 4px 0px;
+    border: 1px solid rgba(51,119,255,1);
     font-size:14px;
     font-family:PingFangSC-Regular;
     font-weight:400;

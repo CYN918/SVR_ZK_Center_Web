@@ -32,7 +32,9 @@ html,body{
   top:40px;
   right: 34px
 }
-.el-table_1_column_4:hover{color: red}
+.el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+  background: #3377ff;
+}
 .pswp__caption__center{display: none}
 #tab-3:hover{
   color: #453dff!important;
@@ -93,7 +95,7 @@ html,body{
 }
 
 .block .el-pagination .el-pager .active{
-  background:rgba(19,159,248,1)!important;
+  background:#3377ff!important;
   color:rgba(255,255,255,1)!important;
 }
 .block .el-pagination  .el-pagination__total{
@@ -156,8 +158,8 @@ html,body{
   border:1px solid rgba(153,153,153,1);
   border-radius:5px;
   padding-right: 14px;
-  margin-bottom: 10px!important;
-  margin-left: 20px;
+  margin-bottom: 14px!important;
+  margin-left: 14px;
 }
 .AddIMG_bq_box_top_bq .el-checkbox__label{
   font-size:12px;
@@ -168,8 +170,10 @@ html,body{
 }
 
 .AddIMG_bq_box_top_bq .is-checked{
-  border:1px solid rgba(19, 159, 248, 1);
+ background:  rgba(19, 159, 248, 1);
+  border: 0px!important;
 }
+
 .AddIMG_bq_box_top_bq .el-checkbox span{
   border: 0!important;
 }
@@ -513,6 +517,9 @@ html,body{
   font-weight:400;
   color:rgba(255,255,255,1);
 }
+.cell .el-button--text{
+  color: #3377ff;
+}
   .problem .el-button{
     display: inline-block;
     padding: 0!important;
@@ -565,5 +572,11 @@ html,body{
   background:rgba(255,255,255,1);
   border-radius:4px;
   border:1px solid rgba(211,219,235,1);
+}
+.AddIMG_bq_box_top_bq .el-checkbox__input.is-checked+.el-checkbox__label{
+  color:rgba(255,255,255,1)!important;
+}
+.content .el-table--border, .el-table--group{
+  margin-bottom: 24px!important;
 }
 </style>

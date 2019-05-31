@@ -49,8 +49,8 @@
                             <el-switch
                                     :active-value="1"
                                     :inactive-value="0"
-                                    active-color="#13ce66"
-                                    inactive-color="#ff4949"
+                                    active-color="#3377ff"
+                                    inactive-color="#e6e9f0"
                                     v-model="scope.row.status"
                                     @change=change(scope.$index,scope.row.status)>
                             </el-switch>
@@ -111,7 +111,7 @@
             },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
-                    return 'background:rgba(247,249,252,1);color:rgba(31,46,77,1);text-align:center;font-family:PingFangSC-Medium;font-size:14px;font-weight:500;height:48px;font-weight:500;'
+                    return 'background:#f7f9fc;color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:Medium;height:48px;font-family:PingFang-SC-Regular;'
                 } else {
                     return ''
                 }
