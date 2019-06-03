@@ -18,8 +18,11 @@
                             <span>{{index+1}}</span>
                             <span>
                                 <template>
-                                    <el-checkbox v-model="checked">需要</el-checkbox>
+                                     <el-checkbox-group v-model="checked">
+                                        <el-checkbox  :label="index">需要</el-checkbox>
+                                    </el-checkbox-group>
                                 </template>
+
                             </span>
                         </div>
                         <div  class="table_content_rig">
@@ -31,25 +34,24 @@
                                 <span class="id">{{item.mid}}</span>
                                 <span class="type">{{item.type_name}}</span>
                                 <div class="click">
-                                    <span  v-if="checked==true" @click="handleClick(index)">从素材库选择</span>
-                                    <span  v-if="checked==true" @click="getBD">从本地上传</span>
-                                    <span  v-if="checked==false" @click="getWl">从物料库选择</span>
+                                    <span  v-if="checked.indexOf(index)!=-1" @click="handleClick(index)">从素材库选择</span>
+                                    <span  v-if="checked.indexOf(index)!=-1" @click="getBD">从本地上传</span>
+                                    <span  v-if="checked.indexOf(index)==-1" @click="getWl">从物料库选择</span>
                                 </div>
                             </div>
-                            <div class="table_content_right">
+                            <div class="table_content_right" >
                                 <div class="imgs">
                                     <img src="">
                                 </div>
                                 <span class="id"></span>
                                 <span class="type"></span>
                                 <div class="click">
-                                    <span @click="handleClick(index)" v-if="checked==true">从素材库选择</span>
-                                    <span @click="getBD" v-if="checked==true">从本地上传</span>
-                                    <span  v-if="checked==false" @click="getWl">从物料库选择</span>
+                                    <span @click="handleClick(index)" v-if="checked.indexOf(index)!=-1">从素材库选择</span>
+                                    <span @click="getBD" v-if="checked.indexOf(index)!=-1">从本地上传</span>
+                                    <span @click="getWl" v-if="checked.indexOf(index)==-1">从物料库选择</span>
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
                 </div>
@@ -78,8 +80,8 @@
         data(){
             return{
                 zzyq:false,
-                checked:true,
-                material:[],
+                checked:[],
+                material:[{num:2,mid:"SDE_000009"}],
                 list:[],
                 mfid:[],
                 checkList:[],
@@ -110,8 +112,7 @@
                 this.$parent.heidAddMaterial();
             },
             handleClick(index){
-                alert(index);
-                this.$parent.getSet(index);
+                this.$parent.getSet(index,this.scMessage);
             },
             getBD(){
                 this.$parent.getBD();
@@ -120,15 +121,24 @@
                 this.$parent.getWl();
             },
             ADD(){
+                for(let i=0;i<this.scMessage.length;i++){
+                    this.mfid=this.mfid.concat(this.scMessage[i].mid);
+                }
                 let formData = new FormData;
                 formData.append("id",this.id);
-                formData.append("mfid",JSON.stringify());
+                formData.append('material',JSON.stringify(this.material));
+                formData.append("mfid",JSON.stringify(this.mfid));
                 formData.append("note",this.note);
-                this.api.demand_audit().then((res)=>{
+                this.api.demand_audit(formData).then((res)=>{
 
                 })
             },
-        }
+        },
+watch:{
+    checked:function (old) {
+        console.log(old);
+    }
+}
     }
 </script>
 
@@ -262,6 +272,7 @@
     .table_content_right img{
         display: inline-block;
         height: 80px;
+        width: 108px;
     }
     .id{
         width: 25%;

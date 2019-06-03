@@ -11,7 +11,7 @@
 					</el-menu-item>
 					<el-submenu v-for="(el,index) in navData.children" :index="el.url" :key="index">
 						<template slot="title">
-							<img :src="el.img" style="width: 16px; position: relative;left: 28px" />
+							<i class="iconfont" v-html="el.img" style="margin-left: 42px"></i>
 							<span class="title">{{el.title}}</span>
 						</template>
 
@@ -50,6 +50,7 @@
 
 </template>
 <script>
+	import '../assets/icon/iconfont.css'
 export default { 
     name: 'app', 
 	props:['navData'],
@@ -137,7 +138,7 @@ export default {
 	font-family:PingFangSC-Medium;
 	font-weight:bold!important;
 	color:rgba(31,46,77,1);
-	margin-left: 52px;
+	margin-left: 10px;
 }
 .el-menu-item-group__title{
 	padding: 0!important;
@@ -149,6 +150,9 @@ export default {
 	color:rgba(122,135,161,1);
 }
 .leftNav .el-submenu__title:hover span{
+	color:rgba(0,122,255,1)!important;
+}
+.leftNav .el-submenu__title:hover i{
 	color:rgba(0,122,255,1)!important;
 }
 .leftNav .el-submenu__title:hover{
@@ -165,6 +169,9 @@ export default {
 	margin-left: 70px;
 }
 .el-submenu__title>span:hover{
+	color:rgba(0,122,255,1)!important;
+}
+.el-submenu__title :hover i{
 	color:rgba(0,122,255,1)!important;
 }
 .leftNav  .el-submenu .el-menu-item{

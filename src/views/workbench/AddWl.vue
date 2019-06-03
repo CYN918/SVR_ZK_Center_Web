@@ -254,7 +254,7 @@
                     formData.append('bind_mid',this.bind_mid);
                     formData.append('model',this.model);
                     formData.append('size',this.sjSize);
-                    formData.append('link',this.link)
+                    formData.append('link',this.link);
                     this.api.mfinal_add(formData).then((res)=>{
                     }).catch(this.$message(message))
 

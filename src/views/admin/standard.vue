@@ -132,7 +132,7 @@
             this.getTableList();
         },
         methods:{
-            getRowClass({row, column, rowIndex, columnIndex}) {
+            getRowClass({row, column, rowIndex}) {
                 if (rowIndex === 0) {
                     return 'background:#f7f9fc;color:#8F9BB3;text-align:center;font-size:14px;font-weight:Medium;height:48px;font-family:PingFang-SC-Regular;'
                 } else {

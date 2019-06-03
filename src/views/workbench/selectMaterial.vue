@@ -30,7 +30,7 @@
                             <!--<el-radio v-model="checked" :label="index" @change="getID(index)"></el-radio>-->
                             <template>
                                 <el-checkbox-group v-model="checked">
-                                    <el-checkbox :label="index" @change="getID(index)"></el-checkbox>
+                                    <el-checkbox :label="index" ></el-checkbox>
                                 </el-checkbox-group>
                             </template>
                         </div>
@@ -65,7 +65,7 @@
 
 <script>
     export default {
-        props:['typesLisck', 'imgIndex'],
+        props:['typesLisck', 'imgIndex','da','index'],
         name: "select_material",
         data(){
             return {
@@ -81,27 +81,54 @@
                 scType:'',
                 type:'',
                 scMessagelist:[],
-                scMessage:''
+                scMessageOld:[],
+                scMessageNew:[],
+
             }
         },
         mounted() {
             this.getList();
+            console.log(this.da)
         },
         methods:{
-            getID(index){
-                this.scMessage =  this.IMGList[index].mid;
-            },
+            // getID(index){
+            //     this.scMessage =  this.IMGList[index].mid;
+            // },
             YCset(){this.$parent.SCsc()},
             messageID(){
-                    for(let i=0;i<this.checked.length;i++) {
-                        this.scMessagelist.push(this.IMGList[this.checked[i]]);
+                if(this.da.length!=0){
+                    for(let j=0;j<this.da.length;j++){
+                        this.scMessageOld.push(this.da[j]);
                     }
-                    // let arr = [];
-                    // arr.push(this.scMessagelist);
-                    // arr.push(this.imgIndex)
+                    for(let i=0;i<this.checked.length;i++) {
+                        this.scMessageNew.push(this.IMGList[this.checked[i]]);
+                    }
+                    this.scMessagelist=this.scMessageOld.concat(this.scMessageNew);
+                }else {
+                    for(let i=0;i<this.checked.length;i++) {
+                        this.scMessageNew.push(this.IMGList[this.checked[i]]);
+                    }
+                }
                     this.$emit('listenToChildEvent', this.scMessagelist,true);
                     this.$parent.SCsc();
             },
+            // messageID(){
+            //     if(this.da.length!=0){
+            //         for(let j=0;j<this.da.length;j++){
+            //             this.scMessageOld.push(this.da[j]);
+            //         }
+            //         for(let i=0;i<this.checked.length;i++) {
+            //             this.scMessageNew.push(this.IMGList[this.checked[i]]);
+            //         }
+            //         this.scMessagelist=this.scMessageOld.concat(this.scMessageNew);
+            //     }else {
+            //         for(let i=0;i<this.checked.length;i++) {
+            //             this.scMessagelist.push(this.IMGList[this.checked[i]]);
+            //         }
+            //     }
+            //     this.$emit('listenToChildEvent', this.scMessagelist,true);
+            //     this.$parent.SCsc();
+            // },
             getList(){
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search};
                 this.api.material_search({params}).then((res)=>{

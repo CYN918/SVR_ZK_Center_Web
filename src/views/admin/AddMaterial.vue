@@ -269,7 +269,7 @@
                 formData.append('attach',JSON.stringify(this.attach));
                 formData.append('tags',this.preinstall);
                 formData.append('self_tags',this.bardian);
-                formData.append('size',this.sjSize)
+                formData.append('size',this.sjSize);
                 this.api.mfinal_edit(formData).then((res)=>{
 
                 })

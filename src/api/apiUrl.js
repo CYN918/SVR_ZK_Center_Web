@@ -499,6 +499,8 @@ export default {
 		url:'/config/standard/del',method:'post',isType:{suktip:1,reload:1}
 	},
 
+
+
 	//工作台
 	//新增素材需求
     demand_material_add:{
@@ -546,6 +548,10 @@ export default {
 	//驳回
     demand_reject:{
 		url:"/demand/reject",method:'post',isType:{suktip:1,reload:1}
+	},
+	//获取提现详情
+	demand_apply_detail:{
+		url:'/demand/apply/detail',method:'get'
 	},
 
 }

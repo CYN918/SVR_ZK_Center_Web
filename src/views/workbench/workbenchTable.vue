@@ -1,9 +1,9 @@
 <template>
     <div>
-        <ADD v-if="ADD_material" :scMessage="scMessage" :id="id" :num="num"></ADD>
+        <ADD v-if="ADD_material" :scMessage="scMessage" :id="id" :num="num" :index="index"></ADD>
         <BDadd v-if="BD" :scMessage="scMessage" @listen="listen"></BDadd>
         <AddWL v-if="wl" :scMessage="scMessage"></AddWL>
-        <sct v-if="set" @listenToChildEvent="listenToChildEvent" ></sct>
+        <sct v-if="set" @listenToChildEvent="listenToChildEvent" :da="da" :index="index"></sct>
         <QD v-if="sh" :id="id"></QD>
         <BH v-if="bh" :dbid="dbid"></BH>
         <ywxq v-if="yw" :YWid="YWid"></ywxq>
@@ -52,9 +52,10 @@
                             <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name=='测试验收'">测试通过</el-button>
                             <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name=='物料审核'||tableData[props.$index].status_name=='发布审核'">审核通过</el-button>
                             <el-button  v-if="tableData[props.$index].status_name=='完成入库'">查看投放结果</el-button>
-                            <el-button  @click="getBH(props.$index)" v-if="tableData[props.$index].status_name!='完成入库'&&tableData[props.$index].status_name!='活动发布'">驳回</el-button>
+                            <el-button  @click="getBH(props.$index)" v-if="tableData[props.$index].status_name!='完成入库'&&tableData[props.$index].status_name!='发布审核'&&tableData[props.$index].status_name!='素材准备'&&tableData[props.$index].status_name!='提现审核'&&tableData[props.$index].status_name!='签字审核'&&tableData[props.$index].status_name!='结算汇款'&&tableData[props.$index].status_name!='补充签字'">驳回</el-button>
                             <el-button  @click="getBH(props.$index)" v-if="tableData[props.$index].status_name=='活动发布'">驳回</el-button>
                             <el-button   v-if="tableData[props.$index].status_name=='完成入库'">查看投放结果</el-button>
+                            <el-button  @click="withdraw(tableData[props.$index].did)" v-if="tableData[props.$index].status_name=='提现审核'||tableData[props.$index].status_name=='签字审核'||tableData[props.$index].status_name=='结算汇款'||tableData[props.$index].status_name=='补充签字'">查看详情</el-button>
                         </template>
                     </el-table-column>
                     <el-table-column type="expand" label="查看完整流程" width="200">
@@ -65,7 +66,7 @@
                                     <div class="step_wwc" v-if="item.did==undefined&&item.msg!='已驳回'&&tableData[props.$index].status!=item.status">{{item.status}}</div>
                                     <div class="step_dq" v-if="item.did==undefined&&item.msg!='已驳回'&&tableData[props.$index].status==item.status">{{item.status}}</div>
                                     <div class="step_bh" v-if="item.msg=='已驳回'">X</div>
-                                    <div class="step" v-if="item.did!=undefined">√</div>
+                                    <div class="step" v-if="item.did!=undefined&&item.msg!='已驳回'">√</div>
                                     <div class="step_tit" >{{item.status_name}}</div>
                                     <div class="step_time" >{{item.updated_at}}</div>
                                     <div class="step_contnet" v-if="item.creator!=''||tableData[props.$index].status==item.status">
@@ -124,7 +125,9 @@
                 num:'',
                 rolesList:[],
                 YWid:'',
-                SCid:''
+                SCid:'',
+                index:'',
+                da:[],
             }
         },
 
@@ -161,7 +164,9 @@
                 this.ADD_material = false;
                 this.scMessage=''
             },
-            getSet(){
+            getSet(index,data){
+               this.da = data;
+               this.index = index;
                 this.set = true;
             },
             SCsc(){
@@ -183,7 +188,8 @@
                 this.sh=false
             },
             getYW(id){
-                console.log(id)
+                console.log(id);
+
                 this.yw = true;
                 this.YWid = id;
             },
@@ -206,7 +212,12 @@
             heidBH(){
                 this.bh = false
             },
-
+            withdraw(id){
+                let params = {id:id,p:10,page:1};
+                this.api.demand_apply_detail({params}).then((res)=>{
+                    console.log(res)
+                })
+            },
             getData(){
                 console.log(this.tableData);
                 let params = {
@@ -224,13 +235,17 @@
             },
             listenToChildEvent(a){
                 this.scMessage = a;
-                if(this.scMessage=='ad_picture'){}
                 console.log(this.scMessage)
             },
             listen(b){
                 this.scMessage=b;
                 console.log(this.scMessage)
             },
+        },
+        watch:{
+            scMessage:function (oldval) {
+                console.log(oldval)
+            }
         }
     }
 </script>

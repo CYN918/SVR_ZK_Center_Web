@@ -81,7 +81,7 @@
                 this.$router.push({
                     path:'/userinfo/AddRole',
                     query:{
-                        role_id: this.list[a].id,
+                        role_id: this.list[a].role_id,
                         role_name:this.list[a].role_name
 
                     }

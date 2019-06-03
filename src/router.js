@@ -271,7 +271,7 @@ let nb = [
             {path:'/income/cost_management',name:'设计师成本管理',component:mode['cost_management']},
             {path:'/income/divided_details',name:'分成详情',component:mode['divided_details']},
             {path:'/income/data_details',name:'分成详细数据',component:mode['data_details']},
-            {path:'/income/divided_management',name:'分成管理',component:mode['divided_management']},
+            {path:'/income/divided_management',name:'分成gunali ',component:mode['divided_management']},
 
         ]},
     {path:'/userinfo',name:'个人中心',component:mode['info'],
@@ -298,7 +298,7 @@ let leftNav =
 	[
 	{title:'素材中心',default:'/admin',defaultopen:['1'],
 	children:[
-		{title:'素材库',url:'1', img:'img/us.png',children:[
+		{title:'素材库',url:'1', img:'&#xe615;',children:[
 			{title:'广告图',url:'1-1',list:[
                   {title:'广告图',url:'/admin/advertising'},
 					]},
@@ -311,23 +311,23 @@ let leftNav =
                     ]},
 			]},
 
-		{title:'物料库',url:'3',img:'img/qx.png',list:[
+		{title:'物料库',url:'3',img:'&#xe617;',list:[
 			{title:'广告图',url:'/admin/MaterialResource'},
 			{title:'广告模版',url:'/admin/WLtemplate'},
 			{title:'场景锁屏',url:'/admin/lockScreen'},
 		]},
-		{title:'配制管理',url:'4',img:'img/qx.png',list:[
+		{title:'配制管理',url:'4',img:'&#xe60e;',list:[
 			{title:'设计规范库',url:'/admin/standard'},
 			{title:'标签管理',url:'/admin/settags'},
 			// {title:'外部帐号管理',url:'/admin/external'},
 		]},
-		{title:'投放库',url:'5',img:'img/qx.png',list:[
+		{title:'投放库',url:'5',img:'&#xe60e;',list:[
 				{title:'投放库',url:'/admin/library'}
 			]}
 	]},
 	{title:'工作台',default:'/workbench',defaultopen:['1'],
         children:[
-            {title:'任务中心',url:'1',list:[
+            {title:'任务中心',url:'1',img:'&#xe610;',list:[
                     {title:'待处理',url:'/workbench/workbenchPadding'},
                     {title:'全部',url:'/workbench/ALL'},
 					],},
@@ -395,26 +395,26 @@ let leftNav =
 },
     {title:'个人中心',default:'/userinfo/user_info',defaultopen:['1'],
         children:[
-            {title:'个人中心',url:'1',list:[
+            {title:'个人中心',url:'1',img:'&#xe60b;',list:[
             {title:'基本信息', url:'/userinfo/user_info'},
             {title:'修改密码', url:'/userinfo/passWord'},
             {title:'消息通知', url:'/userinfo/'},
                 ]},
-			{title:'账号权限',url:'1-2',list:[
+			{title:'账号权限',url:'1-2',img:'&#xe619;',list:[
 			{title:'我的权限',url:'/userinfo/MyPerm'},
             {title:'账号管理',url:'/userinfo/account'},
             {title:'角色管理',url:'/userinfo/roleManagement'},
             {title:'账号审核',url:'/userinfo/AccounAudit'},
 			{title:'流程管理',url:'/userinfo/Process'},
                 ]},
-			{title:'意见反馈',url:"1-3",list:[
+			{title:'意见反馈',url:"1-3",img:'&#xe618;',list:[
 			{title:'意见反馈',url:'/userinfo/feedback'}
 				]}
         ]
 	},
     {title:'收益中心',default:'/income/user_info',defaultopen:['1'],
         children:[
-            {title:'收益数据',url:'1',children:[
+            {title:'收益数据',url:'1',img:'&#xe612;',children:[
                     {title:'收益总览', url:'1-1',list:[
                             {title:'收益总览',url:'/income/earnings'}
                         ]},
@@ -422,7 +422,7 @@ let leftNav =
             {title:'设计师成本管理',url:'2',list:[
                     {title:'设计师成本管理',url:'/income/cost_management'}
                 ]},
-            {title:'结算管理',url:'3',list:[
+            {title:'结算管理',url:'3',img:'&#xe60d;',list:[
                    {title:'设计师结算管理',url:'/income/settlement'}
                 ]},
         ]
