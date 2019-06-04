@@ -178,7 +178,7 @@
         },
         mounted(){
             this.getTagsList();
-            this.bind_mid=this.scMessage
+            // this.bind_mid=this.scMessage
         },
         methods:{
             heidSc(){
@@ -284,10 +284,13 @@
                 var list = this.bind_mid;
                 var urlList = this.ylurl;
                 for(let i=0;i<newVal.length;i++){
-                    list.push(newVal[i].mid);
-                    urlList.push(newVal[i].prev_uri);
+                    for(let j=0;j<newVal[i].length;i++){
+                        list.push(newVal[i][j].mid);
+                        urlList.push(newVal[i][j].prev_uri);
+                    }
                 }
-                this.bind_mid = list.join(';')
+                this.bind_mid = list.join(';');
+                console.log(this.scMessage)
             }
         },
     }

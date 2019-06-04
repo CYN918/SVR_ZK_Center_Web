@@ -7,6 +7,10 @@ export default {
 	need_stat:{
 		url:'/need/stat',method:'get',
 	},
+	//获取动态菜单
+	perm_leftnav:{
+		url:'/perm/leftnav',method:'get'
+	},
 	/*获取列表*/
 	need_list:{
 		url:'/need/list',method:'get',
@@ -549,9 +553,25 @@ export default {
     demand_reject:{
 		url:"/demand/reject",method:'post',isType:{suktip:1,reload:1}
 	},
+	//提现驳回
+	demand_apply_reject:{
+		url:'/demand/apply/reject',method:'post',isType:{suktip:1,reload:1}
+	},
+	//提现通过
+	demand_apply_audit:{
+		url:"/demand/apply/audit",method:'post',isType:{suktip:1,reload:1}
+	},
 	//获取提现详情
 	demand_apply_detail:{
 		url:'/demand/apply/detail',method:'get'
+	},
+	//编辑业务需求
+	demand_business_edit:{
+		url:'/demand/business/edit',method:'post',isType:{suktip:1}
+	},
+	//编辑素材需求
+	demand_material_edit:{
+		url:'/demand/material/edit',method:'post',isType:{suktip:1}
 	},
 
 }

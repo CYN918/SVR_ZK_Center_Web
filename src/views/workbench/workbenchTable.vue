@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ADD v-if="ADD_material" :scMessage="scMessage" :id="id" :num="num" :index="index"></ADD>
+        <ADD v-if="ADD_material" :scMessage="scMessage" :id="id" :num="num" :ind="index"></ADD>
         <BDadd v-if="BD" :scMessage="scMessage" @listen="listen"></BDadd>
         <AddWL v-if="wl" :scMessage="scMessage"></AddWL>
         <sct v-if="set" @listenToChildEvent="listenToChildEvent" :da="da" :index="index"></sct>
@@ -45,6 +45,7 @@
                             <el-button v-if="tableData[props.$index].status_name=='素材准备'||tableData[props.$index].status_name=='上传物料'" @click="getYW(tableData[props.$index].bdid)">查看需求</el-button>
                             <el-button v-if="tableData[props.$index].status_name=='发布审核'||tableData[props.$index].status_name=='活动发布'" @click="getSC(tableData[props.$index].mdid)">查看需求</el-button>
                             <el-button v-if="tableData[props.$index].status_name=='物料审核'||tableData[props.$index].status_name=='测试验收'">查看物料</el-button>
+                            <el-button @click="release(tableData[props.$index].did,tableData[props.$index].demand_type)" v-if="tableData[props.$index].status_name=='需求发布'">发布需求</el-button>
                             <el-button v-if="tableData[props.$index].status_name=='素材审核'">查看活动</el-button>
                             <el-button v-if="tableData[props.$index].status_name=='素材入库'">查看素材</el-button>
                             <el-button  @click="AddMaterial(props.$index)" v-if="tableData[props.$index].status_name=='素材准备'">添加素材</el-button>
@@ -52,7 +53,7 @@
                             <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name=='测试验收'">测试通过</el-button>
                             <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name=='物料审核'||tableData[props.$index].status_name=='发布审核'">审核通过</el-button>
                             <el-button  v-if="tableData[props.$index].status_name=='完成入库'">查看投放结果</el-button>
-                            <el-button  @click="getBH(props.$index)" v-if="tableData[props.$index].status_name!='完成入库'&&tableData[props.$index].status_name!='发布审核'&&tableData[props.$index].status_name!='素材准备'&&tableData[props.$index].status_name!='提现审核'&&tableData[props.$index].status_name!='签字审核'&&tableData[props.$index].status_name!='结算汇款'&&tableData[props.$index].status_name!='补充签字'">驳回</el-button>
+                            <el-button  @click="getBH(props.$index)" v-if="tableData[props.$index].status_name!='完成入库'&&tableData[props.$index].status_name!='需求发布'&&tableData[props.$index].status_name!='提现审核'&&tableData[props.$index].status_name!='签字审核'&&tableData[props.$index].status_name!='结算汇款'&&tableData[props.$index].status_name!='补充签字'">驳回</el-button>
                             <el-button  @click="getBH(props.$index)" v-if="tableData[props.$index].status_name=='活动发布'">驳回</el-button>
                             <el-button   v-if="tableData[props.$index].status_name=='完成入库'">查看投放结果</el-button>
                             <el-button  @click="withdraw(tableData[props.$index].did)" v-if="tableData[props.$index].status_name=='提现审核'||tableData[props.$index].status_name=='签字审核'||tableData[props.$index].status_name=='结算汇款'||tableData[props.$index].status_name=='补充签字'">查看详情</el-button>
@@ -162,11 +163,14 @@
             },
             heidAddMaterial(){
                 this.ADD_material = false;
-                this.scMessage=''
+                // this.scMessage=''
             },
             getSet(index,data){
-               this.da = data;
-               this.index = index;
+                if(data!=undefined){
+                    this.da = data;
+                    this.index = index;
+                }
+
                 this.set = true;
             },
             SCsc(){
@@ -189,7 +193,6 @@
             },
             getYW(id){
                 console.log(id);
-
                 this.yw = true;
                 this.YWid = id;
             },
@@ -213,19 +216,19 @@
                 this.bh = false
             },
             withdraw(id){
-                let params = {id:id,p:10,page:1};
-                this.api.demand_apply_detail({params}).then((res)=>{
-                    console.log(res)
+                this.$router.push({
+                    query:{
+                        id:id,
+                    },
+                    path:'/workbench/Billing_details'
                 })
             },
             getData(){
-                console.log(this.tableData);
                 let params = {
                     email:localStorage.getItem('userAd'),
                 };
                 this.api.get_account({params}).then((datas)=>{
                     this.userData = datas;
-                    console.log(datas.roles);
                     var rolesList=[];
                     for(let i=0;i<this.userData.roles.length;i++){
                         rolesList.push(this.userData.roles[i].role_name);
@@ -233,13 +236,21 @@
                     this.rolesList=rolesList;
                 });
             },
-            listenToChildEvent(a){
-                this.scMessage = a;
+            listenToChildEvent(a,index){
+                this.scMessage[index] = a;
+                this.index = index;
                 console.log(this.scMessage)
             },
             listen(b){
                 this.scMessage=b;
                 console.log(this.scMessage)
+            },
+            release(id,type){
+                if(type=='demand_business'){
+                    this.$parent.getSC(id);
+                }else {
+                    this.$parent.getYW(id);
+                }
             },
         },
         watch:{

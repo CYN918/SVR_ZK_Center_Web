@@ -11,7 +11,7 @@
 					</el-menu-item>
 					<el-submenu v-for="(el,index) in navData.children" :index="el.url" :key="index">
 						<template slot="title">
-							<i class="iconfont" v-html="el.img" style="margin-left: 42px"></i>
+							<i class="iconfont"  v-html="el.img" style="margin-left: 42px;color: rgba(31,46,77,1);"></i>
 							<span class="title">{{el.title}}</span>
 						</template>
 
@@ -82,7 +82,7 @@ export default {
 	left: 0;
 	bottom: 0;
 	z-index: 9;
-	width: 220px;
+	width: 257px;
 	transition: transform .5s;
 }
 .leftNavBg{
@@ -154,6 +154,9 @@ export default {
 }
 .leftNav .el-submenu__title:hover i{
 	color:rgba(0,122,255,1)!important;
+}
+.el-submenu__title i{
+	color:#1f2e4d!important;
 }
 .leftNav .el-submenu__title:hover{
 	background:transparent!important;

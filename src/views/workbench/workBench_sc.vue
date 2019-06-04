@@ -95,6 +95,7 @@
 
 <script>
     export default {
+        props:['id'],
         name: "work-bench_sc",
         data(){
             return{
@@ -123,44 +124,87 @@
         },
         methods:{
             ADDsc(){
-                if(!this.type){
-                    this.$message.error('类型不能为空')
+                if(this.id!=undefined){
+                    if(!this.type){
+                        this.$message.error('类型不能为空')
+                    }
+                    if(!this.priority){
+                        this.$message.error('优先级不能为空')
+                    }
+                    if(!this.num){
+                        this.$message.error('需求数量不能为空')
+                    }
+                    if(!this.design_standard){
+                        this.$message.error('设计规范不能为空')
+                    }
+                    if(!this.endtime){
+                        this.$message.error('截止时间不能为空')
+                    }
+                    if(!this.requirement){
+                        this.$message.error('设计要求不能为空')
+                    }
+                    if(this.is_attach==true&&!this.ref_url){
+                        this.$message.error('请上传附件')
+                    }
+                    if(this.is_ref==true&&!this.attach){
+                        this.$message.error('请上传产考图')
+                    }
+                    let formData = new FormData;
+                    formData.append('type',this.type);
+                    formData.append('attach',this.attach);
+                    formData.append('num',this.num);
+                    formData.append('id',this.id);
+                    formData.append('priority',this.priority);
+                    formData.append('endtime',this.endtime);
+                    formData.append('is_attach',this.is_attach==true?1:0);
+                    formData.append('is_ref',this.is_ref==true?1:0);
+                    formData.append('ref_url',this.ref_url);
+                    formData.append('design_standard',this.design_standard);
+                    formData.append('requirement',this.requirement);
+                    this.api.demand_material_edit(formData).then((res)=>{
+
+                    })
+                }else{
+                    if(!this.type){
+                        this.$message.error('类型不能为空')
+                    }
+                    if(!this.priority){
+                        this.$message.error('优先级不能为空')
+                    }
+                    if(!this.num){
+                        this.$message.error('需求数量不能为空')
+                    }
+                    if(!this.design_standard){
+                        this.$message.error('设计规范不能为空')
+                    }
+                    if(!this.endtime){
+                        this.$message.error('截止时间不能为空')
+                    }
+                    if(!this.requirement){
+                        this.$message.error('设计要求不能为空')
+                    }
+                    if(this.is_attach==true&&!this.ref_url){
+                        this.$message.error('请上传附件')
+                    }
+                    if(this.is_ref==true&&!this.attach){
+                        this.$message.error('请上传产考图')
+                    }
+                    let formData = new FormData;
+                    formData.append('type',this.type);
+                    formData.append('attach',this.attach);
+                    formData.append('num',this.num);
+                    formData.append('priority',this.priority);
+                    formData.append('endtime',this.endtime);
+                    formData.append('is_attach',this.is_attach==true?1:0);
+                    formData.append('is_ref',this.is_ref==true?1:0);
+                    formData.append('ref_url',this.ref_url);
+                    formData.append('design_standard',this.design_standard);
+                    formData.append('requirement',this.requirement)
+                    this.api.demand_material_add(formData).then((res)=>{
+                        console.log(typeof(this.ref_url))
+                    })
                 }
-                if(!this.priority){
-                    this.$message.error('优先级不能为空')
-                }
-                if(!this.num){
-                    this.$message.error('需求数量不能为空')
-                }
-                if(!this.design_standard){
-                    this.$message.error('设计规范不能为空')
-                }
-                if(!this.endtime){
-                    this.$message.error('截止时间不能为空')
-                }
-                if(!this.requirement){
-                    this.$message.error('设计要求不能为空')
-                }
-                if(this.is_attach==true&&!this.ref_url){
-                    this.$message.error('请上传附件')
-                }
-                if(this.is_ref==true&&!this.attach){
-                    this.$message.error('请上传产考图')
-                }
-                let formData = new FormData;
-                formData.append('type',this.type);
-                formData.append('attach',this.attach);
-                formData.append('num',this.num);
-                formData.append('priority',this.priority);
-                formData.append('endtime',this.endtime);
-                formData.append('is_attach',this.is_attach==true?1:0);
-                formData.append('is_ref',this.is_ref==true?1:0);
-                formData.append('ref_url',this.ref_url);
-                formData.append('design_standard',this.design_standard);
-                formData.append('requirement',this.requirement)
-                this.api.demand_material_add(formData).then((res)=>{
-                    console.log(typeof(this.ref_url))
-                })
+
             },
             heid(){
                 this.$parent.heidSC();

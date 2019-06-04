@@ -18,8 +18,8 @@
         </div>
         <div class="centNavBox">
             <tab :tableData="tableData" :active="active" ></tab>
-            <sc v-if="sc"></sc>
-            <yw v-if="yw"></yw>
+            <sc v-if="sc" :id="id"></sc>
+            <yw v-if="yw" :id="id"></yw>
         </div>
 
             <div class="block">
@@ -58,6 +58,7 @@
                 type:'',
                 detail:[],
                 step:[],
+                id:'',
 
             }
         },
@@ -65,13 +66,15 @@
             this.getList();
         },
         methods:{
-            getSC(){
+            getSC(id){
+                this.id = id;
                 this.sc=true;
             },
             heidSC(){
                 this.sc=false;
             },
-            getYW(){
+            getYW(id){
+                this.id=id;
                 this.yw=true
             },
             heidYW(){
@@ -88,8 +91,10 @@
                     for (let i=0;i<this.tableData.length;i++){
                         if(this.tableData[i].demand_type=='demand_business'){
                             this.tableData[i].demand_type='业务需求'
-                        }else{
+                        }else if(this.tableData[i].demand_type=='demand_material'){
                             this.tableData[i].demand_type='素材需求'
+                        }else {
+                            this.tableData[i].demand_type='设计师结算'
                         }
                     }
                 })
@@ -102,10 +107,13 @@
                     console.log(res.data)
                     this.total = res.total;
                     for (let i=0;i<this.tableData.length;i++){
+                        console.log(this.tableData[i].demand_type)
                         if(this.tableData[i].demand_type=='demand_business'){
                             this.tableData[i].demand_type='业务需求'
-                        }else{
+                        }else if(this.tableData[i].demand_type=='demand_material'){
                             this.tableData[i].demand_type='素材需求'
+                        }else {
+                            this.tableData[i].demand_type='设计师结算'
                         }
                     }
                 })

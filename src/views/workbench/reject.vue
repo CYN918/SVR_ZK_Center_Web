@@ -19,7 +19,7 @@
 <script>
     export default {
         name: "reject",
-        props:["dbid"],
+        props:["dbid",'id','num'],
         data(){
             return{
                 note:'',
@@ -30,15 +30,29 @@
                 this.$parent.heidBH();
             },
            tj(){
-                if(!this.node){
-                    this.$message.error("必须填写驳回原因")
-                }
-               let formData = new FormData;
-               formData.append("note",this.note);
-               formData.append('id',this.dbid);
-                this.api.demand_reject(formData).then((res)=>{
+                if(this.id!=undefined){
+                    if(!this.note){
+                        this.$message.error("必须填写驳回原因")
+                    }
+                    let formData = new FormData;
+                    formData.append("note",this.note);
+                    formData.append('id',this.id);
+                    formData.append('apply_id',this.num);
+                    this.api.demand_apply_reject(formData).then((res)=>{
 
-                })
+                    })
+                }else{
+                    if(!this.note){
+                        this.$message.error("必须填写驳回原因")
+                    }
+                    let formData = new FormData;
+                    formData.append("note",this.note);
+                    formData.append('id',this.dbid);
+                    this.api.demand_reject(formData).then((res)=>{
+
+                    })
+                }
+
            },
         },
     }

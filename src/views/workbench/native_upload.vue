@@ -247,7 +247,7 @@
                     formData.append('size',this.sjSize)
                     this.api.material_add(formData).then((res)=>{
                         let list  = [];
-                        list.push({type:res.type,mid:res.mid,prev_uri:res.prev_uri})
+                        list.push({type:res.type,mid:res.mid,prev_uri:res.prev_uri});
                         this.$emit('listen',list)
                     }).catch();
 
@@ -256,8 +256,8 @@
         },
         watch:{
             'scMessage': function (newVal) {
-                this.bind_mid=newVal[0].mid;
-                this.scUrl=newVal[0].prev_uri;
+                this.bind_mid=newVal[0][0].mid;
+                this.scUrl=newVal[0][0].prev_uri;
             }
         },
     }

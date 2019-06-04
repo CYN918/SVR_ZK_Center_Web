@@ -131,8 +131,10 @@
                     for (let i=0;i<this.tableData.length;i++){
                         if(this.tableData[i].demand_type=='demand_business'){
                             this.tableData[i].demand_type='业务需求'
-                        }else{
+                        }else if(this.tableData[i].demand_type=='demand_material'){
                             this.tableData[i].demand_type='素材需求'
+                        }else {
+                            this.tableData[i].demand_type='设计师结算'
                         }
                     }
                 })

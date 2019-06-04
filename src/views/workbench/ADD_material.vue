@@ -26,20 +26,20 @@
                             </span>
                         </div>
                         <div  class="table_content_rig">
-                            <div class="table_content_right" v-for="(item,index2) in scMessage">
-                                <div class="imgs">
-                                    <img :src="item.prev_uri">
-                                </div>
+                                   <div class="table_content_right" v-if="index<scMessage.length" v-for = '(item,index2) in scMessage[index]'>
+                                       <div class="imgs">
+                                           <img :src="item.prev_uri">
+                                       </div>
 
-                                <span class="id">{{item.mid}}</span>
-                                <span class="type">{{item.type_name}}</span>
-                                <div class="click">
-                                    <span  v-if="checked.indexOf(index)!=-1" @click="handleClick(index)">从素材库选择</span>
-                                    <span  v-if="checked.indexOf(index)!=-1" @click="getBD">从本地上传</span>
-                                    <span  v-if="checked.indexOf(index)==-1" @click="getWl">从物料库选择</span>
-                                </div>
-                            </div>
-                            <div class="table_content_right" >
+                                       <span class="id">{{item.mid}}</span>
+                                       <span class="type">{{item.type_name}}</span>
+                                       <div class="click">
+                                           <span  v-if="checked.indexOf(index)!=-1" @click="handleClick(index)">从素材库选择</span>
+                                           <span  v-if="checked.indexOf(index)!=-1" @click="getBD">从本地上传</span>
+                                           <span  v-if="checked.indexOf(index)==-1" @click="getWl">从物料库选择</span>
+                                       </div>
+                                   </div>
+                            <div class="table_content_right">
                                 <div class="imgs">
                                     <img src="">
                                 </div>
@@ -75,7 +75,7 @@
 
 <script>
     export default {
-        props:['scMessage','id','num'],
+        props:['scMessage','id','num','ind'],
         name: "a-d-d_material",
         data(){
             return{
@@ -86,9 +86,11 @@
                 mfid:[],
                 checkList:[],
                 note:'',
+                Message:[],
             }
         },
         mounted(){
+            this.Message = this.scMessage;
             let a =this.list;
             for(var i=0;i<this.num;i++){
                 a.push(i);
@@ -113,6 +115,7 @@
             },
             handleClick(index){
                 this.$parent.getSet(index,this.scMessage);
+                this.$parent.heidAddMaterial();
             },
             getBD(){
                 this.$parent.getBD();
@@ -134,11 +137,12 @@
                 })
             },
         },
-watch:{
-    checked:function (old) {
-        console.log(old);
-    }
-}
+        watch:{
+           "Message":function (oldval) {
+                console.log(oldval)
+            }
+        }
+
     }
 </script>
 

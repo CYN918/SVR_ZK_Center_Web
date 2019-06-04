@@ -3,7 +3,23 @@
     <router-view/>
   </div>
 </template>
-
+<script>
+  export default {
+      data(){
+          return{}
+      },
+      mounted(){
+          this.getLefNav()
+      },
+      methods:{
+          getLefNav(){
+              this.api.perm_leftnav().then((res)=>{
+                  localStorage.setItem('letNav',JSON.stringify(res));
+              })
+          }
+      }
+  }
+</script>
 <style lang="scss">
 html,body,div,h1,ul,li,a,p,img{
 	margin: 0;padding: 0;border: none;
