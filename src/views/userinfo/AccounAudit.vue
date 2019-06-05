@@ -76,6 +76,7 @@
                 </div>
             </template>
             <ADD v-if="management" :userMessage="userMessage"></ADD>
+            <set v-if="User" :userMessage="userMessage"></set>
         </div>
     </div>
 
@@ -83,8 +84,9 @@
 
 <script>
     import ADD from './ADDuser'
+    import set from './setUser'
     export default {
-        components:{ADD},
+        components:{ADD,set},
         name: "accoun-audit",
         data(){
             return {
@@ -95,6 +97,7 @@
                 management:false,
                 userMessage:{},
                 search:'',
+                User:false,
             }
         },
         mounted(){
@@ -120,7 +123,7 @@
                 return 'text-align:center;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
             getUSERdATA(a){
-                this.management= true;
+                this.User= true;
                 this.userMessage=this.tableData[a];
                 console.log(this.userMessage);
             },
@@ -129,8 +132,8 @@
             },
             qx(){
                 this.management=false;
+                this.User=false;
             },
-
             change(a,b){
                 this.api.edit_account_status({email:this.tableData[a].email,status:b}).then((res)=>{
                 })

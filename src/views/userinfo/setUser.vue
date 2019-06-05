@@ -2,12 +2,15 @@
     <div class="detail">
         <div class="detail_1">
             <div class="detail_1_1_1">
-                <span >添加账号</span>
+                <span>编辑账号</span>
             </div>
             <div class="detail_1_1_3">
                 <span class="txt txt_right">所属角色</span>
-                <select v-model="roles">
+                <select v-model="roles" v-if="type==1">
                     <option value="wb">外部角色</option>
+                </select>
+                <select v-model="roles" v-if="type==0">
+                    <option :value="item.role_id" v-for="(item,index) in selectData">{{item.role_name}}</option>
                 </select>
                 <span class="btn_1_3">查看权限</span>
             </div>
@@ -15,28 +18,16 @@
                 <span  class="txt">用户名</span>
                 <input type="text" v-model="name"/>
             </div>
-            <div class="detail_1_1_5">
-                <span  class="txt">邮箱账号</span>
-                <input type="text" v-model="email"/>
-            </div>
-            <div class="detail_1_1_6">
-                <span  class="txt">初始密码</span>
-                <input type="text" v-model="password"/>
-            </div>
-            <div class="detail_1_1_6">
-                <span  class="txt">再次输入密码</span>
-                <input type="text" v-model="password_confirmation"/>
-            </div>
-            <div class="detail_1_1_7">
+            <div class="detail_1_1_7" v-if="type==1">
                 <span  class="txt">公司名称</span>
                 <input type="text" v-model="company"/>
             </div>
-            <div class="detail_1_1_8">
+            <div class="detail_1_1_8" v-if="type==1">
                 <span  class="txt">联系电话</span>
                 <input type="text" v-model="phone"/>
             </div>
             <div class="operate">
-                <span class="btn_txt_1" @click=" addWbUser()" :class="{active:name==''||email==''||password==''||password_confirmation==''||company==''||phone==''}" >添加</span>
+                <span class="btn_txt_1" @click="tj" >添加</span>
                 <span class="btn_txt_2" @click="qx">取消</span>
             </div>
         </div>
@@ -62,10 +53,17 @@
                 password:'',
                 phone:'',
                 password_confirmation:'',
-                type:''
+                type:'',
+                user_id:'',
             }
         },
         mounted(){
+            this.roles = this.userMessage.roles;
+            this.name = this.userMessage.name;
+            this.company = this.userMessage.company;
+            this.phone = this.userMessage.phone;
+            this.type=this.userMessage.type;
+            this.user_id = this.userMessage.user_id;
             this.getuserDATA();
         },
         methods:{
@@ -76,27 +74,24 @@
                     this.total = res.total;
                     this.selectData = res.data;
                     console.log(this.selectData)
+
                 })
             },
-
+            tj(){
+               if(this.type==0){
+                   this. setUser()
+               }else{
+                   this.setWbUser()
+               }
+            },
             qx(){
                 this.$parent.qx()
             },
 
-            addWbUser(){
-                if(!this.name){
-                    this.$message('姓名不能为空')
-                }
+            setWbUser(){
+
                 if(!this.email){
                     this.$message('姓名不能为空')
-                }
-                if(!this.password){
-                    this.$message('密码不能为空')
-                }if(!this.password_confirmation){
-                    this.$message('确认密码不能为空')
-                }
-                if(this.password_confirmation!=this.password){
-                    this.$message('两次密码不相同')
                 }
                 if(!this.company){
                     this.$message('公司不能为空')
@@ -104,10 +99,21 @@
                 if(!this.phone){
                     this.$message('电话不能为空')
                 }
-
-                this.api.account_external_add({name:this.name,email:this.email,password:this.password,password_confirmation:this.password_confirmation,roles_id:this.roles,company:this.company,phone:this.phone,contact_email:this.email}).then((res)=>{
+                this.api.account_edit({name:this.name,role_id:this.roles,company:this.company,phone:this.phone,email:this.email,user_id:this.user_id}).then((res)=>{
                 })
             },
+            setUser(){
+                if(!this.roles){
+                    this.$message('角色不能为空')
+                }
+                if(!this.email){
+                    this.$message('姓名不能为空')
+                }
+                this.api.account_edit({name:this.name,role_id:this.roles,company:this.company,phone:this.phone,email:this.email,user_id:this.user_id}).then((res)=>{
+                    console.log(res)
+                })
+            },
+
         },
     }
 </script>
@@ -118,7 +124,7 @@
         height: 100%;
         background: rgba(0,0,0,0.3);
         position: fixed;
-        z-index: 99999999;
+        z-index: 99999;
         top: 65px;
         left: 220px;
         bottom: 0;

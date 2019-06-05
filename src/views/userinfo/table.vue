@@ -45,15 +45,15 @@
                 </template>
             </el-table-column>
         </el-table>
-        <ADD v-if="User" :userMessage="userMessage"></ADD>
+        <set v-if="User" :userMessage="userMessage"></set>
     </div>
 
 </template>
 
 <script>
-    import ADD from './ADDuser'
+    import set from './setUser'
     export default {
-        components:{ADD},
+        components:{set},
         props:['tableData2','management'],
         name: "table",
         data(){

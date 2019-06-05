@@ -14,7 +14,7 @@
 					<span style="vertical-align: top">头像</span>
 					<img src="../../../public/img/user.png">
 				</div>
-				<div class="message" v-if="this.userData.type==0">
+				<div class="message" v-if="userData.type==0">
 					<span>用户名</span>
 					<input type="text" v-model="userData.name" disabled="disabled"/>
 				</div>
@@ -22,15 +22,15 @@
 					<span>账号</span>
 					<input type="text" v-model="userData.email" disabled="disabled"/>
 				</div>
-				<div class="message" v-if="this.userData.type==0">
+				<div class="message" v-if="userData.type==0">
 					<span>角色</span>
 					<input type="text" v-model="userData.roles[0].role_name" disabled="disabled"/>
 				</div>
-				<div class="message" v-if="this.userData.type==1">
+				<div class="message" v-if="userData.type==1">
 					<span>公司名称</span>
 					<input type="text" v-model="userData.company" disabled="disabled"/>
 				</div>
-				<div class="message" v-if="this.userData.type==1">
+				<div class="message" v-if="userData.type==1">
 					<span>联系方式</span>
 					<input type="text" v-model="userData.phone" disabled="disabled"/>
 				</div>

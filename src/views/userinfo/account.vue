@@ -62,7 +62,7 @@
             </div>
         </div>
 
-        <ADD v-if="management" :list="list"></ADD>
+        <ADD v-if="management"></ADD>
     </div>
 </div>
 

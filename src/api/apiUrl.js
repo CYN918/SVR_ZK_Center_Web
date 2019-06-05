@@ -185,6 +185,10 @@ export default {
 	edit_external_account:{
 		url:'/edit_external_account',method:'post',isType:{suktip:1,reload:1}	
 	},
+	//编辑用户信息
+    account_edit:{
+		url:"/account/edit",method:'post',isType:{suktip:1,reload:1}
+    },
 	/* 修改内帐号*/
 	edit_account:{
 		url:'/edit_account',method:'post',isType:{suktip:1,reload:1}	
