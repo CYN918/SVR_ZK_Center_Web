@@ -9,12 +9,12 @@
           return{}
       },
       mounted(){
-          // this.getLefNav()
+          this.getLefNav()
       },
       methods:{
           getLefNav(){
               this.api.perm_leftnav().then((res)=>{
-                  localStorage.setItem('letNav',JSON.stringify(res));
+                  localStorage.setItem('leftNav',JSON.stringify(res));
               })
           }
       }

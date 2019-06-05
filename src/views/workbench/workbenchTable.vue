@@ -209,7 +209,7 @@
             getBH(index){
                 this.bh = true;
                 this.dbid=this.tableData[index].did;
-                console.log(this.dbid)
+                console.log(this.dbid[0][0])
 
             },
             heidBH(){

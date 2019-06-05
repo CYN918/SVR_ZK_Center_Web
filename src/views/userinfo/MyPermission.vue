@@ -18,12 +18,12 @@
                 <div class="tab_right">
                     <div class="tab_title_1_2">
                         <p class="text_message">创建时间</p>
-                        <p class="text_message_1">{{time}}</p>
+                        <p class="text_message_1">{{user.created_at}}</p>
                     </div>
                     <span class="line"></span>
                     <div class="tab_title_1_3">
                         <p class="text_message">状态</p>
-                        <p class="text_message_1">{{user.state==1?'启用':'禁用'}}</p>
+                        <p class="text_message_1">{{user.status==1?'启用':'禁用'}}</p>
                     </div>
                 </div>
 
@@ -86,7 +86,7 @@
             getUserMessgae(){
                 let params = {email:localStorage.getItem('userAd')}
                 this.api.get_account({params}).then((res)=>{
-                    this.user = res.roles[0]
+                    this.user = res.roles[0];
                     console.log(res.roles)
                 })
             }
