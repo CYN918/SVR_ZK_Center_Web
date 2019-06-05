@@ -99,7 +99,14 @@
                 if(!this.phone){
                     this.$message('电话不能为空')
                 }
-                this.api.account_edit({name:this.name,role_id:this.roles,company:this.company,phone:this.phone,email:this.email,user_id:this.user_id}).then((res)=>{
+                let formData = new FormData;
+                formData.append("name",this.name);
+                formData.append("role_id",this.roles);
+                formData.append("company",this.company);
+                formData.append("phone",this.phone);
+                formData.append("email",this.email);
+                formData.append("user_id",this.user_id);
+                this.api.account_edit(formData).then((res)=>{
                 })
             },
             setUser(){
@@ -109,8 +116,14 @@
                 if(!this.email){
                     this.$message('姓名不能为空')
                 }
-                this.api.account_edit({name:this.name,role_id:this.roles,company:this.company,phone:this.phone,email:this.email,user_id:this.user_id}).then((res)=>{
-                    console.log(res)
+                let formData = new FormData;
+                formData.append("name",this.name);
+                formData.append("role_id",this.roles);
+                formData.append("company",this.company);
+                formData.append("phone",this.phone);
+                formData.append("email",this.email);
+                formData.append("user_id",this.user_id);
+                this.api.account_edit(formData).then((res)=>{
                 })
             },
 

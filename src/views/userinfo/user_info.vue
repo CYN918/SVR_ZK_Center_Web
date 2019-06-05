@@ -24,7 +24,7 @@
 				</div>
 				<div class="message" v-if="userData.type==0">
 					<span>角色</span>
-					<input type="text" v-model="userData.roles[0].role_name" disabled="disabled"/>
+					<input type="text" v-model="userData.roles" disabled="disabled"/>
 				</div>
 				<div class="message" v-if="userData.type==1">
 					<span>公司名称</span>
@@ -51,6 +51,12 @@ export default {
 			input2:'',
 			input3:'',
 			userData:{},
+            name:'',
+            email:'',
+            role_name:'',
+            company:'',
+            phone:'',
+
 		}
 	},
 	mounted: function () {	
@@ -64,6 +70,7 @@ export default {
 			
 			this.api.get_account({params}).then((datas)=>{			
 				this.userData = datas;
+
 			});
 		},
 		edit_account_password(){

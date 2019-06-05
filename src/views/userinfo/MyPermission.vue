@@ -23,7 +23,7 @@
                     <span class="line"></span>
                     <div class="tab_title_1_3">
                         <p class="text_message">状态</p>
-                        <p class="text_message_1">{{user.state=1?'启用':'禁用'}}</p>
+                        <p class="text_message_1">{{user.state==1?'启用':'禁用'}}</p>
                     </div>
                 </div>
 
