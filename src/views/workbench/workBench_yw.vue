@@ -105,7 +105,8 @@
             }
         },
         mounted(){
-            this.getSize()
+            this.getSize();
+            console.log(this.id)
         },
         methods:{
             AddYw(){

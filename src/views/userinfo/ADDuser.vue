@@ -40,7 +40,8 @@
                 <input type="text" v-model="phone"/>
             </div>
             <div class="operate">
-                <span class="btn_txt_1" @click="tj" :class="{active:name==''||email==''||password==''||password_confirmation==''||company==''||phone==''}">添加</span>
+                <span class="btn_txt_1" @click="tj" :class="{active:name==''||email==''||password==''||password_confirmation==''||company==''||phone==''}" v-if="this.userMessage==undefined">添加</span>
+                <span class="btn_txt_1" @click="tj" :class="{active:name==''||email==''}" v-if="this.userMessage!=undefined">添加</span>
                 <span class="btn_txt_2" @click="qx">取消</span>
             </div>
         </div>
@@ -69,7 +70,6 @@
             }
         },
         mounted(){
-                this.getuserDATA();
                 if(this.userMessage!=undefined){
                     this.roles = this.userMessage.roles;
                     this.email = this.userMessage.email;
@@ -78,12 +78,26 @@
                     this.company = this.userMessage.company;
                     this.phone = this.userMessage.phone;
                 }
-
+            this.getuserDATA();
         },
         methods:{
+            getuserDATA(){
+                // this.api.api_get_roles({}).then((res)=>{
+                //     this.selectData = res;
+                //     console.log(res)
+                // })
+                let params = {search:'',p:10,page:1};
+                this.api.role_roles({params}).then((res)=>{
+                    console.log(res);
+                    this.total = res.total;
+                    this.selectData = res.data;
+                    console.log(this.selectData)
+
+                })
+            },
             tj(){
                 if(this.userMessage!=undefined){
-                    this.setWBUser();
+                    this.setUser();
                 }else{
                     this.addWbUser()
                 }
@@ -122,7 +136,7 @@
                 this.api.account_external_add({name:this.name,email:this.email,password:this.password,password_confirmation:this.password_confirmation,roles_id:this.roles,company:this.company,phone:this.phone,contact_email:this.email}).then((res)=>{
                 })
             },
-            setWBUser(){
+            setUser(){
                 if(!this.name){
                     this.$message('姓名不能为空')
                 }
@@ -144,13 +158,7 @@
                     this.$message('电话不能为空')
                 }
 
-                this.api.edit_external_account({name:this.name,email:this.email,password:this.password,password_confirmation:this.password_confirmation,roles_id:this.roles,company:this.company,phone:this.phone}).then((res)=>{
-                    console.log(res)
-                })
-            },
-            getuserDATA(){
-                this.api.api_get_roles().then((res)=>{
-                    this.selectData = res
+                this.api.edit_account({name:this.name,email:this.email,roles_id:this.roles}).then((res)=>{
                     console.log(res)
                 })
             },
