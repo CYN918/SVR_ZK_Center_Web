@@ -10,8 +10,8 @@
             <div class="center">
                 <div class="message">
                     <span class="fs">初始密码</span>
-                    <input type="password" v-if="show_1" v-model="input1"/>
-                    <input type="text" v-if="show" v-model="input1"/>
+                    <input type="password" v-if="show_1" v-model="input1" />
+                    <input type="text" v-if="show" v-model="input1" @input="yz()"/>
                     <div class="imgs_1">
                         <img :src="url" @click="heid"/>
                     </div>
@@ -19,18 +19,17 @@
                 </div>
                 <div class="message">
                     <span>新密码</span>
-                    <input type="password" v-if="show_1" v-model="input2"/>
-                    <input type="text" v-if="show" v-model="input2"/>
+                    <input type="password" v-if="show_1" v-model="input2" />
+                    <input type="text" v-if="show" v-model="input2" @input="yz1()"/>
                 </div>
                 <div class="message">
                     <span>确认信密码</span>
-                    <input type="password" v-if="show_1" v-model="input3"/>
-                    <input type="text" v-if="show" v-model="input3"/>
+                    <input type="password" v-if="show_1" v-model="input3" @blur="yz3()"/>
+                    <input type="text" v-if="show" v-model="input3" @blur="yz3()"/>
                 </div>
             </div>
             <div class="btn">
                 <span class="btn_txt" @click="edit_account_password">修改</span>
-                <span>取消</span>
             </div>
         </div>
     </div>
@@ -86,6 +85,30 @@
                     password_confirmation:this.input3,
                 };
                 this.api.edit_account_password(params);
+            },
+            yz(){
+                if(!this.input1.match(/^[\u4e00-\u9fa5]+$/ )){
+                    return
+                }else{
+                    this.$message.error('密码不能为汉字')
+                }
+            },
+            yz1(){
+                if(!this.input2.match(/^[\u4e00-\u9fa5]+$/ )){
+                    return
+                }else{
+                    this.$message.error('密码不能为汉字')
+                }
+            },
+            yz3(){
+                if(this.input2!=this.input3){
+                    this.$message.error('两次密码不相同，请重输')
+                }
+                if(!this.input3.match(/^[\u4e00-\u9fa5]+$/ )){
+                    return
+                }else{
+                    this.$message.error('密码不能为汉字')
+                }
             }
         }
     }

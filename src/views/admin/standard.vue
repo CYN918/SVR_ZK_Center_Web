@@ -155,7 +155,7 @@
             },
             getTableList(){
                 let params ={p:this.p,page:this.page,search:this.search};
-                this.api.config_standards({params}).then((res)=>{
+                this.api.standard_standards({params}).then((res)=>{
                     this.tableData = res.data;
                     this.total=res.total;
                     console.log(res)
@@ -233,7 +233,7 @@
                 formData.append('name',this.name);
                 formData.append('attach',JSON.stringify(this.attach));
                 formData.append('id',this.id);
-                this.api.config_standar_edit(formData).then((res)=>{
+                this.api.standar_edit(formData).then((res)=>{
                     console.log(res);
                     this.id='';
                     this.getTableList()
@@ -260,7 +260,7 @@
                     formData.append('pos_type',this.pos_type);
                     formData.append('attach',JSON.stringify(this.attach));
                     formData.append('name',this.name);
-                    this.api.config_standard_add(formData).then((res)=>{
+                    this.api.standard_add(formData).then((res)=>{
                        this.heid();
                         this.getTableList()
                     })
@@ -270,7 +270,7 @@
             delData(index){
                 let formData = new FormData;
                 formData.append('id',this.tableData[index].id);
-                this.api.config_standard_del(formData).then((res)=>{
+                this.api.standard_del(formData).then((res)=>{
                     this.getTableList()
                 })
             }

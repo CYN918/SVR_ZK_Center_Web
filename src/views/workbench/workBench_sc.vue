@@ -50,8 +50,8 @@
                         <textarea maxlength="300" v-model="requirement"></textarea>
                     </div>
                     <div>
-                        <span class="tit_txt">附件</span>
-                        <input type="checkbox" class="check" v-model="is_attach"/><span class="name">附件</span>
+                        <span class="tit_txt fj">附件</span>
+                        <input type="checkbox" class="check fj" v-model="is_attach"/><span class="name fj">附件</span>
                         <div class="uplaod">
                             <el-upload
                                     class="upload-demo"
@@ -67,8 +67,8 @@
 
                     </div>
                     <div>
-                        <span class="tit_txt">风格</span>
-                        <input type="checkbox"  class="check" v-model="is_ref"/><span class="name">风格</span>
+                        <span class="tit_txt fj">风格</span>
+                        <input type="checkbox"  class="check fj" v-model="is_ref"/><span class="name fj">风格</span>
                         <div class="uplaod">
                             <el-upload
                                     class="upload-demo"
@@ -307,6 +307,7 @@
    .number{
        width: 190px;
    }
+   .fj{vertical-align: top}
     select,input{
         width:200px;
         height:36px;

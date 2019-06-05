@@ -125,7 +125,14 @@ html,body{
   display: inline-block;
   line-height: 44px;
   margin-left: 0;
-
+}
+.block .el-pagination__sizes{
+  height: 36px;
+  line-height: 36px;
+}
+.block .el-input--mini .el-input__inner{
+  height: 36px;
+  line-height: 36px;
 }
 .block .el-pagination  .el-pagination__jump .el-input__inner{
   width:50px;

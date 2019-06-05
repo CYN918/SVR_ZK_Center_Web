@@ -491,16 +491,16 @@ export default {
 		url:'/config/standard/edit',method:'post',isType:{suktip:1,reload:1}
 	},
 	//新增设计规范
-	config_standard_add:{
-		url:'/config/standard/add',method:'post',isType:{suktip:1}
+	standard_add:{
+		url:'/standard/add',method:'post',isType:{suktip:1}
 	},
 	//修改设计规范
-    config_standar_edit:{
-		url:'/config/standard/edit',method:'post',isType:{suktip:1,reload:1}
+    standar_edit:{
+		url:'/standard/edit',method:'post',isType:{suktip:1,reload:1}
 	},
 	//删除设计规范
-	config_standard_del:{
-		url:'/config/standard/del',method:'post',isType:{suktip:1,reload:1}
+	standard_del:{
+		url:'/standard/del',method:'post',isType:{suktip:1,reload:1}
 	},
 
 
@@ -511,8 +511,8 @@ export default {
 		url:'/demand/material/add',method:'post',isType:{suktip:1,reload:1}
 	},
 	//获取设计规范列表
-	config_standards:{
-		url:'/config/standards',method:'get'
+    standard_standards:{
+		url:'/standard/search',method:'get'
 	},
 	//获取尺寸列表
     config_size:{

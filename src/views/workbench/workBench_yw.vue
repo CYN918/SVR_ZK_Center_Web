@@ -394,8 +394,8 @@
         border-radius:0px 0px 4px 4px;
         margin-left: 0!important;
         margin-bottom: 0!important;
-        position: fixed;
-        bottom: 170px;
+        position: relative;
+        bottom: -59px;
         text-align: right!important;
     }
     .btn span{

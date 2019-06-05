@@ -2,11 +2,15 @@
     <div class="detail">
         <div class="detail_1">
             <div class="detail_1_1_1">
-                <span>添加账号</span>
+                <span v-if="this.userMessage==undefined">添加账号</span>
+                <span v-if="this.userMessage!=undefined">编辑账号</span>
             </div>
             <div class="detail_1_1_3">
                 <span class="txt txt_right">所属角色</span>
-                <select v-model="roles">
+                <select v-model="roles" v-if="this.userMessage==undefined">
+                    <option value="wb">外部角色</option>
+                </select>
+                <select v-model="roles" v-if="this.userMessage!=undefined">
                     <option :value="item.id" v-for="(item,index) in selectData">{{item.role_name}}</option>
                 </select>
                 <span class="btn_1_3">查看权限</span>
@@ -16,27 +20,27 @@
                 <input type="text" v-model="name"/>
             </div>
             <div class="detail_1_1_5">
-                <span  class="txt">邮箱</span>
+                <span  class="txt">邮箱账号</span>
                 <input type="text" v-model="email"/>
             </div>
-            <div class="detail_1_1_6">
+            <div class="detail_1_1_6" v-if="this.userMessage==undefined">
                 <span  class="txt">初始密码</span>
                 <input type="text" v-model="password"/>
             </div>
-            <div class="detail_1_1_6">
+            <div class="detail_1_1_6" v-if="this.userMessage==undefined">
                 <span  class="txt">再次输入密码</span>
                 <input type="text" v-model="password_confirmation"/>
             </div>
-            <div class="detail_1_1_7" >
+            <div class="detail_1_1_7" v-if="this.userMessage==undefined">
                 <span  class="txt">公司名称</span>
                 <input type="text" v-model="company"/>
             </div>
-            <div class="detail_1_1_8" >
+            <div class="detail_1_1_8" v-if="this.userMessage==undefined">
                 <span  class="txt">联系电话</span>
                 <input type="text" v-model="phone"/>
             </div>
             <div class="operate">
-                <span class="btn_txt_1" @click="tj">添加</span>
+                <span class="btn_txt_1" @click="tj" :class="{active:name==''||email==''||password==''||password_confirmation==''||company==''||phone==''}">添加</span>
                 <span class="btn_txt_2" @click="qx">取消</span>
             </div>
         </div>
@@ -94,10 +98,52 @@
                 })
             },
             addWbUser(){
+                if(!this.name){
+                    this.$message('姓名不能为空')
+                }
+                if(!this.email){
+                    this.$message('姓名不能为空')
+                }
+                if(!this.password){
+                    this.$message('密码不能为空')
+                }if(!this.password_confirmation){
+                    this.$message('确认密码不能为空')
+                }
+                if(this.password_confirmation!=this.password){
+                    this.$message('两次密码不相同')
+                }
+                if(!this.company){
+                    this.$message('公司不能为空')
+                }
+                if(!this.phone){
+                    this.$message('电话不能为空')
+                }
+
                 this.api.account_external_add({name:this.name,email:this.email,password:this.password,password_confirmation:this.password_confirmation,roles_id:this.roles,company:this.company,phone:this.phone,contact_email:this.email}).then((res)=>{
                 })
             },
             setWBUser(){
+                if(!this.name){
+                    this.$message('姓名不能为空')
+                }
+                if(!this.email){
+                    this.$message('姓名不能为空')
+                }
+                if(!this.password){
+                    this.$message('密码不能为空')
+                }if(!this.password_confirmation){
+                    this.$message('确认密码不能为空')
+                }
+                if(this.password_confirmation!=this.password){
+                    this.$message('两次密码不相同')
+                }
+                if(!this.company){
+                    this.$message('公司不能为空')
+                }
+                if(!this.phone){
+                    this.$message('电话不能为空')
+                }
+
                 this.api.edit_external_account({name:this.name,email:this.email,password:this.password,password_confirmation:this.password_confirmation,roles_id:this.roles,company:this.company,phone:this.phone}).then((res)=>{
                     console.log(res)
                 })
@@ -105,6 +151,7 @@
             getuserDATA(){
                 this.api.api_get_roles().then((res)=>{
                     this.selectData = res
+                    console.log(res)
                 })
             },
             inner(){
@@ -253,6 +300,11 @@
         color:rgba(255,255,255,1);
         line-height: 36px;
         margin-right: 14px;
+        cursor: pointer;
+    }
+    .active{
+        background: rgb(202, 206, 199)!important;
+        color: rgb(33, 33, 33)!important;
     }
     .btn_txt_2{
         display: inline-block;
@@ -267,6 +319,7 @@
         font-weight:400;
         color:rgba(61,73,102,1);
         line-height: 36px;
+        cursor: pointer;
     }
     .detail_1_1_3,.detail_1_1_4,.detail_1_1_5,.detail_1_1_6,.detail_1_1_7,.detail_1_1_8{
         text-align: left;

@@ -71,6 +71,7 @@
                 let params = {search:this.search,p:this.p,page:this.page};
                 this.api.role_roles({params}).then((res)=>{
                     console.log(res);
+                    this.total = res.total;
                     this.list = res.data;
                     // if(this.list!=''){
                     //     this.listShow=true
@@ -97,10 +98,12 @@
                 })
             },
             handleSizeChange(p){
-                this.p = p
+                this.p = p;
+                this.getRole();
             },
             handleCurrentChange(page){
-                this.page =page
+                this.page =page;
+                this.getRole();
             },
         }
     }
@@ -138,7 +141,7 @@
     background:rgba(255,255,255,1);
     border-radius:4px;
     vertical-align: top;
-    margin: 0 24px 24px 0;
+    margin: 0 17px 24px 0;
     cursor: pointer;
     border: 2px dotted #d3dbeb;
 }
@@ -162,7 +165,7 @@
     height:128px;
     background:rgba(255,255,255,1);
     border-radius:4px;
-    margin: 0 24px 20px 0;
+    margin: 0 17px 20px 0;
     position: relative;
 }
 .box:nth-child(3){
