@@ -104,7 +104,7 @@
                 formData.append('ad_type',this.ad_type);
                 formData.append('channel_type','channel_type');
                 this.api.putlib_add(formData).then((res)=>{
-                    console.log(res)
+                    this.fh();
                 })
     },
         },
@@ -120,7 +120,8 @@
 }
     .top_name img{
         display: inline-block;
-        width:20px;
+        width:12px;
+        margin-right: 10px;
         margin-left: 24px;
     }
 

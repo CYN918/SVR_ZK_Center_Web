@@ -7,7 +7,7 @@
         <div class="content">
             <div class="ss">
                 <img src="../../../public/img/ss.png"/>
-                <input type="text" placeholder="搜索关键字或ID" v-model="search"/>
+                <input type="text" placeholder="搜索关键字或ID" v-model="search" @input="getTableList()"/>
                 <span @click="upload">上传</span>
             </div>
             <div class="table_content">
@@ -36,7 +36,7 @@
                                 prop="address"
                                 label="操作">
                             <template slot-scope="scope">
-                                <el-button type="text" size="small" @click="AnewUpload(scope.$index)">重新上传</el-button>
+                                <el-button type="text" size="small" @click="AnewUpload(tableData[scope.$index].id)">重新上传</el-button>
                                 <a :href=" tableData[scope.$index].attach_url">下载</a>
                                 <el-button type="text" size="small" @click="delData(scope.$index)">删除</el-button>
                             </template>
@@ -126,6 +126,7 @@
                 index:'',
                 url:'',
                 search:'',
+                id:''
             }
         },
         mounted(){
@@ -209,9 +210,11 @@
             heid(){
                 this.updataList=false;
             },
-            AnewUpload(index){
+            AnewUpload(id){
+                this.id = id
                 this.updataList=true;
-                this.index=index;
+                this.advertisingType();
+                this.dataTypeList();
 
             },
             setUpload(){
@@ -227,16 +230,17 @@
                 let formData = new FormData;
                 formData.append('type',this.type);
                 formData.append('pos_type',this.pos_type);
+                formData.append('name',this.name);
                 formData.append('attach',JSON.stringify(this.attach));
-                formData.append('id',this.tableData[this.index].id);
+                formData.append('id',this.id);
                 this.api.config_standar_edit(formData).then((res)=>{
                     console.log(res);
-                    this.index='';
+                    this.id='';
                     this.getTableList()
                 })
             },
             addData(){
-                if(this.index!=''){
+                if(this.id!=''){
                     this.setUpload();
                 }else{
                     if(!this.type){
@@ -257,7 +261,7 @@
                     formData.append('attach',JSON.stringify(this.attach));
                     formData.append('name',this.name);
                     this.api.config_standard_add(formData).then((res)=>{
-                        console.log(res);
+                       this.heid();
                         this.getTableList()
                     })
                 }

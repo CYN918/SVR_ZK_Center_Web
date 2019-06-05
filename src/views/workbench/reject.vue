@@ -64,7 +64,7 @@
         height: 100%;
         background: rgba(0,0,0,0.3);
         position: fixed;
-        z-index: 9;
+        z-index: 999;
         bottom: 0;
         right: 0;
     }
@@ -123,6 +123,7 @@
     .btn{
          margin-top: 50px;
          text-align: right;
+        margin-bottom: 10px;
      }
     .btn span{
         display: inline-block;

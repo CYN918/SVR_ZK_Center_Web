@@ -3,7 +3,8 @@
         <div class="bg">
             <div class="AddIMG">
                 <div class="AddIMG_tit">
-                    <span>发布素材需求</span>
+                    <span>查看素材需求</span>
+                    <img src="../../../public/img/gb.png" @click=" heid()"/>
                 </div>
                 <div>
                     <div>
@@ -28,7 +29,7 @@
                     </div>
                     <div>
                         <span class="tit_txt top">设计要求</span>
-                        <span v-if="!this.list.require"></span>
+                        <span v-if="!this.list.require">无</span>
                         <div v-if="this.list.require!=''" class="text">{{this.list.require}}</div>
                     </div>
                     <div>
@@ -43,7 +44,7 @@
                     </div>
                 </div>
                 <div class="btn">
-                    <a @click="heid">点击下载需求附件</a>
+                    <a>点击下载需求附件</a>
                 </div>
             </div>
         </div>
@@ -147,7 +148,7 @@
         padding: 14px;
         background:rgba(255,255,255,1);
         border-radius:4px;
-        border:1px solid rgba(211,219,235,1);
+        border:1px solid #F7F9FC;
         resize:none;
         font-size:14px;
         font-family:PingFangSC-Regular;
@@ -182,5 +183,10 @@
         cursor: pointer;
         margin-top: 10px;
     }
-
+    .AddIMG_tit img{
+        float: right;
+        margin-right: 24px;
+        width: 16px;
+        cursor: pointer;
+    }
 </style>

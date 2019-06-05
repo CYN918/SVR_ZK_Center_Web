@@ -19,7 +19,7 @@
                             <span>添加标签</span>
                             <img src="../../../public/img/gb.png" @click="heidTags"/>
                         </div>
-                        <input type="text" v-model="name"/>
+                        <input type="text" v-model="name" maxlength="5"/>
                         <div class="btn">
                             <span class="qd" @click="AddTags">添加</span>
                             <span @click="heidTags">取消</span>

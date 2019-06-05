@@ -55,6 +55,16 @@
                     </div>
                 </div>
             </div>
+            <div class="block">
+                <el-pagination
+                        @size-change="handleSizeChange1"
+                        @current-change="handleCurrentChange1"
+                        :current-page.sync="currentPage"
+                        :page-size="pageSize"
+                        layout="prev, pager, next,total, jumper"
+                        :total="total">
+                </el-pagination>
+            </div>
             <div class="select_btn">
                 <span class="select_btn_left" @click="messageID">确定</span>
                 <span @click="YCset">取消</span>
@@ -71,7 +81,7 @@
             return {
                 checked:[],
                 radioSize:'',
-                pageSize: 10,
+                pageSize: 6,
                 total: 0,
                 currentPage: 1,
                 preset_tags:[],
@@ -158,13 +168,12 @@
                     this.getTagsList()
                 })
             },
-            handleSizeChange1() { // 每页条数切换
+            handleSizeChange1(pageSize) { // 每页条数切换
                 this.pageSize = pageSize;
                 console.log(this.pagesize);
                 this.getList()
             },
             handleCurrentChange1(currentPage) {//页码切换
-                console.log(currentPage);
                 this.currentPage = currentPage;
                 this.getList()
             },
@@ -291,7 +300,7 @@
     }
     .boxImg{
         display: inline-block;
-        width:408px;
+        width:400px;
         height:141px;
         background:rgba(245,247,250,1);
         border-radius:4px;
@@ -435,5 +444,8 @@
         margin-right: 20px;
         vertical-align: top;
         margin-top: 60px;
+    }
+    .block{
+        margin-right: 24px;
     }
 </style>

@@ -107,7 +107,7 @@
                         >
                         </el-table-column>
                         <el-table-column
-                                label="状态" prop="check_status_name:"
+                                label="状态" prop="check_status_name"
                         >
                         </el-table-column>
                         <el-table-column label="操作">

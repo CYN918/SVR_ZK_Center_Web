@@ -9,7 +9,7 @@
           return{}
       },
       mounted(){
-          this.getLefNav()
+          // this.getLefNav()
       },
       methods:{
           getLefNav(){
@@ -109,7 +109,7 @@ html,body{
   line-height: 40px;
   margin-right:10px;
 }
-
+.bg{z-index: 999!important;}
 .block .el-pagination .el-pager .active{
   background:#3377ff!important;
   color:rgba(255,255,255,1)!important;
@@ -232,6 +232,7 @@ html,body{
   position: fixed;
   left: 256px;
   top:65px;
+  z-index: 99;
 }
 .inner{
   margin-left: 18px;
