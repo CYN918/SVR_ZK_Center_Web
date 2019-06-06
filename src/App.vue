@@ -405,7 +405,7 @@ html,body{
 }
 .boxImg_xz_yz{
   display: inline-block;
-  max-width: 180px !important;
+  max-width: 234px !important;
   height:35px;
   overflow: hidden;
 }
@@ -448,6 +448,9 @@ html,body{
   padding: 5px 10px;
   margin-right: 12px;
   margin-bottom: 8px;
+}
+.box_box:nth-child(3){
+  margin-right:0!important;
 }
 .boxImg_xz{
   display: inline-block;
