@@ -133,7 +133,7 @@ img{
 }
 .tab_title_1_2,.tab_title_1_3{
     display: inline-block;
-   width: 146px;
+   min-width: 146px;
     text-align: center;
 }
 

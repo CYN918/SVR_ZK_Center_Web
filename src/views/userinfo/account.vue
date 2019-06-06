@@ -25,8 +25,6 @@
         </div>
     </div>
     <div class="centNavBox">
-
-
         <div class="box_input_2">
             <input type="text" placeholder="输入用户名或邮箱快速查询"/>
             <span class="btn">查询</span>
@@ -97,24 +95,13 @@
                 password_confirmation:'',
                 management:false,
                 show:false,
-                tableData2:[
-                    {
-                        user_id:'',
-                        created_at:'',
-                        email:'',
-                        status:'1',
-                        user_name:'',
-                        updated_at:'',
-                    }
-                ],
+                tableData2:[],
                 rolesList:[],
             }
         },
         mounted(){
             this.getData();
-            if(this.rolesList.indexOf("admin")!=-1){
-                path:'/userinfo/AccounAudit'
-            }
+
             this.getList();
         },
         methods:{
@@ -184,6 +171,11 @@
                         rolesList.push(this.userData.roles[i].role_name);
                     }
                     this.rolesList=rolesList;
+                    // if(rolesList.indexOf('admin')!=-1){
+                    //     this.$router.push({
+                    //         path:'/userinfo/AccounAudit'
+                    //     })
+                    // }
                 });
             },
         }

@@ -347,7 +347,7 @@ export default {
 	},
 	//添加角色
 	perm_role_add:{
-		url:'perm/role/add',method:'post',isType:{suktip:1,reload:1}
+		url:'perm/role/add',method:'post',isType:{suktip:1}
 	},
 	//获取可作为上级的角色
     role_leader:{

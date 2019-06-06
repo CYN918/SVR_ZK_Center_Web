@@ -58,8 +58,10 @@
             }
         },
         mounted(){
-            this.roles = this.userMessage.roles;
-            this.name = this.userMessage.name;
+            console.log(this.userMessage);
+            this.roles = this.userMessage.roles[0].role_name;
+            console.log(this.userMessage.roles[0].role_name);
+            this.name = this.userMessage.user_name;
             this.company = this.userMessage.company;
             this.phone = this.userMessage.phone;
             this.type=this.userMessage.type;
@@ -89,10 +91,6 @@
             },
 
             setWbUser(){
-
-                if(!this.email){
-                    this.$message('姓名不能为空')
-                }
                 if(!this.company){
                     this.$message('公司不能为空')
                 }
@@ -110,9 +108,6 @@
                 })
             },
             setUser(){
-                if(!this.roles){
-                    this.$message('角色不能为空')
-                }
                 if(!this.email){
                     this.$message('姓名不能为空')
                 }

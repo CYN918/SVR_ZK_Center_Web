@@ -38,7 +38,7 @@
                         上级角色
                         <select v-model="parent">
                             <option value="0">无</option>
-                            <option v-for="(item,index) in parentList" :value="index+1">{{item.role_name}}</option>
+                            <option v-for="(item,index) in parentList" :value="item.role_id">{{item.role_name}}</option>
                         </select>
                     </div>
                 </div>
@@ -74,13 +74,12 @@
             return {
                 radio:3,
                 titleName:'',
-                status:0,
+                status:"1",
                 name:'',
                 checkedCities1:[],
                 parent:'',
                 list:[],
                 parentList:[],
-                value5:"1"
             }
         },
         mounted(){
@@ -116,6 +115,7 @@
             getParent(){
                 this.api.role_leader().then((res)=>{
                     this.parentList = res;
+                    console.log(res);
                 })
             },
             jumpReturn(){
