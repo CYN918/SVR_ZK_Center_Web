@@ -343,7 +343,7 @@ export default {
 	},
 	//编辑角色权限
     perm_role_edit:{
-		url:'perm/role/edit',method:'post',isType:{suktip:1,reload:1}
+		url:'perm/role/edit',method:'post',isType:{suktip:1}
 	},
 	//添加角色
 	perm_role_add:{
