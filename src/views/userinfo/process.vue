@@ -24,7 +24,7 @@
                         <span class="step_text">{{item.status_name}}</span>
                         <div class="step_name">
                             <div class="step_img" v-for="(da,index2) in item.user">
-                                <span class="step_txt">{{da}}</span>
+                                <span class="step_txt">{{da.user_name}}</span>
                             </div>
                             <div class="add" @click="getBan(index)">
                                 <span class="step_add"><img src="../../../public/img/add_msg.png" style="width: 12px;margin-top: 12px"></span>
@@ -48,7 +48,7 @@
                         <p v-for="(item,index) in this.tableData" @click="userName(index)">{{item.user_name}}</p>
                     </div>
                     <div class="banner_btn">
-                        <span class="qd" @click="ADDuserName()">确定</span>
+                        <span class="qd" @click="ADDuserName('demand_business',type)">确定</span>
                         <span @click="heidBan">取消</span>
                     </div>
 
@@ -74,9 +74,9 @@
                         <span class="step_text">{{item.status_name}}</span>
                         <div class="step_name">
                             <div class="step_img" v-for="(da,index2) in item.user">
-                                <span class="step_txt">{{da}}</span>
+                                <span class="step_txt">{{da.user_name}}</span>
                             </div>
-                            <div class="add" @click="getBan(index)">
+                            <div class="add" @click="getBan1(index)">
                                 <span class="step_add"><img src="../../../public/img/add_msg.png" style="width: 12px;margin-top: 12px"></span>
                                 <span class="step_add_txt">添加</span>
                             </div>
@@ -91,14 +91,14 @@
                 <div class="banner" v-if="ban1">
                     <span class="tit">负责人</span>
                     <div>
-                        <input  type="text" v-model="search1" @input=" getAccountList()"/>
+                        <input  type="text" v-model="search" @input=" getAccountList()"/>
                         <div></div>
                     </div>
                     <div class="add_name">
                         <p v-for="(item,index) in this.tableData" @click="userName(index)">{{item.user_name}}</p>
                     </div>
                     <div class="banner_btn">
-                        <span class="qd" @click="ADDuserName()">确定</span>
+                        <span class="qd" @click="ADDuserName('demand_material',WLtype)">确定</span>
                         <span @click="heidBan">取消</span>
                     </div>
 
@@ -112,15 +112,15 @@
                 <span>提现流程</span>
             </div>
             <div class="steplist">
-                <div class="step " v-for="(item,index) in YClist">
+                <div class="step " v-for="(item,index) in TXlist">
                     <div style="display: inline-block">
                         <span class="step_box">{{item.status}}</span>
                         <span class="step_text">{{item.status_name}}</span>
                         <div class="step_name">
                             <div class="step_img" v-for="(da,index2) in item.user">
-                                <span class="step_txt">{{da}}</span>
+                                <span class="step_txt">{{da.user_name}}</span>
                             </div>
-                            <div class="add" @click="getBan(index)">
+                            <div class="add" @click="getBan2(index)">
                                 <span class="step_add"><img src="../../../public/img/add_msg.png" style="width: 12px;margin-top: 12px"></span>
                                 <span class="step_add_txt">添加</span>
                             </div>
@@ -128,17 +128,17 @@
                     </div>
                     <div v-if="item.status!=5" style="width: 120px;height: 1px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
                 </div>
-                <div class="banner" v-if="ban1">
+                <div class="banner" v-if="ban2">
                     <span class="tit">负责人</span>
                     <div>
-                        <input  type="text" v-model="search1" @input=" getAccountList()"/>
+                        <input  type="text" v-model="search" @input=" getAccountList()"/>
                         <div></div>
                     </div>
                     <div class="add_name">
                         <p v-for="(item,index) in this.tableData" @click="userName(index)">{{item.user_name}}</p>
                     </div>
                     <div class="banner_btn">
-                        <span class="qd" @click="ADDuserName()">确定</span>
+                        <span class="qd" @click="ADDuserName('demand_apply')">确定</span>
                         <span @click="heidBan">取消</span>
                     </div>
 
@@ -181,10 +181,10 @@
                 search:'',
                 user:[],
                 tableData:'',
-                search1:'',
                 user_id:'',
                 ban1:false,
                 ban2:false,
+                TXlist:[],
             }
         },
         mounted(){
@@ -205,6 +205,7 @@
                     this.SCtypeList = res;
                     this. getConductorList();
                     this. wlConductorList();
+                    this.txConductorList();
                 })
             },
             getConductorList(){
@@ -215,16 +216,23 @@
                 })
             },
             wlConductorList(){
-                let params= {demand_type:' demand_material',type:this.WLtype};
+                let params= {demand_type:'demand_material',type:this.WLtype};
                 this.api.process_list({params}).then((res)=>{
                     console.log(res);
                     this.YClist = res;
                 })
             },
-            ADDuserName(){
+            txConductorList(){
+                let params= {demand_type:'demand_apply',};
+                this.api.process_list({params}).then((res)=>{
+                    console.log(res);
+                    this.TXlist = res;
+                })
+            },
+            ADDuserName(demandType,type){
                 let formData = new FormData;
-                formData.append("demand_type","demand_business");
-                formData.append('type',this.type);
+                formData.append("demand_type",demandType);
+                formData.append('type',type);
                 formData.append('status',this.index+1);
                 formData.append("user_id",this.user_id);
                 formData.append('audit_type',this.audit_type);
@@ -236,9 +244,25 @@
             getBan(index){
                 this.ban=true;
                 this.index=index;
+                this.ban2=false;
+                this.ban1=false;
+            },
+            getBan1(index){
+                this.ban1=true;
+                this.ban=false;
+                this.ban2=false;
+                this.index=index;
+            },
+            getBan2(index){
+                this.ban1=false;
+                this.ban=false;
+                this.ban2=true;
+                this.index=index;
             },
             heidBan(){
                 this.ban=false;
+                this.ban1=false;
+                this.ban2=false;
             },
             getListUser(){
                 let params = {search:this.search}
@@ -378,6 +402,7 @@
     .steplist:last-child{
         margin-right: 0px!important;
     }
+    .step_name{width: 160px}
     .step_box{
         display: inline-block;
         width:32px;
@@ -431,7 +456,7 @@
         margin-top: 12px;
     }
     .add{
-        display: inline-block;
+        display: block;
     }
     .step_txt{
         display: inline-block;

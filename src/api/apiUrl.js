@@ -144,7 +144,7 @@ export default {
 	},
 	//添加流程处理人
     process_add_auditor:{
-		url:'/process/add/auditor',method:'post',isType:{suktip:1,reload:1}
+		url:'/process/add/auditor',method:'post',isType:{suktip:1}
 	},
 	/*获取账户信息*/
 	get_account:{
