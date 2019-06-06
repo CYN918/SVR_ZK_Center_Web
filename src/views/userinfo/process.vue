@@ -42,13 +42,18 @@
                 <div class="banner" v-if="ban">
                     <span class="tit">负责人</span>
                     <div>
-                        <input  type="text" v-model="search" @click="getListUser"/>
+                        <input  type="text" v-model="search" @input="getAccountList()"/>
+                    </div>
+                    <div class="add_name">
+                        <p v-for="(item,index) in this.tableData" @click="userName(index)">{{item.user_name}}</p>
                     </div>
                     <div class="banner_btn">
                         <span class="qd" @click="ADDuserName()">确定</span>
                         <span @click="heidBan">取消</span>
                     </div>
+
                 </div>
+
             </div>
         </div>
 
@@ -83,17 +88,62 @@
                     </div>
                     <div v-if="item.status!=5" style="width: 120px;height: 1px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
                 </div>
-                <div class="banner" v-if="ban">
+                <div class="banner" v-if="ban1">
                     <span class="tit">负责人</span>
                     <div>
-                        <input  type="text" v-model="search" @input="getUSER()"/>
+                        <input  type="text" v-model="search1" @input=" getAccountList()"/>
                         <div></div>
+                    </div>
+                    <div class="add_name">
+                        <p v-for="(item,index) in this.tableData" @click="userName(index)">{{item.user_name}}</p>
                     </div>
                     <div class="banner_btn">
                         <span class="qd" @click="ADDuserName()">确定</span>
                         <span @click="heidBan">取消</span>
                     </div>
+
                 </div>
+
+            </div>
+        </div>
+
+        <div class="centNavBox_3">
+            <div class="center">
+                <span>提现流程</span>
+            </div>
+            <div class="steplist">
+                <div class="step " v-for="(item,index) in YClist">
+                    <div style="display: inline-block">
+                        <span class="step_box">{{item.status}}</span>
+                        <span class="step_text">{{item.status_name}}</span>
+                        <div class="step_name">
+                            <div class="step_img" v-for="(da,index2) in item.user">
+                                <span class="step_txt">{{da}}</span>
+                            </div>
+                            <div class="add" @click="getBan(index)">
+                                <span class="step_add"><img src="../../../public/img/add_msg.png" style="width: 12px;margin-top: 12px"></span>
+                                <span class="step_add_txt">添加</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-if="item.status!=5" style="width: 120px;height: 1px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
+                </div>
+                <div class="banner" v-if="ban1">
+                    <span class="tit">负责人</span>
+                    <div>
+                        <input  type="text" v-model="search1" @input=" getAccountList()"/>
+                        <div></div>
+                    </div>
+                    <div class="add_name">
+                        <p v-for="(item,index) in this.tableData" @click="userName(index)">{{item.user_name}}</p>
+                    </div>
+                    <div class="banner_btn">
+                        <span class="qd" @click="ADDuserName()">确定</span>
+                        <span @click="heidBan">取消</span>
+                    </div>
+
+                </div>
+
             </div>
         </div>
         <div class="bg" v-if="title">
@@ -130,6 +180,11 @@
                 title:false,
                 search:'',
                 user:[],
+                tableData:'',
+                search1:'',
+                user_id:'',
+                ban1:false,
+                ban2:false,
             }
         },
         mounted(){
@@ -171,9 +226,10 @@
                 formData.append("demand_type","demand_business");
                 formData.append('type',this.type);
                 formData.append('status',this.index+1);
-                formData.append("user_id",1);
+                formData.append("user_id",this.user_id);
                 formData.append('audit_type',this.audit_type);
                 this.api.process_add_auditor(formData).then((res)=>{
+                    this.user_id='';
                         console.log(res)
                 })
             },
@@ -208,7 +264,17 @@
             heidTitle(){
                 this.title=false;
             },
-
+            getAccountList(){
+                let params ={p:100,page:1,search:this.search};
+                this.api.account_all({params}).then((res)=>{
+                    this.tableData = res.data;
+                    console.log(this.tableData)
+                })
+            },
+            userName(index){
+                this.search = this.tableData[index].user_name;
+                this.user_id = this.tableData[index].user_id;
+            }
         }
     }
 </script>
@@ -234,17 +300,17 @@
         transform: translate(-50%,-50%);
         overflow-y: auto;
     }
-    .centNavBox,.centNavBox_2{
+    .centNavBox,.centNavBox_2,.centNavBox_3{
         width: 100%;
         -webkit-box-sizing: border-box;
         box-sizing: border-box;
         background: #FFF;
         margin-top:194px;
     }
-    .centNavBox_2{margin-top:24px!important;}
+    .centNavBox_2,.centNavBox_3{margin-top:24px!important;}
     .top_name{
         height: 109px;
-        z-index: 999999;
+        z-index: 99;
     }
     .top_txt{
         display: inline-block;
@@ -377,12 +443,25 @@
     .banner{
         margin-top: 10px;
         width:240px;
-        height:164px;
         position: relative;
         top: -200px;
         background:rgba(255,255,255,1);
         box-shadow:0px 1px 6px 0px rgba(0,0,0,0.06);
         border-radius:4px;
+    }
+    .add_name{
+        margin-top: 10px;
+        width:240px;
+        height:164px;
+        position: relative;
+        background:rgba(255,255,255,1);
+        box-shadow:0px 1px 6px 0px rgba(0,0,0,0.06);
+        border-radius:4px;
+        overflow-y: auto;
+    }
+    .add_name p{
+        margin-left: 24px;
+        margin-bottom: 10px;
     }
     .tit{
         display: block;
