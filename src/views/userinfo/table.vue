@@ -54,7 +54,7 @@
     import set from './setUser'
     export default {
         components:{set},
-        props:['tableData2','management'],
+        props:['tableData2','management','list'],
         name: "table",
         data(){
             return{
@@ -81,7 +81,7 @@
             qx(){this.User=false},
             getUSERdATA(a){
                this.User= true;
-               this.userMessage=this.tableData2[a];
+               this.userMessage=this.list[a];
                console.log(this.userMessage);
             },
         }

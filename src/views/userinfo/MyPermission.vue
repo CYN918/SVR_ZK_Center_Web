@@ -35,7 +35,6 @@
                 <div class="particulars"><span>权限详情</span></div>
                 <el-table
                         :data="tableData2"
-                        height="250"
                         header-align="center"
                         :header-cell-style="getRowClass"
                         border

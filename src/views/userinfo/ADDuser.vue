@@ -120,7 +120,6 @@
         position: fixed;
         z-index: 99999999;
         top: 65px;
-        left: 220px;
         bottom: 0;
         right: 0;
     }

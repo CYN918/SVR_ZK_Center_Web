@@ -138,7 +138,7 @@
                 this.api.edit_account_status({email:this.tableData[a].email,status:b}).then((res)=>{
                 })
             },
-            handleSizeChange1() { // 每页条数切换
+            handleSizeChange1(pageSize) { // 每页条数切换
                 this.pageSize = pageSize;
                 console.log(this.pagesize);
                 this.getAccountList();

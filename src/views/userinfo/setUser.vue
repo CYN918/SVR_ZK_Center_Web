@@ -12,7 +12,7 @@
                 <select v-model="roles" v-if="type==0">
                     <option :value="item.role_id" v-for="(item,index) in selectData">{{item.role_name}}</option>
                 </select>
-                <span class="btn_1_3">查看权限</span>
+                <span class="btn_1_3" @click="details">查看权限</span>
             </div>
             <div class="detail_1_1_4">
                 <span  class="txt">用户名</span>
@@ -29,6 +29,31 @@
             <div class="operate">
                 <span class="btn_txt_1" @click="tj" >添加</span>
                 <span class="btn_txt_2" @click="qx">取消</span>
+            </div>
+        </div>
+        <div class="bg" v-if="show">
+            <div class="bg_detail_1">
+                <div class="bg_detail_1_1">
+                    <span>{{name}}权限详情</span>
+                </div>
+                <el-table
+                        :header-cell-style="getRowClass"
+                        :data="tableData"
+                        border
+                        style="width: 100%;color: black;">
+                    <el-table-column
+                            prop="group_name"
+                            label="权限名称"
+                            width="180">
+                    </el-table-column>
+                    <el-table-column
+                            prop="note"
+                            label="权限说明">
+                    </el-table-column>
+                </el-table>
+                <div class="bg_detail_1_2" @click="shut">
+                    <img src="../../../public/img/gb.png"/>
+                </div>
             </div>
         </div>
     </div>
@@ -55,12 +80,13 @@
                 password_confirmation:'',
                 type:'',
                 user_id:'',
+                show:false,
+                tableData:[],
             }
         },
         mounted(){
             console.log(this.userMessage);
-            this.roles = this.userMessage.roles[0].role_name;
-            console.log(this.userMessage.roles[0].role_name);
+            this.roles = this.userMessage.roles[0].role_id;
             this.name = this.userMessage.user_name;
             this.company = this.userMessage.company;
             this.phone = this.userMessage.phone;
@@ -121,7 +147,24 @@
                 this.api.account_edit(formData).then((res)=>{
                 })
             },
-
+            details(){
+                this.show=true;
+                let params = {role_id:this.userMessage.role_id};
+                this.api.perm_userperm({params}).then((res)=>{
+                    this.tableData = res;
+                    console.log(res)
+                })
+            },
+            shut(){
+                this.show=false
+            },
+            getRowClass({row, column, rowIndex, columnIndex}) {
+                if (rowIndex === 0) {
+                    return 'background:rgba(246,246,246,1);color:rgba(31,46,77,1);text-align:center;font-size:14px;font-weight:500;height:48px;'
+                } else {
+                    return ''
+                }
+            },
         },
     }
 </script>
@@ -134,7 +177,6 @@
         position: fixed;
         z-index: 99999;
         top: 65px;
-        left: 220px;
         bottom: 0;
         right: 0;
     }
@@ -152,7 +194,7 @@
         background:rgba(255,255,255,1);
         border-radius:4px;;
         text-align: center;
-        z-index: 9999999;
+        z-index: 99;
     }
 
     .detail_1_2>img{
@@ -261,5 +303,57 @@
     }
     .detail_1_1_3,.detail_1_1_4,.detail_1_1_5,.detail_1_1_6,.detail_1_1_7,.detail_1_1_8{
         text-align: left;
+    }
+    .bg_detail_1{
+        position: absolute;
+        top: 50%;
+        left: 44%;
+        padding: 30px 24px 0;
+        -webkit-transform: translate(-50%,-50%);
+        transform: translate(-50%,-50%);
+        background: rgba(255,255,255,1);
+        -webkit-box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.08);
+        box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        overflow-y: auto;
+        border-radius: 8px;
+        width: 862px;
+        height: 673px;
+        z-index: 999;
+        text-align: center;
+    }
+    .bg_detail_1_1{
+        text-align: left;
+    }
+    .bg_detail_1_1>span{
+        display: inline-block;
+        font-size:18px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(61,73,102,1);
+    }
+    .bg_detail_1_2{
+        width: 30px;
+        position: absolute;
+        right: 80px;
+        top:40px;
+        cursor: pointer;
+    }
+
+    .bg_detail_1_2>img{
+        width: 16px;
+        position: absolute;
+        top: -16px;
+        right: -54px;
+    }
+    .bg_detail input{
+        margin-left:30px;
+        width:320px;
+        height:50px;
+        border:1px solid rgba(230,230,230,1);
+        border-radius:5px;
+    }
+    .bg_detail div{
+        margin-bottom:30px ;
     }
 </style>

@@ -33,7 +33,7 @@
         <div class="box_input_3">
             <div class="name" v-for="(item,index) in list" @click="aaa(index)" :class="{active:num ==index}"><span>{{item.role_name}}</span></div>
         </div>
-        <tab :tableData2="tableData2" :management="management" style="margin:0 24px"></tab>
+        <tab :tableData2="tableData2" :management="management" :list="list" style="margin:0 24px"></tab>
         <div class="detail" v-if="show">
             <div class="detail_1">
                 <div class="detail_1_1">

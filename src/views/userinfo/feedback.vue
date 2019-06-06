@@ -111,6 +111,16 @@
                     </div>
                 </div>
             </div>
+            <div class="block">
+                <el-pagination
+                        @size-change="handleSizeChange1"
+                        @current-change="handleCurrentChange1"
+                        :current-page.sync="currentPage"
+                        :page-size="pageSize"
+                        layout="prev, pager, next,total, jumper"
+                        :total="total">
+                </el-pagination>
+            </div>
         </div>
     </div>
 
@@ -129,6 +139,9 @@
                 desc:'',
                 imgurl:'',
                 pics:[],
+                currentPage:1,
+                pageSize:30,
+                total:0,
                 listData:[
                     {
 
@@ -151,8 +164,10 @@
                 return 'text-align:center;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
             getList(){
-                this.api.feedback_list().then((res)=>{
-                    this.listData = res
+                let params ={p:this.pageSize,page:this.currentPage}
+                this.api.feedback_list({params}).then((res)=>{
+                    this.listData = res.data;
+                    this.total = res.total;
                 })
             },
             particulars(id){
@@ -206,6 +221,16 @@
                 this.api.feedback_add({type:this.type,desc:this.desc,pics:this.pics}).then((res)=>{
                         this.submitter = false;
                 })
+            },
+            handleSizeChange1(pageSize) { // 每页条数切换
+                this.pageSize = pageSize;
+               this.getList()
+
+            },
+            handleCurrentChange1(currentPage) {//页码切换
+                console.log(currentPage);
+                this.getList()
+
             },
         }
     }

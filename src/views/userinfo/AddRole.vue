@@ -127,8 +127,8 @@
                 let params = {role_id:this.$route.query.role_id};
                 this.api.perm_role_group({params}).then((res)=>{
                     this.name = res.role.role_name;
-                    this.status = res.role.status;
-                    console.log(res.role.status);
+                    this.parent = res.role.parent.role_id;
+                    this.status = res.role.status.toString();
                     let dataId = res.permGroup;
                     for(let id in dataId){
                         for(let permid in dataId[id].perm_group){
