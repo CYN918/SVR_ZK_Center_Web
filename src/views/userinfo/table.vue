@@ -45,7 +45,7 @@
                 </template>
             </el-table-column>
         </el-table>
-        <set v-if="User" :userMessage="userMessage"></set>
+        <set v-if="User" :userMessage="userMessage" :id="id"></set>
     </div>
 
 </template>
@@ -54,12 +54,13 @@
     import set from './setUser'
     export default {
         components:{set},
-        props:['tableData2','management','list'],
+        props:['tableData2','management','list','roleID'],
         name: "table",
         data(){
             return{
                 User:false,
                 userMessage:{},
+                id:'',
             }
         },
         methods:{
@@ -81,7 +82,8 @@
             qx(){this.User=false},
             getUSERdATA(a){
                this.User= true;
-               this.userMessage=this.list[a];
+               this.id = this.roleID;
+               this.userMessage=this.tableData2[a];
                console.log(this.userMessage);
             },
         }

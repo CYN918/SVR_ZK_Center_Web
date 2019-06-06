@@ -12,7 +12,7 @@
                     <div>
                         <img src="../../../public/img/ss.png"/>
                     </div>
-                    <input type="text" placeholder="搜索关键词"/>
+                    <input type="text" placeholder="搜索关键词" v-model="search" @input="getList()"/>
                     <span>搜索</span>
                 </div>
                 <div class="title_tj" @click="submit">
@@ -142,6 +142,7 @@
                 currentPage:1,
                 pageSize:30,
                 total:0,
+                search:'',
                 listData:[
                     {
 
@@ -164,7 +165,7 @@
                 return 'text-align:center;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
             getList(){
-                let params ={p:this.pageSize,page:this.currentPage}
+                let params ={p:this.pageSize,page:this.currentPage,search:this.search}
                 this.api.feedback_list({params}).then((res)=>{
                     this.listData = res.data;
                     this.total = res.total;

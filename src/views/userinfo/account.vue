@@ -26,14 +26,14 @@
     </div>
     <div class="centNavBox">
         <div class="box_input_2">
-            <input type="text" placeholder="输入用户名或邮箱快速查询"/>
+            <input type="text" placeholder="输入用户名或邮箱快速查询" v-model="search" @input=" getList()"/>
             <span class="btn">查询</span>
             <span class="btn_2" @click="add"><img src="../../../public/img/add_msg.png">添加账号</span>
         </div>
         <div class="box_input_3">
             <div class="name" v-for="(item,index) in list" @click="aaa(index)" :class="{active:num ==index}"><span>{{item.role_name}}</span></div>
         </div>
-        <tab :tableData2="tableData2" :management="management" :list="list" style="margin:0 24px"></tab>
+        <tab :tableData2="tableData2" :management="management" :list="list" style="margin:0 24px" :roleID="roleID"></tab>
         <div class="detail" v-if="show">
             <div class="detail_1">
                 <div class="detail_1_1">
@@ -97,11 +97,12 @@
                 show:false,
                 tableData2:[],
                 rolesList:[],
+                roleID:'',
+                search:'',
             }
         },
         mounted(){
             this.getData();
-
             this.getList();
         },
         methods:{
@@ -131,10 +132,11 @@
                 this.management=false;
             },
             getList(){
-                this.api.role_user().then((res)=>{
+                let params = {search:this.search}
+                this.api.role_user({params}).then((res)=>{
                     this.list = res;
                     this.tableData2 = res[0].users;
-                    console.log(res)
+                    this.roleID =res[0].role_id;
                 })
             },
             aaa(index){

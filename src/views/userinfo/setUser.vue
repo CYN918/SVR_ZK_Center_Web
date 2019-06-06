@@ -61,7 +61,7 @@
 
 <script>
     export default {
-        props:['userMessage'],
+        props:['userMessage',"id"],
         name: "a-d-duser",
         data(){
             return {
@@ -86,7 +86,11 @@
         },
         mounted(){
             console.log(this.userMessage);
-            this.roles = this.userMessage.roles[0].role_id;
+            if(this.userMessage.roles.length>0){
+                this.roles = this.userMessage.roles[0].role_id;
+            }else{
+                this.roles = this.id;
+            }
             this.name = this.userMessage.user_name;
             this.company = this.userMessage.company;
             this.phone = this.userMessage.phone;
@@ -102,7 +106,6 @@
                     this.total = res.total;
                     this.selectData = res.data;
                     console.log(this.selectData)
-
                 })
             },
             tj(){

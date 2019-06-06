@@ -179,7 +179,7 @@ export default {
 	},
 	/* 修改帐号状态*/
 	edit_account_status:{
-		url:'/edit_account_status',method:'post',isType:{suktip:1,reload:1}	
+		url:'/edit_account_status',method:'post',isType:{suktip:1}
 	},
 	/* 修改外帐号*/
 	edit_external_account:{
