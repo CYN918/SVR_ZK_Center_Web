@@ -18,8 +18,8 @@
         </div>
         <div class="centNavBox">
             <tab :tableData="tableData" :active="active" ></tab>
-            <sc v-if="sc" :id="id"></sc>
-            <yw v-if="yw" :id="id"></yw>
+            <sc v-if="sc" :SCid="id"></sc>
+            <yw v-if="yw" :YWid="id"></yw>
         </div>
 
             <div class="block">
@@ -78,6 +78,7 @@
                 this.yw=true
             },
             heidYW(){
+                this.id='';
                 this.yw=false
             },
 
@@ -133,7 +134,7 @@
 <style scoped>
     .centNavBox{
         width: 100%;
-        padding: 24px 0 24px;
+        padding: 24px ;
         -webkit-box-sizing: border-box;
         box-sizing: border-box;
         background: #FFF;
@@ -213,7 +214,7 @@
         line-height: 36px;
         text-align: center;
         background:rgba(255,255,255,1);
-        border-radius:0px 0px 0px 4px;
+        border-radius:4px 0px 0px 0;
         border:1px solid rgba(211,219,235,1);
         font-size:16px;
         font-family:PingFangSC-Regular;

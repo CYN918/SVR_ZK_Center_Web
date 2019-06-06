@@ -132,7 +132,7 @@
     margin-left: 24px;
 }
 .center{margin-bottom: 24px}
-.btn{text-align:left;margin-left: 104px}
+.btn{text-align:left;margin-left: 114px}
 .btn>span{
     display: inline-block;
     width:68px;

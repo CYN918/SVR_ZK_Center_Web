@@ -22,9 +22,9 @@
 					<span>账号</span>
 					<input type="text" v-model="userData.email" disabled="disabled"/>
 				</div>
-				<div class="message" v-if="userData.type==0">
+				<div class="message" v-if="userData.type==0&&userData.roles.length>0">
 					<span>角色</span>
-					<input type="text" v-model="userData.roles" disabled="disabled"/>
+					<input type="text" v-model="userData.roles[0].role_name" disabled="disabled"/>
 				</div>
 				<div class="message" v-if="userData.type==1">
 					<span>公司名称</span>

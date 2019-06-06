@@ -158,13 +158,13 @@ html,body{
   height:36px;
   background:rgba(242,246,252,1);
   border-radius:4px;
-  border:1px solid rgba(51,119,255,1);
+  border:1px solid #3377ff;
 }
 .AddIMG_yl_upload .el-upload .el-button--small span {
   font-size: 16px;
   font-family: PingFang-SC-Regular;
   font-weight: 400;
-  color: rgba(19, 159, 248, 1);
+  color: #3377ff;
 }
 .AddIMG_bq_box_top_bq .el-checkbox__inner{
   opacity: 0;
@@ -368,7 +368,7 @@ html,body{
   display: inline-block;
   width:252px;
   height:326px;
-  background:rgba(216,216,216,1);
+  background:#e3e7eb;
   border-radius:4px;
   margin-right: 24px;
   text-align: center;
@@ -610,5 +610,11 @@ html,body{
 }
 .content .el-table--border, .el-table--group{
   margin-bottom: 24px!important;
+}
+  .problem .el-table__expanded-cell{
+    background:rgba(247,249,252,1);
+  }
+.problem .el-table__expanded-cell:hover{
+  background:rgba(247,249,252,1)!important;
 }
 </style>

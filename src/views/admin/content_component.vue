@@ -11,7 +11,7 @@
                             <span>绑定素材预览图</span>
                         </div>
                         <div class="AddIMG_box">
-                            <img :src="hqUrl"/>
+                            <img :src="hqUrl" v-if="hqUrl!=''"/>
                         </div>
                         <div class="AddIMG_box_txt">
                             <span>{{bindMid}}</span>
@@ -20,7 +20,7 @@
                             <span>上传素材预览图</span>
                         </div>
                         <div class="AddIMG_box">
-                            <img :src="prev_uri"/>
+                            <img :src="prev_uri" v-if="this.prev_uri!=''"/>
                         </div>
                     </div>
                     <div class="AddIMG_content_right">
@@ -441,10 +441,10 @@
         margin-bottom: 0px;
     }
     .AddIMG_box{
-        width:276px;
+        width:228px;
         padding: 0 17px;
         height:328px;
-        background:rgba(247,249,252,1);
+        background:#f7f9fc;
         border-radius:4px;
     }
     .AddIMG_box_txt{
@@ -473,6 +473,7 @@
         background:rgba(255,255,255,1);
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);
+        margin: 0 11px 0 0 !important;
     }
     .AddIMG_input input{
         width:140px;
@@ -511,7 +512,7 @@
     .AddIMG_sc_cjeckbox{
         width: 14px!important;
         height: 14px!important;
-        margin-right: 11px;
+        margin:2px  11px 0 0!important;
     }
     .AddIMG_sc_btn{
         display: inline-block;

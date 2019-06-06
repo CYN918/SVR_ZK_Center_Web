@@ -34,7 +34,7 @@
                     </el-table-column>
                     <el-table-column
                             label="当前流转人员" prop="creator"
-                            width="180">
+                            width="220">
                     </el-table-column>
                     <el-table-column
                             label="截止时间" prop="endtime"
@@ -63,12 +63,12 @@
                         <template slot-scope="props">
                             <div>
                                 <div class="step_box" v-for="(item,index) in tableData[props.$index].audit_process">
-
                                     <div class="step_wwc" v-if="item.did==undefined&&item.msg!='已驳回'&&tableData[props.$index].status!=item.status">{{item.status}}</div>
                                     <div class="step_dq" v-if="item.did==undefined&&item.msg!='已驳回'&&tableData[props.$index].status==item.status">{{item.status}}</div>
                                     <div class="step_bh" v-if="item.msg=='已驳回'">X</div>
                                     <div class="step" v-if="item.did!=undefined&&item.msg!='已驳回'">√</div>
-                                    <div class="step_tit" >{{item.status_name}}</div>
+                                    <div class="bor" v-if="item.isfinish==0"></div>
+                                    <div class="step_tit" :class="{active:item.did==undefined&&tableData[props.$index].status!=item.status}">{{item.status_name}}</div>
                                     <div class="step_time" >{{item.updated_at}}</div>
                                     <div class="step_contnet" v-if="item.creator!=''||tableData[props.$index].status==item.status">
                                         <span class="step_txt">状态</span>
@@ -83,7 +83,7 @@
                                     <div class="step_contnet" v-if="item.creator!=''||tableData[props.$index].status==item.status">
                                         <span class="step_txt" v-if="index=='0'">需求内容</span>
                                         <span class="step_txt" v-if="index!='0'">处理结果</span>
-                                        <span>查看详情</span>
+                                        <span class="dj">查看详情</span>
                                     </div>
                                 </div>
                             </div>
@@ -138,13 +138,13 @@
         methods:{
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
-                    return 'background:rgba(255,255,255,1);color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
+                    return 'background:rgba(255,255,255,1);color:#1f2e4d;margin:0 24px;font-size:14px;font-weight:Medium;font-family:PingFang-SC-Regular;'
                 } else {
                     return ''
                 }
             },
             cell({row, column, rowIndex, columnIndex}){
-                return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
+                return 'margin:0 24px;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
             getSH(index){
                 this.sh=true;
@@ -264,8 +264,8 @@
 <style scoped>
 .step_box{
     display: inline-block;
-    margin-right: 40px;
     vertical-align: top;
+    margin-top: 10px;
 }
 
 .step,.step_bh,.step_dq,.step_wwc{
@@ -277,6 +277,10 @@
     color: #2E5BFF;
     border-radius: 50%;
     margin-bottom: 12px;
+    display: inline-block;
+}
+.step_wwc{
+    line-height: 30px!important;
 }
 .step_bh{
     background:#E4393C!important;
@@ -294,10 +298,10 @@
 .step_tit{
     width:96px;
     height:22px;
-    font-size:16px;
+    font-size:14px;
     font-family:PingFang-SC-Bold;
     font-weight:bold;
-    color:rgba(61,73,102,1);
+    color:#3377ff;
 }
 .step_time{
     width:130px;
@@ -321,4 +325,21 @@
     color:rgba(143,155,179,1);
     margin-right: 16px;
 }
+    .dj{
+        font-size:14px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:#3377ff;
+        cursor: pointer;
+    }
+    .active{
+        color: #8f9bb3!important;
+        background: transparent!important;
+    }
+    .bor{
+        border: 0.5px solid #e6e9e0;
+        width: 204px;
+        display: inline-block;
+        margin: 0 18px;
+    }
 </style>

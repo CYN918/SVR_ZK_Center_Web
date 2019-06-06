@@ -73,7 +73,7 @@
         methods: {
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
-                        return 'background:#f7f9fc;color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:Medium;font-family:PingFang-SC-Regular;'
+                    return 'background:rgba(246,246,246,1);color:rgba(31,46,77,1);text-align:center;font-size:14px;font-weight:500;height:48px;'
                 } else {
                     return ''
                 }

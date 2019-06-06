@@ -99,7 +99,12 @@ export default {
 	height: 100%;
 	background:rgba(255,255,255,1);
 	box-shadow:0px 2px 8px 0px rgba(0, 0, 0, 0.08);
+	scrollbar-width: none;
 }
+.leftNav::-webkit-scrollbar{
+	display: none;
+}
+
 .let_title{
 	margin-left: 47px;
 	width:222px;
