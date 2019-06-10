@@ -115,10 +115,10 @@
                 <div class="step " v-for="(item,index) in TXlist">
                     <div style="display: inline-block">
                         <span class="step_box">{{item.status}}</span>
-                        <span class="step_text">{{item.status_name}}</span>
+                        <span class="step_text">{{item.status_name}}<img src="../../../public/img/del.png"/></span>
                         <div class="step_name">
                             <div class="step_img" v-for="(da,index2) in item.user">
-                                <span class="step_txt">{{da.user_name}}</span>
+                                <span class="step_txt" @click="del()">{{da.user_name}}</span>
                             </div>
                             <div class="add" @click="getBan2(index)">
                                 <span class="step_add"><img src="../../../public/img/add_msg.png" style="width: 12px;margin-top: 12px"></span>
@@ -126,7 +126,7 @@
                             </div>
                         </div>
                     </div>
-                    <div v-if="item.status!=5" style="width: 120px;height: 1px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
+                    <div v-if="item.status!=4" style="width: 120px;height: 1px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
                 </div>
                 <div class="banner" v-if="ban2">
                     <span class="tit">负责人</span>
@@ -238,7 +238,14 @@
                 formData.append('audit_type',this.audit_type);
                 this.api.process_add_auditor(formData).then((res)=>{
                     this.user_id='';
-                        console.log(res)
+                    this.search='';
+                    this. getConductorList();
+                    this.wlConductorList();
+                    this.txConductorList();
+                    this.ban = false;
+                    this.ban1 = false;
+                    this.ban2 = false;
+
                 })
             },
             getBan(index){
@@ -298,7 +305,8 @@
             userName(index){
                 this.search = this.tableData[index].user_name;
                 this.user_id = this.tableData[index].user_id;
-            }
+            },
+            del(){},
         }
     }
 </script>
@@ -402,7 +410,7 @@
     .steplist:last-child{
         margin-right: 0px!important;
     }
-    .step_name{width: 160px}
+    .step_name{max-width: 160px}
     .step_box{
         display: inline-block;
         width:32px;
@@ -464,6 +472,7 @@
         font-family:PingFang-SC-Medium;
         font-weight:500;
         color:rgba(61,73,102,1);
+        cursor: pointer;
     }
     .banner{
         margin-top: 10px;
@@ -477,7 +486,7 @@
     .add_name{
         margin-top: 10px;
         width:240px;
-        height:164px;
+        max-height:164px;
         position: relative;
         background:rgba(255,255,255,1);
         box-shadow:0px 1px 6px 0px rgba(0,0,0,0.06);
