@@ -62,10 +62,10 @@
                             :total="total">
                     </el-pagination>
                 </div>
-            </div>
-            <div class="select_btn">
-                <span class="select_btn_left" @click="messageID">确定</span>
-                <span @click="YCset">取消</span>
+                <div class="select_btn">
+                    <span class="select_btn_left" @click="messageID">确定</span>
+                    <span @click="YCset">取消</span>
+                </div>
             </div>
         </div>
     </div>
@@ -183,7 +183,7 @@
         height:912px;
         background:rgba(255,255,255,1);
         border-radius:4px;
-        top:-84px;
+        top:-125px;
         left: 50%;
         transform: translateX(-50%);
         overflow-y: auto;
@@ -247,11 +247,11 @@
     .label{
         margin-left: 0!important;
     }
+    .block{margin-bottom: 30px}
     .labelName{
         display: inline-block;
         width:78px;
         height:38px;
-        background:rgba(255,255,255,1);
         border-radius:5px;
         font-size:14px;
         font-family:PingFang-SC-Medium;
@@ -293,10 +293,10 @@
         border:1px solid rgba(51,119,255,1);
         padding: 18px 0 18px 30px;
         box-shadow:0px 0px 10px 0px rgba(153,153,153,0.14);
-        margin: 0 20px 20px 0!important;
+        margin: 0 13px 20px 0!important;
     }
     .boxImg:nth-child(2n){
-        margin: 0 20px 20px 0!important;
+        margin: 0 13px 20px 0!important;
     }
     .boxImg:nth-child(3n){
         margin: 0 0 20px 0!important;

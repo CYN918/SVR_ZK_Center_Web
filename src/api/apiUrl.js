@@ -581,5 +581,8 @@ export default {
 	demand_material_edit:{
 		url:'/demand/material/edit',method:'post',isType:{suktip:1}
 	},
-
+	//获取业务相关素材
+	demand_business_mbind:{
+		url:'/demand/business/mbind',method:'get'
+	},
 }

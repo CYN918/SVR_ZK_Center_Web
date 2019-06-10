@@ -4,11 +4,11 @@
             <span class="inner">|</span>
             <span class="top_txt">投放库/面包屑</span>
             <div class="fh">
-                <img src="../../../public/img/fh.png"/>
+                <img src="../../../public/img/fh.png" style="width: 16px;margin-right: 10px"/>
                 <span @click="fh">新建投放库</span>
             </div>
             <div class="top_con">
-                <input type="text" placeholder="输入用户名或邮箱快速查询"/>
+                <input type="text" placeholder="输入ID查询" v-model="search" @input="getDATAlist"/>
                 <div class="top_btn">
                     <span class="xq" @click="delWL()">删除</span>
                     <span class="xq" @click="qx()">取消</span>
@@ -19,8 +19,9 @@
             <div class="box">
                 <div class="boxImg" v-for="(DL,index) in IMGList">
                     <div class="border" :class="{active:ind==index}" @click="ADDclass(index)">
-                        <!--<div class="img_right" :class="{active_class:ind==index}"><span>√</span></div>-->
-                    <img :src="DL.prev_uri"/>
+                        <div class="img_box">
+                            <img :src="DL.prev_uri"/>
+                        </div>
                     <div class="boxImg_right" >
                         <div class="boxImg_right_1">
                             <div>
@@ -75,7 +76,7 @@
                             <div>
                                 <span class="boxImg_text">附件:</span>
                                 <span class="boxImg_content">{{parseInt(DL.size/1024)}}kb</span>
-                                <a class="dowload" :href="DL.attach_uri">下载</a>
+                                <a class="dowload">下载</a>
                             </div>
                         </div>
                     </div>
@@ -97,16 +98,10 @@
         name: "details_library",
         data(){
             return{
-                IMGList:[{
-                    mfid: "FADP_000003",
-                    prev_uri: "http://static.zookingsoft.com/center/201905/2019051053995110.jpg",
-                    type: "f_ad_picture",
-                    type_name: "广告图",
-                    updated_at: "2019-05-10 20:52:29",
-                    size:522,
-                }],
+                IMGList:[],
                 ind:null,
                 bind_mfid:'',
+                search:'',
             }
         },
         mounted(){
@@ -117,7 +112,7 @@
                 this.$router.go(-1)
             },
             getDATAlist(){
-                let params = {id:this.$route.query.id};
+                let params = {id:this.$route.query.id,search:this.search};
                 this.api.putlib_binds({params}).then((res)=>{
                     this.IMGList = res;
                     console.log(this.IMGList)
@@ -243,5 +238,14 @@
         width: 100%;
         height: 100%;
         margin-top: 251px;
+    }
+    .boxImg .img_box{
+        display: inline-block;
+        width:252px;
+        height:326px;
+        background:#e3e7eb;
+        border-radius:4px;
+        margin-right: 24px;
+        text-align: center;
     }
 </style>

@@ -1,22 +1,22 @@
 <template>
     <div class="bg">
-            <div class="centNavBox">
-                <div class="title">
-                    <span>添加素材</span>
+        <div class="centNavBox">
+            <div class="title">
+                <span>添加素材</span>
+            </div>
+            <div class="table_material">
+                <div class="content_title">
+                    <span style="width: 10%">数量</span>
+                    <span style="width: 10%">需要制作的物料</span>
+                    <span style="width: 15%">预览图</span>
+                    <span style="width: 20%">素材ID</span>
+                    <span style="width: 15%">素材类型</span>
+                    <span style="width: 30%">操作</span>
                 </div>
-                <div class="table_material">
-                    <div class="content_title">
-                        <span style="width: 10%">数量</span>
-                        <span style="width: 10%">需要制作的物料</span>
-                        <span style="width: 15%">预览图</span>
-                        <span style="width: 20%">素材ID</span>
-                        <span style="width: 15%">素材类型</span>
-                        <span style="width: 30%">操作</span>
-                    </div>
-                    <div class="table_content" v-for="(item,index) in list">
-                        <div class="table_content_left">
-                            <span>{{index+1}}</span>
-                            <span>
+                <div class="table_content" v-for="(item,index) in list">
+                    <div class="table_content_left">
+                        <span>{{index+1}}</span>
+                        <span>
                                 <template>
                                      <el-checkbox-group v-model="checked">
                                         <el-checkbox  :label="index">需要</el-checkbox>
@@ -24,59 +24,45 @@
                                 </template>
 
                             </span>
-                        </div>
-                        <div  class="table_content_rig">
-                                   <div class="table_content_right" v-if="index<scMessage.length" v-for = '(item,index2) in scMessage[index]'>
-                                       <div class="imgs">
-                                           <img :src="item.prev_uri">
-                                       </div>
+                    </div>
+                    <div  class="table_content_rig">
+                        <div class="table_content_right" v-if="index<scMessage.length" v-for = '(item,index2) in scMessage[index]'>
+                            <div class="imgs">
+                                <img :src="item.prev_uri">
+                            </div>
 
-                                       <span class="id">{{item.mid}}</span>
-                                       <span class="type">{{item.type_name}}</span>
-                                       <div class="click">
-                                           <span  v-if="checked.indexOf(index)!=-1" @click="handleClick(index)">从素材库选择</span>
-                                           <span  v-if="checked.indexOf(index)!=-1" @click="getBD">从本地上传</span>
-                                           <span  v-if="checked.indexOf(index)==-1" @click="getWl">从物料库选择</span>
-                                       </div>
-                                   </div>
-                            <div class="table_content_right">
-                                <div class="imgs">
-                                    <img src="">
-                                </div>
-                                <span class="id"></span>
-                                <span class="type"></span>
-                                <div class="click">
-                                    <span @click="handleClick(index)" v-if="checked.indexOf(index)!=-1">从素材库选择</span>
-                                    <span @click="getBD" v-if="checked.indexOf(index)!=-1">从本地上传</span>
-                                    <span @click="getWl" v-if="checked.indexOf(index)==-1">从物料库选择</span>
-                                </div>
+                            <span class="id">{{item.mid}}</span>
+                            <span class="type">{{item.type_name}}</span>
+                            <div class="click">
+                                <span>下载</span>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                </div>
-                <div class="zz">
-                    <div>
-                        <template>
-                             <el-checkbox v-model="zzyq">制作要求</el-checkbox>
-                        </template>
-                    </div>
-                </div>
-                <div class="require_txt">
-                    <textarea v-model="note"></textarea>
-                </div>
-                <div class="Add_btn">
-                    <span class="Add_btn_ADD" @click="ADD">添加</span>
-                    <span @click="heid">取消</span>
+            </div>
+            <div class="zz">
+                <div>
+                    <template>
+                        <el-checkbox v-model="zzyq">制作要求</el-checkbox>
+                    </template>
                 </div>
             </div>
+            <div class="require_txt">
+                <textarea v-model="note"></textarea>
+            </div>
+            <div class="Add_btn">
+                <span class="Add_btn_ADD" @click="ADD">添加</span>
+                <span @click="heid">取消</span>
+            </div>
+        </div>
 
     </div>
 </template>
 
 <script>
     export default {
-        props:['scMessage','id','num','ind'],
+        props:['id'],
         name: "a-d-d_material",
         data(){
             return{
@@ -98,7 +84,7 @@
             }
             for (let j=0;j<this.scMessage.length;j++){
                 if(this.scMessage[j]!=''){
-                   this.checked.push(j)
+                    this.checked.push(j)
                 }
             }
         },
@@ -132,7 +118,6 @@
             ADD(){
                 for(let i=0;i<this.scMessage.length;i++){
                     this.mfid=this.mfid.concat(this.scMessage[i].mid);
-                    console.log(this.scMessage[i].mid)
                 }
                 let formData = new FormData;
                 formData.append("id",this.id);
@@ -145,7 +130,7 @@
             },
         },
         watch:{
-           "Message":function (oldval) {
+            "Message":function (oldval) {
                 console.log(oldval)
             }
         }
@@ -196,9 +181,9 @@
         margin: 26px 24px 16px 24px;
 
     }
-.require_txt{
-    margin: 0 24px;
-}
+    .require_txt{
+        margin: 0 24px;
+    }
     .require_txt textarea{
         padding: 10px;
         width:1038px;

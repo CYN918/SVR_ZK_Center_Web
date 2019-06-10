@@ -4,11 +4,11 @@
             <span class="inner">|</span>
             <span class="top_txt">投放库/面包屑</span>
             <div class="fh">
-                <img src="../../../public/img/fh.png"/>
+                <img src="../../../public/img/fh.png" style="width: 16px;margin-right: 10px"/>
                 <span @click="fh">新建投放库</span>
             </div>
             <div class="top_con">
-                <input type="text" placeholder="输入物料ID快速查询"/>
+                <input type="text" placeholder="输入物料ID快速查询" v-model="search" @input="getDATAlist()"/>
                 <div class="top_btn">
                     <span class="wl" @click="getWl">从物料库添加</span>
                     <span class="xq" @click="Addyw">发布业务需求</span>
@@ -110,6 +110,7 @@
                 num:'',
                 bind_id:[],
                 sc:false,
+                search:'',
             }
         },
         mounted(){
@@ -120,7 +121,7 @@
                 this.$router.go(-1)
             },
             getDATAlist(){
-                let params = {id:this.$route.query.id};
+                let params = {id:this.$route.query.id,search:this.search};
                 this.api.putlib_binds({params}).then((res)=>{
                     this.IMGList = res;
                     console.log(this.IMGList)
