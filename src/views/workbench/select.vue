@@ -10,7 +10,6 @@
                 <div class="Search_select">
                     <span class="Search_select_tit">素材类型：</span>
                     <select v-model="type" @change="getList()">
-                        <option value="">全部</option>
                         <option v-for="item in scType" :value="item.type">{{item.name}}</option>
                     </select>
                 </div>
@@ -18,20 +17,20 @@
             <div class="contentImg">
                 <div class="label">
                     <span class="label_txt">预置标签:</span>
-                    <span v-for="(item,index) in preset_tags" class="labelName" @click="getListTag(item.name,index)" :class="{active:inx==index}">{{item.name}}</span>
+                    <span v-for="(item,index) in preset_tags" class="labelName">{{item.name}}</span>
                 </div>
                 <div>
                     <span class="label_txt">个性标签:</span>
-                    <span v-for="(item,index) in self_tags" class="labelName" @click="getListTag2(item.name,index)" :class="{active:inde==index}">{{item.name}}</span>
+                    <span v-for="(item,index) in self_tags" class="labelName">{{item.name}}</span>
                 </div>
                 <div class="box">
                     <div class="boxImg" v-for="(DL,index) in IMGList">
 
                         <div class="boxCheck">
-                            <el-radio v-model="checked" :label="index" v-if="material==1" @change="getID(index)"></el-radio>
+                            <el-radio v-model="checked" :label="index" @change="getID(index)" v-if="material==1"></el-radio>
                             <template>
-                                <el-checkbox-group v-model="checked" v-if="material==0">
-                                    <el-checkbox :label="index" @change="getID(index)"></el-checkbox>
+                                <el-checkbox-group v-model="checked" v-if="material!=1">
+                                    <el-checkbox :label="index" ></el-checkbox>
                                 </el-checkbox-group>
                             </template>
                         </div>
@@ -56,16 +55,6 @@
                     </div>
                 </div>
             </div>
-            <div class="block">
-                <el-pagination
-                        @size-change="handleSizeChange1"
-                        @current-change="handleCurrentChange1"
-                        :current-page.sync="currentPage"
-                        :page-size="pageSize"
-                        layout="prev, pager, next,total, jumper"
-                        :total="total">
-                </el-pagination>
-            </div>
             <div class="select_btn">
                 <span class="select_btn_left" @click="messageID">确定</span>
                 <span @click="YCset">取消</span>
@@ -76,58 +65,55 @@
 
 <script>
     export default {
+        props:['typesLisck', 'imgIndex','da','index','material'],
         name: "select_material",
-        props:['material','typeSC'],
         data(){
             return {
                 checked:[],
                 radioSize:'',
-                pageSize: 6,
+                pageSize: 10,
                 total: 0,
                 currentPage: 1,
                 preset_tags:[],
                 self_tags:[],
                 IMGList:[],
                 search:'',
-                scMid:'',
-                scUrl:'',
                 scType:'',
                 type:'',
-                mid_list:[],
-                url_list:[],
-                inx:null,
-                inde:null
+                scMessagelist:[],
+                scMessageOld:[],
+                scMessageNew:[],
+                oldData:{
+                    index:'',
+                    data:[],
+                }
+
             }
         },
         mounted() {
             this.getList();
-
         },
         methods:{
             getID(index){
-                if(this.material==1){
-                this.scMid=this.IMGList[index].mid;
+                this.scMid =  this.IMGList[index].mid;
                 this.scUrl=this.IMGList[index].prev_uri;
-                console.log(this.scMid,this.scUrl)
-                }
             },
-            YCset(){this.$parent.YCset()},
+            YCset(){this.$parent.SCsc()},
             messageID(){
                 if(this.material==1){
-                    this.$emit('listenToChildEvent',this.scMid,this.scUrl,true);
-                    this.$parent.SCsc();
+                    this.$emit('listen',this.scMid,this.scUrl);
+                    console.log(this.scMid)
                     this.$parent.YCset();
                 }else{
-                    for(let i=0;i<this.checked.length;i++){
-                        this.mid_list.push(this.IMGList[this.checked[i]].mid);
-                        this.url_list.push(this.IMGList[this.checked[i]].prev_uri);
+                    for(let i=0;i<this.checked.length;i++) {
+                        this.scMessagelist.push(this.IMGList[this.checked[i]]);
                     }
-                    this.$emit('listenToChildEvent', this.mid_list,this.url_list,true);
-                    this.$parent.getCon();
-                    this.$parent.YCset();
-            }
+                    this.$emit('listenToChildEvent',this.scMessagelist,this.index);
+                    this.$parent.SCsc();
+                    this.$parent.AddMaterial()
+                }
+        },
 
-            },
             getList(){
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search};
                 this.api.material_search({params}).then((res)=>{
@@ -151,30 +137,13 @@
                     this.self_tags = da.data.self_tags
                 })
             },
-            getListTag(name,index){
-                this.inx=index;
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:name,status:this.status}
-                this.api.mfinal_search({params}).then((res)=>{
-                    this.IMGList=res.data;
-                    this.total=res.total;
-                    this.getTagsList()
-                })
-            },
-            getListTag2(name,index){
-                this.inde=index;
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:name,status:this.status}
-                this.api.mfinal_search({params}).then((res)=>{
-                    this.IMGList=res.data;
-                    this.total=res.total;
-                    this.getTagsList()
-                })
-            },
-            handleSizeChange1(pageSize) { // 每页条数切换
+            handleSizeChange1() { // 每页条数切换
                 this.pageSize = pageSize;
                 console.log(this.pagesize);
                 this.getList()
             },
             handleCurrentChange1(currentPage) {//页码切换
+                console.log(currentPage);
                 this.currentPage = currentPage;
                 this.getList()
             },
@@ -266,6 +235,7 @@
         display: inline-block;
         width:78px;
         height:38px;
+        background:rgba(255,255,255,1);
         border-radius:5px;
         font-size:14px;
         font-family:PingFang-SC-Medium;
@@ -284,11 +254,11 @@
         margin-right: 16px;
     }
     .contentImg{
-        margin: 0 24px;
+        margin: 0 26px;
     }
     .active{
-        color: #1583e2!important;
-        border:0!important;
+        background:rgba(255,255,255,1);
+        border:1px solid rgba(19,159,248,1);
     }
 
     .box_select input{
@@ -300,12 +270,12 @@
     }
     .boxImg{
         display: inline-block;
-        width:400px;
+        width:408px;
         height:141px;
         background:rgba(245,247,250,1);
         border-radius:4px;
         border:1px solid rgba(51,119,255,1);
-        padding: 18px 0 18px 30px;
+        /*padding: 18px 0 18px 30px;*/
         box-shadow:0px 0px 10px 0px rgba(153,153,153,0.14);
         margin: 0 15px 20px 0!important;
     }
@@ -444,8 +414,5 @@
         margin-right: 20px;
         vertical-align: top;
         margin-top: 60px;
-    }
-    .block{
-        margin-right: 24px;
     }
 </style>

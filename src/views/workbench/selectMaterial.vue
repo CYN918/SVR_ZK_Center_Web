@@ -100,13 +100,13 @@
             // },
             YCset(){this.$parent.SCsc()},
             messageID(){
-                    for(let i=0;i<this.checked.length;i++) {
-                        this.scMessagelist.push(this.IMGList[this.checked[i]]);
-                        console.log(this.scMessagelist[0].mid);
+                for(let i=0;i<this.checked.length;i++) {
+                    this.scMessagelist.push(this.IMGList[this.checked[i]]);
+                    console.log(this.scMessagelist[0].mid);
                 }
-                    this.$emit('listenToChildEvent',this.scMessagelist,this.index);
-                    this.$parent.SCsc();
-                    this.$parent.AddMaterial()
+                this.$emit('listenToChildEvent',this.scMessagelist,this.index);
+                this.$parent.SCsc();
+                this.$parent.AddMaterial()
             },
 
             getList(){

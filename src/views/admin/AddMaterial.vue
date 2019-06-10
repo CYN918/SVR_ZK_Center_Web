@@ -432,7 +432,7 @@
         height:90px;
         background:rgba(227,231,235,1);
         border-radius:4px;
-        margin: 14px 11px 17px 0;
+        margin: 14px 11px 0 0;
     }
     .AddIMG_box_1{
         text-align: center;
@@ -443,17 +443,19 @@
         border-radius:4px;
     }
     .AddIMG_box_1 img{
-        margin: 14px 11px 17px 0;
+        margin: 0 11px 17px 0;
         display: inline-block;
         width:218px;
 
     }
     .AddIMG_box img:nth-child(3n){
-        margin: 14px 0 17px 0!important;
+        margin: 14px 0 0 0!important;
     }
     .AddIMG_box_txt{
         margin-left: 45px;
         width:141px;
+        max-height: 60px;
+        overflow-y: auto;
         text-align: center;
         margin-top: 19px;
     }

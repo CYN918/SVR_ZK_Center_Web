@@ -70,6 +70,7 @@
                     <span @click="heid">取消</span>
                 </div>
             </div>
+
     </div>
 </template>
 
@@ -94,6 +95,11 @@
             let a =this.list;
             for(var i=0;i<this.num;i++){
                 a.push(i);
+            }
+            for (let j=0;j<this.scMessage.length;j++){
+                if(this.scMessage[j]!=''){
+                   this.checked.push(j)
+                }
             }
         },
         methods:{

@@ -24,7 +24,9 @@
                         <span class="step_text">{{item.status_name}}</span>
                         <div class="step_name">
                             <div class="step_img" v-for="(da,index2) in item.user">
-                                <span class="step_txt">{{da.user_name}}</span>
+                                <span class="step_txt" @mouseenter="delXS1(index,index2)" @mouseleave="leave()">{{da.user_name}}
+                                    <img src="../../../public/img/del.png" style="width: 16px;position: relative;top: -25px;right: -25px" v-if="num1==index2&&nums1==index" @click="del(da.user_id,item.id)"/>
+                                </span>
                             </div>
                             <div class="add" @click="getBan(index)">
                                 <span class="step_add"><img src="../../../public/img/add_msg.png" style="width: 12px;margin-top: 12px"></span>
@@ -74,7 +76,9 @@
                         <span class="step_text">{{item.status_name}}</span>
                         <div class="step_name">
                             <div class="step_img" v-for="(da,index2) in item.user">
-                                <span class="step_txt">{{da.user_name}}</span>
+                                <span class="step_txt" @mouseenter="delXS2(index,index2)" @mouseleave="leave()">{{da.user_name}}
+                                    <img src="../../../public/img/del.png" style="width: 16px;position: relative;top: -25px;right: -25px" v-if="num2==index2&&nums2==index" />
+                                </span>
                             </div>
                             <div class="add" @click="getBan1(index)">
                                 <span class="step_add"><img src="../../../public/img/add_msg.png" style="width: 12px;margin-top: 12px"></span>
@@ -115,10 +119,12 @@
                 <div class="step " v-for="(item,index) in TXlist">
                     <div style="display: inline-block">
                         <span class="step_box">{{item.status}}</span>
-                        <span class="step_text">{{item.status_name}}<img src="../../../public/img/del.png"/></span>
+                        <span class="step_text">{{item.status_name}}</span>
                         <div class="step_name">
                             <div class="step_img" v-for="(da,index2) in item.user">
-                                <span class="step_txt" @click="del()">{{da.user_name}}</span>
+                                <span class="step_txt"  @mouseenter="delXS(index,index2)" @mouseleave="leave()">{{da.user_name}}
+                                    <img src="../../../public/img/del.png" style="width: 16px;position: relative;top: -25px;right: -25px" v-if="num==index2&&nums==index" />
+                                </span>
                             </div>
                             <div class="add" @click="getBan2(index)">
                                 <span class="step_add"><img src="../../../public/img/add_msg.png" style="width: 12px;margin-top: 12px"></span>
@@ -185,6 +191,12 @@
                 ban1:false,
                 ban2:false,
                 TXlist:[],
+                num:'',
+                nums:'',
+                num1:'',
+                nums1:'',
+                num2:'',
+                nums2:'',
             }
         },
         mounted(){
@@ -306,8 +318,37 @@
                 this.search = this.tableData[index].user_name;
                 this.user_id = this.tableData[index].user_id;
             },
-            del(){},
-        }
+            del(USERid,id){
+                let formData = new FormData;
+                formData.append("user_id",USERid);
+                formData.append("id",id);
+                this.api.process_del_auditor(formData).then((res)=>{
+                    this. getConductorList();
+                    this. wlConductorList();
+                    this.txConductorList();
+                })
+            },
+            delXS(da,index){
+                this.nums =da ;
+                this.num= index;
+            },
+            delXS1(da,index){
+                this.nums1 =da ;
+                this.num1= index;
+            },
+            delXS2(da,index){
+                this.nums2 =da ;
+                this.num2= index;
+            },
+            leave(){
+                this.nums='';
+                this.num= ''
+                this.nums1='';
+                this.num1= ''
+                this.nums2='';
+                this.num2= ''
+            }
+        },
     }
 </script>
 
@@ -446,7 +487,8 @@
     .step_img{
         display: inline-block;
         text-align: center;
-        margin-right:14px;
+        margin-right:10px;
+        width: 42px;
     }
     .step_img span{
         display: inline-block;
@@ -473,6 +515,8 @@
         font-weight:500;
         color:rgba(61,73,102,1);
         cursor: pointer;
+        height: 20px;
+        vertical-align: top;
     }
     .banner{
         margin-top: 10px;

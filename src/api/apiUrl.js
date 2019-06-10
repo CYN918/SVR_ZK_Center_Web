@@ -146,6 +146,10 @@ export default {
     process_add_auditor:{
 		url:'/process/add/auditor',method:'post',isType:{suktip:1}
 	},
+	//删除处理人
+	process_del_auditor:{
+		url:'/process/del/auditor',method:'post',isType:{suktip:1}
+	},
 	/*获取账户信息*/
 	get_account:{
 		url:'/get_account',method:'get'

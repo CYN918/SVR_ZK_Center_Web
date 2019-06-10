@@ -128,11 +128,14 @@
 
             </div>
         </div>
+        <sel v-if="sel" :material="1" :listen="listen"></sel>
     </div>
 </template>
 
 <script>
+    import sel from './select'
     export default {
+        components:{sel},
         props:['scMessage','material','types'],
         name: "content_component",
         data(){
@@ -163,6 +166,7 @@
                 scUrl:'',
                 scType:'',
                 tagsName:'',
+                sel:false,
             }
         },
         mounted(){
@@ -177,9 +181,11 @@
                 this.$parent.ShowHint()
             },
             XSset(){
-                this.$parent.getSet();
+                this.sel = true
             },
-
+            YCset(){
+                this.sel = false
+            },
             uploadF(file){
                 let formData = new FormData;
                 formData.append('file',file.file);
@@ -190,6 +196,12 @@
                     this.attach.md5 = res.md5;
                     this.attach.url = res.url;
                 })
+            },
+            listen(da,id){
+                this.scUrl = da;
+                this.bind_mid = id;
+                console.log(da);
+                console.log(id)
             },
             getType(){
                 let params={material:this.material};
@@ -256,8 +268,7 @@
         },
         watch:{
             'scMessage': function (newVal) {
-                this.bind_mid=newVal[0][0].mid;
-                this.scUrl=newVal[0][0].prev_uri;
+
             }
         },
     }
