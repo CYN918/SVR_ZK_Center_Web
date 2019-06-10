@@ -313,7 +313,7 @@ export default {
 	},
 	//新增锁屏壁纸
     lockwallpaper_add:{
-		url:'/lockwallpaper/add',method:'get'
+		url:'/lockwallpaper/add',method:'get',isType:{suktip:1,reload:1}
 	},
 	//删除锁屏壁纸
     lockwallpaper_del:{
@@ -323,4 +323,5 @@ export default {
     file_zip_upload:{
 		url:'/file/zip/upload',method:'post'
 	},
+
 }

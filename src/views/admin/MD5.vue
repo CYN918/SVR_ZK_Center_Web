@@ -73,7 +73,8 @@
                             class="upload-demo"
                             :limit="1"
                             :on-success="handleAvatarSuccess"
-                             action="http://ts-i.idatachain.cn/api/file/zip/upload"
+                             action="111"
+                            :http-request="upload"
                             :on-exceed="handleExceed"
                             :before-upload="beforeAvatarUpload"
                             :on-remove="handleRemove"
@@ -138,10 +139,29 @@
             qx(){
                 this.show = false;
             },
-            // upLoad(){
-            //     this.api.file_zip_upload({file:this.file}).then((res)=>{
-            //     })
-            // },
+            upload(){
+                let formData =new FormData;
+                formData.append('file',this.file);
+                this.api.file_zip_upload(formData).then((res)=>{
+                    console.log(res);
+                    this.MD5 = res.md5;
+                    this.check_md5= res.check_md5;
+                    this.checksum_md5 = res.checksum_md5;
+                    this.url = res.url;
+                    this.name = res.name;
+                    this.ext = res.ext;
+                    this.size = res.size;
+                    if(res.is_check==false){
+                        this.is_check = 0;
+                    }
+                    if(res.is_check==true){
+                        this.is_check = 1;
+                    }
+                    this.check_md5 = res.check_md5;
+                    this.checksum_md5 = res.checksum_md5;
+
+                })
+            },
             handleExceed(files, fileList) {
                 this.$message.warning(`当前限制选择1个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
             },
@@ -159,29 +179,39 @@
                 this.file = '';
             },
             handleAvatarSuccess(response, file, fileList) {
-               this.MD5 = response.data.md5;
-               this.url = response.data.url;
-               this.name = response.data.name;
-               this.ext = response.data.ext;
-               this.size = response.data.size;
-               if(response.data.is_check==false){
+                console.log(response)
+               this.MD5 = response.md5;
+               this.url = response.url;
+               this.name = response.name;
+               this.ext = response.ext;
+               this.size = response.size;
+               if(response.is_check==false){
                    this.is_check = 0;
                }
-               if(response.data.is_check==true){
+               if(response.is_check==true){
                    this.is_check = 1;
                }
-               this.check_md5 = response.data.check_md5;
-               this.checksum_md5 = response.data.checksum_md5;
+               this.check_md5 = response.check_md5;
+
+               this.checksum_md5 = response.checksum_md5;
             },
             uploading(){
                 if(!this.file){
                     this.$message.error('请上传文件，文件不能为空！');
                     return
                 }
+                // let formData = new FormData;
+                // formData.append('name',this.name);
+                // formData.append('size',this.size);
+                // formData.append('ext',this.ext);
+                // formData.append('url',this.url);
+                // formData.append('md5',this.MD5);
+                // formData.append('is_check',this.is_check);
+                // formData.append('check_md5',this.check_md5);
+                // formData.append('checksum_md5',this.checksum_md5);
                 let params = {name:this.name,size:this.size,ext:this.ext,url:this.url,md5:this.MD5,is_check:this.is_check,check_md5:this.check_md5,checksum_md5:this.checksum_md5};
                 this.api.lockwallpaper_add({params}).then((res)=>{
                     this.show = false;
-                    console.log(res);
                     this.msgData();
                 },error => {
                         console.log(error)
