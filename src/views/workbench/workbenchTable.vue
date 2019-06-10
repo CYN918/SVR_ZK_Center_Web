@@ -83,7 +83,7 @@
                                     <div class="step_contnet" v-if="item.creator!=''||tableData[props.$index].status==item.status">
                                         <span class="step_txt" v-if="index=='0'">需求内容</span>
                                         <span class="step_txt" v-if="index!='0'">处理结果</span>
-                                        <span class="dj">查看详情</span>
+                                        <span class="dj" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status)">查看详情</span>
                                     </div>
                                 </div>
                             </div>
@@ -251,6 +251,19 @@
                 }else {
                     this.$parent.getYW(id);
                 }
+            },
+            check(type,id,status){
+                if(type=='业务需求'){
+                    if(status ==1){
+                        this.getYW(id);
+                    }
+                }
+                if(type=='素材需求'){
+                    if(status ==1){
+                        this. getSC(id);
+                    }
+                }
+
             },
         },
         watch:{

@@ -233,8 +233,15 @@
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
-                    this.prev_uri = res.url
-                    this.sjSize = res.size;
+                    this.prev_uri = res.url;
+                    var image = new Image();
+                    var _this=this;
+                    image.onload=function(){
+                        var width = image.width;
+                        var height = image.height;
+                        _this.sjSize = (width+"*"+height)
+                    };
+                    image.src= res.url;
                 })
             },
             getTagsList(){
@@ -280,7 +287,7 @@
                 formData.append('attach',JSON.stringify(this.attach));
                 formData.append('tags',this.preinstall);
                 formData.append('self_tags',this.bardian);
-                formData.append('size',this.sjSize)
+                formData.append('size',this.sjSize);
                 this.api.material_edit(formData).then((res)=>{
                     this.setTags();
                     this.getTagsList();

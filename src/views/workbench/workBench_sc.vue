@@ -140,9 +140,7 @@
                     if(!this.endtime){
                         this.$message.error('截止时间不能为空')
                     }
-                    if(!this.requirement){
-                        this.$message.error('设计要求不能为空')
-                    }
+
                     if(this.is_attach==true&&!this.ref_url){
                         this.$message.error('请上传附件')
                     }
@@ -179,9 +177,6 @@
                     }
                     if(!this.endtime){
                         this.$message.error('截止时间不能为空')
-                    }
-                    if(!this.requirement){
-                        this.$message.error('设计要求不能为空')
                     }
                     if(this.is_attach==true&&!this.ref_url){
                         this.$message.error('请上传附件')
@@ -240,11 +235,12 @@
                 let params ={material:1};
                 this.api.config_material_type({params}).then((res)=>{
                    this.types=res;
+                   this.getSJlist();
                 })
             },
             getSJlist(){
                 let params = {type:this.type};
-                this.api.config_standards({params}).then((res)=>{
+                this.api.standard_standards({params}).then((res)=>{
                     this.sj = res.data;
                     console.log(res)
                 })

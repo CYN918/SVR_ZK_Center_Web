@@ -538,7 +538,7 @@ export default {
 	putlib_del:{
 		url:'/putlib/del',method:'post',isType:{suktip:1}
 	},
-	//获取业务需求详细信息
+	//获取需求详细信息
     demand_detail:{
 		url:'/demand/detail',method:'get'
 	},
