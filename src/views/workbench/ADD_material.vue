@@ -118,6 +118,7 @@
             },
             heid(){
                 this.$parent.heidAddMaterial();
+                this.$emit("listData",[])
             },
             handleClick(index){
                 this.$parent.getSet(index,this.scMessage);

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ADD v-if="ADD_material" :scMessage="scMessage" :id="id" :num="num" :ind="index"></ADD>
+        <ADD v-if="ADD_material" :scMessage="scMessage" :id="id" :num="num" :ind="index" @listData="SCmessageData"></ADD>
         <BDadd v-if="BD" :scMessage="scMessage" @listen="listen"></BDadd>
         <AddWL v-if="wl" :scMessage="scMessage"></AddWL>
         <sct v-if="set" @listenToChildEvent="listenToChildEvent" :da="da" :index="index"></sct>
@@ -172,6 +172,10 @@
                 }
 
                 this.set = true;
+            },
+            SCmessageData(a){
+                this.scMessage=a;
+                console.log(this.scMessage)
             },
             SCsc(){
                 this.set = false;

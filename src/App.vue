@@ -15,7 +15,6 @@
           getLefNav(){
               this.api.perm_leftnav().then((res)=>{
                   localStorage.setItem('letNav',JSON.stringify(res));
-                  console.log(localStorage.getItem('letNav'))
               })
           }
       }

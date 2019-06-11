@@ -30,7 +30,7 @@
                             <!--<el-radio v-model="checked" :label="index" @change="getID(index)"></el-radio>-->
                             <template>
                                 <el-checkbox-group v-model="checked">
-                                    <el-checkbox :label="index" ></el-checkbox>
+                                    <el-checkbox :label="DL.mid" ></el-checkbox>
                                 </el-checkbox-group>
                             </template>
                         </div>
@@ -86,13 +86,13 @@
                 oldData:{
                     index:'',
                     data:[],
-                }
+                },
+                listData:[],
 
             }
         },
         mounted() {
             this.getList();
-            console.log(this.da)
         },
         methods:{
             // getID(index){
@@ -100,9 +100,15 @@
             // },
             YCset(){this.$parent.SCsc()},
             messageID(){
-                for(let i=0;i<this.checked.length;i++) {
-                    this.scMessagelist.push(this.IMGList[this.checked[i]]);
-                    console.log(this.scMessagelist[0].mid);
+                for(let i=0;i<this.checked.length;i++){
+                    for(let k = 0;k<this.listData.length;k++){
+                        if(this.listData[k].mid==this.checked[i]){
+                            if(this.scMessagelist.indexOf(this.listData[k])==-1){
+                                this.scMessagelist.push(this.listData[k]);
+                            }
+
+                        }
+                    }
                 }
                 this.$emit('listenToChildEvent',this.scMessagelist,this.index);
                 this.$parent.SCsc();
@@ -116,6 +122,7 @@
                     this.total=res.total;
                     this.getTagsList();
                     this.getType()
+                    this.listData=this.listData.concat(res.data);
                 })
             },
 

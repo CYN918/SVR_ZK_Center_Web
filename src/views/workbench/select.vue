@@ -102,7 +102,7 @@
             messageID(){
                 if(this.material==1){
                     this.$emit('listen',this.scMid,this.scUrl);
-                    console.log(this.scMid)
+                    console.log(this.scMid);
                     this.$parent.YCset();
                 }else{
                     for(let i=0;i<this.checked.length;i++) {
