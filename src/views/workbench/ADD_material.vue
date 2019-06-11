@@ -132,13 +132,13 @@
             },
             ADD(){
                 for(let i=0;i<this.scMessage.length;i++){
-                    this.mfid=this.mfid.concat(this.scMessage[i].mid);
+                    this.mfid=this.mfid.push(this.scMessage[i].mid);
                     console.log(this.scMessage[i].mid)
                 }
                 let formData = new FormData;
                 formData.append("id",this.id);
                 formData.append('material',JSON.stringify(this.material));
-                formData.append("mfid",JSON.stringify(this.mfid));
+                formData.append("mfid",JSON.stringify([]));
                 formData.append("note",this.note);
                 this.api.demand_audit(formData).then((res)=>{
 

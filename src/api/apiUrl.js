@@ -439,7 +439,7 @@ export default {
 	},
 	//添加素材
 	 material_add:{
-		url:'/material/add',method:'post',isType:{suktip:1,reload:1}
+		url:'/material/add',method:'post',isType:{suktip:1}
 	 },
 	//编辑素材
     material_edit:{

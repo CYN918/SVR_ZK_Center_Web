@@ -285,21 +285,27 @@
                 if(this.message.mfid==undefined){
                     if(!this.type){
                         this.$message('类型不能为空')
+                        return
                     }
                     if(!this.prev_uri){
                         this.$message('未上传预览图')
+                        return
                     }
                     if(!this.attach){
                         this.$message('未上传文件')
+                        return
                     }
                     if(!this.preinstall){
                         this.$message('标签为空')
+                        return
                     }
                     if(!this.bardian){
                         this.$message('标签为空')
+                        return
                     }
                     if(!this.bind_mid&&this.is_bind_mid!=true){
                         this.$message('未绑定素材ID')
+                        return
                     }
 
                     let formData = new FormData;
