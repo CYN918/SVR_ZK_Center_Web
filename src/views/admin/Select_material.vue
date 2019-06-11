@@ -28,10 +28,10 @@
                     <div class="boxImg" v-for="(DL,index) in IMGList">
 
                         <div class="boxCheck">
-                            <el-radio v-model="checked" :label="index" v-if="material==1" @change="getID(index)"></el-radio>
+                            <el-radio v-model="checked" :label="DL.mid" v-if="material==1" @change="getID(index)"></el-radio>
                             <template>
                                 <el-checkbox-group v-model="checked" v-if="material==0">
-                                    <el-checkbox :label="index" @change="getID(index)"></el-checkbox>
+                                    <el-checkbox :label="DL.mid" @change="getID(index)"></el-checkbox>
                                 </el-checkbox-group>
                             </template>
                         </div>
@@ -96,7 +96,9 @@
                 mid_list:[],
                 url_list:[],
                 inx:null,
-                inde:null
+                inde:null,
+                listData:[],
+
             }
         },
         mounted() {
@@ -108,7 +110,7 @@
                 if(this.material==1){
                 this.scMid=this.IMGList[index].mid;
                 this.scUrl=this.IMGList[index].prev_uri;
-                console.log(this.scMid,this.scUrl)
+                console.log(this.checked)
                 }
             },
             YCset(){this.$parent.YCset()},
@@ -118,9 +120,17 @@
                     this.$parent.SCsc();
                     this.$parent.YCset();
                 }else{
+                    this.mid_list = [];
                     for(let i=0;i<this.checked.length;i++){
-                        this.mid_list.push(this.IMGList[this.checked[i]].mid);
-                        this.url_list.push(this.IMGList[this.checked[i]].prev_uri);
+                        this.mid_list.push(this.checked[i]);
+                        for(let k = 0;k<this.listData.length;k++){
+                            if(this.listData[k].mid==this.checked[i]){
+                                if(this.url_list.indexOf(this.listData[k].prev_uri)==-1){
+                                    this.url_list.push(this.listData[k].prev_uri);
+                                }
+
+                            }
+                        }
                     }
                     this.$emit('listenToChildEvent', this.mid_list,this.url_list,true);
                     this.$parent.getCon();
@@ -134,7 +144,8 @@
                     this.IMGList=res.data;
                     this.total=res.total;
                     this.getTagsList();
-                    this.getType()
+                    this.getType();
+                    this.listData=this.listData.concat(res.data);
                 })
             },
 
@@ -179,6 +190,12 @@
                 this.getList()
             },
         },
+        watch:{
+            'listData':function (val,oldVal) {
+                console.log(val);
+                console.log(oldVal)
+            }
+        }
     }
 </script>
 
