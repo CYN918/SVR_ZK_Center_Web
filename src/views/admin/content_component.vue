@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div class="bg">
-            <div class="AddIMG">
+        <div class="bg" @click="heidSc">
+            <div class="AddIMG"  @click.stop>
                 <div class="AddIMG_tit">
                     <span>{{title}}</span>
                 </div>
@@ -25,7 +25,7 @@
                     </div>
                     <div class="AddIMG_content_right">
                         <div class="AddIMG_input">
-                            <span class="tit">附件:</span>
+                            <span class="tit" style="vertical-align: top">附件:</span>
                             <!--<span class="AddIMG_input_box">上传</span>-->
                             <!--<input type="file" />-->
                             <div class="AddIMG_input_box">
@@ -40,7 +40,11 @@
                                     <el-button size="small" type="primary">上传</el-button>
                                 </el-upload>
                             </div>
-                            <img src="../../../public/img/msg.png" @click="showHint"/>
+                            <img src="../../../public/img/msg.png" @click="showHint" style="vertical-align: top"/>
+                            <div class="progress" style="width: 100px;height: 5px;opacity: 0.5;display: inline-block " v-if="initiate" >
+                                <div class="strip" :style="{width:aaa+'%'}" style="background: blue;height: 5px"></div>
+                                <div style="text-align: center;font-size: 10px">当前附件上传{{aaa}}%</div>
+                            </div>
                         </div>
                         <div class="AddIMG_sc">
                             <span class="tit">绑定素材:</span>
@@ -86,6 +90,10 @@
                                         :file-list="fileList">
                                     <el-button size="small" type="primary">上传预览图</el-button>
                                 </el-upload>
+                            </div>
+                            <div class="progress" style="width: 100px;height: 5px;opacity: 0.5;display: inline-block " v-if="initiate2" >
+                                <div class="strip" :style="{width:aaa+'%'}" style="background: blue;height: 5px"></div>
+                                <div style="text-align: center;font-size: 10px">当前附件上传{{aaa}}%</div>
                             </div>
                         </div>
                         <div class="AddIMG_bq">
@@ -165,6 +173,10 @@
                 tagsName:'',
                 is_bind_mid:false,
                 is_bind_workid:false,
+                file:{},
+                aaa:0,
+                initiate:false,
+                initiate2:false
             }
         },
         mounted(){
@@ -203,10 +215,23 @@
 
                 })
             },
+            time(){
+                var _this=this;
+                _this.aaa=0;
+                var timer = setInterval(function () {
+                    if(_this.aaa<99){
+                        _this.aaa++
+                    }
+                },100);
+            },
             uploadF(file){
+                this.initiate=true
+                this.time();
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
+                    this.aaa=100;
+                    this.initiate=false;
                     this.attach.name = res.name;
                     this.attach.size = res.size;
                     this.attach.ext = res.ext;
@@ -230,9 +255,13 @@
                 this.file = '';
             },
             uploadFile(file){
+                this.initiate2=true;
+                this.time();
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
+                    this.aaa=100;
+                    this.initiate2=false;
                     this.prev_uri = res.url;
                     var image = new Image();
                     var _this=this;
@@ -254,13 +283,14 @@
                 })
             },
             ADDtags(){
+                this.bardian.push(this.tagsName);
                 let formData = new FormData;
                 formData.append('name',this.tagsName);
                 formData.append('preset',0);
                 formData.append('material',this.material);
                 formData.append('type',this.types);
                 this.api.tags_add(formData).then((res)=>{
-                    this.tagsName=''
+                    this.tagsName='';
                     this. getTagsList();
                 })
             },

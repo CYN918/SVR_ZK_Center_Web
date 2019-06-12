@@ -1,6 +1,6 @@
 <template>
-    <div class="bg">
-        <div class="content">
+    <div class="bg" @click="heid">
+        <div class="content"  @click.stop>
             <div class="tit">
                 <span>上传说明</span>
             </div>

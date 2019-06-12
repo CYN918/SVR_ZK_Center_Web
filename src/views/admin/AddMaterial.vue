@@ -25,7 +25,7 @@
                     </div>
                     <div class="AddIMG_content_right">
                         <div class="AddIMG_input">
-                            <span class="tit">附件:</span>
+                            <span class="tit" style="vertical-align: top">附件:</span>
                             <div class="AddIMG_input_box">
                                 <el-upload
                                         class="upload-demo"
@@ -35,11 +35,14 @@
                                         :http-request="uploadF"
                                         action="111"
                                 >
-                                    <el-button size="small" type="primary">上传</el-button>
+                                    <el-button size="small" type="primary" >上传</el-button>
                                 </el-upload>
-
                             </div>
-                            <img src="../../../public/img/msg.png" @click="showHint"/>
+                            <img src="../../../public/img/msg.png" @click="showHint" style="vertical-align: top"/>
+                            <div class="progress" style="width: 100px;height: 5px;opacity: 0.5;display: inline-block " v-if="initiate" >
+                                <div class="strip" :style="{width:aaa+'%'}" style="background: blue;height: 5px"></div>
+                                <div style="text-align: center;font-size: 10px">当前附件上传{{aaa}}%</div>
+                            </div>
                             <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="chenck"/><span>仅图片</span>
                             <div class="upChenck">
                                 <p>勾选后可直接上传图片、且无需再次上传预览图</p>
@@ -83,6 +86,10 @@
                                     <el-button size="small" type="primary">上传预览图</el-button>
                                 </el-upload>
                             </div>
+                            <div class="progress" style="width: 100px;height: 5px;opacity: 0.5;display: inline-block " v-if="initiate2" >
+                                <div class="strip" :style="{width:aaa+'%'}" style="background: blue;height: 5px"></div>
+                                <div style="text-align: center;font-size: 10px">当前附件上传{{aaa}}%</div>
+                            </div>
                         </div>
                         <div class="AddIMG_bq">
                             <span class="tit">选择标签:</span>
@@ -101,7 +108,7 @@
                                 </div>
                                 <div class="AddIMG_bq_box_bottom">
                                     <div class="AddIMG_bq_box_top_tit">个性标签:
-                                        <input type="text" placeholder="创建或搜索个性标签" maxlength="=5" v-model="tagsName" @input="getTagsList()"/>
+                                        <input type="text" placeholder="创建或搜索个性标签" maxlength="5" v-model="tagsName" @input="getTagsList()"/>
                                     </div>
                                     <div class="AddIMG_bq_box_top_bq AddIMG_bq_box_top_zdy">
                                         <span class="CJ" v-if="tagsName!=''" @click="ADDtags()">创建“{{tagsName}}”标签</span>
@@ -173,6 +180,9 @@
                 chenck:false,
                 model:'',
                 link:'',
+                aaa:0,
+                initiate:false,
+                initiate2:false
             }
         },
         mounted(){
@@ -206,10 +216,23 @@
                 }
                 this.$parent.XSset()
             },
+            time(){
+                var _this=this;
+                _this.aaa=0;
+                var timer = setInterval(function () {
+                    if(_this.aaa<99){
+                        _this.aaa++
+                    }
+                },100);
+            },
             uploadF(file){
+                this.time();
+                this.initiate=true;
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
+                    this.aaa=100;
+                    this.initiate=false;
                     this.attach.name = res.name;
                     this.attach.size = res.size;
                     this.attach.ext = res.ext;
@@ -233,9 +256,13 @@
                 this.file = '';
             },
             uploadFile(file){
+                this.time();
+                this.initiate2=true;
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
+                    this.aaa=100;
+                    this.initiate2=false;
                     this.prev_uri = res.url
                     var image = new Image();
                     var _this=this;

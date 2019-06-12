@@ -1,6 +1,6 @@
 <template>
-    <div class="bg">
-        <div class="content">
+    <div class="bg" @click="YCset">
+        <div class="content" @click.stop>
             <div class="tit_name">
                 <span>从素材库选择素材</span>
             </div>
@@ -464,6 +464,7 @@
         margin-right: 20px;
         vertical-align: top;
         margin-top: 60px;
+        width: 30px!important;
     }
     .block{
         margin-right: 24px;
