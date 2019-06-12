@@ -73,9 +73,7 @@
                     console.log(res);
                     this.total = res.total;
                     this.list = res.data;
-                    // if(this.list!=''){
-                    //     this.listShow=true
-                    // }
+                    console.log(this.list[0].role_id)
                 })
             },
             enter(a){
@@ -92,7 +90,7 @@
                 this.$router.push({
                     path:'/userinfo/quantuty',
                     query:{
-                        role_id: this.list[index].id,
+                        role_id:this.list[index].role_id,
                         role_name:this.list[index].role_name,
                     }
                 })
