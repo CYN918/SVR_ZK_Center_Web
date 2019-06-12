@@ -4,7 +4,7 @@
             <span class="inner">|</span>
             <span class="top_txt">标签管理/广告图标签管理</span>
             <div class="fh">
-                <img src="../../../public/img/fh.png"/>
+                <img src="../../../public/img/fh.png" style="width: 16px;margin-right: 10px"/>
                 <span @click="fh">素材库-广告图标签管理</span>
             </div>
         </div>

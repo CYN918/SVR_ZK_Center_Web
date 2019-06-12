@@ -306,7 +306,7 @@
                         this.$message('未上传预览图')
                         return
                     }
-                    if(!this.attach){
+                    if(!this.attach.name){
                         this.$message('未上传文件')
                         return
                     }
@@ -380,8 +380,7 @@
             },
             'hqUrl': function (newVal) {
                 this.scUrl=newVal;
-            }
-
+            },
         },
     }
 </script>
@@ -543,6 +542,7 @@
         color:rgba(51,119,255,1)!important;
         text-align: center;
         line-height: 38px;
+        cursor: pointer;
     }
     .AddIMG_sc_btn_jy{
         background:rgba(153,153,153,1)!important;

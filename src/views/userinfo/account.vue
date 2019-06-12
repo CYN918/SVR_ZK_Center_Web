@@ -302,6 +302,7 @@ input{
     font-family:PingFang-SC-Medium;
     font-weight:500;
     color:rgba(61,73,102,1);
+    cursor: pointer;
 }
 .btn_2{
    margin-left: 60px;

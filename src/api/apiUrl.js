@@ -585,4 +585,8 @@ export default {
 	demand_business_mbind:{
 		url:'/demand/business/mbind',method:'get'
 	},
+	//根据需求类型获取流程节点
+	process_status:{
+		url:'/process/status',method:'get'
+	},
 }

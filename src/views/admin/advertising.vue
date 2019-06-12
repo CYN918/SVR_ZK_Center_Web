@@ -137,6 +137,7 @@ export default {
             getRe:false,
 			num:'',
 			status:null,
+			bj:'',
 		}
     },
 	mounted() {
@@ -254,7 +255,6 @@ export default {
                 this.getTagsList()
 			})
 		},
-
     },
 	
 }	

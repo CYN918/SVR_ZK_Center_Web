@@ -507,6 +507,7 @@
     }
     .add{
         display: block;
+        cursor: pointer;
     }
     .step_txt{
         display: inline-block;

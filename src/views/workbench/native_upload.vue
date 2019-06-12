@@ -128,7 +128,7 @@
 
             </div>
         </div>
-        <sel v-if="sel" :material="1" :listen="listen"></sel>
+        <sel v-if="sel" :material="1" @listen="listen"></sel>
     </div>
 </template>
 
@@ -171,6 +171,7 @@
         },
         mounted(){
             this.getTagsList();
+            console.log(this.size)
         },
         methods:{
 

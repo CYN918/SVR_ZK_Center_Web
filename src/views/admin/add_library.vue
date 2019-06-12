@@ -4,8 +4,8 @@
             <span class="inner">|</span>
             <span class="top_txt">投放库/面包屑</span>
             <div class="fh">
-                <img src="../../../public/img/fh.png"/>
-                <span @click="fh">新建投放库</span>
+                <img src="../../../public/img/fh.png" @click="fh"/>
+                <span @click="fh">掌酷zookingSoft公司</span>
             </div>
         </div>
         <div class="content">
@@ -29,13 +29,17 @@
                 <div>
                     <span>广告类型</span>
                     <select v-model="ad_type">
-                        <option v-for="da in typeList" :value="da">{{da}}</option>
+                        <option value="API">API</option>
+                        <option value="DSP">DSP</option>
+                        <option value="直客">直客</option>
                     </select>
                 </div>
                 <div>
                     <span>渠道类型</span>
                     <select v-model="channel_type">
-                        <option>sss</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
                     </select>
                 </div>
                 <div>
@@ -57,7 +61,6 @@
             return{
                 oddList:[],
                 sizeList:[],
-                typeList:[],
                 channel_type:'',
                 name:'',
                 put_type:'',
@@ -78,6 +81,7 @@
             getOddList(){
                 this.api.config_position_type({}).then((res)=>{
                     this.oddList=res;
+                    console.log(this.oddList)
                     this.getSize();
                     this.getTypeList()
                 })
@@ -87,22 +91,15 @@
                    this.sizeList= res
                 })
             },
-            getTypeList(){
-                let params = {material:1};
-                this.api.material_type({params}).then((res)=>{
-                    console.log(res);
-                    this.typeList = res
 
-                })
-            },
             AddLibrary(){
                 let formData = new FormData;
                 formData.append('name',this.name);
-                formData.append('put_type',"put_type");
+                formData.append('put_type',this.put_type);
                 formData.append('pos_type',this.pos_type);
                 formData.append('size',this.size);
                 formData.append('ad_type',this.ad_type);
-                formData.append('channel_type','channel_type');
+                formData.append('channel_type',this.channel_type);
                 this.api.putlib_add(formData).then((res)=>{
                     this.fh();
                 })

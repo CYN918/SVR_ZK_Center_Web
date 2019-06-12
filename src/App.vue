@@ -309,6 +309,7 @@ html,body{
   text-align: center;
   margin-top: 29px;
   margin-right: 40px;
+  cursor: pointer;
 }
 .label{
   margin:18px 0 18px 24px;
@@ -398,6 +399,7 @@ html,body{
   color:rgba(143,155,179,1);
   text-align: center;
   line-height: 28px;
+  cursor: pointer;
 }
 .boxImg_right_1,.boxImg_right_2{
   display: inline-block;
@@ -485,6 +487,7 @@ html,body{
   position: relative;
   top:-43px;
   text-align: center;
+  cursor: pointer;
 }
 .bjImg{
   font-size:12px;

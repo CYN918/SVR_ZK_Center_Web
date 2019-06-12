@@ -20,7 +20,7 @@
                 <span class="cx" @click="getDataList">查询</span>
                 <span class="addTF"  @click="jump()">新建投放库</span>
             </div>
-            <div>
+            <div style="margin: 0 24px 0 24px">
                 <template>
                     <el-table
                             :data="tableData"

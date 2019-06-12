@@ -35,8 +35,8 @@
                                        <span class="type">{{item.type_name}}</span>
                                        <div class="click">
                                            <span  v-if="checked.indexOf(index)!=-1" @click="handleClick(index)">从素材库选择</span>
-                                           <span  v-if="checked.indexOf(index)!=-1" @click="getBD">从本地上传</span>
-                                           <span  v-if="checked.indexOf(index)==-1" @click="getWl">从物料库选择</span>
+                                           <span  v-if="checked.indexOf(index)!=-1" @click="getBD(index)">从本地上传</span>
+                                           <span  v-if="checked.indexOf(index)==-1" @click="getWl(index)">从物料库选择</span>
                                        </div>
                                    </div>
                             <div class="table_content_right">
@@ -47,8 +47,8 @@
                                 <span class="type"></span>
                                 <div class="click">
                                     <span @click="handleClick(index)" v-if="checked.indexOf(index)!=-1">从素材库选择</span>
-                                    <span @click="getBD" v-if="checked.indexOf(index)!=-1">从本地上传</span>
-                                    <span @click="getWl" v-if="checked.indexOf(index)==-1">从物料库选择</span>
+                                    <span @click="getBD(index)" v-if="checked.indexOf(index)!=-1">从本地上传</span>
+                                    <span @click="getWl(index)" v-if="checked.indexOf(index)==-1">从物料库选择</span>
                                 </div>
                             </div>
                         </div>

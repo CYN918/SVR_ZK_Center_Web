@@ -23,7 +23,7 @@
                     <input type="text" v-if="show" v-model="input2" @input="yz1()"/>
                 </div>
                 <div class="message">
-                    <span>确认信密码</span>
+                    <span>确认新密码</span>
                     <input type="password" v-if="show_1" v-model="input3" @blur="yz3()"/>
                     <input type="text" v-if="show" v-model="input3" @blur="yz3()"/>
                 </div>
@@ -190,6 +190,7 @@
     margin-left: 15px;
     /*border: 1px dashed #ddd;*/
     vertical-align: middle;
+    cursor: pointer;
 }
 img{
     width: 16px;

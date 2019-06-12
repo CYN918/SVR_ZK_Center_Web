@@ -6,19 +6,15 @@
             </div>
             <div class="tit_btn">
                 <div class="tit_btn_top">
-                    <span>所处流程</span>
-                    <select v-model="status">
-                        <option value=1>1</option>
-                        <option value=2>2</option>
-                        <option value=3>3</option>
-                        <option value=4>4</option>
-                        <option value=5>5</option>
-                        <option value=6>6</option>
-                    </select>
                     <span>需求类型</span>
-                    <select class="types" v-model="demand_type">
+                    <select class="types" v-model="demand_type" @change="typeData">
                         <option value="demand_business">业务需求</option>
                         <option value="demand_material">素材需求</option>
+                        <option value="demand_apply">设计师结算</option>
+                    </select>
+                    <span>所处流程</span>
+                    <select v-model="status">
+                        <option v-for="item in statusList" :value="item.key">{{item.status_name}}</option>
                     </select>
                     <span>需求ID</span>
                     <input type="text" placeholder="请输入需求ID" v-model="search"/>
@@ -103,6 +99,7 @@
                 value:[],
                 start_time:'',
                 end_time:'',
+                statusList:[],
             }
         },
         mounted(){
@@ -160,6 +157,13 @@
                 this.page = page;
                 this.getDataList()
             },
+            typeData(){
+                let params = {demand_type:this.demand_type};
+                this.api.process_status({params}).then((res)=>{
+                    this.statusList = res;
+                    console.log(res)
+                })
+            }
         }
     }
 </script>
@@ -284,10 +288,10 @@
         background:rgba(255,255,255,1);
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);
-        margin-right: 87px;
+        margin-right: 44px;
     }
     .types{
-        margin-right: 48px!important;
+        margin-right: 88px!important;
     }
     .tit_btn_top input,.tit_btn_bom input{
         width:190px;
@@ -333,5 +337,6 @@
         font-weight:400;
         color:rgba(255,255,255,1)!important;
         margin-left: 20px;
+        cursor: pointer;
     }
 </style>

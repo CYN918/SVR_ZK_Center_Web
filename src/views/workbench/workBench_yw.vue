@@ -99,7 +99,7 @@
                 model:"",
                 link:'',
                 requirement:'',
-                url:'',
+                url:'img/1.jpg',
                 putList:false,
                 libraryName:'',
             }
