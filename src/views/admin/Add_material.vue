@@ -29,7 +29,7 @@
                         <div class="boxCheck">
                             <template>
                                 <el-checkbox-group v-model="checked">
-                                    <el-checkbox :label="index" ></el-checkbox>
+                                    <el-checkbox :label="DL.mfid" ></el-checkbox>
                                 </el-checkbox-group>
                             </template>
                         </div>
@@ -104,21 +104,18 @@
         methods:{
             YCset(){this.$parent.heidWL();},
             messageID(){
-                    for (let i=0;i<this.checked.length;i++){
-                        this.scMid.push(this.IMGList[this.checked[i]].mfid)
-                    }
-                    console.log(this.scMid);
-                    this.$emit('listenToChildEvent',this.scMid,true);
+                    this.$emit('listenToChildEvent',this.checked,true);
                     this.$parent.heidWL();
             },
             getList(){
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search};
                 this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
-                    console.log(this.IMGList)
+                    console.log(this.IMGList);
                     this.total=res.total;
                     this.getTagsList();
-                    this.getType()
+                    this.getType();
+                    this.listData=this.listData.concat(res.data);
                 })
             },
 
