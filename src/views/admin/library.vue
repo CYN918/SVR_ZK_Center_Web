@@ -6,7 +6,7 @@
         </div>
         <div class="content">
             <div class="con_select">
-                <span>投放库名称</span>
+                <span style="margin-left: 0">投放库名称</span>
                 <input type="text" placeholder="请输入投放库名称" v-model="search"/>
                 <span>投放库类型</span>
                 <select v-model="put_type">
@@ -24,6 +24,7 @@
                 <template>
                     <el-table
                             :data="tableData"
+                            :header-cell-style="getRowClass"
                             style="width: 100%">
                         <el-table-column
                                 prop="id"
@@ -109,6 +110,13 @@
         },
         mounted(){this.getOddList()},
         methods:{
+            getRowClass({row, column, rowIndex}) {
+                if (rowIndex === 0) {
+                    return 'background:#f7f9fc;color:#8F9BB3;text-align:center;font-size:14px;font-weight:Medium;height:48px;font-family:PingFang-SC-Regular;'
+                } else {
+                    return ''
+                }
+            },
             jump(){
                 this.$router.push({
                     path:'/admin/add_library'

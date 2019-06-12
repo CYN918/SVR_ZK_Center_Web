@@ -124,16 +124,18 @@
                 this.$parent.getSet(index,this.scMessage);
                 this.$parent.heidAddMaterial();
             },
-            getBD(){
-                this.$parent.getBD();
+            getBD(index){
+                this.$parent.getBD(index);
             },
             getWl(){
                 this.$parent.getWl();
             },
             ADD(){
                 for(let i=0;i<this.scMessage.length;i++){
-                    this.mfid=this.mfid.push(this.scMessage[i].mid);
-                    console.log(this.scMessage[i].mid)
+                    for(let j=0;j<this.scMessage[i].length;j++){
+                       this.mfid.push(this.scMessage[i][j].mid);
+                        console.log(this.scMessage[i][j].mid)
+                    }
                 }
                 let formData = new FormData;
                 formData.append("id",this.id);
@@ -146,7 +148,7 @@
             },
         },
         watch:{
-           "Message":function (oldval) {
+           "scMessage":function (oldval) {
                 console.log(oldval)
             }
         }

@@ -87,7 +87,7 @@
                     <select v-model="type">
                         <option v-for="(item,index) in TypeDataList" :value="item.type">{{item.name}}</option>
                     </select>
-                    <select v-model="pos_type">
+                    <select v-model="pos_type" v-if="type!='sls_dynamic'&&type!='sls_picture'">
                         <option v-for="(item,index) in oddType" :value="item.pos_type">{{item.pos_type}}</option>
                     </select>
                 </div>
@@ -193,7 +193,8 @@
                 })
             },
             dataTypeList(){
-                this.api.config_material_type().then((res)=>{
+                let params = {material:1};
+                this.api.config_material_type({params}).then((res)=>{
                     console.log(res);
                     this.TypeDataList = res
                 })

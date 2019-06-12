@@ -338,7 +338,7 @@
                     formData.append('bind_workid',this.bind_workid);
                     formData.append('size',this.sjSize);
                     formData.append('is_bind_mid',this.is_bind_mid==true?1:0);
-                    formData.append('is_bind_workid',this.is_bind_workid==true?1:0);
+                    formData.append('is_bind_workid',this.is_bind_workid==true?0:1);
                     this.api.material_add(formData).then((res)=>{
                         this.getTagsList();
                       if(res!=undefined){
@@ -647,7 +647,6 @@
         margin-top: 10px;
     }
     .bg_btn{
-
         margin: 40px 0;
     }
     .bg_btn span{

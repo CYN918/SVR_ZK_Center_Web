@@ -1,13 +1,14 @@
 <template>
     <div>
         <ADD v-if="ADD_material" :scMessage="scMessage" :id="id" :num="num" :ind="index" @listData="SCmessageData"></ADD>
-        <BDadd v-if="BD" :scMessage="scMessage" @listen="listen"></BDadd>
+        <BDadd v-if="BD" :scMessage="scMessage" @dataList="listen" :index="index"></BDadd>
         <AddWL v-if="wl" :scMessage="scMessage"></AddWL>
         <sct v-if="set" @listenToChildEvent="listenToChildEvent" :da="da" :index="index"></sct>
         <QD v-if="sh" :id="id"></QD>
         <BH v-if="bh" :dbid="dbid"></BH>
         <ywxq v-if="yw" :YWid="YWid"></ywxq>
         <scxq v-if="sc" :SCid="SCid"></scxq>
+        <CK v-if='ck' :id="CkID"></CK>
         <div class="problem">
             <template>
                 <el-table
@@ -42,7 +43,8 @@
                     </el-table-column>
                     <el-table-column label="操作">
                         <template slot-scope="props">
-                            <el-button v-if="tableData[props.$index].status_name=='素材准备'||tableData[props.$index].status_name=='上传物料'" @click="getYW(tableData[props.$index].bdid)">查看需求</el-button>
+                            <el-button v-if="tableData[props.$index].status_name=='素材准备'" @click="getYW(tableData[props.$index].bdid)">查看需求</el-button>
+                            <el-button v-if="tableData[props.$index].status_name=='上传物料'" @click="getYWSC(tableData[props.$index].bdid)">查看素材</el-button>
                             <el-button v-if="tableData[props.$index].status_name=='发布审核'||tableData[props.$index].status_name=='活动发布'" @click="getSC(tableData[props.$index].mdid)">查看需求</el-button>
                             <el-button v-if="tableData[props.$index].status_name=='物料审核'||tableData[props.$index].status_name=='测试验收'">查看物料</el-button>
                             <el-button @click="release(tableData[props.$index].did,tableData[props.$index].demand_type)" v-if="tableData[props.$index].status_name=='需求发布'">发布需求</el-button>
@@ -105,8 +107,9 @@
     import BDadd from './native_upload'
     import sct from './selectMaterial'
     import ADD from './ADD_material'
+    import CK from './CKmaterial'
     export default {
-        components:{QD,BH,ADD,sct,BDadd,AddWL,ywxq,scxq},
+        components:{QD,BH,ADD,sct,BDadd,AddWL,ywxq,scxq,CK},
         props:['tableData','active'],
         name: "workbench-table",
         data(){
@@ -129,6 +132,8 @@
                 SCid:'',
                 index:'',
                 da:[],
+                ck:false,
+                CkID:'',
             }
         },
 
@@ -163,7 +168,6 @@
             },
             heidAddMaterial(){
                 this.ADD_material = false;
-                // this.scMessage=''
             },
             getSet(index,data){
                 if(data!=undefined){
@@ -180,7 +184,10 @@
             SCsc(){
                 this.set = false;
             },
-            getBD(){
+            getBD(index){
+                if(index!=undefined){
+                    this.index = index;
+                }
                 this.BD = true;
             },
             heidBD(){
@@ -196,7 +203,6 @@
                 this.sh=false
             },
             getYW(id){
-                console.log(id);
                 this.yw = true;
                 this.YWid = id;
             },
@@ -246,8 +252,7 @@
                 console.log(this.scMessage)
             },
             listen(b){
-                this.scMessage=b;
-                console.log(this.scMessage)
+               this.scMessage[index] =b;
             },
             release(id,type){
                 if(type=='demand_business'){
@@ -269,6 +274,13 @@
                 }
 
             },
+            getYWSC(id){
+                this.ck=true;
+                this.CkID= id;
+            },
+            heidCK(){
+                this.ck=false;
+            }
         },
         watch:{
             scMessage:function (oldval) {

@@ -45,7 +45,7 @@
                 <div>
                     <span>投放库类型</span>
                     <select v-model="put_type">
-                        <option>sss</option>
+                        <option v-for="item in TFlist" :value="item.type">{{item.name}}</option>
                     </select>
                 </div>
                 <span class="xj" @click="AddLibrary">新建</span>
@@ -67,7 +67,7 @@
                 pos_type:'',
                 size:'',
                 ad_type:'',
-
+                TFlist:[],
 
             }
         },
@@ -83,7 +83,7 @@
                     this.oddList=res;
                     console.log(this.oddList)
                     this.getSize();
-                    this.getTypeList()
+                    this.TFtype()
                 })
             },
             getSize(){
@@ -103,7 +103,12 @@
                 this.api.putlib_add(formData).then((res)=>{
                     this.fh();
                 })
-    },
+            },
+            TFtype(){
+                this.api.config_putlib_type().then((res)=>{
+                    this.TFlist = res;
+                })
+            }
         },
     }
 </script>

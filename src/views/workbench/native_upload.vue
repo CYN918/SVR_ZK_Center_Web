@@ -46,13 +46,13 @@
                             <span class="tit">绑定素材:</span>
                             <input type="text" placeholder="请输入素材ID" v-model="bind_mid"/>
                             <span class="AddIMG_sc_btn" @click="XSset" >从素材库选择</span>
-                            <input type="checkbox" class="AddIMG_sc_cjeckbox"/><span>与素材库内已有素材无关</span>
+                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="is_bind_mid"/><span>与素材库内已有素材无关</span>
                             <p>若由素材库内文件处理后上传，必须填写对应的素材ID，仅可填写一个</p>
                         </div>
                         <div class="AddIMG_zp">
                             <span class="tit">绑定设计师作品:</span>
                             <input type="text" class="AddIMG_zp_text" v-model="bind_workid" />
-                            <input type="checkbox" class="AddIMG_sc_cjeckbox"/>
+                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="is_bind_workid"/>
                             <span>与设计师无关</span>
                             <p>由设计师站获得的素材，必须填写对应的作品ID</p>
                         </div>
@@ -167,6 +167,8 @@
                 scType:'',
                 tagsName:'',
                 sel:false,
+                is_bind_mid:'',
+                is_bind_workid:''
             }
         },
         mounted(){
@@ -198,11 +200,9 @@
                     this.attach.url = res.url;
                 })
             },
-            listen(da,id){
-                this.scUrl = da;
+            listen(id,url){
+                this.scUrl = url;
                 this.bind_mid = id;
-                console.log(da);
-                console.log(id)
             },
             getType(){
                 let params={material:this.material};
@@ -255,13 +255,15 @@
                     formData.append('attach',JSON.stringify(this.attach));
                     formData.append('tags',this.preinstall);
                     formData.append('self_tags',this.bardian);
-                    formData.append('bind_mid',this.bind_mid)
-                    formData.append('bind_workid',this.bind_workid)
-                    formData.append('size',this.sjSize)
+                    formData.append('bind_mid',this.bind_mid);
+                    formData.append('bind_workid',this.bind_workid);
+                    formData.append('size',this.sjSize);
+                    formData.append('is_bind_mid',this.is_bind_mid==true?1:0);
+                    formData.append('is_bind_workid',this.is_bind_workid==true?0:1);
                     this.api.material_add(formData).then((res)=>{
                         let list  = [];
                         list.push({type:res.type,mid:res.mid,prev_uri:res.prev_uri});
-                        this.$emit('listen',list)
+                        this.$emit('dataList',list)
                     }).catch();
 
             },

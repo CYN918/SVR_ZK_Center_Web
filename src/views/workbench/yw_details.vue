@@ -5,7 +5,7 @@
                 <div>
                     <span>广告位示意图</span>
                 </div>
-                <img :src="url"/>
+                <img :src="this.list.pos_view_url"/>
             </div>
             <div class="content_txt">
                 <div class="title_txt">
@@ -75,7 +75,6 @@
                 model:"",
                 link:'',
                 requirement:'',
-                url:'',
                 list:{}
             }
         },

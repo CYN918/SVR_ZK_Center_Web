@@ -2,7 +2,7 @@
 	<div>
 		<div class="top_name">
 			<span class="inner">|</span>
-			<span class="top_txt">素材库>广告</span>
+			<span class="top_txt">素材库>场景锁屏动态</span>
 		</div>
 		<div class="content">
 			<div class="Search">

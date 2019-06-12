@@ -190,6 +190,7 @@
                     formData.append('model',this.model);
                     formData.append('link',this.link);
                     formData.append('requirement',this.requirement);
+                    formData.append('pos_view_url',this.url);
                     this.api.demand_business_add(formData).then((res)=>{
 
                     })

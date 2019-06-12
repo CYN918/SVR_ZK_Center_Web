@@ -485,7 +485,10 @@ export default {
     mfinal_detail:{
         url:'/mfinal/detail',method:'get'
     },
-
+	// //获取业务相关素材
+	// demand_business_mbind:{
+	// 	url:'/demand/business/mbind',method:'get'
+	// },
 	//编辑素材标签
     material_edit_tags:{
 		url:'/material/edit/tags',method:'post',isType:{suktip:1}
@@ -588,5 +591,9 @@ export default {
 	//根据需求类型获取流程节点
 	process_status:{
 		url:'/process/status',method:'get'
+	},
+	//获取投放库类型
+	config_putlib_type:{
+		url:'/config/putlib/type',method:'get'
 	},
 }

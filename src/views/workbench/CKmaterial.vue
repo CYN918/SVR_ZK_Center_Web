@@ -2,7 +2,7 @@
     <div class="bg">
         <div class="centNavBox">
             <div class="title">
-                <span>添加素材</span>
+                <span>查看素材详情</span>
             </div>
             <div class="table_material">
                 <div class="content_title">
@@ -52,7 +52,6 @@
                 <textarea v-model="note"></textarea>
             </div>
             <div class="Add_btn">
-                <span class="Add_btn_ADD" @click="ADD">添加</span>
                 <span @click="heid">取消</span>
             </div>
         </div>
@@ -77,63 +76,19 @@
             }
         },
         mounted(){
-            this.Message = this.scMessage;
-            let a =this.list;
-            for(var i=0;i<this.num;i++){
-                a.push(i);
-            }
-            for (let j=0;j<this.scMessage.length;j++){
-                if(this.scMessage[j]!=''){
-                    this.checked.push(j)
-                }
-            }
+                this.getData();
         },
         methods:{
-            getRowClass({row, column, rowIndex, columnIndex}) {
-                if (rowIndex === 0) {
-                    return 'color:rgba(30,30,30,1);text-align:center;font-size:14px;font-weight:400;height:48px;font-family:PingFangSC-Regular'
-                } else {
-                    return ''
-                }
-            },
-            cell({row, column, rowIndex, columnIndex}){
-                return 'text-align:center;color:rgba(153,153,153,1);font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
-            },
-            row({row, rowIndex}){
-                return 'border-radius:4px;border:1px solid rgba(230,233,240,1);margin-bottom:10px'
-            },
             heid(){
-                this.$parent.heidAddMaterial();
+                this.$parent.heidCK();
             },
-            handleClick(index){
-                this.$parent.getSet(index,this.scMessage);
-                this.$parent.heidAddMaterial();
-            },
-            getBD(){
-                this.$parent.getBD();
-            },
-            getWl(){
-                this.$parent.getWl();
-            },
-            ADD(){
-                for(let i=0;i<this.scMessage.length;i++){
-                    this.mfid=this.mfid.concat(this.scMessage[i].mid);
-                }
-                let formData = new FormData;
-                formData.append("id",this.id);
-                formData.append('material',JSON.stringify(this.material));
-                formData.append("mfid",JSON.stringify(this.mfid));
-                formData.append("note",this.note);
-                this.api.demand_audit(formData).then((res)=>{
-
+            getData(){
+                let params ={id:this.id}
+                this.api.demand_business_mbind({params}).then((res)=>{
+                    console.log(res)
                 })
             },
         },
-        watch:{
-            "Message":function (oldval) {
-                console.log(oldval)
-            }
-        }
 
     }
 </script>

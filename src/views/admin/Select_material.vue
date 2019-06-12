@@ -432,8 +432,11 @@
         top: -180px;
     }
     .select_btn{
+        width: 100%;
         text-align: right;
-        margin-right: 26px;
+       position: fixed;
+        bottom: 30px;
+        right: 56px;
     }
     .select_btn span{
         display: inline-block;
