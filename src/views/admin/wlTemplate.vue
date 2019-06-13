@@ -31,7 +31,7 @@
 				</div>
 			</div>
 			<rel v-if="getRe" :num="num" :material="material" ></rel>
-			<AM v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type"></AM>
+			<AM v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type" :lx="lx"></AM>
 			<hin v-if='hint' ></hin>
 			<tag v-if="tags" :message="message" :typeSC='type' :material="material" @updata="updata"></tag>
 			<set v-if="sets" :typeSC='type'  @listenToChildEvent="listen" :material="material"></set>
@@ -139,6 +139,7 @@
                 total: 0,
                 currentPage: 1,
                 type:'f_ad_template',
+				lx:'广告图模板',
                 message:{},
                 preset_tags:[],
                 preset:[],
