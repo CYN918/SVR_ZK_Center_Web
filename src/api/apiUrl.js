@@ -407,7 +407,7 @@ export default {
 	},
 	//增加外部账户
     account_external_add:{
-		url:'/account/external/add',method:'post',isType:{suktip:1,reload:1}
+		url:'/account/external/add',method:'post',isType:{suktip:1}
 	},
 	//获取标签列表
     tags_search:{
