@@ -25,7 +25,7 @@
                     <span v-for="(item,index) in self_tags" class="labelName" @click="getListTag2(item.name,index)" :class="{active:inde==index}">{{item.name}}</span>
                 </div>
                 <div class="box">
-                    <div class="boxImg" v-for="(DL,index) in IMGList">
+                    <div class="boxImg" v-for="(DL,index) in IMGList" :class="{boxImgActive:checked.indexOf(DL.mid)!=-1}">
 
                         <div class="boxCheck">
                             <el-radio v-model="checked" :label="DL.mid" v-if="material==1" @change="getID(index)"></el-radio>
@@ -315,13 +315,15 @@
         margin-right: 18px;
         margin-left: 0!important;
     }
+    .boxImgActive{
+        border:1px solid rgba(51,119,255,1);
+    }
     .boxImg{
         display: inline-block;
         width:400px;
         height:141px;
         background:rgba(245,247,250,1);
         border-radius:4px;
-        border:1px solid rgba(51,119,255,1);
         padding: 18px 0 18px 30px;
         box-shadow:0px 0px 10px 0px rgba(153,153,153,0.14);
         margin: 0 15px 20px 0!important;
