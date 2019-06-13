@@ -112,7 +112,7 @@
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="props">
-                                <el-button type="text">查看详情</el-button>
+                                <el-button type="text" @click="xq(tableData[props.$index])">查看详情</el-button>
                                 <el-button type="text" v-if="tableData[props.$index].check_status=='0'" @click="getSH(tableData[props.$index].apply_id)">审核通过</el-button>
                                 <el-button type="text" v-if="tableData[props.$index].check_status=='0'" @click="getBH(tableData[props.$index].apply_id)">驳回</el-button>
                             </template>
@@ -214,6 +214,11 @@
             },
             heidSH(){
                 this.sh=false
+            },
+            xq(){
+                this.$router.push({
+                    path:'./withdraw',
+                    })
             },
         }
     }

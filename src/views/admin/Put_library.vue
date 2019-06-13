@@ -7,10 +7,11 @@
                     <input type="text" placeholder="请输入投放库名称" v-model="search"/>
                     <span>投放库类型</span>
                     <select v-model="put_type">
-                        <option>aaa</option>
+                        <option v-for="item in TFlist" :value="item.type">{{item.name}}</option>
                     </select>
                     <span>广告位类型</span>
                     <select v-model="pos_type">
+                        <option value="">全部</option>
                         <option v-for="item in oddList" :value="item.pos_type">{{item.pos_type}}</option>
                     </select>
                     <span class="cx" @click="getDataList">查询</span>
@@ -109,6 +110,7 @@
                 oddList:[],
                 radio:'',
                 currentRow:"",
+                TFlist:[],
             }
         },
         mounted(){this.getOddList()},
@@ -127,11 +129,16 @@
                     }
                 })
             },
-
+            TFtype(){
+                this.api.config_putlib_type().then((res)=>{
+                    this.TFlist = res;
+                })
+            },
             getOddList(){
                 this.api.config_position_type({}).then((res)=>{
                     this.oddList=res;
                     this.getDataList()
+                    this. TFtype();
                 })
             },
             getDataList(){

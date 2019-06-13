@@ -90,6 +90,8 @@ import ALL from './views/workbench/all'
 mode['ALL']=ALL
 import Billing_details from './views/workbench/Billing_details'
 mode['Billing_details'] = Billing_details
+import withdraw from './views/workbench/tx_details'
+mode['withdraw'] =withdraw
 
 import axios from 'axios'
 import api from './api/index'
@@ -265,6 +267,7 @@ let nb = [
 		{path:'/workbench/workbenchPadding',name:'待审核',component:mode['workbenchPadding']},
 		{path:'/workbench/ALL',name:'全部',component:mode['ALL']},
         {path:'/workbench/Billing_details',name:'全部',component:mode['Billing_details']},
+		{path:'/workbench/withdraw',name:'提现',component:mode['withdraw']},
 
 	]},
     {path:'/income',name:'收益中心',component:mode['income'],children:[
