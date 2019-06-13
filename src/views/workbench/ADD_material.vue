@@ -114,7 +114,7 @@
             },
             heid(){
                 this.$parent.heidAddMaterial();
-                this.$emit("listData",[])
+                window.reload;
             },
             handleClick(index){
                 this.$parent.getSet(index,this.scMessage);
@@ -124,8 +124,8 @@
                 this.$parent.getBD(index)
                 this.$parent.heidAddMaterial();
             },
-            getWl(index){
-                this.$parent.getWl(index);
+            getWl(index,da){
+                this.$parent.getWl(index,da);
                 this.$parent.heidAddMaterial();
             },
             ADD(){

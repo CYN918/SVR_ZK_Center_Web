@@ -1,6 +1,6 @@
 <template>
-    <div class="bg">
-        <div class="cont">
+    <div class="bg" @clcik="yc()">
+        <div class="cont" @clcik.stop>
             <div class="title">
                 <span>相关素材</span>
                 <img src="../../../public/img/gb.png" @click="yc()"/>

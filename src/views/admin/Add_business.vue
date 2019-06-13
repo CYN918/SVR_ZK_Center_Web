@@ -1,6 +1,6 @@
 <template>
-    <div class="bg">
-        <div class="content">
+    <div class="bg" @click="heid">
+        <div class="content" @click.stop>
             <div class="box_img">
                 <div>
                     <span>广告位示意图</span>

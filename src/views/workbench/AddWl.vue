@@ -1,5 +1,5 @@
 <template>
-    <div class="bg" click="HeidWl()">
+    <div class="bg" @click="HeidWl()">
         <div class="content" @click.stop>
             <div class="tit_name">
                 <span>从物料库</span>
@@ -69,7 +69,7 @@
 <script>
     export default {
         name: "select_material",
-        props:['material','typeSC','index'],
+        props:['material','typeSC','index','dataList'],
         data(){
             return {
                 checked:'',
@@ -109,7 +109,7 @@
                         }
                     }
 
-                this.$emit('dataMessage',this.list,this.index,1);
+                this.$emit('dataMessage',this.list,this.index);
                 this.$parent.HeidWl();
                 this.$parent.AddMaterial()
             },

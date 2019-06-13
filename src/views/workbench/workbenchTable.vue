@@ -1,9 +1,10 @@
 <template>
     <div>
         <ADD v-if="ADD_material" :scMessage="scMessage" :id="id" :num="num" :ind="index" @listData="SCmessageData"></ADD>
-        <uplodWl v-if='up' :id="id" :num="num" :ind="index" :scMessage="scMessage"></uplodWl>
+        <uplodWl v-if='up' :id="id" :num="num" :ind="index" :scMessage="wlMessage"></uplodWl>
         <BDadd v-if="BD" :scMessage="scMessage" @dataList="dataList" :index="index"></BDadd>
-        <AddWL v-if="wl" @dataMessage="dataMessage" :index="index"></AddWL>
+        <AddWL v-if="wl" @dataMessage="dataMessage" :index="index" ></AddWL>
+        <scwl v-if="scwl" @DMessage="DMessage" :index="index" ></scwl>
         <sct v-if="set" @listenToChildEvent="listenToChildEvent" :da="da" :index="index"></sct>
         <QD v-if="sh" :id="id"></QD>
         <BH v-if="bh" :dbid="dbid"></BH>
@@ -111,8 +112,9 @@
     import ADD from './ADD_material'
     import uplodWl from './uploadWL'
     import CK from './CKmaterial'
+    import scwl from './wuliao'
     export default {
-        components:{QD,BH,ADD,sct,BDadd,AddWL,ywxq,scxq,CK,uplodWl},
+        components:{QD,BH,ADD,sct,BDadd,AddWL,ywxq,scxq,CK,uplodWl,scwl},
         props:['tableData','active'],
         name: "workbench-table",
         data(){
@@ -129,6 +131,7 @@
                 yw:false,
                 sc:false,
                 scMessage:[],
+                wlMessage:[],
                 num:'',
                 rolesList:[],
                 YWid:'',
@@ -138,6 +141,7 @@
                 ck:false,
                 CkID:'',
                 up:false,
+                scwl:false,
             }
         },
 
@@ -168,6 +172,15 @@
             HeidWl(){
                 this.wl = false;
             },
+            Getscwl(index){
+                if(index!=undefined){
+                    this.index=index;
+                }
+                this.scwl=true;
+            },
+            heidSCwl(){
+                this.scwl=false;
+            },
             AddMaterial(index){
                 this.ADD_material =true;
                 this.id = this.tableData[index].did;
@@ -194,7 +207,7 @@
                 this.set = true;
             },
             SCmessageData(a){
-                this.scMessage=a;
+                this.scMessage=[];
                 console.log(this.scMessage)
             },
             SCsc(){
@@ -275,6 +288,11 @@
                 this.scMessage[index] = data;
                 console.log(index);
                 console.log(this.scMessage[index])
+            },
+            DMessage(data,index){
+                this.wlMessage[index] = data;
+                console.log(index);
+                console.log(this.wlMessage[index])
             },
             release(id,type){
                 if(type=='demand_business'){

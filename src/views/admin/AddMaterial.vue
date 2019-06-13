@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div class="bg">
-            <div class="AddIMG">
+        <div class="bg" @click="heidSc">
+            <div class="AddIMG" @click.stop>
                 <div class="AddIMG_tit">
                     <span>{{title}}</span>
                 </div>

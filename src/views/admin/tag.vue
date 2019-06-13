@@ -72,14 +72,16 @@
                 })
             },
             ADDtags(){
+                this.self_tags.push(this.tagsName);
                 let formData = new FormData;
                 formData.append('name',this.tagsName);
                 formData.append('preset',0);
                 formData.append('material',this.material);
                 formData.append('type',this.typeSC);
                 this.api.tags_add(formData).then((res)=>{
-                    this.tagsName=''
+                    this.tagsName='';
                     this. getTagsList();
+                    console.log(this.preinstall);
                 })
             },
             getMatterDetails(){
