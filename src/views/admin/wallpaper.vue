@@ -31,7 +31,7 @@
 				</div>
 			</div>
 			<rel v-if="getRe" :num="num" :material="material" ></rel>
-			<con v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type" :lx="lx"></con>
+			<con v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type" :lx="lx" @updata="updata"></con>
 			<hin v-if='hint' ></hin>
 			<tag v-if="tags" :message="message" :typeSC='type' :material="material" @updata="updata"></tag>
 			<set v-if="sets" :typeSC='type'  @listenToChildEvent="listen" :material="material"></set>
@@ -163,6 +163,9 @@
             getRel(index){
                 this.getRe=true;
                 this.num =this.IMGList[index].mid;
+            },
+            updata(){
+                this.getTagsList()
             },
             heidRel(){
                 this.getRe=false;

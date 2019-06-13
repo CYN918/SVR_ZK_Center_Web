@@ -295,7 +295,6 @@
                 })
             },
             setMatter(){
-
                 if(!this.prev_uri){
                     this.$message('未上传预览图')
                 }
@@ -370,6 +369,7 @@
                     formData.append('is_bind_mid',this.is_bind_mid==true?1:0);
                     formData.append('is_bind_workid',this.is_bind_workid==true?0:1);
                     this.api.material_add(formData).then((res)=>{
+                        this.$emit('updata');
                         this.getTagsList();
                       if(res!=undefined){
                           this. heidSc();

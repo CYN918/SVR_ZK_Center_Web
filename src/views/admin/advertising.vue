@@ -31,7 +31,7 @@
 				</div>
 			</div>
 			<rel v-if="getRe" :num="num" :material="material" ></rel>
-			<con v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type" :lx="this.lx"></con>
+			<con v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type" :lx="this.lx" @updata="updata"></con>
 			<hin v-if='hint' ></hin>
 			<tag v-if="tags" :message="message" :typeSC='type' :material="material" @updata="updata"></tag>
 			<set v-if="sets" :typeSC='type'  @listenToChildEvent="listen" :material="material"></set>
@@ -247,6 +247,9 @@ export default {
                 this.total=res.total;
                 this.getTagsList()
             })
+        },
+        updata(){
+            this.getTagsList()
         },
 		getList(){
 		    let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,status:this.status}

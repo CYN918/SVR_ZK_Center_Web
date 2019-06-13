@@ -345,7 +345,7 @@
                     formData.append('size',this.sjSize);
                     formData.append('link',this.link)
                     this.api.mfinal_add(formData).then((res)=>{
-
+                        this.$emit('updata')
                     }).catch(this.$message(message))
                 }else{
                     this.setMatter();
