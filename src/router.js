@@ -300,17 +300,14 @@ let nb = [
 ];
 router.addRoutes(nb);
 /*动态生成左边菜单*/
-let leftNav = localStorage.getItem('letNav');
+let leftNav =localStorage.getItem('letNav');
 // 	[
 // 	{title:'素材中心',default:'/admin',defaultopen:['1'],
 // 	children:[
-// 		{title:'素材库',url:'1', img:'&#xe615;',children:[
-// 			{title:'广告图',url:'1-1',list:[
-//                   {title:'广告图',url:'/admin/advertising'},
-// 					]},
-// 			{title:'广告模板',url:'1-2',list:[
-//                   {title:'广告模板',url:'/admin/AD_templates'},
-//                     ]},
+// 		{title:'素材库',url:'1', img:'&#xe615;',list:[
+// 			{title:'广告图',url:'/admin/advertising'},
+// 				{title:'广告模板',url:'/admin/AD_templates'}],
+// 			children:[
 // 			{title:'场景锁屏',url:'1-3',list:[
 //                  {title:'动效',url:'/admin/dynamic'},
 //                  {title:'壁纸',url:'/admin/wallpaper'},
@@ -507,6 +504,11 @@ router.beforeEach((to, from, next) => {
 		urld ='http://ts-i.idatachain.cn/api/login';
 
 	}
+    if(window.location.host=='c2.zookingsoft.com'){
+        cent = 'center_dev2';
+        urld ='http://c2.zookingsoft.com ';
+
+    }
 	if(window.location.host=='localhost:8080'){
 		cent = 'center_local';
 		urld ='http://ts-i.idatachain.cn/api/login';

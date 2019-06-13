@@ -2,7 +2,7 @@
     <div class="bg" @click="YCset">
         <div class="content" @click.stop>
             <div class="tit_name">
-                <span>从物料库</span>
+                <span>从物料库添加</span>
             </div>
             <div class="Search">
                 <img src="../../../public/img/ss.png" />

@@ -4,8 +4,8 @@
             <span class="inner">|</span>
             <span class="top_txt">投放库/面包屑</span>
             <div class="fh">
-                <img src="../../../public/img/fh.png" style="width: 16px;margin-right: 10px"/>
-                <span @click="fh">新建投放库</span>
+                <img src="../../../public/img/fh.png" style="width: 16px;margin-right: 10px" @click="fh"/>
+                <span @click="fh">投放库详情</span>
             </div>
             <div class="top_con">
                 <input type="text" placeholder="输入物料ID快速查询" v-model="search" @input="getDATAlist()"/>

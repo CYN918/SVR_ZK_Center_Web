@@ -2,7 +2,7 @@
 	<div>
 		<div class="top_name">
 			<span class="inner">|</span>
-			<span class="top_txt">素材库>场景锁屏壁纸</span>
+			<span class="top_txt">素材库>场景锁屏>壁纸</span>
 		</div>
 		<div class="content">
 			<div class="Search">

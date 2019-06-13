@@ -18,7 +18,7 @@
 						<el-menu-item-group v-if="el.list">
 							<el-menu-item v-for="(elx,indexx) in el.list" :index="elx.url" :key="indexx"><span>{{elx.title}}</span></el-menu-item>
 						</el-menu-item-group>
-						<el-menu-item-group v-else-if="el.children">
+						<el-menu-item-group v-if="el.children">
 							<el-submenu v-for="(el2,index) in el.children" :index="el2.url" :key="index">
 								<template slot="title">
 									<span>{{el2.title}}</span>

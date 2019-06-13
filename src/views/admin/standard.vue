@@ -2,7 +2,7 @@
     <div >
         <div class="top_name">
             <span class="inner">|</span>
-            <span class="top_txt">设计规范库</span>
+            <span class="top_txt">配置管理>设计规范库</span>
         </div>
         <div class="content">
             <div class="ss">

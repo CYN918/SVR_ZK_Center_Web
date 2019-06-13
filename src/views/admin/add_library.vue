@@ -5,7 +5,7 @@
             <span class="top_txt">投放库/面包屑</span>
             <div class="fh">
                 <img src="../../../public/img/fh.png" @click="fh"/>
-                <span @click="fh">掌酷zookingSoft公司</span>
+                <span @click="fh">新建投放库</span>
             </div>
         </div>
         <div class="content">

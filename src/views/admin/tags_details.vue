@@ -2,9 +2,9 @@
     <div>
         <div class="top_name">
             <span class="inner">|</span>
-            <span class="top_txt">标签管理/广告图标签管理</span>
+            <span class="top_txt">配置管理>标签管理>素材库-广告图标签管理</span>
             <div class="fh">
-                <img src="../../../public/img/fh.png" style="width: 16px;margin-right: 10px"/>
+                <img src="../../../public/img/fh.png" style="width: 16px;margin-right: 10px" @click="fh"/>
                 <span @click="fh">素材库-广告图标签管理</span>
             </div>
         </div>
