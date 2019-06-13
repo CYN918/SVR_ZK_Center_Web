@@ -1,10 +1,10 @@
 <template>
     <div>
-        <div class="bg">
-            <div class="AddIMG">
+        <div class="bg" @click=" heid()">
+            <div class="AddIMG" @click.stop>
                 <div class="AddIMG_tit">
                     <span>查看素材需求</span>
-                    <img src="../../../public/img/gb.png" @click=" heid()"/>
+                    <img src="../../../public/img/gb.png"  @click=" heid()"/>
                 </div>
                 <div>
                     <div>
@@ -34,18 +34,24 @@
                     </div>
                     <div>
                         <span class="tit_txt">附件</span>
-                        <span></span>
+                        <span v-if="this.list.attach.name==''">无</span>
+                        <span v-if="this.list.attach.name!=''">{{this.list.attach.name}}</span>
 
                     </div>
                     <div>
                         <span class="tit_txt">风格</span>
-                        <span>查看</span>
-
+                        <span v-if="this.list.ref_url!=''" @click="getIMG" style="color:#3090F0;cursor: pointer ">查看</span>
+                        <span v-if="this.list.ref_url==''">不限</span>
                     </div>
                 </div>
                 <div class="btn">
                     <a>点击下载需求附件</a>
                 </div>
+            </div>
+        </div>
+        <div class="bg" style="text-align: center" @click=" heidImg()" v-if="img">
+            <div style="margin-top: 150px">
+                <img :src="this.list.ref_url" style="width: 70%" />
             </div>
         </div>
     </div>
@@ -57,7 +63,8 @@
         name: "work-bench_sc",
         data(){
             return{
-                list:{}
+                list:{},
+                img:false,
             }
         },
         mounted(){
@@ -67,6 +74,12 @@
 
             heid(){
                 this.$parent.heidSC();
+            },
+            getIMG(){
+                this.img = true
+            },
+            heidImg(){
+                this.img = false
             },
             getData(){
                 let params ={id:this.SCid};
@@ -80,6 +93,14 @@
 </script>
 
 <style scoped>
+    .img{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: 99;
+        bottom: 0;
+        right: 0;
+    }
     .bg{
         width: 100%;
         height: 100%;
@@ -187,6 +208,7 @@
         float: right;
         margin-right: 24px;
         width: 16px;
+        margin-top: 10px;
         cursor: pointer;
     }
 </style>

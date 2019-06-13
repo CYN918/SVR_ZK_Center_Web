@@ -32,7 +32,8 @@
            tj(){
                 if(this.id!=undefined){
                     if(!this.note){
-                        this.$message.error("必须填写驳回原因")
+                        this.$message.error("驳回原因不能为空");
+                        return
                     }
                     let formData = new FormData;
                     formData.append("note",this.note);
@@ -43,7 +44,8 @@
                     })
                 }else{
                     if(!this.note){
-                        this.$message.error("必须填写驳回原因")
+                        this.$message.error("驳回原因不能为空")
+                        return
                     }
                     let formData = new FormData;
                     formData.append("note",this.note);

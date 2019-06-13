@@ -11,9 +11,6 @@
                         <select style="margin-right: 24px" v-model="type" @change="getSJlist()">
                             <option v-for="(item,index) in types" :value="item.type">{{item.name}}</option>
                         </select>
-                        <select>
-                            <option>wanzheng</option>
-                        </select>
                     </div>
                     <div>
                         <span class="tit_txt">优先级</span>
