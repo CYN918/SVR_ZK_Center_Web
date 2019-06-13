@@ -123,6 +123,10 @@
                 this.bind_mfid = this.IMGList[index].mfid;
             },
             delWL(){
+                if(!this.bind_mfid){
+                    this.$message.error('请选择要删除的物料');
+                    return
+                }
                 let formData = new FormData;
                 formData.append('id',this.$route.query.id);
                 formData.append('bind_mfid',JSON.stringify([this.bind_mfid]));

@@ -7,6 +7,7 @@
                     <input type="text" placeholder="请输入投放库名称" v-model="search"/>
                     <span>投放库类型</span>
                     <select v-model="put_type">
+                        <option value="">全部</option>
                         <option v-for="item in TFlist" :value="item.type">{{item.name}}</option>
                     </select>
                     <span>广告位类型</span>
