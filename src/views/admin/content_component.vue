@@ -204,7 +204,12 @@
                 if(this.message.mid!=undefined){
                     return
                 }
-                this.$parent.XSset()
+                if(this.is_bind_mid==true){
+                    return
+                }else{
+                    this.$parent.XSset()
+                }
+
             },
             setTags(){
                 let formData = new FormData;
@@ -410,6 +415,13 @@
             },
             'hqUrl': function (newVal) {
                 this.scUrl=newVal;
+            },
+            'is_bind_mid':function(newVal){
+                if(newVal==true){
+                    this.bind_mid='';
+                    this.bindMid='';
+                    this.hqUrl=''
+                }
             },
         },
     }
