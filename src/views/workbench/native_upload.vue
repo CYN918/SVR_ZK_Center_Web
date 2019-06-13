@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div class="bg">
-            <div class="AddIMG">
+        <div class="bg" @click="heidSc">
+            <div class="AddIMG" @click.stop>
                 <div class="AddIMG_tit">
                     <span>添加素材</span>
                 </div>
@@ -136,7 +136,7 @@
     import sel from './select'
     export default {
         components:{sel},
-        props:['scMessage','material','types'],
+        props:['scMessage','material','types','index'],
         name: "content_component",
         data(){
             return {
@@ -168,7 +168,8 @@
                 tagsName:'',
                 sel:false,
                 is_bind_mid:'',
-                is_bind_workid:''
+                is_bind_workid:'',
+                list:[],
             }
         },
         mounted(){
@@ -261,9 +262,10 @@
                     formData.append('is_bind_mid',this.is_bind_mid==true?1:0);
                     formData.append('is_bind_workid',this.is_bind_workid==true?0:1);
                     this.api.material_add(formData).then((res)=>{
-                        let list  = [];
-                        list.push({type:res.type,mid:res.mid,prev_uri:res.prev_uri});
-                        this.$emit('dataList',list)
+                       this.list.push(res);
+                        this.$emit('dataList',this.list ,this.index);
+                        this.$parent.AddMaterial();
+                        this.$parent.heidBD();
                     }).catch();
 
             },

@@ -451,9 +451,9 @@ html,body{
   margin-right: 12px;
   margin-bottom: 8px;
 }
-.box_box:nth-child(3){
-  margin-right:0!important;
-}
+/*.box_box:nth-child(3){*/
+  /*margin-right:0!important;*/
+/*}*/
 .boxImg_xz{
   display: inline-block;
   width: 300px;

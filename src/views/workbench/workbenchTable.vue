@@ -1,7 +1,8 @@
 <template>
     <div>
         <ADD v-if="ADD_material" :scMessage="scMessage" :id="id" :num="num" :ind="index" @listData="SCmessageData"></ADD>
-        <BDadd v-if="BD" :scMessage="scMessage" @dataList="listen" :index="index"></BDadd>
+        <uplodWl v-if='up' :id="id" :num="num" :ind="index" :scMessage="scMessage"></uplodWl>
+        <BDadd v-if="BD" :scMessage="scMessage" @dataList="dataList" :index="index"></BDadd>
         <AddWL v-if="wl" @dataMessage="dataMessage" :index="index"></AddWL>
         <sct v-if="set" @listenToChildEvent="listenToChildEvent" :da="da" :index="index"></sct>
         <QD v-if="sh" :id="id"></QD>
@@ -9,6 +10,7 @@
         <ywxq v-if="yw" :YWid="YWid"></ywxq>
         <scxq v-if="sc" :SCid="SCid"></scxq>
         <CK v-if='ck' :id="CkID"></CK>
+
         <div class="problem">
             <template>
                 <el-table
@@ -51,7 +53,7 @@
                             <el-button v-if="tableData[props.$index].status_name=='素材审核'">查看活动</el-button>
                             <el-button v-if="tableData[props.$index].status_name=='素材入库'">查看素材</el-button>
                             <el-button  @click="AddMaterial(props.$index)" v-if="tableData[props.$index].status_name=='素材准备'">添加素材</el-button>
-                            <el-button   v-if="tableData[props.$index].status_name=='上传物料'">上传物料</el-button>
+                            <el-button   @click="AddWl(props.$index)" v-if="tableData[props.$index].status_name=='上传物料'">上传物料</el-button>
                             <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name=='测试验收'">测试通过</el-button>
                             <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name=='物料审核'||tableData[props.$index].status_name=='发布审核'">审核通过</el-button>
                             <el-button  v-if="tableData[props.$index].status_name=='完成入库'">查看投放结果</el-button>
@@ -107,9 +109,10 @@
     import BDadd from './native_upload'
     import sct from './selectMaterial'
     import ADD from './ADD_material'
+    import uplodWl from './uploadWL'
     import CK from './CKmaterial'
     export default {
-        components:{QD,BH,ADD,sct,BDadd,AddWL,ywxq,scxq,CK},
+        components:{QD,BH,ADD,sct,BDadd,AddWL,ywxq,scxq,CK,uplodWl},
         props:['tableData','active'],
         name: "workbench-table",
         data(){
@@ -134,6 +137,7 @@
                 da:[],
                 ck:false,
                 CkID:'',
+                up:false,
             }
         },
 
@@ -168,6 +172,15 @@
                 this.ADD_material =true;
                 this.id = this.tableData[index].did;
                 this.num = this.tableData[index].num;
+            },
+            AddWl(index){
+                this.up = true;
+                this.id = this.tableData[index].did;
+                this.num = this.tableData[index].num;
+                console.log(this.num);
+            },
+            heidAddWl(){
+                this.up = false;
             },
             heidAddMaterial(){
                 this.ADD_material = false;
@@ -254,8 +267,9 @@
                 this.index = index;
                 console.log(this.scMessage)
             },
-            listen(b){
+            dataList(b,index){
                this.scMessage[index] =b;
+                console.log(this.scMessage[index])
             },
             dataMessage(data,index){
                 this.scMessage[index] = data;

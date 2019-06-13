@@ -1,75 +1,64 @@
 <template>
-    <div class="bg">
-            <div class="centNavBox">
-                <div class="title">
-                    <span>添加素材</span>
+    <div class="bg" @click="heid">
+        <div class="centNavBox" @click.stop>
+            <div class="title">
+                <span>上传物料</span>
+            </div>
+            <div class="table_material">
+                <div class="content_title">
+                    <span style="width: 10%">数量</span>
+                    <span style="width: 15%">预览图</span>
+                    <span style="width: 20%">素材ID</span>
+                    <span style="width: 15%">素材类型</span>
+                    <span style="width: 10%">H5链接</span>
+                    <span style="width: 30%">操作</span>
                 </div>
-                <div class="table_material">
-                    <div class="content_title">
-                        <span style="width: 10%">数量</span>
-                        <span style="width: 15%">预览图</span>
-                        <span style="width: 20%">物料ID</span>
-                        <span style="width: 15%">物料类型</span>
-                        <span style="width: 30%">操作</span>
+                <div class="table_content" v-for="(item,index) in list">
+                    <div class="table_content_left">
+                        <span>{{index+1}}</span>
                     </div>
-                    <div class="table_content" v-for="(item,index) in list">
-                        <div class="table_content_left">
-                            <span>{{index+1}}</span>
-                            <span>
-                                <template>
-                                     <el-checkbox-group v-model="checked">
-                                        <el-checkbox  :label="index">需要</el-checkbox>
-                                    </el-checkbox-group>
-                                </template>
-
-                            </span>
+                    <div  class="table_content_rig">
+                        <div class="table_content_right" v-if="index<scMessage.length" v-for = '(item,index2) in scMessage[index]'>
+                            <div class="imgs">
+                                <img :src="item.prev_uri">
+                            </div>
+                            <span class="id" v-if="item.mfid!=undefined">{{item.mfid}}</span>
+                            <span class="type">{{item.type_name}}</span>
+                            <div class="click">
+                                <span @click="getBD(index)">从本地上传</span>
+                                <span @click="getWl(index)">从物料库选择</span>
+                            </div>
                         </div>
-                        <div  class="table_content_rig">
-                                   <div class="table_content_right" v-if="index<scMessage.length" v-for = '(item,index2) in scMessage[index]'>
-                                       <div class="imgs">
-                                           <img :src="item.prev_uri">
-                                       </div>
-
-                                       <span class="id" v-if="item.mid!=undefined">{{item.mid}}</span>
-                                       <span class="id" v-if="item.mfid!=undefined">{{item.mfid}}</span>
-                                       <span class="type">{{item.type_name}}</span>
-                                       <div class="click">
-                                           <span  v-if="checked.indexOf(index)!=-1" @click="handleClick(index)">从素材库选择</span>
-                                           <span  v-if="checked.indexOf(index)!=-1" @click="getBD(index)">从本地上传</span>
-                                           <span  v-if="checked.indexOf(index)==-1" @click="getWl(index)">从物料库选择</span>
-                                       </div>
-                                   </div>
-                            <div class="table_content_right">
-                                <div class="imgs">
-                                    <img src="">
-                                </div>
-                                <span class="id"></span>
-                                <span class="type"></span>
-                                <div class="click">
-                                    <span @click="handleClick(index)" v-if="checked.indexOf(index)!=-1">从素材库选择</span>
-                                    <span @click="getBD(index)" v-if="checked.indexOf(index)!=-1">从本地上传</span>
-                                    <span @click="getWl(index)" v-if="checked.indexOf(index)==-1">从物料库选择</span>
-                                </div>
+                        <div class="table_content_right">
+                            <div class="imgs">
+                                <img src="">
+                            </div>
+                            <span class="id"></span>
+                            <span class="type"></span>
+                            <div class="click">
+                                <span @click="getBD(index)" >从本地上传</span>
+                                <span @click="getWl(index)" >从物料库选择</span>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                </div>
-                <div class="zz">
-                    <div>
-                        <template>
-                             <el-checkbox v-model="zzyq">制作要求</el-checkbox>
-                        </template>
-                    </div>
-                </div>
-                <div class="require_txt">
-                    <textarea v-model="note"></textarea>
-                </div>
-                <div class="Add_btn">
-                    <span class="Add_btn_ADD" @click="ADD">添加</span>
-                    <span @click="heid">取消</span>
+            </div>
+            <div class="zz">
+                <div>
+                    <template>
+                        <el-checkbox v-model="zzyq">制作要求</el-checkbox>
+                    </template>
                 </div>
             </div>
+            <div class="require_txt">
+                <textarea v-model="note"></textarea>
+            </div>
+            <div class="Add_btn">
+                <span class="Add_btn_ADD" @click="ADD">添加</span>
+                <span @click="heid">取消</span>
+            </div>
+        </div>
 
     </div>
 </template>
@@ -113,20 +102,16 @@
                 return 'border-radius:4px;border:1px solid rgba(230,233,240,1);margin-bottom:10px'
             },
             heid(){
-                this.$parent.heidAddMaterial();
+                this.$parent.heidAddWl();
                 this.$emit("listData",[])
             },
-            handleClick(index){
-                this.$parent.getSet(index,this.scMessage);
-                this.$parent.heidAddMaterial();
-            },
+
             getBD(index){
-                this.$parent.getBD(index)
-                this.$parent.heidAddMaterial();
+                this.$parent.getBD(index);
             },
             getWl(index){
                 this.$parent.getWl(index);
-                this.$parent.heidAddMaterial();
+                this.$parent.heidAddWl;
             },
             ADD(){
                 console.log(this.scMessage)
@@ -139,9 +124,9 @@
                                 num:0,
                                 mid:''
                             }
-                          material.num = i;
-                          material.mid= this.scMessage[i][j].mid;
-                          this.material.push(material);
+                            material.num = i;
+                            material.mid= this.scMessage[i][j].mid;
+                            this.material.push(material);
                         }
                         console.log(this.scMessage[i][j].mid)
                     }
@@ -157,7 +142,7 @@
             },
         },
         watch:{
-           "scMessage":function (oldval) {
+            "scMessage":function (oldval) {
                 console.log(oldval)
             }
         }
@@ -208,9 +193,9 @@
         margin: 26px 24px 16px 24px;
 
     }
-.require_txt{
-    margin: 0 24px;
-}
+    .require_txt{
+        margin: 0 24px;
+    }
     .require_txt textarea{
         padding: 10px;
         width:1038px;

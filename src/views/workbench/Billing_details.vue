@@ -75,15 +75,15 @@
                         >
                         </el-table-column>
                         <el-table-column
-                                label="纳税金额" prop="cash_money"
+                                label="纳税金额" prop="tax_money"
                         >
                         </el-table-column>
                         <el-table-column
-                                label="税后金额" prop="cash_money"
+                                label="税后金额" prop="after_tax_money"
                         >
                         </el-table-column>
                         <el-table-column
-                                label="账户名" prop="cash_money"
+                                label="账户名" prop="account_name"
                         >
                         </el-table-column>
                         <el-table-column
