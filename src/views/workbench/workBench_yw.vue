@@ -176,7 +176,7 @@
                     if(!this.model){
                         this.$message.error('实现方式不能为空')
                     }
-                    if(!this.type!='f_sls_lockscreen'&&!this.libraryName){
+                    if(this.type!='f_sls_lockscreen'&&!this.libraryName){
                         this.$message.error('投放库不能为空')
                     }
                     let formData=new FormData;

@@ -95,16 +95,16 @@
             this.getList();
         },
         methods:{
-            // getID(index){
-            //     this.scMessage =  this.IMGList[index].mid;
-            // },
+
             YCset(){this.$parent.SCsc()},
             messageID(){
                 for(let i=0;i<this.checked.length;i++){
                     for(let k = 0;k<this.listData.length;k++){
                         if(this.listData[k].mid==this.checked[i]){
                             if(this.scMessagelist.indexOf(this.listData[k])==-1){
-                                this.scMessagelist.push(this.listData[k]);
+                                var data = this.listData[k];
+                                data.ismaterial = 1;
+                                this.scMessagelist.push(data);
                             }
 
                         }

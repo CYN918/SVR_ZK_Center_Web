@@ -31,7 +31,8 @@
                                            <img :src="item.prev_uri">
                                        </div>
 
-                                       <span class="id">{{item.mid}}</span>
+                                       <span class="id" v-if="item.mid!=undefined">{{item.mid}}</span>
+                                       <span class="id" v-if="item.mfid!=undefined">{{item.mfid}}</span>
                                        <span class="type">{{item.type_name}}</span>
                                        <div class="click">
                                            <span  v-if="checked.indexOf(index)!=-1" @click="handleClick(index)">从素材库选择</span>
@@ -82,7 +83,7 @@
             return{
                 zzyq:false,
                 checked:[],
-                material:[{num:2,mid:"SDE_000009"}],
+                material:[],
                 list:[],
                 mfid:[],
                 checkList:[],
@@ -96,11 +97,7 @@
             for(var i=0;i<this.num;i++){
                 a.push(i);
             }
-            for (let j=0;j<this.scMessage.length;j++){
-                if(this.scMessage[j]!=''){
-                   this.checked.push(j)
-                }
-            }
+            this.checked.push(this.ind)
         },
         methods:{
             getRowClass({row, column, rowIndex, columnIndex}) {
@@ -127,20 +124,32 @@
             getBD(index){
                 this.$parent.getBD(index);
             },
-            getWl(){
-                this.$parent.getWl();
+            getWl(index){
+                this.$parent.getWl(index);
+                this.$parent.heidAddMaterial();
             },
             ADD(){
+                console.log(this.scMessage)
                 for(let i=0;i<this.scMessage.length;i++){
                     for(let j=0;j<this.scMessage[i].length;j++){
-                       this.mfid.push(this.scMessage[i][j].mid);
+                        if(this.scMessage[i][j].ismaterial == 0){
+                            this.mfid.push(this.scMessage[i][j].mfid);
+                        }else{
+                            var material = {
+                                num:0,
+                                mid:''
+                            }
+                          material.num = i;
+                          material.mid= this.scMessage[i][j].mid;
+                          this.material.push(material);
+                        }
                         console.log(this.scMessage[i][j].mid)
                     }
                 }
                 let formData = new FormData;
                 formData.append("id",this.id);
                 formData.append('material',JSON.stringify(this.material));
-                formData.append("mfid",JSON.stringify([]));
+                formData.append("mfid",JSON.stringify(this.mfid));
                 formData.append("note",this.note);
                 this.api.demand_audit(formData).then((res)=>{
 

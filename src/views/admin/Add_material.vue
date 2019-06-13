@@ -1,6 +1,6 @@
 <template>
-    <div class="bg">
-        <div class="content">
+    <div class="bg" @click="YCset">
+        <div class="content" @clcik.stop>
             <div class="tit_name">
                 <span>从物料库</span>
             </div>

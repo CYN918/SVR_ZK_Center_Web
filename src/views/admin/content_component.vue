@@ -63,7 +63,7 @@
                         <div class="AddIMG_select">
                             <span class="tit">素材类型:</span>
                             <select v-model="type"  :disabled="(this.message.mid!=undefined)">
-                                <option :value="item.type" v-for="item in scType">{{item.name}}</option>
+                                <option :value="types" >{{types}}</option>
                             </select>
                         </div>
                         <div class="AddIMG_switch" v-if="sw">
@@ -181,6 +181,18 @@
         },
         mounted(){
             this.getTagsList();
+            if(this.types =='ad_picture'){
+                this.types='广告图'
+            }
+            if(this.types =='ad_template'){
+                this.types='广告图模板'
+            }
+            if(this.types =='sls_dynamic'){
+                this.types='场景锁屏动态'
+            }
+            if(this.types =='sls_picture'){
+                this.types='场景锁屏壁纸'
+            }
             if(this.message.mid!=undefined){
                 this.getMatterDetails();
                 this.title='编辑素材'

@@ -1,137 +1,65 @@
 <template>
-    <div>
-        <div class="bg">
-            <div class="AddIMG">
-                <div class="AddIMG_tit">
-                    <span>上传物料</span>
+    <div class="bg" click="HeidWl()">
+        <div class="content" @click.stop>
+            <div class="tit_name">
+                <span>从物料库</span>
+            </div>
+            <div class="Search">
+                <img src="../../../public/img/ss.png" />
+                <input type="text" placeholder="搜索标签或ID" v-model="search" @input="getList()"/>
+                <div class="Search_select">
+                    <span class="Search_select_tit">素材类型：</span>
+                    <select v-model="type" @change="getList()">
+                        <option v-for="item in scType" :value="item.type">{{item.name}}</option>
+                    </select>
                 </div>
-                <div class="AddIMG_content">
-                    <div class="AddIMG_content_left">
-                        <div>
-                            <span>素材预览图</span>
+            </div>
+            <div class="contentImg">
+                <div class="label">
+                    <span class="label_txt">预置标签:</span>
+                    <span v-for="(item,index) in preset_tags" class="labelName" @click="getListTag(item.name,index)" :class="{active:inx==index}">{{item.name}}</span>
+                </div>
+                <div>
+                    <span class="label_txt">个性标签:</span>
+                    <span v-for="(item,index) in self_tags" class="labelName" @click="getListTag2(item.name,index)" :class="{active:inde==index}">{{item.name}}</span>
+                </div>
+                <div class="box">
+                    <div class="boxImg" v-for="(DL,index) in IMGList">
+                        <div class="boxCheck">
+                            <el-radio v-model="checked" :label="DL.mfid"></el-radio>
                         </div>
-                        <div class="AddIMG_box">
-                            <img :src="item"  v-for="item in ylurl"/>
-                        </div>
-                        <div class="AddIMG_box_txt">
-                            <span v-for="item in bind_mid">{{item}}</span>
-                        </div>
-                        <div>
-                            <span>上传预览图</span>
-                        </div>
-                        <div class="AddIMG_box">
-                            <img :src="chenck==false?prev_uri:attach.url"/>
-                        </div>
-                    </div>
-                    <div class="AddIMG_content_right">
-                        <div class="AddIMG_input">
-                            <span class="tit">附件:</span>
-                            <div class="AddIMG_input_box">
-                                <el-upload
-                                        class="upload-demo"
-                                        :limit="1"
-                                        :on-exceed="handleExceed"
-                                        :on-remove="handleRemove"
-                                        :http-request="uploadF"
-                                        action="111"
-                                >
-                                    <el-button size="small" type="primary">上传</el-button>
-                                </el-upload>
-
-                            </div>
-                            <img src="../../../public/img/msg.png" />
-                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="chenck"/><span>仅图片</span>
-                            <div class="upChenck">
-                                <p>勾选后可直接上传图片、且无需再次上传预览图</p>
-                            </div>
-                        </div>
-                        <div class="AddIMG_sc">
-                            <span class="tit">绑定素材:</span>
-                            <input type="text" placeholder="请输入素材ID" v-model="bind_mid" />
-                            <span class="AddIMG_sc_btn" @click="XSset" >从素材库选择</span>
-                            <input type="checkbox" class="AddIMG_sc_cjeckbox"/><span>与素材库内已有素材无关</span>
-                            <p>若由素材库内文件处理后上传，必须填写对应的素材ID,最多九个</p>
-                        </div>
-                        <div class="AddIMG_select">
-                            <span class="tit">素材类型:</span>
-                            <select v-model="type" >
-                                <option :value="item.type" v-for="item in scType">{{item.name}}</option>
-                            </select>
-                        </div>
-                        <div class="AddIMG_switch" v-if="sw">
-                            <span  class="tit">是否启用:</span>
-                            <el-switch
-                                    v-model="value2"
-                                    active-color="#409EFF"
-                                    inactive-color="#ff4949">
-                            </el-switch>
-                        </div>
-                        <div class="AddIMG_yl">
-                            <span class="tit">尺寸:</span>
-                            <span class="AddIMG_yl_size" v-model="sjSize">{{chenck==false?sjSize:attach.size}}</span>
-                            <!--<div class="AddIMG_yl_upload"><span>上传预览图</span></div>-->
-                            <!--<input type="file"/>-->
-                            <div class="AddIMG_yl_upload">
-                                <el-upload
-                                        :limit="1"
-                                        :on-exceed="handleExceed"
-                                        :http-request="uploadFile"
-                                        :on-remove="Remove"
-                                        class="upload-demo"
-                                        action="111"
-                                        :file-list="fileList">
-                                    <el-button size="small" type="primary">上传预览图</el-button>
-                                </el-upload>
-                            </div>
-                        </div>
-                        <div class="AddIMG_bq">
-                            <span class="tit">选择标签:</span>
-                            <div class="AddIMG_bq_box">
-                                <div class="AddIMG_bq_box_top">
-                                    <div class="AddIMG_bq_box_top_tit">预置标签:</div>
-                                    <div class="AddIMG_bq_box_top_bq">
-                                        <!--<span class="bq" v-for="(item,index) in preset_tags">{{item.name}}</span>-->
-                                        <template>
-                                            <el-checkbox-group
-                                                    v-model="preinstall">
-                                                <el-checkbox v-for="(item,index) in preset_tags" :label="item.name" >{{item.name}}</el-checkbox>
-                                            </el-checkbox-group>
-                                        </template>
-                                    </div>
+                        <img :src="DL.prev_uri"/>
+                        <div class="boxImg_right">
+                            <div class="boxImg_right_1">
+                                <div>
+                                    <span class="boxImg_text">素材ID:</span>
+                                    <span class="boxImg_content">{{DL.mfid}}</span>
                                 </div>
-                                <div class="AddIMG_bq_box_bottom">
-                                    <div class="AddIMG_bq_box_top_tit">个性标签:
-                                        <input type="text" placeholder="创建或搜索个性标签" v-model="tagsName" @input="getTagsList()"/>
-                                    </div>
-                                    <div class="AddIMG_bq_box_top_bq AddIMG_bq_box_top_zdy">
-                                        <span class="CJ" v-if="tagsName!=''" @click="ADDtags()">创建“{{tagsName}}”标签</span>
-                                        <template>
-                                            <el-checkbox-group
-                                                    v-model="bardian">
-                                                <el-checkbox v-for="(item,index) in self_tags" :label="item.name">{{item.name}}</el-checkbox>
-                                            </el-checkbox-group>
-                                        </template>
-                                    </div>
+                                <div>
+                                    <span class="boxImg_text">尺寸:</span>
+                                    <span class="boxImg_content">{{DL.size}}</span>
+                                </div>
+                                <div>
+                                    <span class="boxImg_text">素材状态:</span>
+                                    <span class="boxImg_content">{{DL.status==1201?'禁用':'启用'}}</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="box_sel">
-                            <span class="tit">实现方式:</span>
-                            <select v-model="model">
-                                <option value="无">无</option>
-                                <option value="H5">H5</option>
-                                <option value="脚本">脚本</option>
-                            </select>
-                        </div>
-                        <div v-if="model=='H5'" class="link">
-                            <span class="tit">H5链接:</span>
-                            <input type="text" v-model="link">
-                        </div>
-                        <div class="bg_btn">
-                            <span class="bg_btn_up" @click="AddMatter">上传</span>
-                            <span @click="heidSc">取消</span>
-                        </div>
                     </div>
+                </div>
+                <div class="block">
+                    <el-pagination
+                            @size-change="handleSizeChange1"
+                            @current-change="handleCurrentChange1"
+                            :current-page.sync="currentPage"
+                            :page-size="pageSize"
+                            layout="prev, pager, next,total, jumper"
+                            :total="total">
+                    </el-pagination>
+                </div>
+                <div class="select_btn">
+                    <span class="select_btn_left" @click="messageID">确定</span>
+                    <span @click="YCset">取消</span>
                 </div>
             </div>
         </div>
@@ -140,166 +68,107 @@
 
 <script>
     export default {
-        props:['message','material','types','scMessage'],
-        name: "content_component",
+        name: "select_material",
+        props:['material','typeSC','index'],
         data(){
             return {
-                title:'添加素材',
-                preinstall:[],
-                bardian:[],
-                value2:true,
-                fileList:[],
-                prev_uri:'',
-                attach:{
-                    name:'',
-                    url:'',
-                    size:'',
-                    ext:'',
-                    md5:''
-                },
-                bind_mid:'',
-                bind_workid:'',
-                self_tags:[],
-                tags:[],
-                sjSize:'',
-                preset:[0,1],
+                checked:'',
+                radioSize:'',
+                pageSize: 6,
+                currentPage:1,
+                total: 0,
+                p: 1,
                 preset_tags:[],
-                type:'',
-                sw:false,
-                size:'',
+                self_tags:[],
+                IMGList:[],
+                search:'',
+                scMid:[],
                 scUrl:'',
                 scType:'',
-                tagsName:'',
-                chenck:false,
-                model:'',
-                link:'',
-                ylurl:[],
+                type:'',
+                mid_list:[],
+                url_list:[],
+                inx:null,
+                inde:null,
+                listData:[],
+                list:[],
             }
         },
-        mounted(){
-            this.getTagsList();
-            // this.bind_mid=this.scMessage
+        mounted() {
+            this.getList();
+
         },
         methods:{
-            heidSc(){
+            YCset(){this.$parent.HeidWl();},
+            messageID(){
+                    for(let k = 0;k<this.listData.length;k++){
+                        if(this.listData[k].mfid==this.checked) {
+                            var data = this.listData[k];
+                            data.ismaterial = 0;
+                            this.list.push(data);
+                        }
+                    }
+
+                this.$emit('dataMessage',this.list,this.index,1);
                 this.$parent.HeidWl();
+                this.$parent.AddMaterial()
             },
-            XSset(){
-                this.$parent.getSet()
-            },
-            uploadF(file){
-                let formData = new FormData;
-                formData.append('file',file.file);
-                this.api.file_upload(formData).then((res)=>{
-                    this.attach.name = res.name;
-                    this.attach.size = res.size;
-                    this.attach.ext = res.ext;
-                    this.attach.md5 = res.md5;
-                    this.attach.url = res.url;
+            getList(){
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search};
+                this.api.mfinal_search({params}).then((res)=>{
+                    this.IMGList=res.data;
+                    this.total=res.total;
+                    this.getTagsList();
+                    this.getType();
+                    this.listData=this.listData.concat(res.data);
+                    console.log(this.listData);
                 })
             },
             getType(){
-                let params={material:this.material}
+                let params={material:0};
                 this.api.config_material_type({params}).then((res)=>{
                     this.scType=res;
                 })
             },
-            handleExceed(files, fileList) {
-                this.$message.warning(`当前限制选择1个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-            },
-            handleRemove(file, fileList) {
-                this.file = '';
-            },
-            Remove(file, fileList) {
-                this.file = '';
-            },
-            uploadFile(file){
-                let formData = new FormData;
-                formData.append('file',file.file);
-                this.api.file_upload(formData).then((res)=>{
-                    this.prev_uri = res.url
-                    this.sjSize = res.size;
-                })
-            },
             getTagsList(){
-                let params = {preset:this.preset,material:this.material,type:this.types,search:this.tagsName,p:50,page:1};
+                let params = {preset:this.preset,material:0,type:this.type,search:this.search};
                 this.api.tags_search({params}).then((da)=>{
-                    console.log(da);
                     this.preset_tags = da.data.tags;
-                    this.self_tags = da.data.self_tags;
-                    this. getType();
+                    this.self_tags = da.data.self_tags
                 })
             },
-            ADDtags(){
-                let formData = new FormData;
-                formData.append('name',this.tagsName);
-                formData.append('preset',0);
-                formData.append('material',this.material);
-                formData.append('type',this.types);
-                this.api.tags_add(formData).then((res)=>{
-                    this.tagsName=''
-                    this. getTagsList();
+            handleSizeChange1() { // 每页条数切换
+                this.pageSize = pageSize;
+                console.log(this.pagesize);
+                this.getList()
+            },
+            handleCurrentChange1(currentPage) {//页码切换
+                this.currentPage = currentPage;
+                this.getList()
+            },
+            getListTag(name,index){
+                this.inx=index;
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:name}
+                this.api.mfinal_search({params}).then((res)=>{
+                    this.IMGList=res.data;
+                    this.total=res.total;
+                    this.getTagsList()
                 })
             },
-
-            AddMatter(){
-
-                    let formData = new FormData;
-                    formData.append('type',this.type);
-                    formData.append('ispic',(this.chenck==true?1:0));
-                    formData.append('prev_uri',this.prev_uri);
-                    formData.append('attach',JSON.stringify(this.attach));
-                    formData.append('tags',this.preinstall);
-                    formData.append('self_tags',this.bardian);
-                    formData.append('bind_mid',this.bind_mid);
-                    formData.append('model',this.model);
-                    formData.append('size',this.sjSize);
-                    formData.append('link',this.link);
-                    this.api.mfinal_add(formData).then((res)=>{
-                    }).catch(this.$message(message))
-
-            },
-            getMatterDetails(){
-                let params ={mfid:this.message.mfid};
-                this.api.mfinal_detail({params}).then((res)=>{
-                    this.sw=true;
-                    this.prev_uri=res.prev_uri;
-                    this.preinstall=res.tags;
-                    this.bardian=res.self_tags;
-                    this.sjSize=res.size;
-                    this.type=res.type;
-                    this.link = res.link;
-                    this.model = res.model
-                    if(res.status==1201){
-                        this.value2=false;
-                    }else{
-                        this.value2=true;
-                    }
-                    console.log(this.preinstall)
+            getListTag2(name,index){
+                this.inde=index;
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:name}
+                this.api.mfinal_search({params}).then((res)=>{
+                    this.IMGList=res.data;
+                    this.total=res.total;
+                    this.getTagsList()
                 })
             },
-        },
-        watch:{
-            'scMessage': function (newVal) {
-                var list = this.bind_mid;
-                var urlList = this.ylurl;
-                for(let i=0;i<newVal.length;i++){
-                    for(let j=0;j<newVal[i].length;i++){
-                        list.push(newVal[i][j].mid);
-                        urlList.push(newVal[i][j].prev_uri);
-                    }
-                }
-                this.bind_mid = list.join(';');
-                console.log(this.scMessage)
-            }
         },
     }
 </script>
 
 <style scoped>
-    input{
-        margin-left: 0;
-    }
     .bg{
         width: 100%;
         height: 100%;
@@ -309,267 +178,234 @@
         bottom: 0;
         right: 0;
     }
-    .AddIMG{
+    .content{
         position: absolute;
-        left: 50%;
-        top:15px;
-        transform: translateX(-50%);
-        width:1115px;
-        height:884px;
+        width:1416px;
+        height:912px;
         background:rgba(255,255,255,1);
         border-radius:4px;
+        top:-125px;
+        left: 50%;
+        transform: translateX(-50%);
+        overflow-y: auto;
     }
-    .AddIMG_tit{
-        text-align: left;
+    .tit_name{
         height: 55px;
-        border-bottom: 1px solid #E6E9F0;
-
-        margin-bottom: 24px;
+        border: 1px solid #E6E9F0;
     }
-    .AddIMG_tit span{
+    .tit_name span{
         display: inline-block;
-        margin-left: 24px;
-        color:rgba(54,54,54,1);
-        font-size:18px;
-        font-family:PingFangSC-Regular;
-        font-weight:400;
-        color:rgba(61,73,102,1);
         line-height: 55px;
-    }
-    .AddIMG_content_right{
-        display: inline-block;
-        width: 750px;
-        margin-top: 25px;
-    }
-    .AddIMG_content_left{
         margin-left: 24px;
-        display: inline-block;
-        margin-right: 20px;
-        vertical-align: top;
-    }
-    .AddIMG_content_left span,.AddIMG_content_right span{
-        display: inline-block;
-        margin-bottom: 10px;
-        font-size:14px;
+        font-size:12px;
         font-family:PingFangSC-Regular;
         font-weight:400;
-        color:rgba(61,73,102,1);
+        color:rgba(0,0,0,1);
     }
-
-    .AddIMG_content_left img{
-        width: 100%;
-        height: 100%;
-        border:0px!important;
-    }
-    .AddIMG_content_right span{
-        margin-bottom: 0px;
-    }
-    .AddIMG_box{
-        width:216px;
-        padding: 0 8px;
-        height:326px;
-        background:rgba(247,249,252,1);
-        border-radius:4px;
-    }
-    .AddIMG_box img{
-        width:68px;
-        height:90px;
-        background:rgba(227,231,235,1);
-        border-radius:4px;
-        margin: 14px 11px 17px 0;
-    }
-    .AddIMG_box img:nth-child(3n){
-        margin: 14px 0 17px 0!important;
-    }
-    .AddIMG_box_txt{
-        margin-left: 45px;
-        width:141px;
-        text-align: center;
-        margin-top: 19px;
-    }
-    .AddIMG_box_txt span{
+    .Search_select{
         display: inline-block;
-        font-size:16px;
-        font-family:PingFang-SC-Regular;
-        font-weight:400;
-        color:rgba(54,54,54,1);
-        background:rgba(0,153,255,.1);
+        margin-right: 30px;
     }
-    .AddIMG_input,.AddIMG_sc,.AddIMG_bq,.AddIMG_select,.AddIMG_yl,.box_sel{
-        margin-bottom: 20px;
-    }
-    .AddIMG_switch{
+    .Search_select_tit{
         display: inline-block;
+        font-size:14px;
+        font-family:PingFang-SC-Medium;
+        font-weight:500;
+        color:rgba(31,46,77,1);
+        margin-right: 16px;
     }
-    .AddIMG_sc input{
-        width:254px;
+    .Search_select>select{
+        width:200px;
         height:36px;
         background:rgba(255,255,255,1);
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);
     }
-    .AddIMG_input input{
-        margin: 3px 10px 0 20px;
+    .top_name>span{
+        display: inline-block;
+        line-height: 50px;
     }
-    .AddIMG_input img{
-        margin-left: 16px;
-        vertical-align: middle;
+    .Search{
+        margin-left: 0!important;
+        margin-bottom: 34px;
+    }
+    .Search img{
+        width: 28px;
+        position: relative;
+        left: 40px;
+        top: 10px;
         cursor: pointer;
     }
-    .AddIMG_input_box{
-        display: inline-block;
-        width:106px;
+    .Search input{
+        width:404px;
         height:36px;
         background:rgba(255,255,255,1);
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);
-        font-size:14px;
-        font-family:PingFangSC-Regular;
-        font-weight:400;
-        color:rgba(61,73,102,1)!important;
+        margin-left: 0;
+        margin-top: 29px;
     }
-    .tit{
+    .label{
+        margin-left: 0!important;
+    }
+    .block{margin-bottom: 30px}
+    .labelName{
         display: inline-block;
-        width:117px;
-        margin-right: 16px;
-        vertical-align: middle;
-        text-align: right;
-    }
-    .AddIMG_sc_cjeckbox{
-        width: 14px!important;
-        height: 14px!important;
-        margin-right: 11px;
-    }
-    .AddIMG_sc_btn{
-        display: inline-block;
-        margin-left: 20px;
-        margin-right: 21px;
-        width:124px;
-        height:36px;
-        background:rgba(242,246,252,1);
-        border-radius:4px;
-        border:1px solid rgba(51,119,255,1);
+        width:78px;
+        height:38px;
+        border-radius:5px;
         font-size:14px;
-        font-family:PingFangSC-Regular;
-        font-weight:400;
-        color:rgba(51,119,255,1)!important;
+        font-family:PingFang-SC-Medium;
+        font-weight:500;
+        color:rgba(31,46,77,1);
+        margin-right: 18px;
         text-align: center;
         line-height: 38px;
+        cursor: pointer;
     }
-    .AddIMG_sc_btn_jy{
-        background:rgba(153,153,153,1)!important;
-        color:rgba(255,255,255,1)!important;
+    .label_txt{
+        font-size:14px;
+        font-family:PingFang-SC-Medium;
+        font-weight:500;
+        color:rgba(143,155,179,1);
+        margin-right: 16px;
     }
-    .AddIMG_sc p,.AddIMG_zp p ,.AddIMG_yl p,.AddIMG_input p,.upChenck p{
-        margin:10px 0 0 133px;
-        padding: 0;
-        font-size:12px;
+    .contentImg{
+        margin: 0 26px;
+    }
+    .active{
+        background:rgba(255,255,255,1);
+        border:1px solid rgba(19,159,248,1);
+    }
+
+    .box_select input{
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        margin-right: 18px;
+        margin-left: 0!important;
+    }
+    .boxImg{
+        display: inline-block;
+        width:408px;
+        height:141px;
+        background:rgba(245,247,250,1);
+        border-radius:4px;
+        border:1px solid rgba(51,119,255,1);
+        padding: 18px 0 18px 30px;
+        box-shadow:0px 0px 10px 0px rgba(153,153,153,0.14);
+        margin: 0 13px 20px 0!important;
+    }
+    .boxImg:nth-child(2n){
+        margin: 0 13px 20px 0!important;
+    }
+    .boxImg:nth-child(3n){
+        margin: 0 0 20px 0!important;
+    }
+    .boxImg img{
+        width:99px;
+        height:149px;
+        margin-right: 24px;
+    }
+    .boxImg_right_1{
+        margin-top: 23px;
+    }
+    .boxImg_right{
+        display: inline-block;
+        vertical-align: top;
+    }
+    .boxImg_right_1 img{
+        width: 28px;
+        height: 28px;
+        margin-left: 15px;
+        margin-right: 0;
+    }
+    .boxImg_right_1,.boxImg_right_2{
+        display: inline-block;
+        vertical-align: top;
+    }
+    .boxImg_text{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFang-SC-Medium;
+        font-weight:500;
+        color:rgba(143,155,179,1);
+        margin-bottom: 15px;
+        text-align: left;
+    }
+    .boxImg_content{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFang-SC-Medium;
+        font-weight:500;
+        color:rgba(31,46,77,1);
+        margin-bottom: 15px;
+    }
+    .boxImg_right_1 .boxImg_text{
+        width: 70px;
+        margin-right: 11px;
+    }
+    .boxImg_right_2 .boxImg_text{
+        width: 100px;
+        margin-right: 12px;
+    }
+    .ck{
+        color:rgba(19,159,248,1);
+        cursor: pointer;
+    }
+    .box_box{
+        display:inline-block;
+        background:rgba(255,255,255,1);
+        border:1px solid rgba(230,230,230,1);
+        border-radius:14px;
+        font-size:14px;
         font-family:PingFang-SC-Regular;
         font-weight:400;
         color:rgba(153,153,153,1);
+        padding: 5px 10px;
+        margin-right: 12px;
+        margin-bottom: 8px;
     }
-    .AddIMG_zp_text{
-        width:254px;
-        height:36px;
-        background:rgba(255,255,255,1);
-        border-radius:4px;
-        border:1px solid rgba(211,219,235,1);
-        margin-right: 21px;
+    .box_box:nth-child(2n){
+        margin-right: 0;
     }
-    .link input{
-        width:185px;
-        height:36px;
-        background:rgba(255,255,255,1);
-        border-radius:4px;
-        border:1px solid rgba(211,219,235,1);
-    }
-    .AddIMG_select{
+    .boxImg_xz{
         display: inline-block;
+        width: 170px;
+        max-height: 80px;
+        overflow: hidden;
     }
-    .AddIMG_select select,.box_sel select{
-        width:200px;
-        height:36px;
-        background:rgba(255,255,255,1);
-        border-radius:4px;
-        border:1px solid rgba(211,219,235,1);
-        font-size:14px;
-        font-family:PingFangSC-Regular;
-        font-weight:400;
-        color:rgba(61,73,102,1);
-    }
-    .AddIMG_yl_size{
-        display: inline-block;
-        width:200px;
-        height:36px;
-        background:rgba(255,255,255,1);
-        border-radius:4px;
-        border:1px solid rgba(211,219,235,1);
-    }
-    .AddIMG_yl input{
-        width:125px;
-        height:50px;
-        position: relative;
-        left: -140px;
-        top:-35px;
-        opacity: 0;
-    }
-    .AddIMG_yl_upload{
-        display: inline-block;
-        font-size:14px;
-        font-family:PingFangSC-Regular;
-        font-weight:400;
-        color:rgba(51,119,255,1);
-        text-align: center;
+    .boxImg_bq{
         vertical-align: top;
-        margin-left: 20px;
     }
-    .AddIMG_yl_upload>span{
+    .dowload{
         display: inline-block;
-        font-size:16px;
-        font-family:PingFang-SC-Regular;
-        font-weight:400;
-        color:rgba(19,159,248,1);
-        line-height: 50px;
-    }
-    .AddIMG_bq_box{
-        display: inline-block;
-        width:395px;
-        height:258px;
-        background:rgba(255,255,255,1);
-        border-radius:4px;
-        border:1px solid rgba(211,219,235,1);
-        overflow-y: auto;
-    }
-    .AddIMG_bq_box_top{
-        border-bottom: 1px solid rgba(230,230,230,1);
-    }
-    .AddIMG_bq_box_top_tit{
-        margin: 14px 0 14px 14px;
-        font-size:12px;
-        font-family:PingFangSC-Regular;
-        font-weight:400;
-        color:rgba(143,155,179,1);
-    }
-    .AddIMG_bq_box_top_bq,.AddIMG_bq_box_top_zdy{
-        margin:0 20px 0px 20px ;
-
-    }
-
-
-    .AddIMG_bq_box_top_tit input{
-        display: block;
-        width:326px;
+        width:66px;
         height:28px;
         background:rgba(255,255,255,1);
-        border-radius:4px;
-        border:1px solid rgba(211,219,235,1);
-        margin-top: 10px;
+        border:1px solid rgba(153,153,153,1);
+        border-radius:14px;
+        font-size:14px;
+        font-family:PingFang-SC-Regular;
+        font-weight:400;
+        color:rgba(54,54,54,1);
+        text-align: center;
+        line-height: 28px;
+        margin-left: 20px;
     }
-    .bg_btn{
-
-        margin: 40px 0;
+    .bjImg{
+        width: 20px!important;
+        height: 20px!important;
+        position: relative;
+        margin-right: 0!important;
+        right: -20px;
+        top: -180px;
     }
-    .bg_btn span{
+    .select_btn{
+        text-align: right;
+        margin-right: 26px;
+    }
+    .select_btn span{
         display: inline-block;
         width:68px;
         height:36px;
@@ -581,24 +417,20 @@
         font-weight:400;
         color:rgba(61,73,102,1);
         line-height: 36px;
+        cursor: pointer;
         text-align: center;
     }
-    .bg_btn_up{
-        border:0!important;
+    .select_btn_left{
+        border: 0!important;
         background:rgba(51,119,255,1)!important;
         color:rgba(255,255,255,1)!important;
-        margin-right: 14px;
-        margin-left: 133px;
+        margin-right: 20px;
     }
-    .CJ{
+    .boxCheck{
         display: inline-block;
-        line-height: 26px;
-        text-align: center;
-        cursor: pointer;
-        padding: 3px 5px ;
-        background: #d7d7d7;
-        font-size: 12px;
-        border-radius: 5px;
-        margin-bottom: 10px!important;
+        margin-right: 20px;
+        vertical-align: top;
+        margin-top: 60px;
+        width: 30px!important;
     }
 </style>

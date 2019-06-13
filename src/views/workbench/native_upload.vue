@@ -105,7 +105,7 @@
                                 </div>
                                 <div class="AddIMG_bq_box_bottom">
                                     <div class="AddIMG_bq_box_top_tit">个性标签:
-                                        <input type="text" placeholder="创建或搜索个性标签" v-model="tagsName" @input="getTagsList()"/>
+                                        <input type="text" placeholder="创建或搜索个性标签" v-model="tagsName" maxlength="5" @input="getTagsList()"/>
                                     </div>
                                     <div class="AddIMG_bq_box_top_bq AddIMG_bq_box_top_zdy">
                                         <span class="CJ" v-if="tagsName!=''" @click="ADDtags()">创建“{{tagsName}}”标签</span>
@@ -205,7 +205,7 @@
                 this.bind_mid = id;
             },
             getType(){
-                let params={material:this.material};
+                let params={material:1};
                 this.api.config_material_type({params}).then((res)=>{
                     this.scType=res;
                 })
@@ -228,7 +228,7 @@
                 })
             },
             getTagsList(){
-                let params = {preset:this.preset,material:this.material,type:this.types,search:this.tagsName,p:50,page:1};
+                let params = {preset:this.preset,material:1,type:this.types,search:this.tagsName,p:50,page:1};
                 this.api.tags_search({params}).then((da)=>{
                     this.preset_tags = da.data.tags;
                     this.self_tags = da.data.self_tags;

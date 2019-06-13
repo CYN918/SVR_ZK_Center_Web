@@ -2,7 +2,7 @@
     <div>
         <ADD v-if="ADD_material" :scMessage="scMessage" :id="id" :num="num" :ind="index" @listData="SCmessageData"></ADD>
         <BDadd v-if="BD" :scMessage="scMessage" @dataList="listen" :index="index"></BDadd>
-        <AddWL v-if="wl" :scMessage="scMessage"></AddWL>
+        <AddWL v-if="wl" @dataMessage="dataMessage" :index="index"></AddWL>
         <sct v-if="set" @listenToChildEvent="listenToChildEvent" :da="da" :index="index"></sct>
         <QD v-if="sh" :id="id"></QD>
         <BH v-if="bh" :dbid="dbid"></BH>
@@ -155,7 +155,10 @@
                 this.sh=true;
                 this.id=this.tableData[index].did;
             },
-            getWl(){
+            getWl(index){
+                if(index!=undefined){
+                    this.index=index;
+                }
                 this.wl = true;
             },
             HeidWl(){
@@ -253,6 +256,11 @@
             },
             listen(b){
                this.scMessage[index] =b;
+            },
+            dataMessage(data,index){
+                this.scMessage[index] = data;
+                console.log(index);
+                console.log(this.scMessage[index])
             },
             release(id,type){
                 if(type=='demand_business'){

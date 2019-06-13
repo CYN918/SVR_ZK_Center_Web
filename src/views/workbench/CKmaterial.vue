@@ -13,29 +13,27 @@
                     <span style="width: 15%">素材类型</span>
                     <span style="width: 30%">操作</span>
                 </div>
-                <div class="table_content" v-for="(item,index) in list">
+                <div class="table_content">
                     <div class="table_content_left">
-                        <span>{{index+1}}</span>
+                        <span>{{1}}</span>
                         <span>
                                 <template>
                                      <el-checkbox-group v-model="checked">
                                         <el-checkbox  :label="index">需要</el-checkbox>
                                     </el-checkbox-group>
                                 </template>
-
                             </span>
                     </div>
                     <div  class="table_content_rig">
-                        <div class="table_content_right" v-if="index<scMessage.length" v-for = '(item,index2) in scMessage[index]'>
+                        <div class="table_content_right"  v-for="(item,index2) in material[1]">
                             <div class="imgs">
                                 <img :src="item.prev_uri">
                             </div>
-
                             <span class="id">{{item.mid}}</span>
                             <span class="type">{{item.type_name}}</span>
                             <div class="click">
-                                <span>下载</span>
-                            </div>
+                                <a :href="material[1][index2].attach.url">下载</a>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -67,12 +65,13 @@
             return{
                 zzyq:false,
                 checked:[],
-                material:[{num:2,mid:"SDE_000009"}],
+                material:{},
                 list:[],
                 mfid:[],
                 checkList:[],
                 note:'',
                 Message:[],
+                mfinal:[],
             }
         },
         mounted(){
@@ -83,9 +82,10 @@
                 this.$parent.heidCK();
             },
             getData(){
-                let params ={id:this.id}
+                let params ={id:this.id};
                 this.api.demand_business_mbind({params}).then((res)=>{
-                    console.log(res)
+                   this.material=res.material;
+                   this.mfinal=res.mfinal;
                 })
             },
         },
