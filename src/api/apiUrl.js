@@ -395,7 +395,7 @@ export default {
 	},
 	//新增锁屏壁纸
     lockwallpaper_add:{
-		url:'/lockwallpaper/add',method:'get'
+		url:'/lockwallpaper/add',method:'get',isType:{suktip:1,reload:1}
 	},
 	//删除锁屏壁纸
     lockwallpaper_del:{
@@ -595,5 +595,17 @@ export default {
 	//获取投放库类型
 	config_putlib_type:{
 		url:'/config/putlib/type',method:'get'
+	},
+    //获取壁纸标签
+	lockwallpaper_tags_list:{
+		url:'/lockwallpaper/tags/list',method:'get'
+	},
+	//MD5添加标签
+	lockwallpaper_tags_add:{
+		url:'/lockwallpaper/tags/add',method:'post',isType:{suktip:1,reload:1}
+	},
+	//获取单个壁纸标签
+	lockwallpaper_lwp_tags:{
+		url:'/lockwallpaper/lwp/tags',method:'get'
 	},
 }

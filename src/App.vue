@@ -64,6 +64,7 @@ html,body{
   color: #453dff!important;
   border-bottom: 1px solid #453dff;
 }
+
 .el-textarea{
   display: inline-block;
   width: 87%;
@@ -624,4 +625,7 @@ html,body{
 .problem .el-table__expanded-cell:hover{
   background:rgba(247,249,252,1)!important;
 }
+  .tags_name .el-checkbox__input{
+    display: none;
+  }
 </style>
