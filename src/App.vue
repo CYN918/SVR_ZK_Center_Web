@@ -46,4 +46,7 @@ html,body{
   color: #453dff!important;
   border-bottom: 1px solid #453dff;
 }
+  .tags_name .el-checkbox__input{
+    display: none;
+  }
 </style>

@@ -47,7 +47,7 @@
                             label="操作">
                         <template slot-scope="scope">
                             <el-button type="text" size="small" @click="del(scope.$index)">删除</el-button>
-                            <el-button type="text" size="small" @click="tags(scope.$index)">标签</el-button>
+                            <el-button type="text" size="small" @click="Tags(tableData[scope.$index].wpid)">标签</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -63,8 +63,8 @@
                 </el-pagination>
             </div>
         </div>
-        <div class="tcvBox" v-if="show">
-            <div class="box">
+        <div class="tcvBox" v-if="show"  @click="qx()">
+            <div class="box"  @click.stop>
                 <div class="box_1">
                    <span>上传壁纸</span>
                 </div>
@@ -93,16 +93,20 @@
                 </div>
             </div>
         </div>
-        <div class="bg">
-            <div class="content">
-                <div>添加标签</div>
-                <div>
+        <div class="bg" v-if="tag" @click="Heidtags()">
+            <div class="content" @click.stop>
+                <div style="font-size: 18px;font-weight: bold;margin-bottom: 15px">添加标签</div>
+                <div class="tags_name" style="width: 100%;border: 1px solid #e2e2e2;border-radius: 5px;height: 200px;text-align: left;overflow-y: auto;padding: 5px">
                     <template>
                         <el-checkbox-group
                                 v-model="checkedCities1">
-                        <el-checkbox v-for="city in cityOptions" :label="city" :key="city">{{city}}</el-checkbox>
+                        <el-checkbox v-for="(item,index) in tagslist" :label="index" :key="item.usertag">{{item.desc}}</el-checkbox>
                         </el-checkbox-group>
                     </template>
+                </div>
+                <div class="btn">
+                    <span class="add" @click="addTags()">添加</span>
+                    <span @click="Heidtags()">取消</span>
                 </div>
             </div>
         </div>
@@ -124,14 +128,18 @@
                 size:'',
                 url:'',
                 ext:'',
+                wpid:'',
                 total:0,
                 page:1,
                 p:10,
+                tags:[],
                 is_check:false,
                 check_md5:'',
                 checksum_md5:'',
-                checkedCities1: ['上海', '北京'],
-                cityOptions:['上海', '北京', '广州', '深圳']
+                tag:false,
+                tagslist:[],
+                checkedCities1: [],
+                tag_id:[],
             }
         },
         mounted(){
@@ -152,6 +160,27 @@
                 this.show = true;
                 this.MD5 = '';
             },
+            Tags(id){
+                this.tag=true;
+                this.wpid=id;
+                let params = {wpid:this.wpid};
+                this.api.lockwallpaper_lwp_tags({params}).then((res)=>{
+                    this.tag_id=res[0].tags;
+                   for(let i=0;i<this.tag_id.length;i++){
+                    for(let j=0;j<this.tagslist.length;j++){
+                        if(this.tagslist[j].usertag==this.tag_id[i]){
+                            this.checkedCities1.push(j);
+                        }else{
+                            this.checkedCities1=[]
+                        }
+                    }
+                   }
+                })
+            },
+            Heidtags(){
+                this.tag=false;
+                this.checkedCities1=[]
+            },
             qx(){
                 this.show = false;
             },
@@ -167,6 +196,7 @@
                     this.name = res.name;
                     this.ext = res.ext;
                     this.size = res.size;
+                    this.wpid = res.wpid;
                     if(res.is_check==false){
                         this.is_check = 0;
                     }
@@ -208,7 +238,7 @@
                    this.is_check = 1;
                }
                this.check_md5 = response.check_md5;
-
+                this.wpid=response.wpid
                this.checksum_md5 = response.checksum_md5;
             },
             uploading(){
@@ -216,8 +246,7 @@
                     this.$message.error('请上传文件，文件不能为空！');
                     return
                 }
-               
-                let params = {name:this.name,size:this.size,ext:this.ext,url:this.url,md5:this.MD5,is_check:this.is_check,check_md5:this.check_md5,checksum_md5:this.checksum_md5};
+                let params = {name:this.name,size:this.size,ext:this.ext,url:this.url,md5:this.MD5,is_check:this.is_check,check_md5:this.check_md5,checksum_md5:this.checksum_md5,wpid:this.wpid};
                 this.api.lockwallpaper_add({params}).then((res)=>{
                     this.show = false;
                     this.msgData();
@@ -232,9 +261,12 @@
                 let params = {p:this.p,page:this.page};
                 this.api.lockwallpaper_list({params}).then((res)=>{
                     this.tableData = res.data;
+                    console.log(this.tableData[0].wpid)
+                    console.log(this.tableData)
                     this.total =res.total;
                    res.last_page=this.p  ;
                     res.per_page=this.page;
+                    this.getTags();
                 })
             },
             downloadLink(a){
@@ -254,6 +286,28 @@
                 console.log(page);
                 this.page = page;
                 this. msgData()
+            },
+            getTags(){
+                this.api.lockwallpaper_tags_list({}).then((res)=>{
+                    this.tagslist=res;
+                })
+            },
+            addTags(){
+                for(let i=0;i<this.checkedCities1.length;i++){
+                    var tag = {
+                        tags_id:'',
+                        tags_name:''
+                    }
+                    tag.tags_id = this.tagslist[this.checkedCities1[i]].usertag;
+                    tag.tags_name = this.tagslist[this.checkedCities1[i]].desc;
+                   this.tags.push(tag);
+                }
+                let formData = new FormData;
+                formData.append('wpid',this.wpid);
+                formData.append('tags',JSON.stringify(this.tags));
+                this.api.lockwallpaper_tags_add(formData).then((res)=>{
+
+                })
             },
         },
     }
@@ -313,7 +367,7 @@
     left: 316px;
     bottom: 0;
     right: 0;
-    z-index: 99;
+    z-index: 999;
     background: rgba(0,0,0,.3);
     width: 100%;
     height: 100%;
@@ -403,4 +457,28 @@
     margin-top: 50px;
     text-align: right;
 }
+    .btn{
+        width: 100%;
+        height: 50px;
+        position:fixed;
+        bottom: 0;
+        text-align: center;
+    }
+.btn span{
+    display: inline-block;
+    line-height:40px;
+    border:1px solid #ddd;
+    text-align: center;
+    width: 80px;
+    height: 40px;
+    border-radius: 10px;
+    color: #666666;
+    cursor: pointer;
+}
+    .add{
+        border: 0px!important;
+        background:#2ad5cd!important; ;
+        color: #fff!important;
+        margin-right:50px;
+    }
 </style>

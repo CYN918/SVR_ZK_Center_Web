@@ -323,5 +323,16 @@ export default {
     file_zip_upload:{
 		url:'/file/zip/upload',method:'post'
 	},
-
+    //获取壁纸标签
+	lockwallpaper_tags_list:{
+		url:'/lockwallpaper/tags/list',method:'get'
+	},
+	//MD5添加标签
+	lockwallpaper_tags_add:{
+		url:'/lockwallpaper/tags/add',method:'post',isType:{suktip:1,reload:1}
+	},
+	//获取单个壁纸标签
+	lockwallpaper_lwp_tags:{
+		url:'/lockwallpaper/lwp/tags',method:'get'
+	},
 }
