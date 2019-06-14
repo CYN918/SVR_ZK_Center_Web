@@ -31,7 +31,7 @@
                 <span class="btn_txt_2" @click="qx">取消</span>
             </div>
         </div>
-        <div class="bg" v-if="show" @click="shut">
+        <div class="bg" v-if="show" @click="shut()">
             <div class="bg_detail_1" @click.stop>
                 <div class="bg_detail_1_1">
                     <span>{{name}}权限详情</span>
