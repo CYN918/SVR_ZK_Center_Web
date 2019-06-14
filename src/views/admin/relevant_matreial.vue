@@ -1,5 +1,5 @@
 <template>
-    <div class="bg" @clcik="yc()">
+    <div class="bg" @click="yc()">
         <div class="cont" @clcik.stop>
             <div class="title">
                 <span>相关素材</span>
