@@ -316,7 +316,7 @@
                         this.$message('未上传预览图')
                         return
                     }
-                    if(!this.attach){
+                    if(!this.attach.name){
                         this.$message('未上传文件')
                         return
                     }
