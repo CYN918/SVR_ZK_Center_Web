@@ -47,6 +47,7 @@
                             label="操作">
                         <template slot-scope="scope">
                             <el-button type="text" size="small" @click="del(scope.$index)">删除</el-button>
+                            <el-button type="text" size="small" @click="tags(scope.$index)">标签</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -200,15 +201,7 @@
                     this.$message.error('请上传文件，文件不能为空！');
                     return
                 }
-                // let formData = new FormData;
-                // formData.append('name',this.name);
-                // formData.append('size',this.size);
-                // formData.append('ext',this.ext);
-                // formData.append('url',this.url);
-                // formData.append('md5',this.MD5);
-                // formData.append('is_check',this.is_check);
-                // formData.append('check_md5',this.check_md5);
-                // formData.append('checksum_md5',this.checksum_md5);
+               
                 let params = {name:this.name,size:this.size,ext:this.ext,url:this.url,md5:this.MD5,is_check:this.is_check,check_md5:this.check_md5,checksum_md5:this.checksum_md5};
                 this.api.lockwallpaper_add({params}).then((res)=>{
                     this.show = false;
