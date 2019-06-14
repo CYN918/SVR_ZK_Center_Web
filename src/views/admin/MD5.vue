@@ -93,6 +93,19 @@
                 </div>
             </div>
         </div>
+        <div class="bg">
+            <div class="content">
+                <div>添加标签</div>
+                <div>
+                    <template>
+                        <el-checkbox-group
+                                v-model="checkedCities1">
+                        <el-checkbox v-for="city in cityOptions" :label="city" :key="city">{{city}}</el-checkbox>
+                        </el-checkbox-group>
+                    </template>
+                </div>
+            </div>
+        </div>
     </div>
 
 </template>
@@ -117,6 +130,8 @@
                 is_check:false,
                 check_md5:'',
                 checksum_md5:'',
+                checkedCities1: ['上海', '北京'],
+                cityOptions:['上海', '北京', '广州', '深圳']
             }
         },
         mounted(){
@@ -245,6 +260,26 @@
 </script>
 
 <style scoped>
+.bg{
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.2);
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 999;
+    text-align: center;
+}
+.content{
+   background: #fff;
+    width: 600px;
+    height: 300px;
+    padding: 24px;
+    border-radius: 10px;
+    margin-top: 20%;
+    margin-left: 50%;
+    transform: translate(-50%,-50%);
+}
 .centNavBox{
     position: relative;
     background:rgba(255,255,255,1);
