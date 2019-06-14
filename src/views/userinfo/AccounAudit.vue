@@ -126,17 +126,32 @@
                 this.User= true;
                 this.userMessage=this.tableData[a];
                 console.log(this.userMessage);
+                this.stop()
             },
             addUser(){
                 this.management=true;
+                this.stop()
             },
             qx(){
                 this.management=false;
                 this.User=false;
+                this.move()
             },
             change(a,b){
                 this.api.edit_account_status({email:this.tableData[a].email,status:b}).then((res)=>{
                 })
+            },
+            stop(){
+                document.body.style.overflow='hidden';
+                document.body.style.position='fixed';
+                document.body.style.width='100%';
+                document.addEventListener("touchmove",mo,false);//禁止页面滑动
+            },
+            move(){
+                document.body.style.overflow='';//出现滚动条
+                document.body.style.position='initial';
+                document.body.style.height='1006px';
+                document.removeEventListener("touchmove",mo,false);
             },
             handleSizeChange1(pageSize) { // 每页条数切换
                 this.pageSize = pageSize;

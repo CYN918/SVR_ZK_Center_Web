@@ -147,33 +147,61 @@ export default {
 	methods: {
         getCon(){
             this.sc = true;
+            document.body.style.overflow='hidden';
+            document.body.style.position='fixed';
+            document.body.style.width='100%';
+            document.addEventListener("touchmove",mo,false);
             this.message='';
 		},
 	    SCsc(){
             this.sc = true;
+            document.body.style.overflow='hidden';
+            document.body.style.position='fixed';
+            document.body.style.width='100%';
+            document.addEventListener("touchmove",mo,false);
 		},
 		heidSc(){
 			this.sc = false;
 			this.hqUrl='';
 			this.bindMid='';
-		},
+            document.body.style.overflow='';//出现滚动条
+            document.body.style.position='initial';
+            document.body.style.height='1006px';
+            document.removeEventListener("touchmove",mo,false);
+        },
 		ShowHint(){
 		    this.hint = true;
+            document.body.style.overflow='hidden';
+            document.body.style.position='fixed';
+            document.body.style.width='100%';
+            document.addEventListener("touchmove",mo,false);
 		    // this.sc = false
 		},
 		getRel(index){
             this.getRe=true;
             this.num =this.IMGList[index].mid;
+            document.body.style.overflow='hidden';
+            document.body.style.position='fixed';
+            document.body.style.width='100%';
+            document.addEventListener("touchmove",mo,false);
 		},
         updata(){
             this.getList();
         },
         heidRel(){
             this.getRe=false;
+            document.body.style.overflow='';//出现滚动条
+            document.body.style.position='initial';
+            document.body.style.height='1006px';
+            document.removeEventListener("touchmove",mo,false);
         },
 		YCHint(){
             this.hint = false;
-		},
+            document.body.style.overflow='';//出现滚动条
+            document.body.style.position='initial';
+            document.body.style.height='1006px';
+            document.removeEventListener("touchmove",mo,false);
+        },
 		XStag(a){
             let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search}
             this.api.material_search({params}).then((res)=>{
@@ -187,13 +215,25 @@ export default {
 		},
         YCtag(){
             this.tags = false;
+            document.body.style.overflow='';//出现滚动条
+            document.body.style.position='initial';
+            document.body.style.height='1006px';
+            document.removeEventListener("touchmove",mo,false);
         },
         XSset(){
-            this.sets = true
+            this.sets = true;
+            document.body.style.overflow='hidden';
+            document.body.style.position='fixed';
+            document.body.style.width='100%';
+            document.addEventListener("touchmove",mo,false);
 		},
 		YCset(){
             this.sets = false
-		},
+            document.body.style.overflow='';//出现滚动条
+            document.body.style.position='initial';
+            document.body.style.height='1006px';
+            document.removeEventListener("touchmove",mo,false);
+        },
         listen(msg,ddd){
 			this.bindMid=msg;
 			this.hqUrl=ddd;

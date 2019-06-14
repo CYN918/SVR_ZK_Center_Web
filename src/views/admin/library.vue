@@ -37,7 +37,7 @@
                                 >
                         </el-table-column>
                         <el-table-column
-                                prop="address"
+                                prop="ad_type"
                                 label="投放库类型">
                         </el-table-column>
                         <el-table-column
@@ -55,7 +55,7 @@
                                 label="广告类型">
                         </el-table-column>
                         <el-table-column
-                                prop="date"
+                                prop="channel_type"
                                 label="渠道类型"
                                >
                         </el-table-column>
@@ -112,7 +112,7 @@
         methods:{
             getRowClass({row, column, rowIndex}) {
                 if (rowIndex === 0) {
-                    return 'background:#f7f9fc;color:#8F9BB3;text-align:center;font-size:14px;font-weight:Medium;height:48px;font-family:PingFang-SC-Regular;'
+                    return 'background:#f7f9fc;color:#8F9BB3;font-size:14px;font-weight:Medium;height:48px;font-family:PingFang-SC-Regular;'
                 } else {
                     return ''
                 }

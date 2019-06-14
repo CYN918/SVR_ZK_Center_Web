@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div class="bg" @click="heidSc">
-            <div class="AddIMG"  @click.stop>
+        <div class="bg" >
+            <div class="AddIMG">
                 <div class="AddIMG_tit">
                     <span>{{title}}</span>
                 </div>
@@ -207,7 +207,7 @@
                 if(this.is_bind_mid==true){
                     return
                 }else{
-                    this.$parent.XSset()
+                    this.$parent.XSset();
                 }
 
             },

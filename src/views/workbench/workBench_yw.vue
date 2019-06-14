@@ -16,8 +16,8 @@
                     <select v-model="type">
                         <option v-for="(item,index) in YWtypeList" :value="item.type">{{item.name}}</option>
                     </select>
-                    <span class="tit_txt right" >广告位类型</span>
-                    <select v-model="typeIndex" @change="getTypeURL">
+                    <span class="tit_txt right" v-if="this.type!='f_sls_lockscreen'">广告位类型</span>
+                    <select v-model="typeIndex" @change="getTypeURL" v-if="this.type!='f_sls_lockscreen'">
                         <option v-for="(item,index) in typeList" :value="index">{{item.pos_type}}</option>
                     </select>
                 </div>
@@ -35,7 +35,7 @@
                 </div>
                 <div>
                     <span class="tit_txt">需求数量</span>
-                    <input type="number" class="num" v-model="num"/>
+                    <input type="text" class="num" v-model="num" placeholder="请输入需求数量"/>
                     <span class="tit_txt right">实现方式</span>
                     <select v-model="model">
                         <option value="无">无</option>
@@ -44,8 +44,8 @@
                     </select>
                 </div>
                 <div>
-                    <span class="tit_txt">投放链接</span>
-                    <input type="text" class="link" v-model="link"/>
+                    <span class="tit_txt" v-if="this.type!='f_sls_lockscreen'">投放链接</span>
+                    <input type="text" class="link" v-model="link" v-if="this.type!='f_sls_lockscreen'" placeholder="用于填写直客广告投放链接，非必填"/>
                 </div>
                 <div v-if="this.type!='f_sls_lockscreen'">
                     <span class="tit_txt">投放库</span>
@@ -89,7 +89,7 @@
                 sizeList:[],
                 typeList:[],
                 YWtypeList:[],
-                num:0,
+                num:null,
                 priority:'',
                 type:'',
                 endtime:'',
@@ -154,30 +154,39 @@
                 // }else{
                     if(!this.type){
                         this.$message.error('类型不能为空')
+                        return
                     }
                     if(!this.priority){
                         this.$message.error('优先级不能为空')
+                        return
                     }
                     if(!this.num){
                         this.$message.error('需求数量不能为空')
+                        return
                     }
-                    if(!this.pos_type){
+                    if(this.type!='f_sls_lockscreen'&&!this.pos_type){
                         this.$message.error('广告位类型不能为空')
+                        return
                     }
                     if(!this.endtime){
                         this.$message.error('截止时间不能为空')
+                        return
                     }
                     if(!this.requirement){
                         this.$message.error('设计要求不能为空')
+                        return
                     }
                     if(!this.size){
                         this.$message.error('尺寸不能为空')
+                        return
                     }
                     if(!this.model){
                         this.$message.error('实现方式不能为空')
+                        return
                     }
                     if(this.type!='f_sls_lockscreen'&&!this.libraryName){
                         this.$message.error('投放库不能为空')
+                        return
                     }
                     let formData=new FormData;
                     formData.append('libraryName',this.libraryName);

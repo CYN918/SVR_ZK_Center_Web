@@ -141,6 +141,7 @@
                 CkID:'',
                 up:false,
                 scwl:false,
+
             }
         },
 

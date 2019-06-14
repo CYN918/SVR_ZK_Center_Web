@@ -131,6 +131,7 @@
         },
         mounted(){
             this.getTableList();
+
         },
         methods:{
             getRowClass({row, column, rowIndex}) {
@@ -157,6 +158,23 @@
                 let params ={p:this.p,page:this.page,search:this.search};
                 this.api.standard_standards({params}).then((res)=>{
                     this.tableData = res.data;
+                    for(var i =0;i<this.tableData.length;i++){
+                        if(this.tableData[i].type=="ad_picture"){
+                            this.tableData[i].type='广告图'
+                        }
+                        if(this.tableData[i].type=="sls_dynamic"){
+                            this.tableData[i].type='场景锁屏动效'
+                        }
+                        if(this.tableData[i].type=="ad_template"){
+                            this.tableData[i].type='广告图模板'
+                        }
+                        if(this.tableData[i].type=="ad_template"){
+                            this.tableData[i].type='广告图模板'
+                        }
+                        if(this.tableData[i].type=="sls_picture"){
+                            this.tableData[i].type='场景锁屏壁纸'
+                        }
+                    }
                     this.total=res.total;
                     console.log(res)
                 })
@@ -221,12 +239,15 @@
             setUpload(){
                 if(!this.type){
                     this.$message('类型不能为空')
+                    return
                 }
-                if(!this.pos_type){
+                if(this.type=='ad_picture'&&!this.pos_type||this.type=='ad_template'&&!this.pos_type){
                     this.$message('广告位不能为空')
+                    return
                 }
                 if(!this.attach){
                     this.$message('请上传文件')
+                    return
                 }
                 let formData = new FormData;
                 formData.append('type',this.type);
@@ -246,15 +267,19 @@
                 }else{
                     if(!this.type){
                         this.$message('类型不能为空')
+                        return
                     }
-                    if(!this.pos_type){
+                    if(this.type=='ad_picture'&&!this.pos_type||this.type=='ad_template'&&!this.pos_type){
                         this.$message('广告位不能为空')
+                        return
                     }
                     if(!this.name){
                         this.$message('规范名称不能为空')
+                        return
                     }
                     if(!this.attach){
                         this.$message('请上传文件')
+                        return
                     }
                     let formData = new FormData;
                     formData.append('type',this.type);

@@ -22,7 +22,7 @@
                     </div>
                     <div>
                         <span class="tit_txt">需求数量</span>
-                        <input type="number" v-model="num" class="number"/>
+                        <input type="number" v-model="num" class="number" placeholder="请输入需求数量"/>
                     </div>
                     <div>
                         <span class="tit_txt">设计规范</span>
@@ -106,7 +106,7 @@
                 type:'',
                 types:[],
                 sj:[],
-                num:0,
+                num:null,
                 priority:'',
                 is_attach:'',
                 requirement:'',
