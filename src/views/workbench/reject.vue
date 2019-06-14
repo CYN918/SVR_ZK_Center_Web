@@ -1,6 +1,6 @@
 <template>
-    <div class="bg">
-        <div class="content">
+    <div class="bg" @click="heid">
+        <div class="content" @click.stop>
             <div class="tit">
                 <span>驳回</span>
                 <img src="../../../public/img/gb.png" @click="heid"/>

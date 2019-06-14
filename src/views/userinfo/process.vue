@@ -77,7 +77,7 @@
                         <div class="step_name">
                             <div class="step_img" v-for="(da,index2) in item.user">
                                 <span class="step_txt" @mouseenter="delXS2(index,index2)" @mouseleave="leave()">{{da.user_name}}
-                                    <img src="../../../public/img/del.png" style="width: 16px;position: relative;top: -25px;right: -25px" v-if="num2==index2&&nums2==index" />
+                                    <img src="../../../public/img/del.png" style="width: 16px;position: relative;top: -25px;right: -25px" v-if="num2==index2&&nums2==index" @click="del(da.user_id,item.id)"/>
                                 </span>
                             </div>
                             <div class="add" @click="getBan1(index)">
@@ -123,7 +123,7 @@
                         <div class="step_name">
                             <div class="step_img" v-for="(da,index2) in item.user">
                                 <span class="step_txt"  @mouseenter="delXS(index,index2)" @mouseleave="leave()">{{da.user_name}}
-                                    <img src="../../../public/img/del.png" style="width: 16px;position: relative;top: -25px;right: -25px" v-if="num==index2&&nums==index" />
+                                    <img src="../../../public/img/del.png" style="width: 16px;position: relative;top: -25px;right: -25px" v-if="num==index2&&nums==index" @click="del(da.user_id,item.id)"/>
                                 </span>
                             </div>
                             <div class="add" @click="getBan2(index)">

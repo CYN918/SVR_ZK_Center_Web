@@ -282,6 +282,7 @@
                 })
             },
             ADDtags(){
+                this.bardian.push(this.tagsName);
                 let formData = new FormData;
                 formData.append('name',this.tagsName);
                 formData.append('preset',0);
