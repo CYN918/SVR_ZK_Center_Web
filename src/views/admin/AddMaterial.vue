@@ -340,7 +340,7 @@
                     formData.append('attach',JSON.stringify(this.attach));
                     formData.append('tags',this.preinstall);
                     formData.append('self_tags',this.bardian);
-                    formData.append('bind_mid',this.bindMid);
+                    formData.append('bind_mid',this.bind_mid);
                     formData.append('model',this.model);
                     formData.append('size',this.sjSize);
                     formData.append('link',this.link)

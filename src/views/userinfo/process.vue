@@ -39,7 +39,7 @@
                     </div>
 
                     </div>
-                    <div v-if="item.status!=6" style="width: 120px;height: 1px;background: #E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
+                    <div v-if="item.status!=6" style="width: 120px;height: 2px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
                 </div>
                 <div class="banner" v-if="ban" :style="{left:this.left+'px'}">
                     <span class="tit">负责人</span>
@@ -116,7 +116,7 @@
                 <span>提现流程</span>
             </div>
             <div class="steplist">
-                <div class="step " v-for="(item,index) in TXlist">
+                <div class="step" v-for="(item,index) in TXlist">
                     <div style="display: inline-block">
                         <span class="step_box">{{item.status}}</span>
                         <span class="step_text">{{item.status_name}}</span>
@@ -132,9 +132,9 @@
                             </div>
                         </div>
                     </div>
-                    <div v-if="item.status!=4" style="width: 120px;height: 1px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
+                    <div v-if="item.status!=4" style="width: 120px;height: 2px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
                 </div>
-                <div class="banner" v-if="ban2" :style="{left:this.left+'px'}">
+                <div class="banner bannerTop" v-if="ban2" :style="{left:this.left+'px'}">
                     <span class="tit">负责人</span>
                     <div>
                         <input  type="text" v-model="search" @input=" getAccountList()"/>
@@ -265,29 +265,31 @@
             getBan(index){
                 this.ban=true;
                 this.index=index;
-                this.left = this.index*200;
+                this.left=this.index*250;
                 this.ban2=false;
                 this.ban1=false;
             },
             getBan1(index){
                 this.ban1=true;
-                this.ban=false;
-                this.left = this.index*200;
-                this.ban2=false;
                 this.index=index;
+                this.left=this.index*250;
+                this.ban=false;
+                this.ban2=false;
+
             },
             getBan2(index){
-                this.ban1=false;
-                this.ban=false;
-                this.left = this.index*200;
                 this.ban2=true;
                 this.index=index;
+                this.left=this.index*250;
+                this.ban1=false;
+                this.ban=false;
+
             },
             heidBan(){
                 this.ban=false;
-                this.left = this.index*200;
                 this.ban1=false;
                 this.ban2=false;
+                this.left=''
             },
             getListUser(){
                 let params = {search:this.search}
@@ -386,7 +388,9 @@
         background: #FFF;
         margin-top:194px;
     }
-
+    .centNavBox_3{
+        min-height: 552px;
+    }
     .centNavBox_2,.centNavBox_3{margin-top:24px!important;}
     .top_name{
         height: 109px;
@@ -530,10 +534,13 @@
         margin-top: 10px;
         width:240px;
         position: relative;
-        top: -100px;
+        top: -200px;
         background:rgba(255,255,255,1);
         box-shadow:0px 1px 6px 0px rgba(0,0,0,0.06);
         border-radius:4px;
+    }
+    .bannerTop{
+        margin-top: 200px;
     }
     .add_name{
         margin-top: 10px;

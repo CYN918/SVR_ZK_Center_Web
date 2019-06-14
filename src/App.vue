@@ -239,7 +239,7 @@ html,body{
   box-shadow:0px 0px 6px 0px rgba(0, 0, 0, 0.04);
   position: fixed;
   left: 256px;
-  top:65px;
+  top:63px;
   z-index: 99;
 }
 .inner{
