@@ -41,7 +41,7 @@
                     </div>
                     <div v-if="item.status!=6" style="width: 120px;height: 1px;background: #E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
                 </div>
-                <div class="banner" v-if="ban">
+                <div class="banner" v-if="ban" :style="{left:this.left+'px'}">
                     <span class="tit">负责人</span>
                     <div>
                         <input  type="text" v-model="search" @input="getAccountList()"/>
@@ -92,7 +92,7 @@
                     </div>
                     <div v-if="item.status!=5" style="width: 120px;height: 1px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
                 </div>
-                <div class="banner" v-if="ban1">
+                <div class="banner" v-if="ban1" :style="{left:this.left+'px'}">
                     <span class="tit">负责人</span>
                     <div>
                         <input  type="text" v-model="search" @input=" getAccountList()"/>
@@ -134,7 +134,7 @@
                     </div>
                     <div v-if="item.status!=4" style="width: 120px;height: 1px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
                 </div>
-                <div class="banner" v-if="ban2">
+                <div class="banner" v-if="ban2" :style="{left:this.left+'px'}">
                     <span class="tit">负责人</span>
                     <div>
                         <input  type="text" v-model="search" @input=" getAccountList()"/>
@@ -197,6 +197,7 @@
                 nums1:'',
                 num2:'',
                 nums2:'',
+                left:'',
             }
         },
         mounted(){
@@ -257,29 +258,34 @@
                     this.ban = false;
                     this.ban1 = false;
                     this.ban2 = false;
+                    this.left=''
 
                 })
             },
             getBan(index){
                 this.ban=true;
                 this.index=index;
+                this.left = this.index*200;
                 this.ban2=false;
                 this.ban1=false;
             },
             getBan1(index){
                 this.ban1=true;
                 this.ban=false;
+                this.left = this.index*200;
                 this.ban2=false;
                 this.index=index;
             },
             getBan2(index){
                 this.ban1=false;
                 this.ban=false;
+                this.left = this.index*200;
                 this.ban2=true;
                 this.index=index;
             },
             heidBan(){
                 this.ban=false;
+                this.left = this.index*200;
                 this.ban1=false;
                 this.ban2=false;
             },
@@ -380,6 +386,7 @@
         background: #FFF;
         margin-top:194px;
     }
+
     .centNavBox_2,.centNavBox_3{margin-top:24px!important;}
     .top_name{
         height: 109px;
@@ -523,7 +530,7 @@
         margin-top: 10px;
         width:240px;
         position: relative;
-        top: -200px;
+        top: -100px;
         background:rgba(255,255,255,1);
         box-shadow:0px 1px 6px 0px rgba(0,0,0,0.06);
         border-radius:4px;

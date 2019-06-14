@@ -19,6 +19,9 @@ const createApiInstance = (config = {}) => {
 	if(window.location.host=='c.zookingsoft.com'){
 		basrurl = 'http://c.zookingsoft.com/api';
 	}
+    if(window.location.host=='c2.zookingsoft.com'){
+        basrurl = 'http://c2.zookingsoft.com/api';
+    }
 	const _config = {
 		withCredentials: true, // 跨域
 		baseURL: basrurl,		

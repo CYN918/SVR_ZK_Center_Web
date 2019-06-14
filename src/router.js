@@ -512,7 +512,7 @@ router.beforeEach((to, from, next) => {
 	if(window.location.host=='localhost:8080'){
 		cent = 'center_local';
 		urld ='http://ts-i.idatachain.cn/api/login';
-		// urld = "http://center.zk.com/api/login";
+
 	}
 	if(to.query.ticket){	
 		axios({
