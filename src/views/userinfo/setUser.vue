@@ -137,9 +137,6 @@
                 })
             },
             setUser(){
-                if(!this.email){
-                    this.$message('姓名不能为空')
-                }
                 let formData = new FormData;
                 formData.append("name",this.name);
                 formData.append("role_id",this.roles);
