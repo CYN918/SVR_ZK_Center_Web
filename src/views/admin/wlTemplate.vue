@@ -74,7 +74,7 @@
 							</div>
 							<div class="dx">
 								<span class="boxImg_text">预览图大小:</span>
-								<span class="boxImg_content">{{DL.size}}</span>
+								<span class="boxImg_content">{{parseInt(DL.attach.size/1024)}}KB</span>
 							</div>
 						</div>
 

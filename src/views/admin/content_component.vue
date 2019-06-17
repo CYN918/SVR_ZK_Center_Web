@@ -308,11 +308,11 @@
                     this.$message('未上传文件')
                     return
                 }
-                if(!this.preinstall!=[]){
+                if(this.preinstall.length<=0){
                     this.$message('标签为空')
                     return
                 }
-                if(this.bardian!=[]){
+                if(this.preinstall.length<=0){
                     this.$message('标签为空')
                     return
                 }
@@ -336,6 +336,7 @@
             },
             AddMatter(){
                 if(this.message.mid==undefined){
+
                     if(!this.type){
                         this.$message('类型不能为空')
                         return
@@ -348,11 +349,11 @@
                         this.$message('未上传文件')
                         return
                     }
-                    if(!this.preinstall!=[]){
+                    if(this.preinstall.length<=0){
                         this.$message('标签为空')
                         return
                     }
-                    if(this.bardian!=[]){
+                    if(this.bardian.length<=0){
                         this.$message('标签为空')
                         return
                     }
