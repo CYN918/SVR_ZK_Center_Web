@@ -31,7 +31,7 @@
 				</div>
 			</div>
 			<rel v-if="getRe" :num="num" :material="material" ></rel>
-			<con v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type" :lx="this.lx" @updata="updata"></con>
+			<con v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type" :lx="this.lx" @updata="updata" @dataId="dataId"></con>
 			<hin v-if='hint' ></hin>
 			<tag v-if="tags" :message="message" :typeSC='type' :material="material" @updata="updata"></tag>
 			<set v-if="sets" :typeSC='type'  @listenToChildEvent="listen" :material="material"></set>
@@ -164,7 +164,6 @@ export default {
 		ShowHint(){
 		    this.hint = true;
             this.stop();
-		    // this.sc = false
 		},
 		getRel(index){
             this.getRe=true;
@@ -212,7 +211,10 @@ export default {
         listen(msg,ddd){
 			this.bindMid=msg;
 			this.hqUrl=ddd;
-            console.log(this.bindMid,this.hqUrl)
+		},
+        dataId(){
+            this.bindMid='';
+            this.hqUrl='';
 		},
         handleSizeChange1() { // 每页条数切换
             this.pageSize = pageSize;

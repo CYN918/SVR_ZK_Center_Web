@@ -133,7 +133,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -427,7 +426,8 @@
                 if(newVal==true){
                     this.bind_mid='';
                     this.bindMid='';
-                    this.hqUrl=''
+                    this.hqUrl='';
+                    this.$emit('dataId');
                 }
             },
         },
