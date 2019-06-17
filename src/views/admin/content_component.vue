@@ -255,9 +255,11 @@
             },
             handleRemove(file, fileList) {
                 this.file = '';
+                this.initiate=false;
             },
             Remove(file, fileList) {
                 this.file = '';
+                this.initiate2=false;
             },
             uploadFile(file){
                 this.initiate2=true;
