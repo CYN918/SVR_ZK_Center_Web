@@ -8,8 +8,9 @@
                 <img src="../../../public/img/ss.png" />
                 <input type="text" placeholder="搜索标签或ID" v-model="search" @input="getList()"/>
                 <div class="Search_select">
-                    <span class="Search_select_tit">素材类型：</span>
+                    <span class="Search_select_tit">物料类型：</span>
                     <select v-model="type" @change="getList()">
+                        <option value="">全部</option>
                         <option v-for="item in scType" :value="item.type">{{item.name}}</option>
                     </select>
                 </div>

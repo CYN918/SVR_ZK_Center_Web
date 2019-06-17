@@ -362,7 +362,8 @@ html,body{
   border-radius:4px;
   padding: 13px 0 14px 14px;
   box-shadow:0px 0px 10px 0px rgba(153,153,153,0.14);
-  margin: 0px 23px 24px 0!important;
+  margin: 0px 23px 24px 0;
+  position: relative;
 }
 .boxImg:nth-child(2n){
   margin-right: 0!important;
@@ -487,7 +488,7 @@ html,body{
   background:rgba(134,134,134,0.503);
   border-radius:0px 0px 4px 4px;
   position: relative;
-  top:-43px;
+  bottom: 43px;
   text-align: center;
   cursor: pointer;
 }

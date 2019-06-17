@@ -265,14 +265,14 @@
             getBan(index){
                 this.ban=true;
                 this.index=index;
-                this.left=this.index*250;
+                this.left=this.index*225;
                 this.ban2=false;
                 this.ban1=false;
             },
             getBan1(index){
                 this.ban1=true;
                 this.index=index;
-                this.left=this.index*250;
+                this.left=this.index*225;
                 this.ban=false;
                 this.ban2=false;
 
@@ -280,7 +280,7 @@
             getBan2(index){
                 this.ban2=true;
                 this.index=index;
-                this.left=this.index*250;
+                this.left=this.index*225;
                 this.ban1=false;
                 this.ban=false;
 
