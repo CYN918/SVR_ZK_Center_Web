@@ -5,7 +5,7 @@
             <span class="top_txt">配置管理>标签管理>素材库-广告图标签管理</span>
             <div class="fh">
                 <img src="../../../public/img/fh.png" style="width: 16px;margin-right: 10px" @click="fh"/>
-                <span @click="fh">素材库-{{this.$route.query.type}}标签管理</span>
+                <span @click="fh">素材库-{{this.type}}标签管理</span>
             </div>
         </div>
         <div class="content">
@@ -174,32 +174,11 @@
                 page:1,
                 total:0,
                 check:false,
+                type:'',
             }
         },
         mounted(){
             this.getTogsList();
-            if(this.$route.query.type=='ad_picture'){
-                this.$route.query.type='广告图'
-            }
-            if(this.$route.query.type=='ad_template'){
-                this.$route.query.type='广告图模板'
-            }
-            if(this.$route.query.type=='sls_dynamic'){
-                this.$route.query.type='场景锁屏动态'
-            }
-            if(this.$route.query.type=='sls_picture'){
-                this.$route.query.type='场景锁屏壁纸'
-            }
-            if(this.$route.query.type=='f_ad_picture'){
-                this.$route.query.type='物料广告图'
-            }
-            if(this.$route.query.type=='f_ad_template'){
-                this.$route.query.type='物料广告图模板'
-            }
-            if(this.$route.query.type=='f_sls_lockscreen'){
-                this.$route.query.type='物料场景锁屏'
-            }
-
         },
         methods:{
             fh(){
@@ -213,6 +192,27 @@
                    this.tableData= res.data.self_tags.splice(0,5);
                     this.tableData1= res.data.self_tags.splice(0,5);
                     this.tableData2= res.data.self_tags.splice(0,5);
+                    if(this.$route.query.type=='ad_picture'){
+                        this.type='广告图'
+                    }
+                    if(this.$route.query.type=='ad_template'){
+                        this.type='广告图模板'
+                    }
+                    if(this.$route.query.type=='sls_dynamic'){
+                        this.type='场景锁屏动态'
+                    }
+                    if(this.$route.query.type=='sls_picture'){
+                        this.type='场景锁屏壁纸'
+                    }
+                    if(this.$route.query.type=='f_ad_picture'){
+                        this.type='物料广告图'
+                    }
+                    if(this.$route.query.type=='f_ad_template'){
+                        this.type='物料广告图模板'
+                    }
+                    if(this.$route.query.type=='f_sls_lockscreen'){
+                        this.type='物料场景锁屏'
+                    }
                 })
             },
             delTag(id){

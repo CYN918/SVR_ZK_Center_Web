@@ -349,7 +349,7 @@
                         return
                     }
                     if(!this.bind_mid&&this.is_bind_mid!=true){
-                        this.$message('未绑定素材ID')
+                        this.$message('未绑定素材ID');
                         return
                     }
 
@@ -363,7 +363,7 @@
                     formData.append('bind_mid',this.bind_mid);
                     formData.append('model',this.model);
                     formData.append('size',this.sjSize);
-                    formData.append('link',this.link)
+                    formData.append('link',this.link);
                     this.api.mfinal_add(formData).then((res)=>{
 
                     }).catch(this.$message(message))
