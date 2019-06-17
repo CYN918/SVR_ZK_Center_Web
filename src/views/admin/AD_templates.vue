@@ -147,28 +147,35 @@
             getCon(){
                 this.sc = true;
                 this.message='';
+                this.stop();
             },
             SCsc(){
                 this.sc = true;
+                this.stop();
             },
             heidSc(){
                 this.sc = false;
                 this.hqUrl='';
                 this.bindMid='';
+                this.move();
             },
             ShowHint(){
                 this.hint = true;
                 // this.sc = false
+                this.stop();
             },
             getRel(index){
                 this.getRe=true;
                 this.num =this.IMGList[index].mid;
+                this.stop();
             },
             heidRel(){
                 this.getRe=false;
+                this.move();
             },
             YCHint(){
                 this.hint = false;
+                this.move();
             },
             updata(){
                 this.getList();
@@ -186,12 +193,15 @@
             },
             YCtag(){
                 this.tags = false;
+                this.move();
             },
             XSset(){
                 this.sets = true
+                this.stop();
             },
             YCset(){
                 this.sets = false
+                this.move();
             },
             listen(msg,ddd){
                 this.bindMid=msg;
@@ -207,6 +217,16 @@
                 console.log(currentPage);
                 this.currentPage = currentPage;
                 this.getList()
+            },
+            stop(){
+                document.body.style.overflow='hidden';
+                document.body.style.position='fixed';
+                document.body.style.width='100%';
+            },
+            move(){
+                document.body.style.overflow='';//出现滚动条
+                document.body.style.position='initial';
+                document.body.style.height='1006px';
             },
             getLt(a){
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,status:this.status}

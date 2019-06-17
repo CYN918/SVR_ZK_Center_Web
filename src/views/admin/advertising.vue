@@ -147,60 +147,42 @@ export default {
 	methods: {
         getCon(){
             this.sc = true;
-            document.body.style.overflow='hidden';
-            document.body.style.position='fixed';
-            document.body.style.width='100%';
-            document.addEventListener("touchmove",mo,false);
+			this.stop();
             this.message='';
 		},
 	    SCsc(){
             this.sc = true;
-            document.body.style.overflow='hidden';
-            document.body.style.position='fixed';
-            document.body.style.width='100%';
-            document.addEventListener("touchmove",mo,false);
+            this.stop();
 		},
 		heidSc(){
 			this.sc = false;
 			this.hqUrl='';
 			this.bindMid='';
-            document.body.style.overflow='';//出现滚动条
-            document.body.style.position='initial';
-            document.body.style.height='1006px';
-            document.removeEventListener("touchmove",mo,false);
+            this.move()
+
         },
 		ShowHint(){
 		    this.hint = true;
-            document.body.style.overflow='hidden';
-            document.body.style.position='fixed';
-            document.body.style.width='100%';
-            document.addEventListener("touchmove",mo,false);
+            this.stop();
 		    // this.sc = false
 		},
 		getRel(index){
             this.getRe=true;
             this.num =this.IMGList[index].mid;
-            document.body.style.overflow='hidden';
-            document.body.style.position='fixed';
-            document.body.style.width='100%';
-            document.addEventListener("touchmove",mo,false);
+            this.stop();
 		},
         updata(){
             this.getList();
         },
         heidRel(){
             this.getRe=false;
-            document.body.style.overflow='';//出现滚动条
-            document.body.style.position='initial';
-            document.body.style.height='1006px';
-            document.removeEventListener("touchmove",mo,false);
+            this.move()
+
         },
 		YCHint(){
             this.hint = false;
-            document.body.style.overflow='';//出现滚动条
-            document.body.style.position='initial';
-            document.body.style.height='1006px';
-            document.removeEventListener("touchmove",mo,false);
+            this.move()
+
         },
 		XStag(a){
             let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search}
@@ -215,24 +197,17 @@ export default {
 		},
         YCtag(){
             this.tags = false;
-            document.body.style.overflow='';//出现滚动条
-            document.body.style.position='initial';
-            document.body.style.height='1006px';
-            document.removeEventListener("touchmove",mo,false);
+            this.move()
+
         },
         XSset(){
             this.sets = true;
-            document.body.style.overflow='hidden';
-            document.body.style.position='fixed';
-            document.body.style.width='100%';
-            document.addEventListener("touchmove",mo,false);
+            this.stop();
+
 		},
 		YCset(){
             this.sets = false
-            document.body.style.overflow='';//出现滚动条
-            document.body.style.position='initial';
-            document.body.style.height='1006px';
-            document.removeEventListener("touchmove",mo,false);
+			this.move()
         },
         listen(msg,ddd){
 			this.bindMid=msg;
@@ -287,6 +262,16 @@ export default {
                 this.total=res.total;
                 this.getTagsList()
             })
+        },
+        stop(){
+            document.body.style.overflow='hidden';
+            document.body.style.position='fixed';
+            document.body.style.width='100%';
+        },
+        move(){
+            document.body.style.overflow='';//出现滚动条
+            document.body.style.position='initial';
+            document.body.style.height='1006px';
         },
         updata(){
             this.getTagsList()

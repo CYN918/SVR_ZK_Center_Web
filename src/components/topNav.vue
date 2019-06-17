@@ -44,13 +44,20 @@ export default {
 		}
     },
 	mounted(){
-        this.getUser()
+        this.getUser();
+        this.getLefNav()
+
 	},
 	methods:{
 		handleSelect(key){				
 			this.topNacd = this.todata[key].name;
 			this.$router.push(this.todata[key].url);
 		},
+        getLefNav(){
+            this.api.perm_leftnav().then((res)=>{
+                localStorage.setItem('letNav',JSON.stringify(res));
+            })
+        },
 		goindex(){
 			window.location.href= '#/index';
 		},

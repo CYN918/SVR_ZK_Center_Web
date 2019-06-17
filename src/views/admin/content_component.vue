@@ -230,7 +230,7 @@
                 },100);
             },
             uploadF(file){
-                this.initiate=true
+                this.initiate=true;
                 this.time();
                 let formData = new FormData;
                 formData.append('file',file.file);
