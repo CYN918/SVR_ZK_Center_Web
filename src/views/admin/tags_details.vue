@@ -224,6 +224,10 @@
                 })
             },
             delTags(){
+                if(this.tags1.concat(this.tags2).concat(this.tags3).length<=0){
+                    this.$message.error('请至少选择一个要删除的个性标签');
+                    return
+                }
                 let formData = new FormData;
                 formData.append('tags',JSON.stringify(this.tags1.concat(this.tags2).concat(this.tags3)));
                 this.api.tags_del(formData).then((res)=>{
