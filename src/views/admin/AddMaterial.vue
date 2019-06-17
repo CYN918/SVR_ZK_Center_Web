@@ -294,6 +294,22 @@
                 })
             },
             setMatter(){
+                if(!this.prev_uri){
+                    this.$message('未上传预览图')
+                    return
+                }
+                if(!this.attach.name){
+                    this.$message('未上传文件')
+                    return
+                }
+                if(!this.preinstall!=[]){
+                    this.$message('标签为空')
+                    return
+                }
+                if(this.bardian!=[]){
+                    this.$message('标签为空')
+                    return
+                }
                 let formData = new FormData;
                 formData.append('mid',this.message.mfid);
                 formData.append('type',this.type);
@@ -321,11 +337,11 @@
                         this.$message('未上传文件')
                         return
                     }
-                    if(!this.preinstall){
+                    if(!this.preinstall!=[]){
                         this.$message('标签为空')
                         return
                     }
-                    if(!this.bardian){
+                    if(this.bardian!=[]){
                         this.$message('标签为空')
                         return
                     }

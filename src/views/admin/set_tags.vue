@@ -109,12 +109,10 @@
                 return 'color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;margin-left:44px;'
             },
             details(index){
-                console.log(this.tableData[index]);
-
                 this.$router.push({
                     query: {
                         material:this.tableData[index].material,
-                        type:this.tableData[index].type
+                        type:this.tableData[index].type,
                     },
                     path:'/admin/tags_details'
                 })

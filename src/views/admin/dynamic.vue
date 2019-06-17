@@ -157,6 +157,7 @@
                 this.sc = false;
                 this.hqUrl='';
                 this.bindMid='';
+                this.move();
             },
             ShowHint(){
                 this.hint = true;
@@ -170,9 +171,11 @@
             },
             heidRel(){
                 this.getRe=false;
+                this.move();
             },
             YCHint(){
                 this.hint = false;
+                this.move();
             },
             updata(){
                 this.getList();
@@ -190,6 +193,7 @@
             },
             YCtag(){
                 this.tags = false;
+                this.move();
             },
             XSset(){
                 this.sets = true
@@ -197,6 +201,7 @@
             },
             YCset(){
                 this.sets = false
+                this.move();
             },
             listen(msg,ddd){
                 this.bindMid=msg;

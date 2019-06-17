@@ -5,7 +5,7 @@
             <span class="top_txt">配置管理>标签管理>素材库-广告图标签管理</span>
             <div class="fh">
                 <img src="../../../public/img/fh.png" style="width: 16px;margin-right: 10px" @click="fh"/>
-                <span @click="fh">素材库-广告图标签管理</span>
+                <span @click="fh">素材库-{{this.$route.query.type}}标签管理</span>
             </div>
         </div>
         <div class="content">
@@ -178,6 +178,27 @@
         },
         mounted(){
             this.getTogsList();
+            if(this.$route.query.type=='ad_picture'){
+                this.$route.query.type='广告图'
+            }
+            if(this.$route.query.type=='ad_template'){
+                this.$route.query.type='广告图模板'
+            }
+            if(this.$route.query.type=='sls_dynamic'){
+                this.$route.query.type='场景锁屏动态'
+            }
+            if(this.$route.query.type=='sls_picture'){
+                this.$route.query.type='场景锁屏壁纸'
+            }
+            if(this.$route.query.type=='f_ad_picture'){
+                this.$route.query.type='物料广告图'
+            }
+            if(this.$route.query.type=='f_ad_template'){
+                this.$route.query.type='物料广告图模板'
+            }
+            if(this.$route.query.type=='f_sls_lockscreen'){
+                this.$route.query.type='物料场景锁屏'
+            }
 
         },
         methods:{
