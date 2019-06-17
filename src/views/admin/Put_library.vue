@@ -1,5 +1,5 @@
 <template>
-    <div class="bg">
+    <div class="bg" @click.stop>
         <div>
             <div class="content">
                 <div class="con_select">

@@ -34,8 +34,8 @@
                 <img src="../../../public/img/ss.png" @click="getTogsList()"/>
                 <input type="text" placeholder="搜索标签" v-model="search" @input="getTogsList()"/>
                 <div class="zdy_btn">
-                    <input type="checkbox"/>
-                    <span class="check" v-model="check" @click="setCheckAll">本页全选</span>
+                    <input type="checkbox" v-model="check" @change="setCheckAll"/>
+                    <span class="check">本页全选</span>
                     <span class="del" @click="delTags()">删除({{this.tags1.concat(this.tags2).concat(this.tags3).length}})</span>
                     <div class="bg" v-if="dele">
                         <div class="ADD_tags">
@@ -55,7 +55,7 @@
             <div class="tableList">
                 <div class="tab">
                     <template>
-                        <el-table
+                        <el-table ref="tab0"
                                 :data="tableData"
                                 border
                                 style="width: 100%"
@@ -83,7 +83,7 @@
                 </div>
                 <div class="tab">
                     <template>
-                        <el-table
+                        <el-table ref="tab1"
                                 :data="tableData1"
                                 border
                                 style="width: 100%"
@@ -111,7 +111,7 @@
                 </div>
                 <div class="tab">
                    <template>
-                    <el-table
+                    <el-table ref="tab2"
                             :data="tableData2"
                             border
                             style="width: 100%"
@@ -257,11 +257,10 @@
                 this.dele=false;
             },
             setCheckAll(){
-                if(this.check==true){
-                    this.handleSelectionChange(val);
-                    this.handleSelectionChange1(val);
-                    this.handleSelectionChange2(val);
-                }
+                this.$refs.tab0.toggleAllSelection();
+                this.$refs.tab1.toggleAllSelection();
+                this.$refs.tab2.toggleAllSelection();
+
             },
             AddTags(){
                 let formData = new FormData;
@@ -289,7 +288,6 @@
                     ary.push(val[i].id);
                 }
                this.tags1=ary;
-                console.log(this.tags);
             },
             handleSelectionChange1(val){
                 var ary =[];
