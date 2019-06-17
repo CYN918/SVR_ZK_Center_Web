@@ -2,7 +2,7 @@
     <div>
         <div class="top_name">
             <span class="inner">|</span>
-            <span class="top_txt">投放库/面包屑</span>
+            <span class="top_txt">投放库</span>
         </div>
         <div class="content">
             <div class="con_select">

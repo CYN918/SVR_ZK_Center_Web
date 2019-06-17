@@ -2,10 +2,10 @@
     <div>
         <div class="top_name">
             <span class="inner">|</span>
-            <span class="top_txt">投放库/面包屑</span>
+            <span class="top_txt">投放库/投放详情/物料管理</span>
             <div class="fh">
                 <img src="../../../public/img/fh.png" style="width: 16px;margin-right: 10px" @click="fh"/>
-                <span @click="fh">投放库管理</span>
+                <span @click="fh">投放库物料管理</span>
             </div>
             <div class="top_con">
                 <input type="text" placeholder="输入ID查询" v-model="search" @input="getDATAlist"/>
