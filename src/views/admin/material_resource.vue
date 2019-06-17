@@ -60,7 +60,7 @@
 						<div>
 							<div class="zt">
 								<span class="boxImg_text">素材状态:</span>
-								<span class="boxImg_content">{{DL.status==1201?'禁用':'启用'}}</span>
+								<span class="boxImg_content">{{DL.status}}</span>
 							</div>
 							<div class="cc">
 								<span class="boxImg_text">预览图尺寸:</span>
@@ -270,6 +270,17 @@
                     this.IMGList=res.data;
                     this.total=res.total;
                     this.getTagsList();
+                    for(let i =0;i<this.IMGList.length;i++){
+                        if(this.IMGList[i].status=='1101'){
+                            this.IMGList[i].status='使用中'
+                        }
+                        if(this.IMGList[i].status=='1001'){
+                            this.IMGList[i].status='未使用'
+                        }
+                        if(this.IMGList[i].status=='1201'){
+                            this.IMGList[i].status='禁用'
+                        }
+                    }
                 })
             },
             getListTag(name,index){
