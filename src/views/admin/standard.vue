@@ -38,7 +38,7 @@
                             <template slot-scope="scope">
                                 <el-button type="text" size="small" @click="AnewUpload(tableData[scope.$index].id)">重新上传</el-button>
                                 <a :href=" tableData[scope.$index].attach_url">下载</a>
-                                <el-button type="text" size="small" @click="delData(scope.$index)">删除</el-button>
+                                <el-button type="text" size="small" @click="getDel(scope.$index)">删除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -97,6 +97,25 @@
                 </div>
             </div>
         </div>
+        <div class="bg" v-if="deleted">
+            <div class="ensure">
+                <div class="title">
+                    <span>删除</span>
+                    <img src="../../../public/img/gb.png" @click="heidDle()"/>
+                </div>
+                <div style="margin: 24px 0 0 0 ">
+                    <span>
+                    是否确定删除该条信息？
+                </span>
+                </div>
+
+                <div class="ensure_btn">
+                    <span class="ensure_btn_qd" @click="delData">确定</span>
+                    <span @click="heidDle()">取消</span>
+                </div>
+            </div>
+
+        </div>
     </div>
 </template>
 
@@ -126,7 +145,9 @@
                 index:'',
                 url:'',
                 search:'',
-                id:''
+                id:'',
+                deleted:false,
+                delID:'',
             }
         },
         mounted(){
@@ -153,6 +174,13 @@
                 // console.log(p);
                 this.page = page;
                 this.getTableList();
+            },
+            getDel(index){
+                this.delID=index;
+                this.deleted =true;
+            },
+            heidDle(){
+                this.deleted =false;
             },
             getTableList(){
                 let params ={p:this.p,page:this.page,search:this.search};
@@ -293,9 +321,9 @@
                 }
 
             },
-            delData(index){
+            delData(){
                 let formData = new FormData;
-                formData.append('id',this.tableData[index].id);
+                formData.append('id',this.tableData[this.delID].id);
                 this.api.standard_del(formData).then((res)=>{
                     this.getTableList()
                 })
@@ -344,6 +372,49 @@
         border-radius:4px 0px 0px 4px;
         border:1px solid rgba(211,219,235,1);
         margin-top: 24px;
+    }
+    .ensure{
+        width: 500px;
+        height: 200px;
+        background:rgba(255,255,255,1);
+        border-radius: 10px;
+        position: relative;
+        padding: 20px;
+        top:40%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+    .ensure span{
+        display: block;
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .ensure_btn{
+        width: 100%;
+        position: fixed;
+        bottom: 30px;
+        text-align: right;
+    }
+    .ensure_btn span{
+        display: inline-block;
+        width:68px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        font-size:14px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(61,73,102,1);
+        line-height: 36px;
+        text-align: center;
+        margin-right: 48px;
+        cursor: pointer;
+    }
+    .ensure_btn_qd{
+        background:rgba(51,119,255,1)!important;
+        color:rgba(255,255,255,1)!important;
+        margin-right: 14px!important;
     }
     .ss span{
         float: right;
@@ -463,5 +534,23 @@
         color: #3377ff;
         text-decoration:none;
         margin: 0 10px;
+    }
+    .title{
+        height: 56px;
+        border-bottom: 1px solid #ddd;
+    }
+    .title span{
+        font-size:18px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(61,73,102,1);
+        line-height: 56px;
+    }
+    .title img{
+        width: 16px;
+        height: 16px;
+        position: relative;
+        right: -485px;
+        top: -50px;
     }
 </style>
