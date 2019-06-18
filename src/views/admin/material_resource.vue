@@ -9,7 +9,7 @@
 				<input type="text" placeholder="输入用户名或邮箱快速查询" v-model="search" @input="getList()"/>
 				<img src="../../../public/img/ss.png" @click="getList()"/>
 				<span style="font-size:14px;font-family:PingFangSC-Regular;font-weight:400;color:rgba(31,46,77,1);margin-right: 20px">状态</span>
-				<select>
+				<select @click="getWl()" v-model="status">
 					<option value="" selected>全部</option>
 					<option value="1101">使用中</option>
 					<option value="1001">未使用</option>
