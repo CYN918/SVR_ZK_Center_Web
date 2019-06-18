@@ -256,6 +256,9 @@
             },
             heid(){
                 this.updataList=false;
+                this.type='';
+                this.pos_type='';
+                this.name='';
             },
             AnewUpload(id){
                 this.id = id
@@ -316,6 +319,9 @@
                     formData.append('name',this.name);
                     this.api.standard_add(formData).then((res)=>{
                        this.heid();
+                       this.type='';
+                        this.pos_type='';
+                        this.name='';
                         this.getTableList()
                     })
                 }
