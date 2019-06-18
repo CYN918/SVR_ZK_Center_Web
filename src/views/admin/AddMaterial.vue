@@ -193,16 +193,8 @@
             }else{
                 this.title='添加物料'
             }
-            // if(this.bindMid!=undefined){
-            //     this.bind_mid=this.bindMid.join(";");
-            //     // if(this.hqUrl.length>6){
-            //     //     this.hqUrl=this.hqUrl.slice(0,7);
-            //     // }
-            // }
-            // console.log(this.bindMid)
         },
         methods:{
-            // GETbindmid(){ this.bind_mid=this.bindMid.join(";");},
             heidSc(){
                 this.$parent.heidSc();
             },
@@ -264,7 +256,7 @@
                 this.api.file_upload(formData).then((res)=>{
                     this.aaa=100;
                     this.initiate2=false;
-                    this.prev_uri = res.url
+                    this.prev_uri = res.url;
                     var image = new Image();
                     var _this=this;
                     image.onload=function(){
@@ -397,20 +389,20 @@
             },
             IDchange(){
                 if(this.bind_mid==''){
-                    this.hqUrl=[]
-                    this.bindMid=[]
+                    this.hqUrl.splice(0);
+                    this.bindMid.splice(0);
                 }else{
                     let params ={p:10000000,page:1,type:this.type,search:''};
                     this.api.material_search({params}).then((res)=>{
                         this.hqUrl=[];
                         var id=[];
                         id=this.bind_mid.split(';');
+                        this.bindMid=this.bind_mid.split(';');
                         console.log(id);
                         for(var i=0;i<id.length;i++){
                             for(var j=0;j<res.data.length;j++){
                                 if(id[i]==res.data[j].mid){
                                     this.hqUrl.push(res.data[j].prev_uri);
-                                    console.log(this.hqUrl);
                                 }
                             }
                         }
@@ -424,13 +416,6 @@
             'bindMid': function(newVal){
                 this.bind_mid = newVal.join(';')
             },
-            'bind_mid':function (newVal) {
-                if(newVal==''){
-
-                    this.hqUrl=[];
-                    this.bindMid=[];
-                }
-            }
         },
     }
 </script>
