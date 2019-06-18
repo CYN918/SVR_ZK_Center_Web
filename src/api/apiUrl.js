@@ -335,4 +335,20 @@ export default {
 	lockwallpaper_lwp_tags:{
 		url:'/lockwallpaper/lwp/tags',method:'get'
 	},
+	//新增聚合页内容
+	aggregation_add:{
+		url:'/aggregation/add',method:'post',isType:{suktip:1,reload:1}
+	},
+	//获取聚合页内容
+	aggregation_search:{
+		url:'/aggregation/search',method:'get'
+	},
+	//编辑聚合页内容
+	aggregation_edit:{
+		url:'/aggregation/edit',method:'post',isType:{suktip:1,reload:1}
+	},
+	//删除聚合页内容
+	aggregation_del:{
+		url:'/aggregation/del',method:'post',isType:{suktip:1,reload:1}
+	},
 }
