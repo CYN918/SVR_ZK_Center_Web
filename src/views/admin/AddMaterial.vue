@@ -50,7 +50,7 @@
                         </div>
                         <div class="AddIMG_sc">
                             <span class="tit">绑定素材:</span>
-                            <input type="text" placeholder="请输入素材ID" v-model="bind_mid" :disabled="(this.message.mfid!=undefined)"/>
+                            <input type="text" placeholder="请输入素材ID" v-model="bind_mid" :disabled="(this.message.mfid!=undefined)" @change="IDchange"/>
                             <span class="AddIMG_sc_btn" @click="XSset" :class="{AddIMG_sc_btn_jy:(this.message.mfid!=undefined)}">从素材库选择</span>
                             <p>若由素材库内文件处理后上传，必须填写对应的素材ID,最多九个</p>
                         </div>
@@ -181,7 +181,8 @@
                 link:'',
                 aaa:0,
                 initiate:false,
-                initiate2:false
+                initiate2:false,
+                Urllist:[],
             }
         },
         mounted(){
@@ -394,12 +395,42 @@
                     console.log(this.preinstall)
                 })
             },
+            IDchange(){
+                if(this.bind_mid==''){
+                    this.hqUrl=[]
+                    this.bindMid=[]
+                }else{
+                    let params ={p:10000000,page:1,type:this.type,search:''};
+                    this.api.material_search({params}).then((res)=>{
+                        this.hqUrl=[];
+                        var id=[];
+                        id=this.bind_mid.split(';');
+                        console.log(id);
+                        for(var i=0;i<id.length;i++){
+                            for(var j=0;j<res.data.length;j++){
+                                if(id[i]==res.data[j].mid){
+                                    this.hqUrl.push(res.data[j].prev_uri);
+                                    console.log(this.hqUrl);
+                                }
+                            }
+                        }
+                    })
+
+                }
+
+            },
         },
         watch: {
             'bindMid': function(newVal){
                 this.bind_mid = newVal.join(';')
             },
+            'bind_mid':function (newVal) {
+                if(newVal==''){
 
+                    this.hqUrl=[];
+                    this.bindMid=[];
+                }
+            }
         },
     }
 </script>

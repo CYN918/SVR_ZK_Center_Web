@@ -48,7 +48,7 @@
                         </div>
                         <div class="AddIMG_sc">
                             <span class="tit">绑定素材:</span>
-                            <input type="text" placeholder="请输入素材ID" v-model="bind_mid" :disabled="(this.message.mid!=undefined)"/>
+                            <input type="text" placeholder="请输入素材ID" v-model="bind_mid" :disabled="(this.message.mid!=undefined)" @change="IDchanges"/>
                             <span class="AddIMG_sc_btn" @click="XSset" :class="{AddIMG_sc_btn_jy:(this.message.mid!=undefined)}">从素材库选择</span>
                             <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="is_bind_mid"/><span>与素材库内已有素材无关</span>
                             <p>若由素材库内文件处理后上传，必须填写对应的素材ID，仅可填写一个</p>
@@ -218,6 +218,23 @@
                 this.api.material_edit_tags(formData).then((res)=>{
 
                 })
+            },
+            IDchanges(){
+               if(this.bind_mid=='') {
+                   this.hqUrl='';
+                   this.bindMid='';
+               }else{
+                   let params ={p:10000000,page:1,type:this.type,search:''};
+                   this.api.material_search({params}).then((res)=>{
+                    for(var i =0 ;i<res.data.length;i++){
+                        if(res.data[i].mid==this.bind_mid){
+                            this.hqUrl = res.data[i].prev_uri;
+                            this.bindMid = this.bind_mid
+                        }
+                    }
+                   })
+               }
+
             },
             time(){
                 var _this=this;
@@ -419,6 +436,13 @@
             'is_bind_mid':function(newVal){
                 if(newVal==true){
                     this.bind_mid='';
+                    this.bindMid='';
+                    this.hqUrl='';
+                    this.$emit('dataId');
+                }
+            },
+            'bind_mid':function(newVal){
+                if(newVal==''){
                     this.bindMid='';
                     this.hqUrl='';
                     this.$emit('dataId');
