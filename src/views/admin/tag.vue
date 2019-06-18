@@ -85,7 +85,6 @@
                 })
             },
             getMatterDetails(){
-                console.log(this.material)
                 if(this.material==1){
                     let params ={mid:this.message.mid};
                     this.api.material_detail({params}).then((res)=>{
@@ -105,15 +104,23 @@
             },
             setTags(){
                 if(this.material==1){
+                    if(this.preinstall.length<=0){
+                        this.$message.error('至少要有一个预置标签');
+                        return
+                    }
                     let formData = new FormData;
                     formData.append('mid',this.message.mid);
                     formData.append('tags',this.preinstall);
-                    formData.append('self_tags',this.bardian)
+                    formData.append('self_tags',this.bardian);
                     this.api.material_edit_tags(formData).then((res)=>{
                         this.$emit('updata','aa');
                         this.$parent.YCtag();
                     })
                 }else{
+                    if(this.preinstall.length<=0){
+                        this.$message.error('至少有一个预置标签')
+                        return
+                    }
                     let formData = new FormData;
                     formData.append('mfid',this.message.mfid);
                     formData.append('tags',this.preinstall);
