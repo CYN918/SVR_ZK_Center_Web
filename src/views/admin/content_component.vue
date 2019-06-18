@@ -310,13 +310,10 @@
                     return
                 }
                 if(this.preinstall.length<=0){
-                    this.$message('标签为空')
+                    this.$message('预置标签不能为空')
                     return
                 }
-                if(this.preinstall.length<=0){
-                    this.$message('标签为空')
-                    return
-                }
+
 
                 let formData = new FormData;
                 formData.append('mid',this.message.mid);
@@ -351,13 +348,10 @@
                         return
                     }
                     if(this.preinstall.length<=0){
-                        this.$message('标签为空')
+                        this.$message('预置标签不能为空')
                         return
                     }
-                    if(this.bardian.length<=0){
-                        this.$message('标签为空')
-                        return
-                    }
+
                     if(!this.bind_mid&&this.is_bind_mid!=true){
                         this.$message('未绑定素材ID')
                         return
