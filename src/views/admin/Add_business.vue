@@ -1,6 +1,6 @@
 <template>
-    <div class="bg" @click="heid">
-        <div class="content" @click.stop>
+    <div class="bg">
+        <div class="content">
             <div class="box_img">
                 <div>
                     <span>广告位示意图</span>
@@ -16,14 +16,16 @@
                     <select v-model="type">
                         <option v-for="(item,index) in YWtypeList" :value="item.type">{{item.name}}</option>
                     </select>
-                    <span class="tit_txt right" >广告位类型</span>
-                    <select v-model="typeIndex" @change="getTypeURL">
+                    <span class="tit_txt right" v-if="this.type!='f_sls_lockscreen'">广告位类型</span>
+                    <select v-model="typeIndex" @change="getTypeURL" v-if="this.type!='f_sls_lockscreen'">
                         <option v-for="(item,index) in typeList" :value="index">{{item.pos_type}}</option>
                     </select>
                 </div>
                 <div>
                     <span class="tit_txt">尺寸</span>
-                    <select v-model="size">
+                    <input class="num" type="text" placeholder="请输入尺寸，用*链接" v-model="size" v-if="switcher"/>
+                    <select v-model="size" v-if="switcher==false" @change="cut()">
+                        <option value=" ">自定义</option>
                         <option v-for="(item,index) in sizeList" :value="item.size">{{item.size}}</option>
                     </select>
                     <span class="tit_txt right">优先级</span>
@@ -35,7 +37,7 @@
                 </div>
                 <div>
                     <span class="tit_txt">需求数量</span>
-                    <input type="number" class="num" v-model="num"/>
+                    <input type="text" class="num" v-model="num" placeholder="请输入需求数量"/>
                     <span class="tit_txt right">实现方式</span>
                     <select v-model="model">
                         <option value="无">无</option>
@@ -44,10 +46,10 @@
                     </select>
                 </div>
                 <div>
-                    <span class="tit_txt">投放链接</span>
-                    <input type="text" class="link" v-model="link"/>
+                    <span class="tit_txt" v-if="this.type!='f_sls_lockscreen'">投放链接</span>
+                    <input type="text" class="link" v-model="link" v-if="this.type!='f_sls_lockscreen'" placeholder="用于填写直客广告投放链接，非必填"/>
                 </div>
-                <div>
+                <div v-if="this.type!='f_sls_lockscreen'">
                     <span class="tit_txt">投放库</span>
                     <span class="tfk">{{libraryName}}</span><span class="xz" @click="getlIBRARY">选择</span>
                 </div>
@@ -75,11 +77,13 @@
         </div>
         <put v-if="putList" @listenToChildEvent="listenToChildEvent"></put>
     </div>
+
 </template>
 
 <script>
-    import put from './Put_library'
+    import put from '../admin/Put_library'
     export default {
+        props:['YWid'],
         components:{put},
         name: "work-bench_yw",
         data(){
@@ -87,7 +91,7 @@
                 sizeList:[],
                 typeList:[],
                 YWtypeList:[],
-                num:0,
+                num:null,
                 priority:'',
                 type:'',
                 endtime:'',
@@ -97,46 +101,99 @@
                 model:"",
                 link:'',
                 requirement:'',
-                url:'',
+                url:'img/1.jpg',
                 putList:false,
-                libraryName:''
+                libraryName:'',
+                switcher:false,
             }
         },
         mounted(){
-            this.getSize()
+            this.getSize();
         },
         methods:{
             AddYw(){
+                // if(this.YWid!=undefined){
+                //     if(!this.type){
+                //         this.$message.error('类型不能为空')
+                //     }
+                //     if(!this.priority){
+                //         this.$message.error('优先级不能为空')
+                //     }
+                //     if(!this.num){
+                //         this.$message.error('需求数量不能为空')
+                //     }
+                //     if(!this.pos_type){
+                //         this.$message.error('广告位类型不能为空')
+                //     }
+                //     if(!this.endtime){
+                //         this.$message.error('截止时间不能为空')
+                //     }
+                //     if(!this.requirement){
+                //         this.$message.error('设计要求不能为空')
+                //     }
+                //     if(!this.size){
+                //         this.$message.error('尺寸不能为空')
+                //     }
+                //     if(!this.model){
+                //         this.$message.error('实现方式不能为空')
+                //     }
+                //     if(!this.type!='f_sls_lockscreen'&&!this.libraryName){
+                //         this.$message.error('投放库不能为空')
+                //     }
+                //     let formData=new FormData;
+                //     formData.append('libraryName',this.libraryName);
+                //     formData.append('type',this.type);
+                //     formData.append('num',this.num);
+                //     formData.append('priority',this.priority);
+                //     formData.append('endtime',this.endtime);
+                //     formData.append('pos_type',this.pos_type);
+                //     formData.append('size',this.size);
+                //     formData.append('model',this.model);
+                //     formData.append('link',this.link);
+                //     formData.append('requirement',this.requirement);
+                //     this.api.demand_business_edit(formData).then((res)=>{
+                //
+                //     })
+                // }else{
                 if(!this.type){
                     this.$message.error('类型不能为空')
+                    return
                 }
                 if(!this.priority){
                     this.$message.error('优先级不能为空')
+                    return
                 }
                 if(!this.num){
                     this.$message.error('需求数量不能为空')
+                    return
                 }
-                if(!this.pos_type){
+                if(this.type!='f_sls_lockscreen'&&!this.pos_type){
                     this.$message.error('广告位类型不能为空')
+                    return
                 }
                 if(!this.endtime){
                     this.$message.error('截止时间不能为空')
+                    return
                 }
                 if(!this.requirement){
                     this.$message.error('设计要求不能为空')
+                    return
                 }
                 if(!this.size){
                     this.$message.error('尺寸不能为空')
+                    return
                 }
                 if(!this.model){
                     this.$message.error('实现方式不能为空')
+                    return
                 }
-                if(!this.type!='f_sls_lockscreen'&&!this.libraryName){
+                if(this.type!='f_sls_lockscreen'&&!this.libraryName){
                     this.$message.error('投放库不能为空')
+                    return
                 }
                 let formData=new FormData;
-                formData.append('type',this.type);
                 formData.append('libraryName',this.libraryName);
+                formData.append('type',this.type);
                 formData.append('num',this.num);
                 formData.append('priority',this.priority);
                 formData.append('endtime',this.endtime);
@@ -145,9 +202,12 @@
                 formData.append('model',this.model);
                 formData.append('link',this.link);
                 formData.append('requirement',this.requirement);
+                formData.append('pos_view_url',this.url);
                 this.api.demand_business_add(formData).then((res)=>{
 
                 })
+                // }
+
             },
             heid(){
                 this.$parent.heidYW()
@@ -176,6 +236,12 @@
                 this.api.config_material_type({params}).then((res)=>{
                     this.YWtypeList = res
                 })
+            },
+            cut(){
+                if(this.size==' '){
+                    this.switcher=true
+                }
+
             },
             getlIBRARY(){
                 this.putList=true;
@@ -222,6 +288,33 @@
         font-family:PingFangSC-Regular;
         font-weight:400;
         color:rgba(61,73,102,1);
+    }
+    .tfk{
+        display: inline-block;
+        line-height: 36px;
+        width:422px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        padding-left: 8px;
+    }
+    .xz{
+        vertical-align: top;
+        display: inline-block;
+        width:68px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1)!important;
+        line-height: 36px;
+        text-align: center;
+        cursor: pointer;
+        font-size:14px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(51,119,255,1);
+        margin-left:20px;
     }
     .box_img{
         width:256px;
@@ -289,33 +382,6 @@
         border:1px solid rgba(211,219,235,1);
         padding-left: 8px;
     }
-    .tfk{
-        display: inline-block;
-        line-height: 36px;
-        width:422px;
-        height:36px;
-        background:rgba(255,255,255,1);
-        border-radius:4px;
-        border:1px solid rgba(211,219,235,1);
-        padding-left: 8px;
-    }
-    .xz{
-        vertical-align: top;
-        display: inline-block;
-        width:68px;
-        height:36px;
-        background:rgba(255,255,255,1);
-        border-radius:4px;
-        border:1px solid rgba(211,219,235,1)!important;
-        line-height: 36px;
-        text-align: center;
-        cursor: pointer;
-        font-size:14px;
-        font-family:PingFangSC-Regular;
-        font-weight:400;
-        color:rgba(51,119,255,1);
-        margin-left:20px;
-    }
     .right{
         margin-left: 20px;
     }
@@ -347,8 +413,8 @@
         border-radius:0px 0px 4px 4px;
         margin-left: 0!important;
         margin-bottom: 0!important;
-       position: relative;
-        top:60px;
+        position: relative;
+        bottom: -59px;
         text-align: right!important;
     }
     .btn span{
