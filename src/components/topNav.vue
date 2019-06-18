@@ -44,9 +44,9 @@ export default {
 		}
     },
 	mounted(){
-        this.getUser();
-        this.getLefNav()
 
+		this.name=localStorage.getItem('userName');
+        this.getLefNav();
 	},
 	methods:{
 		handleSelect(key){				
@@ -96,13 +96,7 @@ export default {
 // 				window.location.href="http://account.zookingsoft.com/login?from=center_local";
 			})
 		},
-		getUser(){
-		    let params = {email:localStorage.getItem('userAd')};
-		    this.api.get_account({params}).then((res)=>{
-		        this.name = res.name
-				console.log(res)
-			})
-		},
+
 	}
 }    
 </script>
