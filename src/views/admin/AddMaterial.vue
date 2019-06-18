@@ -52,7 +52,7 @@
                             <span class="tit">绑定素材:</span>
                             <input type="text" placeholder="请输入素材ID" v-model="bind_mid" :disabled="(this.message.mfid!=undefined)" @change="IDchange"/>
                             <span class="AddIMG_sc_btn" @click="XSset" :class="{AddIMG_sc_btn_jy:(this.message.mfid!=undefined)}">从素材库选择</span>
-                            <p>若由素材库内文件处理后上传，必须填写对应的素材ID,最多九个</p>
+                            <p>上传物料前，请务必保证素材库内有对应素材！多个素材用英文半角;隔开</p>
                         </div>
                         <div class="AddIMG_select">
                             <span class="tit">素材类型:</span>
