@@ -102,7 +102,7 @@
 					</div>
 				</div>
 				<div class="bjImg" @click="getLt(index)">
-					<span>编辑素材</span>
+					<span>编辑物料</span>
 				</div>
 			</div>
 		</div>

@@ -696,10 +696,7 @@
         border:1px solid rgba(211,219,235,1);
         margin-top: 10px;
     }
-    .bg_btn{
 
-        margin: 40px 0;
-    }
     .bg_btn span{
         display: inline-block;
         width:68px;
