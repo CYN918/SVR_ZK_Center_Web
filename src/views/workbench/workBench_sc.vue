@@ -9,12 +9,14 @@
                     <div>
                         <span class="tit_txt">素材类型</span>
                         <select style="margin-right: 24px" v-model="type" @change="getSJlist()">
+                            <option value="" disabled selected>请选择</option>
                             <option v-for="(item,index) in types" :value="item.type">{{item.name}}</option>
                         </select>
                     </div>
                     <div>
                         <span class="tit_txt">优先级</span>
                         <select v-model="priority">
+                            <option value="" disabled selected>请选择</option>
                             <option value="高">高</option>
                             <option value="中">中</option>
                             <option value="低">低</option>
@@ -27,6 +29,7 @@
                     <div>
                         <span class="tit_txt">设计规范</span>
                         <select class="sj_sel" v-model="design_standard">
+                            <option value="" disabled selected>请选择</option>
                             <option v-for="(item,index) in sj" :value="item.name">{{item.name}}</option>
                         </select>
                     </div>
@@ -44,7 +47,8 @@
                     </div>
                     <div>
                         <span class="tit_txt top">设计要求</span>
-                        <textarea maxlength="300" v-model="requirement"></textarea>
+                        <textarea maxlength="300" v-model="requirement" placeholder="请补充本次需求相关详细描述
+例：xxx渠道的应用分发模板"></textarea>
                     </div>
                     <div>
                         <span class="tit_txt fj">附件</span>

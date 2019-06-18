@@ -2,10 +2,10 @@
     <div>
         <div class="top_name">
             <span class="inner">|</span>
-            <span class="top_txt">配置管理>标签管理>素材库-{{this.type}}标签管理</span>
+            <span class="top_txt">配置管理>标签管理>{{mName}}-{{this.type}}标签管理</span>
             <div class="fh">
                 <img src="../../../public/img/fh.png" style="width: 16px;margin-right: 10px" @click="fh"/>
-                <span @click="fh">素材库-{{this.type}}标签管理</span>
+                <span @click="fh">{{mName}}-{{this.type}}标签管理</span>
             </div>
         </div>
         <div class="content">
@@ -175,10 +175,16 @@
                 total:0,
                 check:false,
                 type:'',
+                mName:''
             }
         },
         mounted(){
             this.getTogsList();
+            if(this.$route.query.material==0){
+                this.mName='物料库'
+            }else{
+                this.mName='素材库'
+            }
         },
         methods:{
             fh(){
