@@ -33,7 +33,7 @@
                                 <div class="boxImg_xz">
                                     <span class="box_box" v-for="(tag,index2) in DL.self_tags">{{tag}}</span>
                                     <span class="box_box" v-for="(ta,index3) in DL.tags">{{ta}}</span>
-                                    <span class="img"  @click="XStag(index)">+ 标签</span>
+                                    <span class="img">+ 标签</span>
                                 </div>
                             </div>
                             <div>
@@ -49,7 +49,7 @@
                             <div>
                                 <div class="xgsc">
                                     <span class="boxImg_text">相关素材:</span>
-                                    <span class="ck" @click="getRel(index)">查看详情</span>
+                                    <span class="ck" >查看详情</span>
                                 </div>
                                 <div class="dx">
                                     <span class="boxImg_text">预览图大小:</span>
@@ -76,12 +76,9 @@
                             <div>
                                 <span class="boxImg_text">附件:</span>
                                 <span class="boxImg_content">{{parseInt(DL.attach.size/1024)}}kb</span>
-                                <a class="dowload" :href="DL.attach.url">下载</a>
+                                <a class="dowload" href="">下载</a>
                             </div>
                         </div>
-                    </div>
-                    <div class="bjImg" @click="getLt(index)">
-                        <span>编辑素材</span>
                     </div>
                 </div>
             </div>
