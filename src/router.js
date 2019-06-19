@@ -49,6 +49,8 @@ import MD5 from './views/admin/MD5.vue'
 mode['MD5'] = MD5
 import allocation from  './views/admin/allocation'
 mode['allocation'] =allocation
+import replace from './views/admin/replace'
+mode['replace'] = replace
 
 //审核台
 import userIndex from './views/user/index.vue'
@@ -174,6 +176,7 @@ let nb = [
 			{path:'/admin/material_wallpaper',name:'锁屏壁纸成品管理',component: mode['material_wallpaper']},
             {path:'/admin/MD5',name:'锁屏壁纸MD5库',component: mode['MD5']},
             {path:'/admin/allocation',name:'聚合内容配置',component: mode['allocation']},
+            {path:'/admin/replace',name:'资源替换',component: mode['replace']},
 			{path:'/admin/material_flows',name:'素材中间件管理',component: mode['material_flows']},				
 			{path:'/admin/library_picture',name:'广告图库投放管理',component: mode['library_picture']},
 			{path:'/admin/library_pictures',name:'library_pictures',component: mode['library_pictures']},
@@ -247,8 +250,6 @@ let leftNav =
 		{title:'素材库',url:'2',list:[
 			{title:'已入库',url:'/admin/material_picture'},
 			{title:'待入库',url:'/admin/material_flows'},
-            {title:'锁屏壁纸MD5库',url:'/admin/MD5'},
-			{title:'聚合内容配置',url:'/admin/allocation'}
 		]},
 		{title:'投放管理',url:'3',list:[
 			{title:'广告图库投放管理',url:'/admin/library_picture'},
@@ -262,6 +263,11 @@ let leftNav =
 			{title:'内部帐号管理',url:'/admin/inside'},
 			{title:'外部帐号管理',url:'/admin/external'},
 		]},
+        {title:'运营工具',url:'5',list:[
+                {title:'锁屏壁纸MD5库',url:'/admin/MD5'},
+                {title:'聚合内容配置',url:'/admin/allocation'},
+                {title:'资源替换',url:'/admin/replace'},
+            ]},
 	]},
 	{title:'审核台',default:'/user',defaultopen:['1'],
         children:[
