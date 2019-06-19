@@ -188,6 +188,7 @@
                     if(a!=undefined){
                         this.message = res.data[a];
                         this.tags = true;
+                        this.stop();
                     }
                 })
             },
@@ -238,6 +239,7 @@
                     if(a!=undefined){
                         this.message = res.data[a];
                         this.sc = true;
+                        this.stop();
                     }
                 })
             },

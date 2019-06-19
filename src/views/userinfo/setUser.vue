@@ -1,6 +1,6 @@
 <template>
-    <div class="detail">
-        <div class="detail_1">
+    <div class="detail" @click="shut">
+        <div class="detail_1" @click.stop>
             <div class="detail_1_1_1">
                 <span>编辑账号</span>
             </div>
