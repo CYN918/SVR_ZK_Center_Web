@@ -21,7 +21,7 @@
                     </div>
                     <div class="AddIMG_bq_box_bottom">
                         <div class="AddIMG_bq_box_top_tit">个性标签:
-                            <input type="text" placeholder="创建或搜索个性标签" v-model="tagsName" @input="getTagsList()"/>
+                            <input type="text" placeholder="创建或搜索个性标签" v-model="tagsName" maxlength="6" @input="getTagsList()"/>
                         </div>
                         <div class="AddIMG_bq_box_top_bq AddIMG_bq_box_top_zdy">
                             <span class="CJ" v-if="tagsName!=''" @click="ADDtags()">创建“{{tagsName}}”标签</span>

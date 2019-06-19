@@ -63,9 +63,11 @@
                                     action="111">
                                 <el-button size="small" type="primary">添加附件</el-button>
                             </el-upload>
-
                         </div>
-
+                        <div class="progress" style="width: 100px;height: 5px;opacity: 0.5;display: inline-block " v-if="initiate2" >
+                            <div class="strip" :style="{width:bbb+'%'}" style="background: blue;height: 5px"></div>
+                            <div style="text-align: center;font-size: 10px">当前附件上传{{bbb}}%</div>
+                        </div>
                     </div>
                     <div>
                         <span class="tit_txt fj">风格</span>
@@ -81,8 +83,10 @@
                                 <el-button size="small" type="primary">上传参考图</el-button>
                             </el-upload>
                         </div>
-
-
+                        <div class="progress" style="width: 100px;height: 5px;opacity: 0.5;display: inline-block " v-if="initiate" >
+                            <div class="strip" :style="{width:aaa+'%'}" style="background: blue;height: 5px"></div>
+                            <div style="text-align: center;font-size: 10px">当前附件上传{{aaa}}%</div>
+                        </div>
                     </div>
                 </div>
                 <div class="btn">
@@ -117,7 +121,11 @@
                 endtime:'',
                 design_standard:'',
                 is_ref:'',
-                ref_url:''
+                ref_url:'',
+                initiate2:false,
+                initiate:false,
+                aaa:0,
+                bbb:0
             }
         },
         mounted(){
@@ -202,6 +210,24 @@
                 }
 
             },
+            time(){
+                var _this=this;
+                _this.aaa=0;
+                var timer = setInterval(function () {
+                    if(_this.aaa<99){
+                        _this.aaa++
+                    }
+                },100);
+            },
+            time1(){
+                var _this=this;
+                _this.bbb=0;
+                var timer = setInterval(function () {
+                    if(_this.bbb<99){
+                        _this.bbb++
+                    }
+                },100);
+            },
             heid(){
                 this.$parent.heidSC();
             },
@@ -215,9 +241,13 @@
                 this.file = '';
             },
             uploadF(file){
+                this.initiate2 = true;
+                this.time();
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
+                    this.bbb=100;
+                    this.initiate2=false;
                     this.attach.name = res.name;
                     this.attach.ext = res.ext;
                     this.attach.md5 = res.md5;
@@ -226,9 +256,13 @@
                 })
             },
             uploadFile(file){
+                this.initiate = true;
+                this.time1();
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
+                    this.aaa=100;
+                    this.initiate=false;
                     this.ref_url = res.url
                 })
             },
@@ -385,6 +419,7 @@
         margin-right: 14px!important;
     }
     .uplaod{
+        width: 150px;
         display: inline-block;
         margin-bottom: 0!important;
     }
