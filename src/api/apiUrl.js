@@ -351,4 +351,12 @@ export default {
 	aggregation_del:{
 		url:'/aggregation/del',method:'post',isType:{suktip:1,reload:1}
 	},
+	//获取待替换资源
+	replace_pending_list:{
+		url:'/replace/pending/list',method:'get'
+	},
+	//获取已替换资源
+	replace_had_list:{
+		url:'/replace/had/list',method:'get'
+	},
 }

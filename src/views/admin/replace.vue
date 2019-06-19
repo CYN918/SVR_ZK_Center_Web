@@ -5,9 +5,27 @@
         </div>
         <div>
             <template>
+                <div class="block">
+                    <el-date-picker
+                            v-model="time"
+                            type="daterange"
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期"
+                            format="yyyy 年 MM 月 dd 日"
+                            value-format="yyyy-MM-dd"
+                    >
+                    </el-date-picker>
+                    <span class="cx" @click="getList()">查询</span>
+                </div>
+            </template>
+        </div>
+        <div>
+            <template>
                 <el-table
                         :data="tableData"
                         style="width: 100%"
+                        :header-cell-style="getRowClass"
                         border>
                     <el-table-column
                             prop="url"
@@ -57,9 +75,27 @@
         </div>
         <div>
             <template>
+                <div class="block">
+                    <el-date-picker
+                            v-model="times"
+                            type="daterange"
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期"
+                            format="yyyy 年 MM 月 dd 日"
+                            value-format="yyyy-MM-dd"
+                    >
+                    </el-date-picker>
+                    <span class="cx" @click="getDataList()">查询</span>
+                </div>
+            </template>
+        </div>
+        <div>
+            <template>
                 <el-table
                         :data="tableData2"
                         style="width: 100%"
+                        :header-cell-style="getRowClass"
                         border>
                     <el-table-column
                             prop="url"
@@ -137,7 +173,6 @@
                 </div>
             </div>
             </div>
-
     </div>
 </template>
 
@@ -150,9 +185,23 @@
                 tableData2:[{MD5:2222,tdate:"dsds"},],
                 Add:false,
                 remove:false,
+                start_date:'',
+                end_date:'',
+                time:[],
+                times:[],
             }
         },
+        mounted(){
+            this.getList();
+        },
         methods:{
+            getRowClass({row, column, rowIndex, columnIndex}) {
+                if (rowIndex === 0) {
+                    return 'background:rgb(246, 245, 245,1);color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
+                } else {
+                    return ''
+                }
+            },
             handleExceed(files, fileList) {
                 this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件`);
             },
@@ -161,6 +210,19 @@
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
                     console.log(res)
+                })
+            },
+            getList(){
+                let params={start_date:this.time[0],end_date:this.time[1]}
+                this.api.replace_pending_list({params}).then((res)=>{
+                    this.tableData = res;
+                    this.getDataList()
+                })
+            },
+            getDataList(){
+                let params={start_date:this.times[0],end_date:this.times[1]}
+                this.api.replace_had_list({params}).then((res)=>{
+                    this.tableData2= res
                 })
             },
             getAdd(){
@@ -277,5 +339,18 @@
 .upload{
     margin-top: 20px;
     width: 100px;
+}
+.cx{
+    display: inline-block;
+    height: 36px;
+    line-height: 36px;
+    width: 80px;
+    cursor: pointer;
+    border-radius: 5px;
+    color: #f5f6fa;
+    background: #4f4cf1 ;
+    border: 0;
+    text-align: center;
+    margin:20px 0 20px 24px ;
 }
 </style>
