@@ -92,8 +92,8 @@
                                 </el-upload>
                             </div>
                             <div class="progress" style="width: 100px;height: 5px;opacity: 0.5;display: inline-block " v-if="initiate2" >
-                                <div class="strip" :style="{width:aaa+'%'}" style="background: blue;height: 5px"></div>
-                                <div style="text-align: center;font-size: 10px">当前附件上传{{aaa}}%</div>
+                                <div class="strip" :style="{width:bbb+'%'}" style="background: blue;height: 5px"></div>
+                                <div style="text-align: center;font-size: 10px">当前附件上传{{bbb}}%</div>
                             </div>
                         </div>
                         <div class="AddIMG_bq">
@@ -174,6 +174,7 @@
                 is_bind_workid:false,
                 file:{},
                 aaa:0,
+                bbb:0,
                 initiate:false,
                 initiate2:false
             }
@@ -245,6 +246,15 @@
                     }
                 },100);
             },
+            time1(){
+                var _this=this;
+                _this.bbb=0;
+                var timer = setInterval(function () {
+                    if(_this.bbb<99){
+                        _this.bbb++
+                    }
+                },100);
+            },
             uploadF(file){
                 this.initiate=true;
                 this.time();
@@ -279,11 +289,11 @@
             },
             uploadFile(file){
                 this.initiate2=true;
-                this.time();
+                this.time1();
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
-                    this.aaa=100;
+                    this.bbb=100;
                     this.initiate2=false;
                     this.prev_uri = res.url;
                     var image = new Image();
