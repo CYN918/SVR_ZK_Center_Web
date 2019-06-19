@@ -665,6 +665,7 @@
         opacity: 0;
     }
     .AddIMG_yl_upload{
+        width: 150px;
         display: inline-block;
         font-size:14px;
         font-family:PingFangSC-Regular;
