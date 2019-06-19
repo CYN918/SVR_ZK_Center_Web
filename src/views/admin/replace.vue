@@ -26,15 +26,19 @@
                         :data="tableData"
                         style="width: 100%"
                         :header-cell-style="getRowClass"
+                        :cell-style="cell"
                         border>
                     <el-table-column
                             prop="url"
-                            label="URL"
+                            label="待替换资源图片"
                             >
+                        <template slot-scope="scope">
+                            <img :src="scope.row.url" min-width="70" height="70" />
+                        </template>
                     </el-table-column>
                     <el-table-column
                             prop="url_md5"
-                            label="MD5"
+                            label="待替换资源URL的MD5"
                             >
                     </el-table-column>
                     <el-table-column
@@ -51,7 +55,7 @@
                     </el-table-column>
                     <el-table-column
                             prop="tdate"
-                            label="记录时期">
+                            label="更新时间">
                     </el-table-column>
                     <el-table-column
                             prop="model"
@@ -64,85 +68,14 @@
                     <el-table-column
                             label="操作">
                         <template slot-scope="scope">
-                            <el-button @click="getAdd(scope.row)" type="text" size="small">替换</el-button>
+                            <el-button @click="getAdd(tableData[scope.$index])" type="text" size="small">替换</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
             </template>
         </div>
-        <div class="titel_table title_top">
-            <span>已替换</span>
-        </div>
-        <div>
-            <template>
-                <div class="block">
-                    <el-date-picker
-                            v-model="times"
-                            type="daterange"
-                            range-separator="至"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期"
-                            format="yyyy 年 MM 月 dd 日"
-                            value-format="yyyy-MM-dd"
-                    >
-                    </el-date-picker>
-                    <span class="cx" @click="getDataList()">查询</span>
-                </div>
-            </template>
-        </div>
-        <div>
-            <template>
-                <el-table
-                        :data="tableData2"
-                        style="width: 100%"
-                        :header-cell-style="getRowClass"
-                        border>
-                    <el-table-column
-                            prop="url"
-                            label="URL"
-                           >
-                    </el-table-column>
-                    <el-table-column
-                            prop="url_md5"
-                            label="MD5"
-                            >
-                    </el-table-column>
-                    <el-table-column
-                            prop="adid"
-                            label="广告ID">
-                    </el-table-column>
-                    <el-table-column
-                            prop="sdk_id"
-                            label="SDK ID">
-                    </el-table-column>
-                    <el-table-column
-                            prop="src"
-                            label="来源">
-                    </el-table-column>
-                    <el-table-column
-                            prop="tdate"
-                            label="记录时期">
-                    </el-table-column>
-                    <el-table-column
-                            prop="model"
-                            label="实现方式">
-                    </el-table-column>
-                    <el-table-column
-                            prop="pv"
-                            label="访问量">
-                    </el-table-column>
-                    <el-table-column
-                            prop="pv"
-                            label="访问量">
-                        <template slot-scope="scope">
-                            <el-button @click="getRemove(scope.$index)" type="text" >删除</el-button>
-                        </template>
-                    </el-table-column>
-                </el-table>
-            </template>
-        </div>
-        <div class="bg" v-if="Add" @click="heidAdd()">
-            <div class="content" @click.stop>
+        <div class="bg" v-if="Add" >
+            <div class="content" >
                 <div class="tit">
                     <span>资源替换</span>
                 </div>
@@ -154,25 +87,48 @@
                             :limit="1"
                             :on-exceed="handleExceed"
                             >
-                        <el-button size="small" type="primary">上传</el-button>
+                        <el-button size="small" type="primary">上传资源</el-button>
                     </el-upload>
                 </div>
+                <div class="box_content">
+                    <div>
+                        <span>新资源URL</span>
+                        <input type="text" disabled v-model="new_url"/>
+                        <span>待替换资源URL</span>
+                        <input type="text" disabled v-model="datalist.url"/>
+                    </div>
+                    <div>
+                        <span>待替换资源MD5</span>
+                        <input type="text" disabled v-model="datalist.url_md5"/>
+                        <span>广告ID</span>
+                        <input type="text" disabled v-model="datalist.adid"/>
+                    </div>
+                    <div>
+                        <span>实现方式</span>
+                        <input type="text" disabled v-model="datalist.model"/>
+                        <span>SDK ID</span>
+                        <input type="text" disabled v-model="datalist.sdk_id"/>
+                    </div>
+
+                    <div>
+                        <span>来源</span>
+                        <input type="text" disabled v-model="datalist.src"/>
+                        <span>更新时间</span>
+                        <input type="text" disabled v-model="datalist.tdate"/>
+                    </div>
+                    <div>
+                        <span>访问量</span>
+                        <input type="text" disabled v-model="datalist.pv"/>
+                        <div class="btn">
+                            <span class="th" @click="add()">替换</span>
+                            <span @click="heidAdd()">取消</span>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
         </div>
-        <div class="bg" v-if="remove">
-            <div class="del">
-                <div class="tit">
-                    <span>删除</span>
-                </div>
-                <div class="move">
-                    <span>是否确认删除？</span>
-                </div>
-                <div class="btn">
-                    <span class="sc">删除</span>
-                    <span @click="heidRemove">取消</span>
-                </div>
-            </div>
-            </div>
     </div>
 </template>
 
@@ -182,13 +138,13 @@
         data(){
             return{
                 tableData:[{MD5:2222,tdate:"dsds"},{MD5:2222,tdate:"dsds"}],
-                tableData2:[{MD5:2222,tdate:"dsds"},],
                 Add:false,
-                remove:false,
                 start_date:'',
                 end_date:'',
                 time:[],
-                times:[],
+                datalist:{},
+                new_url:'',
+                new_url_md5:'',
             }
         },
         mounted(){
@@ -202,6 +158,9 @@
                     return ''
                 }
             },
+            cell({row, column, rowIndex, columnIndex}){
+                return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
+            },
             handleExceed(files, fileList) {
                 this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件`);
             },
@@ -209,34 +168,44 @@
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
-                    console.log(res)
+                   this.new_url=res.url;
+                   this.new_url_md5=res.md5;
                 })
             },
             getList(){
                 let params={start_date:this.time[0],end_date:this.time[1]}
                 this.api.replace_pending_list({params}).then((res)=>{
                     this.tableData = res;
-                    this.getDataList()
                 })
             },
-            getDataList(){
-                let params={start_date:this.times[0],end_date:this.times[1]}
-                this.api.replace_had_list({params}).then((res)=>{
-                    this.tableData2= res
-                })
-            },
-            getAdd(){
+            getAdd(data){
                 this.Add = true;
+                this.datalist = data;
+                console.log(this.datalist);
             },
             heidAdd(){
                 this.Add=false;
+                this.datalist = "";
             },
-            getRemove(){
-                this.remove=true
-            },
-            heidRemove(){
-                this.remove=false
-            },
+            add(){
+                if(!this.new_url){
+                    this.$message.error('请上传文件')
+                }
+                let formData = new FormData;
+                formData.append('url',this.datalist.url);
+                formData.append('url_md5',this.datalist.url_md5);
+                formData.append('new_url',this.new_url);
+                formData.append('adid',this.datalist.adid);
+                formData.append('sdk_id',this.datalist.sdk_id);
+                formData.append('src',this.datalist.src);
+                formData.append('tdate',this.datalist.tdate);
+                formData.append('model',this.datalist.model);
+                formData.append('pv',this.datalist.pv);
+                this.api.replace_add(formData).then((res)=>{
+                    this.heidAdd();
+                    this.getList()
+                })
+            }
         },
     }
 </script>
@@ -275,11 +244,11 @@
 }
 .content{
     background: #fff;
-    width: 600px;
-    height: 350px;
+    width: 890px;
+    height: 500px;
     padding: 24px;
     border-radius: 10px;
-    margin-top: 20%;
+    margin-top: 30%;
     margin-left: 50%;
     -webkit-transform: translate(-50%,-50%);
     transform: translate(-50%,-50%);
@@ -328,18 +297,37 @@
     cursor: pointer;
     border-radius: 5px;
     border: 1px solid #dfdfdf;
-    text-align: center;
+    text-align: center!important;
 }
-.sc{
+.th{
     color: #f5f6fa!important;
-    background: #4f4cf1 !important;
+    background: #4f4cf1!important;
     border: 0!important;
-    margin-right: 40px;
+    margin-right: 40px!important;
 }
-.upload{
+.box_content div{
     margin-top: 20px;
-    width: 100px;
 }
+.box_content span{
+    display: inline-block;
+    width: 150px;
+    text-align: right;
+    font-size: 16px;
+    margin-right: 15px;
+    line-height: 36px;
+}
+.box_content input{
+    width: 200px;
+    height: 36px;
+    padding-left: 10px;
+}
+.upload-demo{
+    display: inline-block;
+    margin-top: 20px;
+    width: 150px;
+    margin-left: 165px;
+}
+
 .cx{
     display: inline-block;
     height: 36px;

@@ -51,6 +51,8 @@ import allocation from  './views/admin/allocation'
 mode['allocation'] =allocation
 import replace from './views/admin/replace'
 mode['replace'] = replace
+import has_replaced from './views/admin/Has_replaced'
+mode['has_replaced'] = has_replaced
 
 //审核台
 import userIndex from './views/user/index.vue'
@@ -176,7 +178,8 @@ let nb = [
 			{path:'/admin/material_wallpaper',name:'锁屏壁纸成品管理',component: mode['material_wallpaper']},
             {path:'/admin/MD5',name:'锁屏壁纸MD5库',component: mode['MD5']},
             {path:'/admin/allocation',name:'聚合内容配置',component: mode['allocation']},
-            {path:'/admin/replace',name:'资源替换',component: mode['replace']},
+            {path:'/admin/replace',name:'资源待替换',component: mode['replace']},
+            {path:'/admin/has_replaced',name:'资源已替换',component: mode['has_replaced']},
 			{path:'/admin/material_flows',name:'素材中间件管理',component: mode['material_flows']},				
 			{path:'/admin/library_picture',name:'广告图库投放管理',component: mode['library_picture']},
 			{path:'/admin/library_pictures',name:'library_pictures',component: mode['library_pictures']},
@@ -266,7 +269,8 @@ let leftNav =
         {title:'运营工具',url:'5',list:[
                 {title:'锁屏壁纸MD5库',url:'/admin/MD5'},
                 {title:'聚合内容配置',url:'/admin/allocation'},
-                {title:'资源替换',url:'/admin/replace'},
+                {title:'资源待替换',url:'/admin/replace'},
+                {title:'资源已替换',url:'/admin/has_replaced'},
             ]},
 	]},
 	{title:'审核台',default:'/user',defaultopen:['1'],

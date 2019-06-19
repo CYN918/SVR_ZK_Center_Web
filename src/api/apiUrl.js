@@ -359,4 +359,12 @@ export default {
 	replace_had_list:{
 		url:'/replace/had/list',method:'get'
 	},
+	//替换资源
+	replace_add:{
+		url:'/replace/add',method:'post',isType:{suktip:1}
+	},
+	//删除资源
+	replace_del:{
+		url:'/replace/del',method:'post',isType:{suktip:1}
+	},
 }
