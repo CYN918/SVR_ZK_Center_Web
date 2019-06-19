@@ -1,25 +1,23 @@
 <template>
     <div class="content_right">
-        <div>
+        <div class="titel_table">
             <span>待替换</span>
-            <span>已替换</span>
         </div>
         <div>
             <template>
                 <el-table
                         :data="tableData"
                         style="width: 100%"
-                        border
-                >
+                        border>
                     <el-table-column
                             prop="url"
                             label="URL"
-                            width="180">
+                            >
                     </el-table-column>
                     <el-table-column
                             prop="url_md5"
                             label="MD5"
-                            width="180">
+                            >
                     </el-table-column>
                     <el-table-column
                             prop="adid"
@@ -45,9 +43,101 @@
                             prop="pv"
                             label="访问量">
                     </el-table-column>
+                    <el-table-column
+                            label="操作">
+                        <template slot-scope="scope">
+                            <el-button @click="getAdd(scope.row)" type="text" size="small">替换</el-button>
+                        </template>
+                    </el-table-column>
                 </el-table>
             </template>
         </div>
+        <div class="titel_table title_top">
+            <span>已替换</span>
+        </div>
+        <div>
+            <template>
+                <el-table
+                        :data="tableData2"
+                        style="width: 100%"
+                        border>
+                    <el-table-column
+                            prop="url"
+                            label="URL"
+                           >
+                    </el-table-column>
+                    <el-table-column
+                            prop="url_md5"
+                            label="MD5"
+                            >
+                    </el-table-column>
+                    <el-table-column
+                            prop="adid"
+                            label="广告ID">
+                    </el-table-column>
+                    <el-table-column
+                            prop="sdk_id"
+                            label="SDK ID">
+                    </el-table-column>
+                    <el-table-column
+                            prop="src"
+                            label="来源">
+                    </el-table-column>
+                    <el-table-column
+                            prop="tdate"
+                            label="记录时期">
+                    </el-table-column>
+                    <el-table-column
+                            prop="model"
+                            label="实现方式">
+                    </el-table-column>
+                    <el-table-column
+                            prop="pv"
+                            label="访问量">
+                    </el-table-column>
+                    <el-table-column
+                            prop="pv"
+                            label="访问量">
+                        <template slot-scope="scope">
+                            <el-button @click="getRemove(scope.$index)" type="text" >删除</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </template>
+        </div>
+        <div class="bg" v-if="Add" @click="heidAdd()">
+            <div class="content" @click.stop>
+                <div class="tit">
+                    <span>资源替换</span>
+                </div>
+                <div class="upload">
+                    <el-upload
+                            class="upload-demo"
+                            action="https://jsonplaceholder.typicode.com/posts/"
+                            :http-request="upload"
+                            :limit="1"
+                            :on-exceed="handleExceed"
+                            >
+                        <el-button size="small" type="primary">上传</el-button>
+                    </el-upload>
+                </div>
+            </div>
+        </div>
+        <div class="bg" v-if="remove">
+            <div class="del">
+                <div class="tit">
+                    <span>删除</span>
+                </div>
+                <div class="move">
+                    <span>是否确认删除？</span>
+                </div>
+                <div class="btn">
+                    <span class="sc">删除</span>
+                    <span @click="heidRemove">取消</span>
+                </div>
+            </div>
+            </div>
+
     </div>
 </template>
 
@@ -56,8 +146,35 @@
         name: "replace",
         data(){
             return{
-                tableData:[],
+                tableData:[{MD5:2222,tdate:"dsds"},{MD5:2222,tdate:"dsds"}],
+                tableData2:[{MD5:2222,tdate:"dsds"},],
+                Add:false,
+                remove:false,
             }
+        },
+        methods:{
+            handleExceed(files, fileList) {
+                this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件`);
+            },
+            upload(file){
+                let formData = new FormData;
+                formData.append('file',file.file);
+                this.api.file_upload(formData).then((res)=>{
+                    console.log(res)
+                })
+            },
+            getAdd(){
+                this.Add = true;
+            },
+            heidAdd(){
+                this.Add=false;
+            },
+            getRemove(){
+                this.remove=true
+            },
+            heidRemove(){
+                this.remove=false
+            },
         },
     }
 </script>
@@ -69,5 +186,96 @@
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     background: #fff;
+}
+    .titel_table{
+        width: 100%;
+        height: 36px;
+        margin: 30px 0;
+    }
+.titel_table>span{
+    display: inline-block;
+    height: 36px;
+    line-height: 36px;
+    font-weight: bold;
+    font-size: 18px;
+}
+.title_top{
+    margin-top: 60px;
+}
+.bg{
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.2);
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 999;
+}
+.content{
+    background: #fff;
+    width: 600px;
+    height: 350px;
+    padding: 24px;
+    border-radius: 10px;
+    margin-top: 20%;
+    margin-left: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+}
+.del{
+    background: #fff;
+    width: 400px;
+    height: 150px;
+    padding: 24px;
+    border-radius: 10px;
+    margin-top: 20%;
+    margin-left: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+}
+.tit{
+    border-bottom: 1px solid #ddd;
+}
+.tit span{
+    display:inline-block;
+    height: 36px;
+    line-height: 36px;
+    font-size: 18px;
+    font-weight: bold;
+}
+.move{
+    width: 100%;
+    margin-top: 20px;
+}
+.move span{
+    display: inline-block;
+    height: 36px;
+    line-height: 36px;
+    font-size: 16px;
+    font-weight: bold;
+}
+.btn{
+    margin-top: 20px;
+    text-align: center;
+}
+.btn span{
+    display: inline-block;
+    height: 36px;
+    line-height: 36px;
+    width: 80px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid #dfdfdf;
+    text-align: center;
+}
+.sc{
+    color: #f5f6fa!important;
+    background: #4f4cf1 !important;
+    border: 0!important;
+    margin-right: 40px;
+}
+.upload{
+    margin-top: 20px;
+    width: 100px;
 }
 </style>
