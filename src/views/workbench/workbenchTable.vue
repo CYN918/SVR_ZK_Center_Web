@@ -19,6 +19,8 @@
                         header-align="center"
                         :header-cell-style="getRowClass"
                         :cell-style="cell"
+                        :row-key="row_key"
+                        :expand-row-keys="Keys"
                         style="width: 100%;color:#000">
                     <el-table-column
                             label="需求类型" prop="demand_type"
@@ -141,14 +143,19 @@
                 CkID:'',
                 up:false,
                 scwl:false,
+                Keys:[],
 
             }
         },
 
         mounted(){
             this.getData();
+            // this.Keys.push(this.tableData[0].did);
         },
         methods:{
+            row_key(row){
+                // return row.did;
+            },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
                     return 'background:rgba(255,255,255,1);color:#1f2e4d;margin:0 24px;font-size:14px;font-weight:Medium;font-family:PingFang-SC-Regular;'
@@ -263,6 +270,7 @@
                 })
             },
             getData(){
+                console.log(this.tableData);
                 let params = {
                     email:localStorage.getItem('userAd'),
                 };

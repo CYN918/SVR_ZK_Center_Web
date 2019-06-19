@@ -86,7 +86,6 @@
                 this.active=0;
                 let params ={p:this.p,page:this.page,search:this.search,all:0}
                 this.api.demand_await({params}).then((res)=>{
-
                     this.tableData = res.data;
                     this.total = res.total;
                     for (let i=0;i<this.tableData.length;i++){
@@ -105,7 +104,6 @@
                 let params ={p:this.p,page:this.page,search:this.search,all:1};
                 this.api.demand_await({params}).then((res)=>{
                     this.tableData = res.data;
-                    console.log(res.data)
                     this.total = res.total;
                     for (let i=0;i<this.tableData.length;i++){
                         console.log(this.tableData[i].demand_type)
@@ -121,11 +119,19 @@
             },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
-                this.getDataList()
+                if(this.active==0){
+                    this.getList();
+                }else{
+                    this.getDataList()
+                }
             },
             handleCurrentChange(page) {//页码切换
                 this.page = page;
-                this.getDataList()
+                if(this.active==0){
+                    this.getList();
+                }else{
+                    this.getDataList()
+                }
             },
         }
     }

@@ -121,7 +121,7 @@
             }
         },
         mounted(){
-            this.getTypes()
+            this.getTypes();
         },
         methods:{
             ADDsc(){
