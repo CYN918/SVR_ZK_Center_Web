@@ -50,13 +50,13 @@
                             <span class="tit">绑定素材:</span>
                             <input type="text" placeholder="请输入素材ID" v-model="bind_mid" :disabled="(this.message.mid!=undefined)" @change="IDchanges"/>
                             <span class="AddIMG_sc_btn" @click="XSset" :class="{AddIMG_sc_btn_jy:(this.message.mid!=undefined)}">从素材库选择</span>
-                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="is_bind_mid"/><span>与素材库内已有素材无关</span>
+                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="is_bind_mid" :disabled="(this.message.mid!=undefined)"/><span>与素材库内已有素材无关</span>
                             <p>若由素材库内文件处理后上传，必须填写对应的素材ID，仅可填写一个</p>
                         </div>
                         <div class="AddIMG_zp">
                             <span class="tit">绑定设计师作品:</span>
                             <input type="text" class="AddIMG_zp_text" v-model="bind_workid" :disabled="(this.message.mid!=undefined)"/>
-                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="is_bind_workid"/>
+                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="is_bind_workid" :disabled="(this.message.mid!=undefined)"/>
                             <span>与设计师无关</span>
                             <p>由设计师站获得的素材，必须填写对应的作品ID</p>
                         </div>
@@ -341,7 +341,6 @@
                     return
                 }
 
-
                 let formData = new FormData;
                 formData.append('mid',this.message.mid);
                 formData.append('type',this.type);
@@ -413,7 +412,6 @@
 
             },
             getMatterDetails(){
-
                 let params ={mid:this.message.mid};
                 this.api.material_detail({params}).then((res)=>{
                     this.sw=true;
@@ -423,6 +421,8 @@
                     this.bardian=res.self_tags;
                     this.sjSize=res.size;
                     this.type=res.type;
+                    this.is_bind_mid=res.is_bind_mid==1?true:false;
+                    this.is_bind_workid=res.is_bind_workid==1?true:false;
                     for(let i=0;i<res.bind_mid.length;i++){
                         this.bind_mid=res.bind_mid[i].mid;
                         this.hqUrl = res.bind_mid[i].prev_uri;

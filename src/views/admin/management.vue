@@ -80,9 +80,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="bjImg" @click="getLt(index)">
-                        <span>编辑素材</span>
-                    </div>
                         <div class="img_right" :class="{active_class:ind==index}"><span>√</span></div>
                 </div>
                 </div>
@@ -222,8 +219,8 @@
         width: 0!important;
         height: 0!important;
         position: relative;
-        top: -384px;
-        right: -738px;
+        top: -302px;
+        right: -61px;
         cursor: pointer;
         border: 20px solid;
         border-color: rgba(211,219,235,1) rgba(211,219,235,1) transparent transparent;
