@@ -25,7 +25,7 @@
                     <input type="text" placeholder="最多输入10个字" maxlength="10" v-model="name" v-if="this.$route.query.role_id ==undefined"/>
                     <div class="wb" v-if="this.$route.query.role_id ==undefined">
                        <span>是否为外部角色</span>
-                        <select>
+                        <select v-model="external ">
                             <option value="1">是</option>
                             <option value="0">否</option>
                         </select>
@@ -80,6 +80,7 @@
                 parent:'',
                 list:[],
                 parentList:[],
+                external:0
             }
         },
         mounted(){

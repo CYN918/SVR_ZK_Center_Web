@@ -299,6 +299,7 @@
         display: inline-block;
         line-height: 36px;
         width:422px;
+        overflow: hidden;
         height:36px;
         background:rgba(255,255,255,1);
         border-radius:4px;

@@ -78,6 +78,9 @@
                                 <span class="boxImg_content">{{parseInt(DL.attach.size/1024)}}kb</span>
                                 <a class="dowload" href="">下载</a>
                             </div>
+                            <div style="position: relative">
+
+                            </div>
                         </div>
                     </div>
                 </div>

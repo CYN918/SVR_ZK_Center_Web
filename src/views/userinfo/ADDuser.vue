@@ -85,24 +85,31 @@
 
             addWbUser(){
                 if(!this.name){
-                    this.$message('姓名不能为空')
+                    this.$message.error('用户名不能为空')
+                    return
                 }
                 if(!this.email){
-                    this.$message('姓名不能为空')
+                    this.$message.error('邮箱不能为空')
+                    return
                 }
                 if(!this.password){
-                    this.$message('密码不能为空')
+                    this.$message.error('密码不能为空')
+                    return
                 }if(!this.password_confirmation){
-                    this.$message('确认密码不能为空')
+                    this.$message.error('确认密码不能为空')
+                    return
                 }
                 if(this.password_confirmation!=this.password){
-                    this.$message('两次密码不相同')
+                    this.$message.error('两次密码不相同')
+                    return
                 }
                 if(!this.company){
-                    this.$message('公司不能为空')
+                    this.$message.error('公司不能为空')
+                    return
                 }
                 if(!this.phone){
-                    this.$message('电话不能为空')
+                    this.$message.error('电话不能为空')
+                    return
                 }
 
                 this.api.account_external_add({name:this.name,email:this.email,password:this.password,password_confirmation:this.password_confirmation,roles_id:this.roles,company:this.company,phone:this.phone,contact_email:this.email}).then((res)=>{
@@ -226,8 +233,8 @@
         cursor: pointer;
     }
     .active{
-        background: rgb(202, 206, 199)!important;
-        color: rgb(33, 33, 33)!important;
+        background: #CAD1E0!important;
+        color: #FFF!important;
     }
     .btn_txt_2{
         display: inline-block;
