@@ -368,6 +368,7 @@ html,body{
 .boxImg:nth-child(2n){
   margin-right: 0!important;
 }
+.boxImg_right_1 div{height: 36px}
 .boxImg .img_box{
   display: inline-block;
   width:252px;
@@ -404,6 +405,9 @@ html,body{
   line-height: 28px;
   cursor: pointer;
 }
+.boxImg_right_1{
+  max-width: 450px;
+}
 .boxImg_right_1,.boxImg_right_2{
   display: inline-block;
   vertical-align: top;
@@ -429,7 +433,7 @@ html,body{
   color:rgba(31,46,77,1);
 }
 .boxImg_right_1 .boxImg_text{
-  width: 90px;
+  width: 110px;
   margin-right: 11px;
   text-align: right;
 }
@@ -487,10 +491,10 @@ html,body{
   height:40px;
   background:rgba(134,134,134,0.503);
   border-radius:0px 0px 4px 4px;
-  position: relative;
-  bottom: 43px;
   text-align: center;
   cursor: pointer;
+  position: relative;
+  bottom: 40px;
 }
 .bjImg{
   font-size:12px;
