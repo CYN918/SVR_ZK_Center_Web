@@ -19,7 +19,7 @@
                     </select>
                     <span class="tit_txt right" v-if="this.type!='f_sls_lockscreen'">广告位类型</span>
                     <select v-model="typeIndex" @change="getTypeURL" v-if="this.type!='f_sls_lockscreen'" >
-                        <option value="" disabled selected>请选择</option>
+                        <option value="" disabled selected style="color: #8b9bb3">请选择</option>
                         <option v-for="(item,index) in typeList" :value="index">{{item.pos_type}}</option>
                     </select>
                 </div>
@@ -27,13 +27,13 @@
                     <span class="tit_txt">尺寸</span>
                     <input class="num" type="text" placeholder="请输入尺寸，用*链接" v-model="size" v-if="switcher"/>
                     <select v-model="size" v-if="switcher==false" @change="cut()">
-                        <option value="" disabled selected>请选择</option>
+                        <option value="" disabled selected style="color: #8b9bb3">请选择</option>
                         <option value=" ">自定义</option>
                         <option v-for="(item,index) in sizeList" :value="item.size">{{item.size}}</option>
                     </select>
                     <span class="tit_txt right">优先级</span>
                     <select v-model="priority">
-                        <option value="" disabled selected>请选择</option>
+                        <option value="" disabled selected style="color: #8b9bb3">请选择</option>
                         <option value="高">高</option>
                         <option value="中">中</option>
                         <option value="低">低</option>
@@ -44,7 +44,7 @@
                     <input type="text" class="num" v-model="num" placeholder="请输入需求数量"/>
                     <span class="tit_txt right">实现方式</span>
                     <select v-model="model">
-                        <option value="" disabled selected>请选择</option>
+                        <option value="" disabled selected style="color: #8b9bb3">请选择</option>
                         <option value="无">无</option>
                         <option value="H5">H5</option>
                         <option value="脚本">脚本</option>

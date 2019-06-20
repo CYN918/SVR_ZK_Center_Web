@@ -70,9 +70,6 @@
                         </div>
                         <div class="AddIMG_yl">
                             <span class="tit">尺寸:</span>
-                            <span class="AddIMG_yl_size" v-model="sjSize">{{chenck==false?sjSize:attach.size}}</span>
-                            <!--<div class="AddIMG_yl_upload"><span>上传预览图</span></div>-->
-                            <!--<input type="file"/>-->
                             <div class="AddIMG_yl_upload">
                                 <el-upload
                                         :limit="1"
@@ -582,7 +579,7 @@
         display: inline-block;
         width:117px;
         margin-right: 16px;
-        vertical-align: middle;
+        vertical-align: top;
         text-align: right;
     }
     .AddIMG_sc_cjeckbox{
@@ -650,20 +647,21 @@
     }
     .AddIMG_yl_size{
         display: inline-block;
-        width:200px;
+        width:190px;
+        padding-left: 10px;
         height:36px;
         background:rgba(255,255,255,1);
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);
     }
-    .AddIMG_yl input{
-        width:125px;
-        height:50px;
-        position: relative;
-        left: -140px;
-        top:-35px;
-        opacity: 0;
-    }
+    /*.AddIMG_yl input{*/
+        /*width:125px;*/
+        /*height:50px;*/
+        /*position: relative;*/
+        /*left: -140px;*/
+        /*top:-35px;*/
+        /*opacity: 0;*/
+    /*}*/
     .AddIMG_yl_upload{
         width: 150px;
         display: inline-block;
@@ -685,7 +683,7 @@
     }
     .AddIMG_bq_box{
         display: inline-block;
-        width:395px;
+        width:560px;
         height:258px;
         background:rgba(255,255,255,1);
         border-radius:4px;
@@ -703,15 +701,14 @@
         color:rgba(143,155,179,1);
     }
     .AddIMG_bq_box_top_bq,.AddIMG_bq_box_top_zdy{
-        margin:0 20px 0px 20px ;
+        margin:0 20px 0px 0px ;
 
     }
-
-
     .AddIMG_bq_box_top_tit input{
         display: block;
         width:326px;
         height:28px;
+        padding-left: 10px;
         background:rgba(255,255,255,1);
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);

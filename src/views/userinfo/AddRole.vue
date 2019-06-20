@@ -22,7 +22,7 @@
                 </div>
                 <div class="role_name">
                     <span v-if="this.$route.query.role_id ==undefined">角色名称</span>
-                    <input type="text" placeholder="最多输入10个字" v-model="name" v-if="this.$route.query.role_id ==undefined"/>
+                    <input type="text" placeholder="最多输入10个字" maxlength="10" v-model="name" v-if="this.$route.query.role_id ==undefined"/>
                     <div class="wb" v-if="this.$route.query.role_id ==undefined">
                        <span>是否为外部角色</span>
                         <select>

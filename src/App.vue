@@ -179,7 +179,7 @@ html,body{
 }
 .AddIMG_bq_box_top_bq  .el-checkbox{
   background:rgba(255,255,255,1);
-  border:1px solid rgba(153,153,153,1);
+  border:1px solid #e6e9f0;
   border-radius:5px;
   padding-right: 14px;
   margin-bottom: 14px!important;
@@ -194,7 +194,7 @@ html,body{
 }
 
 .AddIMG_bq_box_top_bq .is-checked{
- background:  rgba(19, 159, 248, 1);
+ background:  rgba(51,119,255,1);
   border: 0px!important;
 }
 
@@ -360,7 +360,7 @@ html,body{
   height:327px;
   background:rgba(255,255,255,1);
   border-radius:4px;
-  padding: 13px 0 14px 14px;
+  padding: 14px 0 14px 14px;
   box-shadow:0px 0px 10px 0px rgba(153,153,153,0.14);
   margin: 0px 23px 24px 0;
   position: relative;
@@ -494,7 +494,7 @@ html,body{
   text-align: center;
   cursor: pointer;
   position: relative;
-  bottom: 40px;
+  bottom: 42px;
 }
 .bjImg{
   font-size:12px;
@@ -633,4 +633,19 @@ html,body{
   .tags_name .el-checkbox__input{
     display: none;
   }
+select{
+  color: #8b9bb3;
+}
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+  color:#8b9BB3;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color:#8b9BB3;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color:#8b9BB3;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color:#8b9BB3;
+}
 </style>

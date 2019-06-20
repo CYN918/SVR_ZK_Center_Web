@@ -20,9 +20,13 @@
                         </div>
                     </div>
                     <div class="AddIMG_bq_box_bottom">
-                        <div class="AddIMG_bq_box_top_tit">个性标签:
+                        <div class="AddIMG_bq_box_top_tit">
+                            个性标签:
+                        </div>
+                        <div style="height: 36px;text-align: left">
                             <input type="text" placeholder="创建或搜索个性标签" v-model="tagsName" maxlength="6" @input="getTagsList()"/>
                         </div>
+
                         <div class="AddIMG_bq_box_top_bq AddIMG_bq_box_top_zdy">
                             <span class="CJ" v-if="tagsName!=''" @click="ADDtags()">创建“{{tagsName}}”标签</span>
                             <template>
@@ -158,7 +162,7 @@
     border-radius:5px;
 }
 .tit{
-    text-align: center;
+    text-align: left;
     margin-bottom: 20px;
     width:100%;
     height: 56px;
@@ -168,6 +172,7 @@
 .tit span{
     display: inline-block;
     line-height: 56px;
+    margin-left: 24px;
     font-size:20px;
     font-family:PingFang-SC-Regular;
     font-weight:400;
@@ -208,15 +213,14 @@
 }
 
 .AddIMG_bq_boxs{
-    width:395px;
+    width:560px;
     height:280px;
     background:rgba(255,255,255,1);
     border-radius:4px;
-    border:1px solid rgba(211,219,235,1);
     overflow-y: auto;
-    position: relative;
-    left: 38%;
-    transform: translateX(-50%);
+    /*position: relative;*/
+    /*left: 38%;*/
+    /*transform: translateX(-50%);*/
     display: inline-block;
 }
 .AddIMG_bq_box_top{
@@ -230,14 +234,17 @@
     font-weight:400;
     color:rgba(54,54,54,1);
 }
-.AddIMG_bq_box_top_bq,.AddIMG_bq_box_top_zdy{
+.AddIMG_bq_box_top_bq{
     margin:0 20px 0px 0px !important;
 }
+.AddIMG_bq_box_top_zdy{
+    margin:0 20px 0px 11px !important;
+}
 
-
-.AddIMG_bq_box_top_tit input{
-    float: right;
+ input{
+     margin-left: 24px;
     margin-right: 10px;
+     padding-left: 10px;
     width:91px;
     height:26px;
     background:rgba(255,255,255,1);
@@ -246,81 +253,27 @@
     padding-right: 25px;
 }
 .bq{
-    display: inline-block;
+    display: block;
     font-size:14px;
     font-family:PingFang-SC-Medium;
     font-weight:500;
     color:rgba(31,46,77,1);
-    padding-left: 40px;
+    margin-left: 24px;
     vertical-align: top;
 }
-.bg_btn{
-    text-align: center;
-    margin: 40px 0;
-}
-.bg_btn span{
-    display: inline-block;
 
-    width:140px;
-    height:50px;
-    border:1px solid rgba(153,153,153,1);
-    border-radius:5px;
-    font-size:16px;
-    font-family:PingFang-SC-Regular;
-    font-weight:400;
-    color:rgba(54,54,54,1);
-    line-height: 50px;
-    margin-right: 157px;
-    cursor: pointer;
-}
-.bg_btn_up{
-    border:0!important;
-    background:rgba(19,159,248,1);
-    color:rgba(255,255,255,1)!important;
-    margin-right: 20px!important;
-    margin-left: 0!important;
-}
-.ADDtag{
-    display: inline-block;
-    line-height: 26px;
-    text-align: center;
-    width: 25px;
-    height: 26px;
-    color: #fff;
-    border: 1px solid #cfcfcf;
-    float: right;
-    background: #d1d1d1;
-    position: relative;
-    left: 162px;
-    top:1px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-
-
-
-.AddIMG_bq_box{
-    display: inline-block;
-    width:395px;
-    height:258px;
-    background:rgba(255,255,255,1);
-    border-radius:4px;
-    border:1px solid rgba(211,219,235,1);
-    overflow-y: auto;
-}
 .AddIMG_bq_box_top{
     border-bottom: 1px solid rgba(230,230,230,1);
 }
 .AddIMG_bq_box_top_tit{
-    margin: 18px 0 18px 18px;
+    margin: 18px 0 18px 24px;
     font-size:12px;
     font-family:PingFangSC-Regular;
     font-weight:400;
     color:rgba(143,155,179,1);
 }
-.AddIMG_bq_box_top_bq,.AddIMG_bq_box_top_zdy{
-    margin:0 20px 0px 20px ;
+.AddIMG_bq_box_top_bq{
+    margin:0 20px 0px 11px !important;
 
 }
 
@@ -337,10 +290,7 @@
     padding-right: 0!important;
 
 }
-.bg_btn{
-
-    margin: 40px 0;
-}
+.bg_btn{margin: 24px 0;text-align: left}
 .bg_btn span{
     display: inline-block;
     width:68px;
@@ -360,17 +310,19 @@
     background:rgba(51,119,255,1)!important;
     color:rgba(255,255,255,1)!important;
     margin-right: 14px;
-    margin-left: 133px;
+    margin-left: 24px;
 }
 .CJ{
     display: inline-block;
     line-height: 26px;
     text-align: center;
     cursor: pointer;
+    border: 1px solid #d3dbeb;
     padding: 3px 5px ;
-    background: #d7d7d7;
+    background: #e6e9f0;
     font-size: 12px;
     border-radius: 5px;
+    margin-left: 13px;
     margin-bottom: 10px!important;
 }
 
