@@ -1,113 +1,103 @@
 <template>
-    <div class="content_right">
-        <div class="titel_table">
-            <span>已替换</span>
+    <div>
+        <div class="titl">
+            <div style="margin:24px 0 20px 24px">
+                <span style="color: #1890ff ">资源替换投放库管理</span>
+                <span style="color: #b3b3b3">&nbsp;/&nbsp;基础详情页</span>
+            </div>
+            <div>
+                <span class="titl_name">基础详情页</span>
+            </div>
         </div>
-        <div>
-            <template>
-                <div class="block">
-                    <el-date-picker
-                            v-model="times"
-                            type="daterange"
-                            range-separator="至"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期"
-                            format="yyyy 年 MM 月 dd 日"
-                            value-format="yyyy-MM-dd"
-                    >
-                    </el-date-picker>
-                    <span class="cx" @click="getDataList()">查询</span>
+        <div class="content_right">
+            <div class="content_right_top">
+                <div class="content_right_tit">
+                    <span>广告详情</span>
                 </div>
-            </template>
-        </div>
-        <div>
-            <template>
-                <el-table
-                        :data="tableData2"
-                        style="width: 100%"
-                        :header-cell-style="getRowClass"
-                        :cell-style="cell"
-                        border>
-                    <el-table-column
-                            prop="url"
-                            label="待替换资源图片"
-                    >
-                        <template slot-scope="scope">
-                            <img :src="scope.row.url" min-width="70" height="70" />
-                        </template>
-                    </el-table-column>
-                    <el-table-column
-                            prop="url"
-                            label="新资源图片"
-                    >
-                        <template slot-scope="scope">
-                            <img :src="scope.row.new_url" min-width="70" height="70" />
-                        </template>
-                    </el-table-column>
-                    <el-table-column
-                            prop="url_md5"
-                            label="待替换资源URL的MD5"
-                    >
-                    </el-table-column>
-                    <el-table-column
-                            prop="adid"
-                            label="广告ID">
-                    </el-table-column>
-                    <el-table-column
-                            prop="sdk_id"
-                            label="SDK ID">
-                    </el-table-column>
-                    <el-table-column
-                            prop="src"
-                            label="来源">
-                    </el-table-column>
-                    <el-table-column
-                            prop="tdate"
-                            label="更新时间">
-                    </el-table-column>
-                    <el-table-column
-                            prop="model"
-                            label="实现方式">
-                    </el-table-column>
-                    <el-table-column
-                            prop="pv"
-                            label="访问量">
-                    </el-table-column>
-                    <el-table-column
-                            prop="pv"
-                            label="操作">
-                        <template slot-scope="scope">
-                            <el-button @click="getRemove(tableData2[scope.$index].url_md5)" type="text" >删除</el-button>
-                        </template>
-                    </el-table-column>
-                </el-table>
-            </template>
-        </div>
-        <div class="bg" v-if="remove">
-            <div class="del">
-                <div class="tit">
-                    <span>删除</span>
+                <div>
+                    <span>广告ID:</span>
+                    <span class="con"></span>
+                    <span>获取内容时间:</span>
+                    <span class="con"></span>
+                    <div class="updataLoad">
+                        <el-upload
+                                class="upload-demo"
+                                action="https://jsonplaceholder.typicode.com/posts/"
+                                multiple
+                                :limit="1"
+                               >
+                            <el-button size="small" type="primary">点击上传</el-button>
+                        </el-upload>
+                    </div>
                 </div>
-                <div class="move">
-                    <span>是否确认删除？</span>
+                <div>
+                    <span>落地页:</span>
+                    <a></a>
                 </div>
-                <div class="btn">
-                    <span class="sc" @click="delelt()">删除</span>
-                    <span @click="heidRemove">取消</span>
+                <div>
+                    <span>原始图:</span>
+                    <div>
+                        <div><a></a></div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <span>替换列表</span>
+                </div>
+                <template>
+                    <el-table
+                            :data="tableData2"
+                            style="width: 100%"
+                            :header-cell-style="getRowClass"
+                            :cell-style="cell"
+                            border>
+
+                        <el-table-column
+                                prop="url"
+                                label="序号"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                prop="url_md5"
+                                label="文件名"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                prop="adid"
+                                label="尺寸">
+                        </el-table-column>
+                        <el-table-column
+                                prop="src"
+                                label="操作人员">
+                        </el-table-column>
+                        <el-table-column
+                                prop="pv"
+                                label="操作">
+                            <template slot-scope="scope">
+                                <el-button @click="getRemove(tableData2[scope.$index].url_md5)" type="text" >删除</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </template>
+            </div>
+            <div class="bg" v-if="remove">
+                <div class="del">
+                    <div class="tit">
+                        <span>删除</span>
+                    </div>
+                    <div class="move">
+                        <span>是否确认删除？</span>
+                    </div>
+                    <div class="btn">
+                        <a @click="heidRemove">下载</a>
+                        <span class="sc" @click="delelt()">删除</span>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="block_fy">
-            <el-pagination
-                    @size-change="handleSizeChange"
-                    @current-change="handleCurrentChange"
-                    :current-page.sync="page"
-                    :page-size="p"
-                    layout="prev, pager, next, jumper"
-                    :total="total">
-            </el-pagination>
-        </div>
     </div>
+
 </template>
 
 <script>
@@ -152,25 +142,9 @@
                     let formData =new FormData;
                     formData.append('url_md5',this.md5);
                     this.api.replace_del(formData).then((res)=>{
-                        this.heidRemove();
                         this.getDataList();
                     })
             },
-            getRemove(id){
-                this.md5=id;
-                this.remove=true
-            },
-            heidRemove(){
-                this.remove=false
-            },
-            handleSizeChange(p){
-                    this.p = p;
-                    this. getDataList()
-            },
-            handleCurrentChange(page){
-                    this.page = page;
-                    this. getDataList()
-            }
         },
 
     }
@@ -183,6 +157,7 @@
         -webkit-box-sizing: border-box;
         box-sizing: border-box;
         background: #fff;
+        margin-top: 200px;
     }
     .titel_table{
         width: 100%;
@@ -291,5 +266,50 @@
     .block_fy{
         text-align: right;
         margin-top: 30px;
+    }
+    .titl{
+        width: 100%;
+        height: 100px;
+        border-top: 3px solid #ededed;
+        background: #fff;
+        -webkit-box-shadow: 0 0 6px 0 rgba(0,0,0,.04);
+        box-shadow: 0 0 6px 0 rgba(0,0,0,.04);
+        position: fixed;
+        left: 316px;
+        top: 63px;
+        z-index: 99;
+    }
+    .titl_name{
+        font-size: 20px;
+        font-weight: bold;
+        font-family: "Microsoft YaHei";
+        margin-left: 24px;
+    }
+    .content_right_tit span{
+        display: inline-block;
+        font-family: "Microsoft YaHei";
+        font-weight: bold;
+        font-size: 18px;
+    }
+    .content_right_top{
+        margin-bottom: 30px;
+        border-bottom: 1px solid #DDD;
+    }
+    .content_right_top div{
+        margin-bottom: 15px;
+    }
+    .content_right_top span{
+        display: inline-block;
+        font-size: 16px;
+        font-family: "Microsoft YaHei";
+        margin-right: 15px;
+    }
+    .con{
+        margin-right: 200px!important;
+    }
+    .updataLoad{
+        display: inline-block;
+        float: right;
+        width: 80px;
     }
 </style>

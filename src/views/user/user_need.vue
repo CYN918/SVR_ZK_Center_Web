@@ -154,7 +154,7 @@ export default {
 
 .xqList{
 	position: relative;
-	margin: 114px 75px 50px 365px;	
+	margin: 114px 26px 50px 343px;
 }
 
 .tjboxd li{

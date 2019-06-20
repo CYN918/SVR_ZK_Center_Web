@@ -1,15 +1,15 @@
 <template>
     <div class="content_right">
         <div class="titel_table">
-            <span></span>
+            <span class="circle"></span>
             <span>共</span>
-            <span>{{this.tableData.length}}</span>
+            <span class="all">{{this.tableData.length}}</span>
             <span>项&nbsp&nbsp</span>
             <span>已处理</span>
-            <span></span>
+            <span class="lv"></span>
             <span>项&nbsp&nbsp</span>
             <span>剩余</span>
-            <span></span>
+            <span class="red"></span>
             <span>项&nbsp&nbsp</span>
         </div>
         <div>
@@ -43,7 +43,7 @@
                     <el-table-column
                             label="操作">
                         <template slot-scope="scope">
-                            <el-button @click="getAdd(tableData[scope.$index])" type="text" size="small">查看详情</el-button>
+                            <el-button @click="getAdd(tableData[scope.$index].adid)" type="text" size="small">查看详情</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -112,14 +112,7 @@
         name: "replace",
         data(){
             return{
-                tableData:[{MD5:2222,tdate:"dsds"},{MD5:2222,tdate:"dsds"}],
-                Add:false,
-                start_date:'',
-                end_date:'',
-                time:[],
-                datalist:{},
-                new_url:'',
-                new_url_md5:'',
+                tableData:[],
             }
         },
         mounted(){
@@ -139,48 +132,20 @@
             handleExceed(files, fileList) {
                 this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件`);
             },
-            upload(file){
-                let formData = new FormData;
-                formData.append('file',file.file);
-                this.api.file_upload(formData).then((res)=>{
-                   this.new_url=res.url;
-                   this.new_url_md5=res.md5;
-                })
-            },
+
             getList(){
                 let params={start_date:this.time[0],end_date:this.time[1]}
                 this.api.replace_pending_list({params}).then((res)=>{
-                    // this.tableData = res;
+                    this.tableData = res;
                 })
             },
             getAdd(data){
-                this.Add = true;
-                this.datalist = data;
-                console.log(this.datalist);
-            },
-            heidAdd(){
-                this.Add=false;
-                this.datalist = "";
-            },
-            add(){
-                if(!this.new_url){
-                    this.$message.error('请上传文件')
-                }
-                let formData = new FormData;
-                formData.append('url',this.datalist.url);
-                formData.append('url_md5',this.datalist.url_md5);
-                formData.append('new_url',this.new_url);
-                formData.append('adid',this.datalist.adid);
-                formData.append('sdk_id',this.datalist.sdk_id);
-                formData.append('src',this.datalist.src);
-                formData.append('tdate',this.datalist.tdate);
-                formData.append('model',this.datalist.model);
-                formData.append('pv',this.datalist.pv);
-                this.api.replace_add(formData).then((res)=>{
-                    this.heidAdd();
-                    this.getList()
+                this.$router.push({
+                    query:{id:data},
+                    path:'./Has_replaced'
                 })
-            }
+            },
+
         },
     }
 </script>
@@ -303,7 +268,21 @@
     width: 150px;
     margin-left: 165px;
 }
-
+.circle{
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: #98d6f1;
+    border-radius: 50%;
+    line-height: 36px;
+    margin:9px 15px 0 15px;
+}
+.all{
+    color:#4f4cf1
+}
+.red{
+    color:red
+}
 .cx{
     display: inline-block;
     height: 36px;
