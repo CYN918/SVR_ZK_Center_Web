@@ -6,11 +6,27 @@
             <span class="all">{{this.tableData.length}}</span>
             <span>项&nbsp&nbsp</span>
             <span>已处理</span>
-            <span class="lv"></span>
+            <span >{{cl.length}}</span>
             <span>项&nbsp&nbsp</span>
             <span>剩余</span>
-            <span class="red"></span>
+            <span class="red">{{dcl.length}}</span>
             <span>项&nbsp&nbsp</span>
+        </div>
+        <div>
+            <div class="block" style="display: inline-block">
+                <el-date-picker
+                        v-model="times"
+                        type="daterange"
+                        range-separator="至"
+                        start-placeholder="开始日期"
+                        end-placeholder="结束日期"
+                        format="yyyy 年 MM 月 dd 日"
+                        value-format="yyyy-MM-dd ">
+                </el-date-picker>
+            </div>
+            <span class="cx" @click="getList()">
+                查询
+            </span>
         </div>
         <div>
             <template>
@@ -25,19 +41,22 @@
                             label="广告ID">
                     </el-table-column>
                     <el-table-column
-                            prop=""
+                            prop="original_res.length"
                             label="原始图数量">
                     </el-table-column>
                     <el-table-column
                             prop="tdate"
+                            sortable
                             label="内容获取时间">
                     </el-table-column>
                     <el-table-column
                             prop="model"
+                            sortable
                             label="替换资源数量">
                     </el-table-column>
                     <el-table-column
-                            prop="pv"
+                            prop="status"
+                            sortable
                             label="状态">
                     </el-table-column>
                     <el-table-column
@@ -49,61 +68,7 @@
                 </el-table>
             </template>
         </div>
-        <div class="bg" v-if="Add" >
-            <div class="content" >
-                <div class="tit">
-                    <span>资源替换</span>
-                </div>
-                <div class="upload">
-                    <el-upload
-                            class="upload-demo"
-                            action="https://jsonplaceholder.typicode.com/posts/"
-                            :http-request="upload"
-                            :limit="1"
-                            :on-exceed="handleExceed"
-                            >
-                        <el-button size="small" type="primary">上传资源</el-button>
-                    </el-upload>
-                </div>
-                <div class="box_content">
-                    <div>
-                        <span>新资源URL</span>
-                        <input type="text" disabled v-model="new_url"/>
-                        <span>待替换资源URL</span>
-                        <input type="text" disabled v-model="datalist.url"/>
-                    </div>
-                    <div>
-                        <span>待替换资源MD5</span>
-                        <input type="text" disabled v-model="datalist.url_md5"/>
-                        <span>广告ID</span>
-                        <input type="text" disabled v-model="datalist.adid"/>
-                    </div>
-                    <div>
-                        <span>实现方式</span>
-                        <input type="text" disabled v-model="datalist.model"/>
-                        <span>SDK ID</span>
-                        <input type="text" disabled v-model="datalist.sdk_id"/>
-                    </div>
 
-                    <div>
-                        <span>来源</span>
-                        <input type="text" disabled v-model="datalist.src"/>
-                        <span>更新时间</span>
-                        <input type="text" disabled v-model="datalist.tdate"/>
-                    </div>
-                    <div>
-                        <span>访问量</span>
-                        <input type="text" disabled v-model="datalist.pv"/>
-                        <div class="btn">
-                            <span class="th" @click="add()">替换</span>
-                            <span @click="heidAdd()">取消</span>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
     </div>
 </template>
 
@@ -113,6 +78,9 @@
         data(){
             return{
                 tableData:[],
+                times:[],
+                cl:[],
+                dcl:[]
             }
         },
         mounted(){
@@ -134,9 +102,18 @@
             },
 
             getList(){
-                let params={start_date:this.time[0],end_date:this.time[1]}
+                let params ={start_date:this.times[0],end_date:this.times[1]}
                 this.api.replace_pending_list({params}).then((res)=>{
                     this.tableData = res;
+                    for(var i =0;i<this.tableData.length;i++){
+                        if(this.tableData[i].status==1){
+                            this.tableData[i].status='已处理'
+                            this.cl.push(this.tableData[i]);
+                        }else{
+                            this.tableData[i].status='待处理'
+                            this.dcl.push(this.tableData[i]);
+                        }
+                    }
                 })
             },
             getAdd(data){

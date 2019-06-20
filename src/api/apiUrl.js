@@ -305,7 +305,7 @@ export default {
 	},
 	//上传文件
     file_upload:{
-		url:'/file/upload',method:'post'
+		url:'/file/upload',method:'post',isType:{suktip:1}
 	},
 	//获取锁屏列表
     lockwallpaper_list:{

@@ -16,15 +16,16 @@
                 </div>
                 <div>
                     <span>广告ID:</span>
-                    <span class="con"></span>
+                    <span class="con">{{this.$route.query.id}}</span>
                     <span>获取内容时间:</span>
-                    <span class="con"></span>
+                    <span class="con">{{time}}</span>
                     <div class="updataLoad">
                         <el-upload
                                 class="upload-demo"
-                                action="https://jsonplaceholder.typicode.com/posts/"
+                                action="aaaa"
                                 multiple
                                 :limit="1"
+                                :http-request="upload"
                                >
                             <el-button size="small" type="primary">点击上传</el-button>
                         </el-upload>
@@ -32,12 +33,12 @@
                 </div>
                 <div>
                     <span>落地页:</span>
-                    <a></a>
+                    <a :href="preview_url">{{preview_url}}</a>
                 </div>
                 <div>
                     <span>原始图:</span>
-                    <div>
-                        <div><a></a></div>
+                    <div style="display: inline-block">
+                        <div v-for="item in imgs"><a :href="item.url">{{item.url}}</a></div>
                     </div>
                 </div>
             </div>
@@ -52,7 +53,6 @@
                             :header-cell-style="getRowClass"
                             :cell-style="cell"
                             border>
-
                         <el-table-column
                                 prop="url"
                                 label="序号"
@@ -75,6 +75,7 @@
                                 prop="pv"
                                 label="操作">
                             <template slot-scope="scope">
+                                <a class="iconfont" :href="downloadLink(scope.$index)">&#xe61a;</a>
                                 <el-button @click="getRemove(tableData2[scope.$index].url_md5)" type="text" >删除</el-button>
                             </template>
                         </el-table-column>
@@ -90,8 +91,8 @@
                         <span>是否确认删除？</span>
                     </div>
                     <div class="btn">
-                        <a @click="heidRemove">下载</a>
                         <span class="sc" @click="delelt()">删除</span>
+                        <span>取消</span>
                     </div>
                 </div>
             </div>
@@ -113,7 +114,13 @@
                 md5:'',
                 p:10,
                 page:1,
-                total:0
+                total:0,
+                time:'',
+                preview_url:'',
+                imgs:[],
+                new_url_md5:'',
+                new_url:'',
+                tableData:[],
             }
         },
 
@@ -131,12 +138,46 @@
             cell({row, column, rowIndex, columnIndex}){
                 return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
+            upload(file){
+                    let formData =new FormData;
+                    formData.append('file',file.file);
+                   this.api.file_upload(formData).then((res)=>{
+                       this.new_url=res.url;
+                       this.new_url_md5=res.md5;
+                       let formData = new FormData;
+                       formData.append('size',res.size);
+                       formData.append('new_url',this.new_url);
+                       formData.append('new_url_md5',this.new_url_md5);
+                       formData.append('original_res',  JSON.stringify(this.tableData.original_res));
+                       formData.append('adids',this.$route.query.id);
+                       formData.append('sdk_id',this.tableData.sdk_id);
+                       formData.append('src',this.tableData.src);
+                       formData.append('tdate',this.tableData.tdate);
+                       formData.append('model',this.tableData.model);
+                       formData.append('pv',this.tableData.pv);
+                       formData.append('preview_url',this.tableData.preview_url);
+                        this.api.replace_add(formData).then((res)=>{
+
+                        })
+                   })
+            },
             getDataList(){
-                let params={start_date:this.times[0],end_date:this.times[1],p:10,page:1};
-                this.api.replace_had_list({params}).then((res)=>{
-                    this.total = res.total;
-                    this.tableData2 = res.data
+                this.api.replace_pending_list().then((res)=>{
+                    for(var i=0;i<res.length;i++){
+                        if(res[i].adid==this.$route.query.id){
+                            this.tableData=res[i];
+                            this.time = res[i].tdate;
+                            this.preview_url = res[i].preview_url;
+                            this.imgs = res[i].original_res;
+                            this.tableData2=res[i].new_res;
+                        }
+
+                    }
                 })
+
+            },
+            downloadLink(a){
+                return this.tableData2[a].url;
             },
             delelt(){
                     let formData =new FormData;
