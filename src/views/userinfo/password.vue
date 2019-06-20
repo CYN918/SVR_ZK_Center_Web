@@ -63,19 +63,19 @@
             edit_account_password(){
 
                 if(!this.input1){
-                    this.$message('旧密码不能为空！');
+                    this.$message.error('旧密码不能为空！');
                     return
                 }
                 if(!this.input2){
-                    this.$message('新密码不能为空！');
+                    this.$message.error('新密码不能为空！');
                     return
                 }
                 if(!this.input3){
-                    this.$message('重复密码不能为空');
+                    this.$message.error('重复密码不能为空');
                     return
                 }
                 if(this.input2!=this.input3){
-                    this.$message('两次输入不一致');
+                    this.$message.error('两次输入不一致');
                     return
                 }
                 let params = {
@@ -84,7 +84,9 @@
                     password:this.input2,
                     password_confirmation:this.input3,
                 };
-                this.api.edit_account_password(params);
+                this.api.edit_account_password(params).then((res)=>{
+
+                });
             },
             yz(){
                 if(!this.input1.match(/^[\u4e00-\u9fa5]+$/ )){
@@ -96,8 +98,6 @@
             yz1(){
                 if(!this.input2.match(/^[\u4e00-\u9fa5]+$/ )){
                     return
-                }else{
-                    this.$message.error('密码不能为汉字')
                 }
             },
             yz3(){
