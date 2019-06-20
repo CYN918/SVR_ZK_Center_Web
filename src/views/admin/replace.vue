@@ -1,24 +1,16 @@
 <template>
     <div class="content_right">
         <div class="titel_table">
-            <span>待替换</span>
-        </div>
-        <div>
-            <template>
-                <div class="block">
-                    <el-date-picker
-                            v-model="time"
-                            type="daterange"
-                            range-separator="至"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期"
-                            format="yyyy 年 MM 月 dd 日"
-                            value-format="yyyy-MM-dd"
-                    >
-                    </el-date-picker>
-                    <span class="cx" @click="getList()">查询</span>
-                </div>
-            </template>
+            <span></span>
+            <span>共</span>
+            <span>{{this.tableData.length}}</span>
+            <span>项&nbsp&nbsp</span>
+            <span>已处理</span>
+            <span></span>
+            <span>项&nbsp&nbsp</span>
+            <span>剩余</span>
+            <span></span>
+            <span>项&nbsp&nbsp</span>
         </div>
         <div>
             <template>
@@ -29,46 +21,29 @@
                         :cell-style="cell"
                         border>
                     <el-table-column
-                            prop="url"
-                            label="待替换资源图片"
-                            >
-                        <template slot-scope="scope">
-                            <img :src="scope.row.url" min-width="70" height="70" />
-                        </template>
-                    </el-table-column>
-                    <el-table-column
-                            prop="url_md5"
-                            label="待替换资源URL的MD5"
-                            >
-                    </el-table-column>
-                    <el-table-column
                             prop="adid"
                             label="广告ID">
                     </el-table-column>
                     <el-table-column
-                            prop="sdk_id"
-                            label="SDK ID">
-                    </el-table-column>
-                    <el-table-column
-                            prop="src"
-                            label="来源">
+                            prop=""
+                            label="原始图数量">
                     </el-table-column>
                     <el-table-column
                             prop="tdate"
-                            label="更新时间">
+                            label="内容获取时间">
                     </el-table-column>
                     <el-table-column
                             prop="model"
-                            label="实现方式">
+                            label="替换资源数量">
                     </el-table-column>
                     <el-table-column
                             prop="pv"
-                            label="访问量">
+                            label="状态">
                     </el-table-column>
                     <el-table-column
                             label="操作">
                         <template slot-scope="scope">
-                            <el-button @click="getAdd(tableData[scope.$index])" type="text" size="small">替换</el-button>
+                            <el-button @click="getAdd(tableData[scope.$index])" type="text" size="small">查看详情</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -175,7 +150,7 @@
             getList(){
                 let params={start_date:this.time[0],end_date:this.time[1]}
                 this.api.replace_pending_list({params}).then((res)=>{
-                    this.tableData = res;
+                    // this.tableData = res;
                 })
             },
             getAdd(data){
@@ -221,14 +196,15 @@
     .titel_table{
         width: 100%;
         height: 36px;
-        margin: 30px 0;
+        border: 1px solid #98d6f1;
+        border-radius: 5px;
+        margin: 15px 0;
+        background: rgba(230, 247, 255, 1)
     }
 .titel_table>span{
     display: inline-block;
-    height: 36px;
     line-height: 36px;
-    font-weight: bold;
-    font-size: 18px;
+    font-size: 14px;
 }
 .title_top{
     margin-top: 60px;
