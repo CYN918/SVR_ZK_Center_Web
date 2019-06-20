@@ -121,7 +121,7 @@
                 new_url_md5:'',
                 new_url:'',
                 tableData:[],
-                Size:''
+                sjSize:''
             }
         },
 
@@ -143,17 +143,18 @@
                     let formData =new FormData;
                     formData.append('file',file.file);
                    this.api.file_upload(formData).then((res)=>{
-                       this.new_url=res.url;
+                       this.new_url= res.url;
                        this.new_url_md5=res.md5;
                        var image = new Image();
                        var _this=this;
                        image.onload=function(){
                            var width = image.width;
                            var height = image.height;
-                           _this.Size = (width+"*"+height)
+                           _this.sjSize = (width+"*"+height)
                        };
+                       image.src= res.url;
                        let formData = new FormData;
-                       formData.append('size',this.Size);
+                       formData.append('size',this.sjSize);
                        formData.append('new_url',this.new_url);
                        formData.append('new_url_md5',this.new_url_md5);
                        formData.append('original_res',  JSON.stringify(this.tableData.original_res));
