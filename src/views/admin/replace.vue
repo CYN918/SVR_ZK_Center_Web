@@ -20,8 +20,8 @@
                         range-separator="至"
                         start-placeholder="开始日期"
                         end-placeholder="结束日期"
-                        format="yyyy 年 MM 月 dd 日"
-                        value-format="yyyy-MM-dd ">
+                        format="yyyy年MM月dd日"
+                        value-format="yyyy-MM-dd">
                 </el-date-picker>
             </div>
             <span class="cx" @click="getList()">
@@ -102,6 +102,8 @@
             },
 
             getList(){
+                this.dcl.length=0;
+                this.cl.length=0;
                 let params ={start_date:this.times[0],end_date:this.times[1]};
                 this.api.replace_pending_list({params}).then((res)=>{
                     this.tableData = res;

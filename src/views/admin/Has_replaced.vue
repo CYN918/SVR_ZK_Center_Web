@@ -2,7 +2,7 @@
     <div>
         <div class="titl">
             <div style="margin:24px 0 20px 24px">
-                <span style="color: #1890ff ">资源替换投放库管理</span>
+                <span style="color: #1890ff;cursor: pointer " @click="goHome()">资源替换投放库管理</span>
                 <span style="color: #b3b3b3">&nbsp;/&nbsp;基础详情页</span>
             </div>
             <div>
@@ -173,6 +173,10 @@
             heidTH(){
                     this.th=false
             },
+            goHome(){
+                    this.$router.go(-1)
+            },
+
             add(){
                 let formData = new FormData;
                 formData.append('width',this.width);
