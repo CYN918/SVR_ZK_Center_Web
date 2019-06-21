@@ -62,7 +62,7 @@
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="adid"
+                                prop="width"
                                 label="尺寸">
                         </el-table-column>
                         <el-table-column
@@ -222,10 +222,13 @@
                         if(res[i].adid==this.$route.query.id){
                             this.tableData=res[i];
                             this.time = res[i].tdate;
-                            this.mid=res[i].mid
+                            this.mid=res[i].mid;
                             this.preview_url = res[i].preview_url;
                             this.imgs = res[i].original_res;
                             this.tableData2=res[i].new_res;
+                           for(var i=0;i<this.tableData2.length;i++){
+                               this.tableData2[i].width=this.tableData2[i].width+'*'+this.tableData2[i].height
+                           }
                         }
 
                     }
