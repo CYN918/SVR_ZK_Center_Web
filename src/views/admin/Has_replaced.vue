@@ -20,16 +20,14 @@
                     <span>获取内容时间:</span>
                     <span class="con">{{time}}</span>
                     <div class="updataLoad">
-                        <el-upload
-                                class="upload-demo"
-                                action="aaaa"
-                                multiple
-                                :limit="1"
-                                :http-request="upload"
-                               >
-                            <el-button size="small" type="primary">点击上传</el-button>
-                        </el-upload>
+                        <span @click="getTH">添加替换</span>
                     </div>
+                </div>
+                <div>
+                    <span>广告名称:</span>
+                    <span class="con"></span>
+                    <span >包名:</span>
+                    <span></span>
                 </div>
                 <div>
                     <span>落地页:</span>
@@ -68,19 +66,46 @@
                                 label="尺寸">
                         </el-table-column>
                         <el-table-column
-                                prop="src"
+                                prop="creator"
                                 label="操作人员">
                         </el-table-column>
                         <el-table-column
                                 prop="pv"
                                 label="操作">
                             <template slot-scope="scope">
-                                <a class="iconfont" :href="downloadLink(scope.$index)">&#xe61a;</a>
+                                <a class="iconfont" :href="downloadLink(scope.$index)" style="margin-right: 10px;text-decoration: none;color:#409EFF">下载</a>
                                 <el-button @click="getRemove(tableData2[scope.$index].url_md5)" type="text" >删除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
                 </template>
+            </div>
+            <div class="bg" v-if="th">
+                <div class="load">
+                    <div class="load_tit">
+                        <span>添加替换</span>
+                    </div>
+                    <div>
+                        <el-upload
+                        class="upload-demo"
+                        action="aaaa"
+                        multiple
+                        :limit="1"
+                        :http-request="upload"
+                        >
+                        <el-button size="small" type="primary">点击上传</el-button>
+                        </el-upload>
+                    </div>
+                    <div class="text_tit">
+                        <span>新资源URL</span>
+                        <input type="text" v-model="new_url" disabled/>
+                    </div>
+
+                    <div class="btn">
+                        <span class="tj" @click="add()">添加</span>
+                        <span @click="heidTH()">取消</span>
+                    </div>
+                </div>
             </div>
             <div class="bg" v-if="remove">
                 <div class="del">
@@ -92,7 +117,7 @@
                     </div>
                     <div class="btn">
                         <span class="sc" @click="delelt()">删除</span>
-                        <span>取消</span>
+                        <span @click="heidRemove()">取消</span>
                     </div>
                 </div>
             </div>
@@ -111,6 +136,7 @@
                 remove:false,
                 start_date:'',
                 end_date:'',
+                mid:'',
                 md5:'',
                 p:10,
                 page:1,
@@ -121,7 +147,9 @@
                 new_url_md5:'',
                 new_url:'',
                 tableData:[],
-                sjSize:''
+                width:'',
+                height:'',
+                th:false,
             }
         },
 
@@ -139,6 +167,39 @@
             cell({row, column, rowIndex, columnIndex}){
                 return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
+            getTH(){
+                    this.th=true
+            },
+            heidTH(){
+                    this.th=false
+            },
+            add(){
+                let formData = new FormData;
+                formData.append('width',this.width);
+                formData.append('height',this.height);
+                formData.append('new_url',this.new_url);
+                formData.append('new_url_md5',this.new_url_md5);
+                formData.append('original_res',  JSON.stringify(this.tableData.original_res));
+                formData.append('adids',this.$route.query.id);
+                formData.append('sdk_id',this.tableData.sdk_id);
+                formData.append('src',this.tableData.src);
+                formData.append('tdate',this.tableData.tdate);
+                formData.append('model',this.tableData.model);
+                formData.append('pv',this.tableData.pv);
+                formData.append('preview_url',this.tableData.preview_url);
+                formData.append('preview_md5',this.tableData.preview_md5);
+                this.api.replace_add(formData).then((res)=>{
+                    this.th=false;
+                    this.getDataList()
+                })
+            },
+            getRemove(id){
+                    this.remove =true;
+                    this.md5=id;
+            },
+            heidRemove(){
+                this.remove =false;
+            },
             upload(file){
                     let formData =new FormData;
                     formData.append('file',file.file);
@@ -148,34 +209,20 @@
                        var image = new Image();
                        var _this=this;
                        image.onload=function(){
-                           var width = image.width;
-                           var height = image.height;
-                           _this.sjSize = (width+"*"+height)
+                           _this.width = image.width;
+                           _this.height = image.height;
                        };
                        image.src= res.url;
-                       let formData = new FormData;
-                       formData.append('size',this.sjSize);
-                       formData.append('new_url',this.new_url);
-                       formData.append('new_url_md5',this.new_url_md5);
-                       formData.append('original_res',  JSON.stringify(this.tableData.original_res));
-                       formData.append('adids',this.$route.query.id);
-                       formData.append('sdk_id',this.tableData.sdk_id);
-                       formData.append('src',this.tableData.src);
-                       formData.append('tdate',this.tableData.tdate);
-                       formData.append('model',this.tableData.model);
-                       formData.append('pv',this.tableData.pv);
-                       formData.append('preview_url',this.tableData.preview_url);
-                        this.api.replace_add(formData).then((res)=>{
-
-                        })
                    })
             },
             getDataList(){
-                this.api.replace_pending_list().then((res)=>{
+                let params ={start_date:this.$route.query.start_date,end_date:this.$route.query.end_date};
+                this.api.replace_pending_list({params}).then((res)=>{
                     for(var i=0;i<res.length;i++){
                         if(res[i].adid==this.$route.query.id){
                             this.tableData=res[i];
                             this.time = res[i].tdate;
+                            this.mid=res[i].mid
                             this.preview_url = res[i].preview_url;
                             this.imgs = res[i].original_res;
                             this.tableData2=res[i].new_res;
@@ -190,9 +237,11 @@
             },
             delelt(){
                     let formData =new FormData;
-                    formData.append('url_md5',this.md5);
+                    formData.append('new_url_md5',this.md5);
+                formData.append('mid',this.mid);
                     this.api.replace_del(formData).then((res)=>{
                         this.getDataList();
+                        this.heidRemove()
                     })
             },
         },
@@ -296,6 +345,7 @@
         border: 0!important;
         margin-right: 40px;
     }
+    .upload-demo{margin-left: 95px!important;}
     .upload{
         margin-top: 20px;
         width: 100px;
@@ -360,6 +410,72 @@
     .updataLoad{
         display: inline-block;
         float: right;
+        width:100px;
+    }
+    .updataLoad span{
+        display: inline-block;
+        width: 100px;
+        height: 36px;
+        background:#4f4cf1 ;
+        color: #fff;
+        cursor: pointer;
+        line-height: 36px;
+        text-align: center;
+        border-radius: 5px;
+    }
+    .load{
+        border-radius: 10px;
+        width: 450px;
+        height: 270px;
+        position: relative;
+        background: #fff;
+        left: 50%;
+        top:50%;
+        transform: translate(-50%,-50%);
+    }
+    .load_tit{border-bottom: 1px solid #ddd}
+    .load_tit span{
+        display: inline-block;
+        height: 36px;
+        line-height: 36px;
+        margin:10px 0 10px 0;
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .load div{
+        margin:15px 24px 0 24px
+    }
+    .text_tit span{
+        display: inline-block;
+        margin-right: 15px;
+        font-size: 16px;
+        color: #666666;
         width: 80px;
+    }
+    .text_tit input{
+        width: 200px;
+        height: 36px;
+        padding:0 8px ;
+        margin-right: 15px;
+    }
+    .btn{
+        text-align: center;
+        margin-top: 30px;
+    }
+    .btn span{
+        width: 80px!important;
+        height: 36px;
+        line-height: 36px;
+        cursor: pointer;
+        border: 1px solid #c3c3c3;
+        color: #9c9c9c;
+        margin-right: 30px;
+        text-align: center;
+
+    }
+    .tj{
+        border: 0!important;
+        background: #4f4cf1!important;
+        color: #fff!important;
     }
 </style>

@@ -102,23 +102,27 @@
             },
 
             getList(){
-                let params ={start_date:this.times[0],end_date:this.times[1]}
+                let params ={start_date:this.times[0],end_date:this.times[1]};
                 this.api.replace_pending_list({params}).then((res)=>{
                     this.tableData = res;
-                    for(var i =0;i<this.tableData.length;i++){
-                        if(this.tableData[i].status==1){
-                            this.tableData[i].status='已处理'
-                            this.cl.push(this.tableData[i]);
-                        }else{
-                            this.tableData[i].status='待处理'
-                            this.dcl.push(this.tableData[i]);
+                        for(var i =0;i<this.tableData.length;i++){
+                            if(this.tableData[i].status==1){
+                                this.tableData[i].status='已处理';
+                                this.cl.push(this.tableData[i]);
+                            }else{
+                                this.tableData[i].status='待处理';
+                                this.dcl.push(this.tableData[i]);
+                            }
                         }
-                    }
                 })
             },
             getAdd(data){
                 this.$router.push({
-                    query:{id:data},
+                    query:{
+                        id:data,
+                        start_date:this.times[0],
+                        end_date:this.times[1],
+                    },
                     path:'./Has_replaced'
                 })
             },

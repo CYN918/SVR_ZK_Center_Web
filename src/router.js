@@ -270,7 +270,6 @@ let leftNav =
                 {title:'锁屏壁纸MD5库',url:'/admin/MD5'},
                 {title:'聚合内容配置',url:'/admin/allocation'},
                 {title:'资源待替换',url:'/admin/replace'},
-                {title:'资源已替换',url:'/admin/has_replaced'},
             ]},
 	]},
 	{title:'审核台',default:'/user',defaultopen:['1'],
