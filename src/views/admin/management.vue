@@ -18,7 +18,7 @@
         <div class="con">
             <div class="box">
                 <div class="boxImg" v-for="(DL,index) in IMGList">
-                    <div class="border" :class="{active:ind==index}" @click="ADDclass(index)">
+                    <div class="border" :class="{active:ind.indexOf(index)!=-1}" @click="ADDclass(index)">
                         <div class="img_box">
                             <img :src="DL.prev_uri"/>
                         </div>
@@ -80,7 +80,7 @@
                             </div>
                         </div>
                     </div>
-                        <div class="img_right" :class="{active_class:ind==index}"><span>√</span></div>
+                        <div class="img_right" :class="{active_class:ind.indexOf(index)!=-1}"><span>√</span></div>
                 </div>
                 </div>
             </div>
@@ -96,7 +96,7 @@
         data(){
             return{
                 IMGList:[],
-                ind:null,
+                ind:[],
                 bind_mfid:'',
                 search:'',
             }
@@ -116,7 +116,7 @@
                 })
             },
             ADDclass(index){
-                this.ind =index;
+                this.ind.push(index);
                 this.bind_mfid = this.IMGList[index].mfid;
             },
             delWL(){
@@ -220,7 +220,7 @@
         height: 0!important;
         position: relative;
         top: -302px;
-        right: -61px;
+        right: -41px;
         cursor: pointer;
         border: 20px solid;
         border-color: rgba(211,219,235,1) rgba(211,219,235,1) transparent transparent;

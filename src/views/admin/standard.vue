@@ -36,7 +36,7 @@
                                 prop="address"
                                 label="操作">
                             <template slot-scope="scope">
-                                <el-button type="text" size="small" @click="AnewUpload(tableData[scope.$index].id)">重新上传</el-button>
+                                <el-button type="text" size="small" @click="AnewUpload(scope.$index)">重新上传</el-button>
                                 <a :href=" tableData[scope.$index].attach_url">下载</a>
                                 <el-button type="text" size="small" @click="getDel(scope.$index)">删除</el-button>
                             </template>
@@ -84,10 +84,10 @@
                 </div>
                 <div class="select_btn">
                     <span>选择分类</span>
-                    <select v-model="type">
+                    <select v-model="type" :disabled="(this.id!='')">
                         <option v-for="(item,index) in TypeDataList" :value="item.type">{{item.name}}</option>
                     </select>
-                    <select v-model="pos_type" v-if="type!='sls_dynamic'&&type!='sls_picture'">
+                    <select v-model="pos_type" v-if="type!='sls_dynamic'&&type!='sls_picture'" :disabled="(this.id!='')">
                         <option v-for="(item,index) in oddType" :value="item.pos_type">{{item.pos_type}}</option>
                     </select>
                 </div>
@@ -152,7 +152,6 @@
         },
         mounted(){
             this.getTableList();
-
         },
         methods:{
             getRowClass({row, column, rowIndex}) {
@@ -192,9 +191,6 @@
                         }
                         if(this.tableData[i].type=="sls_dynamic"){
                             this.tableData[i].type='场景锁屏动效'
-                        }
-                        if(this.tableData[i].type=="ad_template"){
-                            this.tableData[i].type='广告图模板'
                         }
                         if(this.tableData[i].type=="ad_template"){
                             this.tableData[i].type='广告图模板'
@@ -259,25 +255,37 @@
                 this.type='';
                 this.pos_type='';
                 this.name='';
+                this.id=''
             },
-            AnewUpload(id){
-                this.id = id
-                this.updataList=true;
+            AnewUpload(index){
                 this.advertisingType();
                 this.dataTypeList();
+                this.id = this.tableData[index].id;
+                 if(this.tableData[index].type=='广告图'){
+                     this.type='ad_picture'
+                 }
+                if(this.tableData[index].type=='场景锁屏动效'){
+                    this.type='sls_dynamic'
+                }
+                if(this.tableData[index].type=='广告图模板'){
+                    this.type='ad_template'
+                }
+                if(this.tableData[index].type=='场景锁屏壁纸'){
+                    this.type='sls_picture'
+                }
+
+                this.pos_type = this.tableData[index].pos_type;
+                this.name = this.tableData[index].name;
+                this.updataList=true;
 
             },
             setUpload(){
-                if(!this.type){
-                    this.$message('类型不能为空')
+                if(!this.name){
+                    this.$message.error('名称不能为空');
                     return
                 }
-                if(this.type=='ad_picture'&&!this.pos_type||this.type=='ad_template'&&!this.pos_type){
-                    this.$message('广告位不能为空')
-                    return
-                }
-                if(!this.attach){
-                    this.$message('请上传文件')
+                if(!this.attach.name){
+                    this.$message.error('请上传文件');
                     return
                 }
                 let formData = new FormData;
@@ -297,19 +305,19 @@
                     this.setUpload();
                 }else{
                     if(!this.type){
-                        this.$message('类型不能为空')
+                        this.$message.error('类型不能为空')
                         return
                     }
                     if(this.type=='ad_picture'&&!this.pos_type||this.type=='ad_template'&&!this.pos_type){
-                        this.$message('广告位不能为空')
+                        this.$message.error('广告位不能为空')
                         return
                     }
                     if(!this.name){
-                        this.$message('规范名称不能为空')
+                        this.$message.error('规范名称不能为空')
                         return
                     }
-                    if(!this.attach){
-                        this.$message('请上传文件')
+                    if(!this.attach.name){
+                        this.$message.error('请上传文件')
                         return
                     }
                     let formData = new FormData;

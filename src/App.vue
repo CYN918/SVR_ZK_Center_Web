@@ -210,8 +210,8 @@ html,body{
 
 }
 .block .el-pagination .el-pagination__jump .el-input__inner{
-  width: 40px!important;
-  height: 40px!important;
+  width: 38px!important;
+  height: 34px!important;
 }
 .box_select .el-radio .el-radio__label,.boxCheck .el-radio__label{
   opacity: 0;

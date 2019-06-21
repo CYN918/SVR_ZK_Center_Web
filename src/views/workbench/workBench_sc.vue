@@ -30,7 +30,7 @@
                         <span class="tit_txt">设计规范</span>
                         <select class="sj_sel" v-model="design_standard">
                             <option value="" disabled selected>请选择</option>
-                            <option v-for="(item,index) in sj" :value="item.name">{{item.name}}</option>
+                            <option v-for="(item,index) in sj" :value="item.id">{{item.name}}</option>
                         </select>
                     </div>
                     <div class="time">

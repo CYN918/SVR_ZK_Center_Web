@@ -21,7 +21,7 @@
                     </div>
                     <div>
                         <span class="tit_txt">设计规范</span>
-                        <span>{{this.list.design_standard}}</span>
+                        <span>{{this.list.design_standard.name}}</span>
                     </div>
                     <div>
                         <span class="tit_txt">截止时间</span>

@@ -6,7 +6,7 @@
 		</div>
 		<div class="content">
 			<div class="Search">
-				<input type="text" placeholder="输入用户名或邮箱快速查询" v-model="search" @input="getList()"/>
+				<input type="text" placeholder="输入物料ID快速查询" v-model="search" @input="getWl()"/>
 				<img src="../../../public/img/ss.png" @click="getList()"/>
 				<span style="font-size:14px;font-family:PingFangSC-Regular;font-weight:400;color:rgba(31,46,77,1);margin-right: 20px">状态</span>
 				<select @click="getWl()" v-model="status">

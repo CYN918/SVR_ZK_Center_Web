@@ -78,10 +78,10 @@
                                 <span class="boxImg_content">{{parseInt(DL.attach.size/1024)}}kb</span>
                                 <a class="dowload" href="">下载</a>
                             </div>
-                            <div style="position: relative">
-
-                            </div>
                         </div>
+                    </div>
+                    <div class="bjImg" >
+                        <span>编辑素材</span>
                     </div>
                 </div>
             </div>
@@ -250,4 +250,6 @@
         height: 100%;
         margin-top: 251px;
     }
+    .bjImg, .bjImg span{opacity: 0}
+
 </style>
