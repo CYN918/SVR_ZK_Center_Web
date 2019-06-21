@@ -10,7 +10,8 @@
                 <input type="text" placeholder="请输入投放库名称" v-model="search"/>
                 <span>投放库类型</span>
                 <select v-model="put_type">
-                    <option>aaa</option>
+                    <option value="" selected>全部</option>
+                    <option v-for="item in TFlist" :value="item.type">{{item.name}}</option>
                 </select>
                 <span>广告位类型</span>
                 <select v-model="pos_type">
@@ -37,7 +38,7 @@
                                 >
                         </el-table-column>
                         <el-table-column
-                                prop="ad_type"
+                                prop="put_type"
                                 label="投放库类型">
                         </el-table-column>
                         <el-table-column
@@ -125,7 +126,8 @@
                 pos_type:'',
                 oddList:[],
                 deleted:false,
-                delID:''
+                delID:'',
+                TFlist:[],
             }
         },
         mounted(){this.getOddList()},
@@ -155,16 +157,42 @@
             getOddList(){
                 this.api.config_position_type({}).then((res)=>{
                     this.oddList=res;
-                    this.getDataList()
+                    this.getDataList();
+                    this. TFtype();
                 })
             },
             getDataList(){
                 let params = {search:this.search,put_type:this.put_type,pos_type:this.pos_type,p:this.p,page:this.page};
                 this.api.putlib_search({params}).then((res)=>{
                     this.tableData = res.data;
+                    for(var i=0 ;i<this.tableData.length;i++){
+                        if(this.tableData[i].put_type=='m_picture'){
+                            this.tableData[i].put_type='静态广告图'
+                        }
+                        if(this.tableData[i].put_type=='m_h5_picture'){
+                            this.tableData[i].put_type='H5广告图'
+                        }
+                        if(this.tableData[i].put_type=='m_script_picture'){
+                            this.tableData[i].put_type='脚本广告图'
+                        }
+                        if(this.tableData[i].put_type=='m_resource'){
+                            this.tableData[i].put_type='静态广告模板'
+                        }
+                        if(this.tableData[i].put_type=='m_h5_resource'){
+                            this.tableData[i].put_type='H5广告模板'
+                        }
+                        if(this.tableData[i].put_type=='m_script_resource'){
+                            this.tableData[i].put_type='脚本广告模板'
+                        }
+                    }
                     this.total = res.total;
                     console.log(res)
 
+                })
+            },
+            TFtype(){
+                this.api.config_putlib_type().then((res)=>{
+                    this.TFlist = res;
                 })
             },
             getDel(id){

@@ -625,10 +625,10 @@ html,body{
   margin-bottom: 24px!important;
 }
   .problem .el-table__expanded-cell{
-    background:rgba(247,249,252,1);
+    background:#F7F9Fa;
   }
 .problem .el-table__expanded-cell:hover{
-  background:rgba(247,249,252,1)!important;
+  background:#F7F9Fa!important;
 }
   .tags_name .el-checkbox__input{
     display: none;

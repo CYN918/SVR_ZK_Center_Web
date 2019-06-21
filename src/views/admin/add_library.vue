@@ -91,8 +91,7 @@
                    this.sizeList= res
                 })
             },
-
-            AddLibrary(){
+       AddLibrary(){
                 let formData = new FormData;
                 formData.append('name',this.name);
                 formData.append('put_type',this.put_type);

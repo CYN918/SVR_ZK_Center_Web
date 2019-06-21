@@ -175,10 +175,10 @@
         -webkit-box-sizing: border-box;
         box-sizing: border-box;
         background: #FFF;
-        margin-top: 270px;
+        margin-top: 285px;
     }
     .top_name{
-        height: 185px;
+        height: 200px;
         width: 100%;
 
     }

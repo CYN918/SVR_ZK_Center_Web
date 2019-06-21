@@ -19,8 +19,6 @@
                         header-align="center"
                         :header-cell-style="getRowClass"
                         :cell-style="cell"
-                        :row-key="row_key"
-                        :expand-row-keys="Keys"
                         style="width: 100%;color:#000">
                     <el-table-column
                             label="需求类型" prop="demand_type"
@@ -72,7 +70,7 @@
                                     <div class="step_wwc" v-if="item.did==undefined&&item.msg!='已驳回'&&tableData[props.$index].status!=item.status">{{item.status}}</div>
                                     <div class="step_dq" v-if="item.did==undefined&&item.msg!='已驳回'&&tableData[props.$index].status==item.status">{{item.status}}</div>
                                     <div class="step_bh" v-if="item.msg=='已驳回'">X</div>
-                                    <div class="step" v-if="item.did!=undefined&&item.msg!='已驳回'">√</div>
+                                    <div class="step" v-if="item.did!=undefined&&item.msg!='已驳回'"><img src="../../../public/img/win.png" /></div>
                                     <div class="bor" v-if="item.isfinish==0"></div>
                                     <div class="step_tit" :class="{active:item.did==undefined&&tableData[props.$index].status!=item.status}">{{item.status_name}}</div>
                                     <div class="step_time" >{{item.updated_at}}</div>
@@ -150,12 +148,9 @@
 
         mounted(){
             this.getData();
-            // this.Keys.push(this.tableData[0].did);
         },
         methods:{
-            row_key(row){
-                // return row.did;
-            },
+
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
                     return 'background:rgba(255,255,255,1);color:#1f2e4d;margin:0 24px;font-size:14px;font-weight:Medium;font-family:PingFang-SC-Regular;'

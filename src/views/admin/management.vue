@@ -10,7 +10,7 @@
             <div class="top_con">
                 <input type="text" placeholder="输入ID查询" v-model="search" @input="getDATAlist"/>
                 <div class="top_btn">
-                    <span class="xq" @click="delWL()">删除</span>
+                    <span class="xq" @click="getDel()">删除</span>
                     <span class="xq" @click="qx()">取消</span>
                 </div>
             </div>
@@ -85,7 +85,24 @@
                 </div>
             </div>
         </div>
+        <div class="bg" v-if="deleted">
+            <div class="ensure">
+                <div class="title">
+                    <span>删除</span>
+                    <img src="../../../public/img/gb.png" @click="heidDle()"/>
+                </div>
+                <div style="margin: 24px 0 0 0 ">
+                    <span>
+                    是否确定删除该条信息？
+                </span>
+                </div>
 
+                <div class="ensure_btn">
+                    <span class="ensure_btn_qd" @click="delWL()">确定</span>
+                    <span @click="heidDle()">取消</span>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -97,8 +114,9 @@
             return{
                 IMGList:[],
                 ind:[],
-                bind_mfid:'',
+                bind_mfid:[],
                 search:'',
+                deleted:false,
             }
         },
         mounted(){
@@ -107,6 +125,12 @@
         methods:{
             fh(){
                 this.$router.go(-1)
+            },
+            getDel(){
+                this.deleted =true;
+            },
+            heidDle(){
+                this.deleted =false;
             },
             getDATAlist(){
                 let params = {id:this.$route.query.id,search:this.search};
@@ -117,23 +141,26 @@
             },
             ADDclass(index){
                 this.ind.push(index);
-                this.bind_mfid = this.IMGList[index].mfid;
+                this.bind_mfid.push(this.IMGList[index].mfid);
             },
             delWL(){
-                if(!this.bind_mfid){
+                if(this.bind_mfid.length==0){
                     this.$message.error('请选择要删除的物料');
                     return
                 }
                 let formData = new FormData;
                 formData.append('id',this.$route.query.id);
-                formData.append('bind_mfid',JSON.stringify([this.bind_mfid]));
+                formData.append('bind_mfid',JSON.stringify(this.bind_mfid));
                 this.api.putlib_del_mfinal(formData).then((res)=>{
+                    this.ind=[];
+                    this.bind_mfid=[];
+                    this.heidDle();
                     this.getDATAlist();
                 })
             },
             qx(){
-                this.ind=null;
-                this.bind_mfid=''
+                this.ind=[];
+                this.bind_mfid=[];
             }
         },
     }
@@ -248,5 +275,172 @@
         border-radius:4px;
         margin-right: 24px;
         text-align: center;
+    }
+    .ensure{
+        width: 500px;
+        height: 200px;
+        background:rgba(255,255,255,1);
+        border-radius: 10px;
+        position: relative;
+        padding: 20px;
+        top:40%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+    .ensure span{
+        display: block;
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .ensure_btn{
+        width: 100%;
+        position: fixed;
+        bottom: 30px;
+        text-align: right;
+    }
+    .ensure_btn span{
+        display: inline-block;
+        width:68px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        font-size:14px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(61,73,102,1);
+        line-height: 36px;
+        text-align: center;
+        margin-right: 48px;
+        cursor: pointer;
+    }
+    .ensure_btn_qd{
+        background:rgba(51,119,255,1)!important;
+        color:rgba(255,255,255,1)!important;
+        margin-right: 14px!important;
+    }
+    .ss span{
+        float: right;
+        display: inline-block;
+        width:88px;
+        height:36px;
+        background:rgba(242,246,252,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        font-size:14px;
+        font-family:PingFang-SC-Medium;
+        font-weight:500;
+        color:rgba(61,73,102,1);
+        text-align: center;
+        line-height: 36px;
+        margin-right: 24px;
+        margin-top: 24px;
+        cursor: pointer;
+    }
+    .bg{
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.3);
+        position: fixed;
+        z-index: 9999;
+        bottom: 0;
+        right: 0;
+    }
+
+
+
+    .tit_sm span{
+        display: inline-block;
+        text-align: center;
+        line-height: 56px;
+        font-size:18px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(61,73,102,1);
+        margin-left: 24px;
+    }
+    .tit_sm img {
+        width: 16px;
+        height: 16px;
+        position: relative;
+        right: -430px;
+        cursor: pointer;
+    }
+    .tit_txt span{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFang-SC-Medium;
+        font-weight:500;
+        color:rgba(31,46,77,1);
+        margin-left: 52px;
+        vertical-align: top;
+    }
+
+
+    .select_btn span,.gfName span{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFang-SC-Medium;
+        font-weight:500;
+        color:rgba(31,46,77,1);
+        margin-left: 24px;
+    }
+    .select_btn select{
+        width:200px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        margin-left: 24px;
+    }
+
+    .upload_btn span{
+        display: inline-block;
+        width:68px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        font-size:14px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(61,73,102,1);
+        line-height: 36px;
+        text-align: center;
+        margin-right: 24px;
+        cursor: pointer;
+    }
+
+    .gfName input{
+        width: 192px;
+        height: 36px;
+        padding-left: 8px;
+        background: rgba(255,255,255,1);
+        border-radius: 4px;
+        border: 1px solid rgba(211,219,235,1);
+        margin-left: 24px;
+    }
+    a{
+        color: #3377ff;
+        text-decoration:none;
+        margin: 0 10px;
+    }
+    .title{
+        height: 56px;
+        border-bottom: 1px solid #ddd;
+    }
+    .title span{
+        font-size:18px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(61,73,102,1);
+        line-height: 56px;
+    }
+    .title img{
+        width: 16px;
+        height: 16px;
+        position: relative;
+        right: -485px;
+        top: -50px;
     }
 </style>
