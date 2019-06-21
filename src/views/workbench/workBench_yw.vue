@@ -111,6 +111,7 @@
                 putList:false,
                 libraryName:'',
                 switcher:false,
+                libraryID:'',
             }
         },
         mounted(){
@@ -198,7 +199,7 @@
                         return
                     }
                     let formData=new FormData;
-                    formData.append('libraryName',this.libraryName);
+                    formData.append('put_lib',this.libraryID);
                     formData.append('type',this.type);
                     formData.append('num',this.num);
                     formData.append('priority',this.priority);
@@ -255,8 +256,9 @@
             heidLibrary(){
                 this.putList=false;
             },
-            listenToChildEvent(name){
+            listenToChildEvent(name,id){
                 this.libraryName = name;
+                this.libraryID = id
             },
         }
     }

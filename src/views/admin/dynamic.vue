@@ -83,7 +83,9 @@
 						</div>
 						<div>
 							<span class="boxImg_text">附件:</span>
-							<span class="boxImg_content">{{parseInt(DL.attach.size/1024)}}kb</span>
+							<span class="boxImg_content" v-if="parseInt(DL.attach.size/1024)>=1&&parseInt(DL.attach.size/1024/1024)<1">{{parseInt(DL.attach.size/1024)}}kb</span>
+							<span class="boxImg_content" v-if="parseInt(DL.attach.size/1024/1024)>=1&&parseInt(DL.attach.size/1024/1024/1024)<1">{{parseInt(DL.attach.size/1024/1024)}}MB</span>
+							<span class="boxImg_content" v-if="parseInt(DL.attach.size/1024/1024/1024)>=1">{{parseInt(DL.attach.size/1024/1024/1024)}}GB</span>
 							<a class="dowload" :href="DL.attach.url">下载</a>
 						</div>
 					</div>

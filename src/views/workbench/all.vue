@@ -8,12 +8,14 @@
                 <div class="tit_btn_top">
                     <span>需求类型</span>
                     <select class="types" v-model="demand_type" @change="typeData">
+                        <option value="">全部</option>
                         <option value="demand_business">业务需求</option>
                         <option value="demand_material">素材需求</option>
                         <option value="demand_apply">设计师结算</option>
                     </select>
                     <span>所处流程</span>
                     <select v-model="status">
+                        <option value="">全部</option>
                         <option v-for="item in statusList" :value="item.key">{{item.status_name}}</option>
                     </select>
                     <span>需求ID</span>
@@ -33,7 +35,7 @@
                     </div>
                     <span>状态</span>
                     <select v-model="reject">
-                        <option value=null>全部</option>
+                        <option value=''>全部</option>
                         <option value=1>驳回</option>
                         <option value=0>已处理</option>
                     </select>
@@ -126,8 +128,6 @@
             getDataList(){
                 let params ={p:this.p,page:this.page,search:this.search,status:this.status,demand_type:this.demand_type,start_time:this.value[0],end_time:this.value[1],reject:this.reject,processor:this.processor}
                 this.api.demand_search({params}).then((res)=>{
-                    console.log(res)
-
                     this.tableData = res.data;
                     this.total = res.total;
                     for (let i=0;i<this.tableData.length;i++){

@@ -112,6 +112,7 @@
                 radio:'',
                 currentRow:"",
                 TFlist:[],
+                id:''
             }
         },
         mounted(){this.getOddList()},
@@ -168,11 +169,12 @@
             },
             handleCurrentChange(val) {
                 this.currentRow = val.name;
+                this.id = val.id;
                 console.log(val);
-                this.$emit('listenToChildEvent',this.currentRow,true);
+                this.$emit('listenToChildEvent',this.currentRow,this.id,true);
             },
             tj(){
-                this.$emit('listenToChildEvent',this.currentRow,true);
+                this.$emit('listenToChildEvent',this.currentRow,this.id,true);
                 this.$parent.heidLibrary()
             },
             qx(){

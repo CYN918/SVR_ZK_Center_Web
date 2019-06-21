@@ -85,6 +85,8 @@
                                         :on-remove="Remove"
                                         class="upload-demo"
                                         action="111"
+                                        accept=".jpg,.jpeg,.png,.JPG,.JPEG，psd,bmp,gif,tif"
+                                        :before-upload="beforeAvatarUpload"
                                         :file-list="fileList">
                                     <el-button size="small" type="primary">上传预览图</el-button>
                                 </el-upload>
@@ -207,7 +209,19 @@
                 }else{
                     this.$parent.XSset();
                 }
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isPNG = file.type === 'image/png';
+                const isPSD = file.type === 'image/psd';
+                const isBMP = file.type === 'image/bmp';
+                const isGIF = file.type === 'image/gif';
+                const isTIF = file.type === 'image/tif';
+                if (!isJPG&&!isPNG) {
+                    this.$message.error('只支持JPG、PNG、psd、bmp、gif、tif格式!');
+                }
 
+                return isPNG || isJPG ||isPSD||isBMP||isGIF||isTIF;
             },
             setTags(){
                 let formData = new FormData;
@@ -463,6 +477,7 @@
 <style scoped>
     input{
         margin-left: 0;
+        padding-left: 10px;
     }
     .bg{
         width: 100%;
@@ -604,6 +619,7 @@
         width: 14px!important;
         height: 14px!important;
         margin:2px  11px 0 0!important;
+        padding-left: 0!important;
     }
     .AddIMG_sc_btn{
         display: inline-block;
@@ -632,7 +648,7 @@
         font-size:12px;
         font-family:PingFang-SC-Regular;
         font-weight:400;
-        color:rgba(153,153,153,1);
+        color:#8b9bb3;
     }
     .AddIMG_zp_text{
         width:254px;

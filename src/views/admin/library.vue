@@ -61,7 +61,7 @@
                                >
                         </el-table-column>
                         <el-table-column
-                                prop="name"
+                                prop="status"
                                 label="状态"
                                >
                         </el-table-column>
@@ -74,7 +74,7 @@
                                 label="操作">
                             <template slot-scope="scope">
                                 <el-button type="text" size="small"  @click="look(scope.$index)">查看详情</el-button>
-                                <el-button type="text" size="small"  @click="getDel(tableData[scope.$index].id)">删除</el-button>
+                                <el-button type="text" size="small"  @click="getDel(scope.$index)">删除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -126,7 +126,7 @@
                 pos_type:'',
                 oddList:[],
                 deleted:false,
-                delID:'',
+                index:'',
                 TFlist:[],
             }
         },
@@ -184,6 +184,11 @@
                         if(this.tableData[i].put_type=='m_script_resource'){
                             this.tableData[i].put_type='脚本广告模板'
                         }
+                        if(this.tableData[i].status=='0'){
+                            this.tableData[i].status='未使用'
+                        }else{
+                            this.tableData[i].status='使用中'
+                        }
                     }
                     this.total = res.total;
                     console.log(res)
@@ -196,7 +201,7 @@
                 })
             },
             getDel(id){
-                this.delID=id;
+                this.index=id;
                 this.deleted =true;
             },
             heidDle(){
@@ -204,12 +209,17 @@
                 this.id='';
             },
             delData(){
-                let formData = new FormData;
-                formData.append('id',this.id);
-                this.api.putlib_del(formData).then((res)=>{
-                    this.id='';
-                    this.getDataList();
-                })
+                if(this.tableData[this.index].status=='使用中'){
+                    this.$message.error('该条投放库正在使用中，无法删除');
+                    return
+                }
+                    let formData = new FormData;
+                    formData.append('id',this.tableData[this.index].id);
+                    this.api.putlib_del(formData).then((res)=>{
+                        this.id='';
+                        this.getDataList();
+                    })
+
             },
             handleSizeChange1(page){
                 this.page=page;

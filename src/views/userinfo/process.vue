@@ -202,7 +202,6 @@
         },
         mounted(){
             this.getYWtype();
-
         },
         methods:{
             getYWtype(){

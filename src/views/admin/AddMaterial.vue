@@ -70,6 +70,8 @@
                         </div>
                         <div class="AddIMG_yl">
                             <span class="tit">尺寸:</span>
+                            <input class="AddIMG_yl_size" v-model="sjSize" placeholder="上传预览图后自动获取"  disabled v-if="chenck==false">
+                            <input class="AddIMG_yl_size" v-model="cc" placeholder="上传预览图后自动获取"  disabled v-if="chenck==true">
                             <div class="AddIMG_yl_upload">
                                 <el-upload
                                         :limit="1"
@@ -78,6 +80,8 @@
                                         :on-remove="Remove"
                                         class="upload-demo"
                                         action="111"
+                                        accept=".jpg,.jpeg,.png,.JPG,.JPEG，psd,bmp,gif,tif"
+                                        :before-upload="beforeAvatarUpload"
                                         :file-list="fileList">
                                     <el-button size="small" type="primary">上传预览图</el-button>
                                 </el-upload>
@@ -181,6 +185,7 @@
                 initiate:false,
                 initiate2:false,
                 Urllist:[],
+                cc:""
             }
         },
         mounted(){
@@ -236,6 +241,15 @@
                     this.attach.ext = res.ext;
                     this.attach.md5 = res.md5;
                     this.attach.url = res.url;
+                    var image = new Image();
+                    var _this=this;
+                    image.onload=function(){
+                        var width = image.width;
+                        var height = image.height;
+                        _this.cc = (width+"*"+height)
+                    };
+                    image.src= res.url;
+
                 })
             },
             getType(){
@@ -243,6 +257,19 @@
                 this.api.config_material_type({params}).then((res)=>{
                     this.scType=res;
                 })
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isPNG = file.type === 'image/png';
+                const isPSD = file.type === 'image/psd';
+                const isBMP = file.type === 'image/bmp';
+                const isGIF = file.type === 'image/gif';
+                const isTIF = file.type === 'image/tif';
+                if (!isJPG&&!isPNG) {
+                    this.$message.error('只支持JPG、PNG、psd、bmp、gif、tif格式!');
+                }
+
+                return isPNG || isJPG ||isPSD||isBMP||isGIF||isTIF;
             },
             handleExceed(files, fileList) {
                 this.$message.warning(`当前限制选择1个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
@@ -430,6 +457,7 @@
 <style scoped>
     input{
         margin-left: 0;
+        padding-left: 10px;
     }
     .bg{
         width: 100%;
@@ -586,6 +614,7 @@
         width: 14px!important;
         height: 14px!important;
         margin-right: 11px;
+        padding-left: 0!important;
     }
     .AddIMG_sc_btn{
         display: inline-block;
@@ -614,7 +643,7 @@
         font-size:12px;
         font-family:PingFang-SC-Regular;
         font-weight:400;
-        color:rgba(153,153,153,1);
+        color:#8b9bb3;
     }
     .AddIMG_zp_text{
         width:254px;
