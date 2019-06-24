@@ -73,7 +73,7 @@
                                     <div class="step" v-if="item.did!=undefined&&item.msg!='已驳回'"><img src="../../../public/img/win.png" /></div>
                                     <div class="bor" v-if="item.isfinish==0"></div>
                                     <div class="step_tit" :class="{active:item.did==undefined&&tableData[props.$index].status!=item.status}">{{item.status_name}}</div>
-                                    <div class="step_time" >{{item.updated_at}}</div>
+                                    <div class="step_time" v-if="item.creator!=''||tableData[props.$index].status==item.status">{{item.updated_at}}</div>
                                     <div class="step_contnet" v-if="item.creator!=''||tableData[props.$index].status==item.status">
                                         <span class="step_txt">状态</span>
                                         <span>{{item.msg}}</span>

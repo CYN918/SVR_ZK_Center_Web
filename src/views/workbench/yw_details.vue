@@ -40,7 +40,7 @@
                 </div>
                 <div v-if="this.list.type_name!='场景锁屏'">
                     <span class="tit_txt ">投放库</span>
-                    <span class="tit_txt_2">{{this.list.require}}</span>
+                    <span class="tit_txt_2">{{this.list.putlib.name}}</span>
                 </div>
                 <div class="times">
                     <span class="tit_txt">截止时间</span>
