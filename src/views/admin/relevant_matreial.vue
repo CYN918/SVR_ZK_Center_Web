@@ -5,7 +5,7 @@
                 <span>相关素材</span>
                 <img src="../../../public/img/gb.png" @click="yc()"/>
             </div>
-            <div>
+            <div class="images">
                 <div v-for="item in dataLIST" class="aaa">
                     <img :src="item.prev_uri" />
                     <span>{{item.mid}}</span>
@@ -91,9 +91,14 @@
     position: relative;
     right: -443px;
 }
+.images{
+    overflow-y: auto;
+    height: 400px;
+}
 .aaa{
     display: inline-block;
     margin:24px 0 0  24px;
+    overflow-y: auto;
 }
 .aaa img{
     width:252px;

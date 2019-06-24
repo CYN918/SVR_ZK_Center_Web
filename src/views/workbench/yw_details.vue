@@ -14,16 +14,19 @@
                 <div class="two">
                     <span class="tit_txt">业务类型</span>
                     <span class="tit_txt_2 logs">{{this.list.type_name}}</span>
-
                     <span class="tit_txt right" >广告位类型</span>
                     <span class="tit_txt_2">{{this.list.typeIndex}}</span>
+                </div>
+                <div class="two">
+                    <span class="tit_txt">需求名称</span>
+                    <span class="tit_txt_2 logs">{{this.list.demand_name}}</span>
+
                 </div>
                 <div class="two">
                     <span class="tit_txt">尺寸</span>
                     <span class="tit_txt_2 logs">{{this.list.size}}</span>
                     <span class="tit_txt right">优先级</span>
                     <span class="tit_txt_2">{{this.list.priority}}</span>
-
                 </div>
                 <div class="two">
                     <span class="tit_txt">需求数量</span>
@@ -36,8 +39,8 @@
                     <span class="tit_txt_2">{{this.list.link}}</span>
                 </div>
                 <div v-if="this.list.type_name!='场景锁屏'">
-                    <span>投放库</span>
-                    <span></span>
+                    <span class="tit_txt ">投放库</span>
+                    <span class="tit_txt_2">{{this.list.require}}</span>
                 </div>
                 <div class="times">
                     <span class="tit_txt">截止时间</span>
@@ -45,7 +48,7 @@
                 </div>
                 <div class="gg">
                     <span class="tit_txt">广告要求</span>
-                    <div class="text">{{this.list.requirement}}</div>
+                    <div class="text">{{this.list.require}}</div>
                 </div>
                 <div class="btn">
                     <span @click="heid">返回</span>
