@@ -18,10 +18,12 @@
             <div class="contentImg">
                 <div class="label">
                     <span class="label_txt">预置标签:</span>
+                    <span class="labelName" @click="getListTag()" :class="{active:inx==null}">全部</span>
                     <span v-for="(item,index) in preset_tags" class="labelName" @click="getListTag(item.name,index)" :class="{active:inx==index}">{{item.name}}</span>
                 </div>
-                <div>
+                <div class="label">
                     <span class="label_txt">个性标签:</span>
+                    <span class="labelName" @click="getListTag2()" :class="{active:inde==null}">全部</span>
                     <span v-for="(item,index) in self_tags" class="labelName" @click="getListTag2(item.name,index)" :class="{active:inde==index}">{{item.name}}</span>
                 </div>
                 <div class="box">
@@ -304,7 +306,8 @@
         margin: 0 24px;
     }
     .active{
-        color: #1583e2!important;
+        background: #1583e2!important;
+        color: #fff;
         border:0!important;
     }
 

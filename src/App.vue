@@ -347,10 +347,10 @@ html,body{
   color: #fff!important;
   font-size: 12px!important;
 }
-.active{
-  background:rgba(255,255,255,1);
-  border:1px solid rgba(19,159,248,1);
-}
+/*.active{*/
+  /*background:rgba(255,255,255,1);*/
+  /*border:1px solid rgba(19,159,248,1);*/
+/*}*/
 .box{
   margin-top: 24px;
 }

@@ -433,7 +433,7 @@
                     this.sjSize=res.size;
                     this.type=res.type;
                     this.is_bind_mid=res.is_bind_mid==1?true:false;
-                    this.is_bind_workid=res.is_bind_workid==1?true:false;
+                    this.is_bind_workid=res.is_bind_workid==0?true:false;
                     for(let i=0;i<res.bind_mid.length;i++){
                         this.bind_mid=res.bind_mid[i].mid;
                         this.hqUrl = res.bind_mid[i].prev_uri;
