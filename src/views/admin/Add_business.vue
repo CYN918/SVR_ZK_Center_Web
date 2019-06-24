@@ -22,6 +22,10 @@
                     </select>
                 </div>
                 <div>
+                    <span class="tit_txt">需求名称</span>
+                    <input type="text" class="xqName" placeholder="请填写需求名称" v-model="demand_name"/>
+                </div>
+                <div>
                     <span class="tit_txt">尺寸</span>
                     <input class="num" type="text" placeholder="请输入尺寸，用*链接" v-model="size" v-if="switcher"/>
                     <select v-model="size" v-if="switcher==false" @change="cut()">
@@ -106,6 +110,7 @@
                 libraryName:'',
                 switcher:false,
                 libraryID:'',
+                demand_name:'',
             }
         },
         mounted(){
@@ -184,6 +189,10 @@
                     this.$message.error('尺寸不能为空')
                     return
                 }
+                if(!this.demand_name){
+                    this.$message.error('需求名称不能为空')
+                    return
+                }
                 if(!this.model){
                     this.$message.error('实现方式不能为空')
                     return
@@ -204,6 +213,7 @@
                 formData.append('link',this.link);
                 formData.append('requirement',this.requirement);
                 formData.append('pos_view_url',this.url);
+                formData.append('demand_name',this.demand_name);
                 this.api.demand_business_add(formData).then((res)=>{
 
                 })
@@ -417,7 +427,7 @@
         margin-left: 0!important;
         margin-bottom: 0!important;
         position: relative;
-        bottom: -59px;
+        bottom: 0px;
         text-align: right!important;
     }
     .btn span{
@@ -441,5 +451,13 @@
         background:rgba(51,119,255,1)!important;
         color:rgba(255,255,255,1)!important;
         margin-right: 14px!important;
+    }
+    .xqName{
+        width:190px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        padding-left: 10px;
     }
 </style>

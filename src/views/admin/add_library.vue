@@ -22,7 +22,9 @@
                </div>
                 <div>
                     <span>素材尺寸</span>
-                    <select v-model="size">
+                    <input class="num" type="text" placeholder="请输入尺寸，用*链接" v-model="size" v-if="switcher"/>
+                    <select v-model="size" v-if="switcher==false" @change="cut()">
+                        <option value=" ">自定义</option>
                         <option v-for="da in sizeList" :value="da.size">{{da.size}}</option>
                     </select>
                 </div>
@@ -68,47 +70,53 @@
                 size:'',
                 ad_type:'',
                 TFlist:[],
+                switcher:false
 
             }
         },
         mounted(){
             this.getOddList()
         },
-        methods:{
-            fh(){
+        methods: {
+            fh() {
                 this.$router.go(-1)
             },
-            getOddList(){
-                this.api.config_position_type({}).then((res)=>{
-                    this.oddList=res;
+            getOddList() {
+                this.api.config_position_type({}).then((res) => {
+                    this.oddList = res;
                     console.log(this.oddList)
                     this.getSize();
                     this.TFtype()
                 })
             },
-            getSize(){
-                this.api.config_size().then((res)=>{
-                   this.sizeList= res
+            getSize() {
+                this.api.config_size().then((res) => {
+                    this.sizeList = res
                 })
             },
-       AddLibrary(){
+            AddLibrary() {
                 let formData = new FormData;
-                formData.append('name',this.name);
-                formData.append('put_type',this.put_type);
-                formData.append('pos_type',this.pos_type);
-                formData.append('size',this.size);
-                formData.append('ad_type',this.ad_type);
-                formData.append('channel_type',this.channel_type);
-                this.api.putlib_add(formData).then((res)=>{
+                formData.append('name', this.name);
+                formData.append('put_type', this.put_type);
+                formData.append('pos_type', this.pos_type);
+                formData.append('size', this.size);
+                formData.append('ad_type', this.ad_type);
+                formData.append('channel_type', this.channel_type);
+                this.api.putlib_add(formData).then((res) => {
                     this.fh();
                 })
             },
-            TFtype(){
-                this.api.config_putlib_type().then((res)=>{
+            TFtype() {
+                this.api.config_putlib_type().then((res) => {
                     this.TFlist = res;
                 })
-            }
-        },
+            },
+            cut() {
+                if (this.size == ' ') {
+                    this.switcher = true
+                }
+            },
+        }
     }
 </script>
 
@@ -179,4 +187,5 @@
         color:rgba(255,255,255,1)!important;
         margin-left: 124px;
     }
+    .num{margin-top: 0!important;}
 </style>
