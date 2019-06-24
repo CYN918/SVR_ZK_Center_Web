@@ -323,7 +323,7 @@
                 })
             },
             setMatter(){
-                if(!this.prev_uri){
+                if(!this.prev_uri&&this.chenck!=true){
                     this.$message('未上传预览图')
                     return
                 }
@@ -356,7 +356,7 @@
                         this.$message('类型不能为空')
                         return
                     }
-                    if(!this.prev_uri){
+                    if(!this.prev_uri&&this.chenck!=true){
                         this.$message('未上传预览图')
                         return
                     }
@@ -757,6 +757,7 @@
         color:rgba(61,73,102,1);
         line-height: 36px;
         text-align: center;
+        cursor: pointer;
     }
     .bg_btn_up{
         border:0!important;

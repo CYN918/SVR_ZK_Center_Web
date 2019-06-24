@@ -218,6 +218,7 @@
                     this.api.putlib_del(formData).then((res)=>{
                         this.id='';
                         this.getDataList();
+                        this.deleted = false;
                     })
 
             },
