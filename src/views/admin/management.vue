@@ -53,7 +53,9 @@
                                 </div>
                                 <div class="dx">
                                     <span class="boxImg_text">预览图大小:</span>
-                                    <span class="boxImg_content">{{DL.size}}</span>
+                                    <span class="boxImg_content" v-if="parseInt(DL.attach.size/1024)>=1&&parseInt(DL.attach.size/1024/1024)<1">{{parseInt(DL.attach.size/1024)}}kb</span>
+                                    <span class="boxImg_content" v-if="parseInt(DL.attach.size/1024/1024)>=1&&parseInt(DL.attach.size/1024/1024/1024)<1">{{parseInt(DL.attach.size/1024/1024)}}MB</span>
+                                    <span class="boxImg_content" v-if="parseInt(DL.attach.size/1024/1024/1024)>=1">{{parseInt(DL.attach.size/1024/1024/1024)}}GB</span>
                                 </div>
                             </div>
 
@@ -75,7 +77,9 @@
                             </div>
                             <div>
                                 <span class="boxImg_text">附件:</span>
-                                <span class="boxImg_content">{{parseInt(DL.size/1024)}}kb</span>
+                                <span class="boxImg_content" v-if="parseInt(DL.attach.size/1024)>=1&&parseInt(DL.attach.size/1024/1024)<1">{{parseInt(DL.attach.size/1024)}}kb</span>
+                                <span class="boxImg_content" v-if="parseInt(DL.attach.size/1024/1024)>=1&&parseInt(DL.attach.size/1024/1024/1024)<1">{{parseInt(DL.attach.size/1024/1024)}}MB</span>
+                                <span class="boxImg_content" v-if="parseInt(DL.attach.size/1024/1024/1024)>=1">{{parseInt(DL.attach.size/1024/1024/1024)}}GB</span>
                                 <a class="dowload">下载</a>
                             </div>
                             <div class="img_right" :class="{active_class:ind.indexOf(index)!=-1}"><span>√</span></div>
