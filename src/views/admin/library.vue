@@ -203,6 +203,7 @@
             getDel(id){
                 this.index=id;
                 this.deleted =true;
+                this.getDATAlist();
             },
             heidDle(){
                 this.deleted =false;
@@ -221,6 +222,15 @@
                         this.deleted = false;
                     })
 
+            },
+            getDATAlist(){
+                let params = {id:this.tableData[this.index].id,search:this.search};
+                this.api.putlib_binds({params}).then((res)=>{
+                    if(res.length>0){
+                        this.$message('该投放库已有绑定物料，是否确定删除？');
+                        return
+                    }
+                })
             },
             handleSizeChange1(page){
                 this.page=page;
