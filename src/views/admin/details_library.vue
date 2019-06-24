@@ -134,32 +134,41 @@
             getCon(){
                 this.sc = true;
                 this.message=''
+                this.stop()
             },
             SCsc(){
                 this.sc = true
+                this.stop()
             },
 
             heidSc(){
                 this.sc = false;
+                this.move()
             },
             getRel(index){
                 this.getRe=true;
                 this.num =this.IMGList[index].mfid;
+                this.stop()
             },
             heidRel(){
                 this.getRe=false;
+                this.move()
             },
             getWl(){
                 this.am = true
+                this.stop()
             },
             heidWL(){
                 this.am = false;
+                this.move()
             },
             Addyw(){
                 this.yw = true;
+                this.stop()
             },
             heidYW(){
                 this.yw = false;
+                this.move()
             },
             listenToChildEvent(a){
                 this.bind_id = a;
@@ -177,8 +186,19 @@
                     if(a!=undefined){
                         this.message = res.data[a];
                         this.sc = true;
+                        this.stop()
                     }
                 })
+            },
+            stop(){
+                document.body.style.overflow='hidden';
+                document.body.style.position='fixed';
+                document.body.style.width='100%';
+            },
+            move(){
+                document.body.style.overflow='';//出现滚动条
+                document.body.style.position='initial';
+                document.body.style.height='1006px';
             },
             ment(){
                 this.$router.push({

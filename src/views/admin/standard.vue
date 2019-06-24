@@ -77,6 +77,10 @@
                             <el-button size="small" type="primary">上传</el-button>
                         </el-upload>
                     </div>
+                    <div class="progress" style="width: 100px;height: 5px;opacity: 0.5;display: inline-block " v-if="initiate" >
+                        <div class="strip" :style="{width:aaa+'%'}" style="background: blue;height: 5px"></div>
+                        <div style="text-align: center;font-size: 10px">当前附件上传{{aaa}}%</div>
+                    </div>
                 </div>
                 <div class="gfName">
                     <span>规范名称</span>
@@ -148,6 +152,8 @@
                 id:'',
                 deleted:false,
                 delID:'',
+                aaa:0,
+                initiate:false,
             }
         },
         mounted(){
@@ -181,6 +187,15 @@
             heidDle(){
                 this.deleted =false;
             },
+            time(){
+                var _this=this;
+                _this.aaa=0;
+                var timer = setInterval(function () {
+                    if(_this.aaa<99){
+                        _this.aaa++
+                    }
+                },100);
+            },
             getTableList(){
                 let params ={p:this.p,page:this.page,search:this.search};
                 this.api.standard_standards({params}).then((res)=>{
@@ -213,7 +228,8 @@
                 this.$message.warning(`当前限制选择 1个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
             },
             updata(file){
-                console.log(file.file);
+                this.time();
+                this.initiate=true;
                 this.file=file.file;
                 let formData = new FormData;
                 formData.append('file',this.file);
@@ -223,7 +239,8 @@
                      this.attach.md5 = res.md5;
                      this.attach.url = res.url;
                      this.attach.ext = res.ext;
-
+                     this.aaa=100;
+                     this.initiate = false;
                      console.log(res);
 
                  })

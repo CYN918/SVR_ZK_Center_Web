@@ -50,7 +50,7 @@
             </div>
         </div>
         <div class="bg" style="text-align: center" @click=" heidImg()" v-if="img">
-            <div style="margin-top: 150px">
+            <div style="max-width: 700px" class="images">
                 <img :src="this.list.ref_url" style="width: 70%" />
             </div>
         </div>
@@ -210,5 +210,11 @@
         width: 16px;
         margin-top: 10px;
         cursor: pointer;
+    }
+    .images{
+        position: relative;
+        left: 50%;
+        top:50%;
+        transform: translate(-50%,-50%);
     }
 </style>

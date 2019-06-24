@@ -173,6 +173,10 @@
                     this.$message.error('需求数量不能为空')
                     return
                 }
+                if(!(this.num.match(/^[\u4e00-\u9fa5]+$/ ))){
+                    this.$message.error('需求数量不能为汉字')
+                    return
+                }
                 if(this.type!='f_sls_lockscreen'&&!this.pos_type){
                     this.$message.error('广告位类型不能为空')
                     return

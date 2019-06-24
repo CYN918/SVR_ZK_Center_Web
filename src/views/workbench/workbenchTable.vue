@@ -87,7 +87,8 @@
                                     <div class="step_contnet" v-if="item.creator!=''||tableData[props.$index].status==item.status">
                                         <span class="step_txt" v-if="index=='0'">需求内容</span>
                                         <span class="step_txt" v-if="index!='0'">处理结果</span>
-                                        <span class="dj" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status)">查看详情</span>
+                                        <span class="dj" v-if="item.key==0" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status)">查看详情</span>
+                                        <span v-if="item.did==undefined&&item.msg!='已驳回'&&tableData[props.$index].status==item.status">待处理</span>
                                     </div>
                                 </div>
                             </div>

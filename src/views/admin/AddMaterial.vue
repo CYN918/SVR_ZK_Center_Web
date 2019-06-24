@@ -412,7 +412,7 @@
                     this.bind_mid = a.join(';');
                     this.hqUrl = b;
 
-                    if(res.status==1201){
+                    if(res.status==0){
                         this.value2=false;
                     }else{
                         this.value2=true;
@@ -548,8 +548,8 @@
         margin: 0 11px 17px 0;
         display: inline-block;
         width:218px;
-
     }
+
     .AddIMG_box img:nth-child(3n){
         margin: 14px 0 0 0!important;
     }

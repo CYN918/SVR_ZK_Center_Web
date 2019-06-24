@@ -40,8 +40,8 @@
                                 type="datetime"
                                 placeholder="选择日期时间"
                                 default-time="24:00:00"
-                                format="yyyy 年 MM 月 dd 日 H 时 m 分 s 秒"
-                                value-format="yyyy-MM-dd HH:mm:ss"
+                                format="yyyy 年 MM 月 dd 日 H 时 m 分"
+                                value-format="yyyy-MM-dd HH:mm"
                         >
                         </el-date-picker>
                     </div>

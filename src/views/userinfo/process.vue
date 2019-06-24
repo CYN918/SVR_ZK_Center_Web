@@ -90,7 +90,7 @@
                             <span :class="{active1:audit_type==1}" @click="SCtagTwo">会签</span>
                         </div>
                     </div>
-                    <div v-if="item.status!=5" style="width: 120px;height: 1px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
+                    <div v-if="item.status!=5" style="width: 120px;height: 2px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
                 </div>
                 <div class="banner" v-if="ban1" :style="{left:this.left+'px'}">
                     <span class="tit">负责人</span>
@@ -191,12 +191,12 @@
                 ban1:false,
                 ban2:false,
                 TXlist:[],
-                num:'',
-                nums:'',
-                num1:'',
-                nums1:'',
-                num2:'',
-                nums2:'',
+                num:null,
+                nums:null,
+                num1:null,
+                nums1:null,
+                num2:null,
+                nums2:null,
                 left:'',
             }
         },
@@ -264,14 +264,14 @@
             getBan(index){
                 this.ban=true;
                 this.index=index;
-                this.left=this.index*225;
+                this.left=this.index*276;
                 this.ban2=false;
                 this.ban1=false;
             },
             getBan1(index){
                 this.ban1=true;
                 this.index=index;
-                this.left=this.index*225;
+                this.left=this.index*276;
                 this.ban=false;
                 this.ban2=false;
 
@@ -279,7 +279,7 @@
             getBan2(index){
                 this.ban2=true;
                 this.index=index;
-                this.left=this.index*225;
+                this.left=this.index*276;
                 this.ban1=false;
                 this.ban=false;
 
@@ -348,12 +348,12 @@
                 this.num2= index;
             },
             leave(){
-                this.nums='';
-                this.num= ''
-                this.nums1='';
-                this.num1= ''
-                this.nums2='';
-                this.num2= ''
+                this.nums=null;
+                this.num= null;
+                this.nums1=null;
+                this.num1= null;
+                this.nums2=null;
+                this.num2= null;
             }
         },
     }
@@ -454,6 +454,9 @@
         display: inline-block;
         text-align: center;
         vertical-align: top;
+    }
+    .step>div{
+        width: 156px;
     }
     .step:first-child{
         margin-left: 62px;

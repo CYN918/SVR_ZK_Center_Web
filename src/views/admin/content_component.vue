@@ -438,8 +438,7 @@
                         this.bind_mid=res.bind_mid[i].mid;
                         this.hqUrl = res.bind_mid[i].prev_uri;
                     }
-
-                    if(res.status==1201){
+                    if(res.status==0){
                         this.value2=false;
                     }else{
                         this.value2=true;
@@ -535,9 +534,13 @@
 
     }
     .AddIMG_content_left img{
-        width: 100%;
-        height: 100%;
+        max-width: 228px;
+        max-height: 328px;
         border:0px!important;
+       position: relative;
+        top:50%;
+        left:50%;
+        transform: translate(-50%,-50%);
     }
     .AddIMG_content_right span{
         margin-bottom: 0px;
@@ -622,8 +625,7 @@
     }
     .AddIMG_sc_btn{
         display: inline-block;
-        margin-left: 20px;
-        margin-right: 21px;
+        margin-right: 10px;
         width:124px;
         height:36px;
         background:rgba(242,246,252,1);
@@ -778,4 +780,5 @@
         border-radius: 5px;
         margin-bottom: 10px!important;
     }
+
 </style>

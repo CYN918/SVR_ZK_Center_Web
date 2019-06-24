@@ -7,6 +7,7 @@
                 <div class="table_material">
                     <div class="content_title">
                         <span style="width: 10%">数量</span>
+                        <span style="width: 10%">需要制作新物料</span>
                         <span style="width: 15%">预览图</span>
                         <span style="width: 20%">物料ID</span>
                         <span style="width: 15%">物料类型</span>

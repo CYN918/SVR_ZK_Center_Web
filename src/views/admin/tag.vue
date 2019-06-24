@@ -245,7 +245,7 @@
      margin-left: 24px;
     margin-right: 10px;
      padding-left: 10px;
-    width:91px;
+    width:130px;
     height:26px;
     background:rgba(255,255,255,1);
     border:1px solid rgba(220,220,220,1);

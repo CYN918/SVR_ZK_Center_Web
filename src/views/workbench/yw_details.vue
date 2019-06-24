@@ -209,7 +209,8 @@
         border-radius:0px 0px 4px 4px;
         margin-left: 0!important;
         margin-bottom: 0!important;
-        margin-top:190px ;
+        position:relative;
+        bottom: -86px;
         text-align: right!important;
     }
     .btn span{
@@ -236,6 +237,8 @@
         font-weight:400;
         color:rgba(61,73,102,1);
         margin-left: 14px;
+        max-width: 550px;
+        overflow: hidden;
     }
     .logs{
         margin-right: 214px;
