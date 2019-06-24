@@ -64,9 +64,9 @@
 							</div>
 							<div class="cc">
 								<span class="boxImg_text">预览图尺寸:</span>
-								<span class="boxImg_content" v-if="parseInt(DL.attach.size/1024)>=1&&parseInt(DL.attach.size/1024/1024)<1">{{parseInt(DL.attach.size/1024)}}kb</span>
-								<span class="boxImg_content" v-if="parseInt(DL.attach.size/1024/1024)>=1&&parseInt(DL.attach.size/1024/1024/1024)<1">{{parseInt(DL.attach.size/1024/1024)}}MB</span>
-								<span class="boxImg_content" v-if="parseInt(DL.attach.size/1024/1024/1024)>=1">{{parseInt(DL.attach.size/1024/1024/1024)}}GB</span>
+								<span class="boxImg_content" v-if="(DL.attach.size/1024).toFixed(0)>=1&&(DL.attach.size/1024/1024).toFixed(0)<1">{{(DL.attach.size/1024).toFixed(0)}}kb</span>
+								<span class="boxImg_content" v-if="(DL.attach.size/1024/1024).toFixed(1)>=1&&(DL.attach.size/1024/1024/1024).toFixed(1)<1">{{(DL.attach.size/1024/1024).toFixed(1)}}MB</span>
+								<span class="boxImg_content" v-if="(DL.attach.size/1024/1024/1024).toFixed(2)>=1">{{(DL.attach.size/1024/1024/1024).toFixed(2)}}GB</span>
 							</div>
 						</div>
 						<div>
