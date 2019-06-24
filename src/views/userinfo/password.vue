@@ -74,6 +74,9 @@
                     this.$message.error('重复密码不能为空');
                     return
                 }
+                if(this.input2!=this.input3){
+                    return
+                }
                 let params = {
                     email:localStorage.getItem('userAd'),
                     password_old:this.input1,
@@ -97,7 +100,7 @@
                 }
             },
             yz3(){
-                if(!this.input2&&this.input2!=this.input3){
+                if(this.input2!=''&&this.input3!=''&&this.input2!=this.input3){
                     this.$message.error('两次密码不相同，请重输')
                 }
                 if(!this.input3.match(/^[\u4e00-\u9fa5]+$/ )){
