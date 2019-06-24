@@ -78,9 +78,13 @@
                                 <span class="boxImg_content">{{parseInt(DL.size/1024)}}kb</span>
                                 <a class="dowload">下载</a>
                             </div>
+                            <div class="img_right" :class="{active_class:ind.indexOf(index)!=-1}"><span>√</span></div>
                         </div>
+
                     </div>
-                        <div class="img_right" :class="{active_class:ind.indexOf(index)!=-1}"><span>√</span></div>
+                        <div class="bjImg" >
+                            <span>编辑素材</span>
+                        </div>
                 </div>
                 </div>
             </div>
@@ -246,13 +250,11 @@
         width: 0!important;
         height: 0!important;
         position: relative;
-        top: -302px;
-        right: -41px;
+        top: -337px;
+        right: -461px;
         cursor: pointer;
         border: 20px solid;
         border-color: rgba(211,219,235,1) rgba(211,219,235,1) transparent transparent;
-
-
     }
     .img_right span{
         display: inline-block;
@@ -443,4 +445,5 @@
         right: -485px;
         top: -50px;
     }
+    .bjImg, .bjImg span{opacity: 0}
 </style>
