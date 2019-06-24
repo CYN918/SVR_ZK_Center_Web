@@ -80,7 +80,6 @@
                                         :on-remove="Remove"
                                         class="upload-demo"
                                         action="111"
-                                        accept=".jpg,.jpeg,.png,.JPG,.JPEG，psd,bmp,gif,tif"
                                         :before-upload="beforeAvatarUpload"
                                         :file-list="fileList">
                                     <el-button size="small" type="primary">上传预览图</el-button>
@@ -265,7 +264,7 @@
                 const isBMP = file.type === 'image/bmp';
                 const isGIF = file.type === 'image/gif';
                 const isTIF = file.type === 'image/tif';
-                if (!isJPG&&!isPNG) {
+                if (!isJPG&&!isPNG&&!isPSD&&!isBMP&&!isGIF&&!isTIF) {
                     this.$message.error('只支持JPG、PNG、psd、bmp、gif、tif格式!');
                 }
 
