@@ -169,6 +169,7 @@
             qx(){
                 this.ind=[];
                 this.bind_mfid=[];
+                this.fh();
             }
         },
     }
@@ -450,4 +451,5 @@
         top: -50px;
     }
     .bjImg, .bjImg span{opacity: 0}
+    .ck{cursor: text!important;}
 </style>

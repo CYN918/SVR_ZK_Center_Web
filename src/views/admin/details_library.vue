@@ -80,7 +80,7 @@
                                 <span class="boxImg_content" v-if="(DL.attach.size/1024).toFixed(0)>=1&&(DL.attach.size/1024/1024).toFixed(0)<1">{{(DL.attach.size/1024).toFixed(0)}}kb</span>
                                 <span class="boxImg_content" v-if="(DL.attach.size/1024/1024).toFixed(1)>=1&&(DL.attach.size/1024/1024/1024).toFixed(1)<1">{{(DL.attach.size/1024/1024).toFixed(1)}}MB</span>
                                 <span class="boxImg_content" v-if="(DL.attach.size/1024/1024/1024).toFixed(2)>=1">{{(DL.attach.size/1024/1024/1024).toFixed(2)}}GB</span>
-                                <a class="dowload" href="">下载</a>
+                                <a class="dowload">下载</a>
                             </div>
                         </div>
                     </div>
@@ -255,5 +255,5 @@
         margin-top: 251px;
     }
     .bjImg, .bjImg span{opacity: 0}
-
+    .ck{cursor: text!important;}
 </style>

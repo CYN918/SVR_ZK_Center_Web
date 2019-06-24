@@ -184,7 +184,6 @@
             },
             handleSizeChange1(pageSize) { // 每页条数切换
                 this.pageSize = pageSize;
-                console.log(this.pagesize);
                 this.getList()
             },
             handleCurrentChange1(currentPage) {//页码切换
