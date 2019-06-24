@@ -20,13 +20,13 @@
 			<div class="contentImg">
 				<div class="label">
 					<span class="label_txt">预置标签:</span>
-					<span class="labelName" @click="getListTag()">全部</span>
+					<span class="labelName" @click="getListTag()" :class="{active:inx==null}">全部</span>
 					<span v-for="(item,index) in preset_tags" class="labelName" @click="getListTag(item.name,index)" :class="{active:inx==index}">{{item.name}}</span>
 				</div>
 				<hr style="margin: 0 24px;border-color:#E6E9F0;opacity: 0.1"/>
 				<div class="label">
 					<span class="label_txt">个性标签:</span>
-					<span class="labelName" @click="getListTags()">全部</span>
+					<span class="labelName" @click="getListTags()" :class="{active:inx==null}">全部</span>
 					<span v-for="(item,index) in self_tags" class="labelName" @click="getListTags(item.name,index)" :class="{active:inde==index}">{{item.name}}</span>
 				</div>
 			</div>
