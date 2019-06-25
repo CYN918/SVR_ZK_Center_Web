@@ -524,11 +524,10 @@ router.beforeEach((to, from, next) => {
 			console.log(msg);
 			localStorage.setItem('token',msg.data.data.token);
 			localStorage.setItem('logintime',Date.parse(new Date()));
-			localStorage.setItem('userAd',msg.data.data.user.email);			
+			localStorage.setItem('userAd',msg.data.data.user.email);
 			localStorage.setItem('userType',msg.data.data.user.type);
             localStorage.setItem('userName',msg.data.data.user.name);
 			localStorage.setItem('status',msg.data.data.user.status);
-            // localStorage.setItem('leftNav',msg.data.data.user.leftNav);    //存储动态菜单
             localStorage.setItem('wb',msg.data.data.user.wb);
 			if(msg.data.data.user.type==1){
 				next({ path: '/indexs/list'});

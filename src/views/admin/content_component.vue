@@ -176,10 +176,12 @@
                 aaa:0,
                 bbb:0,
                 initiate:false,
-                initiate2:false
+                initiate2:false,
+                userData:{}
             }
         },
         mounted(){
+            this.getData();
             this.getTagsList();
             if(this.message.mid!=undefined){
                 this.getMatterDetails();
@@ -193,6 +195,15 @@
             }
         },
         methods:{
+            getData(){
+                let params = {
+                    email:localStorage.getItem('userAd'),
+                };
+                this.api.get_account({params}).then((datas)=>{
+                    this.userData = datas;
+                    console.log(this.userData)
+                });
+            },
 
             heidSc(){
                 this.$parent.heidSc()
