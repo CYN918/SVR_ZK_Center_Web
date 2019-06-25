@@ -340,15 +340,15 @@
             },
             setMatter(){
                 if(!this.prev_uri){
-                    this.$message('未上传预览图')
+                    this.$message('未上传预览图');
                     return
                 }
                 if(!this.attach.name){
-                    this.$message('未上传文件')
+                    this.$message('未上传文件');
                     return
                 }
                 if(this.preinstall.length<=0){
-                    this.$message('预置标签不能为空')
+                    this.$message('预置标签不能为空');
                     return
                 }
 
@@ -438,7 +438,7 @@
                         this.bind_mid=res.bind_mid[i].mid;
                         this.hqUrl = res.bind_mid[i].prev_uri;
                     }
-                    if(res.status==0){
+                    if(res.status==1201){
                         this.value2=false;
                     }else{
                         this.value2=true;

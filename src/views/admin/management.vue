@@ -148,8 +148,25 @@
                 })
             },
             ADDclass(index){
-                this.ind.push(index);
-                this.bind_mfid.push(this.IMGList[index].mfid);
+
+                if(this.ind.indexOf(index)!=-1){
+                  for(var i = 0;i<this.ind.length;i++){
+                      if(this.ind[i]==index){
+                          this.ind.splice(i)
+                      }
+                  }
+                    for(var j=0;j<this.bind_mfid.length;j++){
+                        if(this.bind_mfid[j]==this.IMGList[index].mfid){
+                            this.bind_mfid.splice(j);
+                        }
+                    }
+                    console.log(this.ind)
+                    console.log(this.bind_mfid)
+                }else{
+                    this.ind.push(index);
+                    this.bind_mfid.push(this.IMGList[index].mfid);
+                }
+
             },
             delWL(){
                 if(this.bind_mfid.length==0){

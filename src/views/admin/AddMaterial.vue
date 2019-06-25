@@ -412,7 +412,7 @@
                     this.bind_mid = a.join(';');
                     this.hqUrl = b;
 
-                    if(res.status==0){
+                    if(res.status==1201){
                         this.value2=false;
                     }else{
                         this.value2=true;
