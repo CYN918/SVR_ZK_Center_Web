@@ -55,7 +55,7 @@
                             <p>上传物料前，请务必保证素材库内有对应素材！多个素材用英文半角;隔开</p>
                         </div>
                         <div class="AddIMG_select">
-                            <span class="tit">素材类型:</span>
+                            <span class="tit">物料类型:</span>
                             <select v-model="type" :disabled="(this.message.mfid!=undefined)">
                                 <option :value="types" >{{lx}}</option>
                             </select>
