@@ -140,12 +140,23 @@
                 getRe:false,
                 num:'',
                 status:null,
+                userData:{}
             }
         },
         mounted() {
             this.getList()
+            this.getData()
         },
         methods: {
+            getData(){
+                let params = {
+                    email:localStorage.getItem('userAd'),
+                };
+                this.api.get_account({params}).then((datas)=>{
+                    this.userData = datas;
+
+                });
+            },
             getCon(){
                 this.sc = true;
                 this.message='';
@@ -235,15 +246,19 @@
                 document.body.style.height='1006px';
             },
             getLt(a){
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,status:this.status}
-                this.api.material_search({params}).then((res)=>{
-                    this.IMGList=res.data;
-                    if(a!=undefined){
-                        this.message = res.data[a];
-                        this.sc = true;
-                        this.stop();
-                    }
-                })
+                if(this.userData.roles[0].role_name=='admin'){
+                    let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,status:this.status}
+                    this.api.material_search({params}).then((res)=>{
+                        this.IMGList=res.data;
+                        if(a!=undefined){
+                            this.message = res.data[a];
+                            this.sc = true;
+                        }
+                    })
+                }else{
+                    this.$message('您没有该权限')
+                }
+
             },
             getTagsList(){
                 let params = {preset:this.preset,material:this.material,type:this.type};

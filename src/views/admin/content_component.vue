@@ -66,12 +66,11 @@
                                 <option :value="types" >{{lx}}</option>
                             </select>
                         </div>
-                        <div class="AddIMG_switch" v-if="sw">
+                        <div class="AddIMG_switch" v-if="sw&&this.status!=1101">
                             <span  class="tit">是否启用:</span>
                             <el-switch
                                     v-model="value2"
                                     active-color="#409EFF"
-                                    disabled
                                     inactive-color="#ff4949">
                             </el-switch>
                         </div>
@@ -86,7 +85,6 @@
                                         :on-remove="Remove"
                                         class="upload-demo"
                                         action="111"
-
                                         :before-upload="beforeAvatarUpload"
                                         :file-list="fileList">
                                     <el-button size="small" type="primary">上传预览图</el-button>
@@ -178,11 +176,10 @@
                 bbb:0,
                 initiate:false,
                 initiate2:false,
-                userData:{}
+                status:''
             }
         },
         mounted(){
-            this.getData();
             this.getTagsList();
             if(this.message.mid!=undefined){
                 this.getMatterDetails();
@@ -196,15 +193,6 @@
             }
         },
         methods:{
-            getData(){
-                let params = {
-                    email:localStorage.getItem('userAd'),
-                };
-                this.api.get_account({params}).then((datas)=>{
-                    this.userData = datas;
-
-                });
-            },
 
             heidSc(){
                 this.$parent.heidSc()
@@ -279,19 +267,24 @@
                 },100);
             },
             uploadF(file){
-                this.initiate=true;
-                this.time();
-                let formData = new FormData;
-                formData.append('file',file.file);
-                this.api.file_upload(formData).then((res)=>{
-                    this.aaa=100;
-                    this.initiate=false;
-                    this.attach.name = res.name;
-                    this.attach.size = res.size;
-                    this.attach.ext = res.ext;
-                    this.attach.md5 = res.md5;
-                    this.attach.url = res.url;
-                })
+                if(this.status==1101){
+                    return
+                }else{
+                    this.initiate=true;
+                    this.time();
+                    let formData = new FormData;
+                    formData.append('file',file.file);
+                    this.api.file_upload(formData).then((res)=>{
+                        this.aaa=100;
+                        this.initiate=false;
+                        this.attach.name = res.name;
+                        this.attach.size = res.size;
+                        this.attach.ext = res.ext;
+                        this.attach.md5 = res.md5;
+                        this.attach.url = res.url;
+                    })
+                }
+
             },
             getType(){
                 let params={material:this.material};
@@ -311,23 +304,28 @@
                 this.initiate2=false;
             },
             uploadFile(file){
-                this.initiate2=true;
-                this.time1();
-                let formData = new FormData;
-                formData.append('file',file.file);
-                this.api.file_upload(formData).then((res)=>{
-                    this.bbb=100;
-                    this.initiate2=false;
-                    this.prev_uri = res.url;
-                    var image = new Image();
-                    var _this=this;
-                    image.onload=function(){
-                        var width = image.width;
-                        var height = image.height;
-                        _this.sjSize = (width+"*"+height)
-                    };
-                    image.src= res.url;
-                })
+                if(this.status==1101){
+                    return
+                }else{
+                    this.initiate2=true;
+                    this.time1();
+                    let formData = new FormData;
+                    formData.append('file',file.file);
+                    this.api.file_upload(formData).then((res)=>{
+                        this.bbb=100;
+                        this.initiate2=false;
+                        this.prev_uri = res.url;
+                        var image = new Image();
+                        var _this=this;
+                        image.onload=function(){
+                            var width = image.width;
+                            var height = image.height;
+                            _this.sjSize = (width+"*"+height)
+                        };
+                        image.src= res.url;
+                    })
+                }
+
             },
             getTagsList(){
                 let params = {preset:this.preset,material:this.material,type:this.types,search:this.tagsName,p:50,page:1};
@@ -454,7 +452,8 @@
                         this.value2=false;
                     }else{
                         this.value2=true;
-                    }
+                    };
+                    this.status = res.status;
                 })
             },
         },
