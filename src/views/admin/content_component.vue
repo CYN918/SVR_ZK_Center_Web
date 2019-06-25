@@ -71,6 +71,7 @@
                             <el-switch
                                     v-model="value2"
                                     active-color="#409EFF"
+                                    disabled
                                     inactive-color="#ff4949">
                             </el-switch>
                         </div>
@@ -201,7 +202,7 @@
                 };
                 this.api.get_account({params}).then((datas)=>{
                     this.userData = datas;
-                    console.log(this.userData)
+
                 });
             },
 

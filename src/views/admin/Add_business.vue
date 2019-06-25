@@ -41,7 +41,7 @@
                 </div>
                 <div>
                     <span class="tit_txt">需求数量</span>
-                    <input type="text" class="num" v-model="num" placeholder="请输入需求数量"/>
+                    <input type="number" class="num" v-model="num" placeholder="请输入需求数量"/>
                     <span class="tit_txt right">实现方式</span>
                     <select v-model="model">
                         <option value="无">无</option>
@@ -118,49 +118,7 @@
         },
         methods:{
             AddYw(){
-                // if(this.YWid!=undefined){
-                //     if(!this.type){
-                //         this.$message.error('类型不能为空')
-                //     }
-                //     if(!this.priority){
-                //         this.$message.error('优先级不能为空')
-                //     }
-                //     if(!this.num){
-                //         this.$message.error('需求数量不能为空')
-                //     }
-                //     if(!this.pos_type){
-                //         this.$message.error('广告位类型不能为空')
-                //     }
-                //     if(!this.endtime){
-                //         this.$message.error('截止时间不能为空')
-                //     }
-                //     if(!this.requirement){
-                //         this.$message.error('设计要求不能为空')
-                //     }
-                //     if(!this.size){
-                //         this.$message.error('尺寸不能为空')
-                //     }
-                //     if(!this.model){
-                //         this.$message.error('实现方式不能为空')
-                //     }
-                //     if(!this.type!='f_sls_lockscreen'&&!this.libraryName){
-                //         this.$message.error('投放库不能为空')
-                //     }
-                //     let formData=new FormData;
-                //     formData.append('libraryName',this.libraryName);
-                //     formData.append('type',this.type);
-                //     formData.append('num',this.num);
-                //     formData.append('priority',this.priority);
-                //     formData.append('endtime',this.endtime);
-                //     formData.append('pos_type',this.pos_type);
-                //     formData.append('size',this.size);
-                //     formData.append('model',this.model);
-                //     formData.append('link',this.link);
-                //     formData.append('requirement',this.requirement);
-                //     this.api.demand_business_edit(formData).then((res)=>{
-                //
-                //     })
-                // }else{
+
                 if(!this.type){
                     this.$message.error('类型不能为空')
                     return
@@ -173,10 +131,7 @@
                     this.$message.error('需求数量不能为空')
                     return
                 }
-                if((this.num.match(/^[\u4e00-\u9fa5]+$/ ))){
-                    this.$message.error('需求数量不能为汉字')
-                    return
-                }
+               
                 if(this.type!='f_sls_lockscreen'&&!this.pos_type){
                     this.$message.error('广告位类型不能为空')
                     return

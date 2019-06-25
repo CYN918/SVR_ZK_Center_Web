@@ -45,7 +45,7 @@
                 </div>
                 <div>
                     <span class="tit_txt">需求数量</span>
-                    <input type="text" class="num" v-model="num" placeholder="请输入需求数量"/>
+                    <input type="number" class="num" v-model="num" placeholder="请输入需求数量"/>
                     <span class="tit_txt right">实现方式</span>
                     <select v-model="model">
                         <option value="" disabled selected style="color: #8b9bb3">请选择</option>
@@ -177,10 +177,6 @@
                     }
                     if(!this.num){
                         this.$message.error('需求数量不能为空')
-                        return
-                    }
-                    if((this.num.match(/^[\u4e00-\u9fa5]+$/ ))){
-                        this.$message.error('需求数量不能为汉字')
                         return
                     }
 
