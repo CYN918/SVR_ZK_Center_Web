@@ -14,6 +14,10 @@
                         </select>
                     </div>
                     <div>
+                        <span class="tit_txt">需求名称</span>
+                        <input type="text" class="xqName" placeholder="请填写需求名称" v-model="demand_name"/>
+                    </div>
+                    <div>
                         <span class="tit_txt">优先级</span>
                         <select v-model="priority">
                             <option value="" disabled selected>请选择</option>
@@ -125,7 +129,8 @@
                 initiate2:false,
                 initiate:false,
                 aaa:0,
-                bbb:0
+                bbb:0,
+                demand_name:''
             }
         },
         mounted(){
@@ -149,7 +154,10 @@
                     if(!this.endtime){
                         this.$message.error('截止时间不能为空')
                     }
-
+                    if(!this.demand_name){
+                        this.$message.error('需求名称不能为空')
+                        return
+                    }
                     if(this.is_attach==true&&!this.ref_url){
                         this.$message.error('请上传附件')
                     }
@@ -168,12 +176,17 @@
                     formData.append('ref_url',this.ref_url);
                     formData.append('design_standard',this.design_standard);
                     formData.append('requirement',this.requirement);
+                    formData.append('demand_name',this.demand_name);
                     this.api.demand_material_edit(formData).then((res)=>{
 
                     })
                 }else{
                     if(!this.type){
                         this.$message.error('类型不能为空')
+                    }
+                    if(!this.demand_name){
+                        this.$message.error('需求名称不能为空')
+                        return
                     }
                     if(!this.priority){
                         this.$message.error('优先级不能为空')
@@ -204,6 +217,7 @@
                     formData.append('ref_url',this.ref_url);
                     formData.append('design_standard',this.design_standard);
                     formData.append('requirement',this.requirement)
+                    formData.append('demand_name',this.demand_name);
                     this.api.demand_material_add(formData).then((res)=>{
                         console.log(typeof(this.ref_url))
                     })
