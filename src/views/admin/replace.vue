@@ -104,7 +104,7 @@
             getList(){
                 this.dcl.length=0;
                 this.cl.length=0;
-                let params ={start_date:(this.times[0]).replace(/(^\s*)|(\s*$)/g, ""),end_date:(this.times[1]).replace(/(^\s*)|(\s*$)/g, "")};
+                let params ={start_date:(this.times[0]),end_date:(this.times[1])};
                 this.api.replace_pending_list({params}).then((res)=>{
                     this.tableData = res;
                         for(var i =0;i<this.tableData.length;i++){
