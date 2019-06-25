@@ -98,9 +98,12 @@
                     <img src="../../../public/img/gb.png" @click="heidDle()"/>
                 </div>
                 <div style="margin: 24px 0 0 0 ">
-                    <span>
+                    <span v-if="this.dataLength.length<=0">
                     是否确定删除该条信息？
-                </span>
+                    </span>
+                    <span v-if="this.dataLength.length>0">
+                    该投放库已有绑定物料，是否确定删除？
+                    </span>
                 </div>
 
                 <div class="ensure_btn">
@@ -128,6 +131,7 @@
                 deleted:false,
                 index:'',
                 TFlist:[],
+                dataLength:[],
             }
         },
         mounted(){this.getOddList()},
@@ -201,6 +205,10 @@
                 })
             },
             getDel(id){
+                if(this.tableData[id].status=='使用中'){
+                    this.$message.error('该条投放库正在使用中，无法删除');
+                    return
+                }
                 this.index=id;
                 this.deleted =true;
                 this.getDATAlist();
@@ -226,10 +234,7 @@
             getDATAlist(){
                 let params = {id:this.tableData[this.index].id,search:this.search};
                 this.api.putlib_binds({params}).then((res)=>{
-                    if(res.length>0){
-                        this.$message('该投放库已有绑定物料，是否确定删除？');
-                        return
-                    }
+                    this.dataLength = res;
                 })
             },
             handleSizeChange1(page){

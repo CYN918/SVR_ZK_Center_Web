@@ -1,6 +1,6 @@
 <template>
-    <div class="bg" @click="HeidWl()">
-        <div class="content" @click.stop>
+    <div class="bg" >
+        <div class="content" >
             <div class="tit_name">
                 <span>从物料库</span>
             </div>

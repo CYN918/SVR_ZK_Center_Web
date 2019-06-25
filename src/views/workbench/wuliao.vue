@@ -108,7 +108,6 @@
                         this.list.push(data);
                     }
                 }
-
                 this.$emit('DMessage',this.list,this.index);
                 this.$parent.heidSCwl();
                 this.$parent.AddWl()

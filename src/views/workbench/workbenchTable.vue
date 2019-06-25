@@ -1,7 +1,7 @@
 <template>
     <div>
         <ADD v-if="ADD_material" :scMessage="scMessage" :id="id" :num="num" :ind="index" @listData="SCmessageData"></ADD>
-        <uplodWl v-if='up' :id="id" :num="num" :ind="index" :scMessage="wlMessage"></uplodWl>
+        <uplodWl v-if='up' :id="id" :num="num" :ind="index" :wlMessage="wlMessage"></uplodWl>
         <BDadd v-if="BD" :scMessage="scMessage" @dataList="dataList" :index="index"></BDadd>
         <AddWL v-if="wl" @dataMessage="dataMessage" :index="index" ></AddWL>
         <scwl v-if="scwl" @DMessage="DMessage" :index="index" ></scwl>
@@ -193,7 +193,6 @@
                 this.up = true;
                 this.id = this.tableData[index].did;
                 this.num = this.tableData[index].num;
-                console.log(this.num);
             },
             heidAddWl(){
                 this.up = false;

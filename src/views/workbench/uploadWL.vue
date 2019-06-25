@@ -80,12 +80,13 @@
             }
         },
         mounted(){
+            console.log(this.wlMessage)
             this.Message = this.wlMessage;
             let a =this.list;
             for(var i=0;i<this.num;i++){
                 a.push(i);
             }
-            this.checked.push(this.ind)
+            this.checked.push(this.ind);
         },
         methods:{
             heid(){

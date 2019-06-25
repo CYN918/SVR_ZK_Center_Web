@@ -179,7 +179,7 @@
                         this.$message.error('需求数量不能为空')
                         return
                     }
-                    if(!(this.num.match(/^[\u4e00-\u9fa5]+$/ ))){
+                    if((this.num.match(/^[\u4e00-\u9fa5]+$/ ))){
                         this.$message.error('需求数量不能为汉字')
                         return
                     }
