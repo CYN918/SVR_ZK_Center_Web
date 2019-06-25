@@ -383,7 +383,7 @@ export default {
 	},
 	//提交反馈
     feedback_add: {
-        url: 'feedback/add', method: 'post',isType:{suktip:1,reload:1}
+        url: 'feedback/add', method: 'post',isType:{suktip:1}
     },
 	//上传文件
     file_upload:{

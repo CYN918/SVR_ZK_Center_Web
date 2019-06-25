@@ -94,18 +94,18 @@
                         <div class="box_uploading">
                             <el-upload class="up"
                                        action="http://ts-designer.idatachain.cn/Api/Upload/uploadFile"
+                                       :http-request="uploadFile"
                                        list-type="picture-card"
                                        :on-remove="handleRemove"
                                        accept=".jpg,.jpeg,.png,.JPG,.JPEG"
                                        :show-file-list="true"
-                                       :on-success="handleAvatarSuccess"
                                        :before-upload="beforeAvatarUpload"
                             >
                                 <i class="el-icon-plus"></i>
                             </el-upload>
                         </div>
                         <div class="btn_tj">
-                            <span class="tj" @click.once="ADDTj">提交</span>
+                            <span class="tj" @click="ADDTj">提交</span>
                             <span class="qx" @click="qx">取消</span>
                         </div>
                     </div>
@@ -179,7 +179,15 @@
                     },
                 })
             },
-
+            uploadFile(file){
+                let formData = new FormData;
+                formData.append('file',file.file);
+                this.api.file_upload(formData).then((res)=>{
+                    console.log(res)
+                    this.imgurl = res.url;
+                    this.pics.push(res.url) ;
+                })
+            },
             beforeAvatarUpload(file) {
                 const isJPG = file.type === 'image/jpeg';
                 const isPNG = file.type === 'image/png';
@@ -193,12 +201,7 @@
                 }
                 return isPNG || isJPG && isLt2M ;
             },
-            handleAvatarSuccess(response, file, fileList)
-            {
-                this.imgurl = response.content.file.url;
-                this.pics.push(response.content.file.url) ;
-                console.log(this.pics)
-            },
+
 
             handleRemove(file, fileList)
             {
