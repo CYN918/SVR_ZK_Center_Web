@@ -648,4 +648,10 @@ select{
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
   color:#8b9BB3;
 }
+  .times .el-date-editor.el-input, .el-date-editor.el-input__inner{
+    width: 512px;
+  }
+.time .el-date-editor.el-input, .el-date-editor.el-input__inner{
+  width: 400px;
+}
 </style>

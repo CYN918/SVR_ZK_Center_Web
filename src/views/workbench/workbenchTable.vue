@@ -165,40 +165,50 @@
             getSH(index){
                 this.sh=true;
                 this.id=this.tableData[index].did;
+                this.stop()
             },
             getWl(index){
                 if(index!=undefined){
                     this.index=index;
                 }
                 this.wl = true;
+                this.stop()
             },
             HeidWl(){
                 this.wl = false;
+                this.move()
             },
             Getscwl(index){
                 if(index!=undefined){
                     this.index=index;
                 }
                 this.scwl=true;
+                this.stop()
             },
             heidSCwl(){
                 this.scwl=false;
+                this.move()
             },
             AddMaterial(index){
                 this.ADD_material =true;
                 this.id = this.tableData[index].did;
                 this.num = this.tableData[index].num;
+                this.stop()
+                console.log(this.tableData)
             },
             AddWl(index){
                 this.up = true;
                 this.id = this.tableData[index].did;
                 this.num = this.tableData[index].num;
+                this.stop()
             },
             heidAddWl(){
                 this.up = false;
+                this.move()
             },
             heidAddMaterial(){
                 this.ADD_material = false;
+                this.move()
             },
             getSet(index,data){
                 if(data!=undefined){
@@ -207,6 +217,7 @@
                 }
 
                 this.set = true;
+                this.stop()
             },
             SCmessageData(a){
                 this.scMessage=[];
@@ -214,35 +225,44 @@
             },
             SCsc(){
                 this.set = false;
+                this.move()
             },
             getBD(index){
                 if(index!=undefined){
                     this.index = index;
                 }
                 this.BD = true;
+                this.stop()
             },
             heidBD(){
                 this.BD = false
+                this.move()
             },
             getBH(){
                 this.bh = true
+                this.stop()
             },
             heidBH(){
                 this.bh = false
+                this.move()
             },
             heidSH(){
                 this.sh=false
+                this.move()
             },
             getYW(id){
                 this.yw = true;
                 this.YWid = id;
+                this.stop()
             },
             heidYW(){
                 this.yw = false
+                this.move()
             },
             getSC(id){
                 this.sc = true;
                 this.SCid = id;
+                this.stop()
             },
             heidSC(){
                 this.sc = false;
@@ -251,10 +271,12 @@
                 this.bh = true;
                 this.dbid=this.tableData[index].did;
                 console.log(this.dbid[0][0])
+                this.stop()
 
             },
             heidBH(){
                 this.bh = false
+                this.move()
             },
             withdraw(id){
                 this.$router.push({
@@ -263,6 +285,16 @@
                     },
                     path:'/workbench/Billing_details'
                 })
+            },
+            stop(){
+                document.body.style.overflow='hidden';
+                document.body.style.position='fixed';
+                document.body.style.width='100%';
+            },
+            move(){
+                document.body.style.overflow='';//出现滚动条
+                document.body.style.position='initial';
+                document.body.style.height='1006px';
             },
             getData(){
                 console.log(this.tableData);

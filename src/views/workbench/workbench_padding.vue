@@ -59,7 +59,6 @@
                 detail:[],
                 step:[],
                 id:'',
-
             }
         },
         mounted(){
@@ -69,17 +68,21 @@
             getSC(id){
                 this.id = id;
                 this.sc=true;
+                this.stop()
             },
             heidSC(){
                 this.sc=false;
+                this.move()
             },
             getYW(id){
                 this.id=id;
                 this.yw=true
+                this.stop()
             },
             heidYW(){
                 this.id='';
                 this.yw=false
+                this.move()
             },
 
             getList(){
@@ -98,6 +101,16 @@
                         }
                     }
                 })
+            },
+            stop(){
+                document.body.style.overflow='hidden';
+                document.body.style.position='fixed';
+                document.body.style.width='100%';
+            },
+            move(){
+                document.body.style.overflow='';//出现滚动条
+                document.body.style.position='initial';
+                document.body.style.height='1006px';
             },
             getDataList(){
                 this.active=1;
