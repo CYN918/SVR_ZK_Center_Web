@@ -170,7 +170,7 @@
                 sjSize:'',
                 preset:[0,1],
                 preset_tags:[],
-                type:'',
+                type:this.types,
                 sw:false,
                 size:'',
                 scUrl:'',
