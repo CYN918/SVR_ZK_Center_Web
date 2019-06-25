@@ -18,17 +18,17 @@
                         <span>{{index+1}}</span>
                     </div>
                     <div  class="table_content_rig">
-                        <!--<div class="table_content_right" v-if="index<wlMessage.length" v-for = '(item,index2) in wlMessage[index]'>-->
-                            <!--<div class="imgs">-->
-                                <!--<img :src="item.prev_uri">-->
-                            <!--</div>-->
-                            <!--<span class="id">{{item.mfid}}</span>-->
-                            <!--<span class="type">{{item.type_name}}</span>-->
-                            <!--<div class="click">-->
-                                <!--<span @click="getBD(index)">从本地上传</span>-->
-                                <!--<span @click="getWl(index)">从物料库选择</span>-->
-                            <!--</div>-->
-                        <!--</div>-->
+                        <div class="table_content_right" v-if="index<wlMessage.length" v-for = '(item,index2) in wlMessage[index]'>
+                            <div class="imgs">
+                                <img :src="item.prev_uri">
+                            </div>
+                            <span class="id">{{item.mfid}}</span>
+                            <span class="type">{{item.type_name}}</span>
+                            <div class="click">
+                                <span @click="getBD(index)">从本地上传</span>
+                                <span @click="getWl(index)">从物料库选择</span>
+                            </div>
+                        </div>
                         <div class="table_content_right">
                             <div class="imgs">
                                 <img src="">

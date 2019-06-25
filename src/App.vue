@@ -331,11 +331,14 @@ html,body{
   cursor: pointer;
 }
 .label_txt{
+  display: inline-block;
+  vertical-align: top;
   font-size:14px;
   font-family:PingFang-SC-Medium;
   font-weight:500;
   color:rgba(143,155,179,1);
   margin-right: 16px;
+
 }
 
 .contentImg .label .active,.labelName:hover{
@@ -653,5 +656,23 @@ select{
   }
 .time .el-date-editor.el-input, .el-date-editor.el-input__inner{
   width: 400px;
+}
+.tags{
+  display: inline-block;
+  max-width: 1090px;
+  max-height: 38px;
+  overflow: hidden;
+  vertical-align: top;
+}
+.ALLtags{
+  max-height: 100%!important;
+}
+.tagsAll{
+  display: inline-block;
+  color:rgba(51,119,255,1);
+  cursor: pointer;
+  vertical-align: top;
+  font-size: 12px;
+  line-height: 36px;
 }
 </style>

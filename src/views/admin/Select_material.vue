@@ -18,13 +18,22 @@
             <div class="contentImg">
                 <div class="label">
                     <span class="label_txt">预置标签:</span>
-                    <span class="labelName" @click="getListTag()" :class="{active:inx==null}">全部</span>
-                    <span v-for="(item,index) in preset_tags" class="labelName" @click="getListTag(item.name,index)" :class="{active:inx==index}">{{item.name}}</span>
+                        <span class="labelName" @click="getListTag()" :class="{active:inx==null}">全部</span>
+                        <div class="tags" :class="{ALLtags:this.class==true}">
+                            <span v-for="(item,index) in preset_tags" class="labelName" @click="getListTag(item.name,index)" :class="{active:inx==index}">{{item.name}}</span>
+                        </div>
+                        <span class="tagsAll" v-if="this.class==false" @click="getTag">查看更多</span>
+                        <span class="tagsAll" v-if="this.class==true" @click="heidTag">收起</span>
                 </div>
                 <div class="label">
-                    <span class="label_txt">个性标签:</span>
+                    <span class="label_txt" >个性标签:</span>
                     <span class="labelName" @click="getListTag2()" :class="{active:inde==null}">全部</span>
-                    <span v-for="(item,index) in self_tags" class="labelName" @click="getListTag2(item.name,index)" :class="{active:inde==index}">{{item.name}}</span>
+                    <div class="tags" :class="{ALLtags:this.class1==true}">
+                        <span v-for="(item,index) in self_tags" class="labelName" @click="getListTag2(item.name,index)" :class="{active:inde==index}">{{item.name}}</span>
+                    </div>
+                    <span class="tagsAll" v-if="this.class1==false" @click="getTag1">查看更多</span>
+                    <span class="tagsAll" v-if="this.class1==true" @click="heidTag1">收起</span>
+
                 </div>
                 <div class="box">
                     <div class="boxImg" v-for="(DL,index) in IMGList" :class="{boxImgActive:checked.indexOf(DL.mid)!=-1}">
@@ -100,7 +109,8 @@
                 inx:null,
                 inde:null,
                 listData:[],
-
+                class:false,
+                class1:false,
             }
         },
         mounted() {
@@ -150,7 +160,18 @@
                     this.listData=this.listData.concat(res.data);
                 })
             },
-
+            getTag(){
+                this.class=true;
+            },
+            heidTag(){
+                this.class=false;
+            },
+            getTag1(){
+                this.class1=true;
+            },
+            heidTag1(){
+                this.class1=false;
+            },
             getType(){
                 let params={material:1};
                 this.api.config_material_type({params}).then((res)=>{
@@ -293,13 +314,16 @@
         text-align: center;
         line-height: 38px;
         cursor: pointer;
+        vertical-align: top;
     }
     .label_txt{
+        display: inline-block;
         font-size:14px;
         font-family:PingFang-SC-Medium;
         font-weight:500;
         color:rgba(143,155,179,1);
         margin-right: 16px;
+        vertical-align: top;
     }
     .contentImg{
         margin: 0 24px;
@@ -472,5 +496,22 @@
     }
     .block{
         margin-right: 24px;
+    }
+    .tags{
+        display: inline-block;
+        max-width: 1090px;
+        max-height: 38px;
+        overflow: hidden;
+        vertical-align: bottom;
+    }
+    .ALLtags{
+      max-height: 100%!important;
+    }
+    .tagsAll{
+        display: inline-block;
+        color:rgba(51,119,255,1);
+        cursor: pointer;
+        vertical-align: top;
+        font-size: 12px;
     }
 </style>

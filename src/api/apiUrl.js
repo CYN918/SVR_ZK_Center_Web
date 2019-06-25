@@ -377,7 +377,11 @@ export default {
     api_get_roles:{
 		url:'get_roles',method:'get'
 	},
-	//获取反馈类型
+	//获取当前角色的子角色
+	role_child_roles:{
+		url:'role/child/roles',method:'get'
+	},
+    //获取反馈类型
     feedback_type:{
 		url:'feedback/type',method:'get'
 	},

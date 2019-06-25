@@ -100,11 +100,9 @@
         },
         methods:{
             getuserDATA(){
-                let params = {search:'',p:100,page:1};
-                this.api.role_roles({params}).then((res)=>{
+                this.api.role_child_roles().then((res)=>{
                     console.log(res);
-                    this.total = res.total;
-                    this.selectData = res.data;
+                    this.selectData = res;
                     console.log(this.selectData)
                 })
             },

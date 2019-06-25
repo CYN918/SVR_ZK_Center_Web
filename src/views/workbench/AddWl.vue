@@ -96,7 +96,6 @@
         },
         mounted() {
             this.getList();
-
         },
         methods:{
             YCset(){this.$parent.HeidWl();},

@@ -15,11 +15,11 @@
                     <span class="tit_txt">业务类型</span>
                     <span class="tit_txt_2 logs">{{this.list.type_name}}</span>
                     <span class="tit_txt right" >广告位类型</span>
-                    <span class="tit_txt_2">{{this.list.typeIndex}}</span>
+                    <span class="tit_txt_2">{{this.list.pos_type}}</span>
                 </div>
                 <div class="two">
                     <span class="tit_txt">需求名称</span>
-                    <span class="tit_txt_2 logs">{{this.list.demand_name}}</span>
+                    <span class="tit_txt_2 ">{{this.list.demand_name}}</span>
 
                 </div>
                 <div class="two">

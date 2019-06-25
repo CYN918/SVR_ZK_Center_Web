@@ -21,13 +21,20 @@
 				<div class="label">
 					<span class="label_txt">预置标签:</span>
 					<span class="labelName" @click="getListTag()" :class="{active:inx==null}">全部</span>
-					<span v-for="(item,index) in preset_tags" class="labelName" @click="getListTag(item.name,index)" :class="{active:inx==index}">{{item.name}}</span>
+					<div class="tags" :class="{ALLtags:this.class==true}">
+						<span v-for="(item,index) in preset_tags" class="labelName" @click="getListTag(item.name,index)" :class="{active:inx==index}">{{item.name}}</span>
+					</div>
+					<span class="tagsAll" v-if="this.class==false" @click="getTag">查看更多</span>
+					<span class="tagsAll" v-if="this.class==true" @click="heidTag">收起</span>
 				</div>
-				<hr style="margin: 0 24px;border-color:#E6E9F0;opacity: 0.1"/>
 				<div class="label">
-					<span class="label_txt">个性标签:</span>
-					<span class="labelName" @click="getListTag()" :class="{active:inx==null}">全部</span>
-					<span v-for="(item,index) in self_tags" class="labelName" @click="getListTag2(item.name,index)" :class="{active:inde==index}">{{item.name}}</span>
+					<span class="label_txt" >个性标签:</span>
+					<span class="labelName" @click="getListTag2()" :class="{active:inde==null}">全部</span>
+					<div class="tags" :class="{ALLtags:this.class1==true}">
+						<span v-for="(item,index) in self_tags" class="labelName" @click="getListTag2(item.name,index)" :class="{active:inde==index}">{{item.name}}</span>
+					</div>
+					<span class="tagsAll" v-if="this.class1==false" @click="getTag1">查看更多</span>
+					<span class="tagsAll" v-if="this.class1==true" @click="heidTag1">收起</span>
 				</div>
 			</div>
 			<rel v-if="getRe" :num="num" :material="material" ></rel>
@@ -156,7 +163,9 @@
                 inx:null,
                 inde:null,
                 status:null,
-				userData:{}
+				userData:{},
+                class:false,
+                class1:false,
             }
         },
         mounted() {
@@ -172,6 +181,18 @@
                     this.userData = datas;
 
                 });
+            },
+            getTag(){
+                this.class=true;
+            },
+            heidTag(){
+                this.class=false;
+            },
+            getTag1(){
+                this.class1=true;
+            },
+            heidTag1(){
+                this.class1=false;
             },
             getCon(){
                 this.sc = true;

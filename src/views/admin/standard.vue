@@ -343,7 +343,7 @@
                     formData.append('attach',JSON.stringify(this.attach));
                     formData.append('name',this.name);
                     this.api.standard_add(formData).then((res)=>{
-                       this.heid();
+                        this.heid();
                        this.type='';
                         this.pos_type='';
                         this.name='';

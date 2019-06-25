@@ -86,8 +86,8 @@
                             </div>
                         </div>
                         <div class="tag" v-if="item.status_name=='发布审核'">
-                            <span :class="{active1:audit_type==0}" @click=" SCtag">或签</span>
-                            <span :class="{active1:audit_type==1}" @click="SCtagTwo">会签</span>
+                            <span :class="{active1:SCaudit_type==0}" @click="SCtag">或签</span>
+                            <span :class="{active1:SCaudit_type==1}" @click="SCtagTwo">会签</span>
                         </div>
                     </div>
                     <div v-if="item.status!=5" style="width: 120px;height: 2px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
@@ -242,24 +242,45 @@
                 })
             },
             ADDuserName(demandType,type){
-                let formData = new FormData;
-                formData.append("demand_type",demandType);
-                formData.append('type',type);
-                formData.append('status',this.index+1);
-                formData.append("user_id",this.user_id);
-                formData.append('audit_type',this.audit_type);
-                this.api.process_add_auditor(formData).then((res)=>{
-                    this.user_id='';
-                    this.search='';
-                    this. getConductorList();
-                    this.wlConductorList();
-                    this.txConductorList();
-                    this.ban = false;
-                    this.ban1 = false;
-                    this.ban2 = false;
-                    this.left=''
+                if(type==undefined){
+                    let formData = new FormData;
+                    formData.append("demand_type",demandType);
+                    formData.append('status',this.index+1);
+                    formData.append("user_id",this.user_id);
+                    formData.append('audit_type',this.audit_type);
+                    this.api.process_add_auditor(formData).then((res)=>{
+                        this.user_id='';
+                        this.search='';
+                        this. getConductorList();
+                        this.wlConductorList();
+                        this.txConductorList();
+                        this.ban = false;
+                        this.ban1 = false;
+                        this.ban2 = false;
+                        this.left=''
 
-                })
+                    })
+                }else{
+                    let formData = new FormData;
+                    formData.append("demand_type",demandType);
+                    formData.append('type',type);
+                    formData.append('status',this.index+1);
+                    formData.append("user_id",this.user_id);
+                    formData.append('audit_type',this.audit_type);
+                    this.api.process_add_auditor(formData).then((res)=>{
+                        this.user_id='';
+                        this.search='';
+                        this. getConductorList();
+                        this.wlConductorList();
+                        this.txConductorList();
+                        this.ban = false;
+                        this.ban1 = false;
+                        this.ban2 = false;
+                        this.left=''
+
+                    })
+                }
+
             },
             getBan(index){
                 this.ban=true;

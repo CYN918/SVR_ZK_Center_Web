@@ -37,7 +37,7 @@
                             width="180">
                     </el-table-column>
                     <el-table-column
-                            label="当前流转人员" prop="creator"
+                            label="当前流转人员" prop="processor"
                             width="220">
                     </el-table-column>
                     <el-table-column
@@ -82,7 +82,8 @@
                                     <div class="step_contnet" v-if="item.creator!=''||tableData[props.$index].status==item.status">
                                         <span class="step_txt" v-if="item.status==1">来源</span>
                                         <span class="step_txt" v-if="item.status!=1">处理人</span>
-                                        <span>{{item.creator}}</span>
+                                        <span v-if="item.status==1">{{item.user_name}}</span>
+                                        <span  v-if="item.did==undefined&&item.msg!='已驳回'&&tableData[props.$index].status==item.status" v-for="da in tableData[props.$index].processor">{{da}}</span>
                                     </div>
                                     <div class="step_contnet" v-if="item.creator!=''||tableData[props.$index].status==item.status">
                                         <span class="step_txt" v-if="index=='0'">需求内容</span>

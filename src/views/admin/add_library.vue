@@ -95,6 +95,30 @@
                 })
             },
             AddLibrary() {
+                if(!this.name){
+                    this.$message.error('名称不能为空');
+                    return
+                }
+                if(!this.put_type){
+                    this.$message.error('投放库类型不能为空');
+                    return
+                }
+                if(!this.pos_type){
+                    this.$message.error('广告位类型不能为空');
+                    return
+                }
+                if(!this.size){
+                    this.$message.error('请选择尺寸');
+                    return
+                }
+                if(!this.ad_type){
+                    this.$message.error('广告类型不能为空');
+                    return
+                }
+                if(!this.channel_type){
+                    this.$message.error('渠道类型不能为空');
+                    return
+                }
                 let formData = new FormData;
                 formData.append('name', this.name);
                 formData.append('put_type', this.put_type);
