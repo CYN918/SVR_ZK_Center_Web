@@ -349,14 +349,6 @@
                 })
             },
             setMatter(){
-                if(!this.prev_uri){
-                    this.$message('未上传预览图');
-                    return
-                }
-                if(!this.attach.name){
-                    this.$message('未上传文件');
-                    return
-                }
                 if(this.preinstall.length<=0){
                     this.$message('预置标签不能为空');
                     return
