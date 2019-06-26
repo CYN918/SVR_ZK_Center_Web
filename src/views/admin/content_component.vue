@@ -127,7 +127,8 @@
                             </div>
                         </div>
                         <div class="bg_btn">
-                            <span class="bg_btn_up" @click="AddMatter">上传</span>
+                            <span class="bg_btn_up" @click="AddMatter" v-if="this.message.mid==undefined">上传</span>
+                            <span class="bg_btn_up" @click="AddMatter" v-if="this.message.mid!=undefined">保存</span>
                             <span @click="heidSc">取消</span>
                         </div>
                     </div>

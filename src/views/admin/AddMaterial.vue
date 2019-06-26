@@ -134,7 +134,8 @@
                             <input type="text" v-model="link">
                         </div>
                         <div class="bg_btn">
-                            <span class="bg_btn_up" @click="AddMatter">上传</span>
+                            <span class="bg_btn_up" v-if="this.message.mfid==undefined" @click="AddMatter">上传</span>
+                            <span class="bg_btn_up" v-if="this.message.mfid!=undefined" @click="AddMatter">保存</span>
                             <span @click="heidSc">取消</span>
                         </div>
                     </div>
