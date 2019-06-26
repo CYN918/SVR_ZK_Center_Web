@@ -48,12 +48,11 @@
             </div>
         </div>
         <div class="centNavBox">
-            <tab :tableData="tableData" ></tab>
+            <tab v-if="tables" :tableData="tableData" ></tab>
             <sc v-if="sc"></sc>
             <yw v-if="yw"></yw>
 
         </div>
-
         <div class="block">
             <el-pagination
                     @size-change="handleSizeChange"
@@ -102,6 +101,7 @@
                 start_time:'',
                 end_time:'',
                 statusList:[],
+                tables:false,
             }
         },
         mounted(){
@@ -135,6 +135,7 @@
                 this.api.demand_search({params}).then((res)=>{
                     this.tableData = res.data;
                     this.total = res.total;
+                    this.tables=true;
                     for (let i=0;i<this.tableData.length;i++){
                         if(this.tableData[i].demand_type=='demand_business'){
                             this.tableData[i].demand_type='业务需求'
@@ -150,6 +151,7 @@
                 let params ={p:this.total,page:this.page,search:this.search,status:this.status,demand_type:this.demand_type,start_time:this.value[0],end_time:this.value[1],reject:this.reject,processor:this.processor}
                 this.api.demand_search({params}).then((res)=>{
                     this.tableData = res.data;
+                    this.tables=true;
                     this.total = res.total;
                     for (let i=0;i<this.tableData.length;i++){
                         if(this.tableData[i].demand_type=='demand_business'){
@@ -171,10 +173,12 @@
                 console.log(this.scMessage)
             },
             handleSizeChange(p) { // 每页条数切换
+                this.tables = false;
                 this.p = p;
                 this.getDataList()
             },
             handleCurrentChange(page) {//页码切换
+                this.tables = false;
                 this.page = page;
                 this.getDataList()
             },
@@ -322,10 +326,7 @@
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);
     }
-    .block{
-        display: inline-block;
-        margin-right: 77px;
-    }
+
     .tit_btn_bom{
         margin: 0 24px;
     }

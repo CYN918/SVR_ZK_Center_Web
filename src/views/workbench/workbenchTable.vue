@@ -19,6 +19,8 @@
                         header-align="center"
                         :header-cell-style="getRowClass"
                         :cell-style="cell"
+                        :row-key="getRowKeys"
+                        :expand-row-keys="expands"
                         style="width: 100%;color:#000">
                     <el-table-column
                             label="需求类型" prop="demand_type"
@@ -146,12 +148,17 @@
                 up:false,
                 scwl:false,
                 Keys:[],
-
+                getRowKeys(row) {
+                    return row.did;
+                },
+                expands: []
             }
         },
 
         mounted(){
+            console.log(this.tableData);
             this.getData();
+            this.expands.push(this.tableData[0].did);
         },
         methods:{
 
@@ -300,7 +307,6 @@
                 document.body.style.height='1006px';
             },
             getData(){
-                console.log(this.tableData);
                 let params = {
                     email:localStorage.getItem('userAd'),
                 };

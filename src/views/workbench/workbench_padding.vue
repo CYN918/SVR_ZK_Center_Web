@@ -17,11 +17,10 @@
             <span :class="{active:this.active==1}" @click="getDataList">全部待处理</span>
         </div>
         <div class="centNavBox">
-            <tab :tableData="tableData" :active="active" ></tab>
+            <tab v-if="tables" :tableData="tableData" :active="active" ></tab>
             <sc v-if="sc" :SCid="id"></sc>
             <yw v-if="yw" :YWid="id"></yw>
         </div>
-
             <div class="block">
                 <el-pagination
                         @size-change="handleSizeChange"
@@ -59,6 +58,7 @@
                 detail:[],
                 step:[],
                 id:'',
+                tables:false,
             }
         },
         mounted(){
@@ -91,6 +91,7 @@
                 this.api.demand_await({params}).then((res)=>{
                     this.tableData = res.data;
                     this.total = res.total;
+                    this.tables = true;
                     for (let i=0;i<this.tableData.length;i++){
                         if(this.tableData[i].demand_type=='demand_business'){
                             this.tableData[i].demand_type='业务需求'
@@ -118,6 +119,7 @@
                 this.api.demand_await({params}).then((res)=>{
                     this.tableData = res.data;
                     this.total = res.total;
+                    this.tables = true;
                     for (let i=0;i<this.tableData.length;i++){
                         console.log(this.tableData[i].demand_type)
                         if(this.tableData[i].demand_type=='demand_business'){
@@ -131,6 +133,7 @@
                 })
             },
             handleSizeChange(p) { // 每页条数切换
+                this.tables=false
                 this.p = p;
                 if(this.active==0){
                     this.getList();
@@ -139,6 +142,7 @@
                 }
             },
             handleCurrentChange(page) {//页码切换
+                this.tables=false
                 this.page = page;
                 if(this.active==0){
                     this.getList();
