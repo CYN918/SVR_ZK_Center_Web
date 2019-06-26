@@ -183,9 +183,11 @@
             getDel(index){
                 this.delID=index;
                 this.deleted =true;
+                this.stop();
             },
             heidDle(){
                 this.deleted =false;
+                this.move();
             },
             time(){
                 var _this=this;
@@ -195,6 +197,16 @@
                         _this.aaa++
                     }
                 },100);
+            },
+            stop(){
+                document.body.style.overflow='hidden';
+                document.body.style.position='fixed';
+                document.body.style.width='100%';
+            },
+            move(){
+                document.body.style.overflow='';//出现滚动条
+                document.body.style.position='initial';
+                document.body.style.height='1006px';
             },
             getTableList(){
                 let params ={p:this.p,page:this.page,search:this.search};
@@ -220,6 +232,8 @@
             },
             handleRemove(file, fileList) {
                 console.log(file, fileList);
+                this.initiate= false;
+                this.move();
             },
             handlePreview(file) {
                 console.log(file);
@@ -266,6 +280,7 @@
                 this.updataList=true;
                 this.advertisingType();
                 this.dataTypeList();
+                this.stop();
             },
             heid(){
                 this.updataList=false;
@@ -273,6 +288,8 @@
                 this.pos_type='';
                 this.name='';
                 this.id=''
+                this.initiate=false;
+                this.move();
             },
             AnewUpload(index){
                 this.advertisingType();
@@ -294,6 +311,7 @@
                 this.pos_type = this.tableData[index].pos_type;
                 this.name = this.tableData[index].name;
                 this.updataList=true;
+                this.stop();
 
             },
             setUpload(){

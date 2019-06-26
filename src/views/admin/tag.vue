@@ -26,7 +26,6 @@
                         <div style="height: 36px;text-align: left">
                             <input type="text" placeholder="创建或搜索个性标签" v-model="tagsName" maxlength="6" @input="getTagsList()"/>
                         </div>
-
                         <div class="AddIMG_bq_box_top_bq AddIMG_bq_box_top_zdy">
                             <span class="CJ" v-if="tagsName!=''" @click="ADDtags()">创建“{{tagsName}}”标签</span>
                             <template>
@@ -71,12 +70,11 @@
                 this.api.tags_search({params}).then((da)=>{
                     this.preset_tags = da.data.tags;
                     this.self_tags = da.data.self_tags;
-                    console.log(this.preset_tags)
+                    console.log(this.preset_tags);
                     this.getMatterDetails();
                 })
             },
             ADDtags(){
-                this.self_tags.push(this.tagsName);
                 let formData = new FormData;
                 formData.append('name',this.tagsName);
                 formData.append('preset',0);
@@ -94,6 +92,10 @@
                     this.api.material_detail({params}).then((res)=>{
                         this.preinstall=res.tags;
                         this.bardian=res.self_tags;
+                        if(!this.tagsName){
+                            this.bardian.push(this.tagsName)
+                        }
+                        console.log(this.bardian)
                     })
                 }else{
                     console.log(this.message);

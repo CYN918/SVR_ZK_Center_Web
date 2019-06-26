@@ -29,9 +29,9 @@
 				</div>
 				<div class="label">
 					<span class="label_txt" >个性标签:</span>
-					<span class="labelName" @click="getListTag2()" :class="{active:inde==null}">全部</span>
+					<span class="labelName" @click="getListTags()" :class="{active:inde==null}">全部</span>
 					<div class="tags" :class="{ALLtags:this.class1==true}">
-						<span v-for="(item,index) in self_tags" class="labelName" @click="getListTag2(item.name,index)" :class="{active:inde==index}">{{item.name}}</span>
+						<span v-for="(item,index) in self_tags" class="labelName" @click="getListTags(item.name,index)" :class="{active:inde==index}">{{item.name}}</span>
 					</div>
 					<span class="tagsAll" v-if="this.class1==false" @click="getTag1">查看更多</span>
 					<span class="tagsAll" v-if="this.class1==true" @click="heidTag1">收起</span>
@@ -263,7 +263,7 @@ export default {
         },
         getLt(a){
            if(this.userData.roles[0].role_name=='admin'){
-               let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,status:this.status}
+               let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,status:this.status};
                this.api.material_search({params}).then((res)=>{
                    this.IMGList=res.data;
                    if(a!=undefined){
@@ -289,6 +289,7 @@ export default {
 
         getListTags(name,index){
             this.inde=index;
+            // this.tags[];
             let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:name,status:this.status}
             this.api.material_search({params}).then((res)=>{
                 this.IMGList=res.data;

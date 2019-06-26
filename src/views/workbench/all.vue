@@ -16,7 +16,7 @@
                     <span>所处流程</span>
                     <select v-model="status">
                         <option value="">全部</option>
-                        <option v-for="item in statusList" :value="item.key">{{item.status_name}}</option>
+                        <option v-for="item in statusList" :value="item.status">{{item.status_name}}</option>
                     </select>
                     <span>需求ID</span>
                     <input type="text" placeholder="请输入需求ID" v-model="search"/>
@@ -126,7 +126,12 @@
             },
 
             getDataList(){
-                let params ={p:this.p,page:this.page,search:this.search,status:this.status,demand_type:this.demand_type,start_time:this.value[0],end_time:this.value[1],reject:this.reject,processor:this.processor}
+                if(this.value.length>0){
+                    var params ={p:this.p,page:this.page,search:this.search,status:this.status,demand_type:this.demand_type,start_time:this.value[0],end_time:this.value[1],reject:this.reject,processor:this.processor}
+                }else{
+                    var params ={p:this.p,page:this.page,search:this.search,status:this.status,demand_type:this.demand_type,start_time:"",end_time:"",reject:this.reject,processor:this.processor}
+                }
+
                 this.api.demand_search({params}).then((res)=>{
                     this.tableData = res.data;
                     this.total = res.total;

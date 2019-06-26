@@ -50,6 +50,7 @@
                             <el-button v-if="tableData[props.$index].status_name=='上传物料'" @click="getYWSC(tableData[props.$index].bdid)">查看素材</el-button>
                             <el-button v-if="tableData[props.$index].status_name=='发布审核'||tableData[props.$index].status_name=='活动发布'" @click="getSC(tableData[props.$index].mdid)">查看需求</el-button>
                             <el-button v-if="tableData[props.$index].status_name=='物料审核'||tableData[props.$index].status_name=='测试验收'">查看物料</el-button>
+                            <el-button  v-if="tableData[props.$index].reject=='1'">查看驳回原因</el-button>
                             <el-button @click="release(tableData[props.$index].did,tableData[props.$index].demand_type)" v-if="tableData[props.$index].status_name=='需求发布'">发布需求</el-button>
                             <el-button v-if="tableData[props.$index].status_name=='素材审核'">查看活动</el-button>
                             <el-button v-if="tableData[props.$index].status_name=='素材入库'">查看素材</el-button>
@@ -82,8 +83,9 @@
                                     <div class="step_contnet" v-if="item.creator!=''||tableData[props.$index].status==item.status">
                                         <span class="step_txt" v-if="item.status==1">来源</span>
                                         <span class="step_txt" v-if="item.status!=1">处理人</span>
-                                        <span v-if="item.status==1">{{item.user_name}}</span>
+                                        <span v-if="item.did!=undefined">{{item.user_name}}</span>
                                         <span  v-if="item.did==undefined&&item.msg!='已驳回'&&tableData[props.$index].status==item.status" v-for="da in tableData[props.$index].processor">{{da}}</span>
+                                        <!--<span  v-if="item.msg=='已驳回'" >{{item.user_name}}</span>-->
                                     </div>
                                     <div class="step_contnet" v-if="item.creator!=''||tableData[props.$index].status==item.status">
                                         <span class="step_txt" v-if="index=='0'">需求内容</span>
