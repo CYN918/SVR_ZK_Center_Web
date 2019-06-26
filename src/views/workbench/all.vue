@@ -22,7 +22,7 @@
                     <input type="text" placeholder="请输入需求ID" v-model="search"/>
                 </div>
                 <div class="tit_btn_bom">
-                    <div class="block">
+                    <div class="blocks">
                         <el-date-picker
                                 v-model="value"
                                 type="daterange"
@@ -326,7 +326,11 @@
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);
     }
-
+    .blocks{
+        display: inline-block;
+       
+        margin-right: 77px;
+    }
     .tit_btn_bom{
         margin: 0 24px;
     }
