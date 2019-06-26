@@ -447,7 +447,7 @@ export default {
 	 },
 	//编辑素材
     material_edit:{
-		url:'/material/edit',method:'post',isType:{suktip:1,reload:1}
+		url:'/material/edit',method:'post',isType:{suktip:1}
 	},
 	//删除标签
 	tags_del:{

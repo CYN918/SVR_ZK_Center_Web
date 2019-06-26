@@ -270,7 +270,6 @@
                 this.$refs.tab0.toggleAllSelection();
                 this.$refs.tab1.toggleAllSelection();
                 this.$refs.tab2.toggleAllSelection();
-
             },
             AddTags(){
                 let formData = new FormData;

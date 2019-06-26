@@ -76,12 +76,12 @@
             },
             getYW(id){
                 this.id=id;
-                this.yw=true
+                this.yw=true;
                 this.stop()
             },
             heidYW(){
                 this.id='';
-                this.yw=false
+                this.yw=false;
                 this.move()
             },
 

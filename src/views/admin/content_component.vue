@@ -183,7 +183,6 @@
         mounted(){
             this.getTagsList();
             if(this.message.mid!=undefined){
-                this.getMatterDetails();
                 this.title='编辑素材'
             }else{
                 this.title='添加素材'
@@ -223,15 +222,15 @@
                 }
                 return isPNG || isJPG ||isPSD||isBMP||isGIF||isTIF;
             },
-            setTags(){
-                let formData = new FormData;
-                formData.append('mid',this.message.mid);
-                formData.append('tags',this.preinstall);
-                formData.append('self_tags',this.bardian)
-                this.api.material_edit_tags(formData).then((res)=>{
-
-                })
-            },
+            // setTags(){
+            //     let formData = new FormData;
+            //     formData.append('mid',this.message.mid);
+            //     formData.append('tags',this.preinstall);
+            //     formData.append('self_tags',this.bardian)
+            //     this.api.material_edit_tags(formData).then((res)=>{
+            //
+            //     })
+            // },
             IDchanges(){
                if(this.bind_mid=='') {
                    this.hqUrl='';
@@ -334,6 +333,9 @@
                     console.log(da);
                     this.preset_tags = da.data.tags;
                     this.self_tags = da.data.self_tags;
+                    if(this.message.mid!=undefined){
+                        this.getMatterDetails();
+                    }
                     this. getType();
                 })
             },
@@ -354,7 +356,6 @@
                     this.$message('预置标签不能为空');
                     return
                 }
-
                 let formData = new FormData;
                 formData.append('mid',this.message.mid);
                 formData.append('type',this.type);
@@ -365,7 +366,7 @@
                 formData.append('self_tags',this.bardian);
                 formData.append('size',this.sjSize);
                 this.api.material_edit(formData).then((res)=>{
-                    this.setTags();
+                    // this.setTags();
                     this.getTagsList();
                     if(res!=undefined){
                         this. heidSc();
@@ -429,10 +430,17 @@
                 let params ={mid:this.message.mid};
                 this.api.material_detail({params}).then((res)=>{
                     this.sw=true;
-                    console.log(res.tags,res.self_tags)
                     this.prev_uri=res.prev_uri;
-                    this.preinstall=res.tags;
-                    this.bardian=res.self_tags;
+                    for (var j=0;j<res.tags.length;j++){
+                        if(this.preset_tags.indexOf(res.tags[j])==-1){
+                            this.preinstall= res.tags.splice(j);
+                        }
+                    }
+                    for (var e=0;e<res.self_tags.length;e++){
+                        if(this.self_tags.indexOf(res.self_tags[e])==-1){
+                            this.bardian=res.self_tags.splice(e);
+                        }
+                    }
                     this.sjSize=res.size;
                     this.type=res.type;
                     this.is_bind_mid=res.is_bind_mid==1?true:false;

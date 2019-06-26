@@ -220,7 +220,7 @@ let nb = [
             {path:'/admin/MD5',name:'锁屏壁纸MD5库',component: mode['MD5']},
 			{path:'/admin/standard',name:'设计规范库',component: mode['standard']},
 			{path:'/admin/settags',name:'标签管理',component: mode['settags']},
-			{path:'/admin/library',name:'投放库',component: mode['library']},
+			{path:'/admin/library',name:'投放库',component: mode['library'],},
 			{path:'/admin/WLtemplate',name:'广告模版',component: mode['WLtemplate']},
 			{path:'/admin/lockScreen',name:'场景锁屏',component: mode['lockScreen']},
 			{path:'/admin/add_library',name:'添加投放库',component: mode['add_library']},

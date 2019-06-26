@@ -328,7 +328,7 @@
     }
     .blocks{
         display: inline-block;
-       
+
         margin-right: 77px;
     }
     .tit_btn_bom{

@@ -215,6 +215,9 @@
             },
             qx(){
                 this.submitter = false;
+                this.type=''
+                this.desc=''
+                this.pics.length=0
             },
             getTypes(){
                 this.api.feedback_type({}).then((res)=>{

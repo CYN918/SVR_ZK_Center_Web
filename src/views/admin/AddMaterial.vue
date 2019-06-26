@@ -191,7 +191,6 @@
         mounted(){
             this.getTagsList();
             if(this.message.mfid!=undefined){
-                this.getMatterDetails();
                 this.title='编辑物料'
             }else{
                 this.title='添加物料'
@@ -307,6 +306,9 @@
                     console.log(da);
                     this.preset_tags = da.data.tags;
                     this.self_tags = da.data.self_tags;
+                    if(this.message.mfid!=undefined){
+                        this.getMatterDetails();
+                    }
                     this. getType();
                 })
             },
@@ -390,8 +392,17 @@
                 this.api.mfinal_detail({params}).then((res)=>{
                     this.sw=true;
                     this.prev_uri=res.prev_uri;
-                    this.preinstall=res.tags;
-                    this.bardian=res.self_tags;
+
+                    for (var j=0;j<res.tags.length;j++){
+                        if(this.preset_tags.indexOf(res.tags[j])==-1){
+                            this.preinstall= res.tags.splice(j);
+                        }
+                    }
+                    for (var e=0;e<res.self_tags.length;e++){
+                        if(this.self_tags.indexOf(res.self_tags[e])==-1){
+                            this.bardian=res.self_tags.splice(e);
+                        }
+                    }
                     this.sjSize=res.size;
                     this.type=res.type;
                     this.link = res.link;

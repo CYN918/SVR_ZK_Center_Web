@@ -111,7 +111,6 @@
                 this.$emit('DMessage',this.list,this.index);
                 this.$parent.heidSCwl();
                 this.$parent.AddWl()
-
             },
             getList(){
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search};

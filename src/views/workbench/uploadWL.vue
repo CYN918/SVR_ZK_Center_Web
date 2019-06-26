@@ -80,7 +80,6 @@
             }
         },
         mounted(){
-            console.log(this.wlMessage)
             this.Message = this.wlMessage;
             let a =this.list;
             for(var i=0;i<this.num;i++){

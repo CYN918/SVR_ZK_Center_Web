@@ -48,10 +48,10 @@
                     </el-table-column>
                     <el-table-column label="操作">
                         <template slot-scope="props">
-                            <el-button v-if="tableData[props.$index].status_name=='素材准备'" @click="getYW(tableData[props.$index].bdid)">查看需求</el-button>
-                            <el-button v-if="tableData[props.$index].status_name=='上传物料'" @click="getYWSC(tableData[props.$index].bdid)">查看素材</el-button>
-                            <el-button v-if="tableData[props.$index].status_name=='发布审核'||tableData[props.$index].status_name=='活动发布'" @click="getSC(tableData[props.$index].mdid)">查看需求</el-button>
-                            <el-button v-if="tableData[props.$index].status_name=='物料审核'||tableData[props.$index].status_name=='测试验收'">查看物料</el-button>
+                            <el-button v-if="tableData[props.$index].status_name=='素材准备'&&tableData[props.$index].reject=='0'" @click="getYW(tableData[props.$index].bdid)">查看需求</el-button>
+                            <el-button v-if="tableData[props.$index].status_name=='上传物料'&&tableData[props.$index].reject=='0'" @click="getYWSC(tableData[props.$index].bdid)">查看素材</el-button>
+                            <el-button v-if="(tableData[props.$index].status_name=='发布审核'&&tableData[props.$index].reject=='0')||(tableData[props.$index].status_name=='活动发布'&&tableData[props.$index].reject=='0')" @click="getSC(tableData[props.$index].mdid)">查看需求</el-button>
+                            <el-button v-if="(tableData[props.$index].status_name=='物料审核'&&tableData[props.$index].reject=='0')||(tableData[props.$index].status_name=='测试验收'&&tableData[props.$index].reject=='0')">查看物料</el-button>
                             <el-button  v-if="tableData[props.$index].reject=='1'">查看驳回原因</el-button>
                             <el-button @click="release(tableData[props.$index].did,tableData[props.$index].demand_type)" v-if="tableData[props.$index].status_name=='需求发布'">发布需求</el-button>
                             <el-button v-if="tableData[props.$index].status_name=='素材审核'">查看活动</el-button>
@@ -61,9 +61,9 @@
                             <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name=='测试验收'">测试通过</el-button>
                             <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name=='物料审核'||tableData[props.$index].status_name=='发布审核'">审核通过</el-button>
                             <el-button  v-if="tableData[props.$index].status_name=='完成入库'">查看投放结果</el-button>
-                            <el-button  @click="getBH(props.$index)" v-if="tableData[props.$index].status_name!='完成投放'&&tableData[props.$index].status_name!='需求发布'&&tableData[props.$index].status_name!='提现审核'&&tableData[props.$index].status_name!='签字审核'&&tableData[props.$index].status_name!='结算汇款'&&tableData[props.$index].status_name!='补充签字'&&tableData[props.$index].status_name!='素材入库'">驳回</el-button>
+                            <el-button  @click="getBH(props.$index)" v-if="tableData[props.$index].status_name!='完成投放'&&tableData[props.$index].status_name!='需求发布'&&tableData[props.$index].status_name!='提现审核'&&tableData[props.$index].status_name!='签字审核'&&tableData[props.$index].status_name!='结算汇款'&&tableData[props.$index].status_name!='补充签字'&&tableData[props.$index].status_name!='素材入库'&&tableData[props.$index].reject=='0'">驳回</el-button>
                             <el-button   v-if="tableData[props.$index].status_name=='完成入库'">查看投放结果</el-button>
-                            <el-button  @click="withdraw(tableData[props.$index].did)" v-if="tableData[props.$index].status_name=='提现审核'||tableData[props.$index].status_name=='签字审核'||tableData[props.$index].status_name=='结算汇款'||tableData[props.$index].status_name=='补充签字'">查看详情</el-button>
+                            <el-button  @click="withdraw(tableData[props.$index].did)" v-if="(tableData[props.$index].status_name=='提现审核'||tableData[props.$index].status_name=='签字审核'||tableData[props.$index].status_name=='结算汇款'||tableData[props.$index].status_name=='补充签字')&&tableData[props.$index].reject=='0'">查看详情</el-button>
                         </template>
                     </el-table-column>
                     <el-table-column type="expand" label="查看完整流程" width="200">
@@ -79,8 +79,9 @@
                                     <div class="step_time" v-if="item.creator!=''||tableData[props.$index].status==item.status">{{item.updated_at}}</div>
                                     <div class="step_contnet" v-if="item.creator!=''||tableData[props.$index].status==item.status">
                                         <span class="step_txt">状态</span>
-                                        <span>{{item.msg}}</span>
-                                        <span v-if="tableData[props.$index].status==item.status">待处理</span>
+                                        <span v-if="item.isfinish!='1'">{{item.msg}}</span>
+                                        <span v-if="item.isfinish==1">已入库</span>
+                                        <span v-if="tableData[props.$index].status==item.status&&item.isfinish!='1'">待处理</span>
                                     </div>
                                     <div class="step_contnet" v-if="item.creator!=''||tableData[props.$index].status==item.status">
                                         <span class="step_txt" v-if="item.status==1">来源</span>
@@ -93,7 +94,8 @@
                                         <span class="step_txt" v-if="index=='0'">需求内容</span>
                                         <span class="step_txt" v-if="index!='0'">处理结果</span>
                                         <span class="dj" v-if="item.key==0" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status)">查看详情</span>
-                                        <span v-if="item.did==undefined&&item.msg!='已驳回'&&tableData[props.$index].status==item.status">待处理</span>
+                                        <span v-if="item.did==undefined&&item.msg!='已驳回'&&tableData[props.$index].status==item.status&&item.isfinish!=1">待处理</span>
+                                        <span class="dj" v-if="item.isfinish==1" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status)">查看详情</span>
                                     </div>
                                 </div>
                             </div>
@@ -203,7 +205,7 @@
                 this.ADD_material =true;
                 this.id = this.tableData[index].did;
                 this.num = this.tableData[index].num;
-                this.stop()
+                this.stop();
                 console.log(this.tableData)
             },
             AddWl(index){
@@ -230,7 +232,7 @@
                 this.stop()
             },
             SCmessageData(a){
-                this.scMessage=[];
+                this.scMessage.length=a;
                 console.log(this.scMessage)
             },
             SCsc(){
@@ -263,6 +265,7 @@
             getYW(id){
                 this.yw = true;
                 this.YWid = id;
+                console.log(id);
                 this.stop()
             },
             heidYW(){

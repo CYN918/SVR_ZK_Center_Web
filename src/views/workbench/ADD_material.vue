@@ -71,7 +71,6 @@
                     <span @click="heid">取消</span>
                 </div>
             </div>
-
     </div>
 </template>
 
@@ -97,7 +96,7 @@
             for(var i=0;i<this.num;i++){
                 a.push(i);
             }
-            this.checked.push(this.ind)
+            // this.checked.push(this.ind)
         },
         methods:{
             getRowClass({row, column, rowIndex, columnIndex}) {
@@ -115,7 +114,7 @@
             },
             heid(){
                 this.$parent.heidAddMaterial();
-                window.reload;
+                this.$emit('listData',0);
             },
             handleClick(index){
                 this.$parent.getSet(index,this.scMessage);
@@ -144,7 +143,7 @@
                           material.mid= this.scMessage[i][j].mid;
                           this.material.push(material);
                         }
-                        console.log(this.scMessage[i][j].mid)
+                        console.log(this.scMessage[i][j].mid);
                     }
                 }
                 let formData = new FormData;
@@ -153,7 +152,7 @@
                 formData.append("mfid",JSON.stringify(this.mfid));
                 formData.append("note",this.note);
                 this.api.demand_audit(formData).then((res)=>{
-
+                    this.$emit('@listData',0)
                 })
             },
         },

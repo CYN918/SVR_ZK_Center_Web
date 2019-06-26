@@ -52,7 +52,8 @@
                     <div>
                         <span class="tit_txt top">设计要求</span>
                         <textarea maxlength="300" v-model="requirement" placeholder="请补充本次需求相关详细描述
-例：xxx渠道的应用分发模板"></textarea>
+例：xxx渠道的应用分发模板">
+                        </textarea>
                     </div>
                     <div>
                         <span class="tit_txt fj">附件</span>
@@ -63,7 +64,7 @@
                                     :limit="1"
                                     :on-exceed="handleExceed"
                                     :on-remove="handleRemove"
-                                    :http-request="uploadF"
+                                    :http-request="uploadFile"
                                     action="111">
                                 <el-button size="small" type="primary">添加附件</el-button>
                             </el-upload>
@@ -82,7 +83,7 @@
                                     :limit="1"
                                     :on-exceed="handleExceed"
                                     :on-remove="handleRemove"
-                                    :http-request="uploadFile"
+                                    :http-request="uploadF"
                                     action="111">
                                 <el-button size="small" type="primary">上传参考图</el-button>
                             </el-upload>
@@ -104,7 +105,7 @@
 
 <script>
     export default {
-        props:['id'],
+        props:['SCid'],
         name: "work-bench_sc",
         data(){
             return{
@@ -138,21 +139,26 @@
         },
         methods:{
             ADDsc(){
-                if(this.id!=undefined){
+                if(!this.SCid){
                     if(!this.type){
                         this.$message.error('类型不能为空')
+                        return
                     }
                     if(!this.priority){
                         this.$message.error('优先级不能为空')
+                        return
                     }
                     if(!this.num){
                         this.$message.error('需求数量不能为空')
+                        return
                     }
                     if(!this.design_standard){
                         this.$message.error('设计规范不能为空')
+                        return
                     }
                     if(!this.endtime){
                         this.$message.error('截止时间不能为空')
+                        return
                     }
                     if(!this.demand_name){
                         this.$message.error('需求名称不能为空')
@@ -160,13 +166,15 @@
                     }
                     if(this.is_attach==true&&!this.ref_url){
                         this.$message.error('请上传附件')
+                        return
                     }
-                    if(this.is_ref==true&&!this.attach){
+                    if(this.is_ref==true&&this.attach.url==''){
                         this.$message.error('请上传产考图')
+                        return
                     }
                     let formData = new FormData;
                     formData.append('type',this.type);
-                    formData.append('attach',this.attach);
+                    formData.append('attach',JSON.stringify(this.attach));
                     formData.append('num',this.num);
                     formData.append('id',this.id);
                     formData.append('priority',this.priority);
@@ -183,6 +191,7 @@
                 }else{
                     if(!this.type){
                         this.$message.error('类型不能为空')
+                        return
                     }
                     if(!this.demand_name){
                         this.$message.error('需求名称不能为空')
@@ -190,25 +199,31 @@
                     }
                     if(!this.priority){
                         this.$message.error('优先级不能为空')
+                        return
                     }
                     if(!this.num){
                         this.$message.error('需求数量不能为空')
+                        return
                     }
                     if(!this.design_standard){
                         this.$message.error('设计规范不能为空')
+                        return
                     }
                     if(!this.endtime){
                         this.$message.error('截止时间不能为空')
+                        return
                     }
                     if(this.is_attach==true&&!this.ref_url){
-                        this.$message.error('请上传附件')
+                        this.$message.error('请上传附件');
+                        return
                     }
-                    if(this.is_ref==true&&!this.attach){
-                        this.$message.error('请上传产考图')
+                    if(this.is_ref==true&&this.attach.url==''){
+                        this.$message.error('请上传产考图');
+                        return
                     }
                     let formData = new FormData;
                     formData.append('type',this.type);
-                    formData.append('attach',this.attach);
+                    formData.append('attach',JSON.stringify(this.attach));
                     formData.append('num',this.num);
                     formData.append('priority',this.priority);
                     formData.append('endtime',this.endtime);

@@ -188,7 +188,7 @@
             getListTag(name,index){
                 this.inx=index;
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:name,status:this.status}
-                this.api.mfinal_search({params}).then((res)=>{
+                this.api.material_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     this.total=res.total;
                     this.getTagsList()
@@ -196,8 +196,8 @@
             },
             getListTag2(name,index){
                 this.inde=index;
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:name,status:this.status}
-                this.api.mfinal_search({params}).then((res)=>{
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:name,status:this.status};
+                this.api.material_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     this.total=res.total;
                     this.getTagsList()
