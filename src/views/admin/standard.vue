@@ -287,7 +287,7 @@
                 this.type='';
                 this.pos_type='';
                 this.name='';
-                this.id=''
+                this.id='';
                 this.initiate=false;
                 this.move();
             },

@@ -124,49 +124,7 @@
         },
         methods:{
             AddYw(){
-                // if(this.YWid!=undefined){
-                //     if(!this.type){
-                //         this.$message.error('类型不能为空')
-                //     }
-                //     if(!this.priority){
-                //         this.$message.error('优先级不能为空')
-                //     }
-                //     if(!this.num){
-                //         this.$message.error('需求数量不能为空')
-                //     }
-                //     if(!this.pos_type){
-                //         this.$message.error('广告位类型不能为空')
-                //     }
-                //     if(!this.endtime){
-                //         this.$message.error('截止时间不能为空')
-                //     }
-                //     if(!this.requirement){
-                //         this.$message.error('设计要求不能为空')
-                //     }
-                //     if(!this.size){
-                //         this.$message.error('尺寸不能为空')
-                //     }
-                //     if(!this.model){
-                //         this.$message.error('实现方式不能为空')
-                //     }
-                //     if(!this.type!='f_sls_lockscreen'&&!this.libraryName){
-                //         this.$message.error('投放库不能为空')
-                //     }
-                //     let formData=new FormData;
-                //     formData.append('libraryName',this.libraryName);
-                //     formData.append('type',this.type);
-                //     formData.append('num',this.num);
-                //     formData.append('priority',this.priority);
-                //     formData.append('endtime',this.endtime);
-                //     formData.append('pos_type',this.pos_type);
-                //     formData.append('size',this.size);
-                //     formData.append('model',this.model);
-                //     formData.append('link',this.link);
-                //     formData.append('requirement',this.requirement);
-                //     this.api.demand_business_edit(formData).then((res)=>{
-                //
-                //     })
-                // }else{
+                if(this.link==''){
                     if(!this.type){
                         this.$message.error('类型不能为空')
                         return
@@ -192,10 +150,68 @@
                         this.$message.error('需求名称不能为空')
                         return
                     }
-                if(!this.requirement){
-                    this.$message.error('设计要求不能为空')
-                    return
-                }
+                    if(!this.requirement){
+                        this.$message.error('设计要求不能为空')
+                        return
+                    }
+                    if(!this.size){
+                        this.$message.error('尺寸不能为空')
+                        return
+                    }
+                    if(!this.model){
+                        this.$message.error('实现方式不能为空')
+                        return
+                    }
+                    if(this.type!='f_sls_lockscreen'&&!this.libraryName){
+                        this.$message.error('投放库不能为空')
+                        return
+                    }
+                    let formData=new FormData;
+                    formData.append('put_lib',this.libraryID);
+                    formData.append('type',this.type);
+                    formData.append('num',this.num);
+                    formData.append('priority',this.priority);
+                    formData.append('endtime',this.endtime);
+                    formData.append('pos_type',this.pos_type);
+                    formData.append('size',this.size);
+                    formData.append('model',this.model);
+                    formData.append('requirement',this.requirement);
+                    formData.append('pos_view_url',this.url);
+                    formData.append('demand_name',this.demand_name);
+                    this.api.demand_business_add(formData).then((res)=>{
+
+                    })
+
+                }else{
+                    if(!this.type){
+                        this.$message.error('类型不能为空')
+                        return
+                    }
+                    if(!this.priority){
+                        this.$message.error('优先级不能为空')
+                        return
+                    }
+                    if(!this.num){
+                        this.$message.error('需求数量不能为空')
+                        return
+                    }
+
+                    if(this.type!='f_sls_lockscreen'&&!this.pos_type){
+                        this.$message.error('广告位类型不能为空')
+                        return
+                    }
+                    if(!this.endtime){
+                        this.$message.error('截止时间不能为空')
+                        return
+                    }
+                    if(!this.demand_name){
+                        this.$message.error('需求名称不能为空')
+                        return
+                    }
+                    if(!this.requirement){
+                        this.$message.error('设计要求不能为空')
+                        return
+                    }
                     if(!this.size){
                         this.$message.error('尺寸不能为空')
                         return
@@ -224,7 +240,8 @@
                     this.api.demand_business_add(formData).then((res)=>{
 
                     })
-                // }
+
+                }
 
             },
             heid(){

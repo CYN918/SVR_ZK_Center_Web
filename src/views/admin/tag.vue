@@ -92,9 +92,6 @@
                     this.api.material_detail({params}).then((res)=>{
                         this.preinstall=res.tags;
                         this.bardian=res.self_tags;
-                        if(!this.tagsName){
-                            this.bardian.push(this.tagsName)
-                        }
                         console.log(this.bardian)
                     })
                 }else{

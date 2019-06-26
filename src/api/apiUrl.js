@@ -612,4 +612,8 @@ export default {
 	lockwallpaper_lwp_tags:{
 		url:'/lockwallpaper/lwp/tags',method:'get'
 	},
+	//获取提现详细清单
+    demand_apply_list:{
+		url:'demand/apply/list',method:'get'
+	},
 }
