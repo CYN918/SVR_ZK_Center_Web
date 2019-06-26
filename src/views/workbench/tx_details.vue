@@ -10,55 +10,55 @@
         <div class="content">
             <div>
                 <span class="tit">提现ID</span>
-                <span class="tit_right">dsad</span>
+                <span class="tit_right">{{this.tableData.apply_id}}</span>
             </div>
             <div>
                 <span class="tit">提现用户昵称</span>
-                <span class="tit_right"></span>
+                <span class="tit_right">{{this.tableData.account_name}}</span>
             </div>
             <div>
                 <span class="tit">提现金额</span>
-                <span class="tit_right">￥</span>
+                <span class="tit_right">￥{{this.tableData.after_tax_money}}</span>
             </div>
             <div>
                 <span class="tit">账号主体</span>
-                <span class="tit_right">dsadasdddsdsa</span>
+                <span class="tit_right">{{this.tableData.contributor_type}}</span>
             </div>
             <div>
                 <span class="tit">收款账户名称</span>
-                <span class="tit_right"></span>
+                <span class="tit_right">{{this.tableData.account_name}}</span>
             </div>
             <div>
                 <span class="tit">身份证号</span>
-                <span class="tit_right"></span>
+                <span class="tit_right">{{this.tableData.express_id}}</span>
             </div>
             <div>
                 <span class="tit">银行卡号</span>
-                <span class="tit_right"></span>
+                <span class="tit_right">{{this.tableData.bank_card_id}}</span>
             </div>
             <div>
                 <span class="tit">开户银行</span>
-                <span class="tit_right"></span>
+                <span class="tit_right">{{this.tableData.bank_name}}</span>
             </div>
             <div>
                 <span class="tit">开户支行</span>
-                <span class="tit_right"></span>
+                <span class="tit_right">{{this.tableData.bank_subbranch}}</span>
             </div>
             <div>
                 <span class="tit">银行预留手机号</span>
-                <span class="tit_right"></span>
+                <span class="tit_right">{{}}</span>
             </div>
             <div>
                 <span class="tit">状态</span>
-                <span class="tit_right"></span>
+                <span class="tit_right">{{this.tableData.check_status_name}}</span>
             </div>
             <div>
                 <span class="tit">申请时间</span>
-                <span class="tit_right"></span>
+                <span class="tit_right">{{this.tableData.created_at}}</span>
             </div>
             <div>
                 <span class="tit">处理时间</span>
-                <span class="tit_right"></span>
+                <span class="tit_right">{{this.tableData.endtime}}</span>
             </div>
             <div>
                 <span class="tit">相关合同</span>
@@ -73,13 +73,31 @@
     export default {
         name: "money_details",
         data(){
-            return{}
+            return{
+                tableData:[],
+            }
+        },
+        mounted(){
+            this.getData();
         },
         methods:{
             fh(){
                 this.$router.go(-1)
             },
+            getData(){
+                let params = {id:this.$route.query.id,p:10000,page:1,open_id:this.$route.query.open_id};
+                this.api.demand_apply_list({params}).then((res)=>{
+                    this.tableData = res.data[this.$route.query.index];
+                        if(this.tableData.contributor_type==1){
+                            this.tableData.contributor_type='个人'
+                        }else{
+                            this.tableData.contributor_type='公司'
+                        }
+                    console.log(this.tableData);
+                })
+            },
         }
+
     }
 </script>
 

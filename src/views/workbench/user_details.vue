@@ -15,7 +15,6 @@
                             header-align="center"
                             :header-cell-style="getRowClass"
                             :cell-style="cell"
-                            @selection-change="handleSelectionChange"
                             style="width: 100%;color:#000">
                         <el-table-column
                                 label="提现单ID" prop="apply_id"
@@ -44,7 +43,7 @@
 
                         <el-table-column label="操作">
                             <template slot-scope="props">
-                                <el-button type="text" @click="xq(tableData[props.$index])">查看详情</el-button>
+                                <el-button type="text" @click="xq(props.$index)">查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -62,16 +61,14 @@
                     :total="total">
             </el-pagination>
         </div>
-        <BH v-if="bh" :num="num" :id="this.$route.query.id" ></BH>
-        <QD v-if="sh" :id="this.$route.query.id" :apply_id="apply_id"></QD>
+
     </div>
 </template>
 
 <script>
-    import BH from './reject'
-    import QD from './workBench_auditor'
+
     export default {
-        components:{BH,QD},
+
         name: "billing_details",
         data(){
             return{
@@ -107,6 +104,13 @@
                 let params = {id:this.$route.query.id,p:this.p,page:this.page,open_id:this.$route.query.open_id};
                 this.api.demand_apply_list({params}).then((res)=>{
                     this.tableData = res.data;
+                    for(var i = 0;i<this.tableData.length;i++){
+                        if(this.tableData[i].contributor_type==1){
+                            this.tableData[i].contributor_type='个人'
+                        }else{
+                            this.tableData[i].contributor_type='公司'
+                        }
+                    }
                     this.total = res.total;
                     console.log(res);
                 })
@@ -119,34 +123,13 @@
                 this.page = page;
                 this.getData()
             },
-            handleSelectionChange(val){
-                var ary =[];
-                for(let i = 0;i<val.length;i++){
-                    ary.push(val[i].apply_id);
-                }
-                // this.num=ary;
-            },
-            getBH(data){
-                this.bh = true;
-                if(data!=undefined){
-                    this.num = data;
-                }
-
-            },
-            heidBH(){
-                this.bh = false;
-            },
-            getSH(data){
-                this.sh=true;
-                if(data!=undefined){
-                    this.apply_id = data;
-                }
-            },
-            heidSH(){
-                this.sh=false
-            },
-            xq(){
+            xq(index){
                 this.$router.push({
+                    query:{
+                        id:this.$route.query.id,
+                        open_id:this.$route.query.open_id,
+                        index:index
+                    },
                     path:'./withdraw',
                 })
             },

@@ -91,7 +91,7 @@
                         >
                         </el-table-column>
                         <el-table-column
-                                label="开户行" prop="bank_subbranch"
+                                label="开户支行" prop="bank_subbranch"
                         >
                         </el-table-column>
                         <el-table-column
@@ -132,10 +132,15 @@
                     :total="total">
             </el-pagination>
         </div>
+        <BH v-if="bh" :num="num" :id="this.$route.query.id"></BH>
+        <QD v-if="sh" :id="this.$route.query.id" :apply_id="apply_id"></QD>
     </div>
 </template>
 <script>
+    import BH from './reject'
+    import QD from './workBench_auditor'
     export default {
+        components:{BH,QD},
         name: "billing_details",
         data(){
             return{
@@ -171,6 +176,13 @@
                 let params = {id:this.$route.query.id,p:this.p,page:this.page};
                 this.api.demand_apply_detail({params}).then((res)=>{
                     this.tableData = res.data;
+                    for(var i = 0;i<this.tableData.length;i++){
+                        if(this.tableData[i].contributor_type==1){
+                            this.tableData[i].contributor_type='个人'
+                        }else{
+                            this.tableData[i].contributor_type='公司'
+                        }
+                    }
                     this.total = res.total;
                     console.log(res);
                 })
@@ -183,7 +195,32 @@
                 this.page = page;
                 this.getData()
             },
+            handleSelectionChange(val){
+                var ary =[];
+                for(let i = 0;i<val.length;i++){
+                    ary.push(val[i].apply_id);
+                }
+                // this.num=ary;
+            },
+            getBH(data){
+                this.bh = true;
+                if(data!=undefined){
+                    this.num = data;
+                }
 
+            },
+            heidBH(){
+                this.bh = false;
+            },
+            getSH(data){
+                this.sh=true;
+                if(data!=undefined){
+                    this.apply_id = data;
+                }
+            },
+            heidSH(){
+                this.sh=false
+            },
             xq(open_id){
                 this.$router.push({
                     query:{
@@ -208,7 +245,7 @@
         margin-left: 24px;
     }
     .mRight{
-        margin-left: 69px;
+        margin-left: 122px;
     }
     .title_left span{
         display: inline-block;
