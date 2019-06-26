@@ -29,9 +29,9 @@
 				</div>
 				<div class="label">
 					<span class="label_txt" >个性标签:</span>
-					<span class="labelName" @click="getListTag2()" :class="{active:inde==null}">全部</span>
+					<span class="labelName" @click="getListTags()" :class="{active:inde==null}">全部</span>
 					<div class="tags" :class="{ALLtags:this.class1==true}">
-						<span v-for="(item,index) in self_tags" class="labelName" @click="getListTag2(item.name,index)" :class="{active:inde==index}">{{item.name}}</span>
+						<span v-for="(item,index) in self_tags" class="labelName" @click="getListTags(item.name,index)" :class="{active:inde==index}">{{item.name}}</span>
 					</div>
 					<span class="tagsAll" v-if="this.class1==false" @click="getTag1">查看更多</span>
 					<span class="tagsAll" v-if="this.class1==true" @click="heidTag1">收起</span>
