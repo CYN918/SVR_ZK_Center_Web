@@ -168,6 +168,7 @@
                 class1:false,
                 listTag:[],
                 listTagData:[],
+                search_tags:[],
             }
         },
         mounted() {
@@ -338,16 +339,18 @@
                 }else{
                     if(this.listTagData.indexOf(name)==-1){
                         this.listTagData.push(name)
+
                     }else{
                         for(var i=0;i<this.listTagData.length;i++ ){
                             if(this.listTagData[i]==name){
-                                this.listTagData.splice(i)
+                                this.listTagData.splice(i);
+
                             }
                         }
                     }
                 }
 
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:JSON.stringify(this.listTagData),status:this.status}
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status}
                 this.api.material_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     this.total=res.total;
@@ -359,17 +362,19 @@
                     this.listTag.length=0
                 }else{
                     if(this.listTag.indexOf(name)==-1){
-                        this.listTag.push(name)
+                        this.listTag.push(name);
+
                     }else{
                         for(var i=0;i<this.listTag.length;i++ ){
                             if(this.listTag[i]==name){
-                                this.listTag.splice(i)
+                                this.listTag.splice(i);
+
                             }
                         }
                     }
                 }
 
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:JSON.stringify(this.listTag),status:this.status}
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status}
                 this.api.material_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     this.total=res.total;
