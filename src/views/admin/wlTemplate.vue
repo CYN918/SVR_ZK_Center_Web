@@ -171,7 +171,7 @@
             }
         },
         mounted() {
-            this.getWl()
+            this.getWl();
 			this.getData()
         },
         methods: {

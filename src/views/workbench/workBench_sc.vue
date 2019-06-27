@@ -136,10 +136,60 @@
         },
         mounted(){
             this.getTypes();
+            alert(this.SCid)
         },
         methods:{
             ADDsc(){
+                alert(this.SCid)
                 if(!this.SCid){
+                    if(!this.type){
+                        this.$message.error('类型不能为空')
+                        return
+                    }
+                    if(!this.demand_name){
+                        this.$message.error('需求名称不能为空')
+                        return
+                    }
+                    if(!this.priority){
+                        this.$message.error('优先级不能为空')
+                        return
+                    }
+                    if(!this.num){
+                        this.$message.error('需求数量不能为空')
+                        return
+                    }
+                    if(!this.design_standard){
+                        this.$message.error('设计规范不能为空')
+                        return
+                    }
+                    if(!this.endtime){
+                        this.$message.error('截止时间不能为空')
+                        return
+                    }
+                    if(this.is_attach==true&&!this.ref_url){
+                        this.$message.error('请上传附件');
+                        return
+                    }
+                    if(this.is_ref==true&&this.attach.url==''){
+                        this.$message.error('请上传产考图');
+                        return
+                    }
+                    let formData = new FormData;
+                    formData.append('type',this.type);
+                    formData.append('attach',JSON.stringify(this.attach));
+                    formData.append('num',this.num);
+                    formData.append('priority',this.priority);
+                    formData.append('endtime',this.endtime);
+                    formData.append('is_attach',this.is_attach==true?1:0);
+                    formData.append('is_ref',this.is_ref==true?1:0);
+                    formData.append('ref_url',this.ref_url);
+                    formData.append('design_standard',this.design_standard);
+                    formData.append('requirement',this.requirement)
+                    formData.append('demand_name',this.demand_name);
+                    this.api.demand_material_add(formData).then((res)=>{
+                        console.log(typeof(this.ref_url))
+                    })
+                }else{
                     if(!this.type){
                         this.$message.error('类型不能为空')
                         return
@@ -187,54 +237,6 @@
                     formData.append('demand_name',this.demand_name);
                     this.api.demand_material_edit(formData).then((res)=>{
 
-                    })
-                }else{
-                    if(!this.type){
-                        this.$message.error('类型不能为空')
-                        return
-                    }
-                    if(!this.demand_name){
-                        this.$message.error('需求名称不能为空')
-                        return
-                    }
-                    if(!this.priority){
-                        this.$message.error('优先级不能为空')
-                        return
-                    }
-                    if(!this.num){
-                        this.$message.error('需求数量不能为空')
-                        return
-                    }
-                    if(!this.design_standard){
-                        this.$message.error('设计规范不能为空')
-                        return
-                    }
-                    if(!this.endtime){
-                        this.$message.error('截止时间不能为空')
-                        return
-                    }
-                    if(this.is_attach==true&&!this.ref_url){
-                        this.$message.error('请上传附件');
-                        return
-                    }
-                    if(this.is_ref==true&&this.attach.url==''){
-                        this.$message.error('请上传产考图');
-                        return
-                    }
-                    let formData = new FormData;
-                    formData.append('type',this.type);
-                    formData.append('attach',JSON.stringify(this.attach));
-                    formData.append('num',this.num);
-                    formData.append('priority',this.priority);
-                    formData.append('endtime',this.endtime);
-                    formData.append('is_attach',this.is_attach==true?1:0);
-                    formData.append('is_ref',this.is_ref==true?1:0);
-                    formData.append('ref_url',this.ref_url);
-                    formData.append('design_standard',this.design_standard);
-                    formData.append('requirement',this.requirement)
-                    formData.append('demand_name',this.demand_name);
-                    this.api.demand_material_add(formData).then((res)=>{
-                        console.log(typeof(this.ref_url))
                     })
                 }
 
