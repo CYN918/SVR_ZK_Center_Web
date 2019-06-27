@@ -349,7 +349,7 @@
                 }
 
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status}
-                this.api.material_search({params}).then((res)=>{
+                this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     this.total=res.total;
                     this.getTagsList()
@@ -373,7 +373,7 @@
                 }
 
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status}
-                this.api.material_search({params}).then((res)=>{
+                this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     this.total=res.total;
                     this.getTagsList()

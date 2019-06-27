@@ -82,9 +82,7 @@
 							</div>
 							<div class="dx">
 								<span class="boxImg_text">预览图大小:</span>
-								<span class="boxImg_content" v-if="(DL.attach.size/1024).toFixed(0)>=1&&(DL.attach.size/1024/1024).toFixed(0)<1">{{(DL.attach.size/1024).toFixed(0)}}kb</span>
-								<span class="boxImg_content" v-if="(DL.attach.size/1024/1024).toFixed(1)>=1&&(DL.attach.size/1024/1024/1024).toFixed(1)<1">{{(DL.attach.size/1024/1024).toFixed(1)}}MB</span>
-								<span class="boxImg_content" v-if="(DL.attach.size/1024/1024/1024).toFixed(2)>=1">{{(DL.attach.size/1024/1024/1024).toFixed(2)}}GB</span>
+								<span class="boxImg_content">{{parseInt(DL.attach.size/1024)}}KB</span>
 							</div>
 						</div>
 
@@ -353,7 +351,7 @@
                 }
 
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status}
-                this.api.material_search({params}).then((res)=>{
+                this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     this.total=res.total;
                     this.getTagsList()
@@ -377,7 +375,7 @@
                 }
 
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status}
-                this.api.material_search({params}).then((res)=>{
+                this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     this.total=res.total;
                     this.getTagsList()
