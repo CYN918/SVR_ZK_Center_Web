@@ -2,43 +2,58 @@
     <div class="bg">
         <div class="centNavBox">
             <div class="title">
-                <span>上传物料</span>
+                <span>查看素材详情</span>
             </div>
             <div class="table_material">
                 <div class="content_title">
                     <span style="width: 10%">数量</span>
+                    <span style="width: 10%">
+                          <template>
+                              <template>
+                                     <el-checkbox-group v-model="checkeds" @change="select">
+                                        <el-checkbox  label="a" > </el-checkbox>
+                                    </el-checkbox-group>
+                             </template>
+
+                          </template>
+                    </span>
                     <span style="width: 15%">预览图</span>
                     <span style="width: 20%">物料ID</span>
-                    <span style="width: 15%">物料类型</span>
-                    <span style="width: 10%">H5链接</span>
+                    <span style="width: 15%">H5</span>
                     <span style="width: 30%">操作</span>
                 </div>
-                <div class="table_content" v-for="(item,index) in list">
-                    <div class="table_content_left">
+                <div class="table_content" v-for="(item,index) in this.num">
+                    <div class="table_content_left" >
                         <span>{{index+1}}</span>
+                        <span>
+                             <template>
+                                     <el-checkbox-group v-model="checked">
+                                        <el-checkbox  :label="index" > </el-checkbox>
+                                    </el-checkbox-group>
+                             </template>
+
+                            </span>
                     </div>
                     <div  class="table_content_rig">
-                        <div class="table_content_right" v-if="index<scMessage.length" v-for = '(item,index2) in scMessage[index]'>
+                        <div class="table_content_right" >
                             <div class="imgs">
                                 <img :src="item.prev_uri">
                             </div>
-                            <span class="id" v-if="item.mid!=undefined">{{item.mid}}</span>
-                            <span class="id" v-if="item.mfid!=undefined">{{item.mfid}}</span>
-                            <span class="type">{{item.type_name}}</span>
-                            <div class="click">
-                                <span @click="getBD(index)">从本地上传</span>
-                                <span @click="getWl(index)">从物料库选择</span>
-                            </div>
-                        </div>
-                        <div class="table_content_right" v-if="index>=scMessage.length">
-                            <div class="imgs">
-                                <img src="">
-                            </div>
-                            <span class="id"></span>
-                            <span class="type"></span>
-                            <div class="click">
-                                <span @click="getBD(index)" >从本地上传</span>
-                                <span @click="getWl(index)">从物料库选择</span>
+                            <span class="id" >{{item.mfid}}</span>
+                            <span class="type">
+                                 <el-button class="ml10" type="text" size="medium"
+                                            v-clipboard:copy="sysAppIds"
+                                            v-clipboard:success="onCopy"
+                                            v-clipboard:error="onError"
+                                 >点击复制
+                                 </el-button>
+                            </span>
+
+
+                            <div class="click" >
+                                <el-button class="ml10" type="text" size="medium">
+                                <a :href="item.attach.url" style="text-decoration:none;color: #fff">下载</a>
+                                </el-button>
                             </div>
                         </div>
                     </div>
@@ -53,19 +68,19 @@
                 </div>
             </div>
             <div class="require_txt">
-                <textarea v-model="note"></textarea>
+                <textarea v-model="note" disabled></textarea>
             </div>
             <div class="Add_btn">
-                <span class="Add_btn_ADD" @click="ADD">添加</span>
                 <span @click="heid">取消</span>
             </div>
         </div>
+
     </div>
 </template>
 
 <script>
     export default {
-        props:['scMessage','id','num','ind'],
+        props:['id'],
         name: "a-d-d_material",
         data(){
             return{
@@ -77,80 +92,43 @@
                 checkList:[],
                 note:'',
                 Message:[],
+                mfinal:[],
+                num:[],
+                checkeds:[],
+                sysAppIds: 'xxxxxxxxxxxsx'
             }
         },
         mounted(){
-            console.log(this.scMessage);
-            this.Message = this.scMessage;
-            let a =this.list;
-            for(var i=0;i<this.num;i++){
-                a.push(i);
-            }
-            // this.checked.push(this.ind)
+            this.getData();
         },
         methods:{
-            getRowClass({row, column, rowIndex, columnIndex}) {
-                if (rowIndex === 0) {
-                    return 'color:rgba(30,30,30,1);text-align:center;font-size:14px;font-weight:400;height:48px;font-family:PingFangSC-Regular'
-                } else {
-                    return ''
-                }
-            },
-            cell({row, column, rowIndex, columnIndex}){
-                return 'text-align:center;color:rgba(153,153,153,1);font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
-            },
-            row({row, rowIndex}){
-                return 'border-radius:4px;border:1px solid rgba(230,233,240,1);margin-bottom:10px'
-            },
             heid(){
-                this.$parent.heidAddWl();
-                this.$emit('listData',0);
+                this.$parent.heidWLp();
             },
-            handleClick(index){
-                this.$parent.getSet(index,this.scMessage);
-                this.$parent.heidAddWl();
-            },
-            getBD(index){
-                this.$parent.getBD(index)
-                this.$parent.heidAddWl();
-            },
-            getWl(index){
-                this.$parent.Getscwl(index);
-                this.$parent.heidAddWl();
-            },
-            ADD(){
-                console.log(this.scMessage)
-                for(let i=0;i<this.scMessage.length;i++){
-                    for(let j=0;j<this.scMessage[i].length;j++){
-                        if(this.scMessage[i][j].ismaterial == 0){
-                            this.mfid.push(this.scMessage[i][j].mfid);
-                        }else{
-                            var material = {
-                                num:0,
-                                mid:''
-                            }
-                            material.num = i;
-                            material.mid= this.scMessage[i][j].mid;
-                            this.material.push(material);
-                        }
-                        console.log(this.scMessage[i][j].mid);
+            select(){
+                if(this.checkeds.indexOf("a")!=-1){
+                    for(var i=0;i<this.num.length;i++){
+                        this.checked.push(i);
                     }
+
+                }else if(this.checkeds.indexOf("a")==-1){
+                    this.checked=[]
                 }
-                let formData = new FormData;
-                formData.append("id",this.id);
-                formData.append('material',JSON.stringify(this.material));
-                formData.append("mfid",JSON.stringify(this.mfid));
-                formData.append("note",this.note);
-                this.api.demand_audit(formData).then((res)=>{
-                    this.$emit('@listData',0)
+            },
+            onCopy(e){
+               this.$message.success('复制成功')
+            },
+
+            onError(e){
+                this.$message.error("失败");
+            },
+            getData(){
+                let params ={id:this.id};
+                this.api.demand_business_mfbind({params}).then((res)=>{
+                   this.num = res
                 })
             },
         },
-        watch:{
-            "scMessage":function (oldval) {
-                console.log(oldval)
-            }
-        }
 
     }
 </script>

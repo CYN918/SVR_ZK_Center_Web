@@ -13,27 +13,28 @@
                     <span style="width: 15%">素材类型</span>
                     <span style="width: 30%">操作</span>
                 </div>
-                <div class="table_content">
-                    <div class="table_content_left">
-                        <span>{{1}}</span>
+                <div class="table_content" v-for="(item,index) in this.num">
+                    <div class="table_content_left" >
+                        <span>{{index+1}}</span>
                         <span>
                                 <template>
                                      <el-checkbox-group v-model="checked">
-                                        <el-checkbox  :label="index">需要</el-checkbox>
+                                        <el-checkbox  :label="index" v-if="item.mfid==undefined">需要</el-checkbox>
+                                         <el-checkbox :label="index" v-if="item.mfid!=undefined" disabled="disabled">无需处理</el-checkbox>
                                     </el-checkbox-group>
                                 </template>
                             </span>
                     </div>
                     <div  class="table_content_rig">
-                        <div class="table_content_right"  v-for="(item,index2) in material[1]">
-                            <div class="imgs">
+                        <div class="table_content_right" >
+                            <div class="imgs" v-if="item.mfid==undefined">
                                 <img :src="item.prev_uri">
                             </div>
-                            <span class="id">{{item.mid}}</span>
-                            <span class="type">{{item.type_name}}</span>
-                            <div class="click">
-                                <a :href="material[1][index2].attach.url">下载</a>
-                        </div>
+                            <span class="id" v-if="item.mfid==undefined">{{item.mid}}</span>
+                            <span class="type" v-if="item.mfid==undefined">{{item.type_name}}</span>
+                            <div class="click" v-if="item.mfid==undefined">
+                                <a :href="item.attach.url" style="text-decoration:none">下载</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -47,7 +48,7 @@
                 </div>
             </div>
             <div class="require_txt">
-                <textarea v-model="note"></textarea>
+                <textarea v-model="note" disabled></textarea>
             </div>
             <div class="Add_btn">
                 <span @click="heid">取消</span>
@@ -65,13 +66,14 @@
             return{
                 zzyq:false,
                 checked:[],
-                material:{},
+                material:[],
                 list:[],
                 mfid:[],
                 checkList:[],
                 note:'',
                 Message:[],
                 mfinal:[],
+                num:[]
             }
         },
         mounted(){
@@ -84,8 +86,9 @@
             getData(){
                 let params ={id:this.id};
                 this.api.demand_business_mbind({params}).then((res)=>{
-                   this.material=res.material;
-                   this.mfinal=res.mfinal;
+                   this.material=res.material[1];
+                    this.mfinal=res.mfinal;
+                   this.num = (this.material).concat(this.mfinal);
                 })
             },
         },

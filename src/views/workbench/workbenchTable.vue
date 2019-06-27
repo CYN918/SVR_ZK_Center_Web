@@ -11,6 +11,7 @@
         <ywxq v-if="yw" :YWid="YWid"></ywxq>
         <scxq v-if="sc" :SCid="SCid"></scxq>
         <CK v-if='ck' :id="CkID"></CK>
+        <WLp v-if="WLp" :id="wlID"></WLp>
 
         <div class="problem">
             <template>
@@ -119,9 +120,10 @@
     import ADD from './ADD_material'
     import uplodWl from './uploadWL'
     import CK from './CKmaterial'
+    import WLp from './WLparticulars'
     import scwl from './wuliao'
     export default {
-        components:{QD,BH,ADD,sct,BDadd,AddWL,ywxq,scxq,CK,uplodWl,scwl},
+        components:{QD,BH,ADD,sct,BDadd,AddWL,ywxq,scxq,CK,uplodWl,scwl,WLp},
         props:['tableData','active'],
         name: "workbench-table",
         data(){
@@ -149,6 +151,8 @@
                 CkID:'',
                 up:false,
                 scwl:false,
+                WLp:false,
+                wlID:'',
                 Keys:[],
                 getRowKeys(row) {
                     return row.did;
@@ -199,6 +203,15 @@
             },
             heidSCwl(){
                 this.scwl=false;
+                this.move()
+            },
+            getWLp(id){
+                this.WLp=true;
+                this.wlID=id;
+                this.stop()
+            },
+            heidWLp(){
+                this.WLp=false;
                 this.move()
             },
             AddMaterial(index){
@@ -265,7 +278,6 @@
             getYW(id){
                 this.yw = true;
                 this.YWid = id;
-                console.log(id);
                 this.stop()
             },
             heidYW(){
@@ -283,7 +295,7 @@
             getBH(index){
                 this.bh = true;
                 this.dbid=this.tableData[index].did;
-                console.log(this.dbid[0][0])
+                console.log(this.dbid[0][0]);
                 this.stop()
 
             },
@@ -336,11 +348,6 @@
                 console.log(index);
                 console.log(this.scMessage[index])
             },
-            DMessage(data,index){
-                this.wlMessage[index] = data;
-                console.log(index);
-                console.log(this.wlMessage[index])
-            },
             release(id,type){
                 if(type=='demand_business'){
                     this.$parent.getSC(id);
@@ -352,6 +359,18 @@
                 if(type=='业务需求'){
                     if(status ==1){
                         this.getYW(id);
+                    }
+                    if(status ==2){
+                        this.getYWSC(id)
+                    }
+                    if(status ==3){
+                        this.getWLp(id)
+                    }
+                    if(status ==4){
+
+                    }
+                    if(status ==5){
+
                     }
                 }
                 if(type=='素材需求'){

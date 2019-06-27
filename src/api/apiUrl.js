@@ -588,9 +588,17 @@ export default {
 	demand_material_edit:{
 		url:'/demand/material/edit',method:'post',isType:{suktip:1}
 	},
+	//查看驳回详情
+    demand_reject_logs:{
+		url:'demand/reject/logs',method:'get'
+	},
 	//获取业务相关素材
 	demand_business_mbind:{
 		url:'/demand/business/mbind',method:'get'
+	},
+	//获取业务相关物料
+	demand_business_mfbind:{
+		url:'/demand/business/mfbind',method:'get'
 	},
 	//根据需求类型获取流程节点
 	process_status:{

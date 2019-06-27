@@ -4,7 +4,9 @@ import router from './router'
 import axios from 'axios'
 import api from './api/index'
 import echarts from 'echarts'
+import VueClipboard from 'vue-clipboard2'
 
+ Vue.use(VueClipboard)
 Vue.prototype.$echarts = echarts 
 Vue.prototype.$ajax = axios
 Vue.prototype.api = api

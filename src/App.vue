@@ -675,4 +675,5 @@ select{
   font-size: 12px;
   line-height: 36px;
 }
+  .table_material .el-checkbox__label{opacity: 0;position: absolute;}
 </style>
