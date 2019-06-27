@@ -41,6 +41,10 @@
                                 </el-upload>
                             </div>
                             <img src="../../../public/img/msg.png" @click="showHint"/>
+                            <div class="progress" style="width: 100px;height: 5px;opacity: 0.5;display: inline-block " v-if="initiate" >
+                                <div class="strip" :style="{width:aaa+'%'}" style="background: blue;height: 5px"></div>
+                                <div style="text-align: center;font-size: 10px">当前附件上传{{aaa}}%</div>
+                            </div>
                         </div>
                         <div class="AddIMG_sc">
                             <span class="tit">绑定素材:</span>
@@ -86,6 +90,10 @@
                                         :file-list="fileList">
                                     <el-button size="small" type="primary">上传预览图</el-button>
                                 </el-upload>
+                            </div>
+                            <div class="progress" style="width: 100px;height: 5px;opacity: 0.5;display: inline-block " v-if="initiate2" >
+                                <div class="strip" :style="{width:bbb+'%'}" style="background: blue;height: 5px"></div>
+                                <div style="text-align: center;font-size: 10px">当前附件上传{{bbb}}%</div>
                             </div>
                         </div>
                         <div class="AddIMG_bq">
@@ -170,6 +178,10 @@
                 is_bind_mid:'',
                 is_bind_workid:'',
                 list:[],
+                aaa:0,
+                bbb:0,
+                initiate:false,
+                initiate2:false,
             }
         },
         mounted(){
@@ -190,16 +202,38 @@
             YCset(){
                 this.sel = false
             },
+            time(){
+                var _this=this;
+                _this.aaa=0;
+                var timer = setInterval(function () {
+                    if(_this.aaa<99){
+                        _this.aaa++
+                    }
+                },100);
+            },
+            time1(){
+                var _this=this;
+                _this.bbb=0;
+                var timer = setInterval(function () {
+                    if(_this.bbb<99){
+                        _this.bbb++
+                    }
+                },100);
+            },
             uploadF(file){
-                let formData = new FormData;
-                formData.append('file',file.file);
-                this.api.file_upload(formData).then((res)=>{
-                    this.attach.name = res.name;
-                    this.attach.size = res.size;
-                    this.attach.ext = res.ext;
-                    this.attach.md5 = res.md5;
-                    this.attach.url = res.url;
-                })
+                    this.initiate=true;
+                    this.time();
+                    let formData = new FormData;
+                    formData.append('file',file.file);
+                    this.api.file_upload(formData).then((res)=>{
+                        this.aaa=100;
+                        this.initiate=false;
+                        this.attach.name = res.name;
+                        this.attach.size = res.size;
+                        this.attach.ext = res.ext;
+                        this.attach.md5 = res.md5;
+                        this.attach.url = res.url;
+                    })
             },
             listen(id,url){
                 this.scUrl = url;
@@ -216,17 +250,31 @@
             },
             handleRemove(file, fileList) {
                 this.file = '';
+                this.initiate=false;
             },
             Remove(file, fileList) {
                 this.file = '';
+                this.initiate2=false;
             },
             uploadFile(file){
-                let formData = new FormData;
-                formData.append('file',file.file);
-                this.api.file_upload(formData).then((res)=>{
-                    this.prev_uri = res.url
-                    this.sjSize = res.size;
-                })
+                    this.initiate2=true;
+                    this.time1();
+                    let formData = new FormData;
+                    formData.append('file',file.file);
+                    this.api.file_upload(formData).then((res)=>{
+                        this.bbb=100;
+                        this.initiate2=false;
+                        this.prev_uri = res.url;
+                        var image = new Image();
+                        var _this=this;
+                        image.onload=function(){
+                            var width = image.width;
+                            var height = image.height;
+                            _this.sjSize = (width+"*"+height)
+                        };
+                        image.src= res.url;
+                    })
+
             },
             getTagsList(){
                 let params = {preset:this.preset,material:1,type:this.types,search:this.tagsName,p:50,page:1};
@@ -282,6 +330,7 @@
 <style scoped>
     input{
         margin-left: 0;
+        padding-left: 10px;
     }
     .bg{
         width: 100%;
@@ -340,18 +389,22 @@
 
     }
     .AddIMG_content_left img{
-        width: 100%;
-        height: 100%;
+        max-width: 228px;
+        max-height: 328px;
         border:0px!important;
+        position: relative;
+        top:50%;
+        left:50%;
+        transform: translate(-50%,-50%);
     }
     .AddIMG_content_right span{
         margin-bottom: 0px;
     }
     .AddIMG_box{
-        width:276px;
+        width:228px;
         padding: 0 17px;
         height:328px;
-        background:rgba(247,249,252,1);
+        background:#f7f9fc;
         border-radius:4px;
     }
     .AddIMG_box_txt{
@@ -380,6 +433,7 @@
         background:rgba(255,255,255,1);
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);
+        margin: 0 11px 0 0 !important;
     }
     .AddIMG_input input{
         width:140px;
@@ -415,15 +469,18 @@
         vertical-align: middle;
         text-align: right;
     }
+    .TIT{
+        vertical-align:top!important;
+    }
     .AddIMG_sc_cjeckbox{
         width: 14px!important;
         height: 14px!important;
-        margin-right: 11px;
+        margin:2px  11px 0 0!important;
+        padding-left: 0!important;
     }
     .AddIMG_sc_btn{
         display: inline-block;
-        margin-left: 20px;
-        margin-right: 21px;
+        margin-right: 10px;
         width:124px;
         height:36px;
         background:rgba(242,246,252,1);
@@ -435,6 +492,7 @@
         color:rgba(51,119,255,1)!important;
         text-align: center;
         line-height: 38px;
+        cursor: pointer;
     }
     .AddIMG_sc_btn_jy{
         background:rgba(153,153,153,1)!important;
@@ -446,7 +504,7 @@
         font-size:12px;
         font-family:PingFang-SC-Regular;
         font-weight:400;
-        color:rgba(153,153,153,1);
+        color:#8b9bb3;
     }
     .AddIMG_zp_text{
         width:254px;
@@ -472,21 +530,23 @@
     }
     .AddIMG_yl_size{
         display: inline-block;
-        width:200px;
+        width:190px;
         height:36px;
+        padding-left: 10px;
         background:rgba(255,255,255,1);
         border-radius:4px;
-        border:1px solid rgba(211,219,235,1);
+        border:1px solid rgb(229, 227, 235);
     }
-    .AddIMG_yl input{
-        width:125px;
-        height:50px;
-        position: relative;
-        left: -140px;
-        top:-35px;
-        opacity: 0;
-    }
+    /*.AddIMG_yl input{*/
+    /*width:125px;*/
+    /*height:50px;*/
+    /*position: relative;*/
+    /*left: -140px;*/
+    /*top:-35px;*/
+    /*opacity: 0;*/
+    /*}*/
     .AddIMG_yl_upload{
+        width: 150px;
         display: inline-block;
         font-size:14px;
         font-family:PingFangSC-Regular;
@@ -506,7 +566,7 @@
     }
     .AddIMG_bq_box{
         display: inline-block;
-        width:395px;
+        width:560px;
         height:258px;
         background:rgba(255,255,255,1);
         border-radius:4px;
@@ -524,7 +584,7 @@
         color:rgba(143,155,179,1);
     }
     .AddIMG_bq_box_top_bq,.AddIMG_bq_box_top_zdy{
-        margin:0 20px 0px 20px ;
+        margin:0 20px 0px 0px ;
 
     }
 
@@ -532,6 +592,7 @@
     .AddIMG_bq_box_top_tit input{
         display: block;
         width:326px;
+        padding-left: 10px;
         height:28px;
         background:rgba(255,255,255,1);
         border-radius:4px;
@@ -539,7 +600,6 @@
         margin-top: 10px;
     }
     .bg_btn{
-
         margin: 40px 0;
     }
     .bg_btn span{
@@ -555,6 +615,7 @@
         color:rgba(61,73,102,1);
         line-height: 36px;
         text-align: center;
+        cursor: pointer;
     }
     .bg_btn_up{
         border:0!important;
@@ -574,4 +635,5 @@
         border-radius: 5px;
         margin-bottom: 10px!important;
     }
+
 </style>

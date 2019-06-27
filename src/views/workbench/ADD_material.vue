@@ -91,6 +91,7 @@
             }
         },
         mounted(){
+            console.log(this.scMessage);
             this.Message = this.scMessage;
             let a =this.list;
             for(var i=0;i<this.num;i++){
@@ -124,8 +125,8 @@
                 this.$parent.getBD(index)
                 this.$parent.heidAddMaterial();
             },
-            getWl(index,da){
-                this.$parent.getWl(index,da);
+            getWl(index){
+                this.$parent.getWl(index);
                 this.$parent.heidAddMaterial();
             },
             ADD(){

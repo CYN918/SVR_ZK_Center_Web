@@ -1,10 +1,10 @@
 <template>
     <div>
         <ADD v-if="ADD_material" :scMessage="scMessage" :id="id" :num="num" :ind="index" @listData="SCmessageData"></ADD>
-        <uplodWl v-if='up' :id="id" :num="num" :ind="index" :wlMessage="wlMessage"></uplodWl>
+        <uplodWl v-if='up' :scMessage="scMessage" :id="id" :num="num" :ind="index" @listData="SCmessageData"></uplodWl>
         <BDadd v-if="BD" :scMessage="scMessage" @dataList="dataList" :index="index"></BDadd>
         <AddWL v-if="wl" @dataMessage="dataMessage" :index="index" ></AddWL>
-        <scwl v-if="scwl" @DMessage="DMessage" :index="index" ></scwl>
+        <scwl v-if="scwl"  @dataMessage="dataMessage" :index="index" ></scwl>
         <sct v-if="set" @listenToChildEvent="listenToChildEvent" :da="da" :index="index"></sct>
         <QD v-if="sh" :id="id"></QD>
         <BH v-if="bh" :dbid="dbid"></BH>

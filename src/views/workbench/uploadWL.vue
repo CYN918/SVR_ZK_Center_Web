@@ -1,6 +1,6 @@
 <template>
-    <div class="bg" @click="heid">
-        <div class="centNavBox" @click.stop>
+    <div class="bg">
+        <div class="centNavBox">
             <div class="title">
                 <span>上传物料</span>
             </div>
@@ -8,25 +8,36 @@
                 <div class="content_title">
                     <span style="width: 10%">数量</span>
                     <span style="width: 15%">预览图</span>
-                    <span style="width: 20%">素材ID</span>
-                    <span style="width: 15%">素材类型</span>
+                    <span style="width: 20%">物料ID</span>
+                    <span style="width: 15%">物料类型</span>
                     <span style="width: 10%">H5链接</span>
                     <span style="width: 30%">操作</span>
                 </div>
                 <div class="table_content" v-for="(item,index) in list">
                     <div class="table_content_left">
                         <span>{{index+1}}</span>
+                        <!--<span>-->
+                                <!--<template>-->
+                                     <!--<el-checkbox-group v-model="checked">-->
+                                        <!--<el-checkbox  :label="index">需要</el-checkbox>-->
+                                    <!--</el-checkbox-group>-->
+                                <!--</template>-->
+
+                            <!--</span>-->
                     </div>
                     <div  class="table_content_rig">
-                        <div class="table_content_right" v-if="index<wlMessage.length" v-for = '(item,index2) in wlMessage[index]'>
+                        <div class="table_content_right" v-if="index<scMessage.length" v-for = '(item,index2) in scMessage[index]'>
                             <div class="imgs">
                                 <img :src="item.prev_uri">
                             </div>
-                            <span class="id">{{item.mfid}}</span>
+
+                            <span class="id" v-if="item.mid!=undefined">{{item.mid}}</span>
+                            <span class="id" v-if="item.mfid!=undefined">{{item.mfid}}</span>
                             <span class="type">{{item.type_name}}</span>
                             <div class="click">
-                                <span @click="getBD(index)">从本地上传</span>
-                                <span @click="getWl(index)">从物料库选择</span>
+                                <span  v-if="checked.indexOf(index)!=-1" @click="handleClick(index)">从素材库选择</span>
+                                <span  v-if="checked.indexOf(index)!=-1" @click="getBD(index)">从本地上传</span>
+                                <span  v-if="checked.indexOf(index)==-1" @click="getWl(index)">从物料库选择</span>
                             </div>
                         </div>
                         <div class="table_content_right">
@@ -37,7 +48,7 @@
                             <span class="type"></span>
                             <div class="click">
                                 <span @click="getBD(index)" >从本地上传</span>
-                                <span @click="getWl(index)" >从物料库选择</span>
+                                <span @click="getWl(index)">从物料库选择</span>
                             </div>
                         </div>
                     </div>
@@ -59,13 +70,12 @@
                 <span @click="heid">取消</span>
             </div>
         </div>
-
     </div>
 </template>
 
 <script>
     export default {
-        props:['wlMessage','id','num','ind'],
+        props:['scMessage','id','num','ind'],
         name: "a-d-d_material",
         data(){
             return{
@@ -80,42 +90,60 @@
             }
         },
         mounted(){
-            this.Message = this.wlMessage;
+            console.log(this.scMessage);
+            this.Message = this.scMessage;
             let a =this.list;
             for(var i=0;i<this.num;i++){
                 a.push(i);
             }
-            this.checked.push(this.ind);
+            // this.checked.push(this.ind)
         },
         methods:{
+            getRowClass({row, column, rowIndex, columnIndex}) {
+                if (rowIndex === 0) {
+                    return 'color:rgba(30,30,30,1);text-align:center;font-size:14px;font-weight:400;height:48px;font-family:PingFangSC-Regular'
+                } else {
+                    return ''
+                }
+            },
+            cell({row, column, rowIndex, columnIndex}){
+                return 'text-align:center;color:rgba(153,153,153,1);font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
+            },
+            row({row, rowIndex}){
+                return 'border-radius:4px;border:1px solid rgba(230,233,240,1);margin-bottom:10px'
+            },
             heid(){
                 this.$parent.heidAddWl();
-                this.$emit("listData",[])
+                this.$emit('listData',0);
             },
-
+            handleClick(index){
+                this.$parent.getSet(index,this.scMessage);
+                this.$parent.heidAddWl();
+            },
             getBD(index){
-                this.$parent.getBD(index);
+                this.$parent.getBD(index)
+                this.$parent.heidAddWl();
             },
             getWl(index){
                 this.$parent.Getscwl(index);
-                this.$parent.heidAddWl;
+                this.$parent.heidAddWl();
             },
             ADD(){
-                console.log(this.wlMessage);
-                for(let i=0;i<this.wlMessage.length;i++){
-                    for(let j=0;j<this.wlMessage[i].length;j++){
-                        if(this.wlMessage[i][j].ismaterial == 0){
-                            this.mfid.push(this.wlMessage[i][j].mfid);
+                console.log(this.scMessage)
+                for(let i=0;i<this.scMessage.length;i++){
+                    for(let j=0;j<this.scMessage[i].length;j++){
+                        if(this.scMessage[i][j].ismaterial == 0){
+                            this.mfid.push(this.scMessage[i][j].mfid);
                         }else{
                             var material = {
                                 num:0,
                                 mid:''
                             }
                             material.num = i;
-                            material.mid= this.wlMessage[i][j].mid;
+                            material.mid= this.scMessage[i][j].mid;
                             this.material.push(material);
                         }
-                        console.log(this.wlMessage[i][j].mid)
+                        console.log(this.scMessage[i][j].mid);
                     }
                 }
                 let formData = new FormData;
@@ -124,7 +152,7 @@
                 formData.append("mfid",JSON.stringify(this.mfid));
                 formData.append("note",this.note);
                 this.api.demand_audit(formData).then((res)=>{
-
+                    this.$emit('@listData',0)
                 })
             },
         },

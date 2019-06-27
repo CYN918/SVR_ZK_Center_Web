@@ -2,67 +2,68 @@
 	<div>
 		<topNav :config="topConfig"></topNav>
 		<div class="HomeBox">
-			<div class="HomeBox_n">
-				<div class="HomeBox_nl">			
-					<div class="HomeBox_nlxf">				
-					<div class="hoBox1_t">待处理事项</div>
-					<div class="Hcentbox">
-						<div>
-							<div>{{dt.need}}</div>
-							<div>需求待处理</div>
-						</div>
-						<div>
-							<div>{{dt.picture}}</div>
-							<div>广告图待处理</div>
-						</div>
-						<div>
-							<div>{{dt.resource}}</div>
-							<div>广告模板待处理</div>
-						</div>
-						<div>
-							<div>{{dt.wallpaper}}</div>
-							<div>锁屏壁纸待处理</div>
-						</div>
-					</div>
-					</div>
-					<div class="HomeBox_nlxf">
-					<div class="homBoxlboxt">常用操作</div>
-					<div class="Hcentbox">
-						<div @click="tzd('/data/ad_material_p')"><div><img src="/img/datas.png"></div><div>广告位数据</div></div>
-						<div @click="tzd('/admin/needList')"><div><img src="/img/xq_xqlist.png"></div><div>需求管理</div></div>
-						<div @click="tzd('/admin/library_picture')"><div><img src="/img/xq_materialLibt_picture.png"></div><div>广告图库投放管理</div></div>
-						<div @click="tzd('/admin/library_resource')"><div><img src="/img/xq_materialLib_resource.png"></div><div>广告图模板库投放管理</div></div>
-						<div @click="tzd('/admin/external')"><div><img src="/img/xq_external.png"></div><div>外部账号管理</div></div>					
-					</div>
-					</div>
-					<div class="HomeBox_nlxf">
-					<div class="homBoxlboxt">历史操作</div>
-					<div class="Hcentbox">
-						<div @click="tzd('/data/ad_material_p')"><div><img src="/img/datas.png"></div><div>广告位数据</div></div>
-						<div @click="tzd('/admin/needList')"><div><img src="/img/xq_xqlist.png"></div><div>需求管理</div></div>
-						<div @click="tzd('/admin/library_picture')"><div><img src="/img/xq_materialLibt_picture.png"></div><div>广告图投放管理</div></div>
-						<div @click="tzd('/admin/library_resource')"><div><img src="/img/xq_materialLib_resource.png"></div><div>广告图模板管理</div></div>
-						<div @click="tzd('/admin/external')"><div><img src="/img/xq_external.png"></div><div>外部账号管理</div></div>	
-					</div>
-					</div>
-				</div>
-			
-				<div class="HomeBox_nr">
-					<div class="homBoxlboxt ndf">登录记录</div>
-					<div class="homBoxr2">
-						<div v-for="(el,index) in loind.slice(0, 15)" :key="index">
-							<div class="homBoxr2_1">
-								<h1 v-if="index==0">时间</h1>
-								<div>{{el.created_at}}</div>
-							</div>
-							<div class="homBoxr2_2">
-								<h1 v-if="index==0">地点</h1>
-								<div>{{el.login_address}}</div>
-							</div>							
-						</div>						
-					</div>
-				</div>
-			</div>
+			<img src="../../public/img/index.png" style="overflow: hidden"/>
+			<!--<div class="HomeBox_n">-->
+				<!--<div class="HomeBox_nl">			-->
+					<!--<div class="HomeBox_nlxf">				-->
+					<!--<div class="hoBox1_t">待处理事项</div>-->
+					<!--<div class="Hcentbox">-->
+						<!--<div>-->
+							<!--<div>{{dt.need}}</div>-->
+							<!--<div>需求待处理</div>-->
+						<!--</div>-->
+						<!--<div>-->
+							<!--<div>{{dt.picture}}</div>-->
+							<!--<div>广告图待处理</div>-->
+						<!--</div>-->
+						<!--<div>-->
+							<!--<div>{{dt.resource}}</div>-->
+							<!--<div>广告模板待处理</div>-->
+						<!--</div>-->
+						<!--<div>-->
+							<!--<div>{{dt.wallpaper}}</div>-->
+							<!--<div>锁屏壁纸待处理</div>-->
+						<!--</div>-->
+					<!--</div>-->
+					<!--</div>-->
+					<!--<div class="HomeBox_nlxf">-->
+					<!--<div class="homBoxlboxt">常用操作</div>-->
+					<!--<div class="Hcentbox">-->
+						<!--<div @click="tzd('/data/ad_material_p')"><div><img src="/img/datas.png"></div><div>广告位数据</div></div>-->
+						<!--<div @click="tzd('/admin/needList')"><div><img src="/img/xq_xqlist.png"></div><div>需求管理</div></div>-->
+						<!--<div @click="tzd('/admin/library_picture')"><div><img src="/img/xq_materialLibt_picture.png"></div><div>广告图库投放管理</div></div>-->
+						<!--<div @click="tzd('/admin/library_resource')"><div><img src="/img/xq_materialLib_resource.png"></div><div>广告图模板库投放管理</div></div>-->
+						<!--<div @click="tzd('/admin/external')"><div><img src="/img/xq_external.png"></div><div>外部账号管理</div></div>					-->
+					<!--</div>-->
+					<!--</div>-->
+					<!--<div class="HomeBox_nlxf">-->
+					<!--<div class="homBoxlboxt">历史操作</div>-->
+					<!--<div class="Hcentbox">-->
+						<!--<div @click="tzd('/data/ad_material_p')"><div><img src="/img/datas.png"></div><div>广告位数据</div></div>-->
+						<!--<div @click="tzd('/admin/needList')"><div><img src="/img/xq_xqlist.png"></div><div>需求管理</div></div>-->
+						<!--<div @click="tzd('/admin/library_picture')"><div><img src="/img/xq_materialLibt_picture.png"></div><div>广告图投放管理</div></div>-->
+						<!--<div @click="tzd('/admin/library_resource')"><div><img src="/img/xq_materialLib_resource.png"></div><div>广告图模板管理</div></div>-->
+						<!--<div @click="tzd('/admin/external')"><div><img src="/img/xq_external.png"></div><div>外部账号管理</div></div>	-->
+					<!--</div>-->
+					<!--</div>-->
+				<!--</div>-->
+			<!---->
+				<!--<div class="HomeBox_nr">-->
+					<!--<div class="homBoxlboxt ndf">登录记录</div>-->
+					<!--<div class="homBoxr2">-->
+						<!--<div v-for="(el,index) in loind.slice(0, 15)" :key="index">-->
+							<!--<div class="homBoxr2_1">-->
+								<!--<h1 v-if="index==0">时间</h1>-->
+								<!--<div>{{el.created_at}}</div>-->
+							<!--</div>-->
+							<!--<div class="homBoxr2_2">-->
+								<!--<h1 v-if="index==0">地点</h1>-->
+								<!--<div>{{el.login_address}}</div>-->
+							<!--</div>							-->
+						<!--</div>						-->
+					<!--</div>-->
+				<!--</div>-->
+			<!--</div>-->
 		</div>
 		</div>
 </template>

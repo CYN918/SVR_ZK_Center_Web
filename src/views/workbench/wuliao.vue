@@ -1,6 +1,6 @@
 <template>
-    <div class="bg" click="HeidWl()">
-        <div class="content" @click.stop>
+    <div class="bg" >
+        <div class="content" >
             <div class="tit_name">
                 <span>从物料库</span>
             </div>
@@ -41,7 +41,9 @@
                                 </div>
                                 <div>
                                     <span class="boxImg_text">素材状态:</span>
-                                    <span class="boxImg_content">{{DL.status==1201?'禁用':'启用'}}</span>
+                                    <span class="boxImg_content" v-if="DL.status==1201">禁用</span>
+                                    <span class="boxImg_content" v-if="DL.status==1001">未使用</span>
+                                    <span class="boxImg_content" v-if="DL.status==1101">使用中</span>
                                 </div>
                             </div>
                         </div>
@@ -96,7 +98,6 @@
         },
         mounted() {
             this.getList();
-
         },
         methods:{
             YCset(){this.$parent.heidSCwl();},
@@ -108,7 +109,8 @@
                         this.list.push(data);
                     }
                 }
-                this.$emit('DMessage',this.list,this.index);
+                console.log(this.list)
+                this.$emit('dataMessage',this.list,this.index);
                 this.$parent.heidSCwl();
                 this.$parent.AddWl()
             },
