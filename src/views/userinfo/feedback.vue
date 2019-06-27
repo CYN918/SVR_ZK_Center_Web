@@ -135,7 +135,7 @@
                 types:[],
                 dialogImageUrl: '',
                 dialogVisible: false,
-                type:'',
+                type:'缺陷',
                 desc:'',
                 imgurl:'',
                 pics:[],
