@@ -8,8 +8,8 @@
             <div class="tit_btn">
                 <img src="../../../public/img/ss.png">
                 <input type="text" placeholder="搜素需求ID" v-model="search"/>
-                <span class="tit_btn_sc" @click="getSC">发布素材需求</span>
-                <span class="tit_btn_yw" @click="getYW">发布业务需求</span>
+                <span class="tit_btn_sc" @click="getSC('')">发布素材需求</span>
+                <span class="tit_btn_yw" @click="getYW('')">发布业务需求</span>
             </div>
         </div>
         <div class="padding_btn">
@@ -66,6 +66,7 @@
         },
         methods:{
             getSC(id){
+                console.log(id)
                 this.id = id;
                 this.sc=true;
                 this.stop()

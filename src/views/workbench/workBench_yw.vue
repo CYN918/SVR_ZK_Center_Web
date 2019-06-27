@@ -121,12 +121,10 @@
         },
         mounted(){
             this.getSize();
-            alert(this.YWid)
         },
         methods:{
             AddYw(){
-                alert(this.YWid);
-                if(!this.YWid){
+                if(this.YWid==''){
                     if(!this.type){
                         this.$message.error('类型不能为空');
                         return
