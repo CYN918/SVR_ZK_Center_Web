@@ -31,12 +31,12 @@
                 </div>
                 <div>
                     <span>落地页:</span>
-                    <a :href="preview_url" style="display:inline-block;max-width:1300px ">{{preview_url}}</a>
+                    <a :href="preview_url" style="display:inline-block;max-width:1300px;overflow: auto ">{{preview_url}}</a>
                 </div>
                 <div>
                     <span>原始图:</span>
                     <div style="display: inline-block">
-                        <div v-for="item in imgs"><a :href="item.url">{{item.url}}</a></div>
+                        <div v-for="item in imgs"><a :href="item.url" style="display:inline-block;max-width:1300px;overflow: auto ">{{item.url}}</a></div>
                     </div>
                 </div>
             </div>
