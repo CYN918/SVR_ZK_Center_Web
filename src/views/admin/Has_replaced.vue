@@ -31,7 +31,7 @@
                 </div>
                 <div>
                     <span>落地页:</span>
-                    <a :href="preview_url">{{preview_url}}</a>
+                    <a :href="preview_url" style="display:inline-block;max-width:1300px ">{{preview_url}}</a>
                 </div>
                 <div>
                     <span>原始图:</span>

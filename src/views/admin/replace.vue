@@ -122,8 +122,8 @@
                 this.$router.push({
                     query:{
                         id:data,
-                        start_date:(this.times[0]).replace(/(^\s*)|(\s*$)/g, ""),
-                        end_date:(this.times[1]).replace(/(^\s*)|(\s*$)/g, ""),
+                        start_date:(this.times[0]),
+                        end_date:(this.times[1]),
                     },
                     path:'./Has_replaced'
                 })
