@@ -230,8 +230,8 @@
                             this.preview_url = res[i].preview_url;
                             this.imgs = res[i].original_res;
                             this.tableData2=res[i].new_res;
-                           for(var i=0;i<this.tableData2.length;i++){
-                               this.tableData2[i].width=this.tableData2[i].width+'*'+this.tableData2[i].height
+                           for(var j=0;j<this.tableData2.length;j++){
+                               this.tableData2[j].width=this.tableData2[j].width+'*'+this.tableData2[j].height
                            }
                         }
 
