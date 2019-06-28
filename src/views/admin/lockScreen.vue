@@ -341,7 +341,7 @@
                     }else{
                         for(var i=0;i<this.listTagData.length;i++ ){
                             if(this.listTagData[i]==name){
-                                this.listTagData.splice(i);
+                                this.listTagData.splice(i,1);
 
                             }
                         }
@@ -365,7 +365,7 @@
                     }else{
                         for(var i=0;i<this.listTag.length;i++ ){
                             if(this.listTag[i]==name){
-                                this.listTag.splice(i);
+                                this.listTag.splice(i,1);
 
                             }
                         }

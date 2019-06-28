@@ -292,14 +292,15 @@ export default {
         getListTags(name){
             if(!name){
                this.listTagData.length=0
-			}else{
+			}
+			else{
                 if(this.listTagData.indexOf(name)==-1){
                     this.listTagData.push(name)
 
                 }else{
                     for(var i=0;i<this.listTagData.length;i++ ){
                         if(this.listTagData[i]==name){
-                            this.listTagData.splice(i);
+                            this.listTagData.splice(i,1);
 
                         }
                     }
@@ -323,7 +324,7 @@ export default {
                }else{
                    for(var i=0;i<this.listTag.length;i++ ){
                        if(this.listTag[i]==name){
-                           this.listTag.splice(i);
+                           this.listTag.splice(i,1);
 
                        }
                    }
