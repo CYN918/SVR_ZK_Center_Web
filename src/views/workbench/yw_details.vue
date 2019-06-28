@@ -20,7 +20,6 @@
                 <div class="two">
                     <span class="tit_txt">需求名称</span>
                     <span class="tit_txt_2 ">{{this.list.demand_name}}</span>
-
                 </div>
                 <div class="two">
                     <span class="tit_txt">尺寸</span>

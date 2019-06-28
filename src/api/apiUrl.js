@@ -485,6 +485,14 @@ export default {
     mfinal_edit:{
 		url:'/mfinal/edit',method:'post',isType:{suktip:1,reload:1}
 	},
+	//开启/禁用素材
+    material_status_change:{
+		url:'material/status/change',method:'post',isType:{suktip:1}
+	},
+	//开启/禁用素材
+    mfinal_status_change:{
+		url:'mfinal/status/change',method:'post',isType:{suktip:1}
+	},
     //获取物料详细内容
     mfinal_detail:{
         url:'/mfinal/detail',method:'get'
@@ -623,5 +631,9 @@ export default {
 	//获取提现详细清单
     demand_apply_list:{
 		url:'demand/apply/list',method:'get'
+	},
+	//导出提现详情
+    demand_apply_export:{
+		url:'demand/apply/export',method:'get'
 	},
 }

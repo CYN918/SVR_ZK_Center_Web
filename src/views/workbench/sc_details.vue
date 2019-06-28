@@ -11,6 +11,10 @@
                         <span class="tit_txt">素材类型</span>
                         <span>{{this.list.type}}</span>
                     </div>
+                    <div >
+                        <span class="tit_txt">需求名称</span>
+                        <span class="tit_txt_2 ">{{this.list.demand_name}}</span>
+                    </div>
                     <div>
                         <span class="tit_txt">优先级</span>
                         <span>{{this.list.priority}}</span>

@@ -69,6 +69,7 @@
                         <div class="AddIMG_switch" v-if="sw&&this.status!=1101">
                             <span  class="tit">是否启用:</span>
                             <el-switch
+                                    @change="open"
                                     v-model="value2"
                                     active-color="#409EFF"
                                     inactive-color="#ff4949">
@@ -231,6 +232,15 @@
             //
             //     })
             // },
+            open(){
+                let formData = new FormData;
+                formData.append('mid',this.message.mid);
+                formData.append('status',this.status);
+                formData.append('valid',this.value2==true?1:0);
+                this.api.material_status_change(formData).then((res)=>{
+                    console.log(res);
+                })
+            },
             IDchanges(){
                if(this.bind_mid=='') {
                    this.hqUrl='';
@@ -359,7 +369,6 @@
                 let formData = new FormData;
                 formData.append('mid',this.message.mid);
                 formData.append('type',this.type);
-                formData.append('status',(this.value2==true?1:0));
                 formData.append('prev_uri',this.prev_uri);
                 formData.append('attach',JSON.stringify(this.attach));
                 formData.append('tags',this.preinstall);
@@ -368,7 +377,7 @@
                 this.api.material_edit(formData).then((res)=>{
                     // this.setTags();
                     this.getTagsList();
-                    if(res!=undefined){
+                    if(res!=''){
                         this. heidSc();
                     }
                 })
@@ -417,7 +426,7 @@
                     this.api.material_add(formData).then((res)=>{
                         this.$emit('updata');
                         this.getTagsList();
-                      if(res!=undefined){
+                      if(res!=''){
                           this. heidSc();
                       }
                     })

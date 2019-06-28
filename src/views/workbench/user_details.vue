@@ -33,7 +33,7 @@
                         >
                         </el-table-column>
                         <el-table-column
-                                label="提现金额" prop="after_tax_money"
+                                label="提现金额" prop="cash_money"
                         >
                         </el-table-column>
                         <el-table-column

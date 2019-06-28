@@ -12,7 +12,6 @@
         <scxq v-if="sc" :SCid="SCid"></scxq>
         <CK v-if='ck' :id="CkID"></CK>
         <WLp v-if="WLp" :id="wlID"></WLp>
-
         <div class="problem">
             <template>
                 <el-table
@@ -54,6 +53,8 @@
                             <el-button v-if="(tableData[props.$index].status_name=='发布审核'&&tableData[props.$index].reject=='0')||(tableData[props.$index].status_name=='活动发布'&&tableData[props.$index].reject=='0')" @click="getSC(tableData[props.$index].mdid)">查看需求</el-button>
                             <el-button v-if="(tableData[props.$index].status_name=='物料审核'&&tableData[props.$index].reject=='0')||(tableData[props.$index].status_name=='测试验收'&&tableData[props.$index].reject=='0')">查看物料</el-button>
                             <el-button  v-if="tableData[props.$index].reject=='1'">查看驳回原因</el-button>
+                            <el-button @click="educe(tableData[props.$index].did,tableData[props.$index].check_status)" v-if="tableData[props.$index].status_name=='签字审核'&&tableData[props.$index].status==2">导出表格</el-button>
+                            <el-button @click="uploadData(tableData[props.$index].did)"  v-if="tableData[props.$index].status_name=='签字审核'&&tableData[props.$index].status==2">上传文件</el-button>
                             <el-button @click="release(tableData[props.$index].did,tableData[props.$index].demand_type)" v-if="tableData[props.$index].status_name=='需求发布'">发布需求</el-button>
                             <el-button v-if="tableData[props.$index].status_name=='素材审核'">查看活动</el-button>
                             <el-button v-if="tableData[props.$index].status_name=='素材入库'">查看素材</el-button>
@@ -64,7 +65,7 @@
                             <el-button  v-if="tableData[props.$index].status_name=='完成入库'">查看投放结果</el-button>
                             <el-button  @click="getBH(props.$index)" v-if="tableData[props.$index].status_name!='完成投放'&&tableData[props.$index].status_name!='需求发布'&&tableData[props.$index].status_name!='提现审核'&&tableData[props.$index].status_name!='签字审核'&&tableData[props.$index].status_name!='结算汇款'&&tableData[props.$index].status_name!='补充签字'&&tableData[props.$index].status_name!='素材入库'&&tableData[props.$index].reject=='0'">驳回</el-button>
                             <el-button   v-if="tableData[props.$index].status_name=='完成入库'">查看投放结果</el-button>
-                            <el-button  @click="withdraw(tableData[props.$index].did)" v-if="(tableData[props.$index].status_name=='提现审核'||tableData[props.$index].status_name=='签字审核'||tableData[props.$index].status_name=='结算汇款'||tableData[props.$index].status_name=='补充签字')&&tableData[props.$index].reject=='0'">查看详情</el-button>
+                            <el-button  @click="withdraw(tableData[props.$index].did)" v-if="(tableData[props.$index].status_name=='提现审核'||tableData[props.$index].status_name=='结算汇款'||tableData[props.$index].status_name=='补充签字')&&tableData[props.$index].reject=='0'">查看详情</el-button>
                         </template>
                     </el-table-column>
                     <el-table-column type="expand" label="查看完整流程" width="200">
@@ -105,7 +106,36 @@
                 </el-table>
             </template>
         </div>
-
+        <div class="bg" v-if="uploads">
+            <div class="content_txt">
+                <div class="tit">
+                    <span>上传文件</span>
+                    <img src="../../../public/img/gb.png" @click="heidUP">
+                </div>
+                <div class="up">
+                    <el-upload
+                            class="upload-demo"
+                            drag
+                            action="https://jsonplaceholder.typicode.com/posts/"
+                            :http-request="upload"
+                            :limit="1"
+                            :on-remove="Remove"
+                            multiple>
+                        <i class="el-icon-upload"></i>
+                        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                    </el-upload>
+                </div>
+                <div style="text-align: center" v-if="stops">
+                    <span style="display:inline-block;width: 200px">
+                        <el-progress :percentage="length"></el-progress>
+                    </span>
+                </div>
+                <div class="btn">
+                    <span @click="heidUP">取消</span>
+                    <span class="tj" @click="audit">提交</span>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -154,6 +184,10 @@
                 WLp:false,
                 wlID:'',
                 Keys:[],
+                uploads:false,
+                stops:false,
+                length:0,
+                shID:'',
                 getRowKeys(row) {
                     return row.did;
                 },
@@ -167,7 +201,9 @@
             this.expands.push(this.tableData[0].did);
         },
         methods:{
-
+            format(percentage) {
+                return percentage === 100 ? '完成' : `${percentage}%`;
+            },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
                     return 'background:rgba(255,255,255,1);color:#1f2e4d;margin:0 24px;font-size:14px;font-weight:Medium;font-family:PingFang-SC-Regular;'
@@ -321,6 +357,52 @@
                 document.body.style.position='initial';
                 document.body.style.height='1006px';
             },
+            educe(id,status){
+                let params={id:id,all:1,check_status:status};
+                this.api.demand_apply_export({params}).then((res)=>{
+                    console.log(res);
+                })
+
+            },
+            heidUP(){
+                this.uploads = false;
+                this.stops = false;
+                this.move();
+            },
+            uploadData(ID){
+                this.shID = ID;
+                this.uploads = true;
+                this.stop()
+            },
+            time(){
+                var _this=this;
+                _this.aaa=0;
+                var timer = setInterval(function () {
+                    if(_this.length<99){
+                        _this.length++
+                    }
+                },100);
+            },
+            upload(file){
+                this.stops = true;
+                this.time();
+                let formData = new FormData;
+                formData.append('file',file.file);
+                this.api.file_upload(formData).then((res)=>{
+                    this.length=100;
+                })
+            },
+            Remove(file, fileList) {
+                this.file = '';
+                this.stops=false
+            },
+            audit(){
+                let formData = new FormData;
+                formData.append('id',this.shID);
+                this.api.demand_audit(formData).then((res)=>{
+
+                })
+            },
             getData(){
                 let params = {
                     email:localStorage.getItem('userAd'),
@@ -376,6 +458,24 @@
                 if(type=='素材需求'){
                     if(status ==1){
                         this. getSC(id);
+                    }
+                }
+                if(type=='设计师结算'){
+                    if(status ==1){
+                        this.$router.push({
+                            query:{
+                                id:id,
+                            },
+                            path:'/workbench/Billing_details'
+                        })
+                    }
+                    if(status ==3){
+                        this.$router.push({
+                            query:{
+                                id:id,
+                            },
+                            path:'/workbench/Billing_details'
+                        })
                     }
                 }
 
@@ -476,5 +576,73 @@
         width: 204px;
         display: inline-block;
         margin: 0 18px;
+    }
+    .bg{
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.3);
+        position: fixed;
+        z-index: 9;
+        bottom: 0;
+        right: 0;
+    }
+    .content_txt{
+        width:588px;
+        height:420px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        position: absolute;
+        left:50%;
+        top:50%;
+        transform: translate(-50%,-50%);
+        padding: 20px;
+    }
+    .up{
+        margin: 20px 30px;
+        text-align: center;
+    }
+    .tit{
+        width: 100%;
+        height: 38px;
+        border-bottom: 1px solid #E6E9F0;
+    }
+    .tit span{
+        line-height: 38px;
+        font-size:18px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(61,73,102,1);
+    }
+    .content_txt img{
+        width: 16px;
+        position: absolute;
+        right: 20px;
+        cursor: pointer;
+    }
+    .btn{
+        position: absolute;
+        bottom: 0;
+        width:588px;
+        height:58px;
+        background:rgba(247,249,252,1);
+        border-radius:0px 0px 4px 4px;
+        text-align: right;
+    }
+    .btn span{
+        display: inline-block;
+        margin-top: 11px;
+        width:68px;
+        height:36px;
+        line-height: 36px;
+        text-align: center;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        cursor: pointer;
+    }
+    .tj{
+        background:rgba(51,119,255,1)!important;
+        color: #fff!important;
+        margin-left: 14px;
     }
 </style>

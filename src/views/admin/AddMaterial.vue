@@ -63,6 +63,7 @@
                         <div class="AddIMG_switch" v-if="sw">
                             <span  class="tit">是否启用:</span>
                             <el-switch
+                                    @change="open"
                                     v-model="value2"
                                     active-color="#409EFF"
                                     inactive-color="#ff4949">
@@ -185,7 +186,8 @@
                 initiate:false,
                 initiate2:false,
                 Urllist:[],
-                cc:""
+                cc:"",
+                status:''
             }
         },
         mounted(){
@@ -249,6 +251,15 @@
                     };
                     image.src= res.url;
 
+                })
+            },
+            open(){
+                let formData = new FormData;
+                formData.append('mfid',this.message.mfid);
+                formData.append('status',this.status);
+                formData.append('valid',this.value2==true?1:0);
+                this.api.mfinal_status_change(formData).then((res)=>{
+                    console.log(res);
                 })
             },
             getType(){
@@ -333,7 +344,6 @@
                 let formData = new FormData;
                 formData.append('mid',this.message.mfid);
                 formData.append('type',this.type);
-                formData.append('status',(this.value2==true?1:0));
                 formData.append('prev_uri',this.prev_uri);
                 formData.append('attach',JSON.stringify(this.attach));
                 formData.append('tags',this.preinstall);
@@ -421,7 +431,7 @@
                     }else{
                         this.value2=true;
                     }
-                    console.log(this.preinstall)
+                   this.status=res.status;
                 })
             },
             IDchange(){
