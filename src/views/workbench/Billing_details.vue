@@ -45,7 +45,7 @@
                     <span class="btn">查询</span>
                 </div>
                 <div>
-                    <span class="bh" @click="getBH()">批量驳回（{{this.num.length}}）</span>
+                    <span class="bh" @click="getBH()">批量驳回（{{this.open_id.length}}）</span>
                     <span class="tg">通过所有非驳回申请</span>
                 </div>
             </div>
@@ -113,8 +113,8 @@
                         <el-table-column label="操作">
                             <template slot-scope="props">
                                 <el-button type="text" @click="xq(tableData[props.$index].open_id)">查看详情</el-button>
-                                <el-button type="text" v-if="tableData[props.$index].check_status=='0'" @click="getSH(tableData[props.$index].apply_id)">审核通过</el-button>
-                                <el-button type="text" v-if="tableData[props.$index].check_status=='0'" @click="getBH(tableData[props.$index].apply_id)">驳回</el-button>
+                                <el-button type="text" v-if="tableData[props.$index].check_status=='0'" @click="getSH(tableData[props.$index].open_id)">审核通过</el-button>
+                                <el-button type="text" v-if="tableData[props.$index].check_status=='0'" @click="getBH(tableData[props.$index].open_id)">驳回</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -132,8 +132,8 @@
                     :total="total">
             </el-pagination>
         </div>
-        <BH v-if="bh" :num="num" :id="this.$route.query.id"></BH>
-        <QD v-if="sh" :id="this.$route.query.id" :apply_id="apply_id"></QD>
+        <BH v-if="bh"  :id="this.$route.query.id" :open_id="open_id"></BH>
+        <QD v-if="sh" :id="this.$route.query.id" :open_id="open_id"></QD>
     </div>
 </template>
 <script>
@@ -149,10 +149,9 @@
                 page:1,
                 total:0,
                 time:[],
-                num:'',
                 bh:false,
                 sh:false,
-                apply_id:'',
+                open_id:'',
             }
         },
         mounted(){
@@ -198,14 +197,14 @@
             handleSelectionChange(val){
                 var ary =[];
                 for(let i = 0;i<val.length;i++){
-                    ary.push(val[i].apply_id);
+                    ary.push(val[i].open_id);
                 }
                 // this.num=ary;
             },
             getBH(data){
                 this.bh = true;
                 if(data!=undefined){
-                    this.num = data;
+                    this.open_id = data;
                 }
 
             },
@@ -215,7 +214,7 @@
             getSH(data){
                 this.sh=true;
                 if(data!=undefined){
-                    this.apply_id = data;
+                    this.open_id = data;
                 }
             },
             heidSH(){

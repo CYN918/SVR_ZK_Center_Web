@@ -19,7 +19,7 @@
 <script>
     export default {
         name: "work-bench_auditor",
-        props:['id','apply_id'],
+        props:['id','open_id'],
         data(){
             return{}
         },
@@ -28,10 +28,10 @@
                 this.$parent.heidSH()
             },
             audit(){
-                if(this.apply_id!=undefined){
+                if(this.open_id!=undefined){
                     let formData = new FormData;
                     formData.append('id',this.id);
-                    formData.append('apply_id',this.apply_id);
+                    formData.append('open_id',this.open_id);
                     this.api.demand_apply_audit(formData).then((res)=>{
                     })
                 }else{

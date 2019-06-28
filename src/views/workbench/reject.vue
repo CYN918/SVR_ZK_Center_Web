@@ -19,7 +19,7 @@
 <script>
     export default {
         name: "reject",
-        props:["dbid",'id','num'],
+        props:["dbid",'id','open_id'],
         data(){
             return{
                 note:'',
@@ -38,13 +38,13 @@
                     let formData = new FormData;
                     formData.append("note",this.note);
                     formData.append('id',this.id);
-                    formData.append('apply_id',this.num);
+                    formData.append('open_id',this.open_id);
                     this.api.demand_apply_reject(formData).then((res)=>{
 
                     })
                 }else{
                     if(!this.note){
-                        this.$message.error("驳回原因不能为空")
+                        this.$message.error("驳回原因不能为空");
                         return
                     }
                     let formData = new FormData;
