@@ -4,7 +4,7 @@
             <span class="inner">|</span>
             <span class="top_txt">投放库/投放详情页</span>
             <div class="fh">
-                <img src="../../../public/img/fh.png" style="width: 16px;margin-right: 10px" @click="fh"/>
+                <img src="../../../public/img/fh.png" style="width: 16px;margin-right: 10px;cursor: pointer" @click="fh"/>
                 <span @click="fh">投放库详情</span>
             </div>
             <div class="top_con">

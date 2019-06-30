@@ -267,9 +267,19 @@
                 this.move()
             },
             setCheckAll(){
-                this.$refs.tab0.toggleAllSelection();
-                this.$refs.tab1.toggleAllSelection();
-                this.$refs.tab2.toggleAllSelection();
+                // this.$refs.tab0.toggleAllSelection();
+                // this.$refs.tab1.toggleRowSelection(this.tableData1);
+                this.tableData.map((option) => {
+                    this.$refs.tab0.toggleRowSelection(option);
+                })
+                this.tableData1.map((option) => {
+                    this.$refs.tab1.toggleRowSelection(option);
+                })
+                this.tableData2.map((option) => {
+                    this.$refs.tab2.toggleRowSelection(option);
+                })
+                // this.$refs.tab1.toggleAllSelection();
+                // this.$refs.tab2.toggleAllSelection();
             },
             AddTags(){
                 let formData = new FormData;

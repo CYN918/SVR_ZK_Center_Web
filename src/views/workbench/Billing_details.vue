@@ -45,7 +45,7 @@
                     <span class="btn">查询</span>
                 </div>
                 <div>
-                    <span class="bh" @click="getBH()">批量驳回（{{this.open_id.length}}）</span>
+                    <span class="bh" @click="getBH()">批量驳回（{{this.openIDList.length}}）</span>
                     <span class="tg">通过所有非驳回申请</span>
                 </div>
             </div>
@@ -132,7 +132,7 @@
                     :total="total">
             </el-pagination>
         </div>
-        <BH v-if="bh"  :id="this.$route.query.id" :open_id="open_id"></BH>
+        <BH v-if="bh"  :id="this.$route.query.id" :open_id="openIDList"></BH>
         <QD v-if="sh" :id="this.$route.query.id" :open_id="open_id"></QD>
     </div>
 </template>
@@ -152,6 +152,7 @@
                 bh:false,
                 sh:false,
                 open_id:'',
+                openIDList:[],
             }
         },
         mounted(){
@@ -172,7 +173,7 @@
                 return 'text-align:center;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
             getData(){
-                let params = {id:this.$route.query.id,p:this.p,page:this.page};
+                let params = {id:this.$route.query.id,p:this.p,page:this.page,all:this.$route.query.status==1?1:0};
                 this.api.demand_apply_detail({params}).then((res)=>{
                     this.tableData = res.data;
                     for(var i = 0;i<this.tableData.length;i++){
@@ -199,12 +200,14 @@
                 for(let i = 0;i<val.length;i++){
                     ary.push(val[i].open_id);
                 }
-                // this.num=ary;
+               this.openIDList = ary;
+                console.log(this.openIDList)
             },
             getBH(data){
                 this.bh = true;
                 if(data!=undefined){
-                    this.open_id = data;
+                    var Arr = [];
+                    this.openIDList= Arr.push(data);
                 }
 
             },

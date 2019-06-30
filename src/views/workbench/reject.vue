@@ -23,7 +23,7 @@
         data(){
             return{
                 note:'',
-            }
+            }   
         },
         methods:{
             heid(){
@@ -38,7 +38,7 @@
                     let formData = new FormData;
                     formData.append("note",this.note);
                     formData.append('id',this.id);
-                    formData.append('open_id',this.open_id);
+                    formData.append('arr_open_id',JSON.stringify(this.open_id));
                     this.api.demand_apply_reject(formData).then((res)=>{
 
                     })

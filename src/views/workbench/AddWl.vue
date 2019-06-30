@@ -100,7 +100,7 @@
             this.getList();
         },
         methods:{
-            YCset(){this.$parent.HeidWl();},
+            YCset(){this.$parent.HeidWl();this.$parent.AddMaterial()},
             messageID(){
                     for(let k = 0;k<this.listData.length;k++){
                         if(this.listData[k].mfid==this.checked) {

@@ -45,6 +45,16 @@
                     <el-table-column
                             label="截止时间" prop="endtime"
                             width="200">
+                        <template slot-scope="scope">
+                            <el-button
+                                    size="mini"
+                                   >{{(tableData[scope.$index].endtime)}}</el-button>
+                            <el-button
+                                    size="mini"
+                                    >{{(new Date(tableData[scope.$index].endtime).getTime - new Date().getTime())>0?'剩余时间：':'已逾期：'}}{{(new Date(tableData[scope.$index].endtime).getTime - new Date().getTime()) > 0 ?
+                                (new Date(tableData[scope.$index].endtime).getTime() - new Date().getTime())%(60*1000)
+                                : ((new Date().getTime()-new Date(tableData[scope.$index].endtime).getTime())%(60*1000))}}</el-button>
+                        </template>
                     </el-table-column>
                     <el-table-column label="操作">
                         <template slot-scope="props">
@@ -65,7 +75,7 @@
                             <el-button  v-if="tableData[props.$index].status_name=='完成入库'">查看投放结果</el-button>
                             <el-button  @click="getBH(props.$index)" v-if="tableData[props.$index].status_name!='完成投放'&&tableData[props.$index].status_name!='需求发布'&&tableData[props.$index].status_name!='提现审核'&&tableData[props.$index].status_name!='签字审核'&&tableData[props.$index].status_name!='结算汇款'&&tableData[props.$index].status_name!='补充签字'&&tableData[props.$index].status_name!='素材入库'&&tableData[props.$index].reject=='0'">驳回</el-button>
                             <el-button   v-if="tableData[props.$index].status_name=='完成入库'">查看投放结果</el-button>
-                            <el-button  @click="withdraw(tableData[props.$index].did)" v-if="(tableData[props.$index].status_name=='提现审核'||tableData[props.$index].status_name=='结算汇款'||tableData[props.$index].status_name=='补充签字')&&tableData[props.$index].reject=='0'">查看详情</el-button>
+                            <el-button  @click="withdraw(tableData[props.$index].did,tableData[props.$index].status)" v-if="(tableData[props.$index].status_name=='提现审核'||tableData[props.$index].status_name=='结算汇款'||tableData[props.$index].status_name=='补充签字')&&tableData[props.$index].reject=='0'">查看详情</el-button>
                         </template>
                     </el-table-column>
                     <el-table-column type="expand" label="查看完整流程" width="200">
@@ -188,6 +198,7 @@
                 stops:false,
                 length:0,
                 shID:'',
+                attach:{},
                 getRowKeys(row) {
                     return row.did;
                 },
@@ -339,10 +350,11 @@
                 this.bh = false
                 this.move()
             },
-            withdraw(id){
+            withdraw(id,status){
                 this.$router.push({
                     query:{
                         id:id,
+                        status:status,
                     },
                     path:'/workbench/Billing_details'
                 })
@@ -390,14 +402,15 @@
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
                     this.length=100;
+                    this.attach = res
                 })
             },
             Remove(file, fileList) {
-                this.file = '';
                 this.stops=false
             },
             audit(){
                 let formData = new FormData;
+                formData.append('attach',this.file);
                 formData.append('id',this.shID);
                 this.api.demand_audit(formData).then((res)=>{
 

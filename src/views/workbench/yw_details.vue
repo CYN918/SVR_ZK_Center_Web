@@ -1,7 +1,7 @@
 <template>
     <div class="bg">
         <div class="content">
-            <div class="box_img">
+            <div class="box_img" v-if="this.list.type_name!='场景锁屏'">
                 <div>
                     <span>广告位示意图</span>
                 </div>
@@ -14,16 +14,16 @@
                 <div class="two">
                     <span class="tit_txt">业务类型</span>
                     <span class="tit_txt_2 logs">{{this.list.type_name}}</span>
-                    <span class="tit_txt right" >广告位类型</span>
-                    <span class="tit_txt_2">{{this.list.pos_type}}</span>
+                    <span class="tit_txt right" v-if="this.list.type_name!='场景锁屏'">广告位类型</span>
+                    <span class="tit_txt_2" v-if="this.list.type_name!='场景锁屏'">>{{this.list.pos_type}}</span>
                 </div>
                 <div class="two">
                     <span class="tit_txt">需求名称</span>
                     <span class="tit_txt_2 ">{{this.list.demand_name}}</span>
                 </div>
                 <div class="two">
-                    <span class="tit_txt">尺寸</span>
-                    <span class="tit_txt_2 logs">{{this.list.size}}</span>
+                    <span class="tit_txt ">尺寸</span>
+                    <span class="tit_txt_2 logs tit_txts">{{this.list.size}}</span>
                     <span class="tit_txt right">优先级</span>
                     <span class="tit_txt_2">{{this.list.priority}}</span>
                 </div>
@@ -238,6 +238,9 @@
         margin-left: 14px;
         max-width: 550px;
         overflow: hidden;
+    }
+    .tit_txts{
+        margin-right: 158px!important;
     }
     .logs{
         margin-right: 214px;

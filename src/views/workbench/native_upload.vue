@@ -191,7 +191,8 @@
         methods:{
 
             heidSc(){
-                this.$parent.heidBD()
+                this.$parent.heidBD();
+                this.$parent.AddMaterial();
             },
             showHint(){
                 this.$parent.ShowHint()
