@@ -37,7 +37,7 @@
                         >
                         </el-table-column>
                         <el-table-column
-                                label="申请时间" prop="created_at"
+                                label="申请时间" prop="apply_time"
                         >
                         </el-table-column>
 
