@@ -8,25 +8,43 @@
                     <span class="title_div_span"></span>
                     <span class="title_div_span">/</span>
                     <span class="title_div_span"></span>
-                    <span class="title_div_btn">
+                    <span class="title_div_btn" @click="ADDline">
                       <span>+</span>
                         增加一行
                     </span>
                 </div>
             </div>
             <div class="table_material">
-                <div class="content_title">
-                    <select>
-                        <option selected>素材</option>
-                        <option>物料</option>
-                    </select>
-                    <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
-                    <span class="content_title_span">素材库选择</span>
-                    <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
-                    <span class="content_title_span">本地上传</span>
-                    <div class="btn_img">
-                        <img style="margin-right: 34px" src="../../../public/img/delet.png"/>
-                        <img src="../../../public/img/comment.png"/>
+                <div class="content_title" v-for="(item,index) in list">
+                    <div>
+                        <select v-model="type">
+                            <option value="0" >素材</option>
+                            <option value="1">物料</option>
+                        </select>
+                        <div v-if="type==0" style="display: inline-block">
+                            <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
+                            <span class="content_title_span">素材库选择</span>
+                            <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
+                            <span class="content_title_span">本地上传</span>
+                        </div>
+                        <div v-if="type==1" style="display: inline-block">
+                            <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
+                            <span class="content_title_span">物料库选择</span>
+                        </div>
+                        <div class="btn_img">
+                            <img style="margin-right: 34px" src="../../../public/img/delet.png" @click="delLine(index)"/>
+                            <img src="../../../public/img/comment.png" @click="importText()"/>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="ADD_img">
+                            <img class="ADD_img_del" src="../../../public/img/del.png">
+                            <img  class="ADD_img_img" src="../../../public/img/IMG.png"/>
+                            <span>aaaaaaasss</span>
+                        </div>
+                    </div>
+                    <div v-if="text" style="width: 100%;margin-top: 20px">
+                        <textarea placeholder="请输入您的备注（限50字）" maxlength="50" style="padding: 8px;width: 100%;resize:none;"></textarea>
                     </div>
                 </div>
             </div>
@@ -34,6 +52,17 @@
             <div class="Add_btn">
                 <span class="Add_btn_ADD" >添加</span>
                 <span >取消</span>
+                <div class="block">
+                    <el-pagination
+                            @size-change="handleSizeChange"
+                            @current-change="handleCurrentChange"
+                            :current-page="page"
+                            :page-sizes="[5, 10, 15, 20]"
+                            :page-size="p"
+                            layout="total, sizes, prev, pager, next, jumper"
+                            :total="total">
+                    </el-pagination>
+                </div>
             </div>
         </div>
     </div>
@@ -41,7 +70,28 @@
 
 <script>
     export default {
-        name: "add_the_resource"
+        name: "add_the_resource",
+        data(){
+            return{
+                type:'0',
+                list:['0'],
+                text:false,
+            }
+        },
+        mounted(){
+        },
+        methods:{
+            ADDline(){
+                this.list.push('1')
+            },
+            delLine(index){
+                this.list.splice(index,1)
+            },
+            importText(index){
+
+                this.text = true;
+            },
+        },
     }
 </script>
 
@@ -75,12 +125,15 @@
         margin:0 39px;
     }
     .Add_btn{
-        width:1106px;
-        height:58px;
+        width:1042px;
+        height:80px;
         background:rgba(247,249,252,1);
         border-radius:0px 0px 4px 4px;
-        text-align: right;
         margin-top: 60px;
+        padding-left: 40px;
+        padding-right: 24px;
+        position: fixed;
+        bottom: 0;
     }
     .Add_btn span{
         display: inline-block;
@@ -181,5 +234,33 @@
     .btn_img img{
         width:18px;
         cursor: pointer;
+    }
+    .ADD_img{
+        display: inline-block;
+        width: 108px;
+        height: 110px;
+        margin-right: 48px;
+    }
+    .ADD_img_img{
+        display: inline-block;
+        width: 108px;
+        height: 80px;
+    }
+    .ADD_img_del{
+        position: relative;
+        width:16px;
+        height:16px;
+        right: -100px;
+        top: 10px;
+    }
+    .ADD_img span{
+        display:inline-block;
+        width: 80px;
+        overflow: hidden;
+    }
+    .block{
+        display: inline-block;
+        float: right;
+        margin-bottom: 0!important;
     }
 </style>
