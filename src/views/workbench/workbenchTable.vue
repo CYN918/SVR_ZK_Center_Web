@@ -12,6 +12,7 @@
         <scxq v-if="sc" :SCid="SCid"></scxq>
         <CK v-if='ck' :id="CkID"></CK>
         <WLp v-if="WLp" :id="wlID"></WLp>
+        <!--<ATR></ATR>-->
         <div class="problem">
             <template>
                 <el-table
@@ -86,10 +87,10 @@
                         <template slot-scope="props">
                             <div>
                                 <div class="step_box" v-for="(item,index) in tableData[props.$index].audit_process">
-                                    <div class="step_wwc" v-if="item.did==undefined&&item.msg!='已驳回'&&tableData[props.$index].status!=item.status">{{item.status}}</div>
-                                    <div class="step_dq" v-if="item.did==undefined&&item.msg!='已驳回'&&tableData[props.$index].status==item.status">{{item.status}}</div>
-                                    <div class="step_bh" v-if="item.msg=='已驳回'">X</div>
-                                    <div class="step" v-if="item.did!=undefined&&item.msg!='已驳回'"><img src="../../../public/img/win.png" /></div>
+                                    <div class="step_wwc" v-if="item.did==undefined&&item.reject!='1'&&tableData[props.$index].status!=item.status">{{item.status}}</div>
+                                    <div class="step_dq" v-if="item.did==undefined&&item.reject!='1'&&tableData[props.$index].status==item.status">{{item.status}}</div>
+                                    <div class="step_bh" v-if="item.reject=='1'">X</div>
+                                    <div class="step" v-if="item.did!=undefined&&item.reject!='1'"><img src="../../../public/img/win.png" /></div>
                                     <div class="bor" v-if="item.isfinish==0"></div>
                                     <div class="step_tit" :class="{active:item.did==undefined&&tableData[props.$index].status!=item.status}">{{item.status_name}}</div>
                                     <div class="step_time" v-if="item.creator!=''||tableData[props.$index].status==item.status">{{item.updated_at}}</div>
@@ -103,14 +104,14 @@
                                         <span class="step_txt" v-if="item.status==1">来源</span>
                                         <span class="step_txt" v-if="item.status!=1">处理人</span>
                                         <span v-if="item.did!=undefined">{{item.user_name}}</span>
-                                        <span  v-if="item.did==undefined&&item.msg!='已驳回'&&tableData[props.$index].status==item.status" v-for="da in tableData[props.$index].processor">{{da}}</span>
+                                        <span  v-if="item.did==undefined&&item.reject!='1'&&tableData[props.$index].status==item.status" v-for="da in tableData[props.$index].processor">{{da}}</span>
                                         <!--<span  v-if="item.msg=='已驳回'" >{{item.user_name}}</span>-->
                                     </div>
                                     <div class="step_contnet" v-if="item.creator!=''||tableData[props.$index].status==item.status">
                                         <span class="step_txt" v-if="index=='0'">需求内容</span>
                                         <span class="step_txt" v-if="index!='0'">处理结果</span>
                                         <span class="dj" v-if="item.key==0" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status)">查看详情</span>
-                                        <span v-if="item.did==undefined&&item.msg!='已驳回'&&tableData[props.$index].status==item.status&&item.isfinish!=1">待处理</span>
+                                        <span v-if="item.did==undefined&&item.reject!='1'&&tableData[props.$index].status==item.status&&item.isfinish!=1">待处理</span>
                                         <span class="dj" v-if="item.isfinish==1" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status)">查看详情</span>
                                     </div>
                                 </div>
@@ -166,8 +167,9 @@
     import CK from './CKmaterial'
     import WLp from './WLparticulars'
     import scwl from './wuliao'
+    import ATR from './Add_the_resource'
     export default {
-        components:{QD,BH,ADD,sct,BDadd,AddWL,ywxq,scxq,CK,uplodWl,scwl,WLp},
+        components:{QD,BH,ADD,sct,BDadd,AddWL,ywxq,scxq,CK,uplodWl,scwl,WLp,ATR},
         props:['tableData','active'],
         name: "workbench-table",
         data(){

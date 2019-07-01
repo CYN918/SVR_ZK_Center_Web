@@ -101,7 +101,7 @@
                 </div>
                 <div style="margin: 24px 0 0 0 ">
                     <span>
-                    是否确定删除该条信息？
+                    确认从该投放库内移除已选中物料吗？
                 </span>
                 </div>
 

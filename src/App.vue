@@ -329,6 +329,7 @@ html,body{
   text-align: center;
   line-height: 28px;
   cursor: pointer;
+  margin-top: 10px;
 }
 .label_txt{
   display: inline-block;
@@ -338,6 +339,7 @@ html,body{
   font-weight:500;
   color:rgba(143,155,179,1);
   margin-right: 16px;
+  margin-top: 10px;
 
 }
 
@@ -660,7 +662,7 @@ select{
 .tags{
   display: inline-block;
   max-width: 1090px;
-  max-height: 38px;
+  max-height: 36px;
   overflow: hidden;
   vertical-align: top;
 }
@@ -674,6 +676,7 @@ select{
   vertical-align: top;
   font-size: 12px;
   line-height: 36px;
+  margin-top: 10px;
 }
   .table_material .el-checkbox__label{opacity: 0;position: absolute;}
 </style>

@@ -125,7 +125,7 @@
                     this.$parent.heidWL();
             },
             getList(){
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search};
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status}
                 this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     console.log(this.IMGList);
@@ -486,5 +486,8 @@
         margin-right: 20px;
         vertical-align: top;
         margin-top: 60px;
+    }
+    .tags{
+        max-height: 50px!important;
     }
 </style>
