@@ -29,9 +29,13 @@
             },
             audit(){
                 if(this.open_id!=undefined){
+                    if(this.open_id.length<=0){
+                        this.$message.error('未找到除驳回外的数据')
+                        return
+                    }
                     let formData = new FormData;
                     formData.append('id',this.id);
-                    formData.append('open_id',this.open_id);
+                    formData.append('arr_open_id',JSON.stringify(this.open_id));
                     this.api.demand_apply_audit(formData).then((res)=>{
                     })
                 }else{

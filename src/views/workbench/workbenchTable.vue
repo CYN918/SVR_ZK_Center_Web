@@ -48,12 +48,16 @@
                         <template slot-scope="scope">
                             <el-button
                                     size="mini"
-                                   >{{(tableData[scope.$index].endtime)}}</el-button>
-                            <el-button
+                                   >{{(tableData[scope.$index].endtime)}}
+                            </el-button>
+                            <el-button v-if="tableData[scope.$index].isfinish!=1"
                                     size="mini"
-                                    >{{(new Date(tableData[scope.$index].endtime).getTime - new Date().getTime())>0?'剩余时间：':'已逾期：'}}{{(new Date(tableData[scope.$index].endtime).getTime - new Date().getTime()) > 0 ?
-                                (new Date(tableData[scope.$index].endtime).getTime() - new Date().getTime())%(60*1000)
-                                : ((new Date().getTime()-new Date(tableData[scope.$index].endtime).getTime())%(60*1000))}}</el-button>
+                            >{{(tableData[scope.$index].endtime_toast)}}
+                            </el-button>
+                            <el-button v-if="tableData[scope.$index].isfinish==1"
+                                       size="mini"
+                            >已完成
+                            </el-button>
                         </template>
                     </el-table-column>
                     <el-table-column label="操作">
@@ -63,8 +67,8 @@
                             <el-button v-if="(tableData[props.$index].status_name=='发布审核'&&tableData[props.$index].reject=='0')||(tableData[props.$index].status_name=='活动发布'&&tableData[props.$index].reject=='0')" @click="getSC(tableData[props.$index].mdid)">查看需求</el-button>
                             <el-button v-if="(tableData[props.$index].status_name=='物料审核'&&tableData[props.$index].reject=='0')||(tableData[props.$index].status_name=='测试验收'&&tableData[props.$index].reject=='0')">查看物料</el-button>
                             <el-button  v-if="tableData[props.$index].reject=='1'">查看驳回原因</el-button>
-                            <el-button @click="educe(tableData[props.$index].did,tableData[props.$index].check_status)" v-if="tableData[props.$index].status_name=='签字审核'&&tableData[props.$index].status==2">导出表格</el-button>
-                            <el-button @click="uploadData(tableData[props.$index].did)"  v-if="tableData[props.$index].status_name=='签字审核'&&tableData[props.$index].status==2">上传文件</el-button>
+                            <el-button @click="educe(tableData[props.$index].did,tableData[props.$index].check_status,tableData[props.$index].status)" v-if="(tableData[props.$index].status_name=='签字审核'&&tableData[props.$index].status==2)||(tableData[props.$index].status_name=='补充签字'&&tableData[props.$index].status==4)">导出表格</el-button>
+                            <el-button @click="uploadData(tableData[props.$index].did)"  v-if="(tableData[props.$index].status_name=='签字审核'&&tableData[props.$index].status==2)||(tableData[props.$index].status_name=='补充签字'&&tableData[props.$index].status==4)">上传文件</el-button>
                             <el-button @click="release(tableData[props.$index].did,tableData[props.$index].demand_type)" v-if="tableData[props.$index].status_name=='需求发布'">发布需求</el-button>
                             <el-button v-if="tableData[props.$index].status_name=='素材审核'">查看活动</el-button>
                             <el-button v-if="tableData[props.$index].status_name=='素材入库'">查看素材</el-button>
@@ -75,7 +79,7 @@
                             <el-button  v-if="tableData[props.$index].status_name=='完成入库'">查看投放结果</el-button>
                             <el-button  @click="getBH(props.$index)" v-if="tableData[props.$index].status_name!='完成投放'&&tableData[props.$index].status_name!='需求发布'&&tableData[props.$index].status_name!='提现审核'&&tableData[props.$index].status_name!='签字审核'&&tableData[props.$index].status_name!='结算汇款'&&tableData[props.$index].status_name!='补充签字'&&tableData[props.$index].status_name!='素材入库'&&tableData[props.$index].reject=='0'">驳回</el-button>
                             <el-button   v-if="tableData[props.$index].status_name=='完成入库'">查看投放结果</el-button>
-                            <el-button  @click="withdraw(tableData[props.$index].did,tableData[props.$index].status)" v-if="(tableData[props.$index].status_name=='提现审核'||tableData[props.$index].status_name=='结算汇款'||tableData[props.$index].status_name=='补充签字')&&tableData[props.$index].reject=='0'">查看详情</el-button>
+                            <el-button  @click="withdraw(tableData[props.$index].did,tableData[props.$index].status)" v-if="(tableData[props.$index].status_name=='提现审核'||tableData[props.$index].status_name=='结算汇款')&&tableData[props.$index].reject=='0'">查看详情</el-button>
                         </template>
                     </el-table-column>
                     <el-table-column type="expand" label="查看完整流程" width="200">
@@ -369,8 +373,8 @@
                 document.body.style.position='initial';
                 document.body.style.height='1006px';
             },
-            educe(id,status){
-                let params={id:id,all:1,check_status:status};
+            educe(id,check_status,status){
+                let params={id:id,all:status==2?1:0,check_status:check_status};
                 this.api.demand_apply_export({params}).then((res)=>{
                     console.log(res);
                 })
@@ -402,15 +406,16 @@
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
                     this.length=100;
-                    this.attach = res
+                    this.attach = res;
                 })
             },
             Remove(file, fileList) {
                 this.stops=false
             },
             audit(){
+                console.log(this.attach);
                 let formData = new FormData;
-                formData.append('attach',this.file);
+                formData.append('attach',JSON.stringify(this.attach));
                 formData.append('id',this.shID);
                 this.api.demand_audit(formData).then((res)=>{
 
@@ -478,6 +483,7 @@
                         this.$router.push({
                             query:{
                                 id:id,
+                                status:1,
                             },
                             path:'/workbench/Billing_details'
                         })
@@ -486,6 +492,7 @@
                         this.$router.push({
                             query:{
                                 id:id,
+                                status:3,
                             },
                             path:'/workbench/Billing_details'
                         })

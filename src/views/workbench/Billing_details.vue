@@ -46,7 +46,7 @@
                 </div>
                 <div>
                     <span class="bh" @click="getBH()">批量驳回（{{this.openIDList.length}}）</span>
-                    <span class="tg">通过所有非驳回申请</span>
+                    <span class="tg" @click="verified()">通过所有非驳回申请</span>
                 </div>
             </div>
             <div>
@@ -133,7 +133,7 @@
             </el-pagination>
         </div>
         <BH v-if="bh"  :id="this.$route.query.id" :open_id="openIDList"></BH>
-        <QD v-if="sh" :id="this.$route.query.id" :open_id="open_id"></QD>
+        <QD v-if="sh" :id="this.$route.query.id" :open_id="shOpenId"></QD>
     </div>
 </template>
 <script>
@@ -153,6 +153,8 @@
                 sh:false,
                 open_id:'',
                 openIDList:[],
+                shOpenId:[],
+
             }
         },
         mounted(){
@@ -214,10 +216,20 @@
             heidBH(){
                 this.bh = false;
             },
+            verified(){
+                for(var i =0;i<this.tableData.length;i++){
+                    if(this.tableData[i].check_status!=-1){
+                        this.shOpenId.push(this.tableData[i].open_id)
+                    }
+                }
+                console.log(this.shOpenId);
+                this.sh=true;
+            },
             getSH(data){
                 this.sh=true;
                 if(data!=undefined){
-                    this.open_id = data;
+                    var openID = [];
+                    this.shOpenId =openID.push(data);
                 }
             },
             heidSH(){

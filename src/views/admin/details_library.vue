@@ -31,9 +31,11 @@
                             <div>
                                 <span class="boxImg_text boxImg_bq">标签:</span>
                                 <div class="boxImg_xz">
-                                    <span class="box_box" v-for="(tag,index2) in DL.self_tags">{{tag}}</span>
-                                    <span class="box_box" v-for="(ta,index3) in DL.tags">{{ta}}</span>
-                                    <span class="img">+ 标签</span>
+                                    <div class="boxImg_xz_yz">
+                                        <span class="box_box" v-for="(tag,index2) in DL.self_tags" v-if="tag!=''">{{tag}}</span>
+                                        <span class="box_box" v-for="(ta,index3) in DL.tags" v-if="ta!=''">{{ta}}</span>
+                                    </div>
+                                    <span class="img"  @click="XStag(index)">+ 标签</span>
                                 </div>
                             </div>
                             <div>
