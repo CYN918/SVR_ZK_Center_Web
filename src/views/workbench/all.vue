@@ -42,8 +42,8 @@
                     <span>流转人员</span>
                     <input type="text" placeholder="请输入流转人员" v-model="processor"/>
                     <span class="cx" @click="cx">查询</span>
-                    <span class="tit_btn_sc" @click="getSC">发布素材需求</span>
-                    <span class="tit_btn_yw" @click="getYW">发布业务需求</span>
+                    <span class="tit_btn_sc" @click="getSC('')">发布素材需求</span>
+                    <span class="tit_btn_yw" @click="getYW('')">发布业务需求</span>
                 </div>
             </div>
         </div>

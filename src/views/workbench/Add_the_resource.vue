@@ -5,7 +5,7 @@
                 <span class="title_zy">添加资源</span>
                 <div class="title_div">
                     <span class="title_div_span">已添加：</span>
-                    <span class="title_div_span"></span>
+                    <span class="title_div_span">{{this.scMessage.length}}</span>
                     <span class="title_div_span">/</span>
                     <span class="title_div_span">{{num}}</span>
                     <span class="title_div_btn" @click="ADDline">
@@ -23,31 +23,31 @@
                         </select>
                         <div v-if="item.type==0" style="display: inline-block">
                             <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
-                            <span class="content_title_span">素材库选择</span>
+                            <span class="content_title_span" @click="handleClick(index,item.type)" >素材库选择</span>
                             <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
-                            <span class="content_title_span">本地上传</span>
+                            <span class="content_title_span" @click="getBD(index)">本地上传</span>
                         </div>
                         <div v-if="item.type==1" style="display: inline-block">
                             <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
-                            <span class="content_title_span">物料库选择</span>
+                            <span class="content_title_span" @click="getWl(index)">物料库选择</span>
                         </div>
                         <div class="btn_img">
                             <img style="margin-right: 34px" src="../../../public/img/delet.png" @click="delLine(index)"/>
                             <img v-if="item.type==0" src="../../../public/img/comment.png" @click="importText(index)"/>
                         </div>
                     </div>
-                    <div v-if="item.type==0">
-                        <div class="ADD_img" >
+                    <div v-if="item.type==0" class="img_box">
+                        <div class="ADD_img" v-for="(da,index2) in scMessage[index]">
                             <img class="ADD_img_del" src="../../../public/img/del.png">
-                            <img  class="ADD_img_img" src="../../../public/img/IMG.png"/>
-                            <span>aaaaaaasss</span>
+                            <img  class="ADD_img_img" :src="da.prev_uri"/>
+                            <span>{{da.prev_uri}}</span>
                         </div>
                     </div>
-                    <div v-if="item.type==1">
-                        <div class="ADD_img" >
+                    <div v-if="item.type==1" >
+                        <div class="ADD_img" v-for="(da,index2) in scMessage[index]">
                             <img class="ADD_img_del" src="../../../public/img/del.png">
-                            <img  class="ADD_img_img" src="../../../public/img/IMG.png"/>
-                            <span>aaaaaaaaa</span>
+                            <img  class="ADD_img_img" :src="da.prev_uri"/>
+                            <span>{{da.prev_uri}}</span>
                         </div>
                     </div>
                     <div v-if="item.text&&item.type==0"  style="width: 100%;margin-top: 20px">
@@ -77,7 +77,7 @@
 
 <script>
     export default {
-        props:['scMessage','id','num','ind'],
+        props:['scMessage','id','num','ind','type'],
         name: "add_the_resource",
         data(){
             return{
@@ -87,6 +87,13 @@
             }
         },
         mounted(){
+           if(this.scMessage.length!=0){
+               for(var i =0;i<this.scMessage.length;i++){
+                   this.list.push({type:'',text:false})
+               }
+
+           }
+
         },
         methods:{
             ADDline(){
@@ -94,13 +101,13 @@
             },
             delLine(index){
                 this.list.splice(index,1)
+                console.log(this.list)
             },
             importText(index){
-                if(this.list[index].text = true){
-                    this.list[index].text = false;
-                }else{
-                    this.list[index].text = true
-                }
+
+                        this.list[index].text = true
+
+
 
             },
             handleSizeChange(p){
@@ -112,6 +119,18 @@
             heid(){
                 this.$parent.heidAddMaterial();
                 this.$emit('listData',0);
+            },
+            handleClick(index,type){
+                this.$parent.getSet(index,type);
+                this.$parent.heidAddMaterial();
+            },
+            getBD(index){
+                this.$parent.getBD(index);
+                this.$parent.heidAddMaterial();
+            },
+            getWl(index){
+                this.$parent.getWl(index);
+                this.$parent.heidAddMaterial();
             },
         },
     }
@@ -256,6 +275,11 @@
     .btn_img img{
         width:18px;
         cursor: pointer;
+    }
+    .img_box{
+        height: 130px;
+        width: 1028px;
+        overflow-x:auto;
     }
     .ADD_img{
         display: inline-block;

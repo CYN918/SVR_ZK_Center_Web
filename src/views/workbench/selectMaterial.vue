@@ -2,7 +2,7 @@
     <div class="bg">
         <div class="content">
             <div class="tit_name">
-                <span>从素材库选择素材sasa</span>
+                <span>从素材库选择素材</span>
             </div>
             <div class="Search">
                 <img src="../../../public/img/ss.png" />
@@ -77,7 +77,7 @@
 
 <script>
     export default {
-        props:['typesLisck', 'imgIndex','da','index'],
+        props:['typesLisck', 'imgIndex','type','index'],
         name: "select_material",
         data(){
             return {
@@ -93,8 +93,6 @@
                 scType:'',
                 type:'',
                 scMessagelist:[],
-                scMessageOld:[],
-                scMessageNew:[],
                 oldData:{
                     index:'',
                     data:[],
@@ -123,11 +121,10 @@
                                 data.ismaterial = 1;
                                 this.scMessagelist.push(data);
                             }
-
                         }
                     }
                 }
-                this.$emit('listenToChildEvent',this.scMessagelist,this.index);
+                this.$emit('listenToChildEvent',this.scMessagelist,this.index,this.type);
                 this.$parent.SCsc();
                 this.$parent.AddMaterial()
             },

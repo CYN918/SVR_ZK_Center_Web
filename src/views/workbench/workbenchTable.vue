@@ -5,14 +5,14 @@
         <BDadd v-if="BD" :scMessage="scMessage" @dataList="dataList" :index="index"></BDadd>
         <AddWL v-if="wl" @dataMessage="dataMessage" :index="index" ></AddWL>
         <scwl v-if="scwl"  @dataMessage="dataMessage" :index="index" ></scwl>
-        <sct v-if="set" @listenToChildEvent="listenToChildEvent" :da="da" :index="index"></sct>
+        <sct v-if="set" @listenToChildEvent="listenToChildEvent" :type="type" :index="index"></sct>
         <QD v-if="sh" :id="id"></QD>
         <BH v-if="bh" :dbid="dbid"></BH>
         <ywxq v-if="yw" :YWid="YWid"></ywxq>
         <scxq v-if="sc" :SCid="SCid"></scxq>
         <CK v-if='ck' :id="CkID"></CK>
         <WLp v-if="WLp" :id="wlID"></WLp>
-        <ATR v-if="ADD_material" :scMessage="scMessage" :id="id" :num="num" :ind="index" @listData="SCmessageData"></ATR>
+        <ATR v-if="ADD_material" :scMessage="scMessage" :id="id" :num="num" :ind="index" @listData="SCmessageData" :type = "type"></ATR>
         <div class="problem">
             <template>
                 <el-table
@@ -78,7 +78,7 @@
                             <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name=='测试验收'">测试通过</el-button>
                             <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name=='物料审核'||tableData[props.$index].status_name=='发布审核'">审核通过</el-button>
                             <el-button  v-if="tableData[props.$index].status_name=='完成入库'">查看投放结果</el-button>
-                            <el-button  @click="getBH(props.$index)" v-if="tableData[props.$index].status_name!='完成投放'&&tableData[props.$index].status_name!='需求发布'&&tableData[props.$index].status_name!='提现审核'&&tableData[props.$index].status_name!='签字审核'&&tableData[props.$index].status_name!='结算汇款'&&tableData[props.$index].status_name!='补充签字'&&tableData[props.$index].status_name!='素材入库'&&tableData[props.$index].reject=='0'">驳回</el-button>
+                            <el-button  @click="getBH(props.$index)" v-if="tableData[props.$index].status_name!='完成投放'&&tableData[props.$index].status_name!='需求发布'&&tableData[props.$index].status_name!='提现审核'&&tableData[props.$index].status_name!='签字审核'&&tableData[props.$index].status_name!='结算汇款'&&tableData[props.$index].status_name!='补充签字'&&tableData[props.$index].status_name!='素材入库'">驳回</el-button>
                             <el-button   v-if="tableData[props.$index].status_name=='完成入库'">查看投放结果</el-button>
                             <el-button  @click="withdraw(tableData[props.$index].did,tableData[props.$index].status)" v-if="(tableData[props.$index].status_name=='提现审核'||tableData[props.$index].status_name=='结算汇款')&&tableData[props.$index].reject=='0'">查看详情</el-button>
                         </template>
@@ -110,7 +110,7 @@
                                     <div class="step_contnet" v-if="item.creator!=''||tableData[props.$index].status==item.status">
                                         <span class="step_txt" v-if="index=='0'">需求内容</span>
                                         <span class="step_txt" v-if="index!='0'">处理结果</span>
-                                        <span class="dj" v-if="item.key==0" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status)">查看详情</span>
+                                        <span class="dj" v-if="item.key==0" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status,item.reject)">查看详情</span>
                                         <span v-if="item.did==undefined&&item.reject!='1'&&tableData[props.$index].status==item.status&&item.isfinish!=1">待处理</span>
                                         <span class="dj" v-if="item.isfinish==1" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status)">查看详情</span>
                                     </div>
@@ -151,6 +151,31 @@
                 </div>
             </div>
         </div>
+
+            <div class="bg" v-if="reject_details">
+                <div class="content" >
+                    <div class="tit">
+                        <span>查看驳回原因</span>
+                        <img src="../../../public/img/gb.png" @click="heid"/>
+                    </div>
+                    <div>
+                       <span class="title_name">处理人</span>
+                        <span class="title_content"></span>
+                    </div>
+                    <div>
+                        <span class="title_name">处理时间</span>
+                        <span class="title_content"></span>
+                    </div>
+                    <div>
+                        <span class="title_name">驳回原因</span>
+                        <span class="title_content"></span>
+                    </div>
+                    <div class="btn">
+                        <span class="btn_qd" @click="tj">确定</span>
+                        <span  @click="heid">取消</span>
+                    </div>
+                </div>
+            </div>
     </div>
 </template>
 
@@ -192,7 +217,7 @@
                 YWid:'',
                 SCid:'',
                 index:'',
-                da:[],
+                type:'',
                 ck:false,
                 CkID:'',
                 up:false,
@@ -205,6 +230,7 @@
                 length:0,
                 shID:'',
                 attach:{},
+                reject_details:false,
                 getRowKeys(row) {
                     return row.did;
                 },
@@ -247,6 +273,12 @@
                 this.wl = false;
                 this.move()
             },
+            getRejDET(){
+                this.reject_details = true;
+            },
+            heidRejDET(){
+                this.reject_details = false;
+            },
             Getscwl(index){
                 if(index!=undefined){
                     this.index=index;
@@ -288,12 +320,9 @@
                 this.ADD_material = false;
                 this.move()
             },
-            getSet(index,data){
-                if(data!=undefined){
-                    this.da = data;
-                    this.index = index;
-                }
-
+            getSet(index,type){
+                this.type = type;
+                this.index = index;
                 this.set = true;
                 this.stop()
             },
@@ -436,10 +465,12 @@
                     this.rolesList=rolesList;
                 });
             },
-            listenToChildEvent(a,index){
-                this.scMessage[index] = a;
+            listenToChildEvent(a,index,type){
+                this.scMessage.push(a);
                 this.index = index;
-                console.log(this.scMessage)
+                this.type = type;
+                console.log(this.scMessage);
+                console.log(this.type)
             },
             dataList(b,index){
                this.scMessage[index] =b;
@@ -457,10 +488,14 @@
                     this.$parent.getYW(id);
                 }
             },
-            check(type,id,status){
+            check(type,id,status,reject){
                 if(type=='业务需求'){
                     if(status ==1){
-                        this.getYW(id);
+                        if(reject==1){
+                            this.getRejDET()
+                        }else{
+                            this.getYW(id);
+                        }
                     }
                     if(status ==2){
                         this.getYWSC(id)
@@ -476,6 +511,9 @@
                     }
                 }
                 if(type=='素材需求'){
+                    if(status ==1){
+                        this. getSC(id);
+                    }
                     if(status ==1){
                         this. getSC(id);
                     }
@@ -604,7 +642,7 @@
         height: 100%;
         background: rgba(0,0,0,0.3);
         position: fixed;
-        z-index: 9;
+        z-index: 999;
         bottom: 0;
         right: 0;
     }
@@ -667,4 +705,83 @@
         color: #fff!important;
         margin-left: 14px;
     }
+
+
+.content{
+    position: absolute;
+    left: 50%;
+    top:30%;
+    transform: translate(-50%,-50%);
+    width:588px;
+    height:380px;
+    background:rgba(255,255,255,1);
+    border-radius:4px;
+}
+.tit{
+    height: 56px;
+    border-bottom: 1px solid #ddd;
+}
+.tit>span{
+    display: inline-block;
+    line-height: 56px;
+    font-size:18px;
+    font-family:PingFangSC-Regular;
+    font-weight:400;
+    color:rgba(61,73,102,1);
+    margin-left: 24px;
+}
+.tit>img{
+    display: inline-block;
+    margin-top: 20px;
+    width:16px;
+    height:16px;
+    float: right;
+    margin-right: 24px;
+    cursor: pointer;
+}
+
+.title_name{
+    display: inline-block;
+    width:60px;
+    font-size:14px;
+    font-family:PingFang-SC-Medium;
+    font-weight:500;
+    color:rgba(31,46,77,1);
+    margin: 24px 50px 0 24px;
+}
+.title_content{
+    display: inline-block;
+    font-size:14px;
+    font-family:PingFangSC-Regular;
+    font-weight:400;
+    color:rgba(143,155,179,1);
+    max-width: 300px;
+}
+.btn{
+    margin-top: 50px;
+    text-align: right;
+    margin-bottom: 10px;
+}
+.btn span{
+    display: inline-block;
+    width:68px;
+    height:36px;
+    line-height: 36px;
+    text-align: center;
+    background:rgba(255,255,255,1);
+    border-radius:4px;
+    border:1px solid rgba(211,219,235,1);
+    font-size:14px;
+    font-family:PingFangSC-Regular;
+    font-weight:400;
+    color:rgba(61,73,102,1);
+    margin-right: 24px;
+    cursor: pointer;
+}
+.btn_qd{
+    background:rgba(51,119,255,1)!important;
+    border: 0!important;
+    color:rgba(255,255,255,1)!important;
+    margin-right: 14px!important;
+}
 </style>

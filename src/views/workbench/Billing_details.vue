@@ -229,7 +229,9 @@
                 this.sh=true;
                 if(data!=undefined){
                     var openID = [];
-                    this.shOpenId =openID.push(data);
+                    openID.push(data);
+                    this.shOpenId=openID;
+
                 }
             },
             heidSH(){
