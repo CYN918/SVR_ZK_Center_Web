@@ -188,9 +188,11 @@
                 }else{
                     if(!this.type){
                         this.$message.error('类型不能为空')
+                        return
                     }
                     if(!this.priority){
                         this.$message.error('优先级不能为空')
+                        return
                     }
                     if(!this.num){
                         this.$message.error('需求数量不能为空')
@@ -201,21 +203,27 @@
                     }
                     if(!this.pos_type){
                         this.$message.error('广告位类型不能为空')
+                        return
                     }
                     if(!this.endtime){
                         this.$message.error('截止时间不能为空')
+                        return
                     }
                     if(!this.requirement){
                         this.$message.error('设计要求不能为空')
+                        return
                     }
                     if(!this.size){
                         this.$message.error('尺寸不能为空')
+                        return
                     }
                     if(!this.model){
                         this.$message.error('实现方式不能为空')
+                        return
                     }
                     if(this.type!='f_sls_lockscreen'&&!this.libraryName){
                         this.$message.error('投放库不能为空')
+                        return
                     }
                     let formData=new FormData;
                     formData.append('libraryName',this.libraryName);

@@ -7,7 +7,7 @@
                     <span class="title_div_span">已添加：</span>
                     <span class="title_div_span"></span>
                     <span class="title_div_span">/</span>
-                    <span class="title_div_span"></span>
+                    <span class="title_div_span">{{num}}</span>
                     <span class="title_div_btn" @click="ADDline">
                       <span>+</span>
                         增加一行
@@ -17,33 +17,40 @@
             <div class="table_material">
                 <div class="content_title" v-for="(item,index) in list">
                     <div>
-                        <select v-model="type">
+                        <select v-model="item.type">
                             <option value="0" >素材</option>
                             <option value="1">物料</option>
                         </select>
-                        <div v-if="type==0" style="display: inline-block">
+                        <div v-if="item.type==0" style="display: inline-block">
                             <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
                             <span class="content_title_span">素材库选择</span>
                             <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
                             <span class="content_title_span">本地上传</span>
                         </div>
-                        <div v-if="type==1" style="display: inline-block">
+                        <div v-if="item.type==1" style="display: inline-block">
                             <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
                             <span class="content_title_span">物料库选择</span>
                         </div>
                         <div class="btn_img">
                             <img style="margin-right: 34px" src="../../../public/img/delet.png" @click="delLine(index)"/>
-                            <img src="../../../public/img/comment.png" @click="importText()"/>
+                            <img v-if="item.type==0" src="../../../public/img/comment.png" @click="importText(index)"/>
                         </div>
                     </div>
-                    <div>
-                        <div class="ADD_img">
+                    <div v-if="item.type==0">
+                        <div class="ADD_img" >
                             <img class="ADD_img_del" src="../../../public/img/del.png">
                             <img  class="ADD_img_img" src="../../../public/img/IMG.png"/>
                             <span>aaaaaaasss</span>
                         </div>
                     </div>
-                    <div v-if="text" style="width: 100%;margin-top: 20px">
+                    <div v-if="item.type==1">
+                        <div class="ADD_img" >
+                            <img class="ADD_img_del" src="../../../public/img/del.png">
+                            <img  class="ADD_img_img" src="../../../public/img/IMG.png"/>
+                            <span>aaaaaaaaa</span>
+                        </div>
+                    </div>
+                    <div v-if="item.text&&item.type==0"  style="width: 100%;margin-top: 20px">
                         <textarea placeholder="请输入您的备注（限50字）" maxlength="50" style="padding: 8px;width: 100%;resize:none;"></textarea>
                     </div>
                 </div>
@@ -51,16 +58,16 @@
 
             <div class="Add_btn">
                 <span class="Add_btn_ADD" >添加</span>
-                <span >取消</span>
+                <span @click="heid">取消</span>
                 <div class="block">
                     <el-pagination
                             @size-change="handleSizeChange"
                             @current-change="handleCurrentChange"
                             :current-page="page"
-                            :page-sizes="[5, 10, 15, 20]"
+                            :page-sizes="[3, 6, 9, 12]"
                             :page-size="p"
                             layout="total, sizes, prev, pager, next, jumper"
-                            :total="total">
+                            :total="list.length">
                     </el-pagination>
                 </div>
             </div>
@@ -70,26 +77,41 @@
 
 <script>
     export default {
+        props:['scMessage','id','num','ind'],
         name: "add_the_resource",
         data(){
             return{
-                type:'0',
-                list:['0'],
-                text:false,
+                list:[],
+                page:3,
+                p:1,
             }
         },
         mounted(){
         },
         methods:{
             ADDline(){
-                this.list.push('1')
+                this.list.push({type:'',text:false})
             },
             delLine(index){
                 this.list.splice(index,1)
             },
             importText(index){
+                if(this.list[index].text = true){
+                    this.list[index].text = false;
+                }else{
+                    this.list[index].text = true
+                }
 
-                this.text = true;
+            },
+            handleSizeChange(p){
+                this.p = p;
+            },
+            handleCurrentChange(page){
+                this.page = page
+            },
+            heid(){
+                this.$parent.heidAddMaterial();
+                this.$emit('listData',0);
             },
         },
     }

@@ -1,7 +1,7 @@
 <template>
     <div class="bg">
         <div class="content">
-            <div class="box_img" v-if="this.list.type_name!='场景锁屏'">
+            <div class="box_img" >
                 <div>
                     <span>广告位示意图</span>
                 </div>
@@ -14,8 +14,8 @@
                 <div class="two">
                     <span class="tit_txt">业务类型</span>
                     <span class="tit_txt_2 logs">{{this.list.type_name}}</span>
-                    <span class="tit_txt right" v-if="this.list.type_name!='场景锁屏'">广告位类型</span>
-                    <span class="tit_txt_2" v-if="this.list.type_name!='场景锁屏'">>{{this.list.pos_type}}</span>
+                    <span class="tit_txt right" v-if="this.list.type!='f_sls_lockscreen'">广告位类型</span>
+                    <span class="tit_txt_2" v-if="this.list.type!='f_sls_lockscreen'">{{this.list.pos_type}}</span>
                 </div>
                 <div class="two">
                     <span class="tit_txt">需求名称</span>
@@ -33,11 +33,11 @@
                     <span class="tit_txt right">实现方式</span>
                     <span class="tit_txt_2">{{this.list.model}}</span>
                 </div>
-                <div v-if="this.list.type_name!='场景锁屏'">
+                <div v-if="this.list.type!='f_sls_lockscreen'">
                     <span class="tit_txt">投放链接</span>
                     <span class="tit_txt_2">{{this.list.link}}</span>
                 </div>
-                <div v-if="this.list.type_name!='场景锁屏'">
+                <div v-if="this.list.type!='f_sls_lockscreen'">
                     <span class="tit_txt ">投放库</span>
                     <span class="tit_txt_2">{{this.list.putlib.name}}</span>
                 </div>

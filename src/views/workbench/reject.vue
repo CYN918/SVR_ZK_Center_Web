@@ -25,7 +25,11 @@
                 note:'',
             }   
         },
+        mounted(){
+            console.log(this.open_id);
+        },
         methods:{
+
             heid(){
                 this.$parent.heidBH();
             },

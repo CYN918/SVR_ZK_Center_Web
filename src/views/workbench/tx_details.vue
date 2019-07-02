@@ -18,7 +18,7 @@
             </div>
             <div>
                 <span class="tit">提现金额</span>
-                <span class="tit_right">￥{{this.tableData.after_tax_money}}</span>
+                <span class="tit_right">￥{{this.tableData.cash_money}}</span>
             </div>
             <div>
                 <span class="tit">账号主体</span>

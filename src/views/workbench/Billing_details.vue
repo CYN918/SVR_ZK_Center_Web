@@ -203,16 +203,16 @@
                     ary.push(val[i].open_id);
                 }
                this.openIDList = ary;
-                console.log(this.openIDList)
             },
             getBH(data){
-                this.bh = true;
                 if(data!=undefined){
                     var Arr = [];
-                    this.openIDList= Arr.push(data);
+                    Arr.push(data);
+                    this.openIDList= Arr;
+                    console.log(this.openIDList)
                 }
-
-            },
+                this.bh = true;
+                },
             heidBH(){
                 this.bh = false;
             },

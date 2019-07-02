@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ADD v-if="ADD_material" :scMessage="scMessage" :id="id" :num="num" :ind="index" @listData="SCmessageData"></ADD>
+        <!--<ADD v-if="ADD_material" :scMessage="scMessage" :id="id" :num="num" :ind="index" @listData="SCmessageData"></ADD>-->
         <uplodWl v-if='up' :scMessage="scMessage" :id="id" :num="num" :ind="index" @listData="SCmessageData"></uplodWl>
         <BDadd v-if="BD" :scMessage="scMessage" @dataList="dataList" :index="index"></BDadd>
         <AddWL v-if="wl" @dataMessage="dataMessage" :index="index" ></AddWL>
@@ -12,7 +12,7 @@
         <scxq v-if="sc" :SCid="SCid"></scxq>
         <CK v-if='ck' :id="CkID"></CK>
         <WLp v-if="WLp" :id="wlID"></WLp>
-        <!--<ATR></ATR>-->
+        <ATR v-if="ADD_material" :scMessage="scMessage" :id="id" :num="num" :ind="index" @listData="SCmessageData"></ATR>
         <div class="problem">
             <template>
                 <el-table
@@ -73,7 +73,7 @@
                             <el-button @click="release(tableData[props.$index].did,tableData[props.$index].demand_type)" v-if="tableData[props.$index].status_name=='需求发布'">发布需求</el-button>
                             <el-button v-if="tableData[props.$index].status_name=='素材审核'">查看活动</el-button>
                             <el-button v-if="tableData[props.$index].status_name=='素材入库'">查看素材</el-button>
-                            <el-button  @click="AddMaterial(props.$index)" v-if="tableData[props.$index].status_name=='素材准备'">添加素材</el-button>
+                            <el-button  @click="AddMaterial(props.$index)" v-if="tableData[props.$index].status_name=='素材准备'&&tableData[props.$index].status==2">添加素材</el-button>
                             <el-button   @click="AddWl(props.$index)" v-if="tableData[props.$index].status_name=='上传物料'">上传物料</el-button>
                             <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name=='测试验收'">测试通过</el-button>
                             <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name=='物料审核'||tableData[props.$index].status_name=='发布审核'">审核通过</el-button>

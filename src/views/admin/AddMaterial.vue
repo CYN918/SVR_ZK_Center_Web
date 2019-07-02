@@ -60,6 +60,17 @@
                                 <option :value="types" >{{lx}}</option>
                             </select>
                         </div>
+                        <div v-if="type=='f_sls_lockscreen'" class="AddIMG_select">
+                            <span  class="tit">打底广告图</span>
+                            <select v-model="ad_pic">
+                                <option value="1">有</option>
+                                <option value="0">无</option>
+                            </select>
+                        </div>
+                        <div v-if="type=='f_sls_lockscreen'" class="AddIMG_sc">
+                            <span class="tit">广告图位数</span>
+                            <input type="number" placeholder="请输入广告位数数量" v-model="ad_num"/>
+                        </div>
                         <div class="AddIMG_switch" v-if="sw">
                             <span  class="tit">是否启用:</span>
                             <el-switch
@@ -187,7 +198,9 @@
                 initiate2:false,
                 Urllist:[],
                 cc:"",
-                status:''
+                status:'',
+                ad_pic:'0',
+                ad_num:'',
             }
         },
         mounted(){
@@ -337,10 +350,9 @@
             },
             setMatter(){
                 if(this.preinstall.length<=0){
-                    this.$message('预置标签不能为空')
+                    this.$message('预置标签不能为空');
                     return
                 }
-
                 let formData = new FormData;
                 formData.append('mid',this.message.mfid);
                 formData.append('type',this.type);
@@ -377,21 +389,50 @@
                         this.$message('未绑定素材ID');
                         return
                     }
+                    if(!this.ad_pic){
+                        this.$message('未选择是否有打底广告');
+                        return
+                    }
+                    if(!this.ad_num){
+                        this.$message('广告位数数量不能为空');
+                        return
+                    }
+                    if(this.ad_num<=0){
+                        this.$message('广告位数必须为正整数');
+                        return
+                    }if(this.type=='f_sls_lockscreen'){
+                        let formData = new FormData;
+                        formData.append('type',this.type);
+                        formData.append('ispic',(this.chenck==true?1:0));
+                        formData.append('prev_uri',this.prev_uri);
+                        formData.append('attach',JSON.stringify(this.attach));
+                        formData.append('tags',this.preinstall);
+                        formData.append('self_tags',this.bardian);
+                        formData.append('bind_mid',this.bind_mid);
+                        formData.append('model',this.model);
+                        formData.append('size',this.sjSize);
+                        formData.append('link',this.link);
+                        formData.append('ad_pic',this.ad_pic);
+                        formData.append('ad_num',this.ad_num);
+                        this.api.mfinal_add(formData).then((res)=>{
 
-                    let formData = new FormData;
-                    formData.append('type',this.type);
-                    formData.append('ispic',(this.chenck==true?1:0));
-                    formData.append('prev_uri',this.prev_uri);
-                    formData.append('attach',JSON.stringify(this.attach));
-                    formData.append('tags',this.preinstall);
-                    formData.append('self_tags',this.bardian);
-                    formData.append('bind_mid',this.bind_mid);
-                    formData.append('model',this.model);
-                    formData.append('size',this.sjSize);
-                    formData.append('link',this.link);
-                    this.api.mfinal_add(formData).then((res)=>{
+                        }).catch(this.$message(message))
+                    }else{
+                        let formData = new FormData;
+                        formData.append('type',this.type);
+                        formData.append('ispic',(this.chenck==true?1:0));
+                        formData.append('prev_uri',this.prev_uri);
+                        formData.append('attach',JSON.stringify(this.attach));
+                        formData.append('tags',this.preinstall);
+                        formData.append('self_tags',this.bardian);
+                        formData.append('bind_mid',this.bind_mid);
+                        formData.append('model',this.model);
+                        formData.append('size',this.sjSize);
+                        formData.append('link',this.link);
+                        this.api.mfinal_add(formData).then((res)=>{
 
-                    }).catch(this.$message(message))
+                        }).catch(this.$message(message))
+                    }
                 }else{
                     this.setMatter();
                 }
@@ -584,7 +625,7 @@
         background:rgba(0,153,255,.1);
     }
     .AddIMG_input,.AddIMG_sc,.AddIMG_bq,.AddIMG_select,.AddIMG_yl,.box_sel{
-        margin-bottom: 20px;
+        margin-bottom: 12px;
     }
     .AddIMG_switch{
         display: inline-block;
@@ -674,7 +715,7 @@
         border:1px solid rgba(211,219,235,1);
     }
     .AddIMG_select{
-        display: inline-block;
+        display: block;
     }
     .AddIMG_select select,.box_sel select{
         width:200px;
@@ -726,7 +767,7 @@
     .AddIMG_bq_box{
         display: inline-block;
         width:560px;
-        height:258px;
+        height:210px;
         background:rgba(255,255,255,1);
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);
@@ -745,6 +786,10 @@
     .AddIMG_bq_box_top_bq,.AddIMG_bq_box_top_zdy{
         margin:0 20px 0px 0px ;
 
+    }
+    .AddIMG_bq_box_top_bq{
+        height: 40px;
+        overflow-y: auto;
     }
     .AddIMG_bq_box_top_tit input{
         display: block;
