@@ -126,7 +126,6 @@
                     }
                     this.$emit('listenToChildEvent',this.scMessagelist,this.index);
                     this.$parent.YCset();
-                    this.$parent.AddMaterial()
                 }
         },
 

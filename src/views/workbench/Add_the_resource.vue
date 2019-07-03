@@ -3,9 +3,13 @@
         <div class="centNavBox">
             <div class="title">
                 <span class="title_zy">添加资源</span>
+                <div class="zy_type">
+                    <span @click="ADDsc" :class="{active:sc==true}">添加素材</span>
+                    <span @click="ADDwl" :class="{active:wl==true}">添加物料</span>
+                </div>
                 <div class="title_div">
                     <span class="title_div_span">已添加：</span>
-                    <span class="title_div_span">{{this.scMessage.length}}</span>
+                    <span class="title_div_span">{{this.numAll}}</span>
                     <span class="title_div_span">/</span>
                     <span class="title_div_span">{{num}}</span>
                     <span class="title_div_btn" @click="ADDline">
@@ -15,49 +19,51 @@
                 </div>
             </div>
             <div class="table_material">
-                <div class="content_title" v-for="(item,index) in list">
+                <div class="content_title" v-for="(item,index) in listSC" v-if="sc">
                     <div>
-                        <select v-model="item.type">
-                            <option value="0" >素材</option>
-                            <option value="1">物料</option>
-                        </select>
-                        <div v-if="item.type==0" style="display: inline-block">
+                        <div  style="display: inline-block">
                             <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
-                            <span class="content_title_span" @click="handleClick(index,item.type)" >素材库选择</span>
+                            <span class="content_title_span" @click="handleClick(index)" >素材库选择</span>
                             <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
                             <span class="content_title_span" @click="getBD(index)">本地上传</span>
                         </div>
-                        <div v-if="item.type==1" style="display: inline-block">
-                            <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
-                            <span class="content_title_span" @click="getWl(index)">物料库选择</span>
-                        </div>
                         <div class="btn_img">
                             <img style="margin-right: 34px" src="../../../public/img/delet.png" @click="delLine(index)"/>
-                            <img v-if="item.type==0" src="../../../public/img/comment.png" @click="importText(index)"/>
+                            <img  src="../../../public/img/comment.png" @click="importText(index)"/>
                         </div>
                     </div>
-                    <div v-if="item.type==0" class="img_box">
-                        <div class="ADD_img" v-for="(da,index2) in scMessage[index]">
-                            <img class="ADD_img_del" src="../../../public/img/del.png">
-                            <img  class="ADD_img_img" :src="da.prev_uri"/>
-                            <span>{{da.prev_uri}}</span>
+                    <div  class="img_box">
+                        <div class="ADD_img" v-for="(data,index2) in item.bind" >
+                            <img class="ADD_img_del" src="../../../public/img/del.png" @click="delmid(index,data.mid)">
+                            <img  class="ADD_img_img" :src="data.prev_uri"/>
+                            <span>{{data.prev_uri}}</span>
                         </div>
                     </div>
-                    <div v-if="item.type==1" >
-                        <div class="ADD_img" v-for="(da,index2) in scMessage[index]">
-                            <img class="ADD_img_del" src="../../../public/img/del.png">
-                            <img  class="ADD_img_img" :src="da.prev_uri"/>
-                            <span>{{da.prev_uri}}</span>
-                        </div>
+                    <div  style="width: 100%;margin-top: 20px">
+                        <textarea placeholder="请输入您的备注（限50字）" maxlength="50" style="padding: 8px;width: 100%;resize:none;" v-model="note"></textarea>
                     </div>
-                    <div v-if="item.text&&item.type==0"  style="width: 100%;margin-top: 20px">
-                        <textarea placeholder="请输入您的备注（限50字）" maxlength="50" style="padding: 8px;width: 100%;resize:none;"></textarea>
+                </div>
+
+                <div v-if="wl" class="content_title" v-for="(item,index) in listWL">
+                    <div  style="display: inline-block" >
+                        <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
+                        <span class="content_title_span" @click="getWl(index)">物料库选择</span>
+                    </div>
+                    <div class="btn_img" >
+                        <img style="margin-right: 34px" src="../../../public/img/delet.png" @click="delLine(index)"/>
+                    </div>
+                    <div v-if="" class="img_box">
+                        <div class="ADD_img" v-for="(data2,index3) in item.bind" >
+                            <img class="ADD_img_del" src="../../../public/img/del.png" @click="delLine(index)">
+                            <img  class="ADD_img_img" :src="data2.prev_uri"/>
+                            <span>{{data2.prev_uri}}</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="Add_btn">
-                <span class="Add_btn_ADD" >添加</span>
+                <span class="Add_btn_ADD" @click="verified()">添加</span>
                 <span @click="heid">取消</span>
                 <div class="block">
                     <el-pagination
@@ -67,7 +73,7 @@
                             :page-sizes="[3, 6, 9, 12]"
                             :page-size="p"
                             layout="total, sizes, prev, pager, next, jumper"
-                            :total="list.length">
+                            :total="total">
                     </el-pagination>
                 </div>
             </div>
@@ -77,60 +83,172 @@
 
 <script>
     export default {
-        props:['scMessage','id','num','ind','type'],
+        props:['id','num','ind'],
         name: "add_the_resource",
         data(){
             return{
-                list:[],
-                page:3,
-                p:1,
+                listSC:[],
+                listWL:[],
+                page:1,
+                p:3,
+                sc:true,
+                wl:false,
+                total:0,
+                line_num:'',
+                mfid:'',
+                material:1,
+                numAll:0,
+                note:''
             }
         },
-        mounted(){
-           if(this.scMessage.length!=0){
-               for(var i =0;i<this.scMessage.length;i++){
-                   this.list.push({type:'',text:false})
-               }
-
-           }
-
-        },
+        mounted(){this.getDataList()},
         methods:{
             ADDline(){
-                this.list.push({type:'',text:false})
+                if(this.sc==true){
+                    if(this.numAll==this.num){
+                        return
+                    }else{
+                        this.listSC.push({text:false});
+                    }
+
+                }else{
+                    if(this.numAll==this.num){
+                        return
+                    }else{
+                        this.listWL.push({text:false});
+                    }
+
+                }
+            },
+            delmid(index,id){
+                    let formData = new FormData;
+                    formData.append('id',this.id);
+                    formData.append('material',1);
+                    formData.append('line_num', this.listSC[index].line_num);
+                    formData.append('mid', JSON.stringify([id]));
+                    this.api.demand_business_bind_del(formData).then((res)=>{
+                        this.getDataList()
+                    })
             },
             delLine(index){
-                this.list.splice(index,1)
-                console.log(this.list)
+                if(this.sc ==true){
+                        if(this.listSC[index].line_num==undefined){
+                            this.listSC.splice(index,1);
+                            return
+                        }else{
+                            let formData = new FormData;
+                            formData.append('id',this.id);
+                            formData.append('material',1);
+                            formData.append('line_num', this.listSC[index].line_num);
+                            this.api.demand_business_bind_del(formData).then((res)=>{
+                                this.getDataList()
+                            })
+                        }
+
+                }else{
+                    if(this.listWL[index].line_num==undefined){
+                        this.listWL.splice(index,1);
+                    }else{
+                        let formData = new FormData;
+                        formData.append('id',this.id);
+                        formData.append('material',0);
+                        formData.append('line_num',this.listWL[index].line_num);
+                        formData.append('mfid',this.listWL[index].bind[0].mfid);
+                        this.api.demand_business_bind_del(formData).then((res)=>{
+                            this.getDataList()
+                        });
+                    }
+                }
+
             },
             importText(index){
-
-                        this.list[index].text = true
-
-
-
+                this.listSC[index].text = true;
             },
             handleSizeChange(p){
                 this.p = p;
+                this.getDataList()
             },
             handleCurrentChange(page){
-                this.page = page
+                this.page = page;
+                this.getDataList();
             },
             heid(){
                 this.$parent.heidAddMaterial();
-                this.$emit('listData',0);
             },
-            handleClick(index,type){
-                this.$parent.getSet(index,type);
+            handleClick(index){
+                if(this.sc ==true){
+                  this.line_num = this.listSC[index].line_num;
+                  if(this.line_num==undefined){
+                      this.line_num=0;
+                  }
+                }else{
+                    this.line_num =  this.listWL[index].line_num
+                    if(this.line_num==undefined){
+                        this.line_num=0;
+                    }
+                }
+
+                this.$parent.getSet(this.line_num);
                 this.$parent.heidAddMaterial();
             },
             getBD(index){
-                this.$parent.getBD(index);
+                if(this.sc ==true){
+                    this.line_num = this.listSC[index].line_num;
+                    if(this.line_num==undefined){
+                        this.line_num=0;
+                    }
+                }else{
+                    this.line_num =  this.listWL[index].line_num
+                    if(this.line_num==undefined){
+                        this.line_num=0;
+                    }
+                }
+                this.$parent.getBD(this.line_num);
                 this.$parent.heidAddMaterial();
             },
-            getWl(index){
-                this.$parent.getWl(index);
+            getWl(){
+                this.$parent.getWl();
                 this.$parent.heidAddMaterial();
+            },
+            ADDsc(){
+                this.sc = true;
+                this.wl = false;
+                this.getDataList();
+            },
+            ADDwl(){
+                this.wl = true;
+                this.sc = false;
+                this.getDataList()
+            },
+            getDataList(){
+                if(this.sc==true){
+                    this.material=1
+                }else{
+                    this.material=0
+                }
+                let params = {id:this.id,p:this.p,page:this.page,material:this.material};
+                this.api.demand_business_bind_list({params}).then((res)=>{
+                    if(this.sc==true){
+                        this.listSC = res.data.material;
+                        this.total = res.total;
+                    }else{
+                        this.listWL = res.data.mfinal;
+                        this.total = res.total
+                    }
+                    this.numAll=res.data.demand.hire_num;
+                })
+            },
+
+            verified(){
+                if(this.numAll==this.num){
+                    let formData = new FormData;
+                    formData.append('id',this.id);
+                    this.api.demand_audit(formData).then((res)=>{
+
+                    })
+                }else{
+                    this.$message.error('添加资源的数量未达到需求数量')
+                }
             },
         },
     }
@@ -308,5 +426,26 @@
         display: inline-block;
         float: right;
         margin-bottom: 0!important;
+    }
+    .zy_type{
+       display: inline-block;
+        margin-left: 50px;
+        height: 56px;
+    }
+    .zy_type span{
+        display: inline-block;
+        width:60px;
+        height: 50px;
+        font-size:14px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(61,73,102,1);
+        line-height: 55px;
+        cursor: pointer;
+        margin-right: 57px;
+    }
+    .active{
+        color:rgba(51,119,255,1)!important;
+        border-bottom: 3px solid rgba(51,119,255,1)!important;
     }
 </style>

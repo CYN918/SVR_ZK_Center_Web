@@ -137,8 +137,8 @@
                         this.$message.error('需求数量不能为空');
                         return
                     }
-                    if(this.num<0){
-                        this.$message.error('需求数量不能为负数');
+                    if(this.num<=0){
+                        this.$message.error('需求数量为大于零的正整数');
                         return
                     }
                     if(this.type!='f_sls_lockscreen'&&!this.pos_type){
@@ -197,12 +197,12 @@
                     if(!this.num){
                         this.$message.error('需求数量不能为空')
                     }
-                    if(this.num<0){
-                        this.$message.error('需求数量不能为负数');
+                    if(this.num<=0){
+                        this.$message.error('需求数量为大于零的正整数');
                         return
                     }
-                    if(!this.pos_type){
-                        this.$message.error('广告位类型不能为空')
+                    if(this.type!='f_sls_lockscreen'&&!this.pos_type){
+                        this.$message.error('广告位类型不能为空');
                         return
                     }
                     if(!this.endtime){

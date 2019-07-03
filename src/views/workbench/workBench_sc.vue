@@ -156,8 +156,8 @@
                         this.$message.error('需求数量不能为空')
                         return
                     }
-                    if(this.num<0){
-                        this.$message.error('需求数量不能为负数');
+                    if(this.num<=0){
+                        this.$message.error('需求数量为大于零的正整数');
                         return
                     }
                     if(!this.design_standard){
@@ -208,8 +208,8 @@
                         this.$message.error('需求数量不能为空')
                         return
                     }
-                    if(this.num<0){
-                        this.$message.error('需求数量不能为负数');
+                    if(this.num<=0){
+                        this.$message.error('需求数量为大于零的正整数');
                         return
                     }
                     if(!this.design_standard){

@@ -144,7 +144,7 @@
     import sel from './select'
     export default {
         components:{sel},
-        props:['scMessage','material','types','index'],
+        props:['id','index'],
         name: "content_component",
         data(){
             return {
@@ -311,10 +311,17 @@
                     formData.append('is_bind_mid',this.is_bind_mid==true?1:0);
                     formData.append('is_bind_workid',this.is_bind_workid==true?0:1);
                     this.api.material_add(formData).then((res)=>{
-                       this.list.push(res);
-                        this.$emit('dataList',this.list ,this.index);
-                        this.$parent.AddMaterial();
-                        this.$parent.heidBD();
+                       this.list=res;
+                        let formData = new FormData;
+                        formData.append('id',this.id);
+                        formData.append('material',1);
+                        formData.append('line_num',this.index);
+                        formData.append('mid',JSON.stringify([this.list.mid]));
+                        this.api.demand_business_bind(formData).then((res)=>{
+                            this.$parent.AddMaterial()
+                            this.$parent.heidBD();
+                        })
+
                     }).catch();
 
             },

@@ -2,17 +2,17 @@
     <div>
         <!--<ADD v-if="ADD_material" :scMessage="scMessage" :id="id" :num="num" :ind="index" @listData="SCmessageData"></ADD>-->
         <uplodWl v-if='up' :scMessage="scMessage" :id="id" :num="num" :ind="index" @listData="SCmessageData"></uplodWl>
-        <BDadd v-if="BD" :scMessage="scMessage" @dataList="dataList" :index="index"></BDadd>
-        <AddWL v-if="wl" @dataMessage="dataMessage" :index="index" ></AddWL>
+        <BDadd v-if="BD"  :index="index" :id="id"></BDadd>
+        <AddWL v-if="wl"  :id="id" ></AddWL>
         <scwl v-if="scwl"  @dataMessage="dataMessage" :index="index" ></scwl>
-        <sct v-if="set" @listenToChildEvent="listenToChildEvent" :type="type" :index="index"></sct>
+        <sct v-if="set"  :index="index" :id="id"></sct>
         <QD v-if="sh" :id="id"></QD>
         <BH v-if="bh" :dbid="dbid"></BH>
         <ywxq v-if="yw" :YWid="YWid"></ywxq>
         <scxq v-if="sc" :SCid="SCid"></scxq>
         <CK v-if='ck' :id="CkID"></CK>
         <WLp v-if="WLp" :id="wlID"></WLp>
-        <ATR v-if="ADD_material" :scMessage="scMessage" :id="id" :num="num" :ind="index" @listData="SCmessageData" :type = "type"></ATR>
+        <ATR v-if="ADD_material" :id="id" :num="num" :ind="index"></ATR>
         <div class="problem">
             <template>
                 <el-table
@@ -156,7 +156,7 @@
                 <div class="content" >
                     <div class="tit">
                         <span>查看驳回原因</span>
-                        <img src="../../../public/img/gb.png" @click="heid"/>
+                        <img src="../../../public/img/gb.png" />
                     </div>
                     <div>
                        <span class="title_name">处理人</span>
@@ -171,8 +171,7 @@
                         <span class="title_content"></span>
                     </div>
                     <div class="btn">
-                        <span class="btn_qd" @click="tj">确定</span>
-                        <span  @click="heid">取消</span>
+                        <span  @click="heidRejDET()">取消</span>
                     </div>
                 </div>
             </div>
@@ -262,10 +261,7 @@
                 this.id=this.tableData[index].did;
                 this.stop()
             },
-            getWl(index){
-                if(index!=undefined){
-                    this.index=index;
-                }
+            getWl(){
                 this.wl = true;
                 this.stop()
             },
@@ -320,8 +316,7 @@
                 this.ADD_material = false;
                 this.move()
             },
-            getSet(index,type){
-                this.type = type;
+            getSet(index){
                 this.index = index;
                 this.set = true;
                 this.stop()
@@ -342,7 +337,7 @@
                 this.stop()
             },
             heidBD(){
-                this.BD = false
+                this.BD = false;
                 this.move()
             },
             getBH(){
@@ -382,7 +377,7 @@
 
             },
             heidBH(){
-                this.bh = false
+                this.bh = false;
                 this.move()
             },
             withdraw(id,status){

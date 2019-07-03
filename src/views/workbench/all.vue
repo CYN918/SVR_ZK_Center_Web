@@ -148,7 +148,7 @@
                 })
             },
             getDataList1(){
-                let params ={p:this.total,page:this.page,search:this.search,status:this.status,demand_type:this.demand_type,start_time:this.value[0],end_time:this.value[1],reject:this.reject,processor:this.processor}
+                let params ={p:this.p,page:this.page,search:this.search,status:this.status,demand_type:this.demand_type,start_time:this.value[0],end_time:this.value[1],reject:this.reject,processor:this.processor}
                 this.api.demand_search({params}).then((res)=>{
                     this.tableData = res.data;
                     this.tables=true;
@@ -183,12 +183,18 @@
                 this.getDataList()
             },
             typeData(){
-                let params = {demand_type:this.demand_type};
-                this.api.process_status({params}).then((res)=>{
-                    this.statusList = res;
-                    console.log(res)
-                })
-            }
+              console.log(this.demand_type)
+                if(this.demand_type==''){
+                    this.status=''
+                }else{
+                    let params = {demand_type:this.demand_type};
+                    this.api.process_status({params}).then((res)=>{
+                        this.statusList = res;
+                        console.log(res)
+                    })
+                }
+
+            },
         }
     }
 </script>

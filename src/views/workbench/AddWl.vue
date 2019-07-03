@@ -71,7 +71,7 @@
 <script>
     export default {
         name: "select_material",
-        props:['material','typeSC','index','dataList'],
+        props:['id'],
         data(){
             return {
                 checked:'',
@@ -102,17 +102,24 @@
         methods:{
             YCset(){this.$parent.HeidWl();this.$parent.AddMaterial()},
             messageID(){
-                    for(let k = 0;k<this.listData.length;k++){
-                        if(this.listData[k].mfid==this.checked) {
-                            var data = this.listData[k];
-                            data.ismaterial = 0;
-                            this.list.push(data);
-                        }
-                    }
+                //     for(let k = 0;k<this.listData.length;k++){
+                //         if(this.listData[k].mfid==this.checked) {
+                //             var data = this.listData[k];
+                //             data.ismaterial = 0;
+                //             this.list.push(data);
+                //         }
+                //     }
+                //
+                // this.$emit('dataMessage',this.list,this.index);
+                let formData = new FormData;
+                formData.append('id',this.id);
+                formData.append('material',0);
+                formData.append('mfid',this.checked);
+                this.api.demand_business_bind(formData).then((res)=>{
+                    this.$parent.HeidWl();
+                    this.$parent.AddMaterial()
+                })
 
-                this.$emit('dataMessage',this.list,this.index);
-                this.$parent.HeidWl();
-                this.$parent.AddMaterial()
             },
             getList(){
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search};

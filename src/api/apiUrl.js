@@ -590,25 +590,31 @@ export default {
 	},
 	//编辑业务需求
 	demand_business_edit:{
-		url:'/demand/business/edit',method:'post',isType:{suktip:1}
+		url:'/demand/business/edit',method:'post',isType:{suktip:1,reload:1}
 	},
 	//编辑素材需求
 	demand_material_edit:{
-		url:'/demand/material/edit',method:'post',isType:{suktip:1}
+		url:'/demand/material/edit',method:'post',isType:{suktip:1,reload:1}
 	},
 	//查看驳回详情
     demand_reject_logs:{
 		url:'demand/reject/logs',method:'get'
 	},
-	//获取业务相关素材
-	demand_business_mbind:{
-		url:'/demand/business/mbind',method:'get'
+	// //获取业务相关素材
+	// demand_business_mbind:{
+	// 	url:'/demand/business/mbind',method:'get'
+	// },
+	// //获取业务相关物料
+	// demand_business_mfbind:{
+	// 	url:'/demand/business/mfbind',method:'get'
+	// },
+
+	//获取业务需求相关素材/物料
+    demand_business_bind_list:{
+		url:'demand/business/bind/list',method:'get'
 	},
-	//获取业务相关物料
-	demand_business_mfbind:{
-		url:'/demand/business/mfbind',method:'get'
-	},
-	//根据需求类型获取流程节点
+
+    //根据需求类型获取流程节点
 	process_status:{
 		url:'/process/status',method:'get'
 	},
@@ -635,5 +641,17 @@ export default {
 	//导出提现详情
     demand_apply_export:{
 		url:'demand/apply/export',method:'get'
+	},
+	//业务需求绑定素材/物料
+    demand_business_bind:{
+		url:'demand/business/bind',method:'post',isType:{suktip:1}
+	},
+    //删除业务需求绑定的物料/素材
+	demand_business_bind_del:{
+		url:'demand/business/bind/del',method:'post',isType:{suktip:1}
+	},
+	//业务需求绑定说明
+    demand_business_bind_note:{
+		url:'demand/business/bind/note',method:'post',isType:{suktip:1}
 	},
 }

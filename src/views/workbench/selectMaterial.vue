@@ -77,7 +77,7 @@
 
 <script>
     export default {
-        props:['typesLisck', 'imgIndex','type','index'],
+        props:[ 'id','index'],
         name: "select_material",
         data(){
             return {
@@ -113,20 +113,28 @@
 
             YCset(){this.$parent.SCsc();this.$parent.AddMaterial()},
             messageID(){
-                for(let i=0;i<this.checked.length;i++){
-                    for(let k = 0;k<this.listData.length;k++){
-                        if(this.listData[k].mid==this.checked[i]){
-                            if(this.scMessagelist.indexOf(this.listData[k])==-1){
-                                var data = this.listData[k];
-                                data.ismaterial = 1;
-                                this.scMessagelist.push(data);
-                            }
-                        }
-                    }
-                }
-                this.$emit('listenToChildEvent',this.scMessagelist,this.index,this.type);
-                this.$parent.SCsc();
-                this.$parent.AddMaterial()
+                // for(let i=0;i<this.checked.length;i++){
+                //     for(let k = 0;k<this.listData.length;k++){
+                //         if(this.listData[k].mid==this.checked[i]){
+                //             if(this.scMessagelist.indexOf(this.listData[k])==-1){
+                //                 var data = this.listData[k];
+                //                 data.ismaterial = 1;
+                //                 this.scMessagelist.push(data);
+                //             }
+                //         }
+                //     }
+                // }
+                // this.$emit('listenToChildEvent',this.scMessagelist,this.index,this.type);
+                let formData = new FormData;
+                formData.append('id',this.id);
+                formData.append('material',1);
+                formData.append('line_num',this.index);
+                formData.append('mid',JSON.stringify(this.checked));
+                this.api.demand_business_bind(formData).then((res)=>{
+                    this.$parent.SCsc();
+                    this.$parent.AddMaterial()
+                })
+
             },
 
             getList(){
@@ -135,7 +143,7 @@
                     this.IMGList=res.data;
                     this.total=res.total;
                     this.getTagsList();
-                    this.getType()
+                    this.getType();
                     this.listData=this.listData.concat(res.data);
                 })
             },
