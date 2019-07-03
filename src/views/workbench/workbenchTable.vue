@@ -96,7 +96,7 @@
                                     <div class="step_time" v-if="item.creator!=''||tableData[props.$index].status==item.status">{{item.updated_at}}</div>
                                     <div class="step_contnet" v-if="item.creator!=''||tableData[props.$index].status==item.status">
                                         <span class="step_txt">状态</span>
-                                        <span v-if="item.isfinish!='1'">{{item.msg}}</span>
+                                        <span v-if="item.isfinish!='1'&&tableData[props.$index].status_name!='提现审核'">{{item.msg}}</span>
                                         <span v-if="item.isfinish==1">已入库</span>
                                         <span v-if="tableData[props.$index].status==item.status&&item.isfinish!='1'">待处理</span>
                                     </div>
