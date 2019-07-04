@@ -27,7 +27,7 @@
             <span class="cx" @click="getList()">
                 查询
             </span>
-            <span class="cx" style="float: right">批量合并({{this.num.length}})</span>
+            <!--<span class="cx" style="float: right">批量合并({{this.num.length}})</span>-->
         </div>
         <div>
             <template>
@@ -55,7 +55,7 @@
                     <el-table-column
                             label="落地页">
                         <template slot-scope="scope">
-                            <a :href="tableData[scope.$index].preview_url" style="text-decoration: none;color: #66b1ff">点击查看</a>
+                            <a :href="tableData[scope.$index].preview_url" target="_blank" style="text-decoration: none;color: #66b1ff">点击查看</a>
                         </template>
                     </el-table-column>
                     <el-table-column
