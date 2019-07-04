@@ -26,9 +26,9 @@
             </div>
             <select v-model="type">
                 <option value = ''>全部</option>
-                <option value="mid:">落地页ID</option>
-                <option value="pkg:">包名</option>
-                <option value="sdk_id:">SDK ID</option>
+                <option value="mid">落地页ID</option>
+                <option value="pkg">包名</option>
+                <option value="sdk_id">SDK ID</option>
             </select>
             <input type="text" placeholder="请输入sdkID或包名或落地页ID查询" v-model="text"/>
             <span class="cx" @click="getList()">
@@ -128,7 +128,7 @@
                 p:10,
                 type:'',
                 text:'',
-                search:[],
+                search:'',
 
             }
         },
@@ -162,7 +162,13 @@
             getList(){
                 this.dcl.length=0;
                 this.cl.length=0;
-                let params ={start_date:(this.times[0]),end_date:(this.times[1]),p:this.p,page:this.page,search:JSON.stringify([this.type+this.text])};
+                if(!this.type||!this.text){
+                    this.search=''
+                }else{
+                    var s = '{"'+this.type + '":"'+this.text + '"}';
+                    this.search=s;
+                }
+                let params ={start_date:(this.times[0]),end_date:(this.times[1]),p:this.p,page:this.page,search:this.search};
                 this.api.replace_pending_list({params}).then((res)=>{
                     this.tableData = res;
                     this.total = res.total;
