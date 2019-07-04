@@ -190,13 +190,17 @@
                     this.th=true
             },
             heidTH(){
-                    this.th=false
+                    this.th=false;
+                    this.new_url='';
             },
             goHome(){
                     this.$router.go(-1)
             },
 
             add(){
+                if(!this.new_url){
+                    this.$message.error('请上传文件或等待文件上传成功！')
+                }
                 let formData = new FormData;
                 formData.append('width',this.width);
                 formData.append('height',this.height);
@@ -213,6 +217,7 @@
                 formData.append('preview_md5',this.tableData.preview_md5);
                 this.api.replace_add(formData).then((res)=>{
                     this.th=false;
+                    this.new_url = '';
                     this.getDataList()
                 })
             },
