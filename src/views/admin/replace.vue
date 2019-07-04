@@ -43,8 +43,7 @@
                             width="55">
                     </el-table-column>
                     <el-table-column
-                            prop="adid"
-                            label="广告ID">
+                            label="原始图片">
                         <template slot-scope="scope">
                             <img :src="tableData[scope.$index].original_res[0].url" style="width:80px;"/>
                         </template>
@@ -70,7 +69,7 @@
                             label="内容获取时间">
                     </el-table-column>
                     <el-table-column
-                            prop="model"
+                            prop="new_res.length"
                             sortable
                             label="替换资源数量">
                     </el-table-column>
