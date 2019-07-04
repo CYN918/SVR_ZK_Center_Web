@@ -24,9 +24,17 @@
                         value-format="yyyy-MM-dd">
                 </el-date-picker>
             </div>
+            <select v-model="type">
+                <option value = ''>全部</option>
+                <option value="mid:">落地页ID</option>
+                <option value="pkg:">包名</option>
+                <option value="sdk_id:">SDK ID</option>
+            </select>
+            <input type="text" placeholder="请输入sdkID或包名或落地页ID查询" v-model="text"/>
             <span class="cx" @click="getList()">
                 查询
             </span>
+
             <!--<span class="cx" style="float: right">批量合并({{this.num.length}})</span>-->
         </div>
         <div>
@@ -41,6 +49,10 @@
                     <el-table-column
                             type="selection"
                             width="55">
+                    </el-table-column>
+                    <el-table-column
+                            prop="sdk_id"
+                            label="sdk_id">
                     </el-table-column>
                     <el-table-column
                             label="原始图片">
@@ -87,7 +99,17 @@
                 </el-table>
             </template>
         </div>
-
+        <div class="blocks">
+            <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="page"
+                    :page-sizes="[10, 20, 30, 40]"
+                    :page-size="p"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total">
+            </el-pagination>
+        </div>
     </div>
 </template>
 
@@ -101,12 +123,28 @@
                 cl:[],
                 dcl:[],
                 num:[],
+                total:0,
+                page:1,
+                p:10,
+                type:'',
+                text:'',
+                search:'',
+
             }
         },
         mounted(){
             this.getList();
         },
         methods:{
+            handleSizeChange(p) { // 每页条数切换
+                this.p = p;
+                this. getList()
+            },
+            handleCurrentChange(page) {//页码切换
+                console.log(page);
+                this.page = page;
+                this. getList()
+            },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
                     return 'background:rgb(246, 245, 245,1);color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
@@ -124,9 +162,10 @@
             getList(){
                 this.dcl.length=0;
                 this.cl.length=0;
-                let params ={start_date:(this.times[0]),end_date:(this.times[1])};
+                let params ={start_date:(this.times[0]),end_date:(this.times[1]),p:this.p,page:this.page,search:this.type+this.text};
                 this.api.replace_pending_list({params}).then((res)=>{
                     this.tableData = res;
+                    this.total = res.total;
                         for(var i =0;i<this.tableData.length;i++){
                             if(this.tableData[i].status==1){
                                 this.tableData[i].status='已处理';
@@ -157,6 +196,16 @@
 </script>
 
 <style scoped>
+    input,select{
+        margin-left: 20px;
+        width: 200px;
+        height: 36px;
+        padding-left: 10px;
+    }
+    input{
+        height: 30px!important;
+        font-size: 10px;
+    }
 .content_right{
     width: 100%;
     padding: 24px;
@@ -302,4 +351,8 @@
     text-align: center;
     margin:20px 0 20px 24px ;
 }
+    .blocks{
+        margin-top: 30px;
+        float: right;
+    }
 </style>
