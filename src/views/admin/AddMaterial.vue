@@ -767,7 +767,7 @@
     .AddIMG_bq_box{
         display: inline-block;
         width:560px;
-        height:210px;
+        height:212px;
         background:rgba(255,255,255,1);
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);

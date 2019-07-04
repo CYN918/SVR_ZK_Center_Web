@@ -1,7 +1,6 @@
 <template>
     <div>
-        <!--<ADD v-if="ADD_material" :scMessage="scMessage" :id="id" :num="num" :ind="index" @listData="SCmessageData"></ADD>-->
-        <uplodWl v-if='up' :scMessage="scMessage" :id="id" :num="num" :ind="index" @listData="SCmessageData"></uplodWl>
+        <uplodWl v-if='up'  :id="id" ></uplodWl>
         <BDadd v-if="BD"  :index="index" :id="id"></BDadd>
         <AddWL v-if="wl"  :id="id" ></AddWL>
         <scwl v-if="scwl"  @dataMessage="dataMessage" :index="index" ></scwl>
@@ -111,8 +110,9 @@
                                         <span class="step_txt" v-if="index=='0'">需求内容</span>
                                         <span class="step_txt" v-if="index!='0'">处理结果</span>
                                         <span class="dj" v-if="item.key==0" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status,item.reject)">查看详情</span>
-                                        <span v-if="item.did==undefined&&item.reject!='1'&&tableData[props.$index].status==item.status&&item.isfinish!=1">待处理</span>
+                                        <span v-if="item.did==undefined&&item.reject!='1'&&tableData[props.$index].status==item.status&&item.isfinish!=1&&item.status_name!='结算汇款'">待处理</span>
                                         <span class="dj" v-if="item.isfinish==1" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status)">查看详情</span>
+                                        <span class="dj" v-if="item.status_name=='结算汇款'" @click="withdraw(tableData[props.$index].did,tableData[props.$index].status)">查看详情</span>
                                     </div>
                                 </div>
                             </div>
@@ -275,10 +275,7 @@
             heidRejDET(){
                 this.reject_details = false;
             },
-            Getscwl(index){
-                if(index!=undefined){
-                    this.index=index;
-                }
+            Getscwl(){
                 this.scwl=true;
                 this.stop()
             },
@@ -305,7 +302,6 @@
             AddWl(index){
                 this.up = true;
                 this.id = this.tableData[index].did;
-                this.num = this.tableData[index].num;
                 this.stop()
             },
             heidAddWl(){
@@ -321,10 +317,7 @@
                 this.set = true;
                 this.stop()
             },
-            SCmessageData(a){
-                this.scMessage.length=a;
-                console.log(this.scMessage)
-            },
+
             SCsc(){
                 this.set = false;
                 this.move()

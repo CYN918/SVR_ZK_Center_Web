@@ -102,15 +102,6 @@
         methods:{
             YCset(){this.$parent.HeidWl();this.$parent.AddMaterial()},
             messageID(){
-                //     for(let k = 0;k<this.listData.length;k++){
-                //         if(this.listData[k].mfid==this.checked) {
-                //             var data = this.listData[k];
-                //             data.ismaterial = 0;
-                //             this.list.push(data);
-                //         }
-                //     }
-                //
-                // this.$emit('dataMessage',this.list,this.index);
                 let formData = new FormData;
                 formData.append('id',this.id);
                 formData.append('material',0);

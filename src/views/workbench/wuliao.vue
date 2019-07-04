@@ -10,6 +10,7 @@
                 <div class="Search_select">
                     <span class="Search_select_tit">素材类型：</span>
                     <select v-model="type" @change="getList()">
+                        <option value=" ">全部</option>
                         <option v-for="item in scType" :value="item.type">{{item.name}}</option>
                     </select>
                 </div>
@@ -17,11 +18,21 @@
             <div class="contentImg">
                 <div class="label">
                     <span class="label_txt">预置标签:</span>
-                    <span v-for="(item,index) in preset_tags" class="labelName" @click="getListTag(item.name,index)" :class="{active:inx==index}">{{item.name}}</span>
+                    <span class="labelName" @click="getListTag()" :class="{active:listTag.length==0}">全部</span>
+                    <div class="tags" :class="{ALLtags:this.class==true}">
+                        <span v-for="(item,index) in preset_tags" class="labelName" @click="getListTag(item.name,index)" :class="{active:listTag.indexOf(item.name)!=-1}">{{item.name}}</span>
+                    </div>
+                    <span class="tagsAll" v-if="this.class==false" @click="getTag">查看更多</span>
+                    <span class="tagsAll" v-if="this.class==true" @click="heidTag">收起</span>
                 </div>
-                <div>
-                    <span class="label_txt">个性标签:</span>
-                    <span v-for="(item,index) in self_tags" class="labelName" @click="getListTag2(item.name,index)" :class="{active:inde==index}">{{item.name}}</span>
+                <div class="label">
+                    <span class="label_txt" >个性标签:</span>
+                    <span class="labelName" @click="getListTags()" :class="{active:listTagData.length==0}">全部</span>
+                    <div class="tags" :class="{ALLtags:this.class1==true}">
+                        <span v-for="(item,index) in self_tags" class="labelName" @click="getListTags(item.name,index)" :class="{active:listTagData.indexOf(item.name)!=-1}">{{item.name}}</span>
+                    </div>
+                    <span class="tagsAll" v-if="this.class1==false" @click="getTag1">查看更多</span>
+                    <span class="tagsAll" v-if="this.class1==true" @click="heidTag1">收起</span>
                 </div>
                 <div class="box">
                     <div class="boxImg" v-for="(DL,index) in IMGList">
@@ -87,13 +98,18 @@
                 scMid:[],
                 scUrl:'',
                 scType:'',
-                type:'',
+                type:' ',
                 mid_list:[],
                 url_list:[],
                 inx:null,
                 inde:null,
                 listData:[],
                 list:[],
+                class:false,
+                class1:false,
+                listTag:[],
+                listTagData:[],
+                search_tags:[],
             }
         },
         mounted() {
@@ -102,17 +118,7 @@
         methods:{
             YCset(){this.$parent.heidSCwl();},
             messageID(){
-                for(let k = 0;k<this.listData.length;k++){
-                    if(this.listData[k].mfid==this.checked) {
-                        var data = this.listData[k];
-                        data.ismaterial = 0;
-                        this.list.push(data);
-                    }
-                }
-                console.log(this.list)
-                this.$emit('dataMessage',this.list,this.index);
-                this.$parent.heidSCwl();
-                this.$parent.AddWl()
+
             },
             getList(){
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search};
@@ -147,18 +153,78 @@
                 this.currentPage = currentPage;
                 this.getList()
             },
-            getListTag(name,index){
-                this.inx=index;
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:name}
+            getTag(){
+                this.class=true;
+            },
+            heidTag(){
+                this.class=false;
+            },
+            getTag1(){
+                this.class1=true;
+            },
+            heidTag1(){
+                this.class1=false;
+            },
+            // getListTag(name,index){
+            //     this.inx=index;
+            //     let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:name}
+            //     this.api.mfinal_search({params}).then((res)=>{
+            //         this.IMGList=res.data;
+            //         this.total=res.total;
+            //         this.getTagsList()
+            //     })
+            // },
+            // getListTags(name,index){
+            //     this.inde=index;
+            //     let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:name}
+            //     this.api.mfinal_search({params}).then((res)=>{
+            //         this.IMGList=res.data;
+            //         this.total=res.total;
+            //         this.getTagsList()
+            //     })
+            // },
+            getListTags(name){
+                if(!name){
+                    this.listTagData.length=0
+                }else{
+                    if(this.listTagData.indexOf(name)==-1){
+                        this.listTagData.push(name)
+
+                    }else{
+                        for(var i=0;i<this.listTagData.length;i++ ){
+                            if(this.listTagData[i]==name){
+                                this.listTagData.splice(i,1);
+
+                            }
+                        }
+                    }
+                }
+
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status}
                 this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     this.total=res.total;
                     this.getTagsList()
                 })
             },
-            getListTag2(name,index){
-                this.inde=index;
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:name}
+            getListTag(name){
+                if(!name){
+                    this.listTag.length=0
+                }else{
+                    if(this.listTag.indexOf(name)==-1){
+                        this.listTag.push(name);
+
+                    }else{
+                        for(var i=0;i<this.listTag.length;i++ ){
+                            if(this.listTag[i]==name){
+                                this.listTag.splice(i,1);
+
+                            }
+                        }
+                    }
+                }
+
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status}
                 this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     this.total=res.total;

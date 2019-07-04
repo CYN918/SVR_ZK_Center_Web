@@ -662,7 +662,7 @@ select{
 .tags{
   display: inline-block;
   max-width: 1090px;
-  max-height: 36px;
+  max-height: 50px;
   overflow: hidden;
   vertical-align: top;
 }

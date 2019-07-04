@@ -338,9 +338,7 @@
 
             },
             getTagsList(){
-                // console.log(this.tagsName);
-                // this.tagsName = this.tagsName.replace(/[^\x00-\xff]/g, "aa");
-                // console.log(this.tagsName.length)
+
                 let params = {preset:this.preset,material:this.material,type:this.types,search:this.tagsName,p:50,page:1};
                 this.api.tags_search({params}).then((da)=>{
                     console.log(da);

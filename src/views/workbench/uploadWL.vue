@@ -2,62 +2,53 @@
     <div class="bg">
         <div class="centNavBox">
             <div class="title">
-                <span>上传物料</span>
+                <span class="title_zy">添加物料</span>
+                <div class="title_div">
+                    <span class="title_div_span">已制作物料：</span>
+                    <span class="title_div_span">{{}}</span>
+                    <span class="title_div_span">/</span>
+                    <span class="title_div_span">{{this.numAll}}</span>
+                    <span class="title_div_btn" @click="ADDline">
+                      <span>+</span>
+                        增加一行
+                    </span>
+                </div>
             </div>
             <div class="table_material">
-                <div class="content_title">
-                    <span style="width: 10%">数量</span>
-                    <span style="width: 15%">预览图</span>
-                    <span style="width: 20%">物料ID</span>
-                    <span style="width: 15%">物料类型</span>
-                    <span style="width: 10%">H5链接</span>
-                    <span style="width: 30%">操作</span>
-                </div>
-                <div class="table_content" v-for="(item,index) in list">
-                    <div class="table_content_left">
-                        <span>{{index+1}}</span>
+                <div class="content_title" v-for="(item,index) in listWL">
+                    <div  style="display: inline-block" >
+                        <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
+                        <span class="content_title_span" @click="getWl()">物料库选择</span>
+                        <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
+                        <span class="content_title_span">本地上传</span>
                     </div>
-                    <div  class="table_content_rig">
-                        <div class="table_content_right" v-if="index<scMessage.length" v-for = '(item,index2) in scMessage[index]'>
-                            <div class="imgs">
-                                <img :src="item.prev_uri">
-                            </div>
-                            <span class="id" v-if="item.mid!=undefined">{{item.mid}}</span>
-                            <span class="id" v-if="item.mfid!=undefined">{{item.mfid}}</span>
-                            <span class="type">{{item.type_name}}</span>
-                            <div class="click">
-                                <span @click="getBD(index)">从本地上传</span>
-                                <span @click="getWl(index)">从物料库选择</span>
-                            </div>
-                        </div>
-                        <div class="table_content_right" v-if="index>=scMessage.length">
-                            <div class="imgs">
-                                <img src="">
-                            </div>
-                            <span class="id"></span>
-                            <span class="type"></span>
-                            <div class="click">
-                                <span @click="getBD(index)" >从本地上传</span>
-                                <span @click="getWl(index)">从物料库选择</span>
-                            </div>
+                    <div class="btn_img" >
+                        <img style="margin-right: 34px" src="../../../public/img/delet.png" @click="delLine(index)"/>
+                    </div>
+                    <div v-if="" class="img_box">
+                        <div class="ADD_img" v-for="(data2,index3) in item.bind" >
+                            <img class="ADD_img_del" src="../../../public/img/del.png" @click="delLine(index)">
+                            <img  class="ADD_img_img" :src="data2.prev_uri"/>
+                            <span>{{data2.prev_uri}}</span>
                         </div>
                     </div>
                 </div>
+            </div>
 
-            </div>
-            <div class="zz">
-                <div>
-                    <template>
-                        <el-checkbox v-model="zzyq">制作要求</el-checkbox>
-                    </template>
-                </div>
-            </div>
-            <div class="require_txt">
-                <textarea v-model="note"></textarea>
-            </div>
             <div class="Add_btn">
-                <span class="Add_btn_ADD" @click="ADD">添加</span>
+                <span class="Add_btn_ADD" @click="verified()">添加</span>
                 <span @click="heid">取消</span>
+                <div class="block">
+                    <el-pagination
+                            @size-change="handleSizeChange"
+                            @current-change="handleCurrentChange"
+                            :current-page="page"
+                            :page-sizes="[3, 6, 9, 12]"
+                            :page-size="p"
+                            layout="total, sizes, prev, pager, next, jumper"
+                            :total="total">
+                    </el-pagination>
+                </div>
             </div>
         </div>
     </div>
@@ -65,93 +56,61 @@
 
 <script>
     export default {
-        props:['scMessage','id','num','ind'],
+        props:['id'],
         name: "a-d-d_material",
         data(){
             return{
-                zzyq:false,
-                checked:[],
-                material:[],
-                list:[],
-                mfid:[],
-                checkList:[],
-                note:'',
-                Message:[],
+                p:3,
+                page:1,
+                total:0,
+                listWL:[],
+                numAll:0,
             }
         },
         mounted(){
-            console.log(this.scMessage);
-            this.Message = this.scMessage;
-            let a =this.list;
-            for(var i=0;i<this.num;i++){
-                a.push(i);
-            }
-            // this.checked.push(this.ind)
-        },
+            this.getDATA()
+            },
         methods:{
-            getRowClass({row, column, rowIndex, columnIndex}) {
-                if (rowIndex === 0) {
-                    return 'color:rgba(30,30,30,1);text-align:center;font-size:14px;font-weight:400;height:48px;font-family:PingFangSC-Regular'
-                } else {
-                    return ''
-                }
+            handleSizeChange(p){
+                this.p = p;
+                this.getDataList()
             },
-            cell({row, column, rowIndex, columnIndex}){
-                return 'text-align:center;color:rgba(153,153,153,1);font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
+            handleCurrentChange(page){
+                this.page = page;
+                this.getDataList();
             },
-            row({row, rowIndex}){
-                return 'border-radius:4px;border:1px solid rgba(230,233,240,1);margin-bottom:10px'
+            ADDline(){
+                this.listWL.push({text:false});
             },
             heid(){
                 this.$parent.heidAddWl();
-                this.$emit('listData',0);
             },
-            handleClick(index){
-                this.$parent.getSet(index,this.scMessage);
+            getWl(){
+                this.$parent.Getscwl();
                 this.$parent.heidAddWl();
             },
-            getBD(index){
-                this.$parent.getBD(index)
-                this.$parent.heidAddWl();
-            },
-            getWl(index){
-                this.$parent.Getscwl(index);
-                this.$parent.heidAddWl();
-            },
-            ADD(){
-                console.log(this.scMessage)
-                for(let i=0;i<this.scMessage.length;i++){
-                    for(let j=0;j<this.scMessage[i].length;j++){
-                        if(this.scMessage[i][j].ismaterial == 0){
-                            this.mfid.push(this.scMessage[i][j].mfid);
-                        }else{
-                            var material = {
-                                num:0,
-                                mid:''
-                            }
-                            material.num = i;
-                            material.mid= this.scMessage[i][j].mid;
-                            this.material.push(material);
-                        }
-                        console.log(this.scMessage[i][j].mid);
+            delLine(index){
+
+                    if(this.listWL[index].line_num==undefined){
+                        this.listWL.splice(index,1);
+                    }else{
+                        let formData = new FormData;
+                        formData.append('id',this.id);
+                        formData.append('material',0);
+                        formData.append('line_num',this.listWL[index].line_num);
+                        formData.append('mfid',this.listWL[index].bind[0].mfid);
+                        this.api.demand_business_bind_del(formData).then((res)=>{
+                            this.getDataList()
+                        });
                     }
-                }
-                let formData = new FormData;
-                formData.append("id",this.id);
-                formData.append('material',JSON.stringify(this.material));
-                formData.append("mfid",JSON.stringify(this.mfid));
-                formData.append("note",this.note);
-                this.api.demand_audit(formData).then((res)=>{
-                    this.$emit('@listData',0)
+            },
+            getDATA(){
+                let params = {id:this.id,p:this.p,page:this.page,material:1};
+                this.api.demand_business_bind_list({params}).then((res)=>{
+                    this.numAll=res.data.material.length
                 })
             },
         },
-        watch:{
-            "scMessage":function (oldval) {
-                console.log(oldval)
-            }
-        }
-
     }
 </script>
 
@@ -180,42 +139,20 @@
     .title{
         height: 55px;
         border-bottom: 1px solid #E6E9F0;
-
-    }
-    .title span{
-        display: inline-block;
-        line-height: 55px;
-        font-size:18px;
-        font-family:PingFangSC-Regular;
-        font-weight:400;
-        color:rgba(61,73,102,1);
-        margin-left: 24px;
     }
     .table_material{
-        margin: 0 24px;
-    }
-    .zz{
-        margin: 26px 24px 16px 24px;
-
-    }
-    .require_txt{
-        margin: 0 24px;
-    }
-    .require_txt textarea{
-        padding: 10px;
-        width:1038px;
-        height:100px;
-        border-radius:4px;
-        border:1px solid rgba(230,233,240,1);
-        resize:none;
+        margin:0 39px;
     }
     .Add_btn{
-        width:1106px;
-        height:58px;
+        width:1042px;
+        height:80px;
         background:rgba(247,249,252,1);
         border-radius:0px 0px 4px 4px;
-        text-align: right;
         margin-top: 60px;
+        padding-left: 40px;
+        padding-right: 24px;
+        position: fixed;
+        bottom: 0;
     }
     .Add_btn span{
         display: inline-block;
@@ -231,7 +168,7 @@
         line-height: 36px;
         text-align: center;
         cursor: pointer;
-        margin-top: 10px;
+        margin-top: 17px;
         margin-right: 24px;
     }
     .Add_btn_ADD{
@@ -240,81 +177,141 @@
         margin-right: 14px!important;
     }
 
-    .content_title span{
+    .title_zy{
         display: inline-block;
-        height: 40px;
-        text-align: center;
-        line-height: 40px;
-        font-size:14px;
-        font-family:PingFangSC-Regular;
-        font-weight:400;
-        color:rgba(31,46,77,1);
-    }
-    .table_content{
-        width: 100%;
-    }
-    .table_content span{
-        display: inline-block;
-        height: 40px;
-        line-height: 40px;
-        text-align: center;
-        font-size:14px;
+        line-height: 55px;
+        font-size:18px;
         font-family:PingFangSC-Regular;
         font-weight:400;
         color:rgba(61,73,102,1);
-    }
-    .table_content_left{
-        width: 20%;
-        display: inline-block;
-        height: 80px;
-    }
-    .table_content_left span{
-        display: inline-block;
-        line-height: 80px!important;
-        width: 50%;
-    }
-    .table_content_rig{
-        width: 80%;
-        display: inline-block;
-    }
-    .imgs{
-        display: inline-block;
-        width: 18.75%;
-        text-align: center;
+        margin-left: 24px;
     }
     .table_content_right img{
         display: inline-block;
         height: 80px;
         width: 108px;
     }
-    .id{
-        width: 25%;
+
+    .title_div{
+        display: inline-block!important;
+        float: right;
+        height: 55px;
+        margin-right: 24px;
     }
-    .type{
-        width: 18.75%;
+    .title_div_span{
+        font-size:14px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(51,119,255,1);
+        line-height: 55px;
     }
-    .click{
+    .title_div_btn{
         display: inline-block;
-        width: 37.5%;
-        text-align: center;
-    }
-    .click span{
-        display: inline-block;
-        padding: 5px;
-        height:26px;
-        text-align: center;
-        line-height: 26px;
-        background:rgba(51,119,255,1);
+        width:101px;
+        height:32px;
+        background:rgba(24,144,255,1);
         border-radius:4px;
+        line-height: 32px;
         font-size:14px;
         font-family:PingFangSC-Regular;
         font-weight:400;
         color:rgba(255,255,255,1);
-        margin-right: 14px;
+        text-align: center;
+        margin-left: 16px;
+        cursor: pointer;
     }
-    .table_content{
+    select{
+        width:200px;
+        height:36px;
+        background:rgba(255,255,255,1);
         border-radius:4px;
-        border:1px solid rgba(230,233,240,1);
-        margin-bottom: 10px;
+        border:1px solid rgba(211,219,235,1);
+        margin-right: 26px;
+    }
+    .content_title{
+        margin-top: 24px;
+        border-bottom: 1px solid #E6E9F0;
+        padding-bottom: 24px;
+    }
+    .content_title_span{
+        font-size:14px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(51,119,255,1);
+        margin-right: 24px;
+        cursor: pointer;
+    }
+    .content_title_img{
+        margin-right: 8px;
+        cursor: pointer;
+    }
+    .btn_img{
+        display: inline-block;
+        float: right;
+        margin-top: 6px;
+    }
+    .btn_img img{
+        width:18px;
+        cursor: pointer;
+    }
+    .img_box{
+        height: 130px;
+        width: 1028px;
+        overflow-x:auto;
+    }
+    .ADD_img{
+        display: inline-block;
+        width: 108px;
+        height: 110px;
+        margin-right: 48px;
+    }
+    .ADD_img_img{
+        display: inline-block;
+        width: 108px;
+        height: 80px;
+    }
+    .ADD_img_del{
+        position: relative;
+        width:16px;
+        height:16px;
+        right: -100px;
+        top: 10px;
+    }
+    .ADD_img span{
+        display:inline-block;
+        width: 80px;
+        overflow: hidden;
+    }
+    .block{
+        display: inline-block;
+        float: right;
+        margin-bottom: 0!important;
+    }
+    .zy_type{
+        display: inline-block;
+        margin-left: 50px;
+        height: 56px;
+    }
+    .zy_type span{
+        display: inline-block;
+        width:60px;
+        height: 50px;
+        font-size:14px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(61,73,102,1);
+        line-height: 55px;
+        cursor: pointer;
+        margin-right: 57px;
+    }
+    .active{
+        color:rgba(51,119,255,1)!important;
+        border-bottom: 3px solid rgba(51,119,255,1)!important;
+    }
+    .block .el-pagination{
+        margin-top: 0!important;
+    }
+    .block{
+        margin-top: 17px;
     }
 </style>

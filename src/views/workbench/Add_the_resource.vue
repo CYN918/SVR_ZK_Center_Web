@@ -308,7 +308,7 @@
         line-height: 36px;
         text-align: center;
         cursor: pointer;
-        margin-top: 10px;
+        margin-top: 17px;
         margin-right: 24px;
     }
     .Add_btn_ADD{
@@ -447,5 +447,11 @@
     .active{
         color:rgba(51,119,255,1)!important;
         border-bottom: 3px solid rgba(51,119,255,1)!important;
+    }
+    .block .el-pagination{
+        margin-top: 0!important;
+    }
+    .block{
+        margin-top: 12px;
     }
 </style>
