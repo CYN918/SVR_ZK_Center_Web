@@ -158,37 +158,27 @@
                         <span>查看驳回原因</span>
                         <img src="../../../public/img/gb.png" @click="heidRejDET()"/>
                     </div>
-                    <div>
-                       <span class="title_name">处理人</span>
-                        <span class="title_content"></span>
-                    </div>
-                    <div>
-                        <span class="title_name">处理时间</span>
-                        <span class="title_content"></span>
-                    </div>
-                    <div>
-                        <span class="title_name">驳回原因</span>
-                        <span class="title_content"></span>
-                    </div>
-                    <div>
+                    <div style="margin: 24px">
                         <template>
                             <el-table
                                     :data="tableData2"
                                     border
                                     style="width: 100%">
                                 <el-table-column
-                                        prop="date"
-                                        label="日期"
-                                        width="180">
+                                        :show-overflow-tooltip="true"
+                                        prop="creator"
+                                        label="处理人"
+                                        >
                                 </el-table-column>
                                 <el-table-column
-                                        prop="name"
-                                        label="姓名"
-                                        width="180">
+                                        prop="created_at"
+                                        label="处理时间"
+                                       >
                                 </el-table-column>
                                 <el-table-column
-                                        prop="address"
-                                        label="地址">
+                                        prop="note"
+                                        :show-overflow-tooltip="true"
+                                        label="驳回原因">
                                 </el-table-column>
                             </el-table>
                         </template>
@@ -254,6 +244,7 @@
                 shID:'',
                 attach:{},
                 reject_details:false,
+                tableData2:[],
                 getRowKeys(row) {
                     return row.did;
                 },
@@ -297,7 +288,7 @@
                 this.reject_details = true;
                 let params = {id:id,status:status};
                 this.api.demand_reject_logs({params}).then((res)=>{
-
+                    this.tableData2 = res;
                 })
             },
             heidRejDET(){
