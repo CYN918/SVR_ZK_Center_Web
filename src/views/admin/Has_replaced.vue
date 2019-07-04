@@ -18,7 +18,7 @@
                     <span>广告ID:</span>
                     <span class="con">{{this.$route.query.id}}</span>
                     <span>获取内容时间:</span>
-                    <span class="con">{{time}}</span>
+                    <span >{{time}}</span>
                     <div class="updataLoad">
                         <span @click="getTH">添加替换</span>
                     </div>
@@ -27,7 +27,19 @@
                     <span>广告名称:</span>
                     <span class="con"></span>
                     <span >包名:</span>
-                    <span></span>
+                    <span >{{pkg}}</span>
+                </div>
+                <div>
+                    <span>数据访问量:</span>
+                    <span class="con">{{pv}}</span>
+                    <span >实现方式:</span>
+                    <span>{{model}}</span>
+                </div>
+                <div>
+                    <span>sdkID:</span>
+                    <span class="con">{{sdk_id}}</span>
+                    <span >来源:</span>
+                    <span >{{src}}</span>
                 </div>
                 <div>
                     <span>落地页:</span>
@@ -150,6 +162,11 @@
                 width:'',
                 height:'',
                 th:false,
+                pv:"",
+                sdk_id:'',
+                src:'',
+                model:'',
+                pkg:''
             }
         },
 
@@ -228,6 +245,11 @@
                             this.time = res[i].tdate;
                             this.mid=res[i].mid;
                             this.preview_url = res[i].preview_url;
+                            this.pv = res[i].pv;
+                            this.model = res[i].model;
+                            this.src = res[i].src;
+                            this.pkg = res[i].pkg;
+                            this.sdk_id = res[i].sdk_id;
                             this.imgs = res[i].original_res;
                             this.tableData2=res[i].new_res;
                             console.log(res[i].new_res);
@@ -413,6 +435,7 @@
         margin-right: 15px;
     }
     .con{
+        display: inline-block;
         margin-right: 200px!important;
     }
     .updataLoad{
