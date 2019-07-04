@@ -155,7 +155,6 @@
 
         mounted(){
             this.getDataList();
-            console.log('a')
         },
         methods:{
                 getRowClass({row, column, rowIndex, columnIndex}) {
@@ -224,7 +223,7 @@
                 let params ={start_date:this.$route.query.start_date,end_date:this.$route.query.end_date};
                 this.api.replace_pending_list({params}).then((res)=>{
                     for(var i=0;i<res.length;i++){
-                        if(res[i].adid==this.$route.query.id){
+                        if(res[i].mid==this.$route.query.id){
                             this.tableData=res[i];
                             this.time = res[i].tdate;
                             this.mid=res[i].mid;
@@ -232,11 +231,11 @@
                             this.imgs = res[i].original_res;
                             this.tableData2=res[i].new_res;
                             console.log(res[i].new_res);
+                            console.log(i);
                            for(var j=0;j<this.tableData2.length;j++){
                                this.tableData2[j].width=this.tableData2[j].width+'*'+this.tableData2[j].height
                            }
                         }
-
                     }
                 })
 

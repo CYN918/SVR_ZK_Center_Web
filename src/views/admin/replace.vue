@@ -46,7 +46,7 @@
                             prop="adid"
                             label="广告ID">
                         <template slot-scope="scope">
-                            <img :src="tableData[scope.$index].original_res[0].url"/>
+                            <img :src="tableData[scope.$index].original_res[0].url" style="width:80px;"/>
                         </template>
                     </el-table-column>
                     <el-table-column
@@ -82,7 +82,7 @@
                     <el-table-column
                             label="操作">
                         <template slot-scope="scope">
-                            <el-button @click="getAdd(tableData[scope.$index].adid)" type="text" size="small">查看详情</el-button>
+                            <el-button @click="getAdd(tableData[scope.$index].mid)" type="text" size="small">查看详情</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
