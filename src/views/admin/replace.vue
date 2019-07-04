@@ -27,6 +27,7 @@
             <span class="cx" @click="getList()">
                 查询
             </span>
+            <span class="cx" style="float: right">批量合并()</span>
         </div>
         <div>
             <template>
@@ -35,14 +36,33 @@
                         style="width: 100%"
                         :header-cell-style="getRowClass"
                         :cell-style="cell"
+                        @selection-change="handleSelectionChange"
                         border>
+                    <el-table-column
+                            type="selection"
+                            width="55">
+                    </el-table-column>
                     <el-table-column
                             prop="adid"
                             label="广告ID">
+                        <template slot-scope="scope">
+                            <img :src="tableData[scope.$index].original_res[0].url" style="width:80px;"/>
+                        </template>
                     </el-table-column>
                     <el-table-column
-                            prop="original_res.length"
-                            label="原始图数量">
+                            prop="mid"
+                            label="落地页ID">
+                    </el-table-column>
+                    <el-table-column
+                            label="落地页">
+                        <template slot-scope="scope">
+                            <a :href="tableData[scope.$index].preview_url" style="text-decoration: none;color: #66b1ff">点击查看</a>
+                        </template>
+                    </el-table-column>
+                    <el-table-column
+                            prop="pv"
+                            sortable
+                            label="访问数量">
                     </el-table-column>
                     <el-table-column
                             prop="tdate"
@@ -128,6 +148,9 @@
                     path:'./Has_replaced'
                 })
             },
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+            }
 
         },
     }
@@ -270,7 +293,7 @@
     display: inline-block;
     height: 36px;
     line-height: 36px;
-    width: 80px;
+    width: 90px;
     cursor: pointer;
     border-radius: 5px;
     color: #f5f6fa;
