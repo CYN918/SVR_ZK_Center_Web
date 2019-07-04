@@ -87,15 +87,15 @@
                             <div>
                                 <div class="step_box" v-for="(item,index) in tableData[props.$index].audit_process">
                                     <div class="step_wwc" v-if="item.did==undefined&&item.reject!='1'&&tableData[props.$index].status!=item.status">{{item.status}}</div>
-                                    <div class="step_dq" v-if="item.did==undefined&&item.reject!='1'&&tableData[props.$index].status==item.status">{{item.status}}</div>
-                                    <div class="step_bh" v-if="item.reject=='1'">X</div>
-                                    <div class="step" v-if="item.did!=undefined&&item.reject!='1'"><img src="../../../public/img/win.png" /></div>
+                                    <div class="step_dq" v-if="tableData[props.$index].status==item.status">{{item.status}}</div>
+                                    <div class="step_bh" v-if="item.reject=='1'&&tableData[props.$index].status!=item.status">X</div>
+                                    <div class="step" v-if="item.did!=undefined&&item.reject!='1'&&tableData[props.$index].status!=item.status"><img src="../../../public/img/win.png" /></div>
                                     <div class="bor" v-if="item.isfinish==0"></div>
                                     <div class="step_tit" :class="{active:item.did==undefined&&tableData[props.$index].status!=item.status}">{{item.status_name}}</div>
                                     <div class="step_time" v-if="item.creator!=''||tableData[props.$index].status==item.status">{{item.updated_at}}</div>
                                     <div class="step_contnet" v-if="item.creator!=''||tableData[props.$index].status==item.status">
                                         <span class="step_txt">状态</span>
-                                        <span v-if="item.isfinish!='1'&&tableData[props.$index].status_name!='提现审核'">{{item.msg}}</span>
+                                        <span v-if="item.isfinish!='1'&&tableData[props.$index].status_name!='提现审核'&&tableData[props.$index].status!=item.status">{{item.msg}}</span>
                                         <span v-if="item.isfinish==1">已入库</span>
                                         <span v-if="tableData[props.$index].status==item.status&&item.isfinish!='1'">待处理</span>
                                     </div>

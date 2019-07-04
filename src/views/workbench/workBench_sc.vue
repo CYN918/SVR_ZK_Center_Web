@@ -250,7 +250,11 @@
                     formData.append('requirement',this.requirement);
                     formData.append('demand_name',this.demand_name);
                     this.api.demand_material_edit(formData).then((res)=>{
+                        let formData = new FormData;
+                        formData.append('id',this.SCid)
+                        this.api.demand_audit(formData).then((res)=>{
 
+                        })
                     })
                 }
 

@@ -118,7 +118,15 @@
         methods:{
             YCset(){this.$parent.heidSCwl();},
             messageID(){
-
+                let formData = new FormData;
+                formData.append('id',this.id);
+                formData.append('material',0);
+                formData.append('mfid',this.checked);
+                this.api.demand_business_bind(formData).then((res)=>{
+                    this.$emit('typeDas',"1",true);
+                    this.$parent.HeidWl();
+                    this.$parent.AddMaterial();
+                })
             },
             getList(){
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search};

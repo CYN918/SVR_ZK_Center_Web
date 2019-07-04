@@ -238,7 +238,11 @@
                     formData.append('link',this.link);
                     formData.append('requirement',this.requirement);
                     this.api.demand_business_edit(formData).then((res)=>{
+                        let formData = new FormData;
+                        formData.append('id',this.YWid);
+                        this.api.demand_audit(formData).then((res)=>{
 
+                        })
                     })
                 }
 
