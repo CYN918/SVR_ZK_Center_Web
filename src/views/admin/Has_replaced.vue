@@ -64,13 +64,15 @@
                             :cell-style="cell"
                             border>
                         <el-table-column
-                                prop="url"
-                                label="序号"
+                                label="预览图"
                         >
+                            <template slot-scope="scope">
+                                <img :src="tableData2[scope.$index].url" style="width: 80px"/>
+                            </template>
                         </el-table-column>
                         <el-table-column
-                                prop="url_md5"
-                                label="文件名"
+                                prop="url"
+                                label="url"
                         >
                         </el-table-column>
                         <el-table-column
