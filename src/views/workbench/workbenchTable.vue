@@ -66,7 +66,7 @@
                             <el-button v-if="tableData[props.$index].status_name=='上传物料'&&tableData[props.$index].reject=='0'" @click="getYWSC(tableData[props.$index].bdid)">查看素材</el-button>
                             <el-button v-if="(tableData[props.$index].status_name=='发布审核'&&tableData[props.$index].reject=='0')||(tableData[props.$index].status_name=='活动发布'&&tableData[props.$index].reject=='0')" @click="getSC(tableData[props.$index].mdid)">查看需求</el-button>
                             <el-button v-if="(tableData[props.$index].status_name=='物料审核'&&tableData[props.$index].reject=='0')||(tableData[props.$index].status_name=='测试验收'&&tableData[props.$index].reject=='0')">查看物料</el-button>
-                            <el-button  v-if="tableData[props.$index].reject=='1'">查看驳回原因</el-button>
+                            <el-button @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,tableData[props.$index].status,tableData[props.$index].reject)" v-if="tableData[props.$index].reject=='1'">查看驳回原因</el-button>
                             <el-button @click="educe(tableData[props.$index].did,tableData[props.$index].check_status,tableData[props.$index].status)" v-if="(tableData[props.$index].status_name=='签字审核'&&tableData[props.$index].status==2)||(tableData[props.$index].status_name=='补充签字'&&tableData[props.$index].status==4)">导出表格</el-button>
                             <el-button @click="uploadData(tableData[props.$index].did)"  v-if="(tableData[props.$index].status_name=='签字审核'&&tableData[props.$index].status==2)||(tableData[props.$index].status_name=='补充签字'&&tableData[props.$index].status==4)">上传文件</el-button>
                             <el-button @click="release(tableData[props.$index].did,tableData[props.$index].demand_type)" v-if="tableData[props.$index].status_name=='需求发布'">发布需求</el-button>
@@ -77,7 +77,7 @@
                             <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name=='测试验收'">测试通过</el-button>
                             <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name=='物料审核'||tableData[props.$index].status_name=='发布审核'">审核通过</el-button>
                             <el-button  v-if="tableData[props.$index].status_name=='完成入库'">查看投放结果</el-button>
-                            <el-button  @click="getBH(props.$index)" v-if="tableData[props.$index].status_name!='完成投放'&&tableData[props.$index].status_name!='需求发布'&&tableData[props.$index].status_name!='提现审核'&&tableData[props.$index].status_name!='签字审核'&&tableData[props.$index].status_name!='结算汇款'&&tableData[props.$index].status_name!='补充签字'&&tableData[props.$index].status_name!='素材入库'">驳回</el-button>
+                            <el-button  @click="getBH(props.$index)" v-if="tableData[props.$index].status_name!='完成投放'&&tableData[props.$index].status_name!='需求发布'&&tableData[props.$index].status_name!='提现审核'&&tableData[props.$index].status_name!='签字审核'&&tableData[props.$index].status_name!='结算汇款'&&tableData[props.$index].status_name!='补充签字'&&tableData[props.$index].status_name!='素材入库'&&tableData[props.$index].status_name!='素材审核'">驳回</el-button>
                             <el-button   v-if="tableData[props.$index].status_name=='完成入库'">查看投放结果</el-button>
                             <el-button  @click="withdraw(tableData[props.$index].did,tableData[props.$index].status)" v-if="(tableData[props.$index].status_name=='提现审核'||tableData[props.$index].status_name=='结算汇款')&&tableData[props.$index].reject=='0'">查看详情</el-button>
                         </template>
@@ -156,7 +156,7 @@
                 <div class="content" >
                     <div class="tit">
                         <span>查看驳回原因</span>
-                        <img src="../../../public/img/gb.png" />
+                        <img src="../../../public/img/gb.png" @click="heidRejDET()"/>
                     </div>
                     <div>
                        <span class="title_name">处理人</span>
@@ -269,8 +269,12 @@
                 this.wl = false;
                 this.move()
             },
-            getRejDET(){
+            getRejDET(id,status){
                 this.reject_details = true;
+                let params = {id:id,status:status};
+                this.api.demand_reject_logs({params}).then((res)=>{
+
+                })
             },
             heidRejDET(){
                 this.reject_details = false;
@@ -461,15 +465,7 @@
                 console.log(this.scMessage);
                 console.log(this.type)
             },
-            dataList(b,index){
-               this.scMessage[index] =b;
-                console.log(this.scMessage[index])
-            },
-            dataMessage(data,index){
-                this.scMessage[index] = data;
-                console.log(index);
-                console.log(this.scMessage[index])
-            },
+
             release(id,type){
                 if(type=='demand_business'){
                     this.$parent.getSC(id);
@@ -490,7 +486,12 @@
                         this.getYWSC(id)
                     }
                     if(status ==3){
-                        this.getWLp(id)
+                        if(reject==1){
+                            this.getRejDET(id,status)
+                        }else{
+                            this.getWLp(id)
+                        }
+
                     }
                     if(status ==4){
 
