@@ -82,7 +82,7 @@
 <script>
     export default {
         name: "select_material",
-        props:['material','typeSC','index','dataList'],
+        props:['id'],
         data(){
             return {
                 checked:'',
@@ -123,9 +123,8 @@
                 formData.append('material',0);
                 formData.append('mfid',this.checked);
                 this.api.demand_business_bind(formData).then((res)=>{
-                    this.$emit('typeDas',"1",true);
-                    this.$parent.HeidWl();
-                    this.$parent.AddMaterial();
+                    this.$parent.heidSCwl();
+                    this.$parent.AddWl();
                 })
             },
             getList(){

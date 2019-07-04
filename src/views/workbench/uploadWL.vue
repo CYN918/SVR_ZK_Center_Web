@@ -5,7 +5,7 @@
                 <span class="title_zy">添加物料</span>
                 <div class="title_div">
                     <span class="title_div_span">已制作物料：</span>
-                    <span class="title_div_span">{{}}</span>
+                    <span class="title_div_span">{{this.listWL.length}}</span>
                     <span class="title_div_span">/</span>
                     <span class="title_div_span">{{this.numAll}}</span>
                     <span class="title_div_btn" @click="ADDline">
@@ -107,7 +107,19 @@
             getDATA(){
                 let params = {id:this.id,p:this.p,page:this.page,material:1};
                 this.api.demand_business_bind_list({params}).then((res)=>{
-                    this.numAll=res.data.material.length
+                    this.numAll=res.data.material.length;
+                    let params = {id:this.id,p:this.p,page:this.page,material:0};
+                    this.api.demand_business_bind_list({params}).then((res)=>{
+                        for(var i =0;i<(res.data.mfinal).length;i++){
+                            if(res.data.mfinal[i].bind[0].creator==localStorage.getItem('userAd')){
+                                var arr = [];
+                                arr.push(res.data.mfinal[i]);
+                                console.log(arr);
+                                this.listWL=arr;
+                            }
+                        }
+
+                    })
                 })
             },
         },

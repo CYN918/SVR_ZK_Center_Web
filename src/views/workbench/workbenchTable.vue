@@ -2,8 +2,8 @@
     <div>
         <uplodWl v-if='up'  :id="id" ></uplodWl>
         <BDadd v-if="BD"  :index="index" :id="id"></BDadd>
-        <AddWL v-if="wl"  :id="id" @typeDas="listener()"></AddWL>
-        <scwl v-if="scwl"  :index="index" ></scwl>
+        <AddWL v-if="wl"  :id="id"></AddWL>
+        <scwl v-if="scwl"  :index="index" :id="id"></scwl>
         <sct v-if="set"  :index="index" :id="id"></sct>
         <QD v-if="sh" :id="id"></QD>
         <BH v-if="bh" :dbid="dbid"></BH>
@@ -229,7 +229,6 @@
                 length:0,
                 shID:'',
                 attach:{},
-                typeDa:'',
                 reject_details:false,
                 getRowKeys(row) {
                     return row.did;
@@ -454,11 +453,7 @@
                     this.rolesList=rolesList;
                 });
             },
-            listener(data){
-                this.typeDa = data;
-                console.log(this.typeDa);
-                console.log(a)
-            },
+
             listenToChildEvent(a,index,type){
                 this.scMessage.push(a);
                 this.index = index;

@@ -102,7 +102,6 @@
             }
         },
         mounted(){
-            alert(this.typeDa);
             if(this.typeDa=="1"){
                 this. ADDwl()
             }
