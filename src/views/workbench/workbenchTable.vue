@@ -170,6 +170,30 @@
                         <span class="title_name">驳回原因</span>
                         <span class="title_content"></span>
                     </div>
+                    <div>
+                        <template>
+                            <el-table
+                                    :data="tableData2"
+                                    border
+                                    style="width: 100%">
+                                <el-table-column
+                                        prop="date"
+                                        label="日期"
+                                        width="180">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="name"
+                                        label="姓名"
+                                        width="180">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="address"
+                                        label="地址">
+                                </el-table-column>
+                            </el-table>
+                        </template>
+                    </div>
+
                     <div class="btn">
                         <span  @click="heidRejDET()">取消</span>
                     </div>
