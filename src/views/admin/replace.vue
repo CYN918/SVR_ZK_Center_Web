@@ -128,7 +128,7 @@
                 p:10,
                 type:'',
                 text:'',
-                search:'',
+                search:[],
 
             }
         },
@@ -162,7 +162,7 @@
             getList(){
                 this.dcl.length=0;
                 this.cl.length=0;
-                let params ={start_date:(this.times[0]),end_date:(this.times[1]),p:this.p,page:this.page,search:this.type+this.text};
+                let params ={start_date:(this.times[0]),end_date:(this.times[1]),p:this.p,page:this.page,search:JSON.stringify([this.type+this.text])};
                 this.api.replace_pending_list({params}).then((res)=>{
                     this.tableData = res;
                     this.total = res.total;
