@@ -55,12 +55,21 @@ import AdminExternal from './views/admin/level/external.vue'
 mode['external'] = AdminExternal
 import MD5 from './views/admin/MD5.vue'
 mode['MD5'] = MD5
+
 import standard from './views/admin/standard'
 mode['standard']=standard
 import add_library from './views/admin/add_library'
 mode['add_library'] = add_library
 import details_library from './views/admin/details_library'
 mode['details_library'] = details_library
+
+import allocation from  './views/admin/allocation'
+mode['allocation'] =allocation
+import replace from './views/admin/replace'
+mode['replace'] = replace
+import has_replaced from './views/admin/Has_replaced'
+mode['has_replaced'] = has_replaced
+
 
 //收益中心
 import income from './views/income/index.vue'
@@ -218,6 +227,7 @@ let nb = [
 			{path:'/admin/dynamic',name:'动效',component: mode['dynamic']},
             {path:'/admin/MaterialResource',name:'广告图',component: mode['MaterialResource']},
             {path:'/admin/MD5',name:'锁屏壁纸MD5库',component: mode['MD5']},
+
 			{path:'/admin/standard',name:'设计规范库',component: mode['standard']},
 			{path:'/admin/settags',name:'标签管理',component: mode['settags']},
 			{path:'/admin/library',name:'投放库',component: mode['library'],},
@@ -227,6 +237,18 @@ let nb = [
 			{path:'/admin/details_library',name:'详情库',component: mode['details_library']},
 			{path:'/admin/tags_details',name:'标签管理',component: mode['tags_details']},
 			{path:'/admin/mangement',name:'投放库管理',component:mode['mangement']},
+            {path:'/admin/allocation',name:'聚合内容配置',component: mode['allocation']},
+            {path:'/admin/replace',name:'资源待替换',component: mode['replace']},
+            {path:'/admin/has_replaced',name:'资源已替换',component: mode['has_replaced']},
+			// {path:'/admin/material_flows',name:'素材中间件管理',component: mode['material_flows']},
+			// {path:'/admin/library_picture',name:'广告图库投放管理',component: mode['library_picture']},
+			// {path:'/admin/library_pictures',name:'library_pictures',component: mode['library_pictures']},
+			// {path:'/admin/library_resource',name:'广告模版库投放管理',component: mode['library_resource']},
+			// {path:'/admin/library_resources',name:'library_resources',component: mode['library_resources']},
+			// {path:'/admin/library_wallpaper',name:'锁屏壁纸库投放管理',component: mode['library_wallpaper']},
+			// {path:'/admin/roles',name:'角色管理',component: mode['roles']},
+			// {path:'/admin/inside',name:'内部帐号管理',component: mode['inside']},
+			// {path:'/admin/external',name:'外部帐号管理',component:mode['external']},
 		]
 	},
 	{path:'/data',name:'数据中心',component:mode['data'],children:[	
@@ -303,6 +325,7 @@ let nb = [
 ];
 router.addRoutes(nb);
 /*动态生成左边菜单*/
+
 let leftNav =localStorage.getItem('letNav');
 // 	[
 // 	{title:'素材中心',default:'/admin',defaultopen:['1'],
@@ -435,6 +458,10 @@ let leftNav =localStorage.getItem('letNav');
 //         },
 // ];
 // localStorage.setItem('letNav',JSON.stringify(leftNav));
+
+
+localStorage.setItem('letNav',JSON.stringify(leftNav));
+
 router.beforeEach((to, from, next) => {
 	/*登录过期*/
 	if(+localStorage.getItem('logintime')+(24*60*60*1000)<=Date.parse(new Date())){

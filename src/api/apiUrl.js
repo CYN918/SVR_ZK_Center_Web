@@ -634,6 +634,7 @@ export default {
 	lockwallpaper_lwp_tags:{
 		url:'/lockwallpaper/lwp/tags',method:'get'
 	},
+
 	//获取提现详细清单
     demand_apply_list:{
 		url:'demand/apply/list',method:'get'
@@ -651,7 +652,40 @@ export default {
 		url:'demand/business/bind/del',method:'post',isType:{suktip:1}
 	},
 	//业务需求绑定说明
-    demand_business_bind_note:{
-		url:'demand/business/bind/note',method:'post',isType:{suktip:1}
+    demand_business_bind_note: {
+        url: 'demand/business/bind/note', method: 'post', isType: {suktip: 1}
+    },
+	//新增聚合页内容
+	aggregation_add:{
+		url:'/aggregation/add',method:'post',isType:{suktip:1,reload:1}
+	},
+	//获取聚合页内容
+	aggregation_search:{
+		url:'/aggregation/search',method:'get'
+	},
+	//编辑聚合页内容
+	aggregation_edit:{
+		url:'/aggregation/edit',method:'post',isType:{suktip:1,reload:1}
+	},
+	//删除聚合页内容
+	aggregation_del:{
+		url:'/aggregation/del',method:'post',isType:{suktip:1,reload:1}
+	},
+	//获取待替换资源
+	replace_pending_list:{
+		url:'/replace/pending/list',method:'get'
+	},
+	//获取已替换资源
+	replace_had_list:{
+		url:'/replace/had/list',method:'get'
+	},
+	//替换资源
+	replace_add:{
+		url:'/replace/add',method:'post',isType:{suktip:1}
+	},
+	//删除资源
+	replace_del:{
+		url:'/replace/del',method:'post',isType:{suktip:1}
+
 	},
 }

@@ -170,7 +170,9 @@
 
     .xqList{
         position: relative;
+
         margin: 114px 24px 50px 276px!important;
+
     }
 
     .tjboxd li{
