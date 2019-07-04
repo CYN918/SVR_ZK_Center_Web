@@ -171,16 +171,13 @@
                 pkg:'',
                 text:'',
                 type:'',
+                search:'',
 
             }
         },
 
         mounted(){
             this.getDataList();
-            this.type= this.$route.query.type;
-            this.text=this.$route.query.text;
-            this.start_date = this.$route.query.start_date;
-            this.end_date = this.$route.query.end_date;
         },
         methods:{
                 getRowClass({row, column, rowIndex, columnIndex}) {
@@ -260,7 +257,17 @@
                    })
             },
             getDataList(){
-                let params ={start_date:this.$route.query.start_date,end_date:this.$route.query.end_date,p:this.$route.query.p,page:this.$route.query.page};
+                this.type= this.$route.query.type;
+                this.text=this.$route.query.text;
+                this.start_date = this.$route.query.start_date;
+                this.end_date = this.$route.query.end_date;
+                if(!this.type||!this.text){
+                    this.search=''
+                }else{
+                    var s = '{"'+this.type + '":"'+this.text + '"}';
+                    this.search=s;
+                }
+                let params ={start_date:this.$route.query.start_date,end_date:this.$route.query.end_date,p:this.$route.query.p,page:this.$route.query.page,search:this.search};
                 this.api.replace_pending_list({params}).then((res)=>{
                     for(var i=0;i<res.length;i++){
                         if(res[i].mid==this.$route.query.id){
