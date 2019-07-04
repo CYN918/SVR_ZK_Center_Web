@@ -83,7 +83,7 @@
 
 <script>
     export default {
-        props:['id','num','ind'],
+        props:['id','num','ind','typeDa'],
         name: "add_the_resource",
         data(){
             return{
@@ -101,7 +101,13 @@
                 note:''
             }
         },
-        mounted(){this.getDataList()},
+        mounted(){
+            alert(this.typeDa);
+            if(this.typeDa=="1"){
+                this. ADDwl()
+            }
+            this.getDataList();
+        },
         methods:{
             ADDline(){
                 if(this.sc==true){
