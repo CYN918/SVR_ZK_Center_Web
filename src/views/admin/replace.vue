@@ -26,7 +26,7 @@
             </div>
             <select v-model="type">
                 <option value = ''>全部</option>
-                <option value="mid">落地页ID</option>
+                <option value="preview_md5">落地页</option>
                 <option value="pkg">包名</option>
                 <option value="sdk_id">SDK ID</option>
             </select>
@@ -147,7 +147,6 @@
                 this. getList()
             },
             handleCurrentChange(page) {//页码切换
-                console.log(page);
                 this.page = page;
                 this. getList()
             },
@@ -193,6 +192,8 @@
                 this.$router.push({
                     query:{
                         id:data,
+                        p:this.p,
+                        page:this.page,
                         start_date:(this.times[0]),
                         end_date:(this.times[1]),
                         type:this.type,

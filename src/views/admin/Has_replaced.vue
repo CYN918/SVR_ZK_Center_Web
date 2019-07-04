@@ -260,7 +260,7 @@
                    })
             },
             getDataList(){
-                let params ={start_date:this.$route.query.start_date,end_date:this.$route.query.end_date};
+                let params ={start_date:this.$route.query.start_date,end_date:this.$route.query.end_date,p:this.$route.query.p,page:this.$route.query.page};
                 this.api.replace_pending_list({params}).then((res)=>{
                     for(var i=0;i<res.length;i++){
                         if(res[i].mid==this.$route.query.id){
