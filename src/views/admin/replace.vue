@@ -27,7 +27,7 @@
             <span class="cx" @click="getList()">
                 查询
             </span>
-            <span class="cx" style="float: right">批量合并()</span>
+            <span class="cx" style="float: right">批量合并({{this.num.length}})</span>
         </div>
         <div>
             <template>
@@ -46,7 +46,7 @@
                             prop="adid"
                             label="广告ID">
                         <template slot-scope="scope">
-                            <img :src="tableData[scope.$index].original_res[0].url" style="width:80px;"/>
+                            <img :src="tableData[scope.$index].original_res[0].url"/>
                         </template>
                     </el-table-column>
                     <el-table-column
@@ -100,7 +100,8 @@
                 tableData:[],
                 times:[],
                 cl:[],
-                dcl:[]
+                dcl:[],
+                num:[],
             }
         },
         mounted(){
@@ -149,7 +150,7 @@
                 })
             },
             handleSelectionChange(val) {
-                this.multipleSelection = val;
+                this.num = val;
             }
 
         },

@@ -154,7 +154,8 @@
         },
 
         mounted(){
-            this.getDataList()
+            this.getDataList();
+            console.log('a')
         },
         methods:{
                 getRowClass({row, column, rowIndex, columnIndex}) {
@@ -230,6 +231,7 @@
                             this.preview_url = res[i].preview_url;
                             this.imgs = res[i].original_res;
                             this.tableData2=res[i].new_res;
+                            console.log(res[i].new_res);
                            for(var j=0;j<this.tableData2.length;j++){
                                this.tableData2[j].width=this.tableData2[j].width+'*'+this.tableData2[j].height
                            }
