@@ -226,7 +226,7 @@ let nb = [
 			{path:'/admin/wallpaper',name:'壁纸',component: mode['wallpaper']},
 			{path:'/admin/dynamic',name:'动效',component: mode['dynamic']},
             {path:'/admin/MaterialResource',name:'广告图',component: mode['MaterialResource']},
-            {path:'/admin/MD5',name:'锁屏壁纸MD5库',component: mode['MD5']},
+            // {path:'/admin/MD5',name:'锁屏壁纸MD5库',component: mode['MD5']},
 
 			{path:'/admin/standard',name:'设计规范库',component: mode['standard']},
 			{path:'/admin/settags',name:'标签管理',component: mode['settags']},
@@ -237,9 +237,9 @@ let nb = [
 			{path:'/admin/details_library',name:'详情库',component: mode['details_library']},
 			{path:'/admin/tags_details',name:'标签管理',component: mode['tags_details']},
 			{path:'/admin/mangement',name:'投放库管理',component:mode['mangement']},
-            {path:'/admin/allocation',name:'聚合内容配置',component: mode['allocation']},
-            {path:'/admin/replace',name:'资源待替换',component: mode['replace']},
-            {path:'/admin/has_replaced',name:'资源已替换',component: mode['has_replaced']},
+            // {path:'/admin/allocation',name:'聚合内容配置',component: mode['allocation']},
+            // {path:'/admin/replace',name:'资源待替换',component: mode['replace']},
+            // {path:'/admin/has_replaced',name:'资源已替换',component: mode['has_replaced']},
 			// {path:'/admin/material_flows',name:'素材中间件管理',component: mode['material_flows']},
 			// {path:'/admin/library_picture',name:'广告图库投放管理',component: mode['library_picture']},
 			// {path:'/admin/library_pictures',name:'library_pictures',component: mode['library_pictures']},
@@ -293,6 +293,10 @@ let nb = [
         {path:'/workbench/Billing_details',name:'全部',component:mode['Billing_details']},
 		{path:'/workbench/withdraw',name:'提现',component:mode['withdraw']},
         {path:'/workbench/user_details',name:'提现详情',component:mode['user_details']},
+            {path:'/workbench/allocation',name:'聚合内容配置',component: mode['allocation']},
+            {path:'/workbench/replace',name:'资源待替换',component: mode['replace']},
+            {path:'/workbench/has_replaced',name:'资源已替换',component: mode['has_replaced']},
+            {path:'/workbench/MD5',name:'锁屏壁纸MD5库',component: mode['MD5']},
 
 	]},
     {path:'/income',name:'收益中心',component:mode['income'],children:[
@@ -360,6 +364,11 @@ let leftNav =localStorage.getItem('letNav');
 //                     {title:'待处理',url:'/workbench/workbenchPadding'},
 //                     {title:'全部',url:'/workbench/ALL'},
 // 					],},
+//             {title:'运营工具',url:'1',img:'&#xe610;',list:[
+//                     {title:'锁屏壁纸MD5库',url:'//workbench/MD5'},
+//                     {title:'聚合内容配置',url:'/workbench/allocation'},
+//                     {title:'资源待替换',url:'/workbench/replace'},
+//                 ],},
 //
 //         ]
 // 	},
@@ -457,7 +466,7 @@ let leftNav =localStorage.getItem('letNav');
 //         ]
 //         },
 // ];
-// localStorage.setItem('letNav',JSON.stringify(leftNav));
+
 
 
 localStorage.setItem('letNav',JSON.stringify(leftNav));
