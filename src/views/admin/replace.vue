@@ -130,9 +130,15 @@
                 text:'',
                 search:'',
 
+
             }
         },
         mounted(){
+            if(this.$route.query.text!=undefined){
+                this.type=this.$route.query.type;
+                this.text=this.$route.query.text;
+                this.times=[this.$route.query.start_date,this.$route.query.end_date];
+            }
             this.getList();
         },
         methods:{
@@ -189,6 +195,8 @@
                         id:data,
                         start_date:(this.times[0]),
                         end_date:(this.times[1]),
+                        type:this.type,
+                        text:this.text,
                     },
                     path:'./Has_replaced'
                 })

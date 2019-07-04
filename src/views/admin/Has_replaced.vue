@@ -168,12 +168,19 @@
                 sdk_id:'',
                 src:'',
                 model:'',
-                pkg:''
+                pkg:'',
+                text:'',
+                type:'',
+
             }
         },
 
         mounted(){
             this.getDataList();
+            this.type= this.$route.query.type;
+            this.text=this.$route.query.text;
+            this.start_date = this.$route.query.start_date;
+            this.end_date = this.$route.query.end_date;
         },
         methods:{
                 getRowClass({row, column, rowIndex, columnIndex}) {
@@ -194,7 +201,16 @@
                     this.new_url='';
             },
             goHome(){
-                    this.$router.go(-1)
+                this.$router.push({
+                    query:{
+                        start_date:this.start_date,
+                        end_date:this.end_date,
+                        type:this.type,
+                        text:this.text,
+                    },
+                    path:'./replace'
+                })
+
             },
 
             add(){
