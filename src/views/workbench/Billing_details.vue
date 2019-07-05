@@ -115,6 +115,8 @@
                                 <el-button type="text" @click="xq(tableData[props.$index].open_id)">查看详情</el-button>
                                 <el-button type="text" v-if="tableData[props.$index].check_status=='0'" @click="getSH(tableData[props.$index].open_id)">审核通过</el-button>
                                 <el-button type="text" v-if="tableData[props.$index].check_status=='0'" @click="getBH(tableData[props.$index].open_id)">驳回</el-button>
+                                <el-button type="text" v-if="status==3&&tableData[props.$index].check_status!='0'" @click="getSH(tableData[props.$index].open_id)">审核通过</el-button>
+                                <el-button type="text" v-if="status==3&&tableData[props.$index].check_status!='0'" @click="getBH(tableData[props.$index].open_id)">驳回</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -154,11 +156,16 @@
                 open_id:'',
                 openIDList:[],
                 shOpenId:[],
+                status:''
 
             }
         },
+        created(){
+            this.status=this.$route.query.status;
+        },
         mounted(){
             this.getData();
+
         },
         methods:{
             fh(){

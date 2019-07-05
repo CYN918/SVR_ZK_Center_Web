@@ -330,7 +330,7 @@ let nb = [
 router.addRoutes(nb);
 /*动态生成左边菜单*/
 
-let leftNav =localStorage.getItem('letNav');
+let leftNav = localStorage.getItem('letNav');
 // 	[
 // 	{title:'素材中心',default:'/admin',defaultopen:['1'],
 // 	children:[

@@ -7,7 +7,7 @@
             </div>
             <div class="tit_btn">
                 <img src="../../../public/img/ss.png">
-                <input type="text" placeholder="搜素需求ID" v-model="search"/>
+                <input type="text" placeholder="搜素需求ID" v-model="search" @input="typeListSearch"/>
                 <span class="tit_btn_sc" @click="getSC('')">发布素材需求</span>
                 <span class="tit_btn_yw" @click="getYW('')">发布业务需求</span>
             </div>
@@ -66,7 +66,7 @@
         },
         methods:{
             getSC(id){
-                console.log(id)
+                console.log(id);
                 this.id = id;
                 this.sc=true;
                 this.stop()
@@ -85,10 +85,16 @@
                 this.yw=false;
                 this.move()
             },
-
+            typeListSearch(){
+                if(this.active ==0){
+                    this.getList();
+                }else{
+                    this.getDataList();
+                }
+            },
             getList(){
                 this.active=0;
-                let params ={p:this.p,page:this.page,search:this.search,all:0}
+                let params ={p:this.p,page:this.page,search:this.search,all:0};
                 this.api.demand_await({params}).then((res)=>{
                     this.tableData = res.data;
                     this.total = res.total;

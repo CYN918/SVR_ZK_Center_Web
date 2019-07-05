@@ -5,7 +5,7 @@
                 <div class="AddIMG_tit">
                     <span>发布素材需求</span>
                 </div>
-                <div>
+                <div style="overflow-y: auto;height: 655px">
                     <div>
                         <span class="tit_txt">素材类型</span>
                         <select style="margin-right: 24px" v-model="type" @change="getSJlist()">
@@ -82,7 +82,7 @@
                                     class="upload-demo"
                                     :limit="1"
                                     :on-exceed="handleExceed"
-                                    :on-remove="handleRemove"
+                                    :on-remove="Remove"
                                     :http-request="uploadF"
                                     action="111">
                                 <el-button size="small" type="primary">上传参考图</el-button>
@@ -251,7 +251,7 @@
                     formData.append('demand_name',this.demand_name);
                     this.api.demand_material_edit(formData).then((res)=>{
                         let formData = new FormData;
-                        formData.append('id',this.SCid)
+                        formData.append('id',this.SCid);
                         this.api.demand_audit(formData).then((res)=>{
 
                         })
@@ -285,18 +285,20 @@
             },
             handleRemove(file, fileList) {
                 this.file = '';
+                this.initiate2 = false
             },
             Remove(file, fileList) {
                 this.file = '';
+                this.initiate = false
             },
             uploadF(file){
-                this.initiate2 = true;
+                this.initiate = true;
                 this.time();
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
-                    this.bbb=100;
-                    this.initiate2=false;
+                    this.aaa=100;
+                    this.initiate=false;
                     this.attach.name = res.name;
                     this.attach.ext = res.ext;
                     this.attach.md5 = res.md5;
@@ -305,13 +307,13 @@
                 })
             },
             uploadFile(file){
-                this.initiate = true;
+                this.initiate2 = true;
                 this.time1();
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
-                    this.aaa=100;
-                    this.initiate=false;
+                    this.bbb=100;
+                    this.initiate2=false;
                     this.ref_url = res.url
                 })
             },

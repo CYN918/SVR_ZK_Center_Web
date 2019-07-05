@@ -66,7 +66,7 @@
                             <el-button v-if="tableData[props.$index].status_name=='上传物料'&&tableData[props.$index].reject=='0'" @click="getYWSC(tableData[props.$index].bdid)">查看素材</el-button>
                             <el-button v-if="(tableData[props.$index].status_name=='发布审核'&&tableData[props.$index].reject=='0')||(tableData[props.$index].status_name=='活动发布'&&tableData[props.$index].reject=='0')" @click="getSC(tableData[props.$index].mdid)">查看需求</el-button>
                             <el-button v-if="(tableData[props.$index].status_name=='物料审核'&&tableData[props.$index].reject=='0')||(tableData[props.$index].status_name=='测试验收'&&tableData[props.$index].reject=='0')">查看物料</el-button>
-                            <el-button @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,tableData[props.$index].status,tableData[props.$index].reject)" v-if="tableData[props.$index].reject=='1'">查看驳回原因</el-button>
+                            <el-button @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,tableData[props.$index].status+1,tableData[props.$index].reject)" v-if="tableData[props.$index].reject=='1'">查看驳回原因</el-button>
                             <el-button @click="educe(tableData[props.$index].did,tableData[props.$index].check_status,tableData[props.$index].status)" v-if="(tableData[props.$index].status_name=='签字审核'&&tableData[props.$index].status==2)||(tableData[props.$index].status_name=='补充签字'&&tableData[props.$index].status==4)">导出表格</el-button>
                             <el-button @click="uploadData(tableData[props.$index].did)"  v-if="(tableData[props.$index].status_name=='签字审核'&&tableData[props.$index].status==2)||(tableData[props.$index].status_name=='补充签字'&&tableData[props.$index].status==4)">上传文件</el-button>
                             <el-button @click="release(tableData[props.$index].did,tableData[props.$index].demand_type)" v-if="tableData[props.$index].status_name=='需求发布'">发布需求</el-button>
@@ -109,10 +109,10 @@
                                     <div class="step_contnet" v-if="item.creator!=''||tableData[props.$index].status==item.status">
                                         <span class="step_txt" v-if="index=='0'">需求内容</span>
                                         <span class="step_txt" v-if="index!='0'">处理结果</span>
-                                        <span class="dj" v-if="item.key==0" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status,item.reject)">查看详情</span>
+                                        <span class="dj" v-if="item.key==0&&item.status_name!='结算汇款'" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status,item.reject)">查看详情</span>
                                         <span v-if="item.did==undefined&&item.reject!='1'&&tableData[props.$index].status==item.status&&item.isfinish!=1&&item.status_name!='结算汇款'">待处理</span>
                                         <span class="dj" v-if="item.isfinish==1" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status)">查看详情</span>
-                                        <span class="dj" v-if="item.status_name=='结算汇款'" @click="withdraw(tableData[props.$index].did,tableData[props.$index].status)">查看详情</span>
+                                        <span class="dj" v-if="item.status_name=='结算汇款'" @click="withdraw(tableData[props.$index].did,item.status)">查看详情</span>
                                     </div>
                                 </div>
                             </div>
@@ -492,13 +492,18 @@
                 if(type=='业务需求'){
                     if(status ==1){
                         if(reject==1){
-                            this.getRejDET()
+                            this.getRejDET(id,status)
                         }else{
                             this.getYW(id);
                         }
                     }
                     if(status ==2){
-                        this.getYWSC(id)
+                        if(reject==1){
+                            this.getRejDET(id,status)
+                        }else{
+                            this.getYWSC(id)
+                        }
+
                     }
                     if(status ==3){
                         if(reject==1){
@@ -509,18 +514,48 @@
 
                     }
                     if(status ==4){
-
+                        if(reject==1){
+                            this.getRejDET(id,status)
+                        }else{
+                            return
+                        }
                     }
                     if(status ==5){
-
+                        if(reject==1){
+                            this.getRejDET(id,status)
+                        }else{
+                            return
+                        }
                     }
                 }
                 if(type=='素材需求'){
                     if(status ==1){
-                        this. getSC(id);
+                        if(reject==1){
+                            this.getRejDET(id,status)
+                        }else{
+                            this. getSC(id);
+                        }
+
                     }
-                    if(status ==1){
-                        this. getSC(id);
+                    if(status ==2){
+                        if(reject==1){
+                            this.getRejDET(id,status)
+                        }
+                    }
+                    if(status ==3){
+                        if(reject==1){
+                            this.getRejDET(id,status)
+                        }
+                    }
+                    if(status ==4){
+                        if(reject==1){
+                            this.getRejDET(id,status)
+                        }
+                    }
+                    if(status ==5){
+                        if(reject==1){
+                            this.getRejDET(id,status)
+                        }
                     }
                 }
                 if(type=='设计师结算'){

@@ -7,7 +7,7 @@
                     <span class="title_div_span">已制作物料：</span>
                     <span class="title_div_span">{{this.listWL.length}}</span>
                     <span class="title_div_span">/</span>
-                    <span class="title_div_span">{{this.numAll}}</span>
+                    <span class="title_div_span">{{this.numAlls}}</span>
                     <span class="title_div_btn" @click="ADDline">
                       <span>+</span>
                         增加一行
@@ -17,8 +17,8 @@
             <div class="table_material">
                 <div class="content_title" v-for="(item,index) in listWL">
                     <div  style="display: inline-block" >
-                        <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
-                        <span class="content_title_span" @click="getWl()">物料库选择</span>
+                        <!--<img class="content_title_img" src="../../../public/img/ADD_bule.png"/>-->
+                        <!--<span class="content_title_span" @click="getWl()">物料库选择</span>-->
                         <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
                         <span class="content_title_span">本地上传</span>
                     </div>
@@ -65,6 +65,7 @@
                 total:0,
                 listWL:[],
                 numAll:0,
+                numAlls:0,
             }
         },
         mounted(){
@@ -90,7 +91,6 @@
                 this.$parent.heidAddWl();
             },
             delLine(index){
-
                     if(this.listWL[index].line_num==undefined){
                         this.listWL.splice(index,1);
                     }else{
@@ -105,21 +105,10 @@
                     }
             },
             getDATA(){
-                let params = {id:this.id,p:this.p,page:this.page,material:1};
+                let params = {id:this.id,p:this.p,page:this.page,material:0};
                 this.api.demand_business_bind_list({params}).then((res)=>{
-                    this.numAll=res.data.material.length;
-                    let params = {id:this.id,p:this.p,page:this.page,material:0};
-                    this.api.demand_business_bind_list({params}).then((res)=>{
-                        for(var i =0;i<(res.data.mfinal).length;i++){
-                            if(res.data.mfinal[i].bind[0].creator==localStorage.getItem('userAd')){
-                                var arr = [];
-                                arr.push(res.data.mfinal[i]);
-                                console.log(arr);
-                                this.listWL=arr;
-                            }
-                        }
-
-                    })
+                    this.numAlls =res.data.demand.num;
+                    this.listWL = res.data.mfinal;
                 })
             },
         },
