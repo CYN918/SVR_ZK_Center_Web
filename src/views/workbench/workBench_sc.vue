@@ -172,11 +172,11 @@
                         this.$message.error('截止时间不能为空')
                         return
                     }
-                    if(this.is_attach==true&&!this.ref_url){
+                    if(this.is_attach==true&&!this.attach.url==''){
                         this.$message.error('请上传附件');
                         return
                     }
-                    if(this.is_ref==true&&this.attach.url==''){
+                    if(this.is_ref==true&&!this.ref_url){
                         this.$message.error('请上传产考图');
                         return
                     }
@@ -228,12 +228,12 @@
                         this.$message.error('需求名称不能为空')
                         return
                     }
-                    if(this.is_attach==true&&!this.ref_url){
-                        this.$message.error('请上传附件')
+                    if(this.is_attach==true&&!this.attach.url==''){
+                        this.$message.error('请上传附件');
                         return
                     }
-                    if(this.is_ref==true&&this.attach.url==''){
-                        this.$message.error('请上传产考图')
+                    if(this.is_ref==true&&!this.ref_url){
+                        this.$message.error('请上传产考图');
                         return
                     }
                     let formData = new FormData;
@@ -299,11 +299,7 @@
                 this.api.file_upload(formData).then((res)=>{
                     this.aaa=100;
                     this.initiate=false;
-                    this.attach.name = res.name;
-                    this.attach.ext = res.ext;
-                    this.attach.md5 = res.md5;
-                    this.attach.url = res.url;
-                    this.attach.size =res.size;
+                    this.ref_url = res.url
                 })
             },
             uploadFile(file){
@@ -314,7 +310,11 @@
                 this.api.file_upload(formData).then((res)=>{
                     this.bbb=100;
                     this.initiate2=false;
-                    this.ref_url = res.url
+                    this.attach.name = res.name;
+                    this.attach.ext = res.ext;
+                    this.attach.md5 = res.md5;
+                    this.attach.url = res.url;
+                    this.attach.size =res.size;
                 })
             },
             getTypes(){
