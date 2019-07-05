@@ -11,10 +11,10 @@
                             <span>绑定素材预览图</span>
                         </div>
                         <div class="AddIMG_box">
-                            <img :src="hqUrl" v-if="hqUrl!=''"/>
+                            <img />
                         </div>
                         <div class="AddIMG_box_txt">
-                            <span>{{bindMid}}</span>
+                            <span></span>
                         </div>
                         <div>
                             <span>上传素材预览图</span>
@@ -46,24 +46,16 @@
                                 <div style="text-align: center;font-size: 10px">当前附件上传{{aaa}}%</div>
                             </div>
                         </div>
-                        <div class="AddIMG_sc">
-                            <span class="tit">绑定素材:</span>
-                            <input type="text" placeholder="请输入素材ID" v-model="bind_mid" :disabled="(this.message.mid!=undefined)" @change="IDchanges"/>
-                            <span class="AddIMG_sc_btn" @click="XSset" :class="{AddIMG_sc_btn_jy:(this.message.mid!=undefined)}">从素材库选择</span>
-                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="is_bind_mid" :disabled="(this.message.mid!=undefined)"/><span>与素材库内已有素材无关</span>
-                            <p>若由素材库内文件处理后上传，必须填写对应的素材ID，仅可填写一个</p>
-                        </div>
+
                         <div class="AddIMG_zp">
                             <span class="tit">绑定设计师作品:</span>
-                            <input type="text" class="AddIMG_zp_text" v-model="bind_workid" :disabled="(this.message.mid!=undefined)"/>
-                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="is_bind_workid" :disabled="(this.message.mid!=undefined)"/>
-                            <span>与设计师无关</span>
+                            <input type="text" class="AddIMG_zp_text" v-model="bind_workid" />
                             <p>由设计师站获得的素材，必须填写对应的作品ID</p>
                         </div>
                         <div class="AddIMG_select">
                             <span class="tit">素材类型:</span>
-                            <select v-model="type"  :disabled="(this.message.mid!=undefined)">
-                                <option :value="types" >{{lx}}</option>
+                            <select v-model="type"  >
+                                <option :value="item.type" v-for="item in scType">{{item.name}}</option>
                             </select>
                         </div>
                         <div class="AddIMG_switch" v-if="sw&&this.status!=1101">
@@ -128,8 +120,8 @@
                             </div>
                         </div>
                         <div class="bg_btn">
-                            <span class="bg_btn_up" @click="AddMatter" v-if="this.message.mid==undefined">上传</span>
-                            <span class="bg_btn_up" @click="AddMatter" v-if="this.message.mid!=undefined">保存</span>
+                            <span class="bg_btn_up" @click="AddMatter">上传</span>
+
                             <span @click="heidSc">取消</span>
                         </div>
                     </div>
@@ -141,7 +133,7 @@
 
 <script>
     export default {
-        props:['message','bindMid','hqUrl','material','types','lx'],
+        props:['id','index'],
         name: "content_component",
         data(){
             return {
@@ -165,13 +157,13 @@
                 sjSize:'',
                 preset:[0,1],
                 preset_tags:[],
-                type:this.types,
+                type:'',
                 sw:false,
                 size:'',
                 scUrl:'',
                 scType:'',
                 tagsName:'',
-                is_bind_mid:false,
+                is_bind_mid:true,
                 is_bind_workid:false,
                 file:{},
                 aaa:0,
@@ -183,20 +175,12 @@
         },
         mounted(){
             this.getTagsList();
-            if(this.message.mid!=undefined){
-                this.title='编辑素材'
-            }else{
-                this.title='添加素材'
-            }
-            if(this.bindMid!=undefined){
-                this.bind_mid=this.bindMid;
-                this.scUrl=this.hqUrl;
-            }
+            this.title='添加素材'
         },
         methods:{
 
             heidSc(){
-                this.$parent.heidSc()
+                this.$parent.heidAddSC()
             },
             showHint(){
                 this.$parent.ShowHint()
@@ -223,15 +207,6 @@
                 }
                 return isPNG || isJPG ||isPSD||isBMP||isGIF||isTIF;
             },
-            // setTags(){
-            //     let formData = new FormData;
-            //     formData.append('mid',this.message.mid);
-            //     formData.append('tags',this.preinstall);
-            //     formData.append('self_tags',this.bardian)
-            //     this.api.material_edit_tags(formData).then((res)=>{
-            //
-            //     })
-            // },
             open(){
                 let formData = new FormData;
                 formData.append('mid',this.message.mid);
@@ -241,23 +216,7 @@
                     console.log(res);
                 })
             },
-            IDchanges(){
-               if(this.bind_mid=='') {
-                   this.hqUrl='';
-                   this.bindMid='';
-               }else{
-                   let params ={p:10000000,page:1,type:this.type,search:''};
-                   this.api.material_search({params}).then((res)=>{
-                    for(var i =0 ;i<res.data.length;i++){
-                        if(res.data[i].mid==this.bind_mid){
-                            this.hqUrl = res.data[i].prev_uri;
-                            this.bindMid = this.bind_mid
-                        }
-                    }
-                   })
-               }
 
-            },
             time(){
                 var _this=this;
                 _this.aaa=0;
@@ -297,9 +256,10 @@
 
             },
             getType(){
-                let params={material:this.material};
+                let params={material:1};
                 this.api.config_material_type({params}).then((res)=>{
                     this.scType=res;
+                    console.log(this.scType)
                 })
             },
             handleExceed(files, fileList) {
@@ -338,15 +298,11 @@
 
             },
             getTagsList(){
-
                 let params = {preset:this.preset,material:this.material,type:this.types,search:this.tagsName,p:50,page:1};
                 this.api.tags_search({params}).then((da)=>{
                     console.log(da);
                     this.preset_tags = da.data.tags;
                     this.self_tags = da.data.self_tags;
-                    if(this.message.mid!=undefined){
-                        this.getMatterDetails();
-                    }
                     this. getType();
                 })
             },
@@ -362,30 +318,7 @@
                     this. getTagsList();
                 })
             },
-            setMatter(){
-                if(this.preinstall.length<=0){
-                    this.$message('预置标签不能为空');
-                    return
-                }
-                let formData = new FormData;
-                formData.append('mid',this.message.mid);
-                formData.append('type',this.type);
-                formData.append('prev_uri',this.prev_uri);
-                formData.append('attach',JSON.stringify(this.attach));
-                formData.append('tags',this.preinstall);
-                formData.append('self_tags',this.bardian);
-                formData.append('size',this.sjSize);
-                this.api.material_edit(formData).then((res)=>{
-                    // this.setTags();
-                    this.getTagsList();
-                    if(res.data!=''){
-                        this. heidSc();
-                    }
-                })
-            },
             AddMatter(){
-                if(this.message.mid==undefined){
-
                     if(!this.type){
                         this.$message('类型不能为空')
                         return
@@ -425,17 +358,20 @@
                     formData.append('is_bind_mid',this.is_bind_mid==true?1:0);
                     formData.append('is_bind_workid',this.is_bind_workid==true?0:1);
                     this.api.material_add(formData).then((res)=>{
-                        this.$emit('updata');
+                        console.log(res);
+                        let formData = new FormData;
+                        formData.append('id',this.id);
+                        formData.append('material',1);
+                        formData.append('line_num',this.index);
+                        formData.append('mid',JSON.stringify([res.mid]));
+                        this.api.demand_business_bind(formData).then((da)=>{
+                            this. heidAddSC();
+                            this. getscR();
+                        });
                         this.getTagsList();
-                      if(res.data!=''){
-                          this. heidSc();
-                      }
                     })
-                }else{
-                    this.setMatter();
-                }
+                },
 
-            },
             getMatterDetails(){
                 let params ={mid:this.message.mid};
                 this.api.material_detail({params}).then((res)=>{
@@ -466,30 +402,9 @@
                     };
                     this.status = res.status;
                 })
-            },
+
         },
-        watch: {
-            'bindMid': function(newVal){
-                this.bind_mid=newVal;
-            },
-            'hqUrl': function (newVal) {
-                this.scUrl=newVal;
-            },
-            'is_bind_mid':function(newVal){
-                if(newVal==true){
-                    this.bind_mid='';
-                    this.bindMid='';
-                    this.hqUrl='';
-                    this.$emit('dataId');
-                }
-            },
-            'bind_mid':function(newVal){
-                if(newVal==''){
-                    this.bindMid='';
-                    this.hqUrl='';
-                    this.$emit('dataId');
-                }
-            },
+
         },
     }
 </script>
@@ -559,7 +474,7 @@
         max-width: 228px;
         max-height: 328px;
         border:0px!important;
-       position: relative;
+        position: relative;
         top:50%;
         left:50%;
         transform: translate(-50%,-50%);
@@ -705,12 +620,12 @@
         border:1px solid rgb(229, 227, 235);
     }
     /*.AddIMG_yl input{*/
-        /*width:125px;*/
-        /*height:50px;*/
-        /*position: relative;*/
-        /*left: -140px;*/
-        /*top:-35px;*/
-        /*opacity: 0;*/
+    /*width:125px;*/
+    /*height:50px;*/
+    /*position: relative;*/
+    /*left: -140px;*/
+    /*top:-35px;*/
+    /*opacity: 0;*/
     /*}*/
     .AddIMG_yl_upload{
         width: 150px;

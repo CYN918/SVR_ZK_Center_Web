@@ -12,6 +12,8 @@
         <CK v-if='ck' :id="CkID"></CK>
         <WLp v-if="WLp" :id="wlID"></WLp>
         <ATR v-if="ADD_material" :id="id" :num="num" :ind="index" :typeDa="typeDa"></ATR>
+        <ADDsc v-if="addSC" :index="index" :id="id"></ADDsc>
+        <scREQ v-if="scR"  :id="id" :num="num"></scREQ>
         <div class="problem">
             <template>
                 <el-table
@@ -73,6 +75,7 @@
                             <el-button v-if="tableData[props.$index].status_name=='素材审核'">查看活动</el-button>
                             <el-button v-if="tableData[props.$index].status_name=='素材入库'">查看素材</el-button>
                             <el-button  @click="AddMaterial(props.$index)" v-if="tableData[props.$index].status_name=='素材准备'&&tableData[props.$index].status==2">添加素材</el-button>
+                            <el-button  @click="getscR(props.$index)" v-if="tableData[props.$index].status_name=='素材审核'&&tableData[props.$index].status==4">添加素材</el-button>
                             <el-button   @click="AddWl(props.$index)" v-if="tableData[props.$index].status_name=='上传物料'">上传物料</el-button>
                             <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name=='测试验收'">测试通过</el-button>
                             <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name=='物料审核'||tableData[props.$index].status_name=='发布审核'">审核通过</el-button>
@@ -206,8 +209,10 @@
     import WLp from './WLparticulars'
     import scwl from './wuliao'
     import ATR from './Add_the_resource'
+    import ADDsc from './ADD_SC'
+    import scREQ from './sc_requirements'
     export default {
-        components:{QD,BH,ADD,sct,BDadd,AddWL,ywxq,scxq,CK,uplodWl,scwl,WLp,ATR},
+        components:{QD,BH,ADDsc,sct,BDadd,AddWL,ywxq,scxq,CK,uplodWl,scwl,WLp,ATR,scREQ},
         props:['tableData','active'],
         name: "workbench-table",
         data(){
@@ -245,6 +250,8 @@
                 attach:{},
                 reject_details:false,
                 tableData2:[],
+                addSC:false,
+                scR:false,
                 getRowKeys(row) {
                     return row.did;
                 },
@@ -282,6 +289,27 @@
             },
             HeidWl(){
                 this.wl = false;
+                this.move()
+            },
+            getscR(index){
+                this.scR = true;
+                this.id = this.tableData[index].did;
+                this.num = this.tableData[index].num;
+                this.stop()
+            },
+            heidscR(){
+                this.scR = false;
+                this.move()
+            },
+            GgtAddSC(index){
+                if(index!=undefined){
+                    this.index = index;
+                }
+                this.addSC = true;
+                this.stop()
+            },
+            heidAddSC(){
+                this.addSC = false;
                 this.move()
             },
             getRejDET(id,status){
