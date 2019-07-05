@@ -427,7 +427,7 @@
                     this.api.material_add(formData).then((res)=>{
                         this.$emit('updata');
                         this.getTagsList();
-                      if(res!=''){
+                      if(res.data!=''){
                           this. heidSc();
                       }
                     })
