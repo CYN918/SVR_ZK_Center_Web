@@ -101,13 +101,13 @@
                     </div>
                     <div>
                         <el-upload
-                        class="upload-demo"
-                        action="aaaa"
-                        multiple
-                        :limit="1"
-                        :http-request="upload"
+                                class="upload-demo"
+                                action="aaaa"
+                                multiple
+                                :limit="1"
+                                :http-request="upload"
                         >
-                        <el-button size="small" type="primary">点击上传</el-button>
+                            <el-button size="small" type="primary">点击上传</el-button>
                         </el-upload>
                     </div>
                     <div class="text_tit">
@@ -183,22 +183,22 @@
             this.end_date = this.$route.query.end_date;
         },
         methods:{
-                getRowClass({row, column, rowIndex, columnIndex}) {
-                    if (rowIndex === 0) {
-                        return 'background:rgb(246, 245, 245,1);color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
-                    } else {
-                        return ''
-                    }
-                    },
+            getRowClass({row, column, rowIndex, columnIndex}) {
+                if (rowIndex === 0) {
+                    return 'background:rgb(246, 245, 245,1);color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
+                } else {
+                    return ''
+                }
+            },
             cell({row, column, rowIndex, columnIndex}){
                 return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
             getTH(){
-                    this.th=true
+                this.th=true
             },
             heidTH(){
-                    this.th=false;
-                    this.new_url='';
+                this.th=false;
+                this.new_url='';
             },
             goHome(){
                 this.$router.push({
@@ -238,26 +238,26 @@
                 })
             },
             getRemove(id){
-                    this.remove =true;
-                    this.md5=id;
+                this.remove =true;
+                this.md5=id;
             },
             heidRemove(){
                 this.remove =false;
             },
             upload(file){
-                    let formData =new FormData;
-                    formData.append('file',file.file);
-                   this.api.file_upload(formData).then((res)=>{
-                       this.new_url= res.url;
-                       this.new_url_md5=res.md5;
-                       var image = new Image();
-                       var _this=this;
-                       image.onload=function(){
-                           _this.width = image.width;
-                           _this.height = image.height;
-                       };
-                       image.src= res.url;
-                   })
+                let formData =new FormData;
+                formData.append('file',file.file);
+                this.api.file_upload(formData).then((res)=>{
+                    this.new_url= res.url;
+                    this.new_url_md5=res.md5;
+                    var image = new Image();
+                    var _this=this;
+                    image.onload=function(){
+                        _this.width = image.width;
+                        _this.height = image.height;
+                    };
+                    image.src= res.url;
+                })
             },
             getDataList(){
                 let params ={start_date:this.$route.query.start_date,end_date:this.$route.query.end_date};
@@ -277,9 +277,9 @@
                             this.tableData2=res[i].new_res;
                             console.log(res[i].new_res);
                             console.log(i);
-                           for(var j=0;j<this.tableData2.length;j++){
-                               this.tableData2[j].width=this.tableData2[j].width+'*'+this.tableData2[j].height
-                           }
+                            for(var j=0;j<this.tableData2.length;j++){
+                                this.tableData2[j].width=this.tableData2[j].width+'*'+this.tableData2[j].height
+                            }
                         }
                     }
                 })
@@ -289,13 +289,13 @@
                 return this.tableData2[a].url;
             },
             delelt(){
-                    let formData =new FormData;
-                    formData.append('new_url_md5',this.md5);
+                let formData =new FormData;
+                formData.append('new_url_md5',this.md5);
                 formData.append('mid',this.mid);
-                    this.api.replace_del(formData).then((res)=>{
-                        this.getDataList();
-                        this.heidRemove()
-                    })
+                this.api.replace_del(formData).then((res)=>{
+                    this.getDataList();
+                    this.heidRemove()
+                })
             },
         },
 

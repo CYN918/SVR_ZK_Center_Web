@@ -1,13 +1,58 @@
 <template>
+    <div>
+        <div class="poster">
+            <div class="top">
+                <span @click="ADDad()">添加</span>
+            </div>
+            <div class="centNavBox">
+                <template>
+                    <el-table
+                            :data="tableData"
+                            header-align="center"
+                            :header-cell-style="getRowClass"
+                            :cell-style="cell"
+                            stripe
+                            style="width: 100%">
+                        <el-table-column
+                                prop="id"
+                                label="序号"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                prop="pic_url"
+                                label="图片"
+                        >
+                            <template slot-scope="scope">
+                                <img :src="scope.row.pic_url" min-width="70" height="70" />
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                                prop="link"
+                                label="链接"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                prop="address"
+                                label="操作">
+                            <template slot-scope="scope">
+                                <el-button type="text" size="small" @click="ADDad(scope.$index)">编辑</el-button>
+                                <el-button type="text" size="small"  @click="getDel(scope.$index)">删除</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </template>
+            </div>
+        </div>
         <div>
-            <div class="poster">
+            <div>
                 <div class="top">
-                    <span @click="ADDad()">添加</span>
+                    <span @click=" ADDmore()">更多</span>
+                    <span @click="ADDnews()">添加</span>
                 </div>
                 <div class="centNavBox">
                     <template>
                         <el-table
-                                :data="tableData"
+                                :data="tableData2"
                                 header-align="center"
                                 :header-cell-style="getRowClass"
                                 :cell-style="cell"
@@ -16,189 +61,144 @@
                             <el-table-column
                                     prop="id"
                                     label="序号"
-                                   >
+                            >
                             </el-table-column>
                             <el-table-column
                                     prop="pic_url"
                                     label="图片"
-                                    >
+                            >
                                 <template slot-scope="scope">
                                     <img :src="scope.row.pic_url" min-width="70" height="70" />
                                 </template>
                             </el-table-column>
                             <el-table-column
+                                    prop="name"
+                                    label="图片名称"
+                                    type="img">
+                            </el-table-column>
+                            <el-table-column
                                     prop="link"
                                     label="链接"
-                                   >
+                            >
                             </el-table-column>
                             <el-table-column
                                     prop="address"
                                     label="操作">
                                 <template slot-scope="scope">
-                                    <el-button type="text" size="small" @click="ADDad(scope.$index)">编辑</el-button>
-                                    <el-button type="text" size="small"  @click="getDel(scope.$index)">删除</el-button>
+                                    <el-button type="text" size="small" @click="ADDnews(scope.$index)">编辑</el-button>
+                                    <el-button type="text" size="small" @click="getDel2(scope.$index)">删除</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
                     </template>
                 </div>
             </div>
-            <div>
-                <div>
-                    <div class="top">
-                        <span @click=" ADDmore()">更多</span>
-                        <span @click="ADDnews()">添加</span>
-                    </div>
-                    <div class="centNavBox">
-                        <template>
-                            <el-table
-                                    :data="tableData2"
-                                    header-align="center"
-                                    :header-cell-style="getRowClass"
-                                    :cell-style="cell"
-                                    stripe
-                                    style="width: 100%">
-                                <el-table-column
-                                        prop="id"
-                                        label="序号"
-                                >
-                                </el-table-column>
-                                <el-table-column
-                                        prop="pic_url"
-                                        label="图片"
-                                        >
-                                    <template slot-scope="scope">
-                                        <img :src="scope.row.pic_url" min-width="70" height="70" />
-                                    </template>
-                                </el-table-column>
-                                <el-table-column
-                                        prop="name"
-                                        label="图片名称"
-                                        type="img">
-                                </el-table-column>
-                                <el-table-column
-                                        prop="link"
-                                        label="链接"
-                                >
-                                </el-table-column>
-                                <el-table-column
-                                        prop="address"
-                                        label="操作">
-                                    <template slot-scope="scope">
-                                        <el-button type="text" size="small" @click="ADDnews(scope.$index)">编辑</el-button>
-                                        <el-button type="text" size="small" @click="getDel2(scope.$index)">删除</el-button>
-                                    </template>
-                                </el-table-column>
-                            </el-table>
-                        </template>
-                    </div>
-                </div>
-            </div>
-            <div class="bg" v-if="AD">
-                <div class="content">
-                    <div class="bg_tit">
+        </div>
+        <div class="bg" v-if="AD">
+            <div class="content">
+                <div class="bg_tit">
                         <span>
                             添加广告位配置
                         </span>
-                    </div>
-                    <div style="text-align: center;margin-bottom: 20px">
-                        <el-upload
-                                class="upload-demo"
-                                action="111"
-                                :http-request="upload"
-                                >
-                            <el-button size="small" type="primary">上传图片</el-button>
-                        </el-upload>
-                    </div>
-                    <div class="text">
+                </div>
+                <div style="text-align: center;margin-bottom: 20px">
+                    <el-upload
+                            class="upload-demo"
+                            action="111"
+                            :http-request="upload"
+                    >
+                        <el-button size="small" type="primary">上传图片</el-button>
+                    </el-upload>
+                </div>
+                <div class="text">
                         <span>
                             广告图片链接
                         </span>
-                        <input type="text"  v-model="pic_url" disabled/>
-                    </div>
-                    <div class="text">
+                    <input type="text"  v-model="pic_url" disabled/>
+                </div>
+                <div class="text">
                          <span>
                             链接
                         </span>
-                        <input type="text" placeholder="请输入链接" v-model="link"/>
-                    </div>
-                    <div class="btn">
-                        <span class="bc" @click="ADDdata()">保存</span>
-                        <span @click="heidAD">取消</span>
-                    </div>
+                    <input type="text" placeholder="请输入链接" v-model="link"/>
                 </div>
-            </div>
-            <div class="bg" v-if="news">
-                <div class="content">
-                    <div class="bg_tit">
-                        <span>
-                            添加新闻热点
-                        </span>
-                    </div>
-                    <div style="text-align: center;margin-bottom: 20px">
-                        <el-upload
-                                class="upload-demo"
-                                action="111"
-                                :http-request="upload"
-                        >
-                            <el-button size="small" type="primary">上传图片</el-button>
-                        </el-upload>
-                    </div>
-                    <div class="text">
-                        <span>
-                            添加
-                        </span>
-                        <input type="text" v-model="pic_url" disabled/>
-                    </div>
-                    <div class="text">
-                        <span>
-                            名称
-                        </span>
-                        <input type="text" v-model="name"/>
-                    </div>
-                    <div class="text">
-                         <span>
-                            链接
-                        </span>
-                        <input type="text" placeholder="请输入链接" v-model="link"/>
-                    </div>
-                    <div class="btn">
-                        <span class="bc" @click="ADDNewsdata()">添加</span>
-                        <span @click="heidNews">取消</span>
-                    </div>
-                </div>
-            </div>
-            <div class="bg" v-if="more">
-                <div class="content">
-                    <div class="bg_tit">
-                        <span>
-                           更多新闻热点
-                        </span>
-                    </div>
-                    <div class="text">
-                         <span>
-                            更多热点链接
-                        </span>
-                        <input type="text" placeholder="请输入链接" v-model="link"/>
-                    </div>
-                    <div class="btn">
-                        <span class="bc" @click="mores">添加</span>
-                        <span @click="heidMore">取消</span>
-                    </div>
-                </div>
-            </div>
-            <div class="bg" v-if="del">
-                <div class="content">
-                   <div class="comment">
-                       <span>是否确定删除该条记录？</span>
-                   </div>
-                    <div class="btn">
-                        <span class="bc" @click="delDATA()">删除</span>
-                        <span @click="heidDel">取消</span>
-                    </div>
+                <div class="btn">
+                    <span class="bc" @click="ADDdata()">保存</span>
+                    <span @click="heidAD">取消</span>
                 </div>
             </div>
         </div>
+        <div class="bg" v-if="news">
+            <div class="content">
+                <div class="bg_tit">
+                        <span>
+                            添加新闻热点
+                        </span>
+                </div>
+                <div style="text-align: center;margin-bottom: 20px">
+                    <el-upload
+                            class="upload-demo"
+                            action="111"
+                            :http-request="upload"
+                    >
+                        <el-button size="small" type="primary">上传图片</el-button>
+                    </el-upload>
+                </div>
+                <div class="text">
+                        <span>
+                            添加
+                        </span>
+                    <input type="text" v-model="pic_url" disabled/>
+                </div>
+                <div class="text">
+                        <span>
+                            名称
+                        </span>
+                    <input type="text" v-model="name"/>
+                </div>
+                <div class="text">
+                         <span>
+                            链接
+                        </span>
+                    <input type="text" placeholder="请输入链接" v-model="link"/>
+                </div>
+                <div class="btn">
+                    <span class="bc" @click="ADDNewsdata()">添加</span>
+                    <span @click="heidNews">取消</span>
+                </div>
+            </div>
+        </div>
+        <div class="bg" v-if="more">
+            <div class="content">
+                <div class="bg_tit">
+                        <span>
+                           更多新闻热点
+                        </span>
+                </div>
+                <div class="text">
+                         <span>
+                            更多热点链接
+                        </span>
+                    <input type="text" placeholder="请输入链接" v-model="link"/>
+                </div>
+                <div class="btn">
+                    <span class="bc" @click="mores">添加</span>
+                    <span @click="heidMore">取消</span>
+                </div>
+            </div>
+        </div>
+        <div class="bg" v-if="del">
+            <div class="content">
+                <div class="comment">
+                    <span>是否确定删除该条记录？</span>
+                </div>
+                <div class="btn">
+                    <span class="bc" @click="delDATA()">删除</span>
+                    <span @click="heidDel">取消</span>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -347,7 +347,7 @@
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
-                this.pic_url = res.url
+                    this.pic_url = res.url
                 })
             },
             mores(){
@@ -383,9 +383,9 @@
                 this.api.aggregation_add(formData).then((res)=>{
                     this.heidAD();
                     this.getData();
-                   this.pic_url='';
-                   this.name='';
-                   this.link = ''
+                    this.pic_url='';
+                    this.name='';
+                    this.link = ''
                 })
             },
             delDATA(){

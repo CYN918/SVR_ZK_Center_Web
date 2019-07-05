@@ -39,7 +39,7 @@
                             prop="ee"
                             label="附件下载">
                         <template slot-scope="scope">
-                           <a class="iconfont" :href="downloadLink(scope.$index)">&#xe61a;</a>
+                            <a class="iconfont" :href="downloadLink(scope.$index)">&#xe61a;</a>
                         </template>
                     </el-table-column>
                     <el-table-column
@@ -66,7 +66,7 @@
         <div class="tcvBox" v-if="show"  @click="qx()">
             <div class="box"  @click.stop>
                 <div class="box_1">
-                   <span>上传壁纸</span>
+                    <span>上传壁纸</span>
                 </div>
                 <div class="box_2">
                     <span class="text">附件</span>
@@ -74,12 +74,12 @@
                             class="upload-demo"
                             :limit="1"
                             :on-success="handleAvatarSuccess"
-                             action="111"
+                            action="111"
                             :http-request="upload"
                             :on-exceed="handleExceed"
                             :before-upload="beforeAvatarUpload"
                             :on-remove="handleRemove"
-                         >
+                    >
                         <el-button size="small" type="primary">上传物料包</el-button>
                     </el-upload>
                 </div>
@@ -100,7 +100,7 @@
                     <template>
                         <el-checkbox-group
                                 v-model="checkedCities1">
-                        <el-checkbox v-for="(item,index) in tagslist" :label="index" :key="item.usertag">{{item.desc}}</el-checkbox>
+                            <el-checkbox v-for="(item,index) in tagslist" :label="index" :key="item.usertag">{{item.desc}}</el-checkbox>
                         </el-checkbox-group>
                     </template>
                 </div>
@@ -166,15 +166,15 @@
                 let params = {wpid:this.wpid};
                 this.api.lockwallpaper_lwp_tags({params}).then((res)=>{
                     this.tag_id=res[0].tags;
-                   for(let i=0;i<this.tag_id.length;i++){
-                    for(let j=0;j<this.tagslist.length;j++){
-                        if(this.tagslist[j].usertag==this.tag_id[i]){
-                            this.checkedCities1.push(j);
-                        }else{
-                            this.checkedCities1=[]
+                    for(let i=0;i<this.tag_id.length;i++){
+                        for(let j=0;j<this.tagslist.length;j++){
+                            if(this.tagslist[j].usertag==this.tag_id[i]){
+                                this.checkedCities1.push(j);
+                            }else{
+                                this.checkedCities1=[]
+                            }
                         }
                     }
-                   }
                 })
             },
             Heidtags(){
@@ -226,20 +226,20 @@
             },
             handleAvatarSuccess(response, file, fileList) {
                 console.log(response)
-               this.MD5 = response.md5;
-               this.url = response.url;
-               this.name = response.name;
-               this.ext = response.ext;
-               this.size = response.size;
-               if(response.is_check==false){
-                   this.is_check = 0;
-               }
-               if(response.is_check==true){
-                   this.is_check = 1;
-               }
-               this.check_md5 = response.check_md5;
+                this.MD5 = response.md5;
+                this.url = response.url;
+                this.name = response.name;
+                this.ext = response.ext;
+                this.size = response.size;
+                if(response.is_check==false){
+                    this.is_check = 0;
+                }
+                if(response.is_check==true){
+                    this.is_check = 1;
+                }
+                this.check_md5 = response.check_md5;
                 this.wpid=response.wpid
-               this.checksum_md5 = response.checksum_md5;
+                this.checksum_md5 = response.checksum_md5;
             },
             uploading(){
                 if(!this.file){
@@ -251,7 +251,7 @@
                     this.show = false;
                     this.msgData();
                 },error => {
-                        console.log(error)
+                    console.log(error)
                 }).catch(()=>{
 
                 })
@@ -264,13 +264,13 @@
                     console.log(this.tableData[0].wpid)
                     console.log(this.tableData)
                     this.total =res.total;
-                   res.last_page=this.p  ;
+                    res.last_page=this.p  ;
                     res.per_page=this.page;
                     this.getTags();
                 })
             },
             downloadLink(a){
-               return this.tableData[a].url;
+                return this.tableData[a].url;
             },
             del(b){
                 let params = {id:this.tableData[b].fid};
@@ -300,7 +300,7 @@
                     }
                     tag.tags_id = this.tagslist[this.checkedCities1[i]].usertag;
                     tag.tags_name = this.tagslist[this.checkedCities1[i]].desc;
-                   this.tags.push(tag);
+                    this.tags.push(tag);
                 }
                 let formData = new FormData;
                 formData.append('wpid',this.wpid);
@@ -314,149 +314,149 @@
 </script>
 
 <style scoped>
-.bg{
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.2);
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    z-index: 999;
-    text-align: center;
-}
-.content{
-   background: #fff;
-    width: 600px;
-    height: 300px;
-    padding: 24px;
-    border-radius: 10px;
-    margin-top: 20%;
-    margin-left: 50%;
-    transform: translate(-50%,-50%);
-}
-.centNavBox{
-    position: relative;
-    background:rgba(255,255,255,1);
-    box-shadow:0px 1px 3px 0px rgba(0, 0, 0, 0.06);
-    margin-bottom: 0 !important;
-    height: 60px;
-    font-size:14px;
-    line-height:60px ;
-    color:rgba(0,0,0,1) !important;
-}
-.top{
-    text-align: right;
-    margin-bottom: 20px;
-}
-.top>span{
-    display: inline-block;
-    width: 200px;
-    height: 60px;
-    line-height: 60px;
-    background: #ff7a8c;
-    border-radius: 30px;
-    text-align: center;
-    color: #fff;
-    font-size: 18px;
-    font-weight: 500;
-    cursor: pointer;
-}
-.tcvBox{
-    position: fixed;
-    top: 65px;
-    left: 316px;
-    bottom: 0;
-    right: 0;
-    z-index: 999;
-    background: rgba(0,0,0,.3);
-    width: 100%;
-    height: 100%;
-}
-.box{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    padding: 30px 113px 0;
-    -webkit-transform: translate(-50%,-50%);
-    transform: translate(-50%,-50%);
-    background: rgba(255,255,255,1);
-    -webkit-box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.08);
-    box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.08);
-    overflow: hidden;
-    overflow-y: auto;
-    max-height: 80%;
-}
-.box_1{
-    margin-bottom: 30px;
-    text-align: center;
-}
-.box_1>span{
-    display: inline-block;
-   font-weight: bold;
-    font-size: 20px;
-}
-.text{
-    vertical-align: top;
-    display: inline-block;
-    line-height: 30px;
-}
-.btn_1{
-    margin: 50px 0;
+    .bg{
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.2);
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        z-index: 999;
+        text-align: center;
+    }
+    .content{
+        background: #fff;
+        width: 600px;
+        height: 300px;
+        padding: 24px;
+        border-radius: 10px;
+        margin-top: 20%;
+        margin-left: 50%;
+        transform: translate(-50%,-50%);
+    }
+    .centNavBox{
+        position: relative;
+        background:rgba(255,255,255,1);
+        box-shadow:0px 1px 3px 0px rgba(0, 0, 0, 0.06);
+        margin-bottom: 0 !important;
+        height: 60px;
+        font-size:14px;
+        line-height:60px ;
+        color:rgba(0,0,0,1) !important;
+    }
+    .top{
+        text-align: right;
+        margin-bottom: 20px;
+    }
+    .top>span{
+        display: inline-block;
+        width: 200px;
+        height: 60px;
+        line-height: 60px;
+        background: #ff7a8c;
+        border-radius: 30px;
+        text-align: center;
+        color: #fff;
+        font-size: 18px;
+        font-weight: 500;
+        cursor: pointer;
+    }
+    .tcvBox{
+        position: fixed;
+        top: 65px;
+        left: 316px;
+        bottom: 0;
+        right: 0;
+        z-index: 999;
+        background: rgba(0,0,0,.3);
+        width: 100%;
+        height: 100%;
+    }
+    .box{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        padding: 30px 113px 0;
+        -webkit-transform: translate(-50%,-50%);
+        transform: translate(-50%,-50%);
+        background: rgba(255,255,255,1);
+        -webkit-box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.08);
+        box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        overflow-y: auto;
+        max-height: 80%;
+    }
+    .box_1{
+        margin-bottom: 30px;
+        text-align: center;
+    }
+    .box_1>span{
+        display: inline-block;
+        font-weight: bold;
+        font-size: 20px;
+    }
+    .text{
+        vertical-align: top;
+        display: inline-block;
+        line-height: 30px;
+    }
+    .btn_1{
+        margin: 50px 0;
 
-}
-.btn_y,.btn_n{
-    display: inline-block;
-    text-align: center;
-    width: 150px;
-    height: 50px;
-    line-height: 50px;
-    cursor: pointer;
-    border-radius: 8px;
-}
-.btn_y{
-    background: #2ad5cd;
-    margin-right: 50px;
-    color: #fff;
-    margin: 0 auto!important;
-}
-.btn_n{
-    border: 1px solid #ddd;
-    margin-left: 82px;
-}
-.upload-demo{
-    display: inline-block;
-    margin-left: 20px;
-}
-.box_2>span{
-    display: inline-block;
-    width:50px;
-    text-align: left;
-}
-.box_3{
-    display: inline-block;
-    width: 310px;
-    height: 30px;
-    line-height: 30px;
-    border: 1px solid #ddd;
-    margin-left: 20px;
-    padding-left: 5px;
-}
-.MD{
-    margin-top: 30px;
-    text-align: center;
-}
-.MD_name{
-    display: inline-block;
-    width: 50px;
-    text-align:left;
-    height: 30px;
-    line-height: 30px;
-    vertical-align: top;
-}
-.block{
-    margin-top: 50px;
-    text-align: right;
-}
+    }
+    .btn_y,.btn_n{
+        display: inline-block;
+        text-align: center;
+        width: 150px;
+        height: 50px;
+        line-height: 50px;
+        cursor: pointer;
+        border-radius: 8px;
+    }
+    .btn_y{
+        background: #2ad5cd;
+        margin-right: 50px;
+        color: #fff;
+        margin: 0 auto!important;
+    }
+    .btn_n{
+        border: 1px solid #ddd;
+        margin-left: 82px;
+    }
+    .upload-demo{
+        display: inline-block;
+        margin-left: 20px;
+    }
+    .box_2>span{
+        display: inline-block;
+        width:50px;
+        text-align: left;
+    }
+    .box_3{
+        display: inline-block;
+        width: 310px;
+        height: 30px;
+        line-height: 30px;
+        border: 1px solid #ddd;
+        margin-left: 20px;
+        padding-left: 5px;
+    }
+    .MD{
+        margin-top: 30px;
+        text-align: center;
+    }
+    .MD_name{
+        display: inline-block;
+        width: 50px;
+        text-align:left;
+        height: 30px;
+        line-height: 30px;
+        vertical-align: top;
+    }
+    .block{
+        margin-top: 50px;
+        text-align: right;
+    }
     .btn{
         width: 100%;
         height: 50px;
@@ -464,17 +464,17 @@
         bottom: 0;
         text-align: center;
     }
-.btn span{
-    display: inline-block;
-    line-height:40px;
-    border:1px solid #ddd;
-    text-align: center;
-    width: 80px;
-    height: 40px;
-    border-radius: 10px;
-    color: #666666;
-    cursor: pointer;
-}
+    .btn span{
+        display: inline-block;
+        line-height:40px;
+        border:1px solid #ddd;
+        text-align: center;
+        width: 80px;
+        height: 40px;
+        border-radius: 10px;
+        color: #666666;
+        cursor: pointer;
+    }
     .add{
         border: 0px!important;
         background:#2ad5cd!important; ;

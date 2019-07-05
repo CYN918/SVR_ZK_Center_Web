@@ -53,8 +53,6 @@ import AdminInside from './views/admin/level/inside.vue'
 mode['inside'] = AdminInside
 import AdminExternal from './views/admin/level/external.vue'
 mode['external'] = AdminExternal
-import MD5 from './views/admin/MD5.vue'
-mode['MD5'] = MD5
 
 import standard from './views/admin/standard'
 mode['standard']=standard
@@ -63,12 +61,6 @@ mode['add_library'] = add_library
 import details_library from './views/admin/details_library'
 mode['details_library'] = details_library
 
-import allocation from  './views/admin/allocation'
-mode['allocation'] =allocation
-import replace from './views/admin/replace'
-mode['replace'] = replace
-import has_replaced from './views/admin/Has_replaced'
-mode['has_replaced'] = has_replaced
 
 
 //收益中心
@@ -103,6 +95,14 @@ import withdraw from './views/workbench/tx_details'
 mode['withdraw'] =withdraw
 import user_details from './views/workbench/user_details'
 mode['user_details'] =user_details
+import MD5 from './views/workbench/MD5.vue'
+mode['MD5'] = MD5;
+import allocation from  './views/workbench/allocation'
+mode['allocation'] =allocation
+import replace from './views/workbench/replace'
+mode['replace'] = replace
+import has_replaced from './views/workbench/Has_replaced'
+mode['has_replaced'] = has_replaced
 
 import axios from 'axios'
 import api from './api/index'
@@ -364,8 +364,8 @@ let leftNav =localStorage.getItem('letNav');
 //                     {title:'待处理',url:'/workbench/workbenchPadding'},
 //                     {title:'全部',url:'/workbench/ALL'},
 // 					],},
-//             {title:'运营工具',url:'1',img:'&#xe610;',list:[
-//                     {title:'锁屏壁纸MD5库',url:'//workbench/MD5'},
+//             {title:'运营工具',url:'2',img:'&#xe610;',list:[
+//                     {title:'锁屏壁纸MD5库',url:'/workbench/MD5'},
 //                     {title:'聚合内容配置',url:'/workbench/allocation'},
 //                     {title:'资源待替换',url:'/workbench/replace'},
 //                 ],},
@@ -466,10 +466,10 @@ let leftNav =localStorage.getItem('letNav');
 //         ]
 //         },
 // ];
-
-
-
-localStorage.setItem('letNav',JSON.stringify(leftNav));
+//
+//
+//
+// localStorage.setItem('letNav',JSON.stringify(leftNav));
 
 router.beforeEach((to, from, next) => {
 	/*登录过期*/
