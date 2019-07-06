@@ -260,6 +260,8 @@
         background:rgba(247,249,252,1);
         border-radius:0px 0px 4px 4px;
         text-align: right;
+        position: fixed;
+        bottom: 0;
     }
     .btn span{
         display: inline-block;
@@ -276,6 +278,7 @@
         font-weight:400;
         color:rgba(61,73,102,1);
         cursor: pointer;
+        margin-top: 10px;
     }
     .qd{
         background:rgba(51,119,255,1)!important;
