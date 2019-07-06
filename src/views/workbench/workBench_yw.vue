@@ -270,8 +270,8 @@
                 })
             },
             getYWtype(){
-                let params ={material:0}
-                this.api.config_material_type({params}).then((res)=>{
+                let params ={demand_type:'demand_business'}
+                this.api.config_demands_type({params}).then((res)=>{
                     this.YWtypeList = res
                 })
             },

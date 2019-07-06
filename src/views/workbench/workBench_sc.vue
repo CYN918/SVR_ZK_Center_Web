@@ -172,10 +172,7 @@
                         this.$message.error('截止时间不能为空')
                         return
                     }
-                    if(this.is_attach==true&&!this.attach.url==''){
-                        this.$message.error('请上传附件');
-                        return
-                    }
+
                     if(this.is_ref==true&&!this.ref_url){
                         this.$message.error('请上传参考图');
                         return
@@ -228,10 +225,7 @@
                         this.$message.error('需求名称不能为空')
                         return
                     }
-                    if(this.is_attach==true&&!this.attach.url==''){
-                        this.$message.error('请上传附件');
-                        return
-                    }
+
                     if(this.is_ref==true&&!this.ref_url){
                         this.$message.error('请上传参考图');
                         return
@@ -318,8 +312,8 @@
                 })
             },
             getTypes(){
-                let params ={material:1};
-                this.api.config_material_type({params}).then((res)=>{
+                let params ={demand_type:'demand_material'};
+                this.api.config_demands_type({params}).then((res)=>{
                    this.types=res;
                    this.getSJlist();
                 })

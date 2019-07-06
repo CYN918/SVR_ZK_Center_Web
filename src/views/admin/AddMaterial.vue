@@ -59,6 +59,15 @@
                             <select v-model="type" :disabled="(this.message.mfid!=undefined)">
                                 <option :value="types" >{{lx}}</option>
                             </select>
+                            <div class="AddIMG_switch" v-if="sw">
+                                <span  class="tit">是否启用:</span>
+                                <el-switch
+                                        @change="open"
+                                        v-model="value2"
+                                        active-color="#409EFF"
+                                        inactive-color="#ff4949">
+                                </el-switch>
+                            </div>
                         </div>
                         <div v-if="type=='f_sls_lockscreen'" class="AddIMG_select">
                             <span  class="tit">打底广告图</span>
@@ -70,15 +79,6 @@
                         <div v-if="type=='f_sls_lockscreen'" class="AddIMG_sc">
                             <span class="tit">广告图位数</span>
                             <input type="number" placeholder="请输入广告位数数量" v-model="ad_num"/>
-                        </div>
-                        <div class="AddIMG_switch" v-if="sw">
-                            <span  class="tit">是否启用:</span>
-                            <el-switch
-                                    @change="open"
-                                    v-model="value2"
-                                    active-color="#409EFF"
-                                    inactive-color="#ff4949">
-                            </el-switch>
                         </div>
                         <div class="AddIMG_yl">
                             <span class="tit">尺寸:</span>

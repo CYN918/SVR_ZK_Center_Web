@@ -692,4 +692,8 @@ export default {
 	perm_role_uri:{
 		url:'/perm/role/uri',method:"get"
 	},
+	//获取需求发布下业务/素材类型
+    config_demands_type:{
+		url:'config/demands/type',method:'get'
+	},
 }
