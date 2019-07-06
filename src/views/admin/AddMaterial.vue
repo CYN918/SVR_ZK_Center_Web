@@ -69,17 +69,6 @@
                                 </el-switch>
                             </div>
                         </div>
-                        <div v-if="type=='f_sls_lockscreen'" class="AddIMG_select">
-                            <span  class="tit">打底广告图</span>
-                            <select v-model="ad_pic">
-                                <option value="1">有</option>
-                                <option value="0">无</option>
-                            </select>
-                        </div>
-                        <div v-if="type=='f_sls_lockscreen'" class="AddIMG_sc">
-                            <span class="tit">广告图位数</span>
-                            <input type="number" placeholder="请输入广告位数数量" v-model="ad_num"/>
-                        </div>
                         <div class="AddIMG_yl">
                             <span class="tit">尺寸:</span>
                             <input class="AddIMG_yl_size" v-model="sjSize" placeholder="上传预览图后自动获取"  disabled v-if="chenck==false">
@@ -101,6 +90,29 @@
                                 <div class="strip" :style="{width:bbb+'%'}" style="background: blue;height: 5px"></div>
                                 <div style="text-align: center;font-size: 10px">当前附件上传{{bbb}}%</div>
                             </div>
+                        </div>
+                        <div v-if="type=='f_sls_lockscreen'" class="AddIMG_select">
+                            <span  class="tit">打底广告图</span>
+                            <select v-model="ad_pic">
+                                <option value="1">有</option>
+                                <option value="0">无</option>
+                            </select>
+                        </div>
+                        <div v-if="type=='f_sls_lockscreen'" class="AddIMG_sc">
+                            <span class="tit">广告图位数</span>
+                            <input type="number" placeholder="请输入广告位数数量" v-model="ad_num"/>
+                        </div>
+                        <div class="box_sel">
+                            <span class="tit">实现方式:</span>
+                            <select v-model="model">
+                                <option value="无">无</option>
+                                <option value="H5">H5</option>
+                                <option value="脚本">脚本</option>
+                            </select>
+                        </div>
+                        <div v-if="model=='H5'" class="link" style="margin-bottom: 10px">
+                            <span class="tit">H5链接:</span>
+                            <input type="text" v-model="link">
                         </div>
                         <div class="AddIMG_bq">
                             <span class="tit">选择标签:</span>
@@ -133,18 +145,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="box_sel">
-                            <span class="tit">实现方式:</span>
-                            <select v-model="model">
-                                <option value="无">无</option>
-                                <option value="H5">H5</option>
-                                <option value="脚本">脚本</option>
-                            </select>
-                        </div>
-                        <div v-if="model=='H5'" class="link">
-                            <span class="tit">H5链接:</span>
-                            <input type="text" v-model="link">
-                        </div>
+
                         <div class="bg_btn">
                             <span class="bg_btn_up" v-if="this.message.mfid==undefined" @click="AddMatter">上传</span>
                             <span class="bg_btn_up" v-if="this.message.mfid!=undefined" @click="AddMatter">保存</span>
@@ -528,7 +529,8 @@
         top:15px;
         transform: translateX(-50%);
         width:1115px;
-        height:884px;
+        min-height: 850px;
+        max-height:940px;
         background:rgba(255,255,255,1);
         border-radius:4px;
     }
@@ -553,6 +555,7 @@
         display: inline-block;
         width: 750px;
         margin-top: 25px;
+        margin-bottom: 20px;
     }
     .AddIMG_content_left{
         margin-left: 24px;
@@ -767,7 +770,7 @@
     .AddIMG_bq_box{
         display: inline-block;
         width:560px;
-        height:212px;
+        height:258px;
         background:rgba(255,255,255,1);
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);
@@ -786,10 +789,6 @@
     .AddIMG_bq_box_top_bq,.AddIMG_bq_box_top_zdy{
         margin:0 20px 0px 0px ;
 
-    }
-    .AddIMG_bq_box_top_bq{
-        height: 40px;
-        overflow-y: auto;
     }
     .AddIMG_bq_box_top_tit input{
         display: block;

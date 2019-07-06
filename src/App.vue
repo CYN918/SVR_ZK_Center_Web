@@ -688,4 +688,7 @@ select{
   .uplaod .el-button{
     background: rgba(51,119,255,1)!important;
   }
+.el-upload-list__item:first-child{
+  margin-top: 0!important;
+}
 </style>
