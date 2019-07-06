@@ -142,9 +142,9 @@
             aaa(index){
                 this.api.role_user().then((res)=>{
                     this.tableData2 = res[index].users;
+                    this.roleID = res[index].role_id;
                     this.num = index;
                     console.log(this.num);
-
                 })
             },
             role(){
