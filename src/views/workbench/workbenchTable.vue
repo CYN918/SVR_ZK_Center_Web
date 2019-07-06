@@ -520,10 +520,10 @@
             },
 
             release(id,type){
-                if(type=='demand_business'){
-                    this.$parent.getSC(id);
-                }else {
+                if(type=='业务需求'){
                     this.$parent.getYW(id);
+                }else {
+                    this.$parent.getSC(id);
                 }
             },
             check(type,id,status,reject){
