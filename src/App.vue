@@ -685,4 +685,7 @@ select{
 .el-button{
   background: rgba(0,0,0,0)!important;
 }
+  .uplaod .el-button{
+    background: rgba(51,119,255,1)!important;
+  }
 </style>
