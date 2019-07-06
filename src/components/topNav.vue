@@ -152,7 +152,8 @@ export default {
 .log>img{
 	vertical-align:top;
 	display: inline-block;
-	max-width: 159px;
+	max-width: 256px;
+	max-height: 64px;
 	position: relative;
 	top:50%;
 	transform: translateY(-50%);

@@ -354,7 +354,7 @@
                     return
                 }
                 let formData = new FormData;
-                formData.append('mid',this.message.mfid);
+                formData.append('mfid',this.message.mfid);
                 formData.append('type',this.type);
                 formData.append('prev_uri',this.prev_uri);
                 formData.append('attach',JSON.stringify(this.attach));
