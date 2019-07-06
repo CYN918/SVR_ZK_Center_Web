@@ -217,7 +217,7 @@
                 const isPSD = file.type === 'image/psd';
                 const isBMP = file.type === 'image/bmp';
                 const isGIF = file.type === 'image/gif';
-                const isTIF = file.type === 'image/tif';
+                const isTIF = file.type === 'image/tiff';
                 if (!isJPG&&!isPNG&&!isPSD&&!isBMP&&!isGIF&&!isTIF) {
                     this.$message.error('只支持JPG、PNG、psd、bmp、gif、tif格式!');
                 }
@@ -277,6 +277,7 @@
                 },100);
             },
             uploadF(file){
+                console.log(file)
                 if(this.status==1101){
                     return
                 }else{

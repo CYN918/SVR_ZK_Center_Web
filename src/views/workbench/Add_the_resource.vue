@@ -102,9 +102,6 @@
             }
         },
         mounted(){
-            if(this.typeDa=="1"){
-                this. ADDwl()
-            }
             this.getDataList();
         },
         methods:{

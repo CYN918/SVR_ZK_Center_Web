@@ -39,7 +39,7 @@
                 </div>
                 <div v-if="this.list.type!='f_sls_lockscreen'">
                     <span class="tit_txt ">投放库</span>
-                    <span class="tit_txt_2">{{this.list.putlib.name}}</span>
+                    <span class="tit_txt_2" v-if="this.list.putlib!=null">{{this.list.putlib.name}}</span>
                 </div>
                 <div class="times">
                     <span class="tit_txt">截止时间</span>

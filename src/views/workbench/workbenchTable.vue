@@ -11,7 +11,7 @@
         <scxq v-if="sc" :SCid="SCid"></scxq>
         <CK v-if='ck' :id="CkID"></CK>
         <WLp v-if="WLp" :id="wlID"></WLp>
-        <ATR v-if="ADD_material" :id="id" :num="num" :ind="index" :typeDa="typeDa"></ATR>
+        <ATR v-if="ADD_material" :id="id" :num="num" :ind="index" ></ATR>
         <ADDsc v-if="addSC" :index="index" :id="id"></ADDsc>
         <scREQ v-if="scR"  :id="id" :num="num"></scREQ>
         <div class="problem">
@@ -99,7 +99,8 @@
                                     <div class="step" v-if="item.did!=undefined&&item.reject!='1'&&tableData[props.$index].status!=item.status"><img src="../../../public/img/win.png" /></div>
                                     <div class="bor" v-if="item.isfinish==0"></div>
                                     <div class="step_tit" :class="{active:item.did==undefined&&tableData[props.$index].status!=item.status}">{{item.status_name}}</div>
-                                    <div class="step_time" v-if="item.creator!=''||tableData[props.$index].status==item.status">{{item.updated_at}}</div>
+                                    <div class="step_time" v-if="item.creator!=''||tableData[props.$index].status==item.status&&item.isfinish!=1&&item.key==0">{{item.updated_at}}</div>
+                                    <div class="step_time" v-if="item.key!=0">{{tableData[props.$index].updated_at}}</div>
                                     <div class="step_contnet" v-if="item.creator!=''||tableData[props.$index].status==item.status">
                                         <span class="step_txt">状态</span>
                                         <span v-if="item.isfinish!='1'&&tableData[props.$index].status_name!='提现审核'&&tableData[props.$index].status!=item.status">{{item.msg}}</span>

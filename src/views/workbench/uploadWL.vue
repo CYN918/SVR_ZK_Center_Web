@@ -72,6 +72,10 @@
             this.getDATA()
             },
         methods:{
+            bdUP(){
+                this.$parent.heidAddWl();
+
+            },
             handleSizeChange(p){
                 this.p = p;
                 this.getDataList()

@@ -9,7 +9,7 @@
                 <div>
                     <div>
                         <span class="tit_txt">素材类型</span>
-                        <span>{{this.list.type}}</span>
+                        <span>{{this.list.type_name}}</span>
                     </div>
                     <div >
                         <span class="tit_txt">需求名称</span>
@@ -25,7 +25,7 @@
                     </div>
                     <div>
                         <span class="tit_txt">设计规范</span>
-                        <span>{{this.list.design_standard.name}}</span>
+                        <span v-if="this.list.design_standard!=null">{{this.list.design_standard.name}}</span>
                     </div>
                     <div>
                         <span class="tit_txt">截止时间</span>
@@ -34,7 +34,7 @@
                     <div>
                         <span class="tit_txt top">设计要求</span>
                         <span v-if="!this.list.require">无</span>
-                        <div v-if="this.list.require!=''" class="text">{{this.list.require}}</div>
+                        <div v-if="this.list.require!=null" class="text">{{this.list.require}}</div>
                     </div>
                     <div>
                         <span class="tit_txt">附件</span>
