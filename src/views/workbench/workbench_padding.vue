@@ -8,8 +8,8 @@
             <div class="tit_btn">
                 <img src="../../../public/img/ss.png">
                 <input type="text" placeholder="搜素需求ID" v-model="search" @input="typeListSearch"/>
-                <span class="tit_btn_sc" @click="getSC('')">发布素材需求</span>
-                <span class="tit_btn_yw" @click="getYW('')">发布业务需求</span>
+                <span class="tit_btn_sc" :class="{activeHeid:this.controlBtn}" @click="getSC('')">发布素材需求</span>
+                <span class="tit_btn_yw" :class="{activeHeid:this.controlBtns}" @click="getYW('')">发布业务需求</span>
             </div>
         </div>
         <div class="padding_btn">
@@ -59,26 +59,48 @@
                 step:[],
                 id:'',
                 tables:false,
+                control:[],
+                controlBtn:true,
+                controlBtns:true,
             }
+        },
+        created(){
+            this.control=JSON.parse(localStorage.getItem('control'));
+            if(this.control.length==0){
+                this.controlBtn=true;
+                this.controlBtns=true;
+            }else{
+                for(var i=0;i<this.control.length;i++){
+                    if(this.control[i].uri_key=='uri.demand.material.add'){
+                        this.controlBtn=false;
+                    }
+                }
+                for(var i=0;i<this.control.length;i++){
+                    if(this.control[i].uri_key=='uri.demand.business.add'){
+                        this.controlBtns=false;
+                    }
+                }
+            }
+
         },
         mounted(){
             this.getList();
+
         },
         methods:{
             getSC(id){
-                console.log(id);
-                this.id = id;
-                this.sc=true;
-                this.stop()
+                       this.id = id;
+                       this.sc=true;
+                       this.stop()
             },
             heidSC(){
                 this.sc=false;
                 this.move()
             },
             getYW(id){
-                this.id=id;
-                this.yw=true;
-                this.stop()
+                        this.id=id;
+                        this.yw=true;
+                        this.stop()
             },
             heidYW(){
                 this.id='';
@@ -262,5 +284,8 @@
         font-family:PingFangSC-Regular;
         font-weight:400;
         color:rgba(255,255,255,1)!important;
+    }
+    .activeHeid{
+        display: none!important;
     }
 </style>

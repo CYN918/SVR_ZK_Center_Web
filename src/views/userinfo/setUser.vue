@@ -72,7 +72,7 @@
                 role_id:'',
                 name:'',
                 email:'',
-                roles:'',
+                roles:' ',
                 rolesList:[],
                 company:'',
                 password:'',

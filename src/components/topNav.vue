@@ -44,14 +44,19 @@ export default {
 		}
     },
 	mounted(){
-
 		this.name=localStorage.getItem('userName');
         this.getLefNav();
+        this.authority();
 	},
 	methods:{
 		handleSelect(key){				
 			this.topNacd = this.todata[key].name;
 			this.$router.push(this.todata[key].url);
+		},
+        authority(){
+		    this.api.perm_role_uri({}).then((res)=>{
+		        localStorage.setItem('control',JSON.stringify(res));
+			})
 		},
         getLefNav(){
             this.api.perm_leftnav().then((res)=>{

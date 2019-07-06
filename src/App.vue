@@ -679,4 +679,7 @@ select{
   margin-top: 10px;
 }
   .table_material .el-checkbox__label{opacity: 0;position: absolute;}
+.activeHeid{
+  display: none!important;
+}
 </style>

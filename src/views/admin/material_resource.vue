@@ -15,7 +15,7 @@
 					<option value="1001">未使用</option>
 					<option value="1201">禁用</option>
 				</select>
-				<span class="Search_tit" @click="getCon"><img src="../../../public/img/add_msg.png" style="width: 12px;margin-right: 14px">添加本地素材</span>
+				<span class="Search_tit" @click="getCon" :class="{activeHeid:this.controlBtn}"><img src="../../../public/img/add_msg.png" style="width: 12px;margin-right: 14px" >添加本地素材</span>
 			</div>
 			<div class="contentImg">
 				<div class="label">
@@ -168,7 +168,22 @@
                 listTag:[],
                 listTagData:[],
                 search_tags:[],
+                controlBtn:true,
+                control:[]
             }
+        },
+        created(){
+            this.control=JSON.parse(localStorage.getItem('control'));
+            if(this.control.length==0){
+                this.controlBtn=true;
+            }else{
+                for(var i=0;i<this.control.length;i++){
+                    if(this.control[i].uri_key=='uri.mfinal.add'){
+                        this.controlBtn=false;
+                    }
+                }
+            }
+
         },
         mounted() {
             this.getWl()

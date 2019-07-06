@@ -688,4 +688,8 @@ export default {
 		url:'/replace/del',method:'post',isType:{suktip:1}
 
 	},
+	//权限按钮
+	perm_role_uri:{
+		url:'/perm/role/uri',method:"get"
+	},
 }

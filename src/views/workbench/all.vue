@@ -42,8 +42,8 @@
                     <span>流转人员</span>
                     <input type="text" placeholder="请输入流转人员" v-model="processor"/>
                     <span class="cx" @click="cx">查询</span>
-                    <span class="tit_btn_sc" @click="getSC('')">发布素材需求</span>
-                    <span class="tit_btn_yw" @click="getYW('')">发布业务需求</span>
+                    <span class="tit_btn_sc" :class="{activeHeid:this.controlBtn}" @click="getSC('')">发布素材需求</span>
+                    <span class="tit_btn_yw"  :class="{activeHeid:this.controlBtns}" @click="getYW('')">发布业务需求</span>
                 </div>
             </div>
         </div>
@@ -102,7 +102,29 @@
                 end_time:'',
                 statusList:[],
                 tables:false,
+                controlBtn:true,
+                controlBtns:true,
+                control:[],
             }
+        },
+        created(){
+            this.control=JSON.parse(localStorage.getItem('control'));
+            if(this.control.length==0){
+                this.controlBtn=true;
+                this.controlBtns=true;
+            }else{
+                for(var i=0;i<this.control.length;i++){
+                    if(this.control[i].uri_key=='uri.demand.material.add'){
+                        this.controlBtn=false;
+                    }
+                }
+                for(var i=0;i<this.control.length;i++){
+                    if(this.control[i].uri_key=='uri.demand.business.add'){
+                        this.controlBtns=false;
+                    }
+                }
+            }
+
         },
         mounted(){
             this.getDataList();
@@ -371,4 +393,5 @@
         margin-left: 20px;
         cursor: pointer;
     }
+
 </style>
