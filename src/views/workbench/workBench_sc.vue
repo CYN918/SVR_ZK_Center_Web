@@ -177,7 +177,7 @@
                         return
                     }
                     if(this.is_ref==true&&!this.ref_url){
-                        this.$message.error('请上传产考图');
+                        this.$message.error('请上传参考图');
                         return
                     }
                     let formData = new FormData;
@@ -233,7 +233,7 @@
                         return
                     }
                     if(this.is_ref==true&&!this.ref_url){
-                        this.$message.error('请上传产考图');
+                        this.$message.error('请上传参考图');
                         return
                     }
                     let formData = new FormData;
