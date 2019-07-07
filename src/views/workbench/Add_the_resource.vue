@@ -83,7 +83,7 @@
 
 <script>
     export default {
-        props:['id','num','ind','typeDa'],
+        props:['id','num','ind'],
         name: "add_the_resource",
         data(){
             return{

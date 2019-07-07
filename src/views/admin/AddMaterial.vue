@@ -223,7 +223,7 @@
                 if(this.message.mfid!=undefined){
                     return
                 }
-                this.$parent.XSset()
+                this.$parent.XSset();
             },
             time(){
                 var _this=this;
@@ -394,11 +394,11 @@
                         this.$message('未选择是否有打底广告');
                         return
                     }
-                    if(!this.ad_num){
+                    if(!this.ad_num&&this.type=='f_sls_lockscreen'){
                         this.$message('广告位数数量不能为空');
                         return
                     }
-                    if(this.ad_num<=0){
+                    if(this.ad_num<=0&&this.type=='f_sls_lockscreen'){
                         this.$message('广告位数必须为正整数');
                         return
                     }if(this.type=='f_sls_lockscreen'){

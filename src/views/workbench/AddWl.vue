@@ -2,7 +2,7 @@
     <div class="bg" >
         <div class="content" >
             <div class="tit_name">
-                <span>从物料库</span>
+                <span>从物料库ss</span>
             </div>
             <div class="Search">
                 <img src="../../../public/img/ss.png" />

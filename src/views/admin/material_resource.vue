@@ -245,11 +245,11 @@
                 this.move();
             },
             YCtag(){
-                this.tags = false
+                this.tags = false;
                 this.move();
             },
             XSset(){
-                this.sets = true
+                this.sets = true;
                 this.stop();
             },
             YCset(){

@@ -1,5 +1,8 @@
 <template>
     <div>
+
+        <ADD v-if="ADD" :id="id" :num="num" :ind="index" :hqUrl="hqUrl" :bindMid="bindMid" :material="0" ></ADD>
+        <set v-if="sets"   @listenToChildEvent="listen" :material="0"></set>
         <uplodWl v-if='up'  :id="id" ></uplodWl>
         <BDadd v-if="BD"  :index="index" :id="id"></BDadd>
         <AddWL v-if="wl"  :id="id"></AddWL>
@@ -14,6 +17,7 @@
         <ATR v-if="ADD_material" :id="id" :num="num" :ind="index" ></ATR>
         <ADDsc v-if="addSC" :index="index" :id="id"></ADDsc>
         <scREQ v-if="scR"  :id="id" :num="num"></scREQ>
+
         <div class="problem">
             <template>
                 <el-table
@@ -218,8 +222,9 @@
     import ATR from './Add_the_resource'
     import ADDsc from './ADD_SC'
     import scREQ from './sc_requirements'
+    import set from '../admin/Select_material'
     export default {
-        components:{QD,BH,ADDsc,sct,BDadd,AddWL,ywxq,scxq,CK,uplodWl,scwl,WLp,ATR,scREQ},
+        components:{QD,BH,ADDsc,sct,BDadd,AddWL,ywxq,scxq,CK,uplodWl,scwl,WLp,ATR,scREQ,ADD,set},
         props:['tableData','active'],
         name: "workbench-table",
         data(){
@@ -227,8 +232,10 @@
                 sh:false,
                 userData:'',
                 bh:false,
+                sets:false,
                 dbid:'',
                 id:'',
+                ADD:false,
                 ADD_material:false,
                 wl:false,
                 set:false,
@@ -260,6 +267,8 @@
                 addSC:false,
                 scR:false,
                 email:'',
+                bindMid:[],
+                hqUrl:[],
                 getRowKeys(row) {
                     return row.did;
                 },
@@ -310,6 +319,13 @@
             heidscR(){
                 this.scR = false;
                 this.move()
+            },
+            XSset(){
+                this.sets = true;
+                this.stop();
+            },
+            YCset(){
+                this.sets = false;
             },
             GgtAddSC(index){
                 if(index!=undefined){
@@ -390,6 +406,24 @@
                 this.BD = false;
                 this.move()
             },
+            getCon(index){
+                if(index!=undefined){
+                    this.index = index;
+                }
+                this.ADD = true;
+                this.stop()
+            },
+            getADD(index){
+                if(index!=undefined){
+                    this.index = index;
+                }
+                this.ADD = true;
+                this.stop()
+            },
+            heidADD(){
+                this.ADD = false;
+                this.move()
+            },
             getBH(){
                 this.bh = true
                 this.stop()
@@ -424,7 +458,11 @@
                 this.dbid=this.tableData[index].did;
                 console.log(this.dbid[0][0]);
                 this.stop()
-
+            },
+            listen(msg,ddd){
+                this.bindMid=msg;
+                this.hqUrl=ddd;
+                console.log(this.bindMid,this.hqUrl);
             },
             heidBH(){
                 this.bh = false;
@@ -511,13 +549,13 @@
                 });
             },
 
-            listenToChildEvent(a,index,type){
-                this.scMessage.push(a);
-                this.index = index;
-                this.type = type;
-                console.log(this.scMessage);
-                console.log(this.type)
-            },
+            // listenToChildEvent(a,index,type){
+            //     this.scMessage.push(a);
+            //     this.index = index;
+            //     this.type = type;
+            //     console.log(this.scMessage);
+            //     console.log(this.type)
+            // },
 
             release(id,type){
                 if(type=='业务需求'){

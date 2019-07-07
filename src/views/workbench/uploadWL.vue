@@ -20,7 +20,7 @@
                         <!--<img class="content_title_img" src="../../../public/img/ADD_bule.png"/>-->
                         <!--<span class="content_title_span" @click="getWl()">物料库选择</span>-->
                         <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
-                        <span class="content_title_span" @click="bdUP()">本地上传</span>
+                        <span class="content_title_span" @click="bdUP(index)">本地上传</span>
                     </div>
                     <div class="btn_img" >
                         <img style="margin-right: 34px" src="../../../public/img/delet.png" @click="delLine(index)"/>
@@ -56,7 +56,7 @@
 
 <script>
     export default {
-        props:['id'],
+        props:['id','num','ind'],
         name: "a-d-d_material",
         data(){
             return{
@@ -66,15 +66,20 @@
                 listWL:[],
                 numAll:0,
                 numAlls:0,
+                line_num:'',
             }
         },
         mounted(){
             this.getDATA()
             },
         methods:{
-            bdUP(){
+            bdUP(index){
+                this.line_num = this.listWL[index].line_num;
+                if(this.line_num==undefined){
+                    this.line_num=0;
+                }
+                this.$parent.getADD(this.line_num);
                 this.$parent.heidAddWl();
-
             },
             handleSizeChange(p){
                 this.p = p;
@@ -108,12 +113,32 @@
                         });
                     }
             },
+            getDataList(){
+                let params = {id:this.id,p:this.p,page:this.page,material:0};
+                this.api.demand_business_bind_list({params}).then((res)=>{
+                    this.listWL = res.data.mfinal;
+                    this.total = res.total;
+                    this.numAll=res.data.demand.hire_num;
+                })
+            },
+
             getDATA(){
                 let params = {id:this.id,p:this.p,page:this.page,material:0};
                 this.api.demand_business_bind_list({params}).then((res)=>{
                     this.numAlls =res.data.demand.num;
                     this.listWL = res.data.mfinal;
                 })
+            },
+            verified(){
+                if(this.numAll==this.num){
+                    let formData = new FormData;
+                    formData.append('id',this.id);
+                    this.api.demand_audit(formData).then((res)=>{
+
+                    })
+                }else{
+                    this.$message.error('添加资源的数量未达到需求数量')
+                }
             },
         },
     }

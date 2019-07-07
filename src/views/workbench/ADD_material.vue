@@ -3,7 +3,7 @@
         <div class="bg" >
             <div class="AddIMG" >
                 <div class="AddIMG_tit">
-                    <span>{{title}}</span>
+                    <span>添加物料</span>
                 </div>
                 <div class="AddIMG_content">
                     <div class="AddIMG_content_left">
@@ -50,14 +50,14 @@
                         </div>
                         <div class="AddIMG_sc">
                             <span class="tit">绑定素材:</span>
-                            <input type="text" placeholder="请输入素材ID" v-model="bind_mid" :disabled="(this.message.mfid!=undefined)" @change="IDchange"/>
-                            <span class="AddIMG_sc_btn" @click="XSset" :class="{AddIMG_sc_btn_jy:(this.message.mfid!=undefined)}">从素材库选择</span>
+                            <input type="text" placeholder="请输入素材ID" v-model="bind_mid"  @change="IDchange"/>
+                            <span class="AddIMG_sc_btn" @click="XSset" >从素材库选择</span>
                             <p>上传物料前，请务必保证素材库内有对应素材！多个素材用英文半角;隔开</p>
                         </div>
                         <div class="AddIMG_select">
                             <span class="tit">物料类型:</span>
-                            <select v-model="type" :disabled="(this.message.mfid!=undefined)">
-                                <option :value="types" >{{lx}}</option>
+                            <select v-model="type">
+                                <option :value="item.type"  v-for="item in scType">{{item.name}}</option>
                             </select>
                         </div>
                         <div v-if="type=='f_sls_lockscreen'" class="AddIMG_select">
@@ -146,8 +146,7 @@
                             <input type="text" v-model="link">
                         </div>
                         <div class="bg_btn">
-                            <span class="bg_btn_up" v-if="this.message.mfid==undefined" @click="AddMatter">上传</span>
-                            <span class="bg_btn_up" v-if="this.message.mfid!=undefined" @click="AddMatter">保存</span>
+                            <span class="bg_btn_up" @click="AddMatter">上传</span>
                             <span @click="heidSc">取消</span>
                         </div>
                     </div>
@@ -159,7 +158,7 @@
 
 <script>
     export default {
-        props:['message','bindMid','hqUrl','material','types','lx'],
+        props:['bindMid','hqUrl','material','id','num','ind'],
         name: "content_component",
         data(){
             return {
@@ -183,11 +182,11 @@
                 sjSize:'',
                 preset:[0,1],
                 preset_tags:[],
-                type:this.types,
+                type:"",
                 sw:false,
                 size:'',
                 scUrl:'',
-                scType:'',
+                scType:[],
                 tagsName:'',
                 chenck:false,
                 model:'',
@@ -205,23 +204,16 @@
         },
         mounted(){
             this.getTagsList();
-            if(this.message.mfid!=undefined){
-                this.title='编辑物料'
-            }else{
-                this.title='添加物料'
-            }
         },
         methods:{
             heidSc(){
-                this.$parent.heidSc();
+                this.$parent.heidADD();
+                this.$parent.AddWl();
             },
             showHint(){
                 this.$parent.ShowHint()
             },
             XSset(){
-                if(this.message.mfid!=undefined){
-                    return
-                }
                 this.$parent.XSset()
             },
             time(){
@@ -276,7 +268,7 @@
                 })
             },
             getType(){
-                let params={material:this.material}
+                let params={material:0};
                 this.api.config_material_type({params}).then((res)=>{
                     this.scType=res;
                 })
@@ -325,15 +317,12 @@
                 })
             },
             getTagsList(){
-                let params = {preset:this.preset,material:this.material,type:this.types,search:this.tagsName,p:50,page:1};
+                let params = {preset:this.preset,material:this.material,type:this.type,search:this.tagsName,p:50,page:1};
                 this.api.tags_search({params}).then((da)=>{
                     console.log(da);
                     this.preset_tags = da.data.tags;
                     this.self_tags = da.data.self_tags;
-                    if(this.message.mfid!=undefined){
-                        this.getMatterDetails();
-                    }
-                    this. getType();
+                    this.getType();
                 })
             },
             ADDtags(){
@@ -342,7 +331,7 @@
                 formData.append('name',this.tagsName);
                 formData.append('preset',0);
                 formData.append('material',this.material);
-                formData.append('type',this.types);
+                formData.append('type',this.type);
                 this.api.tags_add(formData).then((res)=>{
                     this.tagsName=''
                     this. getTagsList();
@@ -366,8 +355,6 @@
                 })
             },
             AddMatter(){
-                if(this.message.mfid==undefined){
-
                     if(!this.type){
                         this.$message('类型不能为空')
                         return
@@ -393,11 +380,11 @@
                         this.$message('未选择是否有打底广告');
                         return
                     }
-                    if(!this.ad_num){
+                    if(!this.ad_num&&this.type=='f_sls_lockscreen'){
                         this.$message('广告位数数量不能为空');
                         return
                     }
-                    if(this.ad_num<=0){
+                    if(this.ad_num<=0&&this.type=='f_sls_lockscreen'){
                         this.$message('广告位数必须为正整数');
                         return
                     }if(this.type=='f_sls_lockscreen'){
@@ -415,8 +402,15 @@
                         formData.append('ad_pic',this.ad_pic);
                         formData.append('ad_num',this.ad_num);
                         this.api.mfinal_add(formData).then((res)=>{
-
-                        }).catch(this.$message(message))
+                            let formData = new FormData;
+                            formData.append('id',this.id);
+                            formData.append('material',0);
+                            formData.append('mfid',res.mfid);
+                            this.api.demand_business_bind(formData).then((res)=>{
+                                this.$parent.heidADD();
+                                this.$parent.AddWl();
+                            })
+                        })
                     }else{
                         let formData = new FormData;
                         formData.append('type',this.type);
@@ -430,51 +424,18 @@
                         formData.append('size',this.sjSize);
                         formData.append('link',this.link);
                         this.api.mfinal_add(formData).then((res)=>{
+                            let formData = new FormData;
+                            formData.append('id',this.id);
+                            formData.append('material',0);
+                            formData.append('mfid',res.mfid);
+                            this.api.demand_business_bind(formData).then((res)=>{
+                                this.$parent.heidADD();
+                                this.$parent.AddWl();
+                            })
+                        })
+                    }
+                },
 
-                        }).catch(this.$message(message))
-                    }
-                }else{
-                    this.setMatter();
-                }
-
-            },
-            getMatterDetails(){
-                let params ={mfid:this.message.mfid};
-                this.api.mfinal_detail({params}).then((res)=>{
-                    this.sw=true;
-                    this.prev_uri=res.prev_uri;
-
-                    for (var j=0;j<res.tags.length;j++){
-                        if(this.preset_tags.indexOf(res.tags[j])==-1){
-                            this.preinstall= res.tags.splice(j);
-                        }
-                    }
-                    for (var e=0;e<res.self_tags.length;e++){
-                        if(this.self_tags.indexOf(res.self_tags[e])==-1){
-                            this.bardian=res.self_tags.splice(e);
-                        }
-                    }
-                    this.sjSize=res.size;
-                    this.type=res.type;
-                    this.link = res.link;
-                    this.model = res.model;
-                    var a = [];
-                    var b = [];
-                    for(let i=0;i<res.bind_mid.length;i++){
-                        a.push(res.bind_mid[i].mid);
-                        b.push(res.bind_mid[i].prev_uri);
-                    }
-                    this.bind_mid = a.join(';');
-                    this.hqUrl = b;
-
-                    if(res.status==1201){
-                        this.value2=false;
-                    }else{
-                        this.value2=true;
-                    }
-                    this.status=res.status;
-                })
-            },
             IDchange(){
                 if(this.bind_mid==''){
                     this.hqUrl.splice(0);
@@ -786,10 +747,6 @@
     .AddIMG_bq_box_top_bq,.AddIMG_bq_box_top_zdy{
         margin:0 20px 0px 0px ;
 
-    }
-    .AddIMG_bq_box_top_bq{
-        height: 40px;
-        overflow-y: auto;
     }
     .AddIMG_bq_box_top_tit input{
         display: block;
