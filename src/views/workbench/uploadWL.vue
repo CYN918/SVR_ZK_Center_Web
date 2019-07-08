@@ -130,7 +130,7 @@
                 })
             },
             verified(){
-                if(this.numAll==this.num){
+                if(this.listWL.length==this.numAlls){
                     let formData = new FormData;
                     formData.append('id',this.id);
                     this.api.demand_audit(formData).then((res)=>{
