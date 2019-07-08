@@ -88,16 +88,16 @@ export default {
 	},
 	mounted: function () {	
 	this.get_logs();
-	this.handle_stat();
+	// this.handle_stat();
 	this.get_menulog();
 	}, 
 	methods: {
-		handle_stat(){
-			this.api.handle_stat().then((datas)=>{
-				console.log(datas);
-				this.dt = datas;
-			})
-		},
+		// handle_stat(){
+		// 	this.api.handle_stat().then((datas)=>{
+		// 		console.log(datas);
+		// 		this.dt = datas;
+		// 	})
+		// },
 		get_menulog(){
 			this.api.get_menulog().then((datas)=>{					
 				console.log(datas);

@@ -172,7 +172,10 @@
                         this.$message.error('截止时间不能为空')
                         return
                     }
-
+                    if(new Date(this.endtime)<=new Date()){
+                        this.$message.error('截止时间不能小于当前时间');
+                        return
+                    }
                     if(this.is_ref==true&&!this.ref_url){
                         this.$message.error('请上传参考图');
                         return
@@ -219,6 +222,10 @@
                     }
                     if(!this.endtime){
                         this.$message.error('截止时间不能为空')
+                        return
+                    }
+                    if(new Date(this.endtime)<=new Date()){
+                        this.$message.error('截止时间不能小于当前时间');
                         return
                     }
                     if(!this.demand_name){

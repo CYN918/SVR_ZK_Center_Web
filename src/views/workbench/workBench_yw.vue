@@ -149,6 +149,10 @@
                         this.$message.error('截止时间不能为空');
                         return
                     }
+                    if(new Date(this.endtime)<=new Date()){
+                        this.$message.error('截止时间不能小于当前时间');
+                        return
+                    }
                     if(!this.demand_name){
                         this.$message.error('需求名称不能为空');
                         return
@@ -207,6 +211,10 @@
                     }
                     if(!this.endtime){
                         this.$message.error('截止时间不能为空')
+                        return
+                    }
+                    if(new Date(this.endtime)<=new Date()){
+                        this.$message.error('截止时间不能小于当前时间');
                         return
                     }
                     if(!this.requirement){

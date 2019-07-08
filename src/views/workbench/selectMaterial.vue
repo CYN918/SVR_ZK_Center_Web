@@ -319,6 +319,7 @@
     }
     .labelName{
         display: inline-block;
+        background: #3377ff!important;
         width:78px;
         height:38px;
         border-radius:5px;
@@ -342,10 +343,9 @@
         margin: 0 26px;
     }
     .active{
-        background:rgba(255,255,255,1);
+        background:#3377ff;
         border:1px solid rgba(19,159,248,1);
     }
-
     .box_select input{
         display: inline-block;
         width: 16px;

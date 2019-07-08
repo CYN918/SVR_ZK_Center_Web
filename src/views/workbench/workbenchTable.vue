@@ -45,7 +45,7 @@
                             >
                     </el-table-column>
                     <el-table-column
-                            label="状态" prop="status"
+                            label="状态" prop="isfinish!=1?'待处理':已完成"
                             >
                     </el-table-column>
                     <el-table-column
@@ -88,7 +88,7 @@
                             <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name=='测试验收'&&tableData[props.$index].emails.indexOf(email)!=-1">测试通过</el-button>
                             <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name=='物料审核'||tableData[props.$index].status_name=='发布审核'&&tableData[props.$index].emails.indexOf(email)!=-1">审核通过</el-button>
                             <el-button  v-if="tableData[props.$index].status_name=='完成入库'">查看投放结果</el-button>
-                            <el-button  @click="getBH(props.$index)" v-if="tableData[props.$index].status_name!='完成投放'&&tableData[props.$index].status_name!='需求发布'&&tableData[props.$index].status_name!='提现审核'&&tableData[props.$index].status_name!='签字审核'&&tableData[props.$index].status_name!='结算汇款'&&tableData[props.$index].status_name!='补充签字'&&tableData[props.$index].status_name!='素材入库'&&tableData[props.$index].status_name!='素材审核'&&tableData[props.$index].emails.indexOf(email)!=-1">驳回</el-button>
+                            <el-button  @click="getBH(props.$index)" v-if="tableData[props.$index].status_name!='完成投放'&&tableData[props.$index].status_name!='需求发布'&&tableData[props.$index].status_name!='提现审核'&&tableData[props.$index].status_name!='签字审核'&&tableData[props.$index].status_name!='结算汇款'&&tableData[props.$index].status_name!='补充签字'&&tableData[props.$index].status_name!='素材入库'&&tableData[props.$index].status_name!='素材审核'&&tableData[props.$index].status_name!='提现完成'&&tableData[props.$index].emails.indexOf(email)!=-1">驳回</el-button>
                             <el-button   v-if="tableData[props.$index].status_name=='完成入库'">查看投放结果</el-button>
                             <el-button  @click="withdraw(tableData[props.$index].did,tableData[props.$index].status)" v-if="(tableData[props.$index].status_name=='提现审核'||tableData[props.$index].status_name=='结算汇款')&&tableData[props.$index].reject=='0'">查看详情</el-button>
                         </template>

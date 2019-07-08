@@ -29,7 +29,7 @@
                         <div class="ADD_img" v-for="(data2,index3) in item.bind" >
                             <img class="ADD_img_del" src="../../../public/img/del.png" @click="delLine(index)">
                             <img  class="ADD_img_img" :src="data2.prev_uri"/>
-                            <span>{{data2.prev_uri}}</span>
+                            <span>{{data2.mfid}}</span>
                         </div>
                     </div>
                 </div>
@@ -309,7 +309,7 @@
     }
     .ADD_img span{
         display:inline-block;
-        width: 80px;
+        width: 108px;
         overflow: hidden;
     }
     .block{

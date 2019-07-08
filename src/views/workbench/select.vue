@@ -311,7 +311,6 @@
         display: inline-block;
         width:78px;
         height:38px;
-        background:rgba(255,255,255,1);
         border-radius:5px;
         font-size:14px;
         font-family:PingFang-SC-Medium;

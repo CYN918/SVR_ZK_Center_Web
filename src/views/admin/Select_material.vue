@@ -363,7 +363,7 @@
         margin: 0 24px;
     }
     .active{
-        background: #1583e2!important;
+        background:#3377ff!important;
         color: #fff;
         border:0!important;
     }

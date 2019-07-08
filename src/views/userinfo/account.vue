@@ -237,6 +237,10 @@
     transform: translateY(-50%);
     margin: 0 20px;
 }
+.box_1 img{
+    width: 80px;
+    height: 80px;
+}
 .box_2{
     display: inline-block;
     margin-right: 30px;
