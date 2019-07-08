@@ -452,6 +452,7 @@
             },
             heidSC(){
                 this.sc = false;
+                this.move()
             },
             getBH(index){
                 this.bh = true;

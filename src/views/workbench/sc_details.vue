@@ -97,14 +97,14 @@
 </script>
 
 <style scoped>
-    img{
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        z-index: 99;
-        bottom: 0;
-        right: 0;
-    }
+    /*.img{*/
+        /*width: 100%;*/
+        /*height: 100%;*/
+        /*position: absolute;*/
+        /*z-index: 99;*/
+        /*bottom: 0;*/
+        /*right: 0;*/
+    /*}*/
     .bg{
         width: 100%;
         height: 100%;
