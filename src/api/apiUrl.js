@@ -700,4 +700,5 @@ export default {
     demand_business_status_mfbind:{
 		url:'demand/business/status/mfbind/',method:'get'
 	},
+
 }

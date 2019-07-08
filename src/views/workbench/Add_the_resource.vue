@@ -40,14 +40,14 @@
                         </div>
                     </div>
                     <div  style="width: 100%;margin-top: 20px">
-                        <textarea placeholder="请输入您的备注（限50字）" maxlength="50" style="padding: 8px;width: 100%;resize:none;" v-model="note"></textarea>
+                        <textarea placeholder="请输入您的备注（限50字）" maxlength="50" style="padding: 8px;width: 100%;resize:none;" v-model="note" v-if="line.indexOf(index)!=-1"></textarea>
                     </div>
                 </div>
 
                 <div v-if="wl" class="content_title" v-for="(item,index) in listWL">
                     <div  style="display: inline-block" >
                         <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
-                        <span class="content_title_span" @click="getWl(index)">物料库选择</span>
+                        <span class="content_title_span" @click="getWl(index)" :class="{disabled:listWL[index].bind!=undefined}">物料库选择</span>
                     </div>
                     <div class="btn_img" >
                         <img style="margin-right: 34px" src="../../../public/img/delet.png" @click="delLine(index)"/>
@@ -62,20 +62,21 @@
                 </div>
             </div>
 
-            <div class="Add_btn">
-                <span class="Add_btn_ADD" @click="verified()">添加</span>
-                <span @click="heid">取消</span>
-                <div class="block">
-                    <el-pagination
-                            @size-change="handleSizeChange"
-                            @current-change="handleCurrentChange"
-                            :current-page="page"
-                            :page-sizes="[3, 6, 9, 12]"
-                            :page-size="p"
-                            layout="total, sizes, prev, pager, next, jumper"
-                            :total="total">
-                    </el-pagination>
-                </div>
+        </div>
+
+        <div class="Add_btn">
+            <span class="Add_btn_ADD" @click="verified()">添加</span>
+            <span @click="heid">取消</span>
+            <div class="block">
+                <el-pagination
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page="page"
+                        :page-sizes="[3, 6, 9, 12]"
+                        :page-size="p"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="total">
+                </el-pagination>
             </div>
         </div>
     </div>
@@ -98,7 +99,8 @@
                 mfid:'',
                 material:1,
                 numAll:0,
-                note:''
+                note:'',
+                line:[],
             }
         },
         mounted(){
@@ -112,14 +114,12 @@
                     }else{
                         this.listSC.push({text:false});
                     }
-
                 }else{
                     if(this.numAll==this.num){
                         return
                     }else{
                         this.listWL.push({text:false});
                     }
-
                 }
             },
             delmid(index,id){
@@ -164,7 +164,20 @@
 
             },
             importText(index){
-                this.listSC[index].text = true;
+                this.line_num = this.listSC[index].line_num;
+                if(this.line_num==undefined){
+                    this.line_num=0;
+                }
+                if(this.line.indexOf(index)==-1){
+                    this.line.push(index);
+                }else{
+                    for (var i=0;i<this.line.length;i++){
+                        if(this.line[i]==index){
+                            this.line.splice(i,1)
+                        }
+                    }
+                }
+
             },
             handleSizeChange(p){
                 this.p = p;
@@ -208,9 +221,14 @@
                 this.$parent.getBD(this.line_num);
                 this.$parent.heidAddMaterial();
             },
-            getWl(){
-                this.$parent.getWl();
-                this.$parent.heidAddMaterial();
+            getWl(index){
+                if(this.listWL[index].bind!=undefined){
+                    return
+                }else{
+                    this.$parent.getWl();
+                    this.$parent.heidAddMaterial();
+                }
+
             },
             ADDsc(){
                 this.sc = true;
@@ -240,7 +258,16 @@
                     this.numAll=res.data.demand.hire_num;
                 })
             },
+            addNote(){
+                let formData =new FormData;
+                formData.append('id',this.id);
+                formData.append('material',1);
+                formData.append('line_num',this.line_num);
+                formData.append('note',);
+                this.api.demand_business_bind_note().then((res)=>{
 
+                })
+            },
             verified(){
                 if(this.numAll==this.num){
                     let formData = new FormData;
@@ -294,7 +321,9 @@
         padding-left: 40px;
         padding-right: 24px;
         position: fixed;
-        bottom: 0;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
     }
     .Add_btn span{
         display: inline-block;
@@ -455,5 +484,8 @@
     }
     .block{
         margin-top: 12px;
+    }
+    .disabled{
+        color: #c5c5c5;
     }
 </style>
