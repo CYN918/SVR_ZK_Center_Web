@@ -59,14 +59,17 @@
                             <select v-model="type" :disabled="(this.message.mfid!=undefined)">
                                 <option :value="types" >{{lx}}</option>
                             </select>
-                            <div class="AddIMG_switch" v-if="sw">
-                                <span  class="tit">是否启用:</span>
-                                <el-switch
-                                        @change="open"
-                                        v-model="value2"
-                                        active-color="#409EFF"
-                                        inactive-color="#ff4949">
-                                </el-switch>
+                            <div v-if="type=='f_sls_lockscreen'" style="display: inline-block">
+                                <span  class="tit">打底广告图</span>
+                                <select v-model="ad_pic" style="width: 118px">
+                                    <option value="1">有</option>
+                                    <option value="0">无</option>
+                                </select>
+                            </div>
+                            <div v-if="ad_pic=='1'"  style="display: inline-block">
+                                <span class="tit">广告图位数</span>
+                                <input type="number" placeholder="请输入广告位数量" v-model="ad_num" style="width: 100px;height: 36px"/>
+
                             </div>
                         </div>
                         <div class="AddIMG_yl">
@@ -86,22 +89,22 @@
                                     <el-button size="small" type="primary">上传预览图</el-button>
                                 </el-upload>
                             </div>
+                            <div class="AddIMG_switch" v-if="sw">
+                                <span  class="tit">是否启用:</span>
+                                <el-switch
+                                        @change="open"
+                                        v-model="value2"
+                                        active-color="#409EFF"
+                                        inactive-color="#ff4949">
+                                </el-switch>
+                            </div>
                             <div class="progress" style="width: 100px;height: 5px;opacity: 0.5;display: inline-block " v-if="initiate2" >
                                 <div class="strip" :style="{width:bbb+'%'}" style="background: blue;height: 5px"></div>
                                 <div style="text-align: center;font-size: 10px">当前附件上传{{bbb}}%</div>
                             </div>
                         </div>
-                        <div v-if="type=='f_sls_lockscreen'" class="AddIMG_select">
-                            <span  class="tit">打底广告图</span>
-                            <select v-model="ad_pic">
-                                <option value="1">有</option>
-                                <option value="0">无</option>
-                            </select>
-                        </div>
-                        <div v-if="type=='f_sls_lockscreen'" class="AddIMG_sc">
-                            <span class="tit">广告图位数</span>
-                            <input type="number" placeholder="请输入广告位数数量" v-model="ad_num"/>
-                        </div>
+
+
                         <div class="box_sel">
                             <span class="tit">实现方式:</span>
                             <select v-model="model">
@@ -689,7 +692,7 @@
     }
     .tit{
         display: inline-block;
-        width:117px;
+        width:80px;
         margin-right: 16px;
         vertical-align: top;
         text-align: right;
@@ -722,7 +725,7 @@
         color:rgba(255,255,255,1)!important;
     }
     .AddIMG_sc p,.AddIMG_zp p ,.AddIMG_yl p,.AddIMG_input p,.upChenck p{
-        margin:10px 0 0 133px;
+        margin:10px 0 0 99px;
         padding: 0;
         font-size:12px;
         font-family:PingFang-SC-Regular;
@@ -848,7 +851,7 @@
         background:rgba(51,119,255,1)!important;
         color:rgba(255,255,255,1)!important;
         margin-right: 14px;
-        margin-left: 133px;
+        margin-left: 96px;
     }
     .CJ{
         display: inline-block;

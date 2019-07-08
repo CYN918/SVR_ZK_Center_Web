@@ -12,7 +12,7 @@
             <div class="con_left">
                 <div>
                     <span>投放库名称</span>
-                    <input type="text" placeholder="请输入投放库名称" v-model="name"/>
+                    <input type="text" placeholder="请输入投放库名称" v-model="name" maxlength="20"/>
                 </div>
                <div>
                    <span>广告位类型</span>

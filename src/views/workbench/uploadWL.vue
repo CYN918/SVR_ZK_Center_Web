@@ -192,7 +192,7 @@
         margin-top: 60px;
         padding-left: 40px;
         padding-right: 24px;
-        position: fixed;
+        f
         bottom: 20px;
         left: 50%;
         transform: translateX(-50%);

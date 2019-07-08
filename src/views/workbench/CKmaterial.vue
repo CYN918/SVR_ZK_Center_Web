@@ -22,12 +22,12 @@
                 <div class="img_box">
                     <div v-for="(da,index2) in item.bind" class="ADD_img">
                         <img :src="da.prev_uri" class="ADD_img_img"/>
-                        <span>{{da.prev_uri}}</span>
+                        <span>{{da.mid}}</span>
                     </div>
                 </div>
-               <div>
+                <div>
 
-               </div>
+                </div>
 
             </div>
             <div class="table_material" v-for="(item,index) in this.listWl" v-if="WL==true">
@@ -40,34 +40,32 @@
                 <div class="img_box">
                     <div v-for="(da1,index3) in item.bind" class="ADD_img">
                         <img :src="da1.prev_uri" class="ADD_img_img"/>
-                        <span>{{da1.prev_uri}}</span>
+                        <span>{{da1.mfid}}</span>
                     </div>
                 </div>
                 <div>
 
                 </div>
-
-            </div>
-            <div class="Add_btn">
-                <div class="checkSelect">
-                    <el-checkbox v-model="value">全选</el-checkbox>
-                </div>
-                <span class="ALLdownload">下载()</span>
-                <span @click="heid">取消</span>
-                <div class="block">
-                    <el-pagination
-                            @size-change="handleSizeChange"
-                            @current-change="handleCurrentChange"
-                            :current-page="page"
-                            :page-sizes="[2, 4, 6, 8]"
-                            :page-size="p"
-                            layout="total, sizes, prev, pager, next, jumper"
-                            :total="total">
-                    </el-pagination>
-                </div>
             </div>
         </div>
-
+        <div class="Add_btn">
+            <div class="checkSelect">
+                <el-checkbox v-model="value">全选</el-checkbox>
+            </div>
+            <span class="ALLdownload">下载()</span>
+            <span @click="heid">取消</span>
+            <div class="block">
+                <el-pagination
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page="page"
+                        :page-sizes="[2, 4, 6, 8]"
+                        :page-size="p"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="total">
+                </el-pagination>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -91,7 +89,7 @@
             }
         },
         mounted(){
-                this.getData();
+            this.getData();
         },
         methods:{
             heid(){
@@ -105,14 +103,14 @@
                 }
                 let params ={id:this.id,material:this.material,p:this.p,page:this.page};
                 this.api.demand_business_bind_list({params}).then((res)=>{
-                  if(this.SC==true){
-                      this.listSc=res.data.material;
-                      this.total=res.total;
-                      this.numAll=res.total;
-                  }else{
-                      this.listWl=res.data.mfinal;
-                      this.total=res.total;
-                  }
+                    if(this.SC==true){
+                        this.listSc=res.data.material;
+                        this.total=res.total;
+                        this.numAll=res.total;
+                    }else{
+                        this.listWl=res.data.mfinal;
+                        this.total=res.total;
+                    }
 
                 })
             },
@@ -197,12 +195,17 @@
         line-height: 71px;
     }
     .Add_btn{
-        width:1106px;
+        width:1040px;
         height:58px;
         background:rgba(247,249,252,1);
         border-radius:0px 0px 4px 4px;
-        position: absolute;
-        bottom: 0;
+        margin-top: 60px;
+        padding-left: 40px;
+        padding-right: 24px;
+        position: fixed;
+        bottom: 110px;
+        left: 50%;
+        transform: translateX(-50%);
 
     }
     .Add_btn span{

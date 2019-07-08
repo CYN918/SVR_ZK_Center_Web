@@ -84,7 +84,7 @@
                 </div>
                 <div class="gfName">
                     <span>规范名称</span>
-                    <input type="text" placeholder="请输入名称" v-model="name"/>
+                    <input type="text" placeholder="请输入名称" v-model="name" maxlength="20"/>
                 </div>
                 <div class="select_btn">
                     <span>选择分类</span>

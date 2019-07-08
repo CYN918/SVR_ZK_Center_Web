@@ -149,9 +149,8 @@
         font-size:14px;
         font-family:PingFang-SC-Medium;
         font-weight:500;
-        color:rgba(31,46,77,1);
+        color:rgba(143,155,179,1);
         margin-right: 24px;
-        margin-left: 165px;
     }
     .top{
         vertical-align: top;

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="top_name">
-            <span class="top_txt">任务中心/待处理</span>
+            <span class="top_txt">任务中心/{{this.active==0?'待处理':'全部待处理'}}</span>
             <div class="title_left">
                 <span>待处理</span>
             </div>

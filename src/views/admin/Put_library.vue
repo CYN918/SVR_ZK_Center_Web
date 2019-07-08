@@ -17,18 +17,20 @@
                     </select>
                     <span class="cx" @click="getDataList">查询</span>
                 </div>
-                <div>
-                    <template>
+                <div style="padding: 0 24px" >
                         <el-table
                                 :data="tableData"
-                                style="width: 100%"
+
+                                :header-cell-style="getRowClass"
+                                :cell-style="cell"
                                 @current-change="handleCurrentChange">
                             <el-table-column
                                     type="index"
                                     width="50">
                             </el-table-column>
                             <el-table-column label="" width="50">
-                                <template scope="scope"> <el-radio :label="scope.$index" v-model="radio" ></el-radio>
+                                <template scope="scope">
+                                    <el-radio :label="scope.$index" v-model="radio" ></el-radio>
                                 </template>
                             </el-table-column>
                             <el-table-column
@@ -74,7 +76,6 @@
                                     label="更新时间">
                             </el-table-column>
                         </el-table>
-                    </template>
                 </div>
                 <div class="block">
                     <el-pagination
@@ -130,6 +131,16 @@
                         id:this.tableData[index].id
                     }
                 })
+            },
+            getRowClass({row, column, rowIndex, columnIndex}) {
+                if (rowIndex === 0) {
+                    return 'background:#f7f9fc;color:#8F9BB3;text-align:center;font-size:14px;font-weight:Medium;height:48px;font-family:PingFang-SC-Regular;'
+                } else {
+                    return ''
+                }
+            },
+            cell({row, column, rowIndex, columnIndex}){
+                return 'text-align:center;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;width:100%'
             },
             TFtype(){
                 this.api.config_putlib_type().then((res)=>{
@@ -285,4 +296,5 @@
         border: 0px!important;
         color: #fff!important;
     }
+    .block{padding-right: 24px}
 </style>

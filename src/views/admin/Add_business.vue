@@ -23,11 +23,11 @@
                 </div>
                 <div>
                     <span class="tit_txt">需求名称</span>
-                    <input type="text" class="xqName" placeholder="请填写需求名称" v-model="demand_name"/>
+                    <input type="text" class="xqName" placeholder="请填写需求名称" v-model="demand_name" maxlength="20"/>
                 </div>
                 <div>
                     <span class="tit_txt">尺寸</span>
-                    <input class="num" type="text" placeholder="请输入尺寸，用*链接" v-model="size" v-if="switcher"/>
+                    <input class="num" type="number" placeholder="请输入尺寸，用*链接" pattern="[0-9]*" v-model="size" v-if="switcher"/>
                     <select v-model="size" v-if="switcher==false" @change="cut()">
                         <option value=" ">自定义</option>
                         <option v-for="(item,index) in sizeList" :value="item.size">{{item.size}}</option>
@@ -131,7 +131,10 @@
                         this.$message.error('需求数量不能为空')
                         return
                     }
-
+                    if(this.num>99){
+                        this.$message.error('需求数量最大为99');
+                        return
+                    }
                     if(this.type!='f_sls_lockscreen'&&!this.pos_type){
                         this.$message.error('广告位类型不能为空')
                         return

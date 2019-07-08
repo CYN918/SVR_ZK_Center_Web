@@ -40,7 +40,7 @@
                         </div>
                     </div>
                     <div  style="width: 100%;margin-top: 20px">
-                        <textarea placeholder="请输入您的备注（限50字）" maxlength="50" style="padding: 8px;width: 100%;resize:none;" v-model="note" v-if="line.indexOf(index)!=-1"></textarea>
+                        <textarea placeholder="请输入您的备注（限200字）" maxlength="200" style="padding: 8px;width: 100%;resize:none;" v-model="note" v-if="line.indexOf(index)!=-1"></textarea>
                     </div>
                 </div>
 
@@ -465,7 +465,7 @@
     }
     .zy_type span{
         display: inline-block;
-        width:60px;
+        width:70px;
         height: 50px;
         font-size:14px;
         font-family:PingFangSC-Regular;
@@ -474,6 +474,7 @@
         line-height: 55px;
         cursor: pointer;
         margin-right: 57px;
+        text-align: center;
     }
     .active{
         color:rgba(51,119,255,1)!important;

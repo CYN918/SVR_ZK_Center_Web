@@ -82,7 +82,7 @@
                                 <span class="boxImg_content" v-if="(DL.attach.size/1024/1024/1024).toFixed(2)>=1">{{(DL.attach.size/1024/1024/1024).toFixed(2)}}GB</span>
                                 <a class="dowload">下载</a>
                             </div>
-                            <div class="img_right" :class="{active_class:ind.indexOf(index)!=-1}"><span>√</span></div>
+                            <div class="img_right"><img :src="imgs" style="width: 50px"></div>
                         </div>
 
                     </div>
@@ -125,6 +125,7 @@
                 bind_mfid:[],
                 search:'',
                 deleted:false,
+                imgs:"img/select2.png"
             }
         },
         mounted(){
@@ -148,11 +149,11 @@
                 })
             },
             ADDclass(index){
-
                 if(this.ind.indexOf(index)!=-1){
                   for(var i = 0;i<this.ind.length;i++){
                       if(this.ind[i]==index){
-                          this.ind.splice(i)
+                          this.ind.splice(i);
+                          this.imgs='img/select2.png'
                       }
                   }
                     for(var j=0;j<this.bind_mfid.length;j++){
@@ -160,11 +161,12 @@
                             this.bind_mfid.splice(j);
                         }
                     }
-                    console.log(this.ind)
-                    console.log(this.bind_mfid)
+                    // console.log(this.ind)
+                    // console.log(this.bind_mfid)
                 }else{
                     this.ind.push(index);
                     this.bind_mfid.push(this.IMGList[index].mfid);
+                    this.imgs='img/select.png'
                 }
 
             },
@@ -272,11 +274,9 @@
         width: 0!important;
         height: 0!important;
         position: relative;
-        top: -337px;
-        right: -461px;
+        top: -313px;
+        right: -452px;
         cursor: pointer;
-        border: 20px solid;
-        border-color: rgba(211,219,235,1) rgba(211,219,235,1) transparent transparent;
     }
     .img_right span{
         display: inline-block;

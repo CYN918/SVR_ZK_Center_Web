@@ -25,11 +25,11 @@
                 </div>
                 <div>
                     <span class="tit_txt">需求名称</span>
-                    <input type="text" class="xqName" placeholder="请填写需求名称" v-model="demand_name"/>
+                    <input type="text" class="xqName" placeholder="请填写需求名称" v-model="demand_name" maxlength="20"/>
                 </div>
                 <div>
                     <span class="tit_txt">尺寸</span>
-                    <input class="num" type="text" placeholder="请输入尺寸，用*链接" v-model="size" v-if="switcher"/>
+                    <input class="num" type="number" placeholder="请输入尺寸，用*链接" pattern="[0-9]*" v-model="size" v-if="switcher"/>
                     <select v-model="size" v-if="switcher==false" @change="cut()">
                         <option value="" disabled selected style="color: #8b9bb3">请选择</option>
                         <option value=" ">自定义</option>
@@ -137,6 +137,10 @@
                         this.$message.error('需求数量不能为空');
                         return
                     }
+                    if(this.num>99){
+                        this.$message.error('需求数量最大为99');
+                        return
+                    }
                     if(this.num<=0){
                         this.$message.error('需求数量为大于零的正整数');
                         return
@@ -200,6 +204,10 @@
                     }
                     if(!this.num){
                         this.$message.error('需求数量不能为空')
+                    }
+                    if(this.num>99){
+                        this.$message.error('需求数量最大为99');
+                        return
                     }
                     if(this.num<=0){
                         this.$message.error('需求数量为大于零的正整数');

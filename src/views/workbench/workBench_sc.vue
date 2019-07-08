@@ -15,7 +15,7 @@
                     </div>
                     <div>
                         <span class="tit_txt">需求名称</span>
-                        <input type="text" class="xqName" placeholder="请填写需求名称" v-model="demand_name"/>
+                        <input type="text" class="xqName" placeholder="请填写需求名称" v-model="demand_name" maxlength="20"/>
                     </div>
                     <div>
                         <span class="tit_txt">优先级</span>
@@ -28,7 +28,7 @@
                     </div>
                     <div>
                         <span class="tit_txt">需求数量</span>
-                        <input type="number" v-model="num" class="number" placeholder="请输入需求数量"/>
+                        <input type="number" v-model="num" class="number" placeholder="请输入需求数量"  maxlength="2"/>
                     </div>
                     <div>
                         <span class="tit_txt">设计规范</span>
@@ -156,6 +156,10 @@
                         this.$message.error('需求数量不能为空')
                         return
                     }
+                    if(this.num>99){
+                        this.$message.error('需求数量最大为99');
+                        return
+                    }
                     if(this.num<=0){
                         this.$message.error('需求数量为大于零的正整数');
                         return
@@ -206,6 +210,10 @@
                     }
                     if(!this.num){
                         this.$message.error('需求数量不能为空')
+                        return
+                    }
+                    if(this.num>99){
+                        this.$message.error('需求数量最大为99');
                         return
                     }
                     if(this.num<=0){
