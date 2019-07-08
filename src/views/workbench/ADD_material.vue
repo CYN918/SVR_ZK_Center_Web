@@ -342,6 +342,11 @@
                     this.$message('预置标签不能为空');
                     return
                 }
+                if(this.chenck==true){
+                    this.size=this.cc
+                }else{
+                    this.size=this.sjSize
+                }
                 let formData = new FormData;
                 formData.append('mid',this.message.mfid);
                 formData.append('type',this.type);
@@ -349,7 +354,7 @@
                 formData.append('attach',JSON.stringify(this.attach));
                 formData.append('tags',this.preinstall);
                 formData.append('self_tags',this.bardian);
-                formData.append('size',this.sjSize);
+                formData.append('size',this.size);
                 this.api.mfinal_edit(formData).then((res)=>{
 
                 })
@@ -388,6 +393,11 @@
                         this.$message('广告位数必须为正整数');
                         return
                     }if(this.type=='f_sls_lockscreen'){
+                    if(this.chenck==true){
+                        this.size=this.cc
+                    }else{
+                        this.size=this.sjSize
+                    }
                         let formData = new FormData;
                         formData.append('type',this.type);
                         formData.append('ispic',(this.chenck==true?1:0));
@@ -397,7 +407,7 @@
                         formData.append('self_tags',this.bardian);
                         formData.append('bind_mid',this.bind_mid);
                         formData.append('model',this.model);
-                        formData.append('size',this.sjSize);
+                        formData.append('size',this.size);
                         formData.append('link',this.link);
                         formData.append('ad_pic',this.ad_pic);
                         formData.append('ad_num',this.ad_num);
@@ -412,6 +422,11 @@
                             })
                         })
                     }else{
+                         if(this.chenck==true){
+                             this.size=this.cc
+                         }else{
+                            this.size=this.sjSize
+                         }
                         let formData = new FormData;
                         formData.append('type',this.type);
                         formData.append('ispic',(this.chenck==true?1:0));
@@ -421,7 +436,7 @@
                         formData.append('self_tags',this.bardian);
                         formData.append('bind_mid',this.bind_mid);
                         formData.append('model',this.model);
-                        formData.append('size',this.sjSize);
+                        formData.append('size',this.size);
                         formData.append('link',this.link);
                         this.api.mfinal_add(formData).then((res)=>{
                             let formData = new FormData;
