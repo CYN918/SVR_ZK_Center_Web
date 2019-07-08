@@ -234,9 +234,9 @@
                         return
                     }
                     let formData=new FormData;
-                    formData.append('libraryName',this.libraryName);
-                    formData.append('type',this.type);
                     formData.append('id',this.YWid);
+                    formData.append('put_lib',this.libraryID);
+                    formData.append('type',this.type);
                     formData.append('num',this.num);
                     formData.append('priority',this.priority);
                     formData.append('endtime',this.endtime);
@@ -245,12 +245,15 @@
                     formData.append('model',this.model);
                     formData.append('link',this.link);
                     formData.append('requirement',this.requirement);
+                    formData.append('pos_view_url',this.url);
+                    formData.append('demand_name',this.demand_name);
                     this.api.demand_business_edit(formData).then((res)=>{
                         let formData = new FormData;
                         formData.append('id',this.YWid);
                         this.api.demand_audit(formData).then((res)=>{
 
-                        })
+                        });
+                        this.$parent.heidYW();
                     })
                 }
 

@@ -2,13 +2,13 @@
     <div class="bg" >
         <div class="content" >
             <div class="tit_name">
-                <span>从物料库ss</span>
+                <span>从物料库</span>
             </div>
             <div class="Search">
                 <img src="../../../public/img/ss.png" />
                 <input type="text" placeholder="搜索标签或ID" v-model="search" @input="getList()"/>
                 <div class="Search_select">
-                    <span class="Search_select_tit">素材类型：</span>
+                    <span class="Search_select_tit">物料类型：</span>
                     <select v-model="type" @change="getList()">
                         <option v-for="item in scType" :value="item.type">{{item.name}}</option>
                     </select>

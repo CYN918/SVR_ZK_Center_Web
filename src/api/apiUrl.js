@@ -590,7 +590,7 @@ export default {
 	},
 	//编辑业务需求
 	demand_business_edit:{
-		url:'/demand/business/edit',method:'post',isType:{suktip:1,reload:1}
+		url:'/demand/business/edit',method:'post',isType:{suktip:1}
 	},
 	//编辑素材需求
 	demand_material_edit:{
