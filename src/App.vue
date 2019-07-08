@@ -235,7 +235,7 @@ html,body{
 .top_name{
   width:100%;
   height:63px;
-  border-top:3px solid #ededed;
+  border-top:1px solid #ededed;
   background:rgba(255,255,255,1);
   box-shadow:0px 0px 6px 0px rgba(0, 0, 0, 0.04);
   position: fixed;

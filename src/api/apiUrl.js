@@ -696,4 +696,8 @@ export default {
     config_demands_type:{
 		url:'config/demands/type',method:'get'
 	},
+	//根据业务流程获取业务需求相关物料
+    demand_business_status_mfbind:{
+		url:'demand/business/status/mfbind/',method:'get'
+	},
 }

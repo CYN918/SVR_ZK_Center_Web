@@ -27,7 +27,7 @@
                     </div>
                     <div v-if="" class="img_box">
                         <div class="ADD_img" v-for="(data2,index3) in item.bind" >
-                            <img class="ADD_img_del" src="../../../public/img/del.png" @click="delLine(index)">
+                            <!--<img class="ADD_img_del" src="../../../public/img/del.png" @click="delLine(index)">-->
                             <img  class="ADD_img_img" :src="data2.prev_uri"/>
                             <span>{{data2.mfid}}</span>
                         </div>
@@ -123,10 +123,11 @@
             },
 
             getDATA(){
-                let params = {id:this.id,p:this.p,page:this.page,material:0};
-                this.api.demand_business_bind_list({params}).then((res)=>{
-                    this.numAlls =res.data.demand.num;
-                    this.listWL = res.data.mfinal;
+                let params = {id:this.id};
+                this.api.demand_business_status_mfbind({params}).then((res)=>{
+                    // this.numAlls =res.data.demand.num;
+                    // this.listWL = res.data.mfinal;
+                    console.log(res)
                 })
             },
             verified(){

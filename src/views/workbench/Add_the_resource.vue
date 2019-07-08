@@ -54,7 +54,7 @@
                     </div>
                     <div v-if="" class="img_box">
                         <div class="ADD_img" v-for="(data2,index3) in item.bind" >
-                            <img class="ADD_img_del" src="../../../public/img/del.png" @click="delLine(index)">
+                            <!--<img class="ADD_img_del" src="../../../public/img/del.png" @click="delLine(index)">-->
                             <img  class="ADD_img_img" :src="data2.prev_uri"/>
                             <span>{{data2.mid}}</span>
                         </div>

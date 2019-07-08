@@ -319,7 +319,6 @@
     }
     .labelName{
         display: inline-block;
-        background: #3377ff!important;
         width:78px;
         height:38px;
         border-radius:5px;
