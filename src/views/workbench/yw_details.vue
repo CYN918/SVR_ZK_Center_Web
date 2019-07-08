@@ -4,12 +4,14 @@
             <div class="box_img" >
                 <div>
                     <span>广告位示意图</span>
+
                 </div>
                 <img :src="this.list.pos_view_url"/>
             </div>
             <div class="content_txt">
                 <div class="title_txt">
-                    <span>发布业务需求详情</span>
+                    <span>业务需求详情</span>
+                    <img class="img" src="../../../public/img/gb.png"  @click=" heid()"/>
                 </div>
                 <div class="two">
                     <span class="tit_txt">业务类型</span>
@@ -49,9 +51,9 @@
                     <span class="tit_txt">广告要求</span>
                     <div class="text">{{this.list.require}}</div>
                 </div>
-                <div class="btn">
-                    <span @click="heid">返回</span>
-                </div>
+                <!--<div class="btn">-->
+                    <!--<span @click="heid">返回</span>-->
+                <!--</div>-->
             </div>
         </div>
     </div>
@@ -145,7 +147,7 @@
     }
     .content_txt{
         width:708px;
-        height:800px;
+        min-height:464px;
         background:rgba(255,255,255,1);
         border-radius:4px;
         display: inline-block;
@@ -236,14 +238,15 @@
         font-weight:400;
         color:rgba(61,73,102,1);
         margin-left: 14px;
-        max-width: 550px;
+         width: 200px;
         overflow: hidden;
+        margin-right: 10px;
     }
-    .tit_txts{
-        margin-right: 158px!important;
+    .img{
+        width: 16px;
+        position: relative;
+        z-index: 9999;
+        bottom: 0;
+        right: -548px;
     }
-    .logs{
-        margin-right: 214px;
-    }
-
 </style>

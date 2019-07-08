@@ -3,7 +3,7 @@
         <div class="bg" @click=" heid()">
             <div class="AddIMG" @click.stop>
                 <div class="AddIMG_tit">
-                    <span>查看素材需求</span>
+                    <span>素材需求详情</span>
                     <img src="../../../public/img/gb.png"  @click=" heid()"/>
                 </div>
                 <div>
@@ -49,7 +49,7 @@
                     </div>
                 </div>
                 <div class="btn">
-                    <a>点击下载需求附件</a>
+                    <a :href="this.list.attach.url">点击下载需求附件</a>
                 </div>
             </div>
         </div>
@@ -97,7 +97,7 @@
 </script>
 
 <style scoped>
-    .img{
+    img{
         width: 100%;
         height: 100%;
         position: absolute;

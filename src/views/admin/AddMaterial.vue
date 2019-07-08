@@ -594,8 +594,8 @@
     }
 
     .AddIMG_content_left img{
-        width: 100%;
-        height: 100%;
+        /*width: 100%;*/
+        /*height: 100%;*/
         border:0px!important;
     }
     .AddIMG_content_right span{
@@ -626,7 +626,13 @@
     .AddIMG_box_1 img{
         margin: 0 11px 17px 0;
         display: inline-block;
-        width:218px;
+        max-width:216px!important;
+        max-height:326px!important;
+        border:0px!important;
+        position: relative;
+        top:50%;
+        left:50%;
+        transform: translate(-50%,-50%);
     }
 
     .AddIMG_box img:nth-child(3n){

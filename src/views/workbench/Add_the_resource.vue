@@ -112,13 +112,13 @@
                     if(this.numAll==this.num){
                         return
                     }else{
-                        this.listSC.push({text:false});
+                        this.listSC.unshift({text:false});
                     }
                 }else{
                     if(this.numAll==this.num){
                         return
                     }else{
-                        this.listWL.push({text:false});
+                        this.listWL.unshift({text:false});
                     }
                 }
             },

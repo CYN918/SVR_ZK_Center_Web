@@ -49,8 +49,8 @@
         </div>
         <div class="centNavBox">
             <tab v-if="tables" :tableData="tableData" ></tab>
-            <sc v-if="sc"></sc>
-            <yw v-if="yw"></yw>
+            <sc v-if="sc" :SCid="id"></sc>
+            <yw v-if="yw" :YWid="id"></yw>
 
         </div>
         <div class="block">
@@ -105,6 +105,7 @@
                 controlBtn:true,
                 controlBtns:true,
                 control:[],
+                id:'',
             }
         },
         created(){
@@ -130,7 +131,8 @@
             this.getDataList();
         },
         methods:{
-            getSC(){
+            getSC(id){
+                this.id = id
                 this.sc=true;
             },
             cx(){
@@ -140,7 +142,8 @@
             heidSC(){
                 this.sc=false;
             },
-            getYW(){
+            getYW(id){
+                this.id = id
                 this.yw=true
             },
             heidYW(){
