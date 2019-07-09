@@ -453,6 +453,7 @@
                         }
                     }
                     this.sjSize=res.size;
+                    this.attach = res.attach;
                     this.type=res.type;
                     this.is_bind_mid=res.is_bind_mid==1?true:false;
                     this.is_bind_workid=res.is_bind_workid==0?true:false;

@@ -76,7 +76,7 @@
                             <span class="tit">尺寸:</span>
                             <input class="AddIMG_yl_size" v-model="sjSize" placeholder="上传预览图后自动获取"  disabled v-if="chenck==false">
                             <input class="AddIMG_yl_size" v-model="cc" placeholder="上传预览图后自动获取"  disabled v-if="chenck==true">
-                            <div class="AddIMG_yl_upload">
+                            <div class="AddIMG_yl_upload" :disabled="this.chenck==true">
                                 <el-upload
                                         :limit="1"
                                         :on-exceed="handleExceed"
@@ -357,6 +357,14 @@
                     this.$message('预置标签不能为空');
                     return
                 }
+                if(!this.model){
+                    this.$message('实现方式不能为空');
+                    return
+                }
+                if(!this.ad_pic){
+                    this.$message('有无打底广告图不能为空')
+                    return
+                }
                 if(this.chenck==true){
                    this.size=this.cc
                 }else{
@@ -387,6 +395,11 @@
                         this.$message('未上传预览图')
                         return
                     }
+                    if(!this.ad_pic){
+                        this.$message('有无打底广告图不能为空')
+                        return
+                    }
+
                     if(!this.attach.name){
                         this.$message('未上传文件')
                         return
@@ -395,7 +408,10 @@
                         this.$message('预置标签不能为空')
                         return
                     }
-
+                    if(!this.model){
+                        this.$message('实现方式不能为空')
+                        return
+                    }
                     if(!this.bind_mid&&this.is_bind_mid!=true){
                         this.$message('未绑定素材ID');
                         return
@@ -479,6 +495,8 @@
                             this.bardian=res.self_tags.splice(e);
                         }
                     }
+                    this.attach = res.attach;
+                    console.log(this.attach)
                     this.sjSize=res.size;
                     this.type=res.type;
                     this.link = res.link;

@@ -6,7 +6,7 @@
                 <img src="../../../public/img/gb.png" @click="heid"/>
             </div>
             <div class="tishi">
-                <textarea placeholder="请输入驳回原因" v-model="note"></textarea>
+                <textarea placeholder="请输入驳回原因" v-model="note" maxlength="20"></textarea>
             </div>
             <div class="btn">
                 <span class="btn_qd" @click="tj">确定</span>

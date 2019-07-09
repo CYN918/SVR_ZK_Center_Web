@@ -4,7 +4,7 @@
             <div class="title">
                 <span class="title_zy">添加资源</span>
                 <div class="zy_type">
-                    <span @click="ADDsc" class="active">添加素材</span>
+                    <span class="active">添加素材</span>
                 </div>
                 <div class="title_div">
                     <span class="title_div_span">已添加：</span>
@@ -18,7 +18,7 @@
                 </div>
             </div>
             <div class="table_material">
-                <div class="content_title" v-for="(item,index) in listSC" v-if="sc">
+                <div class="content_title" v-for="(item,index) in listSC">
                     <div>
                         <div  style="display: inline-block">
                             <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
@@ -29,10 +29,10 @@
                         </div>
                     </div>
                     <div  class="img_box">
-                        <div class="ADD_img" v-for="(data,index2) in item.bind" >
-                            <img class="ADD_img_del" src="../../../public/img/del.png" @click="delmid(index,data.mid)">
-                            <img  class="ADD_img_img" :src="data.prev_uri"/>
-                            <span>{{data.prev_uri}}</span>
+                        <div class="ADD_img" >
+                            <img class="ADD_img_del" src="../../../public/img/del.png" @click="delLine(index)">
+                            <img  class="ADD_img_img" :src="item.prev_uri"/>
+                            <span>{{item.mid}}</span>
                         </div>
                     </div>
                 </div>
@@ -67,8 +67,6 @@
                 listWL:[],
                 page:1,
                 p:3,
-                sc:true,
-                wl:false,
                 total:0,
                 line_num:'',
                 mfid:'',
@@ -78,9 +76,6 @@
             }
         },
         mounted(){
-            if(this.typeDa=="1"){
-                this. ADDwl()
-            }
             this.getDataList();
         },
         methods:{
@@ -88,32 +83,16 @@
                     if(this.numAll==this.num){
                         return
                     }else{
-                        this.listSC.push({text:false});
+                        this.listSC.unshift({text:false});
                     }
-            },
-            delmid(index,id){
-                let formData = new FormData;
-                formData.append('id',this.id);
-                formData.append('material',1);
-                formData.append('line_num', this.listSC[index].line_num);
-                formData.append('mid', JSON.stringify([id]));
-                this.api.demand_business_bind_del(formData).then((res)=>{
-                    this.getDataList()
-                })
             },
             delLine(index){
-                    if(this.listSC[index].line_num==undefined){
-                        this.listSC.splice(index,1);
-                        return
-                    }else{
                         let formData = new FormData;
                         formData.append('id',this.id);
-                        formData.append('material',1);
-                        formData.append('line_num', this.listSC[index].line_num);
-                        this.api.demand_business_bind_del(formData).then((res)=>{
+                        formData.append('mid',JSON.stringify([this.listSC[index].mid]));
+                        this.api.demand_material_bind_del(formData).then((res)=>{
                             this.getDataList()
                         })
-                    }
             },
 
             handleSizeChange(p){
@@ -151,49 +130,20 @@
                 this.$parent.GgtAddSC(this.line_num);
                 this.$parent.heidscR();
             },
-            getWl(){
-                this.$parent.getWl();
-                this.$parent.heidAddMaterial();
-            },
-            ADDsc(){
-                this.sc = true;
-                this.wl = false;
-                this.getDataList();
-            },
-            ADDwl(){
-                this.wl = true;
-                this.sc = false;
-                this.getDataList()
-            },
             getDataList(){
-                if(this.sc==true){
-                    this.material=1
-                }else{
-                    this.material=0
-                }
-                let params = {id:this.id,p:this.p,page:this.page,material:this.material};
-                this.api.demand_business_bind_list({params}).then((res)=>{
-                    if(this.sc==true){
-                        this.listSC = res.data.material;
-                        this.total = res.total;
-                    }else{
-                        this.listWL = res.data.mfinal;
-                        this.total = res.total
-                    }
-                    this.numAll=res.data.demand.hire_num;
+                let params = {id:this.id,p:this.p,page:this.page};
+                this.api.demand_material_bind_list({params}).then((res)=>{
+                    this.listSC = res.data;
+                    this.total = res.total;
+                     this.numAll=res.data.length;
                 })
             },
 
             verified(){
-                if(this.numAll==this.num){
-                    let formData = new FormData;
-                    formData.append('id',this.id);
-                    this.api.demand_audit(formData).then((res)=>{
-
-                    })
-                }else{
-                    this.$message.error('添加资源的数量未达到需求数量')
-                }
+                let formData = new FormData;
+                formData.append('id',this.id);
+                this.api.demand_audit(formData).then((res)=>{
+                })
             },
         },
     }
@@ -316,7 +266,7 @@
     .content_title{
         margin-top: 24px;
         border-bottom: 1px solid #E6E9F0;
-        padding-bottom: 24px;
+        padding: 0 24px;
     }
     .content_title_span{
         font-size:14px;

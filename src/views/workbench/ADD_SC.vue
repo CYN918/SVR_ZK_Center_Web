@@ -121,7 +121,6 @@
                         </div>
                         <div class="bg_btn">
                             <span class="bg_btn_up" @click="AddMatter">上传</span>
-
                             <span @click="heidSc">取消</span>
                         </div>
                     </div>
@@ -336,16 +335,14 @@
                         return
                     }
 
-                    if(!this.bind_mid&&this.is_bind_mid!=true){
-                        this.$message('未绑定素材ID')
-                        return
-                    }
-                    if(!this.bind_workid&&this.is_bind_workid!=true){
+                    if(!this.bind_workid){
                         this.$message('未绑定作品ID')
                         return
                     }
 
                     let formData = new FormData;
+                     formData.append('id',this.id);
+                     formData.append('demand_type',"demand_material");
                     formData.append('type',this.type);
                     formData.append('status',(this.value2==true?1:0));
                     formData.append('prev_uri',this.prev_uri);
@@ -355,19 +352,10 @@
                     formData.append('bind_mid',this.bind_mid);
                     formData.append('bind_workid',this.bind_workid);
                     formData.append('size',this.sjSize);
-                    formData.append('is_bind_mid',this.is_bind_mid==true?1:0);
-                    formData.append('is_bind_workid',this.is_bind_workid==true?0:1);
-                    this.api.material_add(formData).then((res)=>{
-                        console.log(res);
-                        let formData = new FormData;
-                        formData.append('id',this.id);
-                        formData.append('material',1);
-                        formData.append('line_num',this.index);
-                        formData.append('mid',JSON.stringify([res.mid]));
-                        this.api.demand_business_bind(formData).then((da)=>{
-                            this. heidAddSC();
-                            this. getscR();
-                        });
+                    formData.append('is_bind_mid',1);
+                    this.api.demand_add_material(formData).then((res)=>{
+                        this.$parent.heidAddSC();
+                        this.$parent.getscR();
                         this.getTagsList();
                     })
                 },

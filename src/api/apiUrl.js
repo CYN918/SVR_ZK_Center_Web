@@ -700,5 +700,16 @@ export default {
     demand_business_status_mfbind:{
 		url:'demand/business/status/mfbind/',method:'get'
 	},
-
+	//根据需求添加并绑定素材
+    demand_add_material:{
+		url:'demand/add/material',method:'post',isType:{suktip:1}
+	},
+	//获取素材需求相关素材
+    demand_material_bind_list:{
+		url:'demand/material/bind/list',method:'get'
+	},
+	//
+    demand_material_bind_del:{
+		url:'demand/material/bind/del',method:'post',isType:{suktip:1}
+	},
 }

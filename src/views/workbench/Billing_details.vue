@@ -103,10 +103,6 @@
                         >
                         </el-table-column>
                         <el-table-column
-                                label="待处理人" prop="cash_money"
-                        >
-                        </el-table-column>
-                        <el-table-column
                                 label="状态" prop="check_status_name"
                         >
                         </el-table-column>
