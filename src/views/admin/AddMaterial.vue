@@ -76,8 +76,9 @@
                             <span class="tit">尺寸:</span>
                             <input class="AddIMG_yl_size" v-model="sjSize" placeholder="上传预览图后自动获取"  disabled v-if="chenck==false">
                             <input class="AddIMG_yl_size" v-model="cc" placeholder="上传预览图后自动获取"  disabled v-if="chenck==true">
-                            <div class="AddIMG_yl_upload" :disabled="this.chenck==true">
+                            <div class="AddIMG_yl_upload" >
                                 <el-upload
+                                        :disabled="this.chenck==true"
                                         :limit="1"
                                         :on-exceed="handleExceed"
                                         :http-request="uploadFile"
