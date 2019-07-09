@@ -96,7 +96,7 @@
                 this.getDATA();
             },
             ADDline(){
-                if(this.listWL.length>=this.numAlls){
+                if(this.total>=this.numAlls){
                     return
                 }
                 this.listWL.unshift({text:false});
@@ -118,7 +118,7 @@
                         formData.append('line_num',this.listWL[index].line_num);
                         formData.append('mfid',this.listWL[index].bind[0].mfid);
                         this.api.demand_business_bind_del(formData).then((res)=>{
-                            this.getNUM()
+                            this.getDATA()
                         });
                     }
             },

@@ -568,7 +568,7 @@
                     this.$parent.getSC(id);
                 }
             },
-                check(type,id,status,reject){
+            check(type,id,status,reject){
                 if(type=='业务需求'){
                     if(status ==1){
                         if(reject==1){
