@@ -5,7 +5,7 @@
                 <span class="title_zy">添加物料</span>
                 <div class="title_div">
                     <span class="title_div_span">已制作物料：</span>
-                    <span class="title_div_span">{{this.listWL.length}}</span>
+                    <span class="title_div_span">{{this.total}}</span>
                     <span class="title_div_span">/</span>
                     <span class="title_div_span">{{this.numAlls}}</span>
                     <span class="title_div_btn" @click="ADDline">
@@ -34,22 +34,24 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="Add_btn">
-            <span class="Add_btn_ADD" @click="verified()">添加</span>
-            <span @click="heid">取消</span>
-            <div class="block">
-                <el-pagination
-                        @size-change="handleSizeChange"
-                        @current-change="handleCurrentChange"
-                        :current-page="page"
-                        :page-sizes="[3, 6, 9, 12]"
-                        :page-size="p"
-                        layout="total, sizes, prev, pager, next, jumper"
-                        :total="total">
-                </el-pagination>
+
             </div>
+            <div class="Add_btn">
+                <span class="Add_btn_ADD" @click="verified()">添加</span>
+                <span @click="heid">取消</span>
+                <div class="block">
+                    <el-pagination
+                            @size-change="handleSizeChange"
+                            @current-change="handleCurrentChange"
+                            :current-page="page"
+                            :page-sizes="[3, 6, 9, 12]"
+                            :page-size="p"
+                            layout="total, sizes, prev, pager, next, jumper"
+                            :total="total">
+                    </el-pagination>
+                </div>
         </div>
+
     </div>
 </template>
 
@@ -87,14 +89,17 @@
             },
             handleSizeChange(p){
                 this.p = p;
-                this.getDataList()
+                this.getDATA()
             },
             handleCurrentChange(page){
                 this.page = page;
-                this.getDataList();
+                this.getDATA();
             },
             ADDline(){
-                this.listWL.push({text:false});
+                if(this.listWL.length>=this.numAlls){
+                    return
+                }
+                this.listWL.unshift({text:false});
             },
             heid(){
                 this.$parent.heidAddWl();
@@ -113,39 +118,32 @@
                         formData.append('line_num',this.listWL[index].line_num);
                         formData.append('mfid',this.listWL[index].bind[0].mfid);
                         this.api.demand_business_bind_del(formData).then((res)=>{
-                            this.getDataList()
+                            this.getNUM()
                         });
                     }
             },
-            getDataList(){
-                let params = {id:this.id,p:this.p,page:this.page,material:0};
-                this.api.demand_business_bind_list({params}).then((res)=>{
-                    this.listWL = res.data.mfinal;
-                    this.total = res.total;
-                    this.numAll=res.data.demand.hire_num;
-                })
-            },
+
 
             getDATA(){
-                let params = {id:this.id};
+                let params = {id:this.id,p:this.p,page:this.page};
                 this.api.demand_business_status_mfbind({params}).then((res)=>{
                     this.listWL = res.data.mfinal;
-                    console.log(res)
+                    this.total=res.total;
+                    console.log(res);
                     this.getNUM()
                 })
             },
             getNUM(){
-                let params = {id:this.id,p:this.p,page:this.page,material:1};
+                let params = {id:this.id,p:99,page:this.page,material:1};
                 this.api.demand_business_bind_list({params}).then((res)=>{
                     this.numAlls = res.data.material.length;
                 })
             },
             verified(){
-                if(this.listWL.length==this.numAlls){
+                if(this.total==this.numAlls){
                     let formData = new FormData;
                     formData.append('id',this.id);
                     this.api.demand_audit(formData).then((res)=>{
-
                     })
                 }else{
                     this.$message.error('添加资源的数量未达到需求数量')
@@ -192,8 +190,8 @@
         margin-top: 60px;
         padding-left: 40px;
         padding-right: 24px;
-        f
-        bottom: 20px;
+        position: fixed;
+        bottom: 30px;
         left: 50%;
         transform: translateX(-50%);
     }

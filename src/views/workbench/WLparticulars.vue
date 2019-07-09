@@ -16,12 +16,12 @@
                     <el-checkbox v-model="value"></el-checkbox>
                     <span style="display: inline-block;margin: 0 26px 0 18px">{{item.line_num}}</span>
                     <span class="table_material_tit_sc">物料</span>
-                    <span class="download" :href="item">下载({{item.bind.length}})</span>
+                    <a class="download" :href="item.bind[0].prev_uri" >下载</a>
                 </div>
                 <div class="img_box">
                     <div v-for="(da1,index3) in item.bind" class="ADD_img">
                         <img :src="da1.prev_uri" class="ADD_img_img"/>
-                        <span>{{da1.prev_uri}}</span>
+                        <span>{{da1.mfid}}</span>
                     </div>
                 </div>
                 <div>
@@ -75,10 +75,10 @@
                 this.$parent.heidWLp();
             },
             getData(){
-                let params = {id:this.id};
-                this.api.demand_business_status_mfbind({params}).then((res)=>{
-                    this.listWL = res.data.mfinal;
-                    this.numAll = res.data.mfinal.length;
+                let params ={id:this.id,material:0,p:this.p,page:this.page};
+                this.api.demand_business_bind_list({params}).then((res)=>{
+                    this.listWl=res.data.mfinal;
+                    this.total=res.total;
                 })
 
             },

@@ -422,7 +422,9 @@
             },
             heidADD(){
                 this.ADD = false;
-                this.move()
+                this.bindMid='';
+                this.hqUrl='';
+                this.move();
             },
             getBH(){
                 this.bh = true
