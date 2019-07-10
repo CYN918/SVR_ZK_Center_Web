@@ -68,7 +68,7 @@
                             </div>
                             <div   style="display: inline-block">
                                 <span class="tit">广告图位数</span>
-                                <input type="number" placeholder="请输入广告位数量" v-model="ad_num" style="width: 100px;height: 36px"/>
+                                <input type="number" placeholder="请输入广告位数量" v-model="ad_num" style="width: 100px;height: 30px;border-radius: 5px"/>
 
                             </div>
                         </div>
@@ -87,7 +87,7 @@
                                         action="111"
                                         :before-upload="beforeAvatarUpload"
                                         :file-list="fileList">
-                                    <el-button size="small" type="primary">上传预览图</el-button>
+                                    <el-button size="small" type="primary" :class="{disbld:this.chenck==true}">上传预览图</el-button>
                                 </el-upload>
                             </div>
                             <div class="AddIMG_switch" v-if="sw">
@@ -366,6 +366,14 @@
                     this.$message('有无打底广告图不能为空')
                     return
                 }
+                if(!this.ad_num){
+                    this.$message('广告位数数量不能为空');
+                    return
+                }
+                if(this.ad_num<=0){
+                    this.$message('广告位数必须为正整数');
+                    return
+                }
                 if(this.chenck==true){
                    this.size=this.cc
                 }else{
@@ -422,14 +430,15 @@
                         this.$message('未选择是否有打底广告');
                         return
                     }
-                    if(!this.ad_num&&this.type=='f_sls_lockscreen'){
+                    if(!this.ad_num){
                         this.$message('广告位数数量不能为空');
                         return
                     }
-                    if(this.ad_num<=0&&this.type=='f_sls_lockscreen'){
+                    if(this.ad_num<=0){
                         this.$message('广告位数必须为正整数');
                         return
-                    }if(this.type=='f_sls_lockscreen'){
+                    }
+                    if(this.type=='f_sls_lockscreen'){
                         if(this.chenck==true){
                             this.size=this.cc
                         }else{
@@ -883,5 +892,12 @@
         font-size: 12px;
         border-radius: 5px;
         margin-bottom: 10px!important;
+    }
+    .disbld{
+        background: #e0e0e0 !important;
+       border: 0px!important;
+    }
+    .disbld>span{
+        color: #e0e0e0!important;
     }
 </style>
