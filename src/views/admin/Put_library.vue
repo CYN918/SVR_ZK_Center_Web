@@ -44,7 +44,7 @@
                             >
                             </el-table-column>
                             <el-table-column
-                                    prop="address"
+                                    prop="put_type_name"
                                     label="投放库类型">
                             </el-table-column>
                             <el-table-column
@@ -62,7 +62,7 @@
                                     label="广告类型">
                             </el-table-column>
                             <el-table-column
-                                    prop="date"
+                                    prop="channel_type"
                                     label="渠道类型"
                             >
                             </el-table-column>

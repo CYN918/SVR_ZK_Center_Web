@@ -66,7 +66,7 @@
                                     <option value="0">无</option>
                                 </select>
                             </div>
-                            <div v-if="ad_pic=='1'"  style="display: inline-block">
+                            <div   style="display: inline-block">
                                 <span class="tit">广告图位数</span>
                                 <input type="number" placeholder="请输入广告位数量" v-model="ad_num" style="width: 100px;height: 36px"/>
 
@@ -379,6 +379,7 @@
                 formData.append('tags',this.preinstall);
                 formData.append('self_tags',this.bardian);
                 formData.append('size',this.size);
+                formData.append('model',this.model);
                 this.api.mfinal_edit(formData).then((res)=>{
                     if(res.data!=''){
                         this.$parent.heidSc();
