@@ -16,7 +16,7 @@
             </div>
             <div class="detail_1_1_4">
                 <span  class="txt">用户名</span>
-                <input type="text" v-model="name"/>
+                <input type="text" v-model="name" maxlength="5"/>
             </div>
             <div class="detail_1_1_7" v-if="type==1">
                 <span  class="txt">公司名称</span>

@@ -51,7 +51,7 @@
                     </div>
                     <div>
                         <span class="tit_txt top">设计要求</span>
-                        <textarea maxlength="300" v-model="requirement" placeholder="请补充本次需求相关详细描述
+                        <textarea maxlength="200" v-model="requirement" placeholder="请补充本次需求相关详细描述
 例：xxx渠道的应用分发模板">
                         </textarea>
                     </div>

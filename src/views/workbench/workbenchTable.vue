@@ -774,7 +774,7 @@
         background: transparent!important;
     }
     .bor{
-        border: 0.5px solid #e6e9e0;
+        border: 0.5px solid #e6e9f0;
         width: 204px;
         display: inline-block;
         margin: 0 18px;
