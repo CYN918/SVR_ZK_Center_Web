@@ -392,7 +392,7 @@
                     if(this.ad_num<=0&&this.type=='f_sls_lockscreen'){
                         this.$message('广告位数必须为正整数');
                         return
-                    }if(this.type=='f_sls_lockscreen'){
+                    }
                     if(this.chenck==true){
                         this.size=this.cc
                     }else{
@@ -413,12 +413,11 @@
                         formData.append('link',this.link);
                         formData.append('ad_pic',this.ad_pic);
                         formData.append('ad_num',this.ad_num);
-                        this.api.mfinal_add(formData).then((res)=>{
+                        this.api.demand_add_mfinal(formData).then((res)=>{
                             this.$parent.heidADD();
                             this.$parent.AddWl();
 
                         })
-                    }
                 },
 
             IDchange(){

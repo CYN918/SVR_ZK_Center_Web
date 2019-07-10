@@ -82,7 +82,8 @@
                                 <span class="boxImg_content" v-if="(DL.attach.size/1024/1024/1024).toFixed(2)>=1">{{(DL.attach.size/1024/1024/1024).toFixed(2)}}GB</span>
                                 <a class="dowload">下载</a>
                             </div>
-                            <div class="img_right"><img :src="imgs" style="width: 50px"></div>
+                            <div class="img_right" v-if='ind.indexOf(index)==-1'><img src="../../../public/img/select2.png" style="width: 50px"></div>
+                            <div class="img_right" v-if="ind.indexOf(index)!=-1"><img src="../../../public/img/select.png" style="width: 50px"></div>
                         </div>
 
                     </div>
@@ -125,7 +126,6 @@
                 bind_mfid:[],
                 search:'',
                 deleted:false,
-                imgs:"img/select2.png"
             }
         },
         mounted(){
@@ -153,7 +153,6 @@
                   for(var i = 0;i<this.ind.length;i++){
                       if(this.ind[i]==index){
                           this.ind.splice(i);
-                          this.imgs='img/select2.png'
                       }
                   }
                     for(var j=0;j<this.bind_mfid.length;j++){
@@ -161,12 +160,9 @@
                             this.bind_mfid.splice(j);
                         }
                     }
-                    // console.log(this.ind)
-                    // console.log(this.bind_mfid)
                 }else{
                     this.ind.push(index);
                     this.bind_mfid.push(this.IMGList[index].mfid);
-                    this.imgs='img/select.png'
                 }
 
             },

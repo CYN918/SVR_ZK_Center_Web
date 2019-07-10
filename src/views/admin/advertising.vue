@@ -222,8 +222,9 @@ export default {
             this.num =this.IMGList[index].mid;
             this.stop();
 		},
-        updata(){
+        updata(a){
             this.getList();
+            console.log(a)
         },
         heidRel(){
             this.getRe=false;
@@ -236,7 +237,7 @@ export default {
 
         },
 		XStag(a){
-            let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:this.search_tags}
+            let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:this.search_tags};
             this.api.material_search({params}).then((res)=>{
                 this.IMGList=res.data;
                 console.log(res.data);

@@ -377,8 +377,8 @@
                 formData.append('self_tags',this.bardian);
                 formData.append('size',this.sjSize);
                 this.api.material_edit(formData).then((res)=>{
-                    // this.setTags();
                     this.getTagsList();
+                    this.$emit('updata','0');
                     this. heidSc();
                 })
             },
@@ -410,7 +410,6 @@
                         this.$message('未绑定作品ID')
                         return
                     }
-
                     let formData = new FormData;
                     formData.append('type',this.type);
                     formData.append('status',(this.value2==true?1:0));
@@ -424,9 +423,9 @@
                     formData.append('is_bind_mid',this.is_bind_mid==true?1:0);
                     formData.append('is_bind_workid',this.is_bind_workid==true?0:1);
                     this.api.material_add(formData).then((res)=>{
-                        this.$emit('updata');
                         this.getTagsList();
                       if(res.data!=''){
+                          this.$emit('updata','0');
                           this. heidSc();
                       }
                     })

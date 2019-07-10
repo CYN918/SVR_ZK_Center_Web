@@ -194,7 +194,7 @@
                     formData.append('is_ref',this.is_ref==true?1:0);
                     formData.append('ref_url',this.ref_url);
                     formData.append('design_standard',this.design_standard);
-                    formData.append('requirement',this.requirement)
+                    formData.append('requirement',this.requirement);
                     formData.append('demand_name',this.demand_name);
                     this.api.demand_material_add(formData).then((res)=>{
                         console.log(typeof(this.ref_url))

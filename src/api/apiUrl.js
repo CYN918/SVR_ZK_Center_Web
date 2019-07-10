@@ -594,7 +594,7 @@ export default {
 	},
 	//编辑素材需求
 	demand_material_edit:{
-		url:'/demand/material/edit',method:'post',isType:{suktip:1,reload:1}
+		url:'/demand/material/edit',method:'post',isType:{suktip:1}
 	},
 	//查看驳回详情
     demand_reject_logs:{
