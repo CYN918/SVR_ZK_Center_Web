@@ -7,7 +7,7 @@
         <BDadd v-if="BD"  :index="index" :id="id"></BDadd>
         <AddWL v-if="wl"  :id="id" @dataType="datatype"></AddWL>
         <scwl v-if="scwl"  :index="index" :id="id"></scwl>
-        <sct v-if="set"  :index="index" :id="id"></sct>
+        <sct v-if="set"  :index="index" :id="id" @dataType="datatype"></sct>
         <QD v-if="sh" :id="id"></QD>
         <BH v-if="bh" :dbid="dbid"></BH>
         <ywxq v-if="yw" :YWid="YWid"></ywxq>

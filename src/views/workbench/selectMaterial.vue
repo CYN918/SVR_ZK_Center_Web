@@ -78,7 +78,7 @@
                 </el-pagination>
             </div>
             <div class="select_btn">
-                <span class="select_btn_left" @click="messageID">确定</span>
+                <span class="select_btn_left" @click.once="messageID">确定</span>
                 <span @click="YCset">取消</span>
             </div>
         </div>
@@ -142,6 +142,7 @@
                 formData.append('mid',JSON.stringify(this.checked));
                 this.api.demand_business_bind(formData).then((res)=>{
                     this.$parent.SCsc();
+                    this.$emit('dataType','0');
                     this.$parent.AddMaterial()
                 })
 
