@@ -24,11 +24,11 @@
                                 :header-cell-style="getRowClass"
                                 :cell-style="cell"
                                 @current-change="handleCurrentChange">
-                            <el-table-column
-                                    type="index"
-                                    width="50">
-                            </el-table-column>
-                            <el-table-column label="" width="50">
+                            <!--<el-table-column-->
+                                    <!--type="index"-->
+                                    <!--width="50">-->
+                            <!--</el-table-column>-->
+                            <el-table-column label="" width="80">
                                 <template scope="scope">
                                     <el-radio :label="scope.$index" v-model="radio" ></el-radio>
                                 </template>
