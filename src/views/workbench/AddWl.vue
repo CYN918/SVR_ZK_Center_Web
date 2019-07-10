@@ -2,7 +2,7 @@
     <div class="bg" >
         <div class="content" >
             <div class="tit_name">
-                <span>从物料库</span>
+                <span>从物料库aaa</span>
             </div>
             <div class="Search">
                 <img src="../../../public/img/ss.png" />
@@ -125,6 +125,7 @@
                 formData.append('material', 0);
                 formData.append('mfid', this.checked);
                 this.api.demand_business_bind(formData).then((res) => {
+                    this.$emit('dataType','1')
                     this.$parent.HeidWl();
                     this.$parent.AddMaterial();
                 })

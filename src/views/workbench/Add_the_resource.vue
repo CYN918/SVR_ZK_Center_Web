@@ -84,7 +84,7 @@
 
 <script>
     export default {
-        props:['id','num','ind'],
+        props:['id','num','ind','typeList'],
         name: "add_the_resource",
         data(){
             return{
@@ -104,6 +104,11 @@
             }
         },
         mounted(){
+            if(this.typeList==1){
+                this.sc = false;
+                this.wl=true;
+            }
+            console.log(this.typeList)
             this.getDataList();
         },
         methods:{

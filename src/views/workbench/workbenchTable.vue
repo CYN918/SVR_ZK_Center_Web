@@ -5,7 +5,7 @@
         <set v-if="sets"   @listenToChildEvent="listen" :material="0"></set>
         <uplodWl v-if='up'  :id="id" ></uplodWl>
         <BDadd v-if="BD"  :index="index" :id="id"></BDadd>
-        <AddWL v-if="wl"  :id="id"></AddWL>
+        <AddWL v-if="wl"  :id="id" @dataType="datatype"></AddWL>
         <scwl v-if="scwl"  :index="index" :id="id"></scwl>
         <sct v-if="set"  :index="index" :id="id"></sct>
         <QD v-if="sh" :id="id"></QD>
@@ -14,7 +14,7 @@
         <scxq v-if="sc" :SCid="SCid"></scxq>
         <CK v-if='ck' :id="CkID"></CK>
         <WLp v-if="WLp" :id="wlID"></WLp>
-        <ATR v-if="ADD_material" :id="id" :num="num" :ind="index" ></ATR>
+        <ATR v-if="ADD_material" :id="id" :num="num" :ind="index" :typeList="this.typeList"></ATR>
         <ADDsc v-if="addSC" :index="index" :id="id"></ADDsc>
         <scREQ v-if="scR"  :id="id" :num="num"></scREQ>
         <Cm v-if="Cm" :id="id" :num="num"></Cm>
@@ -278,6 +278,7 @@
                 addSC:false,
                 scR:false,
                 email:'',
+                typeList:null,
                 bindMid:[],
                 hqUrl:[],
                 getRowKeys(row) {
@@ -516,7 +517,10 @@
                 this.api.demand_apply_export({params}).then((res)=>{
                     console.log(res);
                 })
-
+            },
+            datatype(data){
+                this.typeList = data;
+                console.log(this.typeList)
             },
             heidUP(){
                 this.uploads = false;
