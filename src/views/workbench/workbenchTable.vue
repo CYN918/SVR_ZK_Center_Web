@@ -66,7 +66,7 @@
                             </el-button>
                             <el-button v-if="tableData[scope.$index].isfinish==1"
                                        size="mini"
-                            >已完成
+                            >{{(tableData[scope.$index].endtime_toast)}}
                             </el-button>
                         </template>
                     </el-table-column>

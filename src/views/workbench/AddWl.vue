@@ -17,11 +17,21 @@
             <div class="contentImg">
                 <div class="label">
                     <span class="label_txt">预置标签:</span>
-                    <span v-for="(item,index) in preset_tags" class="labelName" @click="getListTag(item.name,index)" :class="{active:inx==index}">{{item.name}}</span>
+                    <span class="labelName" @click="getListTag()" :class="{active:listTag.length==0}">全部</span>
+                    <div class="tags" :class="{ALLtags:this.class==true}">
+                        <span v-for="(item,index) in preset_tags" class="labelName" @click="getListTag(item.name,index)" :class="{active:listTag.indexOf(item.name)!=-1}">{{item.name}}</span>
+                    </div>
+                    <span class="tagsAll" v-if="this.class==false" @click="getTag">查看更多</span>
+                    <span class="tagsAll" v-if="this.class==true" @click="heidTag">收起</span>
                 </div>
-                <div>
-                    <span class="label_txt">个性标签:</span>
-                    <span v-for="(item,index) in self_tags" class="labelName" @click="getListTag2(item.name,index)" :class="{active:inde==index}">{{item.name}}</span>
+                <div class="label">
+                    <span class="label_txt" >个性标签:</span>
+                    <span class="labelName" @click="getListTags()" :class="{active:listTagData.length==0}">全部</span>
+                    <div class="tags" :class="{ALLtags:this.class1==true}">
+                        <span v-for="(item,index) in self_tags" class="labelName" @click="getListTags(item.name,index)" :class="{active:listTagData.indexOf(item.name)!=-1}">{{item.name}}</span>
+                    </div>
+                    <span class="tagsAll" v-if="this.class1==false" @click="getTag1">查看更多</span>
+                    <span class="tagsAll" v-if="this.class1==true" @click="heidTag1">收起</span>
                 </div>
                 <div class="box">
                     <div class="boxImg" v-for="(DL,index) in IMGList">
@@ -94,44 +104,52 @@
                 inde:null,
                 listData:[],
                 list:[],
+                class:false,
+                class1:false,
+                listTag:[],
+                listTagData:[],
+                search_tags:[],
             }
         },
         mounted() {
             this.getList();
         },
-        methods:{
-            YCset(){this.$parent.HeidWl();this.$parent.AddMaterial()},
-            messageID(){
+        methods: {
+            YCset() {
+                this.$parent.HeidWl();
+                this.$parent.AddMaterial()
+            },
+            messageID() {
                 let formData = new FormData;
-                formData.append('id',this.id);
-                formData.append('material',0);
-                formData.append('mfid',this.checked);
-                this.api.demand_business_bind(formData).then((res)=>{
+                formData.append('id', this.id);
+                formData.append('material', 0);
+                formData.append('mfid', this.checked);
+                this.api.demand_business_bind(formData).then((res) => {
                     this.$parent.HeidWl();
                     this.$parent.AddMaterial();
                 })
 
             },
-            getList(){
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search};
-                this.api.mfinal_search({params}).then((res)=>{
-                    this.IMGList=res.data;
-                    this.total=res.total;
+            getList() {
+                let params = {p: this.pageSize, page: this.currentPage, type: this.type, search: this.search};
+                this.api.mfinal_search({params}).then((res) => {
+                    this.IMGList = res.data;
+                    this.total = res.total;
                     this.getTagsList();
                     this.getType();
-                    this.listData=this.listData.concat(res.data);
+                    this.listData = this.listData.concat(res.data);
                     console.log(this.listData);
                 })
             },
-            getType(){
-                let params={material:0};
-                this.api.config_material_type({params}).then((res)=>{
-                    this.scType=res;
+            getType() {
+                let params = {material: 0};
+                this.api.config_material_type({params}).then((res) => {
+                    this.scType = res;
                 })
             },
-            getTagsList(){
-                let params = {preset:this.preset,material:0,type:this.type,search:this.search};
-                this.api.tags_search({params}).then((da)=>{
+            getTagsList() {
+                let params = {preset: this.preset, material: 0, type: this.type, search: this.search};
+                this.api.tags_search({params}).then((da) => {
                     this.preset_tags = da.data.tags;
                     this.self_tags = da.data.self_tags
                 })
@@ -145,25 +163,99 @@
                 this.currentPage = currentPage;
                 this.getList()
             },
-            getListTag(name,index){
-                this.inx=index;
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:name}
-                this.api.mfinal_search({params}).then((res)=>{
-                    this.IMGList=res.data;
-                    this.total=res.total;
+            getListTag(name, index) {
+                this.inx = index;
+                let params = {p: this.pageSize, page: this.currentPage, type: this.type, search: name}
+                this.api.mfinal_search({params}).then((res) => {
+                    this.IMGList = res.data;
+                    this.total = res.total;
                     this.getTagsList()
                 })
             },
-            getListTag2(name,index){
-                this.inde=index;
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:name}
-                this.api.mfinal_search({params}).then((res)=>{
-                    this.IMGList=res.data;
-                    this.total=res.total;
+            getListTags(name, index) {
+                this.inde = index;
+                let params = {p: this.pageSize, page: this.currentPage, type: this.type, search: name}
+                this.api.mfinal_search({params}).then((res) => {
+                    this.IMGList = res.data;
+                    this.total = res.total;
                     this.getTagsList()
                 })
             },
-        },
+            getTag() {
+                this.class = true;
+            },
+            heidTag() {
+                this.class = false;
+            },
+            getTag1() {
+                this.class1 = true;
+            },
+            heidTag1() {
+                this.class1 = false;
+            },
+            getListTags(name) {
+                if (!name) {
+                    this.listTagData.length = 0
+                } else {
+                    if (this.listTagData.indexOf(name) == -1) {
+                        this.listTagData.push(name)
+
+                    } else {
+                        for (var i = 0; i < this.listTagData.length; i++) {
+                            if (this.listTagData[i] == name) {
+                                this.listTagData.splice(i, 1);
+
+                            }
+                        }
+                    }
+                }
+
+                let params = {
+                    p: this.pageSize,
+                    page: this.currentPage,
+                    type: this.type,
+                    search: this.search,
+                    search_tags: JSON.stringify(this.listTag.concat(this.listTagData)),
+                    status: this.status
+                }
+                this.api.mfinal_search({params}).then((res) => {
+                    this.IMGList = res.data;
+                    this.total = res.total;
+                    this.getTagsList()
+                })
+            },
+            getListTag(name) {
+                if (!name) {
+                    this.listTag.length = 0
+                } else {
+                    if (this.listTag.indexOf(name) == -1) {
+                        this.listTag.push(name);
+
+                    } else {
+                        for (var i = 0; i < this.listTag.length; i++) {
+                            if (this.listTag[i] == name) {
+                                this.listTag.splice(i, 1);
+
+                            }
+                        }
+                    }
+                }
+
+                let params = {
+                    p: this.pageSize,
+                    page: this.currentPage,
+                    type: this.type,
+                    search: this.search,
+                    search_tags: JSON.stringify(this.listTag.concat(this.listTagData)),
+                    status: this.status
+                }
+                this.api.mfinal_search({params}).then((res) => {
+                    this.IMGList = res.data;
+                    this.total = res.total;
+                    this.getTagsList()
+                })
+            },
+        }
     }
 </script>
 
