@@ -7,7 +7,7 @@
             </div>
             <div class="tit_btn">
                 <img src="../../../public/img/ss.png">
-                <input type="text" placeholder="搜素需求ID" v-model="search" @input="typeListSearch"/>
+                <input type="text" placeholder="搜索需求ID" v-model="search" @input="typeListSearch"/>
                 <span class="tit_btn_sc" :class="{activeHeid:this.controlBtn}" @click="getSC('')">发布素材需求</span>
                 <span class="tit_btn_yw" :class="{activeHeid:this.controlBtns}" @click="getYW('')">发布业务需求</span>
             </div>
