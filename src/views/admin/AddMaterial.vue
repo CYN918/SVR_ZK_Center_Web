@@ -66,7 +66,7 @@
                                     <option value="0">无</option>
                                 </select>
                             </div>
-                            <div   style="display: inline-block">
+                            <div style="display: inline-block" v-if="type=='f_sls_lockscreen'">
                                 <span class="tit">广告图位数</span>
                                 <input type="number" placeholder="请输入广告位数量" v-model="ad_num" style="width: 100px;height: 30px;border-radius: 5px"/>
 
@@ -366,11 +366,11 @@
                     this.$message('有无打底广告图不能为空')
                     return
                 }
-                if(!this.ad_num){
+                if(!this.ad_num&&this.type=='f_sls_lockscreen'){
                     this.$message('广告位数数量不能为空');
                     return
                 }
-                if(this.ad_num<=0){
+                if(this.ad_num<=0&&this.type=='f_sls_lockscreen'){
                     this.$message('广告位数必须为正整数');
                     return
                 }
@@ -426,15 +426,15 @@
                         this.$message('未绑定素材ID');
                         return
                     }
-                    if(!this.ad_pic){
+                    if(!this.ad_pic&&this.type=='f_sls_lockscreen'){
                         this.$message('未选择是否有打底广告');
                         return
                     }
-                    if(!this.ad_num){
+                    if(!this.ad_num&&this.type=='f_sls_lockscreen'){
                         this.$message('广告位数数量不能为空');
                         return
                     }
-                    if(this.ad_num<=0){
+                    if(this.ad_num<=0&&this.type=='f_sls_lockscreen'){
                         this.$message('广告位数必须为正整数');
                         return
                     }

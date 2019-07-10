@@ -712,4 +712,8 @@ export default {
     demand_material_bind_del:{
 		url:'demand/material/bind/del',method:'post',isType:{suktip:1}
 	},
+	//根据需求添加并绑定物料
+	demand_add_mfinal:{
+		url:'demand/add/mfinal',method:'post',isType:{suktip:1}
+	},
 }

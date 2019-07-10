@@ -399,6 +399,8 @@
                         this.size=this.sjSize
                     }
                         let formData = new FormData;
+                        formData.append('id',this.id);
+                        formData.append('demand_type','demand_business');
                         formData.append('type',this.type);
                         formData.append('ispic',(this.chenck==true?1:0));
                         formData.append('prev_uri',this.prev_uri);
@@ -412,41 +414,9 @@
                         formData.append('ad_pic',this.ad_pic);
                         formData.append('ad_num',this.ad_num);
                         this.api.mfinal_add(formData).then((res)=>{
-                            let formData = new FormData;
-                            formData.append('id',this.id);
-                            formData.append('material',0);
-                            formData.append('mfid',res.mfid);
-                            this.api.demand_business_bind(formData).then((res)=>{
-                                this.$parent.heidADD();
-                                this.$parent.AddWl();
-                            })
-                        })
-                    }else{
-                         if(this.chenck==true){
-                             this.size=this.cc
-                         }else{
-                            this.size=this.sjSize
-                         }
-                        let formData = new FormData;
-                        formData.append('type',this.type);
-                        formData.append('ispic',(this.chenck==true?1:0));
-                        formData.append('prev_uri',this.prev_uri);
-                        formData.append('attach',JSON.stringify(this.attach));
-                        formData.append('tags',this.preinstall);
-                        formData.append('self_tags',this.bardian);
-                        formData.append('bind_mid',this.bind_mid);
-                        formData.append('model',this.model);
-                        formData.append('size',this.size);
-                        formData.append('link',this.link);
-                        this.api.mfinal_add(formData).then((res)=>{
-                            let formData = new FormData;
-                            formData.append('id',this.id);
-                            formData.append('material',0);
-                            formData.append('mfid',res.mfid);
-                            this.api.demand_business_bind(formData).then((res)=>{
-                                this.$parent.heidADD();
-                                this.$parent.AddWl();
-                            })
+                            this.$parent.heidADD();
+                            this.$parent.AddWl();
+
                         })
                     }
                 },
