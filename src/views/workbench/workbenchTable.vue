@@ -132,7 +132,7 @@
                                         <span class="dj" v-if="item.status_name=='结算汇款'" @click="withdraw(tableData[props.$index].did,item.status)">查看详情</span>
                                         <span class="dj" v-if="(tableData[props.$index].demand_type=='业务需求'&&item.status=='4'&&item.key==0)||(tableData[props.$index].demand_type=='素材需求'&&item.status=='2'&&item.key==0)">审核通过</span>
                                         <span class="dj" v-if="tableData[props.$index].demand_type=='业务需求'&&item.status=='5'&&item.key==0">测试通过</span>
-                                        <span class="dj" v-if="tableData[props.$index].demand_type=='素材需求'&&item.status=='3'&&item.key==0">查看活动</span>
+                                        <a :href="url+item.activity_id" target="_Blank" class="dj" v-if="tableData[props.$index].demand_type=='素材需求'&&item.status=='3'&&item.key==0">查看活动</a>
                                         <span class="dj" v-if="tableData[props.$index].demand_type=='素材需求'&&item.status=='5'&&item.isfinish==1" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status)">查看素材</span>
                                     </div>
                                 </div>
@@ -270,6 +270,7 @@
                 Cm:false,
                 length:0,
                 shID:'',
+                url:'https://shiquaner.zookingsoft.com/#/detailed?id=',
                 attach:{},
                 reject_details:false,
                 tableData2:[],
