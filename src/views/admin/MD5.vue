@@ -18,6 +18,11 @@
                             width="180">
                     </el-table-column>
                     <el-table-column
+                            prop="tags_name"
+                            label="标签"
+                            >
+                    </el-table-column>
+                    <el-table-column
                             prop="name"
                             label="名称"
                             width="180">
