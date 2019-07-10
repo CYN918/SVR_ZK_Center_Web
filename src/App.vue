@@ -691,8 +691,8 @@ select{
 .el-upload-list__item:first-child{
   margin-top: 0!important;
 }
-/*.el-table .cell>div,.el-table_2_column_10,.content .el-radio__label {*/
-  /*display: none;*/
-/*}*/
+.table_material_tit .el-checkbox-group{
+  display: inline-block;
+}
 
 </style>

@@ -8,7 +8,7 @@
                 </div>
                 <div class="title_div">
                     <span class="title_div_span">已添加：</span>
-                    <span class="title_div_span">{{this.numAll}}</span>
+                    <span class="title_div_span">{{this.total}}</span>
                     <span class="title_div_span">/</span>
                     <span class="title_div_span">{{num}}</span>
                     <span class="title_div_btn" @click="ADDline">
@@ -59,7 +59,7 @@
 
 <script>
     export default {
-        props:['id','num',],
+        props:['id','num'],
         name: "add_the_resource",
         data(){
             return{
@@ -80,7 +80,7 @@
         },
         methods:{
             ADDline(){
-                    if(this.numAll==this.num){
+                    if(this.total==this.num){
                         return
                     }else{
                         this.listSC.unshift({text:false});

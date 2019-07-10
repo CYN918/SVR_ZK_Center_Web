@@ -4,30 +4,29 @@
             <div class="title">
                 <span>查看资源</span>
                 <div class="zy_type">
-                    <span  class="active">添加物料</span>
+                    <span  class="active">添加素材</span>
                 </div>
-                <!--<div class="num">-->
-                    <!--<span>待制作数量：{{this.total}}</span>-->
-                    <!--<span></span>-->
-                <!--</div>-->
+                <div class="num">
+                    <span>待制作数量：{{this.listSc.length}}</span>
+                    <span></span>
+                </div>
             </div>
-            <div class="table_material" v-for="(item,index) in this.listWl">
+            <div class="table_material" v-for="(item,index) in listSC">
                 <div class="table_material_tit">
                     <el-checkbox-group v-model="checkList">
                         <el-checkbox :label="index"></el-checkbox>
                     </el-checkbox-group>
                     <span style="display: inline-block;margin: 0 26px 0 18px">{{item.line_num}}</span>
-                    <span class="table_material_tit_sc">物料</span>
-                    <a class="download" :href="item.bind[0].prev_uri">下载</a>
+                    <span class="table_material_tit_sc">素材</span>
+                    <a class="download" :href="item.prev_uri">下载</a>
                 </div>
                 <div class="img_box">
-                    <div v-for="(da1,index3) in item.bind" class="ADD_img">
-                        <img :src="da1.prev_uri" class="ADD_img_img"/>
-                        <span>{{da1.mfid}}</span>
+                    <div  class="ADD_img">
+                        <img :src="item.prev_uri" class="ADD_img_img"/>
+                        <span>{{item.mid}}</span>
                     </div>
                 </div>
                 <div>
-
                 </div>
             </div>
         </div>
@@ -63,39 +62,39 @@
                 material:1,
                 page:1,
                 p:2,
-                listSc:[],
-                listWl:[],
+                listSC:[],
                 total:0,
                 numAll:0,
 
             }
         },
         mounted(){
-            this.getData();
+            this.getDataList();
         },
         methods:{
             heid(){
-                this.$parent.heidWLp();
+                this.$parent.heidCm();
             },
-            getData(){
-                let params ={id:this.id,material:0,p:this.p,page:this.page};
-                this.api.demand_business_bind_list({params}).then((res)=>{
-                    this.listWl=res.data.mfinal;
-                    this.total=res.total;
+            getDataList(){
+                let params = {id:this.id,p:this.p,page:this.page};
+                this.api.demand_material_bind_list({params}).then((res)=>{
+                    this.listSC = res.data;
+                    this.total = res.total;
+                    console.log(res.data[0].mid)
                 })
-
             },
+
             handleSizeChange(p){
                 this.p = p;
-                this.getData();
+                this.getDataList();
             },
             handleCurrentChange(page){
                 this.page = page;
-                this.getData();
+                this.getDataList();
             },
             all(){
                 if(this.value==true){
-                    for(var i=0;i<this.listWl.length;i++){
+                    for(var i=0;i<this.listSC.length;i++){
                         if(this.checkList.indexOf(i)==-1){
                             this.checkList.push(i);
                         }

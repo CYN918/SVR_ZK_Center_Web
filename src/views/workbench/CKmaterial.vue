@@ -4,8 +4,8 @@
             <div class="title">
                 <span>查看资源</span>
                 <div class="zy_type">
-                    <span @click="ADDsc()" :class="{active:SC==true}">添加素材</span>
-                    <span @click="ADDwl()" :class="{active:WL==true}">添加物料</span>
+                    <span @click="ADDsc()" :class="{active:SC==true}">查看素材</span>
+                    <span @click="ADDwl()" :class="{active:WL==true}">查看物料</span>
                 </div>
                 <div class="num">
                     <span>待制作数量：{{this.numAll}}</span>
@@ -14,7 +14,9 @@
             </div>
             <div class="table_material" v-for="(item,index) in this.listSc" v-if="SC==true">
                 <div class="table_material_tit">
-                    <el-checkbox v-model="value"></el-checkbox>
+                    <el-checkbox-group v-model="checkList">
+                        <el-checkbox :label="index"></el-checkbox>
+                    </el-checkbox-group>
                     <span style="display: inline-block;margin: 0 26px 0 18px">{{item.line_num}}</span>
                     <span class="table_material_tit_sc">素材</span>
                     <span class="download">下载({{item.bind.length}})</span>
@@ -50,9 +52,9 @@
         </div>
         <div class="Add_btn">
             <div class="checkSelect">
-                <el-checkbox v-model="value">全选</el-checkbox>
+                <el-checkbox v-model="value" @change="all()">全选</el-checkbox>
             </div>
-            <span class="ALLdownload">下载()</span>
+            <span class="ALLdownload">下载({{this.checkList.length}})</span>
             <span @click="heid">取消</span>
             <div class="block">
                 <el-pagination
@@ -77,6 +79,7 @@
             return{
                 SC:true,
                 WL:false,
+                checkList:[],
                 value:false,
                 material:1,
                 page:1,
@@ -132,6 +135,17 @@
                 this.page = page;
                 this.getData();
             },
+            all(){
+                if(this.value==true){
+                    for(var i=0;i<this.listSc.length;i++){
+                        if(this.checkList.indexOf(i)==-1){
+                            this.checkList.push(i);
+                        }
+                    }
+                    return
+                }
+                this.checkList=[];
+            }
         },
 
     }
