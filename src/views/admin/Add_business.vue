@@ -27,7 +27,8 @@
                 </div>
                 <div>
                     <span class="tit_txt">尺寸</span>
-                    <input class="num" type="number" placeholder="请输入尺寸，用*链接" pattern="[0-9]*" v-model="size" v-if="switcher"/>
+                    <span v-if="switcher">宽:</span><input class="nums" type="number"  pattern="^[0-9]*$"  v-model="width" v-if="switcher"/>
+                    <span v-if="switcher">高:</span><input class="nums" type="number"  pattern="^[0-9]*$"  v-model="heigth" v-if="switcher"/>
                     <select v-model="size" v-if="switcher==false" @change="cut()">
                         <option value=" ">自定义</option>
                         <option v-for="(item,index) in sizeList" :value="item.size">{{item.size}}</option>
@@ -111,6 +112,8 @@
                 switcher:false,
                 libraryID:'',
                 demand_name:'',
+                width:'',
+                hidden:'',
             }
         },
         mounted(){
@@ -166,6 +169,9 @@
                     if(this.type!='f_sls_lockscreen'&&!this.libraryName){
                         this.$message.error('投放库不能为空')
                         return
+                    }
+                    if(this.switcher==true){
+                        this.size= this.width+"*"+this.height;
                     }
                     let formData=new FormData;
                     formData.append('put_lib',this.libraryID);

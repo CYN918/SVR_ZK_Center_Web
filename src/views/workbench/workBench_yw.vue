@@ -29,7 +29,8 @@
                 </div>
                 <div>
                     <span class="tit_txt">尺寸</span>
-                    <input class="num" type="number" placeholder="请输入尺寸，用*链接" pattern="[0-9]*" v-model="size" v-if="switcher"/>
+                    <span v-if="switcher">宽:</span><input class="nums" type="number"  pattern="^[0-9]*$"  v-model="width" v-if="switcher"/>
+                    <span v-if="switcher">高:</span><input class="nums" type="number"  pattern="^[0-9]*$"  v-model="heigth" v-if="switcher"/>
                     <select v-model="size" v-if="switcher==false" @change="cut()">
                         <option value="" disabled selected style="color: #8b9bb3">请选择</option>
                         <option value=" ">自定义</option>
@@ -110,6 +111,8 @@
                 size:'',
                 model:"",
                 link:'',
+                width:'',
+                hidden:'',
                 requirement:'',
                 url:'img/1.jpg',
                 putList:false,
@@ -177,6 +180,9 @@
                         this.$message.error('投放库不能为空');
                         return
                     }
+                    if(this.switcher==true){
+                        this.size= this.width+"*"+this.height;
+                    }
                     let formData=new FormData;
                     formData.append('put_lib',this.libraryID);
                     formData.append('type',this.type);
@@ -240,6 +246,9 @@
                     if(this.type!='f_sls_lockscreen'&&!this.libraryName){
                         this.$message.error('投放库不能为空')
                         return
+                    }
+                    if(this.switcher==true){
+                        this.size= this.width+"*"+this.height;
                     }
                     let formData=new FormData;
                     formData.append('id',this.YWid);
@@ -431,7 +440,10 @@
         margin-right: 24px;
     }
     .num{
-        width:192px!important;
+        width:197px!important;
+    }
+    .nums{
+        width:50px!important;
     }
     .xqName{
         width:190px;
