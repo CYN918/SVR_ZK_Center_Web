@@ -379,9 +379,8 @@
                 this.api.material_edit(formData).then((res)=>{
                     // this.setTags();
                     this.getTagsList();
-                    if(res.data!=''){
-                        this. heidSc();
-                    }
+                    this. heidSc();
+
                 })
             },
             AddMatter(){

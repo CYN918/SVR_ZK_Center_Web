@@ -37,7 +37,6 @@
                 </div>
                 <div class="box">
                     <div class="boxImg" v-for="(DL,index) in IMGList" :class="{boxImgActive:checked.indexOf(DL.mid)!=-1}">
-
                         <div class="boxCheck">
                             <el-radio v-model="checked" :label="DL.mid" v-if="material==1" @change="getID(index)"></el-radio>
                             <template>
@@ -46,7 +45,6 @@
                                 </el-checkbox-group>
                             </template>
                         </div>
-
                         <img :src="DL.prev_uri"/>
                         <div class="boxImg_right">
                             <div class="boxImg_right_1">
@@ -56,7 +54,7 @@
                                 </div>
                                 <div>
                                     <span class="boxImg_text">尺寸:</span>
-                                    <span class="boxImg_content"></span>
+                                    <span class="boxImg_content">{{DL.size}}</span>
                                 </div>
                                 <div>
                                     <span class="boxImg_text">素材状态:</span>
@@ -385,7 +383,7 @@
         background:rgba(245,247,250,1);
         border-radius:4px;
         padding: 18px 0 18px 30px;
-        box-shadow:0px 0px 10px 0px rgba(153,153,153,0.14);
+        /*box-shadow:0px 0px 10px 0px rgba(153,153,153,0.14);*/
         margin: 0 15px 20px 0!important;
     }
     .boxImg:nth-child(2n){
