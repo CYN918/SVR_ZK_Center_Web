@@ -9,7 +9,7 @@
                 <div>
                     <div>
                         <span class="tit_txt">素材类型</span>
-                        <span>{{this.list.type_name}}</span>
+                        <span class="tit_txt_2 ">{{this.list.type_name}}</span>
                     </div>
                     <div >
                         <span class="tit_txt">需求名称</span>
@@ -17,39 +17,39 @@
                     </div>
                     <div>
                         <span class="tit_txt">优先级</span>
-                        <span>{{this.list.priority}}</span>
+                        <span  class="tit_txt_2 ">{{this.list.priority}}</span>
                     </div>
                     <div>
                         <span class="tit_txt">需求数量</span>
-                        <span>{{this.list.num}}</span>
+                        <span  class="tit_txt_2 ">{{this.list.num}}</span>
                     </div>
                     <div>
                         <span class="tit_txt">设计规范</span>
-                        <span v-if="this.list.design_standard!=null">{{this.list.design_standard.name}}</span>
+                        <span v-if="list.design_standard!=null"  class="tit_txt_2 ">{{this.list.design_standard.name}}</span>
+                        <a v-if="list.design_standard!=null" :href="list.design_standard.attach_url">下载</a>
                     </div>
                     <div>
                         <span class="tit_txt">截止时间</span>
-                        <span>{{this.list.endtime}}</span>
-                    </div>
-                    <div>
-                        <span class="tit_txt top">设计要求</span>
-                        <span v-if="!this.list.require">无</span>
-                        <div v-if="this.list.require!=null" class="text">{{this.list.require}}</div>
+                        <span  class="tit_txt_2 ">{{this.list.endtime}}</span>
+                        <span class="surplus_time">(剩余时间:{{this.list.endtime_toast}})</span>
                     </div>
                     <div>
                         <span class="tit_txt">附件</span>
-                        <span v-if="this.list.attach.name==''">无</span>
-                        <span v-if="this.list.attach.name!=''">{{this.list.attach.name}}</span>
-
+                        <span v-if="list.attach.name==''"  class="tit_txt_2 ">无</span>
+                        <span v-if="list.attach.name!=''"  class="tit_txt_2 ">{{this.list.attach.name}}</span>
+                        <a v-if="list.attach.name!=''" :href="this.list.attach.url">下载</a>
                     </div>
                     <div>
                         <span class="tit_txt">风格</span>
-                        <span v-if="this.list.ref_url!=''" @click="getIMG" style="color:#3090F0;cursor: pointer ">查看</span>
-                        <span v-if="this.list.ref_url==''">不限</span>
+                        <span v-if="list.ref_url!=''" @click="getIMG" style="color:#3090F0;cursor: pointer ">查看</span>
+                        <a v-if="list.ref_url!=''" :href="this.list.ref_url">下载</a>
+                        <span v-if="list.ref_url==''"  class="tit_txt_2 ">不限</span>
                     </div>
-                </div>
-                <div class="btn">
-                    <a :href="this.list.attach.url">点击下载需求附件</a>
+                    <div>
+                        <span class="tit_txt top">设计要求</span>
+                        <span v-if="!this.list.require"  class="tit_txt_2 ">不限定风格</span>
+                        <div v-if="this.list.require!=null" class="text">{{this.list.require}}</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -105,6 +105,16 @@
         /*bottom: 0;*/
         /*right: 0;*/
     /*}*/
+    a{
+        margin-left: 15px;
+        font-size:16px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(48,144,240,1);
+    }
+    a:hover{
+        color: #3090F0
+    }
     .bg{
         width: 100%;
         height: 100%;
@@ -120,7 +130,7 @@
         top:50%;
         transform: translate(-50%,-50%);
         width:840px;
-        height:800px;
+        max-height:660px;
         background:rgba(255,255,255,1);
         border-radius:4px;
     }
@@ -152,6 +162,20 @@
         color:rgba(143,155,179,1);
         margin-right: 24px;
     }
+    .tit_txt_2{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFang-SC-Regular;
+        font-weight:400;
+        color:rgba(31,46,77,1);
+    }
+    .surplus_time{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFang-SC-Regular;
+        font-weight:400;
+        color: rgb(187, 187, 191);
+    }
     .top{
         vertical-align: top;
     }
@@ -180,33 +204,6 @@
         color:rgba(143,155,179,1);
     }
 
-
-    .btn{
-        text-align: right;
-        width:840px;
-        height:58px;
-        background:rgba(247,249,252,1);
-        border-radius:0px 0px 4px 4px;
-        margin-bottom: 0!important;
-        position:fixed ;
-        bottom: 0;
-    }
-    .btn a{
-        display: inline-block;
-        text-align: center;
-        width:152px;
-        height:36px;
-        background:rgba(51,119,255,1);
-        border-radius:4px;
-        font-size:14px;
-        font-family:PingFangSC-Regular;
-        font-weight:400;
-        color: rgb(245, 246, 250);
-        margin-right: 44px;
-        line-height: 36px;
-        cursor: pointer;
-        margin-top: 10px;
-    }
     .AddIMG_tit img{
         float: right;
         margin-right: 24px;

@@ -50,12 +50,6 @@
                         </el-date-picker>
                     </div>
                     <div>
-                        <span class="tit_txt top">设计要求</span>
-                        <textarea maxlength="200" v-model="requirement" placeholder="请补充本次需求相关详细描述
-例：xxx渠道的应用分发模板">
-                        </textarea>
-                    </div>
-                    <div>
                         <span class="tit_txt fj">附件</span>
                         <div class="uplaod">
                             <el-upload
@@ -91,6 +85,13 @@
                             <div style="text-align: center;font-size: 10px">当前附件上传{{aaa}}%</div>
                         </div>
                     </div>
+                    <div>
+                        <span class="tit_txt top">设计要求</span>
+                        <textarea maxlength="200" v-model="requirement" placeholder="请补充本次需求相关详细描述
+例：xxx渠道的应用分发模板">
+                        </textarea>
+                    </div>
+
                 </div>
                 <div class="btn">
                     <span class="btn_fb" @click="ADDsc()">发布</span>

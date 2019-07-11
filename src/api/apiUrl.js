@@ -479,7 +479,7 @@ export default {
 	},
 	//添加物料
     mfinal_add:{
-		url:'/mfinal/add',method:'post',isType:{suktip:1}
+		url:'/mfinal/add',method:'post',isType:{suktip:1,reload:1}
 	},
 	//编辑物料
     mfinal_edit:{
