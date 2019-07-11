@@ -152,12 +152,12 @@
                 if(this.ind.indexOf(index)!=-1){
                   for(var i = 0;i<this.ind.length;i++){
                       if(this.ind[i]==index){
-                          this.ind.splice(i);
+                          this.ind.splice(i,1);
                       }
                   }
                     for(var j=0;j<this.bind_mfid.length;j++){
                         if(this.bind_mfid[j]==this.IMGList[index].mfid){
-                            this.bind_mfid.splice(j);
+                            this.bind_mfid.splice(j,1);
                         }
                     }
                 }else{
