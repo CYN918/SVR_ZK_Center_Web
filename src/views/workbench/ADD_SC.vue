@@ -54,7 +54,7 @@
                         </div>
                         <div class="AddIMG_select">
                             <span class="tit">素材类型:</span>
-                            <select v-model="type"  >
+                            <select v-model="type" @change="getTagsList()" >
                                 <option :value="item.type" v-for="item in scType">{{item.name}}</option>
                             </select>
                         </div>
@@ -179,7 +179,8 @@
         methods:{
 
             heidSc(){
-                this.$parent.heidAddSC()
+                this.$parent.heidAddSC();
+                this.$parent.getscR();
             },
             showHint(){
                 this.$parent.ShowHint()
@@ -297,7 +298,7 @@
 
             },
             getTagsList(){
-                let params = {preset:this.preset,material:this.material,type:this.types,search:this.tagsName,p:50,page:1};
+                let params = {preset:this.preset,material:1,type:this.type,search:this.tagsName,p:50,page:1};
                 this.api.tags_search({params}).then((da)=>{
                     console.log(da);
                     this.preset_tags = da.data.tags;
@@ -358,9 +359,12 @@
                     formData.append('size',this.sjSize);
                     formData.append('is_bind_mid',1);
                     this.api.demand_add_material(formData).then((res)=>{
-                        this.$parent.heidAddSC();
-                        this.$parent.getscR();
-                        this.getTagsList();
+                        if(res!=undefined){
+                            this.$parent.heidAddSC();
+                            this.$parent.getscR();
+                            // this.getTagsList();
+                        }
+
                     })
                 },
 
