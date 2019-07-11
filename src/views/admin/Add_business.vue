@@ -27,8 +27,8 @@
                 </div>
                 <div>
                     <span class="tit_txt">尺寸</span>
-                    <span v-if="switcher">宽:</span><input class="nums" type="number"  pattern="^[0-9]*$"  v-model="width" v-if="switcher"/>
-                    <span v-if="switcher">高:</span><input class="nums" type="number"  pattern="^[0-9]*$"  v-model="heigth" v-if="switcher"/>
+                    <input class="num" type="text" placeholder="请输入尺寸，例“99*99”" v-model="size" v-if="switcher"/>
+
                     <select v-model="size" v-if="switcher==false" @change="cut()">
                         <option value=" ">自定义</option>
                         <option v-for="(item,index) in sizeList" :value="item.size">{{item.size}}</option>
@@ -160,6 +160,10 @@
                     }
                     if(!this.size){
                         this.$message.error('尺寸不能为空')
+                        return
+                    }
+                    if(!this.size.match(/^[0-9*]*$/)){
+                        this.$message.error('尺寸不能非数字');
                         return
                     }
                     if(!this.model){

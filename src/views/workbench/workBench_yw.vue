@@ -25,12 +25,11 @@
                 </div>
                 <div>
                     <span class="tit_txt">需求名称</span>
-                    <input type="text" class="xqName" placeholder="请填写需求名称" v-model="demand_name" maxlength="20"/>
+                    <input type="text" class="xqName" placeholder="请填写需求名称"  v-model="demand_name" maxlength="20"/>
                 </div>
                 <div>
                     <span class="tit_txt">尺寸</span>
-                    <span v-if="switcher">宽:</span><input class="nums" type="number"  pattern="^[0-9]*$"  v-model="width" v-if="switcher"/>
-                    <span v-if="switcher">高:</span><input class="nums" type="number"  pattern="^[0-9]*$"  v-model="heigth" v-if="switcher"/>
+                    <input class="num" type="text"  v-model="size" v-if="switcher" placeholder="请输入尺寸，例“99*99”" />
                     <select v-model="size" v-if="switcher==false" @change="cut()">
                         <option value="" disabled selected style="color: #8b9bb3">请选择</option>
                         <option value=" ">自定义</option>
@@ -172,6 +171,10 @@
                         this.$message.error('尺寸不能为空');
                         return
                     }
+                    if(!this.size.match(/^[0-9*]*$/)){
+                        this.$message.error('尺寸不能非数字');
+                        return
+                    }
                     if(!this.model){
                         this.$message.error('实现方式不能为空');
                         return
@@ -180,9 +183,7 @@
                         this.$message.error('投放库不能为空');
                         return
                     }
-                    if(this.switcher==true){
-                        this.size= this.width+"*"+this.height;
-                    }
+
                     let formData=new FormData;
                     formData.append('put_lib',this.libraryID);
                     formData.append('type',this.type);
@@ -237,6 +238,10 @@
                     }
                     if(!this.size){
                         this.$message.error('尺寸不能为空')
+                        return
+                    }
+                    if(!this.size.match(/^[0-9*]*$/)){
+                        this.$message.error('尺寸不能非数字');
                         return
                     }
                     if(!this.model){

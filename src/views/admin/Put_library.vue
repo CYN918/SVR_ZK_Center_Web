@@ -67,7 +67,7 @@
                             >
                             </el-table-column>
                             <el-table-column
-                                    prop="name"
+                                    prop="status"
                                     label="状态"
                             >
                             </el-table-column>
@@ -158,6 +158,13 @@
                 let params = {search:this.search,put_type:this.put_type,pos_type:this.pos_type,p:this.p,page:this.page};
                 this.api.putlib_search({params}).then((res)=>{
                     this.tableData = res.data;
+                    for(var i=0;i<this.tableData.length;i++){
+                      if(this.tableData[i].status==1) {
+                          this.tableData[i].status='使用中'
+                      }else {
+                          this.tableData[i].status='未使用'
+                      }
+                    }
                     this.total = res.total;
                     console.log(res)
 
