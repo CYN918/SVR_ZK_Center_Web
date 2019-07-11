@@ -40,7 +40,7 @@
                         </div>
                     </div>
                     <div  style="width: 100%;margin-top: 20px">
-                        <textarea placeholder="请输入您的备注（限200字）" maxlength="200" style="padding: 8px;width: 100%;resize:none;"  v-model="index" v-if="line.indexOf(index)!=-1"></textarea>
+                        <textarea :id="index" placeholder="请输入您的备注（限200字）" maxlength="200" style="padding: 8px;width: 100%;resize:none;"  v-model="item.note" v-if="line.indexOf(index)!=-1" @blur="addNote(index)"></textarea>
                     </div>
                 </div>
 
@@ -117,7 +117,7 @@
                     if(this.numAll==this.num){
                         return
                     }else{
-                        this.listSC.unshift({text:false});
+                        this.listSC.push({text:false});
                     }
                 }else{
                     if(this.numAll==this.num){
@@ -263,14 +263,14 @@
                     this.numAll=res.data.demand.hire_num;
                 })
             },
-            addNote(){
+            addNote(index){
                 let formData =new FormData;
                 formData.append('id',this.id);
                 formData.append('material',1);
                 formData.append('line_num',this.line_num);
-                formData.append('note',);
-                this.api.demand_business_bind_note().then((res)=>{
-
+                formData.append('note',document.getElementById(index).value);
+                this.api.demand_business_bind_note( formData).then((res)=>{
+                    this.getDataList();
                 })
             },
             verified(){

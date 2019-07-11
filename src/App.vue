@@ -677,7 +677,7 @@ select{
   vertical-align: top;
   font-size: 12px;
   line-height: 36px;
-  margin-top: 10px;
+  margin-top: 5px;
 }
   .table_material .el-checkbox__label{opacity: 0;position: absolute;}
 .activeHeid{
