@@ -26,6 +26,7 @@
                         <img :src="da.prev_uri" class="ADD_img_img"/>
                         <span>{{da.mid}}</span>
                     </div>
+                    <div>{{item.note}}</div>
                 </div>
                 <div>
 

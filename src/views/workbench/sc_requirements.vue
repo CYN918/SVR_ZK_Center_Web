@@ -64,7 +64,6 @@
         data(){
             return{
                 listSC:[],
-                listWL:[],
                 page:1,
                 p:3,
                 total:0,
