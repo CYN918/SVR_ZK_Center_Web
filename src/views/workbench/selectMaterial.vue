@@ -482,7 +482,6 @@
         margin-left: 20px;
     }
     .bjImg{
-        width: 20px!important;
         height: 20px!important;
         position: relative;
         margin-right: 0!important;

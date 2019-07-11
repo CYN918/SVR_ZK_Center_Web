@@ -126,17 +126,12 @@
                 let params = {id:this.id,p:this.p,page:this.page};
                 this.api.demand_business_status_mfbind({params}).then((res)=>{
                     this.listWL = res.data.mfinal;
+                    this.numAlls=res.data.m_num;
                     this.total=res.total;
                     console.log(res);
-                    this.getNUM()
                 })
             },
-            getNUM(){
-                let params = {id:this.id,p:99,page:this.page,material:1};
-                this.api.demand_business_bind_list({params}).then((res)=>{
-                    this.numAlls = res.data.material.length;
-                })
-            },
+
             verified(){
                 if(this.total==this.numAlls){
                     let formData = new FormData;

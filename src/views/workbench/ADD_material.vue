@@ -56,7 +56,7 @@
                         </div>
                         <div class="AddIMG_select">
                             <span class="tit">物料类型:</span>
-                            <select v-model="type">
+                            <select v-model="type" @change="getTagsList()">
                                 <option :value="item.type"  v-for="item in scType">{{item.name}}</option>
                             </select>
                         </div>

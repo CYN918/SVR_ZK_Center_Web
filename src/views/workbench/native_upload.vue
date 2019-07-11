@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div class="bg" @click="heidSc">
-            <div class="AddIMG" @click.stop>
+        <div class="bg" >
+            <div class="AddIMG" >
                 <div class="AddIMG_tit">
                     <span>添加素材</span>
                 </div>
@@ -62,7 +62,7 @@
                         </div>
                         <div class="AddIMG_select">
                             <span class="tit">素材类型:</span>
-                            <select v-model="type"  >
+                            <select v-model="type"  @change="getTagsList()">
                                 <option :value="item.type" v-for="item in scType">{{item.name}}</option>
                             </select>
                         </div>
@@ -278,7 +278,7 @@
 
             },
             getTagsList(){
-                let params = {preset:this.preset,material:1,type:this.types,search:this.tagsName,p:50,page:1};
+                let params = {preset:this.preset,material:1,type:this.type,search:this.tagsName,p:50,page:1};
                 this.api.tags_search({params}).then((da)=>{
                     this.preset_tags = da.data.tags;
                     this.self_tags = da.data.self_tags;
