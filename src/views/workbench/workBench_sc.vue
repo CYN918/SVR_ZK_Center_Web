@@ -121,11 +121,11 @@
                 sj:[],
                 num:null,
                 priority:'',
-                is_attach:'',
+                is_attach:false,
                 requirement:'',
                 endtime:'',
                 design_standard:'',
-                is_ref:'',
+                is_ref:false,
                 ref_url:'',
                 initiate2:false,
                 initiate:false,
@@ -178,6 +178,11 @@
                     }
                     if(new Date(this.endtime)<=new Date()){
                         this.$message.error('截止时间不能小于当前时间');
+                        return
+                    }
+
+                    if(this.is_attach==true&&this.attach.url==''){
+                        this.$message.error('请上传附件');
                         return
                     }
                     if(this.is_ref==true&&!this.ref_url){
@@ -240,7 +245,10 @@
                         this.$message.error('需求名称不能为空')
                         return
                     }
-
+                    if(this.is_attach==true&&this.attach.url==''){
+                        this.$message.error('请上传附件');
+                        return
+                    }
                     if(this.is_ref==true&&!this.ref_url){
                         this.$message.error('请上传参考图');
                         return
@@ -309,6 +317,7 @@
                     this.aaa=100;
                     this.initiate=false;
                     this.ref_url = res.url
+                    this.is_ref=true;
                 })
             },
             uploadFile(file){
@@ -324,6 +333,7 @@
                     this.attach.md5 = res.md5;
                     this.attach.url = res.url;
                     this.attach.size =res.size;
+                    this.is_attach=true;
                 })
             },
             getTypes(){
