@@ -339,7 +339,10 @@
                         this.$message('未绑定作品ID')
                         return
                     }
-
+                    if(!this.bind_workid.match(/^\d{1,}$/)){
+                        this.$message('绑定作品ID为数字')
+                        return
+                    }
                     let formData = new FormData;
                      formData.append('id',this.id);
                      formData.append('demand_type',"demand_material");
@@ -351,6 +354,7 @@
                     formData.append('self_tags',this.bardian);
                     formData.append('bind_mid',this.bind_mid);
                     formData.append('bind_workid',this.bind_workid);
+                    formData.append('is_bind_workid',0);
                     formData.append('size',this.sjSize);
                     formData.append('is_bind_mid',1);
                     this.api.demand_add_material(formData).then((res)=>{
