@@ -14,8 +14,8 @@
             </div>
             <div class="table_material" v-for="(item,index) in this.listSc" v-if="SC==true">
                 <div class="table_material_tit">
-                    <el-checkbox-group v-model="checkList">
-                        <el-checkbox :label="index" @change="oones(index)"></el-checkbox>
+                    <el-checkbox-group v-model="checkList" >
+                        <el-checkbox :label="index" @click="oones(index)"></el-checkbox>
                     </el-checkbox-group>
                     <span style="display: inline-block;margin: 0 26px 0 18px">{{item.line_num}}</span>
                     <span class="table_material_tit_sc">素材</span>
@@ -34,7 +34,9 @@
             </div>
             <div class="table_material" v-for="(item,index) in this.listWl" v-if="WL==true">
                 <div class="table_material_tit">
-                    <el-checkbox v-model="value"></el-checkbox>
+                    <el-checkbox-group v-model="checkList">
+                        <el-checkbox :label="index" @change="oones(index)"></el-checkbox>
+                    </el-checkbox-group>
                     <span style="display: inline-block;margin: 0 26px 0 18px">{{item.line_num}}</span>
                     <span class="table_material_tit_sc">物料</span>
                     <a class="download" :href="item.bind[0].prev_uri">下载</a>
@@ -120,11 +122,13 @@
             ADDsc(){
                 this.SC = true;
                 this.WL = false;
+                this.checkList=[];
                 this.getData()
             },
             ADDwl(){
                 this.SC = false;
                 this.WL = true;
+                this.checkList=[];
                 this.getData()
             },
             handleSizeChange(p){
@@ -170,6 +174,7 @@
                 this.checkList=[];
             },
             downloadImg(){
+                console.log(this.checkList)
                 if(this.SC==true){
                     for(var i =0;i<this.checkList.length;i++){
                         for(var j=0;j<this.listSc[i].bind.length;j++){
