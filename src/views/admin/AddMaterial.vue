@@ -461,7 +461,7 @@
                             if(res.data!=''){
                                 this.$parent.heidSc();
                             }
-                        }).catch(this.$message(message))
+                        }).catch()
                     }else{
                         if(this.chenck==true){
                             this.size=this.cc

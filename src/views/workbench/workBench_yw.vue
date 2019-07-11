@@ -1,7 +1,7 @@
 <template>
     <div class="bg">
         <div class="content">
-            <div class="box_img">
+            <div class="box_img" v-if="type!='f_sls_lockscreen'">
                 <div>
                     <span>广告位示意图</span>
                 </div>
