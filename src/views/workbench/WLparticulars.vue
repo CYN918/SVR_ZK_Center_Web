@@ -6,10 +6,7 @@
                 <div class="zy_type">
                     <span  class="active">添加物料</span>
                 </div>
-                <!--<div class="num">-->
-                    <!--<span>待制作数量：{{this.total}}</span>-->
-                    <!--<span></span>-->
-                <!--</div>-->
+
             </div>
             <div class="table_material" v-for="(item,index) in this.listWl">
                 <div class="table_material_tit">
@@ -18,7 +15,7 @@
                     </el-checkbox-group>
                     <span style="display: inline-block;margin: 0 26px 0 18px">{{item.line_num}}</span>
                     <span class="table_material_tit_sc">物料</span>
-                    <a class="download" :href="item.bind[0].prev_uri">下载</a>
+                    <span class="download" @click="downloadImg()">下载</span>
                 </div>
                 <div class="img_box">
                     <div v-for="(da1,index3) in item.bind" class="ADD_img">
@@ -35,7 +32,7 @@
             <div class="checkSelect">
                 <el-checkbox v-model="value" @change="all">全选</el-checkbox>
             </div>
-            <span class="ALLdownload">下载({{this.checkList.length}})</span>
+            <span class="ALLdownload" @click="downloadImg()">下载({{this.checkList.length}})</span>
             <span @click="heid">取消</span>
             <div class="block">
                 <el-pagination
@@ -67,6 +64,7 @@
                 listWl:[],
                 total:0,
                 numAll:0,
+                imgList:[],
 
             }
         },
@@ -103,7 +101,28 @@
                     return
                 }
                 this.checkList=[];
-            }
+            },
+            downloadImg(){
+                for(var i =0;i<this.checkList.length;i++){
+                    this.imgList.push(this.listWl[i].bind[0].prev_uri);
+                }
+                this.imgList.forEach(item =>{
+                    fetch(item).then(res => res.blob()).then(blob => {
+                        const a = document.createElement('a');
+                        document.body.appendChild(a)
+                        a.style.display = 'none'
+                        // 使用获取到的blob对象创建的url
+                        const url = window.URL.createObjectURL(blob);
+                        a.href = url;
+                        // 指定下载的文件名
+                        a.download = '图片';
+                        a.click();
+                        document.body.removeChild(a);
+                        // 移除blob对象的url
+                        window.URL.revokeObjectURL(url);
+                    });
+                })
+            },
         },
 
     }

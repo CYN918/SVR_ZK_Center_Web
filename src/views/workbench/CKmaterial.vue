@@ -15,11 +15,11 @@
             <div class="table_material" v-for="(item,index) in this.listSc" v-if="SC==true">
                 <div class="table_material_tit">
                     <el-checkbox-group v-model="checkList">
-                        <el-checkbox :label="index"></el-checkbox>
+                        <el-checkbox :label="index" @change="oones(index)"></el-checkbox>
                     </el-checkbox-group>
                     <span style="display: inline-block;margin: 0 26px 0 18px">{{item.line_num}}</span>
                     <span class="table_material_tit_sc">素材</span>
-                    <span class="download">下载({{item.bind.length}})</span>
+                    <span class="download" @click="downloadImg()">下载({{item.bind.length}})</span>
                 </div>
                 <div class="img_box">
                     <div v-for="(da,index2) in item.bind" class="ADD_img">
@@ -37,7 +37,7 @@
                     <el-checkbox v-model="value"></el-checkbox>
                     <span style="display: inline-block;margin: 0 26px 0 18px">{{item.line_num}}</span>
                     <span class="table_material_tit_sc">物料</span>
-                    <span class="download">下载({{item.bind.length}})</span>
+                    <a class="download" :href="item.bind[0].prev_uri">下载</a>
                 </div>
                 <div class="img_box">
                     <div v-for="(da1,index3) in item.bind" class="ADD_img">
@@ -54,7 +54,7 @@
             <div class="checkSelect">
                 <el-checkbox v-model="value" @change="all()">全选</el-checkbox>
             </div>
-            <span class="ALLdownload">下载({{this.checkList.length}})</span>
+            <span class="ALLdownload" @click="downloadImg()">下载({{this.checkList.length}})</span>
             <span @click="heid">取消</span>
             <div class="block">
                 <el-pagination
@@ -88,7 +88,7 @@
                 listWl:[],
                 total:0,
                 numAll:0,
-
+                imgList:[],
             }
         },
         mounted(){
@@ -135,9 +135,32 @@
                 this.page = page;
                 this.getData();
             },
+            oones(index){
+                if(this.checkList.indexOf(index)!=-1){
+                   for(var i=0;i<this.checkList.length;i++){
+                       if(this.checkList[i]==index){
+                           this.checkList.splice(i,1)
+                       }
+                   }
+                   return
+                }
+                this.checkList.push(index);
+            },
             all(){
+                if(this.SC==true){
+                    if(this.value==true){
+                        for(var i=0;i<this.listSc.length;i++){
+                            if(this.checkList.indexOf(i)==-1){
+                                this.checkList.push(i);
+                            }
+                        }
+                        return
+                    }
+                    this.checkList=[];
+                    return
+                }
                 if(this.value==true){
-                    for(var i=0;i<this.listSc.length;i++){
+                    for(var i=0;i<this.listWl.length;i++){
                         if(this.checkList.indexOf(i)==-1){
                             this.checkList.push(i);
                         }
@@ -145,7 +168,37 @@
                     return
                 }
                 this.checkList=[];
-            }
+            },
+            downloadImg(){
+                if(this.SC==true){
+                    for(var i =0;i<this.checkList.length;i++){
+                        for(var j=0;j<this.listSc[i].bind.length;j++){
+                            this.imgList.push(this.listSc[i].bind[j].prev_uri);
+                        }
+                    }
+                }else{
+                    for(var i =0;i<this.checkList.length;i++){
+                        this.imgList.push(this.listWl[i].bind[0].prev_uri);
+                    }
+                }
+
+                this.imgList.forEach(item =>{
+                    fetch(item).then(res => res.blob()).then(blob => {
+                        const a = document.createElement('a');
+                        document.body.appendChild(a)
+                        a.style.display = 'none'
+                        // 使用获取到的blob对象创建的url
+                        const url = window.URL.createObjectURL(blob);
+                        a.href = url;
+                        // 指定下载的文件名
+                        a.download = '图片';
+                        a.click();
+                        document.body.removeChild(a);
+                        // 移除blob对象的url
+                        window.URL.revokeObjectURL(url);
+                    });
+                })
+            },
         },
 
     }
