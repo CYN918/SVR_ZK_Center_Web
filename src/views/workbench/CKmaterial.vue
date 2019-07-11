@@ -174,7 +174,9 @@
                 this.checkList=[];
             },
             downloadImg(){
-                console.log(this.checkList)
+               if(this.checkList.length==0){
+                   return
+               }
                 if(this.SC==true){
                     for(var i =0;i<this.checkList.length;i++){
                         for(var j=0;j<this.listSc[i].bind.length;j++){
