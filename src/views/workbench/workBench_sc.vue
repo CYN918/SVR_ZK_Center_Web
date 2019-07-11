@@ -249,7 +249,7 @@
                     formData.append('type',this.type);
                     formData.append('attach',JSON.stringify(this.attach));
                     formData.append('num',this.num);
-                    formData.append('id',this.id);
+                    formData.append('id',this.SCid);
                     formData.append('priority',this.priority);
                     formData.append('endtime',this.endtime);
                     formData.append('is_attach',this.is_attach==true?1:0);
