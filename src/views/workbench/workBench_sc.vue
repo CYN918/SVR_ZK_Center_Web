@@ -57,7 +57,6 @@
                     </div>
                     <div>
                         <span class="tit_txt fj">附件</span>
-                        <input type="checkbox" class="check fj" v-model="is_attach"/><span class="name fj">附件</span>
                         <div class="uplaod">
                             <el-upload
                                     class="upload-demo"
@@ -76,7 +75,6 @@
                     </div>
                     <div>
                         <span class="tit_txt fj">风格</span>
-                        <input type="checkbox"  class="check fj" v-model="is_ref"/><span class="name fj">风格</span>
                         <div class="uplaod">
                             <el-upload
                                     class="upload-demo"
@@ -181,22 +179,14 @@
                         return
                     }
 
-                    if(this.is_attach==true&&this.attach.url==''){
-                        this.$message.error('请上传附件');
-                        return
-                    }
-                    if(this.is_ref==true&&!this.ref_url){
-                        this.$message.error('请上传参考图');
-                        return
-                    }
                     let formData = new FormData;
                     formData.append('type',this.type);
                     formData.append('attach',JSON.stringify(this.attach));
                     formData.append('num',this.num);
                     formData.append('priority',this.priority);
                     formData.append('endtime',this.endtime);
-                    formData.append('is_attach',this.is_attach==true?1:0);
-                    formData.append('is_ref',this.is_ref==true?1:0);
+                    formData.append('is_attach',0);
+                    formData.append('is_ref',0);
                     formData.append('ref_url',this.ref_url);
                     formData.append('design_standard',this.design_standard);
                     formData.append('requirement',this.requirement);
@@ -245,14 +235,7 @@
                         this.$message.error('需求名称不能为空')
                         return
                     }
-                    if(this.is_attach==true&&this.attach.url==''){
-                        this.$message.error('请上传附件');
-                        return
-                    }
-                    if(this.is_ref==true&&!this.ref_url){
-                        this.$message.error('请上传参考图');
-                        return
-                    }
+
                     let formData = new FormData;
                     formData.append('type',this.type);
                     formData.append('attach',JSON.stringify(this.attach));
@@ -260,8 +243,8 @@
                     formData.append('id',this.SCid);
                     formData.append('priority',this.priority);
                     formData.append('endtime',this.endtime);
-                    formData.append('is_attach',this.is_attach==true?1:0);
-                    formData.append('is_ref',this.is_ref==true?1:0);
+                    formData.append('is_attach',0);
+                    formData.append('is_ref',0);
                     formData.append('ref_url',this.ref_url);
                     formData.append('design_standard',this.design_standard);
                     formData.append('requirement',this.requirement);
@@ -317,7 +300,6 @@
                     this.aaa=100;
                     this.initiate=false;
                     this.ref_url = res.url
-                    this.is_ref=true;
                 })
             },
             uploadFile(file){
@@ -333,7 +315,6 @@
                     this.attach.md5 = res.md5;
                     this.attach.url = res.url;
                     this.attach.size =res.size;
-                    this.is_attach=true;
                 })
             },
             getTypes(){
