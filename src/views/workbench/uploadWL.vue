@@ -17,8 +17,6 @@
             <div class="table_material">
                 <div class="content_title" v-for="(item,index) in listWL">
                     <div  style="display: inline-block" >
-                        <!--<img class="content_title_img" src="../../../public/img/ADD_bule.png"/>-->
-                        <!--<span class="content_title_span" @click="getWl()">物料库选择</span>-->
                         <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
                         <span class="content_title_span" @click="bdUP(index)" :class="{disabled:listWL[index].bind!=undefined}">本地上传</span>
                     </div>

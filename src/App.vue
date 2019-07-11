@@ -502,14 +502,13 @@ a{
   cursor: pointer;
   position: relative;
   bottom: 42px;
-}
-.bjImg{
   font-size:12px;
   font-family:PingFangSC-Regular;
   font-weight:400;
   color:rgba(255,255,255,1);
   line-height: 38px;
 }
+
 .block{
   text-align: right;
   margin-bottom: 60px;

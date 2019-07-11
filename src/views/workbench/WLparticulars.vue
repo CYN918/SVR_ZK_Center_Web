@@ -8,7 +8,7 @@
                 </div>
 
             </div>
-            <div class="table_material" v-for="(item,index) in this.listWl">
+            <div class="table_material" v-for="(item,index) in listWl">
                 <div class="table_material_tit">
                     <el-checkbox-group v-model="checkList">
                         <el-checkbox :label="index"></el-checkbox>
@@ -60,7 +60,6 @@
                 material:1,
                 page:1,
                 p:2,
-                listSc:[],
                 listWl:[],
                 total:0,
                 numAll:0,
@@ -76,9 +75,9 @@
                 this.$parent.heidWLp();
             },
             getData(){
-                let params ={id:this.id,material:0,p:this.p,page:this.page};
-                this.api.demand_business_bind_list({params}).then((res)=>{
-                    this.listWl=res.data.mfinal;
+                let params = {id:this.id,p:this.p,page:this.page};
+                this.api.demand_business_status_mfbind({params}).then((res)=>{
+                    this.listWl = res.data.mfinal;
                     this.total=res.total;
                 })
 

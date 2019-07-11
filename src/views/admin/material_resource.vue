@@ -15,7 +15,7 @@
 					<option value="1001">未使用</option>
 					<option value="1201">禁用</option>
 				</select>
-				<span class="Search_tit" @click="getCon" :class="{activeHeid:this.controlBtn}"><img src="../../../public/img/add_msg.png" style="width: 12px;margin-right: 14px" >添加本地素材</span>
+				<span class="Search_tit" @click="getCon" :class="{activeHeid:this.controlBtn}"><img src="../../../public/img/add_msg.png" style="width: 12px;margin-right: 14px" >添加本地物料</span>
 			</div>
 			<div class="contentImg">
 				<div class="label">

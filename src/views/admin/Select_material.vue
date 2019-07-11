@@ -48,7 +48,6 @@
                         <div class="showing">
                             <img :src="DL.prev_uri"/>
                         </div>
-
                         <div class="boxImg_right">
                             <div class="boxImg_right_1">
                                 <div>
@@ -64,6 +63,9 @@
                                     <span class="boxImg_content">{{DL.status==1201?'禁用':'启用'}}</span>
                                 </div>
                             </div>
+                        </div>
+                        <div class="bjImg" @click="getLt(index)" style="opacity: 0">
+                            <span >编辑物料</span>
                         </div>
                     </div>
                 </div>

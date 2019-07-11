@@ -35,7 +35,6 @@
                 </div>
                 <div class="box">
                     <div class="boxImg" v-for="(DL,index) in IMGList">
-
                         <div class="boxCheck">
                             <el-radio v-model="checked" :label="index" @change="getID(index)" v-if="material==1"></el-radio>
                             <template>
@@ -44,8 +43,9 @@
                                 </el-checkbox-group>
                             </template>
                         </div>
-
-                        <img :src="DL.prev_uri"/>
+                        <div class="showing">
+                            <img :src="DL.prev_uri"/>
+                        </div>
                         <div class="boxImg_right">
                             <div class="boxImg_right_1">
                                 <div>
@@ -63,6 +63,9 @@
                                     <span class="boxImg_content" v-if="DL.status==1101">使用中</span>
                                 </div>
                             </div>
+                        </div>
+                        <div class="bjImg" @click="getLt(index)" style="opacity: 0;">
+                            <span >编辑物料</span>
                         </div>
                     </div>
                 </div>
@@ -369,10 +372,16 @@
     .boxImg:nth-child(3n){
         margin: 0 0 20px 0!important;
     }
-    .boxImg img{
+    .showing{
+        display: inline-block;
         width:99px;
         height:149px;
         margin-right: 24px;
+        background: #e1e0e4;
+    }
+    .showing img{
+        max-width:99px;
+        max-height:149px;
     }
     .boxImg_right_1{
         margin-top: 23px;
@@ -420,48 +429,8 @@
         color:rgba(19,159,248,1);
         cursor: pointer;
     }
-    .box_box{
-        display:inline-block;
-        background:rgba(255,255,255,1);
-        border:1px solid rgba(230,230,230,1);
-        border-radius:14px;
-        font-size:14px;
-        font-family:PingFang-SC-Regular;
-        font-weight:400;
-        color:rgba(153,153,153,1);
-        padding: 5px 10px;
-        margin-right: 12px;
-        margin-bottom: 8px;
-    }
-    .box_box:nth-child(2n){
-        margin-right: 0;
-    }
-    .boxImg_xz{
-        display: inline-block;
-        width: 170px;
-        max-height: 80px;
-        overflow: hidden;
-    }
-    .boxImg_bq{
-        vertical-align: top;
-    }
-    .dowload{
-        display: inline-block;
-        width:66px;
-        height:28px;
-        background:rgba(255,255,255,1);
-        border:1px solid rgba(153,153,153,1);
-        border-radius:14px;
-        font-size:14px;
-        font-family:PingFang-SC-Regular;
-        font-weight:400;
-        color:rgba(54,54,54,1);
-        text-align: center;
-        line-height: 28px;
-        margin-left: 20px;
-    }
+
     .bjImg{
-        width: 20px!important;
         height: 20px!important;
         position: relative;
         margin-right: 0!important;

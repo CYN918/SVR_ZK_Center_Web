@@ -40,7 +40,7 @@
                         </div>
                     </div>
                     <div  style="width: 100%;margin-top: 20px">
-                        <textarea placeholder="请输入您的备注（限200字）" maxlength="200" style="padding: 8px;width: 100%;resize:none;" v-model="index" v-if="line.indexOf(index)!=-1"></textarea>
+                        <textarea placeholder="请输入您的备注（限200字）" maxlength="200" style="padding: 8px;width: 100%;resize:none;"  v-model="index" v-if="line.indexOf(index)!=-1"></textarea>
                     </div>
                 </div>
 

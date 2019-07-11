@@ -44,8 +44,9 @@
                                 </el-checkbox-group>
                             </template>
                         </div>
-
-                        <img :src="DL.prev_uri"/>
+                        <div class="showing">
+                            <img :src="DL.prev_uri"/>
+                        </div>
                         <div class="boxImg_right">
                             <div class="boxImg_right_1">
                                 <div>
@@ -63,6 +64,9 @@
                                     <span class="boxImg_content" v-if="DL.status==1101">使用中</span>
                                 </div>
                             </div>
+                        </div>
+                        <div class="bjImg" @click="getLt(index)" style="opacity: 0">
+                            <span >编辑物料</span>
                         </div>
                     </div>
                 </div>
@@ -380,10 +384,16 @@
     .boxImg:nth-child(3n){
         margin: 0 0 20px 0!important;
     }
-    .boxImg img{
+    .showing{
+        display: inline-block;
         width:99px;
         height:149px;
         margin-right: 24px;
+        background: #e1e0e4;
+    }
+    .showing img{
+        max-width:99px;
+        max-height:149px;
     }
     .boxImg_right_1{
         margin-top: 23px;
