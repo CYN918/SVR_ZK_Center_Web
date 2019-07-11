@@ -102,6 +102,7 @@
                                     <div class="step_dq" v-if="tableData[props.$index].status==item.status">{{item.status}}</div>
                                     <div class="step_bh" v-if="item.reject=='1'&&tableData[props.$index].status!=item.status">X</div>
                                     <div class="step" v-if="item.did!=undefined&&item.reject!='1'&&tableData[props.$index].status!=item.status">
+                                        &radic; <!--<img src="../../../public/img/win.png"/>-->
                                     </div>
                                     <div class="bor" v-if="item.status!=tableData[props.$index].audit_process.length"></div>
                                     <div class="step_tit" :class="{active:item.did==undefined&&tableData[props.$index].status!=item.status}">{{item.status_name}}</div>
