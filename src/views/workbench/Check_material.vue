@@ -104,6 +104,7 @@
                 this.checkList=[];
             },
             downloadImg(){
+                this.imgList=[];
                 for(var i =0;i<this.checkList.length;i++){
                     this.imgList.push(this.listSC[i].prev_uri);
                 }

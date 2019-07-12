@@ -69,6 +69,7 @@
         },
         mounted(){
             this.getData();
+            console.log('a')
         },
         methods:{
             heid(){
@@ -102,6 +103,7 @@
                 this.checkList=[];
             },
             downloadImg(){
+                this.imgList=[];
                 for(var i =0;i<this.checkList.length;i++){
                     this.imgList.push(this.listWl[i].bind[0].prev_uri);
                 }

@@ -178,6 +178,7 @@
                if(this.checkList.length==0){
                    return
                }
+                this.imgList=[];
                 if(this.SC==true){
                     for(var i =0;i<this.checkList.length;i++){
                         for(var j=0;j<this.listSc[i].bind.length;j++){
@@ -189,7 +190,6 @@
                         this.imgList.push(this.listWl[i].bind[0].prev_uri);
                     }
                 }
-
                 this.imgList.forEach(item =>{
                     fetch(item).then(res => res.blob()).then(blob => {
                         const a = document.createElement('a');

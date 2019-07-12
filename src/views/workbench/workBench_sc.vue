@@ -109,7 +109,11 @@
         data(){
             return{
                 attach:{
-
+                    name:'',
+                    size:'',
+                    url:'',
+                    ext:'',
+                    md5:''
                 },
                 type:'',
                 types:[],
@@ -308,13 +312,12 @@
                 this.api.file_upload(formData).then((res)=>{
                     this.bbb=100;
                     this.initiate2=false;
-                    this.attach=res;
                     this.is_attach=1;
-                    // this.attach.name = res.name;
-                    // this.attach.ext = res.ext;
-                    // this.attach.md5 = res.md5;
-                    // this.attach.url = res.url;
-                    // this.attach.size =res.size;
+                    this.attach.name = res.name;
+                    this.attach.ext = res.ext;
+                    this.attach.md5 = res.md5;
+                    this.attach.url = res.url;
+                    this.attach.size =res.size;
                 })
             },
             getTypes(){
