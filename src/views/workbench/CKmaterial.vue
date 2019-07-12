@@ -19,7 +19,7 @@
                     </el-checkbox-group>
                     <span style="display: inline-block;margin: 0 26px 0 18px">{{item.line_num}}</span>
                     <span class="table_material_tit_sc">素材</span>
-                    <span class="download" @click="downloadImg()">下载({{item.bind.length}})</span>
+                    <span class="download" @click="downSingle()">下载({{item.bind.length}})</span>
                 </div>
                 <div class="img_box">
                     <div v-for="(da,index2) in item.bind" class="ADD_img">
@@ -140,6 +140,7 @@
                 this.page = page;
                 this.getData();
             },
+
             oones(index){
                 if(this.checkList.indexOf(index)!=-1){
                    for(var i=0;i<this.checkList.length;i++){
@@ -174,6 +175,24 @@
                 }
                 this.checkList=[];
             },
+            downSingle(){
+                this.imgList.forEach(item =>{
+                    fetch(item).then(res => res.blob()).then(blob => {
+                        const a = document.createElement('a');
+                        document.body.appendChild(a)
+                        a.style.display = 'none'
+                        // 使用获取到的blob对象创建的url
+                        const url = window.URL.createObjectURL(blob);
+                        a.href = url;
+                        // 指定下载的文件名
+                        a.download = '图片';
+                        a.click();
+                        document.body.removeChild(a);
+                        // 移除blob对象的url
+                        window.URL.revokeObjectURL(url);
+                    });
+                })
+            },
             downloadImg(){
                if(this.checkList.length==0){
                    return
@@ -182,12 +201,12 @@
                 if(this.SC==true){
                     for(var i =0;i<this.checkList.length;i++){
                         for(var j=0;j<this.listSc[i].bind.length;j++){
-                            this.imgList.push(this.listSc[i].bind[j].prev_uri);
+                            this.imgList.push(this.listSc[i].bind[j].attach.url);
                         }
                     }
                 }else{
                     for(var i =0;i<this.checkList.length;i++){
-                        this.imgList.push(this.listWl[i].bind[0].prev_uri);
+                        this.imgList.push(this.listWl[i].bind[0].attach.url);
                     }
                 }
                 this.imgList.forEach(item =>{

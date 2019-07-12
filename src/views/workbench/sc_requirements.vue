@@ -142,6 +142,7 @@
                 let formData = new FormData;
                 formData.append('id',this.id);
                 this.api.demand_audit(formData).then((res)=>{
+                    this.$parent.heidscR();
                 })
             },
         },

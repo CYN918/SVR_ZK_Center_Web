@@ -17,7 +17,7 @@
                     </el-checkbox-group>
                     <span style="display: inline-block;margin: 0 26px 0 18px">{{item.line_num}}</span>
                     <span class="table_material_tit_sc">素材</span>
-                    <a class="download"  :href="item.prev_uri" >下载</a>
+                    <a class="download"  :href="item.attach.url" >下载</a>
                 </div>
                 <div class="img_box">
                     <div  class="ADD_img">
@@ -106,10 +106,11 @@
             downloadImg(){
                 this.imgList=[];
                 for(var i =0;i<this.checkList.length;i++){
-                    this.imgList.push(this.listSC[i].prev_uri);
+                    this.imgList.push(this.listSC[i].attach.url);
                 }
                 this.imgList.forEach(item =>{
                         fetch(item).then(res => res.blob()).then(blob => {
+                            console.log(blob)
                             const a = document.createElement('a');
                             document.body.appendChild(a)
                             a.style.display = 'none'
@@ -117,7 +118,7 @@
                             const url = window.URL.createObjectURL(blob);
                             a.href = url;
                             // 指定下载的文件名
-                            a.download = '图片';
+                            a.download = '文件';
                             a.click();
                             document.body.removeChild(a);
                             // 移除blob对象的url
