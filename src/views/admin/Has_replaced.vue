@@ -62,6 +62,7 @@
                             style="width: 100%"
                             :header-cell-style="getRowClass"
                             :cell-style="cell"
+                            :on-exceed="handleExceed"
                             border>
                         <el-table-column
                                 label="预览图"
@@ -104,7 +105,8 @@
                         class="upload-demo"
                         action="aaaa"
                         multiple
-                        :limit="1"
+                        :limit="10"
+                        :on-remove="handleRemove"
                         :http-request="upload"
                         >
                         <el-button size="small" type="primary">点击上传</el-button>
@@ -190,6 +192,12 @@
             cell({row, column, rowIndex, columnIndex}){
                 return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
+            handleExceed(files, fileList) {
+                this.$message.warning(`当前限制选择10 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+            },
+            handleRemove(file, fileList) {
+                console.log(file, fileList);
+            },
             getTH(){
                     this.th=true
             },
@@ -242,6 +250,7 @@
                 this.remove =false;
             },
             upload(file){
+                    console.log(file);
                     let formData =new FormData;
                     formData.append('file',file.file);
                    this.api.file_upload(formData).then((res)=>{
