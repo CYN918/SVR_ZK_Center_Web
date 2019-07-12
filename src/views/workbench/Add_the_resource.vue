@@ -9,7 +9,7 @@
                 </div>
                 <div class="title_div">
                     <span class="title_div_span">已添加：</span>
-                    <span class="title_div_span">{{this.total}}</span>
+                    <span class="title_div_span">{{this.numAll}}</span>
                     <span class="title_div_span">/</span>
                     <span class="title_div_span">{{num}}</span>
                     <span class="title_div_btn" @click="ADDline">
@@ -98,6 +98,7 @@
                 line_num:'',
                 mfid:'',
                 material:1,
+                numAll:0,
                 note:'',
                 line:[],
             }
@@ -259,6 +260,7 @@
                         this.listWL = res.data.mfinal;
                         this.total = res.total
                     }
+                    this.numAll=res.data.demand.hire_num;
                 })
             },
             addNote(index){
@@ -272,7 +274,7 @@
                 })
             },
             verified(){
-                if(this.total==this.num){
+                if(this.numAll==this.num){
                     let formData = new FormData;
                     formData.append('id',this.id);
                     this.api.demand_audit(formData).then((res)=>{
