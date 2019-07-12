@@ -104,8 +104,9 @@
                                 class="upload-demo"
                                 action="aaaa"
                                 multiple
-                                :limit="1"
+                                :limit="10"
                                 :http-request="upload"
+                                :on-exceed="handleExceed"
                         >
                             <el-button size="small" type="primary">点击上传</el-button>
                         </el-upload>
@@ -190,6 +191,9 @@
             cell({row, column, rowIndex, columnIndex}){
                 return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
+            handleExceed(files, fileList) {
+                this.$message.warning(`当前限制选择 10 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+            },
             getTH(){
                 this.th=true
             },
@@ -219,7 +223,7 @@
                 formData.append('height',this.height);
                 formData.append('new_url',this.new_url);
                 formData.append('new_url_md5',this.new_url_md5);
-                formData.append('original_res',  JSON.stringify(this.tableData.original_res));
+                formData.append('original_res', JSON.stringify(this.tableData.original_res));
                 formData.append('adids',this.$route.query.id);
                 formData.append('sdk_id',this.tableData.sdk_id);
                 formData.append('src',this.tableData.src);
@@ -386,7 +390,7 @@
         font-weight: bold;
     }
     .btn{
-        margin-top: 20px;
+        margin: 20px 0;
         text-align: center;
     }
     .btn span{
@@ -487,7 +491,7 @@
     .load{
         border-radius: 10px;
         width: 450px;
-        height: 270px;
+        min-height: 270px;
         position: relative;
         background: #fff;
         left: 50%;

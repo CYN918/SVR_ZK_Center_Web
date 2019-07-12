@@ -45,7 +45,7 @@
                             >
                     </el-table-column>
                     <el-table-column
-                            label="状态" prop="isfinish!=1?'待处理':已完成"
+                            label="状态" prop="curent_status_name"
                             >
                     </el-table-column>
                     <el-table-column

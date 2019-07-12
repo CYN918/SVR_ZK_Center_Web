@@ -695,5 +695,5 @@ select{
 .table_material_tit .el-checkbox-group{
   display: inline-block;
 }
-
+.load .el-button--primary{color:rgba(51,119,255,1)}
 </style>
