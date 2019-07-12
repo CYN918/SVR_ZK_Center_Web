@@ -38,7 +38,7 @@
 				</div>
 			</div>
 			<rel v-if="getRe" :num="num" :material="material" ></rel>
-			<con v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type" :lx="lx" @updata="updata"></con>
+			<con v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type" :lx="lx" @dataUpdating="dataUpdating"></con>
 			<hin v-if='hint' ></hin>
 			<tag v-if="tags" :message="message" :typeSC='type' :material="material" @updata="updata"></tag>
 			<set v-if="sets" :typeSC='type'  @listenToChildEvent="listen" :material="material"></set>
@@ -232,7 +232,7 @@
                 this.hint = false;
                 this.move();
             },
-            updata(){
+            dataUpdating(a){
                 this.getList();
             },
             XStag(a){
@@ -282,6 +282,9 @@
                 document.body.style.overflow='';//出现滚动条
                 document.body.style.position='initial';
                 document.body.style.height='1006px';
+            },
+            dataUpdating(a){
+                this.getList();
             },
             getLt(a){
                 if(this.userData.roles[0].role_name=='admin'){

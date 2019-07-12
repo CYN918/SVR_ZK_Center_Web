@@ -339,7 +339,6 @@
 
             },
             getTagsList(){
-
                 let params = {preset:this.preset,material:this.material,type:this.types,search:this.tagsName,p:50,page:1};
                 this.api.tags_search({params}).then((da)=>{
                     console.log(da);
@@ -378,7 +377,7 @@
                 formData.append('size',this.sjSize);
                 this.api.material_edit(formData).then((res)=>{
                     this.getTagsList();
-                    this.$emit('updata','0');
+                    this.$emit('dataUpdating',0,true);
                     this. heidSc();
                 })
             },
@@ -425,8 +424,8 @@
                     this.api.material_add(formData).then((res)=>{
                         this.getTagsList();
                       if(res.data!=''){
-                          this.$emit('updata','0');
-                          this. heidSc();
+                          this.$emit('dataUpdating',0,true);
+                          this.heidSc();
                       }
                     })
                 }else{

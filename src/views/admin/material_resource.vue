@@ -256,9 +256,6 @@
                 this.sets = false;
 
             },
-            updata(){
-                this.getWl()
-            },
             listen(msg,ddd){
                 this.bindMid=msg;
                 this.hqUrl=ddd;

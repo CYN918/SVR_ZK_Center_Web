@@ -38,7 +38,7 @@
 				</div>
 			</div>
 			<rel v-if="getRe" :num="num" :material="material" ></rel>
-			<con v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type" :lx="this.lx" @updata="updata"></con>
+			<con v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type" :lx="this.lx" @dataUpdating="dataUpdating"></con>
 			<hin v-if='hint' ></hin>
 			<tag v-if="tags" :message="message" :typeSC='type' :material="material" @updata="updata"></tag>
 			<set v-if="sets" :typeSC='type'  @listenToChildEvent="listen" :material="material"></set>
@@ -230,7 +230,7 @@
                 this.move();
             },
             updata(){
-                this.getList();
+                this.getTagsList()
 			},
             XStag(a){
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search}
@@ -352,9 +352,9 @@
                     this.getTagsList()
                 })
             },
-            updata(){
-                this.getTagsList()
-			},
+            dataUpdating(a){
+                this.getList();
+            },
             getList(){
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,status:this.status}
                 this.api.material_search({params}).then((res)=>{
