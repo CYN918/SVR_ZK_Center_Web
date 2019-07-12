@@ -604,10 +604,10 @@ export default {
 	// demand_business_mbind:{
 	// 	url:'/demand/business/mbind',method:'get'
 	// },
-	// //获取业务相关物料
-	// demand_business_mfbind:{
-	// 	url:'/demand/business/mfbind',method:'get'
-	// },
+	//获取业务相关物料
+	demand_business_mfbind:{
+		url:'/demand/business/mfbind',method:'get'
+	},
 
 	//获取业务需求相关素材/物料
     demand_business_bind_list:{

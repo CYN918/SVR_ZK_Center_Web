@@ -76,7 +76,7 @@
             },
             getData(){
                 let params = {id:this.id,p:this.p,page:this.page};
-                this.api.demand_business_status_mfbind({params}).then((res)=>{
+                this.api.demand_business_mfbind({params}).then((res)=>{
                     this.listWl = res.data.mfinal;
                     this.total=res.total;
                 })
