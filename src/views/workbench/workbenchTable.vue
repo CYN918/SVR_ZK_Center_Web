@@ -629,6 +629,14 @@
                             return
                         }
                     }
+                    if(status ==6){
+                        if(reject==1){
+                            this.getRejDET(id,status)
+                        }else{
+                            this.getWLp(id)
+                        }
+
+                    }
                 }
                 if(type=='素材需求'){
                     if(status ==1){
