@@ -116,11 +116,11 @@
                 sj:[],
                 num:null,
                 priority:'',
-                is_attach:false,
+                is_attach:0,
                 requirement:'',
                 endtime:'',
                 design_standard:'',
-                is_ref:false,
+                is_ref:0,
                 ref_url:'',
                 initiate2:false,
                 initiate:false,
@@ -182,8 +182,8 @@
                     formData.append('num',this.num);
                     formData.append('priority',this.priority);
                     formData.append('endtime',this.endtime);
-                    formData.append('is_attach',0);
-                    formData.append('is_ref',0);
+                    formData.append('is_attach',this.is_attach);
+                    formData.append('is_ref',this.is_ref);
                     formData.append('ref_url',this.ref_url);
                     formData.append('design_standard',this.design_standard);
                     formData.append('requirement',this.requirement);
@@ -240,8 +240,8 @@
                     formData.append('id',this.SCid);
                     formData.append('priority',this.priority);
                     formData.append('endtime',this.endtime);
-                    formData.append('is_attach',0);
-                    formData.append('is_ref',0);
+                    formData.append('is_attach',this.is_attach);
+                    formData.append('is_ref',this.is_ref);
                     formData.append('ref_url',this.ref_url);
                     formData.append('design_standard',this.design_standard);
                     formData.append('requirement',this.requirement);
@@ -296,7 +296,8 @@
                 this.api.file_upload(formData).then((res)=>{
                     this.aaa=100;
                     this.initiate=false;
-                    this.ref_url = res.url
+                    this.ref_url = res.url;
+                    this.is_ref=1;
                 })
             },
             uploadFile(file){
@@ -308,6 +309,7 @@
                     this.bbb=100;
                     this.initiate2=false;
                     this.attach=res;
+                    this.is_attach=1;
                     // this.attach.name = res.name;
                     // this.attach.ext = res.ext;
                     // this.attach.md5 = res.md5;
