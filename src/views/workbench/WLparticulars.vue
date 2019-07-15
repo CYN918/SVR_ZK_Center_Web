@@ -108,23 +108,26 @@
                     this.imgList.push(this.listWl[i].bind[0].attach.url);
                 }
                 this.imgList.forEach(item =>{
-                    fetch(item).then(res => res.blob()).then(blob => {
-                        console.log(res)
-                        const a = document.createElement('a');
-                        document.body.appendChild(a)
-                        a.style.display = 'none'
-                        // 使用获取到的blob对象创建的url
-                        const url = window.URL.createObjectURL(blob);
-                        a.href = url;
-                        // 指定下载的文件名
-                        a.download = '文件';
-                        a.click();
-                        document.body.removeChild(a);
-                        // 移除blob对象的url
-                        window.URL.revokeObjectURL(url);
-                    });
+                   this.downloads(item);
                 })
             },
+            downloads(item){
+                fetch(item).then(res => res.blob()).then(blob => {
+                    const a = document.createElement('a');
+                    document.body.appendChild(a)
+                    a.style.display = 'none'
+                    // 使用获取到的blob对象创建的url
+                    const url = window.URL.createObjectURL(blob);
+                     var filename = res.headers.get('Content-Disposition');
+                    a.href = url;
+                    // 指定下载的文件名
+                    a.download = filename;
+                    a.click();
+                    document.body.removeChild(a);
+                    // 移除blob对象的url
+                    window.URL.revokeObjectURL(url);
+                });
+            }
         },
 
     }

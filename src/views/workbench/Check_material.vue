@@ -116,9 +116,10 @@
                             a.style.display = 'none'
                             // 使用获取到的blob对象创建的url
                             const url = window.URL.createObjectURL(blob);
+                            var filename = res.headers.get('Content-Disposition');
                             a.href = url;
                             // 指定下载的文件名
-                            a.download = '文件';
+                            a.download = filename;
                             a.click();
                             document.body.removeChild(a);
                             // 移除blob对象的url
