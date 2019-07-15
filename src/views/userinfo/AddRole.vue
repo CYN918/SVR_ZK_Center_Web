@@ -25,7 +25,7 @@
                     <input type="text" placeholder="最多输入10个字" maxlength="10" v-model="name" v-if="this.$route.query.role_id ==undefined"/>
                     <div class="wb" v-if="this.$route.query.role_id ==undefined">
                        <span>是否为外部角色</span>
-                        <select v-model="external ">
+                        <select v-model="type">
                             <option value="1">是</option>
                             <option value="0">否</option>
                         </select>
@@ -80,7 +80,7 @@
                 parent:'',
                 list:[],
                 parentList:[],
-                external:0
+                type:0
             }
         },
         mounted(){
@@ -105,7 +105,7 @@
                         })
                     })
                 }else{
-                    this.api.perm_role_add({role_name:this.name,role_desc:this.description,group_key:this.checkedCities1,parent:this.parent}).then((res)=>{
+                    this.api.perm_role_add({role_name:this.name,role_desc:this.description,group_key:this.checkedCities1,parent:this.parent,type:this.type}).then((res)=>{
                         this.$router.push({
                             path:'/userinfo/roleManagement'
                         })
