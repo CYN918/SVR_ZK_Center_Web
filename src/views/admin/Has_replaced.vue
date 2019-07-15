@@ -114,7 +114,10 @@
                     </div>
                     <div class="text_tit">
                         <span>新资源URL</span>
-                        <input type="text" v-model="new_url" disabled/>
+                        <div style="display: inline-block;width: 235px">
+                            <input type="text" v-model="item.new_url" disabled v-for="item in new_res"/>
+                        </div>
+
                     </div>
 
                     <div class="btn">
@@ -174,6 +177,7 @@
                 text:'',
                 type:'',
                 search:'',
+                new_res:[],
 
             }
         },
@@ -223,10 +227,7 @@
                     this.$message.error('请上传文件或等待文件上传成功！')
                 }
                 let formData = new FormData;
-                formData.append('width',this.width);
-                formData.append('height',this.height);
-                formData.append('new_url',this.new_url);
-                formData.append('new_url_md5',this.new_url_md5);
+                formData.append('new_res',JSON.stringify(this.new_res));
                 formData.append('original_res',  JSON.stringify(this.tableData.original_res));
                 formData.append('adids',this.$route.query.id);
                 formData.append('sdk_id',this.tableData.sdk_id);
@@ -238,7 +239,7 @@
                 formData.append('preview_md5',this.tableData.preview_md5);
                 this.api.replace_add(formData).then((res)=>{
                     this.th=false;
-                    this.new_url = '';
+                    this.new_res = [];
                     this.getDataList()
                 })
             },
@@ -250,10 +251,10 @@
                 this.remove =false;
             },
             upload(file){
-                    console.log(file);
                     let formData =new FormData;
                     formData.append('file',file.file);
                    this.api.file_upload(formData).then((res)=>{
+                       var obj = {};
                        this.new_url= res.url;
                        this.new_url_md5=res.md5;
                        var image = new Image();
@@ -261,9 +262,16 @@
                        image.onload=function(){
                            _this.width = image.width;
                            _this.height = image.height;
+                           obj.width =_this.width;
+                           obj.height = _this.height
                        };
                        image.src= res.url;
+                       obj.new_url=this.new_url;
+                       obj.new_url_md5=this.new_url_md5;
+                       this.new_res.push(obj);
+                       console.log(this.new_res)
                    })
+
             },
             getDataList(){
                 this.type= this.$route.query.type;
@@ -495,8 +503,8 @@
     }
     .load{
         border-radius: 10px;
-        width: 450px;
-        height: 270px;
+        width: 500px;
+        min-height: 270px;
         position: relative;
         background: #fff;
         left: 50%;
