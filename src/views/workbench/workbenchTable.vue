@@ -80,7 +80,9 @@
                             <el-button @click="educe(tableData[props.$index].did,tableData[props.$index].check_status,tableData[props.$index].status)" v-if="(tableData[props.$index].status_name=='签字审核'&&tableData[props.$index].status==2)||(tableData[props.$index].status_name=='补充签字'&&tableData[props.$index].status==4)&&tableData[props.$index].emails.indexOf(email)!=-1">导出表格</el-button>
                             <el-button @click="uploadData(tableData[props.$index].did)"  v-if="(tableData[props.$index].status_name=='签字审核'&&tableData[props.$index].status==2)||(tableData[props.$index].status_name=='补充签字'&&tableData[props.$index].status==4)&&tableData[props.$index].emails.indexOf(email)!=-1">上传文件</el-button>
                             <el-button @click="release(tableData[props.$index].did,tableData[props.$index].demand_type)" v-if="tableData[props.$index].status_name=='需求发布'&&tableData[props.$index].emails.indexOf(email)!=-1">发布需求</el-button>
-                            <el-button v-if="tableData[props.$index].status_name=='素材审核'">查看活动</el-button>
+                            <el-button v-if="tableData[props.$index].status_name=='素材审核'">
+                                <a :href="url+(tableData[props.$index].activity_id!=undefined?'detailed?id='+tableData[props.$index].activity_id:'activity')" target="_Blank" class="dj">查看活动</a>
+                            </el-button>
                             <el-button @click='check(tableData[props.$index].demand_type,tableData[props.$index].did,tableData[props.$index].status-1)' v-if="tableData[props.$index].status_name=='素材入库'">查看素材</el-button>
                             <el-button  @click="AddMaterial(props.$index)" v-if="tableData[props.$index].status_name=='素材准备'&&tableData[props.$index].status==2&&tableData[props.$index].emails.indexOf(email)!=-1">添加素材</el-button>
                             <el-button  @click="getscR(props.$index)" v-if="tableData[props.$index].status_name=='素材审核'&&tableData[props.$index].status==4&&tableData[props.$index].emails.indexOf(email)!=-1">添加素材</el-button>
@@ -133,7 +135,7 @@
                                         <span class="dj" v-if="item.status_name=='结算汇款'" @click="withdraw(tableData[props.$index].did,item.status)">查看详情</span>
                                         <span class="dj" v-if="(tableData[props.$index].demand_type=='业务需求'&&item.status=='4'&&item.key==0)">审核通过</span>
                                         <span class="dj" v-if="tableData[props.$index].demand_type=='业务需求'&&item.status=='5'&&item.key==0">测试通过</span>
-                                        <a :href="url+item.activity_id" target="_Blank" class="dj" v-if="tableData[props.$index].demand_type=='素材需求'&&item.status=='3'&&item.key==0">查看活动</a>
+                                        <a :href="url+(tableData[props.$index].activity_id!=undefined?'detailed?id='+tableData[props.$index].activity_id:'activity')" target="_Blank" class="dj" v-if="tableData[props.$index].demand_type=='素材需求'&&item.status=='3'&&item.key==0">查看活动</a>
                                         <span class="dj" v-if="tableData[props.$index].demand_type=='素材需求'&&item.status=='5'&&item.isfinish==1" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status)">查看素材</span>
                                     </div>
                                 </div>
@@ -271,7 +273,8 @@
                 Cm:false,
                 length:0,
                 shID:'',
-                url:'https://shiquaner.zookingsoft.com/#/detailed?id=',
+                url:'https://shiquaner.zookingsoft.com/#/',
+
                 attach:{},
                 reject_details:false,
                 tableData2:[],
