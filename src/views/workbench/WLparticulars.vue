@@ -112,13 +112,13 @@
                 })
             },
             downloads(item){
-                fetch(item).then(res => res.blob()).then(blob => {
+                fetch(item).then(res => res.blob().then(blob => {
                     const a = document.createElement('a');
                     document.body.appendChild(a)
                     a.style.display = 'none'
                     // 使用获取到的blob对象创建的url
                     const url = window.URL.createObjectURL(blob);
-                     var filename = res.headers.get('Content-Disposition');
+                    var filename = res.url.split('/')[res.url.split('/').length-1];
                     a.href = url;
                     // 指定下载的文件名
                     a.download = filename;
@@ -126,7 +126,7 @@
                     document.body.removeChild(a);
                     // 移除blob对象的url
                     window.URL.revokeObjectURL(url);
-                });
+                }));
             }
         },
 

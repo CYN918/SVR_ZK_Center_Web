@@ -19,7 +19,7 @@
                     </el-checkbox-group>
                     <span style="display: inline-block;margin: 0 26px 0 18px">{{item.line_num}}</span>
                     <span class="table_material_tit_sc">素材</span>
-                    <span class="download" @click="downSingle(index)">下载({{item.bind.length}})</span>
+                    <span class="download" @click="downSingles(index)">下载({{item.bind.length}})</span>
                 </div>
                 <div class="img_box">
                     <div v-for="(da,index2) in item.bind" class="ADD_img">
@@ -175,26 +175,30 @@
                 }
                 this.checkList=[];
             },
-            downSingle(index){
+
+
+            downSingles(index){
                 this.imgList=[];
-                for(var i = 0;i<this.listSc[index].length;i++){
-                    this.imgList.push(this.listSc[index][i].attach.url)
+                for(var i = 0;i<this.listSc[index].bind.length;i++){
+                    this.imgList.push(this.listSc[index].bind[i].attach.url);
                 }
+                console.log(this.imgList);
                 this.imgList.forEach(item =>{
-                    fetch(item).then(res => res.blob()).then(blob => {
+                    fetch(item).then(res => res.blob().then(blob => {
                         const a = document.createElement('a');
                         document.body.appendChild(a)
                         a.style.display = 'none'
                         // 使用获取到的blob对象创建的url
                         const url = window.URL.createObjectURL(blob);
+                        var filename = res.url.split('/')[res.url.split('/').length-1];
                         a.href = url;
                         // 指定下载的文件名
-                        a.download = '图片';
+                        a.download = filename;
                         a.click();
                         document.body.removeChild(a);
                         // 移除blob对象的url
                         window.URL.revokeObjectURL(url);
-                    });
+                    }));
                 })
             },
             downloadImg(){
@@ -214,20 +218,21 @@
                     }
                 }
                 this.imgList.forEach(item =>{
-                    fetch(item).then(res => res.blob()).then(blob => {
+                    fetch(item).then(res => res.blob().then(blob => {
                         const a = document.createElement('a');
                         document.body.appendChild(a)
                         a.style.display = 'none'
                         // 使用获取到的blob对象创建的url
                         const url = window.URL.createObjectURL(blob);
+                        var filename = res.url.split('/')[res.url.split('/').length-1];
                         a.href = url;
                         // 指定下载的文件名
-                        a.download = '图片';
+                        a.download = filename;
                         a.click();
                         document.body.removeChild(a);
                         // 移除blob对象的url
                         window.URL.revokeObjectURL(url);
-                    });
+                    }));
                 })
             },
         },
