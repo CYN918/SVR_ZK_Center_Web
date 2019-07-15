@@ -110,6 +110,7 @@
                 }
                 this.imgList.forEach(item =>{
                         fetch(item).then(res => res.blob()).then(blob => {
+                            console.log(res)
                             console.log(blob)
                             const a = document.createElement('a');
                             document.body.appendChild(a)

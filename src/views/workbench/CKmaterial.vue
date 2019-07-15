@@ -15,11 +15,11 @@
             <div class="table_material" v-for="(item,index) in this.listSc" v-if="SC==true">
                 <div class="table_material_tit">
                     <el-checkbox-group v-model="checkList" >
-                        <el-checkbox :label="index" @click="oones(index)"></el-checkbox>
+                        <el-checkbox :label="index"></el-checkbox>
                     </el-checkbox-group>
                     <span style="display: inline-block;margin: 0 26px 0 18px">{{item.line_num}}</span>
                     <span class="table_material_tit_sc">素材</span>
-                    <span class="download" @click="downSingle()">下载({{item.bind.length}})</span>
+                    <span class="download" @click="downSingle(index)">下载({{item.bind.length}})</span>
                 </div>
                 <div class="img_box">
                     <div v-for="(da,index2) in item.bind" class="ADD_img">
@@ -36,11 +36,11 @@
             <div class="table_material" v-for="(item,index) in this.listWl" v-if="WL==true">
                 <div class="table_material_tit">
                     <el-checkbox-group v-model="checkList">
-                        <el-checkbox :label="index" @change="oones(index)"></el-checkbox>
+                        <el-checkbox :label="index"></el-checkbox>
                     </el-checkbox-group>
                     <span style="display: inline-block;margin: 0 26px 0 18px">{{item.line_num}}</span>
                     <span class="table_material_tit_sc">物料</span>
-                    <a class="download" :href="item.bind[0].prev_uri">下载</a>
+                    <a class="download" :href="item.bind[0].attach.url">下载</a>
                 </div>
                 <div class="img_box">
                     <div v-for="(da1,index3) in item.bind" class="ADD_img">
@@ -141,17 +141,17 @@
                 this.getData();
             },
 
-            oones(index){
-                if(this.checkList.indexOf(index)!=-1){
-                   for(var i=0;i<this.checkList.length;i++){
-                       if(this.checkList[i]==index){
-                           this.checkList.splice(i,1)
-                       }
-                   }
-                   return
-                }
-                this.checkList.push(index);
-            },
+            // oones(index){
+            //     if(this.checkList.indexOf(index)!=-1){
+            //        for(var i=0;i<this.checkList.length;i++){
+            //            if(this.checkList[i]==index){
+            //                this.checkList.splice(i,1)
+            //            }
+            //        }
+            //        return
+            //     }
+            //     this.checkList.push(index);
+            // },
             all(){
                 if(this.SC==true){
                     if(this.value==true){
@@ -175,7 +175,11 @@
                 }
                 this.checkList=[];
             },
-            downSingle(){
+            downSingle(index){
+                this.imgList=[];
+                for(var i = 0;i<this.listSc[index].length;i++){
+                    this.imgList.push(this.listSc[index][i].attach.url)
+                }
                 this.imgList.forEach(item =>{
                     fetch(item).then(res => res.blob()).then(blob => {
                         const a = document.createElement('a');
