@@ -154,9 +154,9 @@
         border-radius:4px;
         margin:0px 24px 24px 0;
     }
-    .box_img:nth-child(4n){
-        margin-right: 0!important;
-    }
+    /*.box_img:nth-child(4n){*/
+        /*margin-right: 0!important;*/
+    /*}*/
     .left_img{
         display: inline-block;
         width:116px;

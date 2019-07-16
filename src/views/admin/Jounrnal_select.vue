@@ -121,7 +121,7 @@
             YCset(){this.$parent.heidWL();},
             messageID(){
                 this.$emit('listenToChildEvent',this.checked,this.date,true);
-                this.$parent.heidWL();
+                // this.$parent.heidWL();
             },
             getList(){
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status}
