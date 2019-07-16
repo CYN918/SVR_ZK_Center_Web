@@ -696,4 +696,5 @@ select{
   display: inline-block;
 }
 .load .el-button--primary{color:rgba(51,119,255,1)}
+.select_img .el-checkbox__label{opacity: 0}
 </style>

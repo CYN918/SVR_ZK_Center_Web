@@ -17,7 +17,7 @@
 			<router-link  to="/userinfo"><li class="right"><img src="../../public/img/user.png" class="imgs_user"/>{{name}}</li></router-link>
 			<router-link  to="/login"><li class="right" @click="loginout()"><span>退出登录</span></li></router-link>
 		</ul>
-		<el-menu v-if="config.showL!=-1"  class="el-menu-demo appTopNav" mode="horizontal" @select="handleSelect"> 
+		<el-menu v-if="config.showL!=-1"  class="el-menu-demo appTopNav" mode="horizontal" @select="handleSelect">
 			<el-submenu index="2">
 				<template slot="title">{{topNacd}}</template>
 				<el-menu-item index="0">工作台</el-menu-item>
@@ -25,8 +25,8 @@
 				<el-menu-item index="2">数据中心</el-menu-item>
 				<el-menu-item index="3">素材中心</el-menu-item>
 				<!--<el-menu-item index="4">产品中心</el-menu-item>-->
-				<el-menu-item @click="loginout" index="4">退出</el-menu-item>				
-			</el-submenu>		  
+				<el-menu-item @click="loginout" index="4">退出</el-menu-item>
+			</el-submenu>
 		</el-menu>
 	</div> 
 </template>

@@ -1,0 +1,361 @@
+<template>
+    <div>
+        <div class="top_name">
+            <span class="top_txt">投放库 / 杂志锁屏推送管理</span>
+            <div class="tit_name">
+                <span>杂志锁屏推送管理</span>
+            </div>
+            <div class="search_criteria">
+                <div class="num">
+                    <span>数量:</span>
+                    <span>{{total}}</span>
+                </div>
+                <div class="action_btn">
+                    <span class="manage" @click="del_remove">删除({{this.checked.length}})</span>
+                    <span class="select" @click="cancel">取消</span>
+                </div>
+            </div>
+        </div>
+        <div class="box">
+            <div class="box_img" v-for="(item,index) in dataList">
+                <div class="select_img">
+                    <template>
+                        <el-checkbox-group v-model="checked">
+                            <el-checkbox :label="index" ></el-checkbox>
+                        </el-checkbox-group>
+                    </template>
+                </div>
+                <div class="left_img">
+                    <img :src="item.prev_uri">
+                </div>
+                <div class="right_txt">
+                    <div>
+                        <span class="right_txt_name">物料ID</span>
+                        <span class="right_txt_content">{{item.mfid}}</span>
+                    </div>
+                    <div class="img_size">
+                        <span class="right_txt_name">尺寸</span>
+                        <span class="right_txt_content">{{item.size}}</span>
+                    </div>
+                    <div>
+                        <span class="right_txt_name">文件</span>
+                        <span class="right_txt_content">{{item.attach.size}}</span>
+                        <a :href="item.attach.url">下载</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--<div class="null_content">-->
+        <!--<img src="../../../public/img/null.png">-->
+        <!--<span class="prompt_message">无相关资源，若有疑问，请联系管理人员</span>-->
+        <!--</div>-->
+        <div class="bg" v-if="remove">
+            <div class="remove_content">
+                <div class="remove_content_tit">
+                    <span>提示</span>
+                    <img src="../../../public/img/gb.png" @click="qx">
+                </div>
+                <div class="remove_content_cont">
+                    <span>确认移除选中物料吗？</span>
+                </div>
+                <div class="del_btn">
+                    <span class="qd">确定</span>
+                    <span @click="qx">取消</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    export default {
+        name: "journal_of_push",
+        data(){
+            return{
+                time:"",
+                checked:[],
+                remove:false,
+                dataList:[],
+                total:0
+            }
+        },
+        mounted(){
+            this.getData();
+        },
+        methods:{
+            del_remove(){
+                this.remove = true;
+                this. stop();
+            },
+            qx(){
+                this.remove = false;
+                this.move();
+            },
+            cancel(){
+                this.checked=[];
+                this.$router.go(-1)
+            },
+            getData(){
+                let params = {plid:this.$route.query.id,date:this.$route.query.date,p:10,page:1};
+                this.api.pushlib_binds({params}).then((res)=>{
+                    this.dataList = res.data;
+                    this.total=res.total
+                })
+            },
+            stop(){
+                document.body.style.overflow='hidden';
+                document.body.style.position='fixed';
+                document.body.style.width='100%';
+            },
+            move(){
+                document.body.style.overflow='';//出现滚动条
+                document.body.style.position='initial';
+                document.body.style.height='1006px';
+            },
+        },
+    }
+</script>
+
+<style scoped>
+    a{
+        display: inline-block;
+        width:44px;
+        height:20px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(51,119,255,1);
+        line-height: 20px;
+        text-align: center;
+        cursor: pointer;
+        font-size:12px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(51,119,255,1);
+        margin-left: 14px;
+    }
+    .top_txt,.tit_name span{
+        margin-left: 24px;
+    }
+    .top_name{
+        height: 166px;
+    }
+    .tit_name span{
+        display: inline-block;
+        font-size:20px;
+        font-family:PingFang-SC-Medium;
+        font-weight:500;
+        color:rgba(50,50,50,1);
+    }
+    .tit_name{
+        margin-bottom: 24px;
+    }
+    .search_criteria {
+        padding: 0 24px;
+    }
+    .search_criteria div{
+        display: inline-block;
+    }
+    .date{
+        margin-right: 12px;
+    }
+    .num span{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFang-SC-Medium;
+        font-weight:500;
+        color:rgba(50,50,50,1);
+    }
+    .action_btn{
+        float: right;
+        margin-right: 250px;
+    }
+    .action_btn span{
+        display: inline-block;
+        height: 36px;
+        text-align: center;
+        line-height: 36px;
+        cursor: pointer;
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+    }
+    .manage{
+        width:68px;
+        background:rgba(51,119,255,1);
+        font-size:14px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(255,255,255,1);
+        margin-right: 20px;
+    }
+    .select{
+        width:144px;
+        background:rgba(242,246,252,1);
+        border:1px solid rgba(211,219,235,1);
+        font-size:14px;
+        font-family:PingFang-SC-Medium;
+        font-weight:500;
+        color:rgba(61,73,102,1);
+    }
+    .box{
+        margin-top: 244px;
+    }
+    .box_img{
+        display: inline-block;
+        width:380px;
+        height:189px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        margin:0px 24px 24px 0;
+    }
+    .box_img:nth-child(4n){
+        margin-right: 0!important;
+    }
+    .left_img{
+        display: inline-block;
+        width:116px;
+        height:149px;
+        background:rgba(227,231,235,1);
+        border-radius:2px;
+        margin-left: 12px;
+        position: relative;
+        top:50%;
+        transform: translateY(-50%);
+    }
+    .left_img img{
+        max-width: 99px;
+        max-height: 149px;
+        position:absolute;
+        top:50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+    .right_txt{
+        display: inline-block;
+        position: relative;
+        top: 25%;
+        transform: translateY(-50%);
+        margin-left: 20px;
+    }
+    .right_txt div{
+        height: 40px;
+    }
+    .right_txt_name{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFang-SC-Medium;
+        font-weight:500;
+        color:rgba(143,155,179,1);
+    }
+    .right_txt_content{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFang-SC-Medium;
+        font-weight:500;
+        color:rgba(31,46,77,1);
+        margin-left: 10px;
+    }
+    .null_content{
+        text-align: center;
+        position: relative;
+        margin-top: 400px;
+        top:50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+    .prompt_message{
+        display: block;
+        font-size:18px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(143,155,179,1);
+        text-align: center;
+    }
+    .select_img{
+        display: inline-block;
+        width: 24px;
+        margin-left: 13px;
+        position: relative;
+        top:-25%;
+        transform: translateY(-50%);
+    }
+    .remove_content{
+
+    }
+    .bg{
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.3);
+        position: fixed;
+        z-index: 99;
+        bottom: 0;
+        right: 0;
+    }
+    .remove_content{
+        width:560px;
+        height:228px;
+        background:rgba(255,255,255,1);
+        box-shadow:0px 2px 8px 0px rgba(0,0,0,0.2);
+        border-radius:4px;
+        position: relative;
+        left:50%;
+        top:50%;
+        transform: translate(-50%,-50%);
+    }
+    .remove_content_tit{
+        height: 56px;
+        border-bottom: 1px solid #E6E9F0;
+    }
+    .remove_content_tit span{
+        display: inline-block;
+        font-size:18px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(61,73,102,1);
+        margin-left: 24px;
+        line-height: 56px;
+    }
+    .remove_content_tit img{
+        display: inline-block;
+        width: 16px;
+        float: right;
+        margin: 20px 24px 0 0 ;
+        cursor: pointer;
+    }
+    .remove_content_cont{
+        margin-top: 15px;
+    }
+    .remove_content_cont span{
+        display: inline-block;
+        margin-left: 24px;
+        font-size:18px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(61,73,102,1);
+    }
+    .del_btn{
+        margin-top: 78px;
+        text-align: right;
+    }
+    .del_btn span{
+        display: inline-block;
+        width:68px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        font-size:14px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(61,73,102,1);
+        cursor: pointer;
+        text-align: center;
+        line-height: 36px;
+        margin-right: 24px;
+    }
+    .qd{
+        background:rgba(51,119,255,1)!important;
+        color:rgba(255,255,255,1)!important;
+        border: 0!important;
+        margin-right: 14px!important;
+    }
+</style>

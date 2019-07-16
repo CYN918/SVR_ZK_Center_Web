@@ -149,7 +149,6 @@
                 })
             },
             look(index){
-
                 this.$router.push({
                     path:'/admin/details_library',
                     query:{

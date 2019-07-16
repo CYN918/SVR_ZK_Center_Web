@@ -716,4 +716,12 @@ export default {
 	demand_add_mfinal:{
 		url:'demand/add/mfinal',method:'post',isType:{suktip:1}
 	},
+	//推送库列表详情
+    pushlib_binds:{
+		url:'pushlib/binds',method:'get'
+	},
+	//添加推送物料
+    pushlib_add_mfinal:{
+		url:'pushlib/add/mfinal',method:'post',isType:{suktip:1}
+	},
 }
