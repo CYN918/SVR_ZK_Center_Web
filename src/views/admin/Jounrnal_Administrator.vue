@@ -21,7 +21,7 @@
                 <div class="select_img">
                     <template>
                         <el-checkbox-group v-model="checked">
-                            <el-checkbox :label="index" ></el-checkbox>
+                            <el-checkbox :label="item.mfid" ></el-checkbox>
                         </el-checkbox-group>
                     </template>
                 </div>
@@ -39,16 +39,18 @@
                     </div>
                     <div>
                         <span class="right_txt_name">文件</span>
-                        <span class="right_txt_content">{{item.attach.size}}</span>
+                        <span class="right_txt_content" v-if="(item.attach.size/1024).toFixed(0)>=1||(item.attach.size/1024/1024).toFixed(0)<1">{{(item.attach.size/1024).toFixed(0)}}kb</span>
+                        <span class="right_txt_content" v-if="(item.attach.size/1024/1024).toFixed(1)>=1&&(item.attach.size/1024/1024/1024).toFixed(1)<1">{{(item.attach.size/1024/1024).toFixed(1)}}MB</span>
+                        <span class="right_txt_content" v-if="(item.attach.size/1024/1024/1024).toFixed(2)>=1">{{(item.attach.size/1024/1024/1024).toFixed(2)}}GB</span>
                         <a :href="item.attach.url">下载</a>
                     </div>
                 </div>
             </div>
         </div>
-        <!--<div class="null_content">-->
-        <!--<img src="../../../public/img/null.png">-->
-        <!--<span class="prompt_message">无相关资源，若有疑问，请联系管理人员</span>-->
-        <!--</div>-->
+        <div class="null_content">
+        <img src="../../../public/img/null.png">
+        <span class="prompt_message">无相关资源，若有疑问，请联系管理人员</span>
+        </div>
         <div class="bg" v-if="remove">
             <div class="remove_content">
                 <div class="remove_content_tit">
@@ -59,7 +61,7 @@
                     <span>确认移除选中物料吗？</span>
                 </div>
                 <div class="del_btn">
-                    <span class="qd">确定</span>
+                    <span class="qd" @click="removeDEL">确定</span>
                     <span @click="qx">取消</span>
                 </div>
             </div>
@@ -111,6 +113,15 @@
                 document.body.style.overflow='';//出现滚动条
                 document.body.style.position='initial';
                 document.body.style.height='1006px';
+            },
+            removeDEL(){
+                let formData = new FormData;
+                formData.append('plid',"2");
+                formData.append('bind_mfid',JSON.stringify(this.checked));
+                this.api.pushlib_del_mfinal(formData).then((res)=>{
+                    this.qx();
+                    this. getData();
+                })
             },
         },
     }

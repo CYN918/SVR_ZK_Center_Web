@@ -38,13 +38,13 @@
                     </div>
                     <div>
                         <span class="right_txt_name">文件</span>
-                        <span class="right_txt_content">{{item.attach.size}}</span>
+                        <span class="right_txt_content" v-if="(item.attach.size/1024).toFixed(0)>=1||(item.attach.size/1024/1024).toFixed(0)<1">{{(item.attach.size/1024).toFixed(0)}}kb</span>
+                        <span class="right_txt_content" v-if="(item.attach.size/1024/1024).toFixed(1)>=1&&(item.attach.size/1024/1024/1024).toFixed(1)<1">{{(item.attach.size/1024/1024).toFixed(1)}}MB</span>
+                        <span class="right_txt_content" v-if="(item.attach.size/1024/1024/1024).toFixed(2)>=1">{{(item.attach.size/1024/1024/1024).toFixed(2)}}GB</span>
                         <a :href="item.attach.url">下载</a>
                     </div>
                 </div>
-                <!--<div class="bjImg"  style="opacity: 0">-->
-                <!--<span >编辑物料</span>-->
-                <!--</div>-->
+
             </div>
         </div>
         <div class="null_content" v-if="this.dataList.length==0">
@@ -61,7 +61,7 @@
         name: "journal_of_push",
         data(){
             return{
-                date:new Date(),
+                date:'',
                 ADDwl:false,
                 plid:'2',
                 dataList:[],
@@ -74,7 +74,7 @@
         methods:{
             getData(){
                 let params = {plid:this.plid,date:this.date,p:10,page:1};
-                this.api.pushlib_binds({params}).then((res)=>{
+                this.api.pushlib_external_mfinal({params}).then((res)=>{
                     this.dataList = res.data;
                     this.total=res.total
                 })

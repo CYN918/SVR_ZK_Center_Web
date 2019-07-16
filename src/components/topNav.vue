@@ -8,7 +8,7 @@
 				<!--<el-dropdown-item ><span @click="loginout()">退出</span></el-dropdown-item>-->
 			<!--</el-dropdown-menu>-->
 		<!--</el-dropdown>-->
-		<ul class="navd" v-if="config.showL!=-1">
+		<ul class="navd" v-if="config.showL!=-1&&this.type!=1">
 			<router-link  to="/workbench"><li><span>工作台</span></li></router-link>
 			<router-link  to="/data"><li><span>数据中心</span></li></router-link>
 			<router-link  to="/income"><li><span>收益中心</span></li></router-link>
@@ -16,6 +16,11 @@
 			<!--<router-link  to="/user"><li>产品中心</li></router-link>-->
 			<router-link  to="/userinfo"><li class="right"><img src="../../public/img/user.png" class="imgs_user"/>{{name}}</li></router-link>
 			<router-link  to="/login"><li class="right" @click="loginout()"><span>退出登录</span></li></router-link>
+		</ul>
+		<ul class="navd" v-if="config.showL!=-1&&this.type==1">
+			<router-link  to="/admin"><li> <span>素材中心</span></li></router-link>
+			<router-link class="right2" to="/userinfo"><li ><img src="../../public/img/user.png" class="imgs_user"/>{{name}}</li></router-link>
+			<router-link class="right2" to="/login"><li  @click="loginout()"><span>退出登录</span></li></router-link>
 		</ul>
 		<el-menu v-if="config.showL!=-1"  class="el-menu-demo appTopNav" mode="horizontal" @select="handleSelect">
 			<el-submenu index="2">
@@ -37,6 +42,7 @@ export default {
 	props:['config'],
     data(){
 		return{
+		    type:'',
 		    name:'',
 			input:'',
 			topNacd:'首页',
@@ -47,6 +53,7 @@ export default {
 		this.name=localStorage.getItem('userName');
         this.getLefNav();
         this.authority();
+        this.type=localStorage.getItem('role');
 	},
 	methods:{
 		handleSelect(key){				
@@ -122,6 +129,10 @@ export default {
 	-webkit-text-stroke-width: 0.2px;
 	-moz-osx-font-smoothing: grayscale;
 }
+.right2{
+	position: relative;
+	left:62%;
+}
 .topNav{
 	position: fixed;
 	top: 0;
@@ -158,6 +169,7 @@ export default {
 	top:50%;
 	transform: translateY(-50%);
 }
+
 .sszj{
 	float: left;
 }

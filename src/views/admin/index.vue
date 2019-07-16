@@ -24,7 +24,7 @@ export default {
 	},
 	mounted: function () {
 
-		if(JSON.parse(localStorage.getItem('letNav'))[0].children.length<=0){
+		if(JSON.parse(localStorage.getItem('letNav'))[0].children.length<=0&&JSON.parse(localStorage.getItem('letNav'))[0].list.length<=0){
             this.$message({
                 type: 'error',
                 message: `您沒有该权限`

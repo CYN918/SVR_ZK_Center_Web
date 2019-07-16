@@ -95,7 +95,7 @@ export default {
 	overflow-y:auto;
 	top: 0;
 	left: 0;
-	/*width: 256px;*/
+	width: 256px;
 	height: 100%;
 	background:rgba(255,255,255,1);
 	box-shadow:0px 2px 8px 0px rgba(0, 0, 0, 0.08);

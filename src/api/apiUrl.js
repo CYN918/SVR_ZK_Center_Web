@@ -724,4 +724,13 @@ export default {
     pushlib_add_mfinal:{
 		url:'pushlib/add/mfinal',method:'post',isType:{suktip:1}
 	},
+	//外部账户推送物料列表
+    pushlib_external_mfinal:{
+		url:"pushlib/external/mfinal",method:'get'
+	},
+	//删除推送物料
+    pushlib_del_mfinal:{
+		url:'pushlib/del/mfinal',method:'post',isType:{suktip:1}
+	},
+
 }

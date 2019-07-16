@@ -510,8 +510,8 @@ router.beforeEach((to, from, next) => {
 			return;
 		}
 		if(to.fullPath=='/'){
-			let params ={'url':'/index'} ;
-			api.create_menu(params);
+			// let params ={'url':'/index'} ;
+			// api.create_menu(params);
 			next({ path: '/index'});
 			return
 		}	
@@ -539,10 +539,10 @@ router.beforeEach((to, from, next) => {
             next({ path: '/workbench/workbenchPadding'});
         }
 						
-		let params ={'url':to.fullPath.split('&')[0]} ;
-		if(to.fullPath!='index'){
-			api.create_menu(params);
-		}			
+		// let params ={'url':to.fullPath.split('&')[0]} ;
+		// if(to.fullPath!='index'){
+		// 	 api.create_menu(params);
+		// }
 		next();
 		return
     }
@@ -578,7 +578,7 @@ router.beforeEach((to, from, next) => {
 			localStorage.setItem('userType',msg.data.data.user.type);
             localStorage.setItem('userName',msg.data.data.user.name);
 			localStorage.setItem('status',msg.data.data.user.status);
-            localStorage.setItem('wb',msg.data.data.user.wb);
+            localStorage.setItem('role',msg.data.data.role[0].type);
 			if(msg.data.data.user.type==1){
 				next({ path: '/indexs/list'});
 				return;
