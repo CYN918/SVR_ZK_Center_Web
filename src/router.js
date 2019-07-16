@@ -338,150 +338,149 @@ let nb = [
 router.addRoutes(nb);
 /*动态生成左边菜单*/
 
-let leftNav =
-	// localStorage.getItem('letNav');
-	[
-	{title:'素材中心',default:'/admin',defaultopen:['1'],
-	children:[
-		{title:'素材库',url:'1', img:'&#xe615;',list:[
-			{title:'广告图',url:'/admin/advertising'},
-				{title:'广告模板',url:'/admin/AD_templates'}],
-			children:[
-			{title:'场景锁屏',url:'1-3',list:[
-                 {title:'动效',url:'/admin/dynamic'},
-                 {title:'壁纸',url:'/admin/wallpaper'},
-                    ]},
-			]},
-
-		{title:'物料库',url:'3',img:'&#xe617;',list:[
-			{title:'广告图',url:'/admin/MaterialResource'},
-			{title:'广告模版',url:'/admin/WLtemplate'},
-			{title:'场景锁屏',url:'/admin/lockScreen'},
-		]},
-		{title:'配制管理',url:'4',img:'&#xe60e;',list:[
-			{title:'设计规范库',url:'/admin/standard'},
-			{title:'标签管理',url:'/admin/settags'},
-			// {title:'外部帐号管理',url:'/admin/external'},
-		]},
-		{title:'投放库',url:'5',img:'&#xe60e;',list:[
-				{title:'投放库',url:'/admin/library'},
-                {title:'杂志锁屏推送管理',url:'/admin/journal_of_push'},
-                // {title:'杂志锁屏推送管理',url:'/admin/wb_Journal'}
-
-			]}
-	]},
-	{title:'工作台',default:'/workbench',defaultopen:['1'],
-        children:[
-            {title:'任务中心',url:'1',img:'&#xe610;',list:[
-                    {title:'待处理',url:'/workbench/workbenchPadding'},
-                    {title:'全部',url:'/workbench/ALL'},
-					],},
-            {title:'运营工具',url:'2',img:'&#xe610;',list:[
-                    {title:'锁屏壁纸MD5库',url:'/workbench/MD5'},
-                    {title:'聚合内容配置',url:'/workbench/allocation'},
-                    {title:'资源待替换',url:'/workbench/replace'},
-                ],},
-
-        ]
-	},
-	{title:'数据',default:'/data',defaultopen:['1'],
-	// children:[
-	// 	{title:'广告分析数据',url:'1',children:[
-	// 		{title:'素材数据',url:'1-1',children:[
-	// 			{title:'广告图数据',url:'1-1-1',list:[
-	// 				{title:'广告图数据',url:'/data/ad_material_p'},
-	// 				{title:'广告图详细数据',url:'/data/ad_material_ps'},
-	// 			]},
-	// 			{title:'广告模板数据',url:'1-1-2',list:[
-	// 				{title:'广告模板数据',url:'/data/ad_material_m'},
-	// 				{title:'广告模板详细数据',url:'/data/ad_material_ms'},
-	// 			]},
-	// 			{title:'锁屏壁纸数据',url:'1-1-3',list:[
-	// 				{title:'锁屏壁纸数据',url:'/data/ad_material_w'},
-	// 				{title:'锁屏壁纸详细数据',url:'/data/ad_material_ws'},
-	// 			]},
-	// 		]},
-	// 		{title:'广告位相关数据',url:'1-2',list:[
-	// 			{title:'渠道数据',url:'/data/ad_position_channel'},
-	// 			{title:'产品数据',url:'/data/ad_position_product'},
-	// 			{title:'广告位类型数据',url:'/data/ad_position_adType'},
-	// 			{title:'广告位数据',url:'/data/ad_position_adData'},
-	// 		]},
-	// 		{title:'广告相关数据',url:'1-3',list:[
-	// 			{title:'广告主数据',url:'/data/ad_position_user'},
-	// 			{title:'广告主详细数据',url:'/data/ad_position_users'},
-	// 			{title:'广告数据',url:'/data/ad_position_ad'},
-	// 			{title:'广告详细数据',url:'/data/ad_position_ads'},
-	// 		]},
-    //
-	// 	]},
-	// 	{title:'产品分析数据',url:'2',children:[
-	// 		{title:'锁屏壁纸数据',url:'2-1',children:[
-	// 			{title:'壁纸行为分析',url:'2-1-1',list:[
-	// 				{title:'壁纸渠道数据',url:'/data/wallxw_channel'},
-	// 				{title:'壁纸使用时长分布',url:'/data/wallxw_time'},
-	// 				{title:'壁纸行为数据',url:'/data/wallxw_data'},
-	// 				{title:'壁纸渠道详细数据',url:'/data/wallxw_xx'},
-	// 				{title:'壁纸广告分析数据',url:'/data/wallxw_ad'},
-	// 			]},
-	// 		]},
-	// 	]},
-	// 	{title:'收益报表',url:'3',list:[
-	// 		{title:'收益日报',url:'/data/profit_d'},
-	// 		{title:'收益周报',url:'/data/profit_w'},
-	// 		{title:'收益月报',url:'/data/profit_m'},
-	// 		{title:'渠道收益',url:'/data/profit_channel'},
-	// 		{title:'产品收益',url:'/data/profit_product'},
-	// 		{title:'广告位类型收益',url:'/data/profit_position_type'},
-	// 		{title:'广告位收益',url:'/data/profit_position'},
-	// 		{title:'广告主收益',url:'/data/profit_user'},
-	// 		{title:'广告收益',url:'/data/profit_ad'},
-	// 		{title:'渠道成本',url:'/data/cost_channel'},
-	// 		{title:'设计师成本',url:'/data/cost_designer'},
-	// 		{title:'设计师成本详细数据',url:'/data/cost_designers'},
-	// 		{title:'收益详表',url:'/data/profits'},
-	// 	]}
-	// ]
-},
-    {title:'个人中心',default:'/userinfo/user_info',defaultopen:['1'],
-        children:[
-            {title:'个人中心',url:'1',img:'&#xe60b;',list:[
-            {title:'基本信息', url:'/userinfo/user_info'},
-            {title:'修改密码', url:'/userinfo/passWord'},
-            {title:'消息通知', url:'/userinfo/'},
-                ]},
-			{title:'账号权限',url:'1-2',img:'&#xe619;',list:[
-			{title:'我的权限',url:'/userinfo/MyPerm'},
-            {title:'账号管理',url:'/userinfo/account'},
-            {title:'角色管理',url:'/userinfo/roleManagement'},
-            {title:'账号审核',url:'/userinfo/AccounAudit'},
-			{title:'流程管理',url:'/userinfo/Process'},
-                ]},
-			{title:'意见反馈',url:"1-3",img:'&#xe618;',list:[
-			{title:'意见反馈',url:'/userinfo/feedback'}
-				]}
-        ]
-	},
-    {title:'收益中心',default:'/income/user_info',defaultopen:['1'],
-        children:[
-            {title:'收益数据',url:'1',img:'&#xe612;',children:[
-                    {title:'收益总览', url:'1-1',list:[
-                            {title:'收益总览',url:'/income/earnings'}
-                        ]},
-            ]},
-            {title:'设计师成本管理',url:'2',list:[
-                    {title:'设计师成本管理',url:'/income/cost_management'}
-                ]},
-            {title:'结算管理',url:'3',img:'&#xe60d;',list:[
-                   {title:'设计师结算管理',url:'/income/settlement'}
-                ]},
-        ]
-        },
-];
-
-
-
-localStorage.setItem('letNav',JSON.stringify(leftNav));
+let leftNav = localStorage.getItem('letNav');
+// 	[
+// 	{title:'素材中心',default:'/admin',defaultopen:['1'],
+// 	children:[
+// 		{title:'素材库',url:'1', img:'&#xe615;',list:[
+// 			{title:'广告图',url:'/admin/advertising'},
+// 				{title:'广告模板',url:'/admin/AD_templates'}],
+// 			children:[
+// 			{title:'场景锁屏',url:'1-3',list:[
+//                  {title:'动效',url:'/admin/dynamic'},
+//                  {title:'壁纸',url:'/admin/wallpaper'},
+//                     ]},
+// 			]},
+//
+// 		{title:'物料库',url:'3',img:'&#xe617;',list:[
+// 			{title:'广告图',url:'/admin/MaterialResource'},
+// 			{title:'广告模版',url:'/admin/WLtemplate'},
+// 			{title:'场景锁屏',url:'/admin/lockScreen'},
+// 		]},
+// 		{title:'配制管理',url:'4',img:'&#xe60e;',list:[
+// 			{title:'设计规范库',url:'/admin/standard'},
+// 			{title:'标签管理',url:'/admin/settags'},
+// 			// {title:'外部帐号管理',url:'/admin/external'},
+// 		]},
+// 		{title:'投放库',url:'5',img:'&#xe60e;',list:[
+// 				{title:'投放库',url:'/admin/library'},
+//                 {title:'杂志锁屏推送管理',url:'/admin/journal_of_push'},
+//                 // {title:'杂志锁屏推送管理',url:'/admin/wb_Journal'}
+//
+// 			]}
+// 	]},
+// 	{title:'工作台',default:'/workbench',defaultopen:['1'],
+//         children:[
+//             {title:'任务中心',url:'1',img:'&#xe610;',list:[
+//                     {title:'待处理',url:'/workbench/workbenchPadding'},
+//                     {title:'全部',url:'/workbench/ALL'},
+// 					],},
+//             {title:'运营工具',url:'2',img:'&#xe610;',list:[
+//                     {title:'锁屏壁纸MD5库',url:'/workbench/MD5'},
+//                     {title:'聚合内容配置',url:'/workbench/allocation'},
+//                     {title:'资源待替换',url:'/workbench/replace'},
+//                 ],},
+//
+//         ]
+// 	},
+// 	{title:'数据',default:'/data',defaultopen:['1'],
+// 	// children:[
+// 	// 	{title:'广告分析数据',url:'1',children:[
+// 	// 		{title:'素材数据',url:'1-1',children:[
+// 	// 			{title:'广告图数据',url:'1-1-1',list:[
+// 	// 				{title:'广告图数据',url:'/data/ad_material_p'},
+// 	// 				{title:'广告图详细数据',url:'/data/ad_material_ps'},
+// 	// 			]},
+// 	// 			{title:'广告模板数据',url:'1-1-2',list:[
+// 	// 				{title:'广告模板数据',url:'/data/ad_material_m'},
+// 	// 				{title:'广告模板详细数据',url:'/data/ad_material_ms'},
+// 	// 			]},
+// 	// 			{title:'锁屏壁纸数据',url:'1-1-3',list:[
+// 	// 				{title:'锁屏壁纸数据',url:'/data/ad_material_w'},
+// 	// 				{title:'锁屏壁纸详细数据',url:'/data/ad_material_ws'},
+// 	// 			]},
+// 	// 		]},
+// 	// 		{title:'广告位相关数据',url:'1-2',list:[
+// 	// 			{title:'渠道数据',url:'/data/ad_position_channel'},
+// 	// 			{title:'产品数据',url:'/data/ad_position_product'},
+// 	// 			{title:'广告位类型数据',url:'/data/ad_position_adType'},
+// 	// 			{title:'广告位数据',url:'/data/ad_position_adData'},
+// 	// 		]},
+// 	// 		{title:'广告相关数据',url:'1-3',list:[
+// 	// 			{title:'广告主数据',url:'/data/ad_position_user'},
+// 	// 			{title:'广告主详细数据',url:'/data/ad_position_users'},
+// 	// 			{title:'广告数据',url:'/data/ad_position_ad'},
+// 	// 			{title:'广告详细数据',url:'/data/ad_position_ads'},
+// 	// 		]},
+//     //
+// 	// 	]},
+// 	// 	{title:'产品分析数据',url:'2',children:[
+// 	// 		{title:'锁屏壁纸数据',url:'2-1',children:[
+// 	// 			{title:'壁纸行为分析',url:'2-1-1',list:[
+// 	// 				{title:'壁纸渠道数据',url:'/data/wallxw_channel'},
+// 	// 				{title:'壁纸使用时长分布',url:'/data/wallxw_time'},
+// 	// 				{title:'壁纸行为数据',url:'/data/wallxw_data'},
+// 	// 				{title:'壁纸渠道详细数据',url:'/data/wallxw_xx'},
+// 	// 				{title:'壁纸广告分析数据',url:'/data/wallxw_ad'},
+// 	// 			]},
+// 	// 		]},
+// 	// 	]},
+// 	// 	{title:'收益报表',url:'3',list:[
+// 	// 		{title:'收益日报',url:'/data/profit_d'},
+// 	// 		{title:'收益周报',url:'/data/profit_w'},
+// 	// 		{title:'收益月报',url:'/data/profit_m'},
+// 	// 		{title:'渠道收益',url:'/data/profit_channel'},
+// 	// 		{title:'产品收益',url:'/data/profit_product'},
+// 	// 		{title:'广告位类型收益',url:'/data/profit_position_type'},
+// 	// 		{title:'广告位收益',url:'/data/profit_position'},
+// 	// 		{title:'广告主收益',url:'/data/profit_user'},
+// 	// 		{title:'广告收益',url:'/data/profit_ad'},
+// 	// 		{title:'渠道成本',url:'/data/cost_channel'},
+// 	// 		{title:'设计师成本',url:'/data/cost_designer'},
+// 	// 		{title:'设计师成本详细数据',url:'/data/cost_designers'},
+// 	// 		{title:'收益详表',url:'/data/profits'},
+// 	// 	]}
+// 	// ]
+// },
+//     {title:'个人中心',default:'/userinfo/user_info',defaultopen:['1'],
+//         children:[
+//             {title:'个人中心',url:'1',img:'&#xe60b;',list:[
+//             {title:'基本信息', url:'/userinfo/user_info'},
+//             {title:'修改密码', url:'/userinfo/passWord'},
+//             {title:'消息通知', url:'/userinfo/'},
+//                 ]},
+// 			{title:'账号权限',url:'1-2',img:'&#xe619;',list:[
+// 			{title:'我的权限',url:'/userinfo/MyPerm'},
+//             {title:'账号管理',url:'/userinfo/account'},
+//             {title:'角色管理',url:'/userinfo/roleManagement'},
+//             {title:'账号审核',url:'/userinfo/AccounAudit'},
+// 			{title:'流程管理',url:'/userinfo/Process'},
+//                 ]},
+// 			{title:'意见反馈',url:"1-3",img:'&#xe618;',list:[
+// 			{title:'意见反馈',url:'/userinfo/feedback'}
+// 				]}
+//         ]
+// 	},
+//     {title:'收益中心',default:'/income/user_info',defaultopen:['1'],
+//         children:[
+//             {title:'收益数据',url:'1',img:'&#xe612;',children:[
+//                     {title:'收益总览', url:'1-1',list:[
+//                             {title:'收益总览',url:'/income/earnings'}
+//                         ]},
+//             ]},
+//             {title:'设计师成本管理',url:'2',list:[
+//                     {title:'设计师成本管理',url:'/income/cost_management'}
+//                 ]},
+//             {title:'结算管理',url:'3',img:'&#xe60d;',list:[
+//                    {title:'设计师结算管理',url:'/income/settlement'}
+//                 ]},
+//         ]
+//         },
+// ];
+//
+//
+//
+// localStorage.setItem('letNav',JSON.stringify(leftNav));
 
 router.beforeEach((to, from, next) => {
 	/*登录过期*/
