@@ -47,7 +47,7 @@
                 </div>
             </div>
         </div>
-        <div class="null_content">
+        <div class="null_content"  v-if="this.dataList.length==0">
         <img src="../../../public/img/null.png">
         <span class="prompt_message">无相关资源，若有疑问，请联系管理人员</span>
         </div>
