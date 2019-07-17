@@ -46,18 +46,27 @@
                     </div>
                     <div>
                         <span class="right_txt_name">文件</span>
-                        <span class="right_txt_content" v-if="(item.attach.size/1024).toFixed(0)>=1||(item.attach.size/1024/1024).toFixed(0)<1">{{(item.attach.size/1024).toFixed(0)}}kb</span>
+                        <span class="right_txt_content" v-if="(item.attach.size/1024).toFixed(0)>=1&&(item.attach.size/1024/1024).toFixed(0)<1">{{(item.attach.size/1024).toFixed(0)}}kb</span>
                         <span class="right_txt_content" v-if="(item.attach.size/1024/1024).toFixed(1)>=1&&(item.attach.size/1024/1024/1024).toFixed(1)<1">{{(item.attach.size/1024/1024).toFixed(1)}}MB</span>
                         <span class="right_txt_content" v-if="(item.attach.size/1024/1024/1024).toFixed(2)>=1">{{(item.attach.size/1024/1024/1024).toFixed(2)}}GB</span>
                         <a :href="item.attach.url">下载</a>
                     </div>
                 </div>
-
             </div>
         </div>
         <div class="null_content" v-if="this.dataList.length==0">
             <img src="../../../public/img/null.png">
             <span class="prompt_message">无相关资源，若有疑问，请联系管理人员</span>
+        </div>
+        <div class="block">
+            <el-pagination
+                    @size-change="handleSizeChange1"
+                    @current-change="handleCurrentChange1"
+                    :current-page.sync="currentPage"
+                    :page-size="pageSize"
+                    layout="prev, pager, next,total, jumper"
+                    :total="total">
+            </el-pagination>
         </div>
         <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :date="date"></ADDWL>
     </div>
@@ -75,6 +84,8 @@
                 plid:'2',
                 dataList:[],
                 total:0,
+                pageSize:8,
+                currentPage: 1,
             }
         },
         mounted(){
@@ -90,6 +101,14 @@
                     }
                 })
             },
+           handleSizeChange1() { // 每页条数切换
+               this.pageSize = pageSize;
+               this.getData()
+           },
+           handleCurrentChange1(currentPage) {//页码切换
+               this.currentPage = currentPage;
+               this.getData()
+           },
            getWl(){
                 this.ADDwl = true;
            },
@@ -97,7 +116,7 @@
                this.ADDwl = false;
            },
            getData(){
-                let params = {plid:this.plid,p:10,page:1,date:this.date};
+                let params = {plid:this.plid,p:this.pageSize,page:this.currentPage,date:this.date};
                 this.api.pushlib_binds({params}).then((res)=>{
                     this.dataList = res.data;
                     this.total=res.total
@@ -207,7 +226,7 @@
         height:189px;
         background:rgba(255,255,255,1);
         border-radius:4px;
-        margin:0px 24px 24px 0;
+        margin:0px 20px 24px 0;
     }
     /*.box_img:nth-child(4n){*/
         /*margin-right: 0!important;*/
