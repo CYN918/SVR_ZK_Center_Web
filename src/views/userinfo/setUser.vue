@@ -7,7 +7,7 @@
             <div class="detail_1_1_3">
                 <span class="txt txt_right">所属角色</span>
                 <select v-model="roles" v-if="type==1">
-                    <option value="wb">外部角色</option>
+                    <option :value="item.role_id" v-for="item in selectData">{{item.role_name}}</option>
                 </select>
                 <select v-model="roles" v-if="type==0">
                     <option :value="item.role_id" v-for="(item,index) in selectData">{{item.role_name}}</option>
@@ -96,7 +96,12 @@
             this.phone = this.userMessage.phone;
             this.type=this.userMessage.type;
             this.user_id = this.userMessage.user_id;
-            this.getuserDATA();
+            if(this.userMessage.type==0){
+                this.getuserDATA();
+            }else{
+                this.getWbUserData()
+            }
+
         },
         methods:{
             getuserDATA(){
@@ -104,6 +109,11 @@
                     console.log(res);
                     this.selectData = res;
                     console.log(this.selectData)
+                })
+            },
+            getWbUserData(){
+                this.api.role_external_roles().then((res)=>{
+                    this.selectData=res
                 })
             },
             tj(){
