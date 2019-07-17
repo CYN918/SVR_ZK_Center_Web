@@ -98,8 +98,11 @@
         },
         methods:{
             del_remove(){
-                this.remove = true;
-                this. stop();
+                if(this.checked.length==0){
+                    return
+                }
+                    this.remove = true;
+                    this. stop();
             },
             qx(){
                 this.remove = false;
