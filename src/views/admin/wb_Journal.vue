@@ -13,7 +13,7 @@
                             type="date"
                             format="yyyy 年 MM 月 dd 日"
                             placeholder="选择日期"
-                            value-format="yyyy-MM-dd ">
+                            value-format="yyyy-MM-dd">
                     </el-date-picker>
                 </div>
                 <div class="num">
@@ -61,7 +61,7 @@
         name: "journal_of_push",
         data(){
             return{
-                date:'',
+                date:(new Date()).toLocaleDateString().split('/').join('-'),
                 ADDwl:false,
                 plid:'2',
                 dataList:[],
@@ -73,7 +73,7 @@
         },
         methods:{
             getData(){
-                let params = {plid:this.plid,date:this.date,p:10,page:1};
+                let params = {plid:this.plid,p:10,page:1,date:this.date};
                 this.api.pushlib_external_mfinal({params}).then((res)=>{
                     this.dataList = res.data;
                     this.total=res.total

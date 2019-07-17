@@ -7,7 +7,7 @@
             <div class="detail_1_1_3">
                 <span class="txt txt_right">所属角色</span>
                 <select v-model="roles">
-                    <option value="wb">外部角色</option>
+                    <option :value="item.role_id" v-for="item in selectData">{{item.role_name}}</option>
                 </select>
                 <span class="btn_1_3">查看权限</span>
             </div>
@@ -70,12 +70,15 @@
         },
         methods:{
             getuserDATA(){
-                let params = {search:'',p:100,page:1};
-                this.api.role_roles({params}).then((res)=>{
-                    console.log(res);
-                    this.total = res.total;
-                    this.selectData = res.data;
-                    console.log(this.selectData)
+                // let params = {search:'',p:100,page:1};
+                // this.api.role_roles({params}).then((res)=>{
+                //     console.log(res);
+                //     this.total = res.total;
+                //     this.selectData = res.data;
+                //     console.log(this.selectData)
+                // })
+                this.api.role_external_roles().then((res)=>{
+                    this.selectData=res
                 })
             },
 

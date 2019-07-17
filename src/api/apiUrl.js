@@ -732,5 +732,9 @@ export default {
     pushlib_del_mfinal:{
 		url:'pushlib/del/mfinal',method:'post',isType:{suktip:1}
 	},
+	//获取所有的外部角色列表
+    role_external_roles:{
+		url:"role/external/roles",method:"get"
+	},
 
 }
