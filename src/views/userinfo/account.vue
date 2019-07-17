@@ -320,7 +320,7 @@ input{
     margin-left: 24px;
 }
 .name{
-    width:104px;
+    min-width:104px;
     height:36px;
     background:rgba(255,255,255,1);
     border:1px solid rgba(211,219,235,1);

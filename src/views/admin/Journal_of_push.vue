@@ -19,10 +19,11 @@
                 <div class="num">
                     <span>数量:</span>
                     <span>{{this.total}}</span>
+                    <span class="dated" v-if="new Date(this.date)<=new Date(new Date().getTime() - 24*60*60*1000)">(已过期)</span>
                 </div>
                 <div class="action_btn">
-                    <span class="manage" @click="jumps()">管理</span>
-                    <span class="select" @click="getWl">
+                    <span class="manage" @click="jumps()" v-if="!(new Date(this.date)<new Date(new Date().getTime() - 24*60*60*1000))">管理</span>
+                    <span class="select" @click="getWl" v-if="!(new Date(this.date)<new Date(new Date().getTime() - 24*60*60*1000))">
                         <img src="../../../public/img/add.png" style="width: 16px;display: inline-block;position: relative;top:50%;transform: translateY(-90%);margin-right: 10px">
                         从物料库选择
                     </span>
@@ -270,5 +271,10 @@
         font-weight:400;
         color:rgba(143,155,179,1);
         text-align: center;
+    }
+    .dated{
+        display: inline-block;
+        margin-left: 10px;
+        color: red!important;
     }
 </style>

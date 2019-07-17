@@ -157,7 +157,7 @@
             },
             details(){
                 this.show=true;
-                let params = {role_id:this.userMessage.role_id};
+                let params = {role_id:this.roles};
                 this.api.perm_userperm({params}).then((res)=>{
                     this.tableData = res;
                     console.log(res)

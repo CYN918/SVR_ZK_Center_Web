@@ -120,6 +120,7 @@
                 formData.append('bind_mfid',JSON.stringify(this.checked));
                 this.api.pushlib_del_mfinal(formData).then((res)=>{
                     this.qx();
+                    this.checked.length=0;
                     this. getData();
                 })
             },
