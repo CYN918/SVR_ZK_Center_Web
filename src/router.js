@@ -221,6 +221,7 @@ let wb = [
 ];	
 router.addRoutes(wb);
 let nb = [
+    {path:'*',redirect: '/index',},
 	{path:'/',name:'首页',component:Index},
 	{path:'/erro',name:'cuwi',component:erro},
 	{path:'/index',name:'首页',component:Index},
@@ -484,12 +485,18 @@ let leftNav = localStorage.getItem('letNav');
 
 router.beforeEach((to, from, next) => {
 	/*登录过期*/
+	// console.log(window.location.href.split('#').slice(1));
+	// const Nav = localStorage.getItem('letNav')
+	// if(Nav){
+	// 	for(var i=0;i<localStorage.getItem('letNav').length;i++){
+    //
+	// 	}
+	// }
 	if(+localStorage.getItem('logintime')+(24*60*60*1000)<=Date.parse(new Date())){
 		localStorage.setItem("token","");
 		tonek=false;
 	}	
 	if(tonek) {// 判断是否登录
-
 		if(localStorage.getItem('status')==0){
 			if(to.fullPath!='/erro'){
 				next({ path: '/erro'});				

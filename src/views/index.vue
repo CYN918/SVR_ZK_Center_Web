@@ -128,8 +128,9 @@ li{list-style-type: none;}
 	box-sizing: border-box;
 	padding-top: 63px;
 	width: 100%;
-	min-height: 100%;
+	height: 100%;
 	background: #fff;
+	overflow: hidden;
 }	
 .HomeBox_n{
     padding:51px 79px 0;	

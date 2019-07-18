@@ -23,7 +23,7 @@
 			<router-link class="right2" to="/userinfo"><li ><img src="../../public/img/user.png" class="imgs_user"/>{{name}}</li></router-link>
 			<router-link class="right2" to="/login"><li  @click="loginout()"><span>退出登录</span></li></router-link>
 		</ul>
-		<el-menu v-if="config.showL!=-1"  class="el-menu-demo appTopNav" mode="horizontal" @select="handleSelect">
+		<el-menu v-if="config.showL!=-1&&this.type==0"  class="el-menu-demo appTopNav" mode="horizontal" @select="handleSelect">
 			<el-submenu index="2">
 				<template slot="title">{{topNacd}}</template>
 				<el-menu-item index="0">工作台</el-menu-item>
