@@ -6,7 +6,7 @@
             </div>
             <div class="detail_1_1_3">
                 <span class="txt txt_right">所属角色</span>
-                <select v-model="roles">
+                <select v-model="role">
                     <option :value="item.role_id" v-for="item in selectData">{{item.role_name}}</option>
                 </select>
                 <span class="btn_1_3">查看权限</span>
@@ -56,7 +56,7 @@
                 role_id:'',
                 name:'',
                 email:'',
-                roles:'',
+                role:'',
                 rolesList:[],
                 company:'',
                 password:'',
@@ -115,7 +115,7 @@
                     return
                 }
 
-                this.api.account_external_add({name:this.name,email:this.email,password:this.password,password_confirmation:this.password_confirmation,roles_id:this.roles,company:this.company,phone:this.phone,contact_email:this.email}).then((res)=>{
+                this.api.account_external_add({name:this.name,email:this.email,password:this.password,password_confirmation:this.password_confirmation,role_id:this.role,company:this.company,phone:this.phone,contact_email:this.email}).then((res)=>{
                 })
             },
         },
