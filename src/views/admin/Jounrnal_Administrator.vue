@@ -99,7 +99,7 @@
         methods:{
             del_remove(){
                 if(this.checked.length==0){
-                    return
+                    return this.$message.error('请至少选择一个物料')
                 }
                     this.remove = true;
                     this. stop();

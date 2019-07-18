@@ -497,15 +497,11 @@ router.beforeEach((to, from, next) => {
 			next();	
 			return
 		}
-		if(localStorage.getItem('userType')==1){
-			if(to.fullPath.substring(0,7)!='/indexs'){
-				next({ path: '/indexs/list'});
+		if(localStorage.getItem('role')==1){
+			if(to.fullPath.substring(0,7)!='/admin/'){
+				next({ path: '/admin/wb_Journal'});
 				return;
 			}
-            // this.api.perm_leftnav().then((res)=>{
-            //     console.log(res);
-            //     localStorage.setItem('letNav',res);
-            // })
 			next();
 			return;
 		}
@@ -580,7 +576,7 @@ router.beforeEach((to, from, next) => {
 			localStorage.setItem('status',msg.data.data.user.status);
             localStorage.setItem('role',msg.data.data.role[0].type);
 			if(msg.data.data.user.type==1){
-				next({ path: '/indexs/list'});
+				next({ path: '/admin/wb_Journal'});
 				return;
 			}
 			if(msg.data.data.user.status==0){
