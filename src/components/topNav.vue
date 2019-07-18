@@ -1,7 +1,7 @@
 <template>
 	<div class="topNav">
 		<div @click="goindex" class="log" v-if="this.role_type==0"><img  src="../../public/img/logo.png"/></div>
-		<div @click="goindex" class="log" v-if="this.role_type==1"><img  src="../../public/img/logo2.png"/></div>
+		<div @click="goindex" class="log1" v-if="this.role_type==1"><img  src="../../public/img/logo2.png"/></div>
 		<!--<el-dropdown trigger="click" class="user-ci">-->
 			<!--<span class="el-dropdown-link iconfont">&#xe686;</span>-->
 			<!--<el-dropdown-menu slot="dropdown">-->
@@ -146,7 +146,7 @@ export default {
 	background:rgba(255,255,255,1);
 	box-shadow:0px 6px 12px 0px rgba(230,233,240,0.3);
 }
-.log{
+.log,.log1{
 	cursor: pointer;
 	float: left;
 	width:256px;
@@ -162,8 +162,10 @@ export default {
 	opacity:0.85;
 	text-align: center;
 }
-
-.log>img{
+.log1{
+	background:#fff!important;
+}
+.log>img,.log1>img{
 	vertical-align:top;
 	display: inline-block;
 	max-width: 256px;

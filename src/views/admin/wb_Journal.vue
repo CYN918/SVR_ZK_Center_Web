@@ -1,9 +1,9 @@
 <template>
     <div>
         <div class="top_name">
-            <span class="top_txt">投放库 / 杂志锁屏推送管理</span>
+            <span class="top_txt">杂志锁屏物料</span>
             <div class="tit_name">
-                <span>杂志锁屏推送管理</span>
+                <span>查看杂志锁屏</span>
             </div>
             <div class="search_criteria">
                 <div class="date">
