@@ -23,7 +23,7 @@ export default {
 		leftNav
 	},
 	mounted: function () {
-
+        console.log('44444')
 		if(JSON.parse(localStorage.getItem('letNav'))[0].children.length<=0&&JSON.parse(localStorage.getItem('letNav'))[0].list.length<=0){
             this.$message({
                 type: 'error',
@@ -31,6 +31,7 @@ export default {
             });
 		}else{
             this.letNav = JSON.parse(localStorage.getItem('letNav'))[0];
+
 		}
         // let Nav = JSON.parse(localStorage.getItem('leftNav'));
         // for(let i = 0;i<Nav.length;i++){

@@ -64,7 +64,7 @@ export default {
 		checkNav(){
 			this.apptyped = this.apptyped==''?'oncheac':'';
 		},
-		
+
     }, 
 }  			
 </script>

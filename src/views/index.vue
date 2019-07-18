@@ -2,7 +2,7 @@
 	<div>
 		<topNav :config="topConfig"></topNav>
 		<div class="HomeBox">
-			<img src="../../public/img/index.png" style="overflow: hidden"/>
+			<img src="../../public/img/index.png" style="overflow: hidden" v-if="type==0"/>
 			<!--<div class="HomeBox_n">-->
 				<!--<div class="HomeBox_nl">			-->
 					<!--<div class="HomeBox_nlxf">				-->
@@ -73,10 +73,11 @@ import topNav from '../components/topNav';
 export default {
 	data() {
 		return {
+		    type:localStorage.getItem('role'),
 			loind:[],
 			czlog:{
 				often:[],
-				last:[]
+				last:[],
 			},
 			topConfig:{showL:1},
 			dt:{}

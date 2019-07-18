@@ -488,7 +488,8 @@ router.beforeEach((to, from, next) => {
 		localStorage.setItem("token","");
 		tonek=false;
 	}	
-	if(tonek ) {// 判断是否登录	
+	if(tonek) {// 判断是否登录
+
 		if(localStorage.getItem('status')==0){
 			if(to.fullPath!='/erro'){
 				next({ path: '/erro'});				
@@ -498,9 +499,11 @@ router.beforeEach((to, from, next) => {
 			return
 		}
 		if(localStorage.getItem('role')==1){
-			if(to.fullPath.substring(0,7)!='/admin/'){
-				next({ path: '/admin/wb_Journal'});
-				return;
+			if(localStorage.getItem('letNav')){
+                if(to.fullPath.substring(0,7)!='/admin/'){
+                    next({ path: '/admin/wb_Journal'});
+                    return;
+                }
 			}
 			next();
 			return;

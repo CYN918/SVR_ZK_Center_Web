@@ -8,7 +8,7 @@
       data(){
           return{}
       },
-      mounted(){
+      created(){
           // this.getLefNav()
       },
       methods:{

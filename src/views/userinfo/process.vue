@@ -25,7 +25,7 @@
                         <div class="step_name">
                             <div class="step_img" v-for="(da,index2) in item.user">
                                 <span class="step_txt" @mouseenter="delXS1(index,index2)" @mouseleave="leave()">{{da.user_name}}
-                                    <img src="../../../public/img/del.png" style="width: 16px;position: relative;top: -5px;right: 0" v-if="num1==index2&&nums1==index" @click="del(da.user_id,item.id)"/>
+                                    <img src="../../../public/img/del.png" style="width: 16px;opacity:0" :class="{getImg:(num1==index2&&nums1==index)}" @click="del(da.user_id,item.id)"/>
                                 </span>
                             </div>
                             <div class="add" @click="getBan(index)">
@@ -77,7 +77,7 @@
                         <div class="step_name">
                             <div class="step_img" v-for="(da,index2) in item.user">
                                 <span class="step_txt" @mouseenter="delXS2(index,index2)" @mouseleave="leave()">{{da.user_name}}
-                                    <img src="../../../public/img/del.png" style="width: 16px;position: relative;top: -5px;right: 0" v-if="num2==index2&&nums2==index" @click="del(da.user_id,item.id)"/>
+                                    <img src="../../../public/img/del.png" style="width: 16px;opacity:0" :class="{getImg:(num2==index2&&nums2==index)}"  @click="del(da.user_id,item.id)"/>
                                 </span>
                             </div>
                             <div class="add" @click="getBan1(index)">
@@ -123,7 +123,7 @@
                         <div class="step_name">
                             <div class="step_img" v-for="(da,index2) in item.user">
                                 <span class="step_txt"  @mouseenter="delXS(index,index2)" @mouseleave="leave()">{{da.user_name}}
-                                    <img src="../../../public/img/del.png" style="width: 16px;position: relative;top: -5px;right: 0" v-if="num==index2&&nums==index" @click="del(da.user_id,item.id)"/>
+                                    <img src="../../../public/img/del.png" style="width: 16px;opacity:0" :class="{getImg:(num==index2&&nums==index)}" @click="del(da.user_id,item.id)"/>
                                 </span>
                             </div>
                             <div class="add" @click="getBan2(index)">
@@ -132,7 +132,7 @@
                             </div>
                         </div>
                     </div>
-                    <div v-if="item.status!=4" style="width: 120px;height: 2px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
+                    <div v-if="item.status!=5" style="width: 120px;height: 2px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
                 </div>
                 <div class="banner bannerTop" v-if="ban2" :style="{left:this.left+'px'}">
                     <span class="tit">负责人</span>
@@ -521,7 +521,7 @@
     .step_img{
         display: inline-block;
         text-align: center;
-        margin-right:10px;
+        /*margin-right:10px;*/
     }
     .step_img span{
         display: inline-block;
@@ -551,6 +551,9 @@
         cursor: pointer;
         height: 20px;
         vertical-align: top;
+    }
+    .getImg{
+       opacity: 1!important;
     }
     .banner{
         margin-top: 10px;
