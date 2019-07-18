@@ -94,6 +94,7 @@ export default {
 			    console.log(msg);
 				if(msg.data.code==0){
 					localStorage.setItem('token','');
+                    localStorage.removeItem('letNav');
 					let cent = 'center';
 					if(window.location.host=='ts-centerweb.idatachain.cn'){
 						cent = 'center_dev';
