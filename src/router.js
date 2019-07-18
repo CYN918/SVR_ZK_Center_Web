@@ -506,8 +506,6 @@ router.beforeEach((to, from, next) => {
 			return;
 		}
 		if(to.fullPath=='/'){
-			// let params ={'url':'/index'} ;
-			// api.create_menu(params);
 			next({ path: '/index'});
 			return
 		}	

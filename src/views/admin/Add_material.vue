@@ -44,7 +44,9 @@
                                 </el-checkbox-group>
                             </template>
                         </div>
-                        <img :src="DL.prev_uri"/>
+                        <div class="showing">
+                            <img :src="DL.prev_uri"/>
+                        </div>
                         <div class="boxImg_right">
                             <div class="boxImg_right_1">
                                 <div>
@@ -300,6 +302,17 @@
         margin-left: 0;
         margin-top: 29px;
     }
+    .showing{
+        display: inline-block;
+        width:99px;
+        height:149px;
+        margin-right: 24px;
+        background: #e1e0e4;
+    }
+    .showing img{
+        max-width:99px!important;
+        max-height:149px!important;
+    }
     .label{
         margin-left: 0!important;
     }
@@ -358,9 +371,7 @@
         margin: 0 0 20px 0!important;
     }
     .boxImg img{
-        width:99px;
-        height:149px;
-        margin-right: 24px;
+      position: absolute;
     }
     .boxImg_right_1{
         margin-top: 23px;
