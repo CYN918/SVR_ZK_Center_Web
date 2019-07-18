@@ -1,6 +1,7 @@
 <template>
 	<div class="topNav">
-		<div @click="goindex" class="log"><img  src="../../public/img/logo.png"/></div>
+		<div @click="goindex" class="log" v-if="this.role_type==0"><img  src="../../public/img/logo.png"/></div>
+		<div @click="goindex" class="log" v-if="this.role_type==1"><img  src="../../public/img/logo2.png"/></div>
 		<!--<el-dropdown trigger="click" class="user-ci">-->
 			<!--<span class="el-dropdown-link iconfont">&#xe686;</span>-->
 			<!--<el-dropdown-menu slot="dropdown">-->
@@ -43,6 +44,7 @@ export default {
     data(){
 		return{
 		    type:'',
+			role_type:localStorage.getItem('role'),
 		    name:'',
 			input:'',
 			topNacd:'首页',

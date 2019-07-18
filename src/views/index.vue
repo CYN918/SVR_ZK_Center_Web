@@ -3,6 +3,7 @@
 		<topNav :config="topConfig"></topNav>
 		<div class="HomeBox">
 			<img src="../../public/img/index.png" style="overflow: hidden" v-if="type==0"/>
+			<img src="../../public/img/home2.png" style="overflow: hidden" v-if="type==1"/>
 			<!--<div class="HomeBox_n">-->
 				<!--<div class="HomeBox_nl">			-->
 					<!--<div class="HomeBox_nlxf">				-->

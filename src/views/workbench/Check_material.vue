@@ -2,12 +2,12 @@
     <div class="bg">
         <div class="centNavBox">
             <div class="title">
-                <span>查看资源</span>
+                <span>查看素材</span>
                 <div class="zy_type">
                     <span  class="active">添加素材</span>
                 </div>
                 <div class="num">
-                    <span>待制作数量：{{this.total}}</span>
+                    <span>已添加：{{this.total}}</span>
                 </div>
             </div>
             <div class="table_material" v-for="(item,index) in listSC">

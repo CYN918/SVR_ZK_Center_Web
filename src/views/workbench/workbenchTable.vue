@@ -17,7 +17,7 @@
         <ATR v-if="ADD_material" :id="id" :num="num" :ind="index" :typeList="this.typeList"></ATR>
         <ADDsc v-if="addSC" :index="index" :id="id"></ADDsc>
         <scREQ v-if="scR"  :id="id" :num="num"></scREQ>
-        <Cm v-if="Cm" :id="id" :num="num"></Cm>
+        <Cm v-if="Cm" :id="id" ></Cm>
         <div class="problem">
             <template>
                 <el-table
@@ -623,14 +623,15 @@
                         if(reject==1){
                             this.getRejDET(id,status)
                         }else{
-                            return
+                            this.getWLp(id);
+
                         }
                     }
                     if(status ==5){
                         if(reject==1){
                             this.getRejDET(id,status)
                         }else{
-                            return
+                            this.getWLp(id)
                         }
                     }
                     if(status ==6){
