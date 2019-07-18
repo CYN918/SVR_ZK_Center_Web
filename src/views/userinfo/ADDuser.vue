@@ -114,8 +114,8 @@
                     this.$message.error('电话不能为空')
                     return
                 }
-
                 this.api.account_external_add({name:this.name,email:this.email,password:this.password,password_confirmation:this.password_confirmation,role_id:this.role,company:this.company,phone:this.phone,contact_email:this.email}).then((res)=>{
+                    this.$parent.qx()
                 })
             },
         },
