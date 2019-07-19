@@ -367,4 +367,8 @@ export default {
 	replace_del:{
 		url:'/replace/del',method:'post',isType:{suktip:1}
 	},
+	//获取资源替换数据
+	replace_sdk_overview:{
+		url:'replace/sdk/overview',method:'get'
+	},
 }

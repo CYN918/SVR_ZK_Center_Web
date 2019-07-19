@@ -53,6 +53,8 @@ import replace from './views/admin/replace'
 mode['replace'] = replace
 import has_replaced from './views/admin/Has_replaced'
 mode['has_replaced'] = has_replaced
+import resource from './views/admin/resource'
+mode['resource'] =resource;
 
 //审核台
 import userIndex from './views/user/index.vue'
@@ -178,6 +180,7 @@ let nb = [
 			{path:'/admin/material_wallpaper',name:'锁屏壁纸成品管理',component: mode['material_wallpaper']},
             {path:'/admin/MD5',name:'锁屏壁纸MD5库',component: mode['MD5']},
             {path:'/admin/allocation',name:'聚合内容配置',component: mode['allocation']},
+            {path:'/admin/resource',name:'资源待替换首页',component: mode['resource']},
             {path:'/admin/replace',name:'资源待替换',component: mode['replace']},
             {path:'/admin/has_replaced',name:'资源已替换',component: mode['has_replaced']},
 			{path:'/admin/material_flows',name:'素材中间件管理',component: mode['material_flows']},				
@@ -269,7 +272,7 @@ let leftNav =
         {title:'运营工具',url:'5',list:[
                 {title:'锁屏壁纸MD5库',url:'/admin/MD5'},
                 {title:'聚合内容配置',url:'/admin/allocation'},
-                {title:'资源待替换',url:'/admin/replace'},
+                {title:'资源待替换',url:'/admin/resource'},
             ]},
 	]},
 	{title:'审核台',default:'/user',defaultopen:['1'],
