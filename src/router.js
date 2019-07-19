@@ -488,8 +488,14 @@ router.beforeEach((to, from, next) => {
 	// console.log(window.location.href.split('#').slice(1));
 	// const Nav = localStorage.getItem('letNav')
 	// if(Nav){
-	// 	for(var i=0;i<localStorage.getItem('letNav').length;i++){
+	// 	for(var i=0;i<Nav.length;i++){
+	// 		if(Nav[i].children.length!=0){
+	// 			for(var j=0;j<Nav[i].children.length;j++){
+	// 				if(Nav[i].children[i]==window.location.href.split('#').slice(1)){
     //
+	// 				}
+	// 			}
+	// 		}
 	// 	}
 	// }
 	if(+localStorage.getItem('logintime')+(24*60*60*1000)<=Date.parse(new Date())){
