@@ -2,8 +2,9 @@
     <div>
         <div class="titl">
             <div style="margin:24px 0 20px 24px">
-                <span style="color: #1890ff;cursor: pointer " @click="goHome()">资源替换投放库管理</span>
-                <span style="color: #b3b3b3">&nbsp;/&nbsp;基础详情页</span>
+                <span style="color: #b3b3b3;cursor: pointer " @click="goIndex()">渠道列表</span>
+                <span style="color: #b3b3b3;cursor: pointer" @click="goHome()">&nbsp;/&nbsp;渠道详情</span>
+                <span style="color: #1890ff;">&nbsp;/&nbsp;广告详情</span>
             </div>
             <div>
                 <span class="titl_name">基础详情页</span>
@@ -209,17 +210,11 @@
                     this.th=false;
                     this.new_url='';
             },
+            goIndex(){
+                    this.$router.go(-2)
+            },
             goHome(){
-                this.$router.push({
-                    query:{
-                        start_date:this.start_date,
-                        end_date:this.end_date,
-                        type:this.type,
-                        text:this.text,
-                    },
-                    path:'./replace'
-                })
-
+                this.$router.go(-1)
             },
 
             add(){
@@ -274,18 +269,18 @@
 
             },
             getDataList(){
-                this.type= this.$route.query.type;
-                this.text=this.$route.query.text;
-                this.start_date = this.$route.query.start_date;
-                this.end_date = this.$route.query.end_date;
-                if(!this.type||!this.text){
-                    this.search=''
-                }else{
-                    var s = '{"'+this.type + '":"'+this.text + '"}';
-                    this.search=s;
-                }
-                let params ={start_date:this.$route.query.start_date,end_date:this.$route.query.end_date,p:this.$route.query.p,page:this.$route.query.page,search:this.search};
-                this.api.replace_pending_list({params}).then((res)=>{
+                // this.type= this.$route.query.type;
+                // this.text=this.$route.query.text;
+                // this.start_date = this.$route.query.start_date;
+                // this.end_date = this.$route.query.end_date;
+                // if(!this.type||!this.text){
+                //     this.search=''
+                // }else{
+                //     var s = '{"'+this.type + '":"'+this.text + '"}';
+                //     this.search=s;
+                // }
+                let params ={mid:this.$route.query.id,tdate:this.$route.query.tdate,times:this.$route.query.times};
+                this.api.replace_res_detail({params}).then((res)=>{
                     for(var i=0;i<res.length;i++){
                         if(res[i].mid==this.$route.query.id){
                             this.tableData=res[i];

@@ -8,8 +8,8 @@
             <div class="tit_top_con">
                 <span class="tit_name">渠道详情</span>
                 <span class="time">{{this.$route.query.time}}</span>
-                <span class="num">{{JSON.parse(this.$route.query.num).join(';')}}</span>
-                <span class="sdk">SKD_ID:{{this.$route.query.id}}</span>
+                <span class="num">{{this.rank.join(';')}}</span>
+                <span class="sdk">SKD_ID:{{this.$route.query.sdkid}}</span>
                 <span class="educe" >导出</span>
             </div>
         </div>
@@ -38,13 +38,9 @@
                         <el-table-column
                                 label="原始图片">
                             <template slot-scope="scope">
-                                <img :src="tableData[scope.$index].original_res[0].url" style="width:80px;"/>
+                                <img :src="tableData[scope.$index].original_res[0].url" style="max-width:80px;max-height: 80px"/>
                             </template>
                         </el-table-column>
-                        <!--<el-table-column-->
-                        <!--prop="mid"-->
-                        <!--label="落地页ID">-->
-                        <!--</el-table-column>-->
                         <el-table-column
                                 label="落地页">
                             <template slot-scope="scope">
@@ -57,7 +53,7 @@
                                 label="数据访问量">
                         </el-table-column>
                         <el-table-column
-                                prop="pv"
+                                prop="ratio"
                                 sortable
                                 label="访问量占比">
                         </el-table-column>
@@ -72,7 +68,7 @@
                                 label="替换资源数量">
                         </el-table-column>
                         <el-table-column
-                                prop="new_res.length"
+                                prop="sucess_ratio"
                                 sortable
                                 label="替换占比">
                         </el-table-column>
@@ -82,7 +78,7 @@
                                 label="状态">
                         </el-table-column>
                         <el-table-column
-                                prop="status"
+                                prop="level"
                                 sortable
                                 label="资源新鲜度">
                         </el-table-column>
@@ -108,7 +104,6 @@
             </div>
         </div>
     </div>
-
 </template>
 
 <script>
@@ -124,29 +119,22 @@
                 total:0,
                 page:1,
                 p:10,
-                type:'',
-                text:'',
                 search:'',
-
-
+                rank:[],
             }
         },
         mounted(){
-            if(this.$route.query.text!=undefined){
-                this.type=this.$route.query.type;
-                this.text=this.$route.query.text;
-                this.times=[this.$route.query.start_date,this.$route.query.end_date];
-            }
             this.getList();
+            this.getTimes()
         },
         methods:{
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
-                this. getList()
+                this.getList()
             },
             handleCurrentChange(page) {//页码切换
                 this.page = page;
-                this. getList()
+                this.getList()
             },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
@@ -158,34 +146,54 @@
             cell({row, column, rowIndex, columnIndex}){
                 return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
+            getTimes(){
+                this.rank=[];
+                let params = {tdate:this.$route.query.time};
+                this.api.replace_times({params}).then((res)=>{
+                    var dataList = res;
+                    for(var j=0;j<dataList.length;j++){
+                        for(var i=0;i<JSON.parse(this.$route.query.num).length;i++){
+                            if(dataList[j].hour==JSON.parse(this.$route.query.num)[i]){
+                                this.rank.push(dataList[j].desc);
+                                console.log(this.rank)
+                            }
+                        }
+                    }
+                   console.log(this.rank)
+                })
+            },
            fh(){
                 this.$router.go(-1)
            },
 
             getList(){
-                this.dcl.length=0;
-                this.cl.length=0;
-                if(!this.type||!this.text){
-                    this.search=''
-                }else{
-                    var s = '{"'+this.type + '":"'+this.text + '"}';
-                    this.search=s;
-                }
-                let params ={tdate:this.$route.query.time,times:this.$route.query.num,p:this.p,page:this.page,search:this.$route.query.id};
+                console.log('a')
+                this.dcl=[];
+                this.cl=[];
+                var s = '{"'+'sdk_id' + '":"'+this.$route.query.sdkid + '"}';
+                this.search=s;
+                let params ={tdate:this.$route.query.time,times:this.$route.query.num,p:this.p,page:this.page,search:this.search};
                 this.api.replace_pending_list({params}).then((res)=>{
                     this.tableData = res;
+                    for(var i=0;i<this.tableData.length;i++){
+                        if(this.tableData[i].new_res.length>0){
+                            this.tableData[i].status='已处理';
+                            this.cl.push(i)
+                        }else{
+                            this.tableData[i].status='待处理';
+                            this.dcl.push(i);
+                        }
+                    }
+                    this.total=res.total
                 })
             },
             getAdd(data){
                 this.$router.push({
                     query:{
                         id:data,
-                        p:this.p,
-                        page:this.page,
-                        start_date:(this.times[0]),
-                        end_date:(this.times[1]),
-                        type:this.type,
-                        text:this.text,
+                        tdate:this.$route.query.time,
+                        times:this.$route.query.num,
+                        sdkid:this.$route.query.sdkid
                     },
                     path:'./Has_replaced'
                 })

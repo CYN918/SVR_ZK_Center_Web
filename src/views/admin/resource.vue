@@ -22,9 +22,9 @@
                             placeholder="请选择文章标签">
                         <el-option
                                 v-for="item in options5"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value">
+                                :key="item.hour"
+                                :label="item.desc"
+                                :value="item.hour">
                         </el-option>
                     </el-select>
                 </template>
@@ -109,32 +109,19 @@
         data(){
             return{
                 tableData:[],
-                tdate:"",
+                tdate:(new Date()).toLocaleDateString().split('/').join('-'),
                 total:0,
                 search:'',
                 page:1,
                 p:10,
                 text:'',
                 number:[],
-                options5:[
-                    {label:"第1次",value:1},
-                    {label:"第2次",value:2},
-                    {label:"第3次",value:3},
-                    {label:"第4次",value:4},
-                    {label:"第5次",value:5},
-                    {label:"第6次",value:6},
-                    {label:"第7次",value:7},
-                    {label:"第8次",value:8},
-                    {label:"第9次",value:9},
-                    {label:"第10次",value:10},
-                    {label:"第11次",value:11},
-                    {label:"第12次",value:12},
-                    ]
-
+                options5:[]
             }
         },
         mounted(){
             this.getList();
+            this.getTimes();
         },
         methods:{
             handleSizeChange(p) { // 每页条数切换
@@ -171,12 +158,21 @@
                 let params ={tdate:this.tdate,times:JSON.stringify(this.number),p:this.p,page:this.page,search:this.search};
                 this.api.replace_sdk_overview({params}).then((res)=>{
                     this.tableData = res;
+                    this.total=res.total;
+                })
+            },
+            getTimes(){
+                this.number=[];
+                let params = {tdate:this.tdate};
+                this.api.replace_times({params}).then((res)=>{
+                   this.options5=res;
+                   this.number.push(this.options5[this.options5.length-1].hour)
                 })
             },
             getAdd(data){
                 this.$router.push({
                     query:{
-                        id:data,
+                        sdkid:data,
                         time:this.tdate,
                         num:JSON.stringify(this.number),
 
