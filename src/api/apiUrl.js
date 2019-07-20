@@ -737,4 +737,20 @@ export default {
 		url:"role/external/roles",method:"get"
 	},
 
+	//获取资源替换数据
+	replace_sdk_overview:{
+		url:'replace/sdk/overview',method:'get'
+	},
+	//根据落地页MD5获取详情
+    replace_res_detail:{
+		url:"replace/res/detail",method:'get'
+	},
+	//获取当天的处理批次
+    replace_times:{
+		url:"replace/times",method:"get"
+	},
+	//根据日期获取PV的趋势数据
+    replace_sdk_graph:{
+		url:"replace/sdk/graph",method:'get'
+	},
 }

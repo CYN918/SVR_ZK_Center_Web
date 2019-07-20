@@ -1,114 +1,107 @@
 <template>
-    <div class="content_right">
-        <div class="titel_table">
-            <span class="circle"></span>
-            <span>共</span>
-            <span class="all">{{this.tableData.length}}</span>
-            <span>项&nbsp&nbsp</span>
-            <span>已处理</span>
-            <span >{{cl.length}}</span>
-            <span>项&nbsp&nbsp</span>
-            <span>剩余</span>
-            <span class="red">{{dcl.length}}</span>
-            <span>项&nbsp&nbsp</span>
-        </div>
-        <div>
-            <div class="block" style="display: inline-block">
-                <el-date-picker
-                        v-model="times"
-                        type="daterange"
-                        range-separator="至"
-                        start-placeholder="开始日期"
-                        end-placeholder="结束日期"
-                        format="yyyy年MM月dd日"
-                        value-format="yyyy-MM-dd">
-                </el-date-picker>
+    <div>
+        <div class="tit_top">
+            <div class="tit_top_url">
+                <span class="log_url" @click="fh">渠道列表 &nbsp;/&nbsp;</span>
+                <span class="new_url">渠道详情</span>
             </div>
-            <select v-model="type">
-                <option value = ''>全部</option>
-                <option value="preview_md5">落地页</option>
-                <option value="pkg">包名</option>
-                <option value="sdk_id">SDK ID</option>
-            </select>
-            <input type="text" placeholder="请输入sdkID或包名或落地页ID查询" v-model="text"/>
-            <span class="cx" @click="getList()">
-                查询
-            </span>
-
-            <!--<span class="cx" style="float: right">批量合并({{this.num.length}})</span>-->
+            <div class="tit_top_con">
+                <span class="tit_name">渠道详情</span>
+                <span class="time">{{this.$route.query.time}}</span>
+                <span class="num">{{this.rank.join(';')}}</span>
+                <span class="sdk">SKD_ID:{{this.$route.query.sdkid}}</span>
+                <span class="educe" >导出</span>
+            </div>
         </div>
-        <div>
-            <template>
-                <el-table
-                        :data="tableData"
-                        style="width: 100%"
-                        :header-cell-style="getRowClass"
-                        :cell-style="cell"
-                        @selection-change="handleSelectionChange"
-                        border>
-                    <el-table-column
-                            type="selection"
-                            width="55">
-                    </el-table-column>
-                    <el-table-column
-                            prop="sdk_id"
-                            label="sdk_id">
-                    </el-table-column>
-                    <el-table-column
-                            label="原始图片">
-                        <template slot-scope="scope">
-                            <img :src="tableData[scope.$index].original_res[0].url" style="width:80px;"/>
-                        </template>
-                    </el-table-column>
-                    <el-table-column
-                            prop="mid"
-                            label="落地页ID">
-                    </el-table-column>
-                    <el-table-column
-                            label="落地页">
-                        <template slot-scope="scope">
-                            <a :href="tableData[scope.$index].preview_url" target="_blank" style="text-decoration: none;color: #66b1ff">点击查看</a>
-                        </template>
-                    </el-table-column>
-                    <el-table-column
-                            prop="pv"
-                            sortable
-                            label="访问数量">
-                    </el-table-column>
-                    <el-table-column
-                            prop="tdate"
-                            sortable
-                            label="内容获取时间">
-                    </el-table-column>
-                    <el-table-column
-                            prop="new_res.length"
-                            sortable
-                            label="替换资源数量">
-                    </el-table-column>
-                    <el-table-column
-                            prop="status"
-                            sortable
-                            label="状态">
-                    </el-table-column>
-                    <el-table-column
-                            label="操作">
-                        <template slot-scope="scope">
-                            <el-button @click="getAdd(tableData[scope.$index].mid)" type="text" size="small">查看详情</el-button>
-                        </template>
-                    </el-table-column>
-                </el-table>
-            </template>
-        </div>
-        <div class="blocks">
-            <el-pagination
-                    @size-change="handleSizeChange"
-                    @current-change="handleCurrentChange"
-                    :current-page="page"
-                    :page-sizes="[10, 20, 30, 40]"
-                    :page-size="p"
-                    layout="total, sizes, prev, pager, next, jumper"
-                    :total="total">
-            </el-pagination>
+        <div class="content_right">
+            <div class="titel_table">
+                <span class="circle"></span>
+                <span>共</span>
+                <span class="all">{{this.tableData.length}}</span>
+                <span>项&nbsp&nbsp</span>
+                <span>已处理</span>
+                <span >{{cl.length}}</span>
+                <span>项&nbsp&nbsp</span>
+                <span>剩余</span>
+                <span class="red">{{dcl.length}}</span>
+                <span>项&nbsp&nbsp</span>
+            </div>
+            <div>
+                <template>
+                    <el-table
+                            :data="tableData"
+                            style="width: 100%"
+                            :header-cell-style="getRowClass"
+                            :cell-style="cell"
+                            @selection-change="handleSelectionChange"
+                            border>
+                        <el-table-column
+                                label="原始图片">
+                            <template slot-scope="scope">
+                                <img :src="tableData[scope.$index].original_res[0].url" style="max-width:80px;max-height: 80px"/>
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                                label="落地页">
+                            <template slot-scope="scope">
+                                <a :href="tableData[scope.$index].preview_url" target="_blank" style="text-decoration: none;color: #66b1ff">点击查看</a>
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                                prop="pv"
+                                sortable
+                                label="数据访问量">
+                        </el-table-column>
+                        <el-table-column
+                                prop="ratio"
+                                sortable
+                                label="访问量占比">
+                        </el-table-column>
+                        <el-table-column
+                                prop="tdate"
+                                sortable
+                                label="内容获取时间">
+                        </el-table-column>
+                        <el-table-column
+                                prop="new_res.length"
+                                sortable
+                                label="替换资源数量">
+                        </el-table-column>
+                        <el-table-column
+                                prop="sucess_ratio"
+                                sortable
+                                label="替换占比">
+                        </el-table-column>
+                        <el-table-column
+                                prop="status"
+                                sortable
+                                label="状态">
+                        </el-table-column>
+                        <el-table-column
+                                prop="level"
+                                sortable
+                                label="资源新鲜度">
+                        </el-table-column>
+                        <el-table-column
+                                label="操作">
+                            <template slot-scope="scope">
+                                <el-button @click="getAdd(tableData[scope.$index].mid)" type="text" size="small">查看详情</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </template>
+            </div>
+            <div class="blocks">
+                <el-pagination
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page="page"
+                        :page-sizes="[10, 20, 30, 40]"
+                        :page-size="p"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="total">
+                </el-pagination>
+            </div>
         </div>
     </div>
 </template>
@@ -126,29 +119,22 @@
                 total:0,
                 page:1,
                 p:10,
-                type:'',
-                text:'',
                 search:'',
-
-
+                rank:[],
             }
         },
         mounted(){
-            if(this.$route.query.text!=undefined){
-                this.type=this.$route.query.type;
-                this.text=this.$route.query.text;
-                this.times=[this.$route.query.start_date,this.$route.query.end_date];
-            }
             this.getList();
+            this.getTimes()
         },
         methods:{
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
-                this. getList()
+                this.getList()
             },
             handleCurrentChange(page) {//页码切换
                 this.page = page;
-                this. getList()
+                this.getList()
             },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
@@ -160,44 +146,55 @@
             cell({row, column, rowIndex, columnIndex}){
                 return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
-            handleExceed(files, fileList) {
-                this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件`);
-            },
-
-            getList(){
-                this.dcl.length=0;
-                this.cl.length=0;
-                if(!this.type||!this.text){
-                    this.search=''
-                }else{
-                    var s = '{"'+this.type + '":"'+this.text + '"}';
-                    this.search=s;
-                }
-                let params ={start_date:(this.times[0]),end_date:(this.times[1]),p:this.p,page:this.page,search:this.search};
-                this.api.replace_pending_list({params}).then((res)=>{
-                    this.tableData = res;
-                    this.total = res.total;
-                    for(var i =0;i<this.tableData.length;i++){
-                        if(this.tableData[i].status==1){
-                            this.tableData[i].status='已处理';
-                            this.cl.push(this.tableData[i]);
-                        }else{
-                            this.tableData[i].status='待处理';
-                            this.dcl.push(this.tableData[i]);
+            getTimes(){
+                this.rank=[];
+                let params = {tdate:this.$route.query.time};
+                this.api.replace_times({params}).then((res)=>{
+                    var dataList = res;
+                    for(var j=0;j<dataList.length;j++){
+                        for(var i=0;i<JSON.parse(this.$route.query.num).length;i++){
+                            if(dataList[j].hour==JSON.parse(this.$route.query.num)[i]){
+                                this.rank.push(dataList[j].desc);
+                                console.log(this.rank)
+                            }
                         }
                     }
+                   console.log(this.rank)
+                })
+            },
+           fh(){
+                this.$router.go(-1)
+           },
+
+            getList(){
+                console.log('a')
+                this.dcl=[];
+                this.cl=[];
+                var s = '{"'+'sdk_id' + '":"'+this.$route.query.sdkid + '"}';
+                this.search=s;
+                let params ={tdate:this.$route.query.time,times:this.$route.query.num,p:this.p,page:this.page,search:this.search};
+                this.api.replace_pending_list({params}).then((res)=>{
+                    this.tableData = res;
+
+                    for(var i=0;i<this.tableData.length;i++){
+                        if(this.tableData[i].new_res.length>0){
+                            this.tableData[i].status='已处理';
+                            this.cl.push(i)
+                        }else{
+                            this.tableData[i].status='待处理';
+                            this.dcl.push(i);
+                        }
+                    }
+                    this.total=res.total
                 })
             },
             getAdd(data){
                 this.$router.push({
                     query:{
                         id:data,
-                        p:this.p,
-                        page:this.page,
-                        start_date:(this.times[0]),
-                        end_date:(this.times[1]),
-                        type:this.type,
-                        text:this.text,
+                        tdate:this.$route.query.time,
+                        times:this.$route.query.num,
+                        sdkid:this.$route.query.sdkid
                     },
                     path:'./Has_replaced'
                 })
@@ -370,4 +367,59 @@
         margin-top: 30px;
         float: right;
     }
+    .tit_top{
+        width: 103%;
+        height: 120px;
+        left: -24px;
+        position: relative;
+        top:-50px;
+        background: #fff;
+    }
+    .tit_top_url,.tit_top_con{
+        padding:20px 0 0 24px;
+    }
+    .log_url,.new_url{
+        display: inline-block;
+        font-family: "Microsoft YaHei";
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 400;
+    }
+    .log_url{color: #acadb0
+    }
+    .new_url{color: #4f4cf1}
+    .tit_name{
+        display: inline-block;
+        font-family: "Microsoft YaHei";
+        font-weight: bold;
+        font-size: 18px;
+    }
+    .time,.num,.sdk{
+        display: inline-block;
+        height: 26px;
+        padding: 5px 10px;
+        font-size: 14px;
+        font-family: "Microsoft YaHei";
+        font-weight: 400;
+        color: #000;
+        margin-left: 20px;
+        line-height: 26px;
+        text-align: center;
+        background: #e7e7e7;
+    }
+    .educe{
+        float: right;
+        color: #3d3d3d;
+        border: 1px solid #ddd;
+        background: transparent;
+        display: inline-block;
+        height: 36px;
+        line-height: 36px;
+        width: 90px;
+        cursor: pointer;
+        border-radius: 5px;
+        text-align: center;
+        margin:0px 24px 0px 0px ;
+    }
+
 </style>

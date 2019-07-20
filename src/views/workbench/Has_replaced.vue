@@ -2,8 +2,9 @@
     <div>
         <div class="titl">
             <div style="margin:24px 0 20px 24px">
-                <span style="color: #1890ff;cursor: pointer " @click="goHome()">资源替换投放库管理</span>
-                <span style="color: #b3b3b3">&nbsp;/&nbsp;基础详情页</span>
+                <span style="color: #b3b3b3;cursor: pointer " @click="goIndex()">渠道列表</span>
+                <span style="color: #b3b3b3;cursor: pointer" @click="goHome()">&nbsp;/&nbsp;渠道详情</span>
+                <span style="color: #1890ff;">&nbsp;/&nbsp;广告详情</span>
             </div>
             <div>
                 <span class="titl_name">基础详情页</span>
@@ -62,6 +63,7 @@
                             style="width: 100%"
                             :header-cell-style="getRowClass"
                             :cell-style="cell"
+                            :on-exceed="handleExceed"
                             border>
                         <el-table-column
                                 label="预览图"
@@ -101,19 +103,22 @@
                     </div>
                     <div>
                         <el-upload
-                                class="upload-demo"
-                                action="aaaa"
-                                multiple
-                                :limit="10"
-                                :http-request="upload"
-                                :on-exceed="handleExceed"
+                        class="upload-demo"
+                        action="aaaa"
+                        multiple
+                        :limit="10"
+                        :on-remove="handleRemove"
+                        :http-request="upload"
                         >
                             <el-button size="small" type="primary">点击上传</el-button>
                         </el-upload>
                     </div>
                     <div class="text_tit">
                         <span>新资源URL</span>
-                        <input type="text" v-model="new_url" disabled/>
+                        <div style="display: inline-block;width: 235px">
+                            <input type="text" v-model="item.new_url" disabled v-for="item in new_res"/>
+                        </div>
+
                     </div>
 
                     <div class="btn">
@@ -173,6 +178,7 @@
                 text:'',
                 type:'',
                 search:'',
+                new_res:[],
 
             }
         },
@@ -192,7 +198,10 @@
                 return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
             handleExceed(files, fileList) {
-                this.$message.warning(`当前限制选择 10 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+                this.$message.warning(`当前限制选择10 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+            },
+            handleRemove(file, fileList) {
+                console.log(file, fileList);
             },
             getTH(){
                 this.th=true
@@ -201,17 +210,11 @@
                 this.th=false;
                 this.new_url='';
             },
+            goIndex(){
+                    this.$router.go(-2)
+            },
             goHome(){
-                this.$router.push({
-                    query:{
-                        start_date:this.start_date,
-                        end_date:this.end_date,
-                        type:this.type,
-                        text:this.text,
-                    },
-                    path:'./replace'
-                })
-
+                this.$router.go(-1)
             },
 
             add(){
@@ -219,11 +222,9 @@
                     this.$message.error('请上传文件或等待文件上传成功！')
                 }
                 let formData = new FormData;
-                formData.append('width',this.width);
-                formData.append('height',this.height);
-                formData.append('new_url',this.new_url);
-                formData.append('new_url_md5',this.new_url_md5);
-                formData.append('original_res', JSON.stringify(this.tableData.original_res));
+
+                formData.append('new_res',JSON.stringify(this.new_res));
+                formData.append('original_res',  JSON.stringify(this.tableData.original_res));
                 formData.append('adids',this.$route.query.id);
                 formData.append('sdk_id',this.tableData.sdk_id);
                 formData.append('src',this.tableData.src);
@@ -234,7 +235,7 @@
                 formData.append('preview_md5',this.tableData.preview_md5);
                 this.api.replace_add(formData).then((res)=>{
                     this.th=false;
-                    this.new_url = '';
+                    this.new_res = [];
                     this.getDataList()
                 })
             },
@@ -246,33 +247,40 @@
                 this.remove =false;
             },
             upload(file){
-                let formData =new FormData;
-                formData.append('file',file.file);
-                this.api.file_upload(formData).then((res)=>{
-                    this.new_url= res.url;
-                    this.new_url_md5=res.md5;
-                    var image = new Image();
-                    var _this=this;
-                    image.onload=function(){
-                        _this.width = image.width;
-                        _this.height = image.height;
-                    };
-                    image.src= res.url;
-                })
+                    let formData =new FormData;
+                    formData.append('file',file.file);
+                   this.api.file_upload(formData).then((res)=>{
+                       var obj = {};
+                       this.new_url= res.url;
+                       this.new_url_md5=res.md5;
+                       var image = new Image();
+                       var _this=this;
+                       image.onload=function(){
+                           _this.width = image.width;
+                           _this.height = image.height;
+                           obj.width =_this.width;
+                           obj.height = _this.height
+                       };
+                       image.src= res.url;
+                       obj.new_url=this.new_url;
+                       obj.new_url_md5=this.new_url_md5;
+                       this.new_res.push(obj);
+                       console.log(this.new_res)
+                   })
             },
             getDataList(){
-                this.type= this.$route.query.type;
-                this.text=this.$route.query.text;
-                this.start_date = this.$route.query.start_date;
-                this.end_date = this.$route.query.end_date;
-                if(!this.type||!this.text){
-                    this.search=''
-                }else{
-                    var s = '{"'+this.type + '":"'+this.text + '"}';
-                    this.search=s;
-                }
-                let params ={start_date:this.$route.query.start_date,end_date:this.$route.query.end_date,p:this.$route.query.p,page:this.$route.query.page,search:this.search};
-                this.api.replace_pending_list({params}).then((res)=>{
+                // this.type= this.$route.query.type;
+                // this.text=this.$route.query.text;
+                // this.start_date = this.$route.query.start_date;
+                // this.end_date = this.$route.query.end_date;
+                // if(!this.type||!this.text){
+                //     this.search=''
+                // }else{
+                //     var s = '{"'+this.type + '":"'+this.text + '"}';
+                //     this.search=s;
+                // }
+                let params ={mid:this.$route.query.id,tdate:this.$route.query.tdate,times:this.$route.query.times};
+                this.api.replace_res_detail({params}).then((res)=>{
                     for(var i=0;i<res.length;i++){
                         if(res[i].mid==this.$route.query.id){
                             this.tableData=res[i];
@@ -490,7 +498,7 @@
     }
     .load{
         border-radius: 10px;
-        width: 450px;
+        width: 500px;
         min-height: 270px;
         position: relative;
         background: #fff;

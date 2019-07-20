@@ -108,6 +108,8 @@ import replace from './views/workbench/replace'
 mode['replace'] = replace
 import has_replaced from './views/workbench/Has_replaced'
 mode['has_replaced'] = has_replaced
+import resource from './views/admin/resource'
+mode['resource'] =resource;
 
 import axios from 'axios'
 import api from './api/index'
@@ -227,6 +229,7 @@ let nb = [
 	{path:'/index',name:'首页',component:Index},
 	{path:'/admin',name:'素材中心',component:mode['admin'],
 		children:[			
+
 			{path:'/admin/advertising',name:'广告图',component: mode['needList']},
 			{path:'/admin/AD_templates',name:'广告图模板',component: mode['AD_templates']},
 			{path:'/admin/wallpaper',name:'壁纸',component: mode['wallpaper']},
@@ -258,6 +261,7 @@ let nb = [
 			// {path:'/admin/roles',name:'角色管理',component: mode['roles']},
 			// {path:'/admin/inside',name:'内部帐号管理',component: mode['inside']},
 			// {path:'/admin/external',name:'外部帐号管理',component:mode['external']},
+
 		]
 	},
 	{path:'/data',name:'数据中心',component:mode['data'],children:[	

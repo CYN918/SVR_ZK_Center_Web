@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import axios from 'axios'
 import api from './api/index'
+
 import echarts from 'echarts'
 import VueClipboard from 'vue-clipboard2'
 import JSZip from "jszip"
@@ -11,7 +12,6 @@ import JSZip from "jszip"
 Vue.use(JSZip);
 // Vue.use(fileSaver)
  Vue.use(VueClipboard)
-Vue.prototype.$echarts = echarts 
 Vue.prototype.$ajax = axios
 Vue.prototype.api = api;
 import ElementUI from 'element-ui'
