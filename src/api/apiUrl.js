@@ -379,4 +379,8 @@ export default {
     replace_times:{
 		url:"replace/times",method:"get"
 	},
+	//根据日期获取PV的趋势数据
+    replace_sdk_graph:{
+		url:"replace/sdk/graph",method:'get'
+	},
 }

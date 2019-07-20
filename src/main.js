@@ -3,9 +3,9 @@ import App from './App.vue'
 import router from './router'
 import axios from 'axios'
 import api from './api/index'
-import echarts from 'echarts'
-
-Vue.prototype.$echarts = echarts 
+// import echarts from 'echarts'
+//
+// Vue.prototype.$echarts = echarts
 Vue.prototype.$ajax = axios
 Vue.prototype.api = api
 import ElementUI from 'element-ui'

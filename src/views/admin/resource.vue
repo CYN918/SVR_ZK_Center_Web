@@ -60,11 +60,12 @@
                             sortable
                             label="访问占比">
                     </el-table-column>
-                    <!--<el-table-column-->
-                            <!--prop="pv"-->
-                            <!--sortable-->
-                            <!--label="访问量趋势">-->
-                    <!--</el-table-column>-->
+                    <el-table-column
+                            label="访问量趋势">
+                        <template slot-scope="scope">
+                            <img src="../../../public/img/datas.png" style="max-height: 40px;max-width: 80px" @click="getTendency(tableData[scope.$index].sdk_id)">
+                        </template>
+                    </el-table-column>
                     <el-table-column
                             prop="created_at"
                             sortable
@@ -100,10 +101,14 @@
                     :total="total">
             </el-pagination>
         </div>
+        <div class="bg" v-if="tendency" @click="heidTendency">
+            <div id="myChart" @click.stop ref="myChart"></div>
+        </div>
     </div>
 </template>
 
 <script>
+    import echarts from 'echarts'
     export default {
         name: "replace",
         data(){
@@ -116,13 +121,15 @@
                 p:10,
                 text:'',
                 number:[],
-                options5:[]
+                options5:[],
+                tendency:false,
             }
         },
         mounted(){
             this.getList();
             this.getTimes();
         },
+
         methods:{
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
@@ -180,12 +187,67 @@
                     path:'./replace'
                 })
             },
-
+            getPv(sdk_id){
+                var s = '{"'+'sdk_id' + '":"'+sdk_id + '"}';
+                this.search=s;
+                let params = {tdate:this.tdate,search:this.search};
+                this.api.replace_sdk_graph({params}).then((res)=>{
+                   let dataList = res;
+                   let pv =[];
+                   let hour =[];
+                   for(var i=0;i<dataList.length;i++){
+                       pv.push(dataList[i].pv);
+                       hour.push(dataList[i].hour);
+                   }
+                    this.drawLine(pv,hour);
+                })
+            },
+            getTendency(sdk_id){
+                this.tendency=true;
+                this.getPv(sdk_id);
+            },
+            heidTendency(){
+                this.tendency=false;
+            },
+            drawLine(pv,hour){
+                let myChart = echarts.init(document.getElementById('myChart'));
+                var option = {
+                    xAxis: {
+                        type: 'category',
+                        data:hour
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: [{
+                        data: pv,
+                        type: 'line'
+                    }]
+                };
+                myChart.setOption(option);
+            }
         },
     }
 </script>
 
 <style scoped>
+    .bg{
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.2);
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        z-index: 999;
+    }
+    #myChart{
+        max-width:600px ;
+        max-height:400px ;
+        position: relative;
+        left: 50%;
+        top:50%;transform: translate(-50%,-50%);
+        background: #fff;
+    }
     input,select{
         margin-left: 20px;
         width: 200px;
