@@ -1,140 +1,148 @@
 <template>
-    <div>
-        <div class="tit_top">
-            <div class="tit_top_url">
-                <span class="log_url" @click="fh">渠道列表 &nbsp;/&nbsp;</span>
-                <span class="new_url">渠道详情</span>
+    <div class="content_right">
+        <div>
+            <div class="block" style="display: inline-block">
+                <el-date-picker
+                        v-model="tdate"
+                        type="date"
+                        placeholder="选择日期"
+                        format="yyyy年MM月dd日"
+                        value-format="yyyy-MM-dd">
+                </el-date-picker>
             </div>
-            <div class="tit_top_con">
-                <span class="tit_name">渠道详情</span>
-                <span class="time">{{this.$route.query.time}}</span>
-                <span class="num">{{this.rank.join(';')}}</span>
-                <span class="sdk">SKD_ID:{{this.$route.query.sdkid}}</span>
-                <span class="educe" >导出</span>
-            </div>
-        </div>
-        <div class="content_right">
-            <div class="titel_table">
-                <span class="circle"></span>
-                <span>共</span>
-                <span class="all">{{this.tableData.length}}</span>
-                <span>项&nbsp&nbsp</span>
-                <span>已处理</span>
-                <span >{{cl.length}}</span>
-                <span>项&nbsp&nbsp</span>
-                <span>剩余</span>
-                <span class="red">{{dcl.length}}</span>
-                <span>项&nbsp&nbsp</span>
-            </div>
-            <div>
+            <span class="tit_text">获取次数:</span>
+            <div class="select_check">
                 <template>
-                    <el-table
-                            :data="tableData"
-                            style="width: 100%"
-                            :header-cell-style="getRowClass"
-                            :cell-style="cell"
-                            @selection-change="handleSelectionChange"
-                            border>
-                        <el-table-column
-                                label="原始图片">
-                            <template slot-scope="scope">
-                                <img :src="tableData[scope.$index].original_res[0].url" style="max-width:80px;max-height: 80px"/>
-                            </template>
-                        </el-table-column>
-                        <el-table-column
-                                label="落地页">
-                            <template slot-scope="scope">
-                                <a :href="tableData[scope.$index].preview_url" target="_blank" style="text-decoration: none;color: #66b1ff">点击查看</a>
-                            </template>
-                        </el-table-column>
-                        <el-table-column
-                                prop="pv"
-                                sortable
-                                label="数据访问量">
-                        </el-table-column>
-                        <el-table-column
-                                prop="ratio"
-                                sortable
-                                label="访问量占比">
-                        </el-table-column>
-                        <el-table-column
-                                prop="tdate"
-                                sortable
-                                label="内容获取时间">
-                        </el-table-column>
-                        <el-table-column
-                                prop="new_res.length"
-                                sortable
-                                label="替换资源数量">
-                        </el-table-column>
-                        <el-table-column
-                                prop="sucess_ratio"
-                                sortable
-                                label="替换占比">
-                        </el-table-column>
-                        <el-table-column
-                                prop="status"
-                                sortable
-                                label="状态">
-                        </el-table-column>
-                        <el-table-column
-                                prop="level"
-                                sortable
-                                label="资源新鲜度">
-                        </el-table-column>
-                        <el-table-column
-                                label="操作">
-                            <template slot-scope="scope">
-                                <el-button @click="getAdd(tableData[scope.$index].mid)" type="text" size="small">查看详情</el-button>
-                            </template>
-                        </el-table-column>
-                    </el-table>
+                    <el-select
+                            v-model="number"
+                            multiple
+                            filterable
+                            allow-create
+                            default-first-option
+                            placeholder="请选择文章标签">
+                        <el-option
+                                v-for="item in options5"
+                                :key="item.hour"
+                                :label="item.desc"
+                                :value="item.hour">
+                        </el-option>
+                    </el-select>
                 </template>
             </div>
-            <div class="blocks">
-                <el-pagination
-                        @size-change="handleSizeChange"
-                        @current-change="handleCurrentChange"
-                        :current-page="page"
-                        :page-sizes="[10, 20, 30, 40]"
-                        :page-size="p"
-                        layout="total, sizes, prev, pager, next, jumper"
-                        :total="total">
-                </el-pagination>
-            </div>
+
+            <span class="tit_text">SDK_ID:</span>
+            <input type="text" placeholder="请输入sdkID查询" v-model="text"/>
+            <span class="cx" @click="getList()">
+                查询
+            </span>
+            <span class="reset" @click="resetRemove">重置</span>
+            <span class="educe" >导出</span>
+        </div>
+        <div>
+            <template>
+                <el-table
+                        :data="tableData"
+                        style="width: 100%"
+                        :header-cell-style="getRowClass"
+                        :cell-style="cell"
+                        border>
+                    <el-table-column
+                            prop="sdk_id"
+                            label="SDK_ID">
+                    </el-table-column>
+                    <el-table-column
+                            prop="pv"
+                            sortable
+                            label="数据访问量">
+                    </el-table-column>
+                    <el-table-column
+                            prop="ratio"
+                            sortable
+                            label="访问占比">
+                    </el-table-column>
+                    <el-table-column
+                            label="访问量趋势">
+                        <template slot-scope="scope">
+                            <img src="../../../public/img/datas.png" style="max-height: 40px;max-width: 80px" @click="getTendency(tableData[scope.$index].sdk_id)">
+                        </template>
+                    </el-table-column>
+                    <el-table-column
+                            prop="created_at"
+                            sortable
+                            label="内容获取时间">
+                    </el-table-column>
+                    <el-table-column
+                            prop="had_replace"
+                            sortable
+                            label="替换资源数量">
+                    </el-table-column>
+                    <el-table-column
+                            prop="sucess_ratio"
+                            sortable
+                            label="替换占比">
+                    </el-table-column>
+                    <el-table-column
+                            label="操作">
+                        <template slot-scope="scope">
+                            <el-button @click="getAdd(tableData[scope.$index].sdk_id)" type="text" size="small">查看详情</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </template>
+        </div>
+        <div class="blocks">
+            <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="page"
+                    :page-sizes="[10, 20, 30, 40]"
+                    :page-size="p"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total">
+            </el-pagination>
+        </div>
+        <div class="bg" v-if="tendency" @click="heidTendency">
+            <div id="myChart" @click.stop ref="myChart"></div>
         </div>
     </div>
 </template>
 
 <script>
+    import echarts from 'echarts'
     export default {
         name: "replace",
         data(){
             return{
                 tableData:[],
-                times:[],
-                cl:[],
-                dcl:[],
-                num:[],
+                tdate:(new Date()).toLocaleDateString().split('/').join('-'),
                 total:0,
+                search:'',
                 page:1,
                 p:10,
-                search:'',
-                rank:[],
+                text:'',
+                number:[],
+                options5:[],
+                tendency:false,
             }
         },
         mounted(){
             this.getList();
-            this.getTimes()
+            this.getTimes();
         },
+
         methods:{
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
-                this.getList()
+                this. getList()
             },
             handleCurrentChange(page) {//页码切换
                 this.page = page;
-                this.getList()
+                this. getList()
+            },
+            resetRemove(){
+                this.times='';
+                this.number=[];
+                this.text='';
             },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
@@ -146,68 +154,99 @@
             cell({row, column, rowIndex, columnIndex}){
                 return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
-            getTimes(){
-                this.rank=[];
-                let params = {tdate:this.$route.query.time};
-                this.api.replace_times({params}).then((res)=>{
-                    var dataList = res;
-                    for(var j=0;j<dataList.length;j++){
-                        for(var i=0;i<JSON.parse(this.$route.query.num).length;i++){
-                            if(dataList[j].hour==JSON.parse(this.$route.query.num)[i]){
-                                this.rank.push(dataList[j].desc);
-                                console.log(this.rank)
-                            }
-                        }
-                    }
-                   console.log(this.rank)
-                })
-            },
-           fh(){
-                this.$router.go(-1)
-           },
 
             getList(){
-                console.log('a')
-                this.dcl=[];
-                this.cl=[];
-                var s = '{"'+'sdk_id' + '":"'+this.$route.query.sdkid + '"}';
-                this.search=s;
-                let params ={tdate:this.$route.query.time,times:this.$route.query.num,p:this.p,page:this.page,search:this.search};
-                this.api.replace_pending_list({params}).then((res)=>{
+                if(!this.text){
+                    this.search=''
+                }else{
+                    var s = '{"'+'sdk_id' + '":"'+this.text + '"}';
+                    this.search=s;
+                }
+                let params ={tdate:this.tdate,times:JSON.stringify(this.number),p:this.p,page:this.page,search:this.search};
+                this.api.replace_sdk_overview({params}).then((res)=>{
                     this.tableData = res;
-
-                    for(var i=0;i<this.tableData.length;i++){
-                        if(this.tableData[i].new_res.length>0){
-                            this.tableData[i].status='已处理';
-                            this.cl.push(i)
-                        }else{
-                            this.tableData[i].status='待处理';
-                            this.dcl.push(i);
-                        }
-                    }
-                    this.total=res.total
+                    this.total=res.total;
+                })
+            },
+            getTimes(){
+                this.number=[];
+                let params = {tdate:this.tdate};
+                this.api.replace_times({params}).then((res)=>{
+                    this.options5=res;
+                    this.number.push(this.options5[this.options5.length-1].hour)
                 })
             },
             getAdd(data){
                 this.$router.push({
                     query:{
-                        id:data,
-                        tdate:this.$route.query.time,
-                        times:this.$route.query.num,
-                        sdkid:this.$route.query.sdkid
+                        sdkid:data,
+                        time:this.tdate,
+                        num:JSON.stringify(this.number),
                     },
-                    path:'./Has_replaced'
+                    path:'./resource'
                 })
             },
-            handleSelectionChange(val) {
-                this.num = val;
+            getPv(sdk_id){
+                var s = '{"'+'sdk_id' + '":"'+sdk_id + '"}';
+                this.search=s;
+                let params = {tdate:this.tdate,search:this.search};
+                this.api.replace_sdk_graph({params}).then((res)=>{
+                    let dataList = res;
+                    let pv =[];
+                    let hour =[];
+                    for(var i=0;i<dataList.length;i++){
+                        pv.push(dataList[i].pv);
+                        hour.push(dataList[i].hour);
+                    }
+                    this.drawLine(pv,hour);
+                })
+            },
+            getTendency(sdk_id){
+                this.tendency=true;
+                this.getPv(sdk_id);
+            },
+            heidTendency(){
+                this.tendency=false;
+            },
+            drawLine(pv,hour){
+                let myChart = echarts.init(document.getElementById('myChart'));
+                var option = {
+                    xAxis: {
+                        type: 'category',
+                        data:hour
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: [{
+                        data: pv,
+                        type: 'line'
+                    }]
+                };
+                myChart.setOption(option);
             }
-
         },
     }
 </script>
 
 <style scoped>
+    .bg{
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.2);
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        z-index: 999;
+    }
+    #myChart{
+        max-width:600px ;
+        max-height:400px ;
+        position: relative;
+        left: 50%;
+        top:50%;transform: translate(-50%,-50%);
+        background: #fff;
+    }
     input,select{
         margin-left: 20px;
         width: 200px;
@@ -225,94 +264,7 @@
         box-sizing: border-box;
         background: #fff;
     }
-    .titel_table{
-        width: 100%;
-        height: 36px;
-        border: 1px solid #98d6f1;
-        border-radius: 5px;
-        margin: 15px 0;
-        background: rgba(230, 247, 255, 1)
-    }
-    .titel_table>span{
-        display: inline-block;
-        line-height: 36px;
-        font-size: 14px;
-    }
-    .title_top{
-        margin-top: 60px;
-    }
-    .bg{
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.2);
-        position: fixed;
-        left: 0;
-        bottom: 0;
-        z-index: 999;
-    }
-    .content{
-        background: #fff;
-        width: 890px;
-        height: 500px;
-        padding: 24px;
-        border-radius: 10px;
-        margin-top: 30%;
-        margin-left: 50%;
-        -webkit-transform: translate(-50%,-50%);
-        transform: translate(-50%,-50%);
-    }
-    .del{
-        background: #fff;
-        width: 400px;
-        height: 150px;
-        padding: 24px;
-        border-radius: 10px;
-        margin-top: 20%;
-        margin-left: 50%;
-        -webkit-transform: translate(-50%,-50%);
-        transform: translate(-50%,-50%);
-    }
-    .tit{
-        border-bottom: 1px solid #ddd;
-    }
-    .tit span{
-        display:inline-block;
-        height: 36px;
-        line-height: 36px;
-        font-size: 18px;
-        font-weight: bold;
-    }
-    .move{
-        width: 100%;
-        margin-top: 20px;
-    }
-    .move span{
-        display: inline-block;
-        height: 36px;
-        line-height: 36px;
-        font-size: 16px;
-        font-weight: bold;
-    }
-    .btn{
-        margin-top: 20px;
-        text-align: center;
-    }
-    .btn span{
-        display: inline-block;
-        height: 36px;
-        line-height: 36px;
-        width: 80px;
-        cursor: pointer;
-        border-radius: 5px;
-        border: 1px solid #dfdfdf;
-        text-align: center!important;
-    }
-    .th{
-        color: #f5f6fa!important;
-        background: #4f4cf1!important;
-        border: 0!important;
-        margin-right: 40px!important;
-    }
+
     .box_content div{
         margin-top: 20px;
     }
@@ -329,28 +281,7 @@
         height: 36px;
         padding-left: 10px;
     }
-    .upload-demo{
-        display: inline-block;
-        margin-top: 20px;
-        width: 150px;
-        margin-left: 165px;
-    }
-    .circle{
-        display: inline-block;
-        width: 16px;
-        height: 16px;
-        background: #98d6f1;
-        border-radius: 50%;
-        line-height: 36px;
-        margin:9px 15px 0 15px;
-    }
-    .all{
-        color:#4f4cf1
-    }
-    .red{
-        color:red
-    }
-    .cx{
+    .cx,.educe,.reset{
         display: inline-block;
         height: 36px;
         line-height: 36px;
@@ -367,59 +298,20 @@
         margin-top: 30px;
         float: right;
     }
-    .tit_top{
-        width: 103%;
-        height: 120px;
-        left: -24px;
-        position: relative;
-        top:-50px;
-        background: #fff;
-    }
-    .tit_top_url,.tit_top_con{
-        padding:20px 0 0 24px;
-    }
-    .log_url,.new_url{
+    .tit_text{
         display: inline-block;
-        font-family: "Microsoft YaHei";
-        cursor: pointer;
         font-size: 14px;
         font-weight: 400;
-    }
-    .log_url{color: #acadb0
-    }
-    .new_url{color: #4f4cf1}
-    .tit_name{
-        display: inline-block;
         font-family: "Microsoft YaHei";
-        font-weight: bold;
-        font-size: 18px;
-    }
-    .time,.num,.sdk{
-        display: inline-block;
-        height: 26px;
-        padding: 5px 10px;
-        font-size: 14px;
-        font-family: "Microsoft YaHei";
-        font-weight: 400;
-        color: #000;
         margin-left: 20px;
-        line-height: 26px;
-        text-align: center;
-        background: #e7e7e7;
     }
-    .educe{
-        float: right;
-        color: #3d3d3d;
-        border: 1px solid #ddd;
-        background: transparent;
+    .select_check{
         display: inline-block;
-        height: 36px;
-        line-height: 36px;
-        width: 90px;
-        cursor: pointer;
-        border-radius: 5px;
-        text-align: center;
-        margin:0px 24px 0px 0px ;
+        margin-left: 20px;
     }
-
+    .educe,.reset{
+        color: #3d3d3d!important;
+        border: 1px solid #ddd!important;
+        background: transparent!important;
+    }
 </style>

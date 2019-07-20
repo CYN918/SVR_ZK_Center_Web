@@ -104,12 +104,13 @@ import MD5 from './views/workbench/MD5.vue'
 mode['MD5'] = MD5;
 import allocation from  './views/workbench/allocation'
 mode['allocation'] =allocation
-import replace from './views/workbench/replace'
-mode['replace'] = replace
+import resource from './views/workbench/resource'
+mode['resource'] = resource
 import has_replaced from './views/workbench/Has_replaced'
 mode['has_replaced'] = has_replaced
-import resource from './views/admin/resource'
-mode['resource'] =resource;
+import replace from './views/workbench/replace'
+mode['replace'] =replace;
+
 
 import axios from 'axios'
 import api from './api/index'
@@ -308,6 +309,7 @@ let nb = [
         {path:'/workbench/user_details',name:'提现详情',component:mode['user_details']},
             {path:'/workbench/allocation',name:'聚合内容配置',component: mode['allocation']},
             {path:'/workbench/replace',name:'资源待替换',component: mode['replace']},
+            {path:'/workbench/resource',name:'资源待替换',component: mode['resource']},
             {path:'/workbench/has_replaced',name:'资源已替换',component: mode['has_replaced']},
             {path:'/workbench/MD5',name:'锁屏壁纸MD5库',component: mode['MD5']},
 

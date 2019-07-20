@@ -4,14 +4,14 @@ import router from './router'
 import axios from 'axios'
 import api from './api/index'
 
-import echarts from 'echarts'
-import VueClipboard from 'vue-clipboard2'
-import JSZip from "jszip"
+// import echarts from 'echarts'
+// import VueClipboard from 'vue-clipboard2'
+// import JSZip from "jszip"
 // import fileSaver from 'file-saver'
 
-Vue.use(JSZip);
+// Vue.use(JSZip);
 // Vue.use(fileSaver)
- Vue.use(VueClipboard)
+//  Vue.use(VueClipboard)
 Vue.prototype.$ajax = axios
 Vue.prototype.api = api;
 import ElementUI from 'element-ui'
