@@ -36,7 +36,7 @@
                 查询
             </span>
             <span class="reset" @click="resetRemove">重置</span>
-            <span class="educe" >导出</span>
+            <span class="educe" @click="derive()">导出</span>
         </div>
         <div>
             <template>
@@ -168,6 +168,20 @@
                     this.total=res.total;
                 })
             },
+
+            derive(){
+                if(!this.text){
+                    this.search=''
+                }else{
+                    var s = '{"'+'sdk_id' + '":"'+this.text + '"}';
+                    this.search=s;
+                }
+                let params = {tdate:this.tdate,times:JSON.stringify(this.number),search:this.search}
+                this.api.replace_sdk_overview_export({params}).then((res)=>{
+
+                })
+            },
+
             getTimes(){
                 this.number=[];
                 let params = {tdate:this.tdate};
@@ -211,17 +225,28 @@
             drawLine(pv,hour){
                 let myChart = echarts.init(document.getElementById('myChart'));
                 var option = {
+                    title: {
+                        text: '访问数量/时间'
+                    },
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+
                     xAxis: {
                         type: 'category',
-                        data:hour
+                        boundaryGap: false,
+                        data: hour
                     },
                     yAxis: {
                         type: 'value'
                     },
-                    series: [{
-                        data: pv,
-                        type: 'line'
-                    }]
+                    series: [
+                        {
+                            data:pv,
+                            type: 'line',
+                        }
+
+                    ]
                 };
                 myChart.setOption(option);
             }

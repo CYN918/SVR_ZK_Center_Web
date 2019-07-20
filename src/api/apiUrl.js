@@ -753,4 +753,12 @@ export default {
     replace_sdk_graph:{
 		url:"replace/sdk/graph",method:'get'
 	},
+	//根据日期/次数导出统计概况
+    replace_sdk_overview_export:{
+		url:'replace/sdk/overview/export',method:'get'
+	},
+    //根据日期导出待替换的资源
+    replace_pending_export:{
+        url:'replace/pending/export',method:'get'
+    },
 }
