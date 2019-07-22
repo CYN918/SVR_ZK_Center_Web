@@ -173,7 +173,7 @@
                         return
                     }
                     if(!(ref.test(this.size))){
-                        this.$message.error('尺寸不能非数字');
+                        this.$message.error('尺寸不能非数字或输入格式不正确');
                         return
                     }
                     if(!this.model){
@@ -242,7 +242,7 @@
                         return
                     }
                     if(!(ref.test(this.size))){
-                        this.$message.error('尺寸不能非数字');
+                        this.$message.error('尺寸不能非数字或输入格式不正确');
                         return
                     }
                     if(!this.model){
