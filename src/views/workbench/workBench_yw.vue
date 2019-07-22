@@ -126,6 +126,7 @@
         },
         methods:{
             AddYw(){
+                var ref = /^[1-9]{1}[0-9]{1,3}[*][1-9]{1}[0-9]{1,3}$/;
                 if(this.YWid==''){
                     if(!this.type){
                         this.$message.error('类型不能为空');
@@ -171,7 +172,7 @@
                         this.$message.error('尺寸不能为空');
                         return
                     }
-                    if(!(/^[1-9]{1,4}[*][0-9]{1,4}$/).test(this.size)){
+                    if(!(ref.test(this.size))){
                         this.$message.error('尺寸不能非数字');
                         return
                     }
@@ -240,7 +241,7 @@
                         this.$message.error('尺寸不能为空')
                         return
                     }
-                    if(!(/^[1-9]{1,4}[*][0-9]{1,4}$/).test(this.size)){
+                    if(!(ref.test(this.size))){
                         this.$message.error('尺寸不能非数字');
                         return
                     }
