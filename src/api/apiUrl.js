@@ -761,4 +761,8 @@ export default {
     replace_pending_export:{
         url:'replace/pending/export',method:'get'
     },
+	//编辑流程为会签/或签
+    process_edit_audittype:{
+		url:"process/edit/audittype",method:'post',isType:{suktip:1}
+	},
 }

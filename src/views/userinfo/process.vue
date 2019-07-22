@@ -34,8 +34,8 @@
                             </div>
                         </div>
                         <div class="tag" v-if="item.status_name=='物料审核'">
-                            <span :class="{active:audit_type==0}" @click="tag">或签</span>
-                            <span :class="{active:audit_type==1}" @click="tagTwo">会签</span>
+                            <span :class="{active:audit_type==0}" @click="tag(item.id)">或签</span>
+                            <span :class="{active:audit_type==1}" @click="tagTwo(item.id)">会签</span>
                     </div>
 
                     </div>
@@ -86,8 +86,8 @@
                             </div>
                         </div>
                         <div class="tag" v-if="item.status_name=='发布审核'">
-                            <span :class="{active1:SCaudit_type==0}" @click="SCtag">或签</span>
-                            <span :class="{active1:SCaudit_type==1}" @click="SCtagTwo">会签</span>
+                            <span :class="{active1:SCaudit_type==0}" @click="SCtag(item.id)">或签</span>
+                            <span :class="{active1:SCaudit_type==1}" @click="SCtagTwo(item.id)">会签</span>
                         </div>
                     </div>
                     <div v-if="item.status!=5" style="width: 120px;height: 2px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
@@ -317,23 +317,35 @@
                     console.log(res)
                 })
             },
-            tag(){
+            tag(id){
                 this.audit_type=0;
+                this.countersign(id,1)
             },
-            tagTwo(){
+            tagTwo(id){
                 this.audit_type=1;
+                this.countersign(id,2)
             },
-            SCtag(){
+            SCtag(id){
                 this.SCaudit_type=0;
+                this.countersign(id,1)
             },
-            SCtagTwo(){
+            SCtagTwo(id){
                 this.SCaudit_type=1;
+                this.countersign(id,1)
             },
             getTitle(){
                 this.title=true
             },
             heidTitle(){
                 this.title=false;
+            },
+            countersign(id,num){
+                let formData = new FormData;
+                formData.append("id",id);
+                formData.append('audit_type',num)
+                this.api.process_edit_audittype(formData).then((res)=>{
+
+                })
             },
             getAccountList(){
                 let params ={p:100,page:1,search:this.search};

@@ -10,7 +10,7 @@
                 <span class="time">{{this.$route.query.time}}</span>
                 <span class="num">{{this.rank.join(';')}}</span>
                 <span class="sdk">SKD_ID:{{this.$route.query.sdkid}}</span>
-                <span class="educe" >导出</span>
+                <span class="educe" @click="derived()">导出</span>
             </div>
         </div>
         <div class="content_right">
@@ -146,7 +146,47 @@
             cell({row, column, rowIndex, columnIndex}){
                 return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
-            getTimes(){
+            derived(){
+                var s = '{"'+'sdk_id' + '":"'+this.$route.query.sdkid + '"}';
+                this.search=s;
+                let cent = 'center',
+                    urld = 'http://c.zookingsoft.com/api';
+                if(window.location.host=='ts-centerweb.idatachain.cn'){
+                    cent = 'center_dev';
+                    urld ='http://ts-i.idatachain.cn/api';
+
+                }
+                if(window.location.host=='c2.zookingsoft.com'){
+                    cent = 'center_dev2';
+                    urld ='http://c2.zookingsoft.com/api';
+
+                }
+                if(window.location.host=='localhost:8080'){
+                    cent = 'center_local';
+                    urld ='http://ts-i.idatachain.cn/api';
+
+                }
+                var url = urld+'/replace/pending/export'+'?tdate='+this.$route.query.time+'&times='+this.$route.query.num+'&search='+this.search;
+                var xmlResquest = new XMLHttpRequest();
+                xmlResquest.open("get",url,true);
+                xmlResquest.setRequestHeader("Accept","application/json, text/plain, */*");
+                xmlResquest.setRequestHeader("Content-type","application/json");
+                xmlResquest.setRequestHeader("Authorization",'Bearer '+localStorage.getItem('token'));
+                xmlResquest.responseType = "blob";
+                xmlResquest.onload = function (oEvent) {
+                    var content = xmlResquest.response;
+                    var eLink = document.createElement("a");
+                    eLink.download = "test.xlsx";
+                    eLink.style.display = 'none';
+                    var blob = new Blob([content]);
+                    eLink.href = URL.createObjectURL(blob);
+                    document.body.appendChild(eLink);
+                    eLink.click();
+                    document.body.removeChild(eLink);
+                };
+                xmlResquest.send();
+            },
+                getTimes(){
                 this.rank=[];
                 let params = {tdate:this.$route.query.time};
                 this.api.replace_times({params}).then((res)=>{
