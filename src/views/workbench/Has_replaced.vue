@@ -7,7 +7,7 @@
                 <span style="color: #1890ff;">&nbsp;/&nbsp;广告详情</span>
             </div>
             <div>
-                <span class="titl_name">基础详情页</span>
+                <span class="titl_name">广告详情</span>
             </div>
         </div>
         <div class="content_right">
