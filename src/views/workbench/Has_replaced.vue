@@ -82,6 +82,10 @@
                                 label="尺寸">
                         </el-table-column>
                         <el-table-column
+                                prop="created_at"
+                                label="上传时间">
+                        </el-table-column>
+                        <el-table-column
                                 prop="creator"
                                 label="操作人员">
                         </el-table-column>
@@ -447,7 +451,7 @@
         -webkit-box-shadow: 0 0 6px 0 rgba(0,0,0,.04);
         box-shadow: 0 0 6px 0 rgba(0,0,0,.04);
         position: fixed;
-        left: 316px;
+        left: 256px;
         top: 63px;
         z-index: 99;
     }
@@ -472,13 +476,15 @@
     }
     .content_right_top span{
         display: inline-block;
+        width: 100px;
         font-size: 16px;
         font-family: "Microsoft YaHei";
         margin-right: 15px;
     }
     .con{
         display: inline-block;
-        margin-right: 200px!important;
+        margin-right: 20px!important;
+        width:400px!important;
     }
     .updataLoad{
         display: inline-block;
