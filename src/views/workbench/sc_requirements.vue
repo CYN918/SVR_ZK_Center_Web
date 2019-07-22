@@ -30,8 +30,8 @@
                     </div>
                     <div  class="img_box">
                         <div class="ADD_img" >
-                            <img class="ADD_img_del" src="../../../public/img/del.png" @click="delLine(index)">
-                            <img  class="ADD_img_img" :src="item.prev_uri"/>
+                            <img class="ADD_img_del" src="../../../public/img/del.png" @click="delLine(index)" v-if="item.prev_uri!=undefined">
+                            <img  class="ADD_img_img" :src="item.prev_uri" v-if="item.prev_uri!=undefined" />
                             <span>{{item.mid}}</span>
                         </div>
                     </div>

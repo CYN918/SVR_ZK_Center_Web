@@ -23,7 +23,7 @@
                     <input type="text" placeholder="输入用户ID"/>
                     <span>用户昵称</span>
                     <input type="text" placeholder="输入用户昵称"/>
-                    <span class="dc">导出</span>
+                    <span class="dc" @click="derive()">导出</span>
                 </div>
                 <div class="seach">
                     <span>提现金额</span>
@@ -137,6 +137,7 @@
 <script>
     import BH from './reject'
     import QD from './workBench_auditor'
+    import dc from '../../api/commonality'
     export default {
         components:{BH,QD},
         name: "billing_details",
@@ -152,7 +153,8 @@
                 open_id:'',
                 openIDList:[],
                 shOpenId:[],
-                status:''
+                status:'',
+                check_status:'',
 
             }
         },
@@ -181,6 +183,7 @@
                 let params = {id:this.$route.query.id,p:this.p,page:this.page,all:this.$route.query.status==1?1:0};
                 this.api.demand_apply_detail({params}).then((res)=>{
                     this.tableData = res.data;
+                    this.check_status = res.data.check_status
                     for(var i = 0;i<this.tableData.length;i++){
                         if(this.tableData[i].contributor_type==1){
                             this.tableData[i].contributor_type='个人'
@@ -236,6 +239,10 @@
                     this.shOpenId=openID;
 
                 }
+            },
+            derive(){
+                let url = '/demand/apply/export?all='+this.$route.query.status+'&id='+this.$route.query.id+'&check_status='+this.check_status;
+                dc.downloadImg(url);
             },
             heidSH(){
                 this.sh=false

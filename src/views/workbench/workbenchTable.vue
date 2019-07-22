@@ -217,6 +217,7 @@
 </template>
 
 <script>
+    import dc from '../../api/commonality'
     import scxq from './sc_details'
     import ywxq from './yw_details'
     import BH from './reject'
@@ -516,10 +517,8 @@
                 document.body.style.height='1006px';
             },
             educe(id,check_status,status){
-                let params={id:id,all:status==2?1:0,check_status:check_status};
-                this.api.demand_apply_export({params}).then((res)=>{
-                    console.log(res);
-                })
+              let url = '/demand/apply/export?all='+(status>3?0:1)+'&id='+id+'&check_status='+check_status;
+                dc.downloadImg(url)
             },
             datatype(data){
                 this.typeList = data;
