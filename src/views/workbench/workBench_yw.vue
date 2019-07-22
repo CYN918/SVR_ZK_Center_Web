@@ -171,7 +171,7 @@
                         this.$message.error('尺寸不能为空');
                         return
                     }
-                    if(!this.size.match(/^[0-9*]*$/)){
+                    if(!(/^[1-9]{1,4}[*][0-9]{1,4}$/).test(this.size)){
                         this.$message.error('尺寸不能非数字');
                         return
                     }
@@ -240,7 +240,7 @@
                         this.$message.error('尺寸不能为空')
                         return
                     }
-                    if(!this.size.match(/^[0-9*]*$/)){
+                    if(!(/^[1-9]{1,4}[*][0-9]{1,4}$/).test(this.size)){
                         this.$message.error('尺寸不能非数字');
                         return
                     }

@@ -162,11 +162,9 @@
                         for(var i=0;i<JSON.parse(this.$route.query.num).length;i++){
                             if(dataList[j].hour==JSON.parse(this.$route.query.num)[i]){
                                 this.rank.push(dataList[j].desc);
-                                console.log(this.rank)
                             }
                         }
                     }
-                   console.log(this.rank)
                 })
             },
            fh(){
@@ -174,7 +172,6 @@
            },
 
             getList(){
-                console.log('a')
                 this.dcl=[];
                 this.cl=[];
                 var s = '{"'+'sdk_id' + '":"'+this.$route.query.sdkid + '"}';
@@ -182,7 +179,6 @@
                 let params ={tdate:this.$route.query.time,times:this.$route.query.num,p:this.p,page:this.page,search:this.search};
                 this.api.replace_pending_list({params}).then((res)=>{
                     this.tableData = res;
-
                     for(var i=0;i<this.tableData.length;i++){
                         if(this.tableData[i].new_res.length>0){
                             this.tableData[i].status='已处理';

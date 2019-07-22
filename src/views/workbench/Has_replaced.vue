@@ -212,7 +212,7 @@
             },
             heidTH(){
                 this.th=false;
-                this.new_url='';
+                this.new_res='';
             },
             goIndex(){
                     this.$router.go(-2)
