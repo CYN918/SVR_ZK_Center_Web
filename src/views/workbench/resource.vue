@@ -2,11 +2,11 @@
     <div>
         <div class="tit_top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh">渠道列表 &nbsp;/&nbsp;</span>
-                <span class="new_url">渠道详情</span>
+                <span class="log_url" @click="fh">广告源列表 &nbsp;/&nbsp;</span>
+                <span class="new_url">广告源详情</span>
             </div>
             <div class="tit_top_con">
-                <span class="tit_name">渠道详情</span>
+                <span class="tit_name">广告源详情</span>
                 <span class="time">{{this.$route.query.time}}</span>
                 <span class="num">{{this.rank.join(';')}}</span>
                 <span class="sdk">SKD_ID:{{this.$route.query.sdkid}}</span>
@@ -50,12 +50,12 @@
                         <el-table-column
                                 prop="pv"
                                 sortable
-                                label="数据访问量">
+                                label="数据填充量">
                         </el-table-column>
                         <el-table-column
                                 prop="ratio"
                                 sortable
-                                label="访问量占比">
+                                label="填充量占比">
                         </el-table-column>
                         <el-table-column
                                 prop="tdate"

@@ -2,8 +2,8 @@
     <div>
         <div class="titl">
             <div style="margin:24px 0 20px 24px">
-                <span style="color: #b3b3b3;cursor: pointer " @click="goIndex()">渠道列表</span>
-                <span style="color: #b3b3b3;cursor: pointer" @click="goHome()">&nbsp;/&nbsp;渠道详情</span>
+                <span style="color: #b3b3b3;cursor: pointer " @click="goIndex()">广告源列表</span>
+                <span style="color: #b3b3b3;cursor: pointer" @click="goHome()">&nbsp;/&nbsp;广告源详情</span>
                 <span style="color: #1890ff;">&nbsp;/&nbsp;广告详情</span>
             </div>
             <div>

@@ -10,7 +10,7 @@
                         value-format="yyyy-MM-dd">
                 </el-date-picker>
             </div>
-            <span class="tit_text">获取次数:</span>
+            <span class="tit_text">获取时段:</span>
             <div class="select_check">
                 <template>
                     <el-select
@@ -53,15 +53,15 @@
                     <el-table-column
                             prop="pv"
                             sortable
-                            label="数据访问量">
+                            label="数据填充量">
                     </el-table-column>
                     <el-table-column
                             prop="ratio"
                             sortable
-                            label="访问占比">
+                            label="填充量占比">
                     </el-table-column>
                     <el-table-column
-                            label="访问量趋势">
+                            label="填充量趋势">
                         <template slot-scope="scope">
                             <img src="../../../public/img/datas.png" style="max-height: 40px;max-width: 80px" @click="getTendency(tableData[scope.$index].sdk_id)">
                         </template>
