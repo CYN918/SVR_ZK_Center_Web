@@ -530,20 +530,31 @@ router.beforeEach((to, from, next) => {
 		if(to.fullPath=='/'){
 			next({ path: '/index'});
 			return
-		}	
-						
+		}
+        if(to.fullPath=='/index'){
+            document.title = '掌屿平台(Zoosalos)-聚合，连接，生态';
+		}
+        if(to.fullPath=='/data'){
+            document.title = '数据中心-掌屿平台(Zoosalos)';
+		}
+        if(to.fullPath=='/income'){
+            document.title = '收益中心-掌屿平台(Zoosalos)';
+        }
 		if(to.fullPath=='/admin'){
 			if(JSON.parse(localStorage.getItem('letNav'))[0].children.length>0){
                 next({ path: '/admin/advertising'});
+                document.title = '素材中心-掌屿平台(Zoosalos)';
 			}
 		}
 		if(to.fullPath=='/user'){
 			if(JSON.parse(localStorage.getItem('letNav'))[1].children.length>0){
                 next({ path: '/user/user_need'});
+                document.title = '个人中心-掌屿平台(Zoosalos)';
 			}
 		}
         if(to.fullPath=='/userinfo'){
             next({ path: '/userinfo/user_info'});
+            document.title = '个人中心-掌屿平台(Zoosalos)';
         }
         if (to.fullPath=='/api/logout'){
             next({ path: '/erro'});
@@ -553,6 +564,7 @@ router.beforeEach((to, from, next) => {
 		}
         if(to.fullPath=='/workbench'){
             next({ path: '/workbench/workbenchPadding'});
+            document.title = '工作台-掌屿平台(Zoosalos)';
         }
 						
 		// let params ={'url':to.fullPath.split('&')[0]} ;
@@ -611,6 +623,5 @@ router.beforeEach((to, from, next) => {
 	}else{
 		window.location.href="http://account.zookingsoft.com/login?from="+cent;
 	}
-    if(to.query.ticket){}
 })
 export default router
