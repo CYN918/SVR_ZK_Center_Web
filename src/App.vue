@@ -697,4 +697,36 @@ select{
 }
 .load .el-button--primary{color:rgba(51,119,255,1)}
 .select_img .el-checkbox__label{opacity: 0}
+.tit_top_url,.tit_top_con{
+  padding:20px 0 0 24px;
+}
+.log_url,.new_url{
+  display: inline-block;
+  font-family: "Microsoft YaHei";
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 400;
+}
+.log_url{color: #acadb0
+}
+.new_url{color: #4f4cf1}
+.tit_top_con .tit_name{
+  display: inline-block;
+  font-family: "Microsoft YaHei";
+  font-weight: bold;
+  font-size: 18px;
+}
+.content_table .time .el-date-editor.el-input, .el-date-editor.el-input__inner{
+  width:286px;
+  height:36px;
+  background:rgba(255,255,255,1);
+  border-radius:4px;
+  border:1px solid rgba(211,219,235,1);
+}
+.content_table .el-button{
+  border: 0;
+  cursor: pointer;
+  color: #4f4cf1;
+  padding:0;
+}
 </style>

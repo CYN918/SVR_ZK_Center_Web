@@ -82,6 +82,7 @@
         },
         mounted(){
             this.getData();
+            console.log(this.date)
         },
         methods:{
             handleSizeChange1() { // 每页条数切换

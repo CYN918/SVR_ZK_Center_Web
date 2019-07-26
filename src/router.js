@@ -85,6 +85,10 @@ import data_details from './views/income/data_details'
 mode['data_details'] = data_details
 import divided_management from './views/income/divided_management'
 mode['divided_management']=divided_management
+import returns_detailed from './views/income/Returns_detailed'
+mode['returns_detailed'] = returns_detailed
+import advertiser from './views/income/advertiser'
+mode['advertiser'] = advertiser
 
 
 //工作台
@@ -116,72 +120,12 @@ import axios from 'axios'
 import api from './api/index'
 
 /*数据*/
-import dataIndex from './views/datas/index.vue'
-mode['data'] = dataIndex
-import ad_material_p from './views/datas/ad/ad_material_p.vue'
-mode['ad_material_p'] = ad_material_p
-import ad_material_ps from './views/datas/ad/ad_material_ps.vue'
-mode['ad_material_ps'] = ad_material_ps
-import ad_material_m from './views/datas/ad/ad_material_m.vue'
-mode['ad_material_m'] = ad_material_m
-import ad_material_ms from './views/datas/ad/ad_material_ms.vue'
-mode['ad_material_ms'] = ad_material_ms
-import ad_material_w from './views/datas/ad/ad_material_w.vue'
-mode['ad_material_w'] = ad_material_w
-import ad_material_ws from './views/datas/ad/ad_material_ws.vue'
-mode['ad_material_ws'] = ad_material_ws
-import ad_position_channel from './views/datas/ad/ad_position_channel.vue'
-mode['ad_position_channel'] = ad_position_channel
-import ad_position_product from './views/datas/ad/ad_position_product.vue'
-mode['ad_position_product'] = ad_position_product
-import ad_position_adType from './views/datas/ad/ad_position_adType.vue'
-mode['ad_position_adType'] = ad_position_adType
-import ad_position_adData from './views/datas/ad/ad_position_adData.vue'
-mode['ad_position_adData'] = ad_position_adData
-import ad_position_user from './views/datas/ad/ad_position_user'
-mode['ad_position_user'] = ad_position_user
-import ad_position_users from './views/datas/ad/ad_position_users.vue'
-mode['ad_position_users'] = ad_position_users
-import ad_position_ad from './views/datas/ad/ad_position_ad.vue'
-mode['ad_position_ad'] = ad_position_ad
-import ad_position_ads from './views/datas/ad/ad_position_ads.vue'
-mode['ad_position_ads'] = ad_position_ads
-import wallxw_channel from './views/datas/cp/wallxw_channel.vue'
-mode['wallxw_channel'] = wallxw_channel
-import wallxw_time from './views/datas/cp/wallxw_time.vue'
-mode['wallxw_time'] = wallxw_time
-import wallxw_data from './views/datas/cp/wallxw_data.vue'
-mode['wallxw_data'] = wallxw_data
-import wallxw_xx from './views/datas/cp/wallxw_xx.vue'
-mode['wallxw_xx'] = wallxw_xx
-import wallxw_ad from './views/datas/cp/wallxw_ad.vue'
-mode['wallxw_ad'] = wallxw_ad
-import profit_d from './views/datas/profit/profit_d.vue'
-mode['profit_d'] = profit_d
-import profit_w from './views/datas/profit/profit_w'
-mode['profit_w'] = profit_w
-import profit_m from './views/datas/profit/profit_m'
-mode['profit_m'] = profit_m
-import profit_channel from './views/datas/profit/profit_channel'
-mode['profit_channel'] = profit_channel
-import profit_product from './views/datas/profit/profit_product'
-mode['profit_product'] = profit_product
-import profit_position_type from './views/datas/profit/profit_position_type'
-mode['profit_position_type'] = profit_position_type
-import profit_position from './views/datas/profit/profit_position'
-mode['profit_position'] = profit_position
-import profit_user from './views/datas/profit/profit_user'
-mode['profit_user'] = profit_user
-import profit_ad from './views/datas/profit/profit_ad'
-mode['profit_ad'] = profit_ad
-import cost_channel from './views/datas/profit/cost_channel'
-mode['cost_channel'] = cost_channel
-import cost_designer from './views/datas/profit/cost_designer'
-mode['cost_designer'] = cost_designer
-import cost_designers from './views/datas/profit/cost_designers'
-mode['cost_designers'] = cost_designers
-import profits from './views/datas/profit/profits'
-mode['profits'] = profits
+import data from './views/datas/index'
+mode['data'] = data
+import Material_data from './views/datas/Material_data'
+mode['Material_data'] = Material_data
+import Material_related from './views/datas/Material_related'
+mode['Material_related'] = Material_related
 
 // 个人中心
 import infoIndex from './views/userinfo/index.vue'
@@ -266,38 +210,10 @@ let nb = [
 		]
 	},
 	{path:'/data',name:'数据中心',component:mode['data'],children:[	
-		{path:'/data/ad_material_p',name:'ad_material_p',component:mode['ad_material_p']},
-		{path:'/data/ad_material_ps',name:'ad_material_ps',component:mode['ad_material_ps']},
-		{path:'/data/ad_material_m',name:'ad_material_m',component:mode['ad_material_m']},
-		{path:'/data/ad_material_ms',name:'ad_material_ms',component:mode['ad_material_ms']},
-		{path:'/data/ad_material_w',name:'ad_material_w',component:mode['ad_material_w']},
-		{path:'/data/ad_material_ws',name:'ad_material_ws',component:mode['ad_material_ws']},					
-		{path:'/data/ad_position_channel',name:'ad_position_channel',component:mode['ad_position_channel']},
-		{path:'/data/ad_position_product',name:'ad_position_product',component:mode['ad_position_product']},
-		{path:'/data/ad_position_adType',name:'ad_position_adType',component:mode['ad_position_adType']},
-		{path:'/data/ad_position_adData',name:'ad_position_adData',component:mode['ad_position_adData']},
-		{path:'/data/ad_position_user',name:'ad_position_user',component:mode['ad_position_user']},
-		{path:'/data/ad_position_users',name:'ad_position_users',component:mode['ad_position_users']},
-		{path:'/data/ad_position_ad',name:'ad_position_ad',component:mode['ad_position_ad']},
-		{path:'/data/ad_position_ads',name:'ad_position_ads',component:mode['ad_position_ads']},
-		{path:'/data/wallxw_channel',name:'wallxw_channel',component:mode['wallxw_channel']},
-		{path:'/data/wallxw_time',name:'wallxw_time',component:mode['wallxw_time']},
-		{path:'/data/wallxw_data',name:'wallxw_data',component:mode['wallxw_data']},
-		{path:'/data/wallxw_xx',name:'wallxw_xx',component:mode['wallxw_xx']},
-		{path:'/data/wallxw_ad',name:'wallxw_ad',component:mode['wallxw_ad']},			
-		{path:'/data/profit_d',name:'wallxw_ad',component:mode['profit_d']},				
-		{path:'/data/profit_w',name:'profit_w',component:mode['profit_w']},	
-		{path:'/data/profit_m',name:'profit_m',component:mode['profit_m']},	
-		{path:'/data/profit_channel',name:'profit_channel',component:mode['profit_channel']},	
-		{path:'/data/profit_product',name:'profit_product',component:mode['profit_product']},	
-		{path:'/data/profit_position_type',name:'profit_position_type',component:mode['profit_position_type']},	
-		{path:'/data/profit_position',name:'profit_position',component:mode['profit_position']},	
-		{path:'/data/profit_user',name:'profit_user',component:mode['profit_user']},	
-		{path:'/data/profit_ad',name:'profit_ad',component:mode['profit_ad']},	
-		{path:'/data/cost_channel',name:'cost_channel',component:mode['cost_channel']},	
-		{path:'/data/cost_designer',name:'cost_designer',component:mode['cost_designer']},
-		{path:'/data/cost_designers',name:'cost_designers',component:mode['cost_designers']},	
-		{path:'/data/profits',name:'profits',component:mode['profits']},				
+		{path:'/data/Material_data',name:'物料数据',component:mode['Material_data']},
+		{path:'/data/Material_related',name:'物料相关素材详情',component:mode['Material_related']},
+
+
 	]},
 
 
@@ -321,7 +237,10 @@ let nb = [
             {path:'/income/cost_management',name:'设计师成本管理',component:mode['cost_management']},
             {path:'/income/divided_details',name:'分成详情',component:mode['divided_details']},
             {path:'/income/data_details',name:'分成详细数据',component:mode['data_details']},
-            {path:'/income/divided_management',name:'分成gunali ',component:mode['divided_management']},
+            {path:'/income/divided_management',name:'分成管理 ',component:mode['divided_management']},
+            {path:'/income/returns_detailed',name:'分成成本管理 ',component:mode['returns_detailed']},
+            {path:'/income/advertiser',name:'广告主收益明细 ',component:mode['advertiser']},
+
 
         ]},
     {path:'/userinfo',name:'个人中心',component:mode['info'],
@@ -345,7 +264,8 @@ let nb = [
 router.addRoutes(nb);
 /*动态生成左边菜单*/
 
-let leftNav = localStorage.getItem('letNav');
+let leftNav =
+	localStorage.getItem('letNav');
 // 	[
 // 	{title:'素材中心',default:'/admin',defaultopen:['1'],
 // 	children:[
@@ -390,64 +310,12 @@ let leftNav = localStorage.getItem('letNav');
 //
 //         ]
 // 	},
-// 	{title:'数据',default:'/data',defaultopen:['1'],
-// 	// children:[
-// 	// 	{title:'广告分析数据',url:'1',children:[
-// 	// 		{title:'素材数据',url:'1-1',children:[
-// 	// 			{title:'广告图数据',url:'1-1-1',list:[
-// 	// 				{title:'广告图数据',url:'/data/ad_material_p'},
-// 	// 				{title:'广告图详细数据',url:'/data/ad_material_ps'},
-// 	// 			]},
-// 	// 			{title:'广告模板数据',url:'1-1-2',list:[
-// 	// 				{title:'广告模板数据',url:'/data/ad_material_m'},
-// 	// 				{title:'广告模板详细数据',url:'/data/ad_material_ms'},
-// 	// 			]},
-// 	// 			{title:'锁屏壁纸数据',url:'1-1-3',list:[
-// 	// 				{title:'锁屏壁纸数据',url:'/data/ad_material_w'},
-// 	// 				{title:'锁屏壁纸详细数据',url:'/data/ad_material_ws'},
-// 	// 			]},
-// 	// 		]},
-// 	// 		{title:'广告位相关数据',url:'1-2',list:[
-// 	// 			{title:'渠道数据',url:'/data/ad_position_channel'},
-// 	// 			{title:'产品数据',url:'/data/ad_position_product'},
-// 	// 			{title:'广告位类型数据',url:'/data/ad_position_adType'},
-// 	// 			{title:'广告位数据',url:'/data/ad_position_adData'},
-// 	// 		]},
-// 	// 		{title:'广告相关数据',url:'1-3',list:[
-// 	// 			{title:'广告主数据',url:'/data/ad_position_user'},
-// 	// 			{title:'广告主详细数据',url:'/data/ad_position_users'},
-// 	// 			{title:'广告数据',url:'/data/ad_position_ad'},
-// 	// 			{title:'广告详细数据',url:'/data/ad_position_ads'},
-// 	// 		]},
-//     //
-// 	// 	]},
-// 	// 	{title:'产品分析数据',url:'2',children:[
-// 	// 		{title:'锁屏壁纸数据',url:'2-1',children:[
-// 	// 			{title:'壁纸行为分析',url:'2-1-1',list:[
-// 	// 				{title:'壁纸渠道数据',url:'/data/wallxw_channel'},
-// 	// 				{title:'壁纸使用时长分布',url:'/data/wallxw_time'},
-// 	// 				{title:'壁纸行为数据',url:'/data/wallxw_data'},
-// 	// 				{title:'壁纸渠道详细数据',url:'/data/wallxw_xx'},
-// 	// 				{title:'壁纸广告分析数据',url:'/data/wallxw_ad'},
-// 	// 			]},
-// 	// 		]},
-// 	// 	]},
-// 	// 	{title:'收益报表',url:'3',list:[
-// 	// 		{title:'收益日报',url:'/data/profit_d'},
-// 	// 		{title:'收益周报',url:'/data/profit_w'},
-// 	// 		{title:'收益月报',url:'/data/profit_m'},
-// 	// 		{title:'渠道收益',url:'/data/profit_channel'},
-// 	// 		{title:'产品收益',url:'/data/profit_product'},
-// 	// 		{title:'广告位类型收益',url:'/data/profit_position_type'},
-// 	// 		{title:'广告位收益',url:'/data/profit_position'},
-// 	// 		{title:'广告主收益',url:'/data/profit_user'},
-// 	// 		{title:'广告收益',url:'/data/profit_ad'},
-// 	// 		{title:'渠道成本',url:'/data/cost_channel'},
-// 	// 		{title:'设计师成本',url:'/data/cost_designer'},
-// 	// 		{title:'设计师成本详细数据',url:'/data/cost_designers'},
-// 	// 		{title:'收益详表',url:'/data/profits'},
-// 	// 	]}
-// 	// ]
+// 	{title:'数据中心',default:'/data',defaultopen:['1'],
+// 	children:[
+//         {title:'素材数据',url:'1',img:'&#xe60b;',list:[
+//                 {title:'物料数据', url:'/data/Material_data'},
+// 			]}
+//         ]
 // },
 //     {title:'个人中心',default:'/userinfo/user_info',defaultopen:['1'],
 //         children:[
@@ -470,12 +338,12 @@ let leftNav = localStorage.getItem('letNav');
 // 	},
 //     {title:'收益中心',default:'/income/user_info',defaultopen:['1'],
 //         children:[
-//             {title:'收益数据',url:'1',img:'&#xe612;',children:[
-//                     {title:'收益总览', url:'1-1',list:[
-//                             {title:'收益总览',url:'/income/earnings'}
-//                         ]},
+//             {title:'收益数据',url:'1',img:'&#xe612;',list:[
+//             	{title:'收益总览',url:'/income/earnings'},
+// 				{title:'分成成本管理',url:'/income/returns_detailed'},
+// 				{title:'广告主收益详情',url:'/income/advertiser'}
 //             ]},
-//             {title:'设计师成本管理',url:'2',list:[
+//             {title:'收益管理',url:'2',list:[
 //                     {title:'设计师成本管理',url:'/income/cost_management'}
 //                 ]},
 //             {title:'结算管理',url:'3',img:'&#xe60d;',list:[
