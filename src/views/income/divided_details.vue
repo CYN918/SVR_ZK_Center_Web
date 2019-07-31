@@ -16,12 +16,18 @@
                             range-separator="至"
                             start-placeholder="开始日期"
                             end-placeholder="结束日期"
-                            format="yyyy 年 MM 月 dd 日"
+                            format="yyyy-MM-dd"
                             value-format="yyyy-MM-dd ">
                     </el-date-picker>
                 </div>
+                <span class="cx">查询</span>
+                <span class="cz">重置</span>
+                <span class="dc">导出数据</span>
                 <span class="ts">数据推送</span>
                 <span class="fc" @click="divide">分成管理</span>
+            </div>
+            <div id="flowChart">
+
             </div>
             <div>
                 <template>
@@ -75,17 +81,19 @@
 </template>
 
 <script>
+    import canvas from '../../api/commonality'
     export default {
         name: "cost_management",
         data(){
             return{
                 time:[],
-                tableData:[{status:1}],
+                tableData:[],
                 p:10,
                 page:1,
                 total:0
             }
         },
+        mounted(){this.Chart()},
         methods:{
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
@@ -115,6 +123,9 @@
                 this.$router.push({
                     path:'/income/divided_management'
                 })
+            },
+            Chart(){
+                canvas.chart()
             },
         },
     }
@@ -149,7 +160,37 @@
         display: inline-block;
         margin:24px 0 28px 24px!important;
     }
-    .fc,.ts{
+    .cx{
+        display: inline-block;
+        width:68px;
+        height:36px;
+        background:rgba(51,119,255,1);
+        border-radius:4px;
+        font-size:14px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(255,255,255,1)!important;
+        line-height:36px;
+        text-align: center;
+        cursor: pointer;
+        margin:0 24px;
+    }
+    .cz{
+        display: inline-block;
+        width:68px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(232,234,237,1);
+        cursor: pointer;
+        font-size:14px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(31,46,77,1);
+        line-height:36px;
+        text-align: center;
+    }
+    .fc,.ts,.dc{
         display: inline-block;
         width:96px;
         height:36px;
@@ -164,5 +205,10 @@
         cursor: pointer;
         float: right;
         margin: 24px 24px 0 0;
+    }
+    #flowChart{
+        width: 100%;
+        height:300px;
+        margin-bottom: 30px;
     }
 </style>

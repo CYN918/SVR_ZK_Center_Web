@@ -765,4 +765,28 @@ export default {
     process_edit_audittype:{
 		url:"process/edit/audittype",method:'post',isType:{suktip:1}
 	},
+	//物料数据报表
+    report_mfinal:{
+		url:'report/mfinal',method:'get'
+	},
+	//物料相关的素材
+    report_mfinal_material:{
+		url:'report/mfinal/material',method:'get'
+	},
+	//广告主收益报表
+    report_income_admaster:{
+		url:'report/income/admaster',method:'get'
+	},
+	// 渠道收益报表
+    report_income_channel:{
+		url:'report/income/channel',method:'get'
+	},
+	//收益总览
+    report_income_summary:{
+		url:'report/income/summary',method:'get'
+	},
+	//设计师成本管理报表
+    report_cost_total:{
+		url:'report/cost/total',method:'get'
+	},
 }

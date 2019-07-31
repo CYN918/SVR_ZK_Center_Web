@@ -340,8 +340,8 @@ let leftNav =
 //         children:[
 //             {title:'收益数据',url:'1',img:'&#xe612;',list:[
 //             	{title:'收益总览',url:'/income/earnings'},
-// 				{title:'分成成本管理',url:'/income/returns_detailed'},
-// 				{title:'广告主收益详情',url:'/income/advertiser'}
+// 				{title:'渠道收益',url:'/income/returns_detailed'},
+// 				{title:'广告主收益',url:'/income/advertiser'}
 //             ]},
 //             {title:'收益管理',url:'2',list:[
 //                     {title:'设计师成本管理',url:'/income/cost_management'}

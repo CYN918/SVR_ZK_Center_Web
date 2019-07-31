@@ -37,7 +37,7 @@ export default {
             document.body.removeChild(eLink);
         };
         xmlResquest.send();
-    },
+    },//导出EXEL
     cavansLine(xData,yData){
         let  histogram =echarts.init(document.getElementById('histogram'));
          var option = {
@@ -78,7 +78,7 @@ export default {
             ]
         };
         histogram.setOption(option)
-    },
+    }, //柱状图
     transverseLine(xData,yData){
         let across =echarts.init(document.getElementById('across'))
        var option = {
@@ -120,15 +120,15 @@ export default {
                 {
                     name: '2011年',
                     type: 'bar',
-                    data: [18203, 23489, 29034, 104970],
-                    itemStyle:{ normal:{ color:'#3377FF' } },
+                    data: [18203, 23489, 29034, 1970],
+                    itemStyle:{ normal:{ color:'#3377FF'} },
                     label:{ normal:{ show: true, position: 'right'},},
                 },
 
             ]
         };
         across.setOption(option)
-    },
+    },//横向柱状图
     pie(){
         let pie =echarts.init(document.getElementById('pie'))
        var option = {
@@ -139,7 +139,8 @@ export default {
             legend: {
                 orient: 'vertical',
                 x: 'right',
-                data:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
+                data:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎'],
+                // formatter:    //后缀说明
             },
             series: [
                 {
@@ -176,6 +177,44 @@ export default {
             ]
         };
         pie.setOption(option)
-    },
-
+    },//饼状图
+    chart(xData,yData){
+        let flowChart =echarts.init(document.getElementById('flowChart'))
+       var option = {
+            color:["#1890FF","#2FC25B"],
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['设计师成本','总流水']
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: ['周一','周二','周三','周四','周五','周六','周日']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [
+                {
+                    name:'设计师成本',
+                    type:'line',
+                    data:[320, 332, 301, 334, 390, 330, 320]
+                },
+                {
+                    name:'总流水',
+                    type:'line',
+                    data:[820, 932, 901, 934, 1290, 1330, 1320]
+                }
+            ]
+        };
+        flowChart.setOption(option)
+    },//多折现图
 }

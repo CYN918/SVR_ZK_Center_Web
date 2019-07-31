@@ -1,27 +1,82 @@
 <template>
     <div>
         <div class="top_name">
-            <span class="top_txt">结算管理/设计师成本管理</span>
+            <span class="top_txt">收益管理/设计师成本管理</span>
             <div class="title_left" @click="fh">
                 <img src="../../../public/img/fh.png">
-                <span>分成管理</span>
-                <span>查看记录</span>
+                <span>设计师成本管理</span>
+                <span class="ck">查看记录</span>
             </div>
         </div>
         <div class="content">
+            <div class="wb">
+                <span>素材默认外部完成度</span>
+                <input type="text"/>
+            </div>
+            <div class="select_tab">
+                <span>素材类型</span>
+                <select>
+                    <option>广告图</option>
+                </select>
+                <span>分成价格(元)</span>
+                <input type="number"/>
+                <span>结算方式</span>
+                <select>
+                    <option>ECPC</option>
+                </select>
+            </div>
+            <div class="select_tab">
+                <span>素材类型</span>
+                <select>
+                    <option>广告图</option>
+                </select>
+                <span>分成价格(元)</span>
+                <input type="number"/>
+                <span>结算方式</span>
+                <select>
+                    <option>ECPC</option>
+                </select>
+            </div>
+            <div class="select_tab">
+                <span>素材类型</span>
+                <select>
+                    <option>广告图</option>
+                </select>
+                <span>分成价格(元)</span>
+                <input type="number"/>
+                <span>结算方式</span>
+                <select>
+                    <option>ECPC</option>
+                </select>
+            </div>
+            <div class="select_tab">
+                <span>素材类型</span>
+                <select>
+                    <option>广告图</option>
+                </select>
+                <span>分成价格(元)</span>
+                <input type="number"/>
+                <span>结算方式</span>
+                <select>
+                    <option>ECPC</option>
+                </select>
+            </div>
+            <div class="select_tab">
+                <span class="updata">更新</span>
+            </div>
+        </div>
 
-        </div>
-        <div class="block">
-            <el-pagination
-                    @size-change="handleSizeChange"
-                    @current-change="handleCurrentChange"
-                    :current-page="page"
-                    :page-sizes="[10, 20, 30, 40]"
-                    :page-size="p"
-                    layout="total, sizes, prev, pager, next, jumper"
-                    :total="total">
-            </el-pagination>
-        </div>
+        <!--<div class="block">-->
+            <!--<el-pagination-->
+                    <!--@size-change="handleSizeChange"-->
+                    <!--@current-change="handleCurrentChange"-->
+                    <!--:current-page="page"-->
+                    <!--:page-sizes="[10, 20, 30, 40]"-->
+                    <!--:page-size="p"-->
+                    <!--layout="total, sizes, prev, pager, next, jumper"-->
+                    <!--:total="total">-->
+            <!--</el-pagination>-->
+        <!--</div>-->
     </div>
 </template>
 
@@ -31,7 +86,7 @@
         data(){
             return{
                 time:[],
-                tableData:[{did:22}],
+                tableData:[],
                 p:10,
                 page:1,
                 total:0
@@ -84,10 +139,10 @@
         font-size: 12px!important;
     }
     .content{
-        margin-top: 199px!important;
+        margin-top:200px;
+        padding: 0 24px;
+        background:rgba(255,255,255,1);
     }
-
-
     .content span{
         display: inline-block;
         margin-right: 24px;
@@ -105,5 +160,82 @@
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);
     }
-
+    .ck{
+        display: inline-block;
+        float: right;
+        margin-right: 300px;
+        width:96px;
+        height:36px;
+        background:rgba(51,119,255,1);
+        border-radius:4px;
+        text-align:center;
+        line-height: 36px;
+        font-size:14px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(255,255,255,1)!important;
+        cursor: pointer;
+    }
+    .wb{
+        padding: 0 12px;
+    }
+    .wb span{
+        font-size:14px;
+        font-family:PingFang-SC-Medium;
+        font-weight:500;
+        color:rgba(31,46,77,1);
+    }
+    .wb input{
+        width:112px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        padding: 0 8px;
+        margin-top: 24px;
+        margin-bottom: 44px;
+    }
+    .select_tab{
+        margin-bottom: 24px;
+        padding: 0 12px;
+    }
+    .select_tab span{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFang-SC-Medium;
+        font-weight:500;
+        color:rgba(143,155,179,1);
+        margin-right: 24px;
+    }
+    .select_tab input{
+        width:184px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        padding: 0 8px;
+        border:1px solid rgba(211,219,235,1);
+        margin-right: 44px;
+    }
+    .select_tab select{
+        width:200px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        margin-right: 54px;
+    }
+    .updata{
+        display: inline-block;
+        width:68px;
+        height:36px;
+        background:rgba(51,119,255,1);
+        border-radius:4px;
+        font-size:14px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        text-align: center;
+        cursor: pointer;
+        color:rgba(255,255,255,1)!important;
+        line-height:36px;
+    }
 </style>

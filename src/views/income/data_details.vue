@@ -24,13 +24,14 @@
                 <input type="text" placeholder="请输入素材ID"/>
                 <span>渠道ID</span>
                 <input type="text" placeholder="请输入渠道ID"/>
-            </div>
-            <div class="bottom">
                 <span class="gg_left">广告位ID</span>
                 <input type="text" placeholder="请输入广告位ID"/>
+            </div>
+            <div class="bottom">
                 <span class="id_left">广告ID</span>
                 <input type="text" placeholder="请输入广告ID"/>
                 <span class="span_btn">查询</span>
+                <span class="cz">重置</span>
             </div>
             <div>
                 <template>
@@ -105,7 +106,7 @@
         data(){
             return{
                 time:[],
-                tableData:[{did:22}],
+                tableData:[],
                 p:10,
                 page:1,
                 total:0
@@ -185,7 +186,7 @@
         margin-left: 24px;
     }
     .id_left{
-        margin-left: 66px;
+        margin-left: 40px;
     }
     .span_btn{
         display: inline-block;
@@ -203,5 +204,20 @@
     }
     .bottom{
         margin-bottom: 24px;
+    }
+    .cz{
+        display: inline-block;
+        width:68px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(232,234,237,1);
+        cursor: pointer;
+        font-size:14px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(31,46,77,1);
+        line-height:36px;
+        text-align: center;
     }
 </style>

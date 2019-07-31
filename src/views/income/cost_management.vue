@@ -15,11 +15,16 @@
                            range-separator="至"
                            start-placeholder="开始日期"
                            end-placeholder="结束日期"
-                           format="yyyy 年 MM 月 dd 日"
-                           value-format="yyyy-MM-dd ">
+                           format="yyyy-MM-dd"
+                           value-format="yyyy-MM-dd">
                    </el-date-picker>
                </div>
+               <span class="cx" @click="getData()">查询</span>
+               <span class="cz" @click="remove()">重置</span>
                <span class="dc">导出数据</span>
+           </div>
+           <div id="flowChart">
+
            </div>
             <div>
                 <template>
@@ -38,11 +43,17 @@
                         >
                         </el-table-column>
                         <el-table-column
-                                label="买断金额" prop="status_name"
+                                label="买断成本" prop="status_name"
                         >
+
                         </el-table-column>
                         <el-table-column
-                                label="分成金额" prop="status"
+                                label="分成成本" prop="status"
+                        >
+
+                        </el-table-column>
+                        <el-table-column
+                                label="其他成本" prop="status"
                         >
                         </el-table-column>
                         <el-table-column label="操作">
@@ -70,17 +81,19 @@
 </template>
 
 <script>
+    import canvas from '../../api/commonality'
     export default {
         name: "cost_management",
         data(){
             return{
-                tableData:[{status:1}],
+                tableData:[],
                 time:[],
                 p:10,
                 page:1,
                 total:0
             }
         },
+        mounted(){this.Chart();this.getData()},
         methods:{
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
@@ -102,7 +115,20 @@
                 this.$router.push({
                     path:'/income/divided_details'
                 })
-            }
+            },
+            Chart(){
+                canvas.chart()
+            },
+            getData(){
+                let params = {tstart:this.time[0],tend:this.time[1],p:this.p,page:this.page};
+                this.api.report_cost_total({params}).then((res)=>{
+                    this.tableData=res.data;
+                })
+            },
+            remove(){
+                this.time=''
+            },
+
         },
     }
 </script>
@@ -147,5 +173,40 @@
         cursor: pointer;
         float: right;
         margin: 24px 24px 0 0;
+    }
+    .cx{
+        display: inline-block;
+        width:68px;
+        height:36px;
+        background:rgba(51,119,255,1);
+        border-radius:4px;
+        font-size:14px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(255,255,255,1)!important;
+        line-height:36px;
+        text-align: center;
+        cursor: pointer;
+        margin:0 24px;
+    }
+    .cz{
+        display: inline-block;
+        width:68px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(232,234,237,1);
+        cursor: pointer;
+        font-size:14px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(31,46,77,1);
+        line-height:36px;
+        text-align: center;
+    }
+    #flowChart{
+        width: 100%;
+        height:300px;
+        margin-bottom: 30px;
     }
 </style>

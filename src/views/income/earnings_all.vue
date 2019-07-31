@@ -60,10 +60,10 @@
             </div>
         </div>
         <div class="content_table3">
-            <div>
-                <span>渠道数据</span>
-                <span>广告数据</span>
-                <div>
+            <div class="content_table3_top">
+                <span class="trench" :class="{checkeds:chenck1==0}" @click="trenchData">渠道数据</span>
+                <span class="ad" :class="{checkeds:chenck1==1}" @click="AdData">广告数据</span>
+                <div class="right_seach">
                     <el-date-picker
                             v-model="value"
                             type="daterange"
@@ -71,11 +71,60 @@
                             start-placeholder="开始日期"
                             end-placeholder="结束日期"
                             format="yyyy-MM-dd"
-                            value-format="yyyy-MM-dd ">
+                            value-format="yyyy-MM-dd">
                     </el-date-picker>
-                    <span>更多</span>
-                    <span>导出</span>
+                    <span class="more">更多</span>
+                    <span class="upload">导出</span>
                 </div>
+            </div>
+            <div>
+                <template>
+                    <el-table
+                            :header-cell-style="getRowClass"
+                            :cell-style="cell"
+                            :data="tableData"
+                            style="width: 100%">
+                        <el-table-column
+                                prop="date"
+                                label="日期"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                prop="name"
+                                label="渠道ID"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                prop="address"
+                                label="日活">
+                        </el-table-column>
+                        <el-table-column
+                                prop="date"
+                                label="流水"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                prop="name"
+                                label="成本"
+                                :show-overflow-tooltip="true"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                prop="address"
+                                label="收益">
+                        </el-table-column> <el-table-column
+                            prop="date"
+                            label="毛利率"
+                            :show-overflow-tooltip="true"
+                    >
+                    </el-table-column>
+                        <el-table-column
+                                prop="name"
+                                label="日活arpu值"
+                        >
+                        </el-table-column>
+                    </el-table>
+                </template>
             </div>
         </div>
     </div>
@@ -91,6 +140,8 @@
                 IDname:"across",
                 value:'',
                 chenck:'0',
+                chenck1:'0',
+                tableData:[],
             }
         },
         mounted(){
@@ -113,6 +164,28 @@
             },
             dimensionality(){
                 this.chenck=1;
+            },
+            trenchData(){
+                this.chenck1 = 0;
+            },
+            AdData(){
+                this.chenck1 = 1;
+            },
+            getRowClass({row, column, rowIndex, columnIndex}) {
+                if (rowIndex === 0) {
+                    return 'background:rgba(247,249,252,1);color:#1f2e4d;margin:0 24px;font-size:14px;font-weight:500;font-family:PingFang-SC-Medium;'
+                } else {
+                    return ''
+                }
+            },
+            cell({row, column, rowIndex, columnIndex}){
+                return 'margin:0 24px;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
+            },
+            getData(){
+                let params ={};
+                this.api.report_income_summary({params}).then((res)=>{
+                    this.tableData=res
+                })
             },
         },
     }
@@ -196,5 +269,56 @@
     .checked{
         border:1px solid rgba(51,119,255,1)!important;
         color:rgba(51,119,255,1)!important;
+    }
+    .trench,.ad{
+        display:inline-block;
+        width:80px;
+        height:50px;
+        line-height: 50px;
+        text-align: center;
+        font-size:16px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(121,130,148,1);
+        cursor: pointer;
+    }
+    .checkeds{
+        border-bottom: 2px solid rgba(52,118,255,1)!important;
+        color:rgba(52,118,255,1)!important ;
+    }
+    .right_seach{
+        display: inline-block;
+        float: right;
+        vertical-align: middle;
+    }
+    .more{
+        display: inline-block;
+        width:68px;
+        height:32px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(210,214,212,1);
+        cursor: pointer;
+        font-size:14px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(51,119,255,1);
+        line-height: 32px;
+        text-align: center;
+        margin:10px 24px 0 24px;
+    }
+    .upload{
+        display: inline-block;
+        cursor: pointer;
+        width:68px;
+        height:32px;
+        background:rgba(51,119,255,1);
+        border-radius:4px;
+        font-size:14px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(255,255,255,1);
+        line-height:32px;
+        text-align: center;
     }
 </style>

@@ -29,7 +29,19 @@
 
 <script>
     export default {
-        name: "material_related"
+        name: "material_related",
+        data(){
+            return{}
+        },
+        methods:{
+            getDataList(){
+                let params = {mfid:this.$route.query.mfid};
+                this.api.report_mfinal_material({params}).then((res)=>{
+
+                })
+            },
+
+        },
     }
 </script>
 

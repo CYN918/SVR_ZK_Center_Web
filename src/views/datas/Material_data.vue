@@ -21,38 +21,38 @@
                         value-format="yyyy-MM-dd ">
                 </el-date-picker>
                 <span class="name">素材ID</span>
-                <input type = text/>
+                <input type='text' v-model="mfid"/>
                 <span class="name">素材类型</span>
-                <select>
+                <select v-model="type">
                     <option>全部</option>
                 </select>
                 <span class="name">广告ID</span>
-                <input type = text/>
+                <input type='text' v-model="ad_id"/>
                 <span class="dc">导出数据</span>
             </div>
             <div class="nav nav_left">
                 <span class="name name_left">项目名称</span>
-                <input type="text"/>
+                <input type="text" v-model="ad_name"/>
                 <span class="name">广告主</span>
-                <input type="text"/>
+                <input type="text" v-model="admaster"/>
                 <span class="name">广告名称</span>
-                <input type="text"/>
+                <input type="text" v-model="project"/>
                 <span class="name">渠道ID</span>
-                <input type="text"/>
+                <input type="text" v-model="channel_id"/>
             </div>
             <div class="nav nav_left">
                 <span class="name name_left">业务场景</span>
-                <select>
+                <select v-model="scene">
                     <option>全部</option>
                 </select>
                 <span class="name">广告位类型</span>
-                <select>
+                <select v-model="ad_space_type">
                     <option>全部</option>
                 </select>
                 <span class="name">广告位ID</span>
-                <input type="text"/>
+                <input type="text" v-model="ad_space_id"/>
                 <span class="name">投放环境</span>
-                <select>
+                <select v-model="put_env">
                     <option>全部</option>
                 </select>
                 <span class="inquire">查询</span>
@@ -142,13 +142,13 @@
                         <el-table-column
                                 prop="name"
                                 label="ECPC"
-                                width="180">
+                               >
                         </el-table-column>
                         <el-table-column
                                 prop="address"
                                 label="操作">
                             <template slot-scope="scope">
-                                <el-button @click="CkwL(tableData[scope.$index])">
+                                <el-button @click="CkwL(tableData[scope.$index].mfid)">
                                     查看素材
                                 </el-button>
                             </template>
@@ -170,6 +170,19 @@
             return{
                 tdate:'',
                 tableData:[{name:'aaa'}],
+                mfid:"",
+                type:"",
+                ad_id:"",
+                ad_name:'',
+                admaster:"",
+                project:"",
+                channel_id:'',
+                scene:'',
+                ad_space_type:'',
+                ad_space_id:'',
+                put_env:'',
+                page:'',
+                p:'',
             }
         },
         methods:{
@@ -187,8 +200,16 @@
                 this.$router.push({
                     path:"./Material_related",
                     query:{
-                        id:id
+                        mfid:id
                     }
+                })
+            },
+            dataList(){
+                let params = {tstart:this.tdate[0],tend:this.tdate[1],mfid:this.mfid,type:this.type,ad_id:this.ad_id,ad_name:this.ad_name,
+                    admaster:this.admaster,project:this.project,channel_id:this.channel_id,scene:this.scene,ad_space_type:this.ad_space_type,
+                    ad_space_id:this.ad_space_id,put_env:this.put_env,page:this.page,p:this.p};
+                this.api.report_mfinal({params}).then((res)=>{
+
                 })
             },
         },
