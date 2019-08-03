@@ -21,15 +21,15 @@
         </div>
         <div class="content_table2">
             <div class="content_table2_top">
-                <span>预估流水</span>
-                <span>已出流水</span>
-                <span>渠道成本</span>
-                <span>设计师成本</span>
+                <span :class="{active:num==0}" @click="estimator(0,'income')">预估流水</span>
+                <span :class="{active:num==1}" @click="estimator(1,'pre_income')">已出流水</span>
+                <span :class="{active:num==2}" @click="estimator(2,'cost')">渠道成本</span>
+                <span :class="{active:num==3}" @click="estimator(3,'designer_cost')">设计师成本</span>
                 <div class="right_top">
-                    <span>今日</span>
-                    <span>本周</span>
-                    <span>本月</span>
-                    <span>全年</span>
+                    <span :class="{date:times==0}" @click="dataTime(0,'d')">今日</span>
+                    <span :class="{date:times==1}" @click="dataTime(1,'w')">本周</span>
+                    <span :class="{date:times==2}" @click="dataTime(2,'m')">本月</span>
+                    <span :class="{date:times==3}" @click="dataTime(3,'y')">全年</span>
                     <el-date-picker
                             v-model="value"
                             type="daterange"
@@ -37,7 +37,7 @@
                             start-placeholder="开始日期"
                             end-placeholder="结束日期"
                             format="yyyy-MM-dd"
-                            value-format="yyyy-MM-dd ">
+                            value-format="yyyy-MM-dd">
                     </el-date-picker>
                 </div>
             </div>
@@ -142,6 +142,12 @@
                 chenck:'0',
                 chenck1:'0',
                 tableData:[],
+                req_data:"income",
+                req_cycle:"w",
+                num:'0',
+                times:'1',
+                p:10,
+                page:1,
             }
         },
         mounted(){
@@ -186,6 +192,30 @@
                 this.api.report_income_summary({params}).then((res)=>{
                     this.tableData=res
                 })
+            },
+            getSector(){
+                let params = {tstart:this.value[0],tend:this.value[1],req_cycle:this.req_cycle,req_data:this.req_data,p:this.p,page:this.page};
+                this.api.report_income_rank({params}).then((res)=>{
+
+                })
+            },
+            getPie(){
+                let params = {tstart:this.value[0],tend:this.value[1],req_cycle:this.req_cycle,req_data:this.req_data,p:this.p,page:this.page};
+                this.api.report_income_top({params}).then((res)=>{
+
+                })
+            },
+            estimator(num,data){
+                this.num=num;
+                this.req_data = data;
+                this.getPie();
+                this.getSector();
+            },
+            dataTime(n,data){
+                this.times = n;
+                this.req_cycle=data;
+                this.getPie();
+                this.getSector();
             },
         },
     }
@@ -283,6 +313,14 @@
         cursor: pointer;
     }
     .checkeds{
+        border-bottom: 2px solid rgba(52,118,255,1)!important;
+        color:rgba(52,118,255,1)!important ;
+    }
+    .active{
+        border-bottom: 2px solid rgba(52,118,255,1)!important;
+        color:rgba(52,118,255,1)!important ;
+    }
+    .date{
         border-bottom: 2px solid rgba(52,118,255,1)!important;
         color:rgba(52,118,255,1)!important ;
     }

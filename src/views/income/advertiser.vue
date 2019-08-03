@@ -34,7 +34,7 @@
                             :data="tableData"
                             style="width: 100%">
                         <el-table-column
-                                prop="date"
+                                prop="create_time"
                                 label="日期"
                         >
                         </el-table-column>
@@ -48,7 +48,7 @@
                                 label="展现量">
                         </el-table-column>
                         <el-table-column
-                                prop="date"
+                                prop="click"
                                 label="点击量"
                         >
                         </el-table-column>
@@ -59,21 +59,21 @@
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="address"
+                                prop="pre_income"
                                 label="预估流水">
                         </el-table-column> <el-table-column
-                            prop="date"
+                            prop="income"
                             label="已出流水"
                             :show-overflow-tooltip="true"
                     >
                     </el-table-column>
                         <el-table-column
-                                prop="name"
+                                prop="ecpm"
                                 label="ECPM"
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="address"
+                                prop="ecpc"
                                 label="ECPC">
                         </el-table-column>
                     </el-table>

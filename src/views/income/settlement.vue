@@ -143,6 +143,9 @@
                 p:10,
             }
         },
+        mounted(){
+
+        },
         methods:{
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {

@@ -51,16 +51,16 @@
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="name"
+                                prop="material_id"
                                 label="渠道ID"
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="address"
+                                prop="material_type"
                                 label="业务场景">
                         </el-table-column>
                         <el-table-column
-                                prop="date"
+                                prop="put_env"
                                 label="投放环境"
                         >
                         </el-table-column>
@@ -71,7 +71,7 @@
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="address"
+                                prop="pv"
                                 label="请求量">
                         </el-table-column> <el-table-column
                             prop="date"
@@ -94,25 +94,25 @@
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="name"
+                                prop="ecpm"
                                 label="ECPM"
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="address"
+                                prop="ecpc"
                                 label="ECPC">
                         </el-table-column> <el-table-column
-                            prop="date"
+                            prop="pre_income"
                             label="预估流水"
                     >
                     </el-table-column>
                         <el-table-column
-                                prop="name"
+                                prop="income"
                                 label="已出流水"
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="address"
+                                prop="cost"
                                 label="成本">
                         </el-table-column> <el-table-column
                             prop="date"

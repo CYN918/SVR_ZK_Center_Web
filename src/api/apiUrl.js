@@ -407,7 +407,7 @@ export default {
 	},
 	//zip文件上传
     file_zip_upload:{
-		url:'/file/zip/upload',method:'post',isType:{suktip:1,reload:1}
+		url:'/file/zip/upload',method:'post',isType:{suktip:1}
 	},
 	//增加外部账户
     account_external_add:{
@@ -628,7 +628,7 @@ export default {
 	},
 	//MD5添加标签
 	lockwallpaper_tags_add:{
-		url:'/lockwallpaper/tags/add',method:'post',isType:{suktip:1,reload:1}
+		url:'/lockwallpaper/tags/add',method:'post',isType:{suktip:1}
 	},
 	//获取单个壁纸标签
 	lockwallpaper_lwp_tags:{
@@ -788,5 +788,13 @@ export default {
 	//设计师成本管理报表
     report_cost_total:{
 		url:'report/cost/total',method:'get'
+	},
+	//柱状图数据（已出流水、预估流税、已出成本、设计师成本）
+    report_income_rank:{
+		url:'report/income/rank',method:'get'
+	},
+	//top数据图表
+    report_income_top:{
+		url:'report/income/top',method:"get"
 	},
 }

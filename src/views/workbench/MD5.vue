@@ -293,7 +293,7 @@
                 this. msgData()
             },
             getTags(){
-                this.api.lockwallpaper_tags_list({}).then((res)=>{
+                this.api.lockwallpaper_tags_list().then((res)=>{
                     this.tagslist=res;
                 })
             },
@@ -311,7 +311,8 @@
                 formData.append('wpid',this.wpid);
                 formData.append('tags',JSON.stringify(this.tags));
                 this.api.lockwallpaper_tags_add(formData).then((res)=>{
-
+                    this.msgData();
+                    this.Heidtags();
                 })
             },
         },

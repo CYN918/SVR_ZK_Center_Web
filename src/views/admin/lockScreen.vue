@@ -2,7 +2,7 @@
 	<div>
 		<div class="top_name">
 			<span class="inner">|</span>
-			<span class="top_txt">物料库>场景锁屏</span>
+			<span class="top_txt">物料库>杂志锁屏</span>
 		</div>
 		<div class="content">
 			<div class="Search">
@@ -36,6 +36,15 @@
 					<span class="tagsAll" v-if="this.class1==false" @click="getTag1">查看更多</span>
 					<span class="tagsAll" v-if="this.class1==true" @click="heidTag1">收起</span>
 				</div>
+				<div class="label">
+					<span class="label_txt">运营标签:</span>
+					<span class="labelName" @click="getTagYY()" :class="{active:listTags.length==0}">全部</span>
+					<div class="tags">
+						<span v-for="(item,index) in Operatorlist" class="labelName" @click="getTagYY(item.desc,index)" :class="{active:listTags.indexOf(item.desc)!=-1}">{{item.desc}}</span>
+					</div>
+					<span class="tagsAll" v-if="this.class2==false" @click="getTag2">查看更多</span>
+					<span class="tagsAll" v-if="this.class2==true" @click="heidTag2">收起</span>
+				</div>
 			</div>
 			<rel v-if="getRe" :num="num" :material="material" ></rel>
 			<AM v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type" :lx="lx" @updata="updata"></AM>
@@ -55,13 +64,22 @@
 							<span class="boxImg_content">{{DL.mfid}}</span>
 						</div>
 						<div>
-							<span class="boxImg_text boxImg_bq">标签:</span>
+							<span class="boxImg_text boxImg_bq">内容标签:</span>
 							<div class="boxImg_xz">
 								<div class="boxImg_xz_yz">
 									<span class="box_box"  v-for="(tag,index2) in DL.tags" v-if="tag!=''">{{tag}}</span>
 									<span class="box_box"  v-for="(ta,index3) in DL.self_tags" v-if="ta!=''">{{ta}}</span>
 								</div>
 								<span class="img"  @click="XStag(index)">+ 标签</span>
+							</div>
+						</div>
+						<div>
+							<span class="boxImg_text boxImg_bq">运营标签:</span>
+							<div class="boxImg_xz">
+								<div class="boxImg_xz_yz">
+									<span class="box_box"  v-for="(tags,index2) in DL.sls_tags" v-if="tags!=''">{{tags}}</span>
+								</div>
+								<span class="img"  @click="BJtag(index)">+ 标签</span>
 							</div>
 						</div>
 						<div>
@@ -79,12 +97,7 @@
 								<span class="boxImg_text">相关素材:</span>
 								<span class="ck" @click="getRel(index)">查看详情</span>
 							</div>
-							<div class="dx">
-								<span class="boxImg_text">预览图大小:</span>
-								<span class="boxImg_content" v-if="DL.attach.size>1024&&DL.attach.size<1024*1024">{{(DL.attach.size/1024).toFixed(0)}}kb</span>
-								<span class="boxImg_content" v-if="DL.attach.size>1024*1024&&DL.attach.size<1024*1024*1024">{{(DL.attach.size/1024/1024).toFixed(1)}}MB</span>
-								<span class="boxImg_content" v-if="DL.attach.size>1024*1024*1024">{{(DL.attach.size/1024/1024/1024).toFixed(2)}}GB</span>
-							</div>
+
 						</div>
 
 						<div>
@@ -92,13 +105,10 @@
 							<span class="ck">查看详情</span>
 						</div>
 						<div>
-							<span class="boxImg_text">动效实现方式:</span>
-							<span class="boxImg_content">{{DL.model}}</span>
+							<span class="boxImg_text">壁纸标识:</span>
+							<span class="boxImg_content">{{DL.attach.md5}}</span>
 						</div>
-						<div>
-							<span class="boxImg_text">链接:</span>
-							<span class="boxImg_content">{{DL.link}}</span>
-						</div>
+
 						<div>
 							<span class="boxImg_text">更新时间:</span>
 							<span class="boxImg_content">{{DL.updated_at}}</span>
@@ -114,6 +124,23 @@
 				</div>
 				<div class="bjImg" @click="getLt(index)">
 					<span>编辑物料</span>
+				</div>
+			</div>
+		</div>
+		<div class="bgs" v-if="tagData">
+			<div class="contents">
+				<div style="font-size: 18px;font-weight: bold;margin-bottom: 15px">运营标签编辑</div>
+				<div class="tags_name" style="width: 100%;border: 1px solid #e2e2e2;border-radius: 5px;height: 200px;text-align: left;overflow-y: auto;padding: 5px">
+					<template>
+						<el-checkbox-group
+								v-model="checkedCities1">
+							<el-checkbox v-for="(item,index) in tagslist" :label="item" :key="item.usertag" @change="ffff">{{item.desc}}</el-checkbox>
+						</el-checkbox-group>
+					</template>
+				</div>
+				<div class="btn">
+					<span class="adds" @click="addTags()">保存</span>
+					<span @click="Heidtags()">取消</span>
 				</div>
 			</div>
 		</div>
@@ -140,6 +167,7 @@
         components:{AM,hin,tag,set,rel},
         data() {
             return {
+                tagData:false,
                 sc:false,
                 hint:false,
                 tags:false,
@@ -166,11 +194,18 @@
                 userData:{},
                 class:false,
                 class1:false,
+                class2:false,
                 listTag:[],
                 listTagData:[],
+                listTags:[],
                 search_tags:[],
                 controlBtn:true,
-                control:[]
+                control:[],
+                Operatorlist:[],
+                tagslist:[],
+                checkedCities1:[],
+                wpid:'',
+				ta:[],
             }
         },
         created(){
@@ -191,6 +226,10 @@
             this.getData()
         },
         methods: {
+            Heidtags(){
+                this.tagData=false;
+                this.checkedCities1=[];
+            },
             getData(){
                 let params = {
                     email:localStorage.getItem('userAd'),
@@ -211,6 +250,12 @@
             },
             heidTag1(){
                 this.class1=false;
+            },
+            getTag2(){
+                this.class2=true;
+            },
+            heidTag2(){
+                this.class2=false;
             },
             getCon(){
                 this.sc = true;
@@ -307,6 +352,9 @@
                     this.$message('您没有该权限')
                 }
             },
+			ffff(){
+                console.log(this.checkedCities1)
+			},
             XStag(a){
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search}
                 this.api.mfinal_search({params}).then((res)=>{
@@ -319,6 +367,24 @@
                     }
                 })
             },
+            BJtag(index){
+                this.tagData = true;
+                this.wpid=this.IMGList[index].wpid;
+                // this.checkedCities1 = this.IMGList[index].sls_tags;
+                console.log(this.IMGList[index].sls_tags);
+                this.api.lockwallpaper_tags_list().then((res)=>{
+                    this.tagslist=res;
+
+                    for(var i=0;i<this.IMGList[index].sls_tags.length;i++){
+                        for(var j=0;j<res.length;j++){
+                            if(res[j].desc==this.IMGList[index].sls_tags[i]){
+
+                                this.checkedCities1.push(res[j])
+							}
+						}
+					}
+                })
+			},
             getTagsList(){
                 let params = {preset:this.preset,material:this.material,type:this.type};
                 this.api.tags_search({params}).then((da)=>{
@@ -333,6 +399,7 @@
                     this.IMGList=res.data;
                     this.total=res.total;
                     this.getTagsList();
+                    this.getOperatorTag();
                     for(let i =0;i<this.IMGList.length;i++){
                         if(this.IMGList[i].status=='1101'){
                             this.IMGList[i].status='使用中'
@@ -362,7 +429,6 @@
                         }
                     }
                 }
-
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status}
                 this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
@@ -386,7 +452,29 @@
                         }
                     }
                 }
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status}
+                this.api.mfinal_search({params}).then((res)=>{
+                    this.IMGList=res.data;
+                    this.total=res.total;
+                    this.getTagsList()
+                })
+            },
+            getTagYY(name){
+                if(!name){
+                    this.listTags.length=0
+                }else{
+                    if(this.listTags.indexOf(name)==-1){
+                        this.listTags.push(name);
 
+                    }else{
+                        for(var i=0;i<this.listTags.length;i++ ){
+                            if(this.listTags[i]==name){
+                                this.listTags.splice(i,1);
+
+                            }
+                        }
+                    }
+                }
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status}
                 this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
@@ -397,7 +485,30 @@
             updata(){
                 this.getTagsList()
             },
-
+			getOperatorTag(){
+                this.api.lockwallpaper_tags_list().then((res)=>{
+                    this.Operatorlist=res;
+                })
+			},
+            addTags(){
+              
+				for (var i=0;i<this.checkedCities1.length;i++){
+                    var listD={
+                        tags_id:'',
+                        tags_name:'',
+					}
+                    listD.tags_id=this.checkedCities1[i].usertag;
+                    listD.tags_name=this.checkedCities1[i].desc;
+                    this.ta.push(listD);
+				}
+                let formData = new FormData;
+                formData.append('wpid',this.wpid);
+                formData.append('tags',JSON.stringify(this.ta));
+                this.api.lockwallpaper_tags_add(formData).then((res)=>{
+					this.getWl();
+                    this.Heidtags();
+                })
+            },
 
         },
 
@@ -407,4 +518,48 @@
 	.active{
 		color: #1583e2!important;
 		border:0!important;}
+	.bgs{
+		width: 100%;
+		height: 100%;
+		background: rgba(0,0,0,0.2);
+		position: fixed;
+		left: 0;
+		bottom: 0;
+		z-index: 999;
+		text-align: center;
+	}
+	.contents{
+		background: #fff;
+		width: 600px;
+		height: 300px;
+		padding: 24px;
+		border-radius: 10px;
+		margin-top: 20%;
+		margin-left: 50%;
+		transform: translate(-50%,-50%);
+	}
+	.btn{
+		width: 100%;
+		height: 50px;
+		position:fixed;
+		bottom: 0;
+		text-align: center;
+	}
+	.btn span{
+		display: inline-block;
+		line-height:40px;
+		border:1px solid #ddd;
+		text-align: center;
+		width: 80px;
+		height: 40px;
+		border-radius: 10px;
+		color: #666666;
+		cursor: pointer;
+	}
+	.adds{
+		border: 0px!important;
+		background:#2ad5cd!important; ;
+		color: #fff!important;
+		margin-right:50px;
+	}
 </style>

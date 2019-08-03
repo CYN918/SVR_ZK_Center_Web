@@ -26,7 +26,7 @@
                     <div class="AddIMG_content_right">
                         <div class="AddIMG_input">
                             <span class="tit" style="vertical-align: top">附件:</span>
-                            <div class="AddIMG_input_box">
+                            <div class="AddIMG_input_box" v-if="this.types!='f_sls_lockscreen'">
                                 <el-upload
                                         class="upload-demo"
                                         :limit="1"
@@ -38,13 +38,26 @@
                                     <el-button size="small" type="primary" >上传</el-button>
                                 </el-upload>
                             </div>
+                            <div class="AddIMG_input_box" v-if="this.types=='f_sls_lockscreen'">
+                                <el-upload
+                                        class="upload-demo"
+                                        :limit="1"
+                                        :before-upload="beforeAvatarUploads"
+                                        :on-exceed="handleExceed"
+                                        :on-remove="handleRemove"
+                                        :http-request="uploadZip"
+                                        action="111"
+                                >
+                                    <el-button size="small" type="primary" >上传</el-button>
+                                </el-upload>
+                            </div>
                             <img src="../../../public/img/msg.png" @click="showHint" style="vertical-align: top"/>
                             <div class="progress" style="width: 100px;height: 5px;opacity: 0.5;display: inline-block " v-if="initiate" >
                                 <div class="strip" :style="{width:aaa+'%'}" style="background: blue;height: 5px"></div>
                                 <div style="text-align: center;font-size: 10px">当前附件上传{{aaa}}%</div>
                             </div>
-                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="chenck"/><span>仅图片</span>
-                            <div class="upChenck">
+                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="chenck" v-if="this.types!='f_sls_lockscreen'"/><span v-if="this.types!='f_sls_lockscreen'">仅图片</span>
+                            <div class="upChenck" v-if="this.types!='f_sls_lockscreen'">
                                 <p>勾选后可直接上传图片、且无需再次上传预览图</p>
                             </div>
                         </div>
@@ -104,9 +117,7 @@
                                 <div style="text-align: center;font-size: 10px">当前附件上传{{bbb}}%</div>
                             </div>
                         </div>
-
-
-                        <div class="box_sel">
+                        <div class="box_sel" v-if="this.types!='f_sls_lockscreen'">
                             <span class="tit">实现方式:</span>
                             <select v-model="model">
                                 <option value="无">无</option>
@@ -114,10 +125,21 @@
                                 <option value="脚本">脚本</option>
                             </select>
                         </div>
+                        <div class="box_sel" v-if="this.types=='f_sls_lockscreen'">
+                            <span class="tit">实现方式:</span>
+                            <select v-model="model">
+                                <option value="脚本" selected>脚本</option>
+                            </select>
+                        </div>
                         <div v-if="model=='H5'" class="link" style="margin-bottom: 10px">
                             <span class="tit">H5链接:</span>
                             <input type="text" v-model="link">
                         </div>
+                        <div class="box_sel" v-if="this.types=='f_sls_lockscreen'">
+                            <span class="tit">壁纸标识:</span>
+                            <input class="AddIMG_yl_size" v-model="attach.wpid" placeholder="上传附件后自动获取"  disabled >
+                        </div>
+
                         <div class="AddIMG_bq">
                             <span class="tit">选择标签:</span>
                             <div class="AddIMG_bq_box">
@@ -179,7 +201,10 @@
                     url:'',
                     size:'',
                     ext:'',
-                    md5:''
+                    md5:'',
+                    check_md5:'',
+                    checksum_md5:'',
+                    wpid:"",
                 },
                 bind_mid:'',
                 bind_workid:'',
@@ -215,6 +240,9 @@
             }else{
                 this.title='添加物料'
             }
+            if(this.types=='f_sls_lockscreen'){
+                this.model='脚本'
+            }
         },
         methods:{
             heidSc(){
@@ -246,6 +274,36 @@
                         _this.bbb++
                     }
                 },100);
+            },
+            uploadZip(file){
+                this.time();
+                this.initiate=true;
+                let formData =new FormData;
+                formData.append('file',file.file);
+                this.api.file_zip_upload(formData).then((res)=>{
+                    this.aaa=100;
+                    this.initiate=false;
+                    this.attach.md5=res.md5;
+                    this.attach.name = res.name;
+                    this.attach.size = res.size;
+                    this.attach.ext = res.ext;
+                    this.attach.url = res.url;
+                    this.attach.check_md5 = res.check_md5;
+                    this.attach.checksum_md5 = res.checksum_md5;
+                    if(res.wpid==''){
+                        this.$message.error('您上传的非壁纸压缩包，请重新上传')
+                    }else{
+                        this.attach.wpid = res.wpid;
+                    }
+                    var image = new Image();
+                    var _this=this;
+                    image.onload=function(){
+                        var width = image.width;
+                        var height = image.height;
+                        _this.cc = (width+"*"+height)
+                    };
+                    image.src= res.url;
+                })
             },
             uploadF(file){
                 this.time();
@@ -296,11 +354,20 @@
                 if (!isJPG&&!isPNG&&!isPSD&&!isBMP&&!isGIF&&!isTIF) {
                     this.$message.error('只支持JPG、PNG、psd、bmp、gif、tif格式!');
                 }
-
                 return isPNG || isJPG ||isPSD||isBMP||isGIF||isTIF;
             },
             handleExceed(files, fileList) {
                 this.$message.warning(`当前限制选择1个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+            },
+            beforeAvatarUploads(file) {
+                this.file = file;
+                console.log(this.file)
+                const isXzip = file.type === 'application/x-zip-compressed';
+                const iszip = file.type === 'application/zip';
+                if (!(isXzip||iszip)) {
+                    this.$message.error('只支持ZIP格式!');
+                }
+                return isXzip||iszip;
             },
             handleRemove(file, fileList) {
                 this.file = '';
