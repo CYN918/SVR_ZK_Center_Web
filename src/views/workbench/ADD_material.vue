@@ -70,7 +70,7 @@
                         <div class="AddIMG_select">
                             <span class="tit">物料类型:</span>
                             <select v-model="type" @change="getTagsList()">
-                                <option :value="item.type"  v-for="item in scType">{{item.name}}</option>
+                                <option :value="this.types" >{{this.typeName}}</option>
                             </select>
                         </div>
                         <div v-if="type=='f_sls_lockscreen'" class="AddIMG_select">
@@ -178,7 +178,7 @@
 
 <script>
     export default {
-        props:['bindMid','hqUrl','material','id','num','ind'],
+        props:['bindMid','hqUrl','material','id','num','ind','types','typeName'],
         name: "content_component",
         data(){
             return {
@@ -205,7 +205,7 @@
                 sjSize:'',
                 preset:[0,1],
                 preset_tags:[],
-                type:"",
+                type:this.types,
                 sw:false,
                 size:'',
                 scUrl:'',
@@ -449,6 +449,10 @@
                         this.$message('广告位数必须为正整数');
                         return
                     }
+                if(this.type=='f_sls_lockscreen'&&!this.attach.wpid){
+                    this.$message('壁纸标识不能为空');
+                    return
+                }
                     if(this.chenck==true){
                         this.size=this.cc
                     }else{

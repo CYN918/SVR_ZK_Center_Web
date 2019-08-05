@@ -55,7 +55,7 @@
 
 <script>
     export default {
-        props:['id','num','ind'],
+        props:['id','types'],
         name: "a-d-d_material",
         data(){
             return{
