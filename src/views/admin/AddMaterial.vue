@@ -42,7 +42,6 @@
                                 <el-upload
                                         class="upload-demo"
                                         :limit="1"
-                                        :before-upload="beforeAvatarUploads"
                                         :on-exceed="handleExceed"
                                         :on-remove="handleRemove"
                                         :http-request="uploadZip"

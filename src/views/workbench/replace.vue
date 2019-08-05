@@ -37,6 +37,7 @@
             </span>
             <span class="reset" @click="resetRemove">重置</span>
             <span class="educe" @click="downloadImg()">导出</span>
+            <span class="batch_upload" @click="batchUpload()">批量上传</span>
         </div>
         <div>
             <template>
@@ -101,6 +102,35 @@
                     :total="total">
             </el-pagination>
         </div>
+        <div class="bg" v-if="upload">
+            <div class="load">
+                <div class="load_tit">
+                    <span>批量上传</span>
+                </div>
+                <div>
+                    <el-upload
+                            class="upload-demo"
+                            action="aaaa"
+                            multiple
+                            :http-request="beforupload"
+                    >
+                        <el-button size="small" type="primary">点击上传</el-button>
+                    </el-upload>
+                </div>
+                <div class="text_tit">
+                    <span>新资源URL</span>
+                    <div style="display: inline-block;width: 235px">
+                        <input type="text" v-model="item.new_url" disabled v-for="item in new_res"/>
+                    </div>
+
+                </div>
+
+                <div class="btns">
+                    <span class="tj" @click="add()">添加</span>
+                    <span @click="heidTH()">取消</span>
+                </div>
+            </div>
+        </div>
         <div class="bg" v-if="tendency" @click="heidTendency">
             <div id="myChart" @click.stop ref="myChart"></div>
         </div>
@@ -124,6 +154,7 @@
                 number:[],
                 options5:[],
                 tendency:false,
+                upload:false,
             }
         },
         mounted(){
@@ -168,7 +199,13 @@
                     this.total=res.total;
                 })
             },
+            beforupload(file){
+                let formData = new FormData;
+                formData.append('file',file.file);
+                this.api.replace_bat(formData).then((res)=>{
 
+                })
+            },
             downloadImg(){
                 if(!this.text){
                     this.search=''
@@ -219,6 +256,12 @@
             },
             heidTendency(){
                 this.tendency=false;
+            },
+            batchUpload(){
+                this.upload=true;
+            },
+            heidTH(){
+                this.upload =false;
             },
             drawLine(pv,hour){
                 let myChart = echarts.init(document.getElementById('myChart'));
@@ -318,6 +361,19 @@
         text-align: center;
         margin:20px 0 20px 24px ;
     }
+    .batch_upload{
+        display: inline-block;
+        height: 36px;
+        line-height: 36px;
+        width: 90px;
+        cursor: pointer;
+        border-radius: 5px;
+        color: #f5f6fa;
+        background: #4f4cf1 ;
+        border: 0;
+        text-align: center;
+        margin:20px 0 20px 24px ;
+    }
     .blocks{
         margin-top: 30px;
         float: right;
@@ -337,5 +393,49 @@
         color: #3d3d3d!important;
         border: 1px solid #ddd!important;
         background: transparent!important;
+    }
+    .load{
+        border-radius: 10px;
+        width: 500px;
+        min-height: 270px;
+        position: relative;
+        background: #fff;
+        left: 50%;
+        top:50%;
+        transform: translate(-50%,-50%);
+    }
+    .load_tit{border-bottom: 1px solid #ddd}
+    .load_tit span{
+        display: inline-block;
+        height: 36px;
+        line-height: 36px;
+        margin:10px 0 10px 0;
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .load div{
+        margin:15px 24px 0 24px
+    }
+    .btns{
+        text-align: center;
+        margin-top: 30px;
+    }
+    .btns span{
+        display: inline-block;
+        border-radius: 8px;
+        width: 80px!important;
+        height: 36px;
+        line-height: 36px;
+        cursor: pointer;
+        border: 1px solid #c3c3c3;
+        color: #9c9c9c;
+        margin-right: 30px;
+        text-align: center;
+
+    }
+    .tj{
+        border: 0!important;
+        background: #4f4cf1!important;
+        color: #fff!important;
     }
 </style>

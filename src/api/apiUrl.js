@@ -797,4 +797,8 @@ export default {
     report_income_top:{
 		url:'report/income/top',method:"get"
 	},
+	//批量上传图片API
+    replace_bat:{
+		url:"replace/bat",method:"post",isType:{suktip:1},
+	},
 }

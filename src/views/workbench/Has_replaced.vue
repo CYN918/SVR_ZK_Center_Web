@@ -401,11 +401,11 @@
         font-size: 16px;
         font-weight: bold;
     }
-    .btn,.btns{
+    .btn{
         margin: 20px 0;
         text-align: center;
     }
-    .btn span ,.btns span{
+    .btn span {
         display: inline-block;
         height: 36px;
         line-height: 36px;
@@ -537,11 +537,12 @@
         padding:0 8px ;
         margin-right: 15px;
     }
-    .btn{
+    .btns{
         text-align: center;
         margin-top: 30px;
     }
-    .btn span{
+    .btns span{
+        display: inline-block;
         width: 80px!important;
         height: 36px;
         line-height: 36px;
