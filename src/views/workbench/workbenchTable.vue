@@ -5,7 +5,7 @@
         <set v-if="sets"   @listenToChildEvent="listen" :material="0"></set>
         <uplodWl v-if='up'  :id="id"  ></uplodWl>
         <BDadd v-if="BD"  :index="index" :id="id"></BDadd>
-        <AddWL v-if="wl"  :id="id" @dataType="datatype"></AddWL>
+        <AddWL v-if="wl"  :id="id" @dataType="datatype" :types="types" :typeName="typeName"></AddWL>
         <scwl v-if="scwl"  :index="index" :id="id"></scwl>
         <sct v-if="set"  :index="index" :id="id" @dataType="datatype"></sct>
         <QD v-if="sh" :id="id"></QD>
@@ -397,6 +397,8 @@
                 this.ADD_material =true;
                 this.id = this.tableData[index].did;
                 this.num = this.tableData[index].num;
+                this.types = this.tableData[index].type;
+                this.typeName = this.tableData[index].type_name;
                 this.stop();
                 console.log(this.tableData)
             },

@@ -112,21 +112,14 @@
                             class="upload-demo"
                             action="aaaa"
                             multiple
+                            :on-exceed="handleExceed"
+                            :limit="10"
                             :http-request="beforupload"
                     >
                         <el-button size="small" type="primary">点击上传</el-button>
                     </el-upload>
                 </div>
-                <div class="text_tit">
-                    <span>新资源URL</span>
-                    <div style="display: inline-block;width: 235px">
-                        <input type="text" v-model="item.new_url" disabled v-for="item in new_res"/>
-                    </div>
-
-                </div>
-
                 <div class="btns">
-                    <span class="tj" @click="add()">添加</span>
                     <span @click="heidTH()">取消</span>
                 </div>
             </div>
@@ -182,10 +175,13 @@
                     return ''
                 }
             },
+
             cell({row, column, rowIndex, columnIndex}){
                 return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
-
+            handleExceed(files, fileList) {
+                this.$message.warning(`当前限制选择10 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+            },
             getList(){
                 if(!this.text){
                     this.search=''
@@ -200,6 +196,17 @@
                 })
             },
             beforupload(file){
+                console.log(file.file);
+                var _this= this;
+                var reader = new FileReader();
+                reader.readAsDataURL(file.file);
+                reader.onload=function(){
+                  var base64=_this.result;
+                  var img=new Image();
+                  img.src=base64;
+                  alert(img.height+'*'+img.width);
+                };
+
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.replace_bat(formData).then((res)=>{
@@ -417,7 +424,6 @@
         margin:15px 24px 0 24px
     }
     .btns{
-        text-align: center;
         margin-top: 30px;
     }
     .btns span{
@@ -430,12 +436,8 @@
         border: 1px solid #c3c3c3;
         color: #9c9c9c;
         margin-right: 30px;
+        margin-left: 24px;
         text-align: center;
+    }
 
-    }
-    .tj{
-        border: 0!important;
-        background: #4f4cf1!important;
-        color: #fff!important;
-    }
 </style>

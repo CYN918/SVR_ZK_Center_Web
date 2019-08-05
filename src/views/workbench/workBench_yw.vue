@@ -29,10 +29,10 @@
                 </div>
                 <div>
                     <span class="tit_txt">尺寸</span>
-                    <input class="num" type="text"  v-model="size" v-if="switcher" placeholder="请输入尺寸，例“99*99”" />
+                    <input class="num" type="text" v-model="size" v-if="switcher" placeholder="请输入尺寸，例“99*99”" />
                     <select v-model="size" v-if="switcher==false" @change="cut()">
                         <option value="" disabled selected style="color: #8b9bb3">请选择</option>
-                        <option value=" ">自定义</option>
+                        <option value="">自定义</option>
                         <option v-for="(item,index) in sizeList" :value="item.size">{{item.size}}</option>
                     </select>
                     <span class="tit_txt right">优先级</span>
@@ -310,7 +310,7 @@
                 })
             },
             cut(){
-                if(this.size==' '){
+                if(!this.size){
                     this.switcher=true
                 }
 

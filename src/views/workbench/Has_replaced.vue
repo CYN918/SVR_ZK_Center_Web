@@ -111,6 +111,7 @@
                         action="aaaa"
                         multiple
                         :limit="10"
+                        :on-exceed="handleExceed"
                         :on-remove="handleRemove"
                         :http-request="upload"
                         >

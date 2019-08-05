@@ -118,6 +118,21 @@
                             <span class="tit">壁纸标识:</span>
                             <input class="AddIMG_yl_size" v-model="attach.wpid" placeholder="上传附件后自动获取"  disabled >
                         </div>
+                        <div class="box_sel">
+                            <span class="tit">实现方式:</span>
+                            <select v-model="model" v-if="this.type!='f_sls_lockscreen'">
+                                <option value="无">无</option>
+                                <option value="H5">H5</option>
+                                <option value="脚本">脚本</option>
+                            </select>
+                            <select v-model="model" v-if="this.type=='f_sls_lockscreen'">
+                                <option value="脚本">脚本</option>
+                            </select>
+                        </div>
+                        <div v-if="model=='H5'" class="link">
+                            <span class="tit">H5链接:</span>
+                            <input type="text" v-model="link">
+                        </div>
                         <div class="AddIMG_bq">
                             <span class="tit">选择标签:</span>
                             <div class="AddIMG_bq_box">
@@ -148,21 +163,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="box_sel">
-                            <span class="tit">实现方式:</span>
-                            <select v-model="model" v-if="this.type!='f_sls_lockscreen'">
-                                <option value="无">无</option>
-                                <option value="H5">H5</option>
-                                <option value="脚本">脚本</option>
-                            </select>
-                            <select v-model="model" v-if="this.type=='f_sls_lockscreen'">
-                                <option value="脚本">脚本</option>
-                            </select>
-                        </div>
-                        <div v-if="model=='H5'" class="link">
-                            <span class="tit">H5链接:</span>
-                            <input type="text" v-model="link">
                         </div>
                         <div class="bg_btn">
                             <span class="bg_btn_up" @click="AddMatter">上传</span>

@@ -10,7 +10,7 @@
                 <div class="Search_select">
                     <span class="Search_select_tit">物料类型：</span>
                     <select v-model="type" @change="getList()">
-                        <option v-for="item in scType" :value="item.type">{{item.name}}</option>
+                        <option  :value="this.types">{{this.typeName}}</option>
                     </select>
                 </div>
             </div>
@@ -81,7 +81,7 @@
 <script>
     export default {
         name: "select_material",
-        props:['id'],
+        props:['id','types','typeName'],
         data(){
             return {
                 checked:'',
@@ -97,7 +97,7 @@
                 scMid:[],
                 scUrl:'',
                 scType:'',
-                type:'',
+                type:this.types,
                 mid_list:[],
                 url_list:[],
                 inx:null,
