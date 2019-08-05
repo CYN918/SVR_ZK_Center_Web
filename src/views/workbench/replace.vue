@@ -148,6 +148,8 @@
                 options5:[],
                 tendency:false,
                 upload:false,
+                width:"",
+                height:'',
             }
         },
         mounted(){
@@ -195,24 +197,31 @@
                     this.total=res.total;
                 })
             },
-            beforupload(file){
-                console.log(file.file);
-                var _this= this;
-                var reader = new FileReader();
-                reader.readAsDataURL(file.file);
-                reader.onload=function(){
-                  var base64=_this.result;
-                  var img=new Image();
-                  img.src=base64;
-                  alert(img.height+'*'+img.width);
-                };
-
+            before(file){
                 let formData = new FormData;
                 formData.append('file',file.file);
+                formData.append('width',this.width);
+                formData.append('height',this.height);
                 this.api.replace_bat(formData).then((res)=>{
 
                 })
             },
+            beforupload(file){
+                var reader = new FileReader();
+                var _this=this;
+                reader.readAsDataURL(file.file);
+                reader.onload=function(theFile){
+                    var image=new Image();
+                    image.src=theFile.target.result;
+                    image.onload = function() {
+                        _this.width = image.width;
+                        _this.height = image.height;
+                        _this.before(file);
+                    };
+                };
+
+            },
+
             downloadImg(){
                 if(!this.text){
                     this.search=''
