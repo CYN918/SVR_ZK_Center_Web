@@ -125,7 +125,7 @@
 
                     </div>
 
-                    <div class="btn">
+                    <div class="btns">
                         <span class="tj" @click="add()">添加</span>
                         <span @click="heidTH()">取消</span>
                     </div>
@@ -401,11 +401,11 @@
         font-size: 16px;
         font-weight: bold;
     }
-    .btn{
+    .btn,.btns{
         margin: 20px 0;
         text-align: center;
     }
-    .btn span{
+    .btn span ,.btns span{
         display: inline-block;
         height: 36px;
         line-height: 36px;

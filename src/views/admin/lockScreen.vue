@@ -491,7 +491,7 @@
                 })
 			},
             addTags(){
-              
+
 				for (var i=0;i<this.checkedCities1.length;i++){
                     var listD={
                         tags_id:'',

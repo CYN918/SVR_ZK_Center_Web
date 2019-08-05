@@ -505,6 +505,10 @@
                         this.$message('广告位数必须为正整数');
                         return
                     }
+                    if(this.types=='f_sls_lockscreen'&&!this.attach.wpid){
+                        this.$message('壁纸标识不能为空');
+                        return
+                    }
                     if(this.type=='f_sls_lockscreen'){
                         if(this.chenck==true){
                             this.size=this.cc
