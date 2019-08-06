@@ -113,11 +113,13 @@
                             action="aaaa"
                             multiple
                             :on-exceed="handleExceed"
-                            :limit="10"
+                            :limit="100"
                             :http-request="beforupload"
+                            :file-list="fileList"
                     >
                         <el-button size="small" type="primary">点击上传</el-button>
                     </el-upload>
+
                 </div>
                 <div class="btns">
                     <span @click="heidTH()">取消</span>
@@ -150,6 +152,7 @@
                 upload:false,
                 width:"",
                 height:'',
+                fileList: []
             }
         },
         mounted(){
@@ -182,8 +185,9 @@
                 return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
             handleExceed(files, fileList) {
-                this.$message.warning(`当前限制选择10 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+                this.$message.warning(`当前限制选择100 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
             },
+
             getList(){
                 if(!this.text){
                     this.search=''
@@ -203,7 +207,9 @@
                 formData.append('width',this.width);
                 formData.append('height',this.height);
                 this.api.replace_bat(formData).then((res)=>{
-
+                    if(!res.data){
+                        this.fileList.push(file.file)
+                    }
                 })
             },
             beforupload(file){
@@ -213,13 +219,14 @@
                 reader.onload=function(theFile){
                     var image=new Image();
                     image.src=theFile.target.result;
+                    console.log(theFile.target.result);
                     image.onload = function() {
                         _this.width = image.width;
                         _this.height = image.height;
                         _this.before(file);
                     };
                 };
-
+                console.log(file.file)
             },
 
             downloadImg(){

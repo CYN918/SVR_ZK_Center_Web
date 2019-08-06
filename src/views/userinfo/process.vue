@@ -64,7 +64,7 @@
                 <span>素材需求流程</span>
             </div>
             <div class="yw_select">
-                <span>业务类型</span>
+                <span>素材类型</span>
                 <select v-model="WLtype" @change="wlConductorList">
                     <option v-for="(item,index) in SCtypeList" :value="item.type">{{item.name}}</option>
                 </select>
