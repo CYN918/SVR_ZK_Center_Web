@@ -157,7 +157,7 @@
                     <template>
                         <el-checkbox-group
                                 v-model="checkedCities1">
-                            <el-checkbox v-for="(item,index) in tagslist" :label="item" :key="item.usertag" >{{item.desc}}</el-checkbox>
+                            <el-checkbox v-for="(item,index) in Operatorlist" :label="item" :key="item.usertag" >{{item.desc}}</el-checkbox>
                         </el-checkbox-group>
                     </template>
                 </div>
@@ -187,6 +187,7 @@
                 channel:'',
                 themes:[],
                 thid:'',
+                Operatorlist:[],
             }
         },
         mounted(){this.listData()},
@@ -219,7 +220,8 @@
                 this.pop =false;
             },
             tags(index){
-                this.tagData=true
+                this.tagData=true;
+                this.getOperatorTag();
             },
             Heidtags(){
                 this.tagData=false;
@@ -288,7 +290,8 @@
                 let formData = new FormData;
                 formData.append('themes',JSON.stringify(this.themes));
                 this.api.themes_add(formData).then((res)=>{
-
+                    this.heidTH();
+                    this.listData();
                 })
             },
             listData(){
@@ -306,6 +309,11 @@
                 formData.append('channel',this.channel);
                 this.api.themes_del(formData).then((res)=>{
                     this.listData();
+                })
+            },
+            getOperatorTag(){
+                this.api.lockwallpaper_tags_list().then((res)=>{
+                    this.Operatorlist=res;
                 })
             },
         }
