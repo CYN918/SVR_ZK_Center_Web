@@ -107,20 +107,51 @@
                 <div class="load_tit">
                     <span>批量上传</span>
                 </div>
-                <div>
+                <div class="load_upload">
                     <el-upload
                             class="upload-demo"
                             action="aaaa"
                             multiple
                             :on-exceed="handleExceed"
                             :limit="100"
+                            :on-error="error"
                             :http-request="beforupload"
-                            :file-list="fileList"
                     >
                         <el-button size="small" type="primary">点击上传</el-button>
                     </el-upload>
-
                 </div>
+                <div class="table_load">
+                    <template>
+                        <el-table
+                                :data="tableDataList"
+                                style="width: 100%"
+                                :header-cell-style="getRowClass"
+                                :cell-style="cell"
+                                border>
+                            <el-table-column
+                                    prop="name"
+                                    :show-overflow-tooltip="true"
+                                    label="文件名">
+                            </el-table-column>
+
+                            <el-table-column
+                                    prop="size"
+                                    label="分辨率">
+                            </el-table-column>
+                            <el-table-column
+                                    prop=""
+                                    label="状态">
+                            </el-table-column>
+                            <el-table-column
+                                    label="操作">
+                                <template slot-scope="scope">
+                                    <el-button  type="text" size="small" @click="remove(scope.$index)">删除</el-button>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </template>
+                </div>
+
                 <div class="btns">
                     <span @click="heidTH()">取消</span>
                 </div>
@@ -152,7 +183,7 @@
                 upload:false,
                 width:"",
                 height:'',
-                fileList: []
+                tableDataList:[],
             }
         },
         mounted(){
@@ -199,7 +230,11 @@
                 this.api.replace_sdk_overview({params}).then((res)=>{
                     this.tableData = res;
                     this.total=res.total;
+
                 })
+            },
+            remove(index){
+                this.tableDataList.splice(index,1);
             },
             before(file){
                 let formData = new FormData;
@@ -207,28 +242,31 @@
                 formData.append('width',this.width);
                 formData.append('height',this.height);
                 this.api.replace_bat(formData).then((res)=>{
-                    if(!res.data){
-                        this.fileList.push(file.file)
-                    }
+
                 })
             },
             beforupload(file){
                 var reader = new FileReader();
                 var _this=this;
+                var obj={}
                 reader.readAsDataURL(file.file);
                 reader.onload=function(theFile){
                     var image=new Image();
                     image.src=theFile.target.result;
-                    console.log(theFile.target.result);
                     image.onload = function() {
                         _this.width = image.width;
                         _this.height = image.height;
                         _this.before(file);
+                        obj.size = image.width+'*'+image.height;
                     };
                 };
-                console.log(file.file)
+                obj.name = file.file.name;
+                this.tableDataList.push(obj);
+                console.log(this.tableDataList);
             },
-
+            error(err, file, fileList){
+                alert(err)
+            },
             downloadImg(){
                 if(!this.text){
                     this.search=''
@@ -285,6 +323,7 @@
             },
             heidTH(){
                 this.upload =false;
+                this.fileList=[];
             },
             drawLine(pv,hour){
                 let myChart = echarts.init(document.getElementById('myChart'));
@@ -419,7 +458,7 @@
     }
     .load{
         border-radius: 10px;
-        width: 500px;
+        width: 800px;
         min-height: 270px;
         position: relative;
         background: #fff;
@@ -436,7 +475,7 @@
         font-size: 18px;
         font-weight: bold;
     }
-    .load div{
+    .load_upload ,.load_tit{
         margin:15px 24px 0 24px
     }
     .btns{
@@ -454,6 +493,9 @@
         margin-right: 30px;
         margin-left: 24px;
         text-align: center;
+        margin-bottom: 24px;
     }
-
+    .table_load{
+        padding: 24px;
+    }
 </style>

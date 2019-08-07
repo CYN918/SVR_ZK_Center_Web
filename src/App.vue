@@ -729,4 +729,7 @@ select{
   color: #4f4cf1;
   padding:0;
 }
+  .load .el-upload-list{
+    display: none;
+  }
 </style>

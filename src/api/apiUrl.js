@@ -801,4 +801,20 @@ export default {
     replace_bat:{
 		url:"replace/bat",method:"post",isType:{suktip:1},
 	},
+	//上传主题文件
+    themes_upload:{
+		url:"themes/upload",method:'post',isType:{suktip:1}
+	},
+	//新增主题
+    themes_add:{
+		url:'themes/add',method:'post',isType:{suktip:1}
+	},
+	//主题列表
+    themes_list:{
+		url:'themes/list',method:'get'
+	},
+	//删除主题
+    themes_del:{
+		url:'themes/del',method:'post',isType:{suktip:1}
+	},
 }

@@ -32,7 +32,7 @@ const createApiInstance = (config = {}) => {
 }
 const sendApiInstance = (method, url, params, config = {},isType={}) => {
 	if(!url){return}		
-	let instance = createApiInstance(config)
+	let instance = createApiInstance(config);
 	instance.interceptors.response.use(response => {
 		let {status, message, data} = response.data;
 		if(status==true){

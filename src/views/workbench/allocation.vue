@@ -23,7 +23,7 @@
                                 label="图片"
                         >
                             <template slot-scope="scope">
-                                <img :src="scope.row.pic_url" min-width="70" height="70" />
+                                <img :src="scope.row.pic_url" man-width="80" height="80" />
                             </template>
                         </el-table-column>
                         <el-table-column
