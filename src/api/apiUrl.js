@@ -817,4 +817,8 @@ export default {
     themes_del:{
 		url:'themes/del',method:'post',isType:{suktip:1}
 	},
+	//编辑标签
+    themes_tags:{
+		url:"themes/tags",method:'post',isType:{suktip:1}
+	},
 }

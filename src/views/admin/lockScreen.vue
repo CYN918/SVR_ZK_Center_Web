@@ -374,11 +374,9 @@
                 console.log(this.IMGList[index].sls_tags);
                 this.api.lockwallpaper_tags_list().then((res)=>{
                     this.tagslist=res;
-
                     for(var i=0;i<this.IMGList[index].sls_tags.length;i++){
                         for(var j=0;j<res.length;j++){
                             if(res[j].desc==this.IMGList[index].sls_tags[i]){
-
                                 this.checkedCities1.push(res[j])
 							}
 						}

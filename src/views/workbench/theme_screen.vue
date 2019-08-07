@@ -32,7 +32,7 @@
                     >
                     </el-table-column>
                     <el-table-column
-                            prop="md5"
+                            prop="tags_name"
                             label="标签"
                     >
                     </el-table-column>
@@ -48,7 +48,7 @@
                     >
                     </el-table-column>
                     <el-table-column
-                            prop="created_at"
+                            prop="creator"
                             label="操作人员"
                     >
                     </el-table-column>
@@ -175,7 +175,7 @@
         name: "theme_screen",
         data(){
             return{
-                tableData:[{name:'磊磊'}],
+                tableData:[],
                 pop:false,
                 p:10,
                 page:1,
@@ -188,6 +188,8 @@
                 themes:[],
                 thid:'',
                 Operatorlist:[],
+                index:'',
+                ta:[],
             }
         },
         mounted(){this.listData()},
@@ -220,6 +222,7 @@
                 this.pop =false;
             },
             tags(index){
+                this.index = index;
                 this.tagData=true;
                 this.getOperatorTag();
             },
@@ -227,19 +230,40 @@
                 this.tagData=false;
                 this.checkedCities1=[];
             },
-            addTags(){},
+            addTags(){
+                this.thid = this.tableData[this.index].thid;
+                this.channel = this.tableData[this.index].channel;
+                for (var i=0;i<this.checkedCities1.length;i++){
+                    var listD={
+                        tags_id:'',
+                        tags_name:'',
+                    }
+                    listD.tags_id=this.checkedCities1[i].usertag;
+                    listD.tags_name=this.checkedCities1[i].desc;
+                    this.ta.push(listD);
+                }
+                let formData = new FormData;
+                formData.append('thid',this.thid);
+                formData.append('channel',this.channel);
+                formData.append('tags',JSON.stringify(this.checkedCities1));
+                this.api.themes_tags(formData).then((res)=>{
+                    this.listData();
+                })
+            },
             beforupload(file){
-                console.log(file.file)
                 if(!this.channel){
                     this.$message.error('渠道不能为空');
                     return
                 }
+                var obj={};
+                obj.status ='上传中';
+                obj.name = file.file.name;
+                this.tableDataList.push(obj);
+                console.log(obj.status);
                 let formData = new FormData;
                 formData.append('file',file.file);
                 formData.append('channel',this.channel);
                 this.api.themes_upload(formData).then((res)=>{
-                    var obj={};
-                    obj.name = file.file.name;
                     if(!res){
                         obj.status = '上传失败';
                         obj.thid = '';
@@ -249,7 +273,6 @@
                         obj.thid = res.thid;
                         obj.prev_url = res.prev_url;
                     }
-                    this.tableDataList.push(obj);
                     var arr={
                         thid:"",
                         theme_name:'',
@@ -314,6 +337,13 @@
             getOperatorTag(){
                 this.api.lockwallpaper_tags_list().then((res)=>{
                     this.Operatorlist=res;
+                    for(var i=0;i<this.tableData[this.index].tags_name.length;i++){
+                        for(var j=0;j<res.length;j++){
+                            if(res[j].desc==this.tableData[this.index].tags_name[i]){
+                                this.checkedCities1.push(res[j]);
+                            }
+                        }
+                    }
                 })
             },
         }
