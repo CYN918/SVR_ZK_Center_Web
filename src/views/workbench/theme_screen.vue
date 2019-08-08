@@ -134,6 +134,11 @@
                             <el-table-column
                                     prop="status"
                                     label="状态">
+                                <template slot-scope="scope">
+                                    <span v-if="tableDataList[scope.$index].status=='上传中'" class="win">上传中</span>
+                                    <span v-if="tableDataList[scope.$index].status=='上传成功'" class="win">上传成功</span>
+                                    <span v-if="tableDataList[scope.$index].status=='上传失败'" class="loss">上传失败</span>
+                                </template>
                             </el-table-column>
                             <el-table-column
                                     label="操作">
@@ -259,7 +264,6 @@
                 obj.status ='上传中';
                 obj.name = file.file.name;
                 this.tableDataList.push(obj);
-                console.log(obj.status);
                 let formData = new FormData;
                 formData.append('file',file.file);
                 formData.append('channel',this.channel);
@@ -296,7 +300,6 @@
                     arr.attach.ext=res.ext;
                     arr.attach.md5=res.md5;
                     this.themes.push(arr);
-                    console.log(arr)
                 })
             },
             remove(index){
@@ -486,4 +489,10 @@
     color: #fff!important;
     margin-right:50px;
 }
+    .win{
+        color: #55a532;
+    }
+    .loss{
+        color: red;
+    }
 </style>
