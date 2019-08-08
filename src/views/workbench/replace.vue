@@ -139,8 +139,13 @@
                                     label="分辨率">
                             </el-table-column>
                             <el-table-column
-                                    prop="stotus"
+                                    prop="status"
                                     label="状态">
+                                <template slot-scope="scope">
+                                    <span v-if="tableDataList[scope.$index].status=='上传中'" class="win">上传中</span>
+                                    <span v-if="tableDataList[scope.$index].status=='上传成功'" class="win">上传成功</span>
+                                    <span v-if="tableDataList[scope.$index].status=='上传失败'" class="loss">上传失败</span>
+                                </template>
                             </el-table-column>
                             <el-table-column
                                     label="操作">
@@ -237,17 +242,19 @@
                 this.tableDataList.splice(index,1);
             },
             before(file,obj){
-                console.log(obj)
                 obj.status='上传中';
+                this.tableDataList.push(obj);
                 let formData = new FormData;
                 formData.append('file',file.file);
                 formData.append('width',this.width);
                 formData.append('height',this.height);
                 this.api.replace_bat(formData).then((res)=>{
                     if(!res){
-                        obj.status=='上传失败'
+                        obj.status='上传失败';
+                        console.log(obj)
                     }else {
-                        obj.status=='上传成功'
+                        obj.status='上传成功'
+                        console.log(obj)
                     }
                 })
             },
@@ -267,8 +274,6 @@
                     };
                 };
                 obj.name = file.file.name;
-                this.tableDataList.push(obj);
-                console.log(this.tableDataList);
             },
             error(err, file, fileList){
                 alert(err)
@@ -330,6 +335,7 @@
             heidTH(){
                 this.upload =false;
                 this.fileList=[];
+                this.tableDataList=[];
             },
             drawLine(pv,hour){
                 let myChart = echarts.init(document.getElementById('myChart'));
@@ -374,8 +380,9 @@
         z-index: 999;
     }
     #myChart{
+        border-radius: 5px;
         color:transparent;
-        width:600px ;
+        width:800px ;
         height:400px ;
         position: relative;
         left: 50%;
@@ -503,5 +510,11 @@
     }
     .table_load{
         padding: 24px;
+    }
+    .win{
+        color: #55a532;
+    }
+    .loss{
+        color: red;
     }
 </style>
