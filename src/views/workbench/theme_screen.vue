@@ -226,6 +226,7 @@
             },
             heidTH(){
                 this.pop =false;
+                this.tableDataList=[];
             },
             tags(index){
                 this.index = index;

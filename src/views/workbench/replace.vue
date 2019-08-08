@@ -139,7 +139,7 @@
                                     label="分辨率">
                             </el-table-column>
                             <el-table-column
-                                    prop=""
+                                    prop="stotus"
                                     label="状态">
                             </el-table-column>
                             <el-table-column
@@ -236,19 +236,25 @@
             remove(index){
                 this.tableDataList.splice(index,1);
             },
-            before(file){
+            before(file,obj){
+                console.log(obj)
+                obj.status='上传中';
                 let formData = new FormData;
                 formData.append('file',file.file);
                 formData.append('width',this.width);
                 formData.append('height',this.height);
                 this.api.replace_bat(formData).then((res)=>{
-
+                    if(!res){
+                        obj.status=='上传失败'
+                    }else {
+                        obj.status=='上传成功'
+                    }
                 })
             },
             beforupload(file){
                 var reader = new FileReader();
                 var _this=this;
-                var obj={}
+                var obj={};
                 reader.readAsDataURL(file.file);
                 reader.onload=function(theFile){
                     var image=new Image();
@@ -256,7 +262,7 @@
                     image.onload = function() {
                         _this.width = image.width;
                         _this.height = image.height;
-                        _this.before(file);
+                        _this.before(file,obj);
                         obj.size = image.width+'*'+image.height;
                     };
                 };
