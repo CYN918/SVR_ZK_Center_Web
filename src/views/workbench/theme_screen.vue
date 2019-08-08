@@ -34,6 +34,7 @@
                     <el-table-column
                             prop="tags_name"
                             label="标签"
+                            :show-overflow-tooltip="true"
                     >
                     </el-table-column>
                     <el-table-column
@@ -129,7 +130,6 @@
                                     label="壁纸标识"
                                     :show-overflow-tooltip="true"
                             >
-
                             </el-table-column>
                             <el-table-column
                                     prop="status"
