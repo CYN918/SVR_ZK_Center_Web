@@ -8,7 +8,7 @@
         </div>
         <div class="centNavBox">
             <div class="box_input">
-                <div class="btn" @click="jump">
+                <div class="btn_box" @click="jump">
                     <span><img src="../../../public/img/add_msg.png" style="width: 12px;margin-right: 14px">添加角色</span>
                 </div>
                 <div class="box" v-for="(item,index) in list">
@@ -131,7 +131,7 @@
         box-sizing: border-box;
         margin-top:194px;
     }
-.btn{
+.btn_box{
     display: inline-block;
     text-align: center;
     width:519px;
@@ -144,7 +144,7 @@
     border: 2px dotted #d3dbeb;
 }
 
-    .btn>span{
+    .btn_box>span{
     display: inline-block;
     border-radius:5px;
     text-align: center;
