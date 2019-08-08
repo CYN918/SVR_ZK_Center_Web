@@ -229,6 +229,7 @@
             Heidtags(){
                 this.tagData=false;
                 this.checkedCities1=[];
+                this.ta=[];
             },
             getData(){
                 let params = {

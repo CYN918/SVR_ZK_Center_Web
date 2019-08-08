@@ -162,7 +162,7 @@
                     <template>
                         <el-checkbox-group
                                 v-model="checkedCities1">
-                            <el-checkbox v-for="(item,index) in Operatorlist" :label="item" :key="item.usertag" >{{item.desc}}</el-checkbox>
+                            <el-checkbox v-for="(item,index) in Operatorlist" :label="item"  @change="fff">{{item.desc}}</el-checkbox>
                         </el-checkbox-group>
                     </template>
                 </div>
@@ -195,6 +195,7 @@
                 Operatorlist:[],
                 index:'',
                 ta:[],
+                num:[],
             }
         },
         mounted(){this.listData()},
@@ -234,8 +235,13 @@
             Heidtags(){
                 this.tagData=false;
                 this.checkedCities1=[];
+                this.ta=[];
+            },
+            fff(){
+                console.log(this.checkedCities1)
             },
             addTags(){
+                console.log(this.checkedCities1.length);
                 this.thid = this.tableData[this.index].thid;
                 this.channel = this.tableData[this.index].channel;
                 for (var i=0;i<this.checkedCities1.length;i++){
@@ -247,12 +253,14 @@
                     listD.tags_name=this.checkedCities1[i].desc;
                     this.ta.push(listD);
                 }
+                console.log(this.ta);
                 let formData = new FormData;
                 formData.append('thid',this.thid);
                 formData.append('channel',this.channel);
                 formData.append('tags',JSON.stringify(this.ta));
                 this.api.themes_tags(formData).then((res)=>{
                     this.listData();
+                    this.Heidtags();
                 })
             },
             beforupload(file){
@@ -312,7 +320,6 @@
                         return
                     }
                 }
-                console.log(this.themes)
                 let formData = new FormData;
                 formData.append('themes',JSON.stringify(this.themes));
                 this.api.themes_add(formData).then((res)=>{
@@ -340,11 +347,13 @@
             getOperatorTag(){
                 this.api.lockwallpaper_tags_list().then((res)=>{
                     this.Operatorlist=res;
-                    console.log(res)
                     for(var i=0;i<this.tableData[this.index].tags_name.split(',').length;i++){
                             for(var j=0;j<res.length;j++){
                                 if(res[j].desc==this.tableData[this.index].tags_name.split(',')[i]){
-                                    this.checkedCities1.push(res[j]);
+                                    if(this.checkedCities1.indexOf(res[j])==-1){
+                                        this.checkedCities1.push(res[j]);
+                                    }
+
                                 }
                             }
                     }
