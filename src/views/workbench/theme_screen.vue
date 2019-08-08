@@ -245,7 +245,7 @@
                 let formData = new FormData;
                 formData.append('thid',this.thid);
                 formData.append('channel',this.channel);
-                formData.append('tags',JSON.stringify(this.checkedCities1));
+                formData.append('tags',JSON.stringify(this.ta));
                 this.api.themes_tags(formData).then((res)=>{
                     this.listData();
                 })
@@ -337,12 +337,13 @@
             getOperatorTag(){
                 this.api.lockwallpaper_tags_list().then((res)=>{
                     this.Operatorlist=res;
-                    for(var i=0;i<this.tableData[this.index].tags_name.length;i++){
-                        for(var j=0;j<res.length;j++){
-                            if(res[j].desc==this.tableData[this.index].tags_name[i]){
-                                this.checkedCities1.push(res[j]);
+                    console.log(res)
+                    for(var i=0;i<this.tableData[this.index].tags_name.split(',').length;i++){
+                            for(var j=0;j<res.length;j++){
+                                if(res[j].desc==this.tableData[this.index].tags_name.split(',')[i]){
+                                    this.checkedCities1.push(res[j]);
+                                }
                             }
-                        }
                     }
                 })
             },
