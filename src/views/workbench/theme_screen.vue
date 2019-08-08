@@ -158,7 +158,7 @@
         <div class="bgs" v-if="tagData">
             <div class="contents">
                 <div style="font-size: 18px;font-weight: bold;margin-bottom: 15px">配置运营标签</div>
-                <div class="tags_name" style="width: 100%;border: 1px solid #e2e2e2;border-radius: 5px;height: 200px;text-align: left;overflow-y: auto;padding: 5px">
+                <div class="tags_name" style="width: 100%;border: 1px solid #e2e2e2;border-radius: 5px;height: 200px;text-align: left;overflow-y: auto;padding: 5px;overflow-y: auto">
                     <template>
                         <el-checkbox-group
                                 v-model="checkedCities1">

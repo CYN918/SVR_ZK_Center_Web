@@ -732,7 +732,7 @@ select{
   .load .el-upload-list{
     display: none;
   }
-.contents .el-checkbox__input.is-checked+.el-checkbox__label{
+ .tags_name .el-checkbox__input.is-checked+.el-checkbox__label,.contents .el-checkbox__input.is-checked+.el-checkbox__label{
   display: inline-block;
   width: 100%;
   height: 100%;
@@ -743,7 +743,8 @@ select{
   text-align: center;
   border:0!important;
 }
-.contents .el-checkbox__label{
+
+ .tags_name .el-checkbox__label,.contents .el-checkbox__label{
   width: 100%;
   height: 100%;
   padding: 5px;

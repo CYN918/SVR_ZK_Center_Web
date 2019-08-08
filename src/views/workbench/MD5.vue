@@ -101,11 +101,11 @@
         <div class="bg" v-if="tag" @click="Heidtags()">
             <div class="content" @click.stop>
                 <div style="font-size: 18px;font-weight: bold;margin-bottom: 15px">添加标签</div>
-                <div class="tags_name" style="width: 100%;border: 1px solid #e2e2e2;border-radius: 5px;height: 200px;text-align: left;overflow-y: auto;padding: 5px">
+                <div class="tags_name" style="width: 100%;border: 1px solid #e2e2e2;border-radius: 5px;height: 200px;text-align: left;overflow-y: auto;padding: 5px;overflow-y: auto">
                     <template>
                         <el-checkbox-group
                                 v-model="checkedCities1">
-                            <el-checkbox v-for="(item,index) in tagslist" :label="index" :key="item.usertag">{{item.desc}}</el-checkbox>
+                            <el-checkbox v-for="(item,index) in tagslist" :label="item" >{{item.desc}}</el-checkbox>
                         </el-checkbox-group>
                     </template>
                 </div>
@@ -174,9 +174,7 @@
                     for(let i=0;i<this.tag_id.length;i++){
                         for(let j=0;j<this.tagslist.length;j++){
                             if(this.tagslist[j].usertag==this.tag_id[i]){
-                                this.checkedCities1.push(j);
-                            }else{
-                                this.checkedCities1=[]
+                                this.checkedCities1.push(this.tagslist[j]);
                             }
                         }
                     }
@@ -184,7 +182,8 @@
             },
             Heidtags(){
                 this.tag=false;
-                this.checkedCities1=[]
+                this.checkedCities1=[];
+                this.tags=[];
             },
             qx(){
                 this.show = false;
@@ -303,8 +302,8 @@
                         tags_id:'',
                         tags_name:''
                     }
-                    tag.tags_id = this.tagslist[this.checkedCities1[i]].usertag;
-                    tag.tags_name = this.tagslist[this.checkedCities1[i]].desc;
+                    tag.tags_id = this.checkedCities1[i].usertag;
+                    tag.tags_name = this.checkedCities1[i].desc;
                     this.tags.push(tag);
                 }
                 let formData = new FormData;
