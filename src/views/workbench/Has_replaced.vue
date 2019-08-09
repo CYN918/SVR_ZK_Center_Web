@@ -43,11 +43,11 @@
                     <span >{{src}}</span>
                 </div>
                 <div>
-                    <span>落地页:</span>
+                    <span >落地页:</span>
                     <a :href="preview_url" style="display:inline-block;max-width:1300px;overflow: auto " target="_blank">{{preview_url}}</a>
                 </div>
                 <div>
-                    <span>原始图:</span>
+                    <span style="vertical-align: top">原始图:</span>
                     <div style="display: inline-block">
                         <div v-for="item in imgs"><a :href="item.url" style="display:inline-block;max-width:1300px;overflow: auto" target="_blank">{{item.url}}</a></div>
                     </div>
@@ -101,7 +101,7 @@
                 </template>
             </div>
             <div class="bg" v-if="th">
-                <div class="load">
+                <div class="load_up">
                     <div class="load_tit">
                         <span>添加替换</span>
                     </div>
@@ -184,6 +184,7 @@
                 type:'',
                 search:'',
                 new_res:[],
+                url_md5:'',
 
             }
         },
@@ -226,11 +227,10 @@
                 if(!this.new_url){
                     this.$message.error('请上传文件或等待文件上传成功！')
                 }
-                var sources = '';
                 if(this.$route.query.source=='SDK-API'){
-                    sources=this.tableData.original_res[0].url_md5
+                    this.url_md5=this.tableData.original_res[0].url_md5;
                 }else{
-                    sources='';
+                    this.url_md5=''
                 }
                 let formData = new FormData;
                 formData.append('new_res',JSON.stringify(this.new_res));
@@ -242,7 +242,7 @@
                 formData.append('model',this.tableData.model);
                 formData.append('source',this.$route.query.source);
                 formData.append('pv',this.tableData.pv);
-                formData.append('url_md5',sources);
+                formData.append('url_md5',this.url_md5);
                 formData.append('preview_url',this.tableData.preview_url);
                 formData.append('preview_md5',this.tableData.preview_md5);
                 this.api.replace_add(formData).then((res)=>{
@@ -310,6 +310,7 @@
                             this.pkg = res[i].pkg;
                             this.sdk_id = res[i].sdk_id;
                             this.imgs = res[i].original_res;
+                            // this.url_md5 =res[i].original_res[0].url_md5
                             this.tableData2=res[i].new_res;
                             console.log(res[i].new_res);
                             console.log(i);
@@ -516,7 +517,7 @@
         text-align: center;
         border-radius: 5px;
     }
-    .load{
+    .load_up{
         border-radius: 10px;
         width: 500px;
         min-height: 270px;
@@ -535,7 +536,7 @@
         font-size: 18px;
         font-weight: bold;
     }
-    .load div{
+    .load_up div{
         margin:15px 24px 0 24px
     }
     .text_tit span{

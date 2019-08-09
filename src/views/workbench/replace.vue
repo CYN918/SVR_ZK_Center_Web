@@ -1,7 +1,7 @@
 <template>
     <div class="content_right">
         <div>
-            <span>数据源:</span>
+            <span style="font-size: 14px">数据源:</span>
             <select v-model="source" style="margin-right: 20px;width: 150px">
                 <option value="SDK-API">SDK-API</option>
                 <option value="own">API</option>
@@ -15,26 +15,6 @@
                         value-format="yyyy-MM-dd">
                 </el-date-picker>
             </div>
-            <span class="tit_text">获取次数:</span>
-            <div class="select_check">
-                <template>
-                    <el-select
-                            v-model="number"
-                            multiple
-                            filterable
-                            allow-create
-                            default-first-option
-                            placeholder="请选择时间段标签">
-                        <el-option
-                                v-for="item in options5"
-                                :key="item.hour"
-                                :label="item.desc"
-                                :value="item.hour">
-                        </el-option>
-                    </el-select>
-                </template>
-            </div>
-
             <span class="tit_text">SDK_ID:</span>
             <input type="text" placeholder="请输入sdkID查询" v-model="text"/>
             <span class="cx" @click="getList()">
@@ -43,6 +23,27 @@
             <span class="reset" @click="resetRemove">重置</span>
             <span class="educe" @click="downloadImg()">导出</span>
             <span class="batch_upload" @click="batchUpload()">批量上传</span>
+            <div>
+                <span class="tit_text" style="margin-left: 0!important;">获取次数:</span>
+                <div class="select_check">
+                    <template>
+                        <el-select
+                                v-model="number"
+                                multiple
+                                filterable
+                                allow-create
+                                default-first-option
+                                placeholder="请选择时间段标签">
+                            <el-option
+                                    v-for="item in options5"
+                                    :key="item.hour"
+                                    :label="item.desc"
+                                    :value="item.hour">
+                            </el-option>
+                        </el-select>
+                    </template>
+                </div>
+            </div>
         </div>
         <div>
             <template>

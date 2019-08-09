@@ -752,5 +752,7 @@ select{
   border-radius: 5px;
   text-align: center;
 }
-
+.load_up .el-button--primary{
+  color: #000;
+}
 </style>
