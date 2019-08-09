@@ -27,7 +27,7 @@
     <div class="centNavBox">
         <div class="box_input_2">
             <input type="text" placeholder="输入用户名或邮箱快速查询" v-model="search" @input=" getList()"/>
-            <span class="btn">查询</span>
+            <span class="btns">查询</span>
             <span class="btn_2" @click="add"><img src="../../../public/img/add_msg.png">添加账号</span>
         </div>
         <div class="box_input_3">
@@ -277,7 +277,7 @@ input{
     border:1px solid rgba(211,219,235,1);
     padding-left: 20px;
 }
-.btn{
+.btns{
     display: inline-block;
     width:68px;
     height:40px;
