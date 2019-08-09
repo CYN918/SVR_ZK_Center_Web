@@ -7,6 +7,7 @@
             </div>
             <div class="tit_top_con">
                 <span class="tit_name">广告源详情</span>
+                <span class="time">{{this.$route.query.source}}</span>
                 <span class="time">{{this.$route.query.time}}</span>
                 <span class="num">{{this.rank.join(';')}}</span>
                 <span class="sdk">SKD_ID:{{this.$route.query.sdkid}}</span>
@@ -85,7 +86,7 @@
                         <el-table-column
                                 label="操作">
                             <template slot-scope="scope">
-                                <el-button  type="text" size="small">复制命名</el-button>
+                                <el-button  type="text" size="small" v-clipboard:copy="tableData[scope.$index].copy_file_name" v-clipboard:success="onCopy"   v-clipboard:error="onError">复制命名</el-button>
                                 <el-button @click="getAdd(tableData[scope.$index])" type="text" size="small">查看详情</el-button>
                             </template>
                         </el-table-column>
@@ -144,6 +145,12 @@
                 } else {
                     return ''
                 }
+            },
+            onCopy() {
+               this.$message.success('复制成功')
+            },
+            onError() {
+                this.$message.error('复制失败')
             },
             cell({row, column, rowIndex, columnIndex}){
                 return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'

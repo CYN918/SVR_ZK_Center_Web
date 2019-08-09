@@ -292,8 +292,8 @@
                 //     this.search=s;
                 // }
                 let params;
-                if(this.$route.source=='SDK-API'){
-                     params ={mid:this.$route.query.id,tdate:this.$route.query.tdate,times:this.$route.query.times,source:this.$route.query.source,sdk_id:this.$route.sdk_id,src:this.$route.query.src,url_md5:this.$route.query.url_md5};
+                if(this.$route.query.source=='SDK-API'){
+                     params ={mid:this.$route.query.id,tdate:this.$route.query.tdate,times:this.$route.query.times,source:this.$route.query.source,sdk_id:this.$route.query.sdk_id,src:this.$route.query.src,url_md5:this.$route.query.url_md5};
                 }else{
                      params ={mid:this.$route.query.id,tdate:this.$route.query.tdate,times:this.$route.query.times,source:this.$route.query.source};
                 }

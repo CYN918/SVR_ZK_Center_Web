@@ -4,7 +4,7 @@
             <span>数据源:</span>
             <select v-model="source" style="margin-right: 20px;width: 150px">
                 <option value="SDK-API">SDK-API</option>
-                <option value="API">API</option>
+                <option value="own">API</option>
             </select>
             <div class="block" style="display: inline-block">
                 <el-date-picker
@@ -194,7 +194,7 @@
                 width:"",
                 height:'',
                 tableDataList:[],
-                source:'API',
+                source:'own',
             }
         },
         mounted(){
@@ -291,7 +291,7 @@
                     var s = '{"'+'sdk_id' + '":"'+this.text + '"}';
                     this.search=s;
                 }
-                var url = '/replace/sdk/overview/export'+'?tdate='+this.tdate+'&times='+JSON.stringify(this.number)+'&search='+this.search;
+                var url = '/replace/sdk/overview/export'+'?tdate='+this.tdate+'&times='+JSON.stringify(this.number)+'&search='+this.search+'&source'+this.source;
                 download.downloadImg(url);
             },
             getTimes(){
@@ -317,7 +317,7 @@
             getPv(sdk_id){
                 var s = '{"'+'sdk_id' + '":"'+sdk_id + '"}';
                 this.search=s;
-                let params = {tdate:this.tdate,search:this.search};
+                let params = {tdate:this.tdate,search:this.search,source:this.source};
                 this.api.replace_sdk_graph({params}).then((res)=>{
                     let dataList = res;
                     let pv =[];
