@@ -226,8 +226,13 @@
                 if(!this.new_url){
                     this.$message.error('请上传文件或等待文件上传成功！')
                 }
+                var sources = '';
+                if(this.$route.query.source=='SDK-API'){
+                    sources=this.tableData.original_res[0].url_md5
+                }else{
+                    sources='';
+                }
                 let formData = new FormData;
-
                 formData.append('new_res',JSON.stringify(this.new_res));
                 formData.append('original_res',  JSON.stringify(this.tableData.original_res));
                 formData.append('adids',this.$route.query.id);
@@ -235,7 +240,9 @@
                 formData.append('src',this.tableData.src);
                 formData.append('tdate',this.tableData.tdate);
                 formData.append('model',this.tableData.model);
+                formData.append('source',this.$route.query.source);
                 formData.append('pv',this.tableData.pv);
+                formData.append('url_md5',sources);
                 formData.append('preview_url',this.tableData.preview_url);
                 formData.append('preview_md5',this.tableData.preview_md5);
                 this.api.replace_add(formData).then((res)=>{
@@ -284,7 +291,12 @@
                 //     var s = '{"'+this.type + '":"'+this.text + '"}';
                 //     this.search=s;
                 // }
-                let params ={mid:this.$route.query.id,tdate:this.$route.query.tdate,times:this.$route.query.times};
+                let params;
+                if(this.$route.source=='SDK-API'){
+                     params ={mid:this.$route.query.id,tdate:this.$route.query.tdate,times:this.$route.query.times,source:this.$route.query.source,sdk_id:this.$route.sdk_id,src:this.$route.query.src,url_md5:this.$route.query.url_md5};
+                }else{
+                     params ={mid:this.$route.query.id,tdate:this.$route.query.tdate,times:this.$route.query.times,source:this.$route.query.source};
+                }
                 this.api.replace_res_detail({params}).then((res)=>{
                     for(var i=0;i<res.length;i++){
                         if(res[i].mid==this.$route.query.id){
@@ -316,6 +328,7 @@
                 let formData =new FormData;
                 formData.append('new_url_md5',this.md5);
                 formData.append('mid',this.mid);
+                formData.append('source',this.$route.query.source);
                 this.api.replace_del(formData).then((res)=>{
                     this.getDataList();
                     this.heidRemove()

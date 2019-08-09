@@ -38,7 +38,7 @@
                         <el-table-column
                                 label="原始图片">
                             <template slot-scope="scope">
-                                <img :src="tableData[scope.$index].original_res[0].url" style="max-width:80px;max-height: 80px"/>
+                                <img :src="tableData[scope.$index].original_res[0].url" style="max-width:80px;max-height: 80px;cursor: pointer"  preview="0" />
                             </template>
                         </el-table-column>
                         <el-table-column
@@ -85,7 +85,8 @@
                         <el-table-column
                                 label="操作">
                             <template slot-scope="scope">
-                                <el-button @click="getAdd(tableData[scope.$index].mid)" type="text" size="small">查看详情</el-button>
+                                <el-button  type="text" size="small">复制命名</el-button>
+                                <el-button @click="getAdd(tableData[scope.$index])" type="text" size="small">查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -150,7 +151,7 @@
             derived(){
                 var s = '{"'+'sdk_id' + '":"'+this.$route.query.sdkid + '"}';
                 this.search=s;
-                var url = '/replace/pending/export'+'?tdate='+this.$route.query.time+'&times='+this.$route.query.num+'&search='+this.search;
+                var url = '/replace/pending/export'+'?tdate='+this.$route.query.time+'&times='+this.$route.query.num+'&search='+this.search+'&source='+this.$route.query.source;
                 download.downloadImg(url);
             },
                 getTimes(){
@@ -176,7 +177,7 @@
                 this.cl=[];
                 var s = '{"'+'sdk_id' + '":"'+this.$route.query.sdkid + '"}';
                 this.search=s;
-                let params ={tdate:this.$route.query.time,times:this.$route.query.num,p:this.p,page:this.page,search:this.search};
+                let params ={tdate:this.$route.query.time,times:this.$route.query.num,p:this.p,page:this.page,search:this.search,source:this.$route.query.source};
                 this.api.replace_pending_list({params}).then((res)=>{
                     this.tableData = res;
                     for(var i=0;i<this.tableData.length;i++){
@@ -194,10 +195,14 @@
             getAdd(data){
                 this.$router.push({
                     query:{
-                        id:data,
+                        id:data.mid,
+                        sdk_id:data.sdk_id,
+                        src:data.src,
+                        url_md5:data.original_res[0].url_md5,
                         tdate:this.$route.query.time,
                         times:this.$route.query.num,
-                        sdkid:this.$route.query.sdkid
+                        sdkid:this.$route.query.sdkid,
+                        source:this.$route.query.source,
                     },
                     path:'./Has_replaced'
                 })

@@ -1,6 +1,11 @@
 <template>
     <div class="content_right">
         <div>
+            <span>数据源:</span>
+            <select v-model="source" style="margin-right: 20px;width: 150px">
+                <option value="SDK-API">SDK-API</option>
+                <option value="API">API</option>
+            </select>
             <div class="block" style="display: inline-block">
                 <el-date-picker
                         v-model="tdate"
@@ -19,7 +24,7 @@
                             filterable
                             allow-create
                             default-first-option
-                            placeholder="请选择文章标签">
+                            placeholder="请选择时间段标签">
                         <el-option
                                 v-for="item in options5"
                                 :key="item.hour"
@@ -189,6 +194,7 @@
                 width:"",
                 height:'',
                 tableDataList:[],
+                source:'API',
             }
         },
         mounted(){
@@ -231,7 +237,7 @@
                     var s = '{"'+'sdk_id' + '":"'+this.text + '"}';
                     this.search=s;
                 }
-                let params ={tdate:this.tdate,times:JSON.stringify(this.number),p:this.p,page:this.page,search:this.search};
+                let params ={tdate:this.tdate,times:JSON.stringify(this.number),p:this.p,page:this.page,search:this.search,source:this.source};
                 this.api.replace_sdk_overview({params}).then((res)=>{
                     this.tableData = res;
                     this.total=res.total;
@@ -303,6 +309,7 @@
                         sdkid:data,
                         time:this.tdate,
                         num:JSON.stringify(this.number),
+                        source:this.source,
                     },
                     path:'./resource'
                 })
@@ -516,5 +523,8 @@
     }
     .loss{
         color: red;
+    }
+    .content_right .block{
+        margin-bottom: 0!important;
     }
 </style>

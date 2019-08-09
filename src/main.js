@@ -12,7 +12,8 @@ import api from './api/index'
 // Vue.use(JSZip);
 // Vue.use(fileSaver)
 //  Vue.use(VueClipboard)
-Vue.prototype.$ajax = axios
+
+Vue.prototype.$ajax = axios;
 Vue.prototype.api = api;
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
