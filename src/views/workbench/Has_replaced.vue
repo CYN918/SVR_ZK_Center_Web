@@ -94,7 +94,7 @@
                                 label="操作">
                             <template slot-scope="scope">
                                 <a class="iconfont" :href="downloadLink(scope.$index)" style="margin-right: 10px;text-decoration: none;color:#409EFF">下载</a>
-                                <el-button @click="getRemove(tableData2[scope.$index].url_md5)" type="text" >删除</el-button>
+                                <el-button @click="getRemove(tableData2[scope.$index].md5)" type="text" >删除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -275,7 +275,8 @@
                        };
                        image.src= res.url;
                        obj.new_url=this.new_url;
-                       obj.new_url_md5=this.new_url_md5;
+                       obj.md5=this.new_url_md5;
+
                        this.new_res.push(obj);
                        console.log(this.new_res)
                    })
@@ -327,9 +328,12 @@
             },
             delelt(){
                 let formData =new FormData;
-                formData.append('new_url_md5',this.md5);
+                formData.append('md5',this.md5);
                 formData.append('mid',this.mid);
                 formData.append('source',this.$route.query.source);
+                formData.append('sdk_id',this.$route.query.sdk_id);
+                formData.append('src',this.tableData.src);
+                formData.append('url_md5',this.$route.query.url_md5);
                 this.api.replace_del(formData).then((res)=>{
                     this.getDataList();
                     this.heidRemove()
