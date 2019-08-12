@@ -10,6 +10,7 @@
                 <el-date-picker
                         v-model="tdate"
                         type="date"
+                        @change="getTimes()"
                         placeholder="选择日期"
                         format="yyyy年MM月dd日"
                         value-format="yyyy-MM-dd">

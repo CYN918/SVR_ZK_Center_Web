@@ -16,8 +16,10 @@
                     <span>广告详情</span>
                 </div>
                 <div>
-                    <span>广告ID:</span>
-                    <span class="con">{{this.$route.query.id}}</span>
+                    <span v-if="this.$route.query.source=='SDK-API'">图片MD5:</span>
+                    <span class="con" v-if="this.$route.query.source=='SDK-API'">{{this.$route.query.url_md5}}</span>
+                    <span v-if="this.$route.query.source=='own'">落地页MD5:</span>
+                    <span class="con" v-if="this.$route.query.source=='own'">{{this.preview_md5}}</span>
                     <span>获取内容时间:</span>
                     <span >{{time}}</span>
                     <div class="updataLoad">
@@ -185,6 +187,7 @@
                 search:'',
                 new_res:[],
                 url_md5:'',
+                preview_md5:''
 
             }
         },
@@ -305,6 +308,7 @@
                             this.time = res[i].tdate;
                             this.mid=res[i].mid;
                             this.preview_url = res[i].preview_url;
+                            this.preview_md5 = res[i].preview_md5;
                             this.pv = res[i].pv;
                             this.model = res[i].model;
                             this.src = res[i].src;
