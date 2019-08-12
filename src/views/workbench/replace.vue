@@ -4,7 +4,7 @@
             <span style="font-size: 14px">数据源:</span>
             <select v-model="source" style="margin-right: 20px;width: 150px">
                 <option value="SDK-API">SDK-API</option>
-                <option value="own">API</option>
+                <option value="own">OWN</option>
             </select>
             <div class="block" style="display: inline-block">
                 <el-date-picker
