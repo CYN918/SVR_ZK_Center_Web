@@ -125,7 +125,6 @@
                         <div style="display: inline-block;width: 235px">
                             <input type="text" v-model="item.new_url" disabled v-for="item in new_res"/>
                         </div>
-
                     </div>
 
                     <div class="btns">
@@ -210,7 +209,11 @@
                 this.$message.warning(`当前限制选择10 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
             },
             handleRemove(file, fileList) {
-                console.log(file, fileList);
+                for(var i=0;i<this.new_res.length;i++){
+                    if(this.new_res[i].name!='file.name'){
+                        this.new_res.splice(i,1);
+                    }
+                }
             },
             getTH(){
                 this.th=true
@@ -278,10 +281,9 @@
                        };
                        image.src= res.url;
                        obj.new_url=this.new_url;
+                       obj.name=file.file.name;
                        obj.md5=this.new_url_md5;
-
                        this.new_res.push(obj);
-                       console.log(this.new_res)
                    })
             },
             getDataList(){

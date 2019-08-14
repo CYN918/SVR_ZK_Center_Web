@@ -84,7 +84,7 @@
 						</div>
 						<div>
 							<div class="zt">
-								<span class="boxImg_text">素材状态:</span>
+								<span class="boxImg_text">物料状态:</span>
 								<span class="boxImg_content">{{DL.status}}</span>
 							</div>
 							<div class="cc">
@@ -178,7 +178,7 @@
                 total: 0,
                 currentPage: 1,
                 type:'f_sls_lockscreen',
-				lx:'场景锁屏',
+				lx:'杂志锁屏',
                 message:{},
                 preset_tags:[],
                 preset:[],

@@ -34,7 +34,7 @@
                                 filterable
                                 allow-create
                                 default-first-option
-                                placeholder="请选择时间段标签">
+                                placeholder="0点截止到最新时段">
                             <el-option
                                     v-for="item in options5"
                                     :key="item.hour"

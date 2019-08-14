@@ -821,4 +821,20 @@ export default {
     themes_tags:{
 		url:"themes/tags",method:'post',isType:{suktip:1}
 	},
+	//新增应用推广图上传
+    appad_add:{
+		url:"appad/add",method:'post',isType:{suktip:1}
+	},
+	//获取包名列表
+    appad_pkglist:{
+		url:'appad/pkglist',method:'get'
+	},
+	//新建应用推广图及上传
+    appad_new:{
+		url:'appad/new',method:'post',isType:{suktip:1}
+	},
+	//据包名获取资源数据
+    appad_pkg:{
+		url:"appad/pkg",method:'get'
+	},
 }

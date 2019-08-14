@@ -10,36 +10,28 @@
                         stripe
                         style="width: 100%">
                     <el-table-column
-                            prop="fid"
+                            prop="pkg_name"
                             label="包名"
                             :show-overflow-tooltip="true"
                            >
                     </el-table-column>
                     <el-table-column
-                            prop="tags_name"
+                            prop="fill"
                             label="请求量"
                             sortable
                     >
                     </el-table-column>
                     <el-table-column
-                            prop="name"
+                            prop="req"
                             label="填充量"
                             sortable
                            >
                     </el-table-column>
                     <el-table-column
-                            prop="md5"
-                            label="物料数量"
-                            sortable
+                            prop="status_name"
+                            label="状态"
                            >
                     </el-table-column>
-                    <el-table-column
-                            prop="created_at"
-                            label="内容获取时间"
-                            sortable
-                    >
-                    </el-table-column>
-
                     <el-table-column
                             prop="address"
                             label="操作">
@@ -74,6 +66,9 @@
                 total:0,
             }
         },
+        mounted(){
+            this.getList();
+        },
         methods:{
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
@@ -88,14 +83,28 @@
             },
             jump(index){
                 this.$router.push({
-                    path:'./theme_details'
+                    path:'./theme_details',
+                    query:{
+                        pkg_name:this.tableData[index].pkg_name,
+                        fill:this.tableData[index].fill,
+                        req:this.tableData[index].req
+                    },
                 })
             },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
+                this.getList()
             },
             handleCurrentChange(page) {//页码切换
                 this.page = page;
+                this.getList()
+            },
+            getList(){
+                let params = {p:this.p,page:this.page};
+                this.api.appad_pkglist({params}).then((res)=>{
+                    this.tableData=res;
+                    this.total=res.total;
+                })
             },
         },
 

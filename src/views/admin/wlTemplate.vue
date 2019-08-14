@@ -66,7 +66,7 @@
 						</div>
 						<div>
 							<div class="zt">
-								<span class="boxImg_text">素材状态:</span>
+								<span class="boxImg_text">物料状态:</span>
 								<span class="boxImg_content">{{DL.status}}</span>
 							</div>
 							<div class="cc">

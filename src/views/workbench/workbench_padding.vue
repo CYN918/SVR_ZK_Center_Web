@@ -8,8 +8,9 @@
             <div class="tit_btn">
                 <img src="../../../public/img/ss.png">
                 <input type="text" placeholder="搜索需求ID" v-model="search" @input="typeListSearch"/>
-                <span class="tit_btn_sc" :class="{activeHeid:this.controlBtn}" @click="getSC('')">发布素材需求</span>
-                <span class="tit_btn_yw" :class="{activeHeid:this.controlBtns}" @click="getYW('')">发布业务需求</span>
+                <span :class="el.cl" v-for="(el,index) in btns" @click="clickfn(el.clfn)">{{el.n}}</span>
+
+
             </div>
         </div>
         <div class="padding_btn">
@@ -62,32 +63,33 @@
                 control:[],
                 controlBtn:true,
                 controlBtns:true,
+                btns:[],
             }
         },
         created(){
             this.control=JSON.parse(localStorage.getItem('control'));
-            if(this.control.length==0){
-                this.controlBtn=true;
-                this.controlBtns=true;
-            }else{
-                for(var i=0;i<this.control.length;i++){
-                    if(this.control[i].uri_key=='uri.demand.material.add'){
-                        this.controlBtn=false;
-                    }
+            console.log('a')
+
+            let arr = [];
+
+            for(var i=0;i<this.control.length;i++){
+                if(this.control[i].uri_key=='uri.demand.material.add'){
+                    arr.push({n:'发布素材需求',cl:'tit_btn_sc',clfn:'getSC'});
                 }
-                for(var i=0;i<this.control.length;i++){
-                    if(this.control[i].uri_key=='uri.demand.business.add'){
-                        this.controlBtns=false;
-                    }
+                if(this.control[i].uri_key=='uri.demand.business.add'){
+                    arr.push({n:'发布业务需求',cl:'tit_btn_yw',clfn:'getYW'});
                 }
             }
-
+            this.btns = arr;
         },
         mounted(){
             this.getList();
 
         },
         methods:{
+            clickfn(n){
+                this[n]();
+            },
             getSC(id){
                        this.id = id;
                        this.sc=true;
@@ -210,6 +212,7 @@
     }
     .tit_btn{
         margin-top: 24px;
+        width: 80%;
     }
     .tit_btn>input{
         width:374px;
@@ -253,7 +256,7 @@
         font-weight:400;
         color:rgba(255,255,255,1);
         float: right;
-        margin-right: 276px;
+        margin-right: 24px;
         cursor: pointer;
     }
     .padding_btn{
