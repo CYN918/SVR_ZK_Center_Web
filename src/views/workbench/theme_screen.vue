@@ -312,14 +312,19 @@
                 })
             },
             remove(index){
-                this.tableDataList.splice(index,1)
+                this.tableDataList.splice(index,1);
+                this.themes.splice(index,1);
             },
             add(){
                 for(var i=0;i<this.tableDataList.length;i++){
                     if(this.tableDataList[i].status=='上传失败'){
-                        this.$message.error('有未上传成功的壁纸，无法添加！！！')
+                        this.$message.error('有未上传成功的壁纸，无法添加！！！');
                         return
                     }
+                }
+                if(this.tableDataList.length==0){
+                    this.$message.error('请先添加文件');
+                    return
                 }
                 let formData = new FormData;
                 formData.append('themes',JSON.stringify(this.themes));

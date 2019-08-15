@@ -301,7 +301,7 @@
                 let params = {tdate:this.tdate};
                 this.api.replace_times({params}).then((res)=>{
                     this.options5=res;
-                    this.number.push(this.options5[this.options5.length-1].hour)
+                    this.number.push(this.options5[this.options5.length-1].hour);
                     this.getList();
                 })
             },

@@ -138,7 +138,7 @@
         },
         methods:{
             ADDsc(){
-                if(this.SCid==''){
+                if(!this.SCid){
                     if(!this.type){
                         this.$message.error('类型不能为空')
                         return

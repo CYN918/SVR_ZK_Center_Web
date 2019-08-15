@@ -432,7 +432,7 @@ router.beforeEach((to, from, next) => {
 			}
 		}
         if(to.fullPath=='/userinfo'){
-            next({ path: '/userinfo/user_info'});
+            // next({ path: '/userinfo/user_info'});
             document.title = '个人中心-掌屿平台(Zoosalos)';
         }
         if (to.fullPath=='/api/logout'){
@@ -442,7 +442,7 @@ router.beforeEach((to, from, next) => {
 			next({ path: '/indexs/list'});
 		}
         if(to.fullPath=='/workbench'){
-            next({ path: '/workbench/workbenchPadding'});
+            // next({ path: '/workbench/workbenchPadding'});
             document.title = '工作台-掌屿平台(Zoosalos)';
         }
 						

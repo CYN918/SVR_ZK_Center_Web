@@ -35,32 +35,32 @@
                 </div>
             </div>
             <div class="line_border"></div>
-            <div v-for="item in list">
+            <div>
                 <span class="list_tit">物料列表</span>
                 <span class="up_btn" @click="upImg">上传</span>
-                <div class="up_btn_box">
+                <div class="up_btn_box" v-for="(item,index) in list">
                     <div class="up_btn_box_tit">
                         <span class="name">物料ID:</span>
-                        <span class="con">{{}}</span>
+                        <span class="con">{{item.temple_name}}</span>
                         <span class="name">数量:</span>
-                        <span  class="con">5</span>
+                        <span  class="con">{{list.length}}</span>
                         <span class="name">更新时间:</span>
                         <span  class="con">2019-02-08</span>
                         <span class="off_line">下线</span>
                     </div>
                     <div class="up_btn_box_tit">
                         <span class="name">状态:</span>
-                        <span  class="con">dsdsd</span>
+                        <span  class="con">{{item.status_name}}</span>
                         <span class="name">操作人员:</span>
-                        <span  class="con">dsafdsf</span>
+                        <span  class="con">{{}}</span>
                     </div>
                     <div class="up_img">
                         <div class="up_add">
                             <!--<img class="add_img" src="../../../public/img/add_msg.png" />-->
-                            <input type="file"/>
+                            <input type="file" @change="ADDimg(index)"/>
                         </div>
-                        <div class="img_list">
-                            <img class="img_center" src="../../../public/img/IMG.png">
+                        <div class="img_list" v-for="(da,ind) in item.images">
+                            <img class="img_center" :src="da.url">
                             <img class="del" src="../../../public/img/del.png" style="width: 16px"/>
                         </div>
                     </div>
@@ -77,10 +77,10 @@
                             class="upload-demo"
                             action="aaaa"
                             multiple
-                            :limit="10"
+                            :limit="1"
                             :on-exceed="handleExceed"
                             :on-remove="handleRemove"
-                            :http-request="upload"
+                            :http-request="beforupload"
                     >
                         <el-button size="small" type="primary">选择</el-button>
                     </el-upload>
@@ -101,6 +101,8 @@
             return{
                 up:false,
                 list:[],
+                width:"",
+                height:'',
             }
         },
         mounted(){
@@ -121,6 +123,59 @@
                 this.api.appad_pkg({params}).then((res)=>{
                     this.list=res;
                 })
+            },
+            handleExceed(files, fileList) {
+                this.$message.warning(`当前限制选择1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+            },
+            handleRemove(file, fileList) {
+
+            },
+            beforupload(file){
+                var reader = new FileReader();
+                var _this=this;
+                reader.readAsDataURL(file.file);
+                reader.onload=function(theFile){
+                    var image=new Image();
+                    image.src=theFile.target.result;
+                    image.onload = function() {
+                        _this.width = image.width;
+                        _this.height = image.height;
+                        _this.create(file);
+                    };
+                };
+            },
+            create(file){
+                let formData = new FormData;
+                formData.append('pkg_name',this.$route.query.pkg_name);
+                formData.append('file',file.file);
+                formData.append('width',this.width);
+                formData.append('height',this.height);
+                this.api.appad_new(formData).then((res)=>{
+                    this.getListData();
+                    this.heidTH();
+                })
+            },
+            ADDimg(index,file){
+                var reader = new FileReader();
+                var _this=this;
+                reader.readAsDataURL(file.file);
+                reader.onload=function(theFile){
+                    var image=new Image();
+                    image.src=theFile.target.result;
+                    image.onload = function() {
+                        _this.width = image.width;
+                        _this.height = image.height;
+                        _this.up(index,file);
+                    };
+                };
+            },
+            up(index,file){
+                let formData = new FormData;
+                formData.append('temple_name',this.list[index].temple_name);
+                formData.append('pkg_name',this.$route.query.pkg_name);
+                formData.append('route',this.list[index].route);
+                formData.append('file',file.file);
+                formData.append('')
             },
         },
     }
@@ -278,6 +333,8 @@
        position: relative;
         top:50%;
         transform: translateY(-50%);
+        max-width: 150px;
+        max-height: 220px;
     }
     .load_up{
         border-radius: 10px;
