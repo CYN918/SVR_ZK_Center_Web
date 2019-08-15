@@ -837,4 +837,12 @@ export default {
     appad_pkg:{
 		url:"appad/pkg",method:'get'
 	},
+	//设置对应的包上线下线
+    appad_online:{
+		url:"appad/online",method:"post",isType:{suktip:1}
+	},
+	//删除包对应的单个图片资源
+    appad_del:{
+		url:'appad/del',method:"post",isType:{suktip:1}
+	},
 }

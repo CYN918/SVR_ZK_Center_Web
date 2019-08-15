@@ -37,31 +37,31 @@
             <div class="line_border"></div>
             <div>
                 <span class="list_tit">物料列表</span>
-                <span class="up_btn" @click="upImg">上传</span>
+                <span class="up_btn" @click="upImg">新增</span>
                 <div class="up_btn_box" v-for="(item,index) in list">
                     <div class="up_btn_box_tit">
                         <span class="name">物料ID:</span>
                         <span class="con">{{item.temple_name}}</span>
                         <span class="name">数量:</span>
-                        <span  class="con">{{list.length}}</span>
+                        <span  class="con">{{list[index].images.length}}</span>
                         <span class="name">更新时间:</span>
-                        <span  class="con">2019-02-08</span>
-                        <span class="off_line">下线</span>
+                        <span  class="con">{{item.updated_at}}</span>
+                        <span class="off_line" @click="oFFline(index,0)" v-if="item.status==1">下线</span>
+                        <span class="off_line" @click="oFFline(index,1)" v-if="item.status==0">上线</span>
                     </div>
                     <div class="up_btn_box_tit">
                         <span class="name">状态:</span>
                         <span  class="con">{{item.status_name}}</span>
                         <span class="name">操作人员:</span>
-                        <span  class="con">{{}}</span>
+                        <span  class="con">{{item.updator}}</span>
                     </div>
                     <div class="up_img">
-                        <div class="up_add">
-                            <!--<img class="add_img" src="../../../public/img/add_msg.png" />-->
-                            <input type="file" @change="ADDimg(index)"/>
+                        <div class="up_add" @click="show(index)">
+                            <input type="text"/>
                         </div>
                         <div class="img_list" v-for="(da,ind) in item.images">
                             <img class="img_center" :src="da.url">
-                            <img class="del" src="../../../public/img/del.png" style="width: 16px"/>
+                            <img class="del" src="../../../public/img/del.png" style="width: 16px" @click="del(index,ind)"/>
                         </div>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
         <div class="bg" v-if="up">
             <div class="load_up">
                 <div class="load_tit">
-                    <span>上传文件</span>
+                    <span>新增文件</span>
                 </div>
                 <div>
                     <el-upload
@@ -81,13 +81,39 @@
                             :on-exceed="handleExceed"
                             :on-remove="handleRemove"
                             :http-request="beforupload"
+                            :before-upload="beforeAvatarUpload"
                     >
                         <el-button size="small" type="primary">选择</el-button>
                     </el-upload>
                 </div>
                 <div class="btns">
-                    <span class="tj">添加</span>
+                    <!--<span class="tj">添加</span>-->
                     <span @click="heidTH()">取消</span>
+                </div>
+            </div>
+        </div>
+        <div class="bg" v-if="uploadImg">
+            <div class="load_up">
+                <div class="load_tit">
+                    <span>上传文件</span>
+                </div>
+                <div>
+                    <el-upload
+                            class="upload-demo"
+                            action="aaaa"
+                            multiple
+                            :limit="5"
+                            :on-exceed="handleExceeds"
+                            :on-remove="handleRemove"
+                            :http-request="ADDimg"
+                            :before-upload="beforeAvatarUpload"
+                            :file-list="fileList"
+                    >
+                        <el-button size="small" type="primary">选择</el-button>
+                    </el-upload>
+                </div>
+                <div class="btns">
+                    <span @click="heidADD()">取消</span>
                 </div>
             </div>
         </div>
@@ -103,6 +129,9 @@
                 list:[],
                 width:"",
                 height:'',
+                uploadImg:false,
+                index:'',
+                fileList:[],
             }
         },
         mounted(){
@@ -118,6 +147,13 @@
             heidTH(){
                 this.up = false
             },
+            show(index){
+                this.uploadImg = true;
+                this.index=index;
+            },
+            heidADD(){
+                this.uploadImg = false
+            },
             getListData(){
                 let params = {pkg_name:this.$route.query.pkg_name};
                 this.api.appad_pkg({params}).then((res)=>{
@@ -126,6 +162,9 @@
             },
             handleExceed(files, fileList) {
                 this.$message.warning(`当前限制选择1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+            },
+            handleExceeds(files, fileList) {
+                this.$message.warning(`当前限制选择5 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
             },
             handleRemove(file, fileList) {
 
@@ -155,7 +194,8 @@
                     this.heidTH();
                 })
             },
-            ADDimg(index,file){
+            ADDimg(file){
+                console.log(file);
                 var reader = new FileReader();
                 var _this=this;
                 reader.readAsDataURL(file.file);
@@ -165,17 +205,54 @@
                     image.onload = function() {
                         _this.width = image.width;
                         _this.height = image.height;
-                        _this.up(index,file);
+                        _this.ups(file);
                     };
                 };
             },
-            up(index,file){
+            ups(file){
+                console.log(file);
+                let formData = new FormData;
+                formData.append('temple_name',this.list[this.index].temple_name);
+                formData.append('pkg_name',this.$route.query.pkg_name);
+                formData.append('route',this.list[this.index].route);
+                formData.append('file',file.file);
+                formData.append('width',this.width);
+                formData.append('height',this.height);
+                this.api.appad_add(formData).then((res)=>{
+                    if(!res){
+                        this.fileList.push(file.file)
+                    }
+                    this.getListData();
+                })
+            },
+            oFFline(index,num){
                 let formData = new FormData;
                 formData.append('temple_name',this.list[index].temple_name);
                 formData.append('pkg_name',this.$route.query.pkg_name);
                 formData.append('route',this.list[index].route);
-                formData.append('file',file.file);
-                formData.append('')
+                formData.append('valid',num);
+                this.api.appad_online(formData).then((res)=>{
+                    this.getListData();
+                })
+            },
+            del(index,ind){
+                let formData = new FormData;
+                formData.append('temple_name',this.list[index].temple_name);
+                formData.append('pkg_name',this.$route.query.pkg_name);
+                formData.append('route',this.list[index].route);
+                formData.append('width',this.list[index].images[ind].width);
+                formData.append('height',this.list[index].images[ind].height);
+                this.api.appad_del(formData).then((res)=>{
+                    this.getListData();
+                })
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+
+                if (!isJPG) {
+                    this.$message.error('只支持JPG格式!');
+                }
+                return  isJPG ;
             },
         },
     }
@@ -204,7 +281,7 @@
     margin-top:200px;
     padding: 0 24px;
     background:rgba(255,255,255,1);
-    height: 100%;
+    min-height: 900px;
 }
 .content_table_tit{
     margin-bottom: 15px;
@@ -294,6 +371,7 @@
         background-position:center;
         margin-right: 50px;
         position: relative;
+        cursor: pointer;
     }
     /*.add_img{*/
         /*display: inline-block;*/
@@ -305,10 +383,15 @@
         position: absolute;
         top:0;
         left: 0;
-        width: 100%;
+        width: 100%!important;
         height: 100%;
         opacity: 0;
+        cursor: pointer;
     }
+    /*.up_add  .el-upload {*/
+        /*width: 100%!important;*/
+        /*height: 100%;*/
+    /*}*/
     .up_img{
         overflow-y: auto;
     }
@@ -372,8 +455,11 @@
         margin-right: 15px;
     }
     .btns{
-        text-align: center;
+        text-align: right;
+        width: 100%;
         margin-top: 30px;
+        position: fixed;
+        bottom: 30px;
     }
     .btns span{
         display: inline-block;
@@ -383,7 +469,7 @@
         cursor: pointer;
         border: 1px solid #c3c3c3;
         color: #9c9c9c;
-        margin-right: 30px;
+        margin-right: 50px;
         text-align: center;
 
     }
@@ -393,7 +479,7 @@
         color: #fff!important;
     }
     .upload-demo{
-        width: 80px!important;
+        width: 180px!important;
 
     }
     .upload-demo .el-upload{
