@@ -72,10 +72,10 @@
 
             for(var i=0;i<this.control.length;i++){
                 if(this.control[i].uri_key=='uri.demand.business.add'){
-                    arr.push({n:'发布业务需求',cl:'tit_btn_yw',clfn:'getYW'});
+                    arr.unshift({n:'发布业务需求',cl:'tit_btn_yw',clfn:'getYW'});
                 }
                 if(this.control[i].uri_key=='uri.demand.material.add'){
-                    arr.push({n:'发布素材需求',cl:'tit_btn_sc',clfn:'getSC'});
+                    arr.unshift({n:'发布素材需求',cl:'tit_btn_sc',clfn:'getSC'});
                 }
             }
             this.btns = arr;
