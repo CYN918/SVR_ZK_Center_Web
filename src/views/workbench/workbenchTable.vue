@@ -277,7 +277,6 @@
                 length:0,
                 shID:'',
                 url:'https://shiquaner.zookingsoft.com/#/',
-
                 attach:{},
                 reject_details:false,
                 tableData2:[],

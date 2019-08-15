@@ -315,7 +315,7 @@ let leftNav =
 //                     {title:'锁屏壁纸MD5库',url:'/workbench/MD5'},
 //                     {title:'聚合内容配置',url:'/workbench/allocation'},
 //                     {title:'资源待替换',url:'/workbench/replace'},
-// 					{title:'官方物料投放库',url:'/workbench/theme'},
+// 						{title:'官方物料投放库',url:'/workbench/theme'},
 //                     {title:'主题壁纸-标签定投',url:'/workbench/theme_screen'},
 //                 ],},
 //

@@ -220,7 +220,7 @@
             },
             heidTH(){
                 this.th=false;
-                this.new_res='';
+                this.new_res=[];
             },
             goIndex(){
                     this.$router.go(-2)
