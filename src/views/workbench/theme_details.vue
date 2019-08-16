@@ -105,19 +105,35 @@
                 <div>
                     <el-upload
                             class="upload-demo"
+                            drag
                             action="aaaa"
-                            multiple
                             :limit="5"
                             :on-exceed="handleExceeds"
                             :on-remove="handleRemove"
                             :http-request="ADDimg"
                             :before-upload="beforeAvatarUpload"
                             :file-list="fileList"
-                    >
-                        <el-button size="small" type="primary">选择</el-button>
+                            multiple>
+                        <i class="el-icon-upload"></i>
+                        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+
                     </el-upload>
+                    <!--<el-upload-->
+                            <!--class="upload-demo"-->
+                            <!--action="aaaa"-->
+                            <!--multiple-->
+                            <!--:limit="5"-->
+                            <!--:on-exceed="handleExceeds"-->
+                            <!--:on-remove="handleRemove"-->
+                            <!--:http-request="ADDimg"-->
+                            <!--:before-upload="beforeAvatarUpload"-->
+                            <!--:file-list="fileList"-->
+                    <!--&gt;-->
+                        <!--<el-button size="small" type="primary">选择</el-button>-->
+                    <!--</el-upload>-->
                 </div>
                 <div class="btns">
+                    <span class="tj" @click="heidADD()">确定</span>
                     <span @click="heidADD()">取消</span>
                 </div>
             </div>
@@ -460,8 +476,8 @@
         text-align: right;
         width: 100%;
         margin-top: 30px;
-        position: fixed;
-        bottom: 30px;
+        margin-bottom: 24px;
+        margin-left: 0!important;
     }
     .btns span{
         display: inline-block;
@@ -471,17 +487,20 @@
         cursor: pointer;
         border: 1px solid #c3c3c3;
         color: #9c9c9c;
-        margin-right: 50px;
+        margin-right: 70px;
         text-align: center;
+        border-radius: 5px;
+        margin-bottom: 15px;
 
     }
     .tj{
+        margin-right:24px!important;
         border: 0!important;
         background: #4f4cf1!important;
         color: #fff!important;
     }
     .upload-demo{
-        width: 180px!important;
+        text-align: center;
 
     }
     .upload-demo .el-upload{
