@@ -83,6 +83,7 @@
         height:380px;
         background:rgba(255,255,255,1);
         border-radius:4px;
+
     }
     .tit{
         height: 56px;
