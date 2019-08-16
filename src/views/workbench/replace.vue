@@ -482,11 +482,13 @@
         border-radius: 10px;
         width: 800px;
         min-height: 270px;
+        max-height: 500px;
         position: relative;
         background: #fff;
         left: 50%;
         top:50%;
         transform: translate(-50%,-50%);
+        overflow-y: auto;
     }
     .load_tit{border-bottom: 1px solid #ddd}
     .load_tit span{

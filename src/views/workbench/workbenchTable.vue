@@ -101,9 +101,12 @@
                             <div>
                                 <div class="step_box" v-for="(item,index) in tableData[props.$index].audit_process">
                                     <div class="step_wwc" v-if="item.did==undefined&&item.reject!='1'&&tableData[props.$index].status!=item.status">{{item.status}}</div>
-                                    <div class="step_dq" v-if="tableData[props.$index].status==item.status">{{item.status}}</div>
+                                    <div class="step_dq" v-if="tableData[props.$index].status==item.status&&item.isfinish!=1">{{item.status}}</div>
                                     <div class="step_bh" v-if="item.reject=='1'&&tableData[props.$index].status!=item.status">X</div>
                                     <div class="step" v-if="item.did!=undefined&&item.reject!='1'&&tableData[props.$index].status!=item.status">
+                                        &radic;
+                                    </div>
+                                    <div class="step"v-if="tableData[props.$index].status==item.status&&item.isfinish==1">
                                         &radic;
                                     </div>
                                     <div class="bor" v-if="item.status!=tableData[props.$index].audit_process.length"></div>
@@ -124,7 +127,7 @@
                                         <span class="step_txt" v-if="item.status==1&&tableData[props.$index].status==item.status">待处理人</span>
                                         <span class="step_txt" v-if="item.status!=1">处理人</span>
                                         <span v-if="item.did!=undefined&&tableData[props.$index].status!=item.status">{{item.user_name}}</span>
-                                        <span v-if="item.did!=undefined&&tableData[props.$index].status==item.status" v-for="da in tableData[props.$index].processor">{{da}}</span>
+                                        <span v-if="item.did!=undefined&&tableData[props.$index].status==item.status" v-for="da in tableData[props.$index].processor">{{da}};</span>
                                         <span  v-if="item.did==undefined&&item.reject!='1'&&tableData[props.$index].status==item.status&&tableData[props.$index].status_name!='提现完成'" v-for="da in tableData[props.$index].processor">{{da}};</span>
                                     </div>
                                     <div class="step_contnet" v-if="item.creator!=''||tableData[props.$index].status==item.status">
@@ -136,6 +139,7 @@
                                         <span class="dj" v-if="item.isfinish==1&&item.status_name!='提现完成'&&item.status_name!='素材入库'" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status)">查看详情</span>
                                         <span class="dj" v-if="item.status_name=='结算汇款'" @click="withdraw(tableData[props.$index].did,item.status)">查看详情</span>
                                         <span class="dj" v-if="(tableData[props.$index].demand_type=='业务需求'&&item.status=='4'&&item.key==0)">审核通过</span>
+                                        <span class="dj" v-if="(tableData[props.$index].demand_type=='素材需求'&&item.status=='4'&&item.key==0||tableData[props.$index].demand_type=='素材需求'&&item.status=='2'&&item.key==0)">审核通过</span>
                                         <span class="dj" v-if="tableData[props.$index].demand_type=='业务需求'&&item.status=='5'&&item.key==0">测试通过</span>
                                         <a :href="url+(tableData[props.$index].activity_id!=undefined?'detailed?id='+tableData[props.$index].activity_id:'activity')" target="_Blank" class="dj" v-if="tableData[props.$index].demand_type=='素材需求'&&item.status=='3'&&item.key==0">查看活动</a>
                                         <span class="dj" v-if="tableData[props.$index].demand_type=='素材需求'&&item.status=='5'&&item.isfinish==1" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status)">查看素材</span>

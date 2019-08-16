@@ -239,6 +239,7 @@
         color:rgba(61,73,102,1);
         margin-left: 14px;
          width: 200px;
+        height: 20px;
         overflow: hidden;
         margin-right: 10px;
     }
