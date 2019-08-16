@@ -59,9 +59,14 @@
                         <div class="up_add" @click="show(index)">
                             <input type="text"/>
                         </div>
-                        <div class="img_list" v-for="(da,ind) in item.images">
-                            <img class="img_center" :src="da.url">
-                            <img class="del" src="../../../public/img/del.png" style="width: 16px" @click="del(index,ind)"/>
+                        <div v-for="(da,ind) in item.images" style="display: inline-block">
+                            <div class="img_list">
+                                <img class="img_center" :src="da.url">
+                                <img class="del" src="../../../public/img/del.png" style="width: 16px" @click="del(index,ind)"/>
+                            </div>
+                            <div style="margin-top: 10px">
+                                <span>尺寸：{{da.width}}*{{da.height}}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -392,11 +397,14 @@
         /*width: 100%!important;*/
         /*height: 100%;*/
     /*}*/
-    .up_img{
-        overflow-y: auto;
-    }
-    .up_img,.up_add{
-        margin-bottom: 0!important;
+    /*.up_img{*/
+        /*overflow-y: auto;*/
+    /*}*/
+    /*.up_img,.up_add{*/
+        /*margin-bottom: 0!important;*/
+    /*}*/
+    .up_add{
+        vertical-align: top;
     }
     .img_list{
         display: inline-block;
