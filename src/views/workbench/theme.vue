@@ -31,6 +31,10 @@
                             prop="status_name"
                             label="状态"
                            >
+                        <template slot-scope="scope">
+                            <span class="red" v-if="tableData[scope.$index].status==0">{{tableData[scope.$index].status_name}}</span>
+                            <span  v-if="tableData[scope.$index].status==1">{{tableData[scope.$index].status_name}}</span>
+                        </template>
                     </el-table-column>
                     <el-table-column
                             prop="address"
@@ -112,5 +116,5 @@
 </script>
 
 <style scoped>
-
+.red{color: red}
 </style>
