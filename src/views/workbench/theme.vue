@@ -16,13 +16,13 @@
                            >
                     </el-table-column>
                     <el-table-column
-                            prop="fill"
+                            prop="req"
                             label="请求量"
                             sortable
                     >
                     </el-table-column>
                     <el-table-column
-                            prop="req"
+                            prop="fill"
                             label="填充量"
                             sortable
                            >
