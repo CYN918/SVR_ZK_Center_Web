@@ -145,18 +145,14 @@
             fh(){
                 this.$router.go(-1);
             },
-            // upImg(){
-            //     this.up = true
-            // },
-            // heidTH(){
-            //     this.up = false
-            // },
+
             show(index){
                 this.uploadImg = true;
                 this.index=index;
             },
             heidADD(){
-                this.uploadImg = false
+                this.uploadImg = false;
+                this.fileList=[];
             },
             getListData(){
                 let params = {pkg_name:this.$route.query.pkg_name};
