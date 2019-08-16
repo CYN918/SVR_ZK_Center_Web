@@ -37,7 +37,7 @@
             <div class="line_border"></div>
             <div>
                 <span class="list_tit">物料列表</span>
-                <span class="up_btn" @click="upImg">新增</span>
+                <span class="up_btn" @click="create()">新增</span>
                 <div class="up_btn_box" v-for="(item,index) in list">
                     <div class="up_btn_box_tit">
                         <span class="name">物料ID:</span>
@@ -72,31 +72,31 @@
                 </div>
             </div>
         </div>
-        <div class="bg" v-if="up">
-            <div class="load_up">
-                <div class="load_tit">
-                    <span>新增文件</span>
-                </div>
-                <div>
-                    <el-upload
-                            class="upload-demo"
-                            action="aaaa"
-                            multiple
-                            :limit="1"
-                            :on-exceed="handleExceed"
-                            :on-remove="handleRemove"
-                            :http-request="beforupload"
-                            :before-upload="beforeAvatarUpload"
-                    >
-                        <el-button size="small" type="primary">选择</el-button>
-                    </el-upload>
-                </div>
-                <div class="btns">
-                    <!--<span class="tj">添加</span>-->
-                    <span @click="heidTH()">取消</span>
-                </div>
-            </div>
-        </div>
+        <!--<div class="bg" v-if="up">-->
+            <!--<div class="load_up">-->
+                <!--<div class="load_tit">-->
+                    <!--<span>新增文件</span>-->
+                <!--</div>-->
+                <!--<div>-->
+                    <!--<el-upload-->
+                            <!--class="upload-demo"-->
+                            <!--action="aaaa"-->
+                            <!--multiple-->
+                            <!--:limit="1"-->
+                            <!--:on-exceed="handleExceed"-->
+                            <!--:on-remove="handleRemove"-->
+                            <!--:http-request="beforupload"-->
+                            <!--:before-upload="beforeAvatarUpload"-->
+                    <!--&gt;-->
+                        <!--<el-button size="small" type="primary">选择</el-button>-->
+                    <!--</el-upload>-->
+                <!--</div>-->
+                <!--<div class="btns">-->
+                    <!--&lt;!&ndash;<span class="tj">添加</span>&ndash;&gt;-->
+                    <!--<span @click="heidTH()">取消</span>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
         <div class="bg" v-if="uploadImg">
             <div class="load_up">
                 <div class="load_tit">
@@ -130,7 +130,6 @@
         name: "theme_details",
         data(){
             return{
-                up:false,
                 list:[],
                 width:"",
                 height:'',
@@ -146,12 +145,12 @@
             fh(){
                 this.$router.go(-1);
             },
-            upImg(){
-                this.up = true
-            },
-            heidTH(){
-                this.up = false
-            },
+            // upImg(){
+            //     this.up = true
+            // },
+            // heidTH(){
+            //     this.up = false
+            // },
             show(index){
                 this.uploadImg = true;
                 this.index=index;
@@ -174,26 +173,26 @@
             handleRemove(file, fileList) {
 
             },
-            beforupload(file){
-                var reader = new FileReader();
-                var _this=this;
-                reader.readAsDataURL(file.file);
-                reader.onload=function(theFile){
-                    var image=new Image();
-                    image.src=theFile.target.result;
-                    image.onload = function() {
-                        _this.width = image.width;
-                        _this.height = image.height;
-                        _this.create(file);
-                    };
-                };
-            },
-            create(file){
+            // beforupload(file){
+            //     var reader = new FileReader();
+            //     var _this=this;
+            //     reader.readAsDataURL(file.file);
+            //     reader.onload=function(theFile){
+            //         var image=new Image();
+            //         image.src=theFile.target.result;
+            //         image.onload = function() {
+            //             _this.width = image.width;
+            //             _this.height = image.height;
+            //             _this.create(file);
+            //         };
+            //     };
+            // },
+            create(){
                 let formData = new FormData;
                 formData.append('pkg_name',this.$route.query.pkg_name);
-                formData.append('file',file.file);
-                formData.append('width',this.width);
-                formData.append('height',this.height);
+                // formData.append('file',file.file);
+                // formData.append('width',this.width);
+                // formData.append('height',this.height);
                 this.api.appad_new(formData).then((res)=>{
                     this.getListData();
                     this.heidTH();
