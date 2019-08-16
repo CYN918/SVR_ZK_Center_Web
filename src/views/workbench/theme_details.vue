@@ -62,7 +62,7 @@
                         <div v-for="(da,ind) in item.images" style="display: inline-block">
                             <div class="img_list">
                                 <img class="img_center" :src="da.url">
-                                <img class="del" src="../../../public/img/del.png" style="width: 16px" @click="del(index,ind)"/>
+                                <img class="del" src="../../../public/img/del.png" style="width: 16px;opacity: 0" />
                             </div>
                             <div style="margin-top: 10px">
                                 <span>尺寸：{{da.width}}*{{da.height}}</span>
@@ -240,17 +240,17 @@
                     this.getListData();
                 })
             },
-            del(index,ind){
-                let formData = new FormData;
-                formData.append('temple_name',this.list[index].temple_name);
-                formData.append('pkg_name',this.$route.query.pkg_name);
-                formData.append('route',this.list[index].route);
-                formData.append('width',this.list[index].images[ind].width);
-                formData.append('height',this.list[index].images[ind].height);
-                this.api.appad_del(formData).then((res)=>{
-                    this.getListData();
-                })
-            },
+            // del(index,ind){
+            //     let formData = new FormData;
+            //     formData.append('temple_name',this.list[index].temple_name);
+            //     formData.append('pkg_name',this.$route.query.pkg_name);
+            //     formData.append('route',this.list[index].route);
+            //     formData.append('width',this.list[index].images[ind].width);
+            //     formData.append('height',this.list[index].images[ind].height);
+            //     this.api.appad_del(formData).then((res)=>{
+            //         this.getListData();
+            //     })
+            // },
             beforeAvatarUpload(file) {
                 const isJPG = file.type === 'image/jpeg';
 

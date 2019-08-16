@@ -120,9 +120,11 @@
                                         <span v-if="tableData[props.$index].status==item.status&&item.isfinish!='1'&&item.status_name!='素材入库'">待处理</span>
                                     </div>
                                     <div class="step_contnet" v-if="item.creator!=''||tableData[props.$index].status==item.status">
-                                        <span class="step_txt" v-if="item.status==1">来源</span>
+                                        <span class="step_txt" v-if="item.status==1&&tableData[props.$index].status!=item.status">来源</span>
+                                        <span class="step_txt" v-if="item.status==1&&tableData[props.$index].status==item.status">待处理人</span>
                                         <span class="step_txt" v-if="item.status!=1">处理人</span>
-                                        <span v-if="item.did!=undefined">{{item.user_name}}</span>
+                                        <span v-if="item.did!=undefined&&tableData[props.$index].status!=item.status">{{item.user_name}}</span>
+                                        <span v-if="item.did!=undefined&&tableData[props.$index].status==item.status" v-for="da in tableData[props.$index].processor">{{da}}</span>
                                         <span  v-if="item.did==undefined&&item.reject!='1'&&tableData[props.$index].status==item.status&&tableData[props.$index].status_name!='提现完成'" v-for="da in tableData[props.$index].processor">{{da}};</span>
                                     </div>
                                     <div class="step_contnet" v-if="item.creator!=''||tableData[props.$index].status==item.status">
