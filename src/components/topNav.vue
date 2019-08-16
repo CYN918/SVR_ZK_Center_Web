@@ -75,9 +75,9 @@ export default {
 		goindex(){
 			window.location.href= '#/index';
 		},
-        gouser(){
-            window.location.href= '#/userinfo/user_info';
-        },
+        // gouser(){
+        //     window.location.href= '#/userinfo/user_info';
+        // },
 		loginout(){
 			let urld = 'http://ts-i.idatachain.cn';
 			if(window.location.host=='c.zookingsoft.com'){

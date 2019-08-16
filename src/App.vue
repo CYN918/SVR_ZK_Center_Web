@@ -755,8 +755,5 @@ select{
 .load_up .el-button--primary{
   color: #000;
 }
-  /*.up_add  .el-upload,.up_add .el-button {*/
-    /*width: 100%!important;*/
-    /*height: 100%;*/
-  /*}*/
+
 </style>

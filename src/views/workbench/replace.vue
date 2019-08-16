@@ -301,7 +301,12 @@
                 let params = {tdate:this.tdate};
                 this.api.replace_times({params}).then((res)=>{
                     this.options5=res;
-                    this.number.push(this.options5[this.options5.length-1].hour);
+                    // this.number.push(this.options5[this.options5.length-1].hour);
+                    var arr=[];
+                    for(var i=0;i<this.options5.length;i++){
+                        arr.push(this.options5[i].hour);
+                    }
+                    this.number=arr;
                     this.getList();
                 })
             },
@@ -472,6 +477,7 @@
     .select_check{
         display: inline-block;
         margin-left: 20px;
+        margin-bottom: 20px;
     }
     .educe,.reset{
         color: #3d3d3d!important;

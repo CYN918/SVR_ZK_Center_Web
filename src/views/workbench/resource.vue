@@ -37,6 +37,10 @@
                             @selection-change="handleSelectionChange"
                             border>
                         <el-table-column
+                                type="index"
+                                label="序号">
+                        </el-table-column>
+                        <el-table-column
                                 label="原始图片">
                             <template slot-scope="scope">
                                 <img :src="tableData[scope.$index].original_res[0].url" style="max-width:80px;max-height: 80px;cursor: pointer"  preview="0" />
