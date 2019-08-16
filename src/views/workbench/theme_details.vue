@@ -59,13 +59,13 @@
                         <div class="up_add" @click="show(index)">
                             <input type="text"/>
                         </div>
-                        <div v-for="(da,ind) in item.images" style="display: inline-block">
+                        <div v-for="(da,ind) in item.images" style="display: inline-block; margin-right: 50px;">
                             <div class="img_list">
                                 <img class="img_center" :src="da.url">
                                 <img class="del" src="../../../public/img/del.png" style="width: 16px;opacity: 0" />
                             </div>
-                            <div style="margin-top: 10px">
-                                <span>尺寸：{{da.width}}*{{da.height}}</span>
+                            <div style="margin-top: 10px;text-align: center">
+                                <span >{{da.width}}*{{da.height}}</span>
                             </div>
                         </div>
                     </div>
@@ -412,7 +412,6 @@
         position: relative;
         width: 150px;
         height: 220px;
-        margin-right: 50px;
         border: 1px solid #ddd;
     }
     .del{
