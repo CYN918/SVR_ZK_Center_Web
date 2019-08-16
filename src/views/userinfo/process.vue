@@ -44,7 +44,7 @@
                 <div class="banner" v-if="ban" :style="{left:this.left+'px'}">
                     <span class="tit">负责人</span>
                     <div>
-                        <input  type="text" v-model="search" @input="getAccountList()"/>
+                        <input  type="text" v-model="search" @change="getAccountList()"/>
                     </div>
                     <div class="add_name">
                         <p v-for="(item,index) in this.tableData" @click="userName(index)">{{item.user_name}}</p>
@@ -95,7 +95,7 @@
                 <div class="banner" v-if="ban1" :style="{left:this.left+'px'}">
                     <span class="tit">负责人</span>
                     <div>
-                        <input  type="text" v-model="search" @input=" getAccountList()"/>
+                        <input  type="text" v-model="search" @change=" getAccountList()"/>
                         <div></div>
                     </div>
                     <div class="add_name">
@@ -137,7 +137,7 @@
                 <div class="banner bannerTop" v-if="ban2" :style="{left:this.left+'px'}">
                     <span class="tit">负责人</span>
                     <div>
-                        <input  type="text" v-model="search" @input=" getAccountList()"/>
+                        <input  type="text" v-model="search" @change="getAccountList()"/>
                         <div></div>
                     </div>
                     <div class="add_name">
@@ -257,7 +257,9 @@
                         this.ban = false;
                         this.ban1 = false;
                         this.ban2 = false;
-                        this.left=''
+                        this.left='';
+                        this.search='';
+                        this.tableData=[];
 
                     })
                 }else{
@@ -277,6 +279,8 @@
                         this.ban1 = false;
                         this.ban2 = false;
                         this.left=''
+                        this.search='';
+                        this.tableData=[];
 
                     })
                 }
@@ -310,6 +314,8 @@
                 this.ban1=false;
                 this.ban2=false;
                 this.left=''
+                this.search=''
+                this.tableData=[];
             },
             getListUser(){
                 let params = {search:this.search}
@@ -348,6 +354,7 @@
                 })
             },
             getAccountList(){
+                this.tableData=[];
                 let params ={p:100,page:1,search:this.search};
                 this.api.account_all({params}).then((res)=>{
                     this.tableData = res.data;
