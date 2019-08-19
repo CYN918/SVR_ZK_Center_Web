@@ -120,6 +120,8 @@ import theme_details from './views/workbench/theme_details'
 mode['theme_details'] = theme_details
 import theme_screen from './views/workbench/theme_screen'
 mode['theme_screen'] =theme_screen
+import processed from './views/workbench/processed'
+mode['processed'] = processed
 
 
 import axios from 'axios'
@@ -225,6 +227,7 @@ let nb = [
 
 	{path:'/workbench',name:'工作台',component:mode['workbench'],children:[
 		{path:'/workbench/workbenchPadding',name:'待审核',component:mode['workbenchPadding']},
+        {path:'/workbench/processed',name:'我的已处理',component:mode['processed']},
 		{path:'/workbench/ALL',name:'全部',component:mode['ALL']},
         {path:'/workbench/Billing_details',name:'全部',component:mode['Billing_details']},
 		{path:'/workbench/withdraw',name:'提现',component:mode['withdraw']},
@@ -309,6 +312,7 @@ let leftNav =
 //         children:[
 //             {title:'任务中心',url:'1',img:'&#xe610;',list:[
 //                     {title:'待处理',url:'/workbench/workbenchPadding'},
+//                     {title:'我的已处理',url:'/workbench/processed'},
 //                     {title:'全部',url:'/workbench/ALL'},
 // 					],},
 //             {title:'运营工具',url:'2',img:'&#xe610;',list:[
@@ -500,7 +504,7 @@ router.beforeEach((to, from, next) => {
 			}
 			next({ path: '/index'});
 		}).catch(()=>{
-			alert("服务器故障请稍后再试");
+			// alert("服务器故障请稍后再试");
 		});
 			
 	}else{

@@ -1,36 +1,55 @@
 <template>
     <div>
         <div class="top_name">
-            <span class="top_txt">任务中心/{{this.active==0?'待处理':'全部待处理'}}</span>
+            <span class="top_txt">任务中心/我的已处理</span>
             <div class="title_left">
-                <span>待处理</span>
+                <span>我的已处理</span>
             </div>
             <div class="tit_btn">
+                <div class="blocks">
+                    <el-date-picker
+                            v-model="value"
+                            type="daterange"
+                            @change="getList()"
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期"
+                            format="yyyy-MM-dd"
+                            value-format="yyyy-MM-dd ">
+                    </el-date-picker>
+                </div>
+                <span class="need_tit">需求类型</span>
+                <select class="need_type" v-model="demand_type" @change="getList()">
+                    <option value="">全部</option>
+                    <option value="demand_business">业务需求</option>
+                    <option value="demand_material">素材需求</option>
+                    <option value="demand_apply">设计师结算</option>
+                </select>
                 <img src="../../../public/img/ss.png">
                 <input type="text" placeholder="搜索需求ID" v-model="search" @input="typeListSearch"/>
                 <span :class="el.cl" v-for="(el,index) in btns" @click="clickfn(el.clfn)">{{el.n}}</span>
             </div>
         </div>
-        <div class="padding_btn">
-            <span :class="{active:this.active==0}" @click="getList">我的待处理</span>
-            <span :class="{active:this.active==1}" @click="getDataList">全部待处理</span>
-        </div>
+        <!--<div class="padding_btn">-->
+            <!--<span :class="{active:this.active==0}" @click="getList">我的待处理</span>-->
+            <!--<span :class="{active:this.active==1}" @click="getDataList">全部待处理</span>-->
+        <!--</div>-->
         <div class="centNavBox">
             <tab v-if="tables" :tableData="tableData" :active="active" ></tab>
             <sc v-if="sc" :SCid="id"></sc>
             <yw v-if="yw" :YWid="id"></yw>
         </div>
-            <div class="block">
-                <el-pagination
-                        @size-change="handleSizeChange"
-                        @current-change="handleCurrentChange"
-                        :current-page="page"
-                        :page-sizes="[10, 20, 30, 40]"
-                        :page-size="p"
-                        layout="total, sizes, prev, pager, next, jumper"
-                        :total="total">
-                </el-pagination>
-             </div>
+        <div class="block">
+            <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="page"
+                    :page-sizes="[10, 20, 30, 40]"
+                    :page-size="p"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total">
+            </el-pagination>
+        </div>
     </div>
 </template>
 
@@ -62,20 +81,19 @@
                 controlBtn:true,
                 controlBtns:true,
                 btns:[],
+                value:[(new Date()).toLocaleDateString().split('/').join('-'),(new Date()).toLocaleDateString().split('/').join('-')],
+                demand_type:'',
             }
         },
         created(){
             this.control=JSON.parse(localStorage.getItem('control'));
-            console.log('a')
-
             let arr = [];
-
             for(var i=0;i<this.control.length;i++){
                 if(this.control[i].uri_key=='uri.demand.business.add'){
                     arr.unshift({n:'发布业务需求',cl:'tit_btn_yw',clfn:'getYW'});
                 }
                 if(this.control[i].uri_key=='uri.demand.material.add'){
-                    arr.push({n:'发布素材需求',cl:'tit_btn_sc',clfn:'getSC'});
+                    arr.unshift({n:'发布素材需求',cl:'tit_btn_sc',clfn:'getSC'});
                 }
             }
             this.btns = arr;
@@ -89,18 +107,18 @@
                 this[n]();
             },
             getSC(id){
-                       this.id = id;
-                       this.sc=true;
-                       this.stop()
+                this.id = id;
+                this.sc=true;
+                this.stop()
             },
             heidSC(){
                 this.sc=false;
                 this.move()
             },
             getYW(id){
-                        this.id=id;
-                        this.yw=true;
-                        this.stop()
+                this.id=id;
+                this.yw=true;
+                this.stop()
             },
             heidYW(){
                 this.id='';
@@ -108,16 +126,11 @@
                 this.move()
             },
             typeListSearch(){
-                if(this.active ==0){
                     this.getList();
-                }else{
-                    this.getDataList();
-                }
             },
             getList(){
-                this.active=0;
-                let params ={p:this.p,page:this.page,search:this.search,all:0};
-                this.api.demand_await({params}).then((res)=>{
+                let params ={p:this.p,page:this.page,search:this.search,start_time:this.value[0],end_time:this.value[1],demand_type:this.demand_type};
+                this.api.demand_audited({params}).then((res)=>{
                     this.tableData = res.data;
                     this.total = res.total;
                     this.tables = true;
@@ -141,25 +154,6 @@
                 document.body.style.overflow='';//出现滚动条
                 document.body.style.position='initial';
                 document.body.style.height='1006px';
-            },
-            getDataList(){
-                this.active=1;
-                let params ={p:this.p,page:this.page,search:this.search,all:1};
-                this.api.demand_await({params}).then((res)=>{
-                    this.tableData = res.data;
-                    this.total = res.total;
-                    this.tables = true;
-                    for (let i=0;i<this.tableData.length;i++){
-                        console.log(this.tableData[i].demand_type)
-                        if(this.tableData[i].demand_type=='demand_business'){
-                            this.tableData[i].demand_type='业务需求'
-                        }else if(this.tableData[i].demand_type=='demand_material'){
-                            this.tableData[i].demand_type='素材需求'
-                        }else {
-                            this.tableData[i].demand_type='设计师结算'
-                        }
-                    }
-                })
             },
             handleSizeChange(p) { // 每页条数切换
                 this.tables=false
@@ -190,6 +184,7 @@
         -webkit-box-sizing: border-box;
         box-sizing: border-box;
         background: #FFF;
+        margin-top: 258px;
     }
     .top_name{
         height: 173px;
@@ -213,10 +208,10 @@
         width: 80%;
     }
     .tit_btn>input{
-        width:374px;
-        height:36px;
+        width:198px;
+        height:32px;
         background:rgba(255,255,255,1);
-        border-radius:4px;
+        border-radius:2px;
         border:1px solid rgba(211,219,235,1);
         padding-left: 30px;
     }
@@ -288,5 +283,18 @@
     }
     .activeHeid{
         display: none!important;
+    }
+    .blocks{
+        display: inline-block;
+        margin-left: 24px;
+        margin-right: 34px;
+    }
+    .need_type{
+        width:200px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        margin-left: 24px;
     }
 </style>

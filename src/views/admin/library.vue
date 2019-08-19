@@ -66,6 +66,11 @@
                                >
                         </el-table-column>
                         <el-table-column
+                                prop="mfinal_count"
+                                label="物料数量"
+                        >
+                        </el-table-column>
+                        <el-table-column
                                 prop="updated_at"
                                 label="更新时间">
                         </el-table-column>

@@ -27,10 +27,8 @@
                 </div>
                 <div>
                     <span class="tit_txt">尺寸</span>
-                    <input class="num" type="text" placeholder="请输入尺寸，例“99*99”" v-model="size" v-if="switcher"/>
-
-                    <select v-model="size" v-if="switcher==false" @change="cut()">
-                        <option value="">自定义</option>
+                    <input class="tet" type="text" v-model="size" placeholder="请输入尺寸，例“99*99”" style="width: 160px;height: 30px;position: absolute;border: 0!important;margin-top: 2px;padding-left: 10px;margin-left: 2px"/>
+                    <select v-model="size">
                         <option v-for="(item,index) in sizeList" :value="item.size">{{item.size}}</option>
                     </select>
                     <span class="tit_txt right">优先级</span>
@@ -109,7 +107,6 @@
                 url:'img/1.jpg',
                 putList:false,
                 libraryName:'',
-                switcher:false,
                 libraryID:'',
                 demand_name:'',
                 width:'',
@@ -291,12 +288,6 @@
                 this.api.config_material_type({params}).then((res)=>{
                     this.YWtypeList = res
                 })
-            },
-            cut(){
-                if(!this.size){
-                    this.switcher=true
-                }
-
             },
             getlIBRARY(){
                 this.putList=true;

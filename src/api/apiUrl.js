@@ -568,6 +568,10 @@ export default {
 	demand_search:{
 		url:'/demand/search',method:'get'
 	},
+	//获取我的已处理需求列表
+    demand_audited:{
+		url:"demand/audited",method:'get'
+	},
 	//审核通过
     demand_audit:{
 		url:"/demand/audit",method:'post',isType:{suktip:1,reload:1}

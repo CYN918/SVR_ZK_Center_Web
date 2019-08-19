@@ -311,15 +311,25 @@
                 })
             },
             getAdd(data){
-                this.$router.push({
+                // this.$router.push({
+                //     query:{
+                //         sdkid:data,
+                //         time:this.tdate,
+                //         num:JSON.stringify(this.number),
+                //         source:this.source,
+                //     },
+                //     path:'./resource'
+                // })
+                let routeData = this.$router.resolve({
+                    path:'./resource',
                     query:{
                         sdkid:data,
                         time:this.tdate,
                         num:JSON.stringify(this.number),
                         source:this.source,
                     },
-                    path:'./resource'
-                })
+                });
+                window.open(routeData.href, '_blank');
             },
             getPv(sdk_id){
                 var s = '{"'+'sdk_id' + '":"'+sdk_id + '"}';
