@@ -76,7 +76,7 @@
                             type="datetime"
                             placeholder="选择日期时间"
                             default-time="24:00:00"
-                            format="yyyy 年 MM 月 dd 日 H 时 m 分"
+                            format="yyyy-MM-dd-H-m"
                             value-format="yyyy-MM-dd HH:mm"
                     >
                     </el-date-picker>
@@ -286,15 +286,7 @@
                 }
 
             },
-            // ADDsize(){
-            //     var arr=[];
-            //     for(var i=0;this.size.length;i++){
-            //         if(arr.indexOf(this.size[i])==-1){
-            //             arr.push(this.size)
-            //         }
-            //     }
-            //     this.size=arr;
-            // },
+
             heid(){
                 this.$parent.heidYW()
             },

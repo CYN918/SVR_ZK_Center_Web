@@ -31,6 +31,14 @@
                     <select v-model="size">
                         <option v-for="(item,index) in sizeList" :value="item.size">{{item.size}}</option>
                     </select>
+                    <el-select v-model="value1" multiple placeholder="请选择">
+                        <el-option
+                                v-for="item in options"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                        </el-option>
+                    </el-select>
                     <span class="tit_txt right">优先级</span>
                     <select v-model="priority">
                         <option value="高">高</option>

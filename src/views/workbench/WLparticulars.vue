@@ -290,11 +290,12 @@
         width: 108px;
         height: 110px;
         margin-right: 48px;
+        text-align: center;
     }
     .ADD_img_img{
         display: inline-block;
-        width: 108px;
-        height: 80px;
+        max-width: 108px;
+        max-height: 80px;
     }
 
     .ADD_img span{
