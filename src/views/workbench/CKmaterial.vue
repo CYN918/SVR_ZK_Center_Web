@@ -23,7 +23,7 @@
                 </div>
                 <div class="img_box">
                     <div v-for="(da,index2) in item.bind" class="ADD_img">
-                        <img :src="da.prev_uri" class="ADD_img_img"/>
+                        <img :src="da.prev_uri" class="ADD_img_img" preview="0"/>
                         <span>{{da.mid}}</span>
                     </div>
                     <div>{{item.note}}</div>
@@ -44,7 +44,7 @@
                 </div>
                 <div class="img_box">
                     <div v-for="(da1,index3) in item.bind" class="ADD_img">
-                        <img :src="da1.prev_uri" class="ADD_img_img"/>
+                        <img :src="da1.prev_uri" class="ADD_img_img" preview="0"/>
                         <span>{{da1.mfid}}</span>
                     </div>
                 </div>

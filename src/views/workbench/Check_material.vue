@@ -21,7 +21,7 @@
                 </div>
                 <div class="img_box">
                     <div  class="ADD_img">
-                        <img :src="item.prev_uri" class="ADD_img_img"/>
+                        <img :src="item.prev_uri" class="ADD_img_img"  preview='0'/>
                         <span>{{item.mid}}</span>
                     </div>
                 </div>
