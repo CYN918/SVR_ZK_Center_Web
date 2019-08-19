@@ -51,6 +51,11 @@
                     <el-table-column
                             label="当前流转人员" prop="processor"
                             >
+                        <template slot-scope="scope">
+                           <span v-for="item in  tableData[scope.$index].processor">
+                               {{item}};
+                           </span>
+                        </template>
                     </el-table-column>
                     <el-table-column
                             label="截止时间" prop="endtime"
