@@ -92,7 +92,8 @@
                     <textarea maxlength="300" v-model="requirement"></textarea>
                 </div>
                 <div class="btn">
-                    <span class="btn_fb" @click="AddYw">发布</span>
+                    <span class="btn_fb" @click="AddYw" v-if="bear==false">发布</span>
+                    <span class="btn_fb" v-if="bear==true">发布</span>
                     <span @click="heid">取消</span>
                 </div>
             </div>
@@ -130,6 +131,7 @@
                 demand_name:'',
                 width:'',
                 hidden:'',
+                bear:false,
             }
         },
         mounted(){
@@ -195,6 +197,7 @@
                     if(this.switcher==true){
                         this.size= this.width+"*"+this.height;
                     }
+                    this.bear=true
                     let formData=new FormData;
                     formData.append('put_lib',this.libraryID);
                     formData.append('type',this.type);
@@ -209,6 +212,8 @@
                     formData.append('demand_name',this.demand_name);
                     this.api.demand_business_add(formData).then((res)=>{
 
+                    }).catch(()=>{
+                        this.bear=false
                     })
 
                 }else{
@@ -260,6 +265,7 @@
                         this.$message.error('投放库不能为空')
                         return
                     }
+                    this.bear=true
                     let formData=new FormData;
                     formData.append('put_lib',this.libraryID);
                     formData.append('type',this.type);
@@ -275,6 +281,8 @@
                     formData.append('demand_name',this.demand_name);
                     this.api.demand_business_add(formData).then((res)=>{
 
+                    }).catch(()=>{
+                        this.bear=false
                     })
 
                 }

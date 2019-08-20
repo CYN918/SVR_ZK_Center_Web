@@ -94,7 +94,8 @@
 
                 </div>
                 <div class="btn">
-                    <span class="btn_fb" @click="ADDsc()">发布</span>
+                    <span class="btn_fb" @click="ADDsc()" v-if="bear==false">发布</span>
+                    <span class="btn_fb" v-if="bear==true">发布</span>
                     <span @click="heid">取消</span>
                 </div>
             </div>
@@ -130,7 +131,8 @@
                 initiate:false,
                 aaa:0,
                 bbb:0,
-                demand_name:''
+                demand_name:'',
+                bear:false,
             }
         },
         mounted(){
@@ -179,7 +181,7 @@
                         this.$message.error('截止时间不能小于当前时间');
                         return
                     }
-
+                    this.bear=true;
                     let formData = new FormData;
                     formData.append('type',this.type);
                     formData.append('attach',JSON.stringify(this.attach));
@@ -194,6 +196,8 @@
                     formData.append('demand_name',this.demand_name);
                     this.api.demand_material_add(formData).then((res)=>{
                         console.log(typeof(this.ref_url))
+                    }).catch(()=>{
+                        this.bear=false
                     })
                 }else{
                     if(!this.type){
@@ -236,7 +240,7 @@
                         this.$message.error('需求名称不能为空')
                         return
                     }
-
+                    this.bear=true
                     let formData = new FormData;
                     formData.append('type',this.type);
                     formData.append('attach',JSON.stringify(this.attach));
@@ -255,6 +259,8 @@
                         formData.append('id',this.SCid);
                         this.api.demand_audit(formData).then((res)=>{
 
+                        }).catch(()=>{
+                            this.bear=false
                         })
                     })
                 }
