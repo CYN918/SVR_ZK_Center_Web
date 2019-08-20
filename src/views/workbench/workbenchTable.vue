@@ -148,7 +148,7 @@
                                         <span class="dj" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,tableData[props.$index].status+1,item.reject)"  v-if="item.reject=='1'&&tableData[props.$index].status!=item.status">查看驳回原因</span>
                                         <span class="dj" v-if="(tableData[props.$index].demand_type=='素材需求'&&item.status=='4'&&item.key==0&&item.reject!='1'||tableData[props.$index].demand_type=='素材需求'&&item.status=='2'&&item.key==0&&item.reject!='1')">审核通过</span>
                                         <span class="dj" v-if="tableData[props.$index].demand_type=='业务需求'&&item.status=='5'&&item.key==0&&item.reject!='1'">测试通过</span>
-                                        <a :href="url+(tableData[props.$index].activity_id!=undefined?'detailed?id='+tableData[props.$index].activity_id:'activity')" target="_Blank" class="dj" v-if="tableData[props.$index].demand_type=='素材需求'&&item.status=='3'&&item.key==0">查看活动</a>
+                                        <a :href="url+(tableData[props.$index].activity_id!=undefined?'detailed?id='+tableData[props.$index].activity_id:'activity')" target="_Blank" class="dj" v-if="tableData[props.$index].demand_type=='素材需求'&&item.status=='3'&&item.key==0&&item.reject!='1'">查看活动</a>
                                         <span class="dj" v-if="tableData[props.$index].demand_type=='素材需求'&&item.status=='5'&&item.isfinish==1" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status)">查看素材</span>
                                     </div>
                                 </div>

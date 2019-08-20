@@ -295,7 +295,6 @@
         font-weight:400;
         color:rgba(255,255,255,1)!important;
         float: right;
-        margin-right: 257px!important;
         cursor: pointer;
     }
     .padding_btn{
@@ -364,6 +363,7 @@
     }
     .tit_btn_bom{
         margin: 0 24px;
+        width: 80%;
     }
     .tit_btn_bom span{
         display: inline-block;

@@ -3,7 +3,7 @@
         <div class="bg" @click=" heid()">
             <div class="AddIMG" @click.stop>
                 <div class="AddIMG_tit">
-                    <span>素材需求详情</span>
+                    <span>素材需求详情aaa</span>
                     <img src="../../../public/img/gb.png"  @click=" heid()"/>
                 </div>
                 <div>
@@ -26,7 +26,7 @@
                     <div>
                         <span class="tit_txt">设计规范</span>
                         <span v-if="list.design_standard!=null"  class="tit_txt_2 ">{{this.list.design_standard.name}}</span>
-                        <a v-if="list.design_standard!=null" :href="list.design_standard.attach_url">下载</a>
+                        <a v-if="list.design_standard!=null" :href="list.design_standard.attach_url" >下载</a>
                     </div>
                     <div>
                         <span class="tit_txt">截止时间</span>
@@ -37,7 +37,7 @@
                         <span class="tit_txt">附件</span>
                         <span v-if="list.attach.name==''"  class="tit_txt_2 ">无</span>
                         <span v-if="list.attach.name!=''"  class="tit_txt_2 ">{{this.list.attach.name}}</span>
-                        <a v-if="list.attach.name!=''" :href="this.list.attach.url">下载</a>
+                        <a v-if="list.attach.name!=''" :href="list.attach.url" >下载</a>
                     </div>
                     <div>
                         <span class="tit_txt">风格</span>
@@ -91,7 +91,7 @@
                     this.list = res;
                     console.log(res)
                 })
-            }
+            },
         }
     }
 </script>
