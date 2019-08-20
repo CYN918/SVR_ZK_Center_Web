@@ -54,10 +54,19 @@
                     <span class="tit_txt">需求数量</span>
                     <input type="number" class="num" v-model="num" placeholder="请输入需求数量"/>
                     <span class="tit_txt right">实现方式</span>
-                    <select v-model="model">
+                    <select v-model="model" v-if="type=='f_ad_picture'">
                         <option value="" disabled selected style="color: #8b9bb3">请选择</option>
                         <option value="无">无</option>
                         <option value="H5">H5</option>
+                        <option value="脚本">脚本</option>
+                    </select>
+                    <select v-model="model" v-if="type=='f_ad_template'">
+                        <option value="" disabled selected style="color: #8b9bb3">请选择</option>
+                        <option value="H5">H5</option>
+                        <option value="脚本">脚本</option>
+                    </select>
+                    <select v-model="model" v-if="type=='f_sls_lockscreen'">
+                        <option value="" disabled selected style="color: #8b9bb3">请选择</option>
                         <option value="脚本">脚本</option>
                     </select>
                 </div>
