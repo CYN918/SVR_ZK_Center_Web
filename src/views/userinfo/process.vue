@@ -34,8 +34,8 @@
                             </div>
                         </div>
                         <div class="tag" v-if="item.status_name=='物料审核'">
-                            <span :class="{active:audit_type==0}" @click="tag(item.id)">或签</span>
-                            <span :class="{active:audit_type==1}" @click="tagTwo(item.id)">会签</span>
+                            <span :class="{active:audit_type==1}" @click="tag(item.id)">或签</span>
+                            <span :class="{active:audit_type==2}" @click="tagTwo(item.id)">会签</span>
                     </div>
 
                     </div>
@@ -223,17 +223,15 @@
             getConductorList(){
                 let params= {demand_type:'demand_business',type:this.type};
                 this.api.process_list({params}).then((res)=>{
-                    console.log(res[3].audit_type);
                     this.list = res;
-                    this.SCaudit_type=res[3].audit_type;
+                    this.audit_type=res[3].audit_type;
                 })
             },
             wlConductorList(){
                 let params= {demand_type:'demand_material',type:this.WLtype};
                 this.api.process_list({params}).then((res)=>{
-                    console.log(res[1].audit_type);
                     this.YClist = res;
-                    this.audit_type=res[1].audit_type;
+                    this.SCaudit_type=res[1].audit_type;
                 })
             },
             txConductorList(){
