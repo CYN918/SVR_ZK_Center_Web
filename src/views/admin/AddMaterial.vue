@@ -33,7 +33,6 @@
                                         :on-exceed="handleExceed"
                                         :on-remove="handleRemove"
                                         :http-request="uploadF"
-                                        :before-upload="beforeAvatarUpload"
                                         action="111"
                                 >
                                     <el-button size="small" type="primary" >上传</el-button>
