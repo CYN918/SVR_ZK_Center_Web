@@ -98,7 +98,7 @@
 						<div>
 							<span class="boxImg_text">链接:</span>
 							<span class="boxImg_content" style="display: inline-block;max-width: 200px;height: 20px;overflow: hidden">{{DL.link}}</span>
-							<span class="copy" v-clipboard:copy="DL.link" v-clipboard:success="onCopy"   v-clipboard:error="onError">复制</span>
+							<span class="copy" v-clipboard:copy="DL.link" v-clipboard:success="onCopy"   v-clipboard:error="onError" v-if="DL.link!=''">复制</span>
 						</div>
 						<div>
 							<span class="boxImg_text">更新时间:</span>
@@ -408,21 +408,8 @@
 
     }
 </script>
-<style>
+<style scoped>
 	.active{
-		color: #1583e2!important;
-		border:0!important;}
-	.copy{
-		display: inline-block;
-		width: 50px;
-		height: 30px;
-		cursor: pointer;
-		border-radius: 5px;
-		border: 1px solid #4f4cf1;
-		text-align: center;
-		line-height: 30px;
-		color:#4f4cf1;
-		margin-left: 15px;
-		font-size: 14px;
-	}
+		color: #1583e2!important;}
+
 </style>
