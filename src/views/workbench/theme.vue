@@ -12,12 +12,14 @@
             <div style="padding: 24px">
                 <div class="tit_cx">
                     <span class="tit_name">包名</span>
-                    <input type="text" placeholder="请输入包名"/>
+                    <input type="text" placeholder="请输入包名" v-model="pkg_name"/>
                     <span class="tit_name">状态</span>
-                    <select>
-                        <option>全部</option>
+                    <select v-model="status">
+                        <option value="">全部</option>
+                        <option value="0">未处理</option>
+                        <option value="1">已处理</option>
                     </select>
-                    <span class="cx">查询</span>
+                    <span class="cx" @click="getList()">查询</span>
                 </div>
                 <template>
                     <el-table
@@ -55,6 +57,18 @@
                             </template>
                         </el-table-column>
                         <el-table-column
+                                prop="count"
+                                label="数量"
+                                sortable
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                prop="updated_at"
+                                label="更新时间"
+                                sortable
+                        >
+                        </el-table-column>
+                        <el-table-column
                                 prop="address"
                                 label="操作">
                             <template slot-scope="scope">
@@ -88,6 +102,8 @@
                 p:10,
                 page:1,
                 total:0,
+                pkg_name:'',
+                status:'',
             }
         },
         mounted(){
@@ -133,9 +149,9 @@
                 this.getList()
             },
             getList(){
-                let params = {p:this.p,page:this.page};
-                this.api.appad_pkglist({params}).then((res)=>{
-                    this.tableData=res;
+                let params = {pkg_name:this.pkg_name,status:this.status,p:this.p,page:this.page};
+                this.api.appad_pkg_search({params}).then((res)=>{
+                    this.tableData=res.data;
                     this.total=res.total;
                 })
             },

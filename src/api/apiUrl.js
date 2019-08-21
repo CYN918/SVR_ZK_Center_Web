@@ -857,4 +857,8 @@ export default {
     demand_business_middleware_del:{
 		url:"demand/business/middleware/del",method:"post",isType:{suktip:1}
 	},
+	//根据条件获取包名列表
+    appad_pkg_search:{
+		url:'appad/pkg/search',method:'get'
+	},
 }
