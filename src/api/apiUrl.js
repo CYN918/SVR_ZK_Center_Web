@@ -849,4 +849,12 @@ export default {
     appad_del:{
 		url:'appad/del',method:"post",isType:{suktip:1}
 	},
+	//业务需求绑定中间件
+    demand_business_bind_middleware:{
+		url:'demand/business/bind/middleware',method:"post",isType:{suktip:1}
+	},
+	//删除业务需求绑定中间件
+    demand_business_middleware_del:{
+		url:"demand/business/middleware/del",method:"post",isType:{suktip:1}
+	},
 }

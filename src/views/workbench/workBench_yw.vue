@@ -30,7 +30,7 @@
                 <div>
                     <span class="tit_txt">尺寸</span>
                     <input class="tet" type="text" v-model="size" placeholder="请输入尺寸，例“99*99”" style="width: 160px;height: 30px;position: absolute;border: 0!important;margin-top: 2px;padding-left: 10px;margin-left: 2px"/>
-                    <select v-model="size" @change="ADDsize()">
+                    <select v-model="size" >
                         <option value="" disabled selected style="color: #8b9bb3">请选择</option>
                         <option v-for="(item,index) in sizeList" :value="item.size">{{item.size}}</option>
                     </select>

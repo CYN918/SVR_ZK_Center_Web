@@ -689,6 +689,10 @@ select{
   .uplaod .el-button{
     background: rgba(51,119,255,1)!important;
   }
+  .up_img .el-button{
+    background: rgba(51,119,255,1)!important;
+    width: 101px;
+  }
 .el-upload-list__item:first-child{
   margin-top: 0!important;
 }
@@ -755,5 +759,7 @@ select{
 .load_up .el-button--primary{
   color: #000;
 }
-
+.up_img .el-upload-list{
+  display: none;
+}
 </style>

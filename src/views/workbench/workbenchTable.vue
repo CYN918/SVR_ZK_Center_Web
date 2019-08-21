@@ -14,6 +14,7 @@
         <scxq v-if="sc" :SCid="SCid"></scxq>
         <CK v-if='ck' :id="CkID"></CK>
         <WLp v-if="WLp" :id="wlID"></WLp>
+        <BU v-if="BU" :id="id" :ind="index"></BU>
         <ATR v-if="ADD_material" :id="id" :num="num" :ind="index" :typeList="this.typeList"></ATR>
         <ADDsc v-if="addSC" :index="index" :id="id"></ADDsc>
         <scREQ v-if="scR"  :id="id" :num="num"></scREQ>
@@ -230,6 +231,7 @@
 </template>
 
 <script>
+    import BU from './Batch_upload'
     import dc from '../../api/commonality'
     import scxq from './sc_details'
     import ywxq from './yw_details'
@@ -249,7 +251,7 @@
     import set from '../admin/Select_material'
     import Cm from './Check_material'
     export default {
-        components:{QD,BH,ADDsc,sct,BDadd,AddWL,ywxq,scxq,CK,uplodWl,scwl,WLp,ATR,scREQ,ADD,set,Cm},
+        components:{QD,BH,ADDsc,sct,BDadd,AddWL,ywxq,scxq,CK,uplodWl,scwl,WLp,ATR,scREQ,ADD,set,Cm,BU},
         props:['tableData','active'],
         name: "workbench-table",
         data(){
@@ -264,6 +266,7 @@
                 ADD_material:false,
                 wl:false,
                 set:false,
+                BU:false,
                 BD:false,
                 yw:false,
                 sc:false,
@@ -331,6 +334,17 @@
                 this.sh=true;
                 this.id=this.tableData[index].did;
                 this.stop()
+            },
+            getBU(index){
+                if(index!=undefined){
+                    this.index = index;
+                }
+                this.BU=true;
+                this.stop()
+            },
+            heidBU(){
+                this.BU=false;
+                this.move()
             },
             getWl(){
                 this.wl = true;

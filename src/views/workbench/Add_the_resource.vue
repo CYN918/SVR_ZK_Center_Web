@@ -26,6 +26,8 @@
                             <span class="content_title_span" @click="handleClick(index)" >素材库选择</span>
                             <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
                             <span class="content_title_span" @click="getBD(index)">本地上传</span>
+                            <img class="content_title_img" src="../../../public/img/ADD_bule.png" v-if="item.bind!=undefined"/>
+                            <span class="content_title_span" @click="upImg(index)" v-if="item.bind!=undefined">上传附件</span>
                         </div>
                         <div class="btn_img">
                             <img style="margin-right: 34px" src="../../../public/img/delet.png" @click="delLine(index)"/>
@@ -37,6 +39,11 @@
                             <img class="ADD_img_del" src="../../../public/img/del.png" @click="delmid(index,data.mid)">
                             <img  class="ADD_img_img" :src="data.prev_uri"/>
                             <span>{{data.mid}}</span>
+                        </div>
+                        <div class="ADD_img" v-for="(data,index2) in item.middleware" >
+                            <img class="ADD_img_del" src="../../../public/img/del.png" @click="delIMG(index,data.id)">
+                            <img  class="ADD_img_img" :src="data.url"/>
+                            <span>{{data.name}}</span>
                         </div>
                     </div>
                     <div  style="width: 100%;margin-top: 20px">
@@ -137,6 +144,15 @@
                         this.getDataList()
                     })
             },
+            delIMG(index,id){
+                let formData = new FormData;
+                formData.append('id',this.id);
+                formData.append('line_num',this.listSC[index].line_num);
+                formData.append('middle_id',id);
+                this.api.demand_business_middleware_del(formData).then((res)=>{
+                    this.getDataList();
+                })
+            },
             delLine(index){
                 if(this.sc ==true){
                         if(this.listSC[index].line_num==undefined){
@@ -218,12 +234,20 @@
                         this.line_num=0;
                     }
                 }else{
-                    this.line_num =  this.listWL[index].line_num
+                    this.line_num =  this.listWL[index].line_num;
                     if(this.line_num==undefined){
                         this.line_num=0;
                     }
                 }
                 this.$parent.getBD(this.line_num);
+                this.$parent.heidAddMaterial();
+            },
+            upImg(index){
+                this.line_num = this.listSC[index].line_num;
+                if(this.line_num==undefined){
+                    this.line_num=0;
+                }
+                this.$parent.getBU(this.line_num);
                 this.$parent.heidAddMaterial();
             },
             getWl(index){
@@ -456,6 +480,7 @@
     .ADD_img span{
         display:inline-block;
         width: 108px;
+        height: 21px;
         overflow: hidden;
     }
     .block{
