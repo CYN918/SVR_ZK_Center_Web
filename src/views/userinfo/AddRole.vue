@@ -176,6 +176,7 @@
                 })
             },
             upload(file){
+                this.img='./img/up.png';
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
