@@ -7,41 +7,64 @@
                 <span v-else>添加角色</span>
             </div>
         </div>
-        <div class="centNavBox">
-            <div class="marg">
-                <div class="role_Add_switch">
-                    是否启用
-                    <el-switch
-                            v-model="status"
-                            @change=GetSwitch
-                            active-value=1
-                            inactive-value=0
-                            active-color="#3377ff"
-                            inactive-color="#e6e9f0">
-                    </el-switch>
-                </div>
-                <div class="role_name">
-                    <span v-if="this.$route.query.role_id ==undefined">角色名称</span>
-                    <input type="text" placeholder="最多输入10个字" maxlength="10" v-model="name" v-if="this.$route.query.role_id ==undefined"/>
-                    <div class="wb" v-if="this.$route.query.role_id ==undefined">
-                       <span>是否为外部角色</span>
-                        <select v-model="type">
-                            <option value="1">是</option>
-                            <option value="0">否</option>
-                        </select>
+        <div class="select_tit">
+            <div class="role_name">
+                <div class="icon">
+                    <img :src="img" style="width:100px;height: 100px;border-radius: 50%"/>
+                    <div style="position: absolute;top:0;width: 100px;height: 100px">
+                        <el-upload
+                                class="upload-demo"
+                                action="11"
+                                :http-request="upload"
+                                >
+                            <el-button size="small" type="primary">修改头像</el-button>
+                        </el-upload>
                     </div>
-                    <div class="DQrole_name" v-if="this.$route.query.role_id !=undefined">
-                        <span>当前角色:{{this.$route.query.role_name}}</span>
+                </div>
+                <div style="display: inline-block;margin-left: 30px">
+                    <div class="tit_name" >
+                        <span >角色名称</span>
+                        <input type="text" placeholder="最多输入10个字" maxlength="10" v-model="name"/>
+                    </div>
+                    <div>
+                        <!--<div class="tit_name">-->
+                            <!--<div class="DQrole_name" v-if="this.$route.query.role_id !=undefined">-->
+                                <!--<span>当前角色:</span>-->
+                                <!--<input type="text" v-model="name">-->
+                            <!--</div>-->
+                        <!--</div>-->
 
-                    </div>
-                    <div class="role_parent">
-                        上级角色
-                        <select v-model="parent">
-                            <option value="0">无</option>
-                            <option v-for="(item,index) in parentList" :value="item.role_id">{{item.role_name}}</option>
-                        </select>
+                        <div class="wb">
+                            <span>是否为外部角色</span>
+                            <select v-model="type">
+                                <option value="1">是</option>
+                                <option value="0">否</option>
+                            </select>
+                        </div>
+
+                        <div class="role_parent">
+                            上级角色
+                            <select v-model="parent">
+                                <option value="0">无</option>
+                                <option v-for="(item,index) in parentList" :value="item.role_id">{{item.role_name}}</option>
+                            </select>
+                        </div>
+                        <div class="role_Add_switch">
+                            是否启用
+                            <el-switch
+                                    v-model="status"
+                                    @change=GetSwitch
+                                    active-value=1
+                                    inactive-value=0
+                                    active-color="#3377ff"
+                                    inactive-color="#e6e9f0">
+                            </el-switch>
+                        </div>
                     </div>
                 </div>
+
+            </div>
+            <div class="centNavBox">
                 <div class="role_message" v-for="(item,index) in list">
                     <div class="role_message_1">
                         <span class="dysfunction">{{item.group.group_name}}</span>
@@ -80,7 +103,8 @@
                 parent:'',
                 list:[],
                 parentList:[],
-                type:0
+                type:0,
+                img:'./img/user.png'
             }
         },
         mounted(){
@@ -99,13 +123,13 @@
             },
             AddRole(){
                 if(this.$route.query.role_id !=undefined){
-                    this.api.perm_role_edit({role_id:this.$route.query.role_id,status:this.status,group_key:this.checkedCities1,parent:this.parent}).then((res)=>{
+                    this.api.perm_role_edit({role_name:this.name,role_id:this.$route.query.role_id,status:this.status,group_key:this.checkedCities1,parent:this.parent,icon:this.img}).then((res)=>{
                         this.$router.push({
                             path:'/userinfo/roleManagement'
                         })
                     })
                 }else{
-                    this.api.perm_role_add({role_name:this.name,role_desc:this.description,group_key:this.checkedCities1,parent:this.parent,type:this.type}).then((res)=>{
+                    this.api.perm_role_add({role_name:this.name,role_desc:this.description,group_key:this.checkedCities1,parent:this.parent,type:this.type,icon:this.img,status:this.status}).then((res)=>{
                         this.$router.push({
                             path:'/userinfo/roleManagement'
                         })
@@ -128,6 +152,7 @@
                 let params = {role_id:this.$route.query.role_id};
                 this.api.perm_role_group({params}).then((res)=>{
                     this.name = res.role.role_name;
+                    this.img=res.role.icon;
                     if(res.role.parent!=null){
                        this.parent = res.role.parent.role_id;
                     }
@@ -148,6 +173,13 @@
                 formData.append('status',this.status);
                 this.api.change_role_status(formData).then((res)=>{
 
+                })
+            },
+            upload(file){
+                let formData = new FormData;
+                formData.append('file',file.file);
+                this.api.file_upload(formData).then((res)=>{
+                    this.img=res.url;
                 })
             },
         },
@@ -173,18 +205,26 @@
     }
     .centNavBox{
         width: 100%;
-        padding: 24px 0 24px;
+        padding: 24px;
         -webkit-box-sizing: border-box;
         box-sizing: border-box;
         background: #FFF;
-        margin-top:194px;
+        margin-top:24px;
+
     }
-.role_Add{
-    display: inline-block;
-}
-.role_Add,.role_name{
+    .select_tit{
+        width: 100%;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        height:164px;
+        margin-top:194px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+    }
+.role_name{
     margin-bottom: 30px;
     overflow: hidden;
+    height: 164px;
 }
 .role_name>input{
     width:394px;
@@ -197,7 +237,6 @@
 }
 .wb{
     display: inline-block;
-    margin:0 50px;
 }
 .wb select{
     width:64px;
@@ -207,9 +246,7 @@
     border:1px solid rgba(211,219,235,1);
     margin-left: 24px;
 }
-.marg{
-    margin:0 24px;
-}
+
 .role_Add>span{
     font-size:20px;
     font-family:PingFang-SC-Regular;
@@ -274,6 +311,7 @@
     font-weight:500;
     color:rgba(31,46,77,1);
     line-height:36px;
+    margin-left: 50px;
 }
 
 .role_parent{
@@ -283,6 +321,7 @@
     font-weight:500;
     color:rgba(31,46,77,1);
     line-height:36px;
+    margin-left: 50px;
 }
 .role_parent>select{
     width:200px;
@@ -292,9 +331,34 @@
     border:1px solid rgba(211,219,235,1);
     margin-left: 24px;
 }
-.DQrole_name{
-    display: inline-block;
-    margin:0 50px 0 24px;
 
-}
+    .icon{
+        display: inline-block;
+        position: relative;
+        width:100px;
+        height:100px;
+        margin-left: 24px;
+        top:10px;
+        text-align: center;
+    }
+    .tit_name{
+        margin-bottom: 18px;
+        margin-top: 37px;
+    }
+    .tit_name span,.DQrole_name span{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFang-SC;
+        font-weight:500;
+        color:rgba(31,46,77,1);
+        margin-right: 24px;
+    }
+    .tit_name input,.DQrole_name input{
+        width:394px;
+        height:36px;
+        padding-left: 10px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+    }
 </style>

@@ -762,4 +762,17 @@ select{
 .up_img .el-upload-list{
   display: none;
 }
+  .icon .el-button{
+    width: 100px;
+    height: 100px;
+    display: none;
+  }
+.icon:hover .el-button{
+  display:block;
+  border: 1px dotted #000!important;
+  background:rgba(0,0,0,0.2)!important; ;
+}
+  .icon .el-upload-list{
+    display: none;
+  }
 </style>
