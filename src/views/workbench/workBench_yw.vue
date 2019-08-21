@@ -34,14 +34,7 @@
                         <option value="" disabled selected style="color: #8b9bb3">请选择</option>
                         <option v-for="(item,index) in sizeList" :value="item.size">{{item.size}}</option>
                     </select>
-                    <!--<el-select v-model="size" multiple placeholder="请选择">-->
-                        <!--<el-option-->
-                                <!--v-for="(item,index) in sizeList"-->
-                                <!--:key="item.size"-->
-                                <!--:label="item.size"-->
-                                <!--:value="item.size">-->
-                        <!--</el-option>-->
-                    <!--</el-select>-->
+
                     <span class="tit_txt right">优先级</span>
                     <select v-model="priority">
                         <option value="" disabled selected style="color: #8b9bb3">请选择</option>
@@ -57,7 +50,7 @@
                     <select v-model="model" v-if="type=='f_ad_picture'">
                         <option value="" disabled selected style="color: #8b9bb3">请选择</option>
                         <option value="无">无</option>
-                        <option value="H5">H5</option>
+                        <!--<option value="H5">H5</option>-->
                         <option value="脚本">脚本</option>
                     </select>
                     <select v-model="model" v-if="type=='f_ad_template'">

@@ -33,6 +33,7 @@
                                         :on-exceed="handleExceed"
                                         :on-remove="handleRemove"
                                         :http-request="uploadF"
+                                        :before-upload="beforeAvatarUpload"
                                         action="111"
                                 >
                                     <el-button size="small" type="primary" >上传</el-button>
@@ -45,6 +46,7 @@
                                         :on-exceed="handleExceed"
                                         :on-remove="handleRemove"
                                         :http-request="uploadZip"
+                                        :before-upload="beforeAvatarUploads"
                                         action="111"
                                 >
                                     <el-button size="small" type="primary" >上传</el-button>
@@ -116,10 +118,16 @@
                                 <div style="text-align: center;font-size: 10px">当前附件上传{{bbb}}%</div>
                             </div>
                         </div>
-                        <div class="box_sel" v-if="this.types!='f_sls_lockscreen'">
+                        <div class="box_sel" v-if="this.types=='f_ad_picture'">
                             <span class="tit">实现方式:</span>
                             <select v-model="model">
                                 <option value="无">无</option>
+                                <option value="脚本">脚本</option>
+                            </select>
+                        </div>
+                        <div class="box_sel" v-if="this.types=='f_ad_template'">
+                            <span class="tit">实现方式:</span>
+                            <select v-model="model">
                                 <option value="H5">H5</option>
                                 <option value="脚本">脚本</option>
                             </select>
