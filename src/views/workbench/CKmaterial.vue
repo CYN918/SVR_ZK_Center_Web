@@ -26,6 +26,10 @@
                         <img :src="da.prev_uri" class="ADD_img_img" preview="0"/>
                         <span>{{da.mid}}</span>
                     </div>
+                    <div v-for="das in item.middleware"  class="ADD_img" v-if="item.middleware!=[]">
+                        <img :src="das.url" class="ADD_img_img" preview="0"/>
+                        <span>{{das.name}}</span>
+                    </div>
                     <div>{{item.note}}</div>
                 </div>
                 <div>
@@ -180,11 +184,24 @@
             downSingles(index){
                 this.imgList=[];
                 for(var i = 0;i<this.listSc[index].bind.length;i++){
-                    this.imgList.push(this.listSc[index].bind[i].attach.url);
+                    let obj={};
+                    obj.name = '';
+                    obj.url = this.listSc[index].bind[i].attach.url;
+                    this.imgList.push(obj);
+                }
+                if(this.listSc[index].middleware!=[]){
+                    for(var i = 0;i<this.listSc[index].middleware.length;i++){
+                        let obj={};
+                        obj.name = this.listSc[index].middleware[i].name;
+                        obj.url = this.listSc[index].middleware[i].url;
+                        this.imgList.push(obj);
+                    }
                 }
                 console.log(this.imgList);
                 this.imgList.forEach(item =>{
-                    fetch(item).then(res => res.blob().then(blob => {
+                    var line = item.url;
+                    var name = item.name;
+                    fetch(line).then(res => res.blob().then(blob => {
                         const a = document.createElement('a');
                         document.body.appendChild(a)
                         a.style.display = 'none'
@@ -193,6 +210,9 @@
                         var filename = res.url.split('/')[res.url.split('/').length-1];
                         a.href = url;
                         // 指定下载的文件名
+                        if (name){
+                            filename = name;
+                        }
                         a.download = filename;
                         a.click();
                         document.body.removeChild(a);
