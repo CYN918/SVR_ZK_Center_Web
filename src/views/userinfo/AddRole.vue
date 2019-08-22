@@ -150,7 +150,10 @@
                 let params = {role_id:this.$route.query.role_id};
                 this.api.perm_role_group({params}).then((res)=>{
                     this.name = res.role.role_name;
-                    this.img=res.role.icon;
+                    if(res.role.icon!=''){
+                        this.img=res.role.icon;
+                    }
+
                     if(res.role.parent!=null){
                        this.parent = res.role.parent.role_id;
                     }
