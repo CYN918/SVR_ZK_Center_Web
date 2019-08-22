@@ -54,6 +54,7 @@ export default {
 		}
     },
 	mounted(){
+        console.log('ddd')
 		this.name=localStorage.getItem('userName');
         this.getLefNav();
         this.authority();
@@ -113,8 +114,8 @@ export default {
 					window.location.href="http://account.zookingsoft.com/auth/logout?from="+cent;
 				}							
 			}).catch(()=>{
-// 				localStorage.setItem('token','');
-// 				window.location.href="http://account.zookingsoft.com/login?from=center_local";
+				localStorage.setItem('token','');
+				window.location.href="http://account.zookingsoft.com/login?from=center_local";
 			})
 		},
 
