@@ -19,7 +19,7 @@
                     </el-checkbox-group>
                     <span style="display: inline-block;margin: 0 26px 0 18px">{{item.line_num}}</span>
                     <span class="table_material_tit_sc">素材</span>
-                    <span class="download" @click="downSingles(index)">下载({{item.bind.length}})</span>
+                    <span class="download" @click="downSingles(index)">下载({{item.bind.length+item.middleware.length}})</span>
                 </div>
                 <div class="img_box">
                     <div v-for="(da,index2) in item.bind" class="ADD_img">
@@ -61,7 +61,7 @@
             <div class="checkSelect">
                 <el-checkbox v-model="value" @change="all()">全选</el-checkbox>
             </div>
-            <span class="ALLdownload" @click="downloadImg()">下载({{this.checkList.length}})</span>
+            <span class="ALLdownload" @click="downloadImg()">下载</span>
             <span @click="heid">取消</span>
             <div class="block">
                 <el-pagination
@@ -144,7 +144,6 @@
                 this.page = page;
                 this.getData();
             },
-
             // oones(index){
             //     if(this.checkList.indexOf(index)!=-1){
             //        for(var i=0;i<this.checkList.length;i++){
@@ -229,16 +228,32 @@
                 if(this.SC==true){
                     for(var i =0;i<this.checkList.length;i++){
                         for(var j=0;j<this.listSc[i].bind.length;j++){
-                            this.imgList.push(this.listSc[i].bind[j].attach.url);
+                            let obj={};
+                            obj.name = '';
+                            obj.url = this.listSc[i].bind[j].attach.url
+                            this.imgList.push(obj);
+                        }
+                        if(this.listSc[i].middleware!=[]){
+                            for(var k = 0;k<this.listSc[i].middleware.length;k++){
+                                let obj={};
+                                obj.name = this.listSc[i].middleware[k].name;
+                                obj.url = this.listSc[i].middleware[k].url;
+                                this.imgList.push(obj);
+                            }
                         }
                     }
                 }else{
                     for(var i =0;i<this.checkList.length;i++){
-                        this.imgList.push(this.listWl[i].bind[0].attach.url);
+                        let obj={};
+                        obj.name = '';
+                        obj.url = this.listWl[i].bind[0].attach.url;
+                        this.imgList.push(obj);
                     }
                 }
                 this.imgList.forEach(item =>{
-                    fetch(item).then(res => res.blob().then(blob => {
+                    var line = item.url;
+                    var name = item.name;
+                    fetch(line).then(res => res.blob().then(blob => {
                         const a = document.createElement('a');
                         document.body.appendChild(a)
                         a.style.display = 'none'
@@ -247,6 +262,9 @@
                         var filename = res.url.split('/')[res.url.split('/').length-1];
                         a.href = url;
                         // 指定下载的文件名
+                        if(name){
+                            filename=name;
+                        }
                         a.download = filename;
                         a.click();
                         document.body.removeChild(a);
