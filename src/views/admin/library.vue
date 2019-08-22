@@ -35,6 +35,7 @@
                         <el-table-column
                                 prop="name"
                                 label="投放库名称"
+                                :show-overflow-tooltip="true"
                                 >
                         </el-table-column>
                         <el-table-column
@@ -72,6 +73,7 @@
                         </el-table-column>
                         <el-table-column
                                 prop="updated_at"
+                                :show-overflow-tooltip="true"
                                 label="更新时间">
                         </el-table-column>
                         <el-table-column

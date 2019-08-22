@@ -51,6 +51,7 @@
                     </el-table-column>
                     <el-table-column
                             label="当前流转人员" prop="processor"
+                            :show-overflow-tooltip="true"
                             >
                         <template slot-scope="scope">
                            <span v-for="item in  tableData[scope.$index].processor">

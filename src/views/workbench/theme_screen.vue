@@ -51,6 +51,7 @@
                     <el-table-column
                             prop="creator"
                             label="操作人员"
+                            :show-overflow-tooltip="true"
                     >
                     </el-table-column>
                     <el-table-column

@@ -139,6 +139,20 @@
             this.getTypes();
         },
         methods:{
+            getData(){
+                let params ={id:this.SCid};
+                this.api.demand_detail({params}).then((res)=>{
+                   this.type=res.type;
+                   this.demand_name=res.demand_name;
+                   this.priority=res.priority;
+                   this.num=res.num;
+                   this.endtime=res.endtime;
+                    this.requirement=res.require;
+                    this.design_standard=res.design_standard.id;
+                    this.attach=res.attach;
+                    this.ref_url=res.ref_url;
+                })
+            },
             ADDsc(){
                 if(!this.SCid){
                     if(!this.type){
@@ -337,6 +351,9 @@
                 let params = {type:this.type};
                 this.api.standard_standards({params}).then((res)=>{
                     this.sj = res.data;
+                    if(this.SCid){
+                        this.getData();
+                    }
                     console.log(res)
                 })
             },

@@ -135,6 +135,27 @@
             this.getSize();
         },
         methods:{
+            getData(){
+                let params ={id:this.YWid};
+                this.api.demand_detail({params}).then((res)=>{
+                    for (var i=0;i<this.typeList.length;i++){
+                        if(this.typeList[i].pos_type==res.pos_type){
+                            this.typeIndex=i;
+                        }
+                    }
+                  this.url=res.pos_view_url;
+                  this.type=res.type;
+                  this.demand_name=res.demand_name;
+                  this.size = res.size;
+                  this.priority=res.priority;
+                  this.num =res.num;
+                  this.model = res.model;
+                  this.link =res.link;
+                  this.endtime = res.endtime;
+                  this.requirement=res.require;
+                  this.libraryName=res.putlib.name;
+                })
+            },
             AddYw(){
                 var ref = /^[1-9]{1}[0-9]{1,3}[*][1-9]{1}[0-9]{1,3}$/;
                 if(!this.YWid){
@@ -315,6 +336,9 @@
             getTypes(){
                 this.api.config_position_type().then((res)=>{
                     this.typeList = res;
+                    if(this.YWid){
+                        this.getData()
+                    }
                     this.getYWtype()
                 })
             },
