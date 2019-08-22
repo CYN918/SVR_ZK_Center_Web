@@ -26,7 +26,7 @@ export default {
 		if(JSON.parse(localStorage.getItem('letNav'))[0].children.length<=0&&JSON.parse(localStorage.getItem('letNav'))[0].list.length<=0){
             this.$message({
                 type: 'error',
-                message: `您没该权限，请联系管理员`
+                message: ` 无权访问，请联系管理员`
             });
 		}else{
             this.letNav = JSON.parse(localStorage.getItem('letNav'))[0];

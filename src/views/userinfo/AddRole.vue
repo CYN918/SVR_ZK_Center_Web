@@ -27,7 +27,6 @@
                         <input type="text" placeholder="最多输入10个字" maxlength="10" v-model="name"/>
                     </div>
                     <div>
-
                         <div class="wb">
                             <span>是否为外部角色</span>
                             <select v-model="type"  v-if="this.$route.query.role_id==undefined">
