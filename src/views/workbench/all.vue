@@ -164,8 +164,10 @@
                     for (let i=0;i<this.tableData.length;i++){
                         if(this.tableData[i].demand_type=='demand_business'){
                             this.tableData[i].demand_type='业务需求'
+                            this.tableData[i].demand_name=this.tableData[i].demand_name+'('+this.tableData[i].type_name+'-'+this.tableData[i].model+')'
                         }else if(this.tableData[i].demand_type=='demand_material'){
                             this.tableData[i].demand_type='素材需求'
+                            this.tableData[i].demand_name=this.tableData[i].demand_name+'('+ this.tableData[i].type_name+')'
                         }else {
                             this.tableData[i].demand_type='设计师结算'
                         }
@@ -181,8 +183,10 @@
                     for (let i=0;i<this.tableData.length;i++){
                         if(this.tableData[i].demand_type=='demand_business'){
                             this.tableData[i].demand_type='业务需求'
+                            this.tableData[i].demand_name=this.tableData[i].demand_name+'('+this.tableData[i].type_name+'-'+this.tableData[i].model+')'
                         }else if(this.tableData[i].demand_type=='demand_material'){
                             this.tableData[i].demand_type='素材需求'
+                            this.tableData[i].demand_name=this.tableData[i].demand_name+'('+ this.tableData[i].type_name+')'
                         }else {
                             this.tableData[i].demand_type='设计师结算'
                         }
