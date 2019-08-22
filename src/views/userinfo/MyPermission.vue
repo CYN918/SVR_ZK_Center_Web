@@ -8,7 +8,7 @@
             <div>
                 <div class="tab_title_1">
                     <div class="tab_title_1_1">
-                        <img src="../../../public/img/user.png"/>
+                        <img :src="img" style="border-radius: 50%;width: 100px;height: 100px">
                     </div>
                     <div class="tab_title_1_1_1">
                         <p class="text_messages">{{user.role_name}}</p>
@@ -63,6 +63,7 @@
                 time: '2019/4/17',
                 tableData2: [],
                 user:{},
+                img:'./img/user.png'
             }
         },
         mounted(){
@@ -86,7 +87,9 @@
                 let params = {email:localStorage.getItem('userAd')}
                 this.api.get_account({params}).then((res)=>{
                     this.user = res.roles[0];
-                    console.log(res.roles)
+                    if(res.roles[0].icon!=''){
+                        this.img=res.roles[0].icon
+                    }
                 })
             }
         }
@@ -143,13 +146,14 @@ img{
     font-weight:500;
     color:rgba(50,50,50,1);
     line-height:36px;
+
 }
 .top_msg{
     margin-top: 0!important;
 }
 .tab_title_1_1_1{
     display: inline-block;
-    margin-left: 24px;
+    margin-left: 50px;
     vertical-align: top;
 }
 .text_message{

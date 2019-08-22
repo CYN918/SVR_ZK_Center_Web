@@ -15,12 +15,12 @@
 			<router-link  to="/income"><li><span>收益中心</span></li></router-link>
 			<router-link  to="/admin"><li> <span>素材中心</span></li></router-link>
 			<!--<router-link  to="/user"><li>产品中心</li></router-link>-->
-			<router-link  to="/userinfo"><li class="right"><img src="../../public/img/user.png" class="imgs_user"/>{{name}}</li></router-link>
+			<router-link  to="/userinfo"><li class="right"><img :src="img" class="imgs_user"/>{{name}}</li></router-link>
 			<router-link  to="/login"><li class="right" @click="loginout()"><span>退出登录</span></li></router-link>
 		</ul>
 		<ul class="navd" v-if="config.showL!=-1&&this.type==1">
 			<router-link  to="/admin"><li> <span>素材中心</span></li></router-link>
-			<router-link class="right2" to="/userinfo"><li ><img src="../../public/img/user.png" class="imgs_user"/>{{name}}</li></router-link>
+			<router-link class="right2" to="/userinfo"><li ><img :src="img" class="imgs_user"/>{{name}}</li></router-link>
 			<router-link class="right2" to="/login"><li  @click="loginout()"><span>退出登录</span></li></router-link>
 		</ul>
 		<el-menu v-if="config.showL!=-1&&this.type==0"  class="el-menu-demo appTopNav" mode="horizontal" @select="handleSelect">
@@ -46,8 +46,10 @@ export default {
 		    type:'',
 			role_type:localStorage.getItem('role'),
 		    name:'',
+            email:"",
 			input:'',
 			topNacd:'首页',
+			img:"./img/user.png",
 			todata:[{name:'首页',url:'/index'},{name:'管理',url:'/admin/needList'},{name:'数据',url:'/data/pData'},{name:'审核台',url:'/user/user_need'}],
 		}
     },
@@ -56,8 +58,12 @@ export default {
         this.getLefNav();
         this.authority();
         this.type=localStorage.getItem('role');
+        if(localStorage.getItem('icon')!=''){
+            this.img=localStorage.getItem('icon')
+		}
 	},
 	methods:{
+
 		handleSelect(key){				
 			this.topNacd = this.todata[key].name;
 			this.$router.push(this.todata[key].url);
@@ -235,6 +241,8 @@ export default {
 }
 .imgs_user{
 	width: 32px;
+	height: 32px;
+	border-radius: 50%;
 	vertical-align: middle;
 	margin-right: 10px;
 }

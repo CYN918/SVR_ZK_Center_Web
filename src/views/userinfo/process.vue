@@ -34,8 +34,8 @@
                             </div>
                         </div>
                         <div class="tag" v-if="item.status_name=='物料审核'">
-                            <span :class="{active:audit_type==1}" @click="tag(item.id)">或签</span>
-                            <span :class="{active:audit_type==2}" @click="tagTwo(item.id)">会签</span>
+                            <span :class="{active:audit_type==2}" @click="tag(item.id)">或签</span>
+                            <span :class="{active:audit_type==1}" @click="tagTwo(item.id)">会签</span>
                     </div>
 
                     </div>
@@ -86,8 +86,8 @@
                             </div>
                         </div>
                         <div class="tag" v-if="item.status_name=='发布审核'">
-                            <span :class="{active1:SCaudit_type==1}" @click="SCtag(item.id)">或签</span>
-                            <span :class="{active1:SCaudit_type==2}" @click="SCtagTwo(item.id)">会签</span>
+                            <span :class="{active1:SCaudit_type==2}" @click="SCtag(item.id)">或签</span>
+                            <span :class="{active1:SCaudit_type==1}" @click="SCtagTwo(item.id)">会签</span>
                         </div>
                     </div>
                     <div v-if="item.status!=5" style="width: 120px;height: 2px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
@@ -181,8 +181,8 @@
                 YClist:[],
                 ban:false,
                 index:'',
-                audit_type:1,
-                SCaudit_type:1,
+                audit_type:2,
+                SCaudit_type:2,
                 title:false,
                 search:'',
                 user:[],
@@ -324,20 +324,20 @@
                 })
             },
             tag(id){
-                this.audit_type=1;
-                this.countersign(id,1)
-            },
-            tagTwo(id){
                 this.audit_type=2;
                 this.countersign(id,2)
             },
-            SCtag(id){
-                this.SCaudit_type=1;
+            tagTwo(id){
+                this.audit_type=1;
                 this.countersign(id,1)
             },
-            SCtagTwo(id){
+            SCtag(id){
                 this.SCaudit_type=2;
                 this.countersign(id,2)
+            },
+            SCtagTwo(id){
+                this.SCaudit_type=1;
+                this.countersign(id,1)
             },
             getTitle(){
                 this.title=true

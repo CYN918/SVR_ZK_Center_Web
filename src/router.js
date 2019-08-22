@@ -490,6 +490,7 @@ router.beforeEach((to, from, next) => {
             localStorage.setItem('userName',msg.data.data.user.name);
 			localStorage.setItem('status',msg.data.data.user.status);
             localStorage.setItem('role',msg.data.data.role[0].type);
+            localStorage.setItem('icon',msg.data.data.role[0].icon);
             if(msg.data.data.role.length==0){
                 alert('登录成功，请联系管理员添加角色');
                 next({ path: '/index'});

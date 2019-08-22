@@ -12,7 +12,7 @@
 			<div class="center">
 				<div class="userImg message">
 					<span style="vertical-align: top">头像</span>
-					<img src="../../../public/img/user.png">
+					<img :src="img" style="border-radius: 50%;width: 100px;height: 100px">
 				</div>
 				<div class="message" v-if="userData.type==0">
 					<span>用户名</span>
@@ -56,6 +56,7 @@ export default {
             role_name:'',
             company:'',
             phone:'',
+			img:'./img/user.png'
 
 		}
 	},
@@ -70,6 +71,9 @@ export default {
 			
 			this.api.get_account({params}).then((datas)=>{			
 				this.userData = datas;
+				if(datas.roles[0].icon!=''){
+				    this.img=datas.roles[0].icon;
+				}
 
 			});
 		},

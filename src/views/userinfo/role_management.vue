@@ -13,7 +13,7 @@
                 </div>
                 <div class="box" v-for="(item,index) in list">
                     <div class="box_1">
-                        <img src="../../../public/img/user.png"/>
+                        <img :src="item.icon==''?'./img/user.png':item.icon" style="border-radius: 50%;width: 80px;height: 80px">
                     </div>
                     <div class="box_2">
                         <p class="box_txt">{{item.role_name}}</p>
