@@ -50,7 +50,8 @@
                         <option v-for="item in TFlist" :value="item.type">{{item.name}}</option>
                     </select>
                 </div>
-                <span class="xj" @click="AddLibrary">新建</span>
+                <span class="xj" v-if="bear==false" @click="AddLibrary">新建</span>
+                <span class="xj" v-if="bear==true">新建</span>
             </div>
         </div>
     </div>
@@ -70,7 +71,8 @@
                 size:'',
                 ad_type:'',
                 TFlist:[],
-                switcher:false
+                switcher:false,
+                bear:false
 
             }
         },
@@ -119,6 +121,7 @@
                     this.$message.error('渠道类型不能为空');
                     return
                 }
+                this.bear=true;
                 let formData = new FormData;
                 formData.append('name', this.name);
                 formData.append('put_type', this.put_type);
@@ -128,7 +131,9 @@
                 formData.append('channel_type', this.channel_type);
                 this.api.putlib_add(formData).then((res) => {
                     this.fh();
-                })
+                }).catch(()=>{
+                    this.bear=false
+                });
             },
             TFtype() {
                 this.api.config_putlib_type().then((res) => {
