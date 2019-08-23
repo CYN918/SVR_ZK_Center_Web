@@ -211,7 +211,7 @@ export default {
 	background:rgba(19,159,248,0.1)!important;
 }
 .leftNav .el-menu-item.is-active{
-	width:254px;
+	width:256px;
 	height:60px;
 	border-right: 4px solid rgba(0,122,255,1);
 	background:rgba(0,122,255,0.1)!important;

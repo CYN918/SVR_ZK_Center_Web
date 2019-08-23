@@ -775,4 +775,9 @@ select{
   .icon .el-upload-list{
     display: none;
   }
+ .select_check .el-select__tags{
+   max-height: 50px;
+   overflow-y: scroll;
+ }
+.select_check .el-select__tags::-webkit-scrollbar { width: 0 !important }
 </style>

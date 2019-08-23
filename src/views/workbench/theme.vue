@@ -30,6 +30,7 @@
                             stripe
                             style="width: 100%">
                         <el-table-column
+                                width="302"
                                 prop="pkg_name"
                                 label="包名"
                                 :show-overflow-tooltip="true"
@@ -57,12 +58,14 @@
                             </template>
                         </el-table-column>
                         <el-table-column
+
                                 prop="count"
                                 label="数量"
                                 sortable
                         >
                         </el-table-column>
                         <el-table-column
+                                width="250"
                                 prop="updated_at"
                                 label="更新时间"
                                 sortable
@@ -70,6 +73,7 @@
                         </el-table-column>
                         <el-table-column
                                 prop="address"
+                                width="150"
                                 label="操作">
                             <template slot-scope="scope">
                                 <el-button type="text" size="small"  @click="jump(scope.$index)">查看详情</el-button>
@@ -112,14 +116,14 @@
         methods:{
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
-                    return 'background:rgb(246, 245, 245,1);color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
+                    return 'background:rgb(246, 245, 245,1);color:rgba(30,30,30,1);font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;margin-left:24px'
                 } else {
                     return ''
                 }
             },
 
             cell({row, column, rowIndex, columnIndex}){
-                return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
+                return 'margin-left:24px;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
             jump(index){
                 // this.$router.push({

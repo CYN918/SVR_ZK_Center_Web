@@ -71,7 +71,7 @@
                     <el-table-column
                             label="访问量趋势">
                         <template slot-scope="scope">
-                            <img src="../../../public/img/datas.png" style="max-height: 40px;max-width: 80px" @click="getTendency(tableData[scope.$index].sdk_id)">
+                            <img src="../../../public/img/qs.png" style="max-height: 40px;max-width: 80px" @click="getTendency(tableData[scope.$index].sdk_id)">
                         </template>
                     </el-table-column>
                     <el-table-column

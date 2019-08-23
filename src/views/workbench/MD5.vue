@@ -14,23 +14,27 @@
                         style="width: 100%">
                     <el-table-column
                             prop="fid"
+                            width="100"
                             label="序号"
-                            width="180">
+                            >
                     </el-table-column>
                     <el-table-column
                             prop="tags_name"
                             label="标签"
+                            :show-overflow-tooltip="true"
                             >
                     </el-table-column>
                     <el-table-column
                             prop="name"
                             label="名称"
-                            width="180">
+                            :show-overflow-tooltip="true"
+                           >
                     </el-table-column>
                     <el-table-column
                             prop="md5"
                             label="MD5值"
-                            width="180">
+                            :show-overflow-tooltip="true"
+                            >
                     </el-table-column>
                     <el-table-column
                             prop="created_at"
@@ -38,17 +42,20 @@
                     </el-table-column>
                     <el-table-column
                             prop="creator"
+                            :show-overflow-tooltip="true"
                             label="操作账号">
                     </el-table-column>
                     <el-table-column
                             prop="ee"
+                            width="150"
                             label="附件下载">
                         <template slot-scope="scope">
-                            <a class="iconfont" :href="downloadLink(scope.$index)">&#xe61a;</a>
+                            <a class="iconfont" :href="downloadLink(scope.$index)" style="margin-left: 15%">&#xe697;</a>
                         </template>
                     </el-table-column>
                     <el-table-column
                             prop="address"
+                            width="150"
                             label="操作">
                         <template slot-scope="scope">
                             <el-button type="text" size="small" @click="del(scope.$index)">删除</el-button>
@@ -153,13 +160,13 @@
         methods:{
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
-                    return 'background:#ddd;color:#000;text-align:center;font-size:9px;font-weight:500;'
+                    return 'background:rgba(247,249,252,1);color:rgba(30,30,30,1);font-size:14px;font-weight:bold;font-family:PingFang-SC-Regular;padding-left:24px'
                 } else {
                     return ''
                 }
             },
             cell({row, column, rowIndex, columnIndex}){
-                return 'text-align:center;'
+                return 'padding-left:24px;color:#000;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
             uploadData(){
                 this.show = true;
@@ -355,15 +362,16 @@
     }
     .top>span{
         display: inline-block;
-        width: 200px;
-        height: 60px;
-        line-height: 60px;
-        background: #ff7a8c;
-        border-radius: 30px;
+        width: 110px;
+        height: 36px;
+        line-height: 36px;
+        background: #3377ff;
+        border-radius: 4px;
         text-align: center;
         color: #fff;
-        font-size: 18px;
-        font-weight: 500;
+        font-size:14px;
+        font-family:PingFangSC;
+        font-weight:400;
         cursor: pointer;
     }
     .tcvBox{
