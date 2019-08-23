@@ -115,7 +115,16 @@ export default {
 				}							
 			}).catch(()=>{
 				localStorage.setItem('token','');
-				window.location.href="http://account.zookingsoft.com/login?from=center_local";
+                let cent = 'center';
+                if(window.location.host=='ts-centerweb.idatachain.cn'){
+                    cent = 'center_dev';
+                }else
+                if(window.location.host=='localhost:8080'){
+                    cent = 'center_local';
+                }else if(window.location.host=='c2.zookingsoft.com'){
+                    cent = 'center_dev2';
+                }
+                window.location.href="http://account.zookingsoft.com/auth/logout?from="+cent;
 			})
 		},
 
