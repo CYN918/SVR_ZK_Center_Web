@@ -27,16 +27,12 @@
                 </div>
                 <div>
                     <span class="tit_txt">尺寸</span>
-                    <input class="tet" type="text" v-model="size" placeholder="请输入尺寸，例“99*99”" style="width: 160px;height: 30px;position: absolute;border: 0!important;margin-top: 2px;padding-left: 10px;margin-left: 2px"/>
-                    <select v-model="size">
-                        <option v-for="(item,index) in sizeList" :value="item.size">{{item.size}}</option>
-                    </select>
-                    <el-select v-model="value1" multiple placeholder="请选择">
+                    <el-select v-model="size" multiple placeholder="请选择" class="elSelect">
                         <el-option
-                                v-for="item in options"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value">
+                                v-for="item in sizeList"
+                                :key="item.size"
+                                :label="item.size"
+                                :value="item.size">
                         </el-option>
                     </el-select>
                     <span class="tit_txt right">优先级</span>
@@ -140,7 +136,7 @@
         methods:{
 
             AddYw(){
-                var ref = /^[1-9]{1}[0-9]{1,3}[*][1-9]{1}[0-9]{1,3}$/;
+                // var ref = /^[1-9]{1}[0-9]{1,3}[*][1-9]{1}[0-9]{1,3}$/;
                 if(this.link==''){
                     if(!this.type){
                         this.$message.error('类型不能为空')
@@ -180,10 +176,6 @@
                     }
                     if(!this.size){
                         this.$message.error('尺寸不能为空')
-                        return
-                    }
-                    if(!(ref.test(this.size))){
-                        this.$message.error('尺寸不能非数字或输入格式不正确');
                         return
                     }
                     if(!this.model){
@@ -522,4 +514,8 @@
         border:1px solid rgba(211,219,235,1);
         padding-left: 10px;
     }
+    .elSelect{
+        margin: 0!important;
+    }
+
 </style>

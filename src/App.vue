@@ -699,6 +699,7 @@ select{
 .table_material_tit .el-checkbox-group{
   display: inline-block;
 }
+
 .load .el-button--primary{color:rgba(51,119,255,1)}
 .select_img .el-checkbox__label{opacity: 0}
 .tit_top_url,.tit_top_con{
@@ -779,5 +780,13 @@ select{
    max-height: 50px;
    overflow-y: scroll;
  }
+.elSelect .el-select__tags{
+  max-height: 30px;
+  overflow-y: scroll;
+}
 .select_check .el-select__tags::-webkit-scrollbar { width: 0 !important }
+.elSelect .el-select__tags::-webkit-scrollbar { width: 0 !important }
+.box_2 .el-button--primary{
+  color:#3377ff!important;
+}
 </style>

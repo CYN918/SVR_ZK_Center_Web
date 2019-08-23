@@ -75,8 +75,8 @@
                 </el-pagination>
             </div>
         </div>
-        <div class="tcvBox" v-if="show"  @click="qx()">
-            <div class="box"  @click.stop>
+        <div class="tcvBox" v-if="show" >
+            <div class="box"  >
                 <div class="box_1">
                     <span>上传壁纸</span>
                 </div>
@@ -105,8 +105,8 @@
                 </div>
             </div>
         </div>
-        <div class="bg" v-if="tag" @click="Heidtags()">
-            <div class="content" @click.stop>
+        <div class="bg" v-if="tag" >
+            <div class="content">
                 <div style="font-size: 18px;font-weight: bold;margin-bottom: 15px">添加标签</div>
                 <div class="tags_name" style="width: 100%;border: 1px solid #e2e2e2;border-radius: 5px;height: 200px;text-align: left;overflow-y: auto;padding: 5px;overflow-y: auto">
                     <template>
@@ -377,7 +377,6 @@
     .tcvBox{
         position: fixed;
         top: 65px;
-        left: 316px;
         bottom: 0;
         right: 0;
         z-index: 999;
@@ -420,21 +419,19 @@
     .btn_y,.btn_n{
         display: inline-block;
         text-align: center;
-        width: 150px;
-        height: 50px;
-        line-height: 50px;
+        width: 80px;
+        height: 36px;
+        line-height: 36px;
         cursor: pointer;
         border-radius: 8px;
     }
     .btn_y{
-        background: #2ad5cd;
-        margin-right: 50px;
+        background: #3377ff;
         color: #fff;
-        margin: 0 auto!important;
     }
     .btn_n{
         border: 1px solid #ddd;
-        margin-left: 82px;
+        margin-left: 15px;
     }
     .upload-demo{
         display: inline-block;

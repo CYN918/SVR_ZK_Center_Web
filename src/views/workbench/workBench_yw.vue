@@ -29,11 +29,14 @@
                 </div>
                 <div>
                     <span class="tit_txt">尺寸</span>
-                    <input class="tet" type="text" v-model="size" placeholder="请输入尺寸，例“99*99”" style="width: 160px;height: 30px;position: absolute;border: 0!important;margin-top: 2px;padding-left: 10px;margin-left: 2px"/>
-                    <select v-model="size" >
-                        <option value="" disabled selected style="color: #8b9bb3">请选择</option>
-                        <option v-for="(item,index) in sizeList" :value="item.size">{{item.size}}</option>
-                    </select>
+                    <el-select v-model="size" multiple placeholder="请选择" class="elSelect">
+                        <el-option
+                                v-for="item in sizeList"
+                                :key="item.size"
+                                :label="item.size"
+                                :value="item.size">
+                        </el-option>
+                    </el-select>
 
                     <span class="tit_txt right">优先级</span>
                     <select v-model="priority">
@@ -113,7 +116,7 @@
                 YWtypeList:[],
                 num:null,
                 priority:'',
-                type:'',
+                type:[],
                 endtime:'',
                 typeIndex:'',
                 pos_type:'',
@@ -146,7 +149,7 @@
                   this.url=res.pos_view_url;
                   this.type=res.type;
                   this.demand_name=res.demand_name;
-                  this.size = res.size;
+                  this.size =res.size.split(',');
                   this.priority=res.priority;
                   this.num =res.num;
                   this.model = res.model;
@@ -157,7 +160,7 @@
                 })
             },
             AddYw(){
-                var ref = /^[1-9]{1}[0-9]{1,3}[*][1-9]{1}[0-9]{1,3}$/;
+                // var ref = /^[1-9]{1}[0-9]{1,3}[*][1-9]{1}[0-9]{1,3}$/;
                 if(!this.YWid){
                     if(!this.type){
                         this.$message.error('类型不能为空');
@@ -203,10 +206,10 @@
                         this.$message.error('尺寸不能为空');
                         return
                     }
-                    if(!(ref.test(this.size))){
-                        this.$message.error('尺寸不能非数字或输入格式不正确');
-                        return
-                    }
+                    // if(!(ref.test(this.size))){
+                    //     this.$message.error('尺寸不能非数字或输入格式不正确');
+                    //     return
+                    // }
                     if(!this.model){
                         this.$message.error('实现方式不能为空');
                         return
@@ -556,5 +559,8 @@
         background:rgba(51,119,255,1)!important;
         color:rgba(255,255,255,1)!important;
         margin-right: 14px!important;
+    }
+    .elSelect{
+        margin: 0!important;
     }
 </style>

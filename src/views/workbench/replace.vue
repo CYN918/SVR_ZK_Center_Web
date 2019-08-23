@@ -446,7 +446,7 @@
         cursor: pointer;
         border-radius: 5px;
         color: #f5f6fa;
-        background: #4f4cf1 ;
+        background: #3377ff;
         border: 0;
         text-align: center;
         margin:20px 0 20px 24px ;
@@ -459,7 +459,7 @@
         cursor: pointer;
         border-radius: 5px;
         color: #f5f6fa;
-        background: #4f4cf1 ;
+        background: #3377ff ;
         border: 0;
         text-align: center;
         margin:20px 0 20px 24px ;
