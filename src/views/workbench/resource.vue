@@ -173,7 +173,7 @@
                     for(var j=0;j<dataList.length;j++){
                         for(var i=0;i<JSON.parse(this.$route.query.num).length;i++){
                             if(dataList[j].hour==JSON.parse(this.$route.query.num)[i]){
-                                this.rank.push(dataList[j].desc);
+                                this.rank.push(dataList[j].desc_times);
                             }
                         }
                     }
