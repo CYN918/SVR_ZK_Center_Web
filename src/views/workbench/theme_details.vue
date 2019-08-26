@@ -159,8 +159,13 @@
         },
         methods:{
             fh(){
-                this.$router.go(-1);
+                // this.$router.go(-1);
+                let routeData = this.$router.resolve({
+                    path:'./theme',
+                });
+                window.open(routeData.href, '_blank');
             },
+
 
             show(index){
                 this.uploadImg = true;
