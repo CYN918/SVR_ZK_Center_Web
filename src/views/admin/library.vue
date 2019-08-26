@@ -50,6 +50,7 @@
                         <el-table-column
                                 prop="size"
                                 label="素材尺寸"
+                                :show-overflow-tooltip="true"
                                 >
                         </el-table-column>
                         <el-table-column
