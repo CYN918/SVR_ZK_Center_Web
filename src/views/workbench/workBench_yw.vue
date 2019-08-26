@@ -157,6 +157,7 @@
                   this.endtime = res.endtime;
                   this.requirement=res.require;
                   this.libraryName=res.putlib.name;
+                  this.getTypeURL();
                 })
             },
             AddYw(){
@@ -277,10 +278,6 @@
                         this.$message.error('尺寸不能为空')
                         return
                     }
-                    if(!(ref.test(this.size))){
-                        this.$message.error('尺寸不能非数字或输入格式不正确');
-                        return
-                    }
                     if(!this.model){
                         this.$message.error('实现方式不能为空')
                         return
@@ -332,7 +329,6 @@
             getTypeURL(){
                 this.api.config_position_type().then((res)=> {
                     this.pos_type = res[this.typeIndex].pos_type;
-                    console.log(this.pos_type)
                     this.url = res[this.typeIndex].view_url;
                 })
             },
