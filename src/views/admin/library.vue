@@ -39,7 +39,7 @@
                                 >
                         </el-table-column>
                         <el-table-column
-                                prop="put_type"
+                                prop="put_type_name"
                                 label="投放库类型">
                         </el-table-column>
                         <el-table-column
@@ -176,24 +176,7 @@
                 this.api.putlib_search({params}).then((res)=>{
                     this.tableData = res.data;
                     for(var i=0 ;i<this.tableData.length;i++){
-                        if(this.tableData[i].put_type=='m_picture'){
-                            this.tableData[i].put_type='静态广告图'
-                        }
-                        if(this.tableData[i].put_type=='m_h5_picture'){
-                            this.tableData[i].put_type='H5广告图'
-                        }
-                        if(this.tableData[i].put_type=='m_script_picture'){
-                            this.tableData[i].put_type='脚本广告图'
-                        }
-                        if(this.tableData[i].put_type=='m_resource'){
-                            this.tableData[i].put_type='静态广告模板'
-                        }
-                        if(this.tableData[i].put_type=='m_h5_resource'){
-                            this.tableData[i].put_type='H5广告模板'
-                        }
-                        if(this.tableData[i].put_type=='m_script_resource'){
-                            this.tableData[i].put_type='脚本广告模板'
-                        }
+
                         if(this.tableData[i].status=='0'){
                             this.tableData[i].status='未使用'
                         }else{

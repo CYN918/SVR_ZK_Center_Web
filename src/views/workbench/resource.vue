@@ -9,7 +9,9 @@
                 <span class="tit_name">广告源详情</span>
                 <span class="time">{{this.$route.query.source}}</span>
                 <span class="time">{{this.$route.query.time}}</span>
-                <span class="num">{{this.rank.join(';')}}</span>
+                <span class="num" >
+                    {{this.rank.join(';')}}
+                </span>
                 <span class="sdk">SKD_ID:{{this.$route.query.sdkid}}</span>
                 <span class="educe" @click="derived()">导出</span>
             </div>
