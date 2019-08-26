@@ -253,5 +253,7 @@ export default {
 .first_o{
 	text-indent: 22px !important;
 }
-
+.leftNav .el-menu{
+	border-right: 0!important;
+}
 </style>
