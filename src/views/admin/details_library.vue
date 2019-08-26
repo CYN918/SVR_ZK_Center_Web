@@ -71,7 +71,8 @@
                             </div>
                             <div>
                                 <span class="boxImg_text">链接:</span>
-                                <span class="boxImg_content">{{DL.link}}</span>
+                                <span class="boxImg_content" style="display: inline-block;max-width: 200px;height: 20px;overflow: hidden">{{DL.link}}</span>
+                                <span class="copy" v-clipboard:copy="DL.link" v-clipboard:success="onCopy"   v-clipboard:error="onError" v-if="DL.link!=''">复制</span>
                             </div>
                             <div>
                                 <span class="boxImg_text">更新时间:</span>
@@ -125,6 +126,12 @@
         methods:{
             fh(){
                 this.$router.go(-1)
+            },
+            onCopy() {
+                this.$message.success('复制成功')
+            },
+            onError() {
+                this.$message.error('复制失败')
             },
             getDATAlist(){
                 let params = {id:this.$route.query.id,search:this.search};

@@ -41,6 +41,7 @@
                             <el-table-column
                                     prop="name"
                                     label="投放库名称"
+                                    :show-overflow-tooltip="true"
                             >
                             </el-table-column>
                             <el-table-column
@@ -55,6 +56,7 @@
                             <el-table-column
                                     prop="size"
                                     label="素材尺寸"
+                                    :show-overflow-tooltip="true"
                             >
                             </el-table-column>
                             <el-table-column
@@ -73,6 +75,7 @@
                             </el-table-column>
                             <el-table-column
                                     prop="updated_at"
+                                    :show-overflow-tooltip="true"
                                     label="更新时间">
                             </el-table-column>
                         </el-table>
@@ -103,7 +106,7 @@
         data(){
             return{
                 tableData:[],
-                p:20,
+                p:8,
                 page:1,
                 total:0,
                 search:'',
@@ -177,12 +180,12 @@
                     this.getDataList();
                 })
             },
-            handleSizeChange1(page){
-                this.page=page;
+            handleSizeChange1(p){
+                this.p=p;
                 this.getDataList()
             },
-            handleCurrentChange1(p){
-                this.p=p;
+            handleCurrentChange1(page){
+                this.page=page;
                 this.getDataList()
             },
             handleCurrentChange(val) {
