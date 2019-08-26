@@ -38,7 +38,7 @@
 				</div>
 			</div>
 			<rel v-if="getRe" :num="num" :material="material" ></rel>
-			<AM v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type" :lx="lx" @updata="updata"></AM>
+			<AM v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type" :lx="lx" @updatas="updatas"></AM>
 			<hin v-if='hint' ></hin>
 			<tag v-if="tags" :message="message" :typeSC='type' :material="material" @updata="updata"></tag>
 			<set v-if="sets" :typeSC='type'  @listenToChildEvent="listen" :material="material"></set>
@@ -151,7 +151,7 @@
                 total: 0,
                 currentPage: 1,
                 type:'f_ad_template',
-				lx:'广告图模板',
+				lx:'广告模板',
                 message:{},
                 preset_tags:[],
                 preset:[],
@@ -263,7 +263,7 @@
             YCset(){
                 this.sets = false
             },
-            updata(){
+            updatas(){
                 this.getWl()
             },
             listen(msg,ddd){
@@ -302,6 +302,17 @@
                     }
                     this.api.mfinal_search({params}).then((res) => {
                         this.IMGList = res.data;
+                        for(let i =0;i<this.IMGList.length;i++){
+                            if(this.IMGList[i].status=='1101'){
+                                this.IMGList[i].status='使用中'
+                            }
+                            if(this.IMGList[i].status=='1001'){
+                                this.IMGList[i].status='未使用'
+                            }
+                            if(this.IMGList[i].status=='1201'){
+                                this.IMGList[i].status='禁用'
+                            }
+                        }
                         if (a != undefined) {
                             this.message = res.data[a];
                             this.sc = true;

@@ -238,7 +238,7 @@
                 formData.append('status',this.status);
                 formData.append('valid',this.value2==true?1:0);
                 this.api.material_status_change(formData).then((res)=>{
-                    console.log(res);
+                    this.$emit('dataUpdating',0,true);
                 })
             },
             IDchanges(){
