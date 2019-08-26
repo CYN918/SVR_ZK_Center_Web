@@ -175,6 +175,7 @@
                 let params = {search:this.search,put_type:this.put_type,pos_type:this.pos_type,p:this.p,page:this.page};
                 this.api.putlib_search({params}).then((res)=>{
                     this.tableData = res.data;
+                    this.total = res.total;
                     for(var i=0 ;i<this.tableData.length;i++){
 
                         if(this.tableData[i].status=='0'){
@@ -183,7 +184,6 @@
                             this.tableData[i].status='使用中'
                         }
                     }
-                    this.total = res.total;
                     console.log(res)
 
                 })
@@ -226,12 +226,12 @@
                     this.dataLength = res;
                 })
             },
-            handleSizeChange1(page){
-                this.page=page;
+            handleSizeChange1(p){
+                this.p=p;
                 this.getDataList()
             },
-            handleCurrentChange1(p){
-                this.p=p;
+            handleCurrentChange1(page){
+                this.page=page;
                 this.getDataList()
             },
         },
