@@ -20,13 +20,17 @@
                        <option v-for="item in oddList" :value="item.pos_type">{{item.pos_type}}</option>
                    </select>
                </div>
-                <div>
+                <div style="margin-bottom: 0!important;">
                     <span>素材尺寸</span>
-                    <input class="num" type="text" placeholder="请输入尺寸，用*链接" v-model="size" v-if="switcher"/>
-                    <select v-model="size" v-if="switcher==false" @change="cut()">
-                        <option value=" ">自定义</option>
-                        <option v-for="da in sizeList" :value="da.size">{{da.size}}</option>
-                    </select>
+                    <el-select v-model="size" multiple placeholder="请选择" class="elSelect">
+                        <el-option
+                                v-for="item in sizeList"
+                                :key="item.size"
+                                :label="item.size"
+                                :value="item.size">
+                        </el-option>
+                    </el-select>
+
                 </div>
                 <div>
                     <span>广告类型</span>
@@ -217,4 +221,5 @@
         margin-left: 124px;
     }
     .num{margin-top: 0!important;}
+    .elSelect{width: 404px}
 </style>
