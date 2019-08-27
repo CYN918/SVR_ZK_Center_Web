@@ -15,7 +15,7 @@
                     <input type="text" placeholder="请输入包名" v-model="pkg_name"/>
                     <span class="tit_name">状态</span>
                     <select v-model="status">
-                        <option value="">全部</option>
+                        <option value="2">全部</option>
                         <option value="0">未处理</option>
                         <option value="1">已处理</option>
                     </select>
@@ -107,7 +107,7 @@
                 page:1,
                 total:0,
                 pkg_name:'',
-                status:'',
+                status:'2',
             }
         },
         mounted(){

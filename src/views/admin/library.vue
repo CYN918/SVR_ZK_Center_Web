@@ -160,7 +160,8 @@
                 this.$router.push({
                     path:'/admin/details_library',
                     query:{
-                        id:this.tableData[index].id
+                        id:this.tableData[index].id,
+                        type:this.tableData[index].put_type,
                     }
                 })
             },

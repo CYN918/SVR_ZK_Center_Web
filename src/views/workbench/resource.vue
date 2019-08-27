@@ -51,7 +51,8 @@
                         <el-table-column
                                 label="落地页">
                             <template slot-scope="scope">
-                                <a :href="tableData[scope.$index].preview_url" target="_blank" style="text-decoration: none;color: #66b1ff">点击查看</a>
+                                <a :href="tableData[scope.$index].preview_url" target="_blank" style="text-decoration: none;color: #66b1ff" v-if="tableData[scope.$index].preview_url!=''">点击查看</a>
+                                <a  v-if="tableData[scope.$index].preview_url==''">-</a>
                             </template>
                         </el-table-column>
                         <el-table-column

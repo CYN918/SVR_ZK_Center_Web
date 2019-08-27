@@ -136,7 +136,7 @@
                 endtime:'',
                 typeIndex:'',
                 pos_type:'',
-                size:'',
+                size:[],
                 model:"",
                 link:'',
                 width:'',
@@ -155,7 +155,7 @@
         },
         methods:{
             sxFunction(){
-                this.size='';
+                this.size=[];
                if(this.type=='f_sls_lockscreen') {
                    this.model='脚本';
                    this.getSize();
@@ -260,7 +260,9 @@
                     formData.append('pos_view_url',this.url);
                     formData.append('demand_name',this.demand_name);
                     this.api.demand_business_add(formData).then((res)=>{
-
+                        if(!res){
+                            this.bear=false
+                        }
                     }).catch(()=>{
                         this.bear=false
                     });

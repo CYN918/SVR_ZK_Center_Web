@@ -6,7 +6,7 @@
                     <span>投放库名称</span>
                     <input type="text" placeholder="请输入投放库名称" v-model="search"/>
                     <span>投放库类型</span>
-                    <select v-model="put_type">
+                    <select v-model="put_type" disabled="disabled">
                         <option value="">全部</option>
                         <option v-for="item in TFlist" :value="item.type">{{item.name}}</option>
                     </select>
@@ -20,7 +20,6 @@
                 <div style="padding: 0 24px" >
                         <el-table
                                 :data="tableData"
-
                                 :header-cell-style="getRowClass"
                                 :cell-style="cell"
                                 @current-change="handleCurrentChange">

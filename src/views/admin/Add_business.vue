@@ -136,7 +136,7 @@
                 endtime:'',
                 typeIndex:'',
                 pos_type:'',
-                size:'',
+                size:[],
                 model:"",
                 link:'',
                 width:'',
@@ -155,7 +155,7 @@
         },
         methods:{
             sxFunction(){
-                this.size='';
+                this.size=[];
                 if(this.type=='f_sls_lockscreen') {
                     this.model='脚本';
                     this.getSize();

@@ -95,7 +95,7 @@
         </div>
         <rel v-if="getRe" :num="num" :material="material" ></rel>
         <YW v-if="yw"></YW>
-        <AM v-if ='am' @listenToChildEvent="listenToChildEvent"></AM>
+        <AM v-if ='am' @listenToChildEvent="listenToChildEvent" :typeName="typeName"></AM>
         <am v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type"></am>
     </div>
 </template>
@@ -118,10 +118,12 @@
                 bind_id:[],
                 sc:false,
                 search:'',
+                typeName:'',
             }
         },
         mounted(){
             this.getDATAlist();
+            this.typeName=this.$route.query.type;
         },
         methods:{
             fh(){
@@ -164,7 +166,7 @@
                 this.move()
             },
             getWl(){
-                this.am = true
+                this.am = true;
                 this.stop()
             },
             heidWL(){
