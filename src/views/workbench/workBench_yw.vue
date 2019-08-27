@@ -26,18 +26,6 @@
                 <div>
                     <span class="tit_txt">需求名称</span>
                     <input type="text" class="xqName" placeholder="请填写需求名称"  v-model="demand_name" maxlength="20"/>
-                </div>
-                <div>
-                    <span class="tit_txt">尺寸</span>
-                    <el-select v-model="size" multiple placeholder="请选择" class="elSelect">
-                        <el-option
-                                v-for="item in sizeList"
-                                :key="item.size"
-                                :label="item.size"
-                                :value="item.size">
-                        </el-option>
-                    </el-select>
-
                     <span class="tit_txt right">优先级</span>
                     <select v-model="priority">
                         <option value="" disabled selected style="color: #8b9bb3">请选择</option>
@@ -50,10 +38,15 @@
                     <span class="tit_txt">需求数量</span>
                     <input type="number" class="num" v-model="num" placeholder="请输入需求数量"/>
                     <span class="tit_txt right">实现方式</span>
+                    <select v-model="model" v-if="type==''">
+                        <option value="" disabled selected style="color: #8b9bb3">请选择</option>
+                        <option value="无">无</option>
+                        <option value="H5">H5</option>
+                        <option value="脚本">脚本</option>
+                    </select>
                     <select v-model="model" v-if="type=='f_ad_picture'">
                         <option value="" disabled selected style="color: #8b9bb3">请选择</option>
                         <option value="无">无</option>
-                        <!--<option value="H5">H5</option>-->
                         <option value="脚本">脚本</option>
                     </select>
                     <select v-model="model" v-if="type=='f_ad_template'">
@@ -66,13 +59,36 @@
                         <option value="脚本">脚本</option>
                     </select>
                 </div>
-                <div>
-                    <span class="tit_txt" v-if="this.type!='f_sls_lockscreen'">投放链接</span>
-                    <input type="text" class="link" v-model="link" v-if="this.type!='f_sls_lockscreen'" placeholder="用于填写直客广告投放链接，非必填"/>
-                </div>
                 <div v-if="this.type!='f_sls_lockscreen'">
                     <span class="tit_txt">投放库</span>
                     <span class="tfk">{{libraryName}}</span><span class="xz" @click="getlIBRARY">选择</span>
+                </div>
+                <div v-if="type!='f_sls_lockscreen'&&type!=''">
+                    <span class="tit_txt">尺寸</span>
+                    <el-select v-model="size" multiple placeholder="请选择" class="elSelect" >
+                        <el-option
+                                v-for="item in sizeList"
+                                :key="item"
+                                :label="item"
+                                :value="item">
+                        </el-option>
+
+                    </el-select>
+                </div>
+                <div v-if="type=='f_sls_lockscreen'||type==''">
+                    <span class="tit_txt">尺寸</span>
+                    <el-select v-model="size" multiple placeholder="请选择" class="elSelect" >
+                        <el-option
+                                   v-for="item in sizeList"
+                                   :key="item.size"
+                                   :label="item.size"
+                                   :value="item.size">
+                        </el-option>
+                    </el-select>
+                </div>
+                <div>
+                    <span class="tit_txt" v-if="this.type!='f_sls_lockscreen'">投放链接</span>
+                    <input type="text" class="link" v-model="link" v-if="this.type!='f_sls_lockscreen'" placeholder="用于填写直客广告投放链接，非必填"/>
                 </div>
                 <div class="times">
                     <span class="tit_txt">截止时间</span>
@@ -98,7 +114,7 @@
                 </div>
             </div>
         </div>
-        <put v-if="putList" @listenToChildEvent="listenToChildEvent"></put>
+        <put v-if="putList" @listenToChildEvent="listenToChildEvent" :type="type" :model="model"></put>
     </div>
 
 </template>
@@ -116,7 +132,7 @@
                 YWtypeList:[],
                 num:null,
                 priority:'',
-                type:[],
+                type:'',
                 endtime:'',
                 typeIndex:'',
                 pos_type:'',
@@ -139,9 +155,14 @@
         },
         methods:{
             sxFunction(){
+                this.size='';
                if(this.type=='f_sls_lockscreen') {
-                   this.model='脚本'
+                   this.model='脚本';
+                   this.getSize();
                }
+                if(this.type!='f_sls_lockscreen') {
+                    this.sizeList=[]
+                }
             },
             getData(){
                 let params ={id:this.YWid};
@@ -288,7 +309,7 @@
                         return
                     }
                     if(this.type!='f_sls_lockscreen'&&!this.libraryName){
-                        this.$message.error('投放库不能为空')
+                        this.$message.error('投放库不能为空');
                         return
                     }
                     if(this.switcher==true){
@@ -353,14 +374,23 @@
                 })
             },
             getlIBRARY(){
+                if(!this.type){
+                    this.$message.error('请先选择业务类型')
+                    return
+                }
+                if(!this.model){
+                    this.$message.error('实现方式不能为空')
+                    return
+                }
                 this.putList=true;
             },
             heidLibrary(){
                 this.putList=false;
             },
-            listenToChildEvent(name,id){
+            listenToChildEvent(name,id,size){
                 this.libraryName = name;
-                this.libraryID = id
+                this.libraryID = id;
+                this.sizeList= size.split(',');
             },
         }
     }
@@ -563,5 +593,6 @@
     }
     .elSelect{
         margin: 0!important;
+        width: 513px;
     }
 </style>

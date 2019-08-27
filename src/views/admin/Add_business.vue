@@ -13,30 +13,22 @@
                 </div>
                 <div>
                     <span class="tit_txt">业务类型</span>
-                    <select v-model="type">
+                    <select v-model="type" @change="sxFunction">
+                        <option value="" disabled selected>请选择</option>
                         <option v-for="(item,index) in YWtypeList" :value="item.type">{{item.name}}</option>
                     </select>
                     <span class="tit_txt right" v-if="this.type!='f_sls_lockscreen'">广告位类型</span>
-                    <select v-model="typeIndex" @change="getTypeURL" v-if="this.type!='f_sls_lockscreen'">
+                    <select v-model="typeIndex" @change="getTypeURL" v-if="this.type!='f_sls_lockscreen'" >
+                        <option value="" disabled selected style="color: #8b9bb3">请选择</option>
                         <option v-for="(item,index) in typeList" :value="index">{{item.pos_type}}</option>
                     </select>
                 </div>
                 <div>
                     <span class="tit_txt">需求名称</span>
-                    <input type="text" class="xqName" placeholder="请填写需求名称" v-model="demand_name" maxlength="20"/>
-                </div>
-                <div>
-                    <span class="tit_txt">尺寸</span>
-                    <el-select v-model="size" multiple placeholder="请选择" class="elSelect">
-                        <el-option
-                                v-for="item in sizeList"
-                                :key="item.size"
-                                :label="item.size"
-                                :value="item.size">
-                        </el-option>
-                    </el-select>
+                    <input type="text" class="xqName" placeholder="请填写需求名称"  v-model="demand_name" maxlength="20"/>
                     <span class="tit_txt right">优先级</span>
                     <select v-model="priority">
+                        <option value="" disabled selected style="color: #8b9bb3">请选择</option>
                         <option value="高">高</option>
                         <option value="中">中</option>
                         <option value="低">低</option>
@@ -46,10 +38,15 @@
                     <span class="tit_txt">需求数量</span>
                     <input type="number" class="num" v-model="num" placeholder="请输入需求数量"/>
                     <span class="tit_txt right">实现方式</span>
-                    <select v-model="model" v-if="type=='f_ad_picture'">
+                    <select v-model="model" v-if="type==''">
                         <option value="" disabled selected style="color: #8b9bb3">请选择</option>
                         <option value="无">无</option>
                         <option value="H5">H5</option>
+                        <option value="脚本">脚本</option>
+                    </select>
+                    <select v-model="model" v-if="type=='f_ad_picture'">
+                        <option value="" disabled selected style="color: #8b9bb3">请选择</option>
+                        <option value="无">无</option>
                         <option value="脚本">脚本</option>
                     </select>
                     <select v-model="model" v-if="type=='f_ad_template'">
@@ -61,15 +58,37 @@
                         <option value="" disabled selected style="color: #8b9bb3">请选择</option>
                         <option value="脚本">脚本</option>
                     </select>
-
-                </div>
-                <div>
-                    <span class="tit_txt" v-if="this.type!='f_sls_lockscreen'">投放链接</span>
-                    <input type="text" class="link" v-model="link" v-if="this.type!='f_sls_lockscreen'" placeholder="用于填写直客广告投放链接，非必填"/>
                 </div>
                 <div v-if="this.type!='f_sls_lockscreen'">
                     <span class="tit_txt">投放库</span>
                     <span class="tfk">{{libraryName}}</span><span class="xz" @click="getlIBRARY">选择</span>
+                </div>
+                <div v-if="type!='f_sls_lockscreen'&&type!=''">
+                    <span class="tit_txt">尺寸</span>
+                    <el-select v-model="size" multiple placeholder="请选择" class="elSelect" >
+                        <el-option
+                                v-for="item in sizeList"
+                                :key="item"
+                                :label="item"
+                                :value="item">
+                        </el-option>
+
+                    </el-select>
+                </div>
+                <div v-if="type=='f_sls_lockscreen'||type==''">
+                    <span class="tit_txt">尺寸</span>
+                    <el-select v-model="size" multiple placeholder="请选择" class="elSelect" >
+                        <el-option
+                                v-for="item in sizeList"
+                                :key="item.size"
+                                :label="item.size"
+                                :value="item.size">
+                        </el-option>
+                    </el-select>
+                </div>
+                <div>
+                    <span class="tit_txt" v-if="this.type!='f_sls_lockscreen'">投放链接</span>
+                    <input type="text" class="link" v-model="link" v-if="this.type!='f_sls_lockscreen'" placeholder="用于填写直客广告投放链接，非必填"/>
                 </div>
                 <div class="times">
                     <span class="tit_txt">截止时间</span>
@@ -78,14 +97,15 @@
                             type="datetime"
                             placeholder="选择日期时间"
                             default-time="24:00:00"
-                            format="yyyy 年 MM 月 dd 日 H 时 m 分 s 秒"
-                            value-format="yyyy-MM-dd HH:mm:ss"
+                            format="yyyy-MM-dd-H-m"
+                            value-format="yyyy-MM-dd HH:mm"
                     >
                     </el-date-picker>
                 </div>
                 <div class="gg">
                     <span class="tit_txt">广告要求</span>
-                    <textarea maxlength="300" v-model="requirement"></textarea>
+                    <textarea maxlength="200" v-model="requirement" placeholder="请补充本次需求相关详细描述例：xxx渠道的应用分发模板">
+                    </textarea>
                 </div>
                 <div class="btn">
                     <span class="btn_fb" @click="AddYw" v-if="bear==false">发布</span>
@@ -94,7 +114,7 @@
                 </div>
             </div>
         </div>
-        <put v-if="putList" @listenToChildEvent="listenToChildEvent"></put>
+        <put v-if="putList" @listenToChildEvent="listenToChildEvent" :type="type" :model="model"></put>
     </div>
 
 </template>
@@ -119,14 +139,14 @@
                 size:'',
                 model:"",
                 link:'',
+                width:'',
+                hidden:'',
                 requirement:'',
                 url:'img/1.jpg',
                 putList:false,
                 libraryName:'',
                 libraryID:'',
                 demand_name:'',
-                width:'',
-                hidden:'',
                 bear:false,
             }
         },
@@ -134,32 +154,67 @@
             this.getSize();
         },
         methods:{
-
+            sxFunction(){
+                this.size='';
+                if(this.type=='f_sls_lockscreen') {
+                    this.model='脚本';
+                    this.getSize();
+                }
+                if(this.type!='f_sls_lockscreen') {
+                    this.sizeList=[]
+                }
+            },
+            getData(){
+                let params ={id:this.YWid};
+                this.api.demand_detail({params}).then((res)=>{
+                    for (var i=0;i<this.typeList.length;i++){
+                        if(this.typeList[i].pos_type==res.pos_type){
+                            this.typeIndex=i;
+                        }
+                    }
+                    this.url=res.pos_view_url;
+                    this.type=res.type;
+                    this.demand_name=res.demand_name;
+                    this.size =res.size.split(',');
+                    this.priority=res.priority;
+                    this.num =res.num;
+                    this.model = res.model;
+                    this.link =res.link;
+                    this.endtime = res.endtime;
+                    this.requirement=res.require;
+                    this.libraryName=res.putlib.name;
+                    this.getTypeURL();
+                })
+            },
             AddYw(){
                 // var ref = /^[1-9]{1}[0-9]{1,3}[*][1-9]{1}[0-9]{1,3}$/;
-                if(this.link==''){
+                if(!this.YWid){
                     if(!this.type){
-                        this.$message.error('类型不能为空')
+                        this.$message.error('类型不能为空');
                         return
                     }
                     if(!this.priority){
-                        this.$message.error('优先级不能为空')
+                        this.$message.error('优先级不能为空');
                         return
                     }
                     if(!this.num){
-                        this.$message.error('需求数量不能为空')
+                        this.$message.error('需求数量不能为空');
                         return
                     }
                     if(this.num>99){
                         this.$message.error('需求数量最大为99');
                         return
                     }
+                    if(this.num<=0){
+                        this.$message.error('需求数量为大于零的正整数');
+                        return
+                    }
                     if(this.type!='f_sls_lockscreen'&&!this.pos_type){
-                        this.$message.error('广告位类型不能为空')
+                        this.$message.error('广告位类型不能为空');
                         return
                     }
                     if(!this.endtime){
-                        this.$message.error('截止时间不能为空')
+                        this.$message.error('截止时间不能为空');
                         return
                     }
                     if(new Date(this.endtime)<=new Date()){
@@ -167,97 +222,30 @@
                         return
                     }
                     if(!this.demand_name){
-                        this.$message.error('需求名称不能为空')
+                        this.$message.error('需求名称不能为空');
                         return
                     }
                     if(!this.requirement){
-                        this.$message.error('设计要求不能为空')
+                        this.$message.error('设计要求不能为空');
                         return
                     }
                     if(!this.size){
-                        this.$message.error('尺寸不能为空')
+                        this.$message.error('尺寸不能为空');
                         return
                     }
+                    // if(!(ref.test(this.size))){
+                    //     this.$message.error('尺寸不能非数字或输入格式不正确');
+                    //     return
+                    // }
                     if(!this.model){
-                        this.$message.error('实现方式不能为空')
+                        this.$message.error('实现方式不能为空');
                         return
                     }
                     if(this.type!='f_sls_lockscreen'&&!this.libraryName){
-                        this.$message.error('投放库不能为空')
+                        this.$message.error('投放库不能为空');
                         return
                     }
-                    if(this.switcher==true){
-                        this.size= this.width+"*"+this.height;
-                    }
-                    this.bear=true
-                    let formData=new FormData;
-                    formData.append('put_lib',this.libraryID);
-                    formData.append('type',this.type);
-                    formData.append('num',this.num);
-                    formData.append('priority',this.priority);
-                    formData.append('endtime',this.endtime);
-                    formData.append('pos_type',this.pos_type);
-                    formData.append('size',this.size);
-                    formData.append('model',this.model);
-                    formData.append('requirement',this.requirement);
-                    formData.append('pos_view_url',this.url);
-                    formData.append('demand_name',this.demand_name);
-                    this.api.demand_business_add(formData).then((res)=>{
-
-                    }).catch(()=>{
-                        this.bear=false
-                    })
-
-                }else{
-                    if(!this.type){
-                        this.$message.error('类型不能为空')
-                        return
-                    }
-                    if(!this.priority){
-                        this.$message.error('优先级不能为空')
-                        return
-                    }
-                    if(!this.num){
-                        this.$message.error('需求数量不能为空')
-                        return
-                    }
-                    if(this.num<0){
-                        this.$message.error('需求数量不能为负数');
-                        return
-                    }
-                    if(this.type!='f_sls_lockscreen'&&!this.pos_type){
-                        this.$message.error('广告位类型不能为空')
-                        return
-                    }
-                    if(!this.endtime){
-                        this.$message.error('截止时间不能为空')
-                        return
-                    }
-                    if(new Date(this.endtime)<=new Date()){
-                        this.$message.error('截止时间不能小于当前时间');
-                        return
-                    }
-                    if(!this.demand_name){
-                        this.$message.error('需求名称不能为空')
-                        return
-                    }
-                    if(!this.requirement){
-                        this.$message.error('设计要求不能为空')
-                        return
-                    }
-                    if(!this.size){
-                        this.$message.error('尺寸不能为空')
-                        return
-                    }
-                    if(!this.model){
-                        this.$message.error('实现方式不能为空')
-                        return
-                    }
-                    if(this.type!='f_sls_lockscreen'&&!this.libraryName){
-                        this.$message.error('投放库不能为空')
-                        return
-                    }
-                    this.bear=true
+                    this.bear=true;
                     let formData=new FormData;
                     formData.append('put_lib',this.libraryID);
                     formData.append('type',this.type);
@@ -275,11 +263,86 @@
 
                     }).catch(()=>{
                         this.bear=false
-                    })
-
+                    });
+                }else{
+                    if(!this.type){
+                        this.$message.error('类型不能为空')
+                        return
+                    }
+                    if(!this.priority){
+                        this.$message.error('优先级不能为空')
+                        return
+                    }
+                    if(!this.num){
+                        this.$message.error('需求数量不能为空')
+                    }
+                    if(this.num>99){
+                        this.$message.error('需求数量最大为99');
+                        return
+                    }
+                    if(this.num<=0){
+                        this.$message.error('需求数量为大于零的正整数');
+                        return
+                    }
+                    if(this.type!='f_sls_lockscreen'&&!this.pos_type){
+                        this.$message.error('广告位类型不能为空');
+                        return
+                    }
+                    if(!this.endtime){
+                        this.$message.error('截止时间不能为空')
+                        return
+                    }
+                    if(new Date(this.endtime)<=new Date()){
+                        this.$message.error('截止时间不能小于当前时间');
+                        return
+                    }
+                    if(!this.requirement){
+                        this.$message.error('设计要求不能为空')
+                        return
+                    }
+                    if(!this.size){
+                        this.$message.error('尺寸不能为空')
+                        return
+                    }
+                    if(!this.model){
+                        this.$message.error('实现方式不能为空')
+                        return
+                    }
+                    if(this.type!='f_sls_lockscreen'&&!this.libraryName){
+                        this.$message.error('投放库不能为空');
+                        return
+                    }
+                    if(this.switcher==true){
+                        this.size= this.width+"*"+this.height;
+                    }
+                    this.bear=true;
+                    let formData=new FormData;
+                    formData.append('id',this.YWid);
+                    formData.append('put_lib',this.libraryID);
+                    formData.append('type',this.type);
+                    formData.append('num',this.num);
+                    formData.append('priority',this.priority);
+                    formData.append('endtime',this.endtime);
+                    formData.append('pos_type',this.pos_type);
+                    formData.append('size',this.size);
+                    formData.append('model',this.model);
+                    formData.append('link',this.link);
+                    formData.append('requirement',this.requirement);
+                    formData.append('pos_view_url',this.url);
+                    formData.append('demand_name',this.demand_name);
+                    this.api.demand_business_edit(formData).then((res)=>{
+                        let formData = new FormData;
+                        formData.append('id',this.YWid);
+                        this.api.demand_audit(formData).then((res)=>{
+                        });
+                        this.$parent.heidYW();
+                    }).catch(()=>{
+                        this.bear=false
+                    });
                 }
 
             },
+
             heid(){
                 this.$parent.heidYW()
             },
@@ -292,31 +355,42 @@
             getTypeURL(){
                 this.api.config_position_type().then((res)=> {
                     this.pos_type = res[this.typeIndex].pos_type;
-                    console.log(this.pos_type)
                     this.url = res[this.typeIndex].view_url;
                 })
             },
             getTypes(){
                 this.api.config_position_type().then((res)=>{
                     this.typeList = res;
+                    if(this.YWid){
+                        this.getData()
+                    }
                     this.getYWtype()
                 })
             },
             getYWtype(){
-                let params ={material:0}
-                this.api.config_material_type({params}).then((res)=>{
+                let params ={demand_type:'demand_business'}
+                this.api.config_demands_type({params}).then((res)=>{
                     this.YWtypeList = res
                 })
             },
             getlIBRARY(){
+                if(!this.type){
+                    this.$message.error('请先选择业务类型')
+                    return
+                }
+                if(!this.model){
+                    this.$message.error('实现方式不能为空')
+                    return
+                }
                 this.putList=true;
             },
             heidLibrary(){
                 this.putList=false;
             },
-            listenToChildEvent(name,id){
+            listenToChildEvent(name,id,size){
                 this.libraryName = name;
                 this.libraryID = id;
+                this.sizeList= size.split(',');
             },
         }
     }
@@ -516,6 +590,7 @@
     }
     .elSelect{
         margin: 0!important;
+        width: 513px;
     }
 
 </style>

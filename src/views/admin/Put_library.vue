@@ -102,6 +102,7 @@
 
 <script>
     export default {
+        props:['type','model'],
         name: "library",
         data(){
             return{
@@ -116,10 +117,13 @@
                 radio:'',
                 currentRow:"",
                 TFlist:[],
-                id:''
+                id:'',
+                size:'',
             }
         },
-        mounted(){this.getOddList()},
+        mounted(){
+            this.getOddList();
+        },
         methods:{
             jump(){
                 this.$router.push({
@@ -158,6 +162,18 @@
                 })
             },
             getDataList(){
+                if(this.model=='无'&&this.type=='f_ad_picture'){
+                    this.put_type='m_picture'
+                }
+                if(this.model=='脚本'&&this.type=='f_ad_picture'){
+                    this.put_type='m_script_picture'
+                }
+                if(this.model=='H5'&&this.type=='f_ad_template'){
+                    this.put_type='m_h5_resource'
+                }
+                if(this.model=='脚本'&&this.type=='f_ad_template'){
+                    this.put_type='m_resource'
+                }
                 let params = {search:this.search,put_type:this.put_type,pos_type:this.pos_type,p:this.p,page:this.page};
                 this.api.putlib_search({params}).then((res)=>{
                     this.tableData = res.data;
@@ -191,11 +207,11 @@
             handleCurrentChange(val) {
                 this.currentRow = val.name;
                 this.id = val.id;
-                console.log(val);
-                this.$emit('listenToChildEvent',this.currentRow,this.id,true);
+                this.size=val.size;
+                // this.$emit('listenToChildEvent',this.currentRow,this.id,true);
             },
             tj(){
-                this.$emit('listenToChildEvent',this.currentRow,this.id,true);
+                this.$emit('listenToChildEvent',this.currentRow,this.id,this.size,true);
                 this.$parent.heidLibrary()
             },
             qx(){
