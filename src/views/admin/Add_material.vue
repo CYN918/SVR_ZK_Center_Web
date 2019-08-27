@@ -9,9 +9,15 @@
                 <input type="text" placeholder="搜索标签或ID" v-model="search" @input="getList()"/>
                 <div class="Search_select">
                     <span class="Search_select_tit">物料类型：</span>
-                    <select v-model="type" @change="getList()">
+                    <select v-model="type" @change="getList()" disabled="disabled">
                         <option value="">全部</option>
                         <option v-for="item in scType" :value="item.type">{{item.name}}</option>
+                    </select>
+                    <span class="Search_select_tit" style="margin-left: 20px">实现方式</span>
+                    <select v-model="model" disabled="disabled">
+                        <option value="无">无</option>
+                        <option value="H5">H5</option>
+                        <option VALUE="脚本">脚本</option>
                     </select>
                 </div>
             </div>
@@ -114,11 +120,11 @@
                 listTag:[],
                 listTagData:[],
                 search_tags:[],
+                model:'',
             }
         },
         mounted() {
             this.getList();
-
         },
         methods:{
             YCset(){this.$parent.heidWL();},
@@ -127,6 +133,23 @@
                     this.$parent.heidWL();
             },
             getList(){
+                if(this.typeName=='m_picture'){
+                    this.model='无';
+                    this.type='f_ad_picture'
+                }
+                if(this.typeName=='m_script_picture'){
+                    this.model='脚本';
+                    this.type='f_ad_picture'
+                }
+                if(this.typeName=='m_h5_resource'){
+
+                    this.model='H5';
+                    this.type='f_ad_template'
+                }
+                if(this.typeName=='m_resource'){
+                    this.model='脚本';
+                    this.type='f_ad_template'
+                }
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status}
                 this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
