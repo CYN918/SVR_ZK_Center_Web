@@ -13,7 +13,7 @@
                 </div>
                 <div>
                     <span class="tit_txt">业务类型</span>
-                    <select v-model="type">
+                    <select v-model="type" @change="sxFunction">
                         <option value="" disabled selected>请选择</option>
                         <option v-for="(item,index) in YWtypeList" :value="item.type">{{item.name}}</option>
                     </select>
@@ -138,6 +138,11 @@
             this.getSize();
         },
         methods:{
+            sxFunction(){
+               if(this.type=='f_sls_lockscreen') {
+                   this.model='脚本'
+               }
+            },
             getData(){
                 let params ={id:this.YWid};
                 this.api.demand_detail({params}).then((res)=>{
