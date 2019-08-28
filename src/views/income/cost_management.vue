@@ -26,7 +26,7 @@
            <div id="flowChart">
 
            </div>
-            <div>
+            <div style="padding:0 24px">
                 <template>
                     <el-table
                             :data="tableData"
@@ -36,14 +36,17 @@
                             style="width: 100%;color:#000">
                         <el-table-column
                                 label="日期" prop="demand_type"
+
                         >
                         </el-table-column>
                         <el-table-column
                                 label="总成本" prop="did"
+                                sortable
                         >
                         </el-table-column>
                         <el-table-column
                                 label="非分成成本" prop="status_name"
+                                sortable
                         >
 
                         </el-table-column>
@@ -54,6 +57,7 @@
                         <!--</el-table-column>-->
                         <el-table-column
                                 label="其他成本" prop="status"
+                                sortable
                         >
                         </el-table-column>
                         <el-table-column label="操作">
@@ -97,13 +101,13 @@
         methods:{
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
-                    return 'background:rgba(247,249,252,1);color:rgba(31,46,77,1);text-align:center;font-size:14px;font-weight:500;font-family:PingFang-SC-Medium;height:56px'
+                    return 'background:rgba(247,249,252,1);color:rgba(31,46,77,1);text-align:left;font-size:14px;font-weight:500;font-family:PingFang-SC-Medium;height:56px'
                 } else {
                     return ''
                 }
             },
             cell({row, column, rowIndex, columnIndex}){
-                return 'text-align:center;color:rgba(61,73,102,1);font-size:14px;font-weight:400;font-family:PingFangSC-Regula;'
+                return 'text-align:left;color:rgba(61,73,102,1);font-size:14px;font-weight:400;font-family:PingFangSC-Regula;'
             },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
@@ -125,6 +129,7 @@
                 let params = {tstart:this.time[0],tend:this.time[1],p:this.p,page:this.page};
                 this.api.report_cost_total({params}).then((res)=>{
                     this.tableData=res.data;
+                    this.total=res.total;
                 })
             },
             remove(){

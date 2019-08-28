@@ -33,6 +33,9 @@
         data(){
             return{}
         },
+        mounted(){
+            this.getDataList()
+        },
         methods:{
             getDataList(){
                 let params = {mfid:this.$route.query.mfid};

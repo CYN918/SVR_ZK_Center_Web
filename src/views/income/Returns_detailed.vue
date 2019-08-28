@@ -51,12 +51,12 @@
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="material_id"
+                                prop="channel_id"
                                 label="渠道ID"
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="material_type"
+                                prop="scene"
                                 label="业务场景">
                         </el-table-column>
                         <el-table-column
@@ -124,10 +124,20 @@
                                 label="日活arpu值"
                                >
                         </el-table-column>
-
                     </el-table>
                 </template>
             </div>
+        </div>
+        <div class="block">
+            <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="page"
+                    :page-sizes="[10, 20, 30, 40]"
+                    :page-size="p"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total">
+            </el-pagination>
         </div>
     </div>
 </template>
@@ -143,6 +153,7 @@
                 scene:"",
                 p:10,
                 page:1,
+                total:0,
                 tableData:[],
             }
         },
@@ -160,10 +171,19 @@
             cell({row, column, rowIndex, columnIndex}){
                 return 'margin:0 24px;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;text-align: center;'
             },
+            handleSizeChange(p) { // 每页条数切换
+                this.p = p;
+                this.getData()
+            },
+            handleCurrentChange(page) {//页码切换
+                this.page = page;
+                this.getData()
+            },
             getData(){
                 let params ={channel_id:this.channel_id,put_env:this.put_env,scene:this.scene,p:this.p,page:this.page,tstart:this.value[0],tend:this.value[1]}
                 this.api.report_income_channel({params}).then((res)=>{
                     this.tableData = res.data;
+                    this.total=res.total;
                 })
             },
             remove(){

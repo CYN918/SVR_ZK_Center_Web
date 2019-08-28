@@ -39,12 +39,12 @@
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="name"
+                                prop="admaster"
                                 label="广告主"
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="address"
+                                prop="pv"
                                 label="展现量">
                         </el-table-column>
                         <el-table-column
@@ -80,6 +80,17 @@
                 </template>
             </div>
         </div>
+        <div class="block">
+            <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="page"
+                    :page-sizes="[10, 20, 30, 40]"
+                    :page-size="p"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total">
+            </el-pagination>
+        </div>
     </div>
 </template>
 
@@ -92,7 +103,8 @@
                 admaster:'',
                 tableData:[],
                 p:10,
-                page:1
+                page:1,
+                total:0,
             }
         },
         mounted(){
@@ -109,10 +121,19 @@
             cell({row, column, rowIndex, columnIndex}){
                 return 'margin:0 24px;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;text-align: center;'
             },
+            handleSizeChange(p) { // 每页条数切换
+                this.p = p;
+                this.getDataList()
+            },
+            handleCurrentChange(page) {//页码切换
+                this.page = page;
+                this.getDataList()
+            },
             getDataList(){
                 let params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,admaster:this.admaster}
                 this.api.report_income_admaster({params}).then((res)=>{
                     this.tableData=res.data;
+                    this.total=res.total;
                 })
             },
             remove(){

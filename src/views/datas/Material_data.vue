@@ -17,8 +17,8 @@
                         range-separator="至"
                         start-placeholder="开始日期"
                         end-placeholder="结束日期"
-                        format="yyyy-MM-dd "
-                        value-format="yyyy-MM-dd ">
+                        format="yyyy-MM-dd"
+                        value-format="yyyy-MM-dd">
                 </el-date-picker>
                 <span class="name">素材ID</span>
                 <input type='text' v-model="mfid"/>
@@ -68,10 +68,12 @@
                         <el-table-column
                                 prop="create_time"
                                 label="日期"
+                                :show-overflow-tooltip="true"
                                >
                         </el-table-column>
                         <el-table-column
                                 prop="mfid"
+                                :show-overflow-tooltip="true"
                                 label="物料ID"
                                 >
                         </el-table-column>
@@ -120,27 +122,33 @@
                         </el-table-column>
                         <el-table-column
                                 prop="pv"
+                                sortable
                                 label="展示量">
                         </el-table-column> <el-table-column
                             prop="click"
                             label="点击量"
+                            sortable
                            >
                     </el-table-column>
                         <el-table-column
                                 prop="name"
+                                sortable
                                 label="点击率"
                                 >
                         </el-table-column>
                         <el-table-column
                                 prop="pre_income"
+                                sortable
                                 label="已出流水">
                         </el-table-column> <el-table-column
                             prop="ecpm"
+                            sortable
                             label="ECPM"
                            >
                     </el-table-column>
                         <el-table-column
                                 prop="ecpc"
+                                sortable
                                 label="ECPC"
                                >
                         </el-table-column>
