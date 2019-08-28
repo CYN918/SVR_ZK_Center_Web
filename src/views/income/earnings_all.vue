@@ -153,7 +153,8 @@
         mounted(){
             this.chart();
             this.histogramLine();
-            this.pieImg()
+            this.pieImg();
+            this.getData()
         },
         methods:{
             chart(){
@@ -188,9 +189,9 @@
                 return 'margin:0 24px;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
             getData(){
-                let params ={};
+                let params ={tstart:this.value[0],tend:this.value[1],page:this.page,p:this.p};
                 this.api.report_income_summary({params}).then((res)=>{
-                    this.tableData=res
+                    this.tableData=res.data
                 })
             },
             getSector(){

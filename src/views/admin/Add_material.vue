@@ -93,7 +93,7 @@
 <script>
     export default {
         name: "select_material",
-        props:['material','typeSC','typeName'],
+        props:['material','typeSC','typeName','size'],
         data(){
             return {
                 checked:[],
@@ -150,7 +150,7 @@
                     this.model='脚本';
                     this.type='f_ad_template'
                 }
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status}
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status,size:this.size,model:this.model};
                 this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     console.log(this.IMGList);

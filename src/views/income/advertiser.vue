@@ -53,7 +53,7 @@
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="name"
+                                prop="click_ratio"
                                 label="点击率"
                                 :show-overflow-tooltip="true"
                         >

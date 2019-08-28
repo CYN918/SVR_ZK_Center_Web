@@ -84,6 +84,7 @@
                         <el-table-column
                                 prop="ad_id"
                                 label="广告ID"
+                                :show-overflow-tooltip="true"
                                >
                         </el-table-column>
                         <el-table-column
@@ -94,6 +95,7 @@
                         </el-table-column>
                         <el-table-column
                                 prop="admaster"
+                                :show-overflow-tooltip="true"
                                 label="广告主">
                         </el-table-column> <el-table-column
                             prop="project"
@@ -131,13 +133,13 @@
                            >
                     </el-table-column>
                         <el-table-column
-                                prop="name"
+                                prop="click_ratio"
                                 sortable
                                 label="点击率"
                                 >
                         </el-table-column>
                         <el-table-column
-                                prop="pre_income"
+                                prop="income"
                                 sortable
                                 label="已出流水">
                         </el-table-column> <el-table-column

@@ -35,17 +35,17 @@
                             :cell-style="cell"
                             style="width: 100%;color:#000">
                         <el-table-column
-                                label="日期" prop="demand_type"
+                                label="日期" prop="create_time"
 
                         >
                         </el-table-column>
                         <el-table-column
-                                label="总成本" prop="did"
+                                label="总成本" prop="cost_total"
                                 sortable
                         >
                         </el-table-column>
                         <el-table-column
-                                label="非分成成本" prop="status_name"
+                                label="非分成成本" prop="cost_buyout"
                                 sortable
                         >
 
@@ -56,7 +56,7 @@
 
                         <!--</el-table-column>-->
                         <el-table-column
-                                label="其他成本" prop="status"
+                                label="其他成本" prop="cost_sharing"
                                 sortable
                         >
                         </el-table-column>

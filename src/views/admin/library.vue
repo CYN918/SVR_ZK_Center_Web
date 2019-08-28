@@ -162,6 +162,7 @@
                     query:{
                         id:this.tableData[index].id,
                         type:this.tableData[index].put_type,
+                        size:this.tableData[index].size,
                     }
                 })
             },

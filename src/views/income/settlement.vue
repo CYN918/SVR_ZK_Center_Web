@@ -163,6 +163,18 @@
             handleCurrentChange(page) {//页码切换
                 this.page = page;
             },
+            // getDataList(){
+            //     if(this.value.length>0){
+            //         var params ={p:this.p,page:this.page,search:this.search,status:this.status,demand_type:'demand_apply',start_time:this.value[0],end_time:this.value[1],reject:this.reject,processor:this.processor}
+            //     }else{
+            //         var params ={p:this.p,page:this.page,search:this.search,status:this.status,demand_type:'demand_apply',start_time:"",end_time:"",reject:this.reject,processor:this.processor}
+            //     }
+            //
+            //     this.api.demand_search({params}).then((res)=>{
+            //         this.tableData = res.data;
+            //         this.total = res.total;
+            //     })
+            // },
             jump(id){
                 this.$router.push({
                     // query:{

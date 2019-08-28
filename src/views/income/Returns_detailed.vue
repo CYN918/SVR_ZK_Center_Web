@@ -58,17 +58,27 @@
                         <el-table-column
                                 prop="scene"
                                 label="业务场景">
+                            <template slot-scope="scope">
+                                <span v-if="tableData[scope.$index].scene==''">-</span>
+                                <span v-if="tableData[scope.$index].scene!=''">{{tableData[scope.$index].scene}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                                 prop="put_env"
                                 label="投放环境"
                         >
+                            <template slot-scope="scope">
+                                <span v-if="tableData[scope.$index].put_env==''">-</span>
+                                <span v-if="tableData[scope.$index].put_env!=''">{{tableData[scope.$index].put_env}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                                 prop="name"
                                 label="日活"
-                                :show-overflow-tooltip="true"
                         >
+                            <template slot-scope="scope">
+                                <span v-if="tableData[scope.$index].name==undefined">-</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                                 prop="pv"
@@ -76,20 +86,25 @@
                         </el-table-column> <el-table-column
                             prop="date"
                             label="请求频次"
-                            :show-overflow-tooltip="true"
                     >
+                        <template slot-scope="scope">
+                            <span v-if="tableData[scope.$index].name==undefined">-</span>
+                        </template>
                     </el-table-column>
                         <el-table-column
                                 prop="name"
                                 label="填充率"
                         >
+                            <template slot-scope="scope">
+                                <span v-if="tableData[scope.$index].name==undefined">-</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                                 prop="click"
                                 label="点击量">
                         </el-table-column>
                         <el-table-column
-                                prop="date"
+                                prop="click_ratio"
                                 label="点击率"
                         >
                         </el-table-column>
@@ -118,11 +133,17 @@
                             prop="date"
                             label="利润率"
                     >
+                        <template slot-scope="scope">
+                            <span v-if="tableData[scope.$index].name==undefined">-</span>
+                        </template>
                     </el-table-column>
                         <el-table-column
                                 prop="name"
                                 label="日活arpu值"
                                >
+                            <template slot-scope="scope">
+                                <span v-if="tableData[scope.$index].name==undefined">-</span>
+                            </template>
                         </el-table-column>
                     </el-table>
                 </template>

@@ -95,7 +95,7 @@
         </div>
         <rel v-if="getRe" :num="num" :material="material" ></rel>
         <YW v-if="yw"></YW>
-        <AM v-if ='am' @listenToChildEvent="listenToChildEvent" :typeName="typeName"></AM>
+        <AM v-if ='am' @listenToChildEvent="listenToChildEvent" :typeName="typeName" :size="size"></AM>
         <am v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type"></am>
     </div>
 </template>
@@ -119,6 +119,7 @@
                 sc:false,
                 search:'',
                 typeName:'',
+                size:this.$route.query.size
             }
         },
         mounted(){

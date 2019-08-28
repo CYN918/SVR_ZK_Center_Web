@@ -11,15 +11,15 @@
         </div>
         <div class="content_table">
             <div>
-                <span class="wlID">物料ID</span>
-                <span></span>
+                <span class="wlID">物料ID:</span>
+                <span>{{this.$route.query.mfid}}</span>
             </div>
             <div class="box-img">
-                <div class="SC_img">
+                <div class="SC_img" v-for="item in listData">
                     <div class="SC_img">
-                        <img />
+                        <img :src="item.prev_uri" style="max-width: 252px;max-height: 326px"/>
                     </div>
-                    <span class="ID">aaa</span>
+                    <span class="ID">{{item.mid}}</span>
                 </div>
 
             </div>
@@ -31,7 +31,9 @@
     export default {
         name: "material_related",
         data(){
-            return{}
+            return{
+                listData:[],
+            }
         },
         mounted(){
             this.getDataList()
@@ -40,7 +42,7 @@
             getDataList(){
                 let params = {mfid:this.$route.query.mfid};
                 this.api.report_mfinal_material({params}).then((res)=>{
-
+                    this.listData=res;
                 })
             },
 
