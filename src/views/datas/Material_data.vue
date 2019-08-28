@@ -55,8 +55,8 @@
                 <select v-model="put_env">
                     <option>全部</option>
                 </select>
-                <span class="inquire">查询</span>
-                <span class="reset">重置</span>
+                <span class="inquire" @click="dataList()">查询</span>
+                <span class="reset" @click="remove">重置</span>
             </div>
             <div>
                 <template>
@@ -66,63 +66,63 @@
                             :data="tableData"
                             style="width: 100%">
                         <el-table-column
-                                prop="date"
+                                prop="create_time"
                                 label="日期"
                                >
                         </el-table-column>
                         <el-table-column
-                                prop="name"
+                                prop="mfid"
                                 label="物料ID"
                                 >
                         </el-table-column>
                         <el-table-column
-                                prop="address"
+                                prop="type"
                                 label="物料类型">
                         </el-table-column>
                         <el-table-column
-                                prop="date"
+                                prop="ad_id"
                                 label="广告ID"
                                >
                         </el-table-column>
                         <el-table-column
-                                prop="name"
+                                prop="ad_name"
                                 label="广告名称"
                                 :show-overflow-tooltip="true"
                                >
                         </el-table-column>
                         <el-table-column
-                                prop="address"
+                                prop="admaster"
                                 label="广告主">
                         </el-table-column> <el-table-column
-                            prop="date"
+                            prop="project"
                             label="项目名称"
                             :show-overflow-tooltip="true"
                            >
                     </el-table-column>
                         <el-table-column
-                                prop="name"
+                                prop="channel_id"
                                 label="渠道ID"
                                 >
                         </el-table-column>
                         <el-table-column
-                                prop="address"
+                                prop="scene"
                                 label="业务类型">
                         </el-table-column>
                         <el-table-column
-                            prop="date"
+                            prop="ad_space_type"
                             label="广告位类型"
                            >
                     </el-table-column>
                         <el-table-column
-                                prop="name"
+                                prop="put_env"
                                 label="投放环境"
                                 >
                         </el-table-column>
                         <el-table-column
-                                prop="address"
+                                prop="pv"
                                 label="展示量">
                         </el-table-column> <el-table-column
-                            prop="date"
+                            prop="click"
                             label="点击量"
                            >
                     </el-table-column>
@@ -132,15 +132,15 @@
                                 >
                         </el-table-column>
                         <el-table-column
-                                prop="address"
+                                prop="pre_income"
                                 label="已出流水">
                         </el-table-column> <el-table-column
-                            prop="date"
+                            prop="ecpm"
                             label="ECPM"
                            >
                     </el-table-column>
                         <el-table-column
-                                prop="name"
+                                prop="ecpc"
                                 label="ECPC"
                                >
                         </el-table-column>
@@ -156,6 +156,17 @@
                     </el-table>
                 </template>
             </div>
+        </div>
+        <div class="block">
+            <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="page"
+                    :page-sizes="[10, 20, 30, 40]"
+                    :page-size="p"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total">
+            </el-pagination>
         </div>
     </div>
 
@@ -181,11 +192,37 @@
                 ad_space_type:'',
                 ad_space_id:'',
                 put_env:'',
-                page:'',
-                p:'',
+                page:1,
+                p:10,
+                total:0,
             }
         },
+        mounted(){
+            this.dataList();
+        },
         methods:{
+            remove(){
+                this.tdate='';
+                this.mfid='';
+                this.type='';
+                this.ad_id='';
+                this.ad_name='';
+                this.admaster='';
+                this.project='';
+                this.channel_id='';
+                this.scene='';
+                this.ad_space_type='';
+                this.ad_space_id='';
+                this.put_env='';
+            },
+            handleSizeChange(p) { // 每页条数切换
+              this.p = p;
+              this.dataList()
+            },
+            handleCurrentChange(page) {//页码切换
+                this.page = page;
+                this.dataList()
+            },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
                     return 'background:rgba(247,249,252,1);color:#1f2e4d;margin:0 24px;font-size:14px;font-weight:500;font-family:PingFang-SC-Medium;'
@@ -209,7 +246,8 @@
                     admaster:this.admaster,project:this.project,channel_id:this.channel_id,scene:this.scene,ad_space_type:this.ad_space_type,
                     ad_space_id:this.ad_space_id,put_env:this.put_env,page:this.page,p:this.p};
                 this.api.report_mfinal({params}).then((res)=>{
-
+                        this.tableData=res.data;
+                        this.total=res.total;
                 })
             },
         },

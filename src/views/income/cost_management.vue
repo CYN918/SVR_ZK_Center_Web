@@ -43,15 +43,15 @@
                         >
                         </el-table-column>
                         <el-table-column
-                                label="买断成本" prop="status_name"
+                                label="非分成成本" prop="status_name"
                         >
 
                         </el-table-column>
-                        <el-table-column
-                                label="分成成本" prop="status"
-                        >
+                        <!--<el-table-column-->
+                                <!--label="分成成本" prop="status"-->
+                        <!--&gt;-->
 
-                        </el-table-column>
+                        <!--</el-table-column>-->
                         <el-table-column
                                 label="其他成本" prop="status"
                         >
@@ -107,9 +107,11 @@
             },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
+                this.getData()
             },
             handleCurrentChange(page) {//页码切换
                 this.page = page;
+                this.getData()
             },
             divided(){
                 this.$router.push({
