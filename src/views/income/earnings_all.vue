@@ -192,7 +192,7 @@
 </template>
 
 <script>
-    import echarts from 'echarts'
+
     import canvas from '../../api/commonality'
     export default {
         name: "earnings_all",
@@ -218,12 +218,15 @@
                 scene:'',
                 values:'',
                 admaster:'',
+                xData1:[],
+                yData1:[],
+                xData2:[],
+                yData2:[],
+                xData3:[],
+                yData3:[],
             }
         },
         mounted(){
-            this.chart();
-            this.histogramLine();
-            this.pieImg();
             this.getData();
             this.ListData()
         },
@@ -246,13 +249,13 @@
                 }
             },
             chart(){
-               canvas.transverseLine();
+               canvas.transverseLine(this.xData1,this.yData1);
             },
             histogramLine(){
-                canvas.cavansLine()
+                canvas.cavansLine(this.xData2,this.yData2)
             },
             pieImg(){
-                canvas.pie()
+                canvas.pie(this.xData3,this.yData3)
             },
             tendency(){
                 this.chenck=0;
@@ -301,19 +304,28 @@
             getData(){
                 let params ={req_cycle:this.time_quantum};
                 this.api.report_income_summary({params}).then((res)=>{
-
+                    this.xData1=res.data;
+                    this.yData1=res.series;
+                    this.chart(res.data,res.series);
+                    this.getSector()
                 })
             },
             getSector(){
                 let params = {tstart:this.value[0],tend:this.value[1],req_cycle:this.req_cycle,req_data:this.req_data,p:this.p,page:this.page};
                 this.api.report_income_rank({params}).then((res)=>{
 
+                    this.xData2=res.data;
+                    this.yData2=res.series;
+                    this.histogramLine(res.data,res.series);
+                    this.getPie();
                 })
             },
             getPie(){
                 let params = {tstart:this.value[0],tend:this.value[1],req_cycle:this.req_cycle,req_data:this.req_data,p:this.p,page:this.page,req_type:this.req_type};
                 this.api.report_income_top({params}).then((res)=>{
-
+                    this.xData3=res.data;
+                    this.yData3=res.series;
+                    this.pieImg(res.data,res.series);
                 })
             },
             estimator(num,data){

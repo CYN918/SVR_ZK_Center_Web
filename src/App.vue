@@ -789,4 +789,7 @@ select{
 .box_2 .el-button--primary{
   color:#3377ff!important;
 }
+.filtrate .timesDate .content_table .time .el-date-editor.el-input, .el-date-editor.el-input__inner{
+  width: 310px;
+}
 </style>

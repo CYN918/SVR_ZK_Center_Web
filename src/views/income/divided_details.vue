@@ -87,7 +87,7 @@
         data(){
             return{
                 time:[],
-                tableData:[],
+                tableData:[{did:1}],
                 p:10,
                 page:1,
                 total:0

@@ -57,7 +57,7 @@ export default {
             xAxis : [
                 {
                     type : 'category',
-                    data : ['1','2','3','4'],
+                    data : xData,
                     axisTick: {
                         alignWithLabel: true
                     }
@@ -73,7 +73,7 @@ export default {
                     name:'直接访问',
                     type:'bar',
                     barWidth: '60%',
-                    data:['02','25','32','54'],
+                    data:yData,
                 }
             ]
         };
@@ -107,7 +107,7 @@ export default {
             },
             yAxis: {
                 type: 'category',
-                 data: ['预估收益','已出流水','渠道成本','设计师成本'],
+                 data: xData,
                 axisLabel: {
                     fontSize:'15',
                     fontFamily:'微软雅黑',
@@ -118,9 +118,9 @@ export default {
             },
             series: [
                 {
-                    name: '2011年',
+                    name: '2019年',
                     type: 'bar',
-                    data: [18203, 23489, 29034, 1970],
+                    data: yData,
                     itemStyle:{ normal:{ color:'#3377FF'} },
                     label:{ normal:{ show: true, position: 'right'},},
                 },
@@ -129,7 +129,7 @@ export default {
         };
         across.setOption(option)
     },//横向柱状图
-    pie(){
+    pie(xData,yData){
         let pie =echarts.init(document.getElementById('pie'))
        var option = {
             tooltip: {
@@ -139,7 +139,7 @@ export default {
             legend: {
                 orient: 'vertical',
                 x: 'right',
-                data:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎'],
+                data:xData,
                 // formatter:    //后缀说明
             },
             series: [
@@ -166,13 +166,7 @@ export default {
                             show: false
                         }
                     },
-                    data:[
-                        {value:335, name:'直接访问'},
-                        {value:310, name:'邮件营销'},
-                        {value:234, name:'联盟广告'},
-                        {value:135, name:'视频广告'},
-                        {value:1548, name:'搜索引擎'}
-                    ]
+                    data:yData
                 }
             ]
         };

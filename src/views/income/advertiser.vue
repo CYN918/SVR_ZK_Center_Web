@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="content_table">
-            <div>
+            <div style="margin-bottom: 24px">
                 <el-date-picker
                         v-model="value"
                         type="daterange"

@@ -233,7 +233,7 @@
     }
     .content_table_top{
         width: 100%;
-        height:84px ;
+        min-height:84px ;
         padding: 0 24px;
     }
     .content_table_top span{

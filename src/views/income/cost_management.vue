@@ -91,7 +91,7 @@
         data(){
             return{
                 tableData:[],
-                time:[],
+                time:[(new Date((new Date()).getTime() - 24*60*60*1000)).toLocaleDateString().split('/').join('-'),(new Date()).toLocaleDateString().split('/').join('-')],
                 p:10,
                 page:1,
                 total:0
