@@ -11,8 +11,11 @@
         </div>
         <div class="content_table">
            <div>
-               <select>
-                   <option selected>本月</option>
+               <select v-model="time_quantum">
+                   <option value="d">今日</option>
+                   <option value="w">本周</option>
+                   <option value="m">本月</option>
+                   <option value="y">全年</option>
                </select>
            </div>
             <div id="across">
@@ -43,8 +46,8 @@
             </div>
             <div style="display: inline-block">
                 <div style="display: inline-block;margin-top: 20px">
-                    <span class="btn_qs" :class="{checked:chenck==0}" @click="tendency">变化趋势</span>
-                    <span class="btn_wd" :class="{checked:chenck==1}" @click="dimensionality">广告维度</span>
+                    <span class="btn_qs" :class="{checked:chenck==0}" @click="tendency">渠道维度</span>
+                    <span class="btn_wd" :class="{checked:chenck==1}" @click="dimensionality">广告主维度</span>
                 </div>
                 <div id="histogram">
 
@@ -62,10 +65,10 @@
         <div class="content_table3">
             <div class="content_table3_top">
                 <span class="trench" :class="{checkeds:chenck1==0}" @click="trenchData">渠道数据</span>
-                <span class="ad" :class="{checkeds:chenck1==1}" @click="AdData">广告数据</span>
+                <span class="ad" :class="{checkeds:chenck1==1}" @click="AdData">广告主数据</span>
                 <div class="right_seach">
                     <el-date-picker
-                            v-model="value"
+                            v-model="values"
                             type="daterange"
                             range-separator="至"
                             start-placeholder="开始日期"
@@ -77,7 +80,7 @@
                     <span class="upload">导出</span>
                 </div>
             </div>
-            <div>
+            <div v-if="tableData.length>0">
                 <template>
                     <el-table
                             :header-cell-style="getRowClass"
@@ -85,12 +88,12 @@
                             :data="tableData"
                             style="width: 100%">
                         <el-table-column
-                                prop="date"
+                                prop="create_time"
                                 label="日期"
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="name"
+                                prop="channel_id"
                                 label="渠道ID"
                         >
                         </el-table-column>
@@ -99,20 +102,24 @@
                                 label="日活">
                         </el-table-column>
                         <el-table-column
+                                sortable
                                 prop="date"
                                 label="流水"
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="name"
+                                sortable
+                                prop="cost"
                                 label="成本"
                                 :show-overflow-tooltip="true"
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="address"
+                                sortable
+                                prop="income"
                                 label="收益">
                         </el-table-column> <el-table-column
+                            sortable
                             prop="date"
                             label="毛利率"
                             :show-overflow-tooltip="true"
@@ -126,6 +133,60 @@
                     </el-table>
                 </template>
             </div>
+            <div v-if="tableDataList.length>0">
+                <template>
+                    <el-table
+                            :header-cell-style="getRowClass"
+                            :cell-style="cell"
+                            :data="tableDataList"
+                            style="width: 100%">
+                        <el-table-column
+                                prop="create_time"
+                                label="日期"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                prop="admaster"
+                                label="广告主"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                sortable
+                                prop="pre_income"
+                                label="预估流水">
+                        </el-table-column>
+                        <el-table-column
+                                sortable
+                                prop="income"
+                                label="已出流水"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                sortable
+                                prop="ecpc"
+                                label="ECPC"
+                                :show-overflow-tooltip="true"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                sortable
+                                prop="ecpm"
+                                label="ECPM">
+                        </el-table-column>
+                    </el-table>
+                </template>
+            </div>
+        </div>
+        <div class="block">
+            <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="page"
+                    :page-sizes="[10, 20, 30, 40]"
+                    :page-size="p"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total">
+            </el-pagination>
         </div>
     </div>
 </template>
@@ -142,21 +203,48 @@
                 chenck:'0',
                 chenck1:'0',
                 tableData:[],
+                tableDataList:[],
+                req_type:'channel',
                 req_data:"income",
                 req_cycle:"w",
                 num:'0',
                 times:'1',
                 p:10,
                 page:1,
+                total:0,
+                time_quantum:'m',
+                channel_id:'',
+                put_env:'',
+                scene:'',
+                values:'',
+                admaster:'',
             }
         },
         mounted(){
             this.chart();
             this.histogramLine();
             this.pieImg();
-            this.getData()
+            this.getData();
+            this.ListData()
         },
         methods:{
+            handleSizeChange(p) { // 每页条数切换
+                this.p = p;
+                if(this.chenck1==0){
+                    this.ListData()
+                }else{
+                    this.getDataList();
+                }
+
+            },
+            handleCurrentChange(page) {//页码切换
+                this.page = page;
+                if(this.chenck1==0){
+                    this.ListData()
+                }else{
+                    this.getDataList();
+                }
+            },
             chart(){
                canvas.transverseLine();
             },
@@ -168,15 +256,21 @@
             },
             tendency(){
                 this.chenck=0;
+                this.req_type='channel';
+                this.getPie();
             },
             dimensionality(){
                 this.chenck=1;
+                this.req_type='admaster';
+                this.getPie();
             },
             trenchData(){
                 this.chenck1 = 0;
+                this.ListData()
             },
             AdData(){
                 this.chenck1 = 1;
+                this.getDataList();
             },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
@@ -188,10 +282,26 @@
             cell({row, column, rowIndex, columnIndex}){
                 return 'margin:0 24px;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
+            getDataList(){
+                let params = {tstart:this.values[0],tend:this.values[1],p:this.p,page:this.page,admaster:this.admaster}
+                this.api.report_income_admaster({params}).then((res)=>{
+                    this.tableDataList=res.data;
+                    this.total=res.total;
+                    this.tableData=[];
+                })
+            },
+            ListData(){
+                let params ={channel_id:this.channel_id,put_env:this.put_env,scene:this.scene,p:this.p,page:this.page,tstart:this.values[0],tend:this.values[1]}
+                this.api.report_income_channel({params}).then((res)=>{
+                    this.tableData = res.data;
+                    this.total=res.total;
+                    this.tableDataList=[];
+                })
+            },
             getData(){
-                let params ={tstart:this.value[0],tend:this.value[1],page:this.page,p:this.p};
+                let params ={req_cycle:this.time_quantum};
                 this.api.report_income_summary({params}).then((res)=>{
-                    this.tableData=res.data
+
                 })
             },
             getSector(){
@@ -201,7 +311,7 @@
                 })
             },
             getPie(){
-                let params = {tstart:this.value[0],tend:this.value[1],req_cycle:this.req_cycle,req_data:this.req_data,p:this.p,page:this.page};
+                let params = {tstart:this.value[0],tend:this.value[1],req_cycle:this.req_cycle,req_data:this.req_data,p:this.p,page:this.page,req_type:this.req_type};
                 this.api.report_income_top({params}).then((res)=>{
 
                 })

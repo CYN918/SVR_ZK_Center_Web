@@ -1,11 +1,11 @@
 <template>
     <div>
 
-        <ADD v-if="ADD" :id="id" :num="num" :ind="index" :hqUrl="hqUrl" :bindMid="bindMid" :material="0" :types="types" :typeName="typeName"></ADD>
+        <ADD v-if="ADD" :id="id" :num="num" :ind="index" :hqUrl="hqUrl" :bindMid="bindMid" :material="0" :types="types" :typeName="typeName" :limit_size="limit_size" :limit_model="limit_model"></ADD>
         <set v-if="sets"   @listenToChildEvent="listen" :material="0"></set>
         <uplodWl v-if='up'  :id="id"  ></uplodWl>
         <BDadd v-if="BD"  :index="index" :id="id"></BDadd>
-        <AddWL v-if="wl"  :id="id" @dataType="datatype" :types="types" :typeName="typeName"></AddWL>
+        <AddWL v-if="wl"  :id="id" @dataType="datatype" :types="types" :typeName="typeName" :limit_type="limit_type" :limit_size="limit_size"></AddWL>
         <scwl v-if="scwl"  :index="index" :id="id"></scwl>
         <sct v-if="set"  :index="index" :id="id" @dataType="datatype"></sct>
         <QD v-if="sh" :id="id"></QD>
@@ -303,6 +303,9 @@
                 email:'',
                 typeList:null,
                 bindMid:[],
+                limit_type:'',
+                limit_size:'',
+                limit_model:'',
                 hqUrl:[],
                 getRowKeys(row) {
                     return row.did;
@@ -314,7 +317,6 @@
             this.email = localStorage.getItem('userAd');
         },
         mounted(){
-            console.log(this.tableData);
             this.getData();
             this.expands.push(this.tableData[0].did);
         },
@@ -426,7 +428,10 @@
                 this.id = this.tableData[index].did;
                 this.num = this.tableData[index].num;
                 this.types = this.tableData[index].type;
+                this.limit_size=this.tableData[index].putlib.size;
+                this.limit_type=this.tableData[index].putlib.put_type;
                 this.typeName = this.tableData[index].type_name;
+
                 this.stop();
                 console.log(this.tableData)
             },
@@ -435,6 +440,8 @@
                 this.id = this.tableData[index].did;
                 this.types = this.tableData[index].type;
                 this.typeName = this.tableData[index].type_name;
+                this.limit_size=this.tableData[index].putlib.size;
+                this.limit_model=this.tableData[index].model;
                 this.stop()
             },
             heidAddWl(){
@@ -640,7 +647,7 @@
                         if(reject==1){
                             this.getRejDET(id,status)
                         }else{
-                            this.getYWSC(id)
+                            this.getYWSC(id);
                         }
 
                     }

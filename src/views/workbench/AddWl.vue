@@ -10,7 +10,14 @@
                 <div class="Search_select">
                     <span class="Search_select_tit">物料类型：</span>
                     <select v-model="type" @change="getList()">
+                        <option value="">全部</option>
                         <option  :value="this.types">{{this.typeName}}</option>
+                    </select>
+                    <span class="Search_select_tit" style="margin-left: 20px">实现方式</span>
+                    <select v-model="model" disabled="disabled">
+                        <option value="无">无</option>
+                        <option value="H5">H5</option>
+                        <option VALUE="脚本">脚本</option>
                     </select>
                 </div>
             </div>
@@ -81,7 +88,7 @@
 <script>
     export default {
         name: "select_material",
-        props:['id','types','typeName'],
+        props:['id','types','typeName','limit_type','limit_size'],
         data(){
             return {
                 checked:'',
@@ -109,6 +116,7 @@
                 listTag:[],
                 listTagData:[],
                 search_tags:[],
+                model:'',
             }
         },
         mounted() {
@@ -132,7 +140,24 @@
 
             },
             getList() {
-                let params = {p: this.pageSize, page: this.currentPage, type: this.type, search: this.search};
+                if(this.limit_type=='m_picture'){
+                    this.model='无';
+                    this.type='f_ad_picture'
+                }
+                if(this.limit_type=='m_script_picture'){
+                    this.model='脚本';
+                    this.type='f_ad_picture'
+                }
+                if(this.limit_type=='m_h5_resource'){
+
+                    this.model='H5';
+                    this.type='f_ad_template'
+                }
+                if(this.limit_type=='m_resource'){
+                    this.model='脚本';
+                    this.type='f_ad_template'
+                }
+                let params = {p: this.pageSize, page: this.currentPage, type: this.type, search: this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status,size:this.limit_size,model:this.model};
                 this.api.mfinal_search({params}).then((res) => {
                     this.IMGList = res.data;
                     this.total = res.total;

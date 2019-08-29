@@ -120,14 +120,14 @@
                         </div>
                         <div class="box_sel">
                             <span class="tit">实现方式:</span>
-                            <select v-model="model" v-if="this.type!='f_sls_lockscreen'">
+                            <select v-model="model" disabled="disabled">
                                 <option value="无">无</option>
                                 <option value="H5">H5</option>
                                 <option value="脚本">脚本</option>
                             </select>
-                            <select v-model="model" v-if="this.type=='f_sls_lockscreen'">
-                                <option value="脚本">脚本</option>
-                            </select>
+                            <!--<select v-model="model" v-if="this.type=='f_sls_lockscreen'">-->
+                                <!--<option value="脚本">脚本</option>-->
+                            <!--</select>-->
                         </div>
                         <div v-if="model=='H5'" class="link">
                             <span class="tit">H5链接:</span>
@@ -177,7 +177,7 @@
 
 <script>
     export default {
-        props:['bindMid','hqUrl','material','id','num','ind','types','typeName'],
+        props:['bindMid','hqUrl','material','id','num','ind','types','typeName','limit_size','limit_model'],
         name: "content_component",
         data(){
             return {
@@ -211,7 +211,7 @@
                 scType:[],
                 tagsName:'',
                 chenck:false,
-                model:'',
+                model:this.limit_model,
                 link:'',
                 aaa:0,
                 bbb:0,
@@ -454,8 +454,16 @@
                 }
                     if(this.chenck==true){
                         this.size=this.cc
+                        if((this.limit_size).split(',').indexOf(this.cc)==-1){
+                            this.$message.error('上传图片尺寸不符合需求尺寸，请重传');
+                            return
+                        }
                     }else{
                         this.size=this.sjSize
+                        if((this.limit_size).split(',').indexOf(this.sjSize)==-1){
+                            this.$message.error('上传图片尺寸不符合需求尺寸，请重传');
+                            return
+                        }
                     }
                         let formData = new FormData;
                         formData.append('id',this.id);
