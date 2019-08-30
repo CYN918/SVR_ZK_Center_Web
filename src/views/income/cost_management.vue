@@ -91,13 +91,13 @@
         data(){
             return{
                 tableData:[],
-                time:[(new Date((new Date()).getTime() - 24*60*60*1000)).toLocaleDateString().split('/').join('-'),(new Date()).toLocaleDateString().split('/').join('-')],
+                time:[(new Date((new Date()).getTime() - 15*24*60*60*1000)).toLocaleDateString().split('/').join('-'),(new Date()).toLocaleDateString().split('/').join('-')],
                 p:10,
                 page:1,
                 total:0
             }
         },
-        mounted(){this.Chart();this.getData()},
+        mounted(){this.poto();this.getData()},
         methods:{
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
@@ -122,6 +122,12 @@
                     path:'/income/divided_details'
                 })
             },
+            poto(){
+                let params={tstart:this.time[0],tend:this.time[1]};
+                this.api.report_cost_chart({params}).then((res)=>{
+                    this.Chart()
+                })
+            },
             Chart(){
                 canvas.chart()
             },
@@ -130,6 +136,7 @@
                 this.api.report_cost_total({params}).then((res)=>{
                     this.tableData=res.data;
                     this.total=res.total;
+                    this.poto();
                 })
             },
             remove(){

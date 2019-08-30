@@ -861,4 +861,16 @@ export default {
     appad_pkg_search:{
 		url:'appad/pkg/search',method:'get'
 	},
+	// 获取分成管理配置
+    analysis_config_sharing:{
+		url:'analysis/config/sharing',method:'get'
+	},
+	//更新分成管理配置
+    analysis_config_sharing_update:{
+		url:"analysis/config/sharing/update",method:'post',isType:{suktip:1}
+	},
+	//设计师成本管理趋势图
+    report_cost_chart:{
+		url:'report/cost/chart',method:'get'
+	},
 }

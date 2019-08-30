@@ -10,73 +10,58 @@
         </div>
         <div class="content">
             <div class="wb">
-                <span>素材默认外部完成度</span>
-                <input type="text"/>
+                <span>素材默认外部完成度(%)</span>
+                <input type="text" v-model="complete"/>
             </div>
             <div class="select_tab">
                 <span>素材类型</span>
-                <select>
-                    <option>广告图</option>
-                </select>
+                <span class="types" v-model="sharing[0].type">广告图</span>
                 <span>分成价格(元)</span>
-                <input type="number"/>
+                <input type="number" v-model="sharing[0].sharing_price"/>
                 <span>结算方式</span>
-                <select>
-                    <option>ECPC</option>
-                </select>
-            </div>
-            <div class="select_tab">
-                <span>素材类型</span>
-                <select>
-                    <option>广告图</option>
-                </select>
-                <span>分成价格(元)</span>
-                <input type="number"/>
-                <span>结算方式</span>
-                <select>
-                    <option>ECPC</option>
+                <select v-model="sharing[0].sharing_type">
+                    <option value="ecpc">ECPC</option>
+                    <option value="ecpm">ECPM</option>
                 </select>
             </div>
             <div class="select_tab">
                 <span>素材类型</span>
-                <select>
-                    <option>广告图</option>
-                </select>
+                <span class="types" v-model="sharing[1].type">广告模板</span>
                 <span>分成价格(元)</span>
-                <input type="number"/>
+                <input type="number" v-model="sharing[1].sharing_price"/>
                 <span>结算方式</span>
-                <select>
-                    <option>ECPC</option>
+                <select v-model="sharing[1].sharing_type">
+                    <option value="ecpc">ECPC</option>
+                    <option value="ecpm">ECPM</option>
                 </select>
             </div>
             <div class="select_tab">
                 <span>素材类型</span>
-                <select>
-                    <option>广告图</option>
-                </select>
+                <span class="types" v-model="sharing[2].type">场景锁屏-动效</span>
                 <span>分成价格(元)</span>
-                <input type="number"/>
+                <input type="number" v-model="sharing[2].sharing_price"/>
                 <span>结算方式</span>
-                <select>
-                    <option>ECPC</option>
+                <select v-model="sharing[2].sharing_type">
+                    <option value="ecpc">ECPC</option>
+                    <option value="ecpm">ECPM</option>
                 </select>
             </div>
             <div class="select_tab">
-                <span class="updata">更新</span>
+                <span>素材类型</span>
+                <span class="types" v-model="sharing[3].type">场景锁屏-壁纸</span>
+                <span>分成价格(元)</span>
+                <input type="number" v-model="sharing[3].sharing_price"/>
+                <span>结算方式</span>
+                <select v-model="sharing[3].sharing_type">
+                    <option value="ecpc">ECPC</option>
+                    <option value="ecpm">ECPM</option>
+                </select>
+            </div>
+            <div class="select_tab">
+                <span class="updata" @click="upData()">更新</span>
             </div>
         </div>
 
-        <!--<div class="block">-->
-            <!--<el-pagination-->
-                    <!--@size-change="handleSizeChange"-->
-                    <!--@current-change="handleCurrentChange"-->
-                    <!--:current-page="page"-->
-                    <!--:page-sizes="[10, 20, 30, 40]"-->
-                    <!--:page-size="p"-->
-                    <!--layout="total, sizes, prev, pager, next, jumper"-->
-                    <!--:total="total">-->
-            <!--</el-pagination>-->
-        <!--</div>-->
     </div>
 </template>
 
@@ -89,9 +74,32 @@
                 tableData:[],
                 p:10,
                 page:1,
-                total:0
+                total:0,
+                complete:'',
+                sharing:[{
+                    type:'ad_picture',
+                    sharing_type:'',
+                    sharing_price:'',
+                },
+                    {
+                        type:'ad_template',
+                        sharing_type:'',
+                        sharing_price:'',
+                    },
+                    {
+                        type:'sls_dynamic',
+                        sharing_type:'',
+                        sharing_price:'',
+                    },{
+                        type:'sls_pictur',
+                        sharing_type:'',
+                        sharing_price:'',
+                    }
+                ],
+
             }
         },
+        mounted(){this.getData()},
         methods:{
             fh(){
                 this.$router.go(-1)
@@ -111,6 +119,28 @@
             },
             handleCurrentChange(page) {//页码切换
                 this.page = page;
+            },
+            getData(){
+                let params = {};
+                this.api.analysis_config_sharing({params}).then((res)=>{
+                    this.complete=res.complete;
+                   for(var i=0;i<res.sharing.length;i++){
+                       for(var j=0;j<this.sharing.length;j++){
+                           if(res.sharing[i].type==this.sharing[j].type){
+                               this.sharing[j]=res.sharing[i];
+                           }
+                       }
+                   }
+                })
+            },
+            upData(){
+
+                let formData =new FormData;
+                formData.append('complete',this.complete);
+                formData.append('sharing',JSON.stringify(this.sharing));
+               this.api.analysis_config_sharing_update(formData).then((res)=>{
+
+               })
             },
         }
     }
@@ -207,7 +237,18 @@
         color:rgba(143,155,179,1);
         margin-right: 24px;
     }
-    .select_tab input{
+    .types{
+        display: inline-block;
+        width:184px;
+        height:36px;
+        line-height: 36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        padding: 0 8px;
+        border:1px solid rgba(211,219,235,1);
+        margin-right: 44px;
+    }
+    .select_tab input {
         width:184px;
         height:36px;
         background:rgba(255,255,255,1);

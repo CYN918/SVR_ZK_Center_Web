@@ -163,7 +163,7 @@ mode['Process'] = Process
 
 
 Vue.use(Router)
-const router = new Router({routes: []})		
+const router = new Router({routes: []})
 let tonek = localStorage.getItem('token');
 let wb = [
 	{
