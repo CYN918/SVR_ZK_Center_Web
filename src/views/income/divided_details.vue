@@ -38,23 +38,19 @@
                             :cell-style="cell"
                             style="width: 100%;color:#000">
                         <el-table-column
-                                label="日期" prop="demand_type"
+                                label="日期" prop="create_time"
                         >
                         </el-table-column>
                         <el-table-column
-                                label="总预计分成" prop="did"
+                                label="分成总价格(XY)" prop="cost_total"
                         >
                         </el-table-column>
                         <el-table-column
-                                label="内部分成" prop="status_name"
+                                label="实际分成金额(X)" prop="cost_real"
                         >
                         </el-table-column>
                         <el-table-column
-                                label="外部买断" prop="status"
-                        >
-                        </el-table-column>
-                        <el-table-column
-                                label="外部分成" prop="status"
+                                label="回流金额(Y)" prop="cost_backflow"
                         >
                         </el-table-column>
                         <el-table-column label="操作">
@@ -90,10 +86,27 @@
                 tableData:[{did:1}],
                 p:10,
                 page:1,
-                total:0
+                total:0,
+                xData:[],
+                yData:[],
+                tData:[],
             }
         },
-        mounted(){this.Chart()},
+        mounted(){
+
+            var qt = (new Date((new Date()).getTime() - 15*24*60*60*1000)).toLocaleDateString().split('/');
+            if(Number(qt[1])<10){
+                qt[1]=(0).toString()+qt[1]
+
+            }
+            var next = (new Date()).toLocaleDateString().split('/');
+            if(Number(next[1])<10){
+                next[1]=(0).toString()+next[1]
+            }
+            console.log(qt)
+            this.time=[qt.join('-'),next.join('-')];
+            this.dataList()
+        },
         methods:{
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
@@ -107,9 +120,11 @@
             },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
+                this.dataList()
             },
             handleCurrentChange(page) {//页码切换
                 this.page = page;
+                this.dataList()
             },
             fh(){
                 this.$router.go(-1)
@@ -119,13 +134,34 @@
                     path:'/income/data_details'
                 })
             },
+            dataList(){
+                let params = {tstart:this.time[0],tend:this.time[1],p:this.p,page:this.page};
+                this.api.report_cost_sharing({params}).then((res)=>{
+                    this.tableData=res.data;
+                    this.imgs()
+                    this.total=res.total;
+                })
+            },
             divide(){
                 this.$router.push({
                     path:'/income/divided_management'
                 })
             },
+            imgs(){
+                let params={tstart:this.time[0],tend:this.time[1]};
+                this.api.report_cost_sharing_chart({params}).then((res)=>{
+                    this.xData=res.series;
+                    this.yData=res.xAxis;
+                    var arr=[];
+                    for(var i=0;i<res.series.length;i++){
+                        arr.push(res.series[i].name);
+                    }
+                    this.tData=arr;
+                    this.Chart(res.xAxis,res.series,this.tData)
+                })
+            },
             Chart(){
-                canvas.chart()
+                canvas.chart(this.xData,this.yData,this.tData)
             },
         },
     }

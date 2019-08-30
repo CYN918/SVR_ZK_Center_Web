@@ -172,7 +172,7 @@ export default {
         };
         pie.setOption(option)
     },//饼状图
-    chart(xData,yData){
+    chart(xData,yData,tData){
         let flowChart =echarts.init(document.getElementById('flowChart'))
        var option = {
             color:["#1890FF","#2FC25B"],
@@ -180,7 +180,7 @@ export default {
                 trigger: 'axis'
             },
             legend: {
-                data:['设计师成本','总流水']
+                data:tData
             },
             grid: {
                 left: '3%',
@@ -191,23 +191,12 @@ export default {
             xAxis: {
                 type: 'category',
                 boundaryGap: false,
-                data: ['周一','周二','周三','周四','周五','周六','周日']
+                data: yData
             },
             yAxis: {
                 type: 'value'
             },
-            series: [
-                {
-                    name:'设计师成本',
-                    type:'line',
-                    data:[320, 332, 301, 334, 390, 330, 320]
-                },
-                {
-                    name:'总流水',
-                    type:'line',
-                    data:[820, 932, 901, 934, 1290, 1330, 1320]
-                }
-            ]
+            series: xData
         };
         flowChart.setOption(option)
     },//多折现图

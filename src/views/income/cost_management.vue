@@ -91,13 +91,31 @@
         data(){
             return{
                 tableData:[],
-                time:[(new Date((new Date()).getTime() - 15*24*60*60*1000)).toLocaleDateString().split('/').join('-'),(new Date()).toLocaleDateString().split('/').join('-')],
+                time:[],
                 p:10,
                 page:1,
-                total:0
+                total:0,
+                tData:[],
+                xData:[],
+                yData:[],
             }
         },
-        mounted(){this.poto();this.getData()},
+        mounted(){
+
+                  var qt = (new Date((new Date()).getTime() - 15*24*60*60*1000)).toLocaleDateString().split('/');
+                  if(Number(qt[1])<10){
+                      qt[1]=(0).toString()+qt[1]
+
+                  }
+                  var next = (new Date()).toLocaleDateString().split('/');
+                  if(Number(next[1])<10){
+                      next[1]=(0).toString()+next[1]
+                  }
+                  console.log(qt)
+                this.time=[qt.join('-'),next.join('-')];
+                this.poto();
+                this.getData();
+        },
         methods:{
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
@@ -125,11 +143,18 @@
             poto(){
                 let params={tstart:this.time[0],tend:this.time[1]};
                 this.api.report_cost_chart({params}).then((res)=>{
-                    this.Chart()
+                    this.xData=res.series;
+                    this.yData=res.xAxis;
+                    var arr=[];
+                    for(var i=0;i<res.series.length;i++){
+                        arr.push(res.series[i].name);
+                    }
+                    this.tData=arr
+                    this.Chart(res.series,res.xAxis,this.tData)
                 })
             },
             Chart(){
-                canvas.chart()
+                canvas.chart(this.xData,this.yData,this.tData)
             },
             getData(){
                 let params = {tstart:this.time[0],tend:this.time[1],p:this.p,page:this.page};

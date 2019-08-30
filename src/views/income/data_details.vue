@@ -21,17 +21,17 @@
                     </el-date-picker>
                 </div>
                 <span>素材ID</span>
-                <input type="text" placeholder="请输入素材ID"/>
+                <input type="text" placeholder="请输入素材ID" v-model="mid"/>
                 <span>渠道ID</span>
-                <input type="text" placeholder="请输入渠道ID"/>
+                <input type="text" placeholder="请输入渠道ID" v-model="channel_id"/>
                 <span class="gg_left">广告位ID</span>
-                <input type="text" placeholder="请输入广告位ID"/>
+                <input type="text" placeholder="请输入广告位ID" v-model="ad_space_id"/>
             </div>
             <div class="bottom">
                 <span class="id_left">广告ID</span>
-                <input type="text" placeholder="请输入广告ID"/>
-                <span class="span_btn">查询</span>
-                <span class="cz">重置</span>
+                <input type="text" placeholder="请输入广告ID" v-model="ad_id"/>
+                <span class="span_btn" @click="dataList()">查询</span>
+                <span class="cz" @click="remove()">重置</span>
             </div>
             <div>
                 <template>
@@ -42,44 +42,51 @@
                             :cell-style="cell"
                             style="width: 100%;color:#000">
                         <el-table-column
-                                label="日期" prop="demand_type"
+                                label="日期" prop="create_time"
                         >
                         </el-table-column>
                         <el-table-column
-                                label="广告ID" prop="did"
+                                label="素材ID" prop="mid"
                         >
                         </el-table-column>
-                        <el-table-column type="expand" label="渠道ID" prop="did">
-                            <template slot-scope="props">
+                        <el-table-column
+                                label="渠道ID" prop="channel_id">
 
-                            </template>
                         </el-table-column>
                         <el-table-column
                                 label="有效率" prop="status"
                         >
                         </el-table-column>
                         <el-table-column
-                                label="广告位ID" prop="status"
+                                label="广告位ID" prop="ad_space_id"
                         >
                         </el-table-column>
                         <el-table-column
-                                label="素材ID" prop="status"
+                                label="广告ID" prop="ad_id"
                         >
                         </el-table-column>
                         <el-table-column
-                                label="有效展示量" prop="status"
+                                label="有效展示量" prop="pv"
                         >
                         </el-table-column>
                         <el-table-column
-                                label="有效点击量" prop="status"
+                                label="有效点击量" prop="click"
                         >
                         </el-table-column>
                         <el-table-column
-                                label="结算方式" prop="status"
+                                label="结算方式" prop="sharing_type"
                         >
                         </el-table-column>
                         <el-table-column
-                                label="设计师分成" prop="status"
+                                label="分成总价值" prop="total_sharing"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                label="实际成交金额" prop="sharing"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                label="回流金额" prop="inner_sharing"
                         >
                         </el-table-column>
                     </el-table>
@@ -107,12 +114,36 @@
             return{
                 time:[],
                 tableData:[{status:2}],
+                channel_id:'',
+                mid:'',
+                ad_space_id:'',
+                ad_id:'',
                 p:10,
                 page:1,
                 total:0
             }
         },
+        mounted(){
+            var qt = (new Date((new Date()).getTime() - 15*24*60*60*1000)).toLocaleDateString().split('/');
+            if(Number(qt[1])<10){
+                qt[1]=(0).toString()+qt[1]
+
+            }
+            var next = (new Date()).toLocaleDateString().split('/');
+            if(Number(next[1])<10){
+                next[1]=(0).toString()+next[1]
+            }
+            this.time=[qt.join('-'),next.join('-')];
+            this.dataList()
+        },
         methods:{
+            remove(){
+                this.mid='';
+                this.time=[];
+                this.channel_id='';
+                this.ad_space_id='';
+                this.ad_id='';
+            },
             fh(){
                 this.$router.go(-1)
             },
@@ -131,6 +162,13 @@
             },
             handleCurrentChange(page) {//页码切换
                 this.page = page;
+            },
+            dataList(){
+                let params={tstart:this.time[0],tend:this.time[1],mid:this.mid,channel_id:this.channel_id,ad_space_id:this.ad_space_id,ad_id:this.id,p:this.p,page:this.page};
+                this.api.report_sharing_material({params}).then((res)=>{
+                    this.tableData=res.data;
+                    this.total=res.total;
+                })
             },
         }
     }

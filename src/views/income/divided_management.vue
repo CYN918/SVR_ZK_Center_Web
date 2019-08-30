@@ -20,6 +20,7 @@
                 <input type="number" v-model="sharing[0].sharing_price"/>
                 <span>结算方式</span>
                 <select v-model="sharing[0].sharing_type">
+                    <option value="">请选择</option>
                     <option value="ecpc">ECPC</option>
                     <option value="ecpm">ECPM</option>
                 </select>
@@ -31,6 +32,7 @@
                 <input type="number" v-model="sharing[1].sharing_price"/>
                 <span>结算方式</span>
                 <select v-model="sharing[1].sharing_type">
+                    <option value="">请选择</option>
                     <option value="ecpc">ECPC</option>
                     <option value="ecpm">ECPM</option>
                 </select>
@@ -42,6 +44,7 @@
                 <input type="number" v-model="sharing[2].sharing_price"/>
                 <span>结算方式</span>
                 <select v-model="sharing[2].sharing_type">
+                    <option value="">请选择</option>
                     <option value="ecpc">ECPC</option>
                     <option value="ecpm">ECPM</option>
                 </select>
@@ -53,6 +56,7 @@
                 <input type="number" v-model="sharing[3].sharing_price"/>
                 <span>结算方式</span>
                 <select v-model="sharing[3].sharing_type">
+                    <option value="">请选择</option>
                     <option value="ecpc">ECPC</option>
                     <option value="ecpm">ECPM</option>
                 </select>
@@ -134,12 +138,63 @@
                 })
             },
             upData(){
-
+                if(!this.complete){
+                    this.$message.error('素材默认外部完成度不能为空')
+                    return
+                }
+                if(this.sharing[0].sharing_type!=''&&!this.sharing[0].sharing_price){
+                    this.$message.error('分成价格不能为空');
+                    return
+                }
+                if(this.sharing[1].sharing_type!=''&&!this.sharing[1].sharing_price){
+                    this.$message.error('分成价格不能为空');
+                    return
+                }
+                if(this.sharing[2].sharing_type!=''&&!this.sharing[2].sharing_price){
+                    this.$message.error('分成价格不能为空');
+                    return
+                }
+                if(this.sharing[3].sharing_type!=''&&!this.sharing[3].sharing_price){
+                    this.$message.error('分成价格不能为空');
+                    return
+                }
+                if(this.sharing[0].sharing_type!=''&&!this.sharing[0].sharing_price){
+                    this.$message.error('分成价格不能为空');
+                    return
+                }
+                if(this.sharing[1].sharing_type!=''&&!this.sharing[1].sharing_price){
+                    this.$message.error('分成价格不能为空');
+                    return
+                }
+                if(this.sharing[2].sharing_type!=''&&!this.sharing[2].sharing_price){
+                    this.$message.error('分成价格不能为空');
+                    return
+                }
+                if(this.sharing[3].sharing_type!=''&&!this.sharing[3].sharing_price){
+                    this.$message.error('分成价格不能为空');
+                    return
+                }
+                if(this.sharing[3].sharing_price!=''&&(isNaN(this.sharing[3].sharing_price)) && ((this.sharing[3].sharing_price) % 1!= 0)){
+                    this.$message.error('分成价格为正整数');
+                    return
+                }
+                if(this.sharing[2].sharing_price!=''&&(isNaN(this.sharing[3].sharing_price)) && ((this.sharing[2].sharing_price) % 1!= 0)){
+                    this.$message.error('分成价格为正整数');
+                    return
+                }
+                if(this.sharing[1].sharing_price!=''&&(isNaN(this.sharing[3].sharing_price)) && ((this.sharing[1].sharing_price) % 1!= 0)){
+                    this.$message.error('分成价格为正整数');
+                    return
+                }
+                if(this.sharing[0].sharing_price!=''&&(isNaN(this.sharing[3].sharing_price)) && ((this.sharing[0].sharing_price) % 1!= 0)){
+                    this.$message.error('分成价格为正整数');
+                    return
+                }
                 let formData =new FormData;
                 formData.append('complete',this.complete);
                 formData.append('sharing',JSON.stringify(this.sharing));
                this.api.analysis_config_sharing_update(formData).then((res)=>{
-
+                   this.getData()
                })
             },
         }

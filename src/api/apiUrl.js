@@ -873,4 +873,17 @@ export default {
     report_cost_chart:{
 		url:'report/cost/chart',method:'get'
 	},
+	//分成成本详情-详细数据报表
+    report_cost_sharing:{
+		url:"report/cost/sharing",method:'get'
+	},
+	//分成成本详情趋势图
+    report_cost_sharing_chart:{
+		url:'report/cost/sharing/chart',method:'get'
+	},
+	//分成成本详情-详细数据报表
+    report_sharing_material:{
+		url:'report/sharing/material',method:'get'
+	},
+
 }
