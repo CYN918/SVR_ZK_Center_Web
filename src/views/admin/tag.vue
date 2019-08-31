@@ -303,6 +303,7 @@
     color:rgba(61,73,102,1);
     line-height: 36px;
     text-align: center;
+    cursor: pointer;
 }
 .bg_btn_up{
     border:0!important;
