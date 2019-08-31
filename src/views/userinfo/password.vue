@@ -28,7 +28,7 @@
                     <input type="text" v-if="show" v-model="input3" @blur="yz3()"/>
                 </div>
             </div>
-            <div class="btn">
+            <div class="btns">
                 <span class="btn_txt" @click="edit_account_password">修改</span>
             </div>
         </div>
@@ -131,8 +131,8 @@
     margin-left: 24px;
 }
 .center{margin-bottom: 24px}
-.btn{text-align:left;margin-left: 114px}
-.btn>span{
+.btns{text-align:left;margin-left: 114px}
+.btns>span{
     display: inline-block;
     width:68px;
     height:36px;
