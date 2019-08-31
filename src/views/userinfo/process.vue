@@ -599,6 +599,7 @@
     .add_name p{
         margin-left: 24px;
         margin-bottom: 10px;
+        cursor: pointer;
     }
     .tit{
         display: block;
@@ -623,6 +624,7 @@
         margin-left: 20px;
     }
     .banner_btn span{
+        cursor: pointer;
         display: inline-block;
         width:68px;
         height:36px;
