@@ -36,6 +36,7 @@
                     <el-date-picker
                             v-model="value"
                             type="daterange"
+                            @change="getPie()"
                             range-separator="至"
                             start-placeholder="开始日期"
                             end-placeholder="结束日期"
@@ -199,7 +200,7 @@
         data(){
             return{
                 IDname:"across",
-                value:'',
+                value:[],
                 chenck:'0',
                 chenck1:'0',
                 tableData:[],
@@ -216,7 +217,7 @@
                 channel_id:'',
                 put_env:'',
                 scene:'',
-                values:'',
+                values:[],
                 admaster:'',
                 xData1:[],
                 yData1:[],
@@ -286,6 +287,9 @@
                 return 'margin:0 24px;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
             getDataList(){
+                if(this.values.length==0){
+                    this.values=['','']
+                }
                 let params = {tstart:this.values[0],tend:this.values[1],p:this.p,page:this.page,admaster:this.admaster}
                 this.api.report_income_admaster({params}).then((res)=>{
                     this.tableDataList=res.data;
@@ -294,6 +298,9 @@
                 })
             },
             ListData(){
+                if(this.values.length==0){
+                    this.values=['','']
+                }
                 let params ={channel_id:this.channel_id,put_env:this.put_env,scene:this.scene,p:this.p,page:this.page,tstart:this.values[0],tend:this.values[1]}
                 this.api.report_income_channel({params}).then((res)=>{
                     this.tableData = res.data;
@@ -311,9 +318,11 @@
                 })
             },
             getSector(){
+                if(this.value.length==0){
+                    this.value=['','']
+                }
                 let params = {tstart:this.value[0],tend:this.value[1],req_cycle:this.req_cycle,req_data:this.req_data,p:this.p,page:this.page};
                 this.api.report_income_rank({params}).then((res)=>{
-
                     this.xData2=res.data;
                     this.yData2=res.series;
                     this.histogramLine(res.data,res.series);
@@ -321,7 +330,10 @@
                 })
             },
             getPie(){
-                let params = {tstart:this.value[0],tend:this.value[1],req_cycle:this.req_cycle,req_data:this.req_data,p:this.p,page:this.page,req_type:this.req_type};
+                if(this.value.length==0){
+                    this.value=['','']
+                }
+                let params={tstart:this.value[0],tend:this.value[1],req_cycle:this.req_cycle,req_data:this.req_data,p:this.p,page:this.page,req_type:this.req_type};
                 this.api.report_income_top({params}).then((res)=>{
                     this.xData3=res.data;
                     this.yData3=res.series;
