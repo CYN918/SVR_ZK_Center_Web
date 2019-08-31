@@ -26,7 +26,7 @@
                     <span class="label_txt">预置标签:</span>
                     <span class="labelName" @click="getListTag()" :class="{active:listTag.length==0}">全部</span>
                     <div class="tags" :class="{ALLtags:this.class==true}">
-                        <span v-for="(item,index) in preset_tags" class="labelName" @click="getListTag(item.name,index)" :class="{active:listTag.indexOf(item.name)!=-1}">{{item.name}}</span>
+                        <span v-for="(item,index) in preset_tags" class="labelName" @click="getListTag(item.name)" :class="{active:listTag.indexOf(item.name)!=-1}">{{item.name}}</span>
                     </div>
                     <span class="tagsAll" v-if="this.class==false" @click="getTag">查看更多</span>
                     <span class="tagsAll" v-if="this.class==true" @click="heidTag">收起</span>
@@ -35,7 +35,7 @@
                     <span class="label_txt" >个性标签:</span>
                     <span class="labelName" @click="getListTags()" :class="{active:listTagData.length==0}">全部</span>
                     <div class="tags" :class="{ALLtags:this.class1==true}">
-                        <span v-for="(item,index) in self_tags" class="labelName" @click="getListTags(item.name,index)" :class="{active:listTagData.indexOf(item.name)!=-1}">{{item.name}}</span>
+                        <span v-for="(item,index) in self_tags" class="labelName" @click="getListTags(item.name)" :class="{active:listTagData.indexOf(item.name)!=-1}">{{item.name}}</span>
                     </div>
                     <span class="tagsAll" v-if="this.class1==false" @click="getTag1">查看更多</span>
                     <span class="tagsAll" v-if="this.class1==true" @click="heidTag1">收起</span>
@@ -189,24 +189,7 @@
                 this.currentPage = currentPage;
                 this.getList()
             },
-            getListTag(name, index) {
-                this.inx = index;
-                let params = {p: this.pageSize, page: this.currentPage, type: this.type, search: name}
-                this.api.mfinal_search({params}).then((res) => {
-                    this.IMGList = res.data;
-                    this.total = res.total;
-                    this.getTagsList()
-                })
-            },
-            getListTags(name, index) {
-                this.inde = index;
-                let params = {p: this.pageSize, page: this.currentPage, type: this.type, search: name}
-                this.api.mfinal_search({params}).then((res) => {
-                    this.IMGList = res.data;
-                    this.total = res.total;
-                    this.getTagsList()
-                })
-            },
+
             getTag() {
                 this.class = true;
             },
@@ -235,20 +218,8 @@
                         }
                     }
                 }
+                this.getList()
 
-                let params = {
-                    p: this.pageSize,
-                    page: this.currentPage,
-                    type: this.type,
-                    search: this.search,
-                    search_tags: JSON.stringify(this.listTag.concat(this.listTagData)),
-                    status: this.status
-                }
-                this.api.mfinal_search({params}).then((res) => {
-                    this.IMGList = res.data;
-                    this.total = res.total;
-                    this.getTagsList()
-                })
             },
             getListTag(name) {
                 if (!name) {
@@ -266,20 +237,8 @@
                         }
                     }
                 }
+                this.getList()
 
-                let params = {
-                    p: this.pageSize,
-                    page: this.currentPage,
-                    type: this.type,
-                    search: this.search,
-                    search_tags: JSON.stringify(this.listTag.concat(this.listTagData)),
-                    status: this.status
-                }
-                this.api.mfinal_search({params}).then((res) => {
-                    this.IMGList = res.data;
-                    this.total = res.total;
-                    this.getTagsList()
-                })
             },
         }
     }

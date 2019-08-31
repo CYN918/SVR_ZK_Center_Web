@@ -298,6 +298,7 @@
                     this.attach.checksum_md5 = res.checksum_md5;
                     if(res.wpid==''){
                         this.$message.error('您上传的非壁纸压缩包，请重新上传')
+                        return
                     }else{
                         this.attach.wpid = res.wpid;
                     }

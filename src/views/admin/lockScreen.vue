@@ -97,12 +97,21 @@
 								<span class="boxImg_text">相关素材:</span>
 								<span class="ck" @click="getRel(index)">查看详情</span>
 							</div>
+							<div class="xgsc">
+								<span class="boxImg_text">打底广告图:</span>
+								<span class="boxImg_content">{{DL.ad_pic==1?'有':'无'}}</span>
+							</div>
 
 						</div>
-
 						<div>
-							<span class="boxImg_text">物料使用记录:</span>
-							<span class="ck">查看详情</span>
+							<div class="xgsc">
+								<span class="boxImg_text">物料使用记录:</span>
+								<span class="ck">查看详情</span>
+							</div>
+							<div class="xgsc">
+								<span class="boxImg_text">广告图位数:</span>
+								<span class="boxImg_content">{{DL.ad_num}}</span>
+							</div>
 						</div>
 						<div>
 							<span class="boxImg_text">壁纸标识:</span>
