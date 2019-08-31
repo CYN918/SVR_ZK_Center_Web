@@ -2,7 +2,7 @@
     <div>
         <div class="top_tit">
             <div class="tit_top_url">
-                <span class="log_url">行为数据 &nbsp;/&nbsp;</span>
+                <span class="log_url">素材数据 &nbsp;/&nbsp;</span>
                 <span class="new_url">物料数据</span>
             </div>
             <div class="tit_top_con">
@@ -20,9 +20,9 @@
                         format="yyyy-MM-dd"
                         value-format="yyyy-MM-dd">
                 </el-date-picker>
-                <span class="name" style="margin-left: 20px">素材ID</span>
+                <span class="name" style="margin-left: 20px">物料ID</span>
                 <input type='text' v-model="mfid"/>
-                <span class="name">素材类型</span>
+                <span class="name">物料类型</span>
                 <select v-model="type">
                     <option>全部</option>
                 </select>
@@ -143,7 +143,7 @@
                             label="广告位类型"
                            >
                             <template slot-scope="scope">
-                                <span v-if="tableData[scope.$index].ad_space_type=''">-</span>
+                                <span v-if="tableData[scope.$index].ad_space_type==''">-</span>
                                 <span v-if="tableData[scope.$index].ad_space_type!=''">{{tableData[scope.$index].ad_space_type}}</span>
                             </template>
                     </el-table-column>
