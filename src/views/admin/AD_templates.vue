@@ -135,7 +135,7 @@
                 total: 0,
                 currentPage: 1,
                 type:'ad_template',
-				lx:'广告图模板',
+				lx:'广告模板',
                 message:{},
                 preset_tags:[],
                 self_tags:[],
@@ -294,9 +294,20 @@
             },
             getLt(a){
                 if(this.userData.roles[0].role_name=='admin'){
-                    let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,status:this.status}
+                    let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,status:this.status};
                     this.api.material_search({params}).then((res)=>{
                         this.IMGList=res.data;
+                        for(let i =0;i<this.IMGList.length;i++){
+                            if(this.IMGList[i].status=='1101'){
+                                this.IMGList[i].status='使用中'
+                            }
+                            if(this.IMGList[i].status=='1001'){
+                                this.IMGList[i].status='未使用'
+                            }
+                            if(this.IMGList[i].status=='1201'){
+                                this.IMGList[i].status='禁用'
+                            }
+                        }
                         if(a!=undefined){
                             this.message = res.data[a];
                             this.sc = true;

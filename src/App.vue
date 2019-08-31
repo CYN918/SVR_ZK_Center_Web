@@ -714,7 +714,7 @@ select{
 }
 .log_url{color: #acadb0
 }
-.new_url{color: #4f4cf1}
+.new_url{color: #3377ff}
 .tit_top_con .tit_name{
   display: inline-block;
   font-family: "Microsoft YaHei";
@@ -731,7 +731,7 @@ select{
 .content_table .el-button{
   border: 0;
   cursor: pointer;
-  color: #4f4cf1;
+  color: #3377ff;
   padding:0;
 }
   .load .el-upload-list{

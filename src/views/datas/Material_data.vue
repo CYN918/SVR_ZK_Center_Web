@@ -20,7 +20,7 @@
                         format="yyyy-MM-dd"
                         value-format="yyyy-MM-dd">
                 </el-date-picker>
-                <span class="name">素材ID</span>
+                <span class="name" style="margin-left: 20px">素材ID</span>
                 <input type='text' v-model="mfid"/>
                 <span class="name">素材类型</span>
                 <select v-model="type">
@@ -68,6 +68,7 @@
                         <el-table-column
                                 prop="create_time"
                                 label="日期"
+                                width="100"
                                 :show-overflow-tooltip="true"
                                >
                         </el-table-column>
@@ -86,41 +87,74 @@
                                 label="广告ID"
                                 :show-overflow-tooltip="true"
                                >
+                            <template slot-scope="scope">
+                                <span v-if="tableData[scope.$index].ad_id==''">-</span>
+                                <span v-if="tableData[scope.$index].ad_id!=''">{{tableData[scope.$index].ad_id}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                                 prop="ad_name"
                                 label="广告名称"
                                 :show-overflow-tooltip="true"
                                >
+                            <template slot-scope="scope">
+                                <span v-if="tableData[scope.$index].ad_name==''">-</span>
+                                <span v-if="tableData[scope.$index].ad_name!=''">{{tableData[scope.$index].ad_name}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                                 prop="admaster"
                                 :show-overflow-tooltip="true"
                                 label="广告主">
-                        </el-table-column> <el-table-column
+                            <template slot-scope="scope">
+                                <span v-if="tableData[scope.$index].admaster==''">-</span>
+                                <span v-if="tableData[scope.$index].admaster!=''">{{tableData[scope.$index].admaster}}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column
                             prop="project"
                             label="项目名称"
                             :show-overflow-tooltip="true"
                            >
+                            <template slot-scope="scope">
+                                <span v-if="tableData[scope.$index].project==''">-</span>
+                                <span v-if="tableData[scope.$index].project!=''">{{tableData[scope.$index].project}}</span>
+                            </template>
                     </el-table-column>
                         <el-table-column
                                 prop="channel_id"
                                 label="渠道ID"
                                 >
+                            <template slot-scope="scope">
+                                <span v-if="tableData[scope.$index].channel_id==''">-</span>
+                                <span v-if="tableData[scope.$index].channel_id!=''">{{tableData[scope.$index].channel_id}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                                 prop="scene"
                                 label="业务类型">
+                            <template slot-scope="scope">
+                                <span v-if="tableData[scope.$index].scene==''">-</span>
+                                <span v-if="tableData[scope.$index].scene!=''">{{tableData[scope.$index].scene}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                             prop="ad_space_type"
                             label="广告位类型"
                            >
+                            <template slot-scope="scope">
+                                <span v-if="tableData[scope.$index].ad_space_type=''">-</span>
+                                <span v-if="tableData[scope.$index].ad_space_type!=''">{{tableData[scope.$index].ad_space_type}}</span>
+                            </template>
                     </el-table-column>
                         <el-table-column
                                 prop="put_env"
                                 label="投放环境"
                                 >
+                            <template slot-scope="scope">
+                                <span v-if="tableData[scope.$index].put_env==''">-</span>
+                                <span v-if="tableData[scope.$index].put_env!=''">{{tableData[scope.$index].put_env}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                                 prop="pv"
@@ -137,6 +171,10 @@
                                 sortable
                                 label="点击率"
                                 >
+                            <template slot-scope="scope">
+                                <span v-if="tableData[scope.$index].click_ratio==''">-</span>
+                                <span v-if="tableData[scope.$index].click_ratio!=''">{{tableData[scope.$index].click_ratio}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                                 prop="income"

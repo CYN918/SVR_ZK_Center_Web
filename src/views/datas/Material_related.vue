@@ -2,7 +2,7 @@
     <div>
         <div class="top_tit">
             <div class="tit_top_url">
-                <span class="log_url">素材数据 &nbsp;/&nbsp;</span>
+                <span class="log_url" @click="fh">物料数据 &nbsp;/&nbsp;</span>
                 <span class="new_url">物料相关素材详情</span>
             </div>
             <div class="tit_top_con">
@@ -39,6 +39,9 @@
             this.getDataList()
         },
         methods:{
+            fh(){
+                this.$router.go(-1);
+            },
             getDataList(){
                 let params = {mfid:this.$route.query.mfid};
                 this.api.report_mfinal_material({params}).then((res)=>{
