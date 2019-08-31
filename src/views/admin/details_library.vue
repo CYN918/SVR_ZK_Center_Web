@@ -40,8 +40,8 @@
                             </div>
                             <div>
                                 <div class="zt">
-                                    <span class="boxImg_text">素材状态:</span>
-                                    <span class="boxImg_content">{{DL.status==1201?'禁用':'启用'}}</span>
+                                    <span class="boxImg_text">物料状态:</span>
+                                    <span class="boxImg_content">{{DL.status}}</span>
                                 </div>
                                 <div class="cc">
                                     <span class="boxImg_text">预览图尺寸:</span>
@@ -140,7 +140,18 @@
                 let params = {id:this.$route.query.id,search:this.search};
                 this.api.putlib_binds({params}).then((res)=>{
                     this.IMGList = res;
-                    console.log(this.IMGList)
+                    for(let i =0;i<this.IMGList.length;i++){
+                        if(this.IMGList[i].status=='1101'){
+                            this.IMGList[i].status='使用中'
+                        }
+                        if(this.IMGList[i].status=='1001'){
+                            this.IMGList[i].status='未使用'
+                        }
+                        if(this.IMGList[i].status=='1201'){
+                            this.IMGList[i].status='禁用'
+                        }
+                    }
+
                 })
             },
             getCon(){
@@ -191,17 +202,28 @@
                     this.getDATAlist();
                 })
             },
-            getLt(a){
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search};
-                this.api.mfinal_search({params}).then((res)=>{
-                    this.IMGList=res.data;
-                    if(a!=undefined){
-                        this.message = res.data[a];
-                        this.sc = true;
-                        this.stop()
-                    }
-                })
-            },
+            // getLt(a){
+            //     let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search};
+            //     this.api.mfinal_search({params}).then((res)=>{
+            //         this.IMGList=res.data;
+            //         for(let i =0;i<this.IMGList.length;i++){
+            //             if(this.IMGList[i].status=='1101'){
+            //                 this.IMGList[i].status='使用中'
+            //             }
+            //             if(this.IMGList[i].status=='1001'){
+            //                 this.IMGList[i].status='未使用'
+            //             }
+            //             if(this.IMGList[i].status=='1201'){
+            //                 this.IMGList[i].status='禁用'
+            //             }
+            //         }
+            //         if(a!=undefined){
+            //             this.message = res.data[a];
+            //             this.sc = true;
+            //             this.stop()
+            //         }
+            //     })
+            // },
             stop(){
                 document.body.style.overflow='hidden';
                 document.body.style.position='fixed';

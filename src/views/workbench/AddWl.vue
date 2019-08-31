@@ -49,7 +49,7 @@
                         <div class="boxImg_right">
                             <div class="boxImg_right_1">
                                 <div>
-                                    <span class="boxImg_text">素材ID:</span>
+                                    <span class="boxImg_text">物料ID:</span>
                                     <span class="boxImg_content">{{DL.mfid}}</span>
                                 </div>
                                 <div>
@@ -57,7 +57,7 @@
                                     <span class="boxImg_content">{{DL.size}}</span>
                                 </div>
                                 <div>
-                                    <span class="boxImg_text">素材状态:</span>
+                                    <span class="boxImg_text">无聊状态:</span>
                                     <span class="boxImg_content" v-if="DL.status==1201">禁用</span>
                                     <span class="boxImg_content" v-if="DL.status==1001">未使用</span>
                                     <span class="boxImg_content" v-if="DL.status==1101">使用中</span>

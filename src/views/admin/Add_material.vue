@@ -64,8 +64,8 @@
                                     <span class="boxImg_content">{{DL.size}}</span>
                                 </div>
                                 <div>
-                                    <span class="boxImg_text">素材状态:</span>
-                                    <span class="boxImg_content">{{DL.status==1201?'禁用':'启用'}}</span>
+                                    <span class="boxImg_text">物料状态:</span>
+                                    <span class="boxImg_content">{{DL.status}}</span>
                                 </div>
                             </div>
                         </div>
@@ -153,6 +153,17 @@
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status,size:this.size,model:this.model};
                 this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
+                    for(let i =0;i<this.IMGList.length;i++){
+                        if(this.IMGList[i].status=='1101'){
+                            this.IMGList[i].status='使用中'
+                        }
+                        if(this.IMGList[i].status=='1001'){
+                            this.IMGList[i].status='未使用'
+                        }
+                        if(this.IMGList[i].status=='1201'){
+                            this.IMGList[i].status='禁用'
+                        }
+                    }
                     console.log(this.IMGList);
                     this.total=res.total;
                     this.getTagsList();
