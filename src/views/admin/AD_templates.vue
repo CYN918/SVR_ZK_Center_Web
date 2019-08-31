@@ -346,6 +346,17 @@
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status}
                 this.api.material_search({params}).then((res)=>{
                     this.IMGList=res.data;
+                    for(let i =0;i<this.IMGList.length;i++){
+                        if(this.IMGList[i].status=='1101'){
+                            this.IMGList[i].status='使用中'
+                        }
+                        if(this.IMGList[i].status=='1001'){
+                            this.IMGList[i].status='未使用'
+                        }
+                        if(this.IMGList[i].status=='1201'){
+                            this.IMGList[i].status='禁用'
+                        }
+                    }
                     this.total=res.total;
                     this.getTagsList()
                 })
@@ -370,6 +381,17 @@
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status}
                 this.api.material_search({params}).then((res)=>{
                     this.IMGList=res.data;
+                    for(let i =0;i<this.IMGList.length;i++){
+                        if(this.IMGList[i].status=='1101'){
+                            this.IMGList[i].status='使用中'
+                        }
+                        if(this.IMGList[i].status=='1001'){
+                            this.IMGList[i].status='未使用'
+                        }
+                        if(this.IMGList[i].status=='1201'){
+                            this.IMGList[i].status='禁用'
+                        }
+                    }
                     this.total=res.total;
                     this.getTagsList()
                 })
