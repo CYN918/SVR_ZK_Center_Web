@@ -21,15 +21,17 @@
                 <span class="cx" @click="getDataList">查询</span>
                 <span class="addTF"  @click="jump()">新建投放库</span>
             </div>
-            <div style="margin: 0 24px 0 24px">
+            <div>
                 <template>
                     <el-table
                             :data="tableData"
                             :header-cell-style="getRowClass"
+                            :cell-style="cell"
                             style="width: 100%">
                         <el-table-column
                                 prop="id"
                                 label="投放库ID"
+                                width="100"
                                 >
                         </el-table-column>
                         <el-table-column
@@ -60,6 +62,7 @@
                         <el-table-column
                                 prop="channel_type"
                                 label="渠道类型"
+                                width="100"
                                >
                         </el-table-column>
                         <el-table-column
@@ -70,6 +73,7 @@
                         <el-table-column
                                 prop="mfinal_count"
                                 label="物料数量"
+                                width="100"
                         >
                         </el-table-column>
                         <el-table-column
@@ -146,10 +150,13 @@
         methods:{
             getRowClass({row, column, rowIndex}) {
                 if (rowIndex === 0) {
-                    return 'background:#f7f9fc;color:#8F9BB3;font-size:14px;font-weight:Medium;height:48px;font-family:PingFang-SC-Regular;'
+                    return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;padding:20px 0px 20px 14px'
                 } else {
                     return ''
                 }
+            },
+            cell({row, column, rowIndex, columnIndex}){
+                return 'padding:15px 14px;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
             jump(){
                 this.$router.push({

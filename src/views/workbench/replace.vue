@@ -1,6 +1,6 @@
 <template>
     <div class="content_right">
-        <div>
+        <div style="padding: 0 24px">
             <span style="font-size: 14px">数据源:</span>
             <select v-model="source" style="margin-right: 20px;width: 150px">
                 <option value="SDK-API">SDK-API</option>
@@ -416,7 +416,7 @@
     }
     .content_right{
         width: 100%;
-        padding: 24px;
+        padding: 24px 0;
         -webkit-box-sizing: border-box;
         box-sizing: border-box;
         background: #fff;

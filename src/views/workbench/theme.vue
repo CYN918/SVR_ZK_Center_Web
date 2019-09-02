@@ -9,8 +9,8 @@
             </div>
         </div>
         <div class="content">
-            <div style="padding: 24px">
-                <div class="tit_cx">
+            <div style="padding: 24px 0">
+                <div class="tit_cx" style="padding: 0 24px">
                     <span class="tit_name">包名</span>
                     <input type="text" placeholder="请输入包名" v-model="pkg_name"/>
                     <span class="tit_name">状态</span>
@@ -114,16 +114,15 @@
             this.getList();
         },
         methods:{
-            getRowClass({row, column, rowIndex, columnIndex}) {
+            getRowClass({row, column, rowIndex}) {
                 if (rowIndex === 0) {
-                    return 'background:rgb(246, 245, 245,1);color:rgba(30,30,30,1);font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;margin-left:24px'
+                    return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;padding:20px 0px 20px 14px'
                 } else {
                     return ''
                 }
             },
-
             cell({row, column, rowIndex, columnIndex}){
-                return 'margin-left:24px;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
+                return 'padding:15px 14px;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
             jump(index){
                 // this.$router.push({

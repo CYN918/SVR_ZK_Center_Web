@@ -26,7 +26,7 @@
            <div id="flowChart">
 
            </div>
-            <div style="padding:0 24px">
+            <div>
                 <template>
                     <el-table
                             :data="tableData"
@@ -117,15 +117,15 @@
                 this.getData();
         },
         methods:{
-            getRowClass({row, column, rowIndex, columnIndex}) {
+            getRowClass({row, column, rowIndex}) {
                 if (rowIndex === 0) {
-                    return 'background:rgba(247,249,252,1);color:rgba(31,46,77,1);text-align:left;font-size:14px;font-weight:500;font-family:PingFang-SC-Medium;height:56px'
+                    return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;padding:20px 0px 20px 14px'
                 } else {
                     return ''
                 }
             },
             cell({row, column, rowIndex, columnIndex}){
-                return 'text-align:left;color:rgba(61,73,102,1);font-size:14px;font-weight:400;font-family:PingFangSC-Regula;'
+                return 'padding:15px 14px;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;

@@ -276,15 +276,15 @@
                 this.chenck1 = 1;
                 this.getDataList();
             },
-            getRowClass({row, column, rowIndex, columnIndex}) {
+            getRowClass({row, column, rowIndex}) {
                 if (rowIndex === 0) {
-                    return 'background:rgba(247,249,252,1);color:#1f2e4d;margin:0 24px;font-size:14px;font-weight:500;font-family:PingFang-SC-Medium;'
+                    return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;padding:20px 0px 20px 14px'
                 } else {
                     return ''
                 }
             },
             cell({row, column, rowIndex, columnIndex}){
-                return 'margin:0 24px;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
+                return 'padding:15px 14px;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
             getDataList(){
                 if(this.values.length==0){
@@ -376,6 +376,9 @@
         padding: 0 24px;
         background:rgba(255,255,255,1);
     }
+    .content_table3{
+        padding: 0 !important;
+    }
     select{
         margin:28px 0 24px 0;
         width:200px;
@@ -450,6 +453,9 @@
         font-weight:400;
         color:rgba(121,130,148,1);
         cursor: pointer;
+    }
+    .trench{
+       margin-left: 24px;
     }
     .checkeds{
         border-bottom: 2px solid rgba(52,118,255,1)!important;

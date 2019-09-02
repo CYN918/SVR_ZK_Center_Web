@@ -387,9 +387,6 @@
         height: 36px;
         cursor: pointer;
     }
-    .table_content{
-        margin: 0 24px;
-    }
 .bg{
     width: 100%;
     height: 100%;

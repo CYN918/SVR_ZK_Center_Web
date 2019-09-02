@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="content_table">
-            <div style="margin-bottom: 24px">
+            <div style="margin-bottom: 24px;padding: 0 24px;">
                 <el-date-picker
                         v-model="value"
                         type="daterange"
@@ -111,15 +111,15 @@
             this.getDataList();
         },
         methods:{
-            getRowClass({row, column, rowIndex, columnIndex}) {
+            getRowClass({row, column, rowIndex}) {
                 if (rowIndex === 0) {
-                    return 'background:rgba(247,249,252,1);color:#1f2e4d;margin:0 24px;font-size:14px;font-weight:500;font-family:PingFang-SC-Medium;text-align: center;'
+                    return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;padding:20px 0px 20px 14px'
                 } else {
                     return ''
                 }
             },
             cell({row, column, rowIndex, columnIndex}){
-                return 'margin:0 24px;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;text-align: center;'
+                return 'padding:15px 14px;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
@@ -156,7 +156,6 @@
     }
     .content_table{
         margin-top:200px;
-        padding: 0 24px;
         background:rgba(255,255,255,1);
     }
     .ad{
