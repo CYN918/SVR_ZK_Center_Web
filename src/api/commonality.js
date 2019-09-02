@@ -41,7 +41,7 @@ export default {
     cavansLine(xData,yData){
         let  histogram =echarts.init(document.getElementById('histogram'));
          var option = {
-            color: ['#3398DB'],
+            color: ['#3377ff'],
             tooltip : {
                 trigger: 'axis',
                 axisPointer : {            // 坐标轴指示器，坐标轴触发有效
@@ -82,7 +82,6 @@ export default {
     transverseLine(xData,yData){
         let across =echarts.init(document.getElementById('across'))
        var option = {
-
             tooltip: {
                 trigger: 'axis',
                 axisPointer: {
@@ -132,6 +131,7 @@ export default {
     pie(xData,yData){
         let pie =echarts.init(document.getElementById('pie'))
        var option = {
+           color: ['#1890FF','#13C2C2','#FACC14','#8543E0','#F04864','#2FC25B'],
             tooltip: {
                 trigger: 'item',
                 formatter: "{a} <br/>{b}: {c} ({d}%)"
@@ -156,7 +156,7 @@ export default {
                         emphasis: {
                             show: true,
                             textStyle: {
-                                fontSize: '30',
+                                fontSize: '16',
                                 fontWeight: 'bold'
                             }
                         }

@@ -398,6 +398,7 @@
         cursor: pointer;
         padding: 10px;
         font-size:16px;
+        color: #798294;
         font-family:PingFangSC-Medium;
         font-weight:500;
         color:rgba(121,130,148,1);
@@ -425,11 +426,14 @@
         font-family:PingFangSC-Regular;
         font-weight:400;
         background:rgba(255,255,255,1);
-        border-radius:4px 0px 0px 4px;
+        border-radius:4px 0px 0px 4px!important;
         border:1px solid rgba(210,213,219,1);
         line-height: 32px;
         text-align: center;
         cursor: pointer;
+    }
+    .btn_wd{
+        border-radius:0px 4px 4px 0px!important;
     }
     .checked{
         border:1px solid rgba(51,119,255,1)!important;

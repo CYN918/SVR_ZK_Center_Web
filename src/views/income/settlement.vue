@@ -20,7 +20,7 @@
                     </el-date-picker>
                 </div>
                 <div>
-                    <span class="time_tit">用户ID</span>
+                    <span class="time_tit" style="margin-left: 43px">用户ID</span>
                     <input type="text" placeholder="请输入用户ID"/>
                 </div>
                 <div>
@@ -303,4 +303,7 @@
         text-align: center!important;
         cursor: pointer;
     }
+   .timesDate .el-input__inner{
+       line-height:normal!important;
+   }
 </style>
