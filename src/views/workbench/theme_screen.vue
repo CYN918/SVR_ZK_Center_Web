@@ -318,7 +318,7 @@
             },
             add(){
                 for(var i=0;i<this.tableDataList.length;i++){
-                    if(this.tableDataList[i].status=='上传失败'){
+                    if(this.tableDataList[i].status=='上传失败'||this.tableDataList[i].status=='上传中'){
                         this.$message.error('有未上传成功的壁纸，无法添加！！！');
                         return
                     }
