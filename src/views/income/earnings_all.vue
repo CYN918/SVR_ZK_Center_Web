@@ -3,7 +3,7 @@
         <div class="top_tit">
             <div class="tit_top_url">
                 <span class="log_url">收益数据 &nbsp;/&nbsp;</span>
-                <span class="new_url">收益总览</span>
+                <span class="log_url">收益总览</span>
             </div>
             <div class="tit_top_con">
                 <span class="tit_name">收益总览</span>

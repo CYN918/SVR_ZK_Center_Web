@@ -3,7 +3,7 @@
         <div class="top_tit">
             <div class="tit_top_url">
                 <span class="log_url">收益管理 &nbsp;/&nbsp;</span>
-                <span class="new_url">渠道收益</span>
+                <span class="log_ur">渠道收益</span>
             </div>
             <div class="tit_top_con">
                 <span class="tit_name">渠道收益</span>

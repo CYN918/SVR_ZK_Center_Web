@@ -1,5 +1,13 @@
 <template>
     <div>
+        <div>
+            <div class="top_name">
+                <span class="top_txt">运营工具 &nbsp;/&nbsp; 锁屏壁纸MD5库</span>
+                <div class="title_left">
+                    <span>锁屏壁纸MD5库</span>
+                </div>
+            </div>
+        </div>
         <div class="top">
             <span @click="uploadData">上传</span>
         </div>
@@ -326,6 +334,10 @@
 </script>
 
 <style scoped>
+    .top_name{height: 112px}
+    .top_txt,.title_left span{
+        margin-left: 24px;
+    }
     .bg{
         width: 100%;
         height: 100%;
@@ -358,6 +370,7 @@
     }
     .top{
         text-align: right;
+        margin-top: 200px;
         margin-bottom: 20px;
     }
     .top>span{

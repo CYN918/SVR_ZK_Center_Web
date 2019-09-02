@@ -337,11 +337,12 @@ a{
   display: inline-block;
   vertical-align: top;
   font-size:14px;
+  line-height: 40px;
   font-family:PingFang-SC-Medium;
   font-weight:500;
   color:rgba(143,155,179,1);
   margin-right: 16px;
-  margin-top: 10px;
+  margin-top: 5px;
 
 }
 
@@ -717,9 +718,10 @@ select{
 .new_url{color: #3377ff}
 .tit_top_con .tit_name{
   display: inline-block;
-  font-family: "Microsoft YaHei";
-  font-weight: bold;
-  font-size: 18px;
+  font-size:18px;
+  font-family:PingFang-SC;
+  font-weight:500;
+  color:rgba(50,50,50,1);
 }
 .content_table .time .el-date-editor.el-input, .el-date-editor.el-input__inner{
   width:286px;
@@ -792,4 +794,10 @@ select{
 .filtrate .timesDate .content_table .time .el-date-editor.el-input, .el-date-editor.el-input__inner{
   width: 310px;
 }
+  .title_left{
+    font-size:18px;
+    font-family:PingFang-SC;
+    font-weight:500;
+    color:rgba(50,50,50,1);
+  }
 </style>

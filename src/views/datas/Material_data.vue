@@ -24,7 +24,10 @@
                 <input type='text' v-model="mfid"/>
                 <span class="name">物料类型</span>
                 <select v-model="type">
-                    <option>全部</option>
+                    <option value="">全部</option>
+                    <option value="1">广告图</option>
+                    <option value="2">广告模板</option>
+                    <option value="3">杂志锁屏</option>
                 </select>
                 <span class="name">广告ID</span>
                 <input type='text' v-model="ad_id"/>
@@ -79,7 +82,7 @@
                                 >
                         </el-table-column>
                         <el-table-column
-                                prop="type"
+                                prop="type_name"
                                 label="物料类型">
                         </el-table-column>
                         <el-table-column

@@ -2,7 +2,7 @@
     <div>
         <div>
             <div class="top_name">
-                <span class="top_txt">任务中心/官方物料投放库</span>
+                <span class="top_txt">运营工具&nbsp;/&nbsp;官方物料投放库</span>
                 <div class="title_left">
                     <span>官方物料投放库</span>
                 </div>

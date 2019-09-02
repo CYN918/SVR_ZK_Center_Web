@@ -1,5 +1,13 @@
 <template>
     <div>
+        <div>
+            <div class="top_name">
+                <span class="top_txt">运营工具&nbsp;/&nbsp;聚合内容配置</span>
+                <div class="title_left">
+                    <span>聚合内容配置</span>
+                </div>
+            </div>
+        </div>
         <div class="poster">
             <div class="top">
                 <span @click="ADDad()">添加</span>
@@ -464,6 +472,7 @@
     }
     .poster{
         margin-bottom: 120px;
+        margin-top: 200px;
         min-height: 300px;
     }
     .top{
@@ -549,5 +558,9 @@
         display: inline-block;
         font-size: 20px;
         font-weight: bold;
+    }
+    .top_name{height: 112px}
+    .top_txt,.title_left span{
+        margin-left: 24px;
     }
 </style>

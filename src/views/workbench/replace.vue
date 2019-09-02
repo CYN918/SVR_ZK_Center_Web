@@ -1,178 +1,189 @@
 <template>
-    <div class="content_right">
-        <div style="padding: 0 24px">
-            <span style="font-size: 14px">数据源:</span>
-            <select v-model="source" style="margin-right: 20px;width: 150px">
-                <option value="SDK-API">SDK-API</option>
-                <option value="own">OWN</option>
-            </select>
-            <div class="block" style="display: inline-block">
-                <el-date-picker
-                        v-model="tdate"
-                        type="date"
-                        @change="getTimes()"
-                        placeholder="选择日期"
-                        format="yyyy年MM月dd日"
-                        value-format="yyyy-MM-dd">
-                </el-date-picker>
+    <div>
+        <div>
+            <div class="top_name">
+                <span class="top_txt">运营工具&nbsp;/&nbsp;资源待替换</span>
+                <div class="title_left">
+                    <span>资源待替换</span>
+                </div>
             </div>
-            <span class="tit_text">SDK_ID:</span>
-            <input type="text" placeholder="请输入sdkID查询" v-model="text"/>
-            <span class="cx" @click="getList()">
+        </div>
+        <div class="content_right">
+            <div style="padding: 0 24px">
+                <span style="font-size: 14px">数据源:</span>
+                <select v-model="source" style="margin-right: 20px;width: 150px">
+                    <option value="SDK-API">SDK-API</option>
+                    <option value="own">OWN</option>
+                </select>
+                <div class="block" style="display: inline-block">
+                    <el-date-picker
+                            v-model="tdate"
+                            type="date"
+                            @change="getTimes()"
+                            placeholder="选择日期"
+                            format="yyyy年MM月dd日"
+                            value-format="yyyy-MM-dd">
+                    </el-date-picker>
+                </div>
+                <span class="tit_text">SDK_ID:</span>
+                <input type="text" placeholder="请输入sdkID查询" v-model="text"/>
+                <span class="cx" @click="getList()">
                 查询
             </span>
-            <span class="reset" @click="resetRemove">重置</span>
-            <span class="educe" @click="downloadImg()">导出</span>
-            <span class="batch_upload" @click="batchUpload()">批量上传</span>
+                <span class="reset" @click="resetRemove">重置</span>
+                <span class="educe" @click="downloadImg()">导出</span>
+                <span class="batch_upload" @click="batchUpload()">批量上传</span>
+                <div>
+                    <span class="tit_text" style="margin-left: 0!important;">获取次数:</span>
+                    <div class="select_check">
+                        <template>
+                            <el-select
+                                    v-model="number"
+                                    multiple
+                                    filterable
+                                    allow-create
+                                    default-first-option
+                                    placeholder="0点截止到最新时段">
+                                <el-option
+                                        v-for="item in options5"
+                                        :key="item.hour"
+                                        :label="item.desc"
+                                        :value="item.hour">
+                                </el-option>
+                            </el-select>
+                        </template>
+                    </div>
+                </div>
+            </div>
             <div>
-                <span class="tit_text" style="margin-left: 0!important;">获取次数:</span>
-                <div class="select_check">
-                    <template>
-                        <el-select
-                                v-model="number"
+                <template>
+                    <el-table
+                            :data="tableData"
+                            style="width: 100%"
+                            :header-cell-style="getRowClass"
+                            :cell-style="cell"
+                            border>
+                        <el-table-column
+                                prop="sdk_id"
+                                label="SDK_ID">
+                        </el-table-column>
+                        <el-table-column
+                                prop="pv"
+                                sortable
+                                label="数据访问量">
+                        </el-table-column>
+                        <el-table-column
+                                prop="ratio"
+                                sortable
+                                label="访问占比">
+                        </el-table-column>
+                        <el-table-column
+                                label="访问量趋势">
+                            <template slot-scope="scope">
+                                <img src="../../../public/img/qs.png" style="max-height: 40px;max-width: 80px" @click="getTendency(tableData[scope.$index].sdk_id)">
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                                prop="created_at"
+                                sortable
+                                label="内容获取时间">
+                        </el-table-column>
+                        <el-table-column
+                                prop="had_replace"
+                                sortable
+                                label="替换资源数量">
+                        </el-table-column>
+                        <el-table-column
+                                prop="sucess_ratio"
+                                sortable
+                                label="替换占比">
+                        </el-table-column>
+                        <el-table-column
+                                label="操作">
+                            <template slot-scope="scope">
+                                <el-button @click="getAdd(tableData[scope.$index].sdk_id)" type="text" size="small">查看详情</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </template>
+            </div>
+            <div class="blocks">
+                <el-pagination
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page="page"
+                        :page-sizes="[10, 20, 30, 40]"
+                        :page-size="p"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="total">
+                </el-pagination>
+            </div>
+            <div class="bg" v-if="upload">
+                <div class="load">
+                    <div class="load_tit">
+                        <span>批量上传</span>
+                    </div>
+                    <div class="load_upload">
+                        <el-upload
+                                class="upload-demo"
+                                action="aaaa"
                                 multiple
-                                filterable
-                                allow-create
-                                default-first-option
-                                placeholder="0点截止到最新时段">
-                            <el-option
-                                    v-for="item in options5"
-                                    :key="item.hour"
-                                    :label="item.desc"
-                                    :value="item.hour">
-                            </el-option>
-                        </el-select>
-                    </template>
+                                :on-exceed="handleExceed"
+                                :limit="100"
+                                :on-error="error"
+                                :http-request="beforupload"
+                        >
+                            <el-button size="small" type="primary">点击上传</el-button>
+                        </el-upload>
+                    </div>
+                    <div class="table_load">
+                        <template>
+                            <el-table
+                                    :data="tableDataList"
+                                    style="width: 100%"
+                                    :header-cell-style="getRowClass"
+                                    :cell-style="cell"
+                                    border>
+                                <el-table-column
+                                        prop="name"
+                                        :show-overflow-tooltip="true"
+                                        label="文件名">
+                                </el-table-column>
+
+                                <el-table-column
+                                        prop="size"
+                                        label="分辨率">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="status"
+                                        label="状态">
+                                    <template slot-scope="scope">
+                                        <span v-if="tableDataList[scope.$index].status=='上传中'" class="win">上传中</span>
+                                        <span v-if="tableDataList[scope.$index].status=='上传成功'" class="win">上传成功</span>
+                                        <span v-if="tableDataList[scope.$index].status=='上传失败'" class="loss">上传失败</span>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column
+                                        label="操作">
+                                    <template slot-scope="scope">
+                                        <el-button  type="text" size="small" @click="remove(scope.$index)">删除</el-button>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                        </template>
+                    </div>
+
+                    <div class="btns">
+                        <span @click="heidTH()">取消</span>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div>
-            <template>
-                <el-table
-                        :data="tableData"
-                        style="width: 100%"
-                        :header-cell-style="getRowClass"
-                        :cell-style="cell"
-                        border>
-                    <el-table-column
-                            prop="sdk_id"
-                            label="SDK_ID">
-                    </el-table-column>
-                    <el-table-column
-                            prop="pv"
-                            sortable
-                            label="数据访问量">
-                    </el-table-column>
-                    <el-table-column
-                            prop="ratio"
-                            sortable
-                            label="访问占比">
-                    </el-table-column>
-                    <el-table-column
-                            label="访问量趋势">
-                        <template slot-scope="scope">
-                            <img src="../../../public/img/qs.png" style="max-height: 40px;max-width: 80px" @click="getTendency(tableData[scope.$index].sdk_id)">
-                        </template>
-                    </el-table-column>
-                    <el-table-column
-                            prop="created_at"
-                            sortable
-                            label="内容获取时间">
-                    </el-table-column>
-                    <el-table-column
-                            prop="had_replace"
-                            sortable
-                            label="替换资源数量">
-                    </el-table-column>
-                    <el-table-column
-                            prop="sucess_ratio"
-                            sortable
-                            label="替换占比">
-                    </el-table-column>
-                    <el-table-column
-                            label="操作">
-                        <template slot-scope="scope">
-                            <el-button @click="getAdd(tableData[scope.$index].sdk_id)" type="text" size="small">查看详情</el-button>
-                        </template>
-                    </el-table-column>
-                </el-table>
-            </template>
-        </div>
-        <div class="blocks">
-            <el-pagination
-                    @size-change="handleSizeChange"
-                    @current-change="handleCurrentChange"
-                    :current-page="page"
-                    :page-sizes="[10, 20, 30, 40]"
-                    :page-size="p"
-                    layout="total, sizes, prev, pager, next, jumper"
-                    :total="total">
-            </el-pagination>
-        </div>
-        <div class="bg" v-if="upload">
-            <div class="load">
-                <div class="load_tit">
-                    <span>批量上传</span>
-                </div>
-                <div class="load_upload">
-                    <el-upload
-                            class="upload-demo"
-                            action="aaaa"
-                            multiple
-                            :on-exceed="handleExceed"
-                            :limit="100"
-                            :on-error="error"
-                            :http-request="beforupload"
-                    >
-                        <el-button size="small" type="primary">点击上传</el-button>
-                    </el-upload>
-                </div>
-                <div class="table_load">
-                    <template>
-                        <el-table
-                                :data="tableDataList"
-                                style="width: 100%"
-                                :header-cell-style="getRowClass"
-                                :cell-style="cell"
-                                border>
-                            <el-table-column
-                                    prop="name"
-                                    :show-overflow-tooltip="true"
-                                    label="文件名">
-                            </el-table-column>
-
-                            <el-table-column
-                                    prop="size"
-                                    label="分辨率">
-                            </el-table-column>
-                            <el-table-column
-                                    prop="status"
-                                    label="状态">
-                                <template slot-scope="scope">
-                                    <span v-if="tableDataList[scope.$index].status=='上传中'" class="win">上传中</span>
-                                    <span v-if="tableDataList[scope.$index].status=='上传成功'" class="win">上传成功</span>
-                                    <span v-if="tableDataList[scope.$index].status=='上传失败'" class="loss">上传失败</span>
-                                </template>
-                            </el-table-column>
-                            <el-table-column
-                                    label="操作">
-                                <template slot-scope="scope">
-                                    <el-button  type="text" size="small" @click="remove(scope.$index)">删除</el-button>
-                                </template>
-                            </el-table-column>
-                        </el-table>
-                    </template>
-                </div>
-
-                <div class="btns">
-                    <span @click="heidTH()">取消</span>
-                </div>
+            <div class="bg" v-if="tendency" @click="heidTendency">
+                <div id="myChart" @click.stop ref="myChart"></div>
             </div>
-        </div>
-        <div class="bg" v-if="tendency" @click="heidTendency">
-            <div id="myChart" @click.stop ref="myChart"></div>
         </div>
     </div>
+
 </template>
 
 <script>
@@ -420,6 +431,7 @@
         -webkit-box-sizing: border-box;
         box-sizing: border-box;
         background: #fff;
+        margin-top: 200px;
     }
 
     .box_content div{
@@ -537,5 +549,9 @@
     }
     .content_right .block{
         margin-bottom: 0!important;
+    }
+    .top_name{height: 112px}
+    .top_txt,.title_left span{
+        margin-left: 24px;
     }
 </style>
