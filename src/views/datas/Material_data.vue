@@ -46,11 +46,13 @@
             <div class="nav nav_left">
                 <span class="name name_left">业务场景</span>
                 <select v-model="scene">
-                    <option>全部</option>
+                    <option value="">全部</option>
+                    <option v-for="item in typeList" :value="item.scene">{{item.scene}}</option>
                 </select>
                 <span class="name">广告位类型</span>
                 <select v-model="ad_space_type">
-                    <option>全部</option>
+                    <option value="">全部</option>
+                    <option v-for="item in adList" :value="item.ad_space_type">{{item.ad_space_type}}</option>
                 </select>
                 <span class="name">广告位ID</span>
                 <input type="text" v-model="ad_space_id"/>
@@ -149,7 +151,16 @@
                                 <span v-if="tableData[scope.$index].ad_space_type==''">-</span>
                                 <span v-if="tableData[scope.$index].ad_space_type!=''">{{tableData[scope.$index].ad_space_type}}</span>
                             </template>
-                    </el-table-column>
+                        </el-table-column>
+                        <el-table-column
+                                prop="ad_space_type"
+                                label="广告位ID"
+                        >
+                            <template slot-scope="scope">
+                                <span v-if="tableData[scope.$index].ad_space_id==''">-</span>
+                                <span v-if="tableData[scope.$index].ad_space_id!=''">{{tableData[scope.$index].ad_space_id}}</span>
+                            </template>
+                        </el-table-column>
                         <el-table-column
                                 prop="put_env"
                                 label="投放环境"
@@ -246,6 +257,8 @@
                 page:1,
                 p:10,
                 total:0,
+                typeList:[],
+                adList:[]
             }
         },
         mounted(){
@@ -265,6 +278,17 @@
                 this.ad_space_type='';
                 this.ad_space_id='';
                 this.put_env='';
+            },
+            getType(){
+                this.api.report_config_scene({}).then((res)=>{
+                    this.typeList=res;
+                    this.adType()
+                })
+            },
+            adType(){
+                this.api.report_config_adspace_type({}).then((res)=>{
+                    this.adList=res;
+                })
             },
             handleSizeChange(p) { // 每页条数切换
               this.p = p;
@@ -299,6 +323,7 @@
                 this.api.report_mfinal({params}).then((res)=>{
                         this.tableData=res.data;
                         this.total=res.total;
+                        this. getType();
                 })
             },
         },

@@ -24,9 +24,8 @@
                 <input type="text" placeholder="请输入渠道ID" v-model="channel_id"/>
                 <span>业务场景</span>
                 <select v-model="scene">
-                    <option selected>
-                        全部
-                    </option>
+                    <option value="">全部</option>
+                    <option v-for="item in typeList" :value="item.scene">{{item.scene}}</option>
                 </select>
                 <span>投放环境</span>
                 <select v-model="put_env">
@@ -176,9 +175,22 @@
                 page:1,
                 total:0,
                 tableData:[],
+                typeList:[],
             }
         },
         mounted(){
+
+            var qt = (new Date((new Date()).getTime() - 15*24*60*60*1000)).toLocaleDateString().split('/');
+            if(Number(qt[1])<10){
+                qt[1]=(0).toString()+qt[1]
+
+            }
+            var next = (new Date()).toLocaleDateString().split('/');
+            if(Number(next[1])<10){
+                next[1]=(0).toString()+next[1]
+            }
+
+            this.time=[qt.join('-'),next.join('-')];
             this.getData();
         },
         methods:{
@@ -191,6 +203,11 @@
             },
             cell({row, column, rowIndex, columnIndex}){
                 return 'margin:0 24px;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;text-align: center;'
+            },
+            getType(){
+                this.api.report_config_scene({}).then((res)=>{
+                    this.typeList=res;
+                })
             },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
@@ -205,6 +222,7 @@
                 this.api.report_income_channel({params}).then((res)=>{
                     this.tableData = res.data;
                     this.total=res.total;
+                    this. getType()
                 })
             },
             remove(){

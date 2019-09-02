@@ -885,5 +885,13 @@ export default {
     report_sharing_material:{
 		url:'report/sharing/material',method:'get'
 	},
+	//业务场景
+    report_config_scene:{
+		url:"report/config/scene",method:'get'
+	},
+	//广告位类型
+    report_config_adspace_type:{
+		url:"report/config/adspace/type",method:'get'
+	},
 
 }
