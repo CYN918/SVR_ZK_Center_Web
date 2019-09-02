@@ -58,7 +58,7 @@
                             prop="address"
                             label="操作">
                         <template slot-scope="scope">
-                            <a :href="tableData[scope.$index].prev_url" style="font-size: 12px;margin-right: 10px;color: rgb(51, 119, 255)" >下载</a>
+                            <a :href="tableData[scope.$index].url" style="font-size: 12px;margin-right: 10px;color: rgb(51, 119, 255)" >下载</a>
                             <el-button type="text" size="small"  @click="del(scope.$index)">删除</el-button>
                             <el-button type="text" size="small"  @click="tags(scope.$index)">配置标签</el-button>
                         </template>
