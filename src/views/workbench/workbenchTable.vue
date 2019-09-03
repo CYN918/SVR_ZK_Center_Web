@@ -310,7 +310,7 @@
                 getRowKeys(row) {
                     return row.did;
                 },
-                expands: []
+                expands: [],
             }
         },
         created(){
@@ -334,6 +334,7 @@
             cell({row, column, rowIndex, columnIndex}){
                 return 'margin:0 24px;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
+
             getSH(index){
                 this.sh=true;
                 this.id=this.tableData[index].did;

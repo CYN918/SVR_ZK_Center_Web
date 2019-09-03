@@ -11,7 +11,7 @@
         </div>
         <div class="content_table">
            <div>
-               <select v-model="time_quantum">
+               <select v-model="time_quantum" @change="getData">
                    <option value="d">今日</option>
                    <option value="w">本周</option>
                    <option value="m">本月</option>
