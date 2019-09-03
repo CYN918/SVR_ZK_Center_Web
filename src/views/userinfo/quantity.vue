@@ -68,7 +68,6 @@
 <style scoped>
 img{
     width: 28px;
-    vertical-align: middle;
     cursor: pointer;
 }
 .title_name{margin-bottom: 40px}

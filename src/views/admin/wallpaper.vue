@@ -135,7 +135,7 @@
                 total: 0,
                 currentPage: 1,
                 type:'sls_picture',
-				lx:'场景锁屏壁纸',
+				lx:'壁纸',
                 message:{},
                 preset_tags:[],
                 self_tags:[],

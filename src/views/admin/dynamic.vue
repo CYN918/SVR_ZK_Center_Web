@@ -135,7 +135,7 @@
                 total: 0,
                 currentPage: 1,
                 type:'sls_dynamic',
-				lx:'场景锁屏动态',
+				lx:'动态',
                 message:{},
                 preset_tags:[],
                 self_tags:[],
