@@ -37,7 +37,7 @@
                                 label="操作">
                             <template slot-scope="scope">
                                 <el-button type="text" size="small" @click="AnewUpload(scope.$index)">重新上传</el-button>
-                                <a :href=" tableData[scope.$index].attach_url">下载</a>
+                                <a :href="tableData[scope.$index].attach_url">下载</a>
                                 <el-button type="text" size="small" @click="getDel(scope.$index)">删除</el-button>
                             </template>
                         </el-table-column>
