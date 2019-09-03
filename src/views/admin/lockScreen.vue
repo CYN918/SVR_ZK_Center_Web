@@ -115,7 +115,7 @@
 						</div>
 						<div>
 							<span class="boxImg_text">壁纸标识:</span>
-							<span class="boxImg_content">{{DL.attach.md5}}</span>
+							<span class="boxImg_content">{{DL.wpid}}</span>
 						</div>
 						<div>
 							<span class="boxImg_text">更新时间:</span>
