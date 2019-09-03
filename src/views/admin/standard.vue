@@ -37,7 +37,8 @@
                                 label="操作">
                             <template slot-scope="scope">
                                 <el-button type="text" size="small" @click="AnewUpload(scope.$index)">重新上传</el-button>
-                                <a :href="tableData[scope.$index].attach_url">下载</a>
+                                <a :href="tableData[scope.$index].attach_url" v-if="tableData[scope.$index].attach_url!=''">下载</a>
+                                <a @click="ts" v-if="tableData[scope.$index].attach_url==''">下载</a>
                                 <el-button type="text" size="small" @click="getDel(scope.$index)">删除</el-button>
                             </template>
                         </el-table-column>
@@ -169,6 +170,9 @@
             },
             cell({row, column, rowIndex, columnIndex}){
                 return 'text-align:center;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
+            },
+            ts(){
+                this.$message.error('跳转失败，请联系管理员')
             },
             handleSizeChange1(p) { // 每页条数切换
                 this.p = p;
