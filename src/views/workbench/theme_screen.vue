@@ -239,6 +239,7 @@
             heidTH(){
                 this.pop =false;
                 this.tableDataList=[];
+                this.themes=[];
             },
             tags(index){
                 this.index = index;
@@ -463,6 +464,8 @@
     background:rgba(51,119,255,1)!important;
 }
 .table_load{
+    max-height: 200px;
+    overflow-y: auto;
     padding: 24px;
 }
     .upload-demo{
