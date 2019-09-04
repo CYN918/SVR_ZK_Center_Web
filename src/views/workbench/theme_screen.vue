@@ -26,7 +26,7 @@
                                 label="预览图"
                         >
                             <template slot-scope="scope">
-                                <img :src="tableData[scope.$index].prev_url" min-width="70" height="70" />
+                                <img :src="tableData[scope.$index].prev_url" style="max-width:80px;max-height: 80px;cursor: pointer" preview="0" />
                             </template>
                         </el-table-column>
                         <el-table-column
