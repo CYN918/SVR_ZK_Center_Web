@@ -3,7 +3,7 @@
         <div class="bg" @click=" heid()">
             <div class="AddIMG" @click.stop>
                 <div class="AddIMG_tit">
-                    <span>素材需求详情aaa</span>
+                    <span>素材需求详情</span>
                     <img src="../../../public/img/gb.png"  @click=" heid()"/>
                 </div>
                 <div>

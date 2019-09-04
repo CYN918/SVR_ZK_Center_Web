@@ -644,7 +644,7 @@
         margin-right: 14px;
     }
     .tag{
-        margin-top: 160px;
+        margin-top: 60px;
         margin-bottom: 24px;
     }
     .tag span{

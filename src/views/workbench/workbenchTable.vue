@@ -28,6 +28,7 @@
                         :cell-style="cell"
                         :row-key="getRowKeys"
                         :expand-row-keys="expands"
+                        @expand-change="expandChange"
                         style="width: 100%;color:#000">
                     <el-table-column
                             label="需求类型" prop="demand_type"
@@ -321,6 +322,19 @@
             this.expands.push(this.tableData[0].did);
         },
         methods:{
+            expandChange(row,expandedRows) {
+                let that = this
+                console.log(expandedRows);
+                //只展开一行
+                if (expandedRows.length) {//说明展开了
+                    that.expands = []
+                    if (row) {
+                        that.expands.push(row.did)//只展开当前行id
+                    }
+                } else {//说明收起了
+                    that.expands = []
+                }
+            },
             format(percentage) {
                 return percentage === 100 ? '完成' : `${percentage}%`;
             },

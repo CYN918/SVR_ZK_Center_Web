@@ -317,7 +317,7 @@
     }
     .Search{
         margin-left: 0!important;
-        margin-bottom: 34px;
+        margin-bottom: 28px;
     }
     .Search img{
         width: 28px;
@@ -327,8 +327,8 @@
         cursor: pointer;
     }
     .Search input{
-        width:404px;
-        height:36px;
+        width:160px;
+        height:32px;
         background:rgba(255,255,255,1);
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);

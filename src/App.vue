@@ -280,8 +280,8 @@ a{
   cursor: pointer;
 }
 .Search input{
-  width:404px;
-  height:36px;
+  width:160px;
+  height:32px;
   padding-left: 40px;
   background:rgba(255,255,255,1);
   border-radius:4px;
