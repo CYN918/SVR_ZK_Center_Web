@@ -35,13 +35,16 @@
                         </el-upload>
                         <div style="display: inline-block">
                             <div style="margin-bottom: 3px;margin-top:3px ">
-                                <span>上传主题包</span>
+                                <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(61,73,102,1);">上传主题包</span>
                             </div>
                             <div style="margin-bottom: 3px">
-                                <span>支持扩展名：.rar .zip .doc .docx .pdf .jpg...</span>
+                                <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(143,155,179,1);">支持扩展名：.rar .zip .doc .docx .pdf .jpg...</span>
                             </div>
                         </div>
                     </div>
+                </div>
+                <div>
+
                 </div>
             </div>
         </div>
@@ -129,6 +132,6 @@
         position: absolute;
         top:87px;
         left: 145px;
-        /*opacity: 0;*/
+        opacity: 0;
     }
 </style>

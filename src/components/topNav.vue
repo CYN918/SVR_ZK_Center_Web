@@ -57,7 +57,7 @@ export default {
 	mounted(){
         console.log('ddd')
 		this.name=localStorage.getItem('userName');
-        // this.getLefNav();
+        this.getLefNav();
         this.authority();
         this.type=localStorage.getItem('role');
         if(localStorage.getItem('icon')!=''){
