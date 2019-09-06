@@ -455,7 +455,7 @@
                 this.id = this.tableData[index].did;
                 this.types = this.tableData[index].type;
                 this.typeName = this.tableData[index].type_name;
-                this.limit_size=this.tableData[index].putlib.size;
+                this.limit_size=this.tableData[index].size;
                 this.limit_model=this.tableData[index].model;
                 this.stop()
             },

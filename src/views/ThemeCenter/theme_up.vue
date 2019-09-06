@@ -33,8 +33,13 @@
                                 :file-list="fileList">
                             <el-button size="small" type="primary">点击上传</el-button>
                         </el-upload>
-                        <div>
-
+                        <div style="display: inline-block">
+                            <div style="margin-bottom: 3px;margin-top:3px ">
+                                <span>上传主题包</span>
+                            </div>
+                            <div style="margin-bottom: 3px">
+                                <span>支持扩展名：.rar .zip .doc .docx .pdf .jpg...</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -97,12 +102,15 @@
     }
     .upBag{
         display: inline-block;
+        position: relative;
+        top:-19px;
         width:98px;
         height:98px;
         background:rgba(0,0,0,0.02);
         border-radius:4px;
         border:1px solid rgba(0,0,0,0.15);
         text-align: center;
+        margin-right: 17px;
     }
     .upBag img{
         display: inline-block;
@@ -112,12 +120,15 @@
         top:50%;
         transform: translateY(-50%);
     }
-
+    .upload-demo{
+      display: inline-block;
+    }
     .upload-demo .el-button {
         width:98px;
         height:98px;
         position: absolute;
         top:87px;
+        left: 145px;
         /*opacity: 0;*/
     }
 </style>
