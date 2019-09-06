@@ -14,7 +14,7 @@
 			<router-link  to="/data"><li><span>数据中心</span></li></router-link>
 			<router-link  to="/income"><li><span>收益中心</span></li></router-link>
 			<router-link  to="/admin"><li> <span>素材中心</span></li></router-link>
-			<!--<router-link  to="/user"><li>产品中心</li></router-link>-->
+			<router-link  to="/ThemeCenter"><li><span>主题中心</span></li></router-link>
 			<router-link  to="/userinfo"><li class="right"><img :src="img" class="imgs_user"/>{{name}}</li></router-link>
 			<router-link  to="/login"><li class="right" @click="loginout()"><span>退出登录</span></li></router-link>
 		</ul>
@@ -27,11 +27,12 @@
 			<el-submenu index="2">
 				<template slot="title">{{topNacd}}</template>
 				<el-menu-item index="0">工作台</el-menu-item>
-				<el-menu-item index="1">收益中心</el-menu-item>
-				<el-menu-item index="2">数据中心</el-menu-item>
+				<el-menu-item index="1">数据中心</el-menu-item>
+				<el-menu-item index="2">收益中心</el-menu-item>
 				<el-menu-item index="3">素材中心</el-menu-item>
+				<el-menu-item index="4">主题中心</el-menu-item>
 				<!--<el-menu-item index="4">产品中心</el-menu-item>-->
-				<el-menu-item @click="loginout" index="4">退出</el-menu-item>
+				<el-menu-item @click="loginout" index="5">退出</el-menu-item>
 			</el-submenu>
 		</el-menu>
 	</div> 
@@ -50,13 +51,13 @@ export default {
 			input:'',
 			topNacd:'首页',
 			img:"./img/user.png",
-			todata:[{name:'首页',url:'/index'},{name:'管理',url:'/admin/needList'},{name:'数据',url:'/data/pData'},{name:'审核台',url:'/user/user_need'}],
+			todata:[{name:'首页',url:'/index'},{name:'工作台',url:'/workbench/workbenchPadding'},{name:'数据',url:'/data/Material_data'},{name:'收益中心',url:'/income/earnings'},{name:'素材中心',url:'/admin/advertising'},{name:'主题中心',url:'/ThemeCenter'},{name:'用户',url:'/userinfo/user_info'}],
 		}
     },
 	mounted(){
         console.log('ddd')
 		this.name=localStorage.getItem('userName');
-        this.getLefNav();
+        // this.getLefNav();
         this.authority();
         this.type=localStorage.getItem('role');
         if(localStorage.getItem('icon')!=''){
@@ -224,12 +225,12 @@ export default {
 	color:rgba(143,155,179,1);
 	line-height: 65px;
 }
-.navd a:nth-child(5){
+.navd a:nth-child(6){
 	position: fixed;
 	right: 200px;
 	height: 63px!important;
 }
-.navd a:nth-child(6){
+.navd a:nth-child(7){
 	position: fixed;
 	right: 24px;
 	height: 63px!important;

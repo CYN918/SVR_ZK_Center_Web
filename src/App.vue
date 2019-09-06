@@ -800,4 +800,13 @@ select{
     font-weight:500;
     color:rgba(50,50,50,1);
   }
+  .radio .el-radio__input.is-checked+.el-radio__label{
+    color: #fff!important;
+  }
+.radio .el-radio__label{
+  color: #fff!important;
+  font-size:12px;
+  font-family:PingFangSC;
+  font-weight:400;
+}
 </style>

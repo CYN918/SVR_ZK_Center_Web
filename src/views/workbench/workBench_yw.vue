@@ -152,6 +152,10 @@
         },
         mounted(){
             this.getSize();
+            if(this.YWid){
+                this.getData();
+            }
+
         },
         methods:{
             sxFunction(){
@@ -167,6 +171,7 @@
             getData(){
                 let params ={id:this.YWid};
                 this.api.demand_detail({params}).then((res)=>{
+                    console.log(res)
                     for (var i=0;i<this.typeList.length;i++){
                         if(this.typeList[i].pos_type==res.pos_type){
                             this.typeIndex=i;
@@ -183,7 +188,6 @@
                   this.endtime = res.endtime;
                   this.requirement=res.require;
                   this.libraryName=res.putlib.name;
-                  this.getTypeURL();
                 })
             },
             AddYw(){
@@ -364,7 +368,7 @@
                 this.api.config_position_type().then((res)=>{
                     this.typeList = res;
                     if(this.YWid){
-                        this.getData()
+                        // this.getData()
                     }
                     this.getYWtype()
                 })
