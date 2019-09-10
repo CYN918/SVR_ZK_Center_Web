@@ -55,7 +55,6 @@ export default {
 		}
     },
 	mounted(){
-        console.log('ddd')
 		this.name=localStorage.getItem('userName');
         this.getLefNav();
         this.authority();

@@ -256,7 +256,7 @@ a{
   line-height: 50px;
 }
 .top_txt{
-  font-size:14px;
+  font-size:12px;
   font-family:PingFang-SC-Regular;
   font-weight:400;
   color:rgba(153,153,153,1);
@@ -710,11 +710,10 @@ select{
   display: inline-block;
   font-family: "Microsoft YaHei";
   cursor: pointer;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 400;
 }
-.log_url{color: #acadb0
-}
+.log_url{color: #acadb0}
 .new_url{color: #3377ff}
 .tit_top_con .tit_name{
   display: inline-block;

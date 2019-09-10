@@ -122,6 +122,14 @@ import theme_screen from './views/workbench/theme_screen'
 mode['theme_screen'] =theme_screen
 import processed from './views/workbench/processed'
 mode['processed'] = processed
+import ad_source from './views/workbench/ad_Source'
+mode['ad_source']=ad_source
+import ad_details from  './views/workbench/ad_details'
+mode['ad_details']=ad_details
+import ad_particulars from './views/workbench/ad_particulars'
+mode['ad_particulars']=ad_particulars
+import ad_select from './views/workbench/ad_select'
+mode['ad_select']=ad_select
 
 
 import axios from 'axios'
@@ -209,18 +217,7 @@ let nb = [
 			{path:'/admin/details_library',name:'详情库',component: mode['details_library']},
 			{path:'/admin/tags_details',name:'标签管理',component: mode['tags_details']},
 			{path:'/admin/mangement',name:'投放库管理',component:mode['mangement']},
-            // {path:'/admin/allocation',name:'聚合内容配置',component: mode['allocation']},
-            // {path:'/admin/replace',name:'资源待替换',component: mode['replace']},
-            // {path:'/admin/has_replaced',name:'资源已替换',component: mode['has_replaced']},
-			// {path:'/admin/material_flows',name:'素材中间件管理',component: mode['material_flows']},
-			// {path:'/admin/library_picture',name:'广告图库投放管理',component: mode['library_picture']},
-			// {path:'/admin/library_pictures',name:'library_pictures',component: mode['library_pictures']},
-			// {path:'/admin/library_resource',name:'广告模版库投放管理',component: mode['library_resource']},
-			// {path:'/admin/library_resources',name:'library_resources',component: mode['library_resources']},
-			// {path:'/admin/library_wallpaper',name:'锁屏壁纸库投放管理',component: mode['library_wallpaper']},
-			// {path:'/admin/roles',name:'角色管理',component: mode['roles']},
-			// {path:'/admin/inside',name:'内部帐号管理',component: mode['inside']},
-			// {path:'/admin/external',name:'外部帐号管理',component:mode['external']},
+
 
 		]
 	},
@@ -247,7 +244,10 @@ let nb = [
             {path:'/workbench/theme',name:'官方物料投放库',component: mode['theme']},
             {path:'/workbench/theme_details',name:'官方物料投放库详情',component: mode['theme_details']},
             {path:'/workbench/theme_screen',name:'主题壁纸-标签定投',component: mode['theme_screen']},
-
+            {path:'/workbench/ad_source',name:'广告源列表',component: mode['ad_source']},
+            {path:'/workbench/ad_details',name:'广告源详情',component: mode['ad_details']},
+            {path:'/workbench/ad_particulars',name:'广告源详情',component: mode['ad_particulars']},
+            {path:'/workbench/ad_select',name:'广告源详情',component: mode['ad_select']},
 	]},
     {path:'/income',name:'收益中心',component:mode['income'],children:[
             {path:'/income/earnings',name:'收益总览',component:mode['earnings']},
@@ -288,7 +288,7 @@ router.addRoutes(nb);
 /*动态生成左边菜单*/
 
 let leftNav =
-	localStorage.getItem('letNav');
+	// localStorage.getItem('letNav');
 // 	[
 // 	{title:'素材中心',default:'/admin',defaultopen:['1'],
 // 	children:[
@@ -330,8 +330,9 @@ let leftNav =
 //                     {title:'锁屏壁纸MD5库',url:'/workbench/MD5'},
 //                     {title:'聚合内容配置',url:'/workbench/allocation'},
 //                     {title:'资源待替换',url:'/workbench/replace'},
-// 						{title:'官方物料投放库',url:'/workbench/theme'},
+// 					{title:'官方物料投放库',url:'/workbench/theme'},
 //                     {title:'主题壁纸-标签定投',url:'/workbench/theme_screen'},
+//                     {title:'广告源列表',url:'/workbench/ad_source'},
 //                 ],},
 //
 //         ]

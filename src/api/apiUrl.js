@@ -893,5 +893,9 @@ export default {
     report_config_adspace_type:{
 		url:"report/config/adspace/type",method:'get'
 	},
+	//获取广告主汇总信息
+    adreview_adsdk_search:{
+		url:'adreview/adsdk/search',method:'get'
+	}
 
 }
