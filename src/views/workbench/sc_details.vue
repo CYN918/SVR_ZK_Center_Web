@@ -89,6 +89,12 @@
                 let params ={id:this.SCid};
                 this.api.demand_detail({params}).then((res)=>{
                     this.list = res;
+                    if(this.list.type_name=='场景锁屏壁纸'){
+                        this.list.type_name='杂志锁屏壁纸'
+                    }
+                    if(this.list.type_name=='场景锁屏动效'){
+                        this.list.type_name='杂志锁屏动效'
+                    }
                     console.log(res)
                 })
             },
@@ -97,14 +103,7 @@
 </script>
 
 <style scoped>
-    /*.img{*/
-        /*width: 100%;*/
-        /*height: 100%;*/
-        /*position: absolute;*/
-        /*z-index: 99;*/
-        /*bottom: 0;*/
-        /*right: 0;*/
-    /*}*/
+
     a{
         margin-left: 15px;
         font-size:16px;
