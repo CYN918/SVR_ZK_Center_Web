@@ -136,7 +136,7 @@
                 this.sc=true;
             },
             cx(){
-                this.getDataList1();
+                this.getDataList();
 
             },
             heidSC(){
@@ -151,7 +151,7 @@
             },
 
             getDataList(){
-                if(this.value.length>0){
+                if(this.value){
                     var params ={p:this.p,page:this.page,search:this.search,status:this.status,demand_type:this.demand_type,start_time:this.value[0],end_time:this.value[1],reject:this.reject,processor:this.processor}
                 }else{
                     var params ={p:this.p,page:this.page,search:this.search,status:this.status,demand_type:this.demand_type,start_time:"",end_time:"",reject:this.reject,processor:this.processor}
@@ -174,25 +174,25 @@
                     }
                 })
             },
-            getDataList1(){
-                let params ={p:this.p,page:this.page,search:this.search,status:this.status,demand_type:this.demand_type,start_time:this.value[0],end_time:this.value[1],reject:this.reject,processor:this.processor}
-                this.api.demand_search({params}).then((res)=>{
-                    this.tableData = res.data;
-                    this.tables=true;
-                    this.total = res.total;
-                    for (let i=0;i<this.tableData.length;i++){
-                        if(this.tableData[i].demand_type=='demand_business'){
-                            this.tableData[i].demand_type='业务需求'
-                            this.tableData[i].demand_name=this.tableData[i].demand_name+'('+this.tableData[i].type_name+'-'+this.tableData[i].model+')'
-                        }else if(this.tableData[i].demand_type=='demand_material'){
-                            this.tableData[i].demand_type='素材需求'
-                            this.tableData[i].demand_name=this.tableData[i].demand_name+'('+ this.tableData[i].type_name+')'
-                        }else {
-                            this.tableData[i].demand_type='设计师结算'
-                        }
-                    }
-                })
-            },
+            // getDataList1(){
+            //     let params ={p:this.p,page:this.page,search:this.search,status:this.status,demand_type:this.demand_type,start_time:this.value[0],end_time:this.value[1],reject:this.reject,processor:this.processor};
+            //     this.api.demand_search({params}).then((res)=>{
+            //         this.tableData = res.data;
+            //         this.tables=true;
+            //         this.total = res.total;
+            //         for (let i=0;i<this.tableData.length;i++){
+            //             if(this.tableData[i].demand_type=='demand_business'){
+            //                 this.tableData[i].demand_type='业务需求'
+            //                 this.tableData[i].demand_name=this.tableData[i].demand_name+'('+this.tableData[i].type_name+'-'+this.tableData[i].model+')'
+            //             }else if(this.tableData[i].demand_type=='demand_material'){
+            //                 this.tableData[i].demand_type='素材需求'
+            //                 this.tableData[i].demand_name=this.tableData[i].demand_name+'('+ this.tableData[i].type_name+')'
+            //             }else {
+            //                 this.tableData[i].demand_type='设计师结算'
+            //             }
+            //         }
+            //     })
+            // },
             listenToChildEvent(a){
                 this.scMessage = a;
                 console.log(this.scMessage)
