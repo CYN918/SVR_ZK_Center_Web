@@ -12,7 +12,6 @@
                 <div v-if="userType==0" class="ditch">
                     <span>渠道</span>
                     <select v-model="channel">
-                        <option value="">全部</option>
                         <option :value="item.channel" v-for="item in qdLists">{{item.channel}}</option>
                     </select>
                 </div>
@@ -23,7 +22,10 @@
                         <el-date-picker
                                 v-model="value"
                                 type="date"
-                                placeholder="选择日期">
+                                placeholder="选择日期"
+                                format="yyyy-MM-dd"
+                                value-format="yyyy-MM-dd"
+                        >
                         </el-date-picker>
                     </div>
                     <span>SDK-ID</span>
@@ -153,7 +155,7 @@
                 page:1,
                 p:10,
                 total:0,
-                value:'',
+                value:(new Date()).toLocaleDateString().split('/').join('-'),
                 sdkList:[],
                 adList:[],
                 ADtype:[],
@@ -272,6 +274,7 @@
             channelList(){
                 this.api.adreview_config_channel({}).then((res)=>{
                     this.qdLists=res;
+                    this.channel=res[0].channel;
                 })
             }
         }

@@ -227,12 +227,7 @@
                 this.dataList()
             },
             qx(){
-                if(this.check==true){
-                    this.check=false;
-                    this.setCheckAll()
-                }
-                this.tg=false;
-                this.btg=false
+               this.$router.go(-1);
             },
             setCheckAll(){
                 this.tableData.map((option) => {

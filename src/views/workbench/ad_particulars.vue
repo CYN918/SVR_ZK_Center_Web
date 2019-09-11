@@ -14,7 +14,7 @@
             <div style="margin: 0 24px">
                 <div>
                     <span style="margin-top: 24px">物料链接：</span>
-                    <span class="content_api">{{this.list.url}}</span>
+                    <a :href="this.list.url" target="_blank" class="content_api">{{this.list.url}}</a>
                     <span >获取内容时间：</span>
                     <span class="content_api">{{this.list.created_at}}</span>
                 </div>
@@ -30,7 +30,7 @@
                 </div>
                 <div>
                     <span>落地页：</span>
-                    <span style="width: 90%!important;margin-right: 0!important;" class="content_api">{{this.list.preview_url}}</span>
+                    <a  :href='this.list.preview_url' target="_blank" style="width: 90%!important;margin-right: 0!important;" class="content_api">{{this.list.preview_url}}</a>
                 </div>
             </div>
         </div>
@@ -77,7 +77,7 @@
         background: #fff;
         min-height: 730px;
     }
-    .content_table span{
+    .content_table span,.content_api{
         display: inline-block;
         font-size:14px;
         font-family:PingFangSC;

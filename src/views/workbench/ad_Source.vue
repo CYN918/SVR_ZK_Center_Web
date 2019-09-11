@@ -11,7 +11,10 @@
                     <el-date-picker
                             v-model="value1"
                             type="date"
-                            placeholder="选择日期">
+                            placeholder="选择日期"
+                            format="yyyy-MM-dd"
+                            value-format="yyyy-MM-dd"
+                    >
                     </el-date-picker>
                 </div>
                 <span>SDK-ID</span>
@@ -77,7 +80,7 @@
         name: "ad_-source",
         data(){
             return{
-                value1:'',
+                value1:(new Date()).toLocaleDateString().split('/').join('-'),
                 tableData:[{
                     num:"001",
                 }],
