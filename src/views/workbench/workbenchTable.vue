@@ -81,7 +81,7 @@
                     <el-table-column label="操作">
                         <template slot-scope="props">
                             <el-button v-if="tableData[props.$index].status_name=='资源准备'&&tableData[props.$index].reject=='0'" @click="getYW(tableData[props.$index].bdid)">查看需求</el-button>
-                            <el-button v-if="tableData[props.$index].status_name=='上传物料'&&tableData[props.$index].reject=='0'" @click="getYWSC(tableData[props.$index].bdid)">查看素材</el-button>
+                            <el-button v-if="tableData[props.$index].status_name=='上传物料'&&tableData[props.$index].reject=='0'" @click="getYWSC(tableData[props.$index].bdid)">查看资源</el-button>
                             <el-button v-if="(tableData[props.$index].status_name=='发布审核'&&tableData[props.$index].reject=='0')||(tableData[props.$index].status_name=='活动发布'&&tableData[props.$index].reject=='0')" @click="getSC(tableData[props.$index].mdid)">查看需求</el-button>
                             <el-button @click='check(tableData[props.$index].demand_type,tableData[props.$index].did,tableData[props.$index].status-1)' v-if="(tableData[props.$index].status_name=='物料审核'&&tableData[props.$index].reject=='0')||(tableData[props.$index].status_name=='测试验收'&&tableData[props.$index].reject=='0')">查看物料</el-button>
                             <el-button @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,tableData[props.$index].status+1,tableData[props.$index].reject)" v-if="tableData[props.$index].reject=='1'">查看驳回原因</el-button>
