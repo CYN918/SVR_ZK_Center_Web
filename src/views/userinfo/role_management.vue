@@ -7,8 +7,8 @@
                 <span>角色管理</span>
             </div>
             <div class="role_lw">
-                <span :class="{active:num==0}" @click="getRole(0)">内部角色</span>
-                <span :class="{active:num==1}" @click="getRole(1)">外部角色</span>
+                <span :class="{active:num==0}" @click="getRole('0')">内部角色</span>
+                <span :class="{active:num==1}" @click="getRole('1')">外部角色</span>
             </div>
         </div>
         <div class="centNavBox">
@@ -71,7 +71,10 @@
         methods:{
             jump(){
                 this.$router.push({
-                    path:'/userinfo/AddRole'
+                    path:'/userinfo/AddRole',
+                    query:{
+                        role_type:this.role_type
+                    },
                 })
             },
             getRole(num){
@@ -92,7 +95,7 @@
                     path:'/userinfo/AddRole',
                     query:{
                         role_id: this.list[a].role_id,
-                        role_name:this.list[a].role_name
+                        role_type:this.list[a].type
 
                     }
                 })
@@ -144,7 +147,7 @@
         font-weight:400;
         color:rgba(31,46,77,0.65);
         margin-right: 56px;
-        padding-bottom: 10px;
+        padding-bottom: 24px;
         cursor: pointer;
     }
     .active{
@@ -156,7 +159,7 @@
         padding: 24px 0 24px;
         -webkit-box-sizing: border-box;
         box-sizing: border-box;
-        margin-top:194px;
+        margin-top:204px;
     }
     .log_ur{
         font-size:12px;

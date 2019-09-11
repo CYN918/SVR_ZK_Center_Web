@@ -1,10 +1,13 @@
 <template>
     <div>
         <div class="top_name">
-            <span class="top_txt">个人中心/角色管理</span>
+            <span class="top_txt">账号权限 / </span>
+            <span class="log_ur">角色管理</span>
             <div class="title_left">
-                <span v-if="this.$route.query.role_id !=undefined">角色管理</span>
-                <span v-else>添加角色</span>
+                <span v-if="this.$route.query.role_type=='0'&&this.$route.query.role_id!=undefined">编辑内部角色</span>
+                <span v-else-if="this.$route.query.role_type=='1'&&this.$route.query.role_id!=undefined">编辑外部角色</span>
+                <span v-else-if="this.$route.query.role_type=='1'&&this.$route.query.role_id==undefined">添加外部角色</span>
+                <span v-else-if="this.$route.query.role_type=='0'&&this.$route.query.role_id==undefined">添加内部角色</span>
             </div>
         </div>
         <div class="select_tit">
@@ -27,18 +30,6 @@
                         <input type="text" placeholder="最多输入10个字" maxlength="10" v-model="name"/>
                     </div>
                     <div>
-                        <div class="wb">
-                            <span>是否为外部角色</span>
-                            <select v-model="type"  v-if="this.$route.query.role_id==undefined">
-                                <option value="1">是</option>
-                                <option value="0">否</option>
-                            </select>
-                            <select v-model="type" v-if="this.$route.query.role_id!=undefined" disabled="disabled">
-                                <option value="1">是</option>
-                                <option value="0">否</option>
-                            </select>
-                        </div>
-
                         <div class="role_parent">
                             上级角色
                             <select v-model="parent">
@@ -46,7 +37,7 @@
                                 <option v-for="(item,index) in parentList" :value="item.role_id">{{item.role_name}}</option>
                             </select>
                         </div>
-                        <div class="role_Add_switch">
+                        <div class="role_Add_switch" v-if="this.$route.query.role_id!=undefined">
                             是否启用
                             <el-switch
                                     v-model="status"
@@ -106,14 +97,18 @@
         },
         mounted(){
             this.getList();
-            console.log(this.$route.query.role_id);
             if(this.$route.query.role_id !=undefined){
                 this.roleMessage();
             }
         },
         methods:{
             getList(){
-                this.api.perm_group().then((res)=>{
+                var obj={role_type:''};
+                if(this.$route.query.role_type !=undefined){
+                    obj.role_type=this.$route.query.role_type
+                }
+                let params=obj;
+                this.api.perm_group({params}).then((res)=>{
                     this.list = res;
                     this.getParent();
                 })
@@ -146,13 +141,12 @@
                 })
             },
             roleMessage(){
-                let params = {role_id:this.$route.query.role_id};
+                let params = {role_id:this.$route.query.role_id,role_type:this.$route.query.role_type};
                 this.api.perm_role_group({params}).then((res)=>{
                     this.name = res.role.role_name;
                     if(res.role.icon!=''){
                         this.img=res.role.icon;
                     }
-
                     if(res.role.parent!=null){
                        this.parent = res.role.parent.role_id;
                     }
@@ -203,6 +197,12 @@
         font-family:PingFang-SC-Medium;
         font-weight:500;
         color:rgba(50,50,50,1);
+    }
+    .log_ur{
+        font-size:12px;
+        font-family:PingFangSC;
+        font-weight:400;
+        color:rgba(61,73,102,1);
     }
     .centNavBox{
         width: 100%;
@@ -322,7 +322,6 @@
     font-weight:500;
     color:rgba(31,46,77,1);
     line-height:36px;
-    margin-left: 50px;
 }
 .role_parent>select{
     width:200px;
