@@ -5,7 +5,7 @@
             <span @click="fh">{{this.$route.query.role_name}}账号列表</span>
         </div>
         <div class="tab">
-            <tab :tableData2="tableData2"></tab>
+            <tab :tableData2="tableData2" :roleID="this.$route.query.role_id"></tab>
         </div>
         <div class="block">
             <el-pagination
@@ -38,11 +38,10 @@
         },
         methods:{
             getlist(){
-                let params = {role_id:this.$route.query.role_id,p:this.p,page:this.page};
+                let params = {role_id:this.$route.query.role_id,p:this.pageSize,page:this.currentPage};
                 this.api.role_user_list({params}).then((res)=>{
-                    this.total = res.total
+                    this.total = res.total;
                     this.tableData2 = res.data;
-                    console.log(res)
                 })
             },
             handleSizeChange1(pageSize) { // 每页条数切换

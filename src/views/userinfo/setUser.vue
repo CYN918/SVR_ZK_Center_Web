@@ -85,7 +85,6 @@
             }
         },
         mounted(){
-            // console.log(this.userMessage);
             if(this.userMessage.roles.length>0){
                 this.roles = this.userMessage.roles[0].role_id;
             }else{
