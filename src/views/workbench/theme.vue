@@ -125,14 +125,7 @@
                 return 'padding:15px 14px;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
             jump(index){
-                // this.$router.push({
-                //     path:'./theme_details',
-                //     query:{
-                //         pkg_name:this.tableData[index].pkg_name,
-                //         fill:this.tableData[index].fill,
-                //         req:this.tableData[index].req
-                //     },
-                // })
+
                 let routeData = this.$router.resolve({
                     path:'./theme_details',
                     query:{

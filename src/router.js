@@ -130,6 +130,8 @@ import ad_particulars from './views/workbench/ad_particulars'
 mode['ad_particulars']=ad_particulars
 import ad_select from './views/workbench/ad_select'
 mode['ad_select']=ad_select
+import ad_external_user from './views/workbench/ad_external_user'
+mode['ad_external_user']=ad_external_user
 
 
 import axios from 'axios'
@@ -248,6 +250,7 @@ let nb = [
             {path:'/workbench/ad_details',name:'广告源详情',component: mode['ad_details']},
             {path:'/workbench/ad_particulars',name:'广告源详情',component: mode['ad_particulars']},
             {path:'/workbench/ad_select',name:'广告源详情',component: mode['ad_select']},
+            {path:'/workbench/ad_external_user',name:'账号管理',component: mode['ad_external_user']},
 	]},
     {path:'/income',name:'收益中心',component:mode['income'],children:[
             {path:'/income/earnings',name:'收益总览',component:mode['earnings']},
@@ -288,7 +291,7 @@ router.addRoutes(nb);
 /*动态生成左边菜单*/
 
 let leftNav =
-	// localStorage.getItem('letNav');
+	localStorage.getItem('letNav');
 // 	[
 // 	{title:'素材中心',default:'/admin',defaultopen:['1'],
 // 	children:[
@@ -332,7 +335,7 @@ let leftNav =
 //                     {title:'资源待替换',url:'/workbench/replace'},
 // 					{title:'官方物料投放库',url:'/workbench/theme'},
 //                     {title:'主题壁纸-标签定投',url:'/workbench/theme_screen'},
-//                     {title:'广告源列表',url:'/workbench/ad_source'},
+//                     {title:'物料预审管理',url:'/workbench/ad_source'},
 //                 ],},
 //
 //         ]

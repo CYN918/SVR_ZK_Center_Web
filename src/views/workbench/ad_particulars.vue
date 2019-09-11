@@ -2,8 +2,8 @@
     <div>
         <div class="top_name">
             <div class="tit_top_url">
-                <span class="log_url">广告源列表 &nbsp;/&nbsp;</span>
-                <span class="log_url">广告源详情&nbsp;/&nbsp;</span>
+                <span class="log_url" @click="fh(-2)">广告源列表 &nbsp;/&nbsp;</span>
+                <span class="log_url" @click="fh(-1)">广告源详情&nbsp;/&nbsp;</span>
                 <span class="log_ur">广告详情</span>
             </div>
             <div class="tit_top_con">
@@ -13,36 +13,24 @@
         <div class="content_table">
             <div style="margin: 0 24px">
                 <div>
-                    <span style="margin-top: 24px">落地页MD5：</span>
-                    <span class="content_api"></span>
+                    <span style="margin-top: 24px">物料链接：</span>
+                    <span class="content_api">{{this.list.url}}</span>
                     <span >获取内容时间：</span>
-                    <span class="content_api"></span>
-                </div>
-                <div>
-                    <span>广告名称：</span>
-                    <span class="content_api"></span>
-                    <span>包名：</span>
-                    <span class="content_api"></span>
-                </div>
-                <div>
-                    <span>数据访问量：</span>
-                    <span class="content_api"></span>
-                    <span>实现方式：</span>
-                    <span class="content_api"></span>
+                    <span class="content_api">{{this.list.created_at}}</span>
                 </div>
                 <div>
                     <span>sdkID：</span>
-                    <span class="content_api"></span>
-                    <span>来源：</span>
-                    <span class="content_api"></span>
+                    <span class="content_api">{{this.list.sdkid}}</span>
+                    <span>广告主：</span>
+                    <span class="content_api">{{this.list.admaster}}</span>
+                </div>
+                <div>
+                    <span>广告类：</span>
+                    <span class="content_api">{{this.list.type}}</span>
                 </div>
                 <div>
                     <span>落地页：</span>
-                    <span></span>
-                </div>
-                <div>
-                    <span>原始图：</span>
-                    <span></span>
+                    <span style="width: 90%!important;margin-right: 0!important;" class="content_api">{{this.list.preview_url}}</span>
                 </div>
             </div>
         </div>
@@ -51,7 +39,26 @@
 
 <script>
     export default {
-        name: "ad_particulars"
+        name: "ad_particulars",
+        data(){
+            return{
+                list:{},
+            }
+        },
+        mounted(){
+            this.dataList();
+        },
+        methods:{
+            dataList(){
+                let params ={adid:this.$route.query.adid}
+                this.api.adreview_adver_detail({params}).then((res)=>{
+                    this.list=res;
+                })
+            },
+            fh(index){
+                this.$router.go(index)
+            }
+        },
     }
 </script>
 
@@ -79,6 +86,7 @@
         margin-right: 15px;
         width: 100px;
         margin-bottom: 15px;
+        overflow: hidden;
     }
     .content_api{
         color:rgba(31,46,77,0.65)!important;

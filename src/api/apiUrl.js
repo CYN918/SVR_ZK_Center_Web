@@ -896,6 +896,37 @@ export default {
 	//获取广告主汇总信息
     adreview_adsdk_search:{
 		url:'adreview/adsdk/search',method:'get'
-	}
-
+	},
+	//获取sdkid列表
+    adreview_config_sdkid:{
+		url:'adreview/config/sdkid',method:'get'
+	},
+	//广告物料审核
+    adreview_adver_audit:{
+		url:'adreview/adver/audit',method:'post',isType:{suktip:1},
+	},
+	//获取广告主列表
+    adreview_config_admaster:{
+		url:'adreview/config/admaster',method:'get'
+	},
+	//获取广告类型列表
+    adreview_config_type:{
+		url:'adreview/config/type',method:'get'
+	},
+	//获取广告详情
+    adreview_adver_detail:{
+		url:'adreview/adver/detail',method:"get"
+	},
+	//获取待审核广告信息
+    adreview_adver_search:{
+		url:'adreview/adver/search',method:'get'
+	},
+	//用户渠道信息列表
+    adreview_user_channel_list:{
+		url:"adreview/user/channel/list",method:'get'
+	},
+	//配置用户渠道信息
+    adreview_user_channel_add:{
+		url:'adreview/user/channel/add',method:'post',isType:{suktip:1}
+	},
 }

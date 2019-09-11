@@ -15,9 +15,13 @@
                     </el-date-picker>
                 </div>
                 <span>SDK-ID</span>
-                <input type="text" >
-                <span class="screen_btn1">查询</span>
-                <span class="screen_btn">重置</span>
+                <select v-model="sdkid">
+                    <option value="">全部</option>
+                    <option :value="item.sdkid" v-for="item in sdkList">{{item.sdkid}}</option>
+                </select>
+                <span class="screen_btn1" @click="dataList()">查询</span>
+                <span class="screen_btn" @click="remove" v-if="userType==1">重置</span>
+                <span class="screen_btn2" @click="manage" v-if="userType==0">账号管理</span>
                 <span class="screen_btn">导出</span>
             </div>
             <div>
@@ -31,13 +35,16 @@
                         <el-table-column
                                 prop="num"
                                 label="序号">
+                            <template slot-scope="scope">
+                                <span>{{scope.$index+1}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
-                                prop="SDK-ID"
+                                prop="sdkid"
                                 label="SDK-ID">
                         </el-table-column>
                         <el-table-column
-                                prop="广告个数"
+                                prop="count"
                                 label="广告个数">
                         </el-table-column>
                         <el-table-column
@@ -45,7 +52,7 @@
                                 width="150"
                         >
                             <template slot-scope="scope">
-                                <el-button @click="jump()" type="text" size="small">查看详情</el-button>
+                                <el-button @click="jump(tableData[scope.$index].sdkid)" type="text" size="small">查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -81,10 +88,15 @@
                 admaster:"",
                 type:'',
                 status:'',
+                sdkList:[],
+                userType:localStorage.getItem('userType')
 
             }
         },
-        mounted(){this.dataList()},
+        mounted(){
+            this.typeList();
+            this.dataList();
+        },
         methods:{
             getRowClass({row, column, rowIndex}) {
                 if (rowIndex === 0) {
@@ -98,22 +110,42 @@
             },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
+                this.dataList()
             },
             handleCurrentChange(page) {//页码切换
                 this.page = page;
+                this.dataList()
             },
-            jump(){
+            jump(id){
                 this.$router.push({
-                    path:'./ad_details'
+                    path:'./ad_details',
+                    query:{
+                        sdkid:id,
+                    }
+                })
+            },
+            manage(){
+                this.$router.push({
+                    path:'./ad_external_user'
                 })
             },
             dataList(){
-                let params={sdkid:this.sdkid,admaster:this.admaster,type:this.type,tdate:this.value1,status:this.status,p:this.p,page:this.page}
+                let params={sdkid:this.sdkid,tdate:this.value1,p:this.p,page:this.page}
                 this.api.adreview_adsdk_search({params}).then((res)=>{
                     this.tableData=res.data;
                     this.total=res.total;
                 })
             },
+            remove(){
+                this.value1='';
+                this.sdkid='';
+
+            },
+            typeList(){
+                this.api.adreview_config_sdkid({}).then((res)=>{
+                    this.sdkList=res;
+                })
+            }
         },
     }
 </script>
@@ -154,9 +186,8 @@
         color:rgba(31,46,77,1);
         margin-right: 20px;
     }
-    .screen>input{
-        padding-left: 14px;
-        width:186px;
+    .screen>select{
+        width:200px;
         height:36px;
         background:rgba(255,255,255,1);
         border-radius:4px;
@@ -168,6 +199,9 @@
         background:rgba(51,119,255,1)!important;
         color:rgba(255,255,255,1)!important;
         border: 0!important;
+    }
+    .screen_btn2{
+        width:96px!important;
     }
     .screen_btn,.screen_btn1,.screen_btn2{
         width:68px;
