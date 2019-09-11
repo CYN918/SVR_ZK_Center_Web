@@ -1,9 +1,14 @@
 <template>
     <div>
         <div class="top_name">
-            <span class="top_txt">个人中心/可管理账号</span>
+            <span class="top_txt">账号权限 / </span>
+            <span class="log_ur">角色管理</span>
             <div class="title_left">
-                <span>可管理账号</span>
+                <span>角色管理</span>
+            </div>
+            <div class="role_lw">
+                <span>内部角色</span>
+                <span>外部角色</span>
             </div>
         </div>
         <div class="centNavBox">
@@ -55,7 +60,8 @@
                 p:30,
                 page:1,
                 total:0,
-                search:''
+                search:'',
+                role_type:'0'
             }
         },
         mounted(){
@@ -68,7 +74,7 @@
                 })
             },
             getRole(){
-                let params = {search:this.search,p:this.p,page:this.page};
+                let params = {search:this.search,p:this.p,page:this.page,role_type:this.role_type};
                 this.api.role_roles({params}).then((res)=>{
                     console.log(res);
                     this.total = res.total;
@@ -109,7 +115,7 @@
 
 <style scoped>
     .top_name{
-        height: 109px;
+        height: 143px;
         z-index: 999999;
     }
     .top_txt{
@@ -123,6 +129,17 @@
         font-family:PingFang-SC-Medium;
         font-weight:500;
         color:rgba(50,50,50,1);
+        margin-bottom: 20px;
+    }
+    .role_lw{margin-left: 24px}
+    .role_lw span{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC;
+        font-weight:400;
+        color:rgba(31,46,77,0.65);
+        margin-right: 56px;
+        padding-bottom: 10px;
     }
     .centNavBox{
         width: 100%;
@@ -130,6 +147,12 @@
         -webkit-box-sizing: border-box;
         box-sizing: border-box;
         margin-top:194px;
+    }
+    .log_ur{
+        font-size:12px;
+        font-family:PingFangSC;
+        font-weight:400;
+        color:rgba(61,73,102,1);
     }
 .btn_box{
     display: inline-block;

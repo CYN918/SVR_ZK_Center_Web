@@ -8,12 +8,12 @@
             <div class="tit_top_con">
                 <span class="tit_name">账号管理</span>
             </div>
-            <span class="add_btn" @click="getShow">添加外部账号</span>
+            <span class="add_btn" @click="getShow()">添加外部账号</span>
         </div>
         <div style="margin-top:187px">
             <template>
                 <el-table
-                        :data="tableData"
+                        :data="list"
                         style="width: 100%"
                         :header-cell-style="getRowClass"
                         :cell-style="cell"
@@ -26,11 +26,11 @@
                         </template>
                     </el-table-column>
                     <el-table-column
-                            prop="sdkid"
+                            prop="email"
                             label="账号">
                     </el-table-column>
                     <el-table-column
-                            prop="status_name"
+                            prop="channel"
                             label="渠道">
                     </el-table-column>
 
@@ -39,7 +39,7 @@
                             width="150"
                     >
                         <template slot-scope="scope">
-                            <el-button  type="text"  size="small">编辑</el-button>
+                            <el-button  type="text"  @click="getShow(list[scope.$index].email,list[scope.$index].channel)"  size="small">编辑</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -86,7 +86,6 @@
         data(){
             return{
                 list:[],
-                tableData:[],
                 p:10,
                 page:1,
                 total:0,
@@ -112,7 +111,7 @@
                 this.$router.go(-1)
             },
             getData(){
-                let params = {p:this.p,page:this.page}
+                let params = {p:this.p,page:this.page};
                 this.api.adreview_user_channel_list({params}).then((res)=>{
                     this.list=res.data;
                     this.total=res.total
@@ -126,7 +125,12 @@
                 this.page = page;
                 this.getData()
             },
-            getShow(){
+            getShow(email,channel){
+                if(email){
+                    this.name='编辑';
+                    this.email=email;
+                    this.channel=channel;
+                }
                 this.show=true;
             },
             heidShow(){
