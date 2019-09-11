@@ -68,7 +68,7 @@
                     <span>渠道</span>
                     <select v-model="channel">
                         <option value="">全部</option>
-                        <option value="ddd">heihei</option>
+                        <option :value="item.channel" v-for="item in qdLists">{{item.channel}}</option>
                     </select>
                 </div>
                 <div class="bg_btn">
@@ -93,6 +93,7 @@
                 channel:'',
                 email:'',
                 show:false,
+                qdLists:[],
             }
         },
         mounted(){this.getData()},
@@ -132,6 +133,7 @@
                     this.channel=channel;
                 }
                 this.show=true;
+                this.channelList()
             },
             heidShow(){
                 this.show=false;
@@ -153,6 +155,11 @@
                     this.heidShow()
                 })
             },
+            channelList(){
+                this.api.adreview_config_channel({}).then((res)=>{
+                    this.qdLists=res;
+                })
+            }
         }
     }
 </script>

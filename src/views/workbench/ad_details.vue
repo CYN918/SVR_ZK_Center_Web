@@ -11,8 +11,9 @@
                 </div>
                 <div v-if="userType==0" class="ditch">
                     <span>渠道</span>
-                    <select>
+                    <select v-model="channel">
                         <option value="">全部</option>
+                        <option :value="item.channel" v-for="item in qdLists">{{item.channel}}</option>
                     </select>
                 </div>
             </div>
@@ -160,6 +161,8 @@
                 admaster:'',
                 type:'',
                 sdkid:'',
+                channel:'',
+                qdLists:[],
                 YR:false,
                 userType:localStorage.getItem('userType'),
                 url:'',
@@ -241,12 +244,13 @@
                 let params ={sdkid:this.sdkid}
                 this.api.adreview_config_type({params}).then((res)=>{
                     this.ADtype=res;
-                    this.dataList()
+                    this.dataList();
+                    this.channelList()
                 })
             },
             dataList(){
                 let params = {
-                    sdkid:this.sdkid,admaster:this.admaster,type:this.type,tdate:this.value,status:this.status,p:this.p,page:this.page,preview_url:this.preview_url,url:this.url
+                    sdkid:this.sdkid,admaster:this.admaster,type:this.type,tdate:this.value,status:this.status,p:this.p,page:this.page,preview_url:this.preview_url,url:this.url,channel:this.channel
                 };
                 this.api.adreview_adver_search({params}).then((res)=>{
                     this.total=res.total;
@@ -265,6 +269,11 @@
                 });
                 window.open(routeData.href, '_blank');
             },
+            channelList(){
+                this.api.adreview_config_channel({}).then((res)=>{
+                    this.qdLists=res;
+                })
+            }
         }
     }
 </script>

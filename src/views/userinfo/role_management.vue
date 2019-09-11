@@ -7,8 +7,8 @@
                 <span>角色管理</span>
             </div>
             <div class="role_lw">
-                <span>内部角色</span>
-                <span>外部角色</span>
+                <span :class="{active:num==0}" @click="getRole(0)">内部角色</span>
+                <span :class="{active:num==1}" @click="getRole(1)">外部角色</span>
             </div>
         </div>
         <div class="centNavBox">
@@ -61,7 +61,8 @@
                 page:1,
                 total:0,
                 search:'',
-                role_type:'0'
+                role_type:'0',
+                num:0,
             }
         },
         mounted(){
@@ -73,7 +74,11 @@
                     path:'/userinfo/AddRole'
                 })
             },
-            getRole(){
+            getRole(num){
+                if(num){
+                    this.num=num;
+                    this.role_type=num
+                }
                 let params = {search:this.search,p:this.p,page:this.page,role_type:this.role_type};
                 this.api.role_roles({params}).then((res)=>{
                     console.log(res);
@@ -140,6 +145,11 @@
         color:rgba(31,46,77,0.65);
         margin-right: 56px;
         padding-bottom: 10px;
+        cursor: pointer;
+    }
+    .active{
+        color:rgba(51,119,255,1)!important;
+        border-bottom: 2px solid #3377FF!important;
     }
     .centNavBox{
         width: 100%;

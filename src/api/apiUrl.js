@@ -929,4 +929,8 @@ export default {
     adreview_user_channel_add:{
 		url:'adreview/user/channel/add',method:'post',isType:{suktip:1}
 	},
+	//渠道列表
+    adreview_config_channel:{
+		url:'adreview/config/channel',method:'get'
+	},
 }
