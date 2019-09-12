@@ -85,6 +85,7 @@
                     this.msg='';
                     this.text='';
                     this.$parent.heid();
+                    this.$parent.dataList();
                 })
             }
         },
