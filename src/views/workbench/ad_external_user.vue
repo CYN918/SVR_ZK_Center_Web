@@ -8,7 +8,7 @@
             <div class="tit_top_con">
                 <span class="tit_name">账号管理</span>
             </div>
-            <span class="add_btn" @click="getShow()">添加外部账号</span>
+            <span class="add_btn" @click="getShow('')">添加外部账号</span>
         </div>
         <div style="margin-top:187px">
             <template>
@@ -127,10 +127,12 @@
                 this.getData()
             },
             getShow(email,channel){
-                if(email!=undefined){
+                if(email!=''){
                     this.name='编辑';
                     this.email=email;
                     this.channel=channel;
+                }else {
+                    this.name='添加';
                 }
                 this.show=true;
                 this.channelList()
