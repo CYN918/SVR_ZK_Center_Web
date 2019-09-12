@@ -257,11 +257,11 @@
                 let params ={sdkid:this.sdkid};
                 this.api.adreview_config_type({params}).then((res)=>{
                     this.ADtype=res;
-                    this.dataList();
                     this.channelList()
                 })
             },
             dataList(){
+                alert(this.channel)
                 let params = {
                     sdkid:this.sdkid,admaster:this.admaster,type:this.type,tdate:this.value,status:this.status,p:this.p,page:this.page,preview_url:this.preview_url,url:this.url,channel:this.channel
                 };
@@ -286,6 +286,7 @@
                 this.api.adreview_config_channel({}).then((res)=>{
                     this.qdLists=res;
                     this.channel=res[0].channel;
+                    this.dataList();
                 })
             }
         }
