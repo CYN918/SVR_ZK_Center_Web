@@ -65,7 +65,7 @@
                 this.$parent.heid();
             },
             qd(){
-                if(this.radio='-1'){
+                if(this.radio=='-1'){
                     if(this.chenck==false&&this.chenck2==false&&this.chenck3==false&&this.chenck4==false){
                         this.$message.error('请选择或填写驳回原因');
                         return
