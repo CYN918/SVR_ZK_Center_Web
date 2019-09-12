@@ -19,6 +19,7 @@
 			<router-link  to="/login"><li class="right" @click="loginout()"><span>退出登录</span></li></router-link>
 		</ul>
 		<ul class="navd" v-if="config.showL!=-1&&this.type==1">
+			<router-link  to="/workbench"><li><span>工作台</span></li></router-link>
 			<router-link  to="/admin"><li> <span>素材中心</span></li></router-link>
 			<router-link class="right2" to="/userinfo"><li ><img :src="img" class="imgs_user"/>{{name}}</li></router-link>
 			<router-link class="right2" to="/login"><li  @click="loginout()"><span>退出登录</span></li></router-link>
@@ -149,7 +150,7 @@ export default {
 }
 .right2{
 	position: relative;
-	left:62%;
+	left:57%;
 }
 .topNav{
 	position: fixed;

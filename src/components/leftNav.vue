@@ -94,7 +94,7 @@ export default {
 	position: absolute;
 	overflow-y:auto;
 	top: 0;
-	left: 0;
+	left: -2px;
 	width: 256px;
 	height: 100%;
 	background:rgba(255,255,255,1);

@@ -425,10 +425,14 @@ router.beforeEach((to, from, next) => {
 		}
 		if(localStorage.getItem('role')==1){
 			if(localStorage.getItem('letNav')){
-                if(to.fullPath.substring(0,7)!='/admin/'){
-                    next({ path: '/admin/wb_Journal'});
-                    return;
-                }
+                // if(to.fullPath.substring(0,7)!='/admin/'){
+                //     next({ path: '/admin/wb_Journal'});
+                //     return;
+                // }
+                // if(to.fullPath.substring(0,11)!='/workbench/'){
+                //     next({ path: '/workbench/ad_source'});
+                //     return;
+                // }
 			}
 			next();
 			return;
