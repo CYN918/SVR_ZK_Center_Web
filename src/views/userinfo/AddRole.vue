@@ -121,6 +121,11 @@
                         })
                     })
                 }else{
+                    if(this.$route.query.role_type=='1'){
+                        this.type='1'
+                    }else{
+                        this.type='0'
+                    }
                     this.api.perm_role_add({role_name:this.name,role_desc:this.description,group_key:this.checkedCities1,parent:this.parent,type:this.type,icon:this.img,status:this.status}).then((res)=>{
                         this.$router.push({
                             path:'/userinfo/roleManagement'

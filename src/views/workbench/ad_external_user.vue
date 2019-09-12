@@ -127,7 +127,7 @@
                 this.getData()
             },
             getShow(email,channel){
-                if(email){
+                if(email!=undefined){
                     this.name='编辑';
                     this.email=email;
                     this.channel=channel;
