@@ -47,7 +47,7 @@
 
 <script>
     export default {
-        props:['adver'],
+        props:['adver','channel'],
         name: "ad_affirm",
         data(){
             return{
@@ -80,6 +80,7 @@
                 let formData=new FormData;
                 formData.append('adver',JSON.stringify(this.adver));
                 formData.append('status',this.radio);
+                formData.append('channel',this.channel);
                 formData.append('msg',this.msg);
                 this.api.adreview_adver_audit(formData).then((res)=>{
                     this.msg='';

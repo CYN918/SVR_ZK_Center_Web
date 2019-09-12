@@ -141,7 +141,7 @@
                     :total="total">
             </el-pagination>
         </div>
-        <aff v-if="YR" :adver="adver"></aff>
+        <aff v-if="YR" :adver="adver" :channel="this.channel"></aff>
     </div>
 </template>
 
@@ -160,6 +160,7 @@
                 admaster:'',
                 tdate:'',
                 type:'',
+                channel:'',
                 status:'',
                 tags:[],
                 check:false,
@@ -183,7 +184,10 @@
                 text:'',
             }
         },
-        mounted(){this.dataList()},
+        mounted(){
+            this.dataList();
+            this.channel=this.$route.query.channel;
+        },
         methods:{
             getRowClass({row, column, rowIndex}) {
                 if (rowIndex === 0) {

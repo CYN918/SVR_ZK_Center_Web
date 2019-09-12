@@ -140,7 +140,7 @@
                     :total="total">
             </el-pagination>
         </div>
-       <aff v-if="YR" :adver="adver"></aff>
+       <aff v-if="YR" :adver="adver" :channel="channel"></aff>
     </div>
 </template>
 
@@ -235,7 +235,8 @@
                         url:this.url,
                         preview_url:this.preview_url,
                         admaster:this.admaster,
-                        status:this.status
+                        status:this.status,
+                        channel:this.channel,
                     },
                 })
             },
