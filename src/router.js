@@ -517,10 +517,6 @@ router.beforeEach((to, from, next) => {
 			localStorage.setItem('status',msg.data.data.user.status);
             localStorage.setItem('role',msg.data.data.role[0].type);
             localStorage.setItem('icon',msg.data.data.role[0].icon);
-            // if(localStorage.getItem('role')==undefined){
-             //    alert('登录成功，请联系管理员添加角色');
-             //    next({ path: '/index'});
-			// }
 			if(msg.data.data.user.type==1){
 				next({ path: '/admin/wb_Journal'});
 				return;
@@ -531,7 +527,6 @@ router.beforeEach((to, from, next) => {
 			}
 			next({ path: '/index'});
 		}).catch(()=>{
-
 			alert("登录成功，请联系管理员添加角色");
 		});
 			

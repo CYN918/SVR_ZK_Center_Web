@@ -124,7 +124,7 @@ export default {
                 }else if(window.location.host=='c2.zookingsoft.com'){
                     cent = 'center_dev2';
                 }
-                window.location.href="http://account.zookingsoft.com/auth/logout?from="+cent;
+                // window.location.href="http://account.zookingsoft.com/auth/logout?from="+cent;
 			})
 		},
 
