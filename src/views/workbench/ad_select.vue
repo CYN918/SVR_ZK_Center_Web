@@ -265,7 +265,7 @@
             },
             dataList(){
                 let params = {
-                    sdkid:this.sdkid,admaster:this.admaster,type:this.type,tdate:this.tdate,status:this.status,p:this.p,page:this.page
+                    sdkid:this.$route.query.sdkid,admaster:this.$route.query.admaster,type:this.$route.query.type,tdate:this.$route.query.value,status:this.$route.query.status,p:this.p,page:this.page
                 };
                 this.api.adreview_adver_search({params}).then((res)=>{
                     this.total=res.total;

@@ -527,7 +527,7 @@ router.beforeEach((to, from, next) => {
 			}
 			next({ path: '/index'});
 		}).catch(()=>{
-			alert("登录成功，请联系管理员添加角色");
+			alert("登录成功，请联系管理员添加角色，或角色未启用");
 		});
 			
 	}else{

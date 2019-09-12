@@ -220,13 +220,23 @@
                     query:{
                         adid:adid,
                         sdkid:sdkid,
-                        tdate:created_at
+                        tdate:created_at,
+
                     }
                 })
             },
             statusType(){
                 this.$router.push({
-                    path:'./ad_select'
+                    path:'./ad_select',
+                    query:{
+                        value:this.value,
+                        type:this.type,
+                        sdkid:this.sdkid,
+                        url:this.url,
+                        preview_url:this.preview_url,
+                        admaster:this.admaster,
+                        status:this.status
+                    },
                 })
             },
             typeList(){
@@ -243,7 +253,7 @@
                 })
             },
             adType(){
-                let params ={sdkid:this.sdkid}
+                let params ={sdkid:this.sdkid};
                 this.api.adreview_config_type({params}).then((res)=>{
                     this.ADtype=res;
                     this.dataList();
@@ -355,7 +365,7 @@
         margin-right: 20px;
     }
     .date .el-date-editor {
-        width: 125px;
+        width: 140px;
     }
     .ditch{
         margin: 20px 0 0 24px;
