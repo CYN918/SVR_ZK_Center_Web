@@ -65,6 +65,12 @@
                 this.$parent.heid();
             },
             qd(){
+                if(this.radio='-1'){
+                    if(this.chenck==false&&this.chenck2==false&&this.chenck3==false&&this.chenck4==false){
+                        this.$message.error('请选择或填写驳回原因');
+                        return
+                    }
+                }
                 if(this.chenck==true){
                     this.msg+='物料和落地页不匹配'
                 }

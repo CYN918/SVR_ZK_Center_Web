@@ -261,7 +261,6 @@
                 })
             },
             dataList(){
-                alert(this.channel)
                 let params = {
                     sdkid:this.sdkid,admaster:this.admaster,type:this.type,tdate:this.value,status:this.status,p:this.p,page:this.page,preview_url:this.preview_url,url:this.url,channel:this.channel
                 };
