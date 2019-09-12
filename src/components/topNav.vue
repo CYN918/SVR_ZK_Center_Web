@@ -98,7 +98,6 @@ export default {
 				timeout: 10000,
 				url:urld+'/api/logout',			     
 			}).then((msg)=>{
-			    console.log(msg);
 				if(msg.data.code==0){
 					localStorage.setItem('token','');
                     localStorage.removeItem('letNav');

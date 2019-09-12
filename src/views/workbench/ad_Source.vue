@@ -55,7 +55,7 @@
                                 width="150"
                         >
                             <template slot-scope="scope">
-                                <el-button @click="jump(tableData[scope.$index].sdkid)" type="text" size="small">查看详情</el-button>
+                                <el-button @click="jump(tableData[scope.$index].sdkid,tableData[scope.$index].value1)" type="text" size="small">查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -124,6 +124,7 @@
                     path:'./ad_details',
                     query:{
                         sdkid:id,
+                        value1:this.value1
                     }
                 })
             },

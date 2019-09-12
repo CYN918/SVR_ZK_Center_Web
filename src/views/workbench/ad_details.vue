@@ -155,7 +155,7 @@
                 page:1,
                 p:10,
                 total:0,
-                value:(new Date()).toLocaleDateString().split('/').join('-'),
+                value:this.$route.query.value1,
                 sdkList:[],
                 adList:[],
                 ADtype:[],
