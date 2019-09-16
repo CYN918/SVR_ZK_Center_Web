@@ -194,6 +194,7 @@
         padding: 14px;
         width:486px;
         height:144px;
+        overflow-y: scroll;
         background:rgba(255,255,255,1);
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);

@@ -277,7 +277,6 @@
                 },100);
             },
             uploadF(file){
-                console.log(file)
                 if(this.status==1101){
                     return
                 }else{

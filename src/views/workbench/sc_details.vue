@@ -192,6 +192,7 @@
         display: inline-block;
         width:376px;
         height:144px;
+        overflow-y: scroll;
         padding: 14px;
         background:rgba(255,255,255,1);
         border-radius:4px;

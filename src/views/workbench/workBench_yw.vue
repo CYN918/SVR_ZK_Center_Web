@@ -104,7 +104,7 @@
                 </div>
                 <div class="gg">
                     <span class="tit_txt">广告要求</span>
-                    <textarea maxlength="200" v-model="requirement" placeholder="请补充本次需求相关详细描述例：xxx渠道的应用分发模板">
+                    <textarea maxlength="1000" v-model="requirement" placeholder="请补充本次需求相关详细描述例：xxx渠道的应用分发模板">
                     </textarea>
                 </div>
                 <div class="btn">
@@ -555,6 +555,7 @@
         padding: 14px;
         width:486px;
         height:144px;
+        overflow-y: scroll;
         background:rgba(255,255,255,1);
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);

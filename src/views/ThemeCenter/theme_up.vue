@@ -164,6 +164,7 @@
         top: 64px;
         z-index: 99;
     }
+    .new_url{color: rgba(61,73,102,1)!important;}
     .themeUp{
         margin-top: 187px;
     }

@@ -71,7 +71,7 @@
             <div>
                 <div class="phone">
                     <div style="width:189px;height:315px;">
-                        <img src="../../../public/img/IMG.png" style="height: 100%;width: 100%">
+                        <img src="../../../public/img/IMG.png" style="height: 100%;width: 100%" @click="xq">
                         <div class="select_type">
                             <span>本地</span>
                             <img src="../../../public/img/zk.png" style="width: 9px;height: 5px"/>
@@ -122,6 +122,11 @@
             upTheme(){
                 this.$router.push({
                     path:'./themeUp'
+                })
+            },
+            xq(){
+                this.$router.push({
+                    path:'./themeDetails'
                 })
             },
         },
