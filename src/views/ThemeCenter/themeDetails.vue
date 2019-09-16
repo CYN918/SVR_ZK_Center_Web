@@ -112,7 +112,12 @@
                             </div>
                         </div>
                     </div>
+                    <div class="tendency">
+                        <span>下载量趋势</span>
+                    </div>
+                    <div id="tendencyImg">
 
+                    </div>
                 </div>
             </div>
         </div>
@@ -388,5 +393,13 @@
     }
     .date{
         color:rgba(51,119,255,1)!important;
+    }
+    .tendency span{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC;
+        font-weight:400;
+        color:rgba(31,46,77,1);
+        margin: 20px 0 20px 23px;
     }
 </style>
