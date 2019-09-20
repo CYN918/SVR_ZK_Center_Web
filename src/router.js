@@ -185,6 +185,10 @@ import themeLock from './views/ThemeCenter/theme_lock'
 mode['themeLock']=themeLock
 import themelock_up from './views/ThemeCenter/themelock_up'
 mode['themelock_up']=themelock_up
+import theme_icon from './views/ThemeCenter/theme_icon'
+mode['theme_icon']=theme_icon
+import theme_two from './views/ThemeCenter/theme_two'
+mode['theme_two']=theme_two
 
 Vue.use(Router)
 const router = new Router({routes: []})
@@ -294,6 +298,8 @@ let nb = [
             {path:'/ThemeCenter/themeDetails',name:'主题详情',component:mode['themeDetails']},
 			{path:'/ThemeCenter/themeLock',name:'锁屏',component:mode['themeLock']},
             {path:'/ThemeCenter/themelock_up',name:'锁屏上传',component:mode['themelock_up']},
+            {path:'/ThemeCenter/theme_icon',name:'图标',component:mode['theme_icon']},
+            {path:'/ThemeCenter/theme_two',name:'二级页面',component:mode['theme_two']},
 
         ]},
 
@@ -396,9 +402,11 @@ let leftNav =
 //             children:[
 //                 {title:'数据中心',url:'1',img:'&#xe612;',list:[
 //                     ]},
-//                 {title:'主题素材库',url:'1',img:'&#xe612;',list:[
+//                 {title:'主题素材库',url:'2',img:'&#xe612;',list:[
 //                         {title:'主题库',url:'/ThemeCenter/themeCook'},
 //                         {title:'锁屏',url:'/ThemeCenter/themeLock'},
+//                         {title:'图标',url:'/ThemeCenter/theme_icon'},
+//                         {title:'二级页面',url:'/ThemeCenter/theme_two'},
 //                     ]},
 //             ]
 //         },

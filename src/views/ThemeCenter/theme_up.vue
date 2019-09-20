@@ -28,7 +28,7 @@
                                 multiple
                                 :limit="1"
                                 :on-exceed="handleExceed"
-                                :file-list="fileList">
+                                >
                             <el-button size="small" type="primary">点击上传</el-button>
                         </el-upload>
                         <div style="display: inline-block">
@@ -97,11 +97,12 @@
                                 class="upload"
                                 action="https://jsonplaceholder.typicode.com/posts/"
                                 :on-preview="handlePreview"
-                                :before-remove="beforeRemove"
+                                :on-remove="handleRemove"
+                                :http-request="upYl"
                                 multiple
                                 :limit="10"
                                 :on-exceed="handleExceed"
-                                :file-list="fileList">
+                        >
                             <el-button size="small" type="primary">点击上传</el-button>
                         </el-upload>
                     </div>
@@ -145,6 +146,7 @@
         data(){
             return{
                 bg:false,
+                pic:[],
             }
         },
         methods:{
@@ -157,7 +159,23 @@
             qx(){
                 this.bg=false;
             },
+            handleExceed(files, fileList) {
+                this.$message.warning(`当前限制选择1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+            },
+            upYl(file){
+                let formData = new FormData;
+                formData.append('file',file.file);
+                this.api.file_upload(formData).then((res)=>{
+                    this.pic.push(res.url);
+                })
+            },
             upload(){},
+            handleRemove(file, fileList) {
+                console.log(file, fileList);
+            },
+            handlePreview(file) {
+                console.log(file);
+            },
         },
     }
 </script>

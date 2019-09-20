@@ -950,4 +950,13 @@ export default {
     themes_config_account:{
 		url:'themes/config/account',method:'get'
 	},
+	//获取主题类型
+    themes_config_theme_type:{
+		url:'themes/config/theme/type',method:'get'
+	},
+	//获取主题内容分类
+    themes_config_theme_class:{
+		url:'themes/config/theme/class',method:'get'
+	},
+
 }

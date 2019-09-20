@@ -48,6 +48,8 @@
                     <span class="tit_name">状态</span>
                     <select>
                         <option>全部</option>
+                        <option value="1">已使用</option>
+                        <option value="0">未使用</option>
                     </select>
                 </div>
                 <div>
@@ -55,15 +57,15 @@
                     <input type="text" placeholder="搜索主题库"/>
                     <span class="tit_name">主题类型</span>
                     <select style="margin-right: 54px">
-                        <option>全部</option>
+                        <option :value="item.type" v-for="item in theme_type">{{item.type}}</option>
                     </select>
                     <span class="tit_name">内容分类</span>
                     <select style="margin-right: 40px">
-                        <option>全部</option>
+                        <option :value="item.class" v-for="item in cont">{{item.class}}</option>
                     </select>
                     <span class="tit_name">适用范围</span>
                     <select style="margin-right: 24px">
-                        <option>全部</option>
+                        <option :value="item.account" v-for="item in range">{{item.account}}</option>
                     </select>
                     <span class="cx">查询</span>
                 </div>
@@ -101,9 +103,30 @@
                 value1:[],
                 isType:0,
                 isTypes:0,
+                theme_type:[],
+                cont:[],
+                range:[],
             }
         },
+        mounted(){this.themeType()},
         methods:{
+            themeType(){
+                this.api.themes_config_theme_type().then((res)=>{
+                    this.theme_type=res;
+                    this.content();
+                })
+            },
+            content(){
+                this.api.themes_config_theme_class().then((res)=>{
+                    this.cont=res;
+                    this.Range()
+                })
+            },
+            Range(){
+             this.api.themes_config_account().then((res)=>{
+                 this.range=res;
+             })
+            },
             expansion(){
                 if(this.isType==0){
                     this.isType=1

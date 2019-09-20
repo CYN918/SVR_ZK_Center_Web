@@ -88,8 +88,11 @@
                         </div>
                         <div class="AddIMG_yl">
                             <span class="tit">尺寸:</span>
-                            <input class="AddIMG_yl_size" v-model="sjSize" placeholder="上传预览图后自动获取"  disabled v-if="chenck==false">
-                            <input class="AddIMG_yl_size" v-model="cc" placeholder="上传预览图后自动获取"  disabled v-if="chenck==true">
+                            <input class="AddIMG_yl_size" v-model="sjSize" placeholder="上传预览图后自动获取"  disabled v-if="chenck==false&&this.arr[this.arr.length-1]!='mp4'">
+                            <input class="AddIMG_yl_size" v-model="cc" placeholder="上传预览图后自动获取"  disabled v-if="chenck==true&&this.arr[this.arr.length-1]!='mp4'">
+                            <select v-model="sjSize" v-if="chenck==false&&this.arr[this.arr.length-1]=='mp4'">
+                                <option :value="item.size" v-for="item in sizeList">{{item.size}}</option>
+                            </select>
                             <div class="AddIMG_yl_upload" >
                                 <el-upload
                                         :disabled="this.chenck==true"
@@ -239,6 +242,7 @@
                 ad_pic:'0',
                 ad_num:'',
                 arr:[],
+                sizeList:[],
             }
         },
         mounted(){
@@ -397,6 +401,9 @@
                     this.initiate2=false;
                     this.prev_uri = res.url;
                     this.arr=this.prev_uri.split('.');
+                    if(this.arr[this.arr.length-1]=='mp4'){
+                        this.getSize()
+                    }
                     var image = new Image();
                     var _this=this;
                     image.onload=function(){
@@ -405,6 +412,11 @@
                         _this.sjSize = (width+"*"+height)
                     };
                     image.src= res.url;
+                })
+            },
+            getSize() {
+                this.api.config_size().then((res) => {
+                    this.sizeList = res
                 })
             },
             getTagsList(){
@@ -622,7 +634,6 @@
                         var id=[];
                         id=this.bind_mid.split(';');
                         this.bindMid=this.bind_mid.split(';');
-                        console.log(id);
                         for(var i=0;i<id.length;i++){
                             for(var j=0;j<res.data.length;j++){
                                 if(id[i]==res.data[j].mid){
@@ -880,6 +891,14 @@
         background:rgba(255,255,255,1);
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);
+    }
+    .AddIMG_yl select{
+        display: inline-block;
+        width:200px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgb(229, 227, 235);
     }
     /*.AddIMG_yl input{*/
         /*width:125px;*/

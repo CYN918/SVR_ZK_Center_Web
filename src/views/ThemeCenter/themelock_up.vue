@@ -29,7 +29,7 @@
                                 :limit="1"
                                 :on-remove="handleRemove"
                                 :on-exceed="handleExceed"
-                                :file-list="fileList">
+                                >
                             <el-button size="small" type="primary">点击上传</el-button>
                         </el-upload>
                         <div style="display: inline-block">
@@ -115,24 +115,16 @@
                                 action="https://jsonplaceholder.typicode.com/posts/"
                                 :on-preview="handlePreview"
                                 :on-remove="handleRemove"
+                                :http-request="upYl"
                                  multiple
                                 :limit="10"
                                 :on-exceed="handleExceed"
-                                :file-list="fileList">
+                                >
                             <el-button size="small" type="primary">点击上传</el-button>
                         </el-upload>
                     </div>
-                    <div class="imgCanvas">
-                        <img src="../../../public/img/IMG.png">
-                    </div>
-                    <div class="imgCanvas">
-                        <img src="../../../public/img/IMG.png">
-                    </div>
-                    <div class="imgCanvas">
-                        <img src="../../../public/img/IMG.png">
-                    </div>
-                    <div class="imgCanvas">
-                        <img src="../../../public/img/IMG.png">
+                    <div class="imgCanvas" v-for="item in pic">
+                        <img :src="item">
                     </div>
                 </div>
             </div>
@@ -168,12 +160,13 @@
                 is_material:false,
                 works:[],
                 is_work:false,
-                tags:'',
+                tags:'aaa',
                 account:'',
                 note:'',
                 name:'',
                 type:this.$route.query.type,
                 AcctounsList:[],
+                pic:[],
             }
         },
         mounted(){
@@ -200,10 +193,16 @@
             },
             upLoad(file){
                 let formData = new FormData;
-                console.log(file);
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
                     this.attach=res;
+                })
+            },
+            upYl(file){
+                let formData = new FormData;
+                formData.append('file',file.file);
+                this.api.file_upload(formData).then((res)=>{
+                    this.pic.push(res.url);
                 })
             },
             Acctouns(){
@@ -232,7 +231,7 @@
                 formData.append('works',JSON.stringify(this.works));
                 formData.append('materials',JSON.stringify(this.materials));
                 formData.append('is_material',this.is_material);
-                formData.append('previews',JSON.stringify(this.previews));
+                formData.append('previews',JSON.stringify(this.pic));
                 formData.append('attach',JSON.stringify(this.attach));
                 this.api.themes_material_add(formData).then((res)=>{
 
@@ -263,7 +262,7 @@
         background: #fff;
         margin-right: 24px;
     }
-    .themeUpLeft>div{margin-bottom: 20px;margin-left: 60px;}
+    .themeUpLeft>div{margin-bottom: 20px;margin-left: 10px;}
     .themeUpLeft>div>span{
         text-align: right;
         margin-right: 24px;
@@ -383,7 +382,7 @@
         right: -10px;
     }
     .themeBtn{
-        margin-left: 186px!important;
+        margin-left: 136px!important;
     }
     .themeBtn span{
         display: inline-block;
@@ -465,6 +464,8 @@
         margin-right: 20px;
     }
     .imgCanvas img{
+        max-width:144px;
+        max-height:240px;
         position: absolute;
         left: 50%;
         top:50%;

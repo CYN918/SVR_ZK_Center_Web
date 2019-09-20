@@ -154,6 +154,9 @@
             }
         },
         methods:{
+            fh(){
+                this.$router.go(-1);
+            },
             changeover(num){
                 this.isType=num;
             },
