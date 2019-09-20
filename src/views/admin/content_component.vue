@@ -20,7 +20,8 @@
                             <span>上传素材预览图</span>
                         </div>
                         <div class="AddIMG_box">
-                            <img :src="prev_uri" v-if="this.prev_uri!=''"/>
+                            <img :src="prev_uri" v-if="this.prev_uri!=''&&this.arr[this.arr.length-1]!='mp4'"/>
+                            <video id="video" :src="prev_uri" controls="controls" v-if="this.prev_uri!=''&&this.arr[this.arr.length-1]=='mp4'" />
                         </div>
                     </div>
                     <div class="AddIMG_content_right">
@@ -178,7 +179,8 @@
                 bbb:0,
                 initiate:false,
                 initiate2:false,
-                status:''
+                status:'',
+                arr:[],
             }
         },
         mounted(){
@@ -212,16 +214,18 @@
                 }
             },
             beforeAvatarUpload(file) {
+                console.log(file);
                 const isJPG = file.type === 'image/jpeg';
                 const isPNG = file.type === 'image/png';
                 const isPSD = file.type === 'image/psd';
                 const isBMP = file.type === 'image/bmp';
                 const isGIF = file.type === 'image/gif';
                 const isTIF = file.type === 'image/tiff';
-                if (!isJPG&&!isPNG&&!isPSD&&!isBMP&&!isGIF&&!isTIF) {
-                    this.$message.error('只支持JPG、PNG、psd、bmp、gif、tif格式!');
+                const isVideo = file.type ==='video/mp4';
+                if (!isJPG&&!isPNG&&!isPSD&&!isBMP&&!isGIF&&!isTIF&&!isVideo) {
+                    this.$message.error('只支持JPG、PNG、psd、bmp、gif、tif、mp4格式!');
                 }
-                return isPNG || isJPG ||isPSD||isBMP||isGIF||isTIF;
+                return isPNG || isJPG ||isPSD||isBMP||isGIF||isTIF||isVideo;
             },
             // setTags(){
             //     let formData = new FormData;
@@ -241,6 +245,7 @@
                     this.$emit('dataUpdating',0,true);
                 })
             },
+
             IDchanges(){
                if(this.bind_mid=='') {
                    this.hqUrl='';
@@ -325,6 +330,7 @@
                         this.bbb=100;
                         this.initiate2=false;
                         this.prev_uri = res.url;
+                        this.arr=this.prev_uri.split('.');
                         var image = new Image();
                         var _this=this;
                         image.onload=function(){
@@ -552,7 +558,7 @@
         color:rgba(61,73,102,1);
 
     }
-    .AddIMG_content_left img{
+    .AddIMG_content_left img,.AddIMG_content_left video{
         max-width: 228px;
         max-height: 328px;
         border:0px!important;

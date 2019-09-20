@@ -933,4 +933,21 @@ export default {
     adreview_config_channel:{
 		url:'adreview/config/channel',method:'get'
 	},
+
+
+	//主题中心
+
+
+    //主题素材列表
+    themes_material_list:{
+		url:'themes/material/list',method:'get'
+	},
+	//添加主题素材
+    themes_material_add:{
+		url:'themes/material/add',method:'post',isType:{suktip:1}
+	},
+	//获取素材可使用范围列表
+    themes_config_account:{
+		url:'themes/config/account',method:'get'
+	},
 }

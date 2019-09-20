@@ -120,6 +120,24 @@
                     </div>
                 </div>
             </div>
+            <div  class="preview" v-if="isType==3">
+                <div class="titID">
+                    <span class="nameID">上架记录</span>
+                    <span class="addJl">添加上架记录</span>
+                </div>
+                <div>
+
+                </div>
+            </div>
+            <div  class="preview" v-if="isType==4">
+                <div class="titID">
+                    <span class="nameID">相关合同</span>
+                    <span class="derivation">汇总</span>
+                </div>
+                <div>
+
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -254,7 +272,7 @@
         overflow-x: scroll;
         overflow-y: hidden;
         white-space:nowrap;
-        height:425px;
+        min-height:425px;
         background:rgba(255,255,255,1);
         border-radius:2px;
     }
@@ -401,5 +419,21 @@
         font-weight:400;
         color:rgba(31,46,77,1);
         margin: 20px 0 20px 23px;
+    }
+    .addJl{
+        display: inline-block;
+        width:124px;
+        height:36px;
+        background:rgba(51,119,255,1);
+        border-radius:4px;
+        font-size:14px;
+        font-family:PingFangSC;
+        font-weight:400;
+        color:rgba(255,255,255,1);
+        line-height: 36px;
+        text-align: center;
+        cursor: pointer;
+        float: right;
+        margin: 10px 24px 0 0 ;
     }
 </style>

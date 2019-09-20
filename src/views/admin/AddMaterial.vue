@@ -20,7 +20,8 @@
                             <span>上传预览图</span>
                         </div>
                         <div class="AddIMG_box_1">
-                            <img :src="chenck==false?prev_uri:attach.url"/>
+                            <img :src="chenck==false?prev_uri:attach.url" v-if="this.arr[this.arr.length-1]!='mp4'"/>
+                            <video  :src="chenck==false?prev_uri:attach.url" controls="controls" v-if="this.arr[this.arr.length-1]=='mp4'" />
                         </div>
                     </div>
                     <div class="AddIMG_content_right">
@@ -237,6 +238,7 @@
                 status:'',
                 ad_pic:'0',
                 ad_num:'',
+                arr:[],
             }
         },
         mounted(){
@@ -358,10 +360,11 @@
                 const isBMP = file.type === 'image/bmp';
                 const isGIF = file.type === 'image/gif';
                 const isTIF = file.type === 'image/tif';
-                if (!isJPG&&!isPNG&&!isPSD&&!isBMP&&!isGIF&&!isTIF) {
-                    this.$message.error('只支持JPG、PNG、psd、bmp、gif、tif格式!');
+                const isVideo = file.type ==='video/mp4';
+                if (!isJPG&&!isPNG&&!isPSD&&!isBMP&&!isGIF&&!isTIF&&!isVideo) {
+                    this.$message.error('只支持JPG、PNG、psd、bmp、gif、tif、mp4格式!');
                 }
-                return isPNG || isJPG ||isPSD||isBMP||isGIF||isTIF;
+                return isPNG || isJPG ||isPSD||isBMP||isGIF||isTIF||isVideo;
             },
             handleExceed(files, fileList) {
                 this.$message.warning(`当前限制选择1个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
@@ -393,6 +396,7 @@
                     this.bbb=100;
                     this.initiate2=false;
                     this.prev_uri = res.url;
+                    this.arr=this.prev_uri.split('.');
                     var image = new Image();
                     var _this=this;
                     image.onload=function(){
@@ -733,7 +737,7 @@
         background:rgba(247,249,252,1);
         border-radius:4px;
     }
-    .AddIMG_box_1 img{
+    .AddIMG_box_1 img,.AddIMG_box_1 video{
         margin: 0 11px 17px 0;
         display: inline-block;
         max-width:216px!important;

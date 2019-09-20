@@ -2,68 +2,85 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh()">主题库 &nbsp;/</span>
-                <span class="new_url"> &nbsp;上传本地主题</span>
+                <span class="log_url" @click="fh()">锁屏主题素材 &nbsp;/</span>
+                <span class="new_url"> &nbsp;上传锁屏打包件</span>
             </div>
             <div class="tit_top_con">
-                <span class="tit_name">上传本地主题</span>
+                <span class="tit_name">上传锁屏打包件</span>
             </div>
         </div>
         <div class="themeUp">
             <div class="themeUpLeft">
                 <div>
-                    <span >主题名称</span>
-                    <input type="text" placeholder="给主题起个名字" style=" margin-top: 26px;">
+                    <span >名称</span>
+                    <input type="text" placeholder="给主题起个名字" style=" margin-top: 26px;"  v-model="name">
                 </div>
                 <div style="margin-bottom: 0">
-                    <span >主题包</span>
+                    <span >附件</span>
                     <div style="display: inline-block">
                         <div class="upBag">
                             <img src="../../../public/img/upbag.png"/>
                         </div>
                         <el-upload
                                 class="upload-demo"
-                                action="https://jsonplaceholder.typicode.com/posts/"
-                                :on-remove="handleRemove"
+                                action="222"
+                                :http-request="upLoad"
                                 multiple
                                 :limit="1"
+                                :on-remove="handleRemove"
                                 :on-exceed="handleExceed"
                                 :file-list="fileList">
                             <el-button size="small" type="primary">点击上传</el-button>
                         </el-upload>
                         <div style="display: inline-block">
                             <div style="margin-bottom: 3px;margin-top:3px ">
-                                <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(61,73,102,1);">上传主题包</span>
+                                <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(61,73,102,1);">上传附件</span>
                             </div>
                             <div style="margin-bottom: 3px">
-                                <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(143,155,179,1);">支持扩展名：.rar .zip .doc .docx .pdf .jpg...</span>
+                                <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(143,155,179,1);">支持扩展名：.rar .zip</span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <span>主题描叙</span>
-                    <input type="text" placeholder="给主题写个自我介绍，50字内"/>
-                </div>
-                <div>
-                    <span>主题类型</span>
-                    <select>
-                        <option>全部</option>
-                    </select>
-                    <span>内容分类</span>
-                    <select>
-                        <option>全部</option>
+                    <span>使用范围</span>
+                    <select class="fw" v-model="account">
+                        <option v-for="item in AcctounsList" :value="item.account">{{item.account}}</option>
                     </select>
                 </div>
                 <div>
-                    <span>内容标签</span>
+                    <span style="vertical-align: top">备注描述</span>
+                    <textarea  placeholder="写个自我介绍，50字内" v-model="note"></textarea>
+                </div>
+                <div>
+                    <span style="vertical-align: top">内容标签</span>
                     <div class="tag_box">
                         <input  type="text" placeholder="创建或搜索个性标签"/>
                     </div>
                 </div>
                 <div>
+                    <span>绑定设计师素材</span>
+                    <a>从作品列表选择</a>
+                    <input type="checkbox" class="check" v-model="is_work" />
+                    <span class="sm">与作品无关</span>
+                    <span class="sm2">绑定制作图标的相关作品，千万不要填错了</span>
+                    <div class="img_box">
+                        <div class="img_box1">
+                            <img>
+                            <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px"/>
+                        </div>
+                        <div class="img_box1">
+                            <img>
+                            <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px"/>
+                        </div>
+                    </div>
+                </div>
+                <div>
                     <span>绑定素材</span>
                     <a>从物料库选择</a>
+                    <input type="checkbox" class="check" v-model="is_material"/>
+                    <span class="sm">与作品无关</span>
+                    <span class="sm2">绑定制作图标的相关作品，千万不要填错了</span>
                     <div class="img_box">
                         <div class="img_box1">
                             <img>
@@ -97,8 +114,8 @@
                                 class="upload"
                                 action="https://jsonplaceholder.typicode.com/posts/"
                                 :on-preview="handlePreview"
-                                :before-remove="beforeRemove"
-                                multiple
+                                :on-remove="handleRemove"
+                                 multiple
                                 :limit="10"
                                 :on-exceed="handleExceed"
                                 :file-list="fileList">
@@ -145,9 +162,27 @@
         data(){
             return{
                 bg:false,
+                attach:{},
+                previews:[],
+                materials:[],
+                is_material:false,
+                works:[],
+                is_work:false,
+                tags:'',
+                account:'',
+                note:'',
+                name:'',
+                type:this.$route.query.type,
+                AcctounsList:[],
             }
         },
+        mounted(){
+            this.Acctouns();
+        },
         methods:{
+            handleExceed(files, fileList) {
+                this.$message.warning(`当前限制选择1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+            },
             fh(){
                 this.$router.go(-1)
             },
@@ -157,7 +192,52 @@
             qx(){
                 this.bg=false;
             },
-            upload(){},
+            handleRemove(file, fileList) {
+                console.log(file, fileList);
+            },
+            handlePreview(file) {
+                console.log(file);
+            },
+            upLoad(file){
+                let formData = new FormData;
+                console.log(file);
+                formData.append('file',file.file);
+                this.api.file_upload(formData).then((res)=>{
+                    this.attach=res;
+                })
+            },
+            Acctouns(){
+                this.api.themes_config_account().then((res)=>{
+                   this.AcctounsList=res;
+                })
+            },
+            ADD(){
+                if(this.is_work==false){
+                    this.is_work=0
+                }else{
+                    this.is_work=1
+                }
+                if(this.is_material==false){
+                    this.is_material=0
+                }else{
+                    this.is_material=1
+                }
+                let formData =new FormData;
+                formData.append('type',this.type);
+                formData.append('name',this.name);
+                formData.append('note',this.note);
+                formData.append('account',this.account);
+                formData.append('tags',this.tags);
+                formData.append('is_work',this.is_work);
+                formData.append('works',JSON.stringify(this.works));
+                formData.append('materials',JSON.stringify(this.materials));
+                formData.append('is_material',this.is_material);
+                formData.append('previews',JSON.stringify(this.previews));
+                formData.append('attach',JSON.stringify(this.attach));
+                this.api.themes_material_add(formData).then((res)=>{
+
+                })
+            },
         },
     }
 </script>
@@ -179,7 +259,7 @@
     .themeUpLeft{
         display: inline-block;
         width:883px;
-        height:852px;
+        min-height:852px;
         background: #fff;
         margin-right: 24px;
     }
@@ -192,7 +272,15 @@
         font-family:PingFangSC;
         font-weight:500;
         color:rgba(31,46,77,1);
-        width: 60px;
+        width: 100px;
+    }
+    textarea{
+        padding: 10px;
+        width:448px;
+        height:68px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
     }
     .themeUpLeft>div>input{
         padding-left: 14px;
@@ -203,7 +291,7 @@
         border:1px solid rgba(211,219,235,1);
     }
     .themeUpLeft>div>select{
-        width:118px;
+        width:404px;
         height:36px;
         background:rgba(255,255,255,1);
         border-radius:4px;
@@ -231,14 +319,15 @@
         transform: translateY(-50%);
     }
     .upload-demo{
-      display: inline-block;
+        display: inline-block;
+
     }
     .upload-demo .el-button {
         width:98px;
         height:98px;
         position: absolute;
         top:87px;
-        left: 145px;
+        left: 185px;
         opacity: 0;
     }
     .tag_box{
@@ -275,7 +364,7 @@
         cursor: pointer;
     }
     .img_box{
-        margin-left: 85px;
+        margin-left: 126px;
         margin-top: 20px;
     }
     .img_box1{
@@ -294,7 +383,7 @@
         right: -10px;
     }
     .themeBtn{
-        margin-left: 145px!important;
+        margin-left: 186px!important;
     }
     .themeBtn span{
         display: inline-block;
@@ -323,15 +412,15 @@
         min-height:648px;
         background:rgba(255,255,255,1);
     }
-   .upName{
-       display: inline-block;
-       font-size:14px;
-       font-family:PingFangSC;
-       font-weight:500;
-       color:rgba(31,46,77,1);
-       margin-top: 24px;
-       margin-right: 9px;
-   }
+    .upName{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC;
+        font-weight:500;
+        color:rgba(31,46,77,1);
+        margin-top: 24px;
+        margin-right: 9px;
+    }
     .max_num{
         display: inline-block;
         font-size:14px;
@@ -439,5 +528,29 @@
         border: 0px!important;
         color: #fff!important;
         margin-right: 20px;
+    }
+    .check{
+        width:16px!important;
+        height:16px!important;
+        background:rgba(51,119,255,1);
+        border-radius:4px;
+        margin: 0 6px 0 10px;
+    }
+    .sm{
+        display: inline-block;
+        width: auto!important;
+        font-size:14px!important;
+        font-family:PingFangSC;
+        font-weight:400;
+        color:rgba(31,46,77,0.65)!important;
+        margin-right: 12px;
+    }
+    .sm2{
+        width: auto!important;
+        display: inline-block;
+        font-size:14px!important;
+        font-family:PingFangSC;
+        font-weight:400!important;
+        color:rgba(31,46,77,0.45)!important;
     }
 </style>

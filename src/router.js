@@ -134,6 +134,7 @@ import ad_external_user from './views/workbench/ad_external_user'
 mode['ad_external_user']=ad_external_user
 
 
+
 import axios from 'axios'
 import api from './api/index'
 
@@ -180,6 +181,10 @@ import themeUp from './views/ThemeCenter/theme_up'
 mode['themeUp']=themeUp
 import themeDetails from './views/ThemeCenter/themeDetails'
 mode['themeDetails']=themeDetails
+import themeLock from './views/ThemeCenter/theme_lock'
+mode['themeLock']=themeLock
+import themelock_up from './views/ThemeCenter/themelock_up'
+mode['themelock_up']=themelock_up
 
 Vue.use(Router)
 const router = new Router({routes: []})
@@ -287,6 +292,9 @@ let nb = [
             {path:'/ThemeCenter/themeCook',name:'主题库',component:mode['themeCook']},
             {path:'/ThemeCenter/themeUp',name:'上传主题',component:mode['themeUp']},
             {path:'/ThemeCenter/themeDetails',name:'主题详情',component:mode['themeDetails']},
+			{path:'/ThemeCenter/themeLock',name:'锁屏',component:mode['themeLock']},
+            {path:'/ThemeCenter/themelock_up',name:'锁屏上传',component:mode['themelock_up']},
+
         ]},
 
 ];
@@ -387,8 +395,10 @@ let leftNav =
 //         {title:'主题中心',default:'/ThemeCenter',defaultopen:['1'],
 //             children:[
 //                 {title:'数据中心',url:'1',img:'&#xe612;',list:[
+//                     ]},
+//                 {title:'主题素材库',url:'1',img:'&#xe612;',list:[
 //                         {title:'主题库',url:'/ThemeCenter/themeCook'},
-//
+//                         {title:'锁屏',url:'/ThemeCenter/themeLock'},
 //                     ]},
 //             ]
 //         },
