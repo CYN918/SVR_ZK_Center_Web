@@ -37,7 +37,8 @@
                     <div  class="img_box">
                         <div class="ADD_img" v-for="(data,index2) in item.bind" >
                             <img class="ADD_img_del" src="../../../public/img/del.png" @click="delmid(index,data.mid)">
-                            <img  class="ADD_img_img" :src="data.prev_uri"/>
+                            <img  class="ADD_img_img" :src="data.prev_uri" v-if="(data.prev_uri.split('.'))[(data.prev_uri.split('.').length-1)]!='mp4'"/>
+                            <video class="ADD_img_img" :src="data.prev_uri" controls="controls" v-if="(data.prev_uri.split('.'))[(data.prev_uri.split('.').length-1)]=='mp4'" />
                             <span>{{data.mid}}</span>
                         </div>
                         <div class="ADD_img" v-for="(data,index2) in item.middleware" >

@@ -55,7 +55,8 @@
 		<div class="box">
 			<div class="boxImg" v-for="(DL,index) in IMGList">
 				<div class="img_box">
-					<img :src="DL.prev_uri"/>
+					<img :src="DL.prev_uri" v-if="(DL.prev_uri.split('.'))[(DL.prev_uri.split('.')).length-1]!='mp4'"/>
+					<video :src="DL.prev_uri" controls="controls" v-if="(DL.prev_uri.split('.'))[(DL.prev_uri.split('.').length-1)]=='mp4'"></video>
 				</div>
 				<div class="boxImg_right" >
 					<div class="boxImg_right_1">
@@ -390,8 +391,6 @@
             BJtag(index){
                 this.tagData = true;
                 this.wpid=this.IMGList[index].wpid;
-                // this.checkedCities1 = this.IMGList[index].sls_tags;
-                console.log(this.IMGList[index].sls_tags);
                 this.api.lockwallpaper_tags_list().then((res)=>{
                     this.tagslist=res;
                     for(var i=0;i<this.IMGList[index].sls_tags.length;i++){
@@ -406,7 +405,6 @@
             getTagsList(){
                 let params = {preset:this.preset,material:this.material,type:this.type};
                 this.api.tags_search({params}).then((da)=>{
-                    console.log(da);
                     this.preset_tags = da.data.tags;
                     this.self_tags = da.data.self_tags
                 })

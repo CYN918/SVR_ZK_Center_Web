@@ -386,7 +386,7 @@ a{
   margin-right: 24px;
   text-align: center;
 }
-.boxImg img{
+.boxImg img,.boxImg video{
   width:218px;
   max-height:326px;
   position: relative;

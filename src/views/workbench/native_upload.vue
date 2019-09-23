@@ -20,14 +20,13 @@
                             <span>上传素材预览图</span>
                         </div>
                         <div class="AddIMG_box">
-                            <img :src="prev_uri"/>
+                            <img :src="prev_uri" v-if="this.prev_uri!=''&&this.arr[this.arr.length-1]!='mp4'"/>
+                            <video id="video" :src="prev_uri" controls="controls" v-if="this.prev_uri!=''&&this.arr[this.arr.length-1]=='mp4'" />
                         </div>
                     </div>
                     <div class="AddIMG_content_right">
                         <div class="AddIMG_input">
                             <span class="tit">附件:</span>
-                            <!--<span class="AddIMG_input_box">上传</span>-->
-                            <!--<input type="file" />-->
                             <div class="AddIMG_input_box">
                                 <el-upload
                                         class="upload-demo"
@@ -76,9 +75,10 @@
                         </div>
                         <div class="AddIMG_yl">
                             <span class="tit">尺寸:</span>
-                            <span class="AddIMG_yl_size" v-model="sjSize">{{sjSize}}</span>
-                            <!--<div class="AddIMG_yl_upload"><span>上传预览图</span></div>-->
-                            <!--<input type="file"/>-->
+                            <input class="AddIMG_yl_size" v-model="sjSize" placeholder="上传预览图后自动获取" disabled v-if="this.arr[this.arr.length-1]!='mp4'">
+                            <select v-model="sjSize" v-if="this.arr[this.arr.length-1]=='mp4'" class="AddIMG_yl_size">
+                                <option :value="item.size" v-for="item in sizeList">{{item.size}}</option>
+                            </select>
                             <div class="AddIMG_yl_upload">
                                 <el-upload
                                         :limit="1"
@@ -182,6 +182,8 @@
                 bbb:0,
                 initiate:false,
                 initiate2:false,
+                arr:[],
+                sizeList:[],
             }
         },
         mounted(){
@@ -266,6 +268,10 @@
                         this.bbb=100;
                         this.initiate2=false;
                         this.prev_uri = res.url;
+                        this.arr=this.prev_uri.split('.');
+                        if(this.arr[this.arr.length-1]=='mp4'){
+                            this.getSize()
+                        }
                         var image = new Image();
                         var _this=this;
                         image.onload=function(){
@@ -276,6 +282,11 @@
                         image.src= res.url;
                     })
 
+            },
+            getSize() {
+                this.api.config_size().then((res) => {
+                    this.sizeList = res
+                })
             },
             getTagsList(){
                 let params = {preset:this.preset,material:1,type:this.type,search:this.tagsName,p:50,page:1};
@@ -318,7 +329,7 @@
                         formData.append('line_num',this.index);
                         formData.append('mid',JSON.stringify([this.list.mid]));
                         this.api.demand_business_bind(formData).then((res)=>{
-                            this.$parent.AddMaterial()
+                            this.$parent.AddMaterial();
                             this.$parent.heidBD();
                         })
 
@@ -396,7 +407,7 @@
         color:rgba(61,73,102,1);
 
     }
-    .AddIMG_content_left img{
+    .AddIMG_content_left img,.AddIMG_content_left video{
         max-width: 228px;
         max-height: 328px;
         border:0px!important;

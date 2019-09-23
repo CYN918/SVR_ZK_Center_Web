@@ -25,10 +25,10 @@
         <div>
             <div class="box" v-for="item in list">
                 <div class="boxImgs">
-                    <img src>
+                    <img :src="item.previews[0]">
                 </div>
                 <div class="boxName">
-                    <span>最多十个字</span>
+                    <span>{{item.name}}</span>
                 </div>
                 <div class="boxTag">
                     <span></span>
@@ -212,6 +212,14 @@
         margin: 0 auto;
         background: #fff;
         padding: 0 auto!important;
+    }
+    .boxImgs img{
+        max-width: 189px;
+        max-height: 315px;
+        position: relative;
+        left:50%;
+        top:50%;
+        transform: translate(-50%,-50%);
     }
     .boxName{
         width: 100%;

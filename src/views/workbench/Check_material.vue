@@ -21,7 +21,8 @@
                 </div>
                 <div class="img_box">
                     <div  class="ADD_img">
-                        <img :src="item.prev_uri" class="ADD_img_img"  preview='0'/>
+                        <img :src="item.prev_uri" class="ADD_img_img"  preview='0' v-if="(item.prev_uri.split('.'))[(item.prev_uri.split('.')).length-1]!='mp4'"/>
+                        <video  :src="item.prev_uri" controls="controls" class="ADD_img_img" v-if="(item.prev_uri.split('.'))[(item.prev_uri.split('.')).length-1]=='mp4'" />
                         <span>{{item.mid}}</span>
                     </div>
                 </div>

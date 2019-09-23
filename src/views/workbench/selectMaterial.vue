@@ -45,7 +45,8 @@
                             </template>
                         </div>
                         <div class="showing">
-                            <img :src="DL.prev_uri"/>
+                            <img  class="ADD_img_img" :src="DL.prev_uri" v-if="(DL.prev_uri.split('.'))[(DL.prev_uri.split('.').length-1)]!='mp4'"/>
+                            <video class="ADD_img_img" :src="DL.prev_uri" controls="controls" v-if="(DL.prev_uri.split('.'))[(DL.prev_uri.split('.').length-1)]=='mp4'" />
                         </div>
                         <div class="boxImg_right">
                             <div class="boxImg_right_1">
@@ -391,7 +392,7 @@
         margin-right: 24px;
         background: #e1e0e4;
     }
-    .showing img{
+    .showing img,.showing video{
         max-width:99px;
         max-height:149px;
     }
