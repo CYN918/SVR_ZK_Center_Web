@@ -1,5 +1,6 @@
 <template>
     <div>
+        <sel v-if="sel"></sel>
         <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="fh()">主题库 &nbsp;/</span>
@@ -48,11 +49,13 @@
                 <div>
                     <span>主题类型</span>
                     <select>
-                        <option>全部</option>
+                        <option value="">全部</option>
+                        <option :value="item.type" v-for="item in themeType">{{item.type}}</option>
                     </select>
                     <span>内容分类</span>
                     <select>
-                        <option>全部</option>
+                        <option value="">全部</option>
+                        <option :value="item.class" v-for="item in con">{{item.class}}</option>
                     </select>
                 </div>
                 <div>
@@ -63,7 +66,7 @@
                 </div>
                 <div>
                     <span>绑定素材</span>
-                    <a>从物料库选择</a>
+                    <a @click="jump()">从物料库选择</a>
                     <div class="img_box">
                         <div class="img_box1">
                             <img>
@@ -106,18 +109,10 @@
                             <el-button size="small" type="primary">点击上传</el-button>
                         </el-upload>
                     </div>
-                    <div class="imgCanvas">
-                        <img src="../../../public/img/IMG.png">
+                    <div class="imgCanvas" v-for="item in pic">
+                        <img :src="item">
                     </div>
-                    <div class="imgCanvas">
-                        <img src="../../../public/img/IMG.png">
-                    </div>
-                    <div class="imgCanvas">
-                        <img src="../../../public/img/IMG.png">
-                    </div>
-                    <div class="imgCanvas">
-                        <img src="../../../public/img/IMG.png">
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -141,17 +136,31 @@
 </template>
 
 <script>
+    import sel from './select'
     export default {
+        components:{sel},
         name: "theme_up",
         data(){
             return{
                 bg:false,
                 pic:[],
+                sel:false,
+                themeType:[],
+                con:[],
             }
+        },
+        mounted(){
+            this.getThemeType();
         },
         methods:{
             fh(){
                 this.$router.go(-1)
+            },
+            jump(){
+                this.sel=true;
+            },
+            setJump(){
+                this.sel=false;
             },
             ADD(){
                 this.bg=true;
@@ -161,6 +170,17 @@
             },
             handleExceed(files, fileList) {
                 this.$message.warning(`当前限制选择1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+            },
+            getCon(){
+                this.api.themes_config_theme_class().then((res)=>{
+                    this.con=res;
+                })
+            },
+            getThemeType(){
+                this.api.themes_config_theme_type().then((res)=>{
+                    this.themeType=res;
+                    this.getCon()
+                })
             },
             upYl(file){
                 let formData = new FormData;
@@ -457,5 +477,20 @@
         border: 0px!important;
         color: #fff!important;
         margin-right: 20px;
+    }
+    .imgCanvas{
+        position: relative;
+        display: inline-block;
+        width:144px;
+        height:240px;
+        margin-right: 20px;
+    }
+    .imgCanvas img{
+        max-width:144px;
+        max-height:240px;
+        position: absolute;
+        left: 50%;
+        top:50%;
+        transform: translate(-50%,-50%);
     }
 </style>

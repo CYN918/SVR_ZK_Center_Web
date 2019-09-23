@@ -958,5 +958,16 @@ export default {
     themes_config_theme_class:{
 		url:'themes/config/theme/class',method:'get'
 	},
-
+	//获取主题厂商渠道列表
+    themes_config_channel:{
+		url:'themes/config/channel',method:'get'
+	},
+	//获取主题渠道UI版本列表
+    themes_config_channelui:{
+		url:'themes/config/channelui',method:'get'
+	},
+	//删除主题素材
+    themes_material_del:{
+		url:'themes/material/del',method:'post',isType:{suktip:1}
+	},
 }

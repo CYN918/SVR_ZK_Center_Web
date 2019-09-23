@@ -1,5 +1,6 @@
 <template>
     <div>
+        <sel v-if="sel"></sel>
         <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="fh()">锁屏主题素材 &nbsp;/</span>
@@ -55,40 +56,36 @@
                 <div>
                     <span style="vertical-align: top">内容标签</span>
                     <div class="tag_box">
-                        <input  type="text" placeholder="创建或搜索个性标签"/>
+                        <input  type="text" placeholder="创建或搜索个性标签" v-model="tagsName" />
+                        <div class="tags_box">
+                            <span class="CJ" v-if="tagsName!=''">创建“{{tagsName}}”标签</span>
+                            <template>
+                                <el-checkbox-group
+                                        v-model="tags">
+                                    <el-checkbox v-for="(item,index) in tag" :label="item.name">{{item.name}}</el-checkbox>
+                                </el-checkbox-group>
+                            </template>
+                        </div>
                     </div>
                 </div>
                 <div>
                     <span>绑定设计师素材</span>
-                    <a>从作品列表选择</a>
+                    <input class="xmID" type="text" v-model="previews" placeholder="请输入项目ID">
                     <input type="checkbox" class="check" v-model="is_work" />
                     <span class="sm">与作品无关</span>
                     <span class="sm2">绑定制作图标的相关作品，千万不要填错了</span>
-                    <div class="img_box">
-                        <div class="img_box1">
-                            <img>
-                            <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px"/>
-                        </div>
-                        <div class="img_box1">
-                            <img>
-                            <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px"/>
-                        </div>
-                    </div>
+
                 </div>
                 <div>
                     <span>绑定素材</span>
-                    <a>从物料库选择</a>
+                    <a @click="jump()">从物料库选择</a>
                     <input type="checkbox" class="check" v-model="is_material"/>
                     <span class="sm">与作品无关</span>
                     <span class="sm2">绑定制作图标的相关作品，千万不要填错了</span>
                     <div class="img_box">
                         <div class="img_box1">
                             <img>
-                            <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px"/>
-                        </div>
-                        <div class="img_box1">
-                            <img>
-                            <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px"/>
+                            <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px" @click="Del()"/>
                         </div>
                     </div>
                 </div>
@@ -140,7 +137,7 @@
                     </span>
                 </div>
                 <div class="btn">
-                    <span class="qd">确定</span>
+                    <span class="qd" @click="ADDs()">确定</span>
                     <span @click="qx()">取消</span>
                 </div>
             </div>
@@ -149,7 +146,9 @@
 </template>
 
 <script>
+    import sel from './select'
     export default {
+        components:{sel},
         name: "theme_up",
         data(){
             return{
@@ -160,19 +159,38 @@
                 is_material:false,
                 works:[],
                 is_work:false,
-                tags:'aaa',
+                tags:'',
+                tag:[],
+                tagsName:"",
                 account:'',
                 note:'',
                 name:'',
                 type:this.$route.query.type,
                 AcctounsList:[],
                 pic:[],
+                sel:false,
             }
         },
         mounted(){
             this.Acctouns();
+            this.getTagsList();
         },
         methods:{
+            Del(id){
+                let formData =new FormData;
+                formData.append('thmid',id);
+                this.api.themes_material_del(formData).then((res)=>{
+
+                })
+            },
+            getTagsList(){
+                let params = {material:'2',type:this.$route.query.type,search:this.tagsName,p:500,page:1};
+                this.api.tags_search({params}).then((da)=>{
+                    console.log(da);
+                    this.tag=da.data.tags;
+                    console.log(this.tag);
+                })
+            },
             handleExceed(files, fileList) {
                 this.$message.warning(`当前限制选择1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
             },
@@ -205,12 +223,18 @@
                     this.pic.push(res.url);
                 })
             },
+            jump(){
+               this.sel=true;
+            },
+            setJump(){
+                this.sel=false;
+            },
             Acctouns(){
                 this.api.themes_config_account().then((res)=>{
                    this.AcctounsList=res;
                 })
             },
-            ADD(){
+            ADDs(){
                 if(this.is_work==false){
                     this.is_work=0
                 }else{
@@ -242,6 +266,7 @@
 </script>
 
 <style scoped>
+
     .top{
         width: 100%;
         height: 98px;
@@ -339,7 +364,7 @@
         overflow-y: auto;
     }
     .tag_box input{
-        margin: 20px 0 18px 14px;
+        margin: 20px 0 0px 14px;
         padding-left: 14px;
         width:390px;
         height:28px;
@@ -553,5 +578,16 @@
         font-family:PingFangSC;
         font-weight:400!important;
         color:rgba(31,46,77,0.45)!important;
+    }
+    .tags_box{
+        margin:14px;
+    }
+    .xmID{
+        width:302px!important;
+        height:36px;
+        padding-left: 10px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
     }
 </style>

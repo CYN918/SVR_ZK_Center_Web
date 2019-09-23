@@ -39,11 +39,13 @@
                     </el-date-picker>
                     <span class="tit_name">渠道</span>
                     <select style="margin-right: 40px">
-                        <option>全部</option>
+                        <option value="">全部</option>
+                        <option :value="item.channel" v-for="item in channel">{{item.channel}}</option>
                     </select>
                     <span class="tit_name">厂商UI版本</span>
                     <select style="margin-right: 68px">
-                        <option>全部</option>
+                        <option value="">全部</option>
+                        <option v-for="item in ui" :value="item">{{item}}</option>
                     </select>
                     <span class="tit_name">状态</span>
                     <select>
@@ -106,6 +108,8 @@
                 theme_type:[],
                 cont:[],
                 range:[],
+                channel:[],
+                ui:[],
             }
         },
         mounted(){this.themeType()},
@@ -114,6 +118,18 @@
                 this.api.themes_config_theme_type().then((res)=>{
                     this.theme_type=res;
                     this.content();
+                    this.qd();
+                    this. getUI()
+                })
+            },
+            getUI(){
+                this.api.themes_config_channelui().then((res)=>{
+                    this.ui=res
+                })
+            },
+            qd(){
+                this.api.themes_config_channel().then((res)=>{
+                    this.channel=res;
                 })
             },
             content(){

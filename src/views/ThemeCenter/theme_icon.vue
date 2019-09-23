@@ -4,11 +4,17 @@
             <span class="topName">图标主题素材</span>
             <span class="total">共299套/</span>
             <span class="total">200套已使用</span>
-            <span class="upLock" @click="jump">上传锁屏</span>
+            <span class="upLock" @click="jump">上传图标</span>
         </div>
         <div class="seach">
             <div class="tagSeach">
                 <span class="tagSeachName">内容标题</span>
+                <span class="labelName" :class="{active:tags.length==0}" @click="ClickTag()">全部</span>
+                <div class="tags">
+                    <span v-for="(item,index) in tag" class="labelName" @click="ClickTag(item.name)" :class="{active:tags.indexOf(item.name)!=-1}">{{item.name}}</span>
+                </div>
+                <span class="tagsAll" v-if="this.class1==false" @click="getClass">查看更多</span>
+                <span class="tagsAll" v-if="this.class1==true" @click="getClass">收起</span>
             </div>
             <div class="seachIiput">
                 <img  src="../../../public/img/ss.png"/>
@@ -25,10 +31,10 @@
         <div>
             <div class="box" v-for="item in list">
                 <div class="boxImgs">
-                    <img src>
+                    <img :src="item.previews[0]" @click="xq">
                 </div>
                 <div class="boxName">
-                    <span>最多十个字</span>
+                    <span>{{item.name}}</span>
                 </div>
                 <div class="boxTag">
                     <span></span>
@@ -57,20 +63,60 @@
                 type:'th_icon',
                 status:'',
                 search:'',
-                tags:'',
+                tags:[],
+                tag:[],
                 p:10,
                 page:1,
                 total:0,
                 list:[],
+                class1:false,
             }
         },
         mounted(){this.dataList()},
         methods:{
+            ClickTag(name){
+
+                if(name==undefined){
+                    this.tags=[]
+                }else{
+                    if(this.tags.indexOf(name)==-1){
+                        this.tags.push(name);
+
+                    }else{
+                        for(var i=0;i<this.tags.length;i++ ){
+                            if(this.tags[i]==name){
+                                this.tags.splice(i,1);
+
+                            }
+                        }
+                    }
+                }
+            },
+            getClass(){
+                if(this.class1==false){
+                    this.class1=true
+                }else{
+                    this.class1=false
+                }
+            },
+            xq(){
+                this.$router.push({
+                    path:'./themeDetails'
+                })
+            },
+            getTagsList(){
+                let params = {material:'2',type:this.type,search:this.tagsName,p:500,page:1};
+                this.api.tags_search({params}).then((da)=>{
+                    console.log(da);
+                    this.tag=da.data.tags;
+                })
+            },
             dataList(){
                 let params ={type:this.type,status:this.status,search:this.search,tags:this.tags,p:this.p,page:this.page};
                 this.api.themes_material_list({params}).then((res)=>{
                     this.list=res.data;
-                    this.total=res.total
+                    this.total=res.total;
+                    this. getTagsList()
                 })
             },
             handleSizeChange(p) { // 每页条数切换
@@ -94,6 +140,23 @@
 </script>
 
 <style scoped>
+    .labelName{
+        padding:0px 10px;
+    }
+    .labelName:hover{
+        margin-right: 24px!important;
+    }
+    .active{
+        background:rgba(51,119,255,1);
+        color: #fff!important;
+
+    }
+    .tags{
+        margin-top: 7px;
+    }
+    .tagsAll{
+        margin-top: 13px;
+    }
     .top{
         width: 100%;
         height:62px;
@@ -155,6 +218,7 @@
         font-weight:400;
         color:rgba(143,155,179,1);
         line-height: 60px;
+        margin-right: 22px;
     }
     .seachIiput{
         height: 84px;
@@ -213,6 +277,14 @@
         background: #fff;
         padding: 0 auto!important;
     }
+    .boxImgs img{
+        max-width: 189px;
+        max-height: 315px;
+        position: relative;
+        left:50%;
+        top:50%;
+        transform: translate(-50%,-50%);
+    }
     .boxName{
         width: 100%;
         height: 34px;
@@ -248,4 +320,5 @@
         text-align: center;
         cursor: pointer;
     }
+
 </style>

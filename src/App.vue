@@ -169,10 +169,10 @@ a{
   font-weight: 400;
   color: #3377ff;
 }
-.AddIMG_bq_box_top_bq .el-checkbox__inner{
+.AddIMG_bq_box_top_bq .el-checkbox__inner {
   opacity: 0;
 }
-.AddIMG_bq_box_top_bq .el-checkbox__label{
+.AddIMG_bq_box_top_bq .el-checkbox__label {
   padding-left: 0;
   font-size:12px;
   font-family:PingFangSC-Regular;
@@ -195,7 +195,7 @@ a{
   padding: 5px 0px;
 }
 
-.AddIMG_bq_box_top_bq .is-checked{
+.AddIMG_bq_box_top_bq .is-checked {
  background:  rgba(51,119,255,1);
   border: 0px!important;
 }
