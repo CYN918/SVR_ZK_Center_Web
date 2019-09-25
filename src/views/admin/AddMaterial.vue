@@ -57,7 +57,7 @@
                                 <div class="strip" :style="{width:aaa+'%'}" style="background: blue;height: 5px"></div>
                                 <div style="text-align: center;font-size: 10px">当前附件上传{{aaa}}%</div>
                             </div>
-                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="chenck" v-if="this.types!='f_sls_lockscreen'"/><span v-if="this.types!='f_sls_lockscreen'">仅图片</span>
+                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="chenck" v-if="this.types!='f_sls_lockscreen'" @click="checkSelect()"/><span v-if="this.types!='f_sls_lockscreen'" >仅图片</span>
                             <div class="upChenck" v-if="this.types!='f_sls_lockscreen'">
                                 <p>勾选后可直接上传图片、且无需再次上传预览图</p>
                             </div>
@@ -257,6 +257,11 @@
             }
         },
         methods:{
+            checkSelect(){
+                if(this.chenck==false&&this.types=='f_ad_picture'){
+                    this.model='无'
+                }
+            },
             heidSc(){
                 this.$parent.heidSc();
             },

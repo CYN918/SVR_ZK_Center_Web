@@ -25,7 +25,10 @@
                 </div>
                 <div class="two">
                     <span class="tit_txt ">尺寸</span>
-                    <span class="tit_txt_2 logs tit_txts">{{this.list.size}}</span>
+                    <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                        <div slot="content">{{this.list.size}}</div>
+                        <span>{{this.list.size}}</span>
+                    </el-tooltip>
                     <span class="tit_txt right">优先级</span>
                     <span class="tit_txt_2">{{this.list.priority}}</span>
                 </div>
