@@ -135,11 +135,11 @@
                     this.con=res;
                 })
             },
-            // getTheme(){
-            //     this.api.themes_config_theme_type().then((res)=>{
-            //         this.theme=res
-            //     })
-            // },
+            getTheme(){
+                this.api.themes_config_theme_type().then((res)=>{
+                    this.theme=res
+                })
+            },
 
 
             YCset(){this.$parent.setJump()},

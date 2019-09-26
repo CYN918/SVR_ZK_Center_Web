@@ -824,4 +824,8 @@ select{
   color: #fff!important;
   border: 0!important;
 }
+.tags_box .el-checkbox+.el-checkbox,.tags_box .el-checkbox{
+  margin-left: 0!important;
+  margin-right: 24px;
+}
 </style>

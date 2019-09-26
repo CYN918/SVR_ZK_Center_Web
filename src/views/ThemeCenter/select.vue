@@ -34,17 +34,17 @@
                                 end-placeholder="结束日期">
                         </el-date-picker>
                         <span>渠道</span>
-                        <select>
+                        <select v-model="channel" @change="getUI">
                             <option value="">全部</option>
-                            <option v-for="item in channel" :value="item.channel">{{item.channel_name}}</option>
+                            <option v-for="item in channels" :value="item.channel">{{item.channel_name}}</option>
                         </select>
                         <span>厂商UI版本</span>
-                        <select>
+                        <select v-model="ui_version">
                             <option value="">全部</option>
-                            <option v-for="item in ui" :value="item">{{item}}</option>
+                            <option v-for="item in ui" :value="item.version">{{item.version}}</option>
                         </select>
                         <span>状态</span>
-                        <select>
+                        <select v-model="status">
                             <option value="">全部</option>
                             <option value="1">已上架</option>
                             <option value="0">未上架</option>
@@ -54,16 +54,16 @@
                         <img src="../../../public/img/ss.png" />
                         <input type="text" placeholder="搜索标签或ID" v-model="search" @input="getList()"/>
                         <span>主题类型</span>
-                        <select>
+                        <select v-model="type" @change="getCon()">
                             <option value="">全部</option>
                             <option v-for="item in theme" :value="item.type">{{item.type}}</option>
                         </select>
                         <span>内容分类</span>
-                        <select>
+                        <select v-model="content">
                             <option value="">全部</option>
                             <option v-for="item in con" :value="item.class">{{item.class}}</option>
                         </select>
-                        <span class="box_btn">查询</span>
+                        <span class="box_btn" @click="getList()">查询</span>
                     </div>
                 </div>
                 <div class="box">
@@ -139,11 +139,15 @@
                 listTagData:[],
                 search_tags:[],
                 time:[],
-                check:'img/select2.png',
-                channel:[],
+                channels:[],
+                channel:'',
                 ui:[],
                 theme:[],
                 con:[],
+                content:'',
+                status:'',
+                ui_version:'',
+
             }
         },
         mounted() {
@@ -154,13 +158,12 @@
             getChannel(){
                 this.api.themes_config_channel().then((res)=>{
                     this.channel=res;
-                    this.getUI();
                     this.getTheme();
-                    this.getCon()
                 })
             },
             getCon(){
-                this.api.themes_config_theme_class().then((res)=>{
+                let params ={type:this.type};
+                this.api.themes_config_theme_class({params}).then((res)=>{
                     this.con=res;
                 })
             },
@@ -170,8 +173,8 @@
                 })
             },
             getUI(){
-                // let params ={channel:this.}
-                this.api.themes_config_channelui().then((res)=>{
+                let params ={channel:this.channel};
+                this.api.themes_config_channelui({params}).then((res)=>{
                     this.ui=res
                 })
             },
@@ -194,7 +197,7 @@
 
             },
             getList(){
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status}
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status,class:this.content,ui_version:this.ui_version,channel:this.channel}
                 this.api.material_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     this.total=res.total;
