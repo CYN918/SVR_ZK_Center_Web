@@ -20,7 +20,8 @@
                             <span>上传素材预览图</span>
                         </div>
                         <div class="AddIMG_box">
-                            <img :src="prev_uri" v-if="this.prev_uri!=''"/>
+                            <img  class="ADD_img_img" :src="prev_uri" v-if="this.prev_uri!=''&&(prev_uri.split('.'))[(prev_uri.split('.').length-1)]!='mp4'"/>
+                            <video class="ADD_img_img" :src="prev_uri" controls="controls" v-if="this.prev_uri!=''&&(prev_uri.split('.'))[(prev_uri.split('.').length-1)]=='mp4'" />
                         </div>
                     </div>
                     <div class="AddIMG_content_right">

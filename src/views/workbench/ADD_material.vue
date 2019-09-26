@@ -11,7 +11,6 @@
                             <span>素材预览图</span>
                         </div>
                         <div class="AddIMG_box">
-                            <!--<img :src="item"  v-for="item in hqUrl"/>-->
                             <div v-for="item in hqUrl" style="display: inline-block">
                                 <img :src="item" v-if="(item.split('.'))[(item.split('.')).length-1]!='mp4'"/>
                                 <video :src="item" controls="controls" v-if="(item.split('.'))[(item.split('.')).length-1]=='mp4'" />

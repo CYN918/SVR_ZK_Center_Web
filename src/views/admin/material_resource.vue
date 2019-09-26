@@ -72,7 +72,6 @@
 							</div>
 							<div class="cc">
 								<span class="boxImg_text">预览图尺寸:</span>
-
 								<span class="boxImg_content" >{{(DL.size)}}</span>
 							</div>
 						</div>
