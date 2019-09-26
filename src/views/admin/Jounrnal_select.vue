@@ -44,7 +44,8 @@
                                 </el-checkbox-group>
                             </template>
                         </div>
-                        <img :src="DL.prev_uri"/>
+                        <img :src="DL.prev_uri" v-if="(DL.prev_uri.split('.'))[(DL.prev_uri.split('.')).length-1]!='mp4'"/>
+                        <video :src="DL.prev_uri" controls="controls" v-if="(DL.prev_uri.split('.'))[(DL.prev_uri.split('.')).length-1]=='mp4'"/>
                         <div class="boxImg_right">
                             <div class="boxImg_right_1">
                                 <div>
@@ -356,7 +357,7 @@
     .boxImg:nth-child(3n){
         margin: 0 0 20px 0!important;
     }
-    .boxImg img{
+    .boxImg img ,video{
         width:99px;
         height:149px;
         margin-right: 24px;

@@ -11,7 +11,9 @@
                             <span>绑定素材预览图</span>
                         </div>
                         <div class="AddIMG_box">
-                            <img :src="hqUrl" v-if="hqUrl!=''"/>
+                            <!--<img :src="hqUrl" v-if="hqUrl!=''"/>-->
+                            <img :src="hqUrl" v-if="hqUrl!=''&&(hqUrl.split('.'))[(hqUrl.split('.')).length-1]!='mp4'"/>
+                            <video :src="hqUrl" controls="controls" v-if="hqUrl!=''&&(hqUrl.split('.'))[(hqUrl.split('.')).length-1]=='mp4'" />
                         </div>
                         <div class="AddIMG_box_txt">
                             <span>{{bindMid}}</span>

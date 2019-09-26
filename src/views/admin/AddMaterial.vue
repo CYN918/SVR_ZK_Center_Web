@@ -11,7 +11,12 @@
                             <span>素材预览图</span>
                         </div>
                         <div class="AddIMG_box">
-                            <img :src="item"  v-for="item in hqUrl"/>
+                            <div v-for="item in hqUrl" style="display: inline-block">
+                                <!--<img :src="item"  />-->
+                                <img :src="item" v-if="(item.split('.'))[(item.split('.')).length-1]!='mp4'"/>
+                                <video :src="item" controls="controls" v-if="(item.split('.'))[(item.split('.')).length-1]=='mp4'" />
+                            </div>
+
                         </div>
                         <div class="AddIMG_box_txt">
                             <span v-for="item in bindMid">{{item}}</span>
@@ -738,7 +743,7 @@
         background:rgba(247,249,252,1);
         border-radius:4px;
     }
-    .AddIMG_box img{
+    .AddIMG_box img ,.AddIMG_box video{
         width:64px;
         height:90px;
         background:rgba(227,231,235,1);

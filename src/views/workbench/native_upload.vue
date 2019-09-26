@@ -11,7 +11,9 @@
                             <span>绑定素材预览图</span>
                         </div>
                         <div class="AddIMG_box">
-                            <img :src="scUrl"/>
+                            <!--<img :src="scUrl"/>-->
+                            <img :src="scUrl" v-if="(scUrl.split('.'))[(scUrl.split('.')).length-1]!='mp4'"/>
+                            <video :src="scUrl" controls="controls" v-if="(scUrl.split('.'))[(scUrl.split('.')).length-1]=='mp4'" />
                         </div>
                         <div class="AddIMG_box_txt">
                             <span>{{bind_mid}}</span>
