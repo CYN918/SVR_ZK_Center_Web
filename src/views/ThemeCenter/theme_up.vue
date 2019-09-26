@@ -14,7 +14,7 @@
             <div class="themeUpLeft">
                 <div>
                     <span >主题名称</span>
-                    <input type="text" placeholder="给主题起个名字" style=" margin-top: 26px;">
+                    <input type="text" placeholder="给主题起个名字" style=" margin-top: 26px;" v-model="name">
                 </div>
                 <div style="margin-bottom: 0">
                     <span >主题包</span>
@@ -26,6 +26,7 @@
                                 class="upload-demo"
                                 action="https://jsonplaceholder.typicode.com/posts/"
                                 :on-remove="handleRemove"
+                                :http-request="upLoad"
                                 multiple
                                 :limit="1"
                                 :on-exceed="handleExceed"
@@ -44,16 +45,16 @@
                 </div>
                 <div>
                     <span>主题描叙</span>
-                    <input type="text" placeholder="给主题写个自我介绍，50字内"/>
+                    <input type="text" placeholder="给主题写个自我介绍，50字内" v-model="note"/>
                 </div>
                 <div>
                     <span>主题类型</span>
-                    <select>
+                    <select v-model="type" @change="getCon()">
                         <option value="">全部</option>
                         <option :value="item.type" v-for="item in themeType">{{item.type}}</option>
                     </select>
                     <span>内容分类</span>
-                    <select>
+                    <select v-model="content">
                         <option value="">全部</option>
                         <option :value="item.class" v-for="item in con">{{item.class}}</option>
                     </select>
@@ -166,6 +167,12 @@
                 con:[],
                 main_preview:'',
                 tagsName:'',
+                content:'',
+                name:'',
+                type:'',
+                note:'',
+                tags:[],
+                tag:[],
             }
         },
         mounted(){
@@ -190,18 +197,32 @@
             qx(){
                 this.bg=false;
             },
+            getTagsList(){
+                let params = {material:'2',type:this.$route.query.type,search:this.tagsName,p:500,page:1};
+                this.api.tags_search({params}).then((da)=>{
+                    this.tag=da.data.tags;
+                })
+            },
             handleExceed(files, fileList) {
                 this.$message.warning(`当前限制选择1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
             },
             getCon(){
-                this.api.themes_config_theme_class().then((res)=>{
+                let params={type:this.type};
+                this.api.themes_config_theme_class({params}).then((res)=>{
                     this.con=res;
                 })
             },
             getThemeType(){
                 this.api.themes_config_theme_type().then((res)=>{
                     this.themeType=res;
-                    this.getCon()
+                    this.getTagsList()
+                })
+            },
+            upLoad(file){
+                let formData = new FormData;
+                formData.append('file',file.file);
+                this.api.file_upload(formData).then((res)=>{
+                    this.attach=res;
                 })
             },
             upYl(file){

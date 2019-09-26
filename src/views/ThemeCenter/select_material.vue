@@ -180,31 +180,6 @@
                     this.preset_tags = da.data.tags;
                 })
             },
-            getListTags(name){
-                if(!name){
-                    this.listTagData.length=0
-                }
-                else{
-                    if(this.listTagData.indexOf(name)==-1){
-                        this.listTagData.push(name)
-
-                    }else{
-                        for(var i=0;i<this.listTagData.length;i++ ){
-                            if(this.listTagData[i]==name){
-                                this.listTagData.splice(i,1);
-
-                            }
-                        }
-                    }
-                }
-
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status}
-                this.api.material_search({params}).then((res)=>{
-                    this.IMGList=res.data;
-                    this.total=res.total;
-                    this.getTagsList()
-                })
-            },
             getListTag(name){
                 if(!name){
                     this.listTag.length=0
@@ -216,18 +191,11 @@
                         for(var i=0;i<this.listTag.length;i++ ){
                             if(this.listTag[i]==name){
                                 this.listTag.splice(i,1);
-
                             }
                         }
                     }
                 }
-
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status}
-                this.api.material_search({params}).then((res)=>{
-                    this.IMGList=res.data;
-                    this.total=res.total;
-                    this.getTagsList()
-                })
+                this.getList();
             },
             handleSizeChange1(pageSize) { // 每页条数切换
                 this.pageSize = pageSize;

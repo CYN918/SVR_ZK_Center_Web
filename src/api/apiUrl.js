@@ -970,4 +970,8 @@ export default {
     themes_material_del:{
 		url:'themes/material/del',method:'post',isType:{suktip:1}
 	},
+	//主题列表
+    themes_theme_search:{
+		url:'themes/theme/search',method:'get'
+	},
 }

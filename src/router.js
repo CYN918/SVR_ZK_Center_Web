@@ -406,8 +406,11 @@ let leftNav =
 //             children:[
 //                 {title:'数据中心',url:'1',img:'&#xe612;',list:[
 //                     ]},
-//                 {title:'主题素材库',url:'2',img:'&#xe612;',list:[
+//                 {title:'主题库',url:'2',img:'&#xe612;',list:[
 //                         {title:'主题库',url:'/ThemeCenter/themeCook'},
+//                     ]},
+//
+//                 {title:'主题素材库',url:'3',img:'&#xe612;',list:[
 //                         {title:'锁屏',url:'/ThemeCenter/themeLock'},
 //                         {title:'图标',url:'/ThemeCenter/theme_icon'},
 //                         {title:'二级页面',url:'/ThemeCenter/theme_two'},

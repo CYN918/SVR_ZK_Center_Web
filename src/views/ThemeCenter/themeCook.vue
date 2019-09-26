@@ -38,17 +38,17 @@
                             end-placeholder="结束日期">
                     </el-date-picker>
                     <span class="tit_name">渠道</span>
-                    <select style="margin-right: 40px">
+                    <select style="margin-right: 40px" @change="getUI()" v-model="channel">
                         <option value="">全部</option>
-                        <option :value="item.channel" v-for="item in channel">{{item.channel}}</option>
+                        <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
                     </select>
                     <span class="tit_name">厂商UI版本</span>
-                    <select style="margin-right: 68px">
+                    <select style="margin-right: 68px" v-model="ui_version">
                         <option value="">全部</option>
-                        <option v-for="item in ui" :value="item">{{item}}</option>
+                        <option v-for="item in ui" :value="item.version">{{item.version}}</option>
                     </select>
                     <span class="tit_name">状态</span>
-                    <select>
+                    <select v-model="status">
                         <option>全部</option>
                         <option value="1">已使用</option>
                         <option value="0">未使用</option>
@@ -56,20 +56,20 @@
                 </div>
                 <div>
                     <img src="../../../public/img/ss.png" class="img"/>
-                    <input type="text" placeholder="搜索主题库"/>
+                    <input type="text" placeholder="搜索主题库" v-model="search"/>
                     <span class="tit_name">主题类型</span>
-                    <select style="margin-right: 54px">
+                    <select style="margin-right: 54px" v-model="type" @change="content()">
                         <option :value="item.type" v-for="item in theme_type">{{item.type}}</option>
                     </select>
                     <span class="tit_name">内容分类</span>
-                    <select style="margin-right: 40px">
+                    <select style="margin-right: 40px" v-model="contemt">
                         <option :value="item.class" v-for="item in cont">{{item.class}}</option>
                     </select>
                     <span class="tit_name">适用范围</span>
-                    <select style="margin-right: 24px">
+                    <select style="margin-right: 24px" v-model="account">
                         <option :value="item.account" v-for="item in range">{{item.account}}</option>
                     </select>
-                    <span class="cx">查询</span>
+                    <span class="cx" >查询</span>
                 </div>
             </div>
             <div>
@@ -93,6 +93,16 @@
                     </div>
                 </div>
             </div>
+            <div class="block">
+                <el-pagination
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page.sync="page"
+                        :page-size="p"
+                        layout="prev, pager, next,total, jumper"
+                        :total="total">
+                </el-pagination>
+            </div>
         </div>
 </template>
 
@@ -102,40 +112,69 @@
         data(){
             return{
                 radio:[],
-                value1:[],
+                value1:[(new Date()).toLocaleDateString().split('/').join('-'),(new Date()).toLocaleDateString().split('/').join('-')],
                 isType:0,
                 isTypes:0,
                 theme_type:[],
                 cont:[],
                 range:[],
-                channel:[],
+                channel:'',
+                channels:[],
                 ui:[],
+                ui_version:'',
+                account:'',
+                contemt:'',
+                type:"",
+                status:'',
+                p:14,
+                page:1,
+                total:0,
+                search:'',
             }
         },
-        mounted(){this.themeType()},
+        mounted(){this.themeType();
+                this.getData()
+        },
         methods:{
+            handleSizeChange(p) { // 每页条数切换
+                this.p = p;
+                this.getData()
+            },
+            handleCurrentChange(page) {//页码切换
+                this.page = page;
+                this.getData()
+            },
+            getData(){
+                let params={tags:'',channel:this.channel,ui_version:this.ui_version,account:this.account,
+                    status:this.status,type:this.type,class:this.content,tstart:this.value1[0],tend:this.value1[1],search:this.search,p:this.p,page:this.page};
+                this.api.themes_theme_search({params}).then((res)=>{
+                    this.dataList=res.data;
+                    this.total=res.total;
+                })
+            },
             themeType(){
                 this.api.themes_config_theme_type().then((res)=>{
                     this.theme_type=res;
                     this.content();
                     this.qd();
-                    this. getUI()
                 })
             },
             getUI(){
-                this.api.themes_config_channelui().then((res)=>{
+                let params={channel:this.channel};
+                this.api.themes_config_channelui({params}).then((res)=>{
                     this.ui=res
                 })
             },
             qd(){
                 this.api.themes_config_channel().then((res)=>{
-                    this.channel=res;
+                    this.channels=res;
+                    this.Range()
                 })
             },
             content(){
-                this.api.themes_config_theme_class().then((res)=>{
+                let params={type:this.type};
+                this.api.themes_config_theme_class({params}).then((res)=>{
                     this.cont=res;
-                    this.Range()
                 })
             },
             Range(){
