@@ -52,8 +52,8 @@
                 <div class="img_box">
                     <div v-for="(da1,index3) in item.bind" class="ADD_img">
                         <!--<img :src="da1.prev_uri" class="ADD_img_img" preview="0"/>-->
-                        <img :src="da1.prev_uri" class="ADD_img_img"  preview='0' v-if="new RegExp('.mp4').test(da1.prev_uri)"/>
-                        <video  :src="da1.prev_uri" controls="controls" class="ADD_img_img" v-if="new RegExp('.mp4').test(da1.prev_uri)" />
+                        <img :src="da1.prev_uri" class="ADD_img_img"  preview='0' v-if="(da1.prev_uri.split('.'))[(da1.prev_uri.split('.')).length-1]!='mp4'"/>
+                        <video  :src="da1.prev_uri" controls="controls" class="ADD_img_img" v-if="(da1.prev_uri.split('.'))[(da1.prev_uri.split('.')).length-1]=='mp4'" />
                         <!--<video  :src="da1.prev_uri" controls="controls" class="ADD_img_img" v-if="(da1.prev_uri.split('.'))[(da1.prev_uri.split('.')).length-1]=='mp4'" />-->
                         <span>{{da1.mfid}}</span>
                     </div>

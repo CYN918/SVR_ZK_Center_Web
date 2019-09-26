@@ -82,6 +82,7 @@
 							</div>
 							<div class="dx">
 								<span class="boxImg_text">预览图大小:</span>
+								<span class="boxImg_content" v-if="(DL.attach.size/1024).toFixed(0)<1">1kb</span>
 								<span class="boxImg_content" v-if="DL.attach.size>1024&&DL.attach.size<1024*1024">{{(DL.attach.size/1024).toFixed(0)}}kb</span>
 								<span class="boxImg_content" v-if="DL.attach.size>1024*1024&&DL.attach.size<1024*1024*1024">{{(DL.attach.size/1024/1024).toFixed(1)}}MB</span>
 								<span class="boxImg_content" v-if="DL.attach.size>1024*1024*1024">{{(DL.attach.size/1024/1024/1024).toFixed(2)}}GB</span>

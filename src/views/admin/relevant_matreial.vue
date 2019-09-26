@@ -7,7 +7,8 @@
             </div>
             <div class="images">
                 <div v-for="item in dataLIST" class="aaa">
-                    <img :src="item.prev_uri" />
+                    <img :src="item.prev_uri" v-if="(item.prev_uri.split('.'))[(item.prev_uri.split('.')).length-1]!='mp4'"/>
+                    <video :src="item.prev_uri" controls="controls" v-if="(item.prev_uri.split('.'))[(item.prev_uri.split('.').length-1)]=='mp4'"></video>
                     <span>{{item.mid}}</span>
                 </div>
             </div>
@@ -100,7 +101,7 @@
     margin:24px 0 0  24px;
     overflow-y: auto;
 }
-.aaa img{
+.aaa img,video{
     width:252px;
     height:326px;
     background:rgba(216,216,216,1);

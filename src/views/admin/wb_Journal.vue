@@ -38,6 +38,7 @@
                     </div>
                     <div>
                         <span class="right_txt_name">文件</span>
+                        <span class="boxImg_content" v-if="(DL.attach.size/1024).toFixed(0)<1">1kb</span>
                         <span class="right_txt_content" v-if="(item.attach.size/1024).toFixed(0)>=1&&(item.attach.size/1024/1024).toFixed(0)<1">{{(item.attach.size/1024).toFixed(0)}}kb</span>
                         <span class="right_txt_content" v-if="(item.attach.size/1024/1024).toFixed(1)>=1&&(item.attach.size/1024/1024/1024).toFixed(1)<1">{{(item.attach.size/1024/1024).toFixed(1)}}MB</span>
                         <span class="right_txt_content" v-if="(item.attach.size/1024/1024/1024).toFixed(2)>=1">{{(item.attach.size/1024/1024/1024).toFixed(2)}}GB</span>
