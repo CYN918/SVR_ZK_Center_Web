@@ -101,7 +101,10 @@
             },
             xq(){
                 this.$router.push({
-                    path:'./themeDetails'
+                    path:'./themeSc_details',
+                    query:{
+                        name:'图标'
+                    }
                 })
             },
             getTagsList(){
@@ -113,7 +116,7 @@
             },
             dataList(){
                 let params ={type:this.type,status:this.status,search:this.search,tags:this.tags,p:this.p,page:this.page};
-                this.api.themes_material_list({params}).then((res)=>{
+                this.api.themes_material_search({params}).then((res)=>{
                     this.list=res.data;
                     this.total=res.total;
                     this. getTagsList()
@@ -267,8 +270,12 @@
         color:rgba(255,255,255,1);
     }
     .box{
+        margin-top: 0;
+        display: inline-block;
         width:189px;
         height: 411px;
+        margin-right: 40px;
+        margin-bottom: 24px;
     }
     .boxImgs{
         width: 189px;

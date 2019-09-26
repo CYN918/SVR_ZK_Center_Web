@@ -1,6 +1,6 @@
 <template>
     <div>
-        <sel v-if="sel"></sel>
+        <sel v-if="sel" @linet="linet"></sel>
         <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="fh()">锁屏主题素材 &nbsp;/</span>
@@ -56,15 +56,19 @@
                 <div>
                     <span style="vertical-align: top">内容标签</span>
                     <div class="tag_box">
-                        <input  type="text" placeholder="创建或搜索个性标签" v-model="tagsName" />
+                        <input  type="text" placeholder="创建或搜索个性标签" v-model="tagsName" @input="getTagsList()"/>
                         <div class="tags_box">
-                            <span class="CJ" v-if="tagsName!=''">创建“{{tagsName}}”标签</span>
-                            <template>
-                                <el-checkbox-group
-                                        v-model="tags">
-                                    <el-checkbox v-for="(item,index) in tag" :label="item.name">{{item.name}}</el-checkbox>
-                                </el-checkbox-group>
-                            </template>
+                            <span class="CJ" v-if="tagsName!=''" @click="ADDtag()" >创建“{{tagsName}}”标签</span>
+                            <div>
+                                <template>
+                                    <el-checkbox-group
+                                            v-model="tags">
+                                        <el-checkbox v-for="(item,index) in tag" :label="item.name">{{item.name}}</el-checkbox>
+                                    </el-checkbox-group>
+                                </template>
+
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -78,20 +82,20 @@
                 </div>
                 <div>
                     <span>绑定素材</span>
-                    <a @click="jump()">从物料库选择</a>
+                    <a @click="jump()">从主题素材库选择</a>
                     <input type="checkbox" class="check" v-model="is_material"/>
                     <span class="sm">与作品无关</span>
                     <span class="sm2">绑定制作图标的相关作品，千万不要填错了</span>
                     <div class="img_box">
-                        <div class="img_box1">
-                            <img>
-                            <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px" @click="Del()"/>
+                        <div class="img_box1" v-for="(item,index) in listSC">
+                            <img :src="item.main_preview">
+                            <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px" @click="Del(item.thmid)"/>
                         </div>
                     </div>
                 </div>
                 <div class="themeBtn">
                     <span class="tj" @click="ADD()">提交</span>
-                    <span>取消</span>
+                    <span @click="fh()">返回</span>
                 </div>
             </div>
             <div class="themeUpRight">
@@ -121,7 +125,11 @@
                         </el-upload>
                     </div>
                     <div class="imgCanvas" v-for="item in pic">
-                        <img :src="item">
+                        <img src="../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;left:121px;top:23px;z-index: 99" v-if="item==main_preview">
+                        <img :src="item" class="sc">
+                        <div class="sz" @click="fm(item)">
+                            <span>设置为封面</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -146,7 +154,7 @@
 </template>
 
 <script>
-    import sel from './select'
+    import sel from './select_material'
     export default {
         components:{sel},
         name: "theme_up",
@@ -159,7 +167,7 @@
                 is_material:false,
                 works:[],
                 is_work:false,
-                tags:'',
+                tags:[],
                 tag:[],
                 tagsName:"",
                 account:'',
@@ -168,7 +176,11 @@
                 type:this.$route.query.type,
                 AcctounsList:[],
                 pic:[],
+                main_preview:'',
                 sel:false,
+                scID:[],
+                IMGList:[],
+                listSC:[],
             }
         },
         mounted(){
@@ -176,19 +188,36 @@
             this.getTagsList();
         },
         methods:{
+            ADDtag(){
+                let formData =new FormData;
+                formData.append('name',this.tagsName);
+                formData.append('preset',"1");
+                formData.append('material','2');
+                formData.append('type',this.$route.query.type);
+                this.api.tags_add(formData).then((res)=>{
+                    this.tagsName='';
+                    this.getTagsList();
+                })
+            },
+            fm(url){
+                this.main_preview=url;
+            },
             Del(id){
+                for(var i=0;i<this.scID.length;i++){
+                    if(this.scID[i]==id){
+                        this.scID.splice(i,1);
+                        this.getList();
+                    }
+                }
                 let formData =new FormData;
                 formData.append('thmid',id);
                 this.api.themes_material_del(formData).then((res)=>{
-
                 })
             },
             getTagsList(){
                 let params = {material:'2',type:this.$route.query.type,search:this.tagsName,p:500,page:1};
                 this.api.tags_search({params}).then((da)=>{
-                    console.log(da);
                     this.tag=da.data.tags;
-                    console.log(this.tag);
                 })
             },
             handleExceed(files, fileList) {
@@ -196,6 +225,25 @@
             },
             fh(){
                 this.$router.go(-1)
+            },
+            getList(){
+                let params ={page:1,p:100000,type:'',search:'',tags:'',status:''};
+                this.api.themes_material_search({params}).then((res)=>{
+                    this.IMGList=res.data;
+                    var list=[];
+                    for(var i=0;i<this.IMGList.length;i++ ){
+                        for(var j =0;j<this.scID.length;j++){
+                            if(this.IMGList[i].thmid==this.scID[j]){
+                              list.push(this.IMGList[i]);
+                            }
+                        }
+                    }
+                    this.listSC=list;
+                })
+            },
+            linet(data){
+                this.scID=data;
+                this.getList();
             },
             ADD(){
                 this.bg=true;
@@ -250,15 +298,16 @@
                 formData.append('name',this.name);
                 formData.append('note',this.note);
                 formData.append('account',this.account);
-                formData.append('tags',this.tags);
+                formData.append('tags',this.tags.join(','));
                 formData.append('is_work',this.is_work);
                 formData.append('works',JSON.stringify(this.works));
                 formData.append('materials',JSON.stringify(this.materials));
                 formData.append('is_material',this.is_material);
                 formData.append('previews',JSON.stringify(this.pic));
                 formData.append('attach',JSON.stringify(this.attach));
+                formData.append('main_preview',this.main_preview);
                 this.api.themes_material_add(formData).then((res)=>{
-
+                    this.qx();
                 })
             },
         },
@@ -399,12 +448,20 @@
         border:1px solid rgba(211,219,235,1);
         position: relative;
     }
+    .img_box1 img{
+        max-width:98px;
+        max-height:98px;
+        position: relative;
+        left: 50%;
+        top:50%;
+        transform: translate(-50%,-50%);
+    }
     .del{
         display: inline-block;
         cursor: pointer;
-        position: absolute;
-        top:-10px;
-        right: -10px;
+        position: absolute!important;
+        top:-10px!important;
+        right: -10px!important;
     }
     .themeBtn{
         margin-left: 136px!important;
@@ -476,6 +533,7 @@
         position: absolute;
         top: 0;
         opacity: 0;
+        width: 100%;
     }
     .upload .el-button{
         width:144px;
@@ -483,10 +541,12 @@
     }
     .imgCanvas{
         position: relative;
+        vertical-align: top;
         display: inline-block;
         width:144px;
         height:240px;
         margin-right: 20px;
+        border: 1px solid #ddd;
     }
     .imgCanvas img{
         max-width:144px;
@@ -589,5 +649,38 @@
         background:rgba(255,255,255,1);
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);
+    }
+    .CJ{
+        display: inline-block;
+        line-height: 26px;
+        text-align: center;
+        cursor: pointer;
+        padding: 3px 5px ;
+        background: #d7d7d7;
+        font-size: 12px;
+        border-radius: 5px;
+        margin-bottom: 10px!important;
+    }
+
+    .sz{
+        width:144px;
+        height:34px;
+        background:rgba(0,0,0,1);
+        position: absolute;
+        bottom: 0px;
+        text-align: center;
+        opacity: 0;
+    }
+    .imgCanvas:hover .sz{
+        opacity: 0.8;
+    }
+    .sz span{
+        display: inline-block;
+        cursor: pointer;
+        line-height: 34px;
+        font-size:12px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(255,255,255,1);
     }
 </style>

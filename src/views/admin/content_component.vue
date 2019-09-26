@@ -358,7 +358,6 @@
             getTagsList(){
                 let params = {preset:this.preset,material:this.material,type:this.types,search:this.tagsName,p:50,page:1};
                 this.api.tags_search({params}).then((da)=>{
-                    console.log(da);
                     this.preset_tags = da.data.tags;
                     this.self_tags = da.data.self_tags;
                     if(this.message.mid!=undefined){

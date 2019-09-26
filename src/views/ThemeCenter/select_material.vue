@@ -2,9 +2,34 @@
     <div class="bg">
         <div class="content">
             <div class="tit_name">
-                <span>从主题库选择</span>
+                <span>从主题素材库选择</span>
             </div>
             <div class="contentImg">
+                <div class="Search">
+                    <div>
+                        <span>主题素材类型</span>
+                        <select v-model="type">
+                            <option value="">全部</option>
+                            <option value="th_lock_screen">锁屏</option>
+                            <option value="th_icon">图标</option>
+                            <option value="th_second_page">二级页</option>
+                        </select>
+                        <img src="../../../public/img/ss.png" />
+                        <input type="text" placeholder="搜索标签或ID" v-model="search" @input="getList()"/>
+                        <span>状态</span>
+                        <select v-model="status">
+                            <option value="">全部</option>
+                            <option value="1">已上架</option>
+                            <option value="0">未上架</option>
+                        </select>
+                        <span>使用范围</span>
+                        <select v-model="account">
+                            <option value="">全部</option>
+                            <option v-for="item in con" :value="item.account">{{item.account}}</option>
+                        </select>
+                        <span class="box_btn" @click="getList()">查询</span>
+                    </div>
+                </div>
                 <div class="label">
                     <span class="label_txt">内容标签:</span>
                     <span class="labelName" @click="getListTag()" :class="{active:listTag.length==0}">全部</span>
@@ -14,77 +39,15 @@
                     <span class="tagsAll" v-if="this.class==false" @click="getTag">查看更多</span>
                     <span class="tagsAll" v-if="this.class==true" @click="heidTag">收起</span>
                 </div>
-                <div class="label">
-                    <span class="label_txt" >运营标签:</span>
-                    <span class="labelName" @click="getListTags()" :class="{active:listTagData.length==0}">全部</span>
-                    <div class="tags" :class="{ALLtags:this.class1==true}">
-                        <span v-for="(item,index) in self_tags" class="labelName" @click="getListTags(item.name,index)" :class="{active:listTagData.indexOf(item.name)!=-1}">{{item.name}}</span>
-                    </div>
-                    <span class="tagsAll" v-if="this.class1==false" @click="getTag1">查看更多</span>
-                    <span class="tagsAll" v-if="this.class1==true" @click="heidTag1">收起</span>
-
-                </div>
-                <div class="Search">
-                    <div>
-                        <el-date-picker
-                                v-model="time"
-                                type="daterange"
-                                range-separator="至"
-                                start-placeholder="开始日期"
-                                end-placeholder="结束日期">
-                        </el-date-picker>
-                        <span>渠道</span>
-                        <select>
-                            <option value="">全部</option>
-                            <option v-for="item in channel" :value="item.channel">{{item.channel_name}}</option>
-                        </select>
-                        <span>厂商UI版本</span>
-                        <select>
-                            <option value="">全部</option>
-                            <option v-for="item in ui" :value="item">{{item}}</option>
-                        </select>
-                        <span>状态</span>
-                        <select>
-                            <option value="">全部</option>
-                            <option value="1">已上架</option>
-                            <option value="0">未上架</option>
-                        </select>
-                    </div>
-                    <div>
-                        <img src="../../../public/img/ss.png" />
-                        <input type="text" placeholder="搜索标签或ID" v-model="search" @input="getList()"/>
-                        <span>主题类型</span>
-                        <select>
-                            <option value="">全部</option>
-                            <option v-for="item in theme" :value="item.type">{{item.type}}</option>
-                        </select>
-                        <span>内容分类</span>
-                        <select>
-                            <option value="">全部</option>
-                            <option v-for="item in con" :value="item.class">{{item.class}}</option>
-                        </select>
-                        <span class="box_btn">查询</span>
-                    </div>
-                </div>
                 <div class="box">
-                    <div class="box_img" @click="Click">
+                    <div class="box_img"  v-for="(item,index) in IMGList" @click="clicks(index)">
                         <div class="box_top">
-                            <span>aaaa</span>
-                            <img :src="check" style="width: 48px;height: 48px;position: relative;right: -91px">
-                            <img src="" class="box_top_img">
+                            <img src="../../../public/img/select2.png" style="width: 48px;height: 48px;position: relative;right: -141px;z-index: 99" v-if="ind.indexOf(IMGList[index].thmid)==-1">
+                            <img src="../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;right: -141px;z-index: 99" v-if="ind.indexOf(IMGList[index].thmid)!=-1">
+                            <img :src="item.main_preview" class="box_top_img">
                         </div>
                         <div class="box_name">
-                            <span>aaa</span>
-                        </div>
-                    </div>
-                    <div class="box_img">
-                        <div class="box_top">
-                            <span>aaaa</span>
-                            <img :src="check" style="width: 48px;height: 48px;position: relative;right: -91px">
-                            <img src="" class="box_top_img">
-                        </div>
-                        <div class="box_name">
-                            <span>aaa</span>
+                            <span>{{item.name}}</span>
                         </div>
                     </div>
                 </div>
@@ -115,6 +78,7 @@
         props:['material','typeSC'],
         data(){
             return {
+                IMGList:[],
                 checked:[],
                 radioSize:'',
                 pageSize: 6,
@@ -122,11 +86,7 @@
                 currentPage: 1,
                 preset_tags:[],
                 self_tags:[],
-                IMGList:[],
                 search:'',
-                scMid:'',
-                scUrl:'',
-                scType:'',
                 type:'',
                 mid_list:[],
                 url_list:[],
@@ -139,11 +99,12 @@
                 listTagData:[],
                 search_tags:[],
                 time:[],
-                check:'img/select2.png',
                 channel:[],
                 ui:[],
-                theme:[],
                 con:[],
+                status:'',
+                account:'',
+                ind:[],
             }
         },
         mounted() {
@@ -151,56 +112,48 @@
             this.getChannel()
         },
         methods:{
+            clicks(index){
+                if(this.ind.indexOf(this.IMGList[index].thmid)==-1){
+                    this.ind.push(this.IMGList[index].thmid)
+                }else{
+                    for(var i = 0;i<this.ind.length;i++){
+                        if(this.ind[i]==this.IMGList[index].thmid){
+                            this.ind.splice(i,1);
+                        }
+                    }
+                }
+            },
             getChannel(){
                 this.api.themes_config_channel().then((res)=>{
                     this.channel=res;
-                    this.getUI();
-                    this.getTheme();
-                    this.getCon()
+
+                    this.getCon();
                 })
             },
             getCon(){
-                this.api.themes_config_theme_class().then((res)=>{
+                this.api.themes_config_account().then((res)=>{
                     this.con=res;
                 })
             },
-            getTheme(){
-                this.api.themes_config_theme_type().then((res)=>{
-                    this.theme=res
-                })
-            },
-            getUI(){
-                // let params ={channel:this.}
-                this.api.themes_config_channelui().then((res)=>{
-                    this.ui=res
-                })
-            },
-            Click(){
-                if(this.check=='img/select2.png'){
-                    this.check='img/select.png'
-                }else{
-                    this.check='img/select2.png'
-                }
-            },
-            getID(index){
-                if(this.material==1){
-                    this.scMid=this.IMGList[index].mid;
-                    this.scUrl=this.IMGList[index].prev_uri;
-                    console.log(this.checked)
-                }
-            },
+            // getTheme(){
+            //     this.api.themes_config_theme_type().then((res)=>{
+            //         this.theme=res
+            //     })
+            // },
+
+
             YCset(){this.$parent.setJump()},
             messageID(){
-
+                        this.$emit('linet',this.ind);
+                        this. YCset();
             },
             getList(){
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status}
-                this.api.material_search({params}).then((res)=>{
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,tags:this.listTag.join(','),status:this.status};
+                this.api.themes_material_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     this.total=res.total;
                     this.getTagsList();
                     this.getType();
-                    this.listData=this.listData.concat(res.data);
                 })
             },
             getTag(){
@@ -222,10 +175,9 @@
                 })
             },
             getTagsList(){
-                let params = {preset:this.preset,material:1,type:this.type,search:this.search};
+                let params = {preset:1,material:2,type:this.type,search:''};
                 this.api.tags_search({params}).then((da)=>{
                     this.preset_tags = da.data.tags;
-                    this.self_tags = da.data.self_tags
                 })
             },
             getListTags(name){
@@ -337,14 +289,12 @@
     }
     .Search{
         margin-left: 0!important;
-        margin-bottom: 28px;
     }
     .Search span{
         display: inline-block;
         text-align: right;
-        width: 80px;
-        height:20px;
         font-size:14px;
+        margin-right: 10px;
         font-family:PingFang-SC-Medium,PingFang-SC;
         font-weight:500;
         color:rgba(31,46,77,1);
@@ -377,7 +327,7 @@
         background:rgba(255,255,255,1);
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);
-        margin: 0px  40px 16px 14px;
+        margin: 16px  20px 0px 0px;
     }
     .label{
         margin-left: 0!important;
@@ -503,33 +453,32 @@
         display: inline-block;
         width: 189px;
         height: 349px;
-        background: #ee9900;
         margin-right: 44px;
     }
     .box_top{
         width: 189px;
         height: 315px;
     }
-    .box_top span{
-        display: inline-block;
-        width:50px;
-        height:24px;
-        background:rgba(10,10,10,1);
-        opacity:0.81;
-        font-size:12px;
-        font-family:PingFangSC-Regular,PingFangSC;
-        font-weight:400;
-        color:rgba(230,233,240,1);
-        text-align: center;
-        line-height: 24px;
-        position: relative;
-        top:-31px
-    }
+    /*.box_top span{*/
+        /*display: inline-block;*/
+        /*width:50px;*/
+        /*height:24px;*/
+        /*background:rgba(10,10,10,1);*/
+        /*opacity:0.81;*/
+        /*font-size:12px;*/
+        /*font-family:PingFangSC-Regular,PingFangSC;*/
+        /*font-weight:400;*/
+        /*color:rgba(230,233,240,1);*/
+        /*text-align: center;*/
+        /*line-height: 24px;*/
+        /*position: relative;*/
+        /*top:-31px*/
+    /*}*/
     .box_top_img{
         max-width: 189px;
         max-height: 349px;
         position: relative;
-        top: 50%;
+        top: 35%;
         left: 50%;
         transform: translate(-50%,-50%);
     }

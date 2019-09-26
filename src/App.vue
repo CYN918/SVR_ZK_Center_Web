@@ -808,4 +808,20 @@ select{
   font-family:PingFangSC;
   font-weight:400;
 }
+  .tags_box .el-checkbox__input{
+    display: none;
+  }
+.tags_box .el-checkbox__label{
+  display: inline-block;
+  background: white;
+  border: 1px solid #e6e9f0;
+  border-radius: 5px;
+  padding:5px 10px;
+  margin-bottom: 14px !important;
+}
+.tags_box  .el-checkbox__input.is-checked+.el-checkbox__label{
+  background: #3377ff!important;
+  color: #fff!important;
+  border: 0!important;
+}
 </style>

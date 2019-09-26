@@ -61,7 +61,20 @@
                 <div>
                     <span>内容标签</span>
                     <div class="tag_box">
-                        <input  type="text" placeholder="创建或搜索个性标签"/>
+                        <input  type="text" placeholder="创建或搜索个性标签" v-model="tagsName"/>
+                        <div class="tags_box">
+                            <span class="CJ" v-if="tagsName!=''" @click="ADDtag()" >创建“{{tagsName}}”标签</span>
+                            <div>
+                                <template>
+                                    <el-checkbox-group
+                                            v-model="tags">
+                                        <el-checkbox v-for="(item,index) in tag" :label="item.name">{{item.name}}</el-checkbox>
+                                    </el-checkbox-group>
+                                </template>
+
+                            </div>
+
+                        </div>
                     </div>
                 </div>
                 <div>
@@ -110,7 +123,11 @@
                         </el-upload>
                     </div>
                     <div class="imgCanvas" v-for="item in pic">
+                        <img src="../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;left:121px;top:23px;z-index: 99" v-if="item==main_preview">
                         <img :src="item">
+                        <div class="sz" @click="fm(item)">
+                            <span>设置为封面</span>
+                        </div>
                     </div>
 
                 </div>
@@ -147,12 +164,17 @@
                 sel:false,
                 themeType:[],
                 con:[],
+                main_preview:'',
+                tagsName:'',
             }
         },
         mounted(){
             this.getThemeType();
         },
         methods:{
+            fm(url){
+                this.main_preview=url;
+            },
             fh(){
                 this.$router.go(-1)
             },
@@ -492,5 +514,37 @@
         left: 50%;
         top:50%;
         transform: translate(-50%,-50%);
+    }
+    .sz{
+        width:144px;
+        height:34px;
+        background:rgba(0,0,0,1);
+        position: absolute;
+        bottom: 0px;
+        text-align: center;
+        opacity: 0;
+    }
+    .imgCanvas:hover .sz{
+        opacity: 0.8;
+    }
+    .sz span{
+        display: inline-block;
+        cursor: pointer;
+        line-height: 34px;
+        font-size:12px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(255,255,255,1);
+    }
+    .CJ{
+        display: inline-block;
+        line-height: 26px;
+        text-align: center;
+        cursor: pointer;
+        padding: 3px 5px ;
+        background: #d7d7d7;
+        font-size: 12px;
+        border-radius: 5px;
+        margin-bottom: 10px!important;
     }
 </style>

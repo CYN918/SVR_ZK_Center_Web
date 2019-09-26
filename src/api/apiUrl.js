@@ -939,8 +939,8 @@ export default {
 
 
     //主题素材列表
-    themes_material_list:{
-		url:'themes/material/list',method:'get'
+    themes_material_search:{
+		url:'themes/material/search',method:'get'
 	},
 	//添加主题素材
     themes_material_add:{

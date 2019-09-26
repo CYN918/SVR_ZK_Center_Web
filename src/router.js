@@ -189,6 +189,8 @@ import theme_icon from './views/ThemeCenter/theme_icon'
 mode['theme_icon']=theme_icon
 import theme_two from './views/ThemeCenter/theme_two'
 mode['theme_two']=theme_two
+import themeSc_details from './views/ThemeCenter/themenSC_details'
+mode['themeSc_details']=themeSc_details
 
 Vue.use(Router)
 const router = new Router({routes: []})
@@ -300,6 +302,8 @@ let nb = [
             {path:'/ThemeCenter/themelock_up',name:'锁屏上传',component:mode['themelock_up']},
             {path:'/ThemeCenter/theme_icon',name:'图标',component:mode['theme_icon']},
             {path:'/ThemeCenter/theme_two',name:'二级页面',component:mode['theme_two']},
+            {path:'/ThemeCenter/themeSc_details',name:'主题素材详情',component:mode['themeSc_details']},
+
 
         ]},
 
