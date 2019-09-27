@@ -285,7 +285,7 @@
                         this.listWL = res.data.mfinal;
                         this.total = res.total
                     }
-                    this.numAll=res.data.demand.hire_num;
+                    this.numAll=res.total;
                 })
             },
             addNote(index){
