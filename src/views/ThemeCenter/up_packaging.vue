@@ -1,15 +1,6 @@
 <template>
-    <div>
+    <div class="bg">
         <sel v-if="sel" @linet="linet"></sel>
-        <div class="top">
-            <div class="tit_top_url">
-                <span class="log_url" @click="fh()">主题库 &nbsp;/</span>
-                <span class="new_url"> &nbsp;上传本地主题</span>
-            </div>
-            <div class="tit_top_con">
-                <span class="tit_name">上传本地主题</span>
-            </div>
-        </div>
         <div class="themeUp">
             <div class="themeUpLeft">
                 <div>
@@ -30,7 +21,7 @@
                                 multiple
                                 :limit="1"
                                 :on-exceed="handleExceed"
-                                >
+                        >
                             <el-button size="small" type="primary">点击上传</el-button>
                         </el-upload>
                         <div style="display: inline-block">
@@ -46,18 +37,6 @@
                 <div>
                     <span>主题描叙</span>
                     <input type="text" placeholder="给主题写个自我介绍，50字内" v-model="note"/>
-                </div>
-                <div>
-                    <span>主题类型</span>
-                    <select v-model="type" @change="getCon()">
-                        <option value="">全部</option>
-                        <option :value="item.type" v-for="item in themeType">{{item.type}}</option>
-                    </select>
-                    <span>内容分类</span>
-                    <select v-model="content">
-                        <option value="">全部</option>
-                        <option :value="item.class" v-for="item in con">{{item.class}}</option>
-                    </select>
                 </div>
                 <div>
                     <span>内容标签</span>
@@ -79,8 +58,22 @@
                     </div>
                 </div>
                 <div>
+                    <span class="tit_name">渠道</span>
+                    <select  @change="getUI()" v-model="channel">
+                        <option value="">全部</option>
+                        <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
+                    </select>
+                </div>
+                <div>
+                    <span class="tit_name">厂商UI版本</span>
+                    <select style="margin-right: 68px" v-model="ui_version">
+                        <option value="">全部</option>
+                        <option v-for="item in ui" :value="item.version">{{item.version}}</option>
+                    </select>
+                </div>
+                <div>
                     <span>绑定主题素材</span>
-                    <a @click="jump()">从主题素材库选择</a>
+                    <a @click="jump()">从主题素材</a>
                     <div class="img_box">
                         <div class="img_box1" v-for="(item,index) in listSC">
                             <img :src="item.main_preview" class="img_box1_imgs">
@@ -173,6 +166,10 @@
                 listSC:[],
                 IMGList:[],
                 attach:{},
+                ui:[],
+                channel:'',
+                channels:[],
+                ui_version:'',
             }
         },
         mounted(){
@@ -195,11 +192,22 @@
                 this.bg=true;
             },
             qx(){
-                this.bg=false;
+                this.$parent.heidPak();
             },
             linet(data){
                 this.scID=data;
                 this.getList();
+            },
+            getUI(){
+                let params={channel:this.channel};
+                this.api.themes_config_channelui({params}).then((res)=>{
+                    this.ui=res
+                })
+            },
+            qd(){
+                this.api.themes_config_channel().then((res)=>{
+                    this.channels=res;
+                })
             },
             addTheme(){
                 if(!this.name){
@@ -320,18 +328,12 @@
 </script>
 
 <style scoped>
-    .top{
-        width: 100%;
-        height: 98px;
-        background: rgba(255,255,255,1);
-        position: fixed;
-        left: 256px;
-        top: 64px;
-        z-index: 99;
-    }
-    .new_url{color: rgba(61,73,102,1)!important;}
+
     .themeUp{
-        margin-top: 187px;
+        position: relative;
+        top:50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
     }
     .themeUpLeft{
         display: inline-block;
@@ -339,6 +341,7 @@
         height:852px;
         background: #fff;
         margin-right: 24px;
+        margin-left: 10%;
     }
     .themeUpLeft>div{margin-bottom: 20px;margin-left: 60px;}
     .themeUpLeft>div>span{
@@ -349,7 +352,7 @@
         font-family:PingFangSC;
         font-weight:500;
         color:rgba(31,46,77,1);
-        width: 60px;
+        width: 80px;
     }
     .themeUpLeft>div>input{
         padding-left: 14px;
@@ -360,12 +363,11 @@
         border:1px solid rgba(211,219,235,1);
     }
     .themeUpLeft>div>select{
-        width:118px;
+        width:404px;
         height:36px;
         background:rgba(255,255,255,1);
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);
-        margin-right: 50px;
     }
     .upBag{
         display: inline-block;
@@ -388,7 +390,7 @@
         transform: translateY(-50%);
     }
     .upload-demo{
-      display: inline-block;
+        display: inline-block;
     }
     .upload-demo .el-button {
         width:98px;
@@ -488,15 +490,15 @@
         min-height:648px;
         background:rgba(255,255,255,1);
     }
-   .upName{
-       display: inline-block;
-       font-size:14px;
-       font-family:PingFangSC;
-       font-weight:500;
-       color:rgba(31,46,77,1);
-       margin-top: 24px;
-       margin-right: 9px;
-   }
+    .upName{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC;
+        font-weight:500;
+        color:rgba(31,46,77,1);
+        margin-top: 24px;
+        margin-right: 9px;
+    }
     .max_num{
         display: inline-block;
         font-size:14px;

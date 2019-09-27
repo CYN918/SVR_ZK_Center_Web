@@ -115,7 +115,7 @@
                 })
             },
             dataList(){
-                let params ={type:this.type,status:this.status,search:this.search,tags:this.tags,p:this.p,page:this.page};
+                let params ={type:this.type,status:this.status,search:this.search,tags:this.tags.join(','),p:this.p,page:this.page};
                 this.api.themes_material_search({params}).then((res)=>{
                     this.list=res.data;
                     this.total=res.total;

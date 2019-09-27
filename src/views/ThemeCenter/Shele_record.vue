@@ -1,20 +1,32 @@
 <template>
     <div>
+        <pak v-if="pak"></pak>
         <sel v-if="sel" @linet="linet"></sel>
         <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="fh()">主题库 &nbsp;/</span>
-                <span class="new_url"> &nbsp;上传本地主题</span>
+                <span class="log_url" @click="fh()"> &nbsp;上传本地主题&nbsp;/</span>
+                <span class="new_url"> &nbsp;添加上架记录</span>
             </div>
             <div class="tit_top_con">
-                <span class="tit_name">上传本地主题</span>
+                <span class="tit_name">添加上架记录</span>
             </div>
         </div>
         <div class="themeUp">
             <div class="themeUpLeft">
                 <div>
-                    <span >主题名称</span>
-                    <input type="text" placeholder="给主题起个名字" style=" margin-top: 26px;" v-model="name" maxlength="10">
+                    <span class="tit_name">渠道</span>
+                    <select  @change="getUI()" v-model="channel">
+                        <option value="">全部</option>
+                        <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
+                    </select>
+                </div>
+                <div>
+                    <span class="tit_name">厂商UI版本</span>
+                    <select style="margin-right: 68px" v-model="ui_version">
+                        <option value="">全部</option>
+                        <option v-for="item in ui" :value="item.version">{{item.version}}</option>
+                    </select>
                 </div>
                 <div style="margin-bottom: 0">
                     <span >主题包</span>
@@ -30,7 +42,7 @@
                                 multiple
                                 :limit="1"
                                 :on-exceed="handleExceed"
-                                >
+                        >
                             <el-button size="small" type="primary">点击上传</el-button>
                         </el-upload>
                         <div style="display: inline-block">
@@ -44,20 +56,35 @@
                     </div>
                 </div>
                 <div>
-                    <span>主题描叙</span>
-                    <input type="text" placeholder="给主题写个自我介绍，50字内" v-model="note"/>
+                    <span>资源版本号</span>
+                    <input type="text" placeholder="同渠道同UI版本的资源上架到厂商的的资源版本号">
                 </div>
                 <div>
-                    <span>主题类型</span>
-                    <select v-model="type" @change="getCon()">
-                        <option value="">全部</option>
-                        <option :value="item.type" v-for="item in themeType">{{item.type}}</option>
+                    <span>上架账号</span>
+                    <select>
+                        <option value="" disabled="disabled">请选择上架该主题的账号信息</option>
+                        <option value="" ></option>
                     </select>
-                    <span>内容分类</span>
-                    <select v-model="content">
-                        <option value="">全部</option>
-                        <option :value="item.class" v-for="item in con">{{item.class}}</option>
-                    </select>
+                </div>
+                <div>
+                    <span>上架名称</span>
+                    <input type="text" placeholder="请输入上架该渠道的主题名称">
+                </div>
+                <div>
+                    <span>上架单价</span>
+                    <input type="number" placeholder="请输入上架价格">
+                </div>
+                <div>
+                    <span>上架时间</span>
+                    <el-date-picker
+                            v-model="value1"
+                            type="date"
+                            placeholder="选择日期">
+                    </el-date-picker>
+                </div>
+                <div>
+                    <span>上架备注</span>
+                    <textarea placeholder="给主题写个自我介绍，50字内" v-model="note"></textarea>
                 </div>
                 <div>
                     <span>内容标签</span>
@@ -72,15 +99,22 @@
                                         <el-checkbox v-for="(item,index) in tag" :label="item.name">{{item.name}}</el-checkbox>
                                     </el-checkbox-group>
                                 </template>
-
                             </div>
-
                         </div>
                     </div>
                 </div>
                 <div>
-                    <span>绑定主题素材</span>
-                    <a @click="jump()">从主题素材库选择</a>
+                    <span>绑定打包件</span>
+                    <div class="db">
+                        <div class="icon">
+                            <img src="../../../public/img/add_msg.png" style="width: 18px;height: 18px;margin-bottom: 10px" @click="getPak">
+                            <div>
+                                <span style="display: inline-block;font-size:12px;font-family:PingFangSC;font-weight:400;color:rgba(31,46,77,0.45);">绑定锁屏打包件</span>
+                            </div>
+                        </div>
+                        <img src="" style="position: absolute;top:0"/>
+                    </div>
+                    <a @click="jump()">从物料库选择</a>
                     <div class="img_box">
                         <div class="img_box1" v-for="(item,index) in listSC">
                             <img :src="item.main_preview" class="img_box1_imgs">
@@ -88,6 +122,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="themeBtn">
                     <span class="tj" @click="ADD()">提交</span>
                     <span>取消</span>
@@ -151,8 +186,9 @@
 
 <script>
     import sel from './select_material'
+    import pak from './up_packaging'
     export default {
-        components:{sel},
+        components:{sel,pak},
         name: "theme_up",
         data(){
             return{
@@ -173,12 +209,35 @@
                 listSC:[],
                 IMGList:[],
                 attach:{},
+                channel:'',
+                channels:[],
+                ui:[],
+                ui_version:'',
+                value1:'',
+                pak:false,
             }
         },
         mounted(){
             this.getThemeType();
         },
         methods:{
+            getPak(){
+                this.pak=true
+            },
+            heidPak(){
+                this.pak=false
+            },
+            getUI(){
+                let params={channel:this.channel};
+                this.api.themes_config_channelui({params}).then((res)=>{
+                    this.ui=res
+                })
+            },
+            qd(){
+                this.api.themes_config_channel().then((res)=>{
+                    this.channels=res;
+                })
+            },
             fm(url){
                 this.main_preview=url;
             },
@@ -268,10 +327,7 @@
                         this.getList();
                     }
                 }
-                // let formData =new FormData;
-                // formData.append('thmid',id);
-                // this.api.themes_material_del(formData).then((res)=>{
-                // })
+
             },
             getTagsList(){
                 let params = {material:'2',type:this.$route.query.type,search:this.tagsName,p:500,page:1};
@@ -291,7 +347,8 @@
             getThemeType(){
                 this.api.themes_config_theme_type().then((res)=>{
                     this.themeType=res;
-                    this.getTagsList()
+                    this.getTagsList();
+                    this.qd()
                 })
             },
             upLoad(file){
@@ -336,7 +393,7 @@
     .themeUpLeft{
         display: inline-block;
         width:883px;
-        height:852px;
+        height:1644px;
         background: #fff;
         margin-right: 24px;
     }
@@ -349,23 +406,30 @@
         font-family:PingFangSC;
         font-weight:500;
         color:rgba(31,46,77,1);
-        width: 60px;
+        width: 80px;
+    }
+    textarea{
+        padding: 10px;
+        width:448px;
+        height:68px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
     }
     .themeUpLeft>div>input{
         padding-left: 14px;
-        width:451px;
+        width:390px;
         height:36px;
         background:rgba(255,255,255,1);
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);
     }
     .themeUpLeft>div>select{
-        width:118px;
+        width:404px;
         height:36px;
         background:rgba(255,255,255,1);
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);
-        margin-right: 50px;
     }
     .upBag{
         display: inline-block;
@@ -388,7 +452,7 @@
         transform: translateY(-50%);
     }
     .upload-demo{
-      display: inline-block;
+        display: inline-block;
     }
     .upload-demo .el-button {
         width:98px;
@@ -488,15 +552,15 @@
         min-height:648px;
         background:rgba(255,255,255,1);
     }
-   .upName{
-       display: inline-block;
-       font-size:14px;
-       font-family:PingFangSC;
-       font-weight:500;
-       color:rgba(31,46,77,1);
-       margin-top: 24px;
-       margin-right: 9px;
-   }
+    .upName{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC;
+        font-weight:500;
+        color:rgba(31,46,77,1);
+        margin-top: 24px;
+        margin-right: 9px;
+    }
     .max_num{
         display: inline-block;
         font-size:14px;
@@ -652,5 +716,13 @@
         font-size: 12px;
         border-radius: 5px;
         margin-bottom: 10px!important;
+    }
+    .db{
+        display: inline-block;
+        position: relative;
+        width:189px;
+        height:315px;
+        background:rgba(0,0,0,0.02);
+        border:1px dashed rgba(0,0,0,0.15);
     }
 </style>

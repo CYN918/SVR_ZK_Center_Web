@@ -974,4 +974,16 @@ export default {
     themes_theme_search:{
 		url:'themes/theme/search',method:'get'
 	},
+	//新增本地主题
+    themes_theme_local_add:{
+		url:'themes/theme/local/add',method:'post',isType:{suktip:1}
+	},
+    //主题打包件列表
+    themes_package_search:{
+	    url:'themes/package/search',method:'get'
+    },
+    //添加主题打包件
+    themes_package_add:{
+	    url:'themes/package/add',method:'post',isType:{suktip:1}
+    },
 }

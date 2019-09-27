@@ -18,11 +18,10 @@
                     <span class="label_txt" >运营标签:</span>
                     <span class="labelName" @click="getListTags()" :class="{active:listTagData.length==0}">全部</span>
                     <div class="tags" :class="{ALLtags:this.class1==true}">
-                        <span v-for="(item,index) in self_tags" class="labelName" @click="getListTags(item.name,index)" :class="{active:listTagData.indexOf(item.name)!=-1}">{{item.name}}</span>
+                        <span v-for="(item,index) in self_tags" class="labelName" @click="getListTags(item.desc,index)" :class="{active:listTagData.indexOf(item.desc)!=-1}">{{item.desc}}</span>
                     </div>
                     <span class="tagsAll" v-if="this.class1==false" @click="getTag1">查看更多</span>
                     <span class="tagsAll" v-if="this.class1==true" @click="heidTag1">收起</span>
-
                 </div>
                 <div class="Search">
                     <div>
@@ -66,30 +65,19 @@
                         <span class="box_btn" @click="getList()">查询</span>
                     </div>
                 </div>
-                <div class="box">
-                    <div class="box_img" @click="Click">
-                        <div class="box_top">
-                            <span>aaaa</span>
-                            <img :src="check" style="width: 48px;height: 48px;position: relative;right: -91px">
-                            <img src="" class="box_top_img">
-                        </div>
-                        <div class="box_name">
-                            <span>aaa</span>
-                        </div>
-                    </div>
-                    <div class="box_img">
-                        <div class="box_top">
-                            <span>aaaa</span>
-                            <img :src="check" style="width: 48px;height: 48px;position: relative;right: -91px">
-                            <img src="" class="box_top_img">
-                        </div>
-                        <div class="box_name">
-                            <span>aaa</span>
+                    <div class="box">
+                        <div class="box_img"  v-for="(item,index) in IMGList" @click="clicks(index)">
+                            <div class="box_top">
+                                <img src="../../../public/img/select2.png" style="width: 48px;height: 48px;position: relative;right: -141px;z-index: 99" v-if="ind.indexOf(IMGList[index].thmid)==-1">
+                                <img src="../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;right: -141px;z-index: 99" v-if="ind.indexOf(IMGList[index].thmid)!=-1">
+                                <img :src="item.main_preview" class="box_top_img">
+                            </div>
+                            <div class="box_name">
+                                <span>{{item.name}}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
             <div class="block">
                 <el-pagination
                         @size-change="handleSizeChange1"
@@ -104,7 +92,6 @@
                     <span @click="YCset">取消</span>
                 </div>
             </div>
-
         </div>
     </div>
 </template>
@@ -132,13 +119,14 @@
                 url_list:[],
                 inx:null,
                 inde:null,
+                ind:[],
                 listData:[],
                 class:false,
                 class1:false,
                 listTag:[],
                 listTagData:[],
                 search_tags:[],
-                time:[],
+                time:[(new Date()).toLocaleDateString().split('/').join('-'),(new Date()).toLocaleDateString().split('/').join('-')],
                 channels:[],
                 channel:'',
                 ui:[],
@@ -155,9 +143,20 @@
             this.getChannel()
         },
         methods:{
+            clicks(index){
+                if(this.ind.indexOf(this.IMGList[index].thmid)==-1){
+                    this.ind.push(this.IMGList[index].thmid)
+                }else{
+                    for(var i = 0;i<this.ind.length;i++){
+                        if(this.ind[i]==this.IMGList[index].thmid){
+                            this.ind.splice(i,1);
+                        }
+                    }
+                }
+            },
             getChannel(){
                 this.api.themes_config_channel().then((res)=>{
-                    this.channel=res;
+                    this.channels=res;
                     this.getTheme();
                 })
             },
@@ -178,13 +177,6 @@
                     this.ui=res
                 })
             },
-            Click(){
-                if(this.check=='img/select2.png'){
-                    this.check='img/select.png'
-                }else{
-                    this.check='img/select2.png'
-                }
-            },
             getID(index){
                 if(this.material==1){
                     this.scMid=this.IMGList[index].mid;
@@ -194,16 +186,17 @@
             },
             YCset(){this.$parent.setJump()},
             messageID(){
-
+                    this.$eimt('',this.ind)
             },
             getList(){
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status,class:this.content,ui_version:this.ui_version,channel:this.channel}
-                this.api.material_search({params}).then((res)=>{
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,
+                    tags:JSON.stringify(this.listTagData.concat(this.listTag)),status:this.status,
+                    class:this.content,ui_version:this.ui_version,channel:this.channel,account:'',tstart:this.time[0],tend:this.time[1]};
+                this.api. themes_theme_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     this.total=res.total;
                     this.getTagsList();
-                    this.getType();
-                    this.listData=this.listData.concat(res.data);
+                    this.getOperatorTag()
                 })
             },
             getTag(){
@@ -218,17 +211,15 @@
             heidTag1(){
                 this.class1=false;
             },
-            getType(){
-                let params={material:1};
-                this.api.config_material_type({params}).then((res)=>{
-                    this.scType=res;
-                })
-            },
             getTagsList(){
-                let params = {preset:this.preset,material:1,type:this.type,search:this.search};
+                let params = {preset:1,material:2,type:this.type,search:''};
                 this.api.tags_search({params}).then((da)=>{
                     this.preset_tags = da.data.tags;
-                    this.self_tags = da.data.self_tags
+                })
+            },
+            getOperatorTag(){
+                this.api.lockwallpaper_tags_list().then((res)=>{
+                    this.self_tags=res;
                 })
             },
             getListTags(name){
@@ -248,13 +239,7 @@
                         }
                     }
                 }
-
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status}
-                this.api.material_search({params}).then((res)=>{
-                    this.IMGList=res.data;
-                    this.total=res.total;
-                    this.getTagsList()
-                })
+                this.getList()
             },
             getListTag(name){
                 if(!name){
@@ -272,13 +257,7 @@
                         }
                     }
                 }
-
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status}
-                this.api.material_search({params}).then((res)=>{
-                    this.IMGList=res.data;
-                    this.total=res.total;
-                    this.getTagsList()
-                })
+                this.getList()
             },
             handleSizeChange1(pageSize) { // 每页条数切换
                 this.pageSize = pageSize;

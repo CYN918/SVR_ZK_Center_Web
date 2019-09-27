@@ -2,12 +2,12 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh()"> {{this.$route.query.name+'主题素材'}}&nbsp;/</span>
-                <span class="new_url">{{this.$route.query.name+'主题素材详情'}} &nbsp;</span>
+                <span class="log_url" @click="fh()">主题库 &nbsp;/</span>
+                <span class="new_url"> &nbsp;上传本地主题</span>
             </div>
             <div class="name">
-                <span>{{this.$route.query.name+'打包件名称'}}:</span>
-                <span></span>
+                <span>主题名称:</span>
+                <span>上传本地主题</span>
                 <div>
                     <span>编辑</span>
                     <span class="dowload">下载</span>
@@ -123,7 +123,7 @@
             <div  class="preview" v-if="isType==3">
                 <div class="titID">
                     <span class="nameID">上架记录</span>
-                    <span class="addJl">添加上架记录</span>
+                    <span class="addJl" @click="jump">添加上架记录</span>
                 </div>
                 <div>
 
@@ -166,6 +166,12 @@
             dateTime(time){
                 this.isTime=time;
             },
+            jump(){
+                this.$router.push({
+                    path:"./sheleRecord"
+                })
+            },
+
         },
     }
 </script>

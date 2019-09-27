@@ -14,7 +14,10 @@
             <div class="polling">
                 <div class="polling_tag">
                     <span class="tag_name">内容标签</span>
-                    <span class="labelName">全部</span>
+                    <span class="labelName"  @click="getListTag()" :class="{active:listTag.length==0}">全部</span>
+                    <div class="tags" :class="{ALLtags:this.class==true}">
+                        <span v-for="(item,index) in preset_tags" class="labelName" @click="getListTag(item.name,index)" :class="{active:listTag.indexOf(item.name)!=-1}">{{item.name}}</span>
+                    </div>
                     <span class="unfold" v-if="isType==0" @click="expansion">展开</span>
                     <img style="width: 10px;height: 6px" src="../../../public/img/xs.png" v-if="isType==0"/>
                     <span class="unfold" v-if="isType==1" @click="expansion">收起</span>
@@ -22,7 +25,10 @@
                 </div>
                 <div class="polling_tag">
                     <span class="tag_name">运营标签</span>
-                    <span class="labelName">全部</span>
+                    <span class="labelName" @click="getListTags()" :class="{active:listTagData.length==0}">全部</span>
+                    <div class="tags" :class="{ALLtags:this.class1==true}">
+                        <span v-for="(item,index) in self_tags" class="labelName" @click="getListTags(item.desc,index)" :class="{active:listTagData.indexOf(item.desc)!=-1}">{{item.desc}}</span>
+                    </div>
                     <span class="unfold" v-if="isTypes==0" @click="expansionTag">展开</span>
                     <img style="width: 10px;height: 6px" src="../../../public/img/xs.png" v-if="isTypes==0"/>
                     <span class="unfold" v-if="isTypes==1" @click="expansionTag">收起</span>
@@ -69,7 +75,7 @@
                     <select style="margin-right: 24px" v-model="account">
                         <option :value="item.account" v-for="item in range">{{item.account}}</option>
                     </select>
-                    <span class="cx" >查询</span>
+                    <span class="cx" @click="getData()">查询</span>
                 </div>
             </div>
             <div>
@@ -130,6 +136,12 @@
                 page:1,
                 total:0,
                 search:'',
+                preset_tags:[],
+                self_tags:[],
+                listTag:[],
+                listTagData:[],
+                class:false,
+                class1:false,
             }
         },
         mounted(){this.themeType();
@@ -144,13 +156,63 @@
                 this.page = page;
                 this.getData()
             },
+            getTagsList(){
+                let params = {preset:1,material:2,type:this.type,search:''};
+                this.api.tags_search({params}).then((da)=>{
+                    this.preset_tags = da.data.tags;
+                })
+            },
+            getOperatorTag(){
+                this.api.lockwallpaper_tags_list().then((res)=>{
+                    this.self_tags=res;
+                })
+            },
             getData(){
-                let params={tags:'',channel:this.channel,ui_version:this.ui_version,account:this.account,
+                let params={tags:this.listTag.concat(this.listTagData).join(','),channel:this.channel,ui_version:this.ui_version,account:this.account,
                     status:this.status,type:this.type,class:this.content,tstart:this.value1[0],tend:this.value1[1],search:this.search,p:this.p,page:this.page};
                 this.api.themes_theme_search({params}).then((res)=>{
                     this.dataList=res.data;
                     this.total=res.total;
+                    this.getTagsList();
+                    this.getOperatorTag();
                 })
+            },
+            getListTag(name){
+                if(!name){
+                    this.listTag.length=0
+                }else{
+                    if(this.listTag.indexOf(name)==-1){
+                        this.listTag.push(name);
+
+                    }else{
+                        for(var i=0;i<this.listTag.length;i++ ){
+                            if(this.listTag[i]==name){
+                                this.listTag.splice(i,1);
+
+                            }
+                        }
+                    }
+                }
+                this.getList()
+            },
+            getListTags(name){
+                if(!name){
+                    this.listTagData.length=0
+                }
+                else{
+                    if(this.listTagData.indexOf(name)==-1){
+                        this.listTagData.push(name)
+
+                    }else{
+                        for(var i=0;i<this.listTagData.length;i++ ){
+                            if(this.listTagData[i]==name){
+                                this.listTagData.splice(i,1);
+
+                            }
+                        }
+                    }
+                }
+                this.getList()
             },
             themeType(){
                 this.api.themes_config_theme_type().then((res)=>{
@@ -185,16 +247,20 @@
             expansion(){
                 if(this.isType==0){
                     this.isType=1
+                    this.class==true
                 }else{
                     this.isType=0
+                    this.class==false
                 }
 
             },
             expansionTag(){
                 if(this.isTypes==0){
                     this.isTypes=1
+                    this.class1==true
                 }else{
                     this.isTypes=0
+                    this.class1==false
                 }
             },
             upTheme(){
@@ -234,6 +300,16 @@
         height: 60px;
         margin-right: 22px;
         border-bottom: 1px dashed #E6E9F0;
+    }
+    .tags{
+        display: inline-block;
+        max-width: 1090px;
+        max-height: 50px!important;
+        overflow: hidden;
+       margin-top: 7px;
+    }
+    .ALLtags{
+        max-height: 100%!important;
     }
     .tag_name{
         display: inline-block;
@@ -387,5 +463,10 @@
         font-weight:400;
         color:rgba(255,255,255,1);
         margin-top: 13px;
+    }
+    .active{
+        background:#3377ff!important;
+        color: #fff!important;
+        border:0!important;
     }
 </style>

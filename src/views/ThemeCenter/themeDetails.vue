@@ -123,7 +123,7 @@
             <div  class="preview" v-if="isType==3">
                 <div class="titID">
                     <span class="nameID">上架记录</span>
-                    <span class="addJl">添加上架记录</span>
+                    <span class="addJl" @click="jump">添加上架记录</span>
                 </div>
                 <div>
 
@@ -165,7 +165,13 @@
             },
             dateTime(time){
                 this.isTime=time;
-            }
+            },
+            jump(){
+                this.$router.push({
+                    path:"./sheleRecord"
+                })
+            },
+
         },
     }
 </script>

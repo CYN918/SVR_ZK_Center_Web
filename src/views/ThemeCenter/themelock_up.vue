@@ -301,7 +301,7 @@
                 formData.append('tags',this.tags.join(','));
                 formData.append('is_work',this.is_work);
                 formData.append('works',JSON.stringify(this.works));
-                formData.append('materials',JSON.stringify(this.materials));
+                formData.append('materials',JSON.stringify(this.listSC));
                 formData.append('is_material',this.is_material);
                 formData.append('previews',JSON.stringify(this.pic));
                 formData.append('attach',JSON.stringify(this.attach));

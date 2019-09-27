@@ -1,10 +1,10 @@
 <template>
     <div>
         <div class="top">
-            <span class="topName">二级界面主题素材</span>
+            <span class="topName">锁屏打包件</span>
             <span class="total">共299套/</span>
             <span class="total">200套已使用</span>
-            <span class="upLock" @click="jump">上传二级界面</span>
+            <span class="upLock" @click="jump">上传</span>
         </div>
         <div class="seach">
             <div class="tagSeach">
@@ -17,8 +17,18 @@
                 <span class="tagsAll" v-if="this.class1==true" @click="getClass">收起</span>
             </div>
             <div class="seachIiput">
-                <img  src="../../../public/img/ss.png"/>
+                <img  src="../../../../public/img/ss.png"/>
                 <input type="text" placeholder="搜索名称或ID" v-model="search"/>
+                <span class="seachSelect">渠道</span>
+                <select style="margin-right: 40px" @change="getUI()" v-model="channel">
+                    <option value="">全部</option>
+                    <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
+                </select>
+                <span class="seachSelect">厂商UI版本</span>
+                <select style="margin-right: 68px" v-model="ui_version">
+                    <option value="">全部</option>
+                    <option v-for="item in ui" :value="item.version">{{item.version}}</option>
+                </select>
                 <span class="seachSelect">状态</span>
                 <select v-model="status">
                     <option value="">全部</option>
@@ -60,7 +70,7 @@
         name: "theme_lock",
         data(){
             return{
-                type:'th_second_page',
+                type:'th_lock_screen',
                 status:'',
                 search:'',
                 tags:[],
@@ -70,10 +80,26 @@
                 total:0,
                 list:[],
                 class1:false,
-        }
+                ui:[],
+                channel:'',
+                channels:[],
+                ui_version:'',
+
+            }
         },
         mounted(){this.dataList()},
         methods:{
+            getUI(){
+                let params={channel:this.channel};
+                this.api.themes_config_channelui({params}).then((res)=>{
+                    this.ui=res
+                })
+            },
+            qd(){
+                this.api.themes_config_channel().then((res)=>{
+                    this.channels=res;
+                })
+            },
             ClickTag(name){
 
                 if(name==undefined){
@@ -103,23 +129,23 @@
                 this.$router.push({
                     path:'./themeSc_details',
                     query:{
-                        name:'二级页'
+                        name:'锁屏'
                     }
                 })
             },
             getTagsList(){
                 let params = {material:'2',type:this.type,search:this.tagsName,p:500,page:1};
                 this.api.tags_search({params}).then((da)=>{
-                    console.log(da);
                     this.tag=da.data.tags;
                 })
             },
             dataList(){
-                let params ={type:this.type,status:this.status,search:this.search,tags:this.tags.join(','),p:this.p,page:this.page};
-                this.api.themes_material_search({params}).then((res)=>{
+                let params ={type:this.type,status:this.status,search:this.search,tags:this.tags.join(','),p:this.p,page:this.page,channel:this.channel,ui_version:this.ui_version};
+                this.api.themes_package_search({params}).then((res)=>{
                     this.list=res.data;
                     this.total=res.total;
-                    this. getTagsList()
+                    this. getTagsList();
+                    this.qd();
                 })
             },
             handleSizeChange(p) { // 每页条数切换
@@ -132,7 +158,7 @@
             },
             jump(){
                 this.$router.push({
-                    path:'./themelock_up',
+                    path:'./upPack',
                     query:{
                         type:this.type
                     }
