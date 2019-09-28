@@ -169,7 +169,22 @@ a{
   font-weight: 400;
   color: #3377ff;
 }
-.AddIMG_bq_box_top_bq .el-checkbox__inner {
+.tags_con_1 .el-checkbox__label{
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+
+}
+.tags_con_1 .el-checkbox__inner{
+  display: none;
+}
+.tags_con_1 .el-checkbox__input.is-checked+.el-checkbox__label{
+  background: #3377ff;
+  color: #fff;
+  border: 0!important;
+}
+.AddIMG_bq_box_top_bq .el-checkbox__inner{
   opacity: 0;
 }
 .AddIMG_bq_box_top_bq .el-checkbox__label {

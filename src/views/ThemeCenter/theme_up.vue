@@ -120,8 +120,9 @@
                         </el-upload>
                     </div>
                     <div class="imgCanvas" v-for="item in pic">
+                        <img class="dels" src="../../../public/img/del.png" style="width: 16px" v-if="item!=main_preview" @click="Delete(item)">
                         <img src="../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;left:121px;top:23px;z-index: 99" v-if="item==main_preview">
-                        <img :src="item">
+                        <img :src="item" class="sc">
                         <div class="sz" @click="fm(item)">
                             <span>设置为封面</span>
                         </div>
@@ -179,6 +180,13 @@
             this.getThemeType();
         },
         methods:{
+            Delete(data){
+                for(var i=0;i<this.pic.length;i++){
+                    if(this.pic[i]==data){
+                        this.pic.splice(i,1);
+                    }
+                }
+            },
             fm(url){
                 this.main_preview=url;
             },
@@ -214,11 +222,11 @@
                     this.$message.error('主题名不能为空')
                     return
                 }
-                if(!this.class){
+                if(!this.content){
                     this.$message.error('内容分类不能为空')
                     return
                 }
-                if(!this.materials){
+                if(!this.scID){
                     this.$message.error('相关素材不能为空')
                     return
                 }
@@ -226,7 +234,7 @@
                     this.$message.error('封面图不能为空')
                     return
                 }
-                if(!this.previews){
+                if(!this.pic){
                     this.$message.error('预览图不能为空')
                     return
                 }
@@ -238,11 +246,11 @@
                 formData.append('name',this.name);
                 formData.append('type',this.type);
                 formData.append('class',this.content);
-                formData.append('materials',JSON.stringify(this.ind));
+                formData.append('materials',JSON.stringify(this.scID));
                 formData.append('main_preview',this.main_preview);
                 formData.append('previews',JSON.stringify(this.pic));
-                formData.append('attach',this.attach);
-                this.api.themes_theme_local_add().then((res)=>{
+                formData.append('attach',JSON.stringify(this.attach));
+                this.api.themes_theme_local_add(formData).then((res)=>{
                     this.qx()
                 })
             },
@@ -258,9 +266,10 @@
                             }
                         }
                     }
-                    this.listSC=list;
+                    this.listSC=this.listSC.concat(list);
                 })
             },
+
             Del(id){
                 for(var i=0;i<this.scID.length;i++){
                     if(this.scID[i]==id){
@@ -340,7 +349,7 @@
         background: #fff;
         margin-right: 24px;
     }
-    .themeUpLeft>div{margin-bottom: 20px;margin-left: 60px;}
+    .themeUpLeft>div{margin-bottom: 20px}
     .themeUpLeft>div>span{
         text-align: right;
         margin-right: 24px;
@@ -349,7 +358,7 @@
         font-family:PingFangSC;
         font-weight:500;
         color:rgba(31,46,77,1);
-        width: 60px;
+        width: 100px;
     }
     .themeUpLeft>div>input{
         padding-left: 14px;
@@ -395,7 +404,7 @@
         height:98px;
         position: absolute;
         top:87px;
-        left: 145px;
+        left: 135px;
         opacity: 0;
     }
     .tag_box{
@@ -442,6 +451,7 @@
         height:98px;
         border:1px solid rgba(211,219,235,1);
         position: relative;
+        vertical-align: top;
     }
     .img_box1_imgs{
         max-width:98px;
@@ -613,7 +623,7 @@
         height:240px;
         margin-right: 20px;
     }
-    .imgCanvas img{
+    .sc{
         max-width:144px;
         max-height:240px;
         position: absolute;
@@ -652,5 +662,15 @@
         font-size: 12px;
         border-radius: 5px;
         margin-bottom: 10px!important;
+    }
+    .dels{
+        position: absolute;
+        top:0;
+        right: -6px;
+        z-index: 9;
+        opacity: 0;
+    }
+    .imgCanvas:hover .dels{
+        opacity: 1;
     }
 </style>

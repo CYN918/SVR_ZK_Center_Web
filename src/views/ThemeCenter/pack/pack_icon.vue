@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="top">
-            <span class="topName">锁屏打包件</span>
+            <span class="topName">图标打包件</span>
             <span class="total">共299套/</span>
             <span class="total">200套已使用</span>
             <span class="upLock" @click="jump">上传</span>
@@ -127,9 +127,9 @@
             },
             xq(){
                 this.$router.push({
-                    path:'./themeSc_details',
+                    path:'./pack_details',
                     query:{
-                        name:'锁屏'
+                        name:'图标'
                     }
                 })
             },

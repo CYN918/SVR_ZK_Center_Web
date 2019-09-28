@@ -127,7 +127,7 @@
             },
             xq(){
                 this.$router.push({
-                    path:'./themeSc_details',
+                    path:'./pack_details',
                     query:{
                         name:'锁屏'
                     }

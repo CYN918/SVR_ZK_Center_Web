@@ -80,8 +80,8 @@
             </div>
             <div>
                 <div class="phone">
-                    <div style="width:189px;height:315px;">
-                        <img src="../../../public/img/IMG.png" style="height: 100%;width: 100%" @click="xq">
+                    <div style="width:189px;height:315px;" v-for="item in this.dataList">
+                        <img :src="item.main_preview" style="height: 100%;width: 100%" @click="xq">
                         <div class="select_type">
                             <span>本地</span>
                             <img src="../../../public/img/zk.png" style="width: 9px;height: 5px"/>
@@ -169,7 +169,7 @@
             },
             getData(){
                 let params={tags:this.listTag.concat(this.listTagData).join(','),channel:this.channel,ui_version:this.ui_version,account:this.account,
-                    status:this.status,type:this.type,class:this.content,tstart:this.value1[0],tend:this.value1[1],search:this.search,p:this.p,page:this.page};
+                    status:this.status,type:this.type,class:this.contemt,tstart:this.value1[0],tend:this.value1[1],search:this.search,p:this.p,page:this.page};
                 this.api.themes_theme_search({params}).then((res)=>{
                     this.dataList=res.data;
                     this.total=res.total;
@@ -279,7 +279,7 @@
 
 <style scoped>
     .top_name{
-        width: 86%!important;
+        width: 100%!important;
         height: 61px!important;
     }
     .theme_name{
@@ -456,7 +456,7 @@
         height:36px;
         background:rgba(51,119,255,1);
         border-radius:4px;
-        margin-right: 36px;
+        margin-right: 15%;
         cursor: pointer;
         font-size:14px;
         font-family:PingFangSC;

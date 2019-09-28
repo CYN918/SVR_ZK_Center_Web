@@ -6,29 +6,21 @@
                 <span class="new_url">{{this.$route.query.name+'主题素材详情'}} &nbsp;</span>
             </div>
             <div class="name">
-                <span>{{this.$route.query.name+'打包件名称'}}:</span>
+                <span>{{this.$route.query.name+'主题素材名称'}}:</span>
                 <span></span>
                 <div>
-                    <span>编辑</span>
-                    <span class="dowload">下载</span>
+                    <span @click="bj()">编辑</span>
+                    <a :href="tableData.attach.url" class="dowload" >下载</a>
                 </div>
             </div>
             <div>
-                <span class="titName">主题类型:</span>
-                <span class="titCon"></span>
                 <span class="titName">ID:</span>
-                <span class="titCon"></span>
-                <span class="titName">创建时间:</span>
-                <span class="titCon"></span>
-            </div>
-            <div>
-                <span class="titName">内容分类:</span>
-                <span class="titCon"></span>
-                <span class="titName">资源版本:</span>
-                <span class="titCon"></span>
+                <span class="titCon">{{this.tableData.thmid}}</span>
+                <span class="titName">使用范围:</span>
+                <span class="titCon">{{this.tableData.account}}</span>
                 <span class="titName">标签</span>
                 <div class="tag">
-                    <span></span>
+                    <span v-for="item in ((this.tableData.tags).split(','))">{{item}}</span>
                     <span class="tagADD">
                         <img>
                         标签
@@ -36,100 +28,73 @@
                 </div>
             </div>
             <div>
-                <span class="titName">适用范围:</span>
-                <span class="titCon"></span>
+                <span class="titName">状态:</span>
+                <span class="titCon">{{this.tableData.status}}</span>
+                <span class="titName">创建时间:</span>
+                <span class="titCon" style="width: 300px">{{this.tableData.created_at}}</span>
             </div>
             <div style="margin-bottom: 56px">
                 <span class="titName">主题描述:</span>
-                <span class="titCon"></span>
+                <span class="titCon">{{this.tableData.note}}</span>
             </div>
             <div class="switcher">
-                <span :class="{click:isType==0}" @click="changeover('0')">预览图</span>
-                <span :class="{click:isType==1}" @click="changeover('1')">相关主题素材</span>
-                <span :class="{click:isType==2}" @click="changeover('2')">收益数据</span>
-                <span :class="{click:isType==3}" @click="changeover('3')">上架记录</span>
-                <span :class="{click:isType==4}" @click="changeover('4')">相关合同</span>
+                <a href="#tab0" :class="{click:isType==0}" @click="changeover('0')">预览图</a>
+                <a href="#tab1" :class="{click:isType==1}" @click="changeover('1')">相关主题</a>
+                <a href="#tab2" :class="{click:isType==2}" @click="changeover('2')">相关项目</a>
+                <a href="#tab3" :class="{click:isType==3}" @click="changeover('3')">相关打包件</a>
+                <a href="#tab4" :class="{click:isType==4}" @click="changeover('4')">相关主题素材</a>
+                <a href="#tab5" :class="{click:isType==5}" @click="changeover('5')">相关合同</a>
             </div>
         </div>
         <div style="margin-top: 394px">
-            <div class="preview" v-if="isType==0">
+            <div class="preview" id="tab0">
                 <div class="titID">
                     <span class="nameID">预览图</span>
-                    <span class="derivation">本地</span>
+                </div>
+                <div class="imgID" v-for="item in tableData.previews">
+                    <img :src="item">
+                </div>
+            </div>
+            <div class="preview" id="tab1">
+                <div class="titID">
+                    <span class="nameID">相关主题</span>
+                </div>
+                <div class="imgID" v-for="item in themeList">
+                    <img :src="item">
+                </div>
+            </div>
+            <div class="preview"  id="tab2">
+                <div class="titID">
+                    <span class="nameID">相关项目</span>
+                </div>
+                <div style="margin: 24px 0 0 24px">
+                    <div class="preview_tet">
+                        <span>项目ID：</span>
+                        <span>{{}}</span>
+                    </div>
+                    <span>结算方式</span>
+                    <span></span>
+                    <span>分成比例</span>
+                    <span></span>
+                </div>
+            </div>
+            <div  class="preview" id="tab3">
+                <div class="titID">
+                    <span class="nameID">相关打包件</span>
                 </div>
                 <div class="imgID">
                     <img src="../../../public/img/IMG.png">
                 </div>
             </div>
-            <div  class="preview" v-if="isType==1">
+            <div  class="preview" id="tab4">
                 <div class="titID">
                     <span class="nameID">相关主题素材</span>
-                    <span class="derivation">本地</span>
                 </div>
-                <div class="imgID">
-                    <img src="../../../public/img/IMG.png">
-                </div>
-            </div>
-            <div class="preview" v-if="isType==2">
-                <div class="titID">
-                    <span class="nameID">收益数据</span>
-                    <span class="derivation">本地</span>
-                    <div class="right">
-                        <div class="block">
-                            <el-date-picker
-                                    v-model="time"
-                                    type="daterange"
-                                    range-separator="至"
-                                    start-placeholder="开始日期"
-                                    end-placeholder="结束日期">
-                            </el-date-picker>
-                        </div>
-                        <span class="name_qd">渠道</span>
-                        <select>
-                            <option value="">全部</option>
-                        </select>
-                        <span class="cx">查询</span>
-                        <span class="cx cxxq">查看详情</span>
-                    </div>
-                </div>
-                <div>
-                    <div class="left">
-                        <span :class="{earnings_img:isUPload==1}" @click="histogram('1')">下载量</span>
-                        <span class="xs" :class="{earnings_img:isUPload==2}" @click="histogram('2')">销售额</span>
-                        <div class="left_right">
-                            <span :class="{date:isTime=='d'}" @click="dateTime('d')">今天</span>
-                            <span  :class="{date:isTime=='w'}" @click="dateTime('w')">本周</span>
-                            <span  :class="{date:isTime=='m'}" @click="dateTime('m')">本月</span>
-                            <span  :class="{date:isTime=='n'}" @click="dateTime('n')">全年</span>
-                            <div class="block block_right">
-                                <el-date-picker
-                                        v-model="time"
-                                        type="daterange"
-                                        range-separator="至"
-                                        start-placeholder="开始日期"
-                                        end-placeholder="结束日期">
-                                </el-date-picker>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tendency">
-                        <span>下载量趋势</span>
-                    </div>
-                    <div id="tendencyImg">
-
-                    </div>
+                <div class="imgID" v-for="item in sc">
+                    <img :src="item.main_preview">
                 </div>
             </div>
-            <div  class="preview" v-if="isType==3">
-                <div class="titID">
-                    <span class="nameID">上架记录</span>
-                    <span class="addJl">添加上架记录</span>
-                </div>
-                <div>
-
-                </div>
-            </div>
-            <div  class="preview" v-if="isType==4">
+            <div  class="preview" id="tab5">
                 <div class="titID">
                     <span class="nameID">相关合同</span>
                     <span class="derivation">汇总</span>
@@ -150,10 +115,23 @@
                 isType:0,
                 isUPload:1,
                 time:[],
-                isTime:"w",
+                tableData:{},
+                themeList:[],
+                sc:[],
             }
         },
+        mounted(){
+            this.getData()
+        },
         methods:{
+            bj(){
+                this.$router.push({
+                    path:'./themelock_up',
+                    query:{
+                        thmid:this.$route.query.thmid
+                    },
+                })
+            },
             fh(){
                 this.$router.go(-1);
             },
@@ -165,6 +143,26 @@
             },
             dateTime(time){
                 this.isTime=time;
+            },
+            getData(){
+                let params={thmid:this.$route.query.thmid}
+                this.api.themes_material_details({params}).then((res)=>{
+                    this.tableData=res;
+                    this. getTheme();
+                    this.getsc()
+                })
+            },
+            getTheme(){
+                let params={thmid:this.$route.query.thmid}
+                this.api.themes_material_themes({params}).then((res)=>{
+                    this.themeList =res;
+                })
+            },
+            getsc(){
+                let params={thmid:this.$route.query.thmid}
+                this.api.themes_material_materials({params}).then((res)=>{
+                    this.sc=res;
+                })
             },
         },
     }
@@ -200,7 +198,7 @@
         float: right;
         margin-right: 280px;
     }
-    .name>div>span{
+    .name>div>span,.dowload{
         display: inline-block;
         line-height: 36px;
         text-align: center;
@@ -219,6 +217,12 @@
         color: #fff!important;
         background:rgba(51,119,255,1)!important;
         border: 0!important;
+    }
+    #tab2{
+        width:1616px;
+        min-height:175px!important;
+        background:rgba(255,255,255,1);
+        border-radius:2px;
     }
     .titName{
         display: inline-block;
@@ -255,7 +259,7 @@
     .switcher{
         margin-bottom: 0!important;
     }
-    .switcher span{
+    .switcher a{
         display: inline-block;
         font-size:14px;
         font-family:PingFangSC;
@@ -278,6 +282,7 @@
         min-height:425px;
         background:rgba(255,255,255,1);
         border-radius:2px;
+        margin-bottom: 24px;
     }
     .titID{
         height: 55px;
@@ -312,12 +317,15 @@
         margin:24px;
         width:189px;
         height:315px;
+        vertical-align: top;
     }
     .imgID img{
         position: relative;
         top:50%;
         left: 50%;
         transform: translate(-50%,-50%);
+        max-width:189px;
+        max-height:315px;
     }
     .block{
         display: inline-block;
@@ -438,5 +446,12 @@
         cursor: pointer;
         float: right;
         margin: 10px 24px 0 0 ;
+    }
+    .preview_tet>span{
+        display: inline-block;
+        font-size:16px;
+        font-family:PingFang-SC-Bold,PingFang-SC;
+        font-weight:bold;
+        color:rgba(31,46,77,1);
     }
 </style>

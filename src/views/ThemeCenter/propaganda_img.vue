@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="top">
-            <span class="topName">二级页打包件</span>
+            <span class="topName">宣传图</span>
             <span class="total">共299套/</span>
             <span class="total">200套已使用</span>
             <span class="upLock" @click="jump">上传</span>
@@ -17,24 +17,8 @@
                 <span class="tagsAll" v-if="this.class1==true" @click="getClass">收起</span>
             </div>
             <div class="seachIiput">
-                <img  src="../../../../public/img/ss.png"/>
+                <img  src="../../../public/img/ss.png"/>
                 <input type="text" placeholder="搜索名称或ID" v-model="search"/>
-                <span class="seachSelect">渠道</span>
-                <select style="margin-right: 40px" @change="getUI()" v-model="channel">
-                    <option value="">全部</option>
-                    <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
-                </select>
-                <span class="seachSelect">厂商UI版本</span>
-                <select style="margin-right: 68px" v-model="ui_version">
-                    <option value="">全部</option>
-                    <option v-for="item in ui" :value="item.version">{{item.version}}</option>
-                </select>
-                <span class="seachSelect">状态</span>
-                <select v-model="status">
-                    <option value="">全部</option>
-                    <option value="1">已使用</option>
-                    <option value="0">未使用</option>
-                </select>
                 <span class="cx" @click="dataList()">查询</span>
             </div>
         </div>
@@ -70,7 +54,7 @@
         name: "theme_lock",
         data(){
             return{
-                type:'th_second_page',
+                type:'th_icon',
                 status:'',
                 search:'',
                 tags:[],
@@ -127,9 +111,9 @@
             },
             xq(){
                 this.$router.push({
-                    path:'./pack_details',
+                    path:'',
                     query:{
-                        name:'二级页'
+                        name:'宣传图'
                     }
                 })
             },
@@ -158,7 +142,7 @@
             },
             jump(){
                 this.$router.push({
-                    path:'./upPack',
+                    path:'./themelock_up',
                     query:{
                         type:this.type
                     }
@@ -225,6 +209,7 @@
         line-height: 36px;
         text-align: center;
         float: right;
+        cursor: pointer;
         margin-right: 274px;
         margin-top: 13PX;
     }

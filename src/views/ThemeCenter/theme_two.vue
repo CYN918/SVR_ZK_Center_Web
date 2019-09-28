@@ -1,5 +1,6 @@
 <template>
     <div>
+        <tags v-if="ta" :type="type" :id="id"></tags>
         <div class="top">
             <span class="topName">二级界面主题素材</span>
             <span class="total">共299套/</span>
@@ -31,14 +32,14 @@
         <div>
             <div class="box" v-for="item in list">
                 <div class="boxImgs">
-                    <img :src="item.previews[0]" @click="xq">
+                    <img :src="item.main_preview" @click="xq(item.thmid)">
                 </div>
                 <div class="boxName">
                     <span>{{item.name}}</span>
                 </div>
                 <div class="boxTag">
                     <span></span>
-                    <span class="addTags"><span>+</span>标签</span>
+                    <span class="addTags" @click="bjTags(item.thmid)"><span>+</span>标签</span>
                 </div>
             </div>
         </div>
@@ -56,7 +57,9 @@
 </template>
 
 <script>
+    import tags from './tags'
     export default {
+        components:{tags},
         name: "theme_lock",
         data(){
             return{
@@ -99,11 +102,12 @@
                     this.class1=false
                 }
             },
-            xq(){
+            xq(id){
                 this.$router.push({
                     path:'./themeSc_details',
                     query:{
-                        name:'二级页'
+                        name:'二级页',
+                        thmid:id
                     }
                 })
             },

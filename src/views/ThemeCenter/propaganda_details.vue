@@ -2,11 +2,11 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh()">{{this.$route.query.name+'打包件'}} &nbsp;/</span>
-                <span class="new_url"> &nbsp;{{this.$route.query.name+'打包件详情'}}</span>
+                <span class="log_url" @click="fh()">{{this.$route.query.name}} &nbsp;/</span>
+                <span class="new_url"> &nbsp;{{this.$route.query.name+'详情'}}</span>
             </div>
             <div class="name">
-                <span>{{this.$route.query.name+'打包件名称:'}}</span>
+                <span>{{this.$route.query.name+'名称:'}}</span>
                 <span>{{}}</span>
                 <div>
                     <span>编辑</span>
@@ -14,10 +14,10 @@
                 </div>
             </div>
             <div>
-                <!--<span class="titName">主题类型:</span>-->
-                <!--<span class="titCon"></span>-->
                 <span class="titName">ID:</span>
                 <span class="titCon"></span>
+            </div>
+            <div>
                 <span class="titName">创建时间:</span>
                 <span class="titCon"></span>
                 <span class="titName">标签</span>
@@ -29,20 +29,13 @@
                     </span>
                 </div>
             </div>
-            <div>
-                <span class="titName">状态:</span>
-                <span class="titCon"></span>
-                <span class="titName">厂商UI版本:</span>
-                <span class="titCon"></span>
-            </div>
             <div style="margin-bottom: 56px">
                 <span class="titName">主题描述:</span>
                 <span class="titCon"></span>
             </div>
             <div class="switcher">
                 <a href="#page1" :class="{click:isType==0}" @click="changeover('0')">预览图</a>
-                <a href="#page2" :class="{click:isType==1}" @click="changeover('1')">相关主题素材</a>
-                <a href="#page3" :class="{click:isType==2}" @click="changeover('2')">绑定主题素材</a>
+                <a href="#page2" :class="{click:isType==1}" @click="changeover('1')">相关主题</a>
             </div>
         </div>
         <div style="margin-top: 394px">
@@ -51,25 +44,15 @@
                     <span class="nameID">预览图</span>
                 </div>
                 <div class="imgID">
-                    <img src="../../../../public/img/IMG.png">
+                    <img src="../../../public/img/IMG.png">
                 </div>
             </div>
             <div  class="preview" style="margin-top: 24px" id="page2">
                 <div class="titID">
-                    <span class="nameID">相关主题素材</span>
+                    <span class="nameID">相关主题</span>
                 </div>
                 <div class="imgID">
-                    <img src="../../../../public/img/IMG.png">
-                </div>
-            </div>
-            <div class="preview" id="page3" style="margin-top: 24px">
-                <div class="titID">
-                    <span class="nameID">绑定素材</span>
-                </div>
-                <div>
-                    <div class="imgID">
-                        <img src="../../../../public/img/IMG.png">
-                    </div>
+                    <img src="../../../public/img/IMG.png">
                 </div>
             </div>
         </div>
@@ -84,7 +67,6 @@
                 isType:0,
                 isUPload:1,
                 time:[],
-                isTime:"w",
             }
         },
         methods:{
@@ -96,14 +78,6 @@
             },
             histogram(data){
                 this.isUPload=data;
-            },
-            dateTime(time){
-                this.isTime=time;
-            },
-            jump(){
-                this.$router.push({
-                    path:"../sheleRecord"
-                })
             },
 
         },

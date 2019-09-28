@@ -43,9 +43,15 @@
                         </div>
                     </div>
                 </div>
-                <div>
+                <div v-if="this.$route.query.thmid==undefined">
                     <span>使用范围</span>
-                    <select class="fw" v-model="account">
+                    <select class="fw" v-model="account" >
+                        <option v-for="item in AcctounsList" :value="item.account">{{item.account}}</option>
+                    </select>
+                </div>
+                <div v-if="this.$route.query.thmid!=undefined">
+                    <span>使用范围</span>
+                    <select class="fw" v-model="account" disabled="disabled">
                         <option v-for="item in AcctounsList" :value="item.account">{{item.account}}</option>
                     </select>
                 </div>
@@ -72,7 +78,15 @@
                         </div>
                     </div>
                 </div>
-                <div>
+                <div  v-if="this.$route.query.thmid!=undefined">
+                    <span>绑定设计师素材</span>
+                    <input class="xmID" type="text" v-model="previews" placeholder="请输入项目ID" disabled="disabled">
+                    <input type="checkbox" class="check" v-model="is_work" disabled="disabled"/>
+                    <span class="sm">与作品无关</span>
+                    <span class="sm2">绑定制作图标的相关作品，千万不要填错了</span>
+
+                </div>
+                <div v-if="this.$route.query.thmid==undefined">
                     <span>绑定设计师素材</span>
                     <input class="xmID" type="text" v-model="previews" placeholder="请输入项目ID">
                     <input type="checkbox" class="check" v-model="is_work" />
@@ -81,14 +95,14 @@
 
                 </div>
                 <div>
-                    <span>绑定素材</span>
+                    <span>绑定主题素材</span>
                     <a @click="jump()">从主题素材库选择</a>
                     <input type="checkbox" class="check" v-model="is_material"/>
                     <span class="sm">与作品无关</span>
                     <span class="sm2">绑定制作图标的相关作品，千万不要填错了</span>
                     <div class="img_box">
                         <div class="img_box1" v-for="(item,index) in listSC">
-                            <img :src="item.main_preview">
+                            <img class="img_box1_img" :src="item.main_preview">
                             <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px" @click="Del(item.thmid)"/>
                         </div>
                     </div>
@@ -125,7 +139,8 @@
                         </el-upload>
                     </div>
                     <div class="imgCanvas" v-for="item in pic">
-                        <img src="../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;left:121px;top:23px;z-index: 99" v-if="item==main_preview">
+                        <img class="dels" src="../../../public/img/del.png" style="width: 16px" v-if="item!=main_preview" @click="Delete(item)">
+                        <img src="../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;left:96px;top:0px;z-index: 99" v-if="item==main_preview">
                         <img :src="item" class="sc">
                         <div class="sz" @click="fm(item)">
                             <span>设置为封面</span>
@@ -145,7 +160,7 @@
                     </span>
                 </div>
                 <div class="btn">
-                    <span class="qd" @click="ADDs()">确定</span>
+                    <span class="qd" @click="tj()">确定</span>
                     <span @click="qx()">取消</span>
                 </div>
             </div>
@@ -184,10 +199,58 @@
             }
         },
         mounted(){
+            if(this.$route.query.thmid!=undefined){
+                this.setData();
+                this.getsc();
+            }
             this.Acctouns();
             this.getTagsList();
         },
         methods:{
+            setData(){
+                let params={thmid:this.$route.query.thmid};
+                this.api.themes_material_details({params}).then((res)=>{
+                  this.name=res.name;
+                  this.attach=res.attach;
+                  this.account=res.account;
+                  this.note=res.note;
+                  this.tags=res.tags.split(',');
+                  if(res.is_work==0){
+                      this.is_work=true
+                  }else {
+                      this.is_work=false
+                  }
+                    if(res.is_material==0){
+                        this.is_material=true
+                    }else {
+                        this.is_material=false
+                    }
+                    this.works=res.works;
+                    this.main_preview=res.main_preview;
+                    this.pic= res.previews;
+                })
+            },
+            getsc(){
+                let params={thmid:this.$route.query.thmid}
+                this.api.themes_material_materials({params}).then((res)=>{
+                    this.listSC=res;
+                })
+            },
+            getList(){
+                let params ={page:1,p:100000,type:'',search:'',tags:'',status:''};
+                this.api.themes_material_search({params}).then((res)=>{
+                    this.IMGList=res.data;
+                    var list=[];
+                    for(var i=0;i<this.IMGList.length;i++ ){
+                        for(var j =0;j<this.scID.length;j++){
+                            if(this.IMGList[i].thmid==this.scID[j]){
+                                list.push(this.IMGList[i]);
+                            }
+                        }
+                    }
+                    this.listSC=this.listSC.concat(list);
+                })
+            },
             ADDtag(){
                 let formData =new FormData;
                 formData.append('name',this.tagsName);
@@ -206,13 +269,12 @@
                 for(var i=0;i<this.scID.length;i++){
                     if(this.scID[i]==id){
                         this.scID.splice(i,1);
-                        this.getList();
                     }
                 }
-                let formData =new FormData;
-                formData.append('thmid',id);
-                this.api.themes_material_del(formData).then((res)=>{
-                })
+                // let formData =new FormData;
+                // formData.append('thmid',id);
+                // this.api.themes_material_del(formData).then((res)=>{
+                // })
             },
             getTagsList(){
                 let params = {material:'2',type:this.$route.query.type,search:this.tagsName,p:500,page:1};
@@ -226,21 +288,7 @@
             fh(){
                 this.$router.go(-1)
             },
-            getList(){
-                let params ={page:1,p:100000,type:'',search:'',tags:'',status:''};
-                this.api.themes_material_search({params}).then((res)=>{
-                    this.IMGList=res.data;
-                    var list=[];
-                    for(var i=0;i<this.IMGList.length;i++ ){
-                        for(var j =0;j<this.scID.length;j++){
-                            if(this.IMGList[i].thmid==this.scID[j]){
-                              list.push(this.IMGList[i]);
-                            }
-                        }
-                    }
-                    this.listSC=list;
-                })
-            },
+
             linet(data){
                 this.scID=data;
                 this.getList();
@@ -282,16 +330,30 @@
                    this.AcctounsList=res;
                 })
             },
-            ADDs(){
-                if(this.is_work==false){
-                    this.is_work=0
+            tj(){
+                if(this.$route.query.thmid==undefined){
+                    this.ADDs()
                 }else{
+                    this.setADDS()
+                }
+            },
+            Delete(data){
+                for(var i=0;i<this.pic.length;i++){
+                    if(this.pic[i]==data){
+                        this.pic.splice(i,1);
+                    }
+                }
+            },
+            setADDS(){
+                if(this.is_work==false){
                     this.is_work=1
+                }else{
+                    this.is_work=0
                 }
                 if(this.is_material==false){
-                    this.is_material=0
-                }else{
                     this.is_material=1
+                }else{
+                    this.is_material=0
                 }
                 let formData =new FormData;
                 formData.append('type',this.type);
@@ -301,7 +363,35 @@
                 formData.append('tags',this.tags.join(','));
                 formData.append('is_work',this.is_work);
                 formData.append('works',JSON.stringify(this.works));
-                formData.append('materials',JSON.stringify(this.listSC));
+                formData.append('materials',JSON.stringify(this.scID));
+                formData.append('is_material',this.is_material);
+                formData.append('previews',JSON.stringify(this.pic));
+                formData.append('attach',JSON.stringify(this.attach));
+                formData.append('main_preview',this.main_preview);
+                this.api.themes_material_edit().then((res)=>{
+                    this.qx();
+                })
+            },
+            ADDs(){
+                if(this.is_work==false){
+                    this.is_work=1
+                }else{
+                    this.is_work=0
+                }
+                if(this.is_material==false){
+                    this.is_material=1
+                }else{
+                    this.is_material=0
+                }
+                let formData =new FormData;
+                formData.append('type',this.type);
+                formData.append('name',this.name);
+                formData.append('note',this.note);
+                formData.append('account',this.account);
+                formData.append('tags',this.tags.join(','));
+                formData.append('is_work',this.is_work);
+                formData.append('works',JSON.stringify(this.works));
+                formData.append('materials',JSON.stringify(this.scID));
                 formData.append('is_material',this.is_material);
                 formData.append('previews',JSON.stringify(this.pic));
                 formData.append('attach',JSON.stringify(this.attach));
@@ -400,7 +490,7 @@
         height:98px;
         position: absolute;
         top:87px;
-        left: 185px;
+        left: 135px;
         opacity: 0;
     }
     .tag_box{
@@ -447,8 +537,9 @@
         height:98px;
         border:1px solid rgba(211,219,235,1);
         position: relative;
+        vertical-align: top;
     }
-    .img_box1 img{
+    .img_box1_img{
         max-width:98px;
         max-height:98px;
         position: relative;
@@ -459,9 +550,9 @@
     .del{
         display: inline-block;
         cursor: pointer;
-        position: absolute!important;
-        top:-10px!important;
-        right: -10px!important;
+        position: absolute;
+        top:-6px;
+        right:-6px;
     }
     .themeBtn{
         margin-left: 136px!important;
@@ -548,7 +639,7 @@
         margin-right: 20px;
         border: 1px solid #ddd;
     }
-    .imgCanvas img{
+    .sc{
         max-width:144px;
         max-height:240px;
         position: absolute;
@@ -682,5 +773,15 @@
         font-family:PingFangSC-Regular,PingFangSC;
         font-weight:400;
         color:rgba(255,255,255,1);
+    }
+    .dels{
+        position: absolute;
+        top:0;
+        right: -6px;
+        z-index: 9;
+        opacity: 0;
+    }
+    .imgCanvas:hover .dels{
+        opacity: 1;
     }
 </style>

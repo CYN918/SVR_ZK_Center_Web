@@ -986,4 +986,20 @@ export default {
     themes_package_add:{
 	    url:'themes/package/add',method:'post',isType:{suktip:1}
     },
+	//主题素材详情
+    themes_material_details:{
+		url:'themes/material/details',method:'get'
+	},
+	//获取主题素材相关主题
+    themes_material_themes:{
+		url:'themes/material/themes',method:'get'
+	},
+	//获取主题素材相关素材
+    themes_material_materials:{
+		url:'themes/material/materials',method:'get'
+	},
+	//编辑主题素材
+    themes_material_edit:{
+		url:'themes/material/edit',method:'post',isType:{suktip:1}
+	},
 }
