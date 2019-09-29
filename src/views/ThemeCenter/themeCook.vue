@@ -79,23 +79,22 @@
                 </div>
             </div>
             <div>
-                <div class="phone">
-                    <div style="width:189px;height:315px;" v-for="item in this.dataList">
-                        <img :src="item.main_preview" style="height: 100%;width: 100%" @click="xq">
+                <div class="phone" v-for="item in this.dataList">
+                    <div style="width:189px;height:315px;">
+                        <img :src="item.main_preview" style="height: 100%;width: 100%" @click="xq(themeChannel.channel,item.thid)">
                         <div class="select_type">
-                            <span>本地</span>
-                            <img src="../../../public/img/zk.png" style="width: 9px;height: 5px"/>
+                            <!--<span v-if="item.channel_themes.length==0">本地</span>-->
+                            <span v-if="item.channel_themes.length!=0">{{themeChannel.channel_name}}</span>
+                            <img src="../../../public/img/zk.png" style="width: 9px;height: 5px" />
                             <div class="select_con">
-                                <el-radio-group v-model="radio" class="radio">
-                                    <el-radio :label="3">VIVO海外</el-radio>
-                                    <el-radio :label="6">VIVO海外</el-radio>
-                                    <el-radio :label="9">备选项</el-radio>
+                                <el-radio-group v-model="radio" class="radio" @change="getData()">
+                                    <el-radio :label="da.ch_thid" v-for="da in item.channel_themes">{{da.channel_name}}</el-radio>
                                 </el-radio-group>
                             </div>
                         </div>
                     </div>
                     <div class="bottom_name">
-                        <span>主题名称最多十个字数</span>
+                        <span>{{item.name}}</span>
                     </div>
                 </div>
             </div>
@@ -117,7 +116,7 @@
         name: "theme-cook",
         data(){
             return{
-                radio:[],
+                radio:'',
                 value1:[(new Date()).toLocaleDateString().split('/').join('-'),(new Date()).toLocaleDateString().split('/').join('-')],
                 isType:0,
                 isTypes:0,
@@ -142,6 +141,11 @@
                 listTagData:[],
                 class:false,
                 class1:false,
+                dataList:[],
+                themeChannel:{
+                    channel_name:'',
+                    channel:''
+                }
             }
         },
         mounted(){this.themeType();
@@ -172,6 +176,14 @@
                     status:this.status,type:this.type,class:this.contemt,tstart:this.value1[0],tend:this.value1[1],search:this.search,p:this.p,page:this.page};
                 this.api.themes_theme_search({params}).then((res)=>{
                     this.dataList=res.data;
+                    for(var i=0;i<res.data.length;i++){
+                        for(var j =0;j<res.data[i].channel_themes.length;j++){
+                            if(res.data[i].channel_themes[j].ch_thid==this.radio){
+                                this.themeChannel.channel=res.data[i].channel_themes[j].channel;
+                                this.themeChannel.channel_name=res.data[i].channel_themes[j].channel_name;
+                            }
+                        }
+                    }
                     this.total=res.total;
                     this.getTagsList();
                     this.getOperatorTag();
@@ -268,10 +280,24 @@
                     path:'./themeUp'
                 })
             },
-            xq(){
-                this.$router.push({
-                    path:'./themeDetails'
-                })
+            xq(channel,id){
+                var query = {
+                    thid:id,
+                    channel: channel,
+                    ch_thid:this.radio,
+                };
+                if(channel=='local'){
+                    this.$router.push({
+                        path:'./themeDetails',
+                        query:query,
+                    })
+                }else{
+                    this.$router.push({
+                        path:'./themeDetailsQd',
+                        query:query,
+                    })
+                }
+
             },
         },
     }

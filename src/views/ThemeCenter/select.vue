@@ -30,7 +30,9 @@
                                 type="daterange"
                                 range-separator="至"
                                 start-placeholder="开始日期"
-                                end-placeholder="结束日期">
+                                end-placeholder="结束日期"
+                                format="yyyy-MM-dd"
+                                value-format="yyyy-MM-dd">
                         </el-date-picker>
                         <span>渠道</span>
                         <select v-model="channel" @change="getUI">
@@ -68,8 +70,8 @@
                     <div class="box">
                         <div class="box_img"  v-for="(item,index) in IMGList" @click="clicks(index)">
                             <div class="box_top">
-                                <img src="../../../public/img/select2.png" style="width: 48px;height: 48px;position: relative;right: -141px;z-index: 99" v-if="ind.indexOf(IMGList[index].thmid)==-1">
-                                <img src="../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;right: -141px;z-index: 99" v-if="ind.indexOf(IMGList[index].thmid)!=-1">
+                                <img src="../../../public/img/select2.png" style="width: 48px;height: 48px;position: relative;right: -141px;z-index: 99" v-if="ind.indexOf(IMGList[index].thid)==-1">
+                                <img src="../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;right: -141px;z-index: 99" v-if="ind.indexOf(IMGList[index].thid)!=-1">
                                 <img :src="item.main_preview" class="box_top_img">
                             </div>
                             <div class="box_name">
@@ -144,11 +146,11 @@
         },
         methods:{
             clicks(index){
-                if(this.ind.indexOf(this.IMGList[index].thmid)==-1){
-                    this.ind.push(this.IMGList[index].thmid)
+                if(this.ind.indexOf(this.IMGList[index].thid)==-1){
+                    this.ind.push(this.IMGList[index].thid)
                 }else{
                     for(var i = 0;i<this.ind.length;i++){
-                        if(this.ind[i]==this.IMGList[index].thmid){
+                        if(this.ind[i]==this.IMGList[index].thid){
                             this.ind.splice(i,1);
                         }
                     }
@@ -181,16 +183,16 @@
                 if(this.material==1){
                     this.scMid=this.IMGList[index].mid;
                     this.scUrl=this.IMGList[index].prev_uri;
-                    console.log(this.checked)
                 }
             },
-            YCset(){this.$parent.setJump()},
+            YCset(){this.$parent.heidThm()},
             messageID(){
-                    this.$eimt('',this.ind)
+                    this.$emit('listData',this.ind);
+                    this. YCset()
             },
             getList(){
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,
-                    tags:JSON.stringify(this.listTagData.concat(this.listTag)),status:this.status,
+                    tags:this.listTagData.concat(this.listTag).join(','),status:this.status,
                     class:this.content,ui_version:this.ui_version,channel:this.channel,account:'',tstart:this.time[0],tend:this.time[1]};
                 this.api. themes_theme_search({params}).then((res)=>{
                     this.IMGList=res.data;
@@ -485,7 +487,6 @@
         display: inline-block;
         width: 189px;
         height: 349px;
-        background: #ee9900;
         margin-right: 44px;
     }
     .box_top{
@@ -511,7 +512,7 @@
         max-width: 189px;
         max-height: 349px;
         position: relative;
-        top: 50%;
+        top: 36%;
         left: 50%;
         transform: translate(-50%,-50%);
     }

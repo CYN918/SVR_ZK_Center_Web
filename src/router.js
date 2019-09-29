@@ -209,6 +209,8 @@ import propaganda_details from './views/ThemeCenter/propaganda_details'
 mode['propaganda_details']=propaganda_details
 import Scheduling_management from './views/ThemeCenter/scheduling/Scheduling_management'
 mode['Scheduling_management']=Scheduling_management
+import themeDetailsQd from './views/ThemeCenter/themeDetailsQd'
+mode['themeDetailsQd']=themeDetailsQd
 
 Vue.use(Router)
 const router = new Router({routes: []})
@@ -330,6 +332,7 @@ let nb = [
             {path:'/ThemeCenter/propaganda_img',name:'宣传图',component:mode['propaganda_img']},
             {path:'/ThemeCenter/propaganda_details',name:'宣传图详情',component:mode['propaganda_details']},
             {path:'/ThemeCenter/scheduling/Scheduling_management',name:'排期',component:mode['Scheduling_management']},
+            {path:'/ThemeCenter/themeDetailsQd',name:'主题渠道详情',component:mode['themeDetailsQd']},
         ]},
 
 ];

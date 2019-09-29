@@ -1002,4 +1002,36 @@ export default {
     themes_material_edit:{
 		url:'themes/material/edit',method:'post',isType:{suktip:1}
 	},
+	//主题详情
+    themes_theme_details:{
+		url:'themes/theme/details',method:'get'
+	},
+	//主题相关素材
+    themes_theme_materials:{
+		url:'themes/theme/materials',method:'get'
+	},
+	//新增上架渠道主题
+    themes_theme_channel_add:{
+		url:'themes/theme/channel/add',method:'post',isType:{suktip:1}
+	},
+	//编辑本地主题
+    themes_theme_local_edit:{
+		url:'themes/theme/local/edit',method:"post",isType:{suktip:1}
+	},
+	//主题打包件详情
+    themes_package_details:{
+		url:'themes/package/details',method:"get"
+	},
+	//获取主题打包件相关主题
+    themes_package_themes:{
+		url:'themes/package/themes',method:'get'
+	},
+	//获取主题打包件相关素材
+    themes_package_materials:{
+		url:'themes/package/materials',method:"get"
+	},
+	//编辑打包件
+    themes_package_edit:{
+		url:'themes/package/edit',method:"post",isType:{suktip:1}
+	},
 }

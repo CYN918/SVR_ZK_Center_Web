@@ -3,32 +3,32 @@
         <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="fh()">主题库 &nbsp;/</span>
-                <span class="new_url"> &nbsp;上传本地主题</span>
+                <span class="new_url"> &nbsp;主题详情</span>
             </div>
             <div class="name">
                 <span>主题名称:</span>
-                <span>上传本地主题</span>
+                <span>{{tableData.name}}</span>
                 <div>
-                    <span>编辑</span>
-                    <span class="dowload">下载</span>
+                    <span @click="bj()">编辑</span>
+                    <a :href="this.tableData.attach.url" class="dowload" >下载</a>
                 </div>
             </div>
             <div>
                 <span class="titName">主题类型:</span>
-                <span class="titCon"></span>
+                <span class="titCon">{{tableData.type_name}}</span>
                 <span class="titName">ID:</span>
-                <span class="titCon"></span>
+                <span class="titCon">{{tableData.thid}}</span>
                 <span class="titName">创建时间:</span>
-                <span class="titCon"></span>
+                <span class="titCon">{{tableData.created_at}}</span>
             </div>
             <div>
                 <span class="titName">内容分类:</span>
-                <span class="titCon"></span>
-                <span class="titName">资源版本:</span>
-                <span class="titCon"></span>
+                <span class="titCon">{{tableData.class_name}}</span>
+                <!--<span class="titName">资源版本:</span>-->
+                <!--<span class="titCon">{{tableData.ui_version}}</span>-->
                 <span class="titName">标签</span>
                 <div class="tag">
-                    <span></span>
+                    <span v-for="item in ((this.tableData.tags).split(','))">{{item}}</span>
                     <span class="tagADD">
                         <img>
                         标签
@@ -37,40 +37,40 @@
             </div>
             <div>
                 <span class="titName">适用范围:</span>
-                <span class="titCon"></span>
+                <span class="titCon">{{this.tableData.account}}</span>
             </div>
             <div style="margin-bottom: 56px">
                 <span class="titName">主题描述:</span>
-                <span class="titCon"></span>
+                <span class="titCon">{{this.tableData.note}}</span>
             </div>
             <div class="switcher">
-                <span :class="{click:isType==0}" @click="changeover('0')">预览图</span>
-                <span :class="{click:isType==1}" @click="changeover('1')">相关主题素材</span>
-                <span :class="{click:isType==2}" @click="changeover('2')">收益数据</span>
-                <span :class="{click:isType==3}" @click="changeover('3')">上架记录</span>
-                <span :class="{click:isType==4}" @click="changeover('4')">相关合同</span>
+                <a href="#tabs0" :class="{click:isType==0}" @click="changeover('0')">预览图</a>
+                <a href="#tabs1" :class="{click:isType==1}" @click="changeover('1')">相关主题素材</a>
+                <a href="#tabs2" :class="{click:isType==2}" @click="changeover('2')">收益数据</a>
+                <a href="#tabs3" :class="{click:isType==3}" @click="changeover('3')">上架记录</a>
+                <a href="#tabs4" :class="{click:isType==4}" @click="changeover('4')">相关合同</a>
             </div>
         </div>
-        <div style="margin-top: 394px">
-            <div class="preview" v-if="isType==0">
+        <div style="margin-top: 410px">
+            <div class="preview" id="tabs0">
                 <div class="titID">
                     <span class="nameID">预览图</span>
                     <span class="derivation">本地</span>
                 </div>
-                <div class="imgID">
-                    <img src="../../../public/img/IMG.png">
+                <div class="imgID" v-for="item in tableData.previews">
+                    <img :src="item">
                 </div>
             </div>
-            <div  class="preview" v-if="isType==1">
+            <div  class="preview" id="tabs1">
                 <div class="titID">
                     <span class="nameID">相关主题素材</span>
                     <span class="derivation">本地</span>
                 </div>
-                <div class="imgID">
-                    <img src="../../../public/img/IMG.png">
+                <div class="imgID" v-for="item in sc">
+                    <img :src="item.main_preview">
                 </div>
             </div>
-            <div class="preview" v-if="isType==2">
+            <div class="preview" id="tabs2">
                 <div class="titID">
                     <span class="nameID">收益数据</span>
                     <span class="derivation">本地</span>
@@ -120,7 +120,7 @@
                     </div>
                 </div>
             </div>
-            <div  class="preview" v-if="isType==3">
+            <div  class="preview" id="tabs3">
                 <div class="titID">
                     <span class="nameID">上架记录</span>
                     <span class="addJl" @click="jump">添加上架记录</span>
@@ -129,7 +129,7 @@
 
                 </div>
             </div>
-            <div  class="preview" v-if="isType==4">
+            <div  class="preview" id="tabs4">
                 <div class="titID">
                     <span class="nameID">相关合同</span>
                     <span class="derivation">汇总</span>
@@ -151,9 +151,37 @@
                 isUPload:1,
                 time:[],
                 isTime:"w",
+                tableData:{},
+                sc:[],
             }
         },
+        mounted(){
+            this.getData()
+        },
         methods:{
+            bj(){
+                this.$router.push({
+                    path:'./themeUp',
+                    query:{
+                        thid:this.$route.query.thid,
+                        channel:this.$route.query.channel,
+                        ch_thid:this.$route.query.ch_thid,
+                    }
+                })
+            },
+            getsc(){
+                let params={thid:this.$route.query.thid,ch_thid:this.$route.query.ch_thid,channel:this.$route.query.channel}
+                this.api.themes_theme_materials({params}).then((res)=>{
+                    this.sc=res;
+                })
+            },
+            getData(){
+                let params={thid:this.$route.query.thid,ch_thid:this.$route.query.ch_thid,channel:this.$route.query.channel}
+                this.api.themes_theme_details({params}).then((res)=>{
+                    this.tableData=res;
+                    this.getsc()
+                })
+            },
             fh(){
                 this.$router.go(-1);
             },
@@ -222,6 +250,14 @@
         color:rgba(31,46,77,1);
     }
     .dowload{
+        display: inline-block;
+        line-height: 36px;
+        text-align: center;
+        cursor: pointer;
+        font-size:14px;
+        width:68px;
+        font-weight:400;
+        height:36px;
         color: #fff!important;
         background:rgba(51,119,255,1)!important;
         border: 0!important;
@@ -261,7 +297,7 @@
     .switcher{
         margin-bottom: 0!important;
     }
-    .switcher span{
+    .switcher a{
         display: inline-block;
         font-size:14px;
         font-family:PingFangSC;
@@ -284,6 +320,7 @@
         min-height:425px;
         background:rgba(255,255,255,1);
         border-radius:2px;
+        margin-bottom: 24px;
     }
     .titID{
         height: 55px;
@@ -320,6 +357,8 @@
         height:315px;
     }
     .imgID img{
+        max-width:189px;
+        max-height:315px;
         position: relative;
         top:50%;
         left: 50%;

@@ -1,12 +1,22 @@
 <template>
     <div>
-        <pak v-if="pak"></pak>
+        <pak v-if="pak" :types="types" @dataUp="dataUp"></pak>
         <sel v-if="sel" @linet="linet"></sel>
-        <div class="top">
+        <div class="top" v-if="this.$route.query.thid!=undefined">
+            <div class="tit_top_url">
+                <span class="log_url" @click="fh()">主题库 &nbsp;/</span>
+                <span class="log_url" @click="fh()"> &nbsp;主题库详情&nbsp;/</span>
+                <span class="new_url"> &nbsp;编辑渠道详情</span>
+            </div>
+            <div class="tit_top_con">
+                <span class="tit_name">编辑渠道详情</span>
+            </div>
+        </div>
+        <div class="top" v-if="this.$route.query.thid==undefined">
             <div class="tit_top_url">
                 <span class="log_url" @click="fh()">主题库 &nbsp;/</span>
                 <span class="log_url" @click="fh()"> &nbsp;上传本地主题&nbsp;/</span>
-                <span class="new_url"> &nbsp;添加上架记录</span>
+                <span class="new_url"> &nbsp添加上架记录</span>
             </div>
             <div class="tit_top_con">
                 <span class="tit_name">添加上架记录</span>
@@ -14,7 +24,7 @@
         </div>
         <div class="themeUp">
             <div class="themeUpLeft">
-                <div>
+                <div style="margin-top: 24px">
                     <span class="tit_name">渠道</span>
                     <select  @change="getUI()" v-model="channel">
                         <option value="">全部</option>
@@ -30,7 +40,7 @@
                 </div>
                 <div style="margin-bottom: 0">
                     <span >主题包</span>
-                    <div style="display: inline-block">
+                    <div style="display: inline-block;position: relative">
                         <div class="upBag">
                             <img src="../../../public/img/upbag.png"/>
                         </div>
@@ -105,20 +115,56 @@
                 </div>
                 <div>
                     <span>绑定打包件</span>
-                    <div class="db">
-                        <div class="icon">
-                            <img src="../../../public/img/add_msg.png" style="width: 18px;height: 18px;margin-bottom: 10px" @click="getPak">
-                            <div>
-                                <span style="display: inline-block;font-size:12px;font-family:PingFangSC;font-weight:400;color:rgba(31,46,77,0.45);">绑定锁屏打包件</span>
+                    <div style="display: inline-block">
+                        <div class="db" @click="getPak('th_lock_screen')">
+                            <div class="icon">
+                                <img src="../../../public/img/add_msg.png" style="width: 18px;height: 18px;margin-bottom: 10px" >
+                                <div>
+                                    <span style="display: inline-block;font-size:12px;font-family:PingFangSC;font-weight:400;color:rgba(31,46,77,0.45);">绑定锁屏打包件</span>
+                                </div>
+                            </div>
+                            <img :src="this.lockYl" style="position: absolute;top:0"/>
+                            <div v-if="this.lockYl!=''" style="position: absolute;bottom: 0;width:189px;height:34px;background:rgba(0,0,0,1);opacity:0.8;text-align: center" @click="getUP('th_lock_screen')">
+                                <span style="display: inline-block;font-size:12px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(255,255,255,1);line-height: 33px">重新上传</span>
                             </div>
                         </div>
-                        <img src="" style="position: absolute;top:0"/>
                     </div>
-                    <a @click="jump()">从物料库选择</a>
-                    <div class="img_box">
-                        <div class="img_box1" v-for="(item,index) in listSC">
-                            <img :src="item.main_preview" class="img_box1_imgs">
-                            <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px" @click="Del(item.thmid)"/>
+                    <div style="display: inline-block">
+                        <div class="db" @click="getPak('th_icon')">
+                            <div class="icon">
+                                <img src="../../../public/img/add_msg.png" style="width: 18px;height: 18px;margin-bottom: 10px" >
+                                <div>
+                                    <span style="display: inline-block;font-size:12px;font-family:PingFangSC;font-weight:400;color:rgba(31,46,77,0.45);">绑定图标打包件</span>
+                                </div>
+                            </div>
+                            <img :src="this.iconYl" style="position: absolute;top:0"/>
+                            <div v-if="this.iconYl!=''" style="position: absolute;bottom: 0;width:189px;height:34px;background:rgba(0,0,0,1);opacity:0.8;text-align: center" @click="getUP('th_icon')">
+                                <span style="display: inline-block;font-size:12px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(255,255,255,1);line-height: 33px">重新上传</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: inline-block">
+                        <div class="db" @click="getPak('th_second_page')">
+                            <div class="icon">
+                                <img src="../../../public/img/add_msg.png" style="width: 18px;height: 18px;margin-bottom: 10px" >
+                                <div>
+                                    <span style="display: inline-block;font-size:12px;font-family:PingFangSC;font-weight:400;color:rgba(31,46,77,0.45);">绑定二级页打包件</span>
+                                </div>
+                            </div>
+                            <img :src="this.twoYl" style="position: absolute;top:0"/>
+                            <div v-if="this.twoYl!=''" style="position: absolute;bottom: 0;width:189px;height:34px;background:rgba(0,0,0,1);opacity:0.8;text-align: center" @click="getUP('th_second_page')">
+                                <span style="display: inline-block;font-size:12px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(255,255,255,1);line-height: 33px">重新上传</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-left: 102px;margin-top: 24px">
+                        <div style="margin-bottom: 14px"><span>{{this.titName}}打包件</span></div>
+                        <a @click="jump()">从主题素材库选择</a>
+                        <div class="img_box">
+                            <div class="img_box1" v-for="(item,index) in SC">
+                                <img :src="item.main_preview" class="img_box1_imgs">
+                                <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px" @click="Del(item.thmid)"/>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -155,8 +201,9 @@
                         </el-upload>
                     </div>
                     <div class="imgCanvas" v-for="item in pic">
+                        <img class="dels" src="../../../public/img/del.png" style="width: 16px" v-if="item!=main_preview" @click="Delete(item)">
                         <img src="../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;left:121px;top:23px;z-index: 99" v-if="item==main_preview">
-                        <img :src="item">
+                        <img :src="item" class="sc">
                         <div class="sz" @click="fm(item)">
                             <span>设置为封面</span>
                         </div>
@@ -202,6 +249,7 @@
                 content:'',
                 name:'',
                 type:'',
+                types:'',
                 note:'',
                 tags:[],
                 tag:[],
@@ -215,14 +263,96 @@
                 ui_version:'',
                 value1:'',
                 pak:false,
+                lockYl:'',
+                lockSC:[],
+                iconYl:'',
+                iconSC:[],
+                twoYl:'',
+                twoSC:[],
+                SC:[],
+                num:0,
+                titName:'',
             }
         },
         mounted(){
             this.getThemeType();
+            this.active();
+            if(this.$route.query.thid!=undefined){
+                this.getData()
+            }
         },
         methods:{
-            getPak(){
-                this.pak=true
+            getData(){
+                let params={thid:this.$route.query.thid,ch_thid:this.$route.query.ch_thid,channel:this.$route.query.channel}
+                this.api.themes_theme_details({params}).then((res)=>{
+                    this.tableData=res;
+                    this.getsc()
+                })
+            },
+            getsc(){
+                let params={thid:this.$route.query.thid,ch_thid:this.$route.query.ch_thid,channel:this.$route.query.channel}
+                this.api.themes_theme_materials({params}).then((res)=>{
+                    this.sc=res;
+                })
+            },
+            dataUp(yl,sc,type){
+                if(type=='th_lock_screen'){
+                        this.lockYl=yl;
+                        this.lockSC=sc;
+                        this.num=0
+                    }
+                if(type=='th_icon'){
+                    this.iconYl=yl;
+                    this.iconSC=sc;
+                    this.num=1
+                }
+                if(type=='th_second_page'){
+                    this.twoYl=yl;
+                    this.twoSC=sc;
+                    this.num=2
+                }
+                this.active()
+            },
+            active(){
+                if(this.num==0){
+                    this.SC=this.lockSC;
+                    this.titName='锁屏'
+                }
+                if(this.num==1){
+                    this.SC=this.iconSC
+                    this.titName='图标'
+                }
+                if(this.num==2){
+                    this.SC=this.twoSC
+                    this.titName='二级页'
+                }
+            },
+            getPak(type){
+                if(type=='th_lock_screen'&&this.lockYl!=''){
+                    this.num=0
+                    return
+                }else{
+                    this.types=type;
+                    this.pak=true;
+                }
+                if(type=='th_icon'&&this.iconYl!=''){
+                    this.num=1
+                    return
+                }else{
+                    this.types=type;
+                    this.pak=true;
+                }
+                if(type=='th_second_page'&&this.twoYl!=''){
+                    this.num=2
+                    return
+                }else{
+                    this.types=type;
+                    this.pak=true;
+                }
+            },
+            getUP(data){
+                this.types=data;
+                this.pak=true;
             },
             heidPak(){
                 this.pak=false
@@ -301,7 +431,7 @@
                 formData.append('main_preview',this.main_preview);
                 formData.append('previews',JSON.stringify(this.pic));
                 formData.append('attach',this.attach);
-                this.api.themes_theme_local_add().then((res)=>{
+                this.api.themes_theme_channel_add().then((res)=>{
                     this.qx()
                 })
             },
@@ -317,7 +447,17 @@
                             }
                         }
                     }
-                    this.listSC=list;
+                    if(this.num==0){
+                        this.lockSC=list;
+                    }
+                    if(this.num==1){
+                        this.iconSC=list;
+                    }
+                    if(this.num==2){
+                        this.twoSC=list;
+                    }
+                    this.active();
+                    // this.listSC=list;
                 })
             },
             Del(id){
@@ -371,6 +511,13 @@
             },
             handlePreview(file) {
                 console.log(file);
+            },
+            Delete(data){
+                for(var i=0;i<this.pic.length;i++){
+                    if(this.pic[i]==data){
+                        this.pic.splice(i,1);
+                    }
+                }
             },
         },
     }
@@ -458,8 +605,8 @@
         width:98px;
         height:98px;
         position: absolute;
-        top:87px;
-        left: 145px;
+        top:0px;
+        left: 0px;
         opacity: 0;
     }
     .tag_box{
@@ -496,7 +643,6 @@
         cursor: pointer;
     }
     .img_box{
-        margin-left: 85px;
         margin-top: 20px;
     }
     .img_box1{
@@ -506,6 +652,7 @@
         height:98px;
         border:1px solid rgba(211,219,235,1);
         position: relative;
+        vertical-align: top;
     }
     .img_box1_imgs{
         max-width:98px;
@@ -523,7 +670,7 @@
         right: -10px;
     }
     .themeBtn{
-        margin-left: 145px!important;
+        margin-left: 162px!important;
     }
     .themeBtn span{
         display: inline-block;
@@ -605,7 +752,9 @@
         margin-right: 20px;
         vertical-align: top;
     }
-    .imgCanvas img{
+    .sc{
+        max-width:144px;
+        max-height:240px;
         position: absolute;
         left: 50%;
         top:50%;
@@ -677,14 +826,14 @@
         height:240px;
         margin-right: 20px;
     }
-    .imgCanvas img{
-        max-width:144px;
-        max-height:240px;
-        position: absolute;
-        left: 50%;
-        top:50%;
-        transform: translate(-50%,-50%);
-    }
+    /*.imgCanvas img{*/
+        /*max-width:144px;*/
+        /*max-height:240px;*/
+        /*position: absolute;*/
+        /*left: 50%;*/
+        /*top:50%;*/
+        /*transform: translate(-50%,-50%);*/
+    /*}*/
     .sz{
         width:144px;
         height:34px;
@@ -722,7 +871,21 @@
         position: relative;
         width:189px;
         height:315px;
+        margin-right: 20px;
         background:rgba(0,0,0,0.02);
         border:1px dashed rgba(0,0,0,0.15);
+    }
+    .db>img{
+        max-width:189px;
+        max-height:315px;}
+    .dels{
+        position: absolute;
+        top:0;
+        right: -6px;
+        z-index: 9;
+        opacity: 0;
+    }
+    .imgCanvas:hover .dels{
+        opacity: 1;
     }
 </style>

@@ -533,15 +533,15 @@
     .img_box1{
         display: inline-block;
         margin-right: 25px;
-        width:98px;
-        height:98px;
+        width:144px;
+        height:240px;
         border:1px solid rgba(211,219,235,1);
         position: relative;
         vertical-align: top;
     }
     .img_box1_img{
-        max-width:98px;
-        max-height:98px;
+        max-width:144px;
+        max-height:240px;
         position: relative;
         left: 50%;
         top:50%;

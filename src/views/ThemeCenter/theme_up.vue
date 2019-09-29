@@ -14,7 +14,8 @@
             <div class="themeUpLeft">
                 <div>
                     <span >主题名称</span>
-                    <input type="text" placeholder="给主题起个名字" style=" margin-top: 26px;" v-model="name" maxlength="10">
+                    <input type="text" placeholder="给主题起个名字" style=" margin-top: 26px;" v-model="name" maxlength="10" v-if="this.$route.query.thid==undefined">
+                    <input type="text" placeholder="给主题起个名字" style=" margin-top: 26px;" disabled="disabled" v-model="name" maxlength="10" v-if="this.$route.query.thid!=undefined">
                 </div>
                 <div style="margin-bottom: 0">
                     <span >主题包</span>
@@ -49,12 +50,20 @@
                 </div>
                 <div>
                     <span>主题类型</span>
-                    <select v-model="type" @change="getCon()">
+                    <select v-model="type" @change="getCon()" v-if="this.$route.query.thid==undefined">
+                        <option value="">全部</option>
+                        <option :value="item.type" v-for="item in themeType">{{item.type}}</option>
+                    </select>
+                    <select v-model="type" @change="getCon()" disabled="disabled" v-if="this.$route.query.thid!=undefined">
                         <option value="">全部</option>
                         <option :value="item.type" v-for="item in themeType">{{item.type}}</option>
                     </select>
                     <span>内容分类</span>
-                    <select v-model="content">
+                    <select v-model="content" v-if="this.$route.query.thid==undefined">
+                        <option value="">全部</option>
+                        <option :value="item.class" v-for="item in con">{{item.class}}</option>
+                    </select>
+                    <select v-model="content" disabled="disabled" v-if="this.$route.query.thid!=undefined">
                         <option value="">全部</option>
                         <option :value="item.class" v-for="item in con">{{item.class}}</option>
                     </select>
@@ -80,7 +89,8 @@
                 </div>
                 <div>
                     <span>绑定主题素材</span>
-                    <a @click="jump()">从主题素材库选择</a>
+                    <a @click="jump()" v-if="this.$route.query.thid==undefined">从主题素材库选择</a>
+                    <a @click="jump()" v-if="this.$route.query.thid!=undefined">从主题素材库选择</a>
                     <div class="img_box">
                         <div class="img_box1" v-for="(item,index) in listSC">
                             <img :src="item.main_preview" class="img_box1_imgs">
@@ -174,12 +184,36 @@
                 listSC:[],
                 IMGList:[],
                 attach:{},
+                tableData:{},
             }
         },
         mounted(){
             this.getThemeType();
+            if(this.$route.query.thid!=undefined){
+                this.getData()
+            }
         },
         methods:{
+            getData(){
+                let params={thid:this.$route.query.thid,ch_thid:this.$route.query.ch_thid,channel:this.$route.query.channel}
+                this.api.themes_theme_details({params}).then((res)=>{
+                    this.attach=res.attach;
+                    this.name=res.name;
+                    this.note=res.note;
+                    this.type=res.type;
+                    this.content=res.clsss;
+                    this.tagsName=res.tags.split(',');
+                    this.main_preview=res.main_preview;
+                    this.pic=res.preview;
+                    this.getsc()
+                })
+            },
+            getsc(){
+                let params={thid:this.$route.query.thid,ch_thid:this.$route.query.ch_thid,channel:this.$route.query.channel}
+                this.api.themes_theme_materials({params}).then((res)=>{
+                    this.listSC=res;
+                })
+            },
             Delete(data){
                 for(var i=0;i<this.pic.length;i++){
                     if(this.pic[i]==data){
@@ -209,7 +243,39 @@
                 this.scID=data;
                 this.getList();
             },
+
+            setTheme(){
+                if(!this.name){
+                    this.$message.error('主题名不能为空')
+                    return
+                }
+                if(!this.main_preview){
+                    this.$message.error('封面图不能为空')
+                    return
+                }
+                if(!this.pic){
+                    this.$message.error('预览图不能为空')
+                    return
+                }
+                if(!this.attach.url){
+                    this.$message.error('未上传主题包')
+                    return
+                }
+                let formData =new FormData;
+                formData.append('thid',this.$route.query.thid);
+                formData.append('type',this.type);
+                formData.append('main_preview',this.main_preview);
+                formData.append('previews',JSON.stringify(this.pic));
+                formData.append('attach',JSON.stringify(this.attach));
+                this.api.themes_theme_local_edit(formData).then((res)=>{
+                    this.qx()
+                })
+            },
             addTheme(){
+                if(this.$route.query.thid!=undefined){
+                    this.setTheme();
+                    re
+                }
                 if(!this.name){
                     this.$message.error('主题名不能为空')
                     return
@@ -255,7 +321,7 @@
                 })
             },
             getList(){
-                let params ={page:1,p:100000,type:'',search:'',tags:'',status:''};
+                let params ={page:1,p:1000000,type:'',search:'',tags:'',status:''};
                 this.api.themes_material_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     var list=[];
@@ -447,15 +513,15 @@
     .img_box1{
         display: inline-block;
         margin-right: 25px;
-        width:98px;
-        height:98px;
+        width:144px;
+        height:240px;
         border:1px solid rgba(211,219,235,1);
         position: relative;
         vertical-align: top;
     }
     .img_box1_imgs{
-        max-width:98px;
-        max-height:98px;
+        max-width:144px;
+        max-height:240px;
         position: relative;
         left: 50%;
         top:50%;

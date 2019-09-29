@@ -1,5 +1,6 @@
 <template>
     <div>
+        <thmSelect v-if="thm" @listData="listData"></thmSelect>
         <sel v-if="sel" @linet="linet"></sel>
         <div class="top">
             <div class="tit_top_url">
@@ -12,9 +13,20 @@
         </div>
         <div class="themeUp">
             <div class="themeUpLeft">
+                <div >
+                    <span style=" margin-top: 26px;">绑定主题</span>
+                    <a @click="zt()" v-if="this.$route.query.pkgid==undefined">从主题库选择</a>
+                    <a  v-if="this.$route.query.pkgid!=undefined">从主题库选择</a>
+                    <div class="img_box">
+                        <div class="img_box1" v-for="item in listThm">
+                            <img :src="item.main_preview" class="img_box1_img">
+                            <img class="del" src="../../../../public/img/del.png" v-if="this.$route.query.pkgid!=undefined" style="width: 17px;height: 16px" @click="DelThmId(item.thid)"/>
+                        </div>
+                    </div>
+                </div>
                 <div>
                     <span >名称</span>
-                    <input type="text" placeholder="给主题起个名字" style=" margin-top: 26px;"  v-model="name">
+                    <input type="text" placeholder="给主题起个名字" v-model="name">
                 </div>
                 <div style="margin-bottom: 0">
                     <span >附件</span>
@@ -69,25 +81,34 @@
                 </div>
                 <div>
                     <span>渠道</span>
-                    <select style="margin-right: 40px" @change="getUI()" v-model="channel">
+                    <select style="margin-right: 40px" @change="getUI()" v-model="channel" v-if="this.$route.query.pkgid==undefined">
+                        <option value="">全部</option>
+                        <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
+                    </select>
+                    <select style="margin-right: 40px" @change="getUI()" disabled="disabled" v-model="channel" v-if="this.$route.query.pkgid!=undefined">
                         <option value="">全部</option>
                         <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
                     </select>
                 </div>
               <div>
                   <span>厂商UI版本</span>
-                  <select style="margin-right: 68px" v-model="ui_version">
+                  <select style="margin-right: 68px" v-model="ui_version" v-if="this.$route.query.pkgid==undefined">
+                      <option value="">全部</option>
+                      <option v-for="item in ui" :value="item.version">{{item.version}}</option>
+                  </select>
+                  <select style="margin-right: 68px" v-model="ui_version" disabled="disabled" v-if="this.$route.query.pkgid!=undefined">
                       <option value="">全部</option>
                       <option v-for="item in ui" :value="item.version">{{item.version}}</option>
                   </select>
               </div>
                 <div>
                     <span>绑定素材</span>
-                    <a @click="jump()">从主题素材库选择</a>
+                    <a @click="jump()" v-if="this.$route.query.pkgid==undefined">从主题素材库选择</a>
+                    <a  v-if="this.$route.query.pkgid!=undefined">从主题素材库选择</a>
                     <div class="img_box">
                         <div class="img_box1" v-for="(item,index) in listSC">
-                            <img :src="item.main_preview">
-                            <img class="del" src="../../../../public/img/del.png" style="width: 17px;height: 16px" @click="Del(item.thmid)"/>
+                            <img :src="item.main_preview" class="img_box1_img">
+                            <img class="del" src="../../../../public/img/del.png" v-if="this.$route.query.pkgid==undefined" style="width: 17px;height: 16px" @click="Del(item.thmid)"/>
                         </div>
                     </div>
                 </div>
@@ -109,21 +130,27 @@
                                 <span style="display: inline-block;font-size:12px;font-family:PingFangSC;font-weight:400;color:rgba(31,46,77,0.45);">封面预览图</span>
                             </div>
                         </div>
-                        <el-upload
-                                class="upload"
-                                action="https://jsonplaceholder.typicode.com/posts/"
-                                :on-preview="handlePreview"
-                                :on-remove="handleRemove"
-                                :http-request="upYl"
-                                multiple
-                                :limit="10"
-                                :on-exceed="handleExceed"
-                        >
-                            <el-button size="small" type="primary">点击上传</el-button>
-                        </el-upload>
+                        <div v-if="this.$route.query.pkgid==undefined">
+                            <el-upload
+                                    class="upload"
+                                    action="https://jsonplaceholder.typicode.com/posts/"
+                                    :on-preview="handlePreview"
+                                    :on-remove="handleRemove"
+                                    :http-request="upYl"
+                                    multiple
+                                    :limit="10"
+                                    :on-exceed="handleExceed"
+                            >
+                                <el-button size="small" type="primary">点击上传</el-button>
+                            </el-upload>
+                        </div>
+                        <div v-if="this.$route.query.pkgid!=undefined">
+
+                        </div>
                     </div>
                     <div class="imgCanvas" v-for="item in pic">
-                        <img src="../../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;left:121px;top:23px;z-index: 99" v-if="item==main_preview">
+                        <img src="../../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;left:95px;top:0px;z-index: 99" v-if="item==main_preview">
+                        <img class="dels" src="../../../../public/img/del.png" style="width: 16px"  v-if="item!=main_preview&&this.$route.query.pkgid==undefined" @click="Delete(item)">
                         <img :src="item" class="sc">
                         <div class="sz" @click="fm(item)">
                             <span>设置为封面</span>
@@ -152,9 +179,10 @@
 </template>
 
 <script>
+    import thmSelect from '../select'
     import sel from '../select_material'
     export default {
-        components:{sel},
+        components:{sel,thmSelect},
         name: "theme_up",
         data(){
             return{
@@ -179,14 +207,92 @@
                 channels:[],
                 ui:[],
                 ui_version:'',
-
+                thm:false,
+                themeID:[],
+                listThm:[],
             }
         },
         mounted(){
-            this.qd()
+            this.qd();
             this.getTagsList();
+            if(this.$route.query.pkgid!=undefined){
+                this.getData()
+            }
         },
         methods:{
+            getData(){
+                let params = {pkgid:this.$route.query.pkgid}
+                this.api.themes_package_details({params}).then((res)=>{
+                    // this.tableData=res;
+                    this.name=res.name;
+                    this.note=res.note;
+                    this.channel=res.channel;
+                    this.ui_version=res.ui_version;
+                    this.tags=res.tags;
+                    this.main_preview=res.main_preview;
+                    this.pic=res.previews;
+                    this.attach=res.attach;
+                    this.getsc();
+                    this.getThmPkg()
+                })
+            },
+            getsc(){
+                let params={pkgid:this.$route.query.pkgid};
+                this.api.themes_package_materials({params}).then((res)=>{
+                    this.listSC=res;
+                })
+            },
+            getThmPkg(){
+                let params={pkgid:this.$route.query.pkgid}
+                this.api.themes_package_themes({params}).then((res)=>{
+                    this.listThm=res
+                })
+            },
+            zt(){
+                this.thm=true;
+            },
+            heidThm(){
+                this.thm=false;
+            },
+            listData(data){
+                this.themeID=data;
+                this.getTheme()
+            },
+            setPack(){
+                if(!this.name){
+                    this.$message.error('主题名不能为空')
+                    return
+                }
+                if(!this.tags){
+                    this.$message.error('标签不能为空')
+                    return
+                }
+
+                if(!this.main_preview){
+                    this.$message.error('封面图不能为空')
+                    return
+                }
+                if(!this.pic){
+                    this.$message.error('预览图不能为空')
+                    return
+                }
+                if(!this.attach.url){
+                    this.$message.error('未上传主题包')
+                    return
+                }
+                let formData=new FormData;
+                formData.append('type',this.$route.query.type);
+                formData.append('pkgid',this.$route.query.pkgid);
+                formData.append('name',this.name);
+                formData.append('note',this.note);
+                formData.append('tags',this.tags.join(','));
+                formData.append('previews',JSON.stringify(this.pic));
+                formData.append('attach',JSON.stringify(this.attach));
+                formData.append('main_preview',this.main_preview);
+                this.api.themes_package_edit(formData).then((res)=>{
+
+                })
+            },
             ADDtag(){
                 let formData =new FormData;
                 formData.append('name',this.tagsName);
@@ -212,17 +318,37 @@
             fm(url){
                 this.main_preview=url;
             },
+            getTheme(){
+                let params={tags:'',channel:'',ui_version:'',account:'',
+                    status:'',type:'',class:'',tstart:"2019-09-29",tend:(new Date()).toLocaleDateString().split('/').join('-'),search:'',p:1000000,page:1};
+                this.api.themes_theme_search({params}).then((res)=>{
+                    this.IMGList=res.data;
+                    var list=[];
+                    for(var i=0;i<this.IMGList.length;i++ ){
+                        for(var j =0;j<this.themeID.length;j++){
+                            if(this.IMGList[i].thid==this.themeID[j]){
+                                list.push(this.IMGList[i]);
+                            }
+                        }
+                    }
+                    this.listThm=list;
+                })
+            },
+            DelThmId(id){
+                for(var i=0;i<this.themeID.length;i++){
+                    if(this.themeID[i]==id){
+                        this.themeID.splice(i,1);
+                    }
+                }
+                this.getTheme();
+            },
             Del(id){
                 for(var i=0;i<this.scID.length;i++){
                     if(this.scID[i]==id){
                         this.scID.splice(i,1);
-                        this.getList();
                     }
                 }
-                // let formData =new FormData;
-                // formData.append('thmid',id);
-                // this.api.themes_material_del(formData).then((res)=>{
-                // })
+                this.getList();
             },
             getTagsList(){
                 let params = {material:'2',type:this.$route.query.type,search:this.tagsName,p:500,page:1};
@@ -267,6 +393,13 @@
             handlePreview(file) {
                 console.log(file);
             },
+            Delete(data){
+                for(var i=0;i<this.pic.length;i++){
+                    if(this.pic[i]==data){
+                        this.pic.splice(i,1);
+                    }
+                }
+            },
             upLoad(file){
                 let formData = new FormData;
                 formData.append('file',file.file);
@@ -289,17 +422,63 @@
             },
 
             ADDs(){
+                if(this.$route.query.pkgid!=undefined){
+                    this.setPack();
+                    return
+                }
+                if(!this.name){
+                    this.$message.error('主题名不能为空')
+                    return
+                }
+                if(!this.name){
+                    this.$message.error('主题名不能为空')
+                    return
+                }
+                if(!this.scID){
+                    this.$message.error('主题素材不能为空')
+                    return
+                }
+                if(!this.tags){
+                    this.$message.error('标签不能为空')
+                    return
+                }
+                if(!this.channel){
+                    this.$message.error('渠道不能为空')
+                    return
+                }
+                if(!this.ui_version){
+                    this.$message.error('版本不能为空')
+                    return
+                }
+                if(!this.scID){
+                    this.$message.error('相关素材不能为空')
+                    return
+                }
+                if(!this.main_preview){
+                    this.$message.error('封面图不能为空')
+                    return
+                }
+                if(!this.pic){
+                    this.$message.error('预览图不能为空')
+                    return
+                }
+                if(!this.attach.url){
+                    this.$message.error('未上传主题包')
+                    return
+                }
                 let formData =new FormData;
                 formData.append('type',this.type);
                 formData.append('name',this.name);
                 formData.append('note',this.note);
                 formData.append('tags',this.tags.join(','));
-                formData.append('materials',JSON.stringify(this.listSC));
+                formData.append('channel',this.channel);
+                formData.append('materials',JSON.stringify(this.scID));
                 formData.append('previews',JSON.stringify(this.pic));
+                formData.append('ui_version',this.ui_version);
                 formData.append('attach',JSON.stringify(this.attach));
                 formData.append('main_preview',this.main_preview);
                 this.api.themes_package_add(formData).then((res)=>{
-                    this.qx();
+                    // this.qx();
                 })
             },
         },
@@ -391,8 +570,8 @@
         width:98px;
         height:98px;
         position: absolute;
-        top:87px;
-        left: 185px;
+        top:258px;
+        left: 135px;
         opacity: 0;
     }
     .tag_box{
@@ -435,14 +614,15 @@
     .img_box1{
         display: inline-block;
         margin-right: 25px;
-        width:98px;
-        height:98px;
+        width:144px;
+        height:240px;
         border:1px solid rgba(211,219,235,1);
         position: relative;
+        vertical-align: top;
     }
-    .img_box1 img{
-        max-width:98px;
-        max-height:98px;
+    .img_box1_img{
+        max-width:144px;
+        max-height:240px;
         position: relative;
         left: 50%;
         top:50%;
@@ -452,7 +632,7 @@
         display: inline-block;
         cursor: pointer;
         position: absolute!important;
-        top:-10px!important;
+        top:-5px!important;
         right: -10px!important;
     }
     .themeBtn{
@@ -540,7 +720,7 @@
         margin-right: 20px;
         border: 1px solid #ddd;
     }
-    .imgCanvas img{
+    .sc{
         max-width:144px;
         max-height:240px;
         position: absolute;
@@ -674,5 +854,15 @@
         font-family:PingFangSC-Regular,PingFangSC;
         font-weight:400;
         color:rgba(255,255,255,1);
+    }
+    .dels{
+        position: absolute;
+        top:0;
+        right: -6px;
+        z-index: 9;
+        opacity: 0;
+    }
+    .imgCanvas:hover .dels{
+        opacity: 1;
     }
 </style>

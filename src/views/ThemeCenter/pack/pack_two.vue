@@ -41,7 +41,7 @@
         <div>
             <div class="box" v-for="item in list">
                 <div class="boxImgs">
-                    <img :src="item.previews[0]" @click="xq">
+                    <img :src="item.previews[0]" @click="xq(item.pkgid)">
                 </div>
                 <div class="boxName">
                     <span>{{item.name}}</span>
@@ -125,11 +125,13 @@
                     this.class1=false
                 }
             },
-            xq(){
+            xq(id){
                 this.$router.push({
                     path:'./pack_details',
                     query:{
-                        name:'二级页'
+                        name:'二级页',
+                        pkgid:id,
+                        type:this.type,
                     }
                 })
             },

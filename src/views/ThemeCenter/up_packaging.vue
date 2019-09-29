@@ -8,8 +8,8 @@
                     <input type="text" placeholder="给主题起个名字" style=" margin-top: 26px;" v-model="name" maxlength="10">
                 </div>
                 <div style="margin-bottom: 0">
-                    <span >主题包</span>
-                    <div style="display: inline-block">
+                    <span >资源包</span>
+                    <div style="display: inline-block;position: relative">
                         <div class="upBag">
                             <img src="../../../public/img/upbag.png"/>
                         </div>
@@ -26,7 +26,7 @@
                         </el-upload>
                         <div style="display: inline-block">
                             <div style="margin-bottom: 3px;margin-top:3px ">
-                                <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(61,73,102,1);">上传主题包</span>
+                                <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(61,73,102,1);">上传资源包</span>
                             </div>
                             <div style="margin-bottom: 3px">
                                 <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(143,155,179,1);">支持扩展名：.rar .zip .doc .docx .pdf .jpg...</span>
@@ -35,7 +35,7 @@
                     </div>
                 </div>
                 <div>
-                    <span>主题描叙</span>
+                    <span>备注描叙</span>
                     <input type="text" placeholder="给主题写个自我介绍，50字内" v-model="note"/>
                 </div>
                 <div>
@@ -73,7 +73,7 @@
                 </div>
                 <div>
                     <span>绑定主题素材</span>
-                    <a @click="jump()">从主题素材</a>
+                    <a @click="jump()">从主题素材库选择</a>
                     <div class="img_box">
                         <div class="img_box1" v-for="(item,index) in listSC">
                             <img :src="item.main_preview" class="img_box1_imgs">
@@ -83,7 +83,7 @@
                 </div>
                 <div class="themeBtn">
                     <span class="tj" @click="ADD()">提交</span>
-                    <span>取消</span>
+                    <span @click="qx()">取消</span>
                 </div>
             </div>
             <div class="themeUpRight">
@@ -113,8 +113,9 @@
                         </el-upload>
                     </div>
                     <div class="imgCanvas" v-for="item in pic">
-                        <img src="../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;left:121px;top:23px;z-index: 99" v-if="item==main_preview">
-                        <img :src="item">
+                        <img class="dels" src="../../../public/img/del.png" style="width: 16px" v-if="item!=main_preview" @click="Delete(item)">
+                        <img src="../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;left:95px;top:0px;z-index: 99" v-if="item==main_preview">
+                        <img :src="item" class="sc">
                         <div class="sz" @click="fm(item)">
                             <span>设置为封面</span>
                         </div>
@@ -146,6 +147,7 @@
     import sel from './select_material'
     export default {
         components:{sel},
+        props:['types'],
         name: "theme_up",
         data(){
             return{
@@ -158,7 +160,6 @@
                 tagsName:'',
                 content:'',
                 name:'',
-                type:'',
                 note:'',
                 tags:[],
                 tag:[],
@@ -174,6 +175,7 @@
         },
         mounted(){
             this.getThemeType();
+
         },
         methods:{
             fm(url){
@@ -198,6 +200,13 @@
                 this.scID=data;
                 this.getList();
             },
+            Delete(data){
+                for(var i=0;i<this.pic.length;i++){
+                    if(this.pic[i]==data){
+                        this.pic.splice(i,1);
+                    }
+                }
+            },
             getUI(){
                 let params={channel:this.channel};
                 this.api.themes_config_channelui({params}).then((res)=>{
@@ -214,19 +223,23 @@
                     this.$message.error('主题名不能为空')
                     return
                 }
-                if(!this.type){
-                    this.$message.error('主题类型不能为空')
+                if(!this.scID){
+                    this.$message.error('主题素材不能为空')
                     return
                 }
-                if(!this.name){
-                    this.$message.error('主题名不能为空')
+                if(!this.tags){
+                    this.$message.error('标签不能为空')
                     return
                 }
-                if(!this.class){
-                    this.$message.error('内容分类不能为空')
+                if(!this.channel){
+                    this.$message.error('渠道不能为空')
                     return
                 }
-                if(!this.materials){
+                if(!this.ui_version){
+                    this.$message.error('版本不能为空')
+                    return
+                }
+                if(!this.scID){
                     this.$message.error('相关素材不能为空')
                     return
                 }
@@ -234,7 +247,7 @@
                     this.$message.error('封面图不能为空')
                     return
                 }
-                if(!this.previews){
+                if(!this.pic){
                     this.$message.error('预览图不能为空')
                     return
                 }
@@ -244,14 +257,18 @@
                 }
                 let formData =new FormData;
                 formData.append('name',this.name);
-                formData.append('type',this.type);
-                formData.append('class',this.content);
-                formData.append('materials',JSON.stringify(this.ind));
+                formData.append('type',this.types);
+                formData.append('note',this.note);
+                formData.append('tags',this.tags.join(','));
+                formData.append('channel',this.channel);
+                formData.append('ui_version',this.ui_version);
+                formData.append('materials',JSON.stringify(this.scID));
                 formData.append('main_preview',this.main_preview);
                 formData.append('previews',JSON.stringify(this.pic));
-                formData.append('attach',this.attach);
-                this.api.themes_theme_local_add().then((res)=>{
-                    this.qx()
+                formData.append('attach',JSON.stringify(this.attach));
+                this.api.themes_package_add(formData).then((res)=>{
+                    this.$emit('dataUp',this.main_preview,this.listSC,this.types);
+                    this.qx();
                 })
             },
             getList(){
@@ -276,13 +293,10 @@
                         this.getList();
                     }
                 }
-                // let formData =new FormData;
-                // formData.append('thmid',id);
-                // this.api.themes_material_del(formData).then((res)=>{
-                // })
+
             },
             getTagsList(){
-                let params = {material:'2',type:this.$route.query.type,search:this.tagsName,p:500,page:1};
+                let params = {material:'2',type:this.types,search:this.tagsName,p:500,page:1};
                 this.api.tags_search({params}).then((da)=>{
                     this.tag=da.data.tags;
                 })
@@ -290,16 +304,17 @@
             handleExceed(files, fileList) {
                 this.$message.warning(`当前限制选择1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
             },
-            getCon(){
-                let params={type:this.type};
-                this.api.themes_config_theme_class({params}).then((res)=>{
-                    this.con=res;
-                })
-            },
+            // getCon(){
+            //     let params={type:this.type};
+            //     this.api.themes_config_theme_class({params}).then((res)=>{
+            //         this.con=res;
+            //     })
+            // },
             getThemeType(){
                 this.api.themes_config_theme_type().then((res)=>{
                     this.themeType=res;
-                    this.getTagsList()
+                    this.getTagsList();
+                    this.qd();
                 })
             },
             upLoad(file){
@@ -396,8 +411,8 @@
         width:98px;
         height:98px;
         position: absolute;
-        top:87px;
-        left: 145px;
+        top:0px;
+        left:0px;
         opacity: 0;
     }
     .tag_box{
@@ -438,16 +453,17 @@
         margin-top: 20px;
     }
     .img_box1{
+        vertical-align: top;
         display: inline-block;
         margin-right: 25px;
-        width:98px;
-        height:98px;
+        width:144px;
+        height:240px;
         border:1px solid rgba(211,219,235,1);
         position: relative;
     }
     .img_box1_imgs{
-        max-width:98px;
-        max-height:98px;
+        max-width:144px;
+        max-height:240px;
         position: relative;
         left: 50%;
         top:50%;
@@ -543,7 +559,9 @@
         margin-right: 20px;
         vertical-align: top;
     }
-    .imgCanvas img{
+    .sc{
+        max-width:144px;
+        max-height:240px;
         position: absolute;
         left: 50%;
         top:50%;
@@ -615,14 +633,14 @@
         height:240px;
         margin-right: 20px;
     }
-    .imgCanvas img{
-        max-width:144px;
-        max-height:240px;
-        position: absolute;
-        left: 50%;
-        top:50%;
-        transform: translate(-50%,-50%);
-    }
+    /*.imgCanvas img{*/
+        /*max-width:144px;*/
+        /*max-height:240px;*/
+        /*position: absolute;*/
+        /*left: 50%;*/
+        /*top:50%;*/
+        /*transform: translate(-50%,-50%);*/
+    /*}*/
     .sz{
         width:144px;
         height:34px;
@@ -654,5 +672,15 @@
         font-size: 12px;
         border-radius: 5px;
         margin-bottom: 10px!important;
+    }
+    .dels{
+        position: absolute;
+        top:0;
+        right: -6px;
+        z-index: 9;
+        opacity: 0;
+    }
+    .imgCanvas:hover .dels{
+        opacity: 1;
     }
 </style>
