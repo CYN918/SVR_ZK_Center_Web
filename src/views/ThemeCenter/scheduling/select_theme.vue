@@ -37,9 +37,9 @@
                     <span v-for="(item,index) in preset_tags" class="labelName" @click="getListTag(item.name,index)" :class="{active:listTag.indexOf(item.name)!=-1}">{{item.name}}</span>
                 </div>
                 <span class="unfold" v-if="isType==0" @click="expansion">展开</span>
-                <img style="width: 10px;height: 6px" src="../../../public/img/xs.png" v-if="isType==0"/>
+                <img style="width: 10px;height: 6px" src="../../../../public/img/xs.png" v-if="isType==0"/>
                 <span class="unfold" v-if="isType==1" @click="expansion">收起</span>
-                <img style="width: 10px;height: 6px" src="../../../public/img/sq.png" v-if="isType==1"/>
+                <img style="width: 10px;height: 6px" src="../../../../public/img/sq.png" v-if="isType==1"/>
             </div>
             <div class="polling_tag">
                 <span class="tag_name">运营标签</span>
@@ -48,9 +48,9 @@
                     <span v-for="(item,index) in self_tags" class="labelName" @click="getListTags(item.desc,index)" :class="{active:listTagData.indexOf(item.desc)!=-1}">{{item.desc}}</span>
                 </div>
                 <span class="unfold" v-if="isTypes==0" @click="expansionTag">展开</span>
-                <img style="width: 10px;height: 6px" src="../../../public/img/xs.png" v-if="isTypes==0"/>
+                <img style="width: 10px;height: 6px" src="../../../../public/img/xs.png" v-if="isTypes==0"/>
                 <span class="unfold" v-if="isTypes==1" @click="expansionTag">收起</span>
-                <img style="width: 10px;height: 6px" src="../../../public/img/sq.png" v-if="isTypes==1"/>
+                <img style="width: 10px;height: 6px" src="../../../../public/img/sq.png" v-if="isTypes==1"/>
             </div>
             <div>
                 <el-date-picker
@@ -82,7 +82,7 @@
                 </select>
             </div>
             <div>
-                <img src="../../../public/img/ss.png" class="img"/>
+                <img src="../../../../public/img/ss.png" class="img"/>
                 <input type="text" placeholder="搜索主题库" v-model="search"/>
                 <span class="tit_name">主题类型</span>
                 <select style="margin-right: 54px" v-model="type" @change="content()">
@@ -106,7 +106,7 @@
                     <div class="select_type">
                         <!--<span v-if="item.channel_themes.length==0">本地</span>-->
                         <span v-if="item.channel_themes.length!=0">{{themeChannel.channel_name}}</span>
-                        <img src="../../../public/img/zk.png" style="width: 9px;height: 5px" />
+                        <img src="../../../../public/img/zk.png" style="width: 9px;height: 5px" />
                         <div class="select_con">
                             <el-radio-group v-model="radio" class="radio" @change="getData()">
                                 <el-radio :label="da.ch_thid" v-for="da in item.channel_themes">{{da.channel_name}}</el-radio>
@@ -297,27 +297,27 @@
                 }
             },
             upTheme(){
-                this.$router.push({
-                    path:'./themeUp'
-                })
+                // this.$router.push({
+                //     path:'./themeUp'
+                // })
             },
             xq(channel,id){
-                var query = {
-                    thid:id,
-                    channel: channel,
-                    ch_thid:this.radio,
-                };
-                if(channel=='local'){
-                    this.$router.push({
-                        path:'./themeDetails',
-                        query:query,
-                    })
-                }else{
-                    this.$router.push({
-                        path:'./themeDetailsQd',
-                        query:query,
-                    })
-                }
+                // var query = {
+                //     thid:id,
+                //     channel: channel,
+                //     ch_thid:this.radio,
+                // };
+                // if(channel=='local'){
+                //     this.$router.push({
+                //         path:'./themeDetails',
+                //         query:query,
+                //     })
+                // }else{
+                //     this.$router.push({
+                //         path:'./themeDetailsQd',
+                //         query:query,
+                //     })
+                // }
 
             },
         },
