@@ -1,117 +1,135 @@
 <template>
-        <div>
-            <div class="top_name">
-                <div>
-                    <span class="theme_name">主题库</span>
-                    <span class="top_txt">共</span>
-                    <span class="top_txt">200</span>
-                    <span class="top_txt">套/</span>
-                    <span class="top_txt">120</span>
-                    <span class="top_txt">套已上架</span>
-                    <span class="tit_right" @click="upTheme()">上传主题</span>
-                </div>
-            </div>
-            <div class="polling">
-                <div class="polling_tag">
-                    <span class="tag_name">内容标签</span>
-                    <span class="labelName"  @click="getListTag()" :class="{active:listTag.length==0}">全部</span>
-                    <div class="tags" :class="{ALLtags:this.class==true}">
-                        <span v-for="(item,index) in preset_tags" class="labelName" @click="getListTag(item.name,index)" :class="{active:listTag.indexOf(item.name)!=-1}">{{item.name}}</span>
-                    </div>
-                    <span class="unfold" v-if="isType==0" @click="expansion">展开</span>
-                    <img style="width: 10px;height: 6px" src="../../../public/img/xs.png" v-if="isType==0"/>
-                    <span class="unfold" v-if="isType==1" @click="expansion">收起</span>
-                    <img style="width: 10px;height: 6px" src="../../../public/img/sq.png" v-if="isType==1"/>
-                </div>
-                <div class="polling_tag">
-                    <span class="tag_name">运营标签</span>
-                    <span class="labelName" @click="getListTags()" :class="{active:listTagData.length==0}">全部</span>
-                    <div class="tags" :class="{ALLtags:this.class1==true}">
-                        <span v-for="(item,index) in self_tags" class="labelName" @click="getListTags(item.desc,index)" :class="{active:listTagData.indexOf(item.desc)!=-1}">{{item.desc}}</span>
-                    </div>
-                    <span class="unfold" v-if="isTypes==0" @click="expansionTag">展开</span>
-                    <img style="width: 10px;height: 6px" src="../../../public/img/xs.png" v-if="isTypes==0"/>
-                    <span class="unfold" v-if="isTypes==1" @click="expansionTag">收起</span>
-                    <img style="width: 10px;height: 6px" src="../../../public/img/sq.png" v-if="isTypes==1"/>
-                </div>
-                <div>
-                    <el-date-picker
-                            class="time"
-                            v-model="value1"
-                            type="daterange"
-                            range-separator="至"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期"
-                            format="yyyy-MM-dd"
-                            value-format="yyyy-MM-dd"
-                    >
-                    </el-date-picker>
-                    <span class="tit_name">渠道</span>
-                    <select style="margin-right: 40px" @change="getUI()" v-model="channel">
-                        <option value="">全部</option>
-                        <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
-                    </select>
-                    <span class="tit_name">厂商UI版本</span>
-                    <select style="margin-right: 68px" v-model="ui_version">
-                        <option value="">全部</option>
-                        <option v-for="item in ui" :value="item.version">{{item.version}}</option>
-                    </select>
-                    <span class="tit_name">状态</span>
-                    <select v-model="status">
-                        <option>全部</option>
-                        <option value="1">已使用</option>
-                        <option value="0">未使用</option>
-                    </select>
-                </div>
-                <div>
-                    <img src="../../../public/img/ss.png" class="img"/>
-                    <input type="text" placeholder="搜索主题库" v-model="search"/>
-                    <span class="tit_name">主题类型</span>
-                    <select style="margin-right: 54px" v-model="type" @change="content()">
-                        <option :value="item.type" v-for="item in theme_type">{{item.type}}</option>
-                    </select>
-                    <span class="tit_name">内容分类</span>
-                    <select style="margin-right: 40px" v-model="contemt">
-                        <option :value="item.class" v-for="item in cont">{{item.class}}</option>
-                    </select>
-                    <span class="tit_name">适用范围</span>
-                    <select style="margin-right: 24px" v-model="account">
-                        <option :value="item.account" v-for="item in range">{{item.account}}</option>
-                    </select>
-                    <span class="cx" @click="getData()">查询</span>
-                </div>
+    <div>
+        <div class="top_name">
+            <div class="tit_top_url">
+                <span class="log_url" @click="fh">排期管理 &nbsp;/&nbsp;</span>
+                <span class="log_url">排期详情 &nbsp;/&nbsp;</span>
+                <span class="new_url">需求详情 &nbsp;</span>
             </div>
             <div>
-                <div class="phone" v-for="item in this.dataList">
-                    <div style="width:189px;height:315px;">
-                        <img :src="item.main_preview" style="height: 100%;width: 100%" @click="xq(themeChannel.channel,item.thid)">
-                        <div class="select_type">
-                            <!--<span v-if="item.channel_themes.length==0">本地</span>-->
-                            <span v-if="item.channel_themes.length!=0">{{themeChannel.channel_name}}</span>
-                            <img src="../../../public/img/zk.png" style="width: 9px;height: 5px" />
-                            <div class="select_con">
-                                <el-radio-group v-model="radio" class="radio" @change="getData()">
-                                    <el-radio :label="da.ch_thid" v-for="da in item.channel_themes">{{da.channel_name}}</el-radio>
-                                </el-radio-group>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bottom_name">
-                        <span>{{item.name}}</span>
-                    </div>
-                </div>
+                <span class="topName">需求详情</span>
             </div>
-            <div class="block">
-                <el-pagination
-                        @size-change="handleSizeChange"
-                        @current-change="handleCurrentChange"
-                        :current-page.sync="page"
-                        :page-size="p"
-                        layout="prev, pager, next,total, jumper"
-                        :total="total">
-                </el-pagination>
+            <div>
+                <div>1</div>
+                <div>2</div>
+                <img>
+                <span>制作渠道</span>
+                <select>
+                    <option>请选择</option>
+                </select>
+                <img>
+                <span>上架账号</span>
+                <select>
+                    <option>请选择</option>
+                </select>
+                <img>
+                <span>制作类型</span>
+                <select>
+                    <option>请选择</option>
+                </select>
             </div>
         </div>
+        <div class="polling">
+            <div class="polling_tag">
+                <span class="tag_name">内容标签</span>
+                <span class="labelName"  @click="getListTag()" :class="{active:listTag.length==0}">全部</span>
+                <div class="tags" :class="{ALLtags:this.class==true}">
+                    <span v-for="(item,index) in preset_tags" class="labelName" @click="getListTag(item.name,index)" :class="{active:listTag.indexOf(item.name)!=-1}">{{item.name}}</span>
+                </div>
+                <span class="unfold" v-if="isType==0" @click="expansion">展开</span>
+                <img style="width: 10px;height: 6px" src="../../../public/img/xs.png" v-if="isType==0"/>
+                <span class="unfold" v-if="isType==1" @click="expansion">收起</span>
+                <img style="width: 10px;height: 6px" src="../../../public/img/sq.png" v-if="isType==1"/>
+            </div>
+            <div class="polling_tag">
+                <span class="tag_name">运营标签</span>
+                <span class="labelName" @click="getListTags()" :class="{active:listTagData.length==0}">全部</span>
+                <div class="tags" :class="{ALLtags:this.class1==true}">
+                    <span v-for="(item,index) in self_tags" class="labelName" @click="getListTags(item.desc,index)" :class="{active:listTagData.indexOf(item.desc)!=-1}">{{item.desc}}</span>
+                </div>
+                <span class="unfold" v-if="isTypes==0" @click="expansionTag">展开</span>
+                <img style="width: 10px;height: 6px" src="../../../public/img/xs.png" v-if="isTypes==0"/>
+                <span class="unfold" v-if="isTypes==1" @click="expansionTag">收起</span>
+                <img style="width: 10px;height: 6px" src="../../../public/img/sq.png" v-if="isTypes==1"/>
+            </div>
+            <div>
+                <el-date-picker
+                        class="time"
+                        v-model="value1"
+                        type="daterange"
+                        range-separator="至"
+                        start-placeholder="开始日期"
+                        end-placeholder="结束日期"
+                        format="yyyy-MM-dd"
+                        value-format="yyyy-MM-dd"
+                >
+                </el-date-picker>
+                <span class="tit_name">渠道</span>
+                <select style="margin-right: 40px" @change="getUI()" v-model="channel">
+                    <option value="">全部</option>
+                    <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
+                </select>
+                <span class="tit_name">厂商UI版本</span>
+                <select style="margin-right: 68px" v-model="ui_version">
+                    <option value="">全部</option>
+                    <option v-for="item in ui" :value="item.version">{{item.version}}</option>
+                </select>
+                <span class="tit_name">状态</span>
+                <select v-model="status">
+                    <option>全部</option>
+                    <option value="1">已使用</option>
+                    <option value="0">未使用</option>
+                </select>
+            </div>
+            <div>
+                <img src="../../../public/img/ss.png" class="img"/>
+                <input type="text" placeholder="搜索主题库" v-model="search"/>
+                <span class="tit_name">主题类型</span>
+                <select style="margin-right: 54px" v-model="type" @change="content()">
+                    <option :value="item.type" v-for="item in theme_type">{{item.type}}</option>
+                </select>
+                <span class="tit_name">内容分类</span>
+                <select style="margin-right: 40px" v-model="contemt">
+                    <option :value="item.class" v-for="item in cont">{{item.class}}</option>
+                </select>
+                <span class="tit_name">适用范围</span>
+                <select style="margin-right: 24px" v-model="account">
+                    <option :value="item.account" v-for="item in range">{{item.account}}</option>
+                </select>
+                <span class="cx" @click="getData()">查询</span>
+            </div>
+        </div>
+        <div>
+            <div class="phone" v-for="item in this.dataList">
+                <div style="width:189px;height:315px;">
+                    <img :src="item.main_preview" style="height: 100%;width: 100%" @click="xq(themeChannel.channel,item.thid)">
+                    <div class="select_type">
+                        <!--<span v-if="item.channel_themes.length==0">本地</span>-->
+                        <span v-if="item.channel_themes.length!=0">{{themeChannel.channel_name}}</span>
+                        <img src="../../../public/img/zk.png" style="width: 9px;height: 5px" />
+                        <div class="select_con">
+                            <el-radio-group v-model="radio" class="radio" @change="getData()">
+                                <el-radio :label="da.ch_thid" v-for="da in item.channel_themes">{{da.channel_name}}</el-radio>
+                            </el-radio-group>
+                        </div>
+                    </div>
+                </div>
+                <div class="bottom_name">
+                    <span>{{item.name}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="block">
+            <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page.sync="page"
+                    :page-size="p"
+                    layout="prev, pager, next,total, jumper"
+                    :total="total">
+            </el-pagination>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -152,7 +170,7 @@
             }
         },
         mounted(){this.themeType();
-                this.getData()
+            this.getData()
         },
         methods:{
             handleSizeChange(p) { // 每页条数切换
@@ -255,9 +273,9 @@
                 })
             },
             Range(){
-             this.api.themes_config_account().then((res)=>{
-                 this.range=res;
-             })
+                this.api.themes_config_account().then((res)=>{
+                    this.range=res;
+                })
             },
             expansion(){
                 if(this.isType==0){
@@ -335,7 +353,7 @@
         max-width: 1090px;
         max-height: 50px!important;
         overflow: hidden;
-       margin-top: 7px;
+        margin-top: 7px;
     }
     .ALLtags{
         max-height: 100%!important;
@@ -394,7 +412,7 @@
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);
     }
-   .img{
+    .img{
         position: relative;
         left: 35px;
         top: 10px;
@@ -442,7 +460,7 @@
     }
     .phone{
         display: inline-block;
-       margin-right: 40px;
+        margin-right: 40px;
     }
     .select_type span{
         display: inline-block;
@@ -471,7 +489,7 @@
     }
     .radio{margin: 0px 9px}
     .radio .el-radio{
-       margin: 16px 3px 0 3px;
+        margin: 16px 3px 0 3px;
     }
     .radio .el-radio__label{
         color: #fff!important;

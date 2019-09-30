@@ -1034,4 +1034,28 @@ export default {
     themes_package_edit:{
 		url:'themes/package/edit',method:"post",isType:{suktip:1}
 	},
+	//排期列表
+    themes_schedule_schedules:{
+		url:'themes/schedule/schedules',method:"get"
+	},
+	//新增排期
+    themes_schedule_add:{
+		url:'themes/schedule/add',method:'post',isType:{suktip:1}
+	},
+	//编辑排期
+    themes_schedule_edit:{
+		url:'themes/schedule/edit',method:"post",isType:{suktip:1}
+	},
+	//新增排期周期
+    themes_schedule_cycle_add:{
+		url:'themes/schedule/cycle/add',method:'post',isType:{suktip:1}
+	},
+	//排期周期列表
+    themes_schedule_cycles:{
+		url:'themes/schedule/cycles',method:'get'
+	},
+	//新增排期需求
+    themes_schedule_demand_add:{
+		url:'themes/schedule/demand/add',method:'post',isType:{suktip:1}
+	},
 }
