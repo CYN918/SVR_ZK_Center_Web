@@ -1,31 +1,37 @@
 <template>
     <div>
-        <div class="top_name">
+        <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="fh">排期管理 &nbsp;/&nbsp;</span>
-                <span class="log_url">排期详情 &nbsp;/&nbsp;</span>
-                <span class="new_url">需求详情 &nbsp;</span>
+                <span class="log_url">主题排期详情 &nbsp;/&nbsp;</span>
+                <span class="new_url">添加需求卡片 &nbsp;</span>
             </div>
             <div>
-                <span class="topName">需求详情</span>
+                <span class="topName">添加需求卡片</span>
             </div>
-            <div>
-                <div>1</div>
-                <div>2</div>
-                <img>
-                <span>制作渠道</span>
-                <select>
-                    <option>请选择</option>
+            <div style="margin:12px 0 0 24px">
+                <div class="scope1">1</div>
+                <div  class="scope2">2</div>
+                <span class="selectName">从主题库选择</span>
+                <span class="name">制作渠道</span>
+                <select  v-model="channel" @change="getData()">
+                    <option value="">全部</option>
+                    <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
                 </select>
-                <img>
-                <span>上架账号</span>
-                <select>
-                    <option>请选择</option>
+                <span class="name">上架账号</span>
+                <select v-model="zh">
+                    <option value="">请选择</option>
+                    <option :value="item.account" v-for="item in range">{{item.account}}</option>
                 </select>
-                <img>
-                <span>制作类型</span>
-                <select>
-                    <option>请选择</option>
+                <span class="name">制作类型</span>
+                <select v-model="zzType">
+                    <option value="">请选择</option>
+                    <option value="全局" >全局</option>
+                    <option value="桌面" >桌面</option>
+                    <option value="翻新" >翻新</option>
+                    <option value="锁屏" >锁屏</option>
+                    <option value="问题修改" >问题修改</option>
+                    <option value="精品全局" >精品全局</option>
                 </select>
             </div>
         </div>
@@ -65,7 +71,7 @@
                 >
                 </el-date-picker>
                 <span class="tit_name">渠道</span>
-                <select style="margin-right: 40px" @change="getUI()" v-model="channel">
+                <select style="margin-right: 40px" @change="getUI()" v-model="channel" disabled="disabled">
                     <option value="">全部</option>
                     <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
                 </select>
@@ -100,22 +106,16 @@
             </div>
         </div>
         <div>
-            <div class="phone" v-for="item in this.dataList">
-                <div style="width:189px;height:315px;">
-                    <img :src="item.main_preview" style="height: 100%;width: 100%" @click="xq(themeChannel.channel,item.thid)">
-                    <div class="select_type">
-                        <!--<span v-if="item.channel_themes.length==0">本地</span>-->
-                        <span v-if="item.channel_themes.length!=0">{{themeChannel.channel_name}}</span>
-                        <img src="../../../../public/img/zk.png" style="width: 9px;height: 5px" />
-                        <div class="select_con">
-                            <el-radio-group v-model="radio" class="radio" @change="getData()">
-                                <el-radio :label="da.ch_thid" v-for="da in item.channel_themes">{{da.channel_name}}</el-radio>
-                            </el-radio-group>
-                        </div>
+            <div class="box">
+                <div class="box_img"  v-for="(item,index) in IMGList" @click="clicks(index)">
+                    <div class="box_top">
+                        <img src="../../../../public/img/select2.png" style="width: 48px;height: 48px;position: relative;right: -141px;z-index: 99" v-if="ind.indexOf(IMGList[index].thid)==-1">
+                        <img src="../../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;right: -141px;z-index: 99" v-if="ind.indexOf(IMGList[index].thid)!=-1">
+                        <img :src="item.main_preview" class="box_top_img">
                     </div>
-                </div>
-                <div class="bottom_name">
-                    <span>{{item.name}}</span>
+                    <div class="box_name">
+                        <span>{{item.name}}</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -129,6 +129,37 @@
                     :total="total">
             </el-pagination>
         </div>
+        <div class="NextScope">
+           <span class="next">下一步(2)</span>
+            <span>取消</span>
+        </div>
+        <div class="bg" v-if="qd">
+            <div class="selectQD">
+                <div class="Names">
+                    <span>选择</span>
+                </div>
+                <div class="select_cons">
+                    <div >
+                        <span>渠道</span>
+                        <select>
+                            <option></option>
+                        </select>
+                    </div>
+                    <div>
+                        <span>厂商UI版本</span>
+                        <select>
+                            <option></option>
+                        </select>
+                    </div>
+                    <div>
+                        <span>资源版本</span>
+                        <select>
+                            <option></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -138,7 +169,7 @@
         data(){
             return{
                 radio:'',
-                value1:[(new Date()).toLocaleDateString().split('/').join('-'),(new Date()).toLocaleDateString().split('/').join('-')],
+                value1:[(new Date((new Date()).getTime() - 30*24*60*60*1000)).toLocaleDateString().split('/').join('-'),(new Date()).toLocaleDateString().split('/').join('-')],
                 isType:0,
                 isTypes:0,
                 theme_type:[],
@@ -151,7 +182,11 @@
                 account:'',
                 contemt:'',
                 type:"",
+                zh:'',
                 status:'',
+                ind:[],
+                zzType:'',
+                qd:false,
                 p:14,
                 page:1,
                 total:0,
@@ -162,17 +197,21 @@
                 listTagData:[],
                 class:false,
                 class1:false,
-                dataList:[],
                 themeChannel:{
                     channel_name:'',
                     channel:''
-                }
+                },
+                IMGList:[]
             }
         },
         mounted(){this.themeType();
-            this.getData()
+            this.getData();
         },
         methods:{
+            fh(){
+                this.$router.go(-1)
+            },
+
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
                 this.getData()
@@ -192,11 +231,23 @@
                     this.self_tags=res;
                 })
             },
+            clicks(index){
+                if(this.ind.indexOf(this.IMGList[index].thid)==-1){
+                    this.ind.push(this.IMGList[index].thid);
+                    this.qd=true;
+                }else{
+                    for(var i = 0;i<this.ind.length;i++){
+                        if(this.ind[i]==this.IMGList[index].thid){
+                            this.ind.splice(i,1);
+                        }
+                    }
+                }
+            },
             getData(){
                 let params={tags:this.listTag.concat(this.listTagData).join(','),channel:this.channel,ui_version:this.ui_version,account:this.account,
                     status:this.status,type:this.type,class:this.contemt,tstart:this.value1[0],tend:this.value1[1],search:this.search,p:this.p,page:this.page};
                 this.api.themes_theme_search({params}).then((res)=>{
-                    this.dataList=res.data;
+                    this.IMGList=res.data;
                     for(var i=0;i<res.data.length;i++){
                         for(var j =0;j<res.data[i].channel_themes.length;j++){
                             if(res.data[i].channel_themes[j].ch_thid==this.radio){
@@ -212,7 +263,7 @@
             },
             getListTag(name){
                 if(!name){
-                    this.listTag.length=0
+                    this.listTag=[]
                 }else{
                     if(this.listTag.indexOf(name)==-1){
                         this.listTag.push(name);
@@ -230,7 +281,7 @@
             },
             getListTags(name){
                 if(!name){
-                    this.listTagData.length=0
+                    this.listTagData=[]
                 }
                 else{
                     if(this.listTagData.indexOf(name)==-1){
@@ -275,6 +326,7 @@
             Range(){
                 this.api.themes_config_account().then((res)=>{
                     this.range=res;
+
                 })
             },
             expansion(){
@@ -296,28 +348,8 @@
                     this.class1==false
                 }
             },
-            upTheme(){
-                // this.$router.push({
-                //     path:'./themeUp'
-                // })
-            },
-            xq(channel,id){
-                // var query = {
-                //     thid:id,
-                //     channel: channel,
-                //     ch_thid:this.radio,
-                // };
-                // if(channel=='local'){
-                //     this.$router.push({
-                //         path:'./themeDetails',
-                //         query:query,
-                //     })
-                // }else{
-                //     this.$router.push({
-                //         path:'./themeDetailsQd',
-                //         query:query,
-                //     })
-                // }
+
+            xq(){
 
             },
         },
@@ -325,20 +357,92 @@
 </script>
 
 <style scoped>
-    .top_name{
-        width: 100%!important;
-        height: 61px!important;
+    .bg{
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.3);
+        position: fixed;
+        z-index: 9;
+        bottom: 0;
+        right: 0;
     }
-    .theme_name{
+    .selectQD{
+        width:460px;
+        height:312px;
+        background:rgba(255,255,255,1);
+        box-shadow:0px 1px 6px 0px rgba(0,0,0,0.06);
+        border-radius:4px;
+        top:50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        position: absolute;
+    }
+    .top{
+        width: 100%;
+        height:147px;
+        background: rgba(255,255,255,1);
+        position: fixed;
+        left: 256px;
+        top: 64px;
+        z-index: 99;
+    }
+    .topName{
         display: inline-block;
         font-size:18px;
         font-family:PingFang-SC;
         font-weight:500;
         color:rgba(31,46,77,1);
-        margin: 19px 9px 0 24px;
+        margin-left: 24px;
+        margin-right: 10px;
+        line-height: 45px;
+    }
+    .new_url{
+        color: rgba(61,73,102,1)!important;
+    }
+    .scope1,.scope2{
+        display: inline-block;
+        width:20px;
+        height:20px;
+        border-radius:10px;
+        border:1px solid rgba(204,204,204,1);
+        font-size:12px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(204,204,204,1);
+        text-align: center;
+        line-height: 20px;
+    }
+    .scope1{
+        color:rgba(255,255,255,1)!important;
+        background:rgba(51,119,255,1)!important;
+        border: none!important;
+        margin-right: 14px;
+    }
+    .selectName{
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(31,46,77,0.65);
+        margin-left: 14px;
+        margin-right: 43px;
+    }
+    .name{
+        font-size:14px;
+        font-family:PingFang-SC-Medium,PingFang-SC;
+        font-weight:500;
+        color:rgba(0 0 0 1);
+        margin-right: 14px;
+    }
+   .top select{
+        width:200px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        margin-right: 24px;
     }
     .polling{
-        margin-top: 150px;
+        margin-top: 232px;
         background: #FFFFFF;
         margin-bottom: 24px;
     }
@@ -515,5 +619,115 @@
         background:#3377ff!important;
         color: #fff!important;
         border:0!important;
+    }
+    .box{
+        width: 100%;
+        overflow-y:auto ;
+        height: 452px;
+        background: #F5F5F5;
+    }
+    .box_img{
+        display: inline-block;
+        width: 189px;
+        height: 349px;
+        margin-right: 44px;
+    }
+    .box_top{
+        width: 189px;
+        height: 315px;
+    }
+    .box_top span{
+        display: inline-block;
+        width:50px;
+        height:24px;
+        background:rgba(10,10,10,1);
+        opacity:0.81;
+        font-size:12px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(230,233,240,1);
+        text-align: center;
+        line-height: 24px;
+        position: relative;
+        top:-31px
+    }
+    .box_top_img{
+        max-width: 189px;
+        max-height: 349px;
+        position: relative;
+        top: 36%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+    .box_name{
+        width:189px;
+        height:34px;
+        background:rgba(255,255,255,1);
+        opacity:0.8;
+    }
+    .box_name span{
+        display: inline-block;
+        text-align: center;
+        line-height: 34px;
+        margin-left: 10px;
+        font-size:12px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(31,46,77,1);
+    }
+    .NextScope{
+        width:100%;
+        height:72px;
+        background:rgba(255,255,255,1);
+        margin-top: 24px;
+    }
+    .NextScope span{
+        display: inline-block;
+        width:68px;
+        text-align: center;
+        line-height: 36px;
+        cursor: pointer;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(31,46,77,1);
+    }
+    .next{
+        width:100px!important;
+        background:rgba(51,119,255,1)!important;
+        border: none!important;
+        color:rgba(255,255,255,1)!important;
+        margin:15px 14px 0 24px;
+    }
+    .Names{
+        margin: 21px 0 28px 20px;
+        font-size:14px;
+        font-family:PingFangSC-Medium,PingFangSC;
+        font-weight:500;
+        color:rgba(31,46,77,1);
+    }
+
+    .select_cons  span{
+        display: inline-block;
+        text-align: right;
+        width: 80px;
+        font-size:14px;
+        font-family:PingFang-SC-Medium,PingFang-SC;
+        font-weight:500;
+        color:rgba(31,46,77,1);
+        margin-right: 14px;
+        margin-left: 30px;
+    }
+    .select_cons select{
+        width:272px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        margin-bottom: 20px;
     }
 </style>

@@ -10,7 +10,7 @@
                 <span class="num">(1/2)</span>
                 <div style="display: inline-block;float: right;margin-right: 15%;">
                     <span class="jl">查看更新记录</span>
-                    <span class="zq">管理周期</span>
+                    <span class="zq" @click="Adds">管理周期</span>
                     <span class="dc">导出</span>
                 </div>
             </div>
@@ -76,6 +76,7 @@
                         <div class="date">
                             <el-date-picker
                                     class="date1"
+                                    @change="setTimes(index,item.cycle_id)"
                                     v-model="time[index]"
                                     type="daterange"
                                     range-separator="至"
@@ -86,7 +87,9 @@
                             >
                             </el-date-picker>
                         </div>
+                        <span style="width: 16px;height: 16px;color: #D3DBEB;display: inline-block;margin-left: 14px;line-height: 36px;cursor: pointer" @click="del(item.cycle_id)">x</span>
                     </div>
+
                     <div class="addData" @click="addTime()">
                         <img src="../../../../public/img/add_msg.png">
                         <span>添加周期</span>
@@ -108,7 +111,7 @@
             return{
                 list:[],
                 add:false,
-                time:[{date:[]}],
+                time:[],
                 up:1
             }
         },
@@ -123,43 +126,50 @@
                 let formData =new FormData;
                 formData.append('schedule_id',this.$route.query.schedule_id);
                 formData.append('name',this.$route.query.name);
-                formData.append('tstart',this.$route.query.cycle.split('至')[0]);
-                formData.append('tend',this.$route.query.cycle.split('至')[(this.$route.query.cycle.split('至')).length-1]);
+                formData.append('tstart',this.$route.query.tstart);
+                formData.append('tend',this.$route.query.tend);
                 this.api.themes_schedule_cycle_add(formData).then((res)=>{
                     this.getData()
                 })
             },
             getData(){
-                let params={schedule_id:this.$route.query.schedule_id}
+                let params={schedule_id:this.$route.query.schedule_id};
                 this.api.themes_schedule_cycles({params}).then((res)=>{
                     this.list=res;
-                    // var arr=[{data:[]}];
-                    // for(var i=0;i<res.length;i++){
-                    //    arr[i].date[0]= res[i].tstart;
-                    //     arr[i].date[1]=res[i].tend;
-                    // }
-                    // this.time=arr;
-                    // console.log(this.time)
+                    var arr=[];
+                    for(var i=0 ;i<res.length;i++){
+                        arr[i]=[res[i].tstart,res[i].tend];
+                    }
+                    this.time=arr;
                 })
+            },
+            setTimes(index,id){
+                let formData=new FormData;
+                formData.append('cycle_id',id);
+                formData.append('schedule_id',this.$route.query.schedule_id);
+                formData.append('name','周期'+(index+1));
+                formData.append('tstart',this.time[index][0]);
+                formData.append('tend',this.time[index][1]);
+                this.api.themes_schedule_cycle_edit(formData).then((res)=>{
+                    this.getData();
+                })
+            },
+            del(id){
+                let formData=new FormData;
+                formData.append('cycle_id',id);
+                this.api.themes_schedule_cycle_del(formData).then((res)=>{
+                    this.getData();
+                })
+            },
+            heidADD(){
+                this.add=false
             },
             Adds(){
                 this.add=true;
-
-
-                let formData=new FormData;
-                formData.append('schedule_id',this.$route.query.schedule_id);
-                formData.append('schedule_id',this.$route.query.schedule_id);
-                formData.append('schedule_id',this.$route.query.schedule_id);
-                formData.append('schedule_id',this.$route.query.schedule_id);
-                formData.append('schedule_id',this.$route.query.schedule_id);
-                formData.append('schedule_id',this.$route.query.schedule_id);
-                this.api.themes_schedule_demand_add().then((res)=>{
-
-                })
             },
             AddXQ(id){
               this.$router.push({
-                  path:"./xqDetails",
+                  path:"./select_theme",
                   query:{
                       schedule_id:this.$route.query.schedule_id,
                       cycle_id:id,

@@ -179,12 +179,12 @@
                     this.ui=res
                 })
             },
-            getID(index){
-                if(this.material==1){
-                    this.scMid=this.IMGList[index].mid;
-                    this.scUrl=this.IMGList[index].prev_uri;
-                }
-            },
+            // getID(index){
+            //     if(this.material==1){
+            //         this.scMid=this.IMGList[index].mid;
+            //         this.scUrl=this.IMGList[index].prev_uri;
+            //     }
+            // },
             YCset(){this.$parent.heidThm()},
             messageID(){
                     this.$emit('listData',this.ind);
@@ -295,7 +295,7 @@
         height:912px;
         background:rgba(255,255,255,1);
         border-radius:4px;
-        top:-122px;
+        top:-140px;
         left: 50%;
         transform: translateX(-50%);
         overflow-y: auto;

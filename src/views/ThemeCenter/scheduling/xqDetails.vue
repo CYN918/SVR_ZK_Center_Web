@@ -45,10 +45,10 @@
             <div class="box2">
                 <div>
                     <span class="box2_name">名称</span>
-                    <input type="text" class="input1">
+                    <input type="text" class="input1" v-model="name">
                 </div>
                 <div>
-                    <span class="box2_name">典型</span>
+                    <span class="box2_name">类型</span>
                     <select>
                         <option>全部</option>
                     </select>
@@ -97,7 +97,26 @@
 
 <script>
     export default {
-        name: "xq-details"
+        name: "xq-details",
+        data(){
+            return{
+                name:'',
+                status:"",
+                type:'',
+                channel:'',
+                account:"",
+                note:'',
+                person:"",
+                thid:'',
+            }
+        },
+        methods:{
+            getADD(){
+                this.api.themes_schedule_demand_add().then((res)=>{
+
+                })
+            },
+        },
     }
 </script>
 

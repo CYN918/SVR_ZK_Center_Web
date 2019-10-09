@@ -36,6 +36,10 @@
                             prop="cycle"
                             label="周期"
                     >
+                        <template slot-scope="scope">
+                            <span style="color: rgb(61, 73, 102);font-size: 14px;font-weight: 400;font-family: PingFang-SC-Regular;">{{tableData[scope.$index].tstart+'至'+tableData[scope.$index].tend}}</span>
+
+                        </template>
                     </el-table-column>
                     <el-table-column
                             prop="pv"
@@ -120,13 +124,7 @@
                 p:10,
                 total:0,
                 id:'',
-                tableData:[{
-                    name:'',
-                    creator:'',
-                    updated_at:'',
-                    cycle:'',
-                    schedule_id:"",
-                }],
+                tableData:[],
                 date:[],
                 add:false,
                 name:'',
@@ -146,7 +144,8 @@
                     query:{
                         name:data.name,
                         schedule_id:data.schedule_id,
-                        cycle:data.cycle,
+                        tstart:data.tstart,
+                        tend:data.tend,
                     }
                 })
             },
@@ -218,13 +217,7 @@
             getData(){
                 let params={tstart:this.time[0],tend:this.time[1],search:'',p:this.p,page:this.page};
                 this.api.themes_schedule_schedules({params}).then((res)=>{
-                    for(var i=0;i<res.data.length;i++){
-                        this.tableData[i].cycle=res.data[i].tstart+'至'+res.data[i].tend;
-                        this.tableData[i].name=res.data[i].name;
-                        this.tableData[i].creator=res.data[i].creator;
-                        this.tableData[i].updated_at=res.data[i].updated_at;
-                        this.tableData[i].schedule_id=res.data[i].schedule_id;
-                    }
+                    this.tableData=res.data;
                     this.total=res.total;
                 })
             },

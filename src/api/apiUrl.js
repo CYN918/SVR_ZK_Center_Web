@@ -1058,4 +1058,13 @@ export default {
     themes_schedule_demand_add:{
 		url:'themes/schedule/demand/add',method:'post',isType:{suktip:1}
 	},
+    //编辑排期周期
+    themes_schedule_cycle_edit:{
+		url:'themes/schedule/cycle/edit',method:'post',isType:{suktip:1}
+	},
+	//删除排期周期
+    themes_schedule_cycle_del:{
+		url:'themes/schedule/cycle/del',method:'post',isType:{suktip:1}
+	},
+
 }

@@ -15,12 +15,12 @@
             <div class="themeUpLeft">
                 <div >
                     <span style=" margin-top: 26px;">绑定主题</span>
-                    <a @click="zt()" v-if="this.$route.query.pkgid==undefined">从主题库选择</a>
-                    <a  v-if="this.$route.query.pkgid!=undefined">从主题库选择</a>
+                    <a @click="zt()" v-if="pkgid==undefined">从主题库选择</a>
+                    <a  v-if="pkgid!=undefined">从主题库选择</a>
                     <div class="img_box">
                         <div class="img_box1" v-for="item in listThm">
                             <img :src="item.main_preview" class="img_box1_img">
-                            <img class="del" src="../../../../public/img/del.png" v-if="this.$route.query.pkgid!=undefined" style="width: 17px;height: 16px" @click="DelThmId(item.thid)"/>
+                            <img class="del" src="../../../../public/img/del.png" v-if="pkgid==undefined" style="width: 17px;height: 16px" @click="DelThmId(item.thid)"/>
                         </div>
                     </div>
                 </div>
@@ -81,34 +81,34 @@
                 </div>
                 <div>
                     <span>渠道</span>
-                    <select style="margin-right: 40px" @change="getUI()" v-model="channel" v-if="this.$route.query.pkgid==undefined">
+                    <select style="margin-right: 40px" @change="getUI()" v-model="channel" v-if="pkgid==undefined">
                         <option value="">全部</option>
                         <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
                     </select>
-                    <select style="margin-right: 40px" @change="getUI()" disabled="disabled" v-model="channel" v-if="this.$route.query.pkgid!=undefined">
+                    <select style="margin-right: 40px" @change="getUI()" disabled="disabled" v-model="channel" v-if="pkgid!=undefined">
                         <option value="">全部</option>
                         <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
                     </select>
                 </div>
               <div>
                   <span>厂商UI版本</span>
-                  <select style="margin-right: 68px" v-model="ui_version" v-if="this.$route.query.pkgid==undefined">
+                  <select style="margin-right: 68px" v-model="ui_version" v-if="pkgid==undefined">
                       <option value="">全部</option>
                       <option v-for="item in ui" :value="item.version">{{item.version}}</option>
                   </select>
-                  <select style="margin-right: 68px" v-model="ui_version" disabled="disabled" v-if="this.$route.query.pkgid!=undefined">
+                  <select style="margin-right: 68px" v-model="ui_version" disabled="disabled" v-if="pkgid!=undefined">
                       <option value="">全部</option>
                       <option v-for="item in ui" :value="item.version">{{item.version}}</option>
                   </select>
               </div>
                 <div>
                     <span>绑定素材</span>
-                    <a @click="jump()" v-if="this.$route.query.pkgid==undefined">从主题素材库选择</a>
-                    <a  v-if="this.$route.query.pkgid!=undefined">从主题素材库选择</a>
+                    <a @click="jump()" v-if="pkgid==undefined">从主题素材库选择</a>
+                    <a  v-if="pkgid!=undefined">从主题素材库选择</a>
                     <div class="img_box">
                         <div class="img_box1" v-for="(item,index) in listSC">
                             <img :src="item.main_preview" class="img_box1_img">
-                            <img class="del" src="../../../../public/img/del.png" v-if="this.$route.query.pkgid==undefined" style="width: 17px;height: 16px" @click="Del(item.thmid)"/>
+                            <img class="del" src="../../../../public/img/del.png"  v-if="pkgid==undefined" style="width: 17px;height: 16px" @click="Del(item.thmid)"/>
                         </div>
                     </div>
                 </div>
@@ -130,7 +130,7 @@
                                 <span style="display: inline-block;font-size:12px;font-family:PingFangSC;font-weight:400;color:rgba(31,46,77,0.45);">封面预览图</span>
                             </div>
                         </div>
-                        <div v-if="this.$route.query.pkgid==undefined">
+                        <div v-if="pkgid==undefined">
                             <el-upload
                                     class="upload"
                                     action="https://jsonplaceholder.typicode.com/posts/"
@@ -144,13 +144,13 @@
                                 <el-button size="small" type="primary">点击上传</el-button>
                             </el-upload>
                         </div>
-                        <div v-if="this.$route.query.pkgid!=undefined">
+                        <div v-if="this.pkgid!=undefined">
 
                         </div>
                     </div>
                     <div class="imgCanvas" v-for="item in pic">
                         <img src="../../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;left:95px;top:0px;z-index: 99" v-if="item==main_preview">
-                        <img class="dels" src="../../../../public/img/del.png" style="width: 16px"  v-if="item!=main_preview&&this.$route.query.pkgid==undefined" @click="Delete(item)">
+                        <img class="dels" src="../../../../public/img/del.png" style="width: 16px"  v-if="item!=main_preview&&pkgid==undefined" @click="Delete(item)">
                         <img :src="item" class="sc">
                         <div class="sz" @click="fm(item)">
                             <span>设置为封面</span>
@@ -210,6 +210,7 @@
                 thm:false,
                 themeID:[],
                 listThm:[],
+                pkgid:this.$route.query.pkgid,
             }
         },
         mounted(){
@@ -243,7 +244,7 @@
                 })
             },
             getThmPkg(){
-                let params={pkgid:this.$route.query.pkgid}
+                let params={pkgid:this.$route.query.pkgid};
                 this.api.themes_package_themes({params}).then((res)=>{
                     this.listThm=res
                 })
@@ -256,7 +257,8 @@
             },
             listData(data){
                 this.themeID=data;
-                this.getTheme()
+                this.getTheme();
+
             },
             setPack(){
                 if(!this.name){
@@ -332,6 +334,7 @@
                         }
                     }
                     this.listThm=list;
+                    console.log(this.listThm)
                 })
             },
             DelThmId(id){

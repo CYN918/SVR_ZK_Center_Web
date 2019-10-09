@@ -14,7 +14,7 @@
             <div class="polling">
                 <div class="polling_tag">
                     <span class="tag_name">内容标签</span>
-                    <span class="labelName"  @click="getListTag()" :class="{active:listTag.length==0}">全部</span>
+                    <span class="labelName"  @click="getListTag('')" :class="{active:listTag.length==0}">全部</span>
                     <div class="tags" :class="{ALLtags:this.class==true}">
                         <span v-for="(item,index) in preset_tags" class="labelName" @click="getListTag(item.name,index)" :class="{active:listTag.indexOf(item.name)!=-1}">{{item.name}}</span>
                     </div>
@@ -25,7 +25,7 @@
                 </div>
                 <div class="polling_tag">
                     <span class="tag_name">运营标签</span>
-                    <span class="labelName" @click="getListTags()" :class="{active:listTagData.length==0}">全部</span>
+                    <span class="labelName" @click="getListTags('')" :class="{active:listTagData.length==0}">全部</span>
                     <div class="tags" :class="{ALLtags:this.class1==true}">
                         <span v-for="(item,index) in self_tags" class="labelName" @click="getListTags(item.desc,index)" :class="{active:listTagData.indexOf(item.desc)!=-1}">{{item.desc}}</span>
                     </div>
@@ -187,14 +187,15 @@
                             }
                         }
                     }
+                    console.log(this.value1);
                     this.total=res.total;
                     this.getTagsList();
                     this.getOperatorTag();
                 })
             },
             getListTag(name){
-                if(!name){
-                    this.listTag.length=0
+                if(name==''){
+                    this.listTag=[];
                 }else{
                     if(this.listTag.indexOf(name)==-1){
                         this.listTag.push(name);
@@ -211,8 +212,8 @@
                 this.getList()
             },
             getListTags(name){
-                if(!name){
-                    this.listTagData.length=0
+                if(name==''){
+                    this.listTagData=[];
                 }
                 else{
                     if(this.listTagData.indexOf(name)==-1){
