@@ -30,10 +30,10 @@
                     </div>
                     <span>{{item.tstart+'至'+item.tend}}</span>
                 </div>
-                <div class="pd">
+                <div class="pd" >
                    <div>
                        <span class="qdNmae">名称</span>
-                       <span></span>
+                       <span>{{item.name}}</span>
                    </div>
                     <div>
                         <span class="qdNmae">渠道</span>
@@ -141,6 +141,13 @@
                         arr[i]=[res[i].tstart,res[i].tend];
                     }
                     this.time=arr;
+                    this.demandList()
+                })
+            },
+            demandList(){
+                let params={schedule_id:this.$route.query.schedule_id,cycle_id:this.list};
+                this.api.themes_schedule_demands({params}).then((res)=>{
+
                 })
             },
             setTimes(index,id){

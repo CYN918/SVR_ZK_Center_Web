@@ -19,7 +19,7 @@
                    <span class="box1_qd">aaa</span>
                    <img src="../../../../public/img/IMG.png">
                    <div class="box1_BTN">
-                       <span>重新上传</span>
+                       <span>重新选择</span>
                        <span>查看详情</span>
                    </div>
                </div>

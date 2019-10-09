@@ -1066,5 +1066,13 @@ export default {
     themes_schedule_cycle_del:{
 		url:'themes/schedule/cycle/del',method:'post',isType:{suktip:1}
 	},
+	//获取渠道主题资源版本列表
+	themes_config_version:{
+		url:'/themes/config/version',method:'get'
+	},
+	//排期周期需求列表
+    themes_schedule_demands:{
+		url:'themes/schedule/demands',method:'get'
+	},
 
 }

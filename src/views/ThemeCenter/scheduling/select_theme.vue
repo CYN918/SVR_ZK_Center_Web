@@ -2,8 +2,8 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh">排期管理 &nbsp;/&nbsp;</span>
-                <span class="log_url">主题排期详情 &nbsp;/&nbsp;</span>
+                <span class="log_url" @click="fhs">排期管理 &nbsp;/&nbsp;</span>
+                <span class="log_url" @click="fh">主题排期详情 &nbsp;/&nbsp;</span>
                 <span class="new_url">添加需求卡片 &nbsp;</span>
             </div>
             <div>
@@ -14,7 +14,7 @@
                 <div  class="scope2">2</div>
                 <span class="selectName">从主题库选择</span>
                 <span class="name">制作渠道</span>
-                <select  v-model="channel" @change="getData()">
+                <select  v-model="Makechannel" @change="getData()">
                     <option value="">全部</option>
                     <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
                 </select>
@@ -71,7 +71,7 @@
                 >
                 </el-date-picker>
                 <span class="tit_name">渠道</span>
-                <select style="margin-right: 40px" @change="getUI()" v-model="channel" disabled="disabled">
+                <select style="margin-right: 40px" @change="getUI()" v-model="channel">
                     <option value="">全部</option>
                     <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
                 </select>
@@ -100,7 +100,7 @@
                 </select>
                 <span class="tit_name">适用范围</span>
                 <select style="margin-right: 24px" v-model="account">
-                    <option :value="item.account" v-for="item in range">{{item.account}}</option>
+                    <option :value="item.range" v-for="item in range">{{item.range}}</option>
                 </select>
                 <span class="cx" @click="getData()">查询</span>
             </div>
@@ -130,10 +130,10 @@
             </el-pagination>
         </div>
         <div class="NextScope">
-           <span class="next">下一步(2)</span>
+           <span class="next" @click="scopeTwo">下一步(2)</span>
             <span>取消</span>
         </div>
-        <div class="bg" v-if="qd">
+        <div class="bg" v-if="ADDqd">
             <div class="selectQD">
                 <div class="Names">
                     <span>选择</span>
@@ -141,22 +141,27 @@
                 <div class="select_cons">
                     <div >
                         <span>渠道</span>
-                        <select>
-                            <option></option>
+                        <select  @change="getUIs()" v-model="ADDchannel">
+                            <option :value="item.channel" v-for="item in TCchannel">{{item.channel_name}}</option>
                         </select>
                     </div>
                     <div>
                         <span>厂商UI版本</span>
-                        <select>
-                            <option></option>
+                        <select v-model="ADDui" @change="getThemeType()">
+                            <option value="">全部</option>
+                            <option v-for="item in ui" :value="item.version">{{item.version}}</option>
                         </select>
                     </div>
                     <div>
                         <span>资源版本</span>
                         <select>
-                            <option></option>
+                            <option v-for="item in zyBb" :value="item.version">{{item.version}}</option>
                         </select>
                     </div>
+                </div>
+                <div class="selectBox">
+                    <span class="selectBox_qd" @click="setID">确定</span>
+                    <span @click="heidTC()">取消</span>
                 </div>
             </div>
         </div>
@@ -183,10 +188,11 @@
                 contemt:'',
                 type:"",
                 zh:'',
+                Makechannel:'',
                 status:'',
                 ind:[],
                 zzType:'',
-                qd:false,
+                ADDqd:false,
                 p:14,
                 page:1,
                 total:0,
@@ -201,7 +207,14 @@
                     channel_name:'',
                     channel:''
                 },
-                IMGList:[]
+                IMGList:[],
+                ADDchannel:'',
+                TCchannel:[],
+                zyBb:[],
+                ADDui:"",
+                index:'',
+                ch_thids:[],
+                qdList:[],
             }
         },
         mounted(){this.themeType();
@@ -211,7 +224,9 @@
             fh(){
                 this.$router.go(-1)
             },
-
+            fhs(){
+                this.$router.go(-2)
+            },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
                 this.getData()
@@ -231,14 +246,35 @@
                     this.self_tags=res;
                 })
             },
+            setID(){
+                for(var i=0 ;i<this.TCchannel.length;i++){
+                    if(this.TCchannel[i].channel==this.ADDchannel){
+                        this.ch_thids.push(this.TCchannel[i].ch_thid);
+                        this.qdList.push(this.TCchannel[i].channel_name)
+                    }
+                }
+                this.ADDqd=false;
+            },
+            heidTC(){
+                this.ADDqd=false;
+                for(var i = 0;i<this.ind.length;i++){
+                    if(this.ind[i]==this.IMGList[this.index].thid){
+                        this.ind.splice(i,1);
+                    }
+                }
+            },
             clicks(index){
                 if(this.ind.indexOf(this.IMGList[index].thid)==-1){
                     this.ind.push(this.IMGList[index].thid);
-                    this.qd=true;
+                    this.ADDqd=true;
+                    this.index=index;
+                    this.TCchannel=this.IMGList[index].channel_themes;
                 }else{
                     for(var i = 0;i<this.ind.length;i++){
                         if(this.ind[i]==this.IMGList[index].thid){
                             this.ind.splice(i,1);
+                            this.ch_thids.splice(i,1);
+                            this.qdList.splice(i,1)
                         }
                     }
                 }
@@ -305,6 +341,18 @@
                     this.qd();
                 })
             },
+            getThemeType(){
+                let params={channel:this.ADDchannel,ui_version:this.ADDui};
+                this.api.themes_config_version({params}).then((res)=>{
+                    this.zyBb=res;
+                })
+            },
+            getUIs(){
+                let params={channel:this.ADDchannel};
+                this.api.themes_config_channelui({params}).then((res)=>{
+                    this.ui=res;
+                })
+            },
             getUI(){
                 let params={channel:this.channel};
                 this.api.themes_config_channelui({params}).then((res)=>{
@@ -349,7 +397,37 @@
                 }
             },
 
-            xq(){
+            scopeTwo(){
+                console.log(this.ind);
+                if(!this.Makechannel){
+                    this.$message.error('制作渠道不能为空')
+                    return
+                }
+                if(!this.zh){
+                    this.$message.error('上架账号不能为空')
+                    return
+                }
+                if(!this.zzType){
+                    this.$message.error('制作类型不能为空')
+                    return
+                }
+                if(this.ind==[]){
+                    this.$message.error('请选择至少一个主题')
+                    return
+                }
+                    this.$router.push({
+                        path:'./select_theme_two',
+                        query:{
+                            schedule_id:this.$route.query.schedule_id,
+                            cycle_id:this.$route.query.cycle_id,
+                            Makechannel:this.Makechannel,
+                            zh:this.zh,
+                            zzType:this.zzType,
+                            ind:this.ind,
+                            ch_thids:this.ch_thids,
+                            qdList:this.qdList,
+                        },
+                    })
 
             },
         },
@@ -729,5 +807,29 @@
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);
         margin-bottom: 20px;
+    }
+    .selectBox{
+        text-align: center;
+    }
+    .selectBox span{
+        display: inline-block;
+        cursor: pointer;
+        line-height: 36px;
+        text-align: center;
+        width:80px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(31,46,77,1);
+    }
+    .selectBox_qd{
+        background:rgba(51,119,255,1)!important;
+        color: #fff!important;
+        border: none!important;
+        margin-right: 20px;
     }
 </style>

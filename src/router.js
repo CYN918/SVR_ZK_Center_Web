@@ -217,6 +217,8 @@ import xqDetails from './views/ThemeCenter/scheduling/xqDetails'
 mode['xqDetails']=xqDetails;
 import select_theme from './views/ThemeCenter/scheduling/select_theme'
 mode['select_theme']=select_theme;
+import select_theme_two from './views/ThemeCenter/scheduling/select_thenme_two'
+mode['select_theme_two']=select_theme_two
 
 
 Vue.use(Router)
@@ -343,7 +345,7 @@ let nb = [
             {path:'/ThemeCenter/scheduling/details',name:'详情',component:mode['details']},
             {path:'/ThemeCenter/scheduling/xqDetails',name:'详情',component:mode['xqDetails']},
             {path:'/ThemeCenter/scheduling/select_theme',name:'选择主题',component:mode['select_theme']},
-
+            {path:'/ThemeCenter/scheduling/select_theme_two',name:'选择主题2',component:mode['select_theme_two']},
         ]},
 
 ];
