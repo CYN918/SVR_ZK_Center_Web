@@ -355,6 +355,7 @@
         color:rgba(255,255,255,1)!important;
         text-align: center;
         cursor: pointer;
+        position: static!important;
     }
     .dc{
         float: right;

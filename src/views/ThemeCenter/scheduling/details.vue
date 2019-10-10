@@ -2,7 +2,7 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh">排期管理 &nbsp;/&nbsp;</span>
+                <span class="log_url" @click="fh()">排期管理 &nbsp;/&nbsp;</span>
                 <span class="new_url">排期详情</span>
             </div>
             <div>
@@ -48,7 +48,7 @@
                         <span>{{da.creator}}</span>
                     </div>
                     <div>
-                        <span class="xq">查看详情</span>
+                        <span class="xq" @click="CkDetails()">查看详情</span>
                     </div>
                 </div>
                 <div>
@@ -196,6 +196,11 @@
                       cycle_id:id,
                   },
               })
+            },
+            CkDetails(){
+                this.$router.push({
+                    path:"./xqDetails",
+                })
             },
         },
 

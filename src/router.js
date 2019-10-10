@@ -219,6 +219,12 @@ import select_theme from './views/ThemeCenter/scheduling/select_theme'
 mode['select_theme']=select_theme;
 import select_theme_two from './views/ThemeCenter/scheduling/select_thenme_two'
 mode['select_theme_two']=select_theme_two
+import AllData from './views/ThemeCenter/data/AllData'
+mode['AllData']=AllData;
+import ranking from './views/ThemeCenter/data/ranking'
+mode['ranking']=ranking;
+import Profit from './views/ThemeCenter/data/Profit'
+mode['Profit']=Profit
 
 
 Vue.use(Router)
@@ -346,6 +352,10 @@ let nb = [
             {path:'/ThemeCenter/scheduling/xqDetails',name:'详情',component:mode['xqDetails']},
             {path:'/ThemeCenter/scheduling/select_theme',name:'选择主题',component:mode['select_theme']},
             {path:'/ThemeCenter/scheduling/select_theme_two',name:'选择主题2',component:mode['select_theme_two']},
+            {path:'/ThemeCenter/data/AllData',name:'全景数据',component:mode['AllData']},
+            {path:'/ThemeCenter/data/ranking',name:'排行',component:mode['ranking']},
+            {path:'/ThemeCenter/data/Profit',name:'收益',component:mode['Profit']},
+
         ]},
 
 ];
@@ -446,6 +456,9 @@ let leftNav =
 //         {title:'主题中心',default:'/ThemeCenter',defaultopen:['1'],
 //             children:[
 //                 {title:'数据中心',url:'1',img:'&#xe612;',list:[
+//                         {title:'全景数据',url:'/ThemeCenter/data/AllData'},
+//                         {title:'收益数据',url:'/ThemeCenter/data/Profit'},
+//                         {title:'排名数据',url:'/ThemeCenter/data/ranking'},
 //                     ]},
 //                 {title:'主题库',url:'2',img:'&#xe612;',list:[
 //                         {title:'主题库',url:'/ThemeCenter/themeCook'},

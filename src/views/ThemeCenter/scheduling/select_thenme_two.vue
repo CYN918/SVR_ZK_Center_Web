@@ -26,7 +26,7 @@
                         <img :src="item.main_preview">
                         <div class="box1_BTN">
                             <span>重新选择</span>
-                            <span @click="CK">查看详情</span>
+                            <span @click="CK(item)">查看详情</span>
                         </div>
                     </div>
                     <div class="name">
@@ -103,6 +103,8 @@
                 status:'',
                 note:[],
                 person:[],
+                ch_thids:this.$route.query.ch_thids,
+                ind:this.$route.query.ind
             }
         },
         mounted(){
@@ -123,10 +125,29 @@
             fhs(){
                 this.$router.go(-2)
             },
-            CK(){
-                this.$router.push({
-                    path:'./xqDetails'
-                })
+            CK(item){
+                for(var i=0;i<item.channel_themes.length;i++){
+                    if(item.channel_themes[i].channel==item.channel){
+                        var ch_thid=item.channel_themes[i].ch_thid;
+                    }
+                }
+                var query = {
+                    thid:item.thid,
+                    channel: item.channel,
+                    ch_thid:ch_thid,
+                };
+               if(item.channel=='channel'){
+                   this.$router.push({
+                       path:'../themeDetails',
+                       query:query
+                   })
+               }else{
+                   this.$router.push({
+                       path:'../themeDetailsQd',
+                       query:query
+                   })
+               }
+
             },
             qd(){
                 this.api.themes_config_channel().then((res)=>{

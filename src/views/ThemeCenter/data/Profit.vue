@@ -1,0 +1,504 @@
+<template>
+    <div>
+        <div class="top">
+            <span class="qj">收益数据</span>
+            <!--<span class="Section">维度</span>-->
+            <!--<select v-model="data_type">-->
+                <!--<option value="1">整日</option>-->
+                <!--<option value="2">整月</option>-->
+            <!--</select>-->
+        </div>
+        <div class="tabs">
+            <div>
+                <div>
+                    <!--<div class="date" v-if="data_type==2">-->
+                        <!--<el-date-picker-->
+                                <!--v-model="value1"-->
+                                <!--type="month"-->
+                                <!--placeholder="选择月">-->
+                        <!--</el-date-picker>-->
+                    <!--</div>-->
+                    <div class="date" style="width: 225px" >
+                        <el-date-picker
+                                v-model="value"
+                                type="daterange"
+                                range-separator="至"
+                                format="yyyy-MM-dd"
+                                start-placeholder="开始日期"
+                                end-placeholder="结束日期"
+                                value-format="yyyy-MM-dd">
+                        </el-date-picker>
+                    </div>
+                    <span class="nameTit">主题名称</span>
+                    <input type="text" v-model="name">
+                    <span class="nameTit">渠道</span>
+                    <select v-model="channel">
+                        <option v-for="item in channels" :value="item.channel">{{item.channel_name}}</option>
+                    </select>
+                    <span class="cx" @click="GetData()">查询</span>
+                    <span class="cz" @click="CZ()">重置</span>
+                    <span class="dc">导出</span>
+                    <span class="bj" @click="checkBox()">编辑指标</span>
+                </div>
+            </div>
+            <div>
+                <template>
+                    <el-table
+                            :data="tableData"
+                            style="width: 100%"
+                            :header-cell-style="getRowClass"
+                            :cell-style="cell"
+                    >
+                        <el-table-column
+                                prop="date"
+                                label="日期"
+                                v-if="seach1==false"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                prop="name"
+                                label="主题名称"
+                                v-if="seach2==false"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                prop="address"
+                                v-if="seach3==false"
+                                label="厂商UI版本">
+                        </el-table-column>
+                        <el-table-column
+                                prop="address"
+                                v-if="seach4==false"
+                                label="渠道">
+                        </el-table-column>
+                        <el-table-column
+                                prop="address"
+                                v-if="seach5==false"
+                                label="主题类型">
+                        </el-table-column>
+                        <el-table-column
+                                prop="address"
+                                v-if="seach6==false"
+                                label="类容分类">
+                        </el-table-column>
+                        <el-table-column
+                                prop="address"
+                                v-if="seach7==false"
+                                label="单价">
+                        </el-table-column>
+                        <el-table-column
+                                prop="address"
+                                v-if="seach8==false"
+                                label="曝光量">
+                        </el-table-column>
+                        <el-table-column
+                                prop="address"
+                                v-if="seach9==false"
+                                label="点击量">
+                        </el-table-column>
+                        <el-table-column
+                                prop="address"
+                                v-if="seach10==false"
+                                label="试用量">
+                        </el-table-column>
+                        <el-table-column
+                                prop="address"
+                                v-if="seach11==false"
+                                label="下载量">
+                        </el-table-column>
+                        <el-table-column
+                                prop="address"
+                                v-if="seach12==false"
+                                label="销售量">
+                        </el-table-column>
+                        <el-table-column
+                                prop="address"
+                                v-if="seach13==false"
+                                label="应用量">
+                        </el-table-column>
+                        <el-table-column
+                                prop="address"
+                                v-if="seach14==false"
+                                label="销售额">
+                        </el-table-column>
+                        <el-table-column
+                                prop="address"
+                                v-if="seach15==false"
+                                label="转化率">
+                        </el-table-column>
+                    </el-table>
+                </template>
+            </div>
+            <div class="block">
+                <el-pagination
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page.sync="page"
+                        :page-size="p"
+                        layout="prev, pager, next,total, jumper"
+                        :total="total">
+                </el-pagination>
+            </div>
+        </div>
+        <div class="bg" v-if="selectBox">
+            <div class="select">
+                <div class="select_tit">
+                    <span>编辑指标</span>
+                    <img src="../../../../public/img/gb.png" @click="heidcheckBox()">
+                </div>
+                <div class="tableTit">
+                    <div class="tits">
+                        <span>筛选维度:</span>
+                    </div>
+                    <input type="checkbox" style="margin-left: 24px" v-model="seach1"/>
+                    <span>日期</span>
+                    <input type="checkbox" v-model="seach2"/>
+                    <span>主题名称</span>
+                    <input type="checkbox" v-model="seach3"/>
+                    <span>厂商UI版本</span>
+                    <input type="checkbox" v-model="seach4"/>
+                    <span>渠道</span>
+                    <input type="checkbox" v-model="seach5"/>
+                    <span>主题类型</span>
+                    <input type="checkbox"  style="margin-left: 24px" v-model="seach6"/>
+                    <span>内容分类</span>
+                    <input type="checkbox" v-model="seach7"/>
+                    <span>单价</span>
+                    <input type="checkbox" v-model="seach8"/>
+                    <span>曝光量</span>
+                    <input type="checkbox" v-model="seach9"/>
+                    <span>点击量</span>
+                    <input type="checkbox" v-model="seach10"/>
+                    <span>试用量</span>
+                    <input type="checkbox" style="margin-left: 24px" v-model="seach11"/>
+                    <span>下载量</span>
+                    <input type="checkbox" v-model="seach12"/>
+                    <span>销售量</span>
+                    <input type="checkbox" v-model="seach13"/>
+                    <span>应用量</span>
+                    <input type="checkbox" v-model="seach14"/>
+                    <span>销售量</span>
+                    <input type="checkbox" v-model="seach15" />
+                    <span>转化率</span>
+                    <div class="checkBox_btn">
+                        <span @click="checkBox()">确定</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    export default {
+        name: "all-data",
+        data(){
+            return{
+                value:[],
+                value1:"",
+                tableData:[],
+                data_type:"2",
+                channels:[],
+                channel:'',
+                name:'',
+                p:10,
+                page:1,
+                total:0,
+                selectBox:false,
+                seach1:false,
+                seach2:false,
+                seach3:false,
+                seach4:false,
+                seach5:false,
+                seach6:false,
+                seach7:false,
+                seach8:false,
+                seach9:false,
+                seach10:false,
+                seach11:false,
+                seach12:false,
+                seach13:false,
+                seach14:false,
+                seach15:false,
+
+            }
+        },
+        mounted(){
+            this.qd();
+            this.GetData()
+        },
+        methods:{
+            CZ(){
+                this.name='';
+                this.channel='';
+                this.type='';
+                this.className='';
+                this.value='';
+            },
+            checkBox(){
+                this.selectBox=true;
+            },
+            heidcheckBox(){
+                this.selectBox=false;
+            },
+            getRowClass({row, column, rowIndex, columnIndex}) {
+                if (rowIndex === 0) {
+                    return 'background:rgb(246, 245, 245,1);color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
+                } else {
+                    return ''
+                }
+            },
+
+            cell({row, column, rowIndex, columnIndex}){
+                return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
+            },
+            // themeType(){
+            //     this.api.themes_config_theme_type().then((res)=>{
+            //         this.theme_type=res;
+            //         this.content();
+            //         this.qd();
+            //     })
+            //     this.qd();
+            //
+            // },
+            qd(){
+                this.api.themes_config_channel().then((res)=>{
+                    this.channels=res;
+                })
+            },
+            // content(){
+            //     let params={type:this.type};
+            //     this.api.themes_config_theme_class({params}).then((res)=>{
+            //         this.cont=res;
+            //     })
+            // },
+            handleSizeChange(p) { // 每页条数切换
+                this.p = p;
+                this.GetData()
+            },
+            handleCurrentChange(page) {//页码切换
+                this.page = page;
+                this.GetData()
+            },
+            GetData(){
+                // if(this.data_type==2){
+                //     var params={
+                //         type:this.type,name:this.name,class:this.className,channel:this.channel,tdate:this.value1,p:this.p,page:this.page
+                //     }
+                // }else{
+                //     var params={
+                //         type:this.type,name:this.name,class:this.className,channel:this.channel,tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page
+                //     }
+                // }
+                var params={
+                    name:this.name,channel:this.channel,tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page
+                }
+                this.api.themes_report_income({params}).then((res)=>{
+                    this.tableData=res.data;
+                    this.total=res.total;
+                })
+            }
+        }
+    }
+</script>
+
+<style scoped>
+    .top{
+        width: 100%!important;
+        height:62px;
+        background:rgba(255,255,255,1);
+        position: fixed;
+        left: 256px;
+        top: 64px;
+        z-index: 99;
+        box-shadow: 0px 0px 6px 0px rgba(0, 0, 0,0)
+    }
+    .qj{
+        display: inline-block;
+        font-size:18px;
+        font-family:PingFangSC-Medium,PingFangSC;
+        font-weight:500;
+        color:rgba(31,46,77,1);
+        margin: 19px 10px 0 24px;
+    }
+    .Section{
+        display: inline-block;
+        font-size:12px;
+        font-family:PingFang-SC-Medium,PingFang-SC;
+        font-weight:500;
+        color:rgba(31,46,77,1);
+    }
+    .top select{
+        border: none!important;
+        font-size:12px;
+        font-family:PingFang-SC-Medium,PingFang-SC;
+        font-weight:500;
+        color:rgba(31,46,77,1);
+    }
+    .tabs{
+        width: 100%;
+        height:776px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        margin-top: 145px;
+    }
+    .date{
+        display: inline-block;
+        width:145px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        margin: 24px;
+    }
+    .date .el-input__inner,.el-date-editor.el-input, .el-date-editor.el-input__inner{
+        width: 100%!important;
+    }
+    .nameTit{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFang-SC-Medium,PingFang-SC;
+        font-weight:500;
+        color:rgba(31,46,77,1);
+        margin-right: 24px;
+    }
+    .tabs input{
+        width:190px;
+        height:36px;
+        padding-left: 10px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        margin-right: 24px;
+    }
+    .tabs select{
+        width:200px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        margin-right: 24px;
+    }
+    .bj {
+        display: inline-block;
+        line-height: 36px;
+        text-align: center;
+        cursor: pointer;
+        width: 124px;
+        height: 36px;
+        background: rgba(242, 246, 252, 1);
+        border-radius: 4px;
+        border: 1px solid rgba(211, 219, 235, 1);
+        font-size: 14px;
+        font-family: PingFangSC-Regular, PingFangSC;
+        font-weight: 400;
+        color: rgba(61, 73, 102, 1);
+        float: right;
+        margin: 24px 24px 0 0;
+    }
+    .cx,.cz,.dc{
+        display: inline-block;
+        line-height: 36px;
+        text-align: center;
+        cursor: pointer;
+        width:68px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(31,46,77,1);
+        margin:0 20px 24px 0;
+    }
+    .cx{
+        color: #fff!important;
+        background:rgba(51,119,255,1)!important;
+        border: none!important;
+    }
+
+    .bg{
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.3);
+        position: fixed;
+        bottom: 0;
+        right: 0;
+    }
+    .select{
+        width:588px;
+        height:360px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+    .select_tit{
+        border-bottom: 1px solid #E6E9F0;
+    }
+    .select_tit span{
+        display: inline-block;
+        font-size:18px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(61,73,102,1);
+        margin:20px 0 20px 24px;
+    }
+    .select_tit img{
+        width:16px;
+        height:16px;
+        float: right;
+        margin:20px 24px 0 0 ;
+    }
+    .tits span{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(31,46,77,0.45);
+        margin:20px 24px;
+    }
+
+    .seach input,.tableTit input{
+        width:16px;
+        height:16px;
+        background:rgba(51,119,255,1);
+        border-radius:4px;
+        margin:0 6px 0 0 ;
+    }
+    .seach>span,.tableTit>span{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(61,73,102,1);
+        vertical-align: top;
+        width: 90px;
+        margin-bottom: 40px;
+        text-align: left;
+    }
+    .checkBox_btn{
+        width:587px;
+        height:58px;
+        background:rgba(247,249,252,1);
+        border-radius:0px 0px 4px 4px;
+    }
+    .checkBox_btn span{
+        display: inline-block;
+        line-height: 36px;
+        text-align: center;
+        cursor: pointer;
+        width:68px;
+        height:36px;
+        background:rgba(51,119,255,1);
+        border-radius:4px;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(255,255,255,1);float: right;
+        margin-right: 25px;
+        margin-top: 11px;
+    }
+</style>

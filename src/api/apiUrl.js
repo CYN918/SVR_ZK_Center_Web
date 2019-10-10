@@ -1074,5 +1074,17 @@ export default {
     themes_schedule_demands:{
 		url:'themes/schedule/demands',method:'get'
 	},
+	//全景数据
+	themes_report_fullview:{
+		url:'/themes/report/fullview',method:'get'
+	},
+	//排名数据
+    themes_report_rank:{
+		url:'themes/report/ranks',method:'get',
+	},
+	//收益数据
+    themes_report_income:{
+		url:'themes/report/income',method:"get",
+	},
 
 }
