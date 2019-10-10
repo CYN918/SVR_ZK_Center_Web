@@ -20,7 +20,7 @@
         </div>
 
         <div class="seach">
-            <div v-for="(item,index) in list" style="display: inline-block">
+            <div v-for="(item,index) in list" style="display: inline-block;vertical-align: top" >
                 <div class="ADDtimes">
                     <div>
                         <span>{{'周期'+(index+1)}}</span>
@@ -30,22 +30,22 @@
                     </div>
                     <span>{{item.tstart+'至'+item.tend}}</span>
                 </div>
-                <div class="pd" >
+                <div class="pd" v-for="da in listData[index]">
                    <div>
                        <span class="qdNmae">名称</span>
-                       <span>{{item.name}}</span>
+                       <span class="qdxq">{{da.name}}</span>
                    </div>
                     <div>
                         <span class="qdNmae">渠道</span>
-                        <span></span>
+                        <span>{{da.channel}}</span>
                     </div>
                     <div>
                         <span class="qdNmae">状态</span>
-                        <span></span>
+                        <span>{{da.status}}</span>
                     </div>
                     <div>
                         <span class="qdNmae">处理人</span>
-                        <span></span>
+                        <span>{{da.creator}}</span>
                     </div>
                     <div>
                         <span class="xq">查看详情</span>
@@ -112,7 +112,8 @@
                 list:[],
                 add:false,
                 time:[],
-                up:1
+                up:1,
+                listData:[],
             }
         },
         mounted(){
@@ -140,14 +141,27 @@
                     for(var i=0 ;i<res.length;i++){
                         arr[i]=[res[i].tstart,res[i].tend];
                     }
+                    for(var i=0;i<this.list.length;i++){
+                        this.demandList(this.list[i].cycle_id,i)
+                    }
                     this.time=arr;
-                    this.demandList()
+
                 })
             },
-            demandList(){
-                let params={schedule_id:this.$route.query.schedule_id,cycle_id:this.list};
+            demandList(id,index){
+                let params={schedule_id:this.$route.query.schedule_id,cycle_id:id};
                 this.api.themes_schedule_demands({params}).then((res)=>{
-
+                    this.listData.push(res);
+                    for(var i=0;i<this.listData.length;i++){
+                        if(this.listData[i]==res&&i!=index){
+                            if(this.listData[index]==undefined){
+                                this.listData[index]='';
+                            }
+                            var arr=this.listData[index];
+                            this.listData[index]=this.listData[i];
+                            this.listData[i]=arr;
+                        }
+                    }
                 })
             },
             setTimes(index,id){
@@ -442,5 +456,12 @@
         font-weight:400;
         color:rgba(51,119,255,1);
         cursor: pointer;
+    }
+    .qdxq{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(31,46,77,1);
     }
 </style>
