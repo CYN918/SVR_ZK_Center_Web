@@ -139,7 +139,7 @@
                     <span>选择</span>
                 </div>
                 <div class="select_cons">
-                    <div >
+                    <div>
                         <span>渠道</span>
                         <select  @change="getUIs()" v-model="ADDchannel">
                             <option :value="item.channel" v-for="item in TCchannel">{{item.channel_name}}</option>
@@ -154,7 +154,7 @@
                     </div>
                     <div>
                         <span>资源版本</span>
-                        <select>
+                        <select >
                             <option v-for="item in zyBb" :value="item.version">{{item.version}}</option>
                         </select>
                     </div>
@@ -398,7 +398,6 @@
             },
 
             scopeTwo(){
-                console.log(this.ind);
                 if(!this.Makechannel){
                     this.$message.error('制作渠道不能为空')
                     return

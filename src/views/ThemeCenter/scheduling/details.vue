@@ -48,7 +48,7 @@
                         <span>{{da.creator}}</span>
                     </div>
                     <div>
-                        <span class="xq" @click="CkDetails()">查看详情</span>
+                        <span class="xq" @click="CkDetails(da)">查看详情</span>
                     </div>
                 </div>
                 <div>
@@ -197,9 +197,13 @@
                   },
               })
             },
-            CkDetails(){
+            CkDetails(data){
                 this.$router.push({
                     path:"./xqDetails",
+                    query:{
+                        data:data,
+                        schedule_id:this.$route.query.schedule_id,
+                    }
                 })
             },
         },

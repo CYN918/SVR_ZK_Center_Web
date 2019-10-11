@@ -1098,4 +1098,8 @@ export default {
     tags_edit:{
 	    url:'tags/edit',method:"post",isType:{suktip:1}
     },
+    //编辑排期需求
+    themes_schedule_demand_edit:{
+	    url:'themes/schedule/demand/edit',method:'post',isType:{suktip:1}
+    },
 }

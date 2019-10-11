@@ -391,18 +391,12 @@
                 this.getList();
             },
             addTheme(){
-                if(!this.name){
-                    this.$message.error('主题名不能为空')
-                    return
-                }
+
                 if(!this.type){
                     this.$message.error('主题类型不能为空')
                     return
                 }
-                if(!this.name){
-                    this.$message.error('主题名不能为空')
-                    return
-                }
+
                 if(!this.class){
                     this.$message.error('内容分类不能为空')
                     return

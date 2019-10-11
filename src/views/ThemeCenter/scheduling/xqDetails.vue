@@ -49,36 +49,44 @@
                 </div>
                 <div>
                     <span class="box2_name">类型</span>
-                    <select>
-                        <option>全部</option>
+                    <select v-model="type">
+                        <option value="">请选择</option>
+                        <option value="全局" >全局</option>
+                        <option value="桌面" >桌面</option>
+                        <option value="翻新" >翻新</option>
+                        <option value="锁屏" >锁屏</option>
+                        <option value="问题修改" >问题修改</option>
+                        <option value="精品全局" >精品全局</option>
                     </select>
                 </div>
                 <div>
                     <span class="box2_name">带制作渠道</span>
-                    <select>
-                        <option>全部</option>
+                    <select  v-model="channel">
+                        <option value="">全部</option>
+                        <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
                     </select>
                 </div>
                 <div>
                     <span class="box2_name">上架账号</span>
-                    <select>
-                        <option>全部</option>
+                    <select v-model="account">
+                        <option value="">请选择</option>
+                        <option :value="item.account" v-for="item in range">{{item.account}}</option>
                     </select>
                 </div>
                 <div>
                     <span class="box2_name">需求说明</span>
-                    <textarea></textarea>
+                    <textarea v-model="note"></textarea>
                 </div>
                 <div>
                     <span class="box2_name">责任人</span>
-                    <select>
-                        <option>全部</option>
-                    </select>
+                    <input type="text" class="input">
                 </div>
                 <div>
                     <span class="box2_name">状态</span>
-                    <select>
+                    <select v-model="status">
                         <option>全部</option>
+                        <option value="1">已使用</option>
+                        <option value="0">未使用</option>
                     </select>
                 </div>
                 <div>
@@ -100,28 +108,66 @@
         name: "xq-details",
         data(){
             return{
-                name:'',
+                name:this.$route.query.data.name,
                 status:"",
-                type:'',
-                channel:'',
-                account:"",
-                note:'',
-                person:"",
-                thid:'',
+                type:this.$route.query.data.type,
+                channel:this.$route.query.data.channel,
+                account:this.$route.query.data.account,
+                note:this.$route.query.data.note,
+                person:this.$route.query.data.person,
+                thid:this.$route.query.data.thid,
+                data:this.$route.query.data,
+                cycle_id:this.$route.query.data.cycle_id,
+                channels:[],
+                range:[],
+                demand_id:this.$route.query.data.demand_id,
+                ch_thid:this.$route.query.data.ch_thid,
+                schedule_id:this.$route.query.schedule_id,
             }
         },
+        mounted(){
+            console.log(this.data)
+            this.qd()
+        },
+
         methods:{
            fh(){
                this.$router.go(-1)
            },
-            fh(){
+            fhs(){
                 this.$router.go(-2)
             },
-            getADD(){
-                this.api.themes_schedule_demand_add().then((res)=>{
+           setData(){
+               let formData = new FormData;
+               formData.append('demand_id',this.demand_id);
+               formData.append('schedule_id',this.schedule_id);
+               formData.append('cycle_id',this.cycle_id);
+               formData.append('name',this.name);
+               formData.append('status',this.status);
+               formData.append('type',this.type);
+               formData.append('person',this.person);
+               formData.append('account',this.account);
+               formData.append('note',this.note);
+               formData.append('thid',this.thid);
+               formData.append('ch_thid',this.ch_thid);
+               formData.append('f_thid',);
+               formData.append('f_ch_thid',);
+                this.api.themes_schedule_demand_edit(formData).then((res)=>{
+                })
+            },
+            qd(){
+                this.api.themes_config_channel().then((res)=>{
+                    this.channels=res;
+                    this.Range()
+                })
+            },
+            Range(){
+                this.api.themes_config_account().then((res)=>{
+                    this.range=res;
 
                 })
             },
+
         },
     }
 </script>
@@ -242,7 +288,10 @@
         color:rgba(31,46,77,1);
         margin-right: 20px;
     }
-    .input1{
+    input{
+        width:190px!important;
+    }
+    .input1,.input{
         width:457px;
         height:36px;
         background:rgba(255,255,255,1);
