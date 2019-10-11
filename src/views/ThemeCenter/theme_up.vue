@@ -208,6 +208,17 @@
                     this.getsc()
                 })
             },
+            ADDtag(){
+                let formData =new FormData;
+                formData.append('name',this.tagsName);
+                formData.append('preset',"0");
+                formData.append('material','2');
+                formData.append('type','theme');
+                this.api.tags_add(formData).then((res)=>{
+                    this.tagsName='';
+                    this.getTagsList();
+                })
+            },
             getsc(){
                 let params={thid:this.$route.query.thid,ch_thid:this.$route.query.ch_thid,channel:this.$route.query.channel}
                 this.api.themes_theme_materials({params}).then((res)=>{
@@ -349,9 +360,9 @@
                 // })
             },
             getTagsList(){
-                let params = {material:'2',type:this.$route.query.type,search:this.tagsName,p:500,page:1};
+                let params = {material:'2',type:"theme",search:this.tagsName,p:500,page:1};
                 this.api.tags_search({params}).then((da)=>{
-                    this.tag=da.data.tags;
+                    this.tag=da.data.self_tags;
                 })
             },
             handleExceed(files, fileList) {

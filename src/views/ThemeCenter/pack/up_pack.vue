@@ -298,9 +298,9 @@
             ADDtag(){
                 let formData =new FormData;
                 formData.append('name',this.tagsName);
-                formData.append('preset',"1");
+                formData.append('preset',"0");
                 formData.append('material','2');
-                formData.append('type',this.$route.query.type);
+                formData.append('type','theme');
                 this.api.tags_add(formData).then((res)=>{
                     this.tagsName='';
                     this.getTagsList();
@@ -354,9 +354,9 @@
                 this.getList();
             },
             getTagsList(){
-                let params = {material:'2',type:this.$route.query.type,search:this.tagsName,p:500,page:1};
+                let params = {material:'2',type:'theme',search:this.tagsName,p:500,page:1};
                 this.api.tags_search({params}).then((da)=>{
-                    this.tag=da.data.tags;
+                    this.tag=da.data.self_tags;
                 })
             },
             handleExceed(files, fileList) {

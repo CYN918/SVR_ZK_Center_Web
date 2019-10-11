@@ -175,9 +175,9 @@
                 })
             },
             getTagsList(){
-                let params = {preset:1,material:2,type:this.type,search:''};
+                let params = {preset:1,material:2,type:"theme",search:''};
                 this.api.tags_search({params}).then((da)=>{
-                    this.preset_tags = da.data.tags;
+                    this.preset_tags = da.data.self_tags;
                 })
             },
             getListTag(name){

@@ -229,6 +229,8 @@ import Settlement from './views/ThemeCenter/dataAdministration/Settlement'
 mode['Settlement']=Settlement
 import dataSettlement from './views/ThemeCenter/dataAdministration/dataSettlement'
 mode['dataSettlement']=dataSettlement
+import tags from './views/ThemeCenter/configurationManagement/tags'
+mode['tags']=tags
 
 
 Vue.use(Router)
@@ -361,7 +363,7 @@ let nb = [
             {path:'/ThemeCenter/data/Profit',name:'收益',component:mode['Profit']},
             {path:'/ThemeCenter/dataAdministration/Settlement',name:'结算数据管理',component:mode['Settlement']},
             {path:'/ThemeCenter/dataAdministration/dataSettlement',name:'日报收益管理',component:mode['dataSettlement']},
-
+            {path:'/ThemeCenter/configurationManagement/tags',name:'管理标签',component:mode['tags']},
         ]},
 
 ];
@@ -491,6 +493,9 @@ let leftNav =
 //                             ]},
 //                     ]
 // 				},
+//                 {title:'配置管理',url:'6',img:'&#xe612;',list:[
+//                         {title:'标签管理',url:'/ThemeCenter/configurationManagement/tags'}
+//                     ]},
 //             ]
 //         },
 // ];
