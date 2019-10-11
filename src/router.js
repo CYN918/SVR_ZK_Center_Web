@@ -225,6 +225,10 @@ import ranking from './views/ThemeCenter/data/ranking'
 mode['ranking']=ranking;
 import Profit from './views/ThemeCenter/data/Profit'
 mode['Profit']=Profit
+import Settlement from './views/ThemeCenter/dataAdministration/Settlement'
+mode['Settlement']=Settlement
+import dataSettlement from './views/ThemeCenter/dataAdministration/dataSettlement'
+mode['dataSettlement']=dataSettlement
 
 
 Vue.use(Router)
@@ -355,6 +359,8 @@ let nb = [
             {path:'/ThemeCenter/data/AllData',name:'全景数据',component:mode['AllData']},
             {path:'/ThemeCenter/data/ranking',name:'排行',component:mode['ranking']},
             {path:'/ThemeCenter/data/Profit',name:'收益',component:mode['Profit']},
+            {path:'/ThemeCenter/dataAdministration/Settlement',name:'结算数据管理',component:mode['Settlement']},
+            {path:'/ThemeCenter/dataAdministration/dataSettlement',name:'日报收益管理',component:mode['dataSettlement']},
 
         ]},
 
@@ -369,7 +375,7 @@ let leftNav =
 // 	children:[
 // 		{title:'素材库',url:'1', img:'&#xe615;',list:[
 // 			{title:'广告图',url:'/admin/advertising'},
-// 				{title:'广告模板',url:'/admin/AD_templates'}],
+// 			{title:'广告模板',url:'/admin/AD_templates'}],
 // 			children:[
 // 			{title:'场景锁屏',url:'1-3',list:[
 //                  {title:'动效',url:'/admin/dynamic'},
@@ -475,9 +481,16 @@ let leftNav =
 //                         {title:'图标',url:'/ThemeCenter/pack/pack_icon'},
 //                         {title:'二级页面',url:'/ThemeCenter/pack/pack_two'},
 //                     ]},
-//                 {title:'运营',url:'5',img:'&#xe612;',list:[
+//                 {title:'运营管理',url:'5',img:'&#xe612;',list:[
 //                         {title:'排期管理',url:'/ThemeCenter/scheduling/Scheduling_management'},
-//                     ]},
+//                     ],
+//                     children:[
+//                         {title:'数据管理',url:'5-2',list:[
+//                                 {title:'结算数据管理',url:'/ThemeCenter/dataAdministration/Settlement'},
+//                                 {title:'日报数据管理',url:'/ThemeCenter/dataAdministration/dataSettlement'},
+//                             ]},
+//                     ]
+// 				},
 //             ]
 //         },
 // ];

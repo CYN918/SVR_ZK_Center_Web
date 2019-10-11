@@ -130,7 +130,7 @@
             </el-pagination>
         </div>
         <div class="NextScope">
-           <span class="next" @click="scopeTwo">下一步(2)</span>
+           <span class="next" @click="scopeTwo">下一步({{this.ind.length}})</span>
             <span>取消</span>
         </div>
         <div class="bg" v-if="ADDqd">

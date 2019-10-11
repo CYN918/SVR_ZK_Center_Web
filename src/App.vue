@@ -843,4 +843,8 @@ select{
   margin-left: 0!important;
   margin-right: 24px;
 }
+
+.uploadTxt .el-upload{
+  background: #3377ff!important;
+}
 </style>

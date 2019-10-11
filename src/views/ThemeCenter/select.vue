@@ -147,14 +147,16 @@
         methods:{
             clicks(index){
                 if(this.ind.indexOf(this.IMGList[index].thid)==-1){
+                    this.ind=[];
                     this.ind.push(this.IMGList[index].thid)
-                }else{
-                    for(var i = 0;i<this.ind.length;i++){
-                        if(this.ind[i]==this.IMGList[index].thid){
-                            this.ind.splice(i,1);
-                        }
-                    }
                 }
+                // else{
+                //     for(var i = 0;i<this.ind.length;i++){
+                //         if(this.ind[i]==this.IMGList[index].thid){
+                //             this.ind.splice(i,1);
+                //         }
+                //     }
+                // }
             },
             getChannel(){
                 this.api.themes_config_channel().then((res)=>{
@@ -179,12 +181,7 @@
                     this.ui=res
                 })
             },
-            // getID(index){
-            //     if(this.material==1){
-            //         this.scMid=this.IMGList[index].mid;
-            //         this.scUrl=this.IMGList[index].prev_uri;
-            //     }
-            // },
+
             YCset(){this.$parent.heidThm()},
             messageID(){
                     this.$emit('listData',this.ind);

@@ -1086,5 +1086,12 @@ export default {
     themes_report_income:{
 		url:'themes/report/income',method:"get",
 	},
-
+	//导入数据列表
+    themes_data_import_list:{
+		url:'themes/data/import/list',method:"get"
+	},
+	//数据导入
+    themes_data_import:{
+		url:'themes/data/import',method:'post',isType:{suktip:1}
+	},
 }

@@ -4,11 +4,11 @@
         <sel v-if="sel" @linet="linet"></sel>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh()">锁屏主题素材 &nbsp;/</span>
-                <span class="new_url"> &nbsp;上传锁屏打包件</span>
+                <span class="log_url" @click="fh()">{{this.type=='th_lock_screen'?'锁屏打包件':this.type=='theme_icon'?'图标打包件':'二级页打包件'}} &nbsp;/</span>
+                <span class="new_url"> &nbsp;上传{{this.type=='th_lock_screen'?'锁屏主打包件':this.type=='theme_icon'?'图标打包件':'二级页打包件'}}</span>
             </div>
             <div class="tit_top_con">
-                <span class="tit_name">上传锁屏打包件</span>
+                <span class="tit_name">上传{{this.type=='th_lock_screen'?'锁屏打包件':this.type=='theme_icon'?'图标打包件':'二级页打包件'}}</span>
             </div>
         </div>
         <div class="themeUp">
@@ -30,7 +30,7 @@
                 </div>
                 <div style="margin-bottom: 0">
                     <span >附件</span>
-                    <div style="display: inline-block">
+                    <div style="display: inline-block;position: relative">
                         <div class="upBag">
                             <img src="../../../../public/img/upbag.png"/>
                         </div>
@@ -570,11 +570,11 @@
 
     }
     .upload-demo .el-button {
-        width:98px;
-        height:98px;
+        width:98px!important;
+        height:98px !important;
         position: absolute;
-        top:258px;
-        left: 135px;
+        top:0px;
+        left: 0px;
         opacity: 0;
     }
     .tag_box{

@@ -2,8 +2,8 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh">排期管理 &nbsp;/&nbsp;</span>
-                <span class="log_url">排期详情 &nbsp;/&nbsp;</span>
+                <span class="log_url" @click="fhs">排期管理 &nbsp;/&nbsp;</span>
+                <span class="log_url" @click="fh">排期详情 &nbsp;/&nbsp;</span>
                 <span class="new_url">需求详情 &nbsp;</span>
             </div>
             <div>
@@ -111,6 +111,12 @@
             }
         },
         methods:{
+           fh(){
+               this.$router.go(-1)
+           },
+            fh(){
+                this.$router.go(-2)
+            },
             getADD(){
                 this.api.themes_schedule_demand_add().then((res)=>{
 

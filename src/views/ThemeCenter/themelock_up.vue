@@ -3,11 +3,11 @@
         <sel v-if="sel" @linet="linet"></sel>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh()">锁屏主题素材 &nbsp;/</span>
-                <span class="new_url"> &nbsp;上传锁屏打包件</span>
+                <span class="log_url" @click="fh()">{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='theme_icon'?'图标主题素材':'二级页主题素材'}} &nbsp;/</span>
+                <span class="new_url"> &nbsp;上传{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='theme_icon'?'图标主题素材':'二级页主题素材'}}</span>
             </div>
             <div class="tit_top_con">
-                <span class="tit_name">上传锁屏打包件</span>
+                <span class="tit_name">{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='theme_icon'?'图标主题素材':'二级页主题素材'}}</span>
             </div>
         </div>
         <div class="themeUp">
