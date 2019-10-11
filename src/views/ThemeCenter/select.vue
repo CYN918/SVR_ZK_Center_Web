@@ -95,6 +95,38 @@
                 </div>
             </div>
         </div>
+        <div class="bg" v-if="ADDqd">
+            <div class="selectQD">
+                <div class="Names">
+                    <span>选择</span>
+                </div>
+                <div class="select_cons">
+                    <div >
+                        <span>渠道</span>
+                        <select  @change="getUIs()" v-model="ADDchannel">
+                            <option :value="item.channel" v-for="item in TCchannel">{{item.channel_name}}</option>
+                        </select>
+                    </div>
+                    <div>
+                        <span>厂商UI版本</span>
+                        <select v-model="ADDui" @change="getThemeType()">
+                            <option value="">全部</option>
+                            <option v-for="item in uis" :value="item.version">{{item.version}}</option>
+                        </select>
+                    </div>
+                    <div>
+                        <span>资源版本</span>
+                        <select>
+                            <option v-for="item in zyBb" :value="item.version">{{item.version}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="selectBox">
+                    <span class="selectBox_qd" @click="setID">确定</span>
+                    <span @click="heidTC()">取消</span>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -137,7 +169,17 @@
                 content:'',
                 status:'',
                 ui_version:'',
-
+                ADDqd:false,
+                ADDchannel:'',
+                TCchannel:[],
+                ADDui:'',
+                zyBb:[],
+                uis:[],
+                ch_thids:'',
+                qdList:'',
+                main_preview:'',
+                name:"",
+                channelName:'',
             }
         },
         mounted() {
@@ -145,9 +187,29 @@
             this.getChannel()
         },
         methods:{
+            setID(){
+                this.ch_thids=[];
+                this.qdList=[];
+                for(var i=0 ;i<this.TCchannel.length;i++){
+                    if(this.TCchannel[i].channel==this.ADDchannel){
+                        this.ch_thids=this.TCchannel[i].ch_thid;
+                        this.qdList=this.TCchannel[i].channel_name;
+                        this.channelName=this.TCchannel[i].channel;
+                        this.main_preview=this.TCchannel[i].main_preview;
+                    }
+                }
+                this.ADDqd=false;
+            },
+            heidTC(){
+                this.ADDqd=false;
+                this.ind=[];
+            },
             clicks(index){
                 if(this.ind.indexOf(this.IMGList[index].thid)==-1){
                     this.ind=[];
+                    this.ADDqd=true;
+                    this.TCchannel=this.IMGList[index].channel_themes;
+                    this.name=this.IMGList[index].name;
                     this.ind.push(this.IMGList[index].thid)
                 }
                 // else{
@@ -157,6 +219,18 @@
                 //         }
                 //     }
                 // }
+            },
+            getThemeType(){
+                let params={channel:this.ADDchannel,ui_version:this.ADDui};
+                this.api.themes_config_version({params}).then((res)=>{
+                    this.zyBb=res;
+                })
+            },
+            getUIs(){
+                let params={channel:this.ADDchannel};
+                this.api.themes_config_channelui({params}).then((res)=>{
+                    this.uis=res;
+                })
             },
             getChannel(){
                 this.api.themes_config_channel().then((res)=>{
@@ -184,7 +258,7 @@
 
             YCset(){this.$parent.heidThm()},
             messageID(){
-                    this.$emit('listData',this.ind);
+                    this.$emit('listData',this.ind,this.ch_thids,this.qdList,this.main_preview,this.name,this.channelName);
                     this. YCset()
             },
             getList(){
@@ -528,5 +602,142 @@
         font-family:PingFangSC-Regular,PingFangSC;
         font-weight:400;
         color:rgba(31,46,77,1);
+    }
+
+    .bg{
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.3);
+        position: fixed;
+        z-index: 9;
+        bottom: 0;
+        right: 0;
+    }
+    .selectQD{
+        width:460px;
+        height:312px;
+        background:rgba(255,255,255,1);
+        box-shadow:0px 1px 6px 0px rgba(0,0,0,0.06);
+        border-radius:4px;
+        top:50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        position: absolute;
+    }
+    .top{
+        width: 100%;
+        height:147px;
+        background: rgba(255,255,255,1);
+        position: fixed;
+        left: 256px;
+        top: 64px;
+        z-index: 99;
+    }
+    .topName{
+        display: inline-block;
+        font-size:18px;
+        font-family:PingFang-SC;
+        font-weight:500;
+        color:rgba(31,46,77,1);
+        margin-left: 24px;
+        margin-right: 10px;
+        line-height: 45px;
+    }
+    .new_url{
+        color: rgba(61,73,102,1)!important;
+    }
+    .scope1,.scope2{
+        display: inline-block;
+        width:20px;
+        height:20px;
+        border-radius:10px;
+        border:1px solid rgba(204,204,204,1);
+        font-size:12px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(204,204,204,1);
+        text-align: center;
+        line-height: 20px;
+    }
+    .scope1{
+        color:rgba(255,255,255,1)!important;
+        background:rgba(51,119,255,1)!important;
+        border: none!important;
+        margin-right: 14px;
+    }
+    .selectName{
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(31,46,77,0.65);
+        margin-left: 14px;
+        margin-right: 43px;
+    }
+    .name{
+        font-size:14px;
+        font-family:PingFang-SC-Medium,PingFang-SC;
+        font-weight:500;
+        color:rgba(0 0 0 1);
+        margin-right: 14px;
+    }
+    .top select{
+        width:200px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        margin-right: 24px;
+    }
+
+    .Names{
+        margin: 21px 0 28px 20px;
+        font-size:14px;
+        font-family:PingFangSC-Medium,PingFangSC;
+        font-weight:500;
+        color:rgba(31,46,77,1);
+    }
+
+    .select_cons  span{
+        display: inline-block;
+        text-align: right;
+        width: 80px;
+        font-size:14px;
+        font-family:PingFang-SC-Medium,PingFang-SC;
+        font-weight:500;
+        color:rgba(31,46,77,1);
+        margin-right: 14px;
+        margin-left: 30px;
+    }
+    .select_cons select{
+        width:272px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        margin-bottom: 20px;
+    }
+    .selectBox{
+        text-align: center;
+    }
+    .selectBox span{
+        display: inline-block;
+        cursor: pointer;
+        line-height: 36px;
+        text-align: center;
+        width:80px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(31,46,77,1);
+    }
+    .selectBox_qd{
+        background:rgba(51,119,255,1)!important;
+        color: #fff!important;
+        border: none!important;
+        margin-right: 20px;
     }
 </style>

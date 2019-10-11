@@ -37,11 +37,11 @@
                    </div>
                     <div>
                         <span class="qdNmae">渠道</span>
-                        <span>{{da.channel}}</span>
+                        <span>{{da.channel_name}}</span>
                     </div>
                     <div>
                         <span class="qdNmae">状态</span>
-                        <span>{{da.status}}</span>
+                        <span>{{da.status==0?'待打包':'已上架'}}</span>
                     </div>
                     <div>
                         <span class="qdNmae">处理人</span>
@@ -197,6 +197,7 @@
                   },
               })
             },
+
             CkDetails(data){
                 this.$router.push({
                     path:"./xqDetails",

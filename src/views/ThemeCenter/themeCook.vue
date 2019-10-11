@@ -187,7 +187,6 @@
                             }
                         }
                     }
-                    console.log(this.value1);
                     this.total=res.total;
                     this.getTagsList();
                     this.getOperatorTag();

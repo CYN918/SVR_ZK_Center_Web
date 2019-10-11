@@ -1,5 +1,6 @@
 <template>
     <div>
+        <thmSelect v-if="thm" @listData="listData"></thmSelect>
         <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="fhs">排期管理 &nbsp;/&nbsp;</span>
@@ -16,30 +17,30 @@
                    <span>待制作</span>
                </div>
                <div class="box1_img">
-                   <span class="box1_qd">aaa</span>
-                   <img src="../../../../public/img/IMG.png">
+                   <span class="box1_qd">{{this.channel_name}}</span>
+                   <img :src="this.url">
                    <div class="box1_BTN">
-                       <span>重新选择</span>
-                       <span>查看详情</span>
+                       <span @click="zt('1')">重新选择</span>
+                       <span @click="CK(thid,channel,ch_thid)">查看详情</span>
                    </div>
                </div>
                <div class="name">
-                   <span>名称</span>
+                   <span>{{this.name}}</span>
                </div>
 
                <div class="box1_name">
                    <span>完成品</span>
                </div>
                <div class="box1_img">
-                   <span class="box1_qd">aaa</span>
-                   <img src="../../../../public/img/IMG.png">
+                   <span class="box1_qd">{{this.qDname}}</span>
+                   <img :src="this.qDurl">
                    <div class="box1_BTN">
-                       <span>重新上传</span>
-                       <span>查看详情</span>
+                       <span @click="zt('2')">重新上传</span>
+                       <span @click="CK(f_thid,f_ch_thid,qds)">查看详情</span>
                    </div>
                </div>
                <div class="name">
-                   <span>名称</span>
+                   <span>{{this.mz}}</span>
                </div>
            </div>
             <div class="box2">
@@ -79,23 +80,23 @@
                 </div>
                 <div>
                     <span class="box2_name">责任人</span>
-                    <input type="text" class="input">
+                    <input type="text" class="input" v-model="person">
                 </div>
                 <div>
                     <span class="box2_name">状态</span>
                     <select v-model="status">
                         <option>全部</option>
-                        <option value="1">已使用</option>
-                        <option value="0">未使用</option>
+                        <option value="1">已上架</option>
+                        <option value="0">待打包</option>
                     </select>
                 </div>
                 <div>
                     <span class="box2_name">绑定主题</span>
-                    <input type="text" class="input2">
-                    <span class="sel">从主题库选择</span>
+                    <input type="text" class="input2" v-model="f_thid" disabled>
+                    <span class="sel" @click="zt('2')">从主题库选择</span>
                 </div>
                 <div class="box2_btn">
-                    <span class="gx">更新</span>
+                    <span class="gx" @click="setData">更新</span>
                     <span>取消</span>
                 </div>
             </div>
@@ -104,30 +105,57 @@
 </template>
 
 <script>
+    import thmSelect from '../select'
     export default {
+        components:{thmSelect},
         name: "xq-details",
         data(){
             return{
                 name:this.$route.query.data.name,
-                status:"",
+                status:this.$route.query.data.status,
                 type:this.$route.query.data.type,
                 channel:this.$route.query.data.channel,
                 account:this.$route.query.data.account,
                 note:this.$route.query.data.note,
                 person:this.$route.query.data.person,
                 thid:this.$route.query.data.thid,
-                data:this.$route.query.data,
                 cycle_id:this.$route.query.data.cycle_id,
                 channels:[],
                 range:[],
+                channel_name:this.$route.query.data.channel_name,
                 demand_id:this.$route.query.data.demand_id,
                 ch_thid:this.$route.query.data.ch_thid,
                 schedule_id:this.$route.query.schedule_id,
+                thm:false,
+                themeID:[],
+                qdName:[],
+                url:'',
+                num:'',
+                f_thid:this.$route.query.data.f_thid,
+                f_ch_thid:this.$route.query.data.f_ch_thid,
+                qDname:'',
+                qDurl:'',
+                mz:"",
+                qds:'',
             }
         },
         mounted(){
-            console.log(this.data)
-            this.qd()
+            this.qd();
+            if(this.$route.query.data.channel==''){
+                this.channel='local'
+            }else{
+                this.channel=this.$route.query.data.channel
+            }
+            if(this.$route.query.data.ch_thid==''){
+                this.ch_thid='local'
+            }else{
+                this.ch_thid=this.$route.query.data.channel
+            }
+            if(this.$route.query.data.f_ch_thid==''){
+                this.f_ch_thid='local'
+            }else{
+                this.f_ch_thid=this.$route.query.data.f_ch_thid
+            }
         },
 
         methods:{
@@ -136,6 +164,69 @@
            },
             fhs(){
                 this.$router.go(-2)
+            },
+            zt(num){
+                this.thm=true;
+                this.num=num;
+            },
+            heidThm(){
+                this.thm=false;
+            },
+            CK(id,qdID,qd){
+               console.log(id);
+                console.log(qdID);
+                console.log(qd);
+                var query = {
+                    thid:id,
+                    channel:qd,
+                    ch_thid:qdID,
+                };
+                if(qd=='local'){
+                    this.$router.push({
+                        path:'../themeDetails',
+                        query:query
+                    })
+                }else{
+                    this.$router.push({
+                        path:'../themeDetailsQd',
+                        query:query
+                    })
+                }
+
+            },
+            listData(data,id,name,url,mz,qd){
+               if(this.num==1){
+                   this.themeID=data[0];
+                   if(id==''){
+                       this.ch_thid='local'
+                   }else{
+                       this.ch_thid=id;
+                   }
+                   this.channel_name=name;
+                   this.url=url;
+                   this.name=mz;
+                   if(qd==''){
+                       this.channel='local'
+                   }else{
+                       this.channel=qd;
+                   }
+               }else{
+                   this.f_thid=data[0];
+                   if(id==''){
+                       this.f_ch_thid='local'
+                   }else{
+                       this.f_ch_thid=id;
+                   }
+                   this.qDname=name;
+                   this.qDurl=url;
+                   this.mz=mz;
+                   if(qd==''){
+                       this.qds='local'
+                   }else{
+                       this.qds=qd;
+                   }
+               }
+
             },
            setData(){
                let formData = new FormData;
@@ -150,15 +241,17 @@
                formData.append('note',this.note);
                formData.append('thid',this.thid);
                formData.append('ch_thid',this.ch_thid);
-               formData.append('f_thid',);
-               formData.append('f_ch_thid',);
+               formData.append('f_thid',this.f_thid);
+               formData.append('f_ch_thid',this.f_ch_thid);
                 this.api.themes_schedule_demand_edit(formData).then((res)=>{
+
                 })
             },
             qd(){
                 this.api.themes_config_channel().then((res)=>{
                     this.channels=res;
-                    this.Range()
+                    this.Range();
+                    this.getData();
                 })
             },
             Range(){
@@ -167,7 +260,20 @@
 
                 })
             },
-
+            getData(){
+                let params={tstart:"2019-10-1",tend:(new Date()).toLocaleDateString().split('/').join('-'),p:10000000,page:this.page};
+                this.api.themes_theme_search({params}).then((res)=>{
+                    this.dataList=res.data;
+                    for(var i=0;i<res.data.length;i++){
+                        if(res.data[i].thid==this.$route.query.data.thid){
+                            this.url=res.data[i].main_preview;
+                        }
+                        if(res.data[i].thid==this.$route.query.data.f_thid){
+                            this.qDurl=res.data[i].main_preview;
+                        }
+                    }
+                })
+            },
         },
     }
 </script>
@@ -234,6 +340,7 @@
         position: absolute;
         left: 0;
         top:0;
+        z-index: 9;
         display: inline-block;
         height:24px;
         background:rgba(10,10,10,1);
