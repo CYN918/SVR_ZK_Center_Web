@@ -847,4 +847,13 @@ select{
 .uploadTxt .el-upload{
   background: #3377ff!important;
 }
+  .tags_con_1 .el-checkbox__label{
+    margin-bottom: 10px;
+  }
+.tags_con_1 .el-checkbox{
+  margin-right: 20px;
+}
+.tags_con_1 .el-checkbox+.el-checkbox{
+  margin-left:0px;
+}
 </style>

@@ -201,7 +201,7 @@
 
 <script>
     export default {
-        name: "all-data",
+
         data(){
             return{
                 value:[],
@@ -292,15 +292,7 @@
                 this.GetData()
             },
             GetData(){
-                // if(this.data_type==2){
-                //     var params={
-                //         type:this.type,name:this.name,class:this.className,channel:this.channel,tdate:this.value1,p:this.p,page:this.page
-                //     }
-                // }else{
-                //     var params={
-                //         type:this.type,name:this.name,class:this.className,channel:this.channel,tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page
-                //     }
-                // }
+
                 var params={
                     name:this.name,channel:this.channel,tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page
                 }
@@ -308,7 +300,7 @@
                     this.tableData=res.data;
                     this.total=res.total;
                 })
-            }
+            },
         }
     }
 </script>

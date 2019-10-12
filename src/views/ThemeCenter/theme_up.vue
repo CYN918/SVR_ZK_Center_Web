@@ -285,7 +285,6 @@
             addTheme(){
                 if(this.$route.query.thid!=undefined){
                     this.setTheme();
-                    re
                 }
                 if(!this.name){
                     this.$message.error('主题名不能为空')
@@ -354,10 +353,6 @@
                         this.getList();
                     }
                 }
-                // let formData =new FormData;
-                // formData.append('thmid',id);
-                // this.api.themes_material_del(formData).then((res)=>{
-                // })
             },
             getTagsList(){
                 let params = {material:'2',type:"theme",search:this.tagsName,p:500,page:1};

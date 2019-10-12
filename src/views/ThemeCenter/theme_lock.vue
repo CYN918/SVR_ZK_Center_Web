@@ -1,6 +1,6 @@
 <template>
     <div>
-        <tags v-if="ta" :type="type" :id="id"></tags>
+        <tags v-if="ta" :type="type" :id="id" :bq="bq"></tags>
         <div class="top">
            <span class="topName">锁屏主题素材</span>
            <span class="total">共299套/</span>
@@ -38,8 +38,8 @@
                     <span>{{item.name}}</span>
                 </div>
                 <div class="boxTag">
-                    <span></span>
-                    <span class="addTags" @click="bjTags(item.thmid)"><span>+</span>标签</span>
+                    <span v-for="da in (item.tags).split(',')" class="tagsBox">{{da}}</span>
+                    <span class="addTags" @click="bjTags(item.thmid,item.tags)"><span>+</span>标签</span>
                 </div>
             </div>
         </div>
@@ -75,12 +75,12 @@
                 class1:false,
                 ta:false,
                 id:'',
+                bq:"",
             }
         },
         mounted(){this.dataList()},
         methods:{
             ClickTag(name){
-
                 if(name==undefined){
                     this.tags=[]
                 }else{
@@ -97,9 +97,10 @@
                     }
                 }
             },
-            bjTags(id){
+            bjTags(id,tag){
                 this.id=id;
                 this.ta=true;
+                this.bq=tag;
             },
             qxTags(){
                 this.ta=false;
@@ -324,6 +325,7 @@
         height: 62px;
         background: #fff;
         padding:0 10px ;
+        overflow-x:auto ;
 
     }
     .addTags{
@@ -340,5 +342,16 @@
         text-align: center;
         cursor: pointer;
     }
-
+    .tagsBox{
+        display: inline-block;
+        border: 1px solid #ddd;
+        padding: 5px;
+        margin-right: 10px;
+        border-radius: 5px;
+        margin-bottom: 5px;
+        font-size:12px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(31,46,77,0.45);
+    }
 </style>

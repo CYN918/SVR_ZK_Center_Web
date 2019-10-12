@@ -1,5 +1,6 @@
 <template>
     <div>
+        <tags v-if="ta"  :id="id" :bq="bq"></tags>
         <div class="top">
             <span class="topName">锁屏打包件</span>
             <span class="total">共299套/</span>
@@ -47,8 +48,8 @@
                     <span>{{item.name}}</span>
                 </div>
                 <div class="boxTag">
-                    <span></span>
-                    <span class="addTags"><span>+</span>标签</span>
+                    <span v-for="da in (item.tags).split(',')" class="tagsBox">{{da}}</span>
+                    <span class="addTags" @click="bjTags(item.pkgid,item.tags)"><span>+</span>标签</span>
                 </div>
             </div>
         </div>
@@ -66,7 +67,9 @@
 </template>
 
 <script>
+    import tags from '../tags'
     export default {
+        components:{tags},
         name: "theme_lock",
         data(){
             return{
@@ -84,6 +87,9 @@
                 channel:'',
                 channels:[],
                 ui_version:'',
+                ta:false,
+                bq:'',
+                id:"",
 
             }
         },
@@ -117,6 +123,14 @@
                         }
                     }
                 }
+            },
+            qxTags(){
+                this.ta=false;
+            },
+            bjTags(id,tag){
+                this.id=id;
+                this.ta=true;
+                this.bq=tag;
             },
             getClass(){
                 if(this.class1==false){
@@ -339,6 +353,7 @@
         height: 62px;
         background: #fff;
         padding:0 10px ;
+        overflow-y:auto ;
 
     }
     .addTags{
@@ -355,5 +370,16 @@
         text-align: center;
         cursor: pointer;
     }
-
+    .tagsBox{
+        display: inline-block;
+        border: 1px solid #ddd;
+        padding: 5px;
+        margin-right: 10px;
+        border-radius: 5px;
+        margin-bottom: 5px;
+        font-size:12px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(31,46,77,0.45);
+    }
 </style>

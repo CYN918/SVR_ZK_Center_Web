@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 <div style="padding-left: 24px">
-                    <span class="bc">保存</span>
+                    <span class="bc" @click="setTags()">保存</span>
                     <span class="qx" @click="qx()">取消</span>
                 </div>
             </div>
@@ -32,7 +32,7 @@
 <script>
     export default {
         name: "tags",
-        props:["type"],
+        props:["type",'id','bq'],
         data(){
             return{
                 tag:[],
@@ -41,7 +41,9 @@
             }
         },
         mounted(){
-            this.getTagsList()
+            this.tags=this.bq.split(',');
+            this.getTagsList();
+
         },
         methods:{
             qx(){
@@ -62,6 +64,26 @@
                 this.api.tags_add(formData).then((res)=>{
                     this.tagsName='';
                     this.getTagsList();
+                })
+            },
+            setTAG(){
+                let formData=new FormData;
+                formData.append('pkgid',this.id);
+                formData.append('tags',this.tags.join(','));
+                this.api.themes_package_edit_tags(formData).then((res)=>{
+                    this.qx();
+                })
+            },
+            setTags(){
+                if(this.type==undefined){
+                    this.setTAG();
+                    return
+                }
+                let formData=new FormData;
+                formData.append('thmid',this.id);
+                formData.append('tags',this.tags.join(','));
+                this.api.themes_material_edit_tags(formData).then((res)=>{
+                    this.qx();
                 })
             },
         },
@@ -116,7 +138,7 @@
         height: 259px;
     }
     .tags_con_1{
-        width: 100%;
+        width: 512px;
         padding: 14px 24px;
         height: 190px;
         overflow-y:auto;

@@ -1102,4 +1102,12 @@ export default {
     themes_schedule_demand_edit:{
 	    url:'themes/schedule/demand/edit',method:'post',isType:{suktip:1}
     },
+	//编辑标签
+    themes_material_edit_tags:{
+		url:'themes/material/edit/tags',method:"post",isType:{suktip:1}
+	},
+	//编辑标签
+    themes_package_edit_tags:{
+		url:'themes/package/edit/tags',method:"post",isType:{suktip:1}
+	},
 }
