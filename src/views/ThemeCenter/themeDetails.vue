@@ -7,10 +7,10 @@
             </div>
             <div class="name">
                 <span>主题名称:</span>
-                <span>{{tableData.name}}</span>
+                <span>{{this.tableData.name}}</span>
                 <div>
                     <span @click="bj()">编辑</span>
-                    <a :href="this.tableData.attach.url" class="dowload" >下载</a>
+                    <a :href="this.tableData.attach.url" class="dowload">下载</a>
                 </div>
             </div>
             <div>
@@ -19,7 +19,7 @@
                 <span class="titName">ID:</span>
                 <span class="titCon">{{tableData.thid}}</span>
                 <span class="titName">创建时间:</span>
-                <span class="titCon">{{tableData.created_at}}</span>
+                <span class="titCon" style="width: 150px">{{tableData.created_at}}</span>
             </div>
             <div>
                 <span class="titName">内容分类:</span>
@@ -28,7 +28,7 @@
                 <!--<span class="titCon">{{tableData.ui_version}}</span>-->
                 <span class="titName">标签</span>
                 <div class="tag">
-                    <span v-for="item in ((this.tableData.tags).split(','))">{{item}}</span>
+                    <span v-for="item in ((tableData.tags).split(','))">{{item}}</span>
                     <span class="tagADD">
                         <img>
                         标签
@@ -37,11 +37,11 @@
             </div>
             <div>
                 <span class="titName">适用范围:</span>
-                <span class="titCon">{{this.tableData.account}}</span>
+                <span class="titCon">{{tableData.account}}</span>
             </div>
             <div style="margin-bottom: 56px">
                 <span class="titName">主题描述:</span>
-                <span class="titCon">{{this.tableData.note}}</span>
+                <span class="titCon">{{tableData.note}}</span>
             </div>
             <div class="switcher">
                 <a href="#tabs0" :class="{click:isType==0}" @click="changeover('0')">预览图</a>
@@ -153,6 +153,9 @@
                 isTime:"w",
                 tableData:{},
                 sc:[],
+                thid:this.$route.query.thid,
+                channel:this.$route.query.channel,
+                ch_thid:this.$route.query.ch_thid,
             }
         },
         mounted(){
@@ -163,22 +166,23 @@
                 this.$router.push({
                     path:'./themeUp',
                     query:{
-                        thid:this.$route.query.thid,
-                        channel:this.$route.query.channel,
-                        ch_thid:this.$route.query.ch_thid,
+                        thid:this.thid,
+                        channel:this.channel,
+                        ch_thid:this.ch_thid,
                     }
                 })
             },
             getsc(){
-                let params={thid:this.$route.query.thid,ch_thid:this.$route.query.ch_thid,channel:this.$route.query.channel}
+                let params={thid:this.thid,ch_thid:this.ch_thid,channel:this.channel}
                 this.api.themes_theme_materials({params}).then((res)=>{
                     this.sc=res;
                 })
             },
             getData(){
-                let params={thid:this.$route.query.thid,ch_thid:this.$route.query.ch_thid,channel:this.$route.query.channel}
+                let params={thid:this.thid,ch_thid:this.ch_thid,channel:this.channel}
                 this.api.themes_theme_details({params}).then((res)=>{
                     this.tableData=res;
+                    console.log(this.tableData)
                     this.getsc()
                 })
             },
@@ -196,7 +200,11 @@
             },
             jump(){
                 this.$router.push({
-                    path:"./sheleRecord"
+                    path:"./sheleRecord",
+                    query:{
+                        thid:this.thid,
+                        con:'up'
+                    }
                 })
             },
 

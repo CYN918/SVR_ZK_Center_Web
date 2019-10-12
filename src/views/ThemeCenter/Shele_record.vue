@@ -2,7 +2,7 @@
     <div>
         <pak v-if="pak" :types="types" @dataUp="dataUp"></pak>
         <sel v-if="sel" @linet="linet"></sel>
-        <div class="top" v-if="this.$route.query.thid!=undefined">
+        <div class="top" v-if="this.$route.query.con==undefined">
             <div class="tit_top_url">
                 <span class="log_url" @click="fh()">主题库 &nbsp;/</span>
                 <span class="log_url" @click="fh()"> &nbsp;主题库详情&nbsp;/</span>
@@ -12,7 +12,7 @@
                 <span class="tit_name">编辑渠道详情</span>
             </div>
         </div>
-        <div class="top" v-if="this.$route.query.thid==undefined">
+        <div class="top" v-if="this.$route.query.con!=undefined">
             <div class="tit_top_url">
                 <span class="log_url" @click="fh()">主题库 &nbsp;/</span>
                 <span class="log_url" @click="fh()"> &nbsp;上传本地主题&nbsp;/</span>
@@ -33,7 +33,7 @@
                 </div>
                 <div>
                     <span class="tit_name">厂商UI版本</span>
-                    <select style="margin-right: 68px" v-model="ui_version">
+                    <select style="margin-right: 68px" v-model="ui_version" @change="getThemeType()">
                         <option value="">全部</option>
                         <option v-for="item in ui" :value="item.version">{{item.version}}</option>
                     </select>
@@ -67,27 +67,29 @@
                 </div>
                 <div>
                     <span>资源版本号</span>
-                    <input type="text" placeholder="同渠道同UI版本的资源上架到厂商的的资源版本号">
+                    <select v-model="version">
+                        <option v-for="item in zyBb" :value="item.version">{{item.version}}</option>
+                    </select>
                 </div>
                 <div>
                     <span>上架账号</span>
-                    <select>
+                    <select style="margin-right: 24px" v-model="account">
                         <option value="" disabled="disabled">请选择上架该主题的账号信息</option>
-                        <option value="" ></option>
+                        <option :value="item.range" v-for="item in range">{{item.range}}</option>
                     </select>
                 </div>
                 <div>
                     <span>上架名称</span>
-                    <input type="text" placeholder="请输入上架该渠道的主题名称">
+                    <input type="text" placeholder="请输入上架该渠道的主题名称" v-model="channel_theme_name">
                 </div>
                 <div>
                     <span>上架单价</span>
-                    <input type="number" placeholder="请输入上架价格">
+                    <input type="number" placeholder="请输入上架价格" v-model="price">
                 </div>
                 <div>
                     <span>上架时间</span>
                     <el-date-picker
-                            v-model="value1"
+                            v-model="tdate"
                             type="date"
                             placeholder="选择日期">
                     </el-date-picker>
@@ -123,7 +125,7 @@
                                     <span style="display: inline-block;font-size:12px;font-family:PingFangSC;font-weight:400;color:rgba(31,46,77,0.45);">绑定锁屏打包件</span>
                                 </div>
                             </div>
-                            <img :src="this.lockYl" style="position: absolute;top:0"/>
+                            <img :src="this.lockYl" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);" @click="Switch('0')"/>
                             <div v-if="this.lockYl!=''" style="position: absolute;bottom: 0;width:189px;height:34px;background:rgba(0,0,0,1);opacity:0.8;text-align: center" @click="getUP('th_lock_screen')">
                                 <span style="display: inline-block;font-size:12px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(255,255,255,1);line-height: 33px">重新上传</span>
                             </div>
@@ -137,7 +139,7 @@
                                     <span style="display: inline-block;font-size:12px;font-family:PingFangSC;font-weight:400;color:rgba(31,46,77,0.45);">绑定图标打包件</span>
                                 </div>
                             </div>
-                            <img :src="this.iconYl" style="position: absolute;top:0"/>
+                            <img :src="this.iconYl" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);" @click="Switch('1')"/>
                             <div v-if="this.iconYl!=''" style="position: absolute;bottom: 0;width:189px;height:34px;background:rgba(0,0,0,1);opacity:0.8;text-align: center" @click="getUP('th_icon')">
                                 <span style="display: inline-block;font-size:12px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(255,255,255,1);line-height: 33px">重新上传</span>
                             </div>
@@ -151,7 +153,7 @@
                                     <span style="display: inline-block;font-size:12px;font-family:PingFangSC;font-weight:400;color:rgba(31,46,77,0.45);">绑定二级页打包件</span>
                                 </div>
                             </div>
-                            <img :src="this.twoYl" style="position: absolute;top:0"/>
+                            <img :src="this.twoYl" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);" @click="Switch('2')"/>
                             <div v-if="this.twoYl!=''" style="position: absolute;bottom: 0;width:189px;height:34px;background:rgba(0,0,0,1);opacity:0.8;text-align: center" @click="getUP('th_second_page')">
                                 <span style="display: inline-block;font-size:12px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(255,255,255,1);line-height: 33px">重新上传</span>
                             </div>
@@ -202,7 +204,7 @@
                     </div>
                     <div class="imgCanvas" v-for="item in pic">
                         <img class="dels" src="../../../public/img/del.png" style="width: 16px" v-if="item!=main_preview" @click="Delete(item)">
-                        <img src="../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;left:121px;top:23px;z-index: 99" v-if="item==main_preview">
+                        <img src="../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;left:96px;top:0px;z-index: 99" v-if="item==main_preview">
                         <img :src="item" class="sc">
                         <div class="sz" @click="fm(item)">
                             <span>设置为封面</span>
@@ -272,12 +274,24 @@
                 SC:[],
                 num:0,
                 titName:'',
+                tdate:'',
+                channel_theme_name:"",
+                zyBb:[],
+                version:'',
+                account:"",
+                price:'',
+                range:[],
+                thid:this.$route.query.thid,
+                lockID:"",
+                iconID:'',
+                twoID:'',
+
             }
         },
         mounted(){
             this.getThemeType();
             this.active();
-            if(this.$route.query.thid!=undefined){
+            if(this.$route.query.com!=undefined){
                 this.getData()
             }
         },
@@ -295,21 +309,31 @@
                     this.sc=res;
                 })
             },
-            dataUp(yl,sc,type){
+            getThemeType(){
+                alert('a')
+                let params={channel:this.channel,ui_version:this.ui_version};
+                this.api.themes_config_version({params}).then((res)=>{
+                    this.zyBb=res;
+                })
+            },
+            dataUp(yl,sc,type,id){
                 if(type=='th_lock_screen'){
                         this.lockYl=yl;
                         this.lockSC=sc;
-                        this.num=0
+                        this.num=0;
+                        this.lockID=id
                     }
                 if(type=='th_icon'){
                     this.iconYl=yl;
                     this.iconSC=sc;
                     this.num=1
+                    this.iconID=id
                 }
                 if(type=='th_second_page'){
                     this.twoYl=yl;
                     this.twoSC=sc;
                     this.num=2
+                    this.twoID=id
                 }
                 this.active()
             },
@@ -327,23 +351,27 @@
                     this.titName='二级页'
                 }
             },
+            Switch(num){
+                this.num=num;
+                this.active()
+            },
             getPak(type){
                 if(type=='th_lock_screen'&&this.lockYl!=''){
-                    this.num=0
+                    this.num=0;
                     return
                 }else{
                     this.types=type;
                     this.pak=true;
                 }
                 if(type=='th_icon'&&this.iconYl!=''){
-                    this.num=1
+                    this.num=1;
                     return
                 }else{
                     this.types=type;
                     this.pak=true;
                 }
                 if(type=='th_second_page'&&this.twoYl!=''){
-                    this.num=2
+                    this.num=2;
                     return
                 }else{
                     this.types=type;
@@ -363,9 +391,16 @@
                     this.ui=res
                 })
             },
+            Range(){
+                this.api.themes_config_account().then((res)=>{
+                    this.range=res;
+
+                })
+            },
             qd(){
                 this.api.themes_config_channel().then((res)=>{
                     this.channels=res;
+                    this.Range();
                 })
             },
             fm(url){
@@ -392,40 +427,60 @@
             },
             addTheme(){
 
-                if(!this.type){
-                    this.$message.error('主题类型不能为空')
-                    return
+                // if(!this.type){
+                //     this.$message.error('主题类型不能为空')
+                //     return
+                // }
+                //
+                // if(!this.class){
+                //     this.$message.error('内容分类不能为空')
+                //     return
+                // }
+                // if(!this.materials){
+                //     this.$message.error('相关素材不能为空')
+                //     return
+                // }
+                // if(!this.main_preview){
+                //     this.$message.error('封面图不能为空')
+                //     return
+                // }
+                // if(!this.previews){
+                //     this.$message.error('预览图不能为空')
+                //     return
+                // }
+                // if(!this.attach.url){
+                //     this.$message.error('未上传主题包')
+                //     return
+                // }
+                var arr=[];
+                for(var i=0;i<this.lockSC.length;i++){
+                    arr.push(this.lockSC[i].thmid)
                 }
-
-                if(!this.class){
-                    this.$message.error('内容分类不能为空')
-                    return
+                for(var i=0;i<this.iconSC.length;i++){
+                    arr.push(this.iconSC[i].thmid)
                 }
-                if(!this.materials){
-                    this.$message.error('相关素材不能为空')
-                    return
-                }
-                if(!this.main_preview){
-                    this.$message.error('封面图不能为空')
-                    return
-                }
-                if(!this.previews){
-                    this.$message.error('预览图不能为空')
-                    return
-                }
-                if(!this.attach.url){
-                    this.$message.error('未上传主题包')
-                    return
+                for(var i=0;i<this.twoSC.length;i++){
+                    arr.push(this.twoSC[i].thmid)
                 }
                 let formData =new FormData;
-                formData.append('name',this.name);
-                formData.append('type',this.type);
+                formData.append('thid',this.thid);
+                formData.append('wpid',this.wpid);
+                formData.append('account',this.account);
+                formData.append('channel',this.channel);
+                formData.append('ui_version',this.ui_version);
+                formData.append('version',this.version);
+                formData.append('price',this.price);
+                formData.append('tdate',this.tdate);
+                formData.append('note',this.note);
                 formData.append('class',this.content);
-                formData.append('materials',JSON.stringify(this.ind));
+                formData.append('materials',JSON.stringify(arr));
+                formData.append('channel_theme_name',this.channel_theme_name);
+                formData.append('tags',JSON.stringify(this.tags))
                 formData.append('main_preview',this.main_preview);
                 formData.append('previews',JSON.stringify(this.pic));
                 formData.append('attach',this.attach);
-                this.api.themes_theme_channel_add().then((res)=>{
+                formData.append('packages',JSON.stringify([this.lockID,this.iconID,this.twoID]));
+                this.api.themes_theme_channel_add(formData).then((res)=>{
                     this.qx()
                 })
             },

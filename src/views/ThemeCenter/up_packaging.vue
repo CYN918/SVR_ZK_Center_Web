@@ -179,6 +179,7 @@
         },
         methods:{
             fm(url){
+                alert(url)
                 this.main_preview=url;
             },
             fh(){
@@ -267,7 +268,7 @@
                 formData.append('previews',JSON.stringify(this.pic));
                 formData.append('attach',JSON.stringify(this.attach));
                 this.api.themes_package_add(formData).then((res)=>{
-                    this.$emit('dataUp',this.main_preview,this.listSC,this.types);
+                    this.$emit('dataUp',this.main_preview,this.listSC,this.types,res.pkgid);
                     this.qx();
                 })
             },

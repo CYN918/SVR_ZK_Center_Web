@@ -163,6 +163,9 @@
                 isTime:"w",
                 tableData:{},
                 sc:[],
+                thid:this.$route.query.thid,
+                channel:this.$route.query.channel,
+                ch_thid:this.$route.query.ch_thid,
             }
         },
         mounted(){
@@ -185,19 +188,22 @@
                 this.$router.push({
                     path:"./sheleRecord",
                     query:{
-                        thid:this.$route.query.thid,
-                        channel:this.$route.query.channel,
-                        ch_thid:this.$route.query.ch_thid,
+                        thid:this.thid,
+                        channel:this.channel,
+                        ch_thid:this.ch_thid,
                     }
                 })
             },
             jump(){
                 this.$router.push({
-                    path:"./sheleRecord"
+                    path:"./sheleRecord",
+                    query:{
+                        thid:this.thid
+                    }
                 })
             },
             getData(){
-                let params={thid:this.$route.query.thid,ch_thid:this.$route.query.ch_thid,channel:this.$route.query.channel}
+                let params={thid:this.thid,ch_thid:this.ch_thid,channel:this.channel}
                 this.api.themes_theme_details({params}).then((res)=>{
                     this.tableData=res;
                     console.log(this.tableData)
@@ -205,7 +211,7 @@
                 })
             },
             getsc(){
-                let params={thid:this.$route.query.thid,ch_thid:this.$route.query.ch_thid,channel:this.$route.query.channel}
+                let params={thid:this.thid,ch_thid:this.ch_thid,channel:this.channel}
                 this.api.themes_theme_materials({params}).then((res)=>{
                     this.sc=res;
                 })
