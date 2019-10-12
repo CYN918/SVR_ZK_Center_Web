@@ -60,81 +60,101 @@
                             :cell-style="cell"
                     >
                         <el-table-column
-                                prop="date"
+                                prop="tdate"
                                 label="日期"
                                 v-if="seach1==false"
                                 >
                         </el-table-column>
                         <el-table-column
-                                prop="name"
+                                prop="theme_name"
                                 label="主题名称"
                                 v-if="seach2==false"
                                 >
                         </el-table-column>
                         <el-table-column
-                                prop="address"
+                                prop=""
                                 v-if="seach3==false"
                                 label="厂商UI版本">
                         </el-table-column>
                         <el-table-column
-                                prop="address"
+                                prop="channel"
                                 v-if="seach4==false"
                                 label="渠道">
                         </el-table-column>
                         <el-table-column
-                                prop="address"
+                                prop="type"
                                 v-if="seach5==false"
                                 label="主题类型">
                         </el-table-column>
                         <el-table-column
-                                prop="address"
+                                prop="class"
                                 v-if="seach6==false"
-                                label="类容分类">
+                                label="内容分类">
                         </el-table-column>
                         <el-table-column
-                                prop="address"
+                                prop="price"
                                 v-if="seach7==false"
                                 label="单价">
                         </el-table-column>
                         <el-table-column
-                            prop="address"
+                            prop="cost_channel"
                             v-if="seach8==false"
-                            label="曝光量">
+                            label="渠道成本费">
                         </el-table-column>
                         <el-table-column
-                                prop="address"
+                                prop="click"
                                 v-if="seach9==false"
                                 label="点击量">
                         </el-table-column>
                         <el-table-column
-                                prop="address"
+                                prop="bad_debt"
                                 v-if="seach10==false"
-                                label="试用量">
+                                label="坏账">
                         </el-table-column>
                         <el-table-column
-                                prop="address"
+                                prop="download"
                                 v-if="seach11==false"
                                 label="下载量">
                         </el-table-column>
                         <el-table-column
-                                prop="address"
+                                prop="sales"
                                 v-if="seach12==false"
                                 label="销售量">
                         </el-table-column>
                         <el-table-column
-                                prop="address"
+                                prop="tax"
                                 v-if="seach13==false"
-                                label="应用量">
+                                label="扣税费">
                         </el-table-column>
                         <el-table-column
-                                prop="address"
+                                prop="sales_amount"
                                 v-if="seach14==false"
                                 label="销售额">
                         </el-table-column>
                         <el-table-column
-                                prop="address"
+                                prop="cvr"
                                 v-if="seach15==false"
                                 label="转化率">
+                        </el-table-column>
+                        <el-table-column
+                                prop="ctr"
+                                v-if="seach16==false"
+                                label="点击率">
+                        </el-table-column>
+                        <el-table-column
+                                prop=""
+                                v-if="seach17==false"
+                                label="设计师成本费">
+                        </el-table-column>
+                        <el-table-column
+                                prop=""
+                                v-if="seach18==false"
+                                label="利润">
+                        </el-table-column>
+                        <el-table-column
+                                prop="note"
+                                v-if="seach19==false"
+                                label="备注">
                         </el-table-column>
                     </el-table>
                 </template>
@@ -188,21 +208,29 @@
                     <input type="checkbox" v-model="seach7"/>
                     <span>单价</span>
                     <input type="checkbox" v-model="seach8"/>
-                    <span>曝光量</span>
+                    <span>渠道成本费</span>
                     <input type="checkbox" v-model="seach9"/>
                     <span>点击量</span>
                     <input type="checkbox" v-model="seach10"/>
-                    <span>试用量</span>
+                    <span>坏账</span>
                     <input type="checkbox" style="margin-left: 24px" v-model="seach11"/>
                     <span>下载量</span>
                     <input type="checkbox" v-model="seach12"/>
                     <span>销售量</span>
                     <input type="checkbox" v-model="seach13"/>
-                    <span>应用量</span>
+                    <span>扣税费</span>
                     <input type="checkbox" v-model="seach14"/>
                     <span>销售量</span>
                     <input type="checkbox" v-model="seach15" />
                     <span>转化率</span>
+                    <input type="checkbox" v-model="seach16" style="margin-left: 24px"/>
+                    <span>点击率</span>
+                    <input type="checkbox" v-model="seach17" style="margin-left: 24px"/>
+                    <span>设计师成本费</span>
+                    <input type="checkbox" v-model="seach18" style="margin-left: 24px"/>
+                    <span>利润</span>
+                    <input type="checkbox" v-model="seach19" style="margin-left: 24px"/>
+                    <span>备注</span>
                     <div class="checkBox_btn">
                         <span @click="checkBox()">确定</span>
                     </div>
@@ -251,8 +279,10 @@
                 seach13:false,
                 seach14:false,
                 seach15:false,
-
-
+                seach16:false,
+                seach17:false,
+                seach18:false,
+                seach19:false,
             }
         },
         mounted(){
@@ -318,6 +348,12 @@
                         data_type:this.data_type,type:this.type,name:this.name,class:this.className,channel:this.channel,tdate:this.value1,p:this.p,page:this.page
                     }
                 }else{
+                    this.seach10=true;
+                    this.seach13=true;
+                    this.seach14=true;
+                    this.seach17=true;
+                    this.seach18=true;
+                    this.seach8=true;
                     var params={
                         data_type:this.data_type,type:this.type,name:this.name,class:this.className,channel:this.channel,tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page
                     }

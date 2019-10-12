@@ -68,47 +68,70 @@
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="name"
+                                prop="channel"
+                                label="渠道">
+                        </el-table-column>
+                        <el-table-column
+                                prop="theme_name"
                                 label="主题名称"
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="address"
-                                label="渠道">
-                        </el-table-column>
-                        <el-table-column
-                                prop="address"
+                                prop="type"
                                 label="主题类型">
                         </el-table-column>
 
                         <el-table-column
-                                prop="address"
+                                prop="price"
                                 label="单价">
                         </el-table-column>
-
                         <el-table-column
-                                prop="address"
+                                prop="click"
+                                label="点击量">
+                        </el-table-column>
+                        <el-table-column
+                                prop="ctr"
+                                label="点击率">
+                        </el-table-column>
+                        <el-table-column
+                                prop="download"
                                 label="下载量">
                         </el-table-column>
                         <el-table-column
-                                prop="address"
+                                prop="sales"
                                 label="销售量">
                         </el-table-column>
                         <el-table-column
-                                prop="address"
+                                prop="cvr"
+                                label="转化率">
+                        </el-table-column>
+                        <el-table-column
+                                prop="sales_amount"
                                 label="销售额">
                         </el-table-column>
                         <el-table-column
-                                prop="address"
-                                label="收益流水">
+                                prop="cost_channel"
+                                label="渠道成本费">
+                        </el-table-column>
+                        <el-table-column
+                                prop="bad_debt"
+                                label="坏账">
+                        </el-table-column>
+                        <el-table-column
+                                prop="tax"
+                                label="扣税费">
                         </el-table-column>
                         <el-table-column
                                 prop="address"
-                                label="设计师成本">
+                                label="设计师成本费">
                         </el-table-column>
                         <el-table-column
                                 prop="address"
                                 label="利润">
+                        </el-table-column>
+                        <el-table-column
+                                prop="note"
+                                label="备注">
                         </el-table-column>
                     </el-table>
                 </template>

@@ -49,82 +49,90 @@
                             :header-cell-style="getRowClass"
                             :cell-style="cell"
                     >
-                        <el-table-column
+                        <el-table-columnt
                                 prop="date"
                                 label="日期"
                                 v-if="seach1==false"
                         >
-                        </el-table-column>
+                        </el-table-columnt>
                         <el-table-column
-                                prop="name"
-                                label="主题名称"
+                                prop="channel"
                                 v-if="seach2==false"
-                        >
-                        </el-table-column>
-                        <el-table-column
-                                prop="address"
-                                v-if="seach3==false"
-                                label="厂商UI版本">
-                        </el-table-column>
-                        <el-table-column
-                                prop="address"
-                                v-if="seach4==false"
                                 label="渠道">
                         </el-table-column>
                         <el-table-column
-                                prop="address"
-                                v-if="seach5==false"
-                                label="主题类型">
+                                prop="theme_name"
+                                label="主题名称"
+                                v-if="seach3==false"
+                        >
                         </el-table-column>
+
                         <el-table-column
-                                prop="address"
-                                v-if="seach6==false"
-                                label="类容分类">
-                        </el-table-column>
-                        <el-table-column
-                                prop="address"
-                                v-if="seach7==false"
+                                prop="price"
+                                v-if="seach4==false"
                                 label="单价">
                         </el-table-column>
+
                         <el-table-column
-                                prop="address"
-                                v-if="seach8==false"
-                                label="曝光量">
-                        </el-table-column>
-                        <el-table-column
-                                prop="address"
-                                v-if="seach9==false"
+                                prop="click"
+                                v-if="seach5==false"
                                 label="点击量">
                         </el-table-column>
                         <el-table-column
-                                prop="address"
-                                v-if="seach10==false"
-                                label="试用量">
+                                prop="ctr"
+                                v-if="seach6==false"
+                                label="点击率">
                         </el-table-column>
+
                         <el-table-column
-                                prop="address"
-                                v-if="seach11==false"
+                                prop="download"
+                                v-if="seach7==false"
                                 label="下载量">
                         </el-table-column>
                         <el-table-column
-                                prop="address"
-                                v-if="seach12==false"
+                                prop="sales"
+                                v-if="seach8==false"
                                 label="销售量">
                         </el-table-column>
                         <el-table-column
-                                prop="address"
-                                v-if="seach13==false"
-                                label="应用量">
+                                prop="cvr"
+                                v-if="seach9==false"
+                                label="转化率">
                         </el-table-column>
                         <el-table-column
-                                prop="address"
-                                v-if="seach14==false"
+                                prop="sales_amount"
+                                v-if="seach10==false"
                                 label="销售额">
                         </el-table-column>
                         <el-table-column
-                                prop="address"
+                                prop="cost_channel"
+                                v-if="seach11==false"
+                                label="渠道成本费">
+                        </el-table-column>
+                        <el-table-column
+                                prop="bad_debt"
+                                v-if="seach12==false"
+                                label="坏账">
+                        </el-table-column>
+                        <el-table-column
+                                prop="tax"
+                                v-if="seach13==false"
+                                label="扣税费">
+                        </el-table-column>
+                        <el-table-column
+                                prop=""
+                                v-if="seach14==false"
+                                label="设计师成本费">
+                        </el-table-column>
+                        <el-table-column
+                                prop=""
                                 v-if="seach15==false"
-                                label="转化率">
+                                label="利润">
+                        </el-table-column>
+                        <el-table-column
+                                prop="note"
+                                v-if="seach16==false"
+                                label="备注">
                         </el-table-column>
                     </el-table>
                 </template>
@@ -153,33 +161,35 @@
                     <input type="checkbox" style="margin-left: 24px" v-model="seach1"/>
                     <span>日期</span>
                     <input type="checkbox" v-model="seach2"/>
-                    <span>主题名称</span>
-                    <input type="checkbox" v-model="seach3"/>
-                    <span>厂商UI版本</span>
-                    <input type="checkbox" v-model="seach4"/>
                     <span>渠道</span>
-                    <input type="checkbox" v-model="seach5"/>
-                    <span>主题类型</span>
-                    <input type="checkbox"  style="margin-left: 24px" v-model="seach6"/>
-                    <span>内容分类</span>
-                    <input type="checkbox" v-model="seach7"/>
+                    <input type="checkbox" v-model="seach3"/>
+                    <span>主题名称</span>
+                    <input type="checkbox" v-model="seach4"/>
                     <span>单价</span>
-                    <input type="checkbox" v-model="seach8"/>
-                    <span>曝光量</span>
-                    <input type="checkbox" v-model="seach9"/>
+                    <input type="checkbox" v-model="seach5"/>
                     <span>点击量</span>
-                    <input type="checkbox" v-model="seach10"/>
-                    <span>试用量</span>
-                    <input type="checkbox" style="margin-left: 24px" v-model="seach11"/>
+                    <input type="checkbox"  style="margin-left: 24px" v-model="seach6"/>
+                    <span>点击率</span>
+                    <input type="checkbox" v-model="seach7"/>
                     <span>下载量</span>
-                    <input type="checkbox" v-model="seach12"/>
+                    <input type="checkbox" v-model="seach8"/>
                     <span>销售量</span>
-                    <input type="checkbox" v-model="seach13"/>
-                    <span>应用量</span>
-                    <input type="checkbox" v-model="seach14"/>
-                    <span>销售量</span>
-                    <input type="checkbox" v-model="seach15" />
+                    <input type="checkbox" v-model="seach9"/>
                     <span>转化率</span>
+                    <input type="checkbox" v-model="seach10"/>
+                    <span>销售额</span>
+                    <input type="checkbox" style="margin-left: 24px" v-model="seach11"/>
+                    <span>渠道成本费</span>
+                    <input type="checkbox" v-model="seach12"/>
+                    <span>坏账</span>
+                    <input type="checkbox" v-model="seach13"/>
+                    <span>扣税费</span>
+                    <input type="checkbox" v-model="seach14"/>
+                    <span>设计师成本费</span>
+                    <input type="checkbox" v-model="seach15" />
+                    <span>利润</span>
+                    <input type="checkbox" v-model="seach16" style="margin-left: 24px"/>
+                    <span>备注</span>
                     <div class="checkBox_btn">
                         <span @click="checkBox()">确定</span>
                     </div>
@@ -220,6 +230,7 @@
                 seach13:false,
                 seach14:false,
                 seach15:false,
+                seach16:false,
 
             }
         },
