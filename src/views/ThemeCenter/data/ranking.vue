@@ -55,7 +55,7 @@
                 </div>
             </div>
             <div>
-                <template>
+                <template v-if="this.data_type==2">
                     <el-table
                             :data="tableData"
                             style="width: 100%"
@@ -128,6 +128,66 @@
                         <el-table-column
                                 prop="address"
                                 label="利润">
+                        </el-table-column>
+                        <el-table-column
+                                prop="note"
+                                label="备注">
+                        </el-table-column>
+                    </el-table>
+                </template>
+                <template v-if="this.data_type==1">
+                    <el-table
+                            :data="tableData"
+                            style="width: 100%"
+                            :header-cell-style="getRowClass"
+                            :cell-style="cell"
+                    >
+                        <el-table-column
+                                prop="date"
+                                label="排名"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                prop="channel"
+                                label="渠道">
+                        </el-table-column>
+                        <el-table-column
+                                prop="theme_name"
+                                label="主题名称"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                prop="type"
+                                label="主题类型">
+                        </el-table-column>
+
+                        <el-table-column
+                                prop="price"
+                                label="单价">
+                        </el-table-column>
+                        <el-table-column
+                                prop="click"
+                                label="点击量">
+                        </el-table-column>
+                        <el-table-column
+                                prop="ctr"
+                                label="点击率">
+                        </el-table-column>
+                        <el-table-column
+                                prop="download"
+                                label="下载量">
+                        </el-table-column>
+                        <el-table-column
+                                prop="sales"
+                                label="销售量">
+                        </el-table-column>
+                        <el-table-column
+                                prop="cvr"
+                                label="转化率">
+                        </el-table-column>
+                        <el-table-column
+                                prop="sales_amount"
+                                label="销售额">
                         </el-table-column>
                         <el-table-column
                                 prop="note"
