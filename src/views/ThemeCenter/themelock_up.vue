@@ -199,12 +199,12 @@
             }
         },
         mounted(){
+            this.getTagsList();
             if(this.$route.query.thmid!=undefined){
                 this.setData();
                 this.getsc();
             }
             this.Acctouns();
-            this.getTagsList();
         },
         methods:{
             setData(){
@@ -214,7 +214,14 @@
                   this.attach=res.attach;
                   this.account=res.account;
                   this.note=res.note;
-                  this.tags=res.tags.split(',');
+                  var arr=[];
+                  for(var j=0;j<res.tags.split(',').length;j++){
+                      if(this.tag.indexOf(res.tags.split(',')[j])!=-1){
+                          arr.push(res.tags.split(',')[j])
+                      }
+                  }
+
+                  this.tags=arr;
                   if(res.is_work==0){
                       this.is_work=true
                   }else {
@@ -357,6 +364,7 @@
                 }
                 let formData =new FormData;
                 formData.append('type',this.type);
+                formData.append('thmid',this.$route.query.thmid);
                 formData.append('name',this.name);
                 formData.append('note',this.note);
                 formData.append('account',this.account);
@@ -368,7 +376,7 @@
                 formData.append('previews',JSON.stringify(this.pic));
                 formData.append('attach',JSON.stringify(this.attach));
                 formData.append('main_preview',this.main_preview);
-                this.api.themes_material_edit().then((res)=>{
+                this.api.themes_material_edit(formData).then((res)=>{
                     this.qx();
                 })
             },

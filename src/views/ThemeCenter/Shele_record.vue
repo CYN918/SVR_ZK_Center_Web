@@ -67,9 +67,7 @@
                 </div>
                 <div>
                     <span>资源版本号</span>
-                    <select v-model="version">
-                        <option v-for="item in zyBb" :value="item.version">{{item.version}}</option>
-                    </select>
+                    <input type="version" placeholder="请输入上资源版本号">
                 </div>
                 <div>
                     <span>上架账号</span>
@@ -310,7 +308,6 @@
                 })
             },
             getThemeType(){
-                alert('a')
                 let params={channel:this.channel,ui_version:this.ui_version};
                 this.api.themes_config_version({params}).then((res)=>{
                     this.zyBb=res;
@@ -521,7 +518,7 @@
             getTagsList(){
                 let params = {material:'2',type:this.$route.query.type,search:this.tagsName,p:500,page:1};
                 this.api.tags_search({params}).then((da)=>{
-                    this.tag=da.data.tags;
+                    this.tag=da.data.self_tags;
                 })
             },
             handleExceed(files, fileList) {

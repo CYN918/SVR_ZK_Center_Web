@@ -222,14 +222,21 @@
         },
         methods:{
             getData(){
-                let params = {pkgid:this.$route.query.pkgid}
+                let params = {pkgid:this.$route.query.pkgid};
                 this.api.themes_package_details({params}).then((res)=>{
                     // this.tableData=res;
                     this.name=res.name;
                     this.note=res.note;
                     this.channel=res.channel;
                     this.ui_version=res.ui_version;
-                    this.tags=res.tags;
+                    var arr=[];
+                    for(var j=0;j<res.tags.split(',').length;j++){
+                        if(this.tag.indexOf(res.tags.split(',')[j])!=-1){
+                            arr.push(res.tags.split(',')[j])
+                        }
+                    }
+
+                    this.tags=arr;
                     this.main_preview=res.main_preview;
                     this.pic=res.previews;
                     this.attach=res.attach;

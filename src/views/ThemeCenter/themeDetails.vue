@@ -182,7 +182,6 @@
                 let params={thid:this.thid,ch_thid:this.ch_thid,channel:this.channel}
                 this.api.themes_theme_details({params}).then((res)=>{
                     this.tableData=res;
-                    console.log(this.tableData)
                     this.getsc()
                 })
             },

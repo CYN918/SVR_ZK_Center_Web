@@ -118,6 +118,7 @@
                 tableData:{},
                 themeList:[],
                 sc:[],
+                type:'',
             }
         },
         mounted(){
@@ -128,7 +129,8 @@
                 this.$router.push({
                     path:'./themelock_up',
                     query:{
-                        thmid:this.$route.query.thmid
+                        thmid:this.$route.query.thmid,
+                        type:this.type
                     },
                 })
             },
@@ -148,6 +150,7 @@
                 let params={thmid:this.$route.query.thmid}
                 this.api.themes_material_details({params}).then((res)=>{
                     this.tableData=res;
+                    this.type=res.type;
                     this. getTheme();
                     this.getsc()
                 })

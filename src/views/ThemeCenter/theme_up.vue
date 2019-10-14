@@ -52,20 +52,20 @@
                     <span>主题类型</span>
                     <select v-model="type" @change="getCon()" v-if="this.$route.query.thid==undefined">
                         <option value="">全部</option>
-                        <option :value="item.type" v-for="item in themeType">{{item.type}}</option>
+                        <option :value="item.id" v-for="item in themeType">{{item.type}}</option>
                     </select>
                     <select v-model="type" @change="getCon()" disabled="disabled" v-if="this.$route.query.thid!=undefined">
                         <option value="">全部</option>
-                        <option :value="item.type" v-for="item in themeType">{{item.type}}</option>
+                        <option :value="item.id" v-for="item in themeType">{{item.type}}</option>
                     </select>
                     <span>内容分类</span>
                     <select v-model="content" v-if="this.$route.query.thid==undefined">
                         <option value="">全部</option>
-                        <option :value="item.class" v-for="item in con">{{item.class}}</option>
+                        <option :value="item.id" v-for="item in con">{{item.class}}</option>
                     </select>
                     <select v-model="content" disabled="disabled" v-if="this.$route.query.thid!=undefined">
                         <option value="">全部</option>
-                        <option :value="item.class" v-for="item in con">{{item.class}}</option>
+                        <option :value="item.id" v-for="item in con">{{item.class}}</option>
                     </select>
                 </div>
                 <div>
@@ -131,7 +131,7 @@
                     </div>
                     <div class="imgCanvas" v-for="item in pic">
                         <img class="dels" src="../../../public/img/del.png" style="width: 16px" v-if="item!=main_preview" @click="Delete(item)">
-                        <img src="../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;left:121px;top:23px;z-index: 99" v-if="item==main_preview">
+                        <img src="../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;left:121px;top:0px;z-index: 99" v-if="item==main_preview">
                         <img :src="item" class="sc">
                         <div class="sz" @click="fm(item)">
                             <span>设置为封面</span>
@@ -190,7 +190,7 @@
         mounted(){
             this.getThemeType();
             if(this.$route.query.thid!=undefined){
-                this.getData()
+                this.getData();
             }
         },
         methods:{
@@ -201,11 +201,19 @@
                     this.name=res.name;
                     this.note=res.note;
                     this.type=res.type;
-                    this.content=res.clsss;
-                    this.tagsName=res.tags.split(',');
+                    var arr=[];
+                    for(var j=0;j<res.tags.split(',').length;j++){
+                        if(this.tag.indexOf(res.tags.split(',')[j])!=-1){
+                            arr.push(res.tags.split(',')[j])
+                        }
+                    }
+
+                    this.tags=arr;
+                    this.content=res.class;
                     this.main_preview=res.main_preview;
                     this.pic=res.preview;
-                    this.getsc()
+                    this.getsc();
+                    this.getCon();
                 })
             },
             ADDtag(){
@@ -623,7 +631,7 @@
         margin-right: 20px;
         vertical-align: top;
     }
-    .imgCanvas img{
+    .sc{
         position: absolute;
         left: 50%;
         top:50%;
