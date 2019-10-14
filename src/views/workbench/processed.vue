@@ -15,7 +15,7 @@
                             start-placeholder="开始日期"
                             end-placeholder="结束日期"
                             format="yyyy-MM-dd"
-                            value-format="yyyy-MM-dd ">
+                            value-format="yyyy-MM-dd">
                     </el-date-picker>
                 </div>
                 <span class="need_tit">需求类型</span>
