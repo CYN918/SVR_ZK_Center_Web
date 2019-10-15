@@ -433,10 +433,6 @@
                     this.$message.error('厂商UI版本不能为空')
                     return
                 }
-                if(!this.version){
-                    this.$message.error('资源版本号不能为空')
-                    return
-                }
                 if(!this.account){
                     this.$message.error('上架账号不能为空')
                     return
