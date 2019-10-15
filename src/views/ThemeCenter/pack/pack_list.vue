@@ -31,11 +31,7 @@
                     <option v-for="item in ui" :value="item.version">{{item.version}}</option>
                 </select>
                 <span class="seachSelect">状态</span>
-                <select v-model="status">
-                    <option value="">全部</option>
-                    <option value="1">已上架</option>
-                    <option value="0">未上架</option>
-                </select>
+
                 <span class="cx" @click="dataList()">查询</span>
             </div>
         </div>
@@ -74,7 +70,7 @@
         data(){
             return{
                 type:'th_lock_screen',
-                status:'',
+
                 search:'',
                 tags:[],
                 tag:[],
@@ -156,7 +152,7 @@
                 })
             },
             dataList(){
-                let params ={type:this.type,status:this.status,search:this.search,tags:this.tags.join(','),p:this.p,page:this.page,channel:this.channel,ui_version:this.ui_version};
+                let params ={type:this.type,search:this.search,tags:this.tags.join(','),p:this.p,page:this.page,channel:this.channel,ui_version:this.ui_version};
                 this.api.themes_package_search({params}).then((res)=>{
                     this.list=res.data;
                     this.total=res.total;
