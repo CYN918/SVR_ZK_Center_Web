@@ -37,7 +37,7 @@
                    </div>
                     <div>
                         <span class="qdNmae">渠道</span>
-                        <span>{{da.channel_name}}</span>
+                        <span>{{da.channel_name==''?'本地':da.channel_name}}</span>
                     </div>
                     <div>
                         <span class="qdNmae">状态</span>
@@ -287,6 +287,7 @@
         border-radius:4px;
         margin-top: 210px;
         margin-bottom: 24px;
+        overflow-x: auto;
     }
     .ADDtime,.ADDtimes{
         display: inline-block;

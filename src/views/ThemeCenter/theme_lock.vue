@@ -124,7 +124,6 @@
             getTagsList(){
                 let params = {material:'2',type:"theme",search:this.tagsName,p:500,page:1};
                 this.api.tags_search({params}).then((da)=>{
-                    console.log(da);
                     this.tag=da.data.self_tags;
                 })
             },

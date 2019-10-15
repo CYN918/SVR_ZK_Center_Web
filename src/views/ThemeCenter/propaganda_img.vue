@@ -1,5 +1,6 @@
 <template>
     <div>
+        <tags v-if="ta" :type="type" :id="id" :bq="bq"></tags>
         <div class="top">
             <span class="topName">宣传图</span>
             <span class="total">共299套/</span>
@@ -25,14 +26,14 @@
         <div>
             <div class="box" v-for="item in list">
                 <div class="boxImgs">
-                    <img :src="item.previews[0]" @click="xq">
+                    <img :src="item.main_preview" @click="xq(item.thmid)">
                 </div>
                 <div class="boxName">
                     <span>{{item.name}}</span>
                 </div>
                 <div class="boxTag">
-                    <span></span>
-                    <span class="addTags"><span>+</span>标签</span>
+                    <span v-for="da in (item.tags).split(',')" class="tagsBox">{{da}}</span>
+                    <span class="addTags" @click="bjTags(item.thmid,item.tags)"><span>+</span>标签</span>
                 </div>
             </div>
         </div>
@@ -68,7 +69,9 @@
                 channel:'',
                 channels:[],
                 ui_version:'',
-
+                id:'',
+                bq:"",
+                ta:false,
             }
         },
         mounted(){this.dataList()},
@@ -78,6 +81,11 @@
                 this.api.themes_config_channelui({params}).then((res)=>{
                     this.ui=res
                 })
+            },
+            bjTags(id,tag){
+                this.id=id;
+                this.ta=true;
+                this.bq=tag;
             },
             qd(){
                 this.api.themes_config_channel().then((res)=>{
@@ -109,29 +117,31 @@
                     this.class1=false
                 }
             },
-            xq(){
+            xq(id){
                 this.$router.push({
-                    path:'',
+                    path:'./themeSc_details',
                     query:{
-                        name:'宣传图'
+                        name:'宣传图',
+                        thmid:id
                     }
                 })
             },
             getTagsList(){
-                let params = {material:'2',type:'theme',search:this.tagsName,p:500,page:1};
+                let params = {material:'2',type:"theme",search:this.tagsName,p:500,page:1};
                 this.api.tags_search({params}).then((da)=>{
                     this.tag=da.data.self_tags;
                 })
             },
             dataList(){
-                let params ={type:this.type,status:this.status,search:this.search,tags:this.tags.join(','),p:this.p,page:this.page,channel:this.channel,ui_version:this.ui_version};
-                this.api.themes_package_search({params}).then((res)=>{
+                let params ={type:this.type,status:this.status,search:this.search,tags:this.tags.join(','),p:this.p,page:this.page};
+                this.api.themes_material_search({params}).then((res)=>{
                     this.list=res.data;
                     this.total=res.total;
                     this. getTagsList();
                     this.qd();
                 })
             },
+
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
                 this.dataList()
@@ -322,6 +332,7 @@
         height: 62px;
         background: #fff;
         padding:0 10px ;
+        overflow-x:auto ;
 
     }
     .addTags{
@@ -337,6 +348,18 @@
         line-height: 24px;
         text-align: center;
         cursor: pointer;
+    }
+    .tagsBox{
+        display: inline-block;
+        border: 1px solid #ddd;
+        padding: 5px;
+        margin-right: 10px;
+        border-radius: 5px;
+        margin-bottom: 5px;
+        font-size:12px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(31,46,77,0.45);
     }
 
 </style>

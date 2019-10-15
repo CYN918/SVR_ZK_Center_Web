@@ -80,7 +80,7 @@
         <div class="two_btm">
             <span class="pv" @click="fh()">上一步</span>
             <span @click="addData()">提交(2)</span>
-            <span class="qx">取消</span>
+            <span class="qx" @click="fhs">取消</span>
         </div>
     </div>
 </template>
@@ -125,6 +125,7 @@
             fhs(){
                 this.$router.go(-2)
             },
+
             CK(item){
                 for(var i=0;i<item.channel_themes.length;i++){
                     if(item.channel_themes[i].channel==item.channel){
@@ -179,6 +180,31 @@
                 })
             },
             addData(){
+                if(!this.name){
+                    this.$message.error('名称不能为空')
+                    return
+                }
+                if(!this.type){
+                    this.$message.error('类型不能为空')
+                    return
+                }
+                if(!this.channel){
+                    this.$message.error('渠道不能为空')
+                    return
+                }
+                if(!this.account){
+                    this.$message.error('上架账号不能为空')
+                    return
+                }
+                if(!this.person){
+                    this.$message.error('责任人不能为空')
+                    return
+                }
+                if(!this.note){
+                    this.$message.error('备注说明不能为空')
+                    return
+                }
+
                 for(var i=0;i<this.imgs.length;i++){
                     let formData=new FormData;
                     formData.append('name',this.name[i]);

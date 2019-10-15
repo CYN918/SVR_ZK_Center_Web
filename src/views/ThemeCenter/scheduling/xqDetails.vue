@@ -61,7 +61,7 @@
                     </select>
                 </div>
                 <div>
-                    <span class="box2_name">带制作渠道</span>
+                    <span class="box2_name">待制作渠道</span>
                     <select  v-model="channel">
                         <option value="">全部</option>
                         <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>

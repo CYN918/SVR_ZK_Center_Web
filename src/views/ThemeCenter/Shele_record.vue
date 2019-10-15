@@ -78,11 +78,11 @@
                 </div>
                 <div>
                     <span>上架名称</span>
-                    <input type="text" placeholder="请输入上架该渠道的主题名称" v-model="channel_theme_name">
+                    <input type="text" placeholder="请输入上架该渠道的主题名称" v-model="channel_theme_name" maxlength="10">
                 </div>
                 <div>
                     <span>上架单价</span>
-                    <input type="number" placeholder="请输入上架价格" v-model="price">
+                    <input type="number" placeholder="请输入上架价格" v-model="price"  >
                 </div>
                 <div>
                     <span>上架时间</span>
@@ -94,7 +94,7 @@
                 </div>
                 <div>
                     <span>上架备注</span>
-                    <textarea placeholder="给主题写个自我介绍，50字内" v-model="note"></textarea>
+                    <textarea placeholder="给主题写个自我介绍，50字内" v-model="note" maxlength="50"></textarea>
                 </div>
                 <div>
                     <span>内容标签</span>
@@ -424,31 +424,59 @@
             },
             addTheme(){
 
-                // if(!this.type){
-                //     this.$message.error('主题类型不能为空')
-                //     return
-                // }
-                //
-                // if(!this.class){
-                //     this.$message.error('内容分类不能为空')
-                //     return
-                // }
-                // if(!this.materials){
-                //     this.$message.error('相关素材不能为空')
-                //     return
-                // }
-                // if(!this.main_preview){
-                //     this.$message.error('封面图不能为空')
-                //     return
-                // }
-                // if(!this.previews){
-                //     this.$message.error('预览图不能为空')
-                //     return
-                // }
-                // if(!this.attach.url){
-                //     this.$message.error('未上传主题包')
-                //     return
-                // }
+                if(!this.channel){
+                    this.$message.error('渠道不能为空')
+                    return
+                }
+
+                if(!this.ui_version){
+                    this.$message.error('厂商UI版本不能为空')
+                    return
+                }
+                if(!this.version){
+                    this.$message.error('资源版本号不能为空')
+                    return
+                }
+                if(!this.account){
+                    this.$message.error('上架账号不能为空')
+                    return
+                }
+                if(!this.channel_theme_name){
+                    this.$message.error('上架名称不能为空')
+                    return
+                }
+                if(!this.tdate){
+                    this.$message.error('上架时间不能为空')
+                    return
+                }
+                if(new Date(this.tdate)<=new Date()){
+                    this.$message.error('上架时间不能小于当前时间');
+                    return
+                }
+                if(!this.note){
+                    this.$message.error('备注不能为空')
+                    return
+                }
+                if(!this.main_preview){
+                    this.$message.error('封面图不能为空')
+                    return
+                }
+                if(!this.attach.url){
+                    this.$message.error('未上传主题包')
+                    return
+                }
+                if(!this.price){
+                    this.$message.error('需求数量不能为空');
+                    return
+                }
+                if(this.price>99){
+                    this.$message.error('价格最大为99');
+                    return
+                }
+                if(this.price<=0){
+                    this.$message.error('价格为大于零的正数');
+                    return
+                }
                 var arr=[];
                 for(var i=0;i<this.lockSC.length;i++){
                     arr.push(this.lockSC[i].thmid)

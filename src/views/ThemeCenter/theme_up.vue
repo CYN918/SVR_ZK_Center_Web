@@ -4,10 +4,12 @@
         <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="fh()">主题库 &nbsp;/</span>
-                <span class="new_url"> &nbsp;上传本地主题</span>
+                <span class="new_url" v-if="this.$route.query.thid==undefined"> &nbsp;上传本地主题</span>
+                <span class="new_url" v-if="this.$route.query.thid!=undefined"> &nbsp;编辑本地主题</span>
             </div>
             <div class="tit_top_con">
-                <span class="tit_name">上传本地主题</span>
+                <span class="tit_name" v-if="this.$route.query.thid==undefined">上传本地主题</span>
+                <span class="tit_name" v-if="this.$route.query.thid!=undefined">编辑本地主题</span>
             </div>
         </div>
         <div class="themeUp">
@@ -45,26 +47,26 @@
                     </div>
                 </div>
                 <div>
-                    <span>主题描叙</span>
+                    <span>主题描述</span>
                     <input type="text" placeholder="给主题写个自我介绍，50字内" v-model="note"/>
                 </div>
                 <div>
                     <span>主题类型</span>
                     <select v-model="type" @change="getCon()" v-if="this.$route.query.thid==undefined">
-                        <option value="">全部</option>
+
                         <option :value="item.id" v-for="item in themeType">{{item.type}}</option>
                     </select>
                     <select v-model="type" @change="getCon()" disabled="disabled" v-if="this.$route.query.thid!=undefined">
-                        <option value="">全部</option>
+
                         <option :value="item.id" v-for="item in themeType">{{item.type}}</option>
                     </select>
                     <span>内容分类</span>
                     <select v-model="content" v-if="this.$route.query.thid==undefined">
-                        <option value="">全部</option>
+
                         <option :value="item.id" v-for="item in con">{{item.class}}</option>
                     </select>
                     <select v-model="content" disabled="disabled" v-if="this.$route.query.thid!=undefined">
-                        <option value="">全部</option>
+
                         <option :value="item.id" v-for="item in con">{{item.class}}</option>
                     </select>
                 </div>
@@ -90,11 +92,11 @@
                 <div>
                     <span>绑定主题素材</span>
                     <a @click="jump()" v-if="this.$route.query.thid==undefined">从主题素材库选择</a>
-                    <a @click="jump()" v-if="this.$route.query.thid!=undefined">从主题素材库选择</a>
+                    <a  v-if="this.$route.query.thid!=undefined">从主题素材库选择</a>
                     <div class="img_box">
                         <div class="img_box1" v-for="(item,index) in listSC">
                             <img :src="item.main_preview" class="img_box1_imgs">
-                            <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px" @click="Del(item.thmid)"/>
+                            <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px" @click="Del(item.thmid)" />
                         </div>
                     </div>
                 </div>
