@@ -117,7 +117,10 @@ import detailsSettlement from './views/income/Receivables/DetailsSettlement'
 mode['detailsSettlement']=detailsSettlement
 import Administrations from './views/income/AdvanceCharge/Administration'
 mode['Administrations']=Administrations
-
+import YFdetails from './views/income/AdvanceCharge/YFdetails'
+mode['YFdetails']=YFdetails
+import change from './views/income/AdvanceCharge/change'
+mode['change']=change
 
 //工作台
 import workbench from './views/workbench/index'
@@ -318,6 +321,9 @@ let nb = [
             {path:'/income/Receivables/Record',name:'变更记录',component:mode['Record']},
             {path:'/income/Receivables/DetailsSettlement',name:'结算方详情',component:mode['detailsSettlement']},
             {path:'/income/AdvanceCharge/Administration',name:'预付款管理',component:mode['Administrations']},
+            {path:'/income/AdvanceCharge/YFdetails',name:'预付款详情',component:mode['YFdetails']},
+            {path:'/income/AdvanceCharge/change',name:'预付款变更详情',component:mode['change']},
+
 
 
         ]},

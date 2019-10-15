@@ -1,24 +1,25 @@
 <template>
     <div>
         <div class="top">
-            <div class="top_tit">
-                <span>收款结算</span>
+            <div class="tit_top_url">
+                <span class="log_url" @click="fh()">预付款管理 &nbsp;/</span>
+                <span class="new_url">&nbsp;预付款详情</span>
             </div>
-            <div class="user">
-                <div class="sk" :class="{check:select==0}" @click="switchs(0)">
-                    收款方
-                </div>
-                <div class="fk" :class="{check:select==1}" @click="switchs(1)">
-                    付款方
-                </div>
-                <div class="seach">
-                    <img src="../../../../public/img/ss.png">
-                    <input type="text" placeholder="搜索关键词">
-                </div>
-                <span class="cx">查询</span>
+            <div class="title_left">
+                <img src="../../../../public/img/fh.png"  @click="fh()">
+                <span>预付款详情</span>
             </div>
         </div>
         <div class="table">
+            <div>
+                <div class="fkName">
+                    <span>收款方-结算方名称</span>
+                </div>
+                <div>
+                    <span class="money">预付款剩余金额：¥800,000</span>
+                    <span class="add">添加记录</span>
+                </div>
+            </div>
             <template>
                 <el-table
                         :data="tableData"
@@ -40,6 +41,7 @@
                             label="操作">
                         <template slot-scope="scope">
                             <el-button  type="text" size="small" @click="ck">查看详情</el-button>
+                            <el-button  type="text" size="small" >删除</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -60,20 +62,19 @@
 
 <script>
     export default {
-        name: "administration",
+        name: "y-fdetails",
         data(){
             return{
-                select:0,
                 p:10,
                 page:1,
                 total:0,
-                tableData:[{pv:0}]
+                tableData:[{pv:0}],
             }
         },
         methods:{
-             switchs(num){
-                 this.select=num;
-             },
+            fh(){
+                this.$router.go(-1)
+            },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
             },
@@ -93,7 +94,7 @@
             },
             ck(){
                 this.$router.push({
-                    path:"./YFdetails"
+                    path:"./change"
                 })
             },
         },
@@ -103,7 +104,7 @@
 <style scoped>
     .top{
         width: 100%;
-        height:120px;
+        height:98px;
         border-top: 1px solid #ededed;
         background: white;
         -webkit-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.04);
@@ -113,66 +114,45 @@
         top: 63px;
         z-index: 99;
     }
-    .top_tit span{
+    .new_url{color: rgba(61,73,102,1)!important;}
+    .title_left span{
         display: inline-block;
-        font-size:18px;
+        font-size:14px;
         font-family:PingFang-SC-Medium,PingFang-SC;
         font-weight:500;
         color:rgba(31,46,77,1);
-        margin:19px 0 20px 24px;
+        margin-top: 15px;
+        cursor: pointer;
     }
-    .seach{
+    .title_left img{
+        width:12px;
+        height:12px;
+        margin-right: 9px;
+        margin-left: 24px;
+    }
+    .table{
+        background: #fff;
+        margin-top: 182px;
+    }
+    .fkName span{
         display: inline-block;
-        margin:0px 24px;
-        position:relative;
+        font-size:16px;
+        font-family:PingFangSC-Medium,PingFangSC;
+        font-weight:500;
+        color:rgba(31,46,77,1);
+        margin: 20px 0 10px 24px;
     }
-    .seach img{
-        width: 24px;
-        height: 24px;
-        position: absolute;
-        left: 3px;
-        top:8px;
-    }
-    .seach input{
-        width:170px;
-        height:32px;
-        background:rgba(255,255,255,1);
-        border-radius:4px;
-        padding-left: 30px;
-        border:1px solid rgba(211,219,235,1);
-    }
-    .user{
-        padding: 0 24px;
-    }
-    .sk,.fk{
+    .money{
         display: inline-block;
-        width:70px;
-        height:36px;
-        background:rgba(255,255,255,1);
-        border-radius:0px 4px 4px 0px;
-        border:1px solid rgba(230,233,240,1);
         font-size:14px;
         font-family:PingFangSC-Regular,PingFangSC;
         font-weight:400;
-        color:rgba(31,46,77,0.65);
-        text-align: center;
-        line-height: 36px;
-        cursor: pointer;
+        color:rgba(143,155,179,1);
+        margin:0 0 27px 24px;
     }
-    .sk{
-        border-radius:4px 0px 0px 4px!important;
-    }
-    .check{
-
-        border:1px solid rgba(51,119,255,1)!important;
-        color:rgba(51,119,255,1)!important;
-    }
-    .cx{
+    .add{
         display: inline-block;
-        text-align: center;
-        line-height: 36px;
-        cursor: pointer;
-        width:68px;
+        width:96px;
         height:36px;
         background:rgba(51,119,255,1);
         border-radius:4px;
@@ -180,9 +160,10 @@
         font-family:PingFangSC-Regular,PingFangSC;
         font-weight:400;
         color:rgba(255,255,255,1);
-    }
-    .table{
-        background: #fff;
-        margin-top: 220px;
+        text-align: center;
+        line-height: 36px;
+        cursor: pointer;
+        float: right;
+        margin-right: 24px;
     }
 </style>
