@@ -7,6 +7,10 @@
             </div>
             <div class="title_left">
                 <span>新建收款结算</span>
+                <div class="top_btn">
+                    <span class="bj">编辑</span>
+                    <span class="ck">查看变更记录</span>
+                </div>
             </div>
         </div>
         <div class="tableBox">
@@ -15,12 +19,12 @@
                     <div class="box boxs">1</div>
                     <span class="boxName">对账确认</span>
                 </div>
-                <div style="margin-right: 350px;text-align: center;display: inline-block">
-                    <div class="box boxs">2</div>
+                <div style="margin-right: 350px;text-align: center;display: inline-block;border-bottom: 1px solid #3377ff">
+                    <div class="box  boxs">2</div>
                     <span class="boxName">票据凭证</span>
                 </div>
-                <div style="text-align: center;display: inline-block;border-bottom: 1px solid #3377ff;">
-                    <div class="box boxs">3</div>
+                <div style="text-align: center;display: inline-block">
+                    <div class="box" @click="scope2()">3</div>
                     <span class="boxName">结算汇款</span>
                 </div>
 
@@ -28,45 +32,33 @@
             <div style="text-align: center" class="fill">
                 <div>
                     <span class="fillName">物流单号</span>
-                    <input type="text" class="input">
-                </div>
-                <div>
-                    <span class="fillName">到账时间</span>
-                    <div class="fillTime">
-                            <el-date-picker
-                                    v-model="time"
-                                    type="date"
-                                    placeholder="请以银行到账时间为准"
-                                    format="yyyy-mm-dd"
-                                    value-format="yyyy-mm-dd">
-                            </el-date-picker>
-
+                    <div style="display: inline-block;width: 300px">
+                        <span class="text">啊啊啊啊啊</span>
                     </div>
+
                 </div>
                 <div>
                     <span class="fillName">备注说明</span>
-                    <textarea></textarea>
+                    <div style="display: inline-block;width: 300px">
+                        <span  class="text"></span>
+                    </div>
+
                 </div>
                 <div>
-                    <div style="display: inline-block;width: 84px;margin-right: 20px">
-                        <img src="../../../../public/img/wh.png" style="margin-right: 6px;cursor: pointer">
+                    <div style="display: inline-block;width: 84px;margin-right: 20px;text-align: right">
                         <span class="fj">附件</span>
                     </div>
-                    <div class="uplaod">
-                        <el-upload
-                                class="upload-demo"
-                                :limit="1"
-                                :on-exceed="handleExceed"
-                                :on-remove="handleRemove"
-                                :http-request="uploadFile"
-                                action="111">
-                            <el-button size="small" type="primary">上传文件</el-button>
-                        </el-upload>
+                    <div style="display: inline-block;width: 300px">
+                        <div>
+                            <span  class="text"></span>
+                            <span class="click">查看</span>
+                            <span class="click">下载</span>
+                        </div>
                     </div>
+
                 </div>
                 <div class="fillBtn">
-                    <span class="tj" @click="ADD">提交</span>
-                    <span>取消</span>
+                    <span @click="fh">返回</span>
                 </div>
             </div>
         </div>
@@ -77,9 +69,7 @@
     export default {
         name: "establish",
         data(){
-            return{
-                time:'',
-            }
+            return{}
         },
         methods:{
             fh(num){
@@ -99,9 +89,9 @@
 
                 })
             },
-            ADD(){
+            scope2(){
                 this.$router.push({
-                    path:"./establish2"
+                    path:"./DetailsOfCollection3"
                 })
             }
         }
@@ -178,31 +168,13 @@
         margin-right: 21px;
         text-align: right!important;
     }
-    input{
-        width:457px;
-        height:36px;
-        padding-left: 10px;
-        background:rgba(255,255,255,1);
-        border-radius:4px;
-        border:1px solid rgba(211,219,235,1);
-    }
-    .fillTime{display: inline-block;
-        width:467px
-    }
-    .fillTime .el-date-editor.el-input, .el-date-editor.el-input__inner{
-        width: 100%;
-    }
-    textarea{
-        width:468px;
-        height:88px;
-        background:rgba(255,255,255,1);
-        border-radius:4px;
-        border:1px solid rgba(211,219,235,1);
-    }
-    .uplaod{
-        width:474px;
+    .text{
         display: inline-block;
-        text-align: left!important;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(109,119,139,1);
+        text-align: left;
     }
     .fj{display: inline-block;
         font-size:14px;
@@ -225,12 +197,39 @@
         font-family:PingFangSC-Regular,PingFangSC;
         font-weight:400;
         color:rgba(31,46,77,1);
-    }
-    .tj{
-        color: #fff!important;
-        background: #3377ff!important;
-        border: none!important;
-        margin-right: 20px;
         margin-bottom: 50px;
+    }
+    .click{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFang-SC-Medium,PingFang-SC;
+        font-weight:500;
+        color:rgba(51,119,255,1);
+        margin-left: 10px;
+        cursor: pointer;
+    }
+    .top_btn{
+        display: inline-block;
+        float: right;
+        margin-right: 20%;
+    }
+    .top_btn span{
+        display: inline-block;
+        line-height: 36px;
+        text-align: center;
+        cursor: pointer;
+        height:36px;
+        background:rgba(51,119,255,1);
+        border-radius:4px;
+        width:68px;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(255,255,255,1);
+        margin-top: 0!important;
+    }
+    .ck{
+        width:124px!important;
+        margin-left: 24px;
     }
 </style>

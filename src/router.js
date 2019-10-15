@@ -103,6 +103,21 @@ import establish2 from './views/income/Receivables/Establish2'
 mode['establish2']=establish2
 import establish3 from './views/income/Receivables/Establish3'
 mode['establish3']=establish3
+import DetailsOfCollection from './views/income/Receivables/DetailsOfCollection'
+mode['DetailsOfCollection']=DetailsOfCollection
+import DetailsOfCollection2 from './views/income/Receivables/DetailsOfCollection2'
+mode['DetailsOfCollection2']=DetailsOfCollection2
+import DetailsOfCollection3 from './views/income/Receivables/DetailsOfCollection3'
+mode['DetailsOfCollection3']=DetailsOfCollection3
+import ChangeRecord from './views/income/Receivables/ChangeRecord'
+mode['ChangeRecord']=ChangeRecord
+import Record from './views/income/Receivables/Record'
+mode['Record']=Record
+import detailsSettlement from './views/income/Receivables/DetailsSettlement'
+mode['detailsSettlement']=detailsSettlement
+import Administrations from './views/income/AdvanceCharge/Administration'
+mode['Administrations']=Administrations
+
 
 //工作台
 import workbench from './views/workbench/index'
@@ -296,6 +311,14 @@ let nb = [
             {path:'/income/Receivables/establish',name:'新增结算',component:mode['establish']},
             {path:'/income/Receivables/establish2',name:'新增结算2',component:mode['establish2']},
             {path:'/income/Receivables/establish3',name:'新增结算3',component:mode['establish3']},
+            {path:'/income/Receivables/DetailsOfCollection',name:'收益结算详情',component:mode['DetailsOfCollection']},
+            {path:'/income/Receivables/DetailsOfCollection2',name:'收益结算详情2',component:mode['DetailsOfCollection2']},
+            {path:'/income/Receivables/DetailsOfCollection3',name:'收益结算详情2',component:mode['DetailsOfCollection3']},
+            {path:'/income/Receivables/ChangeRecord',name:'变更记录',component:mode['ChangeRecord']},
+            {path:'/income/Receivables/Record',name:'变更记录',component:mode['Record']},
+            {path:'/income/Receivables/DetailsSettlement',name:'结算方详情',component:mode['detailsSettlement']},
+            {path:'/income/AdvanceCharge/Administration',name:'预付款管理',component:mode['Administrations']},
+
 
         ]},
     {path:'/userinfo',name:'个人中心',component:mode['info'],
@@ -422,6 +445,11 @@ let leftNav =
 					{title:'收款结算',url:'/income/Receivables/Administration'},
                 ]
 			},
+            {title:'预付款管理',url:'4',img:'&#xe60d;',list:[
+                    {title:'预付款管理',url:'/income/AdvanceCharge/Administration'},
+
+                ]
+            },
         ]
         },
 
