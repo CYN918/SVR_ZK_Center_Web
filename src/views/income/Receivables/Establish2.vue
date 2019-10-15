@@ -2,7 +2,7 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh('-1')">收款结算 &nbsp;/</span>
+                <span class="log_url" @click="js">收款结算 &nbsp;/</span>
                 <span class="new_url">&nbsp;新建收款结算</span>
             </div>
             <div class="title_left">
@@ -10,52 +10,25 @@
             </div>
         </div>
         <div class="tableBox">
-                <div style="text-align: center;margin-bottom: 40px;max-width: 893px;border-bottom: 1px solid #ddd;position: relative;left: 50%;transform: translateX(-50%)">
-                    <div style="margin-right: 350px;text-align: center;border-bottom: 1px solid #3377ff;display: inline-block">
-                        <div class="box boxs">1</div>
-                        <span class="boxName">对账确认</span>
-                    </div>
-                   <div style="margin-right: 350px;text-align: center;display: inline-block">
-                       <div class="box ">2</div>
-                       <span class="boxName">票据凭证</span>
-                   </div>
-                   <div style="text-align: center;display: inline-block">
-                       <div class="box">3</div>
-                       <span class="boxName">结算汇款</span>
-                   </div>
-
+            <div style="text-align: center;margin-bottom: 40px;max-width: 893px;border-bottom: 1px solid #ddd;position: relative;left: 50%;transform: translateX(-50%)">
+                <div style="margin-right: 350px;text-align: center;display: inline-block">
+                    <div class="box boxs">1</div>
+                    <span class="boxName">对账确认</span>
                 </div>
+                <div style="margin-right: 350px;text-align: center;display: inline-block;border-bottom: 1px solid #3377ff">
+                    <div class="box  boxs">2</div>
+                    <span class="boxName">票据凭证</span>
+                </div>
+                <div style="text-align: center;display: inline-block">
+                    <div class="box">3</div>
+                    <span class="boxName">结算汇款</span>
+                </div>
+
+            </div>
             <div style="text-align: center" class="fill">
                 <div>
-                    <span class="fillName">结算方名称</span>
+                    <span class="fillName">物流单号</span>
                     <input type="text" class="input">
-                </div>
-                <div>
-                    <span class="fillName">结算方</span>
-                    <input type="text" class="input">
-                </div>
-                <div>
-                    <span class="fillName">结算时间段</span>
-                    <div class="fillTime">
-                        <el-date-picker
-                                v-model="time"
-                                type="daterange"
-                                range-separator="至"
-                                start-placeholder="开始日期"
-                                end-placeholder="结束日期"
-                                format="yyyy-mm-dd"
-                                value-format="yyyy-mm-dd"
-                        >
-                        </el-date-picker>
-                    </div>
-                </div>
-                <div>
-                    <span class="fillName">预计结算金额</span>
-                    <input type="number" class="input">
-                </div>
-                <div>
-                    <span class="fillName">实际结算金额</span>
-                    <input type="number" class="input">
                 </div>
                 <div>
                     <span class="fillName">备注说明</span>
@@ -80,7 +53,7 @@
                 </div>
                 <div class="fillBtn">
                     <span class="tj" @click="ADD">提交</span>
-                    <span>取消</span>
+                    <span @click="fh()">取消</span>
                 </div>
             </div>
         </div>
@@ -94,8 +67,8 @@
             return{}
         },
         methods:{
-            fh(num){
-                this.$router.go(num)
+            fh(){
+                this.$router.go(-1)
             },
             handleExceed(files, fileList) {
                 this.$message.warning(`当前限制选择1个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
@@ -111,11 +84,16 @@
 
                 })
             },
+            js(){
+                this.$router.push({
+                    path:"./Administration"
+                })
+            },
             ADD(){
                 this.$router.push({
-                    path:"./establish2"
+                    path:"./establish3"
                 })
-            }
+            },
         }
     }
 </script>
@@ -149,6 +127,7 @@
         margin-top: 182px;
         background: #fff;
         padding-top:48px ;
+        min-height: 600px;
     }
     .box{
         width:32px;

@@ -99,7 +99,10 @@ import SettlementDetails from './views/income/Receivables/SettlementDetails'
 mode['SettlementDetails']=SettlementDetails
 import establish from './views/income/Receivables/Establish'
 mode['establish']=establish
-
+import establish2 from './views/income/Receivables/Establish2'
+mode['establish2']=establish2
+import establish3 from './views/income/Receivables/Establish3'
+mode['establish3']=establish3
 
 //工作台
 import workbench from './views/workbench/index'
@@ -291,6 +294,8 @@ let nb = [
             {path:'/income/Receivables/ADDSettlement',name:'添加结算方',component:mode['ADDSettlement']},
             {path:'/income/Receivables/SettlementDetails',name:'结算方详情',component:mode['SettlementDetails']},
             {path:'/income/Receivables/establish',name:'新增结算',component:mode['establish']},
+            {path:'/income/Receivables/establish2',name:'新增结算2',component:mode['establish2']},
+            {path:'/income/Receivables/establish3',name:'新增结算3',component:mode['establish3']},
 
         ]},
     {path:'/userinfo',name:'个人中心',component:mode['info'],
