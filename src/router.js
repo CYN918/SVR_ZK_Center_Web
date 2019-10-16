@@ -411,121 +411,121 @@ router.addRoutes(nb);
 /*动态生成左边菜单*/
 
 let leftNav =
-	// localStorage.getItem('letNav');
-	[
-	{title:'素材中心',default:'/admin',defaultopen:['1'],
-	children:[
-		{title:'素材库',url:'1', img:'&#xe615;',list:[
-			{title:'广告图',url:'/admin/advertising'},
-				{title:'广告模板',url:'/admin/AD_templates'}],
-			children:[
-			{title:'场景锁屏',url:'1-3',list:[
-                 {title:'动效',url:'/admin/dynamic'},
-                 {title:'壁纸',url:'/admin/wallpaper'},
-                    ]},
-			]},
-
-		{title:'物料库',url:'3',img:'&#xe617;',list:[
-			{title:'广告图',url:'/admin/MaterialResource'},
-			{title:'广告模版',url:'/admin/WLtemplate'},
-			{title:'场景锁屏',url:'/admin/lockScreen'},
-		]},
-		{title:'配制管理',url:'4',img:'&#xe60e;',list:[
-			{title:'设计规范库',url:'/admin/standard'},
-			{title:'标签管理',url:'/admin/settags'},
-			// {title:'外部帐号管理',url:'/admin/external'},
-		]},
-		{title:'投放库',url:'5',img:'&#xe60e;',list:[
-				{title:'投放库',url:'/admin/library'},
-                {title:'杂志锁屏推送管理',url:'/admin/journal_of_push'},
-                // {title:'杂志锁屏推送管理',url:'/admin/wb_Journal'}
-
-			]}
-	]},
-	{title:'工作台',default:'/workbench',defaultopen:['1'],
-        children:[
-            {title:'任务中心',url:'1',img:'&#xe610;',list:[
-                    {title:'待处理',url:'/workbench/workbenchPadding'},
-                    {title:'我的已处理',url:'/workbench/processed'},
-                    {title:'全部',url:'/workbench/ALL'},
-					],},
-            {title:'运营工具',url:'2',img:'&#xe610;',list:[
-                    {title:'锁屏壁纸MD5库',url:'/workbench/MD5'},
-                    {title:'聚合内容配置',url:'/workbench/allocation'},
-                    {title:'资源待替换',url:'/workbench/replace'},
-					{title:'官方物料投放库',url:'/workbench/theme'},
-                    {title:'主题壁纸-标签定投',url:'/workbench/theme_screen'},
-                    {title:'物料预审管理',url:'/workbench/ad_source'},
-                ],},
-
-        ]
-	},
-	{title:'数据中心',default:'/data',defaultopen:['1'],
-	children:[
-        {title:'素材数据',url:'1',img:'&#xe60b;',list:[
-                {title:'物料数据', url:'/data/Material_data'},
-			]}
-        ]
-},
-    {title:'个人中心',default:'/userinfo/user_info',defaultopen:['1'],
-        children:[
-            {title:'个人中心',url:'1',img:'&#xe60b;',list:[
-            {title:'基本信息', url:'/userinfo/user_info'},
-            {title:'修改密码', url:'/userinfo/passWord'},
-            {title:'消息通知', url:'/userinfo/'},
-                ]},
-			{title:'账号权限',url:'1-2',img:'&#xe619;',list:[
-			{title:'我的权限',url:'/userinfo/MyPerm'},
-            {title:'账号管理',url:'/userinfo/account'},
-            {title:'角色管理',url:'/userinfo/roleManagement'},
-            {title:'账号审核',url:'/userinfo/AccounAudit'},
-			{title:'流程管理',url:'/userinfo/Process'},
-                ]},
-			{title:'意见反馈',url:"1-3",img:'&#xe618;',list:[
-			{title:'意见反馈',url:'/userinfo/feedback'}
-				]}
-        ]
-	},
-    {title:'收益中心',default:'/income',defaultopen:['1'],
-        children:[
-            {title:'收益数据',url:'1',img:'&#xe612;',list:[
-            	{title:'收益总览',url:'/income/earnings'},
-				{title:'渠道收益',url:'/income/returns_detailed'},
-				{title:'广告主收益',url:'/income/advertiser'}
-            ]},
-            {title:'收益管理',url:'2',list:[
-                    {title:'设计师成本管理',url:'/income/cost_management'}
-                ]},
-            {title:'结算管理',url:'3',img:'&#xe60d;',list:[
-                   {title:'设计师结算管理',url:'/income/settlement'},
-					{title:'收款结算',url:'/income/Receivables/Administration'},
-                    {title:'付款结算',url:'/income/payment/Administration'},
-                    {title:'预付款管理',url:'/income/AdvanceCharge/Administration'},
-                    {title:'特殊款管理',url:'/income/SpecialFunds/SpecialFunds_Administration'},
-                ]
-			},
-        ]
-        },
-
-
-        {title:'主题中心',default:'/ThemeCenter',defaultopen:['1'],
-            children:[
-                {title:'数据中心',url:'1',img:'&#xe612;',list:[
-                    ]},
-                {title:'主题库',url:'2',img:'&#xe612;',list:[
-                        {title:'主题库',url:'/ThemeCenter/themeCook'},
-                    ]},
-
-                {title:'主题素材库',url:'3',img:'&#xe612;',list:[
-                        {title:'锁屏',url:'/ThemeCenter/themeLock'},
-                        {title:'图标',url:'/ThemeCenter/theme_icon'},
-                        {title:'二级页面',url:'/ThemeCenter/theme_two'},
-                    ]},
-            ]
-        },
-];
-
-localStorage.setItem('letNav',JSON.stringify(leftNav));
+ localStorage.getItem('letNav');
+// 	[
+// 	{title:'素材中心',default:'/admin',defaultopen:['1'],
+// 	children:[
+// 		{title:'素材库',url:'1', img:'&#xe615;',list:[
+// 			{title:'广告图',url:'/admin/advertising'},
+// 				{title:'广告模板',url:'/admin/AD_templates'}],
+// 			children:[
+// 			{title:'场景锁屏',url:'1-3',list:[
+//                  {title:'动效',url:'/admin/dynamic'},
+//                  {title:'壁纸',url:'/admin/wallpaper'},
+//                     ]},
+// 			]},
+//
+// 		{title:'物料库',url:'3',img:'&#xe617;',list:[
+// 			{title:'广告图',url:'/admin/MaterialResource'},
+// 			{title:'广告模版',url:'/admin/WLtemplate'},
+// 			{title:'场景锁屏',url:'/admin/lockScreen'},
+// 		]},
+// 		{title:'配制管理',url:'4',img:'&#xe60e;',list:[
+// 			{title:'设计规范库',url:'/admin/standard'},
+// 			{title:'标签管理',url:'/admin/settags'},
+// 			// {title:'外部帐号管理',url:'/admin/external'},
+// 		]},
+// 		{title:'投放库',url:'5',img:'&#xe60e;',list:[
+// 				{title:'投放库',url:'/admin/library'},
+//                 {title:'杂志锁屏推送管理',url:'/admin/journal_of_push'},
+//                 // {title:'杂志锁屏推送管理',url:'/admin/wb_Journal'}
+//
+// 			]}
+// 	]},
+// 	{title:'工作台',default:'/workbench',defaultopen:['1'],
+//         children:[
+//             {title:'任务中心',url:'1',img:'&#xe610;',list:[
+//                     {title:'待处理',url:'/workbench/workbenchPadding'},
+//                     {title:'我的已处理',url:'/workbench/processed'},
+//                     {title:'全部',url:'/workbench/ALL'},
+// 					],},
+//             {title:'运营工具',url:'2',img:'&#xe610;',list:[
+//                     {title:'锁屏壁纸MD5库',url:'/workbench/MD5'},
+//                     {title:'聚合内容配置',url:'/workbench/allocation'},
+//                     {title:'资源待替换',url:'/workbench/replace'},
+// 					{title:'官方物料投放库',url:'/workbench/theme'},
+//                     {title:'主题壁纸-标签定投',url:'/workbench/theme_screen'},
+//                     {title:'物料预审管理',url:'/workbench/ad_source'},
+//                 ],},
+//
+//         ]
+// 	},
+// 	{title:'数据中心',default:'/data',defaultopen:['1'],
+// 	children:[
+//         {title:'素材数据',url:'1',img:'&#xe60b;',list:[
+//                 {title:'物料数据', url:'/data/Material_data'},
+// 			]}
+//         ]
+// },
+//     {title:'个人中心',default:'/userinfo/user_info',defaultopen:['1'],
+//         children:[
+//             {title:'个人中心',url:'1',img:'&#xe60b;',list:[
+//             {title:'基本信息', url:'/userinfo/user_info'},
+//             {title:'修改密码', url:'/userinfo/passWord'},
+//             {title:'消息通知', url:'/userinfo/'},
+//                 ]},
+// 			{title:'账号权限',url:'1-2',img:'&#xe619;',list:[
+// 			{title:'我的权限',url:'/userinfo/MyPerm'},
+//             {title:'账号管理',url:'/userinfo/account'},
+//             {title:'角色管理',url:'/userinfo/roleManagement'},
+//             {title:'账号审核',url:'/userinfo/AccounAudit'},
+// 			{title:'流程管理',url:'/userinfo/Process'},
+//                 ]},
+// 			{title:'意见反馈',url:"1-3",img:'&#xe618;',list:[
+// 			{title:'意见反馈',url:'/userinfo/feedback'}
+// 				]}
+//         ]
+// 	},
+//     {title:'收益中心',default:'/income',defaultopen:['1'],
+//         children:[
+//             {title:'收益数据',url:'1',img:'&#xe612;',list:[
+//             	{title:'收益总览',url:'/income/earnings'},
+// 				{title:'渠道收益',url:'/income/returns_detailed'},
+// 				{title:'广告主收益',url:'/income/advertiser'}
+//             ]},
+//             {title:'收益管理',url:'2',list:[
+//                     {title:'设计师成本管理',url:'/income/cost_management'}
+//                 ]},
+//             {title:'结算管理',url:'3',img:'&#xe60d;',list:[
+//                    {title:'设计师结算管理',url:'/income/settlement'},
+// 					{title:'收款结算',url:'/income/Receivables/Administration'},
+//                     {title:'付款结算',url:'/income/payment/Administration'},
+//                     {title:'预付款管理',url:'/income/AdvanceCharge/Administration'},
+//                     {title:'特殊款管理',url:'/income/SpecialFunds/SpecialFunds_Administration'},
+//                 ]
+// 			},
+//         ]
+//         },
+//
+//
+//         {title:'主题中心',default:'/ThemeCenter',defaultopen:['1'],
+//             children:[
+//                 {title:'数据中心',url:'1',img:'&#xe612;',list:[
+//                     ]},
+//                 {title:'主题库',url:'2',img:'&#xe612;',list:[
+//                         {title:'主题库',url:'/ThemeCenter/themeCook'},
+//                     ]},
+//
+//                 {title:'主题素材库',url:'3',img:'&#xe612;',list:[
+//                         {title:'锁屏',url:'/ThemeCenter/themeLock'},
+//                         {title:'图标',url:'/ThemeCenter/theme_icon'},
+//                         {title:'二级页面',url:'/ThemeCenter/theme_two'},
+//                     ]},
+//             ]
+//         },
+// ];
+//
+// localStorage.setItem('letNav',JSON.stringify(leftNav));
 
 router.beforeEach((to, from, next) => {
 	/*登录过期*/
