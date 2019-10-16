@@ -122,6 +122,36 @@ mode['YFdetails']=YFdetails
 import change from './views/income/AdvanceCharge/change'
 mode['change']=change
 
+import FKAdministration from './views/income/payment/Administration'
+mode['FKAdministration']=FKAdministration
+import FKReceiverManagement from './views/income/payment/ReceiverManagement'
+mode['FKReceiverManagement']=FKReceiverManagement
+import FKADDSettlement from './views/income/payment/ADDSettlement'
+mode['FKADDSettlement']=FKADDSettlement
+import FKSettlementDetails from './views/income/payment/SettlementDetails'
+mode['FKSettlementDetails']=FKSettlementDetails
+import FKestablish from './views/income/payment/Establish'
+mode['FKestablish']=FKestablish
+import FKestablish2 from './views/income/payment/Establish2'
+mode['FKestablish2']=FKestablish2
+import FKestablish3 from './views/income/payment/Establish3'
+mode['FKestablish3']=FKestablish3
+import FKDetailsOfCollection from './views/income/payment/DetailsOfCollection'
+mode['FKDetailsOfCollection']=FKDetailsOfCollection
+import FKDetailsOfCollection2 from './views/income/payment/DetailsOfCollection2'
+mode['FKDetailsOfCollection2']=FKDetailsOfCollection2
+import FKDetailsOfCollection3 from './views/income/payment/DetailsOfCollection3'
+mode['FKDetailsOfCollection3']=FKDetailsOfCollection3
+import FKChangeRecord from './views/income/payment/ChangeRecord'
+mode['FKChangeRecord']=FKChangeRecord
+import FKRecord from './views/income/payment/Record'
+mode['FKRecord']=FKRecord
+import FKdetailsSettlement from './views/income/payment/DetailsSettlement'
+mode['FKdetailsSettlement']=FKdetailsSettlement
+
+
+
+
 //工作台
 import workbench from './views/workbench/index'
 mode['workbench'] = workbench
@@ -324,6 +354,20 @@ let nb = [
             {path:'/income/AdvanceCharge/YFdetails',name:'预付款详情',component:mode['YFdetails']},
             {path:'/income/AdvanceCharge/change',name:'预付款变更详情',component:mode['change']},
 
+            {path:'/income/payment/Administration',name:'收款结算 ',component:mode['FKAdministration']},
+            {path:'/income/payment/ReceiverManagement',name:'收款方结算 ',component:mode['FKReceiverManagement']},
+            {path:'/income/payment/ADDSettlement',name:'添加结算方',component:mode['FKADDSettlement']},
+            {path:'/income/payment/SettlementDetails',name:'结算方详情',component:mode['FKSettlementDetails']},
+            {path:'/income/payment/establish',name:'新增结算',component:mode['FKestablish']},
+            {path:'/income/payment/establish2',name:'新增结算2',component:mode['FKestablish2']},
+            {path:'/income/payment/establish3',name:'新增结算3',component:mode['FKestablish3']},
+            {path:'/income/payment/DetailsOfCollection',name:'收益结算详情',component:mode['FKDetailsOfCollection']},
+            {path:'/income/payment/DetailsOfCollection2',name:'收益结算详情2',component:mode['FKDetailsOfCollection2']},
+            {path:'/income/payment/DetailsOfCollection3',name:'收益结算详情2',component:mode['FKDetailsOfCollection3']},
+            {path:'/income/payment/ChangeRecord',name:'变更记录',component:mode['FKChangeRecord']},
+            {path:'/income/payment/Record',name:'变更记录',component:mode['FKRecord']},
+            {path:'/income/payment/DetailsSettlement',name:'结算方详情',component:mode['FKdetailsSettlement']},
+
 
 
         ]},
@@ -449,13 +493,10 @@ let leftNav =
             {title:'结算管理',url:'3',img:'&#xe60d;',list:[
                    {title:'设计师结算管理',url:'/income/settlement'},
 					{title:'收款结算',url:'/income/Receivables/Administration'},
+                    {title:'付款结算',url:'/income/payment/Administration'},
+                    {title:'预付款管理',url:'/income/AdvanceCharge/Administration'},
                 ]
 			},
-            {title:'预付款管理',url:'4',img:'&#xe60d;',list:[
-                    {title:'预付款管理',url:'/income/AdvanceCharge/Administration'},
-
-                ]
-            },
         ]
         },
 

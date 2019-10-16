@@ -974,4 +974,14 @@ export default {
     themes_theme_search:{
 		url:'themes/theme/search',method:'get'
 	},
+
+
+
+
+	//收益数据
+
+	//结算方列表
+	settle_settlement_search:{
+		url:"settle/settlement/search",method:"met",
+	},
 }
