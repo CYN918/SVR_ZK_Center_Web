@@ -148,6 +148,10 @@ import FKRecord from './views/income/payment/Record'
 mode['FKRecord']=FKRecord
 import FKdetailsSettlement from './views/income/payment/DetailsSettlement'
 mode['FKdetailsSettlement']=FKdetailsSettlement
+import SFAdministration from './views/income/SpecialFunds/SpecialFunds_Administration'
+mode['SFAdministration']=SFAdministration
+import ADDspecial from './views/income/SpecialFunds/ADDspecial'
+mode['ADDspecial']=ADDspecial
 
 
 
@@ -367,6 +371,8 @@ let nb = [
             {path:'/income/payment/ChangeRecord',name:'变更记录',component:mode['FKChangeRecord']},
             {path:'/income/payment/Record',name:'变更记录',component:mode['FKRecord']},
             {path:'/income/payment/DetailsSettlement',name:'结算方详情',component:mode['FKdetailsSettlement']},
+            {path:'/income/SpecialFunds/SpecialFunds_Administration',name:'特殊款管理',component:mode['SFAdministration']},
+            {path:'/income/SpecialFunds/ADDspecial',name:'特殊款管理',component:mode['ADDspecial']},
 
 
 
@@ -495,6 +501,7 @@ let leftNav =
 					{title:'收款结算',url:'/income/Receivables/Administration'},
                     {title:'付款结算',url:'/income/payment/Administration'},
                     {title:'预付款管理',url:'/income/AdvanceCharge/Administration'},
+                    {title:'特殊款管理',url:'/income/SpecialFunds/SpecialFunds_Administration'},
                 ]
 			},
         ]
