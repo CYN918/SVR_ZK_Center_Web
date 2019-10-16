@@ -209,11 +209,10 @@
                             arr.push(res.tags.split(',')[j])
                         }
                     }
-
                     this.tags=arr;
                     this.content=res.class;
                     this.main_preview=res.main_preview;
-                    this.pic=res.preview;
+                    this.pic=res.previews;
                     this.getsc();
                     this.getCon();
                 })
@@ -332,6 +331,8 @@
                 formData.append('name',this.name);
                 formData.append('type',this.type);
                 formData.append('class',this.content);
+                formData.append('note',this.note);
+                formData.append('tags',this.tags.join(','));
                 formData.append('materials',JSON.stringify(this.scID));
                 formData.append('main_preview',this.main_preview);
                 formData.append('previews',JSON.stringify(this.pic));
@@ -396,10 +397,9 @@
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
-                    this.pic.push(res.url);
+                    this.pic.unshift(res.url);
                 })
             },
-            upload(){},
             handleRemove(file, fileList) {
                 console.log(file, fileList);
             },
@@ -427,7 +427,7 @@
     .themeUpLeft{
         display: inline-block;
         width:883px;
-        height:852px;
+        min-height:852px;
         background: #fff;
         margin-right: 24px;
     }
@@ -754,5 +754,10 @@
     }
     .imgCanvas:hover .dels{
         opacity: 1;
+    }
+    .upPreview .el-upload{
+        position: absolute;
+        left: 0;
+        top:0;
     }
 </style>

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <sel v-if="sel" @linet="linet"></sel>
+        <sel v-if="sel" @listData="listData"></sel>
         <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="fh()">{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='theme_icon'?'图标主题素材':'二级页主题素材'}} &nbsp;/</span>
@@ -95,8 +95,9 @@
 
                 </div>
                 <div>
-                    <span>绑定主题素材</span>
-                    <a @click="jump()">从主题素材库选择</a>
+                    <span>绑定主题</span>
+                    <a @click="jump()" v-if="this.$route.query.thmid==undefined">从主题库选择</a>
+                    <a v-if="this.$route.query.thmid!=undefined">从主题库选择</a>
                     <input type="checkbox" class="check" v-model="is_material"/>
                     <span class="sm">与作品无关</span>
                     <span class="sm2">绑定制作图标的相关作品，千万不要填错了</span>
@@ -169,7 +170,7 @@
 </template>
 
 <script>
-    import sel from './select_material'
+    import sel from './select'
     export default {
         components:{sel},
         name: "theme_up",
@@ -244,13 +245,13 @@
                 })
             },
             getList(){
-                let params ={page:1,p:100000,type:'',search:'',tags:'',status:''};
-                this.api.themes_material_search({params}).then((res)=>{
+                let params ={page:1,p:100000,};
+                this.api.themes_theme_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     var list=[];
                     for(var i=0;i<this.IMGList.length;i++ ){
                         for(var j =0;j<this.scID.length;j++){
-                            if(this.IMGList[i].thmid==this.scID[j]){
+                            if(this.IMGList[i].thid==this.scID[j]){
                                 list.push(this.IMGList[i]);
                             }
                         }
@@ -296,7 +297,7 @@
                 this.$router.go(-1)
             },
 
-            linet(data){
+            listData(data){
                 this.scID=data;
                 this.getList();
             },
@@ -329,7 +330,7 @@
             jump(){
                this.sel=true;
             },
-            setJump(){
+            heidThm(){
                 this.sel=false;
             },
             Acctouns(){

@@ -26,7 +26,7 @@
                 </div>
                 <div>
                     <span >名称</span>
-                    <input type="text" placeholder="给主题起个名字" v-model="name">
+                    <input type="text" placeholder="给主题起个名字" v-model="name" maxlength="10">
                 </div>
                 <div style="margin-bottom: 0">
                     <span >附件</span>
@@ -58,7 +58,7 @@
 
                 <div>
                     <span style="vertical-align: top">备注描述</span>
-                    <textarea  placeholder="写个自我介绍，50字内" v-model="note"></textarea>
+                    <textarea  placeholder="写个自我介绍，50字内" v-model="note" maxlength="50"></textarea>
                 </div>
                 <div>
                     <span style="vertical-align: top">内容标签</span>
@@ -138,8 +138,6 @@
                                     :on-remove="handleRemove"
                                     :http-request="upYl"
                                     multiple
-                                    :limit="10"
-                                    :on-exceed="handleExceed"
                             >
                                 <el-button size="small" type="primary">点击上传</el-button>
                             </el-upload>
@@ -366,9 +364,7 @@
                     this.tag=da.data.self_tags;
                 })
             },
-            handleExceed(files, fileList) {
-                this.$message.warning(`当前限制选择1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-            },
+
             fh(){
                 this.$router.go(-1)
             },

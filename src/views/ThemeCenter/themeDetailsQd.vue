@@ -30,7 +30,7 @@
                 <span class="titName">ID:</span>
                 <span class="titCon">{{tableData.thid}}</span>
                 <span class="titName">创建时间:</span>
-                <span class="titCon">{{tableData.created_at}}</span>
+                <span class="titCon" style="width: 150px">{{tableData.created_at}}</span>
             </div>
             <div>
                 <span class="titName">内容分类:</span>

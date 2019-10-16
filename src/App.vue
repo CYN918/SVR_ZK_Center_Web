@@ -856,4 +856,7 @@ select{
 .tags_con_1 .el-checkbox+.el-checkbox{
   margin-left:0px;
 }
+.upPreview .el-upload-list{
+  display: none;
+}
 </style>
