@@ -362,6 +362,7 @@
         margin:24px;
         width:189px;
         height:315px;
+        vertical-align: top;
     }
     .imgID img{
         max-width:189px;

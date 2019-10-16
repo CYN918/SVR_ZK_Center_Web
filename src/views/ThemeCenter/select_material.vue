@@ -126,7 +126,6 @@
             getChannel(){
                 this.api.themes_config_channel().then((res)=>{
                     this.channel=res;
-
                     this.getCon();
                 })
             },

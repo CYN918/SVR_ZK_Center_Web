@@ -67,7 +67,7 @@
                 </div>
                 <div>
                     <span>资源版本号</span>
-                    <input type="version" placeholder="请输入上资源版本号">
+                    <input type="text" v-model="version" placeholder="请输入上资源版本号">
                 </div>
                 <div>
                     <span>上架账号</span>
@@ -89,7 +89,9 @@
                     <el-date-picker
                             v-model="tdate"
                             type="date"
-                            placeholder="选择日期">
+                            placeholder="选择日期"
+                            format="yyyy-mm-dd"
+                            value-format="yyyy-mm-dd">
                     </el-date-picker>
                 </div>
                 <div>
@@ -283,7 +285,8 @@
                 lockID:"",
                 iconID:'',
                 twoID:'',
-
+                wpid:'',
+                packages:[],
             }
         },
         mounted(){
@@ -483,6 +486,17 @@
                 for(var i=0;i<this.twoSC.length;i++){
                     arr.push(this.twoSC[i].thmid)
                 }
+                if(this.lockID!=''){
+                    this.packages.push(this.lockID);
+                    console.log(this.packages)
+                }
+                if(this.iconID!=''){
+                    this.packages.push(this.iconID)
+                }
+                if(this.twoID!=''){
+                    this.packages.push(this.twoID)
+                }
+                console.log(this.packages)
                 let formData =new FormData;
                 formData.append('thid',this.thid);
                 formData.append('wpid',this.wpid);
@@ -493,14 +507,13 @@
                 formData.append('price',this.price);
                 formData.append('tdate',this.tdate);
                 formData.append('note',this.note);
-                formData.append('class',this.content);
                 formData.append('materials',JSON.stringify(arr));
                 formData.append('channel_theme_name',this.channel_theme_name);
-                formData.append('tags',JSON.stringify(this.tags))
+                formData.append('tags',this.tags.join(','))
                 formData.append('main_preview',this.main_preview);
                 formData.append('previews',JSON.stringify(this.pic));
-                formData.append('attach',this.attach);
-                formData.append('packages',JSON.stringify([this.lockID,this.iconID,this.twoID]));
+                formData.append('attach',JSON.stringify(this.attach));
+                formData.append('packages',JSON.stringify(this.packages));
                 this.api.themes_theme_channel_add(formData).then((res)=>{
                     this.qx()
                 })

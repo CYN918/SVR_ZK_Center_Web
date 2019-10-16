@@ -443,6 +443,7 @@
     .phone{
         display: inline-block;
        margin-right: 40px;
+        margin-bottom: 30px;
     }
     .select_type span{
         display: inline-block;

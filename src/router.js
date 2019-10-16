@@ -337,6 +337,7 @@ let nb = [
 	},
     {path:'/ThemeCenter',name:'主题中心',component:mode['ThemeCenter'],children:[
             {path:'/ThemeCenter/themeCook',name:'主题库',component:mode['themeCook']},
+            {path:'/ThemeCenter/PackageDetails',name:'打包件详情',component:mode['PackageDetails']},
             {path:'/ThemeCenter/themeUp',name:'上传主题',component:mode['themeUp']},
             {path:'/ThemeCenter/themeDetails',name:'主题详情',component:mode['themeDetails']},
 			{path:'/ThemeCenter/themeLock',name:'锁屏',component:mode['themeLock']},

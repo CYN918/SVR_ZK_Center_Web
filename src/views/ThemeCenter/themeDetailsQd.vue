@@ -7,11 +7,12 @@
                 <span class="new_url"> &nbsp;渠道主题详情</span>
             </div>
             <div style="height: 60px ;border-bottom: 1px dashed #ddd">
-                <span class="ui">厂商UI版本</span>
-
+                <span class="ui" style="margin-right: 18px">厂商UI版本</span>
+                <span class="uiName" v-for="item in ui"  :class="{click:ui_version==item.version}" @click="selectBB(item.version)">{{item.version}}</span>
             </div>
             <div>
-                <span class="zy">资源版本号</span>
+                <span class="zy" style="margin-right: 18px">资源版本号</span>
+                <span class="uiName" v-for="item in zyBb"  :class="{click:version==item.version}" >{{item.version}}</span>
             </div>
         </div>
         <div style="margin-top: 250px;background: #fff;height:266px;padding:0 24px">
@@ -166,12 +167,19 @@
                 thid:this.$route.query.thid,
                 channel:this.$route.query.channel,
                 ch_thid:this.$route.query.ch_thid,
+                ui:[],
+                ui_version:"",
+                zyBb:[],
+                version:'',
             }
         },
         mounted(){
             this.getData()
         },
         methods:{
+            selectBB(data){
+                this.ui_version=data;
+            },
             fh(){
                 this.$router.go(-1);
             },
@@ -206,14 +214,29 @@
                 let params={thid:this.thid,ch_thid:this.ch_thid,channel:this.channel}
                 this.api.themes_theme_details({params}).then((res)=>{
                     this.tableData=res;
-                    console.log(this.tableData)
-                    this.getsc()
+                    this.ui_version=this.tableData.ui_version;
+                    this.version=this.tableData.version;
+                    this.getsc();
+                    this.getUI();
+                })
+            },
+            getUI(){
+                let params={channel:this.channel};
+                this.api.themes_config_channelui({params}).then((res)=>{
+                    this.ui=res;
+                    this.getThemeType();
                 })
             },
             getsc(){
                 let params={thid:this.thid,ch_thid:this.ch_thid,channel:this.channel}
                 this.api.themes_theme_materials({params}).then((res)=>{
                     this.sc=res;
+                })
+            },
+            getThemeType(){
+                let params={channel:this.channel,ui_version:this.ui_version};
+                this.api.themes_config_version({params}).then((res)=>{
+                    this.zyBb=res;
                 })
             },
         },
@@ -514,5 +537,23 @@
         font-weight:400;
         color:rgba(143,155,179,1);
         margin-top: 17px;
+    }
+    .uiName{
+        display: inline-block;
+        width:34px;
+        height:24px;
+        line-height: 24px;
+        text-align: center;
+        margin-right: 60px;
+        font-size:12px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(31,46,77,1);
+        cursor: pointer;
+    }
+    .click{
+        background:rgba(51,119,255,1);
+        border-radius:4px;
+        color: #fff!important;
     }
 </style>

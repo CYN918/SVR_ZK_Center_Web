@@ -179,7 +179,6 @@
         },
         methods:{
             fm(url){
-                alert(url)
                 this.main_preview=url;
             },
             fh(){
@@ -358,6 +357,7 @@
         background: #fff;
         margin-right: 24px;
         margin-left: 10%;
+        overflow-y:auto ;
     }
     .themeUpLeft>div{margin-bottom: 20px;margin-left: 60px;}
     .themeUpLeft>div>span{

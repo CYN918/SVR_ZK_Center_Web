@@ -222,7 +222,7 @@
         border: 0!important;
     }
     #tab2{
-        width:1616px;
+        /*width:1616px;*/
         min-height:175px!important;
         background:rgba(255,255,255,1);
         border-radius:2px;
