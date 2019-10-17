@@ -26,8 +26,8 @@
                         :cell-style="cell"
                 >
                     <el-table-column
-                            prop="sdk_id"
-                            label="结算放名称">
+                            prop="name"
+                            label="结算方名称">
                     </el-table-column>
                     <el-table-column
                             prop="pv"
@@ -39,7 +39,7 @@
                     <el-table-column
                             label="操作">
                         <template slot-scope="scope">
-                            <el-button  type="text" size="small" @click="ck(tableData[scope.$index].prid)">查看详情</el-button>
+                            <el-button  type="text" size="small" @click="ck(tableData[scope.$index].name)">查看详情</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -72,17 +72,20 @@
             }
         },
         mounted(){
-            // this.getData()
+            this.getData();
         },
         methods:{
              switchs(num){
                  this.is_receiver=num;
+                 this.getData()
              },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
+                this.getData()
             },
             handleCurrentChange(page) {//页码切换
                 this.page = page;
+                this.getData()
             },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
@@ -95,17 +98,18 @@
             cell({row, column, rowIndex, columnIndex}){
                 return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
-            ck(id){
+            ck(name){
                 this.$router.push({
                     path:"./YFdetails",
-                    qurey:{
-                        prid:id,
-                    }
+                    query:{
+                        name:name,
+                        is_receiver:this.is_receiver,
+                    },
                 })
             },
             getData(){
-                 let params={search:this.search,p:this.p,page:this.page,is_receiver:this.is_receiver}
-                 this.api.settle_prepayment_search({params}).then((res)=>{
+                 let params={search:this.search,p:this.p,page:this.page,is_receiver:this.is_receiver};
+                 this.api.settle_settlement_search({params}).then((res)=>{
                      this.tableData=res.data;
                      this.total=res.total;
                  })

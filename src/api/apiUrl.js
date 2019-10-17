@@ -990,19 +990,19 @@ export default {
 	},
 	//收/付款结算列表
     settlemanage_search:{
-		url:'settlemanage/search',method:"get",
+		url:'demandsettle/search',method:"get",
 	},
 	//添加收/付款结算
     settlemanage_check_add:{
-		url:'settlemanage/check/add',method:'post',isType:{suktip:1}
+		url:'demandsettle/check/add',method:'post',isType:{suktip:1}
 	},
 	//收/付款结算详情
     settlemanage_detail:{
-		url:'settlemanage/detail',method:'get'
+		url:'demandsettle/detail',method:'get'
 	},
     //添加收/付款结算(开票寄送)
     settlemanage_invoice_add:{
-		url:'settlemanage/invoice/add',method:'post',isType:{suktip:1}
+		url:'demandsettle/invoice/add',method:'post',isType:{suktip:1}
 	},
 	//预付款列表
     settle_prepayment_search:{
@@ -1027,5 +1027,13 @@ export default {
 	//根据合同编号获取合同信息
     common_contract:{
 		url:'common/contract',method:'get'
+	},
+	//添加预付款
+    settle_prepayment_add:{
+		url:"settle/prepayment/add",method:"post",isType:{suktip:1}
+	},
+	//删除预付款记录
+    settle_prepayment_del:{
+		url:'settle/prepayment/del',method:"post",isType:{suktip:1}
 	},
 }

@@ -10,7 +10,7 @@
         <div class="content">
             <div>
                 <span class="TitName">类型</span>
-                <span class="text"></span>
+                <span class="text">{{list.type}}</span>
             </div>
             <div>
                 <span  class="TitName">消耗金额</span>
@@ -18,11 +18,11 @@
             </div>
             <div>
                 <span  class="TitName">备注</span>
-                <span class="text"></span>
+                <span class="text">{{list.note}}</span>
             </div>
             <div>
                 <span  class="TitName">绑定结算单</span>
-                <span class="text"></span>
+                <span class="text">{{list.settle_id}}</span>
                 <span class="click">查看详情</span>
             </div>
             <div>
@@ -34,7 +34,20 @@
 
 <script>
     export default {
-        name: "change"
+        name: "change",
+        data(){
+            return{
+                list:{},
+            }
+        },
+        methods:{
+            getData(){
+                let params={prid:this.$route.query.prid};
+                this.api.settle_prepayment_detail({params}).then((res)=>{
+                    this.list=res
+                })
+            }
+        }
     }
 </script>
 

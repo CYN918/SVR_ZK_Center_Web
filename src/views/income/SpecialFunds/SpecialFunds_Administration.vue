@@ -69,7 +69,7 @@
             }
         },
         mounted(){
-            this.getData()
+            // this.getData()
         },
         methods:{
             switchs(num){

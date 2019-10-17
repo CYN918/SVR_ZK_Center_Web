@@ -17,7 +17,7 @@
                 </div>
                 <div>
                     <span class="money">预付款剩余金额：¥800,000</span>
-                    <span class="add">添加记录</span>
+                    <span class="add" @click="ADD()">添加记录</span>
                 </div>
             </div>
             <template>
@@ -27,21 +27,22 @@
                         :cell-style="cell"
                 >
                     <el-table-column
-                            prop="sdk_id"
+                            prop="name"
                             label="结算放名称">
                     </el-table-column>
                     <el-table-column
-                            prop="pv"
+                            prop="amount"
                             label="预付款金额">
                     </el-table-column>
                     <el-table-column
+                            prop="updated_at"
                             label="更新时间">
                     </el-table-column>
                     <el-table-column
                             label="操作">
                         <template slot-scope="scope">
-                            <el-button  type="text" size="small" @click="ck">查看详情</el-button>
-                            <el-button  type="text" size="small" >删除</el-button>
+                            <el-button  type="text" size="small" @click="ck(tableData[scope.$inde].prid)">查看详情</el-button>
+                            <el-button  type="text" size="small" @click="del(tableData[scope.$inde].prid)">删除</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -80,9 +81,11 @@
             },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
+                this.getData()
             },
             handleCurrentChange(page) {//页码切换
                 this.page = page;
+                this.getData()
             },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
@@ -95,15 +98,35 @@
             cell({row, column, rowIndex, columnIndex}){
                 return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
-            ck(){
+            ck(id){
                 this.$router.push({
-                    path:"./change"
+                    path:"./change",
+                    query:{
+                        prid:id,
+                    }
                 })
             },
             getData(){
-                let params = {prid:this.$route.query.prid};
-                this.api.settle_prepayment_detail({params}).then((res)=>{
-
+                let params = {search:this.$route.query.name,p:this.p,page:this.page,is_receiver:this.$route.query.is_receiver};
+                this.api.settle_prepayment_search({params}).then((res)=>{
+                    this.tableData=res.data;
+                    this.total=res.total;
+                })
+            },
+            del(id){
+                let formData=new FormData;
+                formData.append('prid',id);
+                this.api.settle_prepayment_del(formData).then((res)=>{
+                    this.getData()
+                })
+            },
+            ADD(){
+                this.$router.push({
+                    path:"./ADD",
+                    query:{
+                        is_receiver:this.$route.query.is_receiver,
+                        name:this.$route.query.name,
+                    },
                 })
             },
         },
