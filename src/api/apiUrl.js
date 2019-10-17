@@ -981,7 +981,39 @@ export default {
 	//收益数据
 
 	//结算方列表
-	settle_settlement_search:{
-		url:"settle/settlement/search",method:"met",
+    settle_settlement_search:{
+		url:"settle/settlement/search",method:"get",
+	},
+	//收/付款结算列表
+    settlemanage_search:{
+		url:'settlemanage/search',method:"get",
+	},
+	//添加收/付款结算
+    settlemanage_check_add:{
+		url:'settlemanage/check/add',method:'post',isType:{suktip:1}
+	},
+	//收/付款结算详情
+    settlemanage_detail:{
+		url:'settlemanage/detail',method:'get'
+	},
+    //添加收/付款结算(开票寄送)
+    settlemanage_invoice_add:{
+		url:'settlemanage/invoice/add',method:'post',isType:{suktip:1}
+	},
+	//预付款列表
+    settle_prepayment_search:{
+		url:'settle/prepayment/search',method:"get"
+	},
+	//特殊款项列表
+    settle_special_search:{
+		url:"settle/special/search",method:'get'
+	},
+	//添加特殊款项
+    settle_special_add:{
+		url:'settle/special/add',method:'post',isType:{suktip:1}
+	},
+	//添加结算方
+    settle_settlement_add:{
+		url:'settle/settlement/add',method:'post',isType:{suktip:1}
 	},
 }

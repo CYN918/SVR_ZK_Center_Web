@@ -87,7 +87,7 @@
             }
         },
         mounted(){
-            this.dataList();
+            this.Data();
         },
         methods:{
             fh(){
@@ -108,7 +108,6 @@
                     return ''
                 }
             },
-
             cell({row, column, rowIndex, columnIndex}){
                 return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
@@ -122,14 +121,14 @@
                     path:"./SettlementDetails"
                 })
             },
-            dataList(){
-                let params={p:this.p,page:this.page}
+            Data(){
+                let params={p:this.p,page:this.page,search:this.search};
                 this.api.settle_settlement_search({params}).then((res)=>{
                     this.tableData=res.data;
                     this.total=res.total;
                 })
             },
-        }
+        },
     }
 </script>
 

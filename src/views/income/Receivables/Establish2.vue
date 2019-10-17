@@ -28,11 +28,11 @@
             <div style="text-align: center" class="fill">
                 <div>
                     <span class="fillName">物流单号</span>
-                    <input type="text" class="input">
+                    <input type="text" class="input" v-model="express_id">
                 </div>
                 <div>
                     <span class="fillName">备注说明</span>
-                    <textarea></textarea>
+                    <textarea v-model="note"></textarea>
                 </div>
                 <div>
                     <div style="display: inline-block;width: 84px;margin-right: 20px">
@@ -64,7 +64,13 @@
     export default {
         name: "establish",
         data(){
-            return{}
+            return{
+                id:1,
+                is_receiver:1,
+                express_id:"",
+                note:"",
+                attachs:[],
+            }
         },
         methods:{
             fh(){
@@ -81,7 +87,7 @@
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
-
+                    this.attachs.push(res);
                 })
             },
             js(){
@@ -90,9 +96,16 @@
                 })
             },
             ADD(){
-                this.$router.push({
-                    path:"./establish3"
+                let formData=new FormData;
+                formData.append('id',this.id);
+                formData.append('is_receiver',this.is_receiver);
+                formData.append('express_id',this.express_id);
+                formData.append('note',this.note);
+                formData.append('attachs',JSON.stringify(this.attachs));
+                this.api.settlemanage_invoice_add(formData).then((res)=>{
+
                 })
+
             },
         }
     }

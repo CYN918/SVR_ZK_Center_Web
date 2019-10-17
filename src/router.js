@@ -152,6 +152,10 @@ import SFAdministration from './views/income/SpecialFunds/SpecialFunds_Administr
 mode['SFAdministration']=SFAdministration
 import ADDspecial from './views/income/SpecialFunds/ADDspecial'
 mode['ADDspecial']=ADDspecial
+import special_edit from './views/income/SpecialFunds/special_edit'
+mode['special_edit']=special_edit
+import AddEdit from './views/income/SpecialFunds/AddEdit'
+mode['AddEdit']=AddEdit
 
 
 
@@ -373,6 +377,8 @@ let nb = [
             {path:'/income/payment/DetailsSettlement',name:'结算方详情',component:mode['FKdetailsSettlement']},
             {path:'/income/SpecialFunds/SpecialFunds_Administration',name:'特殊款管理',component:mode['SFAdministration']},
             {path:'/income/SpecialFunds/ADDspecial',name:'特殊款管理',component:mode['ADDspecial']},
+            {path:'/income/SpecialFunds/special_edit',name:'特殊款详情',component:mode['special_edit']},
+            {path:'/income/SpecialFunds/AddEdit',name:'添加特殊款',component:mode['AddEdit']},
 
 
 

@@ -66,7 +66,7 @@
                 </div>
                 <div class="fillBtn">
                     <span class="tj" @click="ADD">提交</span>
-                    <span>取消</span>
+                    <span @click="fh(-1)">取消</span>
                 </div>
             </div>
         </div>
@@ -100,9 +100,7 @@
                 })
             },
             ADD(){
-                this.$router.push({
-                    path:"./establish2"
-                })
+
             }
         }
     }

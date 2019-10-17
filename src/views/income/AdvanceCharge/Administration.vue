@@ -5,15 +5,15 @@
                 <span>收款结算</span>
             </div>
             <div class="user">
-                <div class="sk" :class="{check:select==0}" @click="switchs(0)">
+                <div class="sk" :class="{check:is_receiver==1}" @click="switchs(1)">
                     收款方
                 </div>
-                <div class="fk" :class="{check:select==1}" @click="switchs(1)">
+                <div class="fk" :class="{check:is_receiver==0}" @click="switchs(0)">
                     付款方
                 </div>
                 <div class="seach">
                     <img src="../../../../public/img/ss.png">
-                    <input type="text" placeholder="搜索关键词">
+                    <input type="text" placeholder="搜索关键词" v-model="search">
                 </div>
                 <span class="cx">查询</span>
             </div>
@@ -63,16 +63,20 @@
         name: "administration",
         data(){
             return{
-                select:0,
                 p:10,
                 page:1,
                 total:0,
-                tableData:[{pv:0}]
+                tableData:[{pv:0}],
+                is_receiver:1,
+                search:"",
             }
+        },
+        mounted(){
+            this.getData()
         },
         methods:{
              switchs(num){
-                 this.select=num;
+                 this.is_receiver=num;
              },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
@@ -95,6 +99,13 @@
                 this.$router.push({
                     path:"./YFdetails"
                 })
+            },
+            getData(){
+                 let params={search:this.search,p:this.p,page:this.page,is_receiver:this.is_receiver}
+                 this.api.settle_prepayment_search({params}).then((res)=>{
+                     this.tableData=res.data;
+                     this.total=res.total;
+                 })
             },
         },
     }

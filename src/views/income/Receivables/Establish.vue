@@ -30,14 +30,14 @@
                 <div>
                     <span class="fillName">结算方名称</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
-                        <input type="text" class="input">
+                        <input type="text" class="input" v-model="name">
                     </div>
 
                 </div>
                 <div>
                     <span class="fillName">结算方</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
-                        <input type="text" class="input">
+                        <input type="text" class="input" v-model="statement">
                         <span class="click" @click="massgae()">查看结算方信息</span>
                     </div>
                 </div>
@@ -51,8 +51,8 @@
                                     range-separator="至"
                                     start-placeholder="开始日期"
                                     end-placeholder="结束日期"
-                                    format="yyyy-mm-dd"
-                                    value-format="yyyy-mm-dd"
+                                    format="yyyy-MM-dd"
+                                    value-format="yyyy-MM-dd"
                             >
                             </el-date-picker>
                         </div>
@@ -60,21 +60,21 @@
                 </div>
                 <div>
                     <span class="fillName">预计结算金额</span>
-                    <div style="display: inline-block;width: 593px;text-align: left">
-                        <input type="number" class="input">
+                    <div style="display: inline-block;width: 593px;text-align: left" >
+                        <input type="number" class="input" v-model="expect_amount">
                         <span class="click">查看预计结算金额</span>
                     </div>
                 </div>
                 <div>
                     <span class="fillName">实际结算金额</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
-                        <input type="number" class="input">
+                        <input type="number" class="input" v-model="real_amount">
                     </div>
                 </div>
                 <div>
                     <span class="fillName">备注说明</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
-                        <textarea></textarea>
+                        <textarea v-model="note"></textarea>
                     </div>
                 </div>
                 <div>
@@ -98,7 +98,7 @@
                 </div>
                 <div class="fillBtn">
                     <span class="tj" @click="ADD">提交</span>
-                    <span>取消</span>
+                    <span @click="fh(-1)">取消</span>
                 </div>
             </div>
         </div>
@@ -113,7 +113,14 @@
         data(){
             return{
                 msg:false,
-                time:""
+                time:[],
+                name:"",
+                statement:"",
+                is_receiver:"1",
+                expect_amount:"",
+                real_amount:"",
+                note:"",
+                attachs:[],
             }
         },
         methods:{
@@ -131,13 +138,24 @@
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
-
+                    this.attachs.push(res);
                 })
             },
             ADD(){
-                this.$router.push({
-                    path:"./establish2"
+                let formData = new FormData;
+                formData.append('name',this.name);
+                formData.append('statement',this.statement);
+                formData.append('is_receiver',this.is_receiver);
+                formData.append('tstart',this.time[0]);
+                formData.append('tend',this.time[1]);
+                formData.append('expect_amount',this.expect_amount);
+                formData.append('real_amount',this.real_amount);
+                formData.append('note',this.note);
+                formData.append('attachs',JSON.stringify(this.attachs));
+                this.api.settlemanage_check_add(formData).then((res)=>{
+                   this.fh(-1);
                 })
+
             },
             massgae(){this.msg=true},
             heidMassage(){

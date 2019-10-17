@@ -13,44 +13,44 @@
         <div class="tableBox">
             <div>
                 <span class="titName">结算方名称</span>
-                <input type="text" class="input">
+                <input type="text" class="input" v-model="name">
             </div>
             <div>
                 <span  class="titName">生成对账时间</span>
                 <span class="titText">每月</span>
-                <select>
-                    <option>01</option>
+                <select v-model="tdate">
+                    <option v-for="item in num" :value="item">{{item}}</option>
                 </select>
-                <input type="checkbox" class="check">
+                <input type="checkbox" class="check" v-model="is_auto">
                 <span class="titText">不自动生成</span>
             </div>
             <div>
                 <span  class="titName">开户名</span>
-                <input type="text" class="input">
+                <input type="text" class="input" v-model="account_name">
             </div>
             <div>
                 <span  class="titName">银行账号</span>
-                <input type="text" class="input">
+                <input type="text" class="input" v-model="bank_card_id">
             </div>
             <div>
                 <span  class="titName">开户银行</span>
-                <input type="text" class="input">
+                <input type="text" class="input" v-model="bank_name">
             </div>
             <div>
                 <span  class="titName">税号</span>
-                <input type="text" class="input">
+                <input type="text" class="input" v-model="tax_id">
             </div>
             <div>
                 <span  class="titName">联系人</span>
-                <input type="text" class="input">
+                <input type="text" class="input" v-model="contact">
             </div>
             <div>
                 <span  class="titName">联系电话</span>
-                <input type="text" class="input">
+                <input type="text" class="input" v-model="phone">
             </div>
             <div>
                 <span  class="titName" style="vertical-align: top">备注</span>
-                <textarea></textarea>
+                <textarea v-model="note"></textarea>
             </div>
             <div style="margin-bottom:20px">
                 <span  class="titName" >相关合同</span>
@@ -61,7 +61,7 @@
                 <span class="ADDs" @click="ADDfj()">上传</span>
             </div>
             <div class="ADDbtn">
-                <span class="tj">添加</span>
+                <span class="tj" @click="ADDdata()">添加</span>
                 <span >取消</span>
             </div>
         </div>
@@ -92,14 +92,14 @@
                 </div>
                 <div class="uplaod">
                     <el-upload
-                         class="upload-demo"
-                        :limit="1"
-                        :on-exceed="handleExceed"
-                        :on-remove="handleRemove"
-                        :http-request="uploadFile"
-                        action="111">
+                            class="upload-demo"
+                            :limit="1"
+                            :on-exceed="handleExceed"
+                            :on-remove="handleRemove"
+                            :http-request="uploadFile"
+                            action="111">
                         <el-button size="small" type="primary">选择文件</el-button>
-                     </el-upload>
+                    </el-upload>
                 </div>
                 <div class="content_btn">
                     <span class="btn_tj">添加</span>
@@ -117,7 +117,27 @@
             return{
                 ht:false,
                 fj:false,
+                name:'',
+                tdate:'',
+                is_auto:"",
+                account_name:"",
+                bank_card_id:"",
+                bank_name:"",
+                tax_id:"",
+                contact:"",
+                phone:"",
+                note:"",
+                contracts:"",
+                attachs:"",
+                num:[""]
             }
+        },
+        mounted(){
+
+            for(var i=0;i<32;i++){
+                this.num.push(i+1);
+            }
+
         },
         methods:{
             fh(num){
@@ -134,7 +154,7 @@
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
-
+                    this.attachs.push(res);
                 })
             },
             ADDht(){
@@ -148,7 +168,26 @@
             },
             heidHT(){
                 this.ht=false;
-            }
+            },
+            ADDdata(){
+                let formData=new FormData;
+                formData.append('name',this.name);
+                formData.append('is_receiver',0);
+                formData.append('tdate',this.tdate);
+                formData.append('is_auto',this.is_auto);
+                formData.append('account_name',this.account_name);
+                formData.append('bank_card_id',this.bank_card_id);
+                formData.append('bank_name',this.bank_name);
+                formData.append('tax_id',this.tax_id);
+                formData.append('contact',this.contact);
+                formData.append('phone',this.phone);
+                formData.append('note',this.note);
+                formData.append('contracts',this.contracts);
+                formData.append('attachs',JSON.stringify(this.attachs));
+                this.api.settle_settlement_add(formData).then((res)=>{
+
+                })
+            },
         }
     }
 </script>

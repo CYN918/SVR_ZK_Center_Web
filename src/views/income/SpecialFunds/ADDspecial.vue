@@ -9,23 +9,25 @@
         <div class="content">
             <div>
                 <span>结算方</span>
-                <select style="margin-top: 29px">
-                    <option></option>
+                <select style="margin-top: 29px" v-model="name">
+                    <option v-for="item in list" :value="item.name">{{item.name}}</option>
                 </select>
             </div>
             <div>
                 <span>支出金额</span>
-                <input type="text">
+                <input type="text" v-model="amount">
             </div>
             <div>
                 <span>状态</span>
-                <select>
-                    <option></option>
+                <select v-model="status">
+                    <option value="0">待确定</option>
+                    <option value="1">已支出</option>
+                    <option value="-1">已作废</option>
                 </select>
             </div>
             <div>
                 <span style="vertical-align: top">备注</span>
-               <textarea></textarea>
+               <textarea v-model="note"></textarea>
             </div>
             <div>
                 <span>附件</span>
@@ -41,6 +43,10 @@
                     </el-upload>
                 </div>
             </div>
+            <div class="contentBtn">
+                <span class="tj" @click="ADD()">添加</span>
+                <span @click="fh()">取消</span>
+            </div>
         </div>
     </div>
 </template>
@@ -49,9 +55,22 @@
     export default {
         name: "a-d-dspecial",
         data(){
-            return{}
+            return{
+                name:'',
+                status:"",
+                amount:"",
+                note:'',
+                list:[],
+                attachs:[],
+            }
+        },
+        mounted(){
+            this.setList()
         },
         methods:{
+            fh(){
+                this.$router.go(-1)
+            },
             handleExceed(files, fileList) {
                 this.$message.warning(`当前限制选择1个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
             },
@@ -63,9 +82,26 @@
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
-
+                    this.attachs.push(res);
                 })
             },
+            setList(){
+                let params={p:500,page:1}
+                this.api.settle_settlement_search({params}).then((res)=>{
+                    this.list=res.data
+                })
+            },
+            ADD(){
+                let formData=new FormData;
+                formData.append('name',this.name);
+                formData.append('status',this.status);
+                formData.append('amount',this.amount);
+                formData.append('note',this.note);
+                formData.append('attachs',JSON.stringify(this.attachs));
+                this.api.settle_special_add(formData).then((res)=>{
+
+                })
+            }
         }
     }
 </script>
@@ -130,7 +166,25 @@
         display: inline-block;
         width:96px;
     }
-   .content .uplaod .upload-demo{
-        width: 100%;
+    .contentBtn>span{
+        display: inline-block!important;
+        width:68px!important;
+        height:36px!important;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(31,46,77,1);
+        line-height: 36px;
+        text-align: center!important;
+        cursor: pointer;
+    }
+    .tj{
+        color: #fff!important;
+        background: #3377ff!important;
+        border: none!important;
+        margin:24px 24px  0 140px !important;
     }
 </style>

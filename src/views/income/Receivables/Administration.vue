@@ -18,9 +18,9 @@
                 </div>
                 <div class="seach">
                     <img src="../../../../public/img/ss.png">
-                    <input type="text" placeholder="搜索结算方名称">
+                    <input type="text" placeholder="搜索结算方名称" v-model="search">
                 </div>
-                <span class="cx">查询</span>
+                <span class="cx" @click="getDataList()">查询</span>
                 <span class="clear" @click="establish">新建结算</span>
                 <span class="sf" @click="jump()">收款结算方管理</span>
             </div>
@@ -34,31 +34,35 @@
                             :cell-style="cell"
                             >
                         <el-table-column
-                                prop="sdk_id"
+                                prop="id"
                                 label="结算单ID">
                         </el-table-column>
                         <el-table-column
-                                prop="pv"
+                                prop="creator"
                                 label="结算方名称">
                         </el-table-column>
                         <el-table-column
-                                prop="ratio"
+                                prop="status"
                                 label="状态">
                         </el-table-column>
                         <el-table-column
+                                prop="status"
                                 label="结算时间段">
-
+                                <template slot-scope="scope">
+                                    <span>{{tableData[scope.$index].check.tstart}}--</span>
+                                    <span>{{tableData[scope.$index].check.tend}}</span>
+                                </template>
                         </el-table-column>
                         <el-table-column
-                                prop="created_at"
+                                prop="check.expect_amount"
                                 label="预计结算金额">
                         </el-table-column>
                         <el-table-column
-                                prop="had_replace"
+                                prop="check.real_amount"
                                 label="实际结算金额">
                         </el-table-column>
                         <el-table-column
-                                prop="sucess_ratio"
+                                prop="remit"
                                 label="实际到账金额">
                         </el-table-column>
                         <el-table-column
@@ -90,19 +94,25 @@
         name: "administration",
         data(){
             return{
-                value:"",
+                value:[(new Date()).toLocaleDateString().split('/').join('-'),(new Date()).toLocaleDateString().split('/').join('-')],
                 page:1,
                 p:10,
                 total:0,
+                search:'',
                 tableData:[{pv:0}],
             }
+        },
+        mounted(){
+            this.getDataList()
         },
         methods:{
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
+                this.getDataList()
             },
             handleCurrentChange(page) {//页码切换
                 this.page = page;
+                this.getDataList()
             },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
@@ -128,6 +138,13 @@
             details(){
                 this.$router.push({
                     path:"./DetailsOfCollection"
+                })
+            },
+            getDataList(){
+                let params={search:this.search,is_receiver:'1',tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page}
+                this.api.settlemanage_search({params}).then((res)=>{
+                    this.tableData=res.data;
+                    this.total=res.total;
                 })
             },
         }

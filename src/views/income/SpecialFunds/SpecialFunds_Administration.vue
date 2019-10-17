@@ -7,9 +7,9 @@
             <div class="user">
                 <div class="seach">
                     <img src="../../../../public/img/ss.png">
-                    <input type="text" placeholder="搜索关键词">
+                    <input type="text" placeholder="搜索关键词" v-model="search">
                 </div>
-                <span class="cx">查询</span>
+                <span class="cx" @click="getData()">查询</span>
                 <span class="cx" @click="ADD">添加</span>
             </div>
         </div>
@@ -64,8 +64,12 @@
                 p:10,
                 page:1,
                 total:0,
-                tableData:[{pv:0}]
+                tableData:[{pv:0}],
+                search:"",
             }
+        },
+        mounted(){
+            this.getData()
         },
         methods:{
             switchs(num){
@@ -73,9 +77,11 @@
             },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
+                this.getData()
             },
             handleCurrentChange(page) {//页码切换
                 this.page = page;
+                this.getData()
             },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
@@ -90,12 +96,19 @@
             },
             ck(){
                 this.$router.push({
-                    path:"./YFdetails"
+                    path:"./special_edit"
                 })
             },
             ADD(){
                 this.$router.push({
                     path:"./ADDspecial"
+                })
+            },
+            getData(){
+                let params={p:this.page,page:this.page,search:this.search}
+                this.api.settle_special_search({params}).then((res)=>{
+                    this.tableData=res.data;
+                    this.total=res.total;
                 })
             },
         },
