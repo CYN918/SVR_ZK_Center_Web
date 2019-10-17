@@ -71,6 +71,9 @@
                 tableData:[{pv:0}],
             }
         },
+        mounted(){
+            this.getData()
+        },
         methods:{
             fh(){
                 this.$router.go(-1)
@@ -95,6 +98,12 @@
             ck(){
                 this.$router.push({
                     path:"./change"
+                })
+            },
+            getData(){
+                let params = {prid:this.$route.query.prid};
+                this.api.settle_prepayment_detail({params}).then((res)=>{
+
                 })
             },
         },

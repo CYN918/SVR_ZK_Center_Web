@@ -26,11 +26,11 @@
                         :cell-style="cell"
                 >
                     <el-table-column
-                            prop="sdk_id"
+                            prop="name"
                             label="结算方名称">
                     </el-table-column>
                     <el-table-column
-                            prop="pv"
+                            prop="account_name"
                             label="开户名">
                     </el-table-column>
                     <el-table-column
@@ -48,6 +48,7 @@
                         </template>
                     </el-table-column>
                     <el-table-column
+                            prop="updated_at"
                             label="更新时间">
 
                     </el-table-column>
@@ -95,11 +96,11 @@
             },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
-                this.dataList();
+                this.Data();
             },
             handleCurrentChange(page) {//页码切换
                 this.page = page;
-                this.dataList();
+                this.Data();
             },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
@@ -122,7 +123,7 @@
                 })
             },
             Data(){
-                let params={p:this.p,page:this.page,search:this.search};
+                let params={p:this.p,page:this.page,search:this.search,is_receiver:1};
                 this.api.settle_settlement_search({params}).then((res)=>{
                     this.tableData=res.data;
                     this.total=res.total;

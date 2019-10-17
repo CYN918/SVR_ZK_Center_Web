@@ -156,7 +156,8 @@ import special_edit from './views/income/SpecialFunds/special_edit'
 mode['special_edit']=special_edit
 import AddEdit from './views/income/SpecialFunds/AddEdit'
 mode['AddEdit']=AddEdit
-
+import ADD from './views/income/AdvanceCharge/ADD'
+mode['ADD']=ADD
 
 
 
@@ -361,6 +362,7 @@ let nb = [
             {path:'/income/AdvanceCharge/Administration',name:'预付款管理',component:mode['Administrations']},
             {path:'/income/AdvanceCharge/YFdetails',name:'预付款详情',component:mode['YFdetails']},
             {path:'/income/AdvanceCharge/change',name:'预付款变更详情',component:mode['change']},
+            {path:'/income/AdvanceCharge/ADD',name:'添加记录',component:mode['ADD']},
 
             {path:'/income/payment/Administration',name:'收款结算 ',component:mode['FKAdministration']},
             {path:'/income/payment/ReceiverManagement',name:'收款方结算 ',component:mode['FKReceiverManagement']},

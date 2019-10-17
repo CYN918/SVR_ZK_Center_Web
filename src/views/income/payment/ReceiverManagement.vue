@@ -26,11 +26,11 @@
                         :cell-style="cell"
                 >
                     <el-table-column
-                            prop="sdk_id"
+                            prop="name"
                             label="结算方名称">
                     </el-table-column>
                     <el-table-column
-                            prop="pv"
+                            prop="account_name"
                             label="开户名">
                     </el-table-column>
                     <el-table-column
@@ -48,6 +48,7 @@
                         </template>
                     </el-table-column>
                     <el-table-column
+                            prop="updated_at"
                             label="更新时间">
 
                     </el-table-column>
@@ -123,9 +124,10 @@
                 })
             },
             dataList(){
-                let params={p:this.p,page:this.page}
+                let params={p:this.p,page:this.page,is_receiver:0,search:this.search};
                 this.api.settle_settlement_search({params}).then((res)=>{
                     this.tableData=res.data;
+                    console.log(res.data);
                     this.total=res.total;
                 })
             },

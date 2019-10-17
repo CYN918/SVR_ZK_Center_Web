@@ -7,39 +7,39 @@
             </div>
             <div>
                 <span class="Name">结算方名称</span>
-                <span class="text"></span>
+                <span class="text">{{data.name}}</span>
             </div>
             <div>
                 <span class="Name">生成对账时间</span>
-                <span class="text">ssssssss</span>
+                <span class="text">{{data.tdate}}</span>
             </div>
             <div>
                 <span class="Name">开户名</span>
-                <span class="text"></span>
+                <span class="text">{{data.account_name}}</span>
             </div>
             <div>
                 <span class="Name">银行账号</span>
-                <span class="text"></span>
+                <span class="text">{{data.bank_card_id}}</span>
             </div>
             <div>
                 <span class="Name">开户银行</span>
-                <span class="text"></span>
+                <span class="text">{{data.bank_name}}</span>
             </div>
             <div>
                 <span class="Name">税号</span>
-                <span class="text"></span>
+                <span class="text">{{data.tax_id}}</span>
             </div>
             <div>
                 <span class="Name">联系人</span>
-                <span class="text"></span>
+                <span class="text">{{data.contact}}</span>
             </div>
             <div>
                 <span class="Name">联系电话</span>
-                <span class="text"></span>
+                <span class="text">{{data.phone}}</span>
             </div>
             <div>
                 <span class="Name">备注</span>
-                <span class="text"></span>
+                <span class="text">{{data.note}}</span>
             </div>
             <div>
                 <span class="Name">相关合同</span>
@@ -61,7 +61,7 @@
 
             </div>
             <div>
-                <span class="Name">已绑定数据来源主体</span>
+                <span class="Name">附件</span>
                 <div  style="display: inline-block">
                     <div>
                         <span class="text"></span>
@@ -78,15 +78,23 @@
 
 <script>
     export default {
+        props:['name'],
         name: "details-settlement",
         data(){
             return{
-
+                data:{},
             }
         },
+        mounted(){this.getData()},
         methods:{
             heidMassage(){
                 this.$parent.heidMassage()
+            },
+            getData(){
+                let params={name:this.name,is_receiver:0};
+                this.api.settle_settlement_detail({params}).then((res)=>{
+                    this.data=res
+                })
             }
         }
 

@@ -71,17 +71,17 @@
                     <span>添加合同</span>
                 </div>
                 <div>
-                    <input type="text" class="content_input"/>
-                    <span class="content_seach">查询</span>
+                    <input type="text" class="content_input" v-model="contract_id"/>
+                    <span class="content_seach" @click="getHT()">查询</span>
                 </div>
-                <div style="margin: 14px 20px">
-                    <div style="display: inline-block;width: 200px;height: 20px;overflow-x:auto "></div>
+                <div style="margin: 14px 20px" v-for="item in list">
+                    <div style="display: inline-block;width: 200px;height: 20px;overflow:hidden">{{item.contract_name}}</div>
                     <span class="content_ck">查看</span>
-                    <span class="content_xz">下载</span>
+                    <a class="content_xz">下载</a>
                 </div>
                 <div class="content_btn">
-                    <span class="btn_tj">添加</span>
-                    <span @click="heidHT()">取消</span>
+                    <span class="btn_tj" @click="heidHT()">添加</span>
+                    <span @click="heidHTs()">取消</span>
                 </div>
             </div>
         </div>
@@ -102,7 +102,7 @@
                     </el-upload>
                 </div>
                 <div class="content_btn">
-                    <span class="btn_tj">添加</span>
+                    <span class="btn_tj" @click="heidFj()">添加</span>
                     <span @click="heidFj()">取消</span>
                 </div>
             </div>
@@ -128,13 +128,15 @@
                 phone:"",
                 note:"",
                 contracts:"",
-                attachs:"",
-                num:[""]
+                attachs:[],
+                num:[""],
+                contract_id:"",
+                list:[],
             }
         },
         mounted(){
 
-            for(var i=0;i<32;i++){
+            for(var i=0;i<31;i++){
                 this.num.push(i+1);
             }
 
@@ -168,8 +170,24 @@
             },
             heidHT(){
                 this.ht=false;
+                this.contracts.push(this.contract_id)
+            },
+            heidHTs(){
+                this.ht=false;
+                this.contract_id='';
+            },
+            getHT(){
+                let params={contract_id:this.contract_id};
+                this.api.common_contract({params}).then((res)=>{
+                    this.list=res;
+                })
             },
             ADDdata(){
+                if(this.is_auto==false){
+                    this.is_auto=0;
+                }else {
+                    this.is_auto=1;
+                }
                 let formData=new FormData;
                 formData.append('name',this.name);
                 formData.append('is_receiver',0);
@@ -182,7 +200,7 @@
                 formData.append('contact',this.contact);
                 formData.append('phone',this.phone);
                 formData.append('note',this.note);
-                formData.append('contracts',this.contracts);
+                formData.append('contracts',JSON.stringify(this.contracts));
                 formData.append('attachs',JSON.stringify(this.attachs));
                 this.api.settle_settlement_add(formData).then((res)=>{
 

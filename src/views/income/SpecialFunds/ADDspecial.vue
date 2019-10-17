@@ -86,7 +86,7 @@
                 })
             },
             setList(){
-                let params={p:500,page:1}
+                let params={p:500,page:1,is_receiver:2};
                 this.api.settle_settlement_search({params}).then((res)=>{
                     this.list=res.data
                 })

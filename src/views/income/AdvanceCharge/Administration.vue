@@ -39,7 +39,7 @@
                     <el-table-column
                             label="操作">
                         <template slot-scope="scope">
-                            <el-button  type="text" size="small" @click="ck">查看详情</el-button>
+                            <el-button  type="text" size="small" @click="ck(tableData[scope.$index].prid)">查看详情</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -72,7 +72,7 @@
             }
         },
         mounted(){
-            this.getData()
+            // this.getData()
         },
         methods:{
              switchs(num){
@@ -95,9 +95,12 @@
             cell({row, column, rowIndex, columnIndex}){
                 return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
-            ck(){
+            ck(id){
                 this.$router.push({
-                    path:"./YFdetails"
+                    path:"./YFdetails",
+                    qurey:{
+                        prid:id,
+                    }
                 })
             },
             getData(){

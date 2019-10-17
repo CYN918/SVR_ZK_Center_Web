@@ -984,6 +984,10 @@ export default {
     settle_settlement_search:{
 		url:"settle/settlement/search",method:"get",
 	},
+	//结算方详情
+    settle_settlement_detail:{
+		url:'settle/settlement/detail',method:"get"
+	},
 	//收/付款结算列表
     settlemanage_search:{
 		url:'settlemanage/search',method:"get",
@@ -1015,5 +1019,13 @@ export default {
 	//添加结算方
     settle_settlement_add:{
 		url:'settle/settlement/add',method:'post',isType:{suktip:1}
+	},
+	//预付款详情
+    settle_prepayment_detail:{
+		url:'settle/prepayment/detail',method:"get"
+	},
+	//根据合同编号获取合同信息
+    common_contract:{
+		url:'common/contract',method:'get'
 	},
 }
