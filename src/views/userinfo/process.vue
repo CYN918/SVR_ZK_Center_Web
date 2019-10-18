@@ -152,6 +152,88 @@
 
             </div>
         </div>
+        <div class="centNavBox_4">
+            <div class="center">
+                <span>收款结算流程</span>
+            </div>
+            <div class="steplist">
+                <div class="step" v-for="(item,index) in SKlist">
+                    <div style="display: inline-block">
+                        <span class="step_box">{{item.status}}</span>
+                        <span class="step_text">{{item.status_name}}</span>
+                        <div class="step_name">
+                            <div class="step_img" v-for="(da,index2) in item.user">
+                                <span class="step_txt"  @mouseenter="delXS3(index,index2)" @mouseleave="leave()">{{da.user_name}}
+                                    <img src="../../../public/img/del.png" style="width: 16px;opacity:0" :class="{getImg:(num3==index2&&nums3==index)}" @click="del(da.user_id,item.id)"/>
+                                </span>
+                            </div>
+                            <div class="add" @click="getBan3(index)">
+                                <span class="step_add"><img src="../../../public/img/add_msg.png" style="width: 12px;margin-top: 12px"></span>
+                                <span class="step_add_txt">添加</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-if="item.status!=4" style="width: 120px;height: 2px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
+                </div>
+                <div class="banner bannerTop" v-if="ban3" :style="{left:this.left+'px'}">
+                    <span class="tit">负责人</span>
+                    <div>
+                        <input  type="text" v-model="search" @change="getAccountList()"/>
+                        <div></div>
+                    </div>
+                    <div class="add_name">
+                        <p v-for="(item,index) in this.tableData" @click="userName(index)">{{item.user_name}}</p>
+                    </div>
+                    <div class="banner_btn">
+                        <span class="qd" @click="ADDuserName('demand_settle_receive')">确定</span>
+                        <span @click="heidBan">取消</span>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="centNavBox_5">
+            <div class="center">
+                <span>付款结算流程</span>
+            </div>
+            <div class="steplist">
+                    <div class="step" v-for="(item,index) in FKlist">
+                    <div style="display: inline-block">
+                        <span class="step_box">{{item.status}}</span>
+                        <span class="step_text">{{item.status_name}}</span>
+                        <div class="step_name">
+                            <div class="step_img" v-for="(da,index2) in item.user">
+                                <span class="step_txt"  @mouseenter="delXS4(index,index2)" @mouseleave="leave()">{{da.user_name}}
+                                    <img src="../../../public/img/del.png" style="width: 16px;opacity:0" :class="{getImg:(num4==index2&&nums4==index)}" @click="del(da.user_id,item.id)"/>
+                                </span>
+                            </div>
+                            <div class="add" @click="getBan4(index)">
+                                <span class="step_add"><img src="../../../public/img/add_msg.png" style="width: 12px;margin-top: 12px"></span>
+                                <span class="step_add_txt">添加</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-if="item.status!=4" style="width: 120px;height: 2px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
+                </div>
+                <div class="banner bannerTop" v-if="ban4" :style="{left:this.left+'px'}">
+                    <span class="tit">负责人</span>
+                    <div>
+                        <input  type="text" v-model="search" @change="getAccountList()"/>
+                        <div></div>
+                    </div>
+                    <div class="add_name">
+                        <p v-for="(item,index) in this.tableData" @click="userName(index)">{{item.user_name}}</p>
+                    </div>
+                    <div class="banner_btn">
+                        <span class="qd" @click="ADDuserName('demand_settle_paying')">确定</span>
+                        <span @click="heidBan">取消</span>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
         <div class="bg" v-if="title">
             <div class="content">
                 <div class="tit_sm">
@@ -190,13 +272,21 @@
                 user_id:'',
                 ban1:false,
                 ban2:false,
+                ban3:false,
+                ban4:false,
                 TXlist:[],
+                SKlist:[],
+                FKlist:[],
                 num:null,
                 nums:null,
                 num1:null,
                 nums1:null,
                 num2:null,
                 nums2:null,
+                num3:null,
+                nums3:null,
+                num4:null,
+                nums4:null,
                 left:'',
             }
         },
@@ -218,6 +308,8 @@
                     this. getConductorList();
                     this. wlConductorList();
                     this.txConductorList();
+                    this.ReceivablesList();
+                    this.paymentList();
                 })
             },
             getConductorList(){
@@ -235,10 +327,22 @@
                 })
             },
             txConductorList(){
-                let params= {demand_type:'demand_apply',};
+                let params= {demand_type:'demand_apply'};
                 this.api.process_list({params}).then((res)=>{
                     console.log(res);
                     this.TXlist = res;
+                })
+            },
+            ReceivablesList(){
+                let params= {demand_type:'demand_settle_receive'};
+                this.api.process_list({params}).then((res)=>{
+                    this.SKlist = res;
+                })
+            },
+            paymentList(){
+                let params= {demand_type:'demand_settle_paying'};
+                this.api.process_list({params}).then((res)=>{
+                    this.FKlist = res;
                 })
             },
             ADDuserName(demandType,type){
@@ -254,9 +358,13 @@
                         this. getConductorList();
                         this.wlConductorList();
                         this.txConductorList();
+                        this.ReceivablesList();
+                        this.paymentList();
                         this.ban = false;
                         this.ban1 = false;
                         this.ban2 = false;
+                        this.ban3 = false;
+                        this.ban4 = false;
                         this.left='';
                         this.search='';
                         this.tableData=[];
@@ -275,9 +383,13 @@
                         this. getConductorList();
                         this.wlConductorList();
                         this.txConductorList();
+                        this.ReceivablesList();
+                        this.paymentList();
                         this.ban = false;
                         this.ban1 = false;
                         this.ban2 = false;
+                        this.ban3 = false;
+                        this.ban4 = false;
                         this.left=''
                         this.search='';
                         this.tableData=[];
@@ -292,6 +404,8 @@
                 this.left=this.index*276;
                 this.ban2=false;
                 this.ban1=false;
+                this.ban3=false;
+                this.ban4=false;
             },
             getBan1(index){
                 this.ban1=true;
@@ -299,6 +413,8 @@
                 this.left=this.index*276;
                 this.ban=false;
                 this.ban2=false;
+                this.ban3=false;
+                this.ban4=false;
 
             },
             getBan2(index){
@@ -306,6 +422,27 @@
                 this.index=index;
                 this.left=this.index*276;
                 this.ban1=false;
+                this.ban3=false;
+                this.ban4=false;
+                this.ban=false;
+
+            },
+            getBan3(index){
+                this.ban3=true;
+                this.index=index;
+                this.left=this.index*276;
+                this.ban1=false;
+                this.ban2=false;
+                this.ban=false;
+
+            },
+            getBan4(index){
+                this.ban4=true;
+                this.index=index;
+                this.left=this.index*276;
+                this.ban1=false;
+                this.ban2=false;
+                this.ban3=false;
                 this.ban=false;
 
             },
@@ -373,6 +510,8 @@
                     this. getConductorList();
                     this. wlConductorList();
                     this.txConductorList();
+                    this.ReceivablesList();
+                    this.paymentList();
                 })
             },
             delXS(da,index){
@@ -387,6 +526,14 @@
                 this.nums2 =da ;
                 this.num2= index;
             },
+            delXS3(da,index){
+                this.nums3 =da ;
+                this.num3= index;
+            },
+            delXS4(da,index){
+                this.nums4 =da ;
+                this.num4= index;
+            },
             leave(){
                 this.nums=null;
                 this.num= null;
@@ -394,6 +541,10 @@
                 this.num1= null;
                 this.nums2=null;
                 this.num2= null;
+                this.nums3=null;
+                this.num3= null;
+                this.nums4=null;
+                this.num4= null;
             }
         },
     }
@@ -420,17 +571,17 @@
         transform: translate(-50%,-50%);
         overflow-y: auto;
     }
-    .centNavBox,.centNavBox_2,.centNavBox_3{
+    .centNavBox,.centNavBox_2,.centNavBox_3,.centNavBox_4,.centNavBox_5{
         width: 100%;
         -webkit-box-sizing: border-box;
         box-sizing: border-box;
         background: #FFF;
         margin-top:194px;
     }
-    .centNavBox_3{
+    .centNavBox_3,.centNavBox_4,.centNavBox_4,.centNavBox_5{
         min-height: 552px;
     }
-    .centNavBox_2,.centNavBox_3{margin-top:24px!important;}
+    .centNavBox_2,.centNavBox_3,.centNavBox_4,.centNavBox_5{margin-top:24px!important;}
     .top_name{
         height: 109px;
         z-index: 99;
