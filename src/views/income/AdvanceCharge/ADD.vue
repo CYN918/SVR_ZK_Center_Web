@@ -42,8 +42,8 @@
                 </div>
             </div>
             <div>
-                <span class="tj">添加</span>
-                <span class="boxBtn">取消</span>
+                <span class="tj" @clisk="ADDdata()">添加</span>
+                <span class="boxBtn" @click="fh()">取消</span>
             </div>
         </div>
     </div>
@@ -76,8 +76,29 @@
                     this.attachs.push(res);
                 })
             },
+            fh(){this.$router.go(-1)},
             ADDdata(){
                 if(this.type==1){
+                    if(!this.type){
+                        this.$message.error("类型不能为空");
+                        return
+                    }
+                    if(!this.amount){
+                        this.$message.error("预付款金额不能为空");
+                        return
+                    }
+                    if(!this.note){
+                        this.$message.error("备注不能为空");
+                        return
+                    }
+                    if(this.attachs==[]){
+                        this.$message.error("附件不能为空");
+                        return
+                    }
+                    if(!this.settle_id){
+                        this.$message.error("绑定结算单不能为空");
+                        return
+                    }
                     var formData=new FormData;
                     formData.append('name',this.$route.query.name);
                     formData.append('type',this.type);
@@ -86,18 +107,40 @@
                     formData.append('settle_id',this.settle_id);
                     formData.append('note',this.note);
                     formData.append('attachs',JSON.stringify(this.attachs));
-                }else{
-                     var formData=new FormData;
-                    formData.append('name',this.$route.query.name);
-                    formData.append('type',this.type);
-                    formData.append('is_receiver',this.$route.query.is_receiver);
-                    formData.append('amount',this.amount);
-                    formData.append('note',this.note);
-                    formData.append('attachs',JSON.stringify(this.attachs));
+                }else {
+                    if (this.type == 1) {
+                        if (!this.type) {
+                            this.$message.error("类型不能为空");
+                            return
+                        }
+                        if (!this.amount) {
+                            this.$message.error("预付款金额不能为空");
+                            return
+                        }
+                        if (!this.note) {
+                            this.$message.error("备注不能为空");
+                            return
+                        }
+                        if (this.attachs == []) {
+                            this.$message.error("附件不能为空");
+                            return
+                        }
+                        if (this.attachs == []) {
+                            this.$message.error("附件不能为空");
+                            return
+                        }
+                        var formData = new FormData;
+                        formData.append('name', this.$route.query.name);
+                        formData.append('type', this.type);
+                        formData.append('is_receiver', this.$route.query.is_receiver);
+                        formData.append('amount', this.amount);
+                        formData.append('note', this.note);
+                        formData.append('attachs', JSON.stringify(this.attachs));
+                    }
+                    this.api.settle_prepayment_add(formData).then((res) => {
+                        this.$router.go(-1)
+                    })
                 }
-                this.api.settle_prepayment_add(formData).then((res)=>{
-
-                })
             },
         }
     }

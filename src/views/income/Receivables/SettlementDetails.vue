@@ -89,6 +89,9 @@
             this.getData()
         },
         methods:{
+            fh(num){
+                this.$router.go(num)
+            },
             getData(){
                 let params={name:this.$route.query.name,is_receiver:1};
                 this.api.settle_settlement_detail({params}).then((res)=>{

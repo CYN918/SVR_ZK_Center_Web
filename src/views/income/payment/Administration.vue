@@ -21,8 +21,8 @@
                     <input type="text" placeholder="搜索结算方名称" v-model="search">
                 </div>
                 <span class="cx" @click="getDataList()">查询</span>
-                <span class="clear" @click="establish">新建结算</span>
-                <span class="sf" @click="jump()">收款结算方管理</span>
+                <span class="clear" @click="establish" :class="{Jurisdiction:this.controlBtn}">新建结算</span>
+                <span class="sf" @click="jump()">付款结算方管理</span>
             </div>
         </div>
         <div class="table">
@@ -101,9 +101,21 @@
                 tableData:[{pv:0}],
                 is_receiver:0,
                 search:"",
+                control:[],
+                controlBtn:false,
             }
         },
         mounted(){
+            this.control=JSON.parse(localStorage.getItem('control'));
+            if(this.control.length==0){
+                this.controlBtn=true;
+            }else {
+                for (var i = 0; i < this.control.length; i++) {
+                    if (this.control[i].uri_key == 'uri.settlement.settle.add') {
+                        this.controlBtn = false;
+                    }
+                }
+            }
             this.getData()
         },
         methods:{
@@ -227,5 +239,7 @@
         margin-top: 204px;
         background: #fff;
     }
-
+.Jurisdiction{
+    display: none;
+}
 </style>

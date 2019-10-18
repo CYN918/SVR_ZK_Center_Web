@@ -30,10 +30,11 @@
                             label="结算方名称">
                     </el-table-column>
                     <el-table-column
-                            prop="pv"
+                            prop="remain_amount"
                             label="预付款金额">
                     </el-table-column>
                     <el-table-column
+                            prop="updated_at"
                             label="更新时间">
                     </el-table-column>
                     <el-table-column

@@ -2,11 +2,10 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" >收款结算 &nbsp;/</span>
-                <span class="new_url">&nbsp;收款结算方管理</span>
+                <span class="log_url" @click="fh('-2')">付款结算 &nbsp;/</span>
+                <span class="new_url" @click="fh('-1')">&nbsp;付款结算方管理</span>
             </div>
-            <div class="title_left" @click="fh()">
-                <img src="../../../../public/img/fh.png">
+            <div class="title_left" >
                 <span>分成详情</span>
             </div>
             <div style="margin-top: 20px">
@@ -92,8 +91,8 @@
             this.dataList();
         },
         methods:{
-            fh(){
-                this.$router.go(-1)
+            fh(num){
+                this.$router.go(num)
             },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;

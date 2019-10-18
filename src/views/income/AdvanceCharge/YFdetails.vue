@@ -6,7 +6,6 @@
                 <span class="new_url">&nbsp;预付款详情</span>
             </div>
             <div class="title_left">
-                <img src="../../../../public/img/fh.png"  @click="fh()">
                 <span>预付款详情</span>
             </div>
         </div>
@@ -31,7 +30,7 @@
                             label="结算放名称">
                     </el-table-column>
                     <el-table-column
-                            prop="amount"
+                            prop="remain_amount"
                             label="预付款金额">
                     </el-table-column>
                     <el-table-column

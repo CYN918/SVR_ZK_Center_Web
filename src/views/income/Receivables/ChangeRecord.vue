@@ -2,7 +2,7 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh('-1')">收款结算 &nbsp;/</span>
+                <span class="log_url" @click="fh('-2')">收款结算 &nbsp;/</span>
                 <span class="log_url" @click="fh('-1')">收款结算详情 &nbsp;/</span>
                 <span class="new_url">&nbsp;变更记录</span>
             </div>

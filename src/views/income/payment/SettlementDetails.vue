@@ -2,8 +2,8 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh('-2')">收款结算 &nbsp;/</span>
-                <span class="log_url" @click="fh('-1')">&nbsp;收款结算方管理 &nbsp;/</span>
+                <span class="log_url" @click="fh('-2')">付款结算 &nbsp;/</span>
+                <span class="log_url" @click="fh('-1')">&nbsp;付款结算方管理 &nbsp;/</span>
                 <span class="new_url">&nbsp;结算方详情</span>
             </div>
             <div class="title_left">
@@ -89,6 +89,9 @@
             this.getData()
         },
         methods:{
+            fh(num){
+                this.$router.go(num)
+            },
             getData(){
                 let params={name:this.$route.query.name,is_receiver:0};
                 this.api.settle_settlement_detail({params}).then((res)=>{
