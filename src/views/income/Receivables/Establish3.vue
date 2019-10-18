@@ -3,10 +3,12 @@
         <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="fh('-1')">收款结算 &nbsp;/</span>
-                <span class="new_url">&nbsp;新建收款结算</span>
+                <span class="new_url" v-if="this.$route.query.id==undefined">&nbsp;新建收款结算</span>
+                <span class="new_url" v-if="this.$route.query.id!=undefined">&nbsp;编辑收款结算</span>
             </div>
             <div class="title_left">
-                <span>新建收款结算</span>
+                <span v-if="this.$route.query.id==undefined">新建收款结算</span>
+                <span v-if="this.$route.query.id!=undefined">编辑收款结算</span>
             </div>
         </div>
         <div class="tableBox">

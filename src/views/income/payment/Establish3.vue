@@ -1,6 +1,5 @@
 <template>
     <div>
-        <DS v-if="msg" :name="name"></DS>
         <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="fh('-1')">付款结算 &nbsp;/</span>
@@ -14,90 +13,56 @@
         </div>
         <div class="tableBox">
             <div style="text-align: center;margin-bottom: 40px;max-width: 893px;border-bottom: 1px solid #ddd;position: relative;left: 50%;transform: translateX(-50%)">
-                <div style="margin-right: 350px;text-align: center;border-bottom: 1px solid #3377ff;display: inline-block">
+                <div style="margin-right: 350px;text-align: center;display: inline-block">
                     <div class="box boxs">1</div>
                     <span class="boxName">对账确认</span>
                 </div>
                 <div style="margin-right: 350px;text-align: center;display: inline-block">
-                    <div class="box ">2</div>
+                    <div class="box boxs">2</div>
                     <span class="boxName">票据凭证</span>
                 </div>
-                <div style="text-align: center;display: inline-block">
-                    <div class="box">3</div>
+                <div style="text-align: center;display: inline-block;border-bottom: 1px solid #3377ff;">
+                    <div class="box boxs">3</div>
                     <span class="boxName">结算汇款</span>
                 </div>
 
             </div>
             <div style="text-align: center" class="fill">
                 <div>
-                    <span class="fillName">结算单名称</span>
-                    <div style="display: inline-block;width: 593px;text-align: left">
-                        <input type="text" class="input" v-model="statement">
-                    </div>
-
+                    <span class="fillName">实际到账金额</span>
+                    <input type="text" class="input" v-model="receive_amount">
                 </div>
                 <div>
-                    <span class="fillName">结算方</span>
-                    <div style="display: inline-block;width: 593px;text-align: left">
-                        <select v-model="name">
-                            <option v-for="item in list" :value="item.name">{{item.name}}</option>
-                        </select>
-                        <span class="click" @click="massgae()">查看结算方信息</span>
-                    </div>
-                </div>
-                <div>
-                    <span class="fillName">结算时间段</span>
-                    <div style="display: inline-block;width: 593px;text-align: left">
-                        <div class="fillTime">
-                            <el-date-picker
-                                    v-model="time"
-                                    type="daterange"
-                                    range-separator="至"
-                                    start-placeholder="开始日期"
-                                    end-placeholder="结束日期"
-                                    format="yyyy-MM-dd"
-                                    value-format="yyyy-MM-dd"
-                            >
-                            </el-date-picker>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <span class="fillName">预计结算金额</span>
-                    <div style="display: inline-block;width: 593px;text-align: left" >
-                        <input type="number" class="input" v-model="expect_amount">
-                        <span class="click">查看预计结算金额</span>
-                    </div>
-                </div>
-                <div>
-                    <span class="fillName">实际结算金额</span>
-                    <div style="display: inline-block;width: 593px;text-align: left">
-                        <input type="number" class="input" v-model="real_amount">
+                    <span class="fillName">到账时间</span>
+                    <div class="fillTime">
+                        <el-date-picker
+                                v-model="receive_tdate"
+                                type="date"
+                                placeholder="请以银行到账时间为准"
+                                format="yyyy-mm-dd"
+                                value-format="yyyy-mm-dd">
+                        </el-date-picker>
                     </div>
                 </div>
                 <div>
                     <span class="fillName">备注说明</span>
-                    <div style="display: inline-block;width: 593px;text-align: left">
-                        <textarea v-model="note"></textarea>
-                    </div>
+                    <textarea v-model="note"></textarea>
                 </div>
                 <div>
                     <div style="display: inline-block;width: 84px;margin-right: 20px">
                         <img src="../../../../public/img/wh.png" style="margin-right: 6px;cursor: pointer">
                         <span class="fj">附件</span>
                     </div>
-                    <div style="display: inline-block;width: 593px;text-align: left">
-                        <div class="uplaod">
-                            <el-upload
-                                    class="upload-demo"
-                                    :limit="1"
-                                    :on-exceed="handleExceed"
-                                    :on-remove="handleRemove"
-                                    :http-request="uploadFile"
-                                    action="111">
-                                <el-button size="small" type="primary">上传文件</el-button>
-                            </el-upload>
-                        </div>
+                    <div class="uplaod">
+                        <el-upload
+                                class="upload-demo"
+                                :limit="1"
+                                :on-exceed="handleExceed"
+                                :on-remove="handleRemove"
+                                :http-request="uploadFile"
+                                action="111">
+                            <el-button size="small" type="primary">上传文件</el-button>
+                        </el-upload>
                     </div>
                 </div>
                 <div class="fillBtn">
@@ -110,28 +75,20 @@
 </template>
 
 <script>
-    import DS from './DetailsSettlement'
     export default {
-        components:{DS},
         name: "establish",
         data(){
             return{
-                msg:false,
                 time:[],
-                name:"",
-                statement:"",
-                is_receiver:"0",
-                expect_amount:"",
-                real_amount:"",
                 note:"",
                 attachs:[],
-                list:[],
+                receive_amount:"",
+                receive_tdate:"",
             }
         },
         mounted(){
-            this.getData();
             if(this.$route.query.id!=undefined){
-                this.getList();
+                this.getList()
             }
         },
         methods:{
@@ -149,123 +106,46 @@
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
-                    this.attachs.push(res);
+                    this.attachs.push(res)
+                })
+            },
+            getList(){
+                let params={is_receiver:1,id:this.$route.query.id};
+                this.api.settlemanage_detail({params}).then((res)=>{
+                    this.receive_amount=res.remit.receive_amount;
+                    this.note=res.remit.note;
+                    this.receive_tdate=res.remit.receive_tdate;
+                    this.attachs=res.remit.attachs;
                 })
             },
             ADD(){
-                if(this.$route.query.id!=undefined){
-                    this.setData();
-                    return
-                }
-                if(!this.name){
-                    this.$message.error('结算方不能为空');
-                    return
-                }
-                if(!this.statement){
-                    this.$message.error('结算单名称不能为空');
-                    return
-                }
-                if(this.time==[]){
-                    this.$message.error('结算时间段不能为空');
-                    return
-                }
-                if(!this.expect_amount){
-                    this.$message.error('预计结算金额不能为空');
-                    return
-                }
-                if(!this.real_amount){
-                    this.$message.error('实际结算金额不能为空');
+                if(!this.receive_amount){
+                    this.$message.error('实际到账金额不能为空');
                     return
                 }
                 if(!this.note){
                     this.$message.error('备注不能为空');
                     return
                 }
+                if(!this.receive_tdate){
+                    this.$message.error('实际到账时间不能为空');
+                    return
+                }
                 if(this.attachs==[]){
                     this.$message.error('附件不能为空');
                     return
                 }
-                let formData = new FormData;
-                formData.append('name',this.name);
-                formData.append('statement',this.statement);
-                formData.append('is_receiver',this.is_receiver);
-                formData.append('tstart',this.time[0]);
-                formData.append('tend',this.time[1]);
-                formData.append('expect_amount',this.expect_amount);
-                formData.append('real_amount',this.real_amount);
+                let formData=new FormData;
                 formData.append('note',this.note);
+                formData.append('id',this.$route.query.id);
+                formData.append('is_receiver',1);
+                formData.append('receive_amount',this.receive_amount);
+                formData.append('receive_tdate',this.receive_tdate);
                 formData.append('attachs',JSON.stringify(this.attachs));
-                this.api.settlemanage_check_add(formData).then((res)=>{
-                    this.fh(-1);
+                this.api.demandsettle_remit_edit(formData).then((res)=>{
+                    this.$router.go(-1)
                 })
-
-            },
-            massgae(){this.msg=true},
-            heidMassage(){
-                this.msg=false
-            },
-            getData(){
-                let params={is_receiver:0,paeg:1,p:5000};
-                this.api.settle_settlement_search({params}).then((res)=>{
-                    this.list=res.data;
-                })
-            },
-            getList(){
-                let params={is_receiver:0,id:this.$route.query.id};
-                this.api.settlemanage_detail({params}).then((res)=>{
-                    this.statement=res.check.statement;
-                    this.name=res.check.name;
-                    this.time[0]=res.check.tstart;
-                    this.time[1]=res.check.tend;
-                    this.expect_amount=res.check.expect_amount;
-                    this.real_amount=res.check.real_amount;
-                    this.note=res.check.note;
-                    this.attachs=res.check.attachs;
-                })
-            },
-            setData(){
-                if(!name){
-                    this.$message.error('结算方不能为空');
-                    return
-                }
-                if(!statement){
-                    this.$message.error('结算单名称不能为空');
-                    return
-                }
-                if(time==[]){
-                    this.$message.error('结算时间段不能为空');
-                    return
-                }
-                if(!expect_amount){
-                    this.$message.error('预计结算金额不能为空');
-                    return
-                }
-                if(!real_amount){
-                    this.$message.error('实际结算金额不能为空');
-                    return
-                }
-                if(!note){
-                    this.$message.error('备注不能为空');
-                    return
-                }
-                if(attachs==[]){
-                    this.$message.error('附件不能为空');
-                    return
-                }
-                let formData = new FormData;
-                formData.append('name',this.name);
-                formData.append('statement',this.statement);
-                formData.append('is_receiver',this.is_receiver);
-                formData.append('tstart',this.time[0]);
-                formData.append('tend',this.time[1]);
-                formData.append('expect_amount',this.expect_amount);
-                formData.append('real_amount',this.real_amount);
-                formData.append('note',this.note);
-                formData.append('attachs',JSON.stringify(this.attachs));
-                this.api.demandsettle_check_edit(formData).then((res)=>{
-                    this.$router.go(-1);
-                })
-            },
+            }
         }
     }
 </script>
@@ -351,7 +231,7 @@
     .fillTime{display: inline-block;
         width:467px
     }
-    .fillTime .filtrate .timesDate .content_table .time .el-date-editor.el-input, .el-date-editor.el-input__inner{
+    .fillTime .el-date-editor.el-input, .el-date-editor.el-input__inner{
         width: 100%;
     }
     textarea{
@@ -394,21 +274,5 @@
         border: none!important;
         margin-right: 20px;
         margin-bottom: 50px;
-    }
-    .click{
-        display: inline-block;
-        margin-left: 12px;
-        font-size:14px;
-        cursor: pointer;
-        font-family:PingFang-SC-Medium,PingFang-SC;
-        font-weight:500;
-        color:rgba(51,119,255,1);
-    }
-    select{
-        width:467px;
-        height:36px;
-        background:rgba(255,255,255,1);
-        border-radius:4px;
-        border:1px solid rgba(211,219,235,1);
     }
 </style>

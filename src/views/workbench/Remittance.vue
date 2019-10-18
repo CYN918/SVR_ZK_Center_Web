@@ -1,36 +1,37 @@
 <template>
-    <div>
-        <div class="top">
-            <div class="tit_top_url">
-                <span class="log_url" @click="fh('-1')">付款结算 &nbsp;/</span>
-                <span class="new_url" v-if="this.$route.query.id==undefined">&nbsp;新建付款结算</span>
-                <span class="new_url" v-if="this.$route.query.id!=undefined">&nbsp;编辑付款结算</span>
-            </div>
-            <div class="title_left">
-                <span v-if="this.$route.query.id==undefined">新建付款结算</span>
-                <span v-if="this.$route.query.id!=undefined">编辑付款结算</span>
-            </div>
-        </div>
+    <div class="bg">
         <div class="tableBox">
             <div style="text-align: center;margin-bottom: 40px;max-width: 893px;border-bottom: 1px solid #ddd;position: relative;left: 50%;transform: translateX(-50%)">
                 <div style="margin-right: 350px;text-align: center;display: inline-block">
                     <div class="box boxs">1</div>
                     <span class="boxName">对账确认</span>
                 </div>
-                <div style="margin-right: 350px;text-align: center;display: inline-block;border-bottom: 1px solid #3377ff">
-                    <div class="box  boxs">2</div>
+                <div style="margin-right: 350px;text-align: center;display: inline-block">
+                    <div class="box boxs">2</div>
                     <span class="boxName">票据凭证</span>
                 </div>
-                <div style="text-align: center;display: inline-block">
-                    <div class="box">3</div>
+                <div style="text-align: center;display: inline-block;border-bottom: 1px solid #3377ff;">
+                    <div class="box boxs">3</div>
                     <span class="boxName">结算汇款</span>
                 </div>
 
             </div>
             <div style="text-align: center" class="fill">
                 <div>
-                    <span class="fillName">物流单号</span>
-                    <input type="text" class="input" v-model="express_id">
+                    <span class="fillName">实际到账金额</span>
+                    <input type="text" class="input" v-model="receive_amount">
+                </div>
+                <div>
+                    <span class="fillName">到账时间</span>
+                    <div class="fillTime">
+                        <el-date-picker
+                                v-model="receive_tdate"
+                                type="date"
+                                placeholder="请以银行到账时间为准"
+                                format="yyyy-mm-dd"
+                                value-format="yyyy-mm-dd">
+                        </el-date-picker>
+                    </div>
                 </div>
                 <div>
                     <span class="fillName">备注说明</span>
@@ -38,7 +39,7 @@
                 </div>
                 <div>
                     <div style="display: inline-block;width: 84px;margin-right: 20px">
-                        <img src="../../../../public/img/wh.png" style="margin-right: 6px;cursor: pointer">
+                        <img src="../../../public/img/wh.png" style="margin-right: 6px;cursor: pointer">
                         <span class="fj">附件</span>
                     </div>
                     <div class="uplaod">
@@ -54,7 +55,7 @@
                     </div>
                 </div>
                 <div class="fillBtn">
-                    <span class="tj" @click="setData()">提交</span>
+                    <span class="tj" @click="ADD">提交</span>
                     <span @click="fh()">取消</span>
                 </div>
             </div>
@@ -65,92 +66,70 @@
 <script>
     export default {
         name: "establish",
+        props:['skID','skType','status'],
         data(){
             return{
-                attachs:[],
+                time:[],
                 note:"",
-                express_id:"",
+                attachs:[],
+                receive_amount:"",
+                receive_tdate:"",
+                is_receiver:"",
             }
         },
-        mounted(){
-            if(this.$route.query.id!=undefined){
-                this.getList();
-            }
-        },
+
         methods:{
             fh(){
-                this.$router.go(-1)
-            },
-            handleExceed(files, fileList) {
-                this.$message.warning(`当前限制选择1个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-            },
-            handleRemove(file, fileList) {
-                this.file = '';
-                this.initiate2 = false
-            },
-            uploadFile(file){
-                let formData = new FormData;
-                formData.append('file',file.file);
-                this.api.file_upload(formData).then((res)=>{
-                    this.attachs.push(res);
-                })
-            },
-            js(){
-                this.$router.push({
-                    path:"./Administration"
-                })
+                this.$parent.heidADDRemit();
             },
 
-            getList(){
-                let params={is_receiver:0,id:this.$route.query.id};
-                this.api.settlemanage_detail({params}).then((res)=>{
-                    this.express_id=res.invoice.express_id;
-                    this.note=res.invoice.note;
-                    this.attachs=res.invoice.attachs;
-                })
-            },
-            setData(){
-
-                if(!this.express_id){
-                    this.$message.error('物流单号不能为空');
+            ADD(){
+                if(!this.receive_amount){
+                    this.$message.error('实际到账金额不能为空');
                     return
                 }
                 if(!this.note){
                     this.$message.error('备注不能为空');
                     return
                 }
+                if(!this.receive_tdate){
+                    this.$message.error('实际到账时间不能为空');
+                    return
+                }
                 if(this.attachs==[]){
                     this.$message.error('附件不能为空');
                     return
                 }
+                if(this.skType=='收款结算'){
+                    this.is_receiver=1
+                }else{
+                    this.is_receiver=0
+                }
                 let formData=new FormData;
                 formData.append('note',this.note);
-                formData.append('is_receiver',0);
-                formData.append('express_id',this.express_id);
-                formData.append('id',this.$route.query.id);
+                formData.append('id',this.skID);
+                formData.append('status',this.status);
+                formData.append('receive_amount',this.receive_amount);
+                formData.append('receive_tdate',this.receive_tdate);
                 formData.append('attachs',JSON.stringify(this.attachs));
-                this.api.demandsettle_invoice_edit(formData).then((res)=>{
-                    this.$router.go(-1);
+                this.api.demand_settle_audit(formData).then((res)=>{
+                    this.fh();
                 })
-            },
+            }
         }
     }
 </script>
 
 <style scoped>
-    .top{
+    .bg{
         width: 100%;
-        height:98px;
-        border-top: 1px solid #ededed;
-        background: white;
-        -webkit-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.04);
-        box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.04);
+        height: 100%;
+        background: rgba(0,0,0,0.3);
         position: fixed;
-        left: 256px;
-        top: 63px;
-        z-index: 99;
+        z-index: 999;
+        bottom: 0;
+        right: 0;
     }
-    .new_url{color: rgba(61,73,102,1)!important;}
 
     .title_left span{
         display: inline-block;
@@ -163,10 +142,18 @@
         cursor: pointer;
     }
     .tableBox{
-        margin-top: 182px;
+        position: absolute;
+        left: 50%;
+        top: 40%;
+        -webkit-transform: translate(-50%,-50%);
+        transform: translate(-50%,-50%);
+        border-radius: 4px;
+        text-align: center;
+        background: rgba(0,0,0,0);
         background: #fff;
         padding-top:48px ;
         min-height: 600px;
+        width: 1020px;
     }
     .box{
         width:32px;
@@ -219,7 +206,7 @@
     .fillTime{display: inline-block;
         width:467px
     }
-    .fillTime .filtrate .timesDate .content_table .time .el-date-editor.el-input, .el-date-editor.el-input__inner{
+    .fillTime .el-date-editor.el-input, .el-date-editor.el-input__inner{
         width: 100%;
     }
     textarea{

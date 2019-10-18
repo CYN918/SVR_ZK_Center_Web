@@ -12,6 +12,8 @@
                         <option value="demand_business">业务需求</option>
                         <option value="demand_material">素材需求</option>
                         <option value="demand_apply">设计师结算</option>
+                        <option value="demand_settle_receive">收款结算</option>
+                        <option value="demand_settle_paying">付款师结算</option>
                     </select>
                     <span>所处流程</span>
                     <select v-model="status">

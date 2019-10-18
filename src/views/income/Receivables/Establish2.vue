@@ -114,8 +114,8 @@
             },
             setData(){
 
-                if(!this.real_amount){
-                    this.$message.error('实际结算金额不能为空');
+                if(!this.express_id){
+                    this.$message.error('物流单号不能为空');
                     return
                 }
                 if(!this.note){

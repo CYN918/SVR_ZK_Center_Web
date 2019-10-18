@@ -1064,4 +1064,12 @@ export default {
     settle_settlement_status:{
 		url:'settle/settlement/status',method:"post",isType:{suktip:1}
 	},
+	//结算审核通过
+    demand_settle_audit:{
+		url:'demand/settle/audit',method:"post",isType:{suktip:1,reload:1}
+	},
+	//需求审核作废
+    demand_cancel:{
+		url:'demand/cancel',method:"post",isType:{suktip:1,reload:1}
+	},
 }

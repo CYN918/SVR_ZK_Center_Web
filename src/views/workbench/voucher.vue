@@ -1,16 +1,5 @@
 <template>
-    <div>
-        <div class="top">
-            <div class="tit_top_url">
-                <span class="log_url" @click="fh('-1')">付款结算 &nbsp;/</span>
-                <span class="new_url" v-if="this.$route.query.id==undefined">&nbsp;新建付款结算</span>
-                <span class="new_url" v-if="this.$route.query.id!=undefined">&nbsp;编辑付款结算</span>
-            </div>
-            <div class="title_left">
-                <span v-if="this.$route.query.id==undefined">新建付款结算</span>
-                <span v-if="this.$route.query.id!=undefined">编辑付款结算</span>
-            </div>
-        </div>
+    <div class="bg">
         <div class="tableBox">
             <div style="text-align: center;margin-bottom: 40px;max-width: 893px;border-bottom: 1px solid #ddd;position: relative;left: 50%;transform: translateX(-50%)">
                 <div style="margin-right: 350px;text-align: center;display: inline-block">
@@ -38,7 +27,7 @@
                 </div>
                 <div>
                     <div style="display: inline-block;width: 84px;margin-right: 20px">
-                        <img src="../../../../public/img/wh.png" style="margin-right: 6px;cursor: pointer">
+                        <img src="../../../public/img/wh.png" style="margin-right: 6px;cursor: pointer">
                         <span class="fj">附件</span>
                     </div>
                     <div class="uplaod">
@@ -65,21 +54,19 @@
 <script>
     export default {
         name: "establish",
+        props:['skID','skType','status'],
         data(){
             return{
                 attachs:[],
                 note:"",
                 express_id:"",
+
             }
         },
-        mounted(){
-            if(this.$route.query.id!=undefined){
-                this.getList();
-            }
-        },
+
         methods:{
             fh(){
-                this.$router.go(-1)
+                this.$parent.heidADDscope();
             },
             handleExceed(files, fileList) {
                 this.$message.warning(`当前限制选择1个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
@@ -93,20 +80,6 @@
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
                     this.attachs.push(res);
-                })
-            },
-            js(){
-                this.$router.push({
-                    path:"./Administration"
-                })
-            },
-
-            getList(){
-                let params={is_receiver:0,id:this.$route.query.id};
-                this.api.settlemanage_detail({params}).then((res)=>{
-                    this.express_id=res.invoice.express_id;
-                    this.note=res.invoice.note;
-                    this.attachs=res.invoice.attachs;
                 })
             },
             setData(){
@@ -123,14 +96,15 @@
                     this.$message.error('附件不能为空');
                     return
                 }
+
                 let formData=new FormData;
                 formData.append('note',this.note);
-                formData.append('is_receiver',0);
                 formData.append('express_id',this.express_id);
-                formData.append('id',this.$route.query.id);
+                formData.append('id',this.skID);
+                formData.append('status',this.status);
                 formData.append('attachs',JSON.stringify(this.attachs));
-                this.api.demandsettle_invoice_edit(formData).then((res)=>{
-                    this.$router.go(-1);
+                this.api.demand_settle_audit(formData).then((res)=>{
+                    this.fh();
                 })
             },
         }
@@ -138,20 +112,15 @@
 </script>
 
 <style scoped>
-    .top{
+    .bg{
         width: 100%;
-        height:98px;
-        border-top: 1px solid #ededed;
-        background: white;
-        -webkit-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.04);
-        box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.04);
+        height: 100%;
+        background: rgba(0,0,0,0.3);
         position: fixed;
-        left: 256px;
-        top: 63px;
-        z-index: 99;
+        z-index: 999;
+        bottom: 0;
+        right: 0;
     }
-    .new_url{color: rgba(61,73,102,1)!important;}
-
     .title_left span{
         display: inline-block;
         font-size:14px;
@@ -163,10 +132,18 @@
         cursor: pointer;
     }
     .tableBox{
-        margin-top: 182px;
+        position: absolute;
+        left: 50%;
+        top: 40%;
+        -webkit-transform: translate(-50%,-50%);
+        transform: translate(-50%,-50%);
+        border-radius: 4px;
+        text-align: center;
+        background: rgba(0,0,0,0);
         background: #fff;
         padding-top:48px ;
         min-height: 600px;
+        width: 1020px;
     }
     .box{
         width:32px;
