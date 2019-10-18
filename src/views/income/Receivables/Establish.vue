@@ -4,10 +4,12 @@
         <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="fh('-1')">收款结算 &nbsp;/</span>
-                <span class="new_url">&nbsp;新建收款结算</span>
+                <span class="new_url" v-if="this.$route.query.id==undefined">&nbsp;新建收款结算</span>
+                <span class="new_url" v-if="this.$route.query.id!=undefined">&nbsp;编辑收款结算</span>
             </div>
             <div class="title_left">
-                <span>新建收款结算</span>
+                <span v-if="this.$route.query.id==undefined">新建收款结算</span>
+                <span v-if="this.$route.query.id!=undefined">编辑收款结算</span>
             </div>
         </div>
         <div class="tableBox">
@@ -28,16 +30,18 @@
                 </div>
             <div style="text-align: center" class="fill">
                 <div>
-                    <span class="fillName">结算方名称</span>
+                    <span class="fillName">结算单名称</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
-                        <input type="text" class="input" v-model="name">
+                        <input type="text" class="input" v-model="statement">
                     </div>
 
                 </div>
                 <div>
                     <span class="fillName">结算方</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
-                        <input type="text" class="input" v-model="statement">
+                        <select v-model="name">
+                            <option v-for="item in list" :value="item.name">{{item.name}}</option>
+                        </select>
                         <span class="click" @click="massgae()">查看结算方信息</span>
                     </div>
                 </div>
@@ -121,6 +125,13 @@
                 real_amount:"",
                 note:"",
                 attachs:[],
+                list:[],
+            }
+        },
+        mounted(){
+            this.getData();
+            if(this.$route.query.id!=undefined){
+                this.getList();
             }
         },
         methods:{
@@ -142,6 +153,38 @@
                 })
             },
             ADD(){
+                if(this.$route.query.id!=undefined){
+                    this.setData();
+                    return
+                }
+                if(!this.name){
+                    this.$message.error('结算方不能为空');
+                    return
+                }
+                if(!this.statement){
+                    this.$message.error('结算单名称不能为空');
+                    return
+                }
+                if(this.time==[]){
+                    this.$message.error('结算时间段不能为空');
+                    return
+                }
+                if(!this.expect_amount){
+                    this.$message.error('预计结算金额不能为空');
+                    return
+                }
+                if(!this.real_amount){
+                    this.$message.error('实际结算金额不能为空');
+                    return
+                }
+                if(!this.note){
+                    this.$message.error('备注不能为空');
+                    return
+                }
+                if(this.attachs==[]){
+                    this.$message.error('附件不能为空');
+                    return
+                }
                 let formData = new FormData;
                 formData.append('name',this.name);
                 formData.append('statement',this.statement);
@@ -160,6 +203,68 @@
             massgae(){this.msg=true},
             heidMassage(){
                 this.msg=false
+            },
+            getData(){
+                let params={is_receiver:1,paeg:1,p:5000};
+                this.api.settle_settlement_search({params}).then((res)=>{
+                    this.list=res.data;
+                })
+            },
+            getList(){
+                let params={is_receiver:1,id:this.$route.query.id};
+                this.api.settlemanage_detail({params}).then((res)=>{
+                    this.statement=res.check.statement;
+                    this.name=res.check.name;
+                    this.time[0]=res.check.tstart;
+                    this.time[1]=res.check.tend;
+                    this.expect_amount=res.check.expect_amount;
+                    this.real_amount=res.check.real_amount;
+                    this.note=res.check.note;
+                    this.attachs=res.check.attachs;
+                })
+            },
+            setData(){
+                if(!name){
+                    this.$message.error('结算方不能为空');
+                    return
+                }
+                if(!statement){
+                    this.$message.error('结算单名称不能为空');
+                    return
+                }
+                if(time==[]){
+                    this.$message.error('结算时间段不能为空');
+                    return
+                }
+                if(!expect_amount){
+                    this.$message.error('预计结算金额不能为空');
+                    return
+                }
+                if(!real_amount){
+                    this.$message.error('实际结算金额不能为空');
+                    return
+                }
+                if(!note){
+                    this.$message.error('备注不能为空');
+                    return
+                }
+                if(attachs==[]){
+                    this.$message.error('附件不能为空');
+                    return
+                }
+                let formData = new FormData;
+                formData.append('name',this.name);
+                formData.append('statement',this.statement);
+                formData.append('is_receiver',this.is_receiver);
+                formData.append('tstart',this.time[0]);
+                formData.append('tend',this.time[1]);
+                formData.append('expect_amount',this.expect_amount);
+                formData.append('real_amount',this.real_amount);
+                formData.append('note',this.note);
+                formData.append('attachs',JSON.stringify(this.attachs));
+                this.api.demandsettle_check_edit(formData).then((res)=>{
+                    this.$router.go(-1);
+                })
             },
         }
     }
@@ -298,5 +403,12 @@
         font-family:PingFang-SC-Medium,PingFang-SC;
         font-weight:500;
         color:rgba(51,119,255,1);
+    }
+    select{
+        width:467px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
     }
 </style>

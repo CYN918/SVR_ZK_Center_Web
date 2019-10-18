@@ -13,44 +13,44 @@
         <div class="tableBox">
             <div>
                 <span class="tableBox_name">结算方名称</span>
-                <span class="tableBox_Obtain">aaaaaaaaaaa</span>
+                <span class="tableBox_Obtain">{{list.name}}</span>
             </div>
             <div>
                 <span class="tableBox_name">生成对账时间</span>
-                <span class="tableBox_Obtain"></span>
+                <span class="tableBox_Obtain">{{list.tdate}}</span>
             </div>
             <div>
                 <span class="tableBox_name">开户名</span>
-                <span class="tableBox_Obtain"></span>
+                <span class="tableBox_Obtain">{{list.account_name}}</span>
             </div>
             <div>
                 <span class="tableBox_name">银行账号</span>
-                <span class="tableBox_Obtain"></span>
+                <span class="tableBox_Obtain">{{list.bank_card_id}}</span>
             </div>
             <div>
                 <span class="tableBox_name">开户银行</span>
-                <span class="tableBox_Obtain"></span>
+                <span class="tableBox_Obtain">{{list.bank_name}}</span>
             </div>
             <div>
                 <span class="tableBox_name">税号</span>
-                <span class="tableBox_Obtain"></span>
+                <span class="tableBox_Obtain">{{list.tax_id}}</span>
             </div>
             <div>
                 <span class="tableBox_name">联系人</span>
-                <span class="tableBox_Obtain"></span>
+                <span class="tableBox_Obtain">{{list.contact}}</span>
             </div>
             <div>
                 <span class="tableBox_name">联系电话</span>
-                <span class="tableBox_Obtain"></span>
+                <span class="tableBox_Obtain">{{list.phone}}</span>
             </div>
             <div>
                 <span class="tableBox_name">备注</span>
-                <span class="tableBox_Obtain"></span>
+                <span class="tableBox_Obtain">{{list.note}}</span>
             </div>
             <div>
                 <span class="tableBox_name">相关合同</span>
                 <div style="display: inline-block">
-                    <div>
+                    <div v-for="item in list.contracts">
                         <span class="textName"></span>
                         <span class="ck">查看</span>
                         <span class="xz">下载</span>
@@ -66,10 +66,10 @@
             <div>
                 <span class="tableBox_name">附件</span>
                 <div style="display: inline-block">
-                    <div>
-                        <span class="textName"></span>
+                    <div v-for="item in list.attachs">
+                        <span class="textName">{{item}}</span>
                         <span class="ck">查看</span>
-                        <span class="xz">下载</span>
+                        <a class="xz" :href="item.url">下载</a>
                     </div>
                 </div>
             </div>
@@ -79,7 +79,24 @@
 
 <script>
     export default {
-        name: "settlement-details"
+        name: "settlement-details",
+        data(){
+            return{
+                list:{},
+            }
+        },
+        mounted(){
+            this.getData()
+        },
+        methods:{
+            getData(){
+                let params={name:this.$route.query.name,is_receiver:1};
+                this.api.settle_settlement_detail({params}).then((res)=>{
+                    this.list=res;
+                })
+            },
+
+        },
     }
 </script>
 

@@ -22,20 +22,21 @@
                             :cell-style="cell"
                     >
                         <el-table-column
-                                prop="sdk_id"
+                                prop="name"
                                 label="结算方名称">
                         </el-table-column>
                         <el-table-column
-                                prop="pv"
+                                prop="amount"
                                 label="支付金额">
                         </el-table-column>
                         <el-table-column
+                                prop="status_name"
                                 label="状态">
                         </el-table-column>
                         <el-table-column
                                 label="操作">
                             <template slot-scope="scope">
-                                <el-button  type="text" size="small" @click="ck">查看详情</el-button>
+                                <el-button  type="text" size="small" @click="ck(tableData[scope.$index].smid)">查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -94,9 +95,12 @@
             cell({row, column, rowIndex, columnIndex}){
                 return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
-            ck(){
+            ck(id){
                 this.$router.push({
-                    path:"./special_edit"
+                    path:"./special_edit",
+                    query:{
+                        smid:id
+                    }
                 })
             },
             ADD(){

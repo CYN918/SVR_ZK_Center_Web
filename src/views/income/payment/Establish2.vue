@@ -2,11 +2,13 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="js">收款结算 &nbsp;/</span>
-                <span class="new_url">&nbsp;新建收款结算</span>
+                <span class="log_url" @click="fh('-1')">付款结算 &nbsp;/</span>
+                <span class="new_url" v-if="this.$route.query.id==undefined">&nbsp;新建付款结算</span>
+                <span class="new_url" v-if="this.$route.query.id!=undefined">&nbsp;编辑付款结算</span>
             </div>
             <div class="title_left">
-                <span>新建收款结算</span>
+                <span v-if="this.$route.query.id==undefined">新建付款结算</span>
+                <span v-if="this.$route.query.id!=undefined">编辑付款结算</span>
             </div>
         </div>
         <div class="tableBox">
@@ -28,11 +30,11 @@
             <div style="text-align: center" class="fill">
                 <div>
                     <span class="fillName">物流单号</span>
-                    <input type="text" class="input">
+                    <input type="text" class="input" v-model="express_id">
                 </div>
                 <div>
                     <span class="fillName">备注说明</span>
-                    <textarea></textarea>
+                    <textarea v-model="note"></textarea>
                 </div>
                 <div>
                     <div style="display: inline-block;width: 84px;margin-right: 20px">
@@ -52,7 +54,7 @@
                     </div>
                 </div>
                 <div class="fillBtn">
-                    <span class="tj" @click="ADD">提交</span>
+                    <span class="tj" @click="setData()">提交</span>
                     <span @click="fh()">取消</span>
                 </div>
             </div>
@@ -64,7 +66,16 @@
     export default {
         name: "establish",
         data(){
-            return{}
+            return{
+                attachs:[],
+                note:"",
+                express_id:"",
+            }
+        },
+        mounted(){
+            if(this.$route.query.id!=undefined){
+                this.getList();
+            }
         },
         methods:{
             fh(){
@@ -81,7 +92,7 @@
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
-
+                    this.attachs.push(res);
                 })
             },
             js(){
@@ -89,9 +100,37 @@
                     path:"./Administration"
                 })
             },
-            ADD(){
-                this.$router.push({
-                    path:"./establish3"
+
+            getList(){
+                let params={is_receiver:0,id:this.$route.query.id};
+                this.api.settlemanage_detail({params}).then((res)=>{
+                    this.express_id=res.invoice.express_id;
+                    this.note=res.invoice.note;
+                    this.attachs=res.invoice.attachs;
+                })
+            },
+            setData(){
+
+                if(!this.real_amount){
+                    this.$message.error('实际结算金额不能为空');
+                    return
+                }
+                if(!this.note){
+                    this.$message.error('备注不能为空');
+                    return
+                }
+                if(this.attachs==[]){
+                    this.$message.error('附件不能为空');
+                    return
+                }
+                let formData=new FormData;
+                formData.append('note',this.note);
+                formData.append('is_receiver',0);
+                formData.append('express_id',this.express_id);
+                formData.append('id',this.$route.query.id);
+                formData.append('attachs',JSON.stringify(this.attachs));
+                this.api.demandsettle_invoice_edit(formData).then((res)=>{
+                    this.$router.go(-1);
                 })
             },
         }

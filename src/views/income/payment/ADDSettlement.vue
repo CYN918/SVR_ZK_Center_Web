@@ -7,7 +7,8 @@
                 <span class="new_url">&nbsp;添加结算方</span>
             </div>
             <div class="title_left">
-                <span>添加结算方</span>
+                <span v-if="this.$route.query.name==undefined">添加结算方</span>
+                <span v-if="this.$route.query.name!=undefined">编辑结算方</span>
             </div>
         </div>
         <div class="tableBox">
@@ -139,7 +140,9 @@
             for(var i=0;i<31;i++){
                 this.num.push(i+1);
             }
-
+            if(this.$route.query.name!=undefined){
+                this.getData()
+            }
         },
         methods:{
             fh(num){
@@ -183,6 +186,10 @@
                 })
             },
             ADDdata(){
+                if(this.$route.query.name!=undefined){
+                    this.setData();
+                    return
+                }
                 if(this.is_auto==false){
                     this.is_auto=0;
                 }else {
@@ -206,6 +213,52 @@
 
                 })
             },
+
+            getData(){
+                let params={name:this.$route.query.name,is_receiver:0};
+                this.api.settle_settlement_detail({params}).then((res)=>{
+                    this.name=res.name;
+                    this.tdate=res.tdate;
+                    if(res.is_auto==0){
+                        this.is_auto=false;
+                    }else{
+                        this.is_auto=true
+                    }
+                    this.account_name=res.account_name;
+                    this.bank_card_id=res.bank_card_id;
+                    this.bank_name=res.bank_name;
+                    this.tax_id=res.tax_id;
+                    this.contact=res.contact;
+                    this.phone=res.phone;
+                    this.note=res.note;
+                    this.contracts=res.contracts;
+                    this.attachs=res.attachs;
+                })
+            },
+           setData(){
+               if(this.is_auto==false){
+                   this.is_auto=0;
+               }else {
+                   this.is_auto=1;
+               }
+               let formData=new FormData;
+               formData.append('name',this.name);
+               formData.append('is_receiver',0);
+               formData.append('tdate',this.tdate);
+               formData.append('is_auto',this.is_auto);
+               formData.append('account_name',this.account_name);
+               formData.append('bank_card_id',this.bank_card_id);
+               formData.append('bank_name',this.bank_name);
+               formData.append('tax_id',this.tax_id);
+               formData.append('contact',this.contact);
+               formData.append('phone',this.phone);
+               formData.append('note',this.note);
+               formData.append('contracts',JSON.stringify(this.contracts));
+               formData.append('attachs',JSON.stringify(this.attachs));
+                this.api.settle_settlement_edit(formData).then((res)=>{
+
+                })
+           },
         }
     }
 </script>

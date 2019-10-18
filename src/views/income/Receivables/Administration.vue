@@ -21,7 +21,7 @@
                     <input type="text" placeholder="搜索结算方名称" v-model="search">
                 </div>
                 <span class="cx" @click="getDataList()">查询</span>
-                <span class="clear" @click="establish">新建结算</span>
+                <span class="clear" @click="establish" :class="{Jurisdiction:this.controlBtn}">新建结算</span>
                 <span class="sf" @click="jump()">收款结算方管理</span>
             </div>
         </div>
@@ -68,7 +68,7 @@
                         <el-table-column
                                 label="操作">
                             <template slot-scope="scope">
-                                <el-button  type="text" size="small" @click="details()">查看详情</el-button>
+                                <el-button  type="text" size="small" @click="details(tableData[scope.$index].id)">查看详情</el-button>
                                 <el-button  type="text" size="small">作废</el-button>
                             </template>
                         </el-table-column>
@@ -100,10 +100,22 @@
                 total:0,
                 search:'',
                 tableData:[{pv:0}],
+                control:[],
+                controlBtn:false,
             }
         },
         mounted(){
-            this.getDataList()
+            this.control=JSON.parse(localStorage.getItem('control'));
+            if(this.control.length==0){
+                this.controlBtn=true;
+            }else {
+                for (var i = 0; i < this.control.length; i++) {
+                    if (this.control[i].uri_key == 'uri.settlement.settle.add') {
+                        this.controlBtn = false;
+                    }
+                }
+            }
+            this.getDataList();
         },
         methods:{
             handleSizeChange(p) { // 每页条数切换
@@ -135,13 +147,16 @@
                     path:"./establish"
                 })
             },
-            details(){
+            details(id){
                 this.$router.push({
-                    path:"./DetailsOfCollection"
+                    path:"./DetailsOfCollection",
+                    query:{
+                        id:id
+                    },
                 })
             },
             getDataList(){
-                let params={search:this.search,is_receiver:'1',tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page}
+                let params={search:this.search,is_receiver:'1',tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page};
                 this.api.settlemanage_search({params}).then((res)=>{
                     this.tableData=res.data;
                     this.total=res.total;
@@ -228,5 +243,7 @@
         margin-top: 204px;
         background: #fff;
     }
-
+    .Jurisdiction{
+        display: none;
+    }
 </style>

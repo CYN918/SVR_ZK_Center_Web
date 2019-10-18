@@ -27,25 +27,24 @@
             </div>
             <div style="text-align: center" class="fill">
                 <div>
-                    <span class="fillName">物流单号</span>
-                    <input type="text" class="input">
+                    <span class="fillName">实际到账金额</span>
+                    <input type="text" class="input" v-model="receive_amount">
                 </div>
                 <div>
                     <span class="fillName">到账时间</span>
                     <div class="fillTime">
                             <el-date-picker
-                                    v-model="time"
+                                    v-model="receive_tdate"
                                     type="date"
                                     placeholder="请以银行到账时间为准"
                                     format="yyyy-mm-dd"
                                     value-format="yyyy-mm-dd">
                             </el-date-picker>
-
                     </div>
                 </div>
                 <div>
                     <span class="fillName">备注说明</span>
-                    <textarea></textarea>
+                    <textarea v-model="note"></textarea>
                 </div>
                 <div>
                     <div style="display: inline-block;width: 84px;margin-right: 20px">
@@ -78,7 +77,16 @@
         name: "establish",
         data(){
             return{
-                time:'',
+                time:[],
+                note:"",
+                attachs:[],
+                receive_amount:"",
+                receive_tdate:"",
+            }
+        },
+        mounted(){
+            if(this.$route.query.id!=undefined){
+                this.getList()
             }
         },
         methods:{
@@ -96,11 +104,45 @@
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
-
+                    this.attachs.push(res)
+                })
+            },
+            getList(){
+                let params={is_receiver:1,id:this.$route.query.id};
+                this.api.settlemanage_detail({params}).then((res)=>{
+                    this.receive_amount=res.remit.receive_amount;
+                    this.note=res.remit.note;
+                    this.receive_tdate=res.remit.receive_tdate;
+                    this.attachs=res.remit.attachs;
                 })
             },
             ADD(){
-
+                if(!this.receive_amount){
+                    this.$message.error('实际到账金额不能为空');
+                    return
+                }
+                if(!this.note){
+                    this.$message.error('备注不能为空');
+                    return
+                }
+                if(!this.receive_tdate){
+                    this.$message.error('实际到账时间不能为空');
+                    return
+                }
+                if(this.attachs==[]){
+                    this.$message.error('附件不能为空');
+                    return
+                }
+                let formData=new FormData;
+                formData.append('note',this.note);
+                formData.append('id',this.$route.query.id);
+                formData.append('is_receiver',1);
+                formData.append('receive_amount',this.receive_amount);
+                formData.append('receive_tdate',this.receive_tdate);
+                formData.append('attachs',JSON.stringify(this.attachs));
+               this.api.demandsettle_remit_edit(formData).then((res)=>{
+                   this.$router.go(-1)
+               })
             }
         }
     }

@@ -2,13 +2,13 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh('-1')">收款结算 &nbsp;/</span>
-                <span class="new_url">&nbsp;新建收款结算</span>
+                <span class="log_url" @click="fh('-1')">付款结算 &nbsp;/</span>
+                <span class="new_url">&nbsp;付款结算详情</span>
             </div>
             <div class="title_left">
-                <span>新建收款结算</span>
+                <span>付款结算详情</span>
                 <div class="top_btn">
-                    <span class="bj">编辑</span>
+                    <span class="bj" @click="bj()" :class="{Jurisdiction:this.controlBtn}">编辑</span>
                     <span class="ck">查看变更记录</span>
                 </div>
             </div>
@@ -31,46 +31,46 @@
             </div>
             <div style="text-align: center" class="fill">
                 <div>
-                    <span class="fillName">结算方名称</span>
-                    <div style="display: inline-block;width: 300px">
-                        <span class="text">啊啊啊啊啊</span>
+                    <span class="fillName">结算单名称</span>
+                    <div style="display: inline-block;width: 300px;text-align: left">
+                        <span class="text">{{list.check.statement}}</span>
                     </div>
 
                 </div>
                 <div>
                     <span class="fillName">结算方</span>
-                    <div style="display: inline-block;width: 300px">
-                        <span  class="text"></span>
+                    <div style="display: inline-block;width: 300px;text-align: left">
+                        <span  class="text">{{list.check.name}}</span>
                         <span class="click">查看结算方信息</span>
                     </div>
 
                 </div>
                 <div>
                     <span class="fillName">结算时间段</span>
-                    <div style="display: inline-block;width: 300px">
-                        <span  class="text"></span>
+                    <div style="display: inline-block;width: 300px;text-align: left">
+                        <span  class="text">{{list.check.tstart}}-{{list.check.tend}}</span>
                     </div>
 
                 </div>
                 <div>
                     <span class="fillName">预计结算金额</span>
-                    <div style="display: inline-block;width: 300px">
-                        <span  class="text"></span>
+                    <div style="display: inline-block;width: 300px;text-align: left">
+                        <span  class="text">{{list.check.expect_amount}}</span>
                         <span class="click">查看预计结算金额</span>
                     </div>
 
                 </div>
                 <div>
                     <span class="fillName">实际结算金额</span>
-                    <div style="display: inline-block;width: 300px">
-                        <span  class="text"></span>
+                    <div style="display: inline-block;width: 300px;text-align: left">
+                        <span  class="text">{{list.check.real_amount}}</span>
                     </div>
 
                 </div>
                 <div>
                     <span class="fillName">备注说明</span>
-                    <div style="display: inline-block;width: 300px">
-                        <span  class="text"></span>
+                    <div style="display: inline-block;width: 300px;text-align: left">
+                        <span  class="text">{{list.check.note}}</span>
                     </div>
 
                 </div>
@@ -79,10 +79,10 @@
                         <span class="fj">附件</span>
                     </div>
                     <div style="display: inline-block;width: 300px">
-                        <div>
-                            <span  class="text"></span>
+                        <div v-for="item in list.check.attachs">
+                            <span  class="text">{{item.name}}</span>
                             <span class="click">查看</span>
-                            <span class="click">下载</span>
+                            <a class="click" :href="item.url">下载</a>
                         </div>
                     </div>
 
@@ -99,7 +99,24 @@
     export default {
         name: "establish",
         data(){
-            return{}
+            return{
+                list:{},
+                control:[],
+                controlBtn:false,
+            }
+        },
+        mounted(){
+            this.control=JSON.parse(localStorage.getItem('control'));
+            if(this.control.length==0){
+                this.controlBtn=true;
+            }else {
+                for (var i = 0; i < this.control.length; i++) {
+                    if (this.control[i].uri_key == 'uri.settlement.check.edit') {
+                        this.controlBtn = false;
+                    }
+                }
+            }
+            this.getData()
         },
         methods:{
             fh(num){
@@ -119,16 +136,32 @@
 
                 })
             },
-            ADD(){
+
+            scope2(){
+                if(this.list.status>1){
                 this.$router.push({
-                    path:"./establish2"
+                    path:"./DetailsOfCollection2",
+                    query:{
+                        id:this.$route.query.id
+                    },
+                })
+                }
+
+            },
+            bj(){
+                this.$router.push({
+                    path:"./establish",
+                    query:{
+                        id:this.$route.query.id,
+                    },
                 })
             },
-            scope2(){
-                this.$router.push({
-                    path:"./DetailsOfCollection2"
+            getData(){
+                let params={is_receiver:0,id:this.$route.query.id};
+                this.api.settlemanage_detail({params}).then((res)=>{
+                    this.list=res;
                 })
-            }
+            },
         }
     }
 </script>
@@ -203,14 +236,14 @@
         margin-right: 21px;
         text-align: right!important;
     }
-  .text{
-      display: inline-block;
-      font-size:14px;
-      font-family:PingFangSC-Regular,PingFangSC;
-      font-weight:400;
-      color:rgba(109,119,139,1);
-      text-align: left;
-  }
+    .text{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(109,119,139,1);
+        text-align: left;
+    }
     .fj{display: inline-block;
         font-size:14px;
         font-family:PingFang-SC-Medium,PingFang-SC;
@@ -266,5 +299,8 @@
     .ck{
         width:124px!important;
         margin-left: 24px;
+    }
+    .Jurisdiction{
+        display: none;
     }
 </style>

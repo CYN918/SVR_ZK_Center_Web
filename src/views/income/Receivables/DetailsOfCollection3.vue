@@ -8,7 +8,7 @@
             <div class="title_left">
                 <span>新建收款结算</span>
                 <div class="top_btn">
-                    <span class="bj">编辑</span>
+                    <span class="bj" @click="bj()" :class="{Jurisdiction:this.controlBtn}">编辑</span>
                     <span class="ck" @click="change()">查看变更记录</span>
                 </div>
             </div>
@@ -33,21 +33,21 @@
                 <div>
                     <span class="fillName">实际到账金额</span>
                     <div style="display: inline-block;width: 300px">
-                        <span class="text">啊啊啊啊啊</span>
+                        <span class="text">{{list.receive_amount}}</span>
                     </div>
 
                 </div>
                 <div>
                     <span class="fillName">到账时间</span>
                     <div style="display: inline-block;width: 300px">
-                        <span class="text">啊啊啊啊啊</span>
+                        <span class="text">{{list.receive_tdate}}</span>
                     </div>
 
                 </div>
                 <div>
                     <span class="fillName">备注说明</span>
                     <div style="display: inline-block;width: 300px">
-                        <span  class="text"></span>
+                        <span  class="text">{{list.note}}</span>
                     </div>
 
                 </div>
@@ -56,10 +56,10 @@
                         <span class="fj">附件</span>
                     </div>
                     <div style="display: inline-block;width: 300px">
-                        <div>
-                            <span  class="text"></span>
+                        <div v-for="item in list.attachs">
+                            <span  class="text">{{item.name}}</span>
                             <span class="click">查看</span>
-                            <span class="click">下载</span>
+                            <a class="click" :href="item.url">下载</a>
                         </div>
                     </div>
 
@@ -76,7 +76,22 @@
     export default {
         name: "establish",
         data(){
-            return{}
+            return{
+                list:{},
+            }
+        },
+        mounted(){
+            this.control=JSON.parse(localStorage.getItem('control'));
+            if(this.control.length==0){
+                this.controlBtn=true;
+            }else {
+                for (var i = 0; i < this.control.length; i++) {
+                    if (this.control[i].uri_key == 'uri.settlement.remit.edit') {
+                        this.controlBtn = false;
+                    }
+                }
+            }
+            this.getData()
         },
         methods:{
             fh(num){
@@ -100,7 +115,21 @@
                 this.$router.push({
                     path:"./ChangeRecord"
                 })
-            }
+            },
+            bj(){
+                this.$router.push({
+                    path:'./establish3',
+                    query:{
+                        id:this.$route.query.id,
+                    },
+                })
+            },
+            getData(){
+                let params={is_receiver:1,id:this.$route.query.id};
+                this.api.settlemanage_detail({params}).then((res)=>{
+                    this.list=res.remit;
+                })
+            },
         }
     }
 </script>
@@ -238,5 +267,8 @@
     .ck{
         width:124px!important;
         margin-left: 24px;
+    }
+    .Jurisdiction{
+        display: none;
     }
 </style>

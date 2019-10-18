@@ -1,5 +1,6 @@
 <template>
     <div>
+        <DS v-if="msg" :name="list.name"></DS>
         <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="fh()">特殊款项管理 &nbsp;/</span>
@@ -17,28 +18,28 @@
         <div class="content">
             <div>
                 <span class="TitName">结算方</span>
-                <span class="text"></span>
-                <span class="click">查看结算方信息</span>
+                <span class="text">{{list.name}}</span>
+                <span class="click" @click="massgae">查看结算方信息</span>
             </div>
             <div>
                 <span  class="TitName">支出金额</span>
-                <span class="text"></span>
+                <span class="text">{{list.amount}}</span>
             </div>
             <div>
                 <span  class="TitName">状态</span>
-                <span class="text"></span>
+                <span class="text">{{list.status_name}}</span>
             </div>
             <div>
                 <span  class="TitName">备注</span>
-                <span class="text"></span>
+                <span class="text">{{list.note}}</span>
             </div>
             <div>
                 <span  class="TitName">附件</span>
                 <div style="display: inline-block">
-                    <div>
-                        <span  class="text"></span>
+                    <div v-for="item in list.attachs">
+                        <span  class="text">{{item.name}}</span>
                         <span class="click">查看</span>
-                        <span class="click">下载</span>
+                        <a class="click" :href="item.url">下载</a>
                     </div>
                 </div>
             </div>
@@ -50,18 +51,39 @@
 </template>
 
 <script>
+    import DS from '../payment/DetailsSettlement'
     export default {
+        components:{DS},
         name: "change",
         data(){
-            return{}
+            return{
+                msg:false,
+                list:{},
+            }
+        },
+        mounted(){
+            this.getData();
         },
         methods:{
+            massgae(){this.msg=true},
+            heidMassage(){
+                this.msg=false
+            },
             fh(){
                 this.$router.go(-1)
             },
+            getData(){
+                let params={smid:this.$route.query.smid};
+                this.api.settle_special_detail({params}).then((res)=>{
+                    this.list=res;
+                })
+            },
             add(){
                 this.$router.push({
-                    path:"./AddEdit"
+                    path:"./AddEdit",
+                    query:{
+                        smid:this.$route.query.smid,
+                    },
                 })
             }
         },

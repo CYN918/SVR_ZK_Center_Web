@@ -42,8 +42,8 @@
                                     :inactive-value="0"
                                     active-color="#3377ff"
                                     inactive-color="#e6e9f0"
-                                    v-model="scope.row.status"
-                                    @change=change(scope.$index,scope.row.status)>
+                                    v-model="status"
+                                    @change=change(tableData[scope.$index].name)>
                             </el-switch>
                         </template>
                     </el-table-column>
@@ -55,8 +55,8 @@
                     <el-table-column
                             label="操作">
                         <template slot-scope="scope">
-                            <el-button  type="text" size="small" @click="jump()">查看</el-button>
-                            <el-button  type="text" size="small">编辑</el-button>
+                            <el-button  type="text" size="small" @click="jump(tableData[scope.$index].name)">查看</el-button>
+                            <el-button  type="text" size="small" @click="edit(tableData[scope.$index].name)">编辑</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -85,10 +85,11 @@
                 total:0,
                 tableData:[{pv:0}],
                 search:'',
+                status:0,
             }
         },
         mounted(){
-            this.Data();
+            this.dataList();
         },
         methods:{
             fh(){
@@ -96,11 +97,11 @@
             },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
-                this.Data();
+                this.dataList();
             },
             handleCurrentChange(page) {//页码切换
                 this.page = page;
-                this.Data();
+                this.dataList();
             },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
@@ -109,6 +110,7 @@
                     return ''
                 }
             },
+
             cell({row, column, rowIndex, columnIndex}){
                 return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
@@ -117,21 +119,43 @@
                     path:"./ADDSettlement"
                 })
             },
-            jump(){
+            jump(name){
                 this.$router.push({
-                    path:"./SettlementDetails"
+                    path:"./SettlementDetails",
+                    query:{
+                        name:name,
+                    },
                 })
             },
-            Data(){
-                let params={p:this.p,page:this.page,search:this.search,is_receiver:1};
+            edit(name){
+                this.$router.push({
+                    path:"./ADDSettlement",
+                    query:{
+                        name:name,
+                    },
+                })
+            },
+            dataList(){
+                let params={p:this.p,page:this.page,is_receiver:1,search:this.search};
                 this.api.settle_settlement_search({params}).then((res)=>{
                     this.tableData=res.data;
+                    console.log(res.data);
                     this.total=res.total;
                 })
             },
-        },
+            change(name){
+                let formData=new FormData;
+                formData.append('name',name);
+                formData.append('is_receiver',1);
+                formData.append('status',this.status);
+                this.api.settle_settlement_status(formData).then((res)=>{
+
+                })
+            },
+        }
     }
 </script>
+
 
 <style scoped>
     .top{

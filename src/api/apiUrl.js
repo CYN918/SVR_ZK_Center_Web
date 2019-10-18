@@ -988,7 +988,11 @@ export default {
     settle_settlement_detail:{
 		url:'settle/settlement/detail',method:"get"
 	},
-	//收/付款结算列表
+	//编辑结算方信息
+    settle_settlement_edit:{
+		url:'settle/settlement/edit',method:'post',isType:{suktip:1}
+	},
+    //收/付款结算列表
     settlemanage_search:{
 		url:'demandsettle/search',method:"get",
 	},
@@ -1004,7 +1008,19 @@ export default {
     settlemanage_invoice_add:{
 		url:'demandsettle/invoice/add',method:'post',isType:{suktip:1}
 	},
-	//预付款列表
+	//编辑收/付款结算
+    demandsettle_check_edit:{
+		url:"demandsettle/check/edit",method:'post',isType:{suktip:1}
+	},
+    //编辑收/付款结算(结算汇款)
+    demandsettle_remit_edit:{
+        url:"demandsettle/remit/edit",method:'post',isType:{suktip:1}
+    },
+	//编辑收/付款结算(开票寄送)
+    demandsettle_invoice_edit:{
+		url:'demandsettle/invoice/edit',method:'post',isType:{suktip:1}
+	},
+    //预付款列表
     settle_prepayment_search:{
 		url:'settle/prepayment/search',method:"get"
 	},
@@ -1035,5 +1051,17 @@ export default {
 	//删除预付款记录
     settle_prepayment_del:{
 		url:'settle/prepayment/del',method:"post",isType:{suktip:1}
+	},
+	//特殊款项详情
+    settle_special_detail:{
+		url:"settle/special/detail",method:'get'
+	},
+	//编辑特殊款项
+    settle_special_edit:{
+		url:'settle/special/edit',method:"post",isType:{suktip:1}
+	},
+	//设置结算方启用/禁用
+    settle_settlement_status:{
+		url:'settle/settlement/status',method:"post",isType:{suktip:1}
 	},
 }
