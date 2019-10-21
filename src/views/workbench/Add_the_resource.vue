@@ -92,7 +92,7 @@
 
 <script>
     export default {
-        props:['id','num','ind','typeList'],
+        props:['id','num','ind','typeList','status'],
         name: "add_the_resource",
         data(){
             return{
@@ -302,6 +302,7 @@
                 if(this.numAll==this.num){
                     let formData = new FormData;
                     formData.append('id',this.id);
+                    formData.append('status',this.status);
                     this.api.demand_audit(formData).then((res)=>{
 
                     })

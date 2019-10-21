@@ -55,7 +55,7 @@
 
 <script>
     export default {
-        props:['id','types'],
+        props:['id','types','status'],
         name: "a-d-d_material",
         data(){
             return{
@@ -136,6 +136,7 @@
                 if(this.total==this.numAlls){
                     let formData = new FormData;
                     formData.append('id',this.id);
+                    formData.append('status',this.status);
                     this.api.demand_audit(formData).then((res)=>{
                     })
                 }else{

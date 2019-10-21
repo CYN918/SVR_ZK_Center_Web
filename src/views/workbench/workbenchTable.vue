@@ -2,21 +2,21 @@
     <div>
         <ADD v-if="ADD" :id="id" :num="num" :ind="index" :hqUrl="hqUrl" :bindMid="bindMid" :material="0" :types="types" :typeName="typeName" :limit_size="limit_size" :limit_model="limit_model"></ADD>
         <set v-if="sets"   @listenToChildEvent="listen" :material="0"></set>
-        <uplodWl v-if='up'  :id="id"  ></uplodWl>
+        <uplodWl v-if='up'  :id="id"  :status="status"></uplodWl>
         <BDadd v-if="BD"  :index="index" :id="id"></BDadd>
         <AddWL v-if="wl"  :id="id" @dataType="datatype" :types="types" :typeName="typeName" :limit_type="limit_type" :limit_size="limit_size"></AddWL>
         <scwl v-if="scwl"  :index="index" :id="id"></scwl>
         <sct v-if="set"  :index="index" :id="id" @dataType="datatype"></sct>
-        <QD v-if="sh" :id="id"></QD>
+        <QD v-if="sh" :id="id" :status="status"></QD>
         <BH v-if="bh" :dbid="dbid"></BH>
         <ywxq v-if="yw" :YWid="YWid"></ywxq>
         <scxq v-if="sc" :SCid="SCid"></scxq>
         <CK v-if='ck' :id="CkID"></CK>
         <WLp v-if="WLp" :id="wlID"></WLp>
         <BU v-if="BU" :id="id" :ind="index"></BU>
-        <ATR v-if="ADD_material" :id="id" :num="num" :ind="index" :typeList="this.typeList"></ATR>
+        <ATR v-if="ADD_material" :id="id" :num="num" :ind="index" :typeList="this.typeList" :status="status"></ATR>
         <ADDsc v-if="addSC" :index="index" :id="id"></ADDsc>
-        <scREQ v-if="scR"  :id="id" :num="num"></scREQ>
+        <scREQ v-if="scR"  :id="id" :num="num" :status="status"></scREQ>
         <Cm v-if="Cm" :id="id" ></Cm>
         <sett v-if="sett" :skID="skID" :skType="skType"></sett>
         <sett2 v-if="sett2" :skID="skID" :skType="skType"></sett2>
@@ -427,6 +427,7 @@
             getSH(index){
                 this.sh=true;
                 this.id=this.tableData[index].did;
+                this.status=this.tableData[index].status;
                 this.stop()
             },
             getBU(index){
@@ -450,6 +451,7 @@
             },
             getscR(index){
                 this.scR = true;
+                this.status=this.tableData[index].status;
                 this.id = this.tableData[index].did;
                 this.num = this.tableData[index].num;
                 this.stop()
@@ -515,18 +517,18 @@
             },
             AddMaterial(index){
                 this.ADD_material =true;
+                this.status=this.tableData[index].status;
                 this.id = this.tableData[index].did;
                 this.num = this.tableData[index].num;
                 this.types = this.tableData[index].type;
                 this.limit_size=this.tableData[index].putlib.size;
                 this.limit_type=this.tableData[index].putlib.put_type;
                 this.typeName = this.tableData[index].type_name;
-
                 this.stop();
-                console.log(this.tableData)
             },
             AddWl(index){
                 this.up = true;
+                this.status=this.tableData[index].status;
                 this.id = this.tableData[index].did;
                 this.types = this.tableData[index].type;
                 this.typeName = this.tableData[index].type_name;
