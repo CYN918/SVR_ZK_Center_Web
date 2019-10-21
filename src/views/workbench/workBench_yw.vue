@@ -151,11 +151,13 @@
             }
         },
         mounted(){
-            this.getSize();
+            this.getTypes();
             if(this.YWid){
                 this.getData();
             }
-
+            if(this.YWid==undefined||this.type=='f_sls_lockscreen'){
+                this.getSize();
+            }
         },
         methods:{
             sxFunction(){
@@ -188,6 +190,10 @@
                   this.endtime = res.endtime;
                   this.requirement=res.require;
                   this.libraryName=res.putlib.name;
+                  if(this.type!='f_sls_lockscreen'){
+                      this.sizeList=res.putlib.size.split(',')
+                  }
+
                 })
             },
             AddYw(){
@@ -355,7 +361,6 @@
             getSize(){
                 this.api.config_size().then((res)=>{
                     this.sizeList =res;
-                    this.getTypes();
                 })
             },
             getTypeURL(){
