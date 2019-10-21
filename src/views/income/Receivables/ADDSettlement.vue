@@ -56,10 +56,26 @@
             <div style="margin-bottom:20px">
                 <span  class="titName" >相关合同</span>
                 <span class="ADDs" @click="ADDht">添加合同</span>
+                <div style="margin: 14px 0 14px 140px" v-for="item in contracts">
+                    <div v-for="da in item">
+                        <div v-for="das in da.contract_files">
+                            <div style="display: inline-block;max-width: 200px;height: 20px;overflow:hidden;font-size:14px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(31,46,77,1);">{{da.contract_id}}</div>
+                            <span class="content_ck">查看</span>
+                            <a class="content_xz" :href="das.url">下载</a>
+                        </div>
+
+                    </div>
+
+                </div>
             </div>
             <div style="margin-bottom:20px">
                 <span  class="titName" >附件</span>
                 <span class="ADDs" @click="ADDfj()">上传</span>
+                <div style="margin: 14px 0 14px 140px" v-for="item in attachs">
+                            <div style="display: inline-block;max-width: 200px;height: 20px;overflow:hidden;font-size:14px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(31,46,77,1);">{{item.name}}</div>
+                            <span class="content_ck">查看</span>
+                            <a class="content_xz" :href="item.url">下载</a>
+                </div>
             </div>
             <div class="ADDbtn">
                 <span class="tj" @click="ADDdata()">添加</span>
@@ -76,9 +92,12 @@
                     <span class="content_seach" @click="getHT()">查询</span>
                 </div>
                 <div style="margin: 14px 20px" v-for="item in list">
-                    <div style="display: inline-block;width: 200px;height: 20px;overflow:hidden">{{item.contract_name}}</div>
-                    <span class="content_ck">查看</span>
-                    <a class="content_xz">下载</a>
+                    <div v-for="da in item.contract_files">
+                        <div style="display: inline-block;width: 200px;height: 20px;overflow:hidden">{{item.contract_id}}</div>
+                        <span class="content_ck">查看</span>
+                        <a class="content_xz" :href="da.url">下载</a>
+                    </div>
+
                 </div>
                 <div class="content_btn">
                     <span class="btn_tj" @click="heidHT()">添加</span>
@@ -133,6 +152,7 @@
                 num:[""],
                 contract_id:"",
                 list:[],
+                contract:[],
             }
         },
         mounted(){
@@ -173,7 +193,7 @@
             },
             heidHT(){
                 this.ht=false;
-                this.contracts.push(this.contract_id)
+                this.contracts.push(this.list)
             },
             heidHTs(){
                 this.ht=false;

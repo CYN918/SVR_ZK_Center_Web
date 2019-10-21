@@ -11,9 +11,9 @@
             <div style="margin-top: 20px">
                 <div class="seach">
                     <img src="../../../../public/img/ss.png">
-                    <input type="text" placeholder="搜索结算方名称">
+                    <input type="text" placeholder="搜索结算方名称" v-model="search">
                 </div>
-                <span class="cx" v-model="search">查询</span>
+                <span class="cx" @click="dataList()">查询</span>
                 <span class="add" @click="add">添加</span>
             </div>
         </div>
@@ -41,8 +41,8 @@
                                     :inactive-value="0"
                                     active-color="#3377ff"
                                     inactive-color="#e6e9f0"
-                                    v-model="status"
-                                    @change=change(tableData[scope.$index].name)>
+                                    v-model="scope.row.status"
+                                    @change=change(tableData[scope.$index].name,scope.row.status)>
                             </el-switch>
                         </template>
                     </el-table-column>
@@ -104,7 +104,7 @@
             },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
-                    return 'background:rgb(246, 245, 245,1);color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
+                    return 'background:rgba(247,249,252,1);color:#1f2e4d;margin:0 24px;font-size:14px;font-weight:500;font-family:PingFang-SC-Medium;text-align: center;'
                 } else {
                     return ''
                 }
@@ -142,11 +142,11 @@
                     this.total=res.total;
                 })
             },
-            change(name){
+            change(name,status){
                 let formData=new FormData;
                 formData.append('name',name);
                 formData.append('is_receiver',1);
-                formData.append('status',this.status);
+                formData.append('status',status);
                 this.api.settle_settlement_status(formData).then((res)=>{
 
                 })

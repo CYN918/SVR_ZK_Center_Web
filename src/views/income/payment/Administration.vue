@@ -94,7 +94,7 @@
         name: "administration",
         data(){
             return{
-                value:[(new Date()).toLocaleDateString().split('/').join('-'),(new Date()).toLocaleDateString().split('/').join('-')],
+                value:[(new Date((new Date()).getTime() - 90*24*60*60*1000)).toLocaleDateString().split('/').join('-'),(new Date()).toLocaleDateString().split('/').join('-')],
                 page:1,
                 p:10,
                 total:0,
@@ -127,7 +127,7 @@
             },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
-                    return 'background:rgb(246, 245, 245,1);color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
+                    return 'background:rgba(247,249,252,1);color:#1f2e4d;margin:0 24px;font-size:14px;font-weight:500;font-family:PingFang-SC-Medium;text-align: center;'
                 } else {
                     return ''
                 }
@@ -204,11 +204,11 @@
         height: 24px;
         position: absolute;
         left: 3px;
-        top:8px;
+        top:5px;
     }
     .seach input{
         width:170px;
-        height:36px;
+        height:32px;
         background:rgba(255,255,255,1);
         border-radius:4px;
         padding-left: 30px;

@@ -181,8 +181,12 @@
                         }else if(this.tableData[i].demand_type=='demand_material'){
                             this.tableData[i].demand_type='素材需求'
                             this.tableData[i].demand_name=this.tableData[i].demand_name+'('+ this.tableData[i].type_name+')'
-                        }else {
+                        }else if(this.tableData[i].demand_type=='demand_apply'){
                             this.tableData[i].demand_type='设计师结算'
+                        }else if(this.tableData[i].demand_type=='demand_settle_receive'){
+                            this.tableData[i].demand_type='收款结算'
+                        }else if(this.tableData[i].demand_type=='demand_settle_paying'){
+                            this.tableData[i].demand_type='付款结算'
                         }
                     }
                 })
