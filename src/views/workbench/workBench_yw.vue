@@ -47,6 +47,7 @@
                     <select v-model="model" v-if="type=='f_ad_picture'">
                         <option value="" disabled selected style="color: #8b9bb3">请选择</option>
                         <option value="无">无</option>
+                        <option value="H5">H5</option>
                         <option value="脚本">脚本</option>
                     </select>
                     <select v-model="model" v-if="type=='f_ad_template'">
@@ -151,11 +152,13 @@
             }
         },
         mounted(){
-            this.getSize();
             if(this.YWid){
                 this.getData();
             }
-
+            if(this.YWid==undefined||this.type=='f_sls_lockscreen'){
+                this.getSize();
+            }
+            this.getTypes();
         },
         methods:{
             sxFunction(){
@@ -180,14 +183,15 @@
                   this.url=res.pos_view_url;
                   this.type=res.type;
                   this.demand_name=res.demand_name;
-                  this.size =res.size.split(',');
+                  // this.size =res.size.split(',');
                   this.priority=res.priority;
                   this.num =res.num;
                   this.model = res.model;
                   this.link =res.link;
                   this.endtime = res.endtime;
                   this.requirement=res.require;
-                  this.libraryName=res.putlib.name;
+                  // this.libraryName=res.putlib.name;
+                    this.pos_type=res.pos_type;
                 })
             },
             AddYw(){
@@ -355,7 +359,6 @@
             getSize(){
                 this.api.config_size().then((res)=>{
                     this.sizeList =res;
-                    this.getTypes();
                 })
             },
             getTypeURL(){
@@ -368,7 +371,6 @@
                 this.api.config_position_type().then((res)=>{
                     this.typeList = res;
                     if(this.YWid){
-                        // this.getData()
                     }
                     this.getYWtype()
                 })
