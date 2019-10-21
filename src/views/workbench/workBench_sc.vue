@@ -105,7 +105,7 @@
 
 <script>
     export default {
-        props:['SCid'],
+        props:['SCid','status'],
         name: "work-bench_sc",
         data(){
             return{
@@ -271,6 +271,7 @@
                     this.api.demand_material_edit(formData).then((res)=>{
                         let formData = new FormData;
                         formData.append('id',this.SCid);
+                        formData.append('status',this.status);
                         this.api.demand_audit(formData).then((res)=>{
 
                         }).catch(()=>{

@@ -96,7 +96,7 @@
                             <el-button @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,tableData[props.$index].status+1,tableData[props.$index].reject)" v-if="tableData[props.$index].reject=='1'">查看驳回原因</el-button>
                             <el-button @click="educe(tableData[props.$index].did,tableData[props.$index].check_status,tableData[props.$index].status)" v-if="(tableData[props.$index].status_name=='签字审核'&&tableData[props.$index].status==2)||(tableData[props.$index].status_name=='补充签字'&&tableData[props.$index].status==4)&&tableData[props.$index].emails.indexOf(email)!=-1">导出表格</el-button>
                             <el-button @click="uploadData(tableData[props.$index].did)"  v-if="(tableData[props.$index].status_name=='签字审核'&&tableData[props.$index].status==2)||(tableData[props.$index].status_name=='补充签字'&&tableData[props.$index].status==4)&&tableData[props.$index].emails.indexOf(email)!=-1">上传文件</el-button>
-                            <el-button @click="release(tableData[props.$index].did,tableData[props.$index].demand_type)" v-if="tableData[props.$index].status_name=='需求发布'&&tableData[props.$index].emails.indexOf(email)!=-1">发布需求</el-button>
+                            <el-button @click="release(tableData[props.$index].did,tableData[props.$index].demand_type,tableData[props.$index].status)" v-if="tableData[props.$index].status_name=='需求发布'&&tableData[props.$index].emails.indexOf(email)!=-1">发布需求</el-button>
                             <el-button v-if="tableData[props.$index].status_name=='素材审核'">
                                 <a :href="url+(tableData[props.$index].activity_id!=undefined?'detailed?id='+tableData[props.$index].activity_id:'activity')" target="_Blank" class="dj">查看活动</a>
                             </el-button>
@@ -717,11 +717,11 @@
             //     console.log(this.scMessage);
                 // },
 
-            release(id,type){
+            release(id,type,status){
                 if(type=='业务需求'){
-                    this.$parent.getYW(id);
+                    this.$parent.getYW(id,status);
                 }else {
-                    this.$parent.getSC(id);
+                    this.$parent.getSC(id,status);
                 }
             },
             check(type,id,status,reject){
