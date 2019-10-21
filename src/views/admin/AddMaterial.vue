@@ -125,6 +125,7 @@
                             <span class="tit">实现方式:</span>
                             <select v-model="model">
                                 <option value="无">无</option>
+                                <option value="H5">H5</option>
                                 <option value="脚本">脚本</option>
                             </select>
                         </div>
