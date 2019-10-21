@@ -47,6 +47,7 @@
                     <select v-model="model" v-if="type=='f_ad_picture'">
                         <option value="" disabled selected style="color: #8b9bb3">请选择</option>
                         <option value="无">无</option>
+                        <option value="H5">H5</option>
                         <option value="脚本">脚本</option>
                     </select>
                     <select v-model="model" v-if="type=='f_ad_template'">

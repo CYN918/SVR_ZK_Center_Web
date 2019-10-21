@@ -47,6 +47,7 @@
                     <select v-model="model" v-if="type=='f_ad_picture'">
                         <option value="" disabled selected style="color: #8b9bb3">请选择</option>
                         <option value="无">无</option>
+                        <option value="H5">H5</option>
                         <option value="脚本">脚本</option>
                     </select>
                     <select v-model="model" v-if="type=='f_ad_template'">
@@ -151,13 +152,16 @@
             }
         },
         mounted(){
-            this.getTypes();
+
             if(this.YWid){
                 this.getData();
             }
             if(this.YWid==undefined||this.type=='f_sls_lockscreen'){
                 this.getSize();
             }
+
+            this.getTypes();
+
         },
         methods:{
             sxFunction(){
@@ -191,9 +195,11 @@
                   this.endtime = res.endtime;
                   this.requirement=res.require;
                   // this.libraryName=res.putlib.name;
+
                   // if(this.type!='f_sls_lockscreen'){
                   //     this.sizeList=res.putlib.size.split(',')
                   // }
+
 
                 })
             },
