@@ -92,6 +92,23 @@
                 })
             },
             ADD(){
+                if(!this.name){
+                    this.$message.error('名称不能为空');
+                    return
+                }
+                if(!this.status){
+                    this.$message.error('状态不能为空');
+                    return
+                }
+                if(!this.amount){
+                    this.$message.error('支出金额不能为空');
+                    return
+                }
+                if(this.attachs==[]){
+                    this.$message.error('附件不能为空');
+                    return
+                }
+
                 let formData=new FormData;
                 formData.append('name',this.name);
                 formData.append('status',this.status);

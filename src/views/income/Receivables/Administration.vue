@@ -62,7 +62,7 @@
                                 label="实际结算金额">
                         </el-table-column>
                         <el-table-column
-                                prop="remit"
+                                prop="remit.receive_amount"
                                 label="实际到账金额">
                         </el-table-column>
                         <el-table-column
@@ -94,7 +94,7 @@
         name: "administration",
         data(){
             return{
-                value:[(new Date((new Date()).getTime() - 90*24*60*60*1000)).toLocaleDateString().split('/').join('-'),(new Date()).toLocaleDateString().split('/').join('-')],
+                value:[],
                 page:1,
                 p:10,
                 total:0,
@@ -115,7 +115,7 @@
                     }
                 }
             }
-            this.getDataList();
+            this.myformatter((new Date((new Date()).getTime() - 90*24*60*60*1000)));
         },
         methods:{
             handleSizeChange(p) { // 每页条数切换
@@ -154,6 +154,34 @@
                         id:id
                     },
                 })
+            },
+            myformatter(date){
+
+                var strDate = date.getFullYear()+"-";
+
+                if(date.getMonth()<10){
+
+                    var s = date.getMonth()+1+"-";
+
+                    strDate += "0"+s;
+
+                }else{
+
+                    strDate += date.getMonth()+1+"-";
+
+                }
+
+                if(date.getDate()<10){
+
+                    strDate += "0"+date.getDate();
+
+                }else{
+
+                    strDate += date.getDate();
+
+                }
+                this.value=[strDate,(new Date()).toLocaleDateString().split('/').join('-')];
+                this.getDataList();
             },
             getDataList(){
                 let params={search:this.search,is_receiver:'1',tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page};

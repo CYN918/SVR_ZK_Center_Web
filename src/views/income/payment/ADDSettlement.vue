@@ -56,10 +56,26 @@
             <div style="margin-bottom:20px">
                 <span  class="titName" >相关合同</span>
                 <span class="ADDs" @click="ADDht">添加合同</span>
+                <div style="margin: 14px 0 14px 140px" v-for="item in contracts">
+                    <div v-for="da in item">
+                        <div v-for="das in da.contract_files">
+                            <div style="display: inline-block;max-width: 200px;height: 20px;overflow:hidden;font-size:14px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(31,46,77,1);">{{da.contract_id}}</div>
+                            <span class="content_ck">查看</span>
+                            <a class="content_xz" :href="das.url">下载</a>
+                        </div>
+
+                    </div>
+
+                </div>
             </div>
             <div style="margin-bottom:20px">
                 <span  class="titName" >附件</span>
                 <span class="ADDs" @click="ADDfj()">上传</span>
+                <div style="margin: 14px 0 14px 140px" v-for="item in attachs">
+                    <div style="display: inline-block;max-width: 200px;height: 20px;overflow:hidden;font-size:14px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(31,46,77,1);">{{item.name}}</div>
+                    <span class="content_ck">查看</span>
+                    <a class="content_xz" :href="item.url">下载</a>
+                </div>
             </div>
             <div class="ADDbtn">
                 <span class="tj" @click="ADDdata()">添加</span>
@@ -76,9 +92,12 @@
                     <span class="content_seach" @click="getHT()">查询</span>
                 </div>
                 <div style="margin: 14px 20px" v-for="item in list">
-                    <div style="display: inline-block;width: 200px;height: 20px;overflow:hidden">{{item.contract_name}}</div>
-                    <span class="content_ck">查看</span>
-                    <a class="content_xz">下载</a>
+                    <div v-for="da in item.contract_files">
+                        <div style="display: inline-block;width: 200px;height: 20px;overflow:hidden">{{item.contract_id}}</div>
+                        <span class="content_ck">查看</span>
+                        <a class="content_xz" :href="da.url">下载</a>
+                    </div>
+
                 </div>
                 <div class="content_btn">
                     <span class="btn_tj" @click="heidHT()">添加</span>
@@ -93,14 +112,14 @@
                 </div>
                 <div class="uplaod">
                     <el-upload
-                         class="upload-demo"
-                        :limit="1"
-                        :on-exceed="handleExceed"
-                        :on-remove="handleRemove"
-                        :http-request="uploadFile"
-                        action="111">
+                            class="upload-demo"
+                            :limit="1"
+                            :on-exceed="handleExceed"
+                            :on-remove="handleRemove"
+                            :http-request="uploadFile"
+                            action="111">
                         <el-button size="small" type="primary">选择文件</el-button>
-                     </el-upload>
+                    </el-upload>
                 </div>
                 <div class="content_btn">
                     <span class="btn_tj" @click="heidFj()">添加</span>
@@ -133,6 +152,7 @@
                 num:[""],
                 contract_id:"",
                 list:[],
+                contract:[],
             }
         },
         mounted(){
@@ -173,7 +193,8 @@
             },
             heidHT(){
                 this.ht=false;
-                this.contracts.push(this.contract_id)
+                this.contract.push(this.contract_id);
+                this.contracts.push(this.list)
             },
             heidHTs(){
                 this.ht=false;
@@ -207,7 +228,7 @@
                 formData.append('contact',this.contact);
                 formData.append('phone',this.phone);
                 formData.append('note',this.note);
-                formData.append('contracts',JSON.stringify(this.contracts));
+                formData.append('contracts',JSON.stringify(this.contract));
                 formData.append('attachs',JSON.stringify(this.attachs));
                 this.api.settle_settlement_add(formData).then((res)=>{
 
@@ -215,7 +236,7 @@
             },
 
             getData(){
-                let params={name:this.$route.query.name,is_receiver:0};
+                let params={name:this.$route.query.name,is_receiver:1};
                 this.api.settle_settlement_detail({params}).then((res)=>{
                     this.name=res.name;
                     this.tdate=res.tdate;
@@ -231,68 +252,67 @@
                     this.contact=res.contact;
                     this.phone=res.phone;
                     this.note=res.note;
-                    this.contracts=res.contracts;
+                    this.contract=res.contracts;
                     this.attachs=res.attachs;
                 })
             },
-           setData(){
-               if(this.is_auto==false){
-                   this.is_auto=0;
-               }else {
-                   this.is_auto=1;
-               }
-               let formData=new FormData;
-               formData.append('name',this.name);
-               formData.append('is_receiver',0);
-               formData.append('tdate',this.tdate);
-               formData.append('is_auto',this.is_auto);
-               formData.append('account_name',this.account_name);
-               formData.append('bank_card_id',this.bank_card_id);
-               formData.append('bank_name',this.bank_name);
-               formData.append('tax_id',this.tax_id);
-               formData.append('contact',this.contact);
-               formData.append('phone',this.phone);
-               formData.append('note',this.note);
-               formData.append('contracts',JSON.stringify(this.contracts));
-               formData.append('attachs',JSON.stringify(this.attachs));
+            setData(){
+                if(this.is_auto==false){
+                    this.is_auto=0;
+                }else {
+                    this.is_auto=1;
+                }
+                let formData=new FormData;
+                formData.append('name',this.name);
+                formData.append('is_receiver',0);
+                formData.append('tdate',this.tdate);
+                formData.append('is_auto',this.is_auto);
+                formData.append('account_name',this.account_name);
+                formData.append('bank_card_id',this.bank_card_id);
+                formData.append('bank_name',this.bank_name);
+                formData.append('tax_id',this.tax_id);
+                formData.append('contact',this.contact);
+                formData.append('phone',this.phone);
+                formData.append('note',this.note);
+                formData.append('contracts',JSON.stringify(this.contracts));
+                formData.append('attachs',JSON.stringify(this.attachs));
                 this.api.settle_settlement_edit(formData).then((res)=>{
 
                 })
-           },
+            },
         }
     }
 </script>
-
 <style scoped>
-.top{
-    width: 100%;
-    height:98px;
-    border-top: 1px solid #ededed;
-    background: white;
-    -webkit-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.04);
-    box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.04);
-    position: fixed;
-    left: 256px;
-    top: 63px;
-    z-index: 99;
-}
-.new_url{color: rgba(61,73,102,1)!important;}
+    .top{
+        width: 100%;
+        height:98px;
+        border-top: 1px solid #ededed;
+        background: white;
+        -webkit-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.04);
+        box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.04);
+        position: fixed;
+        left: 256px;
+        top: 63px;
+        z-index: 99;
+    }
+    .new_url{color: rgba(61,73,102,1)!important;}
 
-.title_left span{
-    display: inline-block;
-    font-size:14px;
-    font-family:PingFang-SC-Medium,PingFang-SC;
-    font-weight:500;
-    color:rgba(31,46,77,1);
-    margin-left: 24px;
-    margin-top: 15px;
-    cursor: pointer;
-}
-.tableBox{
-    margin-top: 182px;
-    background: #fff;
-    padding-top:24px ;
-}
+    .title_left span{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFang-SC-Medium,PingFang-SC;
+        font-weight:500;
+        color:rgba(31,46,77,1);
+        margin-left: 24px;
+        margin-top: 15px;
+        cursor: pointer;
+    }
+    .tableBox{
+        margin-top: 182px;
+        background: #fff;
+        padding-top:24px ;
+    }
     .titName{
         display: inline-block;
         width:116px;
@@ -337,15 +357,15 @@
         border-radius:4px;
         margin:0 6px 0 0!important;
     }
-   textarea{
-       width:452px;
-       height:72px;
-       padding: 8px;
-       background:rgba(255,255,255,1);
-       border-radius:4px;
-       border:1px solid rgba(211,219,235,1);
-       margin-bottom: 20px;
-   }
+    textarea{
+        width:452px;
+        height:72px;
+        padding: 8px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        margin-bottom: 20px;
+    }
     .ADDbtn span{
         display: inline-block;
         text-align: center;
@@ -417,18 +437,18 @@
         margin-bottom: 24px;
         text-align: right;
     }
-.content_btn span{
-    display: inline-block;
-    text-align: center;
-    line-height: 36px;
-    cursor: pointer;
-    width:80px;
-    height:36px;
-    background:rgba(255,255,255,1);
-    border-radius:4px;
-    border:1px solid rgba(211,219,235,1);
-    margin-right: 20px;
-}
+    .content_btn span{
+        display: inline-block;
+        text-align: center;
+        line-height: 36px;
+        cursor: pointer;
+        width:80px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        margin-right: 20px;
+    }
     .btn_tj{
         color: #fff!important;
         background: #3377ff!important;

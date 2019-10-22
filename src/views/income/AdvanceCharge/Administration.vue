@@ -2,7 +2,7 @@
     <div>
         <div class="top">
             <div class="top_tit">
-                <span>收款结算</span>
+                <span>预付款管理</span>
             </div>
             <div class="user">
                 <div class="sk" :class="{check:is_receiver==1}" @click="switchs(1)">

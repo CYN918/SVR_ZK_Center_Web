@@ -20,7 +20,7 @@
                     <img src="../../../../public/img/ss.png">
                     <input type="text" placeholder="搜索结算方名称" v-model="search">
                 </div>
-                <span class="cx" @click="getDataList()">查询</span>
+                <span class="cx" @click="getData()">查询</span>
                 <span class="clear" @click="establish" :class="{Jurisdiction:this.controlBtn}">新建结算</span>
                 <span class="sf" @click="jump()">付款结算方管理</span>
             </div>
@@ -94,7 +94,7 @@
         name: "administration",
         data(){
             return{
-                value:[(new Date((new Date()).getTime() - 90*24*60*60*1000)).toLocaleDateString().split('/').join('-'),(new Date()).toLocaleDateString().split('/').join('-')],
+                value:[],
                 page:1,
                 p:10,
                 total:0,
@@ -116,7 +116,8 @@
                     }
                 }
             }
-            this.getData()
+            this.getData();
+            this.myformatter((new Date((new Date()).getTime() - 90*24*60*60*1000)))
         },
         methods:{
             handleSizeChange(p) { // 每页条数切换
@@ -151,8 +152,36 @@
                     path:"./DetailsOfCollection"
                 })
             },
+            myformatter(date){
+
+                var strDate = date.getFullYear()+"-";
+
+                if(date.getMonth()<10){
+
+                    var s = date.getMonth()+1+"-";
+
+                    strDate += "0"+s;
+
+                }else{
+
+                    strDate += date.getMonth()+1+"-";
+
+                }
+
+                if(date.getDate()<10){
+
+                    strDate += "0"+date.getDate();
+
+                }else{
+
+                    strDate += date.getDate();
+
+                }
+                this.value=[strDate,(new Date()).toLocaleDateString().split('/').join('-')];
+                this.getData();
+            },
             getData(){
-                let params={search:this.search,p:this.p,page:this.page,is_receiver:this.is_receiver}
+                let params={search:this.search,p:this.p,page:this.page,is_receiver:this.is_receiver,tstart:this.value[0],tend:this.value[1],};
                 this.api.settle_prepayment_search({params}).then((res)=>{
                     this.tableData=res.data;
                     this.total=res.total;

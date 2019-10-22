@@ -2,8 +2,8 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh('-2')">收款结算 &nbsp;/</span>
-                <span class="new_url" @click="fh('-1')">&nbsp;收款结算方管理</span>
+                <span class="log_url" @click="fh('-1')">收款结算 &nbsp;/</span>
+                <span class="new_url">&nbsp;收款结算方管理</span>
             </div>
             <div class="title_left">
                 <span>分成详情</span>

@@ -154,6 +154,7 @@
         color:rgba(31,46,77,1);
         margin-top: 15px;
         cursor: pointer;
+        margin-left: 24px;
     }
     .title_left img{
         width:12px;

@@ -40,7 +40,7 @@
             </div>
             <div>
                 <span class="bc" @click="bc()">保存</span>
-                <span class="boxBtn">返回</span>
+                <span class="boxBtn" @click="fh()">返回</span>
             </div>
         </div>
     </div>
@@ -70,6 +70,10 @@
                 })
             },
             bc(){
+                if(!this.status){
+                    this.$message.error('状态不能为空');
+                    return
+                }
                 let formData=new FormData;
                 formData.append('smid',this.this.$route.query.smid);
                 formData.append('status',this.status);
