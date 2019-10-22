@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="top_name">
-            <span class="top_txt">设计师结算\面包屑</span>
+            <span class="top_txt">结算管理\设计师结算</span>
             <div class="title_left">
                 <span>设计师结算</span>
             </div>
@@ -39,13 +39,16 @@
                 <div class="zh">
                     <span>账号主体</span>
                     <select>
-                        <option>aa</option>
+                        <option value="1">个人</option>
+                        <option value="2">公司</option>
                     </select>
                 </div>
                 <div>
                     <span>状态</span>
                     <select>
-                        <option>aaa</option>
+                        <option value="0">待处理</option>
+                        <option value="1">已通过</option>
+                        <option value="-1">已驳回</option>
                     </select>
 
                 </div>
@@ -62,52 +65,54 @@
                             :cell-style="cell"
                             style="width: 100%;color:#000">
                         <el-table-column
-                                label="用户ID" prop="demand_type"
+                                label="用户ID" prop="open_id"
                                >
                         </el-table-column>
                         <el-table-column
-                                label="用户昵称" prop="did"
+                                label="用户昵称" prop="account_name"
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="用户昵称" prop="status_name"
+                                label="用户类别" prop="contributor_type"
+                                >
+                            <template slot-scope="scope">
+                                <span>{{tableData[scope.$index].contributor_type==1?'个人':'公司'}}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                                label="提现金额" prop="cash_money"
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="用户类别" prop="status"
+                                label="纳税金额" prop="tax_money"
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="体现金额" prop="creator"
+                                label="税后金额" prop="after_tax_money"
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="纳税金额" prop="endtime"
-                                >
-                        </el-table-column>
-                        <el-table-column
-                                label="税后金额" prop="endtime"
-                                >
-                        </el-table-column>
-                        <el-table-column
-                                label="账户名" prop="endtime"
+                                label="银行账户名" prop="account_name"
                                >
                         </el-table-column>
                         <el-table-column
-                                label="开户银行" prop="endtime"
+                                label="开户银行" prop="bank_name"
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="开户行" prop="endtime"
+                                label="开户行" prop="bank_subbranch"
                                 >
                         </el-table-column>
                         <el-table-column
                                 label="状态" prop="endtime"
                                 >
+                            <template slot-scope="scope">
+                                <span>{{tableData[scope.$index].isfinish==0?'待处理':tableData[scope.$index].isfinish==1?'已通过':'已驳回'}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="props">
-                                <el-button type="text" @click="jump()">查看详情</el-button>
+                                <el-button type="text" @click="jump(tableData[props.$index])">查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -134,10 +139,7 @@
         data(){
             return{
                 time:'',
-                tableData:[{
-                    demand_type:"aaaa"
-                },{demand_type:"aaaa"}
-                ],
+                tableData:[],
                 total:0,
                 page:1,
                 p:10,
@@ -174,11 +176,11 @@
                     this.total = res.total;
                 })
             },
-            jump(id){
+            jump(data){
                 this.$router.push({
-                    // query:{
-                    //     id:id,
-                    // },
+                    query:{
+                        data:data,
+                    },
                     path:"/income/money_details"
                 })
             }

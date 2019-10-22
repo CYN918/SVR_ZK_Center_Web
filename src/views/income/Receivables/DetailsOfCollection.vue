@@ -88,7 +88,7 @@
 
                 </div>
                 <div class="fillBtn">
-                    <span @click="fh">返回</span>
+                    <span @click="fh(-1)">返回</span>
                 </div>
             </div>
         </div>
@@ -207,6 +207,7 @@
         font-family:HelveticaNeue;
         color:#8F9BB3;
         margin: 0 0 10px 15px;
+        cursor: pointer;
     }
     .boxs{
         background:rgba(0,122,255,1)!important;

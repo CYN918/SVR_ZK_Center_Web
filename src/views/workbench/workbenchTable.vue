@@ -130,7 +130,7 @@
                                     <div class="step_tit" :class="{active:item.did==undefined&&tableData[props.$index].status!=item.status}">{{item.status_name}}</div>
                                     <div class="step_time" v-if="item.creator!=''||tableData[props.$index].status==item.status&&item.isfinish!=1&&item.key==0">{{item.updated_at}}</div>
                                     <div class="step_time" v-if="item.key!=0&&tableData[props.$index].status==item.status">{{tableData[props.$index].updated_at}}</div>
-                                    <div class="step_contnet" v-if="item.creator!=''||tableData[props.$index].status==item.status">
+                                   <div class="step_contnet" v-if="item.creator!=''||tableData[props.$index].status==item.status">
                                         <span class="step_txt">状态</span>
                                         <span v-if="item.isfinish!='1'&&tableData[props.$index].status_name!='提现审核'&&tableData[props.$index].status!=item.status">{{item.msg}}</span>
                                         <span v-if="item.isfinish==1&&item.status_name!='提现完成'&&item.status_name!='素材入库'">已入库</span>

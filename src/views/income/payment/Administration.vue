@@ -21,8 +21,10 @@
                     <input type="text" placeholder="搜索结算方名称" v-model="search">
                 </div>
                 <span class="cx" @click="getData()">查询</span>
-                <span class="clear" @click="establish" :class="{Jurisdiction:this.controlBtn}">新建结算</span>
-                <span class="sf" @click="jump()">付款结算方管理</span>
+                <div style="display: inline-block;float: right;margin-right: 15%">
+                    <span class="clear" @click="establish" :class="{Jurisdiction:this.controlBtn}">新建结算</span>
+                    <span class="sf" @click="jump()">收款结算方管理</span>
+                </div>
             </div>
         </div>
         <div class="table">
@@ -39,36 +41,53 @@
                         </el-table-column>
                         <el-table-column
                                 prop="creator"
+                                :show-overflow-tooltip="true"
                                 label="结算方名称">
+                            <template slot-scope="scope">
+                                <span>{{tableData[scope.$index].check.name}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                                 prop="status"
                                 label="状态">
+                            <template slot-scope="scope">
+                                <span>{{tableData[scope.$index].status==1?'对账确认':tableData[scope.$index].status==2?'票据凭证':'结算汇款'}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                                 prop="status"
+                                :show-overflow-tooltip="true"
                                 label="结算时间段">
                             <template slot-scope="scope">
-                                <span>{{tableData[scope.$index].check.tstart}}--</span>
-                                <span>{{tableData[scope.$index].check.tend}}</span>
+                                <span>{{(tableData[scope.$index].check.tstart).split('-').join('/')}}至</span>
+                                <span>{{(tableData[scope.$index].check.tend).split('-').join('/')}}</span>
                             </template>
                         </el-table-column>
                         <el-table-column
                                 prop="check.expect_amount"
                                 label="预计结算金额">
+                            <template slot-scope="scope">
+                                <span>{{(tableData[scope.$index].check.expect_amount).toLocaleString("zh-Hans-CN",{style:'currency',currency:'CNY'})}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                                 prop="check.real_amount"
                                 label="实际结算金额">
+                            <template slot-scope="scope">
+                                <span>{{(tableData[scope.$index].check.real_amount).toLocaleString("zh-Hans-CN",{style:'currency',currency:'CNY'})}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
-                                prop="remit"
+                                prop="remit.receive_amount"
                                 label="实际到账金额">
+                            <template slot-scope="scope" v-if="tableData[scope.$index].remit!=null">
+                                <span :class="{red:tableData[scope.$index].remit.receive_amount!=tableData[scope.$index].check.real_amount}">{{(tableData[scope.$index].remit.receive_amount).toLocaleString("zh-Hans-CN",{style:'currency',currency:'CNY'})}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                                 label="操作">
                             <template slot-scope="scope">
-                                <el-button  type="text" size="small" @click="details()">查看详情</el-button>
+                                <el-button  type="text" size="small" @click="details(tableData[scope.$index].id)">查看详情</el-button>
                                 <el-button  type="text" size="small">作废</el-button>
                             </template>
                         </el-table-column>
@@ -180,10 +199,27 @@
                 this.value=[strDate,(new Date()).toLocaleDateString().split('/').join('-')];
                 this.getData();
             },
+            fmoney(s, n)
+                {
+                n = n > 0 && n <= 20 ? n : 2;
+                s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+                var l = s.split(".")[0].split("").reverse(),
+                    r = s.split(".")[1];
+                t = "";
+                for(i = 0; i < l.length; i ++ )
+                {
+                    t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+                }
+                return t.split("").reverse().join("") + "." + r;
+            },
+
             getData(){
                 let params={search:this.search,p:this.p,page:this.page,is_receiver:this.is_receiver,tstart:this.value[0],tend:this.value[1],};
                 this.api.settle_prepayment_search({params}).then((res)=>{
                     this.tableData=res.data;
+                    for(var i=0;i<this.tableData.length;i++){
+                        this.tableData[i].check.expect_amount= fmoney(this.tableData[i].check.expect_amount, 3)
+                    }
                     this.total=res.total;
                 })
             },

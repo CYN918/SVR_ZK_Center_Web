@@ -205,9 +205,9 @@
                 this.msg=false
             },
             getData(){
-                let params={is_receiver:0,paeg:1,p:5000};
-                this.api.settle_settlement_search({params}).then((res)=>{
-                    this.list=res.data;
+                let params={is_receiver:0};
+                this.api.settle_settlement({params}).then((res)=>{
+                    this.list=res;
                 })
             },
             getList(){

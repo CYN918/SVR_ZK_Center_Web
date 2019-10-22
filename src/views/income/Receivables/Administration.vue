@@ -21,8 +21,11 @@
                     <input type="text" placeholder="搜索结算方名称" v-model="search">
                 </div>
                 <span class="cx" @click="getDataList()">查询</span>
-                <span class="clear" @click="establish" :class="{Jurisdiction:this.controlBtn}">新建结算</span>
-                <span class="sf" @click="jump()">收款结算方管理</span>
+                <div style="display: inline-block;float: right;margin-right: 15%">
+                    <span class="clear" @click="establish" :class="{Jurisdiction:this.controlBtn}">新建结算</span>
+                    <span class="sf" @click="jump()">收款结算方管理</span>
+                </div>
+
             </div>
         </div>
         <div class="table">
@@ -39,31 +42,48 @@
                         </el-table-column>
                         <el-table-column
                                 prop="creator"
+                                :show-overflow-tooltip="true"
                                 label="结算方名称">
+                            <template slot-scope="scope">
+                                <span>{{tableData[scope.$index].check.name}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                                 prop="status"
                                 label="状态">
+                            <template slot-scope="scope">
+                                <span>{{tableData[scope.$index].status==1?'对账确认':tableData[scope.$index].status==2?'票据凭证':'结算汇款'}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                                 prop="status"
+                                :show-overflow-tooltip="true"
                                 label="结算时间段">
                                 <template slot-scope="scope">
-                                    <span>{{tableData[scope.$index].check.tstart}}--</span>
-                                    <span>{{tableData[scope.$index].check.tend}}</span>
+                                    <span>{{(tableData[scope.$index].check.tstart).split('-').join('/')}}至</span>
+                                    <span>{{(tableData[scope.$index].check.tend).split('-').join('/')}}</span>
                                 </template>
                         </el-table-column>
                         <el-table-column
                                 prop="check.expect_amount"
                                 label="预计结算金额">
+                            <template slot-scope="scope">
+                                <span>{{(tableData[scope.$index].check.expect_amount).toLocaleString("zh-Hans-CN",{style:'currency',currency:'CNY'})}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                                 prop="check.real_amount"
                                 label="实际结算金额">
+                            <template slot-scope="scope">
+                                <span>{{(tableData[scope.$index].check.real_amount).toLocaleString("zh-Hans-CN",{style:'currency',currency:'CNY'})}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                                 prop="remit.receive_amount"
                                 label="实际到账金额">
+                            <template slot-scope="scope" v-if="tableData[scope.$index].remit!=null">
+                                <span :class="{red:tableData[scope.$index].remit.receive_amount!=tableData[scope.$index].check.real_amount}">{{(tableData[scope.$index].remit.receive_amount).toLocaleString("zh-Hans-CN",{style:'currency',currency:'CNY'})}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                                 label="操作">
@@ -273,5 +293,8 @@
     }
     .Jurisdiction{
         display: none;
+    }
+    .red{
+        color: red;
     }
 </style>

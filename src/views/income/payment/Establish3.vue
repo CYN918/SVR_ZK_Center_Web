@@ -35,12 +35,14 @@
                 <div>
                     <span class="fillName">到账时间</span>
                     <div class="fillTime">
+
                         <el-date-picker
                                 v-model="receive_tdate"
                                 type="date"
                                 placeholder="请以银行到账时间为准"
-                                format="yyyy-mm-dd"
-                                value-format="yyyy-mm-dd">
+                                value-format="yyyy-MM-dd"
+                                format="yyyy-MM-dd"
+                        >
                         </el-date-picker>
                     </div>
                 </div>
@@ -84,6 +86,7 @@
                 attachs:[],
                 receive_amount:"",
                 receive_tdate:"",
+
             }
         },
         mounted(){

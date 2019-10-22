@@ -28,8 +28,8 @@
                                 v-model="receive_tdate"
                                 type="date"
                                 placeholder="请以银行到账时间为准"
-                                format="yyyy-mm-dd"
-                                value-format="yyyy-mm-dd">
+                                format="yyyy-MM-dd"
+                                value-format="yyyy-MM-dd">
                         </el-date-picker>
                     </div>
                 </div>

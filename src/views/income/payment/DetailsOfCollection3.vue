@@ -65,7 +65,7 @@
 
                 </div>
                 <div class="fillBtn">
-                    <span @click="fh">返回</span>
+                    <span @click="fh(-1)">返回</span>
                 </div>
             </div>
         </div>

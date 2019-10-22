@@ -79,7 +79,7 @@
             </div>
             <div class="ADDbtn">
                 <span class="tj" @click="ADDdata()">添加</span>
-                <span >取消</span>
+                <span @click="fh(-1)">取消</span>
             </div>
         </div>
         <div class="bg" v-if="ht">
@@ -207,6 +207,7 @@
                 })
             },
             ADDdata(){
+
                 if(this.$route.query.name!=undefined){
                     this.setData();
                     return
@@ -215,6 +216,46 @@
                     this.is_auto=0;
                 }else {
                     this.is_auto=1;
+                }
+                if(!this.name){
+                    this.$message.error('名称不能为空');
+                    return
+                }
+                if(!this.tdate&&this.is_auto!=1){
+                    this.$message.error('生成对账时间不能为空');
+                    return
+                }
+                if(!this.account_name){
+                    this.$message.error('开户名不能为空');
+                    return
+                }
+                if(!this.bank_card_id){
+                    this.$message.error('银行账号不能为空');
+                    return
+                }
+                if(!this.bank_name){
+                    this.$message.error('开户银行不能为空');
+                    return
+                }
+                if(!this.tax_id){
+                    this.$message.error('税号不能为空');
+                    return
+                }
+                if(!this.contact){
+                    this.$message.error('联系人不能为空');
+                    return
+                }
+                if(!this.phone){
+                    this.$message.error('联系电话不能为空');
+                    return
+                }
+                if(this.contracts==[]){
+                    this.$message.error('合同不能为空');
+                    return
+                }
+                if(this.attachs==[]){
+                    this.$message.error('附件不能为空');
+                    return
                 }
                 let formData=new FormData;
                 formData.append('name',this.name);
@@ -231,7 +272,7 @@
                 formData.append('contracts',JSON.stringify(this.contract));
                 formData.append('attachs',JSON.stringify(this.attachs));
                 this.api.settle_settlement_add(formData).then((res)=>{
-
+                    this.fh(-1)
                 })
             },
 
@@ -262,6 +303,46 @@
                 }else {
                     this.is_auto=1;
                 }
+                if(!this.name){
+                    this.$message.error('名称不能为空');
+                    return
+                }
+                if(!this.tdate&&this.is_auto!=1){
+                    this.$message.error('生成对账时间不能为空');
+                    return
+                }
+                if(!this.account_name){
+                    this.$message.error('开户名不能为空');
+                    return
+                }
+                if(!this.bank_card_id){
+                    this.$message.error('银行账号不能为空');
+                    return
+                }
+                if(!this.bank_name){
+                    this.$message.error('开户银行不能为空');
+                    return
+                }
+                if(!this.tax_id){
+                    this.$message.error('税号不能为空');
+                    return
+                }
+                if(!this.contact){
+                    this.$message.error('联系人不能为空');
+                    return
+                }
+                if(!this.phone){
+                    this.$message.error('联系电话不能为空');
+                    return
+                }
+                if(this.contracts==[]){
+                    this.$message.error('合同不能为空');
+                    return
+                }
+                if(this.attachs==[]){
+                    this.$message.error('附件不能为空');
+                    return
+                }
                 let formData=new FormData;
                 formData.append('name',this.name);
                 formData.append('is_receiver',0);
@@ -277,7 +358,7 @@
                 formData.append('contracts',JSON.stringify(this.contracts));
                 formData.append('attachs',JSON.stringify(this.attachs));
                 this.api.settle_settlement_edit(formData).then((res)=>{
-
+                    this.fh(-1)
                 })
             },
         }
