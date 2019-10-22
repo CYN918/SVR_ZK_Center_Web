@@ -193,6 +193,7 @@
             },
             heidHT(){
                 this.ht=false;
+                this.contract.push(this.contract_id);
                 this.contracts.push(this.list)
             },
             heidHTs(){
@@ -227,7 +228,7 @@
                 formData.append('contact',this.contact);
                 formData.append('phone',this.phone);
                 formData.append('note',this.note);
-                formData.append('contracts',JSON.stringify(this.contracts));
+                formData.append('contracts',JSON.stringify(this.contract));
                 formData.append('attachs',JSON.stringify(this.attachs));
                 this.api.settle_settlement_add(formData).then((res)=>{
 
@@ -251,7 +252,7 @@
                     this.contact=res.contact;
                     this.phone=res.phone;
                     this.note=res.note;
-                    this.contracts=res.contracts;
+                    this.contract=res.contracts;
                     this.attachs=res.attachs;
                 })
             },

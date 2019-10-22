@@ -1072,4 +1072,8 @@ export default {
     demand_cancel:{
 		url:'demand/cancel',method:"post",isType:{suktip:1,reload:1}
 	},
+	// 全部启用的结算方
+    settle_settlement:{
+		url:"settle/settlement",method:'get'
+	},
 }
