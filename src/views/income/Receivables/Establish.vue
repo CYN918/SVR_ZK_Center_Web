@@ -66,7 +66,7 @@
                     <span class="fillName">预计结算金额</span>
                     <div style="display: inline-block;width: 593px;text-align: left" >
                         <input type="number" class="input" v-model="expect_amount">
-                        <span class="click">查看预计结算金额</span>
+                        <span class="click">查看预计结算数据</span>
                     </div>
                 </div>
                 <div>
@@ -224,31 +224,31 @@
                 })
             },
             setData(){
-                if(!name){
+                if(!this.name){
                     this.$message.error('结算方不能为空');
                     return
                 }
-                if(!statement){
+                if(!this.statement){
                     this.$message.error('结算单名称不能为空');
                     return
                 }
-                if(time==[]){
+                if(this.time==[]){
                     this.$message.error('结算时间段不能为空');
                     return
                 }
-                if(!expect_amount){
+                if(!this.expect_amount){
                     this.$message.error('预计结算金额不能为空');
                     return
                 }
-                if(!real_amount){
+                if(!this.real_amount){
                     this.$message.error('实际结算金额不能为空');
                     return
                 }
-                if(!note){
+                if(!this.note){
                     this.$message.error('备注不能为空');
                     return
                 }
-                if(attachs==[]){
+                if(this.attachs==[]){
                     this.$message.error('附件不能为空');
                     return
                 }

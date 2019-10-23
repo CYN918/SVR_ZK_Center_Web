@@ -277,7 +277,7 @@
             },
 
             getData(){
-                let params={name:this.$route.query.name,is_receiver:1};
+                let params={name:this.$route.query.name,is_receiver:0};
                 this.api.settle_settlement_detail({params}).then((res)=>{
                     this.name=res.name;
                     this.tdate=res.tdate;

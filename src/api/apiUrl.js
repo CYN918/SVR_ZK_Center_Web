@@ -1076,4 +1076,5 @@ export default {
     settle_settlement:{
 		url:"settle/settlement",method:'get'
 	},
+
 }

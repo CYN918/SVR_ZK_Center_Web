@@ -6,7 +6,7 @@
                 <span class="new_url">&nbsp;收款结算方管理</span>
             </div>
             <div class="title_left">
-                <span>分成详情</span>
+                <span>收款结算方管理</span>
             </div>
             <div style="margin-top: 20px">
                 <div class="seach">
@@ -181,7 +181,7 @@
         font-family:PingFang-SC-Medium,PingFang-SC;
         font-weight:500;
         color:rgba(31,46,77,1);
-        margin-left: 8px;
+        margin-left: 24px;
         margin-top: 15px;
         cursor: pointer;
     }

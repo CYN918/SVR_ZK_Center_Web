@@ -165,9 +165,12 @@
                     path:"./establish"
                 })
             },
-            details(){
+            details(id){
                 this.$router.push({
-                    path:"./DetailsOfCollection"
+                    path:"./DetailsOfCollection",
+                    query:{
+                        id:id
+                    },
                 })
             },
             myformatter(date){
@@ -198,27 +201,11 @@
                 this.value=[strDate,(new Date()).toLocaleDateString().split('/').join('-')];
                 this.getData();
             },
-            fmoney(s, n)
-                {
-                n = n > 0 && n <= 20 ? n : 2;
-                s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
-                var l = s.split(".")[0].split("").reverse(),
-                    r = s.split(".")[1];
-                t = "";
-                for(i = 0; i < l.length; i ++ )
-                {
-                    t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
-                }
-                return t.split("").reverse().join("") + "." + r;
-            },
 
             getData(){
-                let params={search:this.search,p:this.p,page:this.page,is_receiver:this.is_receiver,tstart:this.value[0],tend:this.value[1],};
-                this.api.settle_prepayment_search({params}).then((res)=>{
+                let params={search:this.search,is_receiver:'0',tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page};
+                this.api.settlemanage_search({params}).then((res)=>{
                     this.tableData=res.data;
-                    for(var i=0;i<this.tableData.length;i++){
-                        this.tableData[i].check.expect_amount= fmoney(this.tableData[i].check.expect_amount, 3)
-                    }
                     this.total=res.total;
                 })
             },
@@ -305,5 +292,8 @@
     }
 .Jurisdiction{
     display: none;
+}
+.red{
+    color: red;
 }
 </style>

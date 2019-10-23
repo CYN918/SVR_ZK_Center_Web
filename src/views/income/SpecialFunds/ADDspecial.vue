@@ -116,7 +116,7 @@
                 formData.append('note',this.note);
                 formData.append('attachs',JSON.stringify(this.attachs));
                 this.api.settle_special_add(formData).then((res)=>{
-
+                    this.fh();
                 })
             }
         }

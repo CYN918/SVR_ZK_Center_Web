@@ -43,7 +43,7 @@
                     <span class="fillName">预计结算金额</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
                         <span  class="text">{{list.check.expect_amount}}</span>
-                        <span class="click">查看预计结算金额</span>
+                        <span class="click">查看预计结算数据</span>
                     </div>
 
                 </div>

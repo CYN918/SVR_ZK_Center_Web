@@ -27,7 +27,7 @@
                 <span  class="TitName">绑定结算单</span>
                 <input type="text" placeholder="请输入" v-model="settle_id"/>
             </div>
-            <div>
+            <div v-if="type==2">
                <span  class="TitName">附件</span>
                 <div class="uplaod">
                     <el-upload
@@ -42,7 +42,7 @@
                 </div>
             </div>
             <div>
-                <span class="tj" @clisk="ADDdata()">添加</span>
+                <span class="tj" @click="ADDdata()">添加</span>
                 <span class="boxBtn" @click="fh()">取消</span>
             </div>
         </div>
@@ -91,10 +91,6 @@
                         this.$message.error("备注不能为空");
                         return
                     }
-                    if(this.attachs==[]){
-                        this.$message.error("附件不能为空");
-                        return
-                    }
                     if(!this.settle_id){
                         this.$message.error("绑定结算单不能为空");
                         return
@@ -106,9 +102,7 @@
                     formData.append('amount',this.amount);
                     formData.append('settle_id',this.settle_id);
                     formData.append('note',this.note);
-                    formData.append('attachs',JSON.stringify(this.attachs));
                 }else {
-                    if (this.type == 1) {
                         if (!this.type) {
                             this.$message.error("类型不能为空");
                             return
@@ -119,10 +113,6 @@
                         }
                         if (!this.note) {
                             this.$message.error("备注不能为空");
-                            return
-                        }
-                        if (this.attachs == []) {
-                            this.$message.error("附件不能为空");
                             return
                         }
                         if (this.attachs == []) {
@@ -140,7 +130,6 @@
                     this.api.settle_prepayment_add(formData).then((res) => {
                         this.$router.go(-1)
                     })
-                }
             },
         }
     }

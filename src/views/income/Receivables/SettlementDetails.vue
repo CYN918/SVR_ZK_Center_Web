@@ -51,9 +51,14 @@
                 <span class="tableBox_name">相关合同</span>
                 <div style="display: inline-block">
                     <div v-for="item in list.contracts">
-                        <span class="textName"></span>
-                        <span class="ck">查看</span>
-                        <span class="xz">下载</span>
+                        <div v-for="da in item">
+                            <div v-for="data in da.contract_files">
+                                <span class="textName">{{data.name}}</span>
+                                <span class="ck">查看</span>
+                                <a class="xz" :href="data.url">下载</a>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -67,9 +72,9 @@
                 <span class="tableBox_name">附件</span>
                 <div style="display: inline-block">
                     <div v-for="item in list.attachs">
-                        <span class="textName">{{item}}</span>
-                        <span class="ck">查看</span>
-                        <a class="xz" :href="item.url">下载</a>
+                            <span class="textName">{{item.name}}</span>
+                            <span class="ck">查看</span>
+                            <a class="xz" :href="item.url">下载</a>
                     </div>
                 </div>
             </div>

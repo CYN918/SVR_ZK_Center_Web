@@ -2,7 +2,7 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh()">预付款管理 &nbsp;/</span>
+                <span class="log_url" @click="fhs()">预付款管理 &nbsp;/</span>
                 <span class="log_url" @click="fh()">预付款详情界面 &nbsp;/</span>
                 <span class="new_url">&nbsp;预付款改变更新详情</span>
             </div>
@@ -10,11 +10,11 @@
         <div class="content">
             <div>
                 <span class="TitName">类型</span>
-                <span class="text">{{list.type}}</span>
+                <span class="text">{{list.type==1?'消耗金额':'增加金额'}}</span>
             </div>
             <div>
                 <span  class="TitName">消耗金额</span>
-                <span class="text"></span>
+                <span class="text">{{list.amount}}</span>
             </div>
             <div>
                 <span  class="TitName">备注</span>
@@ -26,7 +26,7 @@
                 <span class="click">查看详情</span>
             </div>
             <div>
-                <span class="boxBtn">返回</span>
+                <span class="boxBtn" @click="jump()">返回</span>
             </div>
         </div>
     </div>
@@ -40,7 +40,21 @@
                 list:{},
             }
         },
+        mounted(){this.getData()},
         methods:{
+            fh(){
+                this.$router.push({
+                    path:"./YFdetails"
+                })
+            },
+            fhs(){
+                this.$router.push({
+                    path:"./Administration"
+                })
+            },
+            jump(){
+                this.$router.go(-1)
+            },
             getData(){
                 let params={prid:this.$route.query.prid};
                 this.api.settle_prepayment_detail({params}).then((res)=>{

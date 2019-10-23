@@ -12,7 +12,8 @@
         <div class="table">
             <div>
                 <div class="fkName">
-                    <span>收款方-结算方名称</span>
+                    <span v-if="this.$route.is_receiver==1">收款方-结算方名称</span>
+                    <span v-if="this.$route.is_receiver==0">付款方-结算方名称</span>
                 </div>
                 <div>
                     <span class="money">预付款剩余金额：¥800,000</span>
@@ -27,11 +28,18 @@
                 >
                     <el-table-column
                             prop="name"
-                            label="结算放名称">
+                            label='金额变化'>
+                        <template slot-scope="scope">
+                            <span>{{tableData[scope.$index].type==1?'-':'+'}}￥{{tableData[scope.$index].amount}}</span>
+                        </template>
                     </el-table-column>
                     <el-table-column
                             prop="remain_amount"
-                            label="预付款金额">
+                            label="预付款剩余金额">
+                    </el-table-column>
+                    <el-table-column
+                            prop="note"
+                            label="变更原因">
                     </el-table-column>
                     <el-table-column
                             prop="updated_at"
@@ -40,8 +48,8 @@
                     <el-table-column
                             label="操作">
                         <template slot-scope="scope">
-                            <el-button  type="text" size="small" @click="ck(tableData[scope.$inde].prid)">查看详情</el-button>
-                            <el-button  type="text" size="small" @click="del(tableData[scope.$inde].prid)">删除</el-button>
+                            <el-button  type="text" size="small" @click="ck(tableData[scope.$index].prid)">查看详情</el-button>
+                            <el-button  type="text" size="small" @click="del(tableData[scope.$index].prid)">删除</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
