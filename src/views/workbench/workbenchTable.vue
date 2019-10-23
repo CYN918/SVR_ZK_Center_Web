@@ -85,7 +85,8 @@
                     </el-table-column>
                     <el-table-column label="操作">
                         <template slot-scope="props">
-                            <el-button v-if="tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算'" @click="getCK(tableData[props.$index].id,tableData[props.$index].demand_type,tableData[props.$index].status)">查看详情</el-button>
+                            <el-button v-if="(tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算')&&tableData[props.$index].isfinish!=2" @click="getCK(tableData[props.$index].id,tableData[props.$index].demand_type,tableData[props.$index].status)">查看详情</el-button>
+                            <el-button v-if="(tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算')&&tableData[props.$index].isfinish==2" @click="CKbh(tableData[props.$index].id,tableData[props.$index].status)">查看驳回原因</el-button>
                             <el-button v-if="(tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算')&&tableData[props.$index].status==2&&tableData[props.$index].isfinish!=2" @click="ADDscope(tableData[props.$index].id,tableData[props.$index].demand_type,tableData[props.$index].status)">票据凭证</el-button>
                             <el-button v-if="(tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算')&&tableData[props.$index].status==3&&tableData[props.$index].isfinish!=2" @click="ADDRemit(tableData[props.$index].id,tableData[props.$index].demand_type,tableData[props.$index].status)">结算汇款</el-button>
                             <el-button v-if="(tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算')&&tableData[props.$index].isfinish!=2" @click="Abolish(tableData[props.$index].id,tableData[props.$index].status)">作废</el-button>
@@ -130,21 +131,23 @@
                                     <div class="step_tit" :class="{active:item.did==undefined&&tableData[props.$index].status!=item.status}">{{item.status_name}}</div>
                                     <div class="step_time" v-if="item.creator!=''||tableData[props.$index].status==item.status&&item.isfinish!=1&&item.key==0">{{item.updated_at}}</div>
                                     <div class="step_time" v-if="item.key!=0&&tableData[props.$index].status==item.status">{{tableData[props.$index].updated_at}}</div>
-                                   <div class="step_contnet" v-if="item.creator!=''||tableData[props.$index].status==item.status">
+                                   <div class="step_contnet" v-if="(item.creator!=''||tableData[props.$index].status==item.status)||(tableData[props.$index].demand_type=='收款结算'&&tableData[props.$index].status!=4)">
                                         <span class="step_txt">状态</span>
                                         <span v-if="item.isfinish!='1'&&tableData[props.$index].status_name!='提现审核'&&tableData[props.$index].status!=item.status">{{item.msg}}</span>
-                                        <span v-if="item.isfinish==1&&item.status_name!='提现完成'&&item.status_name!='素材入库'">已入库</span>
+                                        <span v-if="item.isfinish==1&&item.status_name!='提现完成'&&item.status_name!='素材入库'&&((tableData[props.$index].demand_type=='收款结算'&&item.status!=4)||(tableData[props.$index].demand_type=='付款结算'&&item.status!=4))">已入库</span>
                                         <span v-if="item.isfinish==1&&item.status_name=='提现完成'">已完成</span>
                                         <span v-if="tableData[props.$index].demand_type=='素材需求'&&item.status==5&&tableData[props.$index].isfinish==0">部分入库</span>
                                         <span v-if="tableData[props.$index].demand_type=='素材需求'&&item.status==5&&tableData[props.$index].isfinish==1">全部入库</span>
-                                        <span v-if="tableData[props.$index].status==item.status&&item.isfinish!='1'&&item.status_name!='素材入库'">待处理</span>
+                                        <span v-if="tableData[props.$index].status==item.status&&item.isfinish!='1'&&item.status_name!='素材入库'&&item.isfinish!=2">待处理</span>
+                                       <span v-if="tableData[props.$index].status==item.status&&item.isfinish!='1'&&item.status_name!='素材入库'&&item.isfinish==2">已作废</span>
                                     </div>
                                     <div class="step_contnet" v-if="item.creator!=''||tableData[props.$index].status==item.status">
                                         <span class="step_txt" v-if="item.status==1&&tableData[props.$index].status!=item.status">来源</span>
                                         <span class="step_txt" v-if="item.status==1&&tableData[props.$index].status==item.status">待处理人</span>
                                         <span class="step_txt" v-if="item.status!=1">处理人</span>
                                         <span v-if="item.did!=undefined&&tableData[props.$index].status!=item.status">{{item.user_name}}</span>
-                                        <span v-if="item.did!=undefined&&tableData[props.$index].status==item.status" v-for="da in tableData[props.$index].processor">{{da}};</span>
+                                        <span v-if="item.did!=undefined&&tableData[props.$index].status==item.status&&item.isfinish!=2" v-for="da in tableData[props.$index].processor">{{da}};</span>
+                                        <span v-if="item.did!=undefined&&tableData[props.$index].status==item.status&&item.isfinish==2" >{{item.user_name}};</span>
                                         <span  v-if="item.did==undefined&&item.reject!='1'&&tableData[props.$index].status==item.status&&tableData[props.$index].status_name!='提现完成'" v-for="da in tableData[props.$index].processor">{{da}};</span>
                                     </div>
                                     <div class="step_contnet" v-if="item.creator!=''||tableData[props.$index].status==item.status">
@@ -152,11 +155,12 @@
                                         <span class="step_txt" v-if="index!='0'">处理结果</span>
                                         <span class="dj" v-if="tableData[props.$index].demand_type=='设计师结算'&&item.status=='5'">已完成</span>
                                         <span class="dj" v-if="item.key==0&&item.status_name!='结算汇款'&&item.status_name!='素材审核'&&item.status_name!='物料审核'&&item.status_name!='测试验收'&&item.status_name!='发布审核'&&item.status_name!='活动发布'&&item.status_name!='素材入库'&&item.status_name!='提现完成'&&item.status_name!='素材入库'&&tableData[props.$index].demand_type!='收款结算'&&tableData[props.$index].demand_type!='付款结算'&&item.reject!='1'" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status,item.reject)">查看详情</span>
-                                        <span v-if="item.did==undefined&&item.reject!='1'&&tableData[props.$index].status==item.status&&item.isfinish!=1&&item.status_name!='结算汇款'&&item.status!=1">待处理</span>
-                                        <!--<span v-if="item.reject=='1'&&tableData[props.$index].status==item.status">待处理</span>-->
+                                        <span v-if="item.did==undefined&&tableData[props.$index].status==item.status&&item.isfinish!=1&&item.status_name!='结算汇款'&&item.status!=1">待处理</span>
+                                        <span v-if="tableData[props.$index].status==item.status&&((tableData[props.$index].demand_type=='收款结算'&&item.status!=4)||(tableData[props.$index].demand_type=='付款结算'&&item.status!=4))&&item.isfinish!=2">待处理</span>
                                         <span class="dj" v-if="item.isfinish==1&&item.status_name!='提现完成'&&item.status_name!='素材入库'" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status)">查看详情</span>
                                         <span class="dj" v-if="item.status_name=='结算汇款'&&tableData[props.$index].demand_type=='设计师结算'" @click="withdraw(tableData[props.$index].did,item.status)">查看详情</span>
-                                        <span class="dj" v-if="item.key=='0'&&(tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算')" @click="getCK(tableData[props.$index].id,tableData[props.$index].demand_type,tableData[props.$index].status)">查看详情</span>
+                                        <span class="dj" v-if="item.key=='0'&&(tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算')&&item.isfinish!=2" @click="getCK(tableData[props.$index].id,tableData[props.$index].demand_type,tableData[props.$index].status)">查看详情</span>
+                                        <span class="dj" v-if="(tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算')&&item.isfinish==2" @click="CKbh(tableData[props.$index].did,item.status)">查看驳回</span>
                                         <span class="dj" v-if="(tableData[props.$index].demand_type=='业务需求'&&item.status=='4'&&item.key==0&&item.reject!='1')">审核通过</span>
                                         <span class="dj" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,tableData[props.$index].status+1,item.reject)"  v-if="item.reject=='1'&&tableData[props.$index].status!=item.status">查看驳回原因</span>
                                         <span class="dj" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,tableData[props.$index].status,item.reject)"  v-if="item.reject=='1'&&tableData[props.$index].status==item.status">查看驳回原因</span>
@@ -372,6 +376,11 @@
             },
             cell({row, column, rowIndex, columnIndex}){
                 return 'margin:0 24px;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
+            },
+            CKbh(id,status){
+                this.skID=id;
+                this.status=status;
+                this.fc=true;
             },
             getCK(id,type,scope){
                     if(scope==2){

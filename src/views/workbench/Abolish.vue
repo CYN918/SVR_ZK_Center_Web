@@ -2,14 +2,16 @@
     <div class="bg" @click="heid">
         <div class="content" @click.stop>
             <div class="tit">
-                <span>废除</span>
+                <span v-if="this.note==''">废除</span>
+                <span v-if="this.note!=''">废除原因</span>
                 <img src="../../../public/img/gb.png" @click="heid"/>
             </div>
             <div class="tishi">
-                <textarea placeholder="请输入废除原因" v-model="note" maxlength="20"></textarea>
+                <textarea placeholder="请输入废除原因" v-model="note" maxlength="20" v-if="this.note==''"></textarea>
+                <textarea placeholder="请输入废除原因" v-model="note" maxlength="20" v-if="this.note!=''" disabled></textarea>
             </div>
             <div class="btn">
-                <span class="btn_qd" @click="tj">确定</span>
+                <span class="btn_qd" @click="tj" v-if="this.note==''">确定</span>
                 <span  @click="heid">取消</span>
             </div>
         </div>
@@ -23,10 +25,11 @@
         data(){
             return{
                 note:'',
+
             }
         },
         mounted(){
-            console.log(this.open_id);
+           this.getRejDET();
         },
         methods:{
 
@@ -35,7 +38,7 @@
             },
             tj(){
                 if(!this.note){
-                    this.$message.error('废除原因不能为空')
+                    this.$message.error('废除原因不能为空');
                     return
                 }
                 let formData=new FormData;
@@ -44,6 +47,12 @@
                 formData.append('status',this.status);
                 this.api.demand_cancel(formData).then((res)=>{
                     this.heid();
+                })
+            },
+            getRejDET(){
+                let params = {id:this.skID,status:this.status};
+                this.api.demand_reject_logs({params}).then((res)=>{
+                    this.note=res[0].note;
                 })
             },
         },
