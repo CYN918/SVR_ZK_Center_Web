@@ -10,8 +10,8 @@
                 <img src="../../../../public/img/fh.png"  @click="fh()">
                 <span>特殊款项详情</span>
                 <div style="display: inline-block;float: right;margin-right: 15%">
-                    <span class="bj" @click="add()" v-if="this.status=='0'">编辑</span>
-                    <span class="bj"  v-if="this.status!='0'">编辑</span>
+                    <span class="bj" @click="add()" v-if="list.status=='0'">编辑</span>
+                    <span class="bj"  v-if="list.status!='0'">编辑</span>
                     <span class="ck">查看变更记录</span>
                 </div>
             </div>

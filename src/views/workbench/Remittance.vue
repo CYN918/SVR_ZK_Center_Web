@@ -4,15 +4,15 @@
             <div style="text-align: center;margin-bottom: 40px;max-width: 893px;border-bottom: 1px solid #ddd;position: relative;left: 50%;transform: translateX(-50%)">
                 <div style="margin-right: 350px;text-align: center;display: inline-block">
                     <div class="box boxs">1</div>
-                    <span class="boxName">对账确认</span>
+                    <span class="boxName block">对账确认</span>
                 </div>
                 <div style="margin-right: 350px;text-align: center;display: inline-block">
                     <div class="box boxs">2</div>
-                    <span class="boxName">票据凭证</span>
+                    <span class="boxName block">票据凭证</span>
                 </div>
                 <div style="text-align: center;display: inline-block;border-bottom: 1px solid #3377ff;">
                     <div class="box boxs">3</div>
-                    <span class="boxName">结算汇款</span>
+                    <span class="boxName ">结算汇款</span>
                 </div>
 
             </div>
@@ -45,8 +45,6 @@
                     <div class="uplaod">
                         <el-upload
                                 class="upload-demo"
-                                :limit="1"
-                                :on-exceed="handleExceed"
                                 :on-remove="handleRemove"
                                 :http-request="uploadFile"
                                 action="111">
@@ -82,7 +80,17 @@
             fh(){
                 this.$parent.heidADDRemit();
             },
-
+            handleRemove(file, fileList) {
+                this.file = '';
+                this.initiate2 = false
+            },
+            uploadFile(file){
+                let formData = new FormData;
+                formData.append('file',file.file);
+                this.api.file_upload(formData).then((res)=>{
+                    this.attachs.push(res)
+                })
+            },
             ADD(){
                 if(!this.receive_amount){
                     this.$message.error('实际到账金额不能为空');
@@ -179,7 +187,7 @@
         font-family:PingFangSC-Medium,PingFangSC;
         font-weight:500;
         margin-bottom: 5px;
-        color:rgba(31,46,77,1);
+        color:rgba(200,204,211,1)
     }
     .fill>div{
         margin-bottom: 20px;
@@ -249,5 +257,8 @@
         border: none!important;
         margin-right: 20px;
         margin-bottom: 50px;
+    }
+    .block{
+        color: #000!important;
     }
 </style>
