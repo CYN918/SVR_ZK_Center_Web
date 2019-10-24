@@ -230,7 +230,7 @@
                     this.$message.error('名称不能为空');
                     return
                 }
-                if(!this.tdate&&this.is_auto!=1){
+                if(!this.tdate&&this.is_auto!=0){
                     this.$message.error('生成对账时间不能为空');
                     return
                 }
@@ -316,7 +316,7 @@
                     this.$message.error('名称不能为空');
                     return
                 }
-                if(!this.tdate&&this.is_auto!=1){
+                if(!this.tdate&&this.is_auto!=0){
                     this.$message.error('生成对账时间不能为空');
                     return
                 }

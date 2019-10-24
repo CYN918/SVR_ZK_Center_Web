@@ -100,10 +100,22 @@
         name: "establish",
         data(){
             return{
-                list:{},
+                list:{check:{
+                        statement:"",
+                        name:"",
+                        tstart:"",
+                        tend:"",
+                        expect_amount:"",
+                        real_amount:"",
+                        note:"",
+                        attachs:[],
+                    }},
                 control:[],
                 controlBtn:false,
             }
+        },
+        created(){
+             this.getData()
         },
         mounted(){
             this.control=JSON.parse(localStorage.getItem('control'));
@@ -116,7 +128,7 @@
                     }
                 }
             }
-            this.getData()
+
         },
         methods:{
             jump(){

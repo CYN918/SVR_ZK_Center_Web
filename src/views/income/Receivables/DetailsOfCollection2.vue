@@ -70,7 +70,11 @@
         name: "establish",
         data(){
             return{
-                list:{},
+                list:{
+                    express_id:"",
+                    note:"",
+                    attachs:[],
+                },
                 control:[],
                 controlBtn:false,
                 status:"",

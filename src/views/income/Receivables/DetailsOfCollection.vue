@@ -100,7 +100,16 @@
         name: "establish",
         data(){
             return{
-                list:{},
+                list:{check:{
+                        statement:"",
+                        name:"",
+                        tstart:"",
+                        tend:"",
+                        expect_amount:"",
+                        real_amount:"",
+                        note:"",
+                        attachs:[],
+                    }},
                 control:[],
                 controlBtn:false,
             }

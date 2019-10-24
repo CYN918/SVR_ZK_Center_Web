@@ -227,6 +227,7 @@
                     this.real_amount=res.check.real_amount;
                     this.note=res.check.note;
                     this.attachs=res.check.attachs;
+                    console.log(this.time);
                 })
             },
             setData(){

@@ -77,7 +77,12 @@
         name: "establish",
         data(){
             return{
-                list:{},
+                list:{
+                    receive_amount:"",
+                    receive_tdate:"",
+                    note:'',
+                    attachs:[],
+                },
             }
         },
         mounted(){
