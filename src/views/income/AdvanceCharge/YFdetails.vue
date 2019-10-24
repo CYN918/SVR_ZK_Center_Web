@@ -3,17 +3,17 @@
         <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="jump()">预付款管理 &nbsp;/</span>
-                <span class="new_url">&nbsp;预付款详情</span>
+                <span class="new_url">&nbsp;{{this.$route.query.is_receiver==1?'收款结算':'付款结算'}}预付款详情</span>
             </div>
             <div class="title_left">
-                <span>预付款详情</span>
+                <span>{{this.$route.query.is_receiver==1?'收款结算':'付款结算'}}预付款详情</span>
             </div>
         </div>
         <div class="table">
             <div>
                 <div class="fkName">
-                    <span v-if="this.$route.query.is_receiver==1">收款方-结算方名称</span>
-                    <span v-if="this.$route.query.is_receiver==0">付款方-结算方名称</span>
+                    <span v-if="this.$route.query.is_receiver==1">收款结算-{{this.$route.query.name}}</span>
+                    <span v-if="this.$route.query.is_receiver==0">付款结算-{{this.$route.query.name}}</span>
                 </div>
                 <div>
                     <span class="money">预付款剩余金额{{this.$route.query.num.toLocaleString("zh-Hans-CN",{style:'currency',currency:'CNY'})}}</span>
