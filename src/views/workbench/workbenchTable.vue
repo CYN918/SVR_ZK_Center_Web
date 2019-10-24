@@ -383,6 +383,7 @@
                 this.fc=true;
             },
             getCK(id,type,scope){
+                console.log(id);
                     if(scope==2){
                         this.skID=id;
                         this.skType=type;

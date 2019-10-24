@@ -33,7 +33,7 @@
                 <div style="display: inline-block">
                     <div v-for="item in list.attachs">
                         <span  class="text">{{item.name}}</span>
-                        <span class="click">查看</span>
+                        <a class="click" :href="item.url">查看</a>
                         <a class="click" :href="item.url">下载</a>
                     </div>
                 </div>
@@ -75,12 +75,12 @@
                 })
             },
             bc(){
-                if(!this.status){
+                if(this.status===''){
                     this.$message.error('状态不能为空');
                     return
                 }
                 let formData=new FormData;
-                formData.append('smid',this.this.$route.query.smid);
+                formData.append('smid',this.$route.query.smid);
                 formData.append('status',this.status);
                 this.api.settle_special_edit(formData).then((res)=>{
 

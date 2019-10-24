@@ -3,16 +3,16 @@
         <div class="tableBox">
             <div style="text-align: center;margin-bottom: 40px;max-width: 893px;border-bottom: 1px solid #ddd;position: relative;left: 50%;transform: translateX(-50%)">
                 <div style="margin-right: 350px;text-align: center;display: inline-block">
-                    <div class="box boxs">1</div>
-                    <span class="boxName">对账确认</span>
+                    <div class="box boxs" @click="scope()">1</div>
+                    <span class="boxName"  @click="scope()">对账确认</span>
                 </div>
                 <div style="margin-right: 350px;text-align: center;display: inline-block;border-bottom: 1px solid #3377ff">
                     <div class="box  boxs">2</div>
                     <span class="boxName">票据凭证</span>
                 </div>
                 <div style="text-align: center;display: inline-block">
-                    <div class="box" @click="scope2()">3</div>
-                    <span class="boxName">结算汇款</span>
+                    <div class="box" :class="{boxs:list.status>2}"  @click="scope2()">3</div>
+                    <span class="boxName"  @click="scope2()">结算汇款</span>
                 </div>
 
             </div>
@@ -20,14 +20,14 @@
                 <div>
                     <span class="fillName">物流单号</span>
                     <div style="display: inline-block;width: 300px">
-                        <span class="text">{{list.express_id}}</span>
+                        <span class="text">{{list.invoice.express_id}}</span>
                     </div>
 
                 </div>
                 <div>
                     <span class="fillName">备注说明</span>
                     <div style="display: inline-block;width: 300px">
-                        <span  class="text">{{list.note}}</span>
+                        <span  class="text">{{list.invoice.note}}</span>
                     </div>
 
                 </div>
@@ -36,7 +36,7 @@
                         <span class="fj">附件</span>
                     </div>
                     <div style="display: inline-block;width: 300px">
-                        <div v-for="item in list.attachs">
+                        <div v-for="item in list.invoice.attachs">
                             <span  class="text">{{item.name}}</span>
                             <span class="click">查看</span>
                             <a class="click" :href="item.url">下载</a>
@@ -60,6 +60,7 @@
             return{
                 list:{},
                 control:[],
+                type:'',
             }
         },
         mounted(){
@@ -69,6 +70,27 @@
             fh(){
                 this.$parent.heidFkCK();
             },
+            scope(){
+                this.$parent.heidFkCK();
+                    if(this.list.demand_type=='demand_settle_receive'){
+                        this.type='收款结算'
+                    }else{
+                        this.type='付款结算'
+                    }
+                    this.$parent.getCK(this.list.id,this.type,'2');
+
+            },
+            scope2(){
+                if(this.list.status>3){
+                    this.$parent.heidFkCK();
+                    if(this.list.demand_type=='demand_settle_receive'){
+                        this.type='收款结算'
+                    }else{
+                        this.type='付款结算'
+                    }
+                    this.$parent.getCK(this.list.id,this.type,'4');
+                }
+            },
             getData(){
                 if(this.skType=='收款结算'){
                     this.is_receiver=1
@@ -77,7 +99,7 @@
                 }
                 let params={is_receiver:this.is_receiver,id:this.skID};
                 this.api.settlemanage_detail({params}).then((res)=>{
-                    this.list=res.invoice;
+                    this.list=res;
                 })
             },
 
@@ -129,6 +151,7 @@
         font-family:HelveticaNeue;
         color:#8F9BB3;
         margin: 0 0 10px 15px;
+        cursor: pointer;
     }
     .boxs{
         background:rgba(0,122,255,1)!important;
@@ -143,6 +166,7 @@
         font-weight:500;
         margin-bottom: 5px;
         color:rgba(31,46,77,1);
+        cursor: pointer;
     }
     .fill>div{
         margin-bottom: 20px;

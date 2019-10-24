@@ -15,7 +15,7 @@
                     <img src="../../../../public/img/ss.png">
                     <input type="text" placeholder="搜索关键词" v-model="search">
                 </div>
-                <span class="cx">查询</span>
+                <span class="cx" @click="getData()">查询</span>
             </div>
         </div>
         <div class="table">

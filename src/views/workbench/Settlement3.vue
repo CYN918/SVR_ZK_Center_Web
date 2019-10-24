@@ -3,12 +3,12 @@
         <div class="tableBox">
             <div style="text-align: center;margin-bottom: 40px;max-width: 893px;border-bottom: 1px solid #ddd;position: relative;left: 50%;transform: translateX(-50%)">
                 <div style="margin-right: 350px;text-align: center;display: inline-block">
-                    <div class="box boxs">1</div>
-                    <span class="boxName">对账确认</span>
+                    <div class="box boxs" @click="scope()">1</div>
+                    <span class="boxName" @click="scope()">对账确认</span>
                 </div>
                 <div style="margin-right: 350px;text-align: center;display: inline-block;">
-                    <div class="box  boxs">2</div>
-                    <span class="boxName">票据凭证</span>
+                    <div class="box  boxs" @click="scope2()">2</div>
+                    <span class="boxName" @click="scope2()">票据凭证</span>
                 </div>
                 <div style="text-align: center;display: inline-block;border-bottom: 1px solid #3377ff">
                     <div class="box boxs">3</div>
@@ -20,21 +20,21 @@
                 <div>
                     <span class="fillName">实际到账金额</span>
                     <div style="display: inline-block;width: 300px">
-                        <span class="text">{{list.receive_amount}}</span>
+                        <span class="text">{{list.remit.receive_amount}}</span>
                     </div>
 
                 </div>
                 <div>
                     <span class="fillName">到账时间</span>
                     <div style="display: inline-block;width: 300px">
-                        <span class="text">{{list.receive_tdate}}</span>
+                        <span class="text">{{list.remit.receive_tdate}}</span>
                     </div>
 
                 </div>
                 <div>
                     <span class="fillName">备注说明</span>
                     <div style="display: inline-block;width: 300px">
-                        <span  class="text">{{list.note}}</span>
+                        <span  class="text">{{list.remit.note}}</span>
                     </div>
 
                 </div>
@@ -43,7 +43,7 @@
                         <span class="fj">附件</span>
                     </div>
                     <div style="display: inline-block;width: 300px">
-                        <div v-for="item in list.attachs">
+                        <div v-for="item in list.remit.attachs">
                             <span  class="text">{{item.name}}</span>
                             <span class="click">查看</span>
                             <a class="click" :href="item.url">下载</a>
@@ -66,15 +66,35 @@
         data(){
             return{
                 list:{},
+                type:""
             }
         },
         mounted(){
+            this.getData();
 
-            this.getData()
         },
         methods:{
             fh(num){
                 this.$router.go(num)
+            },
+            scope(){
+
+                this.$parent.heidFkCK();
+                if(this.list.demand_type=='demand_settle_receive'){
+                    this.type='收款结算'
+                }else{
+                    this.type='付款结算'
+                }
+                this.$parent.getCK(this.list.id,this.type,'2');
+            },
+            scope2(){
+                this.$parent.heidFkCK();
+                    if(this.list.demand_type=='demand_settle_receive'){
+                        this.type='收款结算'
+                    }else{
+                        this.type='付款结算'
+                    }
+                this.$parent.getCK(this.list.id,this.type,'3');
             },
             getData(){
                 if(this.skType=='收款结算'){
@@ -84,7 +104,7 @@
                 }
                 let params={is_receiver:this.is_receiver,id:this.skID};
                 this.api.settlemanage_detail({params}).then((res)=>{
-                    this.list=res.remit;
+                    this.list=res;
                 })
             },
         }
@@ -135,6 +155,7 @@
         font-family:HelveticaNeue;
         color:#8F9BB3;
         margin: 0 0 10px 15px;
+        cursor: pointer;
     }
     .boxs{
         background:rgba(0,122,255,1)!important;
@@ -149,6 +170,7 @@
         font-weight:500;
         margin-bottom: 5px;
         color:rgba(31,46,77,1);
+        cursor: pointer;
     }
     .fill>div{
         margin-bottom: 20px;

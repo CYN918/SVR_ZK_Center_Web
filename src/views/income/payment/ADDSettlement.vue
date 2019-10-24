@@ -223,9 +223,9 @@
                     return
                 }
                 if(this.is_auto==false){
-                    this.is_auto=0;
-                }else {
                     this.is_auto=1;
+                }else {
+                    this.is_auto=0;
                 }
                 if(!this.name){
                     this.$message.error('名称不能为空');
@@ -291,7 +291,7 @@
                 this.api.settle_settlement_detail({params}).then((res)=>{
                     this.name=res.name;
                     this.tdate=res.tdate;
-                    if(res.is_auto==0){
+                    if(res.is_auto==1){
                         this.is_auto=false;
                     }else{
                         this.is_auto=true
@@ -309,9 +309,9 @@
             },
             setData(){
                 if(this.is_auto==false){
-                    this.is_auto=0;
-                }else {
                     this.is_auto=1;
+                }else {
+                    this.is_auto=0;
                 }
                 if(!this.name){
                     this.$message.error('名称不能为空');

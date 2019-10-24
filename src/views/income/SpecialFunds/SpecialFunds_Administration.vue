@@ -108,7 +108,7 @@
                 })
             },
             getData(){
-                let params={p:this.page,page:this.page,search:this.search}
+                let params={p:this.p,page:this.page,search:this.search}
                 this.api.settle_special_search({params}).then((res)=>{
                     this.tableData=res.data;
                     this.total=res.total;

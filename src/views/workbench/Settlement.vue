@@ -7,12 +7,12 @@
                     <span class="boxName">对账确认</span>
                 </div>
                 <div style="margin-right: 350px;text-align: center;display: inline-block">
-                    <div class="box">2</div>
-                    <span class="boxName">票据凭证</span>
+                    <div class="box" :class="{boxs:list.status>1}" @click="scope()">2</div>
+                    <span class="boxName" @click="scope()">票据凭证</span>
                 </div>
                 <div style="text-align: center;display: inline-block">
-                    <div class="box">3</div>
-                    <span class="boxName">结算汇款</span>
+                    <div class="box" :class="{boxs:list.status>2}"  @click="scope2()">3</div>
+                    <span class="boxName" @click="scope2()">结算汇款</span>
                 </div>
 
             </div>
@@ -91,7 +91,8 @@
                 list:{},
                 control:[],
                 controlBtn:false,
-                is_receiver:''
+                is_receiver:'',
+                type:""
             }
         },
         mounted(){
@@ -101,6 +102,28 @@
         methods:{
             fh(){
                 this.$parent.heidFkCK();
+            },
+            scope(){
+               if(this.list.status>1){
+                   this.$parent.heidFkCK();
+                   if(this.list.demand_type=='demand_settle_receive'){
+                       this.type='收款结算'
+                   }else{
+                       this.type='付款结算'
+                   }
+                   this.$parent.getCK(this.list.id,this.type,'3');
+               }
+            },
+            scope2(){
+                if(this.list.status>2){
+                    this.$parent.heidFkCK();
+                    if(this.list.demand_type=='demand_settle_receive'){
+                        this.type='收款结算'
+                    }else{
+                        this.type='付款结算'
+                    }
+                    this.$parent.getCK(this.list.id,this.type,'4');
+                }
             },
             getData(){
                 if(this.skType=='收款结算'){
@@ -161,6 +184,7 @@
         font-family:HelveticaNeue;
         color:#8F9BB3;
         margin: 0 0 10px 15px;
+        cursor: pointer;
     }
     .boxs{
         background:rgba(0,122,255,1)!important;
@@ -175,6 +199,7 @@
         font-weight:500;
         margin-bottom: 5px;
         color:rgba(31,46,77,1);
+        cursor: pointer;
     }
     .fill>div{
         margin-bottom: 20px;

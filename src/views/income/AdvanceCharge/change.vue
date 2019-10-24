@@ -20,10 +20,21 @@
                 <span  class="TitName">备注</span>
                 <span class="text">{{list.note}}</span>
             </div>
-            <div>
+            <div v-if="list.type==1">
                 <span  class="TitName">绑定结算单</span>
                 <span class="text">{{list.settle_id}}</span>
-                <span class="click">查看详情</span>
+                <span class="click" @click="ck">查看详情</span>
+            </div>
+            <div v-if="list.type==2">
+                <span  class="TitName">绑定结算单</span>
+                <div style="display: inline-block">
+                    <div v-for="item in list.attachs">
+                        <span class="text">{{item.name}}</span>
+                        <span class="click">查看</span>
+                        <a class="click" :href="item.url">下载</a>
+                    </div>
+                </div>
+
             </div>
             <div>
                 <span class="boxBtn" @click="jump()">返回</span>
@@ -60,7 +71,22 @@
                 this.api.settle_prepayment_detail({params}).then((res)=>{
                     this.list=res
                 })
-            }
+            },
+            ck(){
+                if(this.type==1){
+                    this.$router.push({
+                        path:"../Receivables/DetailsOfCollection",
+                        query:{id:this.list.settle_id}
+
+                    })
+                }else{
+                    this.$router.push({
+                        path:"../payment/DetailsOfCollection",
+                        query:{id:this.list.settle_id}
+
+                    })
+                }
+            },
         }
     }
 </script>
@@ -109,6 +135,7 @@
         font-weight:400;
         color:rgba(51,119,255,1);
         margin-left: 12px;
+        cursor: pointer;
     }
     .boxBtn{
         display: inline-block;
