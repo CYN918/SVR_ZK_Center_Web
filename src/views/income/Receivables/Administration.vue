@@ -22,8 +22,8 @@
                 </div>
                 <span class="cx" @click="getDataList()">查询</span>
                 <div style="display: inline-block;float: right;margin-right: 15%">
-                    <span class="clear" @click="establish" :class="{Jurisdiction:this.controlBtn}">新建结算</span>
-                    <span class="sf" @click="jump()">收款结算方管理</span>
+                    <span class="clear" @click="establish" :class="{Jurisdiction:this.controlBtns}">新建结算</span>
+                    <span class="sf" @click="jump()" :class="{Jurisdiction:this.controlBtn}">收款结算方管理</span>
                 </div>
 
             </div>
@@ -123,6 +123,7 @@
                 tableData:[{pv:0}],
                 control:[],
                 controlBtn:false,
+                controlBtns:false,
                 skID:"",
                 status:"",
                 ab:false,
@@ -132,10 +133,23 @@
             this.control=JSON.parse(localStorage.getItem('control'));
             if(this.control.length==0){
                 this.controlBtn=true;
+                this.controlBtns=true;
             }else {
                 for (var i = 0; i < this.control.length; i++) {
-                    if (this.control[i].uri_key == 'uri.settlement.settle.add') {
+                    if(this.control[i].uri_key == 'uri.settlement.settle.add') {
                         this.controlBtn = false;
+                        return
+                    }else{
+                        this.controlBtn = true;
+                    }
+
+                }
+                for (var i = 0; i < this.control.length; i++) {
+                    if(this.control[i].uri_key == 'uri.settlement.check.add') {
+                        this.controlBtns = false;
+                        return
+                    }else{
+                        this.controlBtns = true;
                     }
                 }
             }
@@ -303,7 +317,7 @@
         background: #fff;
     }
     .Jurisdiction{
-        display: none;
+        display: none!important;
     }
     .red{
         color: red;

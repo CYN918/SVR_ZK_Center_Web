@@ -82,6 +82,7 @@
                     receive_tdate:"",
                     note:'',
                     attachs:[],
+                    controlBtn:false,
                 },
             }
         },
@@ -93,6 +94,9 @@
                 for (var i = 0; i < this.control.length; i++) {
                     if (this.control[i].uri_key == 'uri.settlement.remit.edit') {
                         this.controlBtn = false;
+                        return
+                    }else{
+                        this.controlBtn = true;
                     }
                 }
             }
@@ -297,6 +301,6 @@
         margin-left: 24px;
     }
     .Jurisdiction{
-        display: none;
+        display: none!important;
     }
 </style>

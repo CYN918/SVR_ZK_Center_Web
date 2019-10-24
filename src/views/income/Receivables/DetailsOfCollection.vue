@@ -116,12 +116,16 @@
         },
         mounted(){
             this.control=JSON.parse(localStorage.getItem('control'));
+
             if(this.control.length==0){
                 this.controlBtn=true;
             }else {
                 for (var i = 0; i < this.control.length; i++) {
-                    if (this.control[i].uri_key == 'uri.settlement.check.edit') {
+                    if (this.control[i].uri_key=='uri.settlement.check.edit') {
                         this.controlBtn = false;
+                        return
+                    }else{
+                        this.controlBtn = true;
                     }
                 }
             }
@@ -329,6 +333,6 @@
         margin-left: 24px;
     }
     .Jurisdiction{
-        display: none;
+        display: none!important;
     }
 </style>

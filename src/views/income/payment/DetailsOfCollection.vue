@@ -125,6 +125,9 @@
                 for (var i = 0; i < this.control.length; i++) {
                     if (this.control[i].uri_key == 'uri.settlement.check.edit') {
                         this.controlBtn = false;
+                        return
+                    }else{
+                        this.controlBtn = true;
                     }
                 }
             }
