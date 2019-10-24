@@ -6,10 +6,10 @@
             </div>
             <div class="user">
                 <div class="sk" :class="{check:is_receiver==1}" @click="switchs(1)">
-                    收款方
+                    收款结算
                 </div>
                 <div class="fk" :class="{check:is_receiver==0}" @click="switchs(0)">
-                    付款方
+                    付款结算
                 </div>
                 <div class="seach">
                     <img src="../../../../public/img/ss.png">
@@ -32,6 +32,9 @@
                     <el-table-column
                             prop="remain_amount"
                             label="预付款金额">
+                        <template slot-scope="scope">
+                            <span>{{tableData[scope.$index].remain_amount.toLocaleString("zh-Hans-CN",{style:'currency',currency:'CNY'})}}</span>
+                        </template>
                     </el-table-column>
                     <el-table-column
                             prop="updated_at"
@@ -40,7 +43,7 @@
                     <el-table-column
                             label="操作">
                         <template slot-scope="scope">
-                            <el-button  type="text" size="small" @click="ck(tableData[scope.$index].name)">查看详情</el-button>
+                            <el-button  type="text" size="small" @click="ck(tableData[scope.$index].name,tableData[scope.$index].remain_amount)">查看详情</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -90,7 +93,7 @@
             },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
-                    return 'background:rgba(247,249,252,1);color:rgba(31,46,77,1);text-align:center;font-size:14px;font-weight:500;font-family:PingFang-SC-Medium;height:56px'
+                    return 'background:#f7f9fc;color:rgba(31,46,77,1);text-align:center;font-size:14px;font-weight:500;font-family:PingFang-SC-Medium;height:56px'
                 } else {
                     return ''
                 }
@@ -98,12 +101,13 @@
             cell({row, column, rowIndex, columnIndex}){
                 return 'text-align:center;color:rgba(61,73,102,1);font-size:14px;font-weight:400;font-family:PingFangSC-Regula;'
             },
-            ck(name){
+            ck(name,num){
                 this.$router.push({
                     path:"./YFdetails",
                     query:{
                         name:name,
                         is_receiver:this.is_receiver,
+                        num:num,
                     },
                 })
             },

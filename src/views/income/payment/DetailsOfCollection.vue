@@ -20,12 +20,12 @@
                     <span class="boxName">对账确认</span>
                 </div>
                 <div style="margin-right: 350px;text-align: center;display: inline-block">
-                    <div class="box" @click="scope2()">2</div>
-                    <span class="boxName">票据凭证</span>
+                    <div class="box" :class="{boxs:this.list.status>1}" @click="scope2()">2</div>
+                    <span class="boxName"  @click="scope2()">票据凭证</span>
                 </div>
                 <div style="text-align: center;display: inline-block">
-                    <div class="box">3</div>
-                    <span class="boxName">结算汇款</span>
+                    <div class="box" :class="{boxs:this.list.status>2}" @click="scope3()">3</div>
+                    <span class="boxName"  @click="scope3()">结算汇款</span>
                 </div>
 
             </div>
@@ -152,7 +152,21 @@
                 if(this.list.status>1){
                 this.$router.push({
                     path:"./DetailsOfCollection2",
+                    query:{
+                        id:this.$route.query.id,
+                    },
                 })
+                }
+
+            },
+            scope3(){
+                if(this.list.status>2){
+                    this.$router.push({
+                        path:"./DetailsOfCollection3",
+                        query:{
+                            id:this.$route.query.id,
+                        },
+                    })
                 }
 
             },
@@ -230,6 +244,7 @@
         font-weight:500;
         margin-bottom: 5px;
         color:rgba(31,46,77,1);
+        cursor: pointer;
     }
     .fill>div{
         margin-bottom: 20px;

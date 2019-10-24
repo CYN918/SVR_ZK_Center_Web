@@ -16,12 +16,12 @@
         <div class="tableBox">
             <div style="text-align: center;margin-bottom: 40px;max-width: 893px;border-bottom: 1px solid #ddd;position: relative;left: 50%;transform: translateX(-50%)">
                 <div style="margin-right: 350px;text-align: center;display: inline-block">
-                    <div class="box boxs">1</div>
-                    <span class="boxName">对账确认</span>
+                    <div class="box boxs" @click="scope()">1</div>
+                    <span class="boxName" @click="scope()">对账确认</span>
                 </div>
                 <div style="margin-right: 350px;text-align: center;display: inline-block;">
-                    <div class="box  boxs">2</div>
-                    <span class="boxName">票据凭证</span>
+                    <div class="box  boxs" @click="scope2()">2</div>
+                    <span class="boxName" @click="scope2()">票据凭证</span>
                 </div>
                 <div style="text-align: center;display: inline-block;border-bottom: 1px solid #3377ff">
                     <div class="box boxs">3</div>
@@ -117,6 +117,22 @@
 
                 })
             },
+            scope(){
+                this.$router.push({
+                    path:"./DetailsOfCollection",
+                    query:{
+                        id:this.$route.query.id,
+                    },
+                })
+            },
+            scope2(){
+                this.$router.push({
+                    path:"./DetailsOfCollection2",
+                    query:{
+                        id:this.$route.query.id,
+                    },
+                })
+            },
             change(){
                 this.$router.push({
                     path:"./ChangeRecord"
@@ -196,6 +212,7 @@
         font-weight:500;
         margin-bottom: 5px;
         color:rgba(31,46,77,1);
+        cursor: pointer;
     }
     .fill>div{
         margin-bottom: 20px;

@@ -260,6 +260,7 @@
                 }
                 let formData = new FormData;
                 formData.append('name',this.name);
+                formData.append('id',this.$route.query.id);
                 formData.append('statement',this.statement);
                 formData.append('is_receiver',this.is_receiver);
                 formData.append('tstart',this.time[0]);

@@ -263,6 +263,7 @@
                 formData.append('statement',this.statement);
                 formData.append('is_receiver',this.is_receiver);
                 formData.append('tstart',this.time[0]);
+                formData.append('id',this.$route.query.id);
                 formData.append('tend',this.time[1]);
                 formData.append('expect_amount',this.expect_amount);
                 formData.append('real_amount',this.real_amount);

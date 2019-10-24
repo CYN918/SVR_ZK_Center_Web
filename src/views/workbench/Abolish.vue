@@ -2,16 +2,16 @@
     <div class="bg" @click="heid">
         <div class="content" @click.stop>
             <div class="tit">
-                <span v-if="this.note==''">废除</span>
-                <span v-if="this.note!=''">废除原因</span>
+                <span v-if="list!=[]">废除</span>
+                <span v-if="list==[]">废除原因</span>
                 <img src="../../../public/img/gb.png" @click="heid"/>
             </div>
             <div class="tishi">
-                <textarea placeholder="请输入废除原因" v-model="note" maxlength="20" v-if="this.note==''"></textarea>
-                <textarea placeholder="请输入废除原因" v-model="note" maxlength="20" v-if="this.note!=''" disabled></textarea>
+                <textarea placeholder="请输入废除原因" v-model="note" maxlength="20" v-if="list!=[]"></textarea>
+                <textarea placeholder="请输入废除原因" v-model="note" maxlength="20" v-if="list==[]" disabled></textarea>
             </div>
             <div class="btn">
-                <span class="btn_qd" @click="tj" v-if="this.note==''">确定</span>
+                <span class="btn_qd" @click="tj" v-if="list!=[]">确定</span>
                 <span  @click="heid">取消</span>
             </div>
         </div>
@@ -25,7 +25,7 @@
         data(){
             return{
                 note:'',
-
+                list:[],
             }
         },
         mounted(){
@@ -52,6 +52,7 @@
             getRejDET(){
                 let params = {id:this.skID,status:this.status};
                 this.api.demand_reject_logs({params}).then((res)=>{
+                    this.list=res;
                     this.note=res[0].note;
                 })
             },

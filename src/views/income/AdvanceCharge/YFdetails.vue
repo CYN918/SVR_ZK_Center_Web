@@ -12,11 +12,11 @@
         <div class="table">
             <div>
                 <div class="fkName">
-                    <span v-if="this.$route.is_receiver==1">收款方-结算方名称</span>
-                    <span v-if="this.$route.is_receiver==0">付款方-结算方名称</span>
+                    <span v-if="this.$route.query.is_receiver==1">收款方-结算方名称</span>
+                    <span v-if="this.$route.query.is_receiver==0">付款方-结算方名称</span>
                 </div>
                 <div>
-                    <span class="money">预付款剩余金额：¥800,000</span>
+                    <span class="money">预付款剩余金额{{this.$route.query.num.toLocaleString("zh-Hans-CN",{style:'currency',currency:'CNY'})}}</span>
                     <span class="add" @click="ADD()">添加记录</span>
                 </div>
             </div>
@@ -30,16 +30,15 @@
                             prop="name"
                             label='金额变化'>
                         <template slot-scope="scope">
-                            <span>{{tableData[scope.$index].type==1?'-':'+'}}￥{{tableData[scope.$index].amount}}</span>
+                            <span>{{tableData[scope.$index].type==1?'-':'+'}}{{tableData[scope.$index].amount.toLocaleString("zh-Hans-CN",{style:'currency',currency:'CNY'})}}</span>
                         </template>
                     </el-table-column>
                     <el-table-column
                             prop="remain_amount"
                             label="预付款剩余金额">
-                    </el-table-column>
-                    <el-table-column
-                            prop="note"
-                            label="变更原因">
+                        <template slot-scope="scope">
+                            <span>{{tableData[scope.$index].remain_amount.toLocaleString("zh-Hans-CN",{style:'currency',currency:'CNY'})}}</span>
+                        </template>
                     </el-table-column>
                     <el-table-column
                             prop="updated_at"
@@ -101,7 +100,7 @@
             },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
-                    return 'background:rgb(246, 245, 245,1);color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
+                    return 'background:#f7f9fc;color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
                 } else {
                     return ''
                 }
