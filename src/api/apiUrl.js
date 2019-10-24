@@ -1076,5 +1076,8 @@ export default {
     settle_settlement:{
 		url:"settle/settlement",method:'get'
 	},
-
+	//收/付款结算历史
+    demandsettle_history:{
+		url:'demandsettle/history',method:'get'
+	},
 }

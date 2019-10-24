@@ -2,7 +2,7 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh('-1')">付款结算 &nbsp;/</span>
+                <span class="log_url" @click="jump()">付款结算 &nbsp;/</span>
                 <span class="new_url" v-if="this.$route.query.id==undefined">&nbsp;新建付款结算</span>
                 <span class="new_url" v-if="this.$route.query.id!=undefined">&nbsp;编辑付款结算</span>
             </div>
@@ -78,6 +78,12 @@
             }
         },
         methods:{
+            jump(){
+                this.$router.push({
+                    path:"./Administration"
+                })
+            },
+
             fh(){
                 this.$router.go(-1)
             },

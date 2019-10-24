@@ -2,8 +2,8 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh('-2')">收款结算 &nbsp;/</span>
-                <span class="log_url" @click="fh('-1')">收款结算详情 &nbsp;/</span>
+                <span class="log_url" @click="jump()">付款结算 &nbsp;/</span>
+                <span class="log_url" @click="jumps()">付款结算详情 &nbsp;/</span>
                 <span class="new_url">&nbsp;变更记录</span>
             </div>
             <div class="title_left">
@@ -17,41 +17,38 @@
                             range-separator="至"
                             start-placeholder="开始日期"
                             end-placeholder="结束日期"
-                            format="yyyy-mm-dd"
-                            value-format="yyyy-mm-dd"
+                            format="yyyy-MM-dd"
+                            value-format="yyyy-MM-dd"
                     >
                     </el-date-picker>
                 </div>
                 <div class="seach">
                     <img src="../../../../public/img/ss.png">
-                    <input type="text" placeholder="搜索结算方名称">
+                    <input type="text" placeholder="搜索结算方名称" v-model="search">
                 </div>
-                <span class="cx">查询</span>
+                <span class="cx" @click="getData()">查询</span>
                 <span class="dc">导出</span>
             </div>
         </div>
         <div class="table">
             <template>
                 <el-table
-                        :data="tableData"
+                        :data="list"
                         :header-cell-style="getRowClass"
                         :cell-style="cell"
                 >
                     <el-table-column
-                            prop="sdk_id"
+                            prop="created_at"
                             label="更新时间">
                     </el-table-column>
                     <el-table-column
-                            prop="pv"
+                            prop="creator"
                             label="操作人">
-                    </el-table-column>
-                    <el-table-column
-                            label="更新字段">
                     </el-table-column>
                     <el-table-column
                             label="操作">
                         <template slot-scope="scope">
-                            <el-button  type="text" size="small" @click="ck">查看</el-button>
+                            <el-button  type="text" size="small" @click="ck(list[scope.$index])">查看</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -75,21 +72,46 @@
         name: "change-record",
         data(){
             return{
-                time:'',
+                time:[(new Date()).toLocaleDateString().split('/').join('-'),(new Date()).toLocaleDateString().split('/').join('-')],
                 page:10,
                 p:1,total:0,
-                tableData:[{pv:0}]
+                tableData:[{pv:0}],
+                search:"",
+                list:[],
             }
         },
+        mounted(){
+            this.getData()
+        },
         methods:{
+
+            getData(){
+                let params={is_receiver:1,search:this.search,p:this.p,page:this.page,tstart:this.time[0],tend:this.time[1]};
+                this.api.demandsettle_history({params}).then((res)=>{
+                    this.list=res.data;
+                    this.total=res.total;
+                })
+            },
+            jump(){
+                this.$router.push({
+                    path:"./Administration"
+                })
+            },
+            jumps(){
+                this.$router.push({
+                    path:"./DetailsOfCollection"
+                })
+            },
             fh(num){
                 this.$router.go(num)
             },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
+                this.getData();
             },
             handleCurrentChange(page) {//页码切换
                 this.page = page;
+                this.getData();
             },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
@@ -102,9 +124,12 @@
             cell({row, column, rowIndex, columnIndex}){
                 return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
-            ck(){
+            ck(data){
                 this.$router.push({
-                    path:"./Record"
+                    path:"./Record",
+                    query:{
+                        data:data,
+                    }
                 })
             }
         }

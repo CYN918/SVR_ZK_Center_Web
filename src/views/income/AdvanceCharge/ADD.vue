@@ -2,7 +2,7 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh()">预付款管理 &nbsp;/</span>
+                <span class="log_url" @click="jump()">预付款管理 &nbsp;/</span>
                 <span class="log_url" @click="fh()">预付款详情界面 &nbsp;/</span>
                 <span class="new_url">&nbsp;添加变更记录</span>
             </div>
@@ -74,6 +74,11 @@
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
                     this.attachs.push(res);
+                })
+            },
+            jump(){
+                this.$router.push({
+                    path:"./Administration"
                 })
             },
             fh(){this.$router.go(-1)},

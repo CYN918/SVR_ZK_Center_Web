@@ -20,11 +20,12 @@
                     <img src="../../../../public/img/ss.png">
                     <input type="text" placeholder="搜索结算方名称" v-model="search">
                 </div>
-                <span class="cx" @click="getData()">查询</span>
+                <span class="cx" @click="getDataList()">查询</span>
                 <div style="display: inline-block;float: right;margin-right: 15%">
                     <span class="clear" @click="establish" :class="{Jurisdiction:this.controlBtn}">新建结算</span>
-                    <span class="sf" @click="jump()">收款结算方管理</span>
+                    <span class="sf" @click="jump()">付款结算方管理</span>
                 </div>
+
             </div>
         </div>
         <div class="table">
@@ -48,11 +49,9 @@
                             </template>
                         </el-table-column>
                         <el-table-column
-                                prop="status"
+                                prop="status_name"
                                 label="状态">
-                            <template slot-scope="scope">
-                                <span>{{tableData[scope.$index].status==1?'对账确认':tableData[scope.$index].status==2?'票据凭证':'结算汇款'}}</span>
-                            </template>
+
                         </el-table-column>
                         <el-table-column
                                 prop="status"
@@ -88,7 +87,7 @@
                                 label="操作">
                             <template slot-scope="scope">
                                 <el-button  type="text" size="small" @click="details(tableData[scope.$index].id)">查看详情</el-button>
-                                <el-button  type="text" size="small">作废</el-button>
+                                <el-button  type="text" size="small" v-if="tableData[scope.$index].isfinish!=2" @click="zf(tableData[scope.$index].id,tableData[scope.$index].status)">作废</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -105,11 +104,14 @@
                     :total="total">
             </el-pagination>
         </div>
+        <abs v-if="ab" :skID="skID" :status="status"></abs>
     </div>
 </template>
 
 <script>
+    import abs from './ABolish'
     export default {
+        components:{abs},
         name: "administration",
         data(){
             return{
@@ -117,11 +119,13 @@
                 page:1,
                 p:10,
                 total:0,
+                search:'',
                 tableData:[{pv:0}],
-                is_receiver:0,
-                search:"",
                 control:[],
                 controlBtn:false,
+                skID:"",
+                status:"",
+                ab:false,
             }
         },
         mounted(){
@@ -135,15 +139,16 @@
                     }
                 }
             }
-            this.getData();
-            this.myformatter((new Date((new Date()).getTime() - 90*24*60*60*1000)))
+            this.myformatter((new Date((new Date()).getTime() - 90*24*60*60*1000)));
         },
         methods:{
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
+                this.getDataList()
             },
             handleCurrentChange(page) {//页码切换
                 this.page = page;
+                this.getDataList()
             },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
@@ -199,33 +204,40 @@
 
                 }
                 this.value=[strDate,(new Date()).toLocaleDateString().split('/').join('-')];
-                this.getData();
+                this.getDataList();
             },
-
-            getData(){
+            getDataList(){
                 let params={search:this.search,is_receiver:'0',tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page};
                 this.api.settlemanage_search({params}).then((res)=>{
                     this.tableData=res.data;
                     this.total=res.total;
                 })
             },
-        }
+            zf(id,status){
+                this.ab=true;
+                this.skID=id;
+                this.status=status;
+            },
+            heidAbolish(){
+                this.ab=false;
+            }
+        },
     }
 </script>
 
 <style scoped>
-.top{
-    width: 100%;
-    height:120px;
-    border-top: 1px solid #ededed;
-    background: white;
-    -webkit-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.04);
-    box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.04);
-    position: fixed;
-    left: 256px;
-    top: 63px;
-    z-index: 99;
-}
+    .top{
+        width: 100%;
+        height:120px;
+        border-top: 1px solid #ededed;
+        background: white;
+        -webkit-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.04);
+        box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.04);
+        position: fixed;
+        left: 256px;
+        top: 63px;
+        z-index: 99;
+    }
     .top_tit span{
         display: inline-block;
         font-size:18px;
@@ -290,10 +302,10 @@
         margin-top: 204px;
         background: #fff;
     }
-.Jurisdiction{
-    display: none;
-}
-.red{
-    color: red;
-}
+    .Jurisdiction{
+        display: none;
+    }
+    .red{
+        color: red;
+    }
 </style>

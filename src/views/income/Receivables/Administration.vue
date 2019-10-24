@@ -49,11 +49,9 @@
                             </template>
                         </el-table-column>
                         <el-table-column
-                                prop="status"
+                                prop="status_name"
                                 label="状态">
-                            <template slot-scope="scope">
-                                <span>{{tableData[scope.$index].status==1?'对账确认':tableData[scope.$index].status==2?'票据凭证':'结算汇款'}}</span>
-                            </template>
+
                         </el-table-column>
                         <el-table-column
                                 prop="status"
@@ -89,7 +87,7 @@
                                 label="操作">
                             <template slot-scope="scope">
                                 <el-button  type="text" size="small" @click="details(tableData[scope.$index].id)">查看详情</el-button>
-                                <el-button  type="text" size="small" >作废</el-button>
+                                <el-button  type="text" size="small" v-if="tableData[scope.$index].isfinish!=2" @click="zf(tableData[scope.$index].id,tableData[scope.$index].status)">作废</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -106,11 +104,14 @@
                     :total="total">
             </el-pagination>
         </div>
+        <abs v-if="ab" :skID="skID" :status="status"></abs>
     </div>
 </template>
 
 <script>
+    import abs from './ABolish'
     export default {
+        components:{abs},
         name: "administration",
         data(){
             return{
@@ -122,6 +123,9 @@
                 tableData:[{pv:0}],
                 control:[],
                 controlBtn:false,
+                skID:"",
+                status:"",
+                ab:false,
             }
         },
         mounted(){
@@ -209,7 +213,15 @@
                     this.total=res.total;
                 })
             },
-        }
+            zf(id,status){
+                this.ab=true;
+                this.skID=id;
+                this.status=status;
+            },
+            heidAbolish(){
+                this.ab=false;
+            }
+        },
     }
 </script>
 

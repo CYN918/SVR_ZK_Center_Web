@@ -121,6 +121,10 @@ import YFdetails from './views/income/AdvanceCharge/YFdetails'
 mode['YFdetails']=YFdetails
 import change from './views/income/AdvanceCharge/change'
 mode['change']=change
+import ABilish from './views/income/Receivables/ABolish'
+mode['ABilish']=ABilish
+import ABilishs from './views/income/payment/ABolish'
+mode['ABilishs']=ABilishs
 
 import FKAdministration from './views/income/payment/Administration'
 mode['FKAdministration']=FKAdministration

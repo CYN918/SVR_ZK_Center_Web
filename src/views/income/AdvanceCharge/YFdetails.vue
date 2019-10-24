@@ -2,7 +2,7 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh()">预付款管理 &nbsp;/</span>
+                <span class="log_url" @click="jump()">预付款管理 &nbsp;/</span>
                 <span class="new_url">&nbsp;预付款详情</span>
             </div>
             <div class="title_left">
@@ -85,6 +85,11 @@
         methods:{
             fh(){
                 this.$router.go(-1)
+            },
+            jump(){
+                this.$router.push({
+                    path:"./Administration"
+                })
             },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;

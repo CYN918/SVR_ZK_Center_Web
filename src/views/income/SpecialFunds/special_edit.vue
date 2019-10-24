@@ -3,12 +3,11 @@
         <DS v-if="msg" :name="list.name"></DS>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh()">特殊款项管理 &nbsp;/</span>
+                <span class="log_url" @click="jump()">特殊款项管理 &nbsp;/</span>
                 <span class="new_url">&nbsp;特殊款项详情</span>
             </div>
             <div class="title_left">
-                <img src="../../../../public/img/fh.png"  @click="fh()">
-                <span>特殊款项详情</span>
+                <span style="margin-left: 24px">特殊款项详情</span>
                 <div style="display: inline-block;float: right;margin-right: 15%">
                     <span class="bj" @click="add()" v-if="list.status=='0'">编辑</span>
                     <span class="bj"  v-if="list.status!='0'">编辑</span>
@@ -45,7 +44,7 @@
                 </div>
             </div>
             <div>
-                <span class="boxBtn">返回</span>
+                <span class="boxBtn" @click="fh()">返回</span>
             </div>
         </div>
     </div>
@@ -72,6 +71,11 @@
             },
             fh(){
                 this.$router.go(-1)
+            },
+            jump(){
+                this.$router.push({
+                    path:"./SpecialFunds_Administration"
+                })
             },
             getData(){
                 let params={smid:this.$route.query.smid};

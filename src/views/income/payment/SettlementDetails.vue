@@ -2,8 +2,8 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh('-2')">付款结算 &nbsp;/</span>
-                <span class="log_url" @click="fh('-1')">&nbsp;付款结算方管理 &nbsp;/</span>
+                <span class="log_url" @click="jump()">付款结算 &nbsp;/</span>
+                <span class="log_url" @click="jumps()">&nbsp;付款结算方管理 &nbsp;/</span>
                 <span class="new_url">&nbsp;结算方详情</span>
             </div>
             <div class="title_left">
@@ -94,6 +94,16 @@
             this.getData()
         },
         methods:{
+            jump(){
+                this.$router.push({
+                    path:"./Administration"
+                })
+            },
+            jumps(){
+                this.$router.push({
+                    path:"./ReceiverManagement"
+                })
+            },
             fh(num){
                 this.$router.go(num)
             },

@@ -2,7 +2,7 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh('-1')">付款结算 &nbsp;/</span>
+                <span class="log_url" @click="jump()">付款结算 &nbsp;/</span>
                 <span class="new_url">&nbsp;付款结算详情</span>
             </div>
             <div class="title_left">
@@ -89,6 +89,12 @@
             this.getData()
         },
         methods:{
+            jump(){
+                this.$router.push({
+                    path:"./Administration"
+                })
+            },
+
             fh(num){
                 this.$router.go(num)
             },
