@@ -3,7 +3,7 @@
         <div class="content" @click.stop>
             <div class="tit">
                 <span v-if="list.length==0">废除</span>
-                <span v-if="list.length=!0">废除原因</span>
+                <span v-if="list.length!0">废除原因</span>
                 <img src="../../../../public/img/gb.png" @click="heid"/>
             </div>
             <div class="tishi">
@@ -50,7 +50,7 @@
                 })
             },
             getRejDET(){
-                let params = {id:this.skID,status:this.status};
+                let params = {id:this.skID,status:this.status+1};
                 this.api.demand_reject_logs({params}).then((res)=>{
                     this.list=res;
                     this.note=res[0].note;
