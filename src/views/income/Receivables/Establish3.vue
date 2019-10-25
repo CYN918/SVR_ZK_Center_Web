@@ -142,7 +142,7 @@
                     this.$message.error('实际到账时间不能为空');
                     return
                 }
-                if(this.attachs==[]){
+                if(this.attachs.length==0){
                     this.$message.error('附件不能为空');
                     return
                 }

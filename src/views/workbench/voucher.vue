@@ -90,7 +90,7 @@
                     this.$message.error('备注不能为空');
                     return
                 }
-                if(this.attachs==[]){
+                if(this.attachs.length==0){
                     this.$message.error('附件不能为空');
                     return
                 }

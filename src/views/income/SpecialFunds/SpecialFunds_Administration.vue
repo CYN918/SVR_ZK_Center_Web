@@ -28,6 +28,9 @@
                         <el-table-column
                                 prop="amount"
                                 label="支付金额">
+                            <template slot-scope="scope">
+                                <span>{{(tableData[scope.$index].amount).toLocaleString("zh-Hans-CN",{style:'currency',currency:'CNY'})}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                                 prop="status_name"

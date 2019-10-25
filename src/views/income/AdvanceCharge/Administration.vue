@@ -43,7 +43,7 @@
                     <el-table-column
                             label="操作">
                         <template slot-scope="scope">
-                            <el-button  type="text" size="small" @click="ck(tableData[scope.$index].name,tableData[scope.$index].remain_amount)">查看详情</el-button>
+                            <el-button  type="text" size="small" @click="ck(tableData[scope.$index].name)">查看详情</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -101,13 +101,13 @@
             cell({row, column, rowIndex, columnIndex}){
                 return 'text-align:center;color:rgba(61,73,102,1);font-size:14px;font-weight:400;font-family:PingFangSC-Regula;'
             },
-            ck(name,num){
+            ck(name){
                 this.$router.push({
                     path:"./YFdetails",
                     query:{
                         name:name,
                         is_receiver:this.is_receiver,
-                        num:num,
+
                     },
                 })
             },

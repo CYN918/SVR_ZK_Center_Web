@@ -16,7 +16,7 @@
                     <span v-if="this.$route.query.is_receiver==0">付款结算-{{this.$route.query.name}}</span>
                 </div>
                 <div>
-                    <span class="money">预付款剩余金额{{this.$route.query.num.toLocaleString("zh-Hans-CN",{style:'currency',currency:'CNY'})}}</span>
+                    <span class="money">预付款剩余金额{{this.num.toLocaleString("zh-Hans-CN",{style:'currency',currency:'CNY'})}}</span>
                     <span class="add" @click="ADD()">添加记录</span>
                 </div>
             </div>
@@ -76,6 +76,7 @@
                 page:1,
                 total:0,
                 tableData:[{pv:0}],
+                num:"",
             }
         },
         mounted(){
@@ -122,6 +123,13 @@
                 this.api.settle_prepayment_search({params}).then((res)=>{
                     this.tableData=res.data;
                     this.total=res.total;
+                    this.getSettlement()
+                })
+            },
+            getSettlement(){
+                let params={name:this.$route.query.name,is_receiver:this.$route.query.is_receiver}
+                this.api.settle_settlement_detail({params}).then((res)=>{
+                    this.num=res.remain_amount;
                 })
             },
             del(id){

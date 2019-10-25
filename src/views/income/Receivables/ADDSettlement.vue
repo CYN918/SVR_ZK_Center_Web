@@ -153,6 +153,7 @@
                 contract_id:"",
                 list:[],
                 contract:[],
+                auto:''
             }
         },
         mounted(){
@@ -165,6 +166,7 @@
             }
         },
         methods:{
+
             jump(){
                 this.$router.push({
                     path:"./Administration"
@@ -222,15 +224,17 @@
                     return
                 }
                 if(this.is_auto==false){
-                    this.is_auto=1;
-                }else {
-                    this.is_auto=0;
+                    this.auto=1;
                 }
+                if(this.is_auto==true){
+                    this.auto=0;
+                }
+                alert(this.auto);
                 if(!this.name){
                     this.$message.error('名称不能为空');
                     return
                 }
-                if(!this.tdate&&this.is_auto!=0){
+                if(!this.tdate&&this.auto!=0){
                     this.$message.error('生成对账时间不能为空');
                     return
                 }
@@ -258,19 +262,20 @@
                     this.$message.error('联系电话不能为空');
                     return
                 }
-                if(this.contracts==[]){
+                if(this.contracts.length==0){
                     this.$message.error('合同不能为空');
                     return
                 }
-                if(this.attachs==[]){
+                if(this.attachs.length==0){
                     this.$message.error('附件不能为空');
                     return
                 }
+
                 let formData=new FormData;
                 formData.append('name',this.name);
                 formData.append('is_receiver',1);
                 formData.append('tdate',this.tdate);
-                formData.append('is_auto',this.is_auto);
+                formData.append('is_auto',this.auto);
                 formData.append('account_name',this.account_name);
                 formData.append('bank_card_id',this.bank_card_id);
                 formData.append('bank_name',this.bank_name);
@@ -281,7 +286,9 @@
                 formData.append('contracts',JSON.stringify(this.contract));
                 formData.append('attachs',JSON.stringify(this.attachs));
                 this.api.settle_settlement_add(formData).then((res)=>{
-                    this.fh(-1)
+                    if(res!=false){
+                        this.fh(-1)
+                    }
                 })
             },
 
@@ -292,8 +299,9 @@
                     this.tdate=res.tdate;
                     if(res.is_auto==1){
                         this.is_auto=false;
-                    }else{
-                        this.is_auto=true
+                    }
+                    if(this.is_auto==0){
+                        this.is_auto=true;
                     }
                     this.account_name=res.account_name;
                     this.bank_card_id=res.bank_card_id;
@@ -308,15 +316,16 @@
             },
             setData(){
                 if(this.is_auto==false){
-                    this.is_auto=1;
-                }else {
-                    this.is_auto=0;
+                    this.auto=1;
+                }
+                if(this.is_auto==true){
+                    this.auto=0;
                 }
                 if(!this.name){
                     this.$message.error('名称不能为空');
                     return
                 }
-                if(!this.tdate&&this.is_auto!=0){
+                if(!this.tdate&&this.auto!=0){
                     this.$message.error('生成对账时间不能为空');
                     return
                 }
@@ -356,7 +365,7 @@
                 formData.append('name',this.name);
                 formData.append('is_receiver',1);
                 formData.append('tdate',this.tdate);
-                formData.append('is_auto',this.is_auto);
+                formData.append('is_auto',this.auto);
                 formData.append('account_name',this.account_name);
                 formData.append('bank_card_id',this.bank_card_id);
                 formData.append('bank_name',this.bank_name);
@@ -367,7 +376,9 @@
                 formData.append('contracts',JSON.stringify(this.contracts));
                 formData.append('attachs',JSON.stringify(this.attachs));
                 this.api.settle_settlement_edit(formData).then((res)=>{
-                    this.fh(-1)
+                    if(res!=false){
+                        this.fh(-1)
+                    }
                 })
             },
         }

@@ -171,7 +171,7 @@
                     this.$message.error('结算单名称不能为空');
                     return
                 }
-                if(this.time==[]){
+                if(this.time.length==0){
                     this.$message.error('结算时间段不能为空');
                     return
                 }
@@ -187,7 +187,7 @@
                     this.$message.error('备注不能为空');
                     return
                 }
-                if(this.attachs==[]){
+                if(this.attachs.length==0){
                     this.$message.error('附件不能为空');
                     return
                 }
@@ -238,7 +238,7 @@
                     this.$message.error('结算单名称不能为空');
                     return
                 }
-                if(this.time==[]){
+                if(this.time.length==0){
                     this.$message.error('结算时间段不能为空');
                     return
                 }
@@ -254,7 +254,7 @@
                     this.$message.error('备注不能为空');
                     return
                 }
-                if(this.attachs==[]){
+                if(this.attachs.length==0){
                     this.$message.error('附件不能为空');
                     return
                 }
