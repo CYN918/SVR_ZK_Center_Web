@@ -62,25 +62,26 @@
 
                 </div>
             </div>
-        </div>
-        <div class="Add_btn">
-            <div class="checkSelect">
-                <el-checkbox v-model="value" @change="all()">全选</el-checkbox>
+            <div class="Add_btn">
+                <div class="checkSelect">
+                    <el-checkbox v-model="value" @change="all()">全选</el-checkbox>
+                </div>
+                <span class="ALLdownload" @click="downloadImg()">下载</span>
+                <span @click="heid">取消</span>
+                <div class="block">
+                    <el-pagination
+                            @size-change="handleSizeChange"
+                            @current-change="handleCurrentChange"
+                            :current-page="page"
+                            :page-sizes="[2, 10, 15, 20]"
+                            :page-size="p"
+                            layout="total, sizes, prev, pager, next, jumper"
+                            :total="total">
+                    </el-pagination>
+                </div>
             </div>
-            <span class="ALLdownload" @click="downloadImg()">下载</span>
-            <span @click="heid">取消</span>
-            <div class="block">
-                <el-pagination
-                        @size-change="handleSizeChange"
-                        @current-change="handleCurrentChange"
-                        :current-page="page"
-                        :page-sizes="[2, 4, 6, 8]"
-                        :page-size="p"
-                        layout="total, sizes, prev, pager, next, jumper"
-                        :total="total">
-                </el-pagination>
-            </div>
         </div>
+
     </div>
 </template>
 
@@ -342,18 +343,13 @@
         line-height: 71px;
     }
     .Add_btn{
-        width:1040px;
+        width:100%;
         height:58px;
-        background:rgba(247,249,252,1);
+        background:#e0dfdfff;
         border-radius:0px 0px 4px 4px;
-        margin-top: 60px;
-        padding-left: 40px;
-        padding-right: 24px;
+        margin-top: 70.5px;
         position: fixed;
-        bottom: 110px;
-        left: 50%;
-        transform: translateX(-50%);
-
+        left:0;
     }
     .Add_btn span{
         display: inline-block;
