@@ -229,7 +229,6 @@
                 if(this.is_auto==true){
                     this.auto=0;
                 }
-                alert(this.auto);
                 if(!this.name){
                     this.$message.error('名称不能为空');
                     return
