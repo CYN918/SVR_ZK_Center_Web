@@ -19,7 +19,7 @@
 <script>
     export default {
         name: "work-bench_auditor",
-        props:['id','open_id'],
+        props:['id','open_id','status'],
         data(){
             return{}
         },
@@ -30,17 +30,19 @@
             audit(){
                 if(this.open_id!=undefined){
                     if(this.open_id.length<=0){
-                        this.$message.error('未找到除驳回外的数据')
+                        this.$message.error('未找到除驳回外的数据');
                         return
                     }
                     let formData = new FormData;
                     formData.append('id',this.id);
+                    formData.append('status',this.status);
                     formData.append('arr_open_id',JSON.stringify(this.open_id));
                     this.api.demand_apply_audit(formData).then((res)=>{
                     })
                 }else{
                     let formData = new FormData;
                     formData.append('id',this.id);
+                    formData.append('status',this.status);
                     this.api.demand_audit(formData).then((res)=>{
                     })
                 }

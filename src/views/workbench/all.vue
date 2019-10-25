@@ -12,9 +12,11 @@
                         <option value="demand_business">业务需求</option>
                         <option value="demand_material">素材需求</option>
                         <option value="demand_apply">设计师结算</option>
+                        <option value="demand_settle_receive">收款结算</option>
+                        <option value="demand_settle_paying">付款结算</option>
                     </select>
                     <span>所处流程</span>
-                    <select v-model="status">
+                    <select v-model="statuss">
                         <option value="">全部</option>
                         <option v-for="item in statusList" :value="item.status">{{item.status_name}}</option>
                     </select>
@@ -49,8 +51,8 @@
         </div>
         <div class="centNavBox">
             <tab v-if="tables" :tableData="tableData" ></tab>
-            <sc v-if="sc" :SCid="id"></sc>
-            <yw v-if="yw" :YWid="id"></yw>
+            <sc v-if="sc" :SCid="id" :status="status"></sc>
+            <yw v-if="yw" :YWid="id" :status="status"></yw>
 
         </div>
         <div class="block">
@@ -79,7 +81,7 @@
             return{
                 processor:'',
                 reject:'',
-                status:'',
+                statuss:'',
                 demand_type:'',
                 sc:false,
                 yw:false,
@@ -106,6 +108,7 @@
                 controlBtns:true,
                 control:[],
                 id:'',
+                status:"",
             }
         },
         created(){
@@ -131,30 +134,40 @@
             this.getDataList();
         },
         methods:{
-            getSC(id){
-                this.id = id
-                this.sc=true;
-            },
             cx(){
                 this.getDataList();
 
             },
+            getSC(id,status){
+                this.id = id;
+                this.status=status;
+                this.sc=true;
+                this.stop()
+            },
             heidSC(){
                 this.sc=false;
+                this.status='';
+                this.id='';
+                this.move()
             },
-            getYW(id){
-                this.id = id
-                this.yw=true
+            getYW(id,status){
+                this.id=id;
+                this.status=status;
+                this.yw=true;
+                this.stop()
             },
             heidYW(){
-                this.yw=false
+                this.id='';
+                this.status='';
+                this.yw=false;
+                this.move()
             },
 
             getDataList(){
                 if(this.value){
-                    var params ={p:this.p,page:this.page,search:this.search,status:this.status,demand_type:this.demand_type,start_time:this.value[0],end_time:this.value[1],reject:this.reject,processor:this.processor}
+                    var params ={p:this.p,page:this.page,search:this.search,status:this.statuss,demand_type:this.demand_type,start_time:this.value[0],end_time:this.value[1],reject:this.reject,processor:this.processor}
                 }else{
-                    var params ={p:this.p,page:this.page,search:this.search,status:this.status,demand_type:this.demand_type,start_time:"",end_time:"",reject:this.reject,processor:this.processor}
+                    var params ={p:this.p,page:this.page,search:this.search,status:this.statuss,demand_type:this.demand_type,start_time:"",end_time:"",reject:this.reject,processor:this.processor}
                 }
 
                 this.api.demand_search({params}).then((res)=>{
@@ -168,8 +181,12 @@
                         }else if(this.tableData[i].demand_type=='demand_material'){
                             this.tableData[i].demand_type='素材需求'
                             this.tableData[i].demand_name=this.tableData[i].demand_name+'('+ this.tableData[i].type_name+')'
-                        }else {
+                        }else if(this.tableData[i].demand_type=='demand_apply'){
                             this.tableData[i].demand_type='设计师结算'
+                        }else if(this.tableData[i].demand_type=='demand_settle_receive'){
+                            this.tableData[i].demand_type='收款结算'
+                        }else if(this.tableData[i].demand_type=='demand_settle_paying'){
+                            this.tableData[i].demand_type='付款结算'
                         }
                     }
                 })
@@ -214,7 +231,7 @@
             typeData(){
               console.log(this.demand_type)
                 if(this.demand_type==''){
-                    this.status=''
+                    this.statuss=''
                 }else{
                     let params = {demand_type:this.demand_type};
                     this.api.process_status({params}).then((res)=>{

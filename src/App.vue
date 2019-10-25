@@ -112,6 +112,9 @@ a{
   line-height: 40px;
   margin-right:10px;
 }
+.seach .btn{
+  position: static!important;
+}
 .bg{z-index: 999!important;}
 .block .el-pagination .el-pager .active{
   background:#3377ff!important;

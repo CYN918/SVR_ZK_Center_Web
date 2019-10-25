@@ -2,9 +2,9 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh()"> {{this.$route.query.name+'主题素材'}}&nbsp;/</span>
-                <span class="new_url">{{this.$route.query.name+'主题素材详情'}} &nbsp;</span>
-            </div>
+            <span class="log_url" @click="fh()"> {{this.$route.query.name+'主题素材'}}&nbsp;/</span>
+            <span class="new_url">{{this.$route.query.name+'主题素材详情'}} &nbsp;</span>
+        </div>
             <div class="name">
                 <span>{{this.$route.query.name+'打包件名称'}}:</span>
                 <span></span>

@@ -10,55 +10,55 @@
         <div class="content">
             <div>
                 <span class="tit">提现ID</span>
-                <span class="tit_right">dsad</span>
+                <span class="tit_right">{{list.apply_id}}</span>
             </div>
             <div>
                 <span class="tit">提现用户昵称</span>
-                <span class="tit_right"></span>
+                <span class="tit_right">{{list.account_name}}</span>
             </div>
             <div>
                 <span class="tit">提现金额</span>
-                <span class="tit_right">￥</span>
+                <span class="tit_right">{{'￥'+list.cash_money}}</span>
             </div>
             <div>
                 <span class="tit">账号主体</span>
-                <span class="tit_right">dsadasdddsdsa</span>
+                <span class="tit_right">{{list.contributor_type==1?'个人':'公司'}}</span>
             </div>
             <div>
                 <span class="tit">收款账户名称</span>
-                <span class="tit_right"></span>
+                <span class="tit_right">{{list.account_name}}</span>
             </div>
             <div>
                 <span class="tit">身份证号</span>
-                <span class="tit_right"></span>
+                <span class="tit_right">{{list.id_card}}</span>
             </div>
             <div>
                 <span class="tit">银行卡号</span>
-                <span class="tit_right"></span>
+                <span class="tit_right">{{list.bank_card_id}}</span>
             </div>
             <div>
                 <span class="tit">开户银行</span>
-                <span class="tit_right"></span>
+                <span class="tit_right">{{list.bank_name}}</span>
             </div>
             <div>
                 <span class="tit">开户支行</span>
-                <span class="tit_right"></span>
+                <span class="tit_right">{{list.bank_subbranch}}</span>
             </div>
             <div>
                 <span class="tit">银行预留手机号</span>
-                <span class="tit_right"></span>
+                <span class="tit_right">{{list.reserve_phone}}</span>
             </div>
             <div>
                 <span class="tit">状态</span>
-                <span class="tit_right"></span>
+                <span class="tit_right">{{list.isfinish==0?'待处理':tableData[scope.$index].isfinish==1?'已通过':'已驳回'}}</span>
             </div>
             <div>
                 <span class="tit">申请时间</span>
-                <span class="tit_right"></span>
+                <span class="tit_right">{{list.created_at}}</span>
             </div>
             <div>
                 <span class="tit">处理时间</span>
-                <span class="tit_right"></span>
+                <span class="tit_right">{{list.updated_at}}</span>
             </div>
             <div>
                 <span class="tit">相关合同</span>
@@ -73,7 +73,9 @@
     export default {
         name: "money_details",
         data(){
-            return{}
+            return{
+                list:this.$route.query.data,
+            }
         },
         methods:{
             fh(){
