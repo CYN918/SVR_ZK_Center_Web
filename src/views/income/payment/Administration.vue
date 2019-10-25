@@ -121,7 +121,7 @@
                 p:10,
                 total:0,
                 search:'',
-                tableData:[{pv:0}],
+                tableData:[{check:{name:"",tstart:"",tend:"",expect_amount:"",real_amount:"",receive_amount:"",}}],
                 control:[],
                 controlBtn:false,
                 controlBtns:false,

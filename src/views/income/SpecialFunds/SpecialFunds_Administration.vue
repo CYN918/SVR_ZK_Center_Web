@@ -68,7 +68,7 @@
                 p:10,
                 page:1,
                 total:0,
-                tableData:[{pv:0}],
+                tableData:[{name:"",amount:"",status_name:"",}],
                 search:"",
             }
         },
