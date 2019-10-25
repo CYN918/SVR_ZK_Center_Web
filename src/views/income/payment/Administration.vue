@@ -130,7 +130,9 @@
             }
         },
         created(){
-            this.myformatter((new Date((new Date()).getTime() - 90*24*60*60*1000)));
+            let date = new Date();
+            date.setMonth(date.getMonth()-3);
+            this.myformatter(date);
         },
         mounted(){
             this.control=JSON.parse(localStorage.getItem('control'));
@@ -195,7 +197,7 @@
                 })
             },
             myformatter(date){
-
+               
                 var strDate = date.getFullYear()+"-";
 
                 if(date.getMonth()<10){

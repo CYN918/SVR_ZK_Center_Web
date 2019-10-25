@@ -16,7 +16,7 @@
                     <span v-if="this.$route.query.is_receiver==0">付款结算-{{this.$route.query.name}}</span>
                 </div>
                 <div>
-                    <span class="money">预付款剩余金额{{this.num.toLocaleString("zh-Hans-CN",{style:'currency',currency:'CNY'})}}</span>
+                    <span class="money">预付款剩余金额:{{this.num.toLocaleString("zh-Hans-CN",{style:'currency',currency:'CNY'})}}</span>
                     <span class="add" @click="ADD()">添加记录</span>
                 </div>
             </div>
