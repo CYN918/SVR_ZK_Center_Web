@@ -45,7 +45,7 @@
                                 :show-overflow-tooltip="true"
                                 label="结算方名称">
                             <template slot-scope="scope">
-                                <span>{{tableData[scope.$index].check.name}}</span>
+                                <span v-if="tableData[scope.$index].check!=null">{{tableData[scope.$index].check.name}}</span>
                             </template>
                         </el-table-column>
                         <el-table-column
@@ -129,6 +129,9 @@
                 ab:false,
             }
         },
+        created(){
+            this.myformatter((new Date((new Date()).getTime() - 90*24*60*60*1000)));
+        },
         mounted(){
             this.control=JSON.parse(localStorage.getItem('control'));
             if(this.control.length==0){
@@ -153,8 +156,6 @@
                 }
 
             }
-            console.log(this.controlBtn);
-            this.myformatter((new Date((new Date()).getTime() - 90*24*60*60*1000)));
         },
         methods:{
             handleSizeChange(p) { // 每页条数切换

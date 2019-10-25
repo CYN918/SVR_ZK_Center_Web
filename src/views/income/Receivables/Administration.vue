@@ -129,6 +129,9 @@
                 ab:false,
             }
         },
+        created(){
+            this.myformatter((new Date((new Date()).getTime() - 90*24*60*60*1000)));
+        },
         mounted(){
             this.control=JSON.parse(localStorage.getItem('control'));
             if(this.control.length==0){
@@ -153,7 +156,7 @@
                     }
                 }
             }
-            this.myformatter((new Date((new Date()).getTime() - 90*24*60*60*1000)));
+            
         },
         methods:{
             handleSizeChange(p) { // 每页条数切换
