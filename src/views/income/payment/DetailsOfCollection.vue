@@ -340,6 +340,6 @@
         margin-left: 24px;
     }
     .Jurisdiction{
-        display: none;
+        display: none!important;
     }
 </style>
