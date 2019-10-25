@@ -261,11 +261,11 @@
                     this.$message.error('联系电话不能为空');
                     return
                 }
-                if(this.contracts==[]){
+                if(this.contract.length==0){
                     this.$message.error('合同不能为空');
                     return
                 }
-                if(this.attachs==[]){
+                if(this.attachs.length==0){
                     this.$message.error('附件不能为空');
                     return
                 }
@@ -308,11 +308,18 @@
                     this.contact=res.contact;
                     this.phone=res.phone;
                     this.note=res.note;
-                    this.contract=res.contracts;
+                    this.contracts=res.contracts;
                     this.attachs=res.attachs;
                 })
             },
             setData(){
+                var arr=[];
+                for(var i=0;i<this.contracts.length;i++){
+                    for(var j=0;j<this.contracts[i].length;j++){
+                        arr.push((this.contracts[i][j]).contract_id);
+                    }
+                }
+                this.contract=(this.contract).concat(arr);
                 if(this.is_auto==false){
                     this.auto=1;
                 }
@@ -351,11 +358,11 @@
                     this.$message.error('联系电话不能为空');
                     return
                 }
-                if(this.contracts==[]){
+                if(this.contracts.length==0){
                     this.$message.error('合同不能为空');
                     return
                 }
-                if(this.attachs==[]){
+                if(this.attachs.length==0){
                     this.$message.error('附件不能为空');
                     return
                 }
@@ -371,7 +378,7 @@
                 formData.append('contact',this.contact);
                 formData.append('phone',this.phone);
                 formData.append('note',this.note);
-                formData.append('contracts',JSON.stringify(this.contracts));
+                formData.append('contracts',JSON.stringify(this.contract));
                 formData.append('attachs',JSON.stringify(this.attachs));
                 this.api.settle_settlement_edit(formData).then((res)=>{
                     if(res!=false){
