@@ -113,8 +113,6 @@
                 <div class="uplaod">
                     <el-upload
                             class="upload-demo"
-                            :limit="1"
-                            :on-exceed="handleExceed"
                             :on-remove="handleRemove"
                             :http-request="uploadFile"
                             multiple

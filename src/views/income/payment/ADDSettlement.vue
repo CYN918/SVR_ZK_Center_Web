@@ -197,7 +197,7 @@
             },
             uploadFile(file){
                 this.up=true;
-                this.times=0
+                this.times=0;
                 this.time();
                 let formData = new FormData;
                 formData.append('file',file.file);
