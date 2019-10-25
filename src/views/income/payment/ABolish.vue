@@ -3,7 +3,7 @@
         <div class="content" @click.stop>
             <div class="tit">
                 <span v-if="list.length==0">废除</span>
-                <span v-if="list.length!0">废除原因</span>
+                <span v-if="list.length!=0">废除原因</span>
                 <img src="../../../../public/img/gb.png" @click="heid"/>
             </div>
             <div class="tishi">
