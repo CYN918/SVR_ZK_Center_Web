@@ -114,6 +114,9 @@
                 controlBtn:false,
             }
         },
+        created(){
+            this.getData()
+        },
         mounted(){
             this.control=JSON.parse(localStorage.getItem('control'));
 
@@ -129,7 +132,7 @@
                     }
                 }
             }
-            this.getData()
+
         },
         methods:{
             jump(){

@@ -86,6 +86,9 @@
                 },
             }
         },
+        created(){
+            this.getData()
+        },
         mounted(){
             this.control=JSON.parse(localStorage.getItem('control'));
             if(this.control.length==0){
@@ -100,7 +103,6 @@
                     }
                 }
             }
-            this.getData()
         },
         methods:{
             jump(){
