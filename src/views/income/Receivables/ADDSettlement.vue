@@ -120,6 +120,7 @@
                             action="111">
                         <el-button size="small" type="primary">选择文件</el-button>
                     </el-upload>
+                    <el-progress :percentage="this.times" v-if="up"></el-progress>
                 </div>
                 <div class="content_btn">
                     <span class="btn_tj" @click="heidFj()">添加</span>
@@ -153,7 +154,9 @@
                 contract_id:"",
                 list:[],
                 contract:[],
-                auto:''
+                auto:'',
+                times:"",
+                up:false,
             }
         },
         mounted(){
@@ -180,18 +183,30 @@
             fh(num){
                 this.$router.go(num)
             },
-            handleExceed(files, fileList) {
-                this.$message.warning(`当前限制选择1个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-            },
+
             handleRemove(file, fileList) {
                 this.file = '';
                 this.initiate2 = false
             },
+            time(){
+                var _this=this;
+                _this.times=0;
+                var timer = setInterval(function () {
+                    if(_this.times<99){
+                        _this.times++
+                    }
+                },100);
+            },
             uploadFile(file){
+                this.up=true;
+                this.times=0
+                this.time();
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
                     this.attachs.push(res);
+                    this.times=100;
+                    this.up=false;
                 })
             },
             ADDht(){

@@ -144,20 +144,7 @@
             fh(num){
                 this.$router.go(num)
             },
-            handleExceed(files, fileList) {
-                this.$message.warning(`当前限制选择1个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-            },
-            handleRemove(file, fileList) {
-                this.file = '';
-                this.initiate2 = false
-            },
-            uploadFile(file){
-                let formData = new FormData;
-                formData.append('file',file.file);
-                this.api.file_upload(formData).then((res)=>{
 
-                })
-            },
 
             scope2(){
                 if(this.list.status>1){
