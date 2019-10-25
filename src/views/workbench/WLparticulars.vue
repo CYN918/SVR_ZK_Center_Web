@@ -39,7 +39,7 @@
                             @size-change="handleSizeChange"
                             @current-change="handleCurrentChange"
                             :current-page="page"
-                            :page-sizes="[2, 10, 15, 20]"
+                            :page-sizes="[ 10, 15, 20]"
                             :page-size="p"
                             layout="total, sizes, prev, pager, next, jumper"
                             :total="total">
@@ -61,7 +61,7 @@
                 value:false,
                 material:1,
                 page:1,
-                p:2,
+                p:10,
                 listWl:[],
                 total:0,
                 numAll:0,
