@@ -117,6 +117,7 @@
                             :on-exceed="handleExceed"
                             :on-remove="handleRemove"
                             :http-request="uploadFile"
+                            multiple
                             action="111">
                         <el-button size="small" type="primary">选择文件</el-button>
                     </el-upload>

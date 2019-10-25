@@ -34,8 +34,10 @@
                             class="upload-demo"
                             :on-remove="handleRemove"
                             :http-request="uploadFile"
-                            action="111">
-                        <el-button size="small" type="primary">上传</el-button>
+                            action="111"
+                            multiple
+                           >
+                        <el-button size="small" type="primary">点击上传</el-button>
                     </el-upload>
                     <el-progress :percentage="this.times" v-if="up"></el-progress>
                 </div>
@@ -64,6 +66,10 @@
             }
         },
         methods:{
+
+            handlePreview(file) {
+                console.log(file);
+            },
 
             handleRemove(file, fileList) {
                 this.file = '';

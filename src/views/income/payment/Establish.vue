@@ -92,7 +92,9 @@
                                     class="upload-demo"
                                     :on-remove="handleRemove"
                                     :http-request="uploadFile"
-                                    action="111">
+                                    action="111"
+                                    multiple
+                            >
                                 <el-button size="small" type="primary">上传文件</el-button>
                             </el-upload>
                             <el-progress :percentage="this.times" v-if="up"></el-progress>
