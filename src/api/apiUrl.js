@@ -975,9 +975,6 @@ export default {
 		url:'themes/theme/search',method:'get'
 	},
 
-
-
-
 	//收益数据
 
 	//结算方列表
