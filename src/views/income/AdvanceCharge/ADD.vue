@@ -40,6 +40,7 @@
                         <el-button size="small" type="primary">上传</el-button>
                     </el-upload>
                 </div>
+                <el-progress :percentage="70"></el-progress>
             </div>
             <div>
                 <span class="tj" @click="ADDdata()">添加</span>
