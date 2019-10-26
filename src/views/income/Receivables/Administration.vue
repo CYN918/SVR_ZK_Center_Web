@@ -88,7 +88,7 @@
                             <template slot-scope="scope">
                                 <el-button  type="text" size="small" @click="details(tableData[scope.$index].id)">查看详情</el-button>
                                 <el-button  type="text" size="small" @click="zfXQ(tableData[scope.$index].id,tableData[scope.$index].status)" v-if="tableData[scope.$index].isfinish==2">查看作废原因</el-button>
-                                <el-button  type="text" size="small" v-if="tableData[scope.$index].isfinish!=2" @click="zf(tableData[scope.$index].id,tableData[scope.$index].status)">作废</el-button>
+                                <el-button  type="text" size="small"  v-if="tableData[scope.$index].isfinish!=2&&tableData[scope.$index].status!=3" @click="zf(tableData[scope.$index].id,tableData[scope.$index].status)">作废</el-button>
                             </template>
                         </el-table-column>
                     </el-table>

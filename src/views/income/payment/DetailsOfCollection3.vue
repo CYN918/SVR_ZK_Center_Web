@@ -3,10 +3,10 @@
         <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="jump()">收款结算 &nbsp;/</span>
-                <span class="new_url">&nbsp;新建收款结算</span>
+                <span class="new_url">&nbsp;付款结算详情</span>
             </div>
             <div class="title_left">
-                <span>新建收款结算</span>
+                <span>付款结算详情</span>
                 <div class="top_btn">
                     <span class="bj" @click="bj()" :class="{Jurisdiction:this.controlBtn}">编辑</span>
                     <span class="ck" @click="change()">查看变更记录</span>
@@ -65,7 +65,7 @@
 
                 </div>
                 <div class="fillBtn">
-                    <span @click="fh(-1)">返回</span>
+                    <span @click="jump()">返回</span>
                 </div>
             </div>
         </div>

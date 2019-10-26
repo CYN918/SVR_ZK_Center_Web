@@ -89,7 +89,7 @@
 
                 </div>
                 <div class="fillBtn">
-                    <span @click="fh(-1)">返回</span>
+                    <span @click="jump()">返回</span>
                 </div>
             </div>
         </div>
