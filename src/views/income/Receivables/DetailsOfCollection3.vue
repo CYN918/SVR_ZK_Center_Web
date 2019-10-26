@@ -110,7 +110,11 @@
                     path:"./Administration"
                 })
             },
-
+            change(){
+                this.$router.push({
+                    path:"./ChangeRecord"
+                })
+            },
             fh(num){
                 this.$router.go(num)
             },

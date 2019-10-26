@@ -73,8 +73,9 @@
         data(){
             return{
                 time:[(new Date()).toLocaleDateString().split('/').join('-'),(new Date()).toLocaleDateString().split('/').join('-')],
-                page:10,
-                p:1,total:0,
+                page:1,
+                p:10,
+                total:0,
                 tableData:[{pv:0}],
                 search:"",
                 list:[],

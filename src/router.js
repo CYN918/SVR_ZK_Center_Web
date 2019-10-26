@@ -162,7 +162,10 @@ import AddEdit from './views/income/SpecialFunds/AddEdit'
 mode['AddEdit']=AddEdit
 import ADD from './views/income/AdvanceCharge/ADD'
 mode['ADD']=ADD
-
+import Record2 from './views/income/SpecialFunds/Record'
+mode['Record2']=Record2;
+import RecordDetailed from './views/income/SpecialFunds/RecordDetailed'
+mode['RecordDetailed']=RecordDetailed
 
 
 //工作台
@@ -385,7 +388,8 @@ let nb = [
             {path:'/income/SpecialFunds/ADDspecial',name:'特殊款管理',component:mode['ADDspecial']},
             {path:'/income/SpecialFunds/special_edit',name:'特殊款详情',component:mode['special_edit']},
             {path:'/income/SpecialFunds/AddEdit',name:'添加特殊款',component:mode['AddEdit']},
-
+            {path:'/income/SpecialFunds/Record',name:'特殊款变更列表',component:mode['Record2']},
+            {path:'/income/SpecialFunds/RecordDetailed',name:'特殊款变更列表详情',component:mode['RecordDetailed']},
 
 
         ]},

@@ -1077,4 +1077,8 @@ export default {
     demandsettle_history:{
 		url:'demandsettle/history',method:'get'
 	},
+	//特殊款项修改记录
+    settle_special_history:{
+		url:'settle/special/history',method:'get'
+	}
 }

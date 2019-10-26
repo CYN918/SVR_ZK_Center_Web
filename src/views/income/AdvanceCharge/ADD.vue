@@ -16,7 +16,7 @@
                 </select>
             </div>
             <div>
-                <span  class="TitName">增加预付金额</span>
+                <span  class="TitName">金额数值</span>
                 <input type="text" placeholder="请输入" v-model="amount"/>
             </div>
             <div>

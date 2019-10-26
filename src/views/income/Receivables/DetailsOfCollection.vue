@@ -10,7 +10,7 @@
                 <span>收款结算详情</span>
                 <div class="top_btn">
                     <span class="bj" @click="bj()" :class="{Jurisdiction:this.controlBtn}">编辑</span>
-                    <span class="ck">查看变更记录</span>
+                    <span class="ck" @click="change()">查看变更记录</span>
                 </div>
             </div>
         </div>
@@ -147,7 +147,11 @@
             fh(num){
                 this.$router.go(num)
             },
-
+            change(){
+                this.$router.push({
+                    path:"./ChangeRecord"
+                })
+            },
             massgae(){this.msg=true},
             heidMassage(){
                 this.msg=false
