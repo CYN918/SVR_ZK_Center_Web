@@ -58,7 +58,11 @@
         props:['skID','skType'],
         data(){
             return{
-                list:{},
+                list:{invoice:{
+                        express_id:"",
+                        note:"",
+                        attachs:"",
+                    }},
                 control:[],
                 type:'',
             }
@@ -80,7 +84,15 @@
                     this.$parent.getCK(this.list.id,this.type,'2');
 
             },
+            add(){
+                this.$parent.heidFkCK();
+                this.$parent.ADDRemit(this.skID,this.skType,3)
+            },
             scope2(){
+                if(this.list.status==2){
+                    this.add();
+                    return
+                }
                 if(this.list.status>3){
                     this.$parent.heidFkCK();
                     if(this.list.demand_type=='demand_settle_receive'){

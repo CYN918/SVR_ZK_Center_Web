@@ -700,7 +700,6 @@
                 this.stops=false
             },
             audit(){
-                console.log(this.attach);
                 let formData = new FormData;
                 formData.append('attach',JSON.stringify(this.attach));
                 formData.append('id',this.shID);

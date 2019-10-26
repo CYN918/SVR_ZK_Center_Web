@@ -65,7 +65,14 @@
         props:['skID','skType'],
         data(){
             return{
-                list:{},
+                list:{
+                    remit:{
+                        receive_amount:"",
+                        receive_tdate:"",
+                        note:"",
+                        attachs:"",
+                    }
+                },
                 type:""
             }
         },

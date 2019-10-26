@@ -3,8 +3,8 @@
         <div class="tableBox">
             <div style="text-align: center;margin-bottom: 40px;max-width: 893px;border-bottom: 1px solid #ddd;position: relative;left: 50%;transform: translateX(-50%)">
                 <div style="margin-right: 350px;text-align: center;display: inline-block">
-                    <div class="box boxs">1</div>
-                    <span class="boxName">对账确认</span>
+                    <div class="box boxs" @click="ck1">1</div>
+                    <span class="boxName"  @click="ck1">对账确认</span>
                 </div>
                 <div style="margin-right: 350px;text-align: center;display: inline-block;border-bottom: 1px solid #3377ff">
                     <div class="box  boxs">2</div>
@@ -68,6 +68,10 @@
         methods:{
             fh(){
                 this.$parent.heidADDscope();
+            },
+            ck1(){
+                this.$parent.heidADDscope();;
+                this.$parent.getCK(this.skID,this.skType,'2');
             },
             handleExceed(files, fileList) {
                 this.$message.warning(`当前限制选择1个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
@@ -182,6 +186,7 @@
         background:rgba(0,122,255,1)!important;
         color:rgba(255,255,255,1)!important;
         border: none!important;
+        cursor: pointer;
     }
 
     .boxName{
@@ -191,6 +196,7 @@
         font-weight:500;
         margin-bottom: 5px;
         color:rgba(31,46,77,1);
+        cursor: pointer;
     }
     .fill>div{
         margin-bottom: 20px;
