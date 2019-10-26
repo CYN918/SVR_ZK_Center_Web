@@ -19,14 +19,14 @@
             <div style="text-align: center" class="fill">
                 <div>
                     <span class="fillName">物流单号</span>
-                    <div style="display: inline-block;width: 300px">
+                    <div style="display: inline-block;width: 300px;text-align: left">
                         <span class="text">{{list.invoice.express_id}}</span>
                     </div>
 
                 </div>
                 <div>
                     <span class="fillName">备注说明</span>
-                    <div style="display: inline-block;width: 300px">
+                    <div style="display: inline-block;width: 300px;text-align: left">
                         <span  class="text">{{list.invoice.note}}</span>
                     </div>
 
@@ -35,7 +35,7 @@
                     <div style="display: inline-block;width: 84px;margin-right: 20px;text-align: right">
                         <span class="fj">附件</span>
                     </div>
-                    <div style="display: inline-block;width: 300px">
+                    <div style="display: inline-block;width: 300px;text-align: left">
                         <div v-for="item in list.invoice.attachs">
                             <span  class="text">{{item.name}}</span>
                             <span class="click">查看</span>

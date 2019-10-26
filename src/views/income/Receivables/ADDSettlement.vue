@@ -205,8 +205,8 @@
                 this.api.file_upload(formData).then((res)=>{
                     this.attachs.push(res);
                     this.times=100;
-                    this.up=false;
                 })
+                this.up=false;
             },
             ADDht(){
                 this.ht=true;

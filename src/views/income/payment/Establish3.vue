@@ -69,7 +69,7 @@
                 </div>
                 <div class="fillBtn">
                     <span class="tj" @click="ADD">提交</span>
-                    <span @click="fh(-1)">取消</span>
+                    <span @click="fh(-1)" style="margin-right: 330px">取消</span>
                 </div>
             </div>
         </div>

@@ -19,21 +19,21 @@
             <div style="text-align: center" class="fill">
                 <div>
                     <span class="fillName">实际到账金额</span>
-                    <div style="display: inline-block;width: 300px">
+                    <div style="display: inline-block;width: 300px;text-align: left">
                         <span class="text">{{list.remit.receive_amount}}</span>
                     </div>
 
                 </div>
                 <div>
                     <span class="fillName">到账时间</span>
-                    <div style="display: inline-block;width: 300px">
+                    <div style="display: inline-block;width: 300px;text-align: left">
                         <span class="text">{{list.remit.receive_tdate}}</span>
                     </div>
 
                 </div>
                 <div>
                     <span class="fillName">备注说明</span>
-                    <div style="display: inline-block;width: 300px">
+                    <div style="display: inline-block;width: 300px;text-align: left">
                         <span  class="text">{{list.remit.note}}</span>
                     </div>
 

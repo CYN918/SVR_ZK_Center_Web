@@ -205,6 +205,7 @@
         margin-bottom: 5px;
         color:rgba(31,46,77,1);
         cursor: pointer;
+        text-align: left;
     }
     .fill>div{
         margin-bottom: 20px;
@@ -219,6 +220,7 @@
         color:rgba(31,46,77,1);
         margin-right: 21px;
         text-align: right!important;
+
     }
     .text{
         display: inline-block;
@@ -250,6 +252,7 @@
         font-weight:400;
         color:rgba(31,46,77,1);
         margin-bottom: 50px;
+        margin-right: 110px;
     }
     .click{
         display: inline-block;

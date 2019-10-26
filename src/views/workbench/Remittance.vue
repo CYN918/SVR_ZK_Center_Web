@@ -54,7 +54,7 @@
                 </div>
                 <div class="fillBtn">
                     <span class="tj" @click="ADD">提交</span>
-                    <span @click="fh()">取消</span>
+                    <span @click="fh()" style="margin-right: 207px">取消</span>
                 </div>
             </div>
         </div>

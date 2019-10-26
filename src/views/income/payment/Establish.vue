@@ -103,7 +103,7 @@
                 </div>
                 <div class="fillBtn">
                     <span class="tj" @click="ADD">提交</span>
-                    <span @click="fh(-1)">取消</span>
+                    <span @click="fh(-1)" style="margin-right: 330px">取消</span>
                 </div>
             </div>
         </div>
@@ -152,7 +152,7 @@
                 this.file = '';
                 this.initiate2 = false
             },
-            time(){
+            scope(){
                 var _this=this;
                 _this.times=0;
                 var timer = setInterval(function () {
@@ -164,7 +164,7 @@
             uploadFile(file){
                 this.up=true;
                 this.times=0;
-                this.time();
+                this.scope();
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{

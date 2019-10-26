@@ -58,7 +58,7 @@
                 </div>
                 <div class="fillBtn">
                     <span class="tj" @click="setData()">提交</span>
-                    <span @click="fh()">取消</span>
+                    <span @click="fh(-1)" style="margin-right: 330px">取消</span>
                 </div>
             </div>
         </div>
