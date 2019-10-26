@@ -170,7 +170,9 @@
                 formData.append('amount',this.amount);
                 formData.append('attachs',JSON.stringify(this.attachs));
                 this.api.settle_special_edit(formData).then((res)=>{
-
+                    if(res!=false){
+                        this.fh()
+                    }
                 })
             },
         },
