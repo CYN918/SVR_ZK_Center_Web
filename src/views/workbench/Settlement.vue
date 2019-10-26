@@ -114,6 +114,7 @@
                    this.$parent.getCK(this.list.id,this.type,'3');
                }
             },
+
             scope2(){
                 if(this.list.status>2){
                     this.$parent.heidFkCK();
