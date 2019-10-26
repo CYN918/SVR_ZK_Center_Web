@@ -74,8 +74,8 @@
 
         },
         methods:{
-            fh(num){
-                this.$router.go(num)
+            fh(){
+                this.$parent.heidFkCK();
             },
             scope(){
 

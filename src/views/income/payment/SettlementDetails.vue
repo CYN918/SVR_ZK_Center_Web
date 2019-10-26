@@ -17,7 +17,8 @@
             </div>
             <div>
                 <span class="tableBox_name">生成对账时间</span>
-                <span class="tableBox_Obtain">{{list.tdate}}</span>
+                <span class="tableBox_Obtain" v-if="list.tdate!=0">{{list.tdate}}</span>
+                <span class="tableBox_Obtain" v-if="list.tdate==0">不自动生成</span>
             </div>
             <div>
                 <span class="tableBox_name">开户名</span>

@@ -99,7 +99,14 @@
                             </el-upload>
                             <el-progress :percentage="this.times" v-if="up"></el-progress>
                         </div>
+                        <div style="margin: 14px 0 14px 0px" v-for="(item,index) in attachs">
+                            <div style="display: inline-block;max-width: 200px;height: 20px;overflow:hidden;font-size:14px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(31,46,77,1);text-align: left">{{item.name}}</div>
+                            <span class="content_ck">查看</span>
+                            <a class="content_xz" :href="item.url">下载</a>
+                            <span class="content_xz" @click="dels(index)">删除</span>
+                        </div>
                     </div>
+
                 </div>
                 <div class="fillBtn">
                     <span class="tj" @click="ADD">提交</span>
@@ -128,6 +135,7 @@
                 attachs:[],
                 list:[],
                 times:"",
+                fcounter:0,
                 up:false,
             }
         },
@@ -164,16 +172,26 @@
             uploadFile(file){
                 this.up=true;
                 this.times=0;
+                ++this.fcounter;
                 this.scope();
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
                     this.attachs.push(res);
                     this.times=100;
+                    --this.fcounter;
                     this.up=false;
                 })
             },
+            dels(index){
+                this.attachs.splice(index,1)
+            },
             ADD(){
+                if(this.fcounter != 0)
+                {
+                    this.$message.error('文件上传中');
+                    return
+                }
                 if(this.$route.query.id!=undefined){
                     this.setData();
                     return
@@ -246,6 +264,11 @@
                 })
             },
             setData(){
+                if(this.fcounter != 0)
+                {
+                    this.$message.error('文件上传中');
+                    return
+                }
                 if(!this.name){
                     this.$message.error('结算方不能为空');
                     return
@@ -433,5 +456,14 @@
         background:rgba(255,255,255,1);
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);
+    }
+    .content_ck, .content_xz{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(51,119,255,1);
+        margin-left: 10px;
+        cursor: pointer;
     }
 </style>

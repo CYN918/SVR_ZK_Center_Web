@@ -44,33 +44,33 @@
             <div>
                 <span class="Name">相关合同</span>
                 <div style="display: inline-block">
-                    <div>
-                        <span class="text"></span>
-                        <span class="click">查看</span>
-                        <span class="click">下载</span>
+                    <div v-for="item in data.contracts">
+                        <div v-for="da in item">
+                            <div v-for="data in da.contract_files">
+                                <span class="text">{{data.name}}</span>
+                                <span class="click">查看</span>
+                                <a class="click" :href="data.url">下载</a>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-
-
             </div>
             <div>
                 <span class="Name">已绑定数据来源主体</span>
                 <div style="display: inline-block">
                     <span class="text"></span>
                 </div>
-
             </div>
             <div>
                 <span class="Name">附件</span>
-                <div  style="display: inline-block">
-                    <div>
-                        <span class="text"></span>
+                <div style="display: inline-block">
+                    <div v-for="item in data.attachs">
+                        <span class="text">{{item.name}}</span>
                         <span class="click">查看</span>
-                        <span class="click">下载</span>
+                        <a class="click" :href="item.url">下载</a>
                     </div>
-
                 </div>
-
             </div>
         </div>
     </div>

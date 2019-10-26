@@ -38,6 +38,7 @@
                                 action="111">
                             <el-button size="small" type="primary">上传文件</el-button>
                         </el-upload>
+                        <el-progress :percentage="this.times" v-if="up"></el-progress>
                     </div>
                 </div>
                 <div class="fillBtn">
@@ -58,6 +59,9 @@
                 attachs:[],
                 note:"",
                 express_id:"",
+                fcounter:0,
+                times:"",
+                up:false,
             }
         },
 
@@ -72,15 +76,35 @@
                 this.file = '';
                 this.initiate2 = false
             },
+            scope(){
+                var _this=this;
+                _this.times=0;
+                var timer = setInterval(function () {
+                    if(_this.times<99){
+                        _this.times++
+                    }
+                },100);
+            },
             uploadFile(file){
+                this.up=true;
+                this.times=0;
+                ++this.fcounter;
+                this.scope();
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
                     this.attachs.push(res);
+                    this.times=100;
+                    --this.fcounter;
+                    this.up=false;
                 })
             },
             setData(){
-
+                if(this.fcounter != 0)
+                {
+                    this.$message.error('文件上传中');
+                    return
+                }
                 if(!this.express_id){
                     this.$message.error('物流单号不能为空');
                     return

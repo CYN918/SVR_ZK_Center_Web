@@ -55,6 +55,12 @@
                         </el-upload>
                         <el-progress :percentage="this.times" v-if="up"></el-progress>
                     </div>
+                    <div style="margin: 14px 0 14px 0px" v-for="(item,index) in attachs">
+                        <div style="display: inline-block;max-width: 200px;height: 20px;overflow:hidden;font-size:14px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(31,46,77,1);text-align: left">{{item.name}}</div>
+                        <span class="content_ck">查看</span>
+                        <a class="content_xz" :href="item.url">下载</a>
+                        <span class="content_xz" @click="dels(index)">删除</span>
+                    </div>
                 </div>
                 <div class="fillBtn">
                     <span class="tj" @click="setData()">提交</span>
@@ -74,7 +80,8 @@
                 note:"",
                 express_id:"",
                 times:"",
-                up:false
+                up:false,
+                fcounter:0,
             }
         },
         mounted(){
@@ -97,6 +104,9 @@
                 this.file = '';
                 this.initiate2 = false
             },
+            dels(index){
+                this.attachs.splice(index,1)
+            },
             time(){
                 var _this=this;
                 _this.times=0;
@@ -108,13 +118,15 @@
             },
             uploadFile(file){
                 this.up=true;
-                this.times=0
+                this.times=0;
+                ++this.fcounter;
                 this.time();
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
                     this.attachs.push(res);
                     this.times=100;
+                    --this.fcounter;
                     this.up=false;
                 })
             },
@@ -133,7 +145,11 @@
                 })
             },
             setData(){
-
+                if(this.fcounter != 0)
+                {
+                    this.$message.error('文件上传中');
+                    return
+                }
                 if(!this.express_id){
                     this.$message.error('物流单号不能为空');
                     return
@@ -285,5 +301,14 @@
         border: none!important;
         margin-right: 20px;
         margin-bottom: 50px;
+    }
+    .content_ck, .content_xz{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(51,119,255,1);
+        margin-left: 10px;
+        cursor: pointer;
     }
 </style>

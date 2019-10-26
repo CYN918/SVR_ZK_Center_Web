@@ -1,5 +1,6 @@
 <template>
     <div>
+        <DS v-if="msg" :name="list.check.name"></DS>
         <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="jump()">收款结算 &nbsp;/</span>
@@ -41,7 +42,7 @@
                     <span class="fillName">结算方</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
                         <span  class="text">{{list.check.name}}</span>
-                        <span class="click">查看结算方信息</span>
+                        <span class="click" @click="massgae()">查看结算方信息</span>
                     </div>
 
                 </div>
@@ -96,8 +97,9 @@
 </template>
 
 <script>
+    import DS from './DetailsSettlement'
     export default {
-        name: "establish",
+        components:{DS},
         data(){
             return{
                 list:{check:{
@@ -112,6 +114,7 @@
                     }},
                 control:[],
                 controlBtn:false,
+                msg:false,
             }
         },
         created(){
@@ -145,7 +148,10 @@
                 this.$router.go(num)
             },
 
-
+            massgae(){this.msg=true},
+            heidMassage(){
+                this.msg=false
+            },
             scope2(){
                 if(this.list.status>1){
                     this.$router.push({

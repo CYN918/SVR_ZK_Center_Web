@@ -73,6 +73,8 @@
                 receive_amount:"",
                 receive_tdate:"",
                 is_receiver:"",
+                times:"",
+                fcounter:0,
             }
         },
 
@@ -84,14 +86,35 @@
                 this.file = '';
                 this.initiate2 = false
             },
+            scope(){
+                var _this=this;
+                _this.times=0;
+                var timer = setInterval(function () {
+                    if(_this.times<99){
+                        _this.times++
+                    }
+                },100);
+            },
             uploadFile(file){
+                this.up=true;
+                this.times=0;
+                ++this.fcounter;
+                this.scope();
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
-                    this.attachs.push(res)
+                    this.attachs.push(res);
+                    this.times=100;
+                    --this.fcounter;
+                    this.up=false;
                 })
             },
             ADD(){
+                if(this.fcounter != 0)
+                {
+                    this.$message.error('文件上传中');
+                    return
+                }
                 if(!this.receive_amount){
                     this.$message.error('实际到账金额不能为空');
                     return

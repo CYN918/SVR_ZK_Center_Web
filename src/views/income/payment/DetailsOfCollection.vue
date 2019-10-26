@@ -1,5 +1,6 @@
 <template>
     <div>
+        <DS v-if="msg" :name="list.check.name"></DS>
         <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="jump()">付款结算 &nbsp;/</span>
@@ -9,7 +10,7 @@
                 <span>付款结算详情</span>
                 <div class="top_btn">
                     <span class="bj" @click="bj()" :class="{Jurisdiction:this.controlBtn}">编辑</span>
-                    <span class="ck" @click="ckjl()">查看变更记录</span>
+                    <span class="ck">查看变更记录</span>
                 </div>
             </div>
         </div>
@@ -21,11 +22,11 @@
                 </div>
                 <div style="margin-right: 350px;text-align: center;display: inline-block">
                     <div class="box" :class="{boxs:this.list.status>1}" @click="scope2()">2</div>
-                    <span class="boxName"  @click="scope2()">票据凭证</span>
+                    <span class="boxName" @click="scope2()">票据凭证</span>
                 </div>
                 <div style="text-align: center;display: inline-block">
                     <div class="box" :class="{boxs:this.list.status>2}" @click="scope3()">3</div>
-                    <span class="boxName"  @click="scope3()">结算汇款</span>
+                    <span class="boxName" @click="scope3()">结算汇款</span>
                 </div>
 
             </div>
@@ -41,7 +42,7 @@
                     <span class="fillName">结算方</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
                         <span  class="text">{{list.check.name}}</span>
-                        <span class="click">查看结算方信息</span>
+                        <span class="click" @click="massgae()">查看结算方信息</span>
                     </div>
 
                 </div>
@@ -96,8 +97,9 @@
 </template>
 
 <script>
+    import DS from './DetailsSettlement'
     export default {
-        name: "establish",
+        components:{DS},
         data(){
             return{
                 list:{check:{
@@ -112,18 +114,20 @@
                     }},
                 control:[],
                 controlBtn:false,
+                msg:false,
             }
         },
         created(){
-             this.getData()
+            this.getData()
         },
         mounted(){
             this.control=JSON.parse(localStorage.getItem('control'));
+
             if(this.control.length==0){
                 this.controlBtn=true;
             }else {
                 for (var i = 0; i < this.control.length; i++) {
-                    if (this.control[i].uri_key == 'uri.settlement.check.edit') {
+                    if (this.control[i].uri_key=='uri.settlement.check.edit') {
                         this.controlBtn = false;
                         return
                     }else{
@@ -139,24 +143,23 @@
                     path:"./Administration"
                 })
             },
-            ckjl(){
-                this.$router.push({
-                    path:'./ChangeRecord',
-                    query:{},
-                })
-            },
+
             fh(num){
                 this.$router.go(num)
             },
 
+            massgae(){this.msg=true},
+            heidMassage(){
+                this.msg=false
+            },
             scope2(){
                 if(this.list.status>1){
-                this.$router.push({
-                    path:"./DetailsOfCollection2",
-                    query:{
-                        id:this.$route.query.id,
-                    },
-                })
+                    this.$router.push({
+                        path:"./DetailsOfCollection2",
+                        query:{
+                            id:this.$route.query.id,
+                        },
+                    })
                 }
 
             },
@@ -261,7 +264,6 @@
         color:rgba(31,46,77,1);
         margin-right: 21px;
         text-align: right!important;
-
     }
     .text{
         display: inline-block;
