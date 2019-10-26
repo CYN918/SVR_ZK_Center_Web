@@ -2,7 +2,7 @@
     <div class="bg" @click="heid">
         <div class="content" @click.stop>
             <div class="tit">
-                <span v-if="list.length==0">作废废</span>
+                <span v-if="list.length==0">作废</span>
                 <span v-if="list.length!=0">查看作废原因</span>
                 <img src="../../../public/img/gb.png" @click="heid"/>
             </div>
