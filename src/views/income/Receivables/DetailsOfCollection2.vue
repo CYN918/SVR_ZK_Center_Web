@@ -2,7 +2,7 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="jump()">收款结算 &nbsp;/</span>
+                <span class="log_url" @click="jump()">收款结算&nbsp;/</span>
                 <span class="new_url">&nbsp;收款结算详情</span>
             </div>
             <div class="title_left">

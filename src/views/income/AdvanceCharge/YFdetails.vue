@@ -2,7 +2,7 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="jump()">预付款管理 &nbsp;/</span>
+                <span class="log_url" @click="jump()">预付款管理&nbsp;/</span>
                 <span class="new_url">&nbsp;{{this.$route.query.is_receiver==1?'收款结算':'付款结算'}}预付款详情</span>
             </div>
             <div class="title_left">

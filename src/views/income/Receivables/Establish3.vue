@@ -2,7 +2,7 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="jump()">收款结算 &nbsp;/</span>
+                <span class="log_url" @click="jump()">收款结算&nbsp;/</span>
                 <span class="new_url" v-if="this.$route.query.id==undefined">&nbsp;新建收款结算</span>
                 <span class="new_url" v-if="this.$route.query.id!=undefined">&nbsp;编辑收款结算</span>
             </div>

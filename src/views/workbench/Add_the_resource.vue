@@ -350,8 +350,6 @@
         height:80px;
         background:rgba(247,249,252,1);
         border-radius:0px 0px 4px 4px;
-        /*padding-left: 40px;*/
-        /*padding-right: 24px;*/
         position: fixed;
         bottom: 0;
         left: 0;
