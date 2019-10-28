@@ -102,7 +102,8 @@
         methods:{
             jump(){
                 this.$router.push({
-                    path:"./Administration"
+                    path:"./Administration",
+
                 })
             },
 
@@ -111,7 +112,10 @@
             },
             change(){
                 this.$router.push({
-                    path:"./ChangeRecord"
+                    path:"./ChangeRecord",
+                    query:{
+                        id:this.$route.query.id
+                    }
                 })
             },
             scope(){

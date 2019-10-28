@@ -149,7 +149,10 @@
             },
             change(){
                 this.$router.push({
-                    path:"./ChangeRecord"
+                    path:"./ChangeRecord",
+                    query:{
+                        id:this.$route.query.id
+                    }
                 })
             },
             massgae(){this.msg=true},

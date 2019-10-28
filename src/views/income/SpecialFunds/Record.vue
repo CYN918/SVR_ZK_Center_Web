@@ -102,7 +102,7 @@
                 this.$router.push({
                     path:"./special_edit",
                     query:{
-                        id:this.$route.query.id
+                        smid:this.$route.query.smid
                     }
                 })
             },

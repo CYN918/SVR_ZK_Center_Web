@@ -60,7 +60,7 @@
                 this.$router.push({
                     path:"./special_edit",
                     query:{
-                        id:this.data.smid
+                        smid:this.data.smid
                     }
                 })
             },
@@ -68,7 +68,7 @@
                 this.$router.push({
                     path:"./Record",
                     query:{
-                        id:this.data.smid
+                        smid:this.data.smid
                     }
                 })
             },

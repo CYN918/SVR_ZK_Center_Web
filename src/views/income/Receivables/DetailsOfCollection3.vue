@@ -137,7 +137,10 @@
             },
             change(){
                 this.$router.push({
-                    path:"./ChangeRecord"
+                    path:"./ChangeRecord",
+                    query:{
+                        id:this.$route.query.id
+                    }
                 })
             },
             bj(){

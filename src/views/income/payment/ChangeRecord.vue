@@ -100,7 +100,10 @@
             },
             jumps(){
                 this.$router.push({
-                    path:"./DetailsOfCollection"
+                    path:"./DetailsOfCollection",
+                    query:{
+                        id:this.$route.query.id
+                    }
                 })
             },
             fh(num){
