@@ -53,7 +53,7 @@
 
                 </div>
                 <div>
-                    <span class="cx">查询</span>
+                    <span class="cx" @click="getDataList()">查询</span>
                 </div>
             </div>
             <div>

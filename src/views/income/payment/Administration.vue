@@ -86,8 +86,9 @@
                         <el-table-column
                                 label="操作">
                             <template slot-scope="scope">
-                                <el-button  type="text" size="small" @click="details(tableData[scope.$index].id)">查看详情</el-button>
-                                <el-button  type="text" size="small" v-if="tableData[scope.$index].isfinish!=2" @click="zf(tableData[scope.$index].id,tableData[scope.$index].status)">作废</el-button>
+                                <el-button  type="text" size="small" @click="details(tableData[scope.$index].id)" >查看详情</el-button>
+                                <el-button  type="text" size="small" @click="zfXQ(tableData[scope.$index].id,tableData[scope.$index].status)" v-if="tableData[scope.$index].isfinish==2">查看作废原因</el-button>
+                                <el-button  type="text" size="small" v-if="tableData[scope.$index].isfinish!=2&&tableData[scope.$index].status!=3" @click="zf(tableData[scope.$index].id,tableData[scope.$index].status)">作废</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -120,7 +121,7 @@
                 p:10,
                 total:0,
                 search:'',
-                tableData:[{pv:0}],
+                tableData:[{check:{name:"",tstart:"",tend:"",expect_amount:"",real_amount:"",receive_amount:"",}}],
                 control:[],
                 controlBtn:false,
                 controlBtns:false,
@@ -231,6 +232,11 @@
                     console.log(res);
                     this.total=res.total;
                 })
+            },
+            zfXQ(id,status){
+                this.ab=true;
+                this.skID=id;
+                this.status=status;
             },
             zf(id,status){
                 this.ab=true;

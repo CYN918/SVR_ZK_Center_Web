@@ -96,7 +96,7 @@
                             <el-button @click='check(tableData[props.$index].demand_type,tableData[props.$index].did,tableData[props.$index].status-1)' v-if="(tableData[props.$index].status_name=='物料审核'&&tableData[props.$index].reject=='0')||(tableData[props.$index].status_name=='测试验收'&&tableData[props.$index].reject=='0')">查看物料</el-button>
                             <el-button @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,tableData[props.$index].status+1,tableData[props.$index].reject)" v-if="tableData[props.$index].reject=='1'">查看驳回原因</el-button>
                             <el-button @click="educe(tableData[props.$index].did,tableData[props.$index].check_status,tableData[props.$index].status)" v-if="(tableData[props.$index].status_name=='签字审核'&&tableData[props.$index].status==2)||(tableData[props.$index].status_name=='补充签字'&&tableData[props.$index].status==4)&&tableData[props.$index].emails.indexOf(email)!=-1">导出表格</el-button>
-                            <el-button @click="uploadData(tableData[props.$index].did)"  v-if="(tableData[props.$index].status_name=='签字审核'&&tableData[props.$index].status==2)||(tableData[props.$index].status_name=='补充签字'&&tableData[props.$index].status==4)&&tableData[props.$index].emails.indexOf(email)!=-1">上传文件</el-button>
+                            <el-button @click="uploadData(tableData[props.$index].did,tableData[props.$index].status)"  v-if="(tableData[props.$index].status_name=='签字审核'&&tableData[props.$index].status==2)||(tableData[props.$index].status_name=='补充签字'&&tableData[props.$index].status==4)&&tableData[props.$index].emails.indexOf(email)!=-1">上传文件</el-button>
                             <el-button @click="release(tableData[props.$index].did,tableData[props.$index].demand_type,tableData[props.$index].status)" v-if="tableData[props.$index].status_name=='需求发布'&&tableData[props.$index].emails.indexOf(email)!=-1">发布需求</el-button>
                             <el-button v-if="tableData[props.$index].status_name=='素材审核'">
                                 <a :href="url+(tableData[props.$index].activity_id!=undefined?'detailed?id='+tableData[props.$index].activity_id:'activity')" target="_Blank" class="dj">查看活动</a>
@@ -131,7 +131,7 @@
                                     <div class="step_tit" :class="{active:item.did==undefined&&tableData[props.$index].status!=item.status}">{{item.status_name}}</div>
                                     <div class="step_time" v-if="item.creator!=''||tableData[props.$index].status==item.status&&item.isfinish!=1&&item.key==0">{{item.updated_at}}</div>
                                     <div class="step_time" v-if="item.key!=0&&tableData[props.$index].status==item.status">{{tableData[props.$index].updated_at}}</div>
-                                   <div class="step_contnet" v-if="(item.creator!=''||tableData[props.$index].status==item.status)&&((tableData[props.$index].demand_type=='收款结算'&&item.status!=4)||(tableData[props.$index].demand_type=='付款结算'&&item.status!=4))">
+                                   <div class="step_contnet" v-if="(item.creator!=''||tableData[props.$index].status==item.status)||((tableData[props.$index].demand_type=='收款结算'&&item.status!=4)||(tableData[props.$index].demand_type=='付款结算'&&item.status!=4))">
                                         <span class="step_txt">状态</span>
                                         <span v-if="item.isfinish!='1'&&tableData[props.$index].status_name!='提现审核'&&tableData[props.$index].status!=item.status">{{item.msg}}</span>
                                         <span v-if="item.isfinish==1&&item.status_name!='提现完成'&&item.status_name!='素材入库'">已入库</span>
@@ -141,7 +141,7 @@
                                         <span v-if="tableData[props.$index].status==item.status&&item.isfinish!='1'&&item.status_name!='素材入库'&&item.isfinish!=2">待处理</span>
                                        <span v-if="tableData[props.$index].status==item.status&&item.isfinish!='1'&&item.status_name!='素材入库'&&item.isfinish==2">已作废</span>
                                     </div>
-                                    <div class="step_contnet" v-if="(item.creator!=''||tableData[props.$index].status==item.status)&&((tableData[props.$index].demand_type=='收款结算'&&item.status!=4)||(tableData[props.$index].demand_type=='付款结算'&&item.status!=4))">
+                                    <div class="step_contnet" v-if="(item.creator!=''||tableData[props.$index].status==item.status)||((tableData[props.$index].demand_type=='收款结算'&&item.status!=4)||(tableData[props.$index].demand_type=='付款结算'&&item.status!=4))">
                                         <span class="step_txt" v-if="item.status==1&&tableData[props.$index].status!=item.status">来源</span>
                                         <span class="step_txt" v-if="item.status==1&&tableData[props.$index].status==item.status">待处理人</span>
                                         <span class="step_txt" v-if="item.status!=1">处理人</span>
@@ -150,12 +150,12 @@
                                         <span v-if="item.did!=undefined&&tableData[props.$index].status==item.status&&item.isfinish==2" >{{item.user_name}};</span>
                                         <span  v-if="item.did==undefined&&item.reject!='1'&&tableData[props.$index].status==item.status&&tableData[props.$index].status_name!='提现完成'" v-for="da in tableData[props.$index].processor">{{da}};</span>
                                     </div>
-                                    <div class="step_contnet" v-if="(item.creator!=''||tableData[props.$index].status==item.status)&&((tableData[props.$index].demand_type=='收款结算'&&item.status!=4)||(tableData[props.$index].demand_type=='付款结算'&&item.status!=4))">
+                                    <div class="step_contnet" v-if="(item.creator!=''||tableData[props.$index].status==item.status)||((tableData[props.$index].demand_type=='收款结算'&&item.status!=4)||(tableData[props.$index].demand_type=='付款结算'&&item.status!=4))">
                                         <span class="step_txt" v-if="index=='0'">需求内容</span>
                                         <span class="step_txt" v-if="index!='0'">处理结果</span>
                                         <span class="dj" v-if="tableData[props.$index].demand_type=='设计师结算'&&item.status=='5'">已完成</span>
                                         <span class="dj" v-if="item.key==0&&item.status_name!='结算汇款'&&item.status_name!='素材审核'&&item.status_name!='物料审核'&&item.status_name!='测试验收'&&item.status_name!='发布审核'&&item.status_name!='活动发布'&&item.status_name!='素材入库'&&item.status_name!='提现完成'&&item.status_name!='素材入库'&&tableData[props.$index].demand_type!='收款结算'&&tableData[props.$index].demand_type!='付款结算'&&item.reject!='1'" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status,item.reject)">查看详情</span>
-                                        <span v-if="item.did==undefined&&tableData[props.$index].status==item.status&&item.isfinish!=1&&item.status_name!='结算汇款'&&item.status!=1">待处理</span>
+                                        <span v-if="item.did==undefined&&tableData[props.$index].status==item.status&&item.isfinish!=1&&item.status_name!='结算汇款'&&item.status!=1&&tableData[props.$index].demand_type!='付款结算'&&tableData[props.$index].demand_type!='收款结算'">待处理</span>
                                         <span v-if="tableData[props.$index].status==item.status&&((tableData[props.$index].demand_type=='收款结算'&&item.status!=4)||(tableData[props.$index].demand_type=='付款结算'&&item.status!=4))&&item.isfinish!=2">待处理</span>
                                         <span class="dj" v-if="item.isfinish==1&&item.status_name!='提现完成'&&item.status_name!='素材入库'" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status)">查看详情</span>
                                         <span class="dj" v-if="item.status_name=='结算汇款'&&tableData[props.$index].demand_type=='设计师结算'" @click="withdraw(tableData[props.$index].did,item.status)">查看详情</span>
@@ -383,7 +383,6 @@
                 this.fc=true;
             },
             getCK(id,type,scope){
-                console.log(id);
                     if(scope==2){
                         this.skID=id;
                         this.skType=type;
@@ -672,9 +671,10 @@
                 this.stops = false;
                 this.move();
             },
-            uploadData(ID){
+            uploadData(ID,status){
                 this.shID = ID;
                 this.uploads = true;
+                this.status=status;
                 this.stop()
             },
             time(){
@@ -700,10 +700,10 @@
                 this.stops=false
             },
             audit(){
-                console.log(this.attach);
                 let formData = new FormData;
                 formData.append('attach',JSON.stringify(this.attach));
                 formData.append('id',this.shID);
+                formData.append('status',this.status);
                 this.api.demand_audit(formData).then((res)=>{
 
                 })

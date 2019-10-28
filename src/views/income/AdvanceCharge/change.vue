@@ -2,8 +2,8 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fhs()">预付款管理 &nbsp;/</span>
-                <span class="log_url" @click="fh()">预付款详情界面 &nbsp;/</span>
+                <span class="log_url" @click="fhs()">预付款管理&nbsp;/</span>
+                <span class="log_url" @click="fh()">预付款详情界面&nbsp;/</span>
                 <span class="new_url">&nbsp;预付款改变更新详情</span>
             </div>
         </div>

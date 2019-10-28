@@ -3,8 +3,8 @@
         <div class="tableBox">
             <div style="text-align: center;margin-bottom: 40px;max-width: 893px;border-bottom: 1px solid #ddd;position: relative;left: 50%;transform: translateX(-50%)">
                 <div style="margin-right: 350px;text-align: center;display: inline-block">
-                    <div class="box boxs">1</div>
-                    <span class="boxName">对账确认</span>
+                    <div class="box boxs" @click="ck1">1</div>
+                    <span class="boxName"  @click="ck1">对账确认</span>
                 </div>
                 <div style="margin-right: 350px;text-align: center;display: inline-block;border-bottom: 1px solid #3377ff">
                     <div class="box  boxs">2</div>
@@ -38,11 +38,12 @@
                                 action="111">
                             <el-button size="small" type="primary">上传文件</el-button>
                         </el-upload>
+                        <el-progress :percentage="this.times" v-if="up"></el-progress>
                     </div>
                 </div>
                 <div class="fillBtn">
                     <span class="tj" @click="setData()">提交</span>
-                    <span @click="fh()">取消</span>
+                    <span @click="fh()" style="margin-right: 207px">取消</span>
                 </div>
             </div>
         </div>
@@ -58,13 +59,19 @@
                 attachs:[],
                 note:"",
                 express_id:"",
-
+                fcounter:0,
+                times:"",
+                up:false,
             }
         },
 
         methods:{
             fh(){
                 this.$parent.heidADDscope();
+            },
+            ck1(){
+                this.$parent.heidADDscope();;
+                this.$parent.getCK(this.skID,this.skType,'2');
             },
             handleExceed(files, fileList) {
                 this.$message.warning(`当前限制选择1个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
@@ -73,15 +80,35 @@
                 this.file = '';
                 this.initiate2 = false
             },
+            scope(){
+                var _this=this;
+                _this.times=0;
+                var timer = setInterval(function () {
+                    if(_this.times<99){
+                        _this.times++
+                    }
+                },100);
+            },
             uploadFile(file){
+                this.up=true;
+                this.times=0;
+                ++this.fcounter;
+                this.scope();
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
                     this.attachs.push(res);
+                    this.times=100;
+                    --this.fcounter;
+                    this.up=false;
                 })
             },
             setData(){
-
+                if(this.fcounter != 0)
+                {
+                    this.$message.error('文件上传中');
+                    return
+                }
                 if(!this.express_id){
                     this.$message.error('物流单号不能为空');
                     return
@@ -159,6 +186,7 @@
         background:rgba(0,122,255,1)!important;
         color:rgba(255,255,255,1)!important;
         border: none!important;
+        cursor: pointer;
     }
 
     .boxName{
@@ -168,6 +196,7 @@
         font-weight:500;
         margin-bottom: 5px;
         color:rgba(31,46,77,1);
+        cursor: pointer;
     }
     .fill>div{
         margin-bottom: 20px;

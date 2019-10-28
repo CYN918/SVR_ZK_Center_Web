@@ -3,7 +3,7 @@
         <DS v-if="msg" :name="list.name"></DS>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="jump()">特殊款项管理 &nbsp;/</span>
+                <span class="log_url" @click="jump()">特殊款项管理&nbsp;/</span>
                 <span class="new_url">&nbsp;特殊款项详情</span>
             </div>
             <div class="title_left">
@@ -11,7 +11,7 @@
                 <div style="display: inline-block;float: right;margin-right: 15%">
                     <span class="bj" @click="add()" v-if="list.status=='0'">编辑</span>
                     <span class="bj"  v-if="list.status!='0'">编辑</span>
-                    <span class="ck">查看变更记录</span>
+                    <span class="ck" @click="rec()">查看变更记录</span>
                 </div>
             </div>
         </div>
@@ -90,7 +90,15 @@
                         smid:this.$route.query.smid,
                     },
                 })
-            }
+            },
+            rec(){
+                this.$router.push({
+                    path:"./Record",
+                    query:{
+                        smid:this.$route.query.smid,
+                    },
+                })
+            },
         },
     }
 </script>

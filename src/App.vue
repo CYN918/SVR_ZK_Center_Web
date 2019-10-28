@@ -831,4 +831,7 @@ select{
   margin-left: 0!important;
   margin-right: 24px;
 }
+.demo  .el-upload-list__item-name{
+  display: none;
+}
 </style>

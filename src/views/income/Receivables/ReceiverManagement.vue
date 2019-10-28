@@ -2,7 +2,7 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="jump()">收款结算 &nbsp;/</span>
+                <span class="log_url" @click="sk()">收款结算&nbsp;/</span>
                 <span class="new_url">&nbsp;收款结算方管理</span>
             </div>
             <div class="title_left">
@@ -91,7 +91,7 @@
             this.dataList();
         },
         methods:{
-            jump(){
+            sk(){
                 this.$router.push({
                     path:"./Administration"
                 })

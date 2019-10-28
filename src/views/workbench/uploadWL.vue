@@ -14,25 +14,25 @@
                     </span>
                 </div>
             </div>
-            <div class="table_material">
-                <div class="content_title" v-for="(item,index) in listWL">
-                    <div  style="display: inline-block" >
-                        <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
-                        <span class="content_title_span" @click="bdUP(index)" :class="{disabled:listWL[index].bind!=undefined}">本地上传</span>
-                    </div>
-                    <div class="btn_img" >
-                        <img style="margin-right: 34px" src="../../../public/img/delet.png" @click="delLine(index)"/>
-                    </div>
-                    <div v-if="" class="img_box">
-                        <div class="ADD_img" v-for="(data2,index3) in item.bind" >
-                            <img  class="ADD_img_img" :src="data2.prev_uri" v-if="(data2.prev_uri.split('.'))[(data2.prev_uri.split('.').length-1)]!='mp4'"/>
-                            <video class="ADD_img_img" :src="data2.prev_uri" controls="controls" v-if="(data2.prev_uri.split('.'))[(data2.prev_uri.split('.').length-1)]=='mp4'" />
-                            <span>{{data2.mfid}}</span>
+            <div style="width: 100%;height: 635px;overflow-y:auto ">
+                <div class="table_material">
+                    <div class="content_title" v-for="(item,index) in listWL">
+                        <div  style="display: inline-block" >
+                            <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
+                            <span class="content_title_span" @click="bdUP(index)" :class="{disabled:listWL[index].bind!=undefined}">本地上传</span>
+                        </div>
+                        <div class="btn_img" >
+                            <img style="margin-right: 34px" src="../../../public/img/delet.png" @click="delLine(index)"/>
+                        </div>
+                        <div v-if="" class="img_box">
+                            <div class="ADD_img" v-for="(data2,index3) in item.bind" >
+                                <img  class="ADD_img_img" :src="data2.prev_uri" v-if="(data2.prev_uri.split('.'))[(data2.prev_uri.split('.').length-1)]!='mp4'"/>
+                                <video class="ADD_img_img" :src="data2.prev_uri" controls="controls" v-if="(data2.prev_uri.split('.'))[(data2.prev_uri.split('.').length-1)]=='mp4'" />
+                                <span>{{data2.mfid}}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
             </div>
             <div class="Add_btn">
                 <span class="Add_btn_ADD" @click="verified()">添加</span>
@@ -42,14 +42,14 @@
                             @size-change="handleSizeChange"
                             @current-change="handleCurrentChange"
                             :current-page="page"
-                            :page-sizes="[3, 6, 9, 12]"
+                            :page-sizes="[10,15,20]"
                             :page-size="p"
                             layout="total, sizes, prev, pager, next, jumper"
                             :total="total">
                     </el-pagination>
                 </div>
-        </div>
-
+            </div>
+            </div>
     </div>
 </template>
 
@@ -160,14 +160,13 @@
 
     .centNavBox{
         width:1106px;
-        height:909px;
+        height:750px;
         background:rgba(255,255,255,1);
         border-radius:4px;
         position: relative;
         left: 50%;
         top:50%;
         transform:translate(-50%,-50%);
-        overflow-y: auto;
     }
     .title{
         height: 55px;
@@ -185,9 +184,8 @@
         padding-left: 40px;
         padding-right: 24px;
         position: fixed;
-        bottom: 30px;
-        left: 50%;
-        transform: translateX(-50%);
+        bottom: 0;
+        left:0;
     }
     .Add_btn span{
         display: inline-block;
@@ -210,6 +208,7 @@
         background:rgba(51,119,255,1)!important;
         color: rgba(255,255,255,1)!important;
         margin-right: 14px!important;
+        margin-left: 40px;
     }
 
     .title_zy{

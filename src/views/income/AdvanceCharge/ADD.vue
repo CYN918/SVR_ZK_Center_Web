@@ -2,8 +2,8 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="jump()">预付款管理 &nbsp;/</span>
-                <span class="log_url" @click="fh()">预付款详情界面 &nbsp;/</span>
+                <span class="log_url" @click="jump()">预付款管理&nbsp;/</span>
+                <span class="log_url" @click="fh()">预付款详情界面&nbsp;/</span>
                 <span class="new_url">&nbsp;添加变更记录</span>
             </div>
         </div>
@@ -16,7 +16,7 @@
                 </select>
             </div>
             <div>
-                <span  class="TitName">增加预付金额</span>
+                <span  class="TitName">金额数值</span>
                 <input type="text" placeholder="请输入" v-model="amount"/>
             </div>
             <div>
@@ -32,14 +32,16 @@
                 <div class="uplaod">
                     <el-upload
                             class="upload-demo"
-                            :limit="1"
-                            :on-exceed="handleExceed"
                             :on-remove="handleRemove"
                             :http-request="uploadFile"
-                            action="111">
-                        <el-button size="small" type="primary">上传</el-button>
+                            action="111"
+                            multiple
+                           >
+                        <el-button size="small" type="primary">点击上传</el-button>
                     </el-upload>
+                    <el-progress :percentage="this.times" v-if="up"></el-progress>
                 </div>
+
             </div>
             <div>
                 <span class="tj" @click="ADDdata()">添加</span>
@@ -59,21 +61,39 @@
                 note:"",
                 attachs:[],
                 settle_id:"",
+                times:"",
+                up:false
             }
         },
         methods:{
-            handleExceed(files, fileList) {
-                this.$message.warning(`当前限制选择1个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+
+            handlePreview(file) {
+                console.log(file);
             },
+
             handleRemove(file, fileList) {
                 this.file = '';
 
             },
+            time(){
+                var _this=this;
+                _this.times=0;
+                var timer = setInterval(function () {
+                    if(_this.times<99){
+                        _this.times++
+                    }
+                },100);
+            },
             uploadFile(file){
+                this.up=true;
+                this.times=0
+                this.time();
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
                     this.attachs.push(res);
+                    this.times=100;
+                    this.up=false;
                 })
             },
             jump(){

@@ -2,8 +2,8 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="jump()">付款结算 &nbsp;/</span>
-                <span class="log_url" @click="jumps()">付款结算详情 &nbsp;/</span>
+                <span class="log_url" @click="jump()">付款结算&nbsp;/</span>
+                <span class="log_url" @click="jumps()">付款结算详情&nbsp;/</span>
                 <span class="new_url">&nbsp;变更记录</span>
             </div>
             <div class="title_left">
@@ -73,8 +73,8 @@
         data(){
             return{
                 time:[(new Date()).toLocaleDateString().split('/').join('-'),(new Date()).toLocaleDateString().split('/').join('-')],
-                page:10,
-                p:1,total:0,
+                page:1,
+                p:10,total:0,
                 tableData:[{pv:0}],
                 search:"",
                 list:[],
@@ -99,7 +99,10 @@
             },
             jumps(){
                 this.$router.push({
-                    path:"./DetailsOfCollection"
+                    path:"./DetailsOfCollection",
+                    query:{
+                        id:this.$route.query.id
+                    }
                 })
             },
             fh(num){

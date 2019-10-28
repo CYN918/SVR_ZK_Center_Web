@@ -2,8 +2,8 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="jump()">付款结算 &nbsp;/</span>
-                <span class="log_url" @click="jumps()">&nbsp;付款结算方管理 &nbsp;/</span>
+                <span class="log_url" @click="jump()">付款结算&nbsp;/</span>
+                <span class="log_url" @click="jumps()">&nbsp;付款结算方管理&nbsp;/</span>
                 <span class="new_url">&nbsp;结算方详情</span>
             </div>
             <div class="title_left">
@@ -17,7 +17,8 @@
             </div>
             <div>
                 <span class="tableBox_name">生成对账时间</span>
-                <span class="tableBox_Obtain">{{list.tdate}}</span>
+                <span class="tableBox_Obtain" v-if="list.tdate!=0">{{list.tdate}}</span>
+                <span class="tableBox_Obtain" v-if="list.tdate==0">不自动生成</span>
             </div>
             <div>
                 <span class="tableBox_name">开户名</span>

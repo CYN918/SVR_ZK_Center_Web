@@ -33,7 +33,7 @@
                             prop="remain_amount"
                             label="预付款金额">
                         <template slot-scope="scope">
-                            <span>{{tableData[scope.$index].remain_amount.toLocaleString("zh-Hans-CN",{style:'currency',currency:'CNY'})}}</span>
+                            <span>{{(tableData[scope.$index].remain_amount).toLocaleString("zh-Hans-CN",{style:'currency',currency:'CNY'})}}</span>
                         </template>
                     </el-table-column>
                     <el-table-column
@@ -70,7 +70,7 @@
                 p:10,
                 page:1,
                 total:0,
-                tableData:[{pv:0}],
+                tableData:[{name:"",remain_amount:"",updated_at:"",}],
                 is_receiver:1,
                 search:"",
             }

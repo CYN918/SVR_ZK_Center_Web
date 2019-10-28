@@ -2,14 +2,14 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="jump()">付款结算 &nbsp;/</span>
+                <span class="log_url" @click="jump()">付款结算&nbsp;/</span>
                 <span class="new_url">&nbsp;付款结算详情</span>
             </div>
             <div class="title_left">
                 <span>付款结算详情</span>
                 <div class="top_btn">
                     <span class="bj" @click="bj()" :class="{Jurisdiction:this.controlBtn}">编辑</span>
-                    <span class="ck">查看变更记录</span>
+                    <span class="ck" @click="change()">查看变更记录</span>
                 </div>
             </div>
         </div>
@@ -58,7 +58,7 @@
 
                 </div>
                 <div class="fillBtn">
-                    <span @click="fh(-1)">返回</span>
+                    <span @click="jump()">返回</span>
                 </div>
             </div>
         </div>
@@ -104,24 +104,18 @@
                     path:"./Administration"
                 })
             },
-
+            change(){
+                this.$router.push({
+                    path:"./ChangeRecord",
+                    query:{
+                        id:this.$route.query.id
+                    }
+                })
+            },
             fh(num){
                 this.$router.go(num)
             },
-            handleExceed(files, fileList) {
-                this.$message.warning(`当前限制选择1个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-            },
-            handleRemove(file, fileList) {
-                this.file = '';
-                this.initiate2 = false
-            },
-            uploadFile(file){
-                let formData = new FormData;
-                formData.append('file',file.file);
-                this.api.file_upload(formData).then((res)=>{
 
-                })
-            },
             scope(){
                     this.$router.push({
                         path:"./DetailsOfCollection",
@@ -218,6 +212,7 @@
         margin-bottom: 5px;
         color:rgba(31,46,77,1);
         cursor: pointer;
+        text-align: left;
     }
     .fill>div{
         margin-bottom: 20px;
@@ -232,6 +227,7 @@
         color:rgba(31,46,77,1);
         margin-right: 21px;
         text-align: right!important;
+
     }
     .text{
         display: inline-block;
@@ -263,6 +259,7 @@
         font-weight:400;
         color:rgba(31,46,77,1);
         margin-bottom: 50px;
+        margin-right: 110px;
     }
     .click{
         display: inline-block;

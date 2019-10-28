@@ -88,7 +88,16 @@
         name: "establish",
         data(){
             return{
-                list:{},
+                list:{check:{
+                        statement:"",
+                        name:"",
+                        tstart:"",
+                        tend:"",
+                        expect_amount:"",
+                        real_amount:"",
+                        note:"",
+                        attachs:[],
+                    }},
                 control:[],
                 controlBtn:false,
                 is_receiver:'',
@@ -104,6 +113,10 @@
                 this.$parent.heidFkCK();
             },
             scope(){
+                if(this.list.status==1){
+                    this.add();
+                    return
+                }
                if(this.list.status>1){
                    this.$parent.heidFkCK();
                    if(this.list.demand_type=='demand_settle_receive'){
@@ -114,7 +127,19 @@
                    this.$parent.getCK(this.list.id,this.type,'3');
                }
             },
+            add(){
+                this.$parent.heidFkCK();
+                this.$parent.ADDscope(this.skID,this.skType,2)
+            },
+            add2(){
+                this.$parent.heidFkCK();
+                this.$parent.ADDRemit(this.skID,this.skType,3)
+            },
             scope2(){
+                if(this.list.status==2){
+                    this.add2();
+                    return
+                }
                 if(this.list.status>2){
                     this.$parent.heidFkCK();
                     if(this.list.demand_type=='demand_settle_receive'){

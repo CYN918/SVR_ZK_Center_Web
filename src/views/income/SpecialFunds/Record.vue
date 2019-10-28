@@ -2,8 +2,8 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="jump()">付款结算&nbsp;/</span>
-                <span class="log_url" @click="jumps()">付款结算详情&nbsp;/</span>
+                <span class="log_url" @click="jump()">特殊款项&nbsp;/</span>
+                <span class="log_url" @click="jumps()">特殊款项详情&nbsp;/</span>
                 <span class="new_url">&nbsp;变更记录</span>
             </div>
             <div class="title_left">
@@ -81,28 +81,28 @@
                 list:[],
             }
         },
-     mounted(){
-        this.getData()
-     },
+        mounted(){
+            this.getData()
+        },
         methods:{
 
             getData(){
-                let params={is_receiver:0,search:this.search,p:this.p,page:this.page,tstart:this.time[0],tend:this.time[1]};
-                this.api.demandsettle_history({params}).then((res)=>{
-                        this.list=res.data;
-                        this.total=res.total;
+                let params={id:this.$route.query.id,search:this.search,p:this.p,page:this.page,tstart:this.time[0],tend:this.time[1]};
+                this.api.settle_special_history({params}).then((res)=>{
+                    this.list=res.data;
+                    this.total=res.total;
                 })
             },
             jump(){
                 this.$router.push({
-                    path:"./Administration"
+                    path:"./SpecialFunds_Administration"
                 })
             },
             jumps(){
                 this.$router.push({
-                    path:"./DetailsOfCollection",
+                    path:"./special_edit",
                     query:{
-                        id:this.$route.query.id
+                        smid:this.$route.query.smid
                     }
                 })
             },
@@ -130,7 +130,7 @@
             },
             ck(data){
                 this.$router.push({
-                    path:"./Record",
+                    path:"./RecordDetailed",
                     query:{
                         data:data,
                     }

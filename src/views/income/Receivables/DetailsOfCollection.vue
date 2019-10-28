@@ -1,15 +1,16 @@
 <template>
     <div>
+        <DS v-if="msg" :name="list.check.name"></DS>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="jump()">收款结算 &nbsp;/</span>
+                <span class="log_url" @click="jump()">收款结算&nbsp;/</span>
                 <span class="new_url">&nbsp;收款结算详情</span>
             </div>
             <div class="title_left">
                 <span>收款结算详情</span>
                 <div class="top_btn">
                     <span class="bj" @click="bj()" :class="{Jurisdiction:this.controlBtn}">编辑</span>
-                    <span class="ck">查看变更记录</span>
+                    <span class="ck" @click="change()">查看变更记录</span>
                 </div>
             </div>
         </div>
@@ -41,7 +42,7 @@
                     <span class="fillName">结算方</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
                         <span  class="text">{{list.check.name}}</span>
-                        <span class="click">查看结算方信息</span>
+                        <span class="click" @click="massgae()">查看结算方信息</span>
                     </div>
 
                 </div>
@@ -88,7 +89,7 @@
 
                 </div>
                 <div class="fillBtn">
-                    <span @click="fh(-1)">返回</span>
+                    <span @click="jump()">返回</span>
                 </div>
             </div>
         </div>
@@ -96,8 +97,9 @@
 </template>
 
 <script>
+    import DS from './DetailsSettlement'
     export default {
-        name: "establish",
+        components:{DS},
         data(){
             return{
                 list:{check:{
@@ -112,6 +114,7 @@
                     }},
                 control:[],
                 controlBtn:false,
+                msg:false,
             }
         },
         created(){
@@ -144,21 +147,18 @@
             fh(num){
                 this.$router.go(num)
             },
-            handleExceed(files, fileList) {
-                this.$message.warning(`当前限制选择1个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-            },
-            handleRemove(file, fileList) {
-                this.file = '';
-                this.initiate2 = false
-            },
-            uploadFile(file){
-                let formData = new FormData;
-                formData.append('file',file.file);
-                this.api.file_upload(formData).then((res)=>{
-
+            change(){
+                this.$router.push({
+                    path:"./ChangeRecord",
+                    query:{
+                        id:this.$route.query.id
+                    }
                 })
             },
-
+            massgae(){this.msg=true},
+            heidMassage(){
+                this.msg=false
+            },
             scope2(){
                 if(this.list.status>1){
                     this.$router.push({
@@ -256,6 +256,7 @@
         margin-bottom: 5px;
         color:rgba(31,46,77,1);
         cursor: pointer;
+        text-align: left;
     }
     .fill>div{
         margin-bottom: 20px;
@@ -301,6 +302,7 @@
         font-weight:400;
         color:rgba(31,46,77,1);
         margin-bottom: 50px;
+        margin-right: 110px;
     }
     .click{
         display: inline-block;

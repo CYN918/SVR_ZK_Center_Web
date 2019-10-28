@@ -2,7 +2,7 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="jump()">收款结算 &nbsp;/</span>
+                <span class="log_url" @click="jump()">收款结算&nbsp;/</span>
                 <span class="new_url" v-if="this.$route.query.id==undefined">&nbsp;新建收款结算</span>
                 <span class="new_url" v-if="this.$route.query.id!=undefined">&nbsp;编辑收款结算</span>
             </div>
@@ -58,18 +58,24 @@
                     <div class="uplaod">
                         <el-upload
                                 class="upload-demo"
-                                :limit="1"
-                                :on-exceed="handleExceed"
                                 :on-remove="handleRemove"
                                 :http-request="uploadFile"
+                                multiple
                                 action="111">
                             <el-button size="small" type="primary">上传文件</el-button>
                         </el-upload>
+                        <el-progress :percentage="this.times" v-if="up"></el-progress>
+                    </div>
+                    <div style="margin: 14px 0 14px 0px" v-for="(item,index) in attachs">
+                        <div style="display: inline-block;max-width: 200px;height: 20px;overflow:hidden;font-size:14px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(31,46,77,1);text-align: left">{{item.name}}</div>
+                        <span class="content_ck">查看</span>
+                        <a class="content_xz" :href="item.url">下载</a>
+                        <span class="content_xz" @click="dels(index)">删除</span>
                     </div>
                 </div>
                 <div class="fillBtn">
                     <span class="tj" @click="ADD">提交</span>
-                    <span @click="fh(-1)">取消</span>
+                    <span @click="fh(-1)" style="margin-right: 330px">取消</span>
                 </div>
             </div>
         </div>
@@ -86,6 +92,9 @@
                 attachs:[],
                 receive_amount:"",
                 receive_tdate:"",
+                times:"",
+                up:false,
+                 fcounter:0,
             }
         },
         mounted(){
@@ -99,22 +108,37 @@
                     path:"./Administration"
                 })
             },
-
+            dels(index){
+                this.attachs.splice(index,1)
+            },
             fh(num){
                 this.$router.go(num)
-            },
-            handleExceed(files, fileList) {
-                this.$message.warning(`当前限制选择1个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
             },
             handleRemove(file, fileList) {
                 this.file = '';
                 this.initiate2 = false
             },
+            time(){
+                var _this=this;
+                _this.times=0;
+                var timer = setInterval(function () {
+                    if(_this.times<99){
+                        _this.times++
+                    }
+                },100);
+            },
             uploadFile(file){
+                this.up=true;
+                this.times=0;
+                ++this.fcounter;
+                this.time();
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
-                    this.attachs.push(res)
+                    this.attachs.push(res);
+                    this.times=100;
+                    --this.fcounter;
+                    this.up=false;
                 })
             },
             getList(){
@@ -130,6 +154,11 @@
                 alert( receive_tdate)
             },
             ADD(){
+                if(this.fcounter != 0)
+                {
+                    this.$message.error('文件上传中');
+                    return
+                }
                 if(!this.receive_amount){
                     this.$message.error('实际到账金额不能为空');
                     return
@@ -285,5 +314,14 @@
         border: none!important;
         margin-right: 20px;
         margin-bottom: 50px;
+    }
+    .content_ck, .content_xz{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(51,119,255,1);
+        margin-left: 10px;
+        cursor: pointer;
     }
 </style>

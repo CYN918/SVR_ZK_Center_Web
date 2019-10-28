@@ -9,7 +9,7 @@
                 </div>
                 <div class="title_div">
                     <span class="title_div_span">已添加：</span>
-                    <span class="title_div_span">{{this.numAll}}</span>
+                    <span class="title_div_span">{{listSC.length+listWL.length}}</span>
                     <span class="title_div_span">/</span>
                     <span class="title_div_span">{{num}}</span>
                     <span class="title_div_btn" @click="ADDline">
@@ -18,75 +18,77 @@
                     </span>
                 </div>
             </div>
-            <div class="table_material">
-                <div class="content_title" v-for="(item,index) in listSC" v-if="sc">
-                    <div>
-                        <div  style="display: inline-block">
-                            <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
-                            <span class="content_title_span" @click="handleClick(index)" >素材库选择</span>
-                            <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
-                            <span class="content_title_span" @click="getBD(index)">本地上传</span>
-                            <img class="content_title_img" src="../../../public/img/ADD_bule.png" v-if="item.bind!=undefined"/>
-                            <span class="content_title_span" @click="upImg(index)" v-if="item.bind!=undefined">上传附件</span>
+            <div style="width: 100%;height: 635px;overflow-y:auto ">
+                <div class="table_material">
+                    <div class="content_title" v-for="(item,index) in listSC" v-if="sc">
+                        <div>
+                            <div  style="display: inline-block">
+                                <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
+                                <span class="content_title_span" @click="handleClick(index)" >素材库选择</span>
+                                <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
+                                <span class="content_title_span" @click="getBD(index)">本地上传</span>
+                                <img class="content_title_img" src="../../../public/img/ADD_bule.png" v-if="item.bind!=undefined"/>
+                                <span class="content_title_span" @click="upImg(index)" v-if="item.bind!=undefined">上传附件</span>
+                            </div>
+                            <div class="btn_img">
+                                <img style="margin-right: 34px" src="../../../public/img/delet.png" @click="delLine(index)"/>
+                                <img  src="../../../public/img/comment.png" @click="importText(index)"/>
+                            </div>
                         </div>
-                        <div class="btn_img">
+                        <div  class="img_box">
+                            <div class="ADD_img" v-for="(data,index2) in item.bind" >
+                                <img class="ADD_img_del" src="../../../public/img/del.png" @click="delmid(index,data.mid)">
+                                <img  class="ADD_img_img" :src="data.prev_uri" v-if="(data.prev_uri.split('.'))[(data.prev_uri.split('.').length-1)]!='mp4'"/>
+                                <video class="ADD_img_img" :src="data.prev_uri" controls="controls" v-if="(data.prev_uri.split('.'))[(data.prev_uri.split('.').length-1)]=='mp4'" />
+                                <span>{{data.mid}}</span>
+                            </div>
+                            <div class="ADD_img" v-for="(data,index2) in item.middleware" >
+                                <img class="ADD_img_del" src="../../../public/img/del.png" @click="delIMG(index,data.id)">
+                                <img  class="ADD_img_img" :src="data.url"/>
+                                <span>{{data.name}}</span>
+                            </div>
+                        </div>
+                        <div  style="width: 100%;margin-top: 20px">
+                            <textarea :id="index" placeholder="请输入您的备注（限200字）" maxlength="200" style="padding: 8px;width: 100%;resize:none;"  v-model="item.note" v-if="line.indexOf(index)!=-1" @blur="addNote(index)"></textarea>
+                        </div>
+                    </div>
+
+                    <div v-if="wl" class="content_title" v-for="(item,index) in listWL">
+                        <div  style="display: inline-block" >
+                            <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
+                            <span class="content_title_span" @click="getWl(index)" :class="{disabled:listWL[index].bind!=undefined}">物料库选择</span>
+                        </div>
+                        <div class="btn_img" >
                             <img style="margin-right: 34px" src="../../../public/img/delet.png" @click="delLine(index)"/>
-                            <img  src="../../../public/img/comment.png" @click="importText(index)"/>
                         </div>
-                    </div>
-                    <div  class="img_box">
-                        <div class="ADD_img" v-for="(data,index2) in item.bind" >
-                            <img class="ADD_img_del" src="../../../public/img/del.png" @click="delmid(index,data.mid)">
-                            <img  class="ADD_img_img" :src="data.prev_uri" v-if="(data.prev_uri.split('.'))[(data.prev_uri.split('.').length-1)]!='mp4'"/>
-                            <video class="ADD_img_img" :src="data.prev_uri" controls="controls" v-if="(data.prev_uri.split('.'))[(data.prev_uri.split('.').length-1)]=='mp4'" />
-                            <span>{{data.mid}}</span>
-                        </div>
-                        <div class="ADD_img" v-for="(data,index2) in item.middleware" >
-                            <img class="ADD_img_del" src="../../../public/img/del.png" @click="delIMG(index,data.id)">
-                            <img  class="ADD_img_img" :src="data.url"/>
-                            <span>{{data.name}}</span>
-                        </div>
-                    </div>
-                    <div  style="width: 100%;margin-top: 20px">
-                        <textarea :id="index" placeholder="请输入您的备注（限200字）" maxlength="200" style="padding: 8px;width: 100%;resize:none;"  v-model="item.note" v-if="line.indexOf(index)!=-1" @blur="addNote(index)"></textarea>
-                    </div>
-                </div>
-
-                <div v-if="wl" class="content_title" v-for="(item,index) in listWL">
-                    <div  style="display: inline-block" >
-                        <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
-                        <span class="content_title_span" @click="getWl(index)" :class="{disabled:listWL[index].bind!=undefined}">物料库选择</span>
-                    </div>
-                    <div class="btn_img" >
-                        <img style="margin-right: 34px" src="../../../public/img/delet.png" @click="delLine(index)"/>
-                    </div>
-                    <div v-if="" class="img_box">
-                        <div class="ADD_img" v-for="(data2,index3) in item.bind" >
-                            <img  class="ADD_img_img" :src="data2.prev_uri" v-if="(data2.prev_uri.split('.'))[(data2.prev_uri.split('.').length-1)]!='mp4'"/>
-                            <video class="ADD_img_img" :src="data2.prev_uri" controls="controls" v-if="(data2.prev_uri.split('.'))[(data2.prev_uri.split('.').length-1)]=='mp4'" />
-                            <span>{{data2.mfid}}</span>
+                        <div v-if="" class="img_box">
+                            <div class="ADD_img" v-for="(data2,index3) in item.bind" >
+                                <img  class="ADD_img_img" :src="data2.prev_uri" v-if="(data2.prev_uri.split('.'))[(data2.prev_uri.split('.').length-1)]!='mp4'"/>
+                                <video class="ADD_img_img" :src="data2.prev_uri" controls="controls" v-if="(data2.prev_uri.split('.'))[(data2.prev_uri.split('.').length-1)]=='mp4'" />
+                                <span>{{data2.mfid}}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-        </div>
-
-        <div class="Add_btn">
-            <span class="Add_btn_ADD" @click="verified()">添加</span>
-            <span @click="heid">取消</span>
-            <div class="block">
-                <el-pagination
-                        @size-change="handleSizeChange"
-                        @current-change="handleCurrentChange"
-                        :current-page="page"
-                        :page-sizes="[3, 6, 9, 12]"
-                        :page-size="p"
-                        layout="total, sizes, prev, pager, next, jumper"
-                        :total="total">
-                </el-pagination>
+            <div class="Add_btn">
+                <span class="Add_btn_ADD" @click="verified()">添加</span>
+                <span @click="heid">取消</span>
+                <div class="block">
+                    <el-pagination
+                            @size-change="handleSizeChange"
+                            @current-change="handleCurrentChange"
+                            :current-page="page"
+                            :page-sizes="[10, 15, 20]"
+                            :page-size="p"
+                            layout="total, sizes, prev, pager, next, jumper"
+                            :total="total">
+                    </el-pagination>
+                </div>
             </div>
         </div>
+
+
     </div>
 </template>
 
@@ -109,6 +111,7 @@
                 numAll:0,
                 note:'',
                 line:[],
+
             }
         },
         mounted(){
@@ -122,13 +125,13 @@
         methods:{
             ADDline(){
                 if(this.sc==true){
-                    if(this.numAll==this.num){
+                    if((this.listSC.length+this.listWL.length)==this.num){
                         return
                     }else{
                         this.listSC.unshift({text:false});
                     }
                 }else{
-                    if(this.numAll==this.num){
+                    if((this.listSC.length+this.listWL.length)==this.num){
                         return
                     }else{
                         this.listWL.unshift({text:false});
@@ -327,14 +330,13 @@
 
     .centNavBox{
         width:1106px;
-        height:909px;
+        height:750px;
         background:rgba(255,255,255,1);
         border-radius:4px;
         position: relative;
         left: 50%;
         top:50%;
         transform:translate(-50%,-50%);
-        overflow-y: auto;
     }
     .title{
         height: 55px;
@@ -344,17 +346,13 @@
         margin:0 39px;
     }
     .Add_btn{
-        width:1042px;
+        width:100%;
         height:80px;
         background:rgba(247,249,252,1);
         border-radius:0px 0px 4px 4px;
-        margin-top: 60px;
-        padding-left: 40px;
-        padding-right: 24px;
         position: fixed;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
+        bottom: 0;
+        left: 0;
     }
     .Add_btn span{
         display: inline-block;
@@ -377,6 +375,7 @@
         background:rgba(51,119,255,1)!important;
         color: rgba(255,255,255,1)!important;
         margin-right: 14px!important;
+        margin-left: 40px;
     }
 
     .title_zy{

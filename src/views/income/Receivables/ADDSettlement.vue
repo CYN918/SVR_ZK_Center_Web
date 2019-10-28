@@ -2,8 +2,8 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="jump()">收款结算 &nbsp;/</span>
-                <span class="log_url" @click="jumps()">&nbsp;收款结算方管理 &nbsp;/</span>
+                <span class="log_url" @click="jump()">收款结算&nbsp;/</span>
+                <span class="log_url" @click="jumps()">&nbsp;收款结算方管理&nbsp;/</span>
                 <span class="new_url">&nbsp;添加结算方</span>
             </div>
             <div class="title_left">
@@ -56,12 +56,13 @@
             <div style="margin-bottom:20px">
                 <span  class="titName" >相关合同</span>
                 <span class="ADDs" @click="ADDht">添加合同</span>
-                <div style="margin: 14px 0 14px 140px" v-for="item in contracts">
+                <div style="margin: 14px 0 14px 140px" v-for="(item,index) in contracts">
                     <div v-for="da in item">
                         <div v-for="das in da.contract_files">
                             <div style="display: inline-block;max-width: 200px;height: 20px;overflow:hidden;font-size:14px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(31,46,77,1);">{{da.contract_id}}</div>
                             <span class="content_ck">查看</span>
                             <a class="content_xz" :href="das.url">下载</a>
+                            <span class="content_xz" @click="del(index)">删除</span>
                         </div>
 
                     </div>
@@ -71,10 +72,11 @@
             <div style="margin-bottom:20px">
                 <span  class="titName" >附件</span>
                 <span class="ADDs" @click="ADDfj()">上传</span>
-                <div style="margin: 14px 0 14px 140px" v-for="item in attachs">
+                <div style="margin: 14px 0 14px 140px" v-for="(item,index) in attachs">
                             <div style="display: inline-block;max-width: 200px;height: 20px;overflow:hidden;font-size:14px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(31,46,77,1);">{{item.name}}</div>
                             <span class="content_ck">查看</span>
                             <a class="content_xz" :href="item.url">下载</a>
+                    <span class="content_xz" @click="dels(index)">删除</span>
                 </div>
             </div>
             <div class="ADDbtn">
@@ -113,13 +115,13 @@
                 <div class="uplaod">
                     <el-upload
                             class="upload-demo"
-                            :limit="1"
-                            :on-exceed="handleExceed"
                             :on-remove="handleRemove"
                             :http-request="uploadFile"
+                            multiple
                             action="111">
                         <el-button size="small" type="primary">选择文件</el-button>
                     </el-upload>
+                    <el-progress :percentage="this.times" v-if="up"></el-progress>
                 </div>
                 <div class="content_btn">
                     <span class="btn_tj" @click="heidFj()">添加</span>
@@ -153,7 +155,9 @@
                 contract_id:"",
                 list:[],
                 contract:[],
-                auto:''
+                auto:'',
+                times:"",
+                up:false,
             }
         },
         mounted(){
@@ -180,19 +184,37 @@
             fh(num){
                 this.$router.go(num)
             },
-            handleExceed(files, fileList) {
-                this.$message.warning(`当前限制选择1个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-            },
+
             handleRemove(file, fileList) {
                 this.file = '';
                 this.initiate2 = false
             },
+            time(){
+                var _this=this;
+                _this.times=0;
+                var timer = setInterval(function () {
+                    if(_this.times<99){
+                        _this.times++
+                    }
+                },100);
+            },
+            del(index){
+                this.contracts.splice(index,1)
+            },
+            dels(index){
+                this.attachs.splice(index,1)
+            },
             uploadFile(file){
+                this.up=true;
+                this.times=0
+                this.time();
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
                     this.attachs.push(res);
+                    this.times=100;
                 })
+                this.up=false;
             },
             ADDht(){
                 this.ht=true;
@@ -309,11 +331,18 @@
                     this.contact=res.contact;
                     this.phone=res.phone;
                     this.note=res.note;
-                    this.contract=res.contracts;
+                    this.contracts=res.contracts;
                     this.attachs=res.attachs;
                 })
             },
             setData(){
+                var arr=[];
+                for(var i=0;i<this.contracts.length;i++){
+                    for(var j=0;j<this.contracts[i].length;j++){
+                        arr.push((this.contracts[i][j]).contract_id);
+                    }
+                }
+                this.contract=(this.contract).concat(arr);
                 if(this.is_auto==false){
                     this.auto=1;
                 }
@@ -352,11 +381,11 @@
                     this.$message.error('联系电话不能为空');
                     return
                 }
-                if(this.contracts==[]){
+                if(this.contract.length==0){
                     this.$message.error('合同不能为空');
                     return
                 }
-                if(this.attachs==[]){
+                if(this.attachs.length==0){
                     this.$message.error('附件不能为空');
                     return
                 }
@@ -372,7 +401,7 @@
                 formData.append('contact',this.contact);
                 formData.append('phone',this.phone);
                 formData.append('note',this.note);
-                formData.append('contracts',JSON.stringify(this.contracts));
+                formData.append('contracts',JSON.stringify(this.contract));
                 formData.append('attachs',JSON.stringify(this.attachs));
                 this.api.settle_settlement_edit(formData).then((res)=>{
                     if(res!=false){

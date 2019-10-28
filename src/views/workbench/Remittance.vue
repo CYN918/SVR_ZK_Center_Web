@@ -3,12 +3,12 @@
         <div class="tableBox">
             <div style="text-align: center;margin-bottom: 40px;max-width: 893px;border-bottom: 1px solid #ddd;position: relative;left: 50%;transform: translateX(-50%)">
                 <div style="margin-right: 350px;text-align: center;display: inline-block">
-                    <div class="box boxs">1</div>
-                    <span class="boxName block">对账确认</span>
+                    <div class="box boxs" @click="ck1">1</div>
+                    <span class="boxName block" @click="ck1">对账确认</span>
                 </div>
                 <div style="margin-right: 350px;text-align: center;display: inline-block">
-                    <div class="box boxs">2</div>
-                    <span class="boxName block">票据凭证</span>
+                    <div class="box boxs" @click="ck2">2</div>
+                    <span class="boxName block" @click="ck2">票据凭证</span>
                 </div>
                 <div style="text-align: center;display: inline-block;border-bottom: 1px solid #3377ff;">
                     <div class="box boxs">3</div>
@@ -54,7 +54,7 @@
                 </div>
                 <div class="fillBtn">
                     <span class="tj" @click="ADD">提交</span>
-                    <span @click="fh()">取消</span>
+                    <span @click="fh()" style="margin-right: 207px">取消</span>
                 </div>
             </div>
         </div>
@@ -73,6 +73,8 @@
                 receive_amount:"",
                 receive_tdate:"",
                 is_receiver:"",
+                times:"",
+                fcounter:0,
             }
         },
 
@@ -84,14 +86,43 @@
                 this.file = '';
                 this.initiate2 = false
             },
+            scope(){
+                var _this=this;
+                _this.times=0;
+                var timer = setInterval(function () {
+                    if(_this.times<99){
+                        _this.times++
+                    }
+                },100);
+            },
             uploadFile(file){
+                this.up=true;
+                this.times=0;
+                ++this.fcounter;
+                this.scope();
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
-                    this.attachs.push(res)
+                    this.attachs.push(res);
+                    this.times=100;
+                    --this.fcounter;
+                    this.up=false;
                 })
             },
+            ck1(){
+                this.$parent.heidADDRemit();
+                this.$parent.getCK(this.skID,this.skType,'2');
+            },
+            ck2(){
+                this.$parent.heidADDRemit();
+                this.$parent.getCK(this.skID,this.skType,'3');
+            },
             ADD(){
+                if(this.fcounter != 0)
+                {
+                    this.$message.error('文件上传中');
+                    return
+                }
                 if(!this.receive_amount){
                     this.$message.error('实际到账金额不能为空');
                     return
@@ -179,6 +210,7 @@
         background:rgba(0,122,255,1)!important;
         color:rgba(255,255,255,1)!important;
         border: none!important;
+        cursor: pointer;
     }
 
     .boxName{
@@ -187,7 +219,9 @@
         font-family:PingFangSC-Medium,PingFangSC;
         font-weight:500;
         margin-bottom: 5px;
-        color:rgba(200,204,211,1)
+        color:rgba(200,204,211,1);
+        cursor: pointer;
+
     }
     .fill>div{
         margin-bottom: 20px;
