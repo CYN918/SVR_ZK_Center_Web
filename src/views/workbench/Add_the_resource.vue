@@ -9,7 +9,7 @@
                 </div>
                 <div class="title_div">
                     <span class="title_div_span">已添加：</span>
-                    <span class="title_div_span">{{this.numAll}}</span>
+                    <span class="title_div_span">{{listSC.length+listWL.length}}</span>
                     <span class="title_div_span">/</span>
                     <span class="title_div_span">{{num}}</span>
                     <span class="title_div_btn" @click="ADDline">
@@ -111,6 +111,7 @@
                 numAll:0,
                 note:'',
                 line:[],
+
             }
         },
         mounted(){
@@ -124,13 +125,13 @@
         methods:{
             ADDline(){
                 if(this.sc==true){
-                    if(this.numAll==this.num){
+                    if((this.listSC.length+this.listWL.length)==this.num){
                         return
                     }else{
                         this.listSC.unshift({text:false});
                     }
                 }else{
-                    if(this.numAll==this.num){
+                    if((this.listSC.length+this.listWL.length)==this.num){
                         return
                     }else{
                         this.listWL.unshift({text:false});
