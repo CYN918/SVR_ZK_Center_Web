@@ -1,5 +1,6 @@
 <template>
     <div class="bg">
+        <DS v-if="msg" :name="list.check.name" :type="type"></DS>
         <div class="tableBox">
             <div style="text-align: center;margin-bottom: 40px;max-width: 893px;border-bottom: 1px solid #ddd;position: relative;left: 50%;transform: translateX(-50%)">
                 <div style="margin-right: 350px;text-align: center;border-bottom: 1px solid #3377ff;display: inline-block">
@@ -28,7 +29,7 @@
                     <span class="fillName">结算方</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
                         <span  class="text">{{list.check.name}}</span>
-                        <span class="click">查看结算方信息</span>
+                        <span class="click" @click="massgae()">查看结算方信息</span>
                     </div>
 
                 </div>
@@ -83,7 +84,9 @@
 </template>
 
 <script>
+    import DS from '../income/payment/DetailsSettlement'
     export default {
+        components:{DS},
         props:['skID','skType'],
         name: "establish",
         data(){
@@ -101,16 +104,21 @@
                 control:[],
                 controlBtn:false,
                 is_receiver:'',
-                type:""
+                type:"",
+                msg:false,
             }
         },
         mounted(){
-
-            this.getData()
+            this.getData();
+            this.type=this.skType
         },
         methods:{
             fh(){
                 this.$parent.heidFkCK();
+            },
+            massgae(){this.msg=true},
+            heidMassage(){
+                this.msg=false
             },
             scope(){
                 if(this.list.status==1){

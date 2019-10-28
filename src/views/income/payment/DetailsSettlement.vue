@@ -78,7 +78,7 @@
 
 <script>
     export default {
-        props:['name'],
+        props:['name','type'],
         name: "details-settlement",
         data(){
             return{
@@ -91,7 +91,12 @@
                 this.$parent.heidMassage()
             },
             getData(){
-                let params={name:this.name,is_receiver:0};
+
+                if(this.type!=undefined&&this.type=='收款结算'){
+                    var params={name:this.name,is_receiver:1};
+                }else{
+                    params={name:this.name,is_receiver:0};
+                }
                 this.api.settle_settlement_detail({params}).then((res)=>{
                     this.data=res
                 })

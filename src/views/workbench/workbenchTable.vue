@@ -131,7 +131,7 @@
                                     <div class="step_tit" :class="{active:item.did==undefined&&tableData[props.$index].status!=item.status}">{{item.status_name}}</div>
                                     <div class="step_time" v-if="item.creator!=''||tableData[props.$index].status==item.status&&item.isfinish!=1&&item.key==0">{{item.updated_at}}</div>
                                     <div class="step_time" v-if="item.key!=0&&tableData[props.$index].status==item.status">{{tableData[props.$index].updated_at}}</div>
-                                   <div class="step_contnet" v-if="(item.creator!=''||tableData[props.$index].status==item.status)||((tableData[props.$index].demand_type=='收款结算'&&item.status!=4)||(tableData[props.$index].demand_type=='付款结算'&&item.status!=4))">
+                                   <div class="step_contnet" v-if="(item.creator!=''||tableData[props.$index].status==item.status)&&((tableData[props.$index].demand_type=='收款结算'&&item.status!=4)||(tableData[props.$index].demand_type=='付款结算'&&item.status!=4)||(tableData[props.$index].demand_type=='业务需求')||(tableData[props.$index].demand_type=='素材需求')||(tableData[props.$index].demand_type=='设计师结算'))">
                                         <span class="step_txt">状态</span>
                                         <span v-if="item.isfinish!='1'&&tableData[props.$index].status_name!='提现审核'&&tableData[props.$index].status!=item.status">{{item.msg}}</span>
                                         <span v-if="item.isfinish==1&&item.status_name!='提现完成'&&item.status_name!='素材入库'">已入库</span>
@@ -141,7 +141,7 @@
                                         <span v-if="tableData[props.$index].status==item.status&&item.isfinish!='1'&&item.status_name!='素材入库'&&item.isfinish!=2">待处理</span>
                                        <span v-if="tableData[props.$index].status==item.status&&item.isfinish!='1'&&item.status_name!='素材入库'&&item.isfinish==2">已作废</span>
                                     </div>
-                                    <div class="step_contnet" v-if="(item.creator!=''||tableData[props.$index].status==item.status)||((tableData[props.$index].demand_type=='收款结算'&&item.status!=4)||(tableData[props.$index].demand_type=='付款结算'&&item.status!=4))">
+                                    <div class="step_contnet" v-if="(item.creator!=''||tableData[props.$index].status==item.status)&&((tableData[props.$index].demand_type=='收款结算'&&item.status!=4)||(tableData[props.$index].demand_type=='付款结算'&&item.status!=4)||(tableData[props.$index].demand_type=='业务需求')||(tableData[props.$index].demand_type=='素材需求')||(tableData[props.$index].demand_type=='设计师结算'))">
                                         <span class="step_txt" v-if="item.status==1&&tableData[props.$index].status!=item.status">来源</span>
                                         <span class="step_txt" v-if="item.status==1&&tableData[props.$index].status==item.status">待处理人</span>
                                         <span class="step_txt" v-if="item.status!=1">处理人</span>
@@ -150,7 +150,7 @@
                                         <span v-if="item.did!=undefined&&tableData[props.$index].status==item.status&&item.isfinish==2" >{{item.user_name}};</span>
                                         <span  v-if="item.did==undefined&&item.reject!='1'&&tableData[props.$index].status==item.status&&tableData[props.$index].status_name!='提现完成'" v-for="da in tableData[props.$index].processor">{{da}};</span>
                                     </div>
-                                    <div class="step_contnet" v-if="(item.creator!=''||tableData[props.$index].status==item.status)||((tableData[props.$index].demand_type=='收款结算'&&item.status!=4)||(tableData[props.$index].demand_type=='付款结算'&&item.status!=4))">
+                                    <div class="step_contnet" v-if="(item.creator!=''||tableData[props.$index].status==item.status)&&((tableData[props.$index].demand_type=='收款结算'&&item.status!=4)||(tableData[props.$index].demand_type=='付款结算'&&item.status!=4)||(tableData[props.$index].demand_type=='业务需求')||(tableData[props.$index].demand_type=='素材需求')||(tableData[props.$index].demand_type=='设计师结算'))">
                                         <span class="step_txt" v-if="index=='0'">需求内容</span>
                                         <span class="step_txt" v-if="index!='0'">处理结果</span>
                                         <span class="dj" v-if="tableData[props.$index].demand_type=='设计师结算'&&item.status=='5'">已完成</span>
