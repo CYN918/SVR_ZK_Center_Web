@@ -96,7 +96,8 @@
                     this.add();
                     return
                 }
-                if(this.list.status>3){
+                if(this.list.status>2){
+                    alert('a')
                     this.$parent.heidFkCK();
                     if(this.list.demand_type=='demand_settle_receive'){
                         this.type='收款结算'
@@ -115,6 +116,7 @@
                 let params={is_receiver:this.is_receiver,id:this.skID};
                 this.api.settlemanage_detail({params}).then((res)=>{
                     this.list=res;
+                    console.log(this.list.invoice.attachs)
                 })
             },
 

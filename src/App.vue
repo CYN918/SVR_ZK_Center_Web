@@ -834,4 +834,11 @@ select{
 .demo  .el-upload-list__item-name{
   display: none;
 }
+.lime .upload-demo .el-upload-list__item-name{
+  margin-right: 0!important;
+
+}
+  .lime .upload-demo .el-upload-list__item{
+    width: 220%!important;
+  }
 </style>

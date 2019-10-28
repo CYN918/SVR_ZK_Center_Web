@@ -27,7 +27,7 @@
                 <span  class="TitName">绑定结算单</span>
                 <input type="text" placeholder="请输入" v-model="settle_id"/>
             </div>
-            <div v-if="type==2">
+            <div v-if="type==2" id="lime">
                <span  class="TitName">附件</span>
                 <div class="uplaod">
                     <el-upload

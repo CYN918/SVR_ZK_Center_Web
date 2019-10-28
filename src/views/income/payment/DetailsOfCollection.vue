@@ -49,7 +49,7 @@
                 <div>
                     <span class="fillName">结算时间段</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
-                        <span  class="text">{{list.check.tstart}}-{{list.check.tend}}</span>
+                        <span  class="text">{{list.check.tstart}}至{{list.check.tend}}</span>
                     </div>
 
                 </div>
