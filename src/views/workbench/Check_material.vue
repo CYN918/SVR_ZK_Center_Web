@@ -10,25 +10,28 @@
                     <span>已添加：{{this.total}}</span>
                 </div>
             </div>
-            <div class="table_material" v-for="(item,index) in listSC">
-                <div class="table_material_tit">
-                    <el-checkbox-group v-model="checkList">
-                        <el-checkbox :label="index"></el-checkbox>
-                    </el-checkbox-group>
-                    <span style="display: inline-block;margin: 0 26px 0 18px">{{item.line_num}}</span>
-                    <span class="table_material_tit_sc">素材</span>
-                    <a class="download"  :href="item.attach.url" >下载</a>
-                </div>
-                <div class="img_box">
-                    <div  class="ADD_img">
-                        <img :src="item.prev_uri" class="ADD_img_img"  preview='0' v-if="(item.prev_uri.split('.'))[(item.prev_uri.split('.')).length-1]!='mp4'"/>
-                        <video  :src="item.prev_uri" controls="controls" class="ADD_img_img" v-if="(item.prev_uri.split('.'))[(item.prev_uri.split('.')).length-1]=='mp4'" />
-                        <span>{{item.mid}}</span>
+            <div style="width: 100%;height: 635px;overflow-y:auto ">
+                <div class="table_material" v-for="(item,index) in listSC">
+                    <div class="table_material_tit">
+                        <el-checkbox-group v-model="checkList">
+                            <el-checkbox :label="index"></el-checkbox>
+                        </el-checkbox-group>
+                        <span style="display: inline-block;margin: 0 26px 0 18px">{{item.line_num}}</span>
+                        <span class="table_material_tit_sc">素材</span>
+                        <a class="download"  :href="item.attach.url" >下载</a>
+                    </div>
+                    <div class="img_box">
+                        <div  class="ADD_img">
+                            <img :src="item.prev_uri" class="ADD_img_img"  preview='0' v-if="(item.prev_uri.split('.'))[(item.prev_uri.split('.')).length-1]!='mp4'"/>
+                            <video  :src="item.prev_uri" controls="controls" class="ADD_img_img" v-if="(item.prev_uri.split('.'))[(item.prev_uri.split('.')).length-1]=='mp4'" />
+                            <span>{{item.mid}}</span>
+                        </div>
+                    </div>
+                    <div>
                     </div>
                 </div>
-                <div>
-                </div>
             </div>
+
             <div class="Add_btn">
                 <div class="checkSelect">
                     <el-checkbox v-model="value" @change="all">全选</el-checkbox>
@@ -154,7 +157,6 @@
         left: 50%;
         top:50%;
         transform:translate(-50%,-50%);
-        overflow-y: auto;
     }
     .title{
         height: 55px;
@@ -196,9 +198,9 @@
         height:58px;
         background:#e0dfdfff;
         border-radius:0px 0px 4px 4px;
-        margin-top: 70.5px;
         position: fixed;
         left:0;
+        bottom: 0;
 
 
     }

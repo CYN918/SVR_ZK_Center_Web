@@ -12,56 +12,61 @@
                     <span></span>
                 </div>
             </div>
-            <div class="table_material" v-for="(item,index) in this.listSc" v-if="SC==true">
-                <div class="table_material_tit">
-                    <el-checkbox-group v-model="checkList" >
-                        <el-checkbox :label="index"></el-checkbox>
-                    </el-checkbox-group>
-                    <span style="display: inline-block;margin: 0 26px 0 18px">{{item.line_num}}</span>
-                    <span class="table_material_tit_sc">素材</span>
-                    <span class="download" @click="downSingles(index)">下载({{item.bind.length+item.middleware.length}})</span>
-                </div>
-                <div class="img_box">
-                    <div v-for="(da,index2) in item.bind" class="ADD_img">
-                        <!--<img :src="da.prev_uri" class="ADD_img_img" preview="0"/>-->
-                        <img :src="da.prev_uri" class="ADD_img_img"  preview='0' v-if="(da.prev_uri.split('.'))[(da.prev_uri.split('.')).length-1]!='mp4'"/>
-                        <video  :src="da.prev_uri" controls="controls" class="ADD_img_img" v-if="(da.prev_uri.split('.'))[(da.prev_uri.split('.')).length-1]=='mp4'" />
-                        <span>{{da.mid}}</span>
+            <div  v-if="SC==true" style="width: 100%;height: 635px;overflow-y:auto ">
+                <div class="table_material" v-for="(item,index) in this.listSc">
+                    <div class="table_material_tit">
+                        <el-checkbox-group v-model="checkList" >
+                            <el-checkbox :label="index"></el-checkbox>
+                        </el-checkbox-group>
+                        <span style="display: inline-block;margin: 0 26px 0 18px">{{item.line_num}}</span>
+                        <span class="table_material_tit_sc">素材</span>
+                        <span class="download" @click="downSingles(index)">下载({{item.bind.length+item.middleware.length}})</span>
                     </div>
-                    <div v-for="das in item.middleware"  class="ADD_img" v-if="item.middleware!=[]">
-                        <img :src="das.url" class="ADD_img_img"  preview='0' v-if="(das.url.split('.'))[(das.url.split('.')).length-1]!='mp4'"/>
-                        <video  :src="das.url" controls="controls" class="ADD_img_img" v-if="(das.url.split('.'))[(das.url.split('.')).length-1]=='mp4'" />
-                        <span>{{das.name}}</span>
+                    <div class="img_box">
+                        <div v-for="(da,index2) in item.bind" class="ADD_img">
+                            <!--<img :src="da.prev_uri" class="ADD_img_img" preview="0"/>-->
+                            <img :src="da.prev_uri" class="ADD_img_img"  preview='0' v-if="(da.prev_uri.split('.'))[(da.prev_uri.split('.')).length-1]!='mp4'"/>
+                            <video  :src="da.prev_uri" controls="controls" class="ADD_img_img" v-if="(da.prev_uri.split('.'))[(da.prev_uri.split('.')).length-1]=='mp4'" />
+                            <span>{{da.mid}}</span>
+                        </div>
+                        <div v-for="das in item.middleware"  class="ADD_img" v-if="item.middleware!=[]">
+                            <img :src="das.url" class="ADD_img_img"  preview='0' v-if="(das.url.split('.'))[(das.url.split('.')).length-1]!='mp4'"/>
+                            <video  :src="das.url" controls="controls" class="ADD_img_img" v-if="(das.url.split('.'))[(das.url.split('.')).length-1]=='mp4'" />
+                            <span>{{das.name}}</span>
+                        </div>
+                        <div>{{item.note}}</div>
                     </div>
-                    <div>{{item.note}}</div>
-                </div>
-                <div>
+                    <div>
 
-                </div>
-
-            </div>
-            <div class="table_material" v-for="(item,index) in this.listWl" v-if="WL==true">
-                <div class="table_material_tit">
-                    <el-checkbox-group v-model="checkList">
-                        <el-checkbox :label="index"></el-checkbox>
-                    </el-checkbox-group>
-                    <span style="display: inline-block;margin: 0 26px 0 18px">{{item.line_num}}</span>
-                    <span class="table_material_tit_sc">物料</span>
-                    <a class="download" :href="item.bind[0].attach.url">下载</a>
-                </div>
-                <div class="img_box">
-                    <div v-for="(da1,index3) in item.bind" class="ADD_img">
-                        <!--<img :src="da1.prev_uri" class="ADD_img_img" preview="0"/>-->
-                        <img :src="da1.prev_uri" class="ADD_img_img"  preview='0' v-if="(da1.prev_uri.split('.'))[(da1.prev_uri.split('.')).length-1]!='mp4'"/>
-                        <video  :src="da1.prev_uri" controls="controls" class="ADD_img_img" v-if="(da1.prev_uri.split('.'))[(da1.prev_uri.split('.')).length-1]=='mp4'" />
-                        <!--<video  :src="da1.prev_uri" controls="controls" class="ADD_img_img" v-if="(da1.prev_uri.split('.'))[(da1.prev_uri.split('.')).length-1]=='mp4'" />-->
-                        <span>{{da1.mfid}}</span>
                     </div>
-                </div>
-                <div>
 
                 </div>
             </div>
+           <div v-if="WL==true" style="width: 100%;height: 635px;overflow-y:auto ">
+               <div class="table_material" v-for="(item,index) in this.listWl">
+                   <div class="table_material_tit">
+                       <el-checkbox-group v-model="checkList">
+                           <el-checkbox :label="index"></el-checkbox>
+                       </el-checkbox-group>
+                       <span style="display: inline-block;margin: 0 26px 0 18px">{{item.line_num}}</span>
+                       <span class="table_material_tit_sc">物料</span>
+                       <a class="download" :href="item.bind[0].attach.url">下载</a>
+                   </div>
+                   <div class="img_box">
+                       <div v-for="(da1,index3) in item.bind" class="ADD_img">
+                           <!--<img :src="da1.prev_uri" class="ADD_img_img" preview="0"/>-->
+                           <img :src="da1.prev_uri" class="ADD_img_img"  preview='0' v-if="(da1.prev_uri.split('.'))[(da1.prev_uri.split('.')).length-1]!='mp4'"/>
+                           <video  :src="da1.prev_uri" controls="controls" class="ADD_img_img" v-if="(da1.prev_uri.split('.'))[(da1.prev_uri.split('.')).length-1]=='mp4'" />
+                           <!--<video  :src="da1.prev_uri" controls="controls" class="ADD_img_img" v-if="(da1.prev_uri.split('.'))[(da1.prev_uri.split('.')).length-1]=='mp4'" />-->
+                           <span>{{da1.mfid}}</span>
+                       </div>
+                   </div>
+                   <div>
+
+                   </div>
+               </div>
+           </div>
+
             <div class="Add_btn">
                 <div class="checkSelect">
                     <el-checkbox v-model="value" @change="all()">全选</el-checkbox>
@@ -305,7 +310,6 @@
         left: 50%;
         top:50%;
         transform:translate(-50%,-50%);
-        overflow-y: auto;
     }
     .title{
         height: 55px;
@@ -347,9 +351,9 @@
         height:58px;
         background:#e0dfdfff;
         border-radius:0px 0px 4px 4px;
-        margin-top: 70.5px;
         position: fixed;
         left:0;
+        bottom: 0;
     }
     .Add_btn span{
         display: inline-block;
