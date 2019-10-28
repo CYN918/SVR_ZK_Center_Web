@@ -68,7 +68,10 @@
                     </div>
                     <div style="display: inline-block;width: 300px">
                         <div v-for="item in list.check.attachs">
-                            <span  class="text">{{item.name}}</span>
+                            <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                                <div slot="content" class="text">{{item.name}}</div>
+                                <span  class="text" style="overflow: hidden;width: 200px;height: 20px;line-height: 28px">{{item.name}}</span>
+                            </el-tooltip>
                             <span class="click">查看</span>
                             <a class="click" :href="item.url">下载</a>
                         </div>

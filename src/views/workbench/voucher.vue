@@ -27,7 +27,10 @@
                 </div>
                 <div>
                     <div style="display: inline-block;width: 84px;margin-right: 20px">
-                        <img src="../../../public/img/wh.png" style="margin-right: 6px;cursor: pointer">
+                        <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                            <div slot="content">请上传对账确认邮件截图，结算数据明细等凭证</div>
+                            <img src="../../../public/img/wh.png" style="margin-right: 6px;cursor: pointer">
+                        </el-tooltip>
                         <span class="fj">附件</span>
                     </div>
                     <div class="uplaod">
