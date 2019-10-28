@@ -30,7 +30,7 @@
             <div style="text-align: center" class="fill">
                 <div>
                     <span class="fillName">实际到账金额</span>
-                    <input type="text" class="input" v-model="receive_amount">
+                    <input type="number" class="input" v-model="receive_amount">
                 </div>
                 <div>
                     <span class="fillName">到账时间</span>
@@ -70,7 +70,13 @@
                         <el-progress :percentage="this.times" v-if="up"></el-progress>
                     </div>
                     <div style="margin: 14px 0 14px 0px" v-for="(item,index) in attachs">
-                        <div style="display: inline-block;max-width: 200px;height: 20px;overflow:hidden;font-size:14px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(31,46,77,1);text-align: left">{{item.name}}</div>
+                        <div v-for="item in attachs" style="display: inline-block">
+                            <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                                <div slot="content" class="text">{{item.name}}</div>
+                                <span  class="text" style="overflow: hidden;width: 200px;height: 20px;line-height: 28px">{{item.name}}</span>
+                            </el-tooltip>
+                        </div>
+                        <!--<div style="display: inline-block;max-width: 200px;height: 20px;overflow:hidden;font-size:14px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(31,46,77,1);text-align: left">{{item.name}}</div>-->
                         <span class="content_ck">查看</span>
                         <a class="content_xz" :href="item.url">下载</a>
                         <span class="content_xz" @click="dels(index)">删除</span>
@@ -168,6 +174,10 @@
                 }
                 if(!this.note){
                     this.$message.error('备注不能为空');
+                    return
+                }
+                if(new Date(this.receive_tdate)>=new Date()){
+                    this.$message.error('实际到账时间不能大于当前操作时间');
                     return
                 }
                 if(!this.receive_tdate){

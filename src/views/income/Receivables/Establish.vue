@@ -102,7 +102,13 @@
                             <el-progress :percentage="times" v-if="up"></el-progress>
                         </div>
                         <div style="margin: 14px 0 14px 0px" v-for="(item,index) in attachs">
-                            <div style="display: inline-block;max-width: 200px;height: 20px;overflow:hidden;font-size:14px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(31,46,77,1);text-align: left">{{item.name}}</div>
+                            <div v-for="item in attachs" style="display: inline-block">
+                                <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                                    <div slot="content" class="text">{{item.name}}</div>
+                                    <span  class="text" style="overflow: hidden;width: 200px;height: 20px;line-height: 28px">{{item.name}}</span>
+                                </el-tooltip>
+                            </div>
+                            <!--<div style="display: inline-block;max-width: 200px;height: 20px;overflow:hidden;font-size:14px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(31,46,77,1);text-align: left">{{item.name}}</div>-->
                             <span class="content_ck">查看</span>
                             <a class="content_xz" :href="item.url">下载</a>
                             <span class="content_xz" @click="dels(index)">删除</span>

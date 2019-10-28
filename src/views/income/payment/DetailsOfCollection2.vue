@@ -32,14 +32,14 @@
             <div style="text-align: center" class="fill">
                 <div>
                     <span class="fillName">物流单号</span>
-                    <div style="display: inline-block;width: 300px">
+                    <div style="display: inline-block;width: 300px;text-align: left">
                         <span class="text">{{list.express_id}}</span>
                     </div>
 
                 </div>
                 <div>
                     <span class="fillName">备注说明</span>
-                    <div style="display: inline-block;width: 300px">
+                    <div style="display: inline-block;width: 300px;text-align: left">
                         <span  class="text">{{list.note}}</span>
                     </div>
 
@@ -48,7 +48,7 @@
                     <div style="display: inline-block;width: 84px;margin-right: 20px;text-align: right">
                         <span class="fj">附件</span>
                     </div>
-                    <div style="display: inline-block;width: 300px">
+                    <div style="display: inline-block;width: 300px;text-align: left">
                         <div v-for="item in list.attachs">
                             <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
                                 <div slot="content" class="text">{{item.name}}</div>

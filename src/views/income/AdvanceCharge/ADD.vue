@@ -17,7 +17,7 @@
             </div>
             <div>
                 <span  class="TitName">金额数值</span>
-                <input type="text" placeholder="请输入" v-model="amount"/>
+                <input type="number" placeholder="请输入" v-model="amount"/>
             </div>
             <div>
                 <span  class="TitName">备注</span>
@@ -41,7 +41,12 @@
                     </el-upload>
                     <el-progress :percentage="this.times" v-if="up"></el-progress>
                 </div>
-
+                <div v-for="item in attachs" style="display: inline-block">
+                    <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                        <div slot="content" class="text">{{item.name}}</div>
+                        <span  class="text" style="overflow: hidden;width: 200px;height: 20px;line-height: 28px">{{item.name}}</span>
+                    </el-tooltip>
+                </div>
             </div>
             <div>
                 <span class="tj" @click="ADDdata()">添加</span>

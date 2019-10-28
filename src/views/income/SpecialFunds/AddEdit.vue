@@ -17,7 +17,7 @@
             </div>
             <div>
                 <span  class="TitName">支出金额</span>
-                <input type="text" v-model="amount"/>
+                <input type="number" v-model="amount"/>
 
             </div>
             <div>
