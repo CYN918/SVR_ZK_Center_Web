@@ -47,10 +47,11 @@
                     </el-upload>
                     <el-progress :percentage="this.times" v-if="up"></el-progress>
                     <div>
-                        <div v-for="item in attachs">
+                        <div v-for="(item,index) in attachs">
                             <span  class="text">{{item.name}}</span>
                             <a class="click" :href="item.url">查看</a>
                             <a class="click" :href="item.url">下载</a>
+                            <span class="click" @click="dels(index)">删除</span>
                         </div>
                     </div>
                 </div>
@@ -87,6 +88,9 @@
             this.getData()
         },
         methods:{
+            dels(index){
+                this.attachs.splice(index,1)
+            },
             fh(){
                 this.$router.go(-1)
             },
