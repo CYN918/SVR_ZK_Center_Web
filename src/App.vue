@@ -838,4 +838,7 @@ select{
   #lime .upload-demo .el-upload-list__item{
     display: none;
   }
+  .fill .uplaod .upload-demo .el-upload-list__item{
+    display: none;
+  }
 </style>
