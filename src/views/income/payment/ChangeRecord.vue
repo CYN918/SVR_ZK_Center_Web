@@ -133,6 +133,7 @@
                     path:"./Record",
                     query:{
                         data:data,
+                        id:this.$route.query.id
                     }
                 })
             }

@@ -103,12 +103,18 @@
             },
             jump1(){
                 this.$router.push({
-                    path:"./DetailsOfCollection"
+                    path:"./DetailsOfCollection",
+                    query:{
+                        id:this.$route.query.id
+                    }
                 })
             },
             jump2(){
                 this.$router.push({
-                    path:"./ChangeRecord"
+                    path:"./ChangeRecord",
+                    query:{
+                        id:this.$route.query.id
+                    }
                 })
             },
         },
