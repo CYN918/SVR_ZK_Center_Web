@@ -30,7 +30,7 @@
             <div style="text-align: center" class="fill">
                 <div>
                     <span class="fillName">物流单号</span>
-                    <input type="number" class="input" v-model="express_id">
+                    <input type="text" class="input" v-model="express_id">
                 </div>
                 <div>
                     <span class="fillName">备注说明</span>
