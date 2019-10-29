@@ -101,7 +101,7 @@
                 listSC:[],
                 listWL:[],
                 page:1,
-                p:3,
+                p:10,
                 sc:true,
                 wl:false,
                 total:0,
