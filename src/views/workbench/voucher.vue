@@ -35,7 +35,7 @@
                     </div>
                     <div class="uplaod">
                         <el-upload
-                                class="upload-demo"
+                                class="ups"
                                 :on-remove="handleRemove"
                                 :http-request="uploadFile"
                                 action="111">
