@@ -134,7 +134,7 @@
                 formData.append('material', 0);
                 formData.append('mfid', this.checked);
                 this.api.demand_business_bind(formData).then((res) => {
-                    this.$emit('dataType','1')
+                    this.$emit('dataType','1');
                     this.$parent.HeidWl();
                     this.$parent.AddMaterial();
                 })
