@@ -102,7 +102,7 @@
                             <el-progress :percentage="times" v-if="up"></el-progress>
                         </div>
                         <div style="margin: 14px 0 14px 0px" v-for="(item,index) in attachs">
-                            <div v-for="item in attachs" style="display: inline-block">
+                            <div v-for="item in attachs" >
                                 <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
                                     <div slot="content" class="text">{{item.name}}</div>
                                     <span  class="text" style="overflow: hidden;width: 200px;height: 20px;line-height: 28px">{{item.name}}</span>
