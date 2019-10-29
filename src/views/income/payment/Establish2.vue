@@ -159,6 +159,10 @@
                     this.$message.error('物流单号不能为空');
                     return
                 }
+                if((this.express_id).match(/^[\u4e00-\u9fa5]+$/)){
+                    this.$message.error('物流单号为非中文');
+                    return
+                }
                 if(!this.note){
                     this.$message.error('备注不能为空');
                     return
