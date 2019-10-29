@@ -262,8 +262,7 @@
                 this.api.settlemanage_detail({params}).then((res)=>{
                     this.statement=res.check.statement;
                     this.name=res.check.name;
-                    this.time[0]=res.check.tstart;
-                    this.time[1]=res.check.tend;
+                    this.time=[res.check.tstart,res.check.tend];
                     this.expect_amount=res.check.expect_amount;
                     this.real_amount=res.check.real_amount;
                     this.note=res.check.note;

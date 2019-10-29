@@ -29,7 +29,7 @@
             </div>
             <div>
                 <span class="nameTit">附件</span>
-                <div>
+                <div style="display: inline-block">
                     <div v-for="item in data.attachs">
                         <span class="cont">{{item.name}}</span>
                         <span class="ck">查看</span>

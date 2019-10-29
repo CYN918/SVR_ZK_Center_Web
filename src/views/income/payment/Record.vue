@@ -35,11 +35,11 @@
             </div>
             <div v-if="data.status==1">
                 <span class="nameTit">附件</span>
-                <div>
+                <div style="display: inline-block">
                     <div v-for="item in data.history_attachs">
-                        <span  class="cont">{{item.name}}}</span>
-                        <span>查看</span>
-                        <a :href="item.url">下载</a>
+                        <span  class="cont">{{item.name}}</span>
+                        <span class="ck">查看</span>
+                        <a :href="item.url" class="xz">下载</a>
                     </div>
                 </div>
             </div>
@@ -53,11 +53,11 @@
             </div>
             <div v-if="data.status==2">
                 <span class="nameTit">附件</span>
-                <div>
+                <div style="display: inline-block">
                     <div v-for="item in data.history_attachs">
-                        <span  class="cont">{{item.name}}}</span>
-                        <span>查看</span>
-                        <a :href="item.url">下载</a>
+                        <span  class="cont">{{item.name}}</span>
+                        <span class="ck">查看</span>
+                        <a :href="item.url" class="xz">下载</a>
                     </div>
                 </div>
             </div>

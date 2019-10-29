@@ -72,7 +72,7 @@
         name: "change-record",
         data(){
             return{
-                time:[(new Date()).toLocaleDateString().split('/').join('-'),(new Date()).toLocaleDateString().split('/').join('-')],
+                time:[],
                 page:1,
                 p:10,
                 total:0,

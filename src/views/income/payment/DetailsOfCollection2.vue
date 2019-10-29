@@ -24,7 +24,7 @@
                     <span class="boxName">票据凭证</span>
                 </div>
                 <div style="text-align: center;display: inline-block">
-                    <div class="box" :class="{boxs:this.list.status>2}" @click="scope2()">3</div>
+                    <div class="box" :class="{boxs:this.status>2}" @click="scope2()">3</div>
                     <span class="boxName" @click="scope2()">结算汇款</span>
                 </div>
 

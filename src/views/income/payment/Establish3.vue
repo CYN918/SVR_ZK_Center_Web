@@ -148,7 +148,7 @@
                 })
             },
             getList(){
-                let params={is_receiver:1,id:this.$route.query.id};
+                let params={is_receiver:0,id:this.$route.query.id};
                 this.api.settlemanage_detail({params}).then((res)=>{
                     this.receive_amount=res.remit.receive_amount;
                     this.note=res.remit.note;
@@ -181,7 +181,7 @@
                 let formData=new FormData;
                 formData.append('note',this.note);
                 formData.append('id',this.$route.query.id);
-                formData.append('is_receiver',1);
+                formData.append('is_receiver',0);
                 formData.append('receive_amount',this.receive_amount);
                 formData.append('receive_tdate',this.receive_tdate);
                 formData.append('attachs',JSON.stringify(this.attachs));
