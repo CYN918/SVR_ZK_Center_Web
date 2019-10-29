@@ -19,7 +19,7 @@
             <div style="text-align: center" class="fill">
                 <div>
                     <span class="fillName">实际到账金额</span>
-                    <input type="text" class="input" v-model="receive_amount">
+                    <input type="number" class="input" v-model="receive_amount">
                 </div>
                 <div>
                     <span class="fillName">到账时间</span>
@@ -136,6 +136,10 @@
                 }
                 if(!this.receive_tdate){
                     this.$message.error('实际到账时间不能为空');
+                    return
+                }
+                if(new Date(this.receive_tdate)>=new Date()){
+                    this.$message.error('实际到账时间不能大于当前操作时间');
                     return
                 }
                 if(this.attachs.length==0){
