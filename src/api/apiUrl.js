@@ -974,6 +974,7 @@ export default {
     themes_theme_search:{
 		url:'themes/theme/search',method:'get'
 	},
+
 	//新增本地主题
     themes_theme_local_add:{
 		url:'themes/theme/local/add',method:'post',isType:{suktip:1}
@@ -1111,3 +1112,6 @@ export default {
 		url:'themes/package/edit/tags',method:"post",isType:{suktip:1}
 	},
 }
+
+
+

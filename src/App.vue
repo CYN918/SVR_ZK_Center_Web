@@ -112,6 +112,9 @@ a{
   line-height: 40px;
   margin-right:10px;
 }
+.seach .btn{
+  position: static!important;
+}
 .bg{z-index: 999!important;}
 .block .el-pagination .el-pager .active{
   background:#3377ff!important;
@@ -844,6 +847,7 @@ select{
   margin-right: 24px;
 }
 
+
 .uploadTxt .el-upload{
   background: #3377ff!important;
 }
@@ -859,4 +863,15 @@ select{
 .upPreview .el-upload-list{
   display: none;
 }
+
+.demo  .el-upload-list__item-name{
+  display: none;
+}
+
+  #lime .upload-demo .el-upload-list__item{
+    display: none;
+  }
+  .fill .uplaod .upload-demo .el-upload-list__item {
+    display: none;
+  }
 </style>

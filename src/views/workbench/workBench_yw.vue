@@ -123,7 +123,7 @@
 <script>
     import put from '../admin/Put_library'
     export default {
-        props:['YWid'],
+        props:['YWid','status'],
         components:{put},
         name: "work-bench_yw",
         data(){
@@ -152,13 +152,16 @@
             }
         },
         mounted(){
+
             if(this.YWid){
                 this.getData();
             }
             if(this.YWid==undefined||this.type=='f_sls_lockscreen'){
                 this.getSize();
             }
+
             this.getTypes();
+
         },
         methods:{
             sxFunction(){
@@ -188,10 +191,16 @@
                   this.num =res.num;
                   this.model = res.model;
                   this.link =res.link;
+                  this.pos_type=res.pos_type;
                   this.endtime = res.endtime;
                   this.requirement=res.require;
                   // this.libraryName=res.putlib.name;
-                    this.pos_type=res.pos_type;
+
+                  // if(this.type!='f_sls_lockscreen'){
+                  //     this.sizeList=res.putlib.size.split(',')
+                  // }
+
+
                 })
             },
             AddYw(){
@@ -343,6 +352,7 @@
                     this.api.demand_business_edit(formData).then((res)=>{
                         let formData = new FormData;
                         formData.append('id',this.YWid);
+                        formData.append('status',this.status);
                         this.api.demand_audit(formData).then((res)=>{
                         });
                         this.$parent.heidYW();
@@ -370,9 +380,8 @@
             getTypes(){
                 this.api.config_position_type().then((res)=>{
                     this.typeList = res;
-                    if(this.YWid){
-                    }
                     this.getYWtype()
+                    this.getTypeURL();
                 })
             },
             getYWtype(){

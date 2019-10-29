@@ -17,8 +17,8 @@
         </div>
         <div class="centNavBox">
             <tab v-if="tables" :tableData="tableData" :active="active" ></tab>
-            <sc v-if="sc" :SCid="id"></sc>
-            <yw v-if="yw" :YWid="id"></yw>
+            <sc v-if="sc" :SCid="id" :status="status"></sc>
+            <yw v-if="yw" :YWid="id" :status="status"></yw>
         </div>
             <div class="block">
                 <el-pagination
@@ -62,6 +62,7 @@
                 controlBtn:true,
                 controlBtns:true,
                 btns:[],
+                status:"",
             }
         },
         created(){
@@ -88,22 +89,27 @@
             clickfn(n){
                 this[n]();
             },
-            getSC(id){
+            getSC(id,status){
                        this.id = id;
+                       this.status=status;
                        this.sc=true;
                        this.stop()
             },
             heidSC(){
                 this.sc=false;
+                this.status='';
+                this.id='';
                 this.move()
             },
-            getYW(id){
+            getYW(id,status){
                         this.id=id;
+                        this.status=status;
                         this.yw=true;
                         this.stop()
             },
             heidYW(){
                 this.id='';
+                this.status='';
                 this.yw=false;
                 this.move()
             },
@@ -128,8 +134,12 @@
                         }else if(this.tableData[i].demand_type=='demand_material'){
                             this.tableData[i].demand_type='素材需求'
                             this.tableData[i].demand_name=this.tableData[i].demand_name+'('+ this.tableData[i].type_name+')'
-                        }else {
+                        }else if(this.tableData[i].demand_type=='demand_apply'){
                             this.tableData[i].demand_type='设计师结算'
+                        }else if(this.tableData[i].demand_type=='demand_settle_receive'){
+                            this.tableData[i].demand_type='收款结算'
+                        }else if(this.tableData[i].demand_type=='demand_settle_paying'){
+                            this.tableData[i].demand_type='付款结算'
                         }
                     }
                 })
@@ -152,15 +162,18 @@
                     this.total = res.total;
                     this.tables = true;
                     for (let i=0;i<this.tableData.length;i++){
-                        console.log(this.tableData[i].demand_type)
                         if(this.tableData[i].demand_type=='demand_business'){
                             this.tableData[i].demand_type='业务需求'
                             this.tableData[i].demand_name=this.tableData[i].demand_name+'('+this.tableData[i].type_name+'-'+this.tableData[i].model+')'
                         }else if(this.tableData[i].demand_type=='demand_material'){
                             this.tableData[i].demand_type='素材需求'
                             this.tableData[i].demand_name=this.tableData[i].demand_name+'('+ this.tableData[i].type_name+')'
-                        }else {
+                        }else if(this.tableData[i].demand_type=='demand_apply'){
                             this.tableData[i].demand_type='设计师结算'
+                        }else if(this.tableData[i].demand_type=='demand_settle_receive'){
+                            this.tableData[i].demand_type='收款结算'
+                        }else if(this.tableData[i].demand_type=='demand_settle_paying'){
+                            this.tableData[i].demand_type='付款结算'
                         }
                     }
                 })

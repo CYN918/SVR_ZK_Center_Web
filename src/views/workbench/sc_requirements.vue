@@ -59,7 +59,7 @@
 
 <script>
     export default {
-        props:['id','num'],
+        props:['id','num','status'],
         name: "add_the_resource",
         data(){
             return{
@@ -141,6 +141,7 @@
             verified(){
                 let formData = new FormData;
                 formData.append('id',this.id);
+                formData.append('status',this.status);
                 this.api.demand_audit(formData).then((res)=>{
                     this.$parent.heidscR();
                 })

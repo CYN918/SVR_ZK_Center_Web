@@ -108,7 +108,6 @@
                 let params ={p:this.pageSize,page:this.currentPage,search:this.search};
                 this.api.account_all({params}).then((res)=>{
                     this.tableData = res.data;
-                    console.log(res.data)
                     this.total= res.total;
                 })
             },
@@ -125,7 +124,6 @@
             getUSERdATA(a){
                 this.User= true;
                 this.userMessage=this.tableData[a];
-                console.log(this.userMessage);
                 this.stop()
             },
             addUser(){

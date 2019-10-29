@@ -89,6 +89,83 @@ import returns_detailed from './views/income/Returns_detailed'
 mode['returns_detailed'] = returns_detailed
 import advertiser from './views/income/advertiser'
 mode['advertiser'] = advertiser
+import Administration from './views/income/Receivables/Administration'
+mode['Administration']=Administration
+import ReceiverManagement from './views/income/Receivables/ReceiverManagement'
+mode['ReceiverManagement']=ReceiverManagement
+import ADDSettlement from './views/income/Receivables/ADDSettlement'
+mode['ADDSettlement']=ADDSettlement
+import SettlementDetails from './views/income/Receivables/SettlementDetails'
+mode['SettlementDetails']=SettlementDetails
+import establish from './views/income/Receivables/Establish'
+mode['establish']=establish
+import establish2 from './views/income/Receivables/Establish2'
+mode['establish2']=establish2
+import establish3 from './views/income/Receivables/Establish3'
+mode['establish3']=establish3
+import DetailsOfCollection from './views/income/Receivables/DetailsOfCollection'
+mode['DetailsOfCollection']=DetailsOfCollection
+import DetailsOfCollection2 from './views/income/Receivables/DetailsOfCollection2'
+mode['DetailsOfCollection2']=DetailsOfCollection2
+import DetailsOfCollection3 from './views/income/Receivables/DetailsOfCollection3'
+mode['DetailsOfCollection3']=DetailsOfCollection3
+import ChangeRecord from './views/income/Receivables/ChangeRecord'
+mode['ChangeRecord']=ChangeRecord
+import Record from './views/income/Receivables/Record'
+mode['Record']=Record
+import detailsSettlement from './views/income/Receivables/DetailsSettlement'
+mode['detailsSettlement']=detailsSettlement
+import Administrations from './views/income/AdvanceCharge/Administration'
+mode['Administrations']=Administrations
+import YFdetails from './views/income/AdvanceCharge/YFdetails'
+mode['YFdetails']=YFdetails
+import change from './views/income/AdvanceCharge/change'
+mode['change']=change
+import ABilish from './views/income/Receivables/ABolish'
+mode['ABilish']=ABilish
+import ABilishs from './views/income/payment/ABolish'
+mode['ABilishs']=ABilishs
+
+import FKAdministration from './views/income/payment/Administration'
+mode['FKAdministration']=FKAdministration
+import FKReceiverManagement from './views/income/payment/ReceiverManagement'
+mode['FKReceiverManagement']=FKReceiverManagement
+import FKADDSettlement from './views/income/payment/ADDSettlement'
+mode['FKADDSettlement']=FKADDSettlement
+import FKSettlementDetails from './views/income/payment/SettlementDetails'
+mode['FKSettlementDetails']=FKSettlementDetails
+import FKestablish from './views/income/payment/Establish'
+mode['FKestablish']=FKestablish
+import FKestablish2 from './views/income/payment/Establish2'
+mode['FKestablish2']=FKestablish2
+import FKestablish3 from './views/income/payment/Establish3'
+mode['FKestablish3']=FKestablish3
+import FKDetailsOfCollection from './views/income/payment/DetailsOfCollection'
+mode['FKDetailsOfCollection']=FKDetailsOfCollection
+import FKDetailsOfCollection2 from './views/income/payment/DetailsOfCollection2'
+mode['FKDetailsOfCollection2']=FKDetailsOfCollection2
+import FKDetailsOfCollection3 from './views/income/payment/DetailsOfCollection3'
+mode['FKDetailsOfCollection3']=FKDetailsOfCollection3
+import FKChangeRecord from './views/income/payment/ChangeRecord'
+mode['FKChangeRecord']=FKChangeRecord
+import FKRecord from './views/income/payment/Record'
+mode['FKRecord']=FKRecord
+import FKdetailsSettlement from './views/income/payment/DetailsSettlement'
+mode['FKdetailsSettlement']=FKdetailsSettlement
+import SFAdministration from './views/income/SpecialFunds/SpecialFunds_Administration'
+mode['SFAdministration']=SFAdministration
+import ADDspecial from './views/income/SpecialFunds/ADDspecial'
+mode['ADDspecial']=ADDspecial
+import special_edit from './views/income/SpecialFunds/special_edit'
+mode['special_edit']=special_edit
+import AddEdit from './views/income/SpecialFunds/AddEdit'
+mode['AddEdit']=AddEdit
+import ADD from './views/income/AdvanceCharge/ADD'
+mode['ADD']=ADD
+import Record2 from './views/income/SpecialFunds/Record'
+mode['Record2']=Record2;
+import RecordDetailed from './views/income/SpecialFunds/RecordDetailed'
+mode['RecordDetailed']=RecordDetailed
 
 
 //工作台
@@ -132,6 +209,7 @@ import ad_select from './views/workbench/ad_select'
 mode['ad_select']=ad_select
 import ad_external_user from './views/workbench/ad_external_user'
 mode['ad_external_user']=ad_external_user
+
 
 
 
@@ -316,6 +394,43 @@ let nb = [
             {path:'/income/divided_management',name:'分成管理 ',component:mode['divided_management']},
             {path:'/income/returns_detailed',name:'分成成本管理 ',component:mode['returns_detailed']},
             {path:'/income/advertiser',name:'广告主收益明细 ',component:mode['advertiser']},
+            {path:'/income/Receivables/Administration',name:'收款结算 ',component:mode['Administration']},
+            {path:'/income/Receivables/ReceiverManagement',name:'收款方结算 ',component:mode['ReceiverManagement']},
+            {path:'/income/Receivables/ADDSettlement',name:'添加结算方',component:mode['ADDSettlement']},
+            {path:'/income/Receivables/SettlementDetails',name:'结算方详情',component:mode['SettlementDetails']},
+            {path:'/income/Receivables/establish',name:'新增结算',component:mode['establish']},
+            {path:'/income/Receivables/establish2',name:'新增结算2',component:mode['establish2']},
+            {path:'/income/Receivables/establish3',name:'新增结算3',component:mode['establish3']},
+            {path:'/income/Receivables/DetailsOfCollection',name:'收益结算详情',component:mode['DetailsOfCollection']},
+            {path:'/income/Receivables/DetailsOfCollection2',name:'收益结算详情2',component:mode['DetailsOfCollection2']},
+            {path:'/income/Receivables/DetailsOfCollection3',name:'收益结算详情2',component:mode['DetailsOfCollection3']},
+            {path:'/income/Receivables/ChangeRecord',name:'变更记录',component:mode['ChangeRecord']},
+            {path:'/income/Receivables/Record',name:'变更记录',component:mode['Record']},
+            {path:'/income/Receivables/DetailsSettlement',name:'结算方详情',component:mode['detailsSettlement']},
+            {path:'/income/AdvanceCharge/Administration',name:'预付款管理',component:mode['Administrations']},
+            {path:'/income/AdvanceCharge/YFdetails',name:'预付款详情',component:mode['YFdetails']},
+            {path:'/income/AdvanceCharge/change',name:'预付款变更详情',component:mode['change']},
+            {path:'/income/AdvanceCharge/ADD',name:'添加记录',component:mode['ADD']},
+
+            {path:'/income/payment/Administration',name:'收款结算 ',component:mode['FKAdministration']},
+            {path:'/income/payment/ReceiverManagement',name:'收款方结算 ',component:mode['FKReceiverManagement']},
+            {path:'/income/payment/ADDSettlement',name:'添加结算方',component:mode['FKADDSettlement']},
+            {path:'/income/payment/SettlementDetails',name:'结算方详情',component:mode['FKSettlementDetails']},
+            {path:'/income/payment/establish',name:'新增结算',component:mode['FKestablish']},
+            {path:'/income/payment/establish2',name:'新增结算2',component:mode['FKestablish2']},
+            {path:'/income/payment/establish3',name:'新增结算3',component:mode['FKestablish3']},
+            {path:'/income/payment/DetailsOfCollection',name:'收益结算详情',component:mode['FKDetailsOfCollection']},
+            {path:'/income/payment/DetailsOfCollection2',name:'收益结算详情2',component:mode['FKDetailsOfCollection2']},
+            {path:'/income/payment/DetailsOfCollection3',name:'收益结算详情2',component:mode['FKDetailsOfCollection3']},
+            {path:'/income/payment/ChangeRecord',name:'变更记录',component:mode['FKChangeRecord']},
+            {path:'/income/payment/Record',name:'变更记录',component:mode['FKRecord']},
+            {path:'/income/payment/DetailsSettlement',name:'结算方详情',component:mode['FKdetailsSettlement']},
+            {path:'/income/SpecialFunds/SpecialFunds_Administration',name:'特殊款管理',component:mode['SFAdministration']},
+            {path:'/income/SpecialFunds/ADDspecial',name:'特殊款管理',component:mode['ADDspecial']},
+            {path:'/income/SpecialFunds/special_edit',name:'特殊款详情',component:mode['special_edit']},
+            {path:'/income/SpecialFunds/AddEdit',name:'添加特殊款',component:mode['AddEdit']},
+            {path:'/income/SpecialFunds/Record',name:'特殊款变更列表',component:mode['Record2']},
+            {path:'/income/SpecialFunds/RecordDetailed',name:'特殊款变更列表详情',component:mode['RecordDetailed']},
 
 
         ]},
@@ -372,7 +487,7 @@ router.addRoutes(nb);
 /*动态生成左边菜单*/
 
 let leftNav =
-	localStorage.getItem('letNav');
+ localStorage.getItem('letNav');
 // 	[
 // 	{title:'素材中心',default:'/admin',defaultopen:['1'],
 // 	children:[
@@ -458,10 +573,17 @@ let leftNav =
 //                     {title:'设计师成本管理',url:'/income/cost_management'}
 //                 ]},
 //             {title:'结算管理',url:'3',img:'&#xe60d;',list:[
-//                    {title:'设计师结算管理',url:'/income/settlement'}
-//                 ]},
+//                    {title:'设计师结算管理',url:'/income/settlement'},
+// 					{title:'收款结算',url:'/income/Receivables/Administration'},
+//                     {title:'付款结算',url:'/income/payment/Administration'},
+//                     {title:'预付款管理',url:'/income/AdvanceCharge/Administration'},
+//                     {title:'特殊款管理',url:'/income/SpecialFunds/SpecialFunds_Administration'},
+//                 ]
+// 			},
 //         ]
 //         },
+//
+//
 //         {title:'主题中心',default:'/ThemeCenter',defaultopen:['1'],
 //             children:[
 //                 {title:'数据中心',url:'1',img:'&#xe612;',list:[

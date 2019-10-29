@@ -34,7 +34,7 @@ const sendApiInstance = (method, url, params, config = {},isType={}) => {
 	if(!url){return}		
 	let instance = createApiInstance(config);
 	instance.interceptors.response.use(response => {
-		let {status, message, data} = response.data;
+		let {status, message, data, code} = response.data;
 		if(status==true){
 			if(isType.suktip){
 				Message({message: '操作成功',type: 'success'});
@@ -42,7 +42,10 @@ const sendApiInstance = (method, url, params, config = {},isType={}) => {
 			if(isType.reload){	
 				location.reload();	
 			}
-			return data
+			if(code!=0){
+				return false;
+			}
+			return data;
 		}else{
 			Message({dangerouslyUseHTMLString:true,message: message});
 		}
