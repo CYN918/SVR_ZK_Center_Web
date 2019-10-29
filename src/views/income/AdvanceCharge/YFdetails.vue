@@ -115,6 +115,8 @@
                     path:"./change",
                     query:{
                         prid:id,
+                        name:this.$route.query.name,
+                        is_receiver:this.$route.query.is_receiver,
                     }
                 })
             },

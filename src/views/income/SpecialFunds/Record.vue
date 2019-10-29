@@ -2,7 +2,7 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="jump()">特殊款项&nbsp;/</span>
+                <span class="log_url" @click="jump()">特殊款项&nbsp;/&nbsp;</span>
                 <span class="log_url" @click="jumps()">特殊款项详情&nbsp;/</span>
                 <span class="new_url">&nbsp;变更记录</span>
             </div>

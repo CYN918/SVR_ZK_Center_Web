@@ -3,8 +3,10 @@
         <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="jump()">付款结算&nbsp;/</span>
-                <span class="log_url" @click="jumps()">&nbsp;付款结算方管理&nbsp;/</span>
-                <span class="new_url">&nbsp;添加结算方</span>
+                <span class="log_url" @click="jumps()">&nbsp;付款结算方管理&nbsp;/&nbsp;</span>
+                <!--<span class="new_url">&nbsp;添加结算方</span>-->
+                <span v-if="this.$route.query.name==undefined" class="new_url">添加结算方</span>
+                <span v-if="this.$route.query.name!=undefined" class="new_url">编辑结算方</span>
             </div>
             <div class="title_left">
                 <span v-if="this.$route.query.name==undefined">添加结算方</span>

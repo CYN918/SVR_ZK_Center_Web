@@ -3,7 +3,7 @@
         <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="jump()">预付款管理&nbsp;/</span>
-                <span class="log_url" @click="fh()">预付款详情界面&nbsp;/</span>
+                <span class="log_url" @click="fh()">&nbsp;{{this.$route.query.is_receiver==1?'收款结算预付款详情':'付款结算预付款详情'}}&nbsp;/</span>
                 <span class="new_url">&nbsp;添加变更记录</span>
             </div>
         </div>
