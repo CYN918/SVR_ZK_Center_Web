@@ -36,7 +36,7 @@
             <div v-if="data.status==1">
                 <span class="nameTit">附件</span>
                 <div>
-                    <div v-for="item in data.check.attachs">
+                    <div v-for="item in data.history_attachs">
                         <span  class="cont">{{item.name}}}</span>
                         <span>查看</span>
                         <a :href="item.url">下载</a>
@@ -54,7 +54,7 @@
             <div v-if="data.status==2">
                 <span class="nameTit">附件</span>
                 <div>
-                    <div v-for="item in data.invoice.attachs">
+                    <div v-for="item in data.history_attachs">
                         <span  class="cont">{{item.name}}}</span>
                         <span>查看</span>
                         <a :href="item.url">下载</a>
@@ -76,7 +76,7 @@
             <div v-if="data.status==3">
                 <span class="nameTit">附件</span>
                 <div style="display: inline-block">
-                    <div v-for="item in data.remit.attachs">
+                    <div v-for="item in data.history_attachs">
                         <span  class="cont">{{item.name}}</span>
                         <span class="ck">查看</span>
                         <a :href="item.url" class="xz">下载</a>

@@ -22,10 +22,10 @@
                     >
                     </el-date-picker>
                 </div>
-                <div class="seach">
-                    <img src="../../../../public/img/ss.png">
-                    <input type="text" placeholder="搜索结算方名称" v-model="search">
-                </div>
+                <!--<div class="seach">-->
+                    <!--<img src="../../../../public/img/ss.png">-->
+                    <!--<input type="text" placeholder="搜索结算方名称" v-model="search">-->
+                <!--</div>-->
                 <span class="cx" @click="getData()">查询</span>
                 <span class="dc">导出</span>
             </div>
@@ -87,7 +87,7 @@
         methods:{
 
             getData(){
-                let params={id:this.$route.query.id,search:this.search,p:this.p,page:this.page,tstart:this.time[0],tend:this.time[1]};
+                let params={smid:this.$route.query.smid,search:this.search,p:this.p,page:this.page,tstart:this.time[0],tend:this.time[1]};
                 this.api.settle_special_history({params}).then((res)=>{
                     this.list=res.data;
                     this.total=res.total;
@@ -213,6 +213,7 @@
         background: #3377ff!important;
         border: none!important;
         margin-right: 23px;
+        margin-left: 24px;
     }
     .table{
         margin-top: 235px;
