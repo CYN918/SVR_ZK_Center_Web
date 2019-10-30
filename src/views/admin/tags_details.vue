@@ -130,7 +130,7 @@
                                 label="操作"
                         >
                             <template slot-scope="props">
-                               
+
                                 <el-button type="text" @click=" delTag(tableData2[props.$index].id)">删除</el-button>
                             </template>
                         </el-table-column>
