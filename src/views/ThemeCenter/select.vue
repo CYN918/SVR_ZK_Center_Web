@@ -363,7 +363,7 @@
     .content{
         position: absolute;
         width:1416px;
-        height:912px;
+        height:780px;
         background:rgba(255,255,255,1);
         border-radius:4px;
         top:-140px;

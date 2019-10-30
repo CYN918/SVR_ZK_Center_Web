@@ -74,7 +74,7 @@
                                     label="操作"
                             >
                                 <template slot-scope="props">
-                                    <el-button type="text">管理</el-button>
+
                                     <el-button type="text" @click=" delTag(tableData[props.$index].id)">删除</el-button>
                                 </template>
                             </el-table-column>
@@ -102,7 +102,7 @@
                                     label="操作"
                             >
                                 <template slot-scope="props">
-                                    <el-button type="text">管理</el-button>
+
                                     <el-button type="text" @click=" delTag(tableData1[props.$index].id)">删除</el-button>
                                 </template>
                             </el-table-column>
@@ -130,7 +130,7 @@
                                 label="操作"
                         >
                             <template slot-scope="props">
-                                <el-button type="text">管理</el-button>
+                               
                                 <el-button type="text" @click=" delTag(tableData2[props.$index].id)">删除</el-button>
                             </template>
                         </el-table-column>

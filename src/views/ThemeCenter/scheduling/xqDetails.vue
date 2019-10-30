@@ -3,9 +3,9 @@
         <thmSelect v-if="thm" @listData="listData"></thmSelect>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fhs">排期管理 &nbsp;/&nbsp;</span>
-                <span class="log_url" @click="fh">排期详情 &nbsp;/&nbsp;</span>
-                <span class="new_url">需求详情 &nbsp;</span>
+                <span class="log_url" @click="fhs">排期管理&nbsp;/&nbsp;</span>
+                <span class="log_url" @click="fh">排期详情&nbsp;/&nbsp;</span>
+                <span class="new_url">需求详情&nbsp;</span>
             </div>
             <div>
                 <span class="topName">需求详情</span>
@@ -97,7 +97,7 @@
                 </div>
                 <div class="box2_btn">
                     <span class="gx" @click="setData">更新</span>
-                    <span>取消</span>
+                    <span @click="fh()">取消</span>
                 </div>
             </div>
         </div>
@@ -238,6 +238,7 @@
                formData.append('type',this.type);
                formData.append('person',this.person);
                formData.append('account',this.account);
+               formData.append('channel',this.channel);
                formData.append('note',this.note);
                formData.append('thid',this.thid);
                formData.append('ch_thid',this.ch_thid);

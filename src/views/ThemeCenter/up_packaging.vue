@@ -269,6 +269,7 @@
                 this.api.themes_package_add(formData).then((res)=>{
                     this.$emit('dataUp',this.main_preview,this.listSC,this.types,res.pkgid);
                     this.qx();
+
                 })
             },
             getList(){
@@ -461,6 +462,7 @@
         height:240px;
         border:1px solid rgba(211,219,235,1);
         position: relative;
+        margin-bottom: 20px;
     }
     .img_box1_imgs{
         max-width:144px;

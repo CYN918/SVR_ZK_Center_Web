@@ -1011,6 +1011,10 @@ export default {
     themes_theme_materials:{
 		url:'themes/theme/materials',method:'get'
 	},
+	//主题相关打包件
+    themes_theme_packeges:{
+		url:"themes/theme/packeges",method:"get"
+	},
 	//新增上架渠道主题
     themes_theme_channel_add:{
 		url:'themes/theme/channel/add',method:'post',isType:{suktip:1}

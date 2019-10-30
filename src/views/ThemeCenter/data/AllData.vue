@@ -62,98 +62,98 @@
                         <el-table-column
                                 prop="tdate"
                                 label="日期"
-                                v-if="seach1==false"
+                                v-if="seach1==true"
                                 >
                         </el-table-column>
                         <el-table-column
                                 prop="theme_name"
                                 label="主题名称"
-                                v-if="seach2==false"
+                                v-if="seach2==true"
                                 >
                         </el-table-column>
                         <el-table-column
                                 prop=""
-                                v-if="seach3==false"
+                                v-if="seach3==true"
                                 label="厂商UI版本">
                         </el-table-column>
                         <el-table-column
                                 prop="channel"
-                                v-if="seach4==false"
+                                v-if="seach4==true"
                                 label="渠道">
                         </el-table-column>
                         <el-table-column
                                 prop="type"
-                                v-if="seach5==false"
+                                v-if="seach5==true"
                                 label="主题类型">
                         </el-table-column>
                         <el-table-column
                                 prop="class"
-                                v-if="seach6==false"
+                                v-if="seach6==true"
                                 label="内容分类">
                         </el-table-column>
                         <el-table-column
                                 prop="price"
-                                v-if="seach7==false"
+                                v-if="seach7==true"
                                 label="单价">
                         </el-table-column>
                         <el-table-column
                             prop="cost_channel"
-                            v-if="seach8==false"
+                            v-if="seach8==true"
                             label="渠道成本费">
                         </el-table-column>
                         <el-table-column
                                 prop="click"
-                                v-if="seach9==false"
+                                v-if="seach9==true"
                                 label="点击量">
                         </el-table-column>
                         <el-table-column
                                 prop="bad_debt"
-                                v-if="seach10==false"
+                                v-if="seach10==true"
                                 label="坏账">
                         </el-table-column>
                         <el-table-column
                                 prop="download"
-                                v-if="seach11==false"
+                                v-if="seach11==true"
                                 label="下载量">
                         </el-table-column>
                         <el-table-column
                                 prop="sales"
-                                v-if="seach12==false"
+                                v-if="seach12==true"
                                 label="销售量">
                         </el-table-column>
                         <el-table-column
                                 prop="tax"
-                                v-if="seach13==false"
+                                v-if="seach13==true"
                                 label="扣税费">
                         </el-table-column>
                         <el-table-column
                                 prop="sales_amount"
-                                v-if="seach14==false"
+                                v-if="seach14==true"
                                 label="销售额">
                         </el-table-column>
                         <el-table-column
                                 prop="cvr"
-                                v-if="seach15==false"
+                                v-if="seach15==true"
                                 label="转化率">
                         </el-table-column>
                         <el-table-column
                                 prop="ctr"
-                                v-if="seach16==false"
+                                v-if="seach16==true"
                                 label="点击率">
                         </el-table-column>
                         <el-table-column
                                 prop=""
-                                v-if="seach17==false"
+                                v-if="seach17==true"
                                 label="设计师成本费">
                         </el-table-column>
                         <el-table-column
                                 prop=""
-                                v-if="seach18==false"
+                                v-if="seach18==true"
                                 label="利润">
                         </el-table-column>
                         <el-table-column
                                 prop="note"
-                                v-if="seach19==false"
+                                v-if="seach19==true"
                                 label="备注">
                         </el-table-column>
                     </el-table>
@@ -260,29 +260,29 @@
                 page:1,
                 total:0,
                 selectBox:false,
-                seachName:false,
-                seachChannel:false,
-                seachType:false,
-                seachClassName:false,
-                seach1:false,
-                seach2:false,
-                seach3:false,
-                seach4:false,
-                seach5:false,
-                seach6:false,
-                seach7:false,
-                seach8:false,
-                seach9:false,
-                seach10:false,
-                seach11:false,
-                seach12:false,
-                seach13:false,
-                seach14:false,
-                seach15:false,
-                seach16:false,
-                seach17:false,
-                seach18:false,
-                seach19:false,
+                seachName:true,
+                seachChannel:true,
+                seachType:true,
+                seachClassName:true,
+                seach1:true,
+                seach2:true,
+                seach3:true,
+                seach4:true,
+                seach5:true,
+                seach6:true,
+                seach7:true,
+                seach8:true,
+                seach9:true,
+                seach10:true,
+                seach11:true,
+                seach12:true,
+                seach13:true,
+                seach14:true,
+                seach15:true,
+                seach16:true,
+                seach17:true,
+                seach18:true,
+                seach19:true,
             }
         },
         mounted(){
@@ -492,7 +492,7 @@
     }
     .select{
         width:588px;
-        height:500px;
+        min-height:548px;
         background:rgba(255,255,255,1);
         border-radius:4px;
         position: absolute;

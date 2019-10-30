@@ -15,7 +15,7 @@
                 <div class="polling_tag">
                     <span class="tag_name">内容标签</span>
                     <span class="labelName"  @click="getListTag('')" :class="{active:listTag.length==0}">全部</span>
-                    <div class="tags" :class="{ALLtags:this.class==true}">
+                    <div class="tags" :class="{ALLtags:class0==true}">
                         <span v-for="(item,index) in preset_tags" class="labelName" @click="getListTag(item.name,index)" :class="{active:listTag.indexOf(item.name)!=-1}">{{item.name}}</span>
                     </div>
                     <span class="unfold" v-if="isType==0" @click="expansion">展开</span>
@@ -26,7 +26,7 @@
                 <div class="polling_tag">
                     <span class="tag_name">运营标签</span>
                     <span class="labelName" @click="getListTags('')" :class="{active:listTagData.length==0}">全部</span>
-                    <div class="tags" :class="{ALLtags:this.class1==true}">
+                    <div class="tags" :class="{ALLtags:class1==true}">
                         <span v-for="(item,index) in self_tags" class="labelName" @click="getListTags(item.desc,index)" :class="{active:listTagData.indexOf(item.desc)!=-1}">{{item.desc}}</span>
                     </div>
                     <span class="unfold" v-if="isTypes==0" @click="expansionTag">展开</span>
@@ -87,7 +87,7 @@
                         <img :src="item.main_preview" style="height: 100%;width: 100%" @click="xq(themeChannel.channel,item.thid)">
                         <div class="select_type">
                             <!--<span v-if="item.channel_themes.length==0">本地</span>-->
-                            <span v-if="item.channel_themes.length!=0">{{themeChannel.channel_name}}</span>
+                            <span>{{themeChannel.channel_name}}</span>
                             <img src="../../../public/img/zk.png" style="width: 9px;height: 5px" />
                             <div class="select_con">
                                 <el-radio-group v-model="radio" class="radio" @change="getData()">
@@ -142,7 +142,7 @@
                 self_tags:[],
                 listTag:[],
                 listTagData:[],
-                class:false,
+                class0:false,
                 class1:false,
                 dataList:[],
                 themeChannel:{
@@ -208,7 +208,7 @@
                         }
                     }
                 }
-                this.getList()
+                // this.getList();
             },
             getListTags(name){
                 if(name==''){
@@ -227,7 +227,7 @@
                         }
                     }
                 }
-                this.getList()
+                // this.getList()
             },
             themeType(){
                 this.api.themes_config_theme_type().then((res)=>{
@@ -261,22 +261,24 @@
             },
             expansion(){
                 if(this.isType==0){
-                    this.isType=1
-                    this.class==true
+                    this.isType=1;
+                    this.class0=true
                 }else{
-                    this.isType=0
-                    this.class==false
+                    this.isType=0;
+                    this.class0=false
                 }
 
             },
             expansionTag(){
+
                 if(this.isTypes==0){
-                    this.isTypes=1
-                    this.class1==true
+                    this.isTypes=1;
+                    this.class1=true
                 }else{
-                    this.isTypes=0
-                    this.class1==false
+                    this.isTypes=0;
+                    this.class1=false
                 }
+
             },
             upTheme(){
                 this.$router.push({
@@ -326,19 +328,20 @@
     }
     .polling_tag{
         margin-left: 24px;
-        height: 60px;
+        min-height: 60px;
         margin-right: 22px;
         border-bottom: 1px dashed #E6E9F0;
     }
     .tags{
         display: inline-block;
         max-width: 1090px;
-        max-height: 50px!important;
+        height: 45px;
         overflow: hidden;
-       margin-top: 7px;
+        margin-top: 7px;
+        margin-bottom: 5px;
     }
     .ALLtags{
-        max-height: 100%!important;
+        height: 100%!important;
     }
     .tag_name{
         display: inline-block;

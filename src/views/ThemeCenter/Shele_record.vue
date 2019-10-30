@@ -62,6 +62,9 @@
                             <div style="margin-bottom: 3px">
                                 <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(143,155,179,1);">支持扩展名：.rar .zip .doc .docx .pdf .jpg...</span>
                             </div>
+                            <div style="margin-bottom: 3px">
+                                <span>{{attach.name}}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -73,7 +76,7 @@
                     <span>上架账号</span>
                     <select style="margin-right: 24px" v-model="account">
                         <option value="" disabled="disabled">请选择上架该主题的账号信息</option>
-                        <option :value="item.range" v-for="item in range">{{item.range}}</option>
+                        <option :value="item.account" v-for="item in range">{{item.account}}</option>
                     </select>
                 </div>
                 <div>
@@ -82,7 +85,7 @@
                 </div>
                 <div>
                     <span>上架单价</span>
-                    <input type="number" placeholder="请输入上架价格" v-model="price"  >
+                    <input type="number" placeholder="请输入上架价格" v-model="price">
                 </div>
                 <div>
                     <span>上架时间</span>
@@ -90,8 +93,8 @@
                             v-model="tdate"
                             type="date"
                             placeholder="选择日期"
-                            format="yyyy-mm-dd"
-                            value-format="yyyy-mm-dd">
+                            format="yyyy-MM-dd"
+                            value-format="yyyy-MM-dd">
                     </el-date-picker>
                 </div>
                 <div>
@@ -468,8 +471,8 @@
                     this.$message.error('需求数量不能为空');
                     return
                 }
-                if(this.price>99){
-                    this.$message.error('价格最大为99');
+                if(this.price>99.9){
+                    this.$message.error('价格最大为99.9');
                     return
                 }
                 if(this.price<=0){

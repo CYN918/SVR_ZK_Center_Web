@@ -1,5 +1,6 @@
 <template>
     <div>
+        <seePack v-if="packSee" :data="data"></seePack>
         <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="fh()">主题库 &nbsp;/</span>
@@ -55,11 +56,11 @@
                 <span class="titCon">{{this.tableData.note}}</span>
             </div>
             <div class="switcher">
-                <a href="#tabs0" :class="{click:isType==0}" @click="changeover('0')">预览图</a>
-                <a href="#tabs1" :class="{click:isType==1}" @click="changeover('1')">相关主题素材</a>
-                <a href="#tabs2" :class="{click:isType==2}" @click="changeover('2')">收益数据</a>
-                <a href="#tabs3" :class="{click:isType==3}" @click="changeover('3')">相关打包件</a>
-                <a href="#tabs4" :class="{click:isType==4}" @click="changeover('4')">相关合同</a>
+                <a href="#tabs0" :class="{clicks:isType==0}" @click="changeover('0')">预览图</a>
+                <a href="#tabs1" :class="{clicks:isType==1}" @click="changeover('1')">相关主题素材</a>
+                <a href="#tabs2" :class="{clicks:isType==2}" @click="changeover('2')">收益数据</a>
+                <a href="#tabs3" :class="{clicks:isType==3}" @click="changeover('3')">相关打包件</a>
+                <a href="#tabs4" :class="{clicks:isType==4}" @click="changeover('4')">相关合同</a>
             </div>
         </div>
         <div style="margin-top:24px">
@@ -136,8 +137,8 @@
                     <span class="nameID">相关打包</span>
                     <span class="derivation">{{this.$route.query.channel}}</span>
                 </div>
-                <div class="imgID">
-                    <img src="../../../public/img/IMG.png">
+                <div class="imgID" v-for="item in pack" @click="ckPACK(item)">
+                    <img :src="item.main_preview">
                 </div>
             </div>
             <div  class="preview" id="tabs5">
@@ -154,7 +155,9 @@
 </template>
 
 <script>
+    import seePack from './See_pack'
     export default {
+        components:{seePack},
         name: "theme-details",
         data(){
             return{
@@ -171,6 +174,9 @@
                 ui_version:"",
                 zyBb:[],
                 version:'',
+                pack:[],
+                packSee:false,
+                data:{},
             }
         },
         mounted(){
@@ -179,6 +185,13 @@
         methods:{
             selectBB(data){
                 this.ui_version=data;
+            },
+            ckPACK(data){
+                this.packSee=true;
+                this.data=data
+            },
+            gbPack(){
+                this.packSee=false;
             },
             fh(){
                 this.$router.go(-1);
@@ -211,7 +224,7 @@
                 })
             },
             getData(){
-                let params={thid:this.thid,ch_thid:this.ch_thid,channel:this.channel}
+                let params={thid:this.thid,ch_thid:this.ch_thid,channel:this.channel};
                 this.api.themes_theme_details({params}).then((res)=>{
                     this.tableData=res;
                     this.ui_version=this.tableData.ui_version;
@@ -231,7 +244,14 @@
                 let params={thid:this.thid,ch_thid:this.ch_thid,channel:this.channel}
                 this.api.themes_theme_materials({params}).then((res)=>{
                     this.sc=res;
+                    this.getPack();
                 })
+            },
+            getPack(){
+                let params={thid:this.thid,ch_thid:this.ch_thid,channel:this.channel}
+              this.api.themes_theme_packeges({params}).then((res)=>{
+                this.pack=res;
+              })
             },
             getThemeType(){
                 let params={channel:this.channel,ui_version:this.ui_version};
@@ -346,14 +366,14 @@
         padding-bottom: 10px;
         cursor: pointer;
     }
-    .click{
+    .clicks{
         font-weight:500!important;
         color:rgba(51,119,255,1)!important;
         border-bottom: 2px solid #3377FF;
     }
     .preview{
         width: 100%;
-        overflow-x: scroll;
+        overflow-x: auto;
         overflow-y: hidden;
         white-space:nowrap;
         min-height:425px;
@@ -393,6 +413,7 @@
         margin:24px;
         width:189px;
         height:315px;
+        background: #e3e7eb;
     }
     .imgID img{
         max-width:189px;

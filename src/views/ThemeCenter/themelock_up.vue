@@ -38,7 +38,11 @@
                                 <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(61,73,102,1);">上传附件</span>
                             </div>
                             <div style="margin-bottom: 3px">
-                                <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(143,155,179,1);">支持扩展名：.rar .zip</span>
+                                <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(143,155,179,1);" v-if="type!='th_advertise'">支持扩展名：.zip、.theme .gnz .zmtp</span>
+                                <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(143,155,179,1);" v-if="type=='th_advertise'">支持扩展名：.zip、jpg、png</span>
+                            </div>
+                            <div style="margin-bottom: 3px">
+                                <span>{{attach.name}}</span>
                             </div>
                         </div>
                     </div>
@@ -46,13 +50,13 @@
                 <div v-if="this.$route.query.thmid==undefined">
                     <span>使用范围</span>
                     <select class="fw" v-model="account" >
-                        <option v-for="item in AcctounsList" :value="item.account">{{item.account}}</option>
+                        <option v-for="item in AcctounsList" :value="item.range">{{item.range}}</option>
                     </select>
                 </div>
                 <div v-if="this.$route.query.thmid!=undefined">
                     <span>使用范围</span>
                     <select class="fw" v-model="account" disabled="disabled">
-                        <option v-for="item in AcctounsList" :value="item.account">{{item.account}}</option>
+                        <option v-for="item in AcctounsList" :value="item.range">{{item.range}}</option>
                     </select>
                 </div>
                 <div>

@@ -41,7 +41,6 @@
                                 multiple
                                 :limit="1"
                                 :on-remove="handleRemove"
-                                :on-exceed="handleExceed"
                         >
                             <el-button size="small" type="primary">点击上传</el-button>
                         </el-upload>
@@ -50,7 +49,10 @@
                                 <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(61,73,102,1);">上传附件</span>
                             </div>
                             <div style="margin-bottom: 3px">
-                                <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(143,155,179,1);">支持扩展名：.rar .zip</span>
+                                <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(143,155,179,1);">支持扩展名：.zip、.theme .gnz .zmtp</span>
+                            </div>
+                            <div style="margin-bottom: 3px">
+                                <span>{{attach.name}}</span>
                             </div>
                         </div>
                     </div>
@@ -82,22 +84,18 @@
                 <div>
                     <span>渠道</span>
                     <select style="margin-right: 40px" @change="getUI()" v-model="channel" v-if="pkgid==undefined">
-                        <option value="">全部</option>
                         <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
                     </select>
                     <select style="margin-right: 40px" @change="getUI()" disabled="disabled" v-model="channel" v-if="pkgid!=undefined">
-                        <option value="">全部</option>
                         <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
                     </select>
                 </div>
               <div>
                   <span>厂商UI版本</span>
                   <select style="margin-right: 68px" v-model="ui_version" v-if="pkgid==undefined">
-                      <option value="">全部</option>
                       <option v-for="item in ui" :value="item.version">{{item.version}}</option>
                   </select>
                   <select style="margin-right: 68px" v-model="ui_version" disabled="disabled" v-if="pkgid!=undefined">
-                      <option value="">全部</option>
                       <option v-for="item in ui" :value="item.version">{{item.version}}</option>
                   </select>
               </div>
@@ -130,7 +128,7 @@
                                 <span style="display: inline-block;font-size:12px;font-family:PingFangSC;font-weight:400;color:rgba(31,46,77,0.45);">封面预览图</span>
                             </div>
                         </div>
-                        <div v-if="pkgid==undefined">
+                        <div>
                             <el-upload
                                     class="upload"
                                     action="https://jsonplaceholder.typicode.com/posts/"
@@ -141,9 +139,6 @@
                             >
                                 <el-button size="small" type="primary">点击上传</el-button>
                             </el-upload>
-                        </div>
-                        <div v-if="this.pkgid!=undefined">
-
                         </div>
                     </div>
                     <div class="imgCanvas" v-for="item in pic">
@@ -700,6 +695,7 @@
         background:rgba(0,0,0,0.05);
         border:1px dashed rgba(0,0,0,0.15);
         text-align: center;
+        margin-bottom:15px;
     }
     .icon{
         text-align: center;
@@ -725,6 +721,7 @@
         height:240px;
         margin-right: 20px;
         border: 1px solid #ddd;
+        margin-bottom:15px;
     }
     .sc{
         max-width:144px;

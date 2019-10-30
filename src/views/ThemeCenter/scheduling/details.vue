@@ -2,7 +2,7 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh()">排期管理 &nbsp;/&nbsp;</span>
+                <span class="log_url" @click="fh()">排期管理&nbsp;/&nbsp;</span>
                 <span class="new_url">排期详情</span>
             </div>
             <div>
@@ -37,15 +37,15 @@
                    </div>
                     <div>
                         <span class="qdNmae">渠道</span>
-                        <span>{{da.channel_name==''?'本地':da.channel_name}}</span>
+                        <span  class="qdxq">{{da.channel_name==''?'本地':da.channel_name}}</span>
                     </div>
                     <div>
                         <span class="qdNmae">状态</span>
-                        <span>{{da.status==0?'待打包':'已上架'}}</span>
+                        <span  class="qdxq">{{da.status==0?'待打包':'已上架'}}</span>
                     </div>
                     <div>
                         <span class="qdNmae">处理人</span>
-                        <span>{{da.creator}}</span>
+                        <span  class="qdxq">{{da.creator}}</span>
                     </div>
                     <div>
                         <span class="xq" @click="CkDetails(da)">查看详情</span>
@@ -54,7 +54,7 @@
                 <div>
                     <div class="ADDtime" @click="AddXQ(item.cycle_id)">
                         <img src="../../../../public/img/add_msg.png">
-                        <span>添加需求</span>
+                        <span  class="qdxq">添加需求</span>
                     </div>
                 </div>
 

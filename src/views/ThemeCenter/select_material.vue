@@ -227,7 +227,7 @@
     .content{
         position: absolute;
         width:1416px;
-        height:912px;
+        height:780px;
         background:rgba(255,255,255,1);
         border-radius:4px;
         top:-122px;
@@ -421,6 +421,8 @@
         width: 189px;
         height: 349px;
         margin-right: 44px;
+        margin-bottom: 20px;
+        background: #e3e7ef;
     }
     .box_top{
         position: relative;

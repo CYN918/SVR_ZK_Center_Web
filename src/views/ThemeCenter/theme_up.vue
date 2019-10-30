@@ -3,9 +3,9 @@
         <sel v-if="sel" @linet="linet"></sel>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh()">主题库 &nbsp;/</span>
-                <span class="new_url" v-if="this.$route.query.thid==undefined"> &nbsp;上传本地主题</span>
-                <span class="new_url" v-if="this.$route.query.thid!=undefined"> &nbsp;编辑本地主题</span>
+                <span class="log_url" @click="fh()">主题库&nbsp;/</span>
+                <span class="new_url" v-if="this.$route.query.thid==undefined">&nbsp;上传本地主题</span>
+                <span class="new_url" v-if="this.$route.query.thid!=undefined">&nbsp;编辑本地主题</span>
             </div>
             <div class="tit_top_con">
                 <span class="tit_name" v-if="this.$route.query.thid==undefined">上传本地主题</span>
@@ -21,7 +21,7 @@
                 </div>
                 <div style="margin-bottom: 0">
                     <span >主题包</span>
-                    <div style="display: inline-block">
+                    <div style="display: inline-block;vertical-align: top">
                         <div class="upBag">
                             <img src="../../../public/img/upbag.png"/>
                         </div>
@@ -41,7 +41,10 @@
                                 <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(61,73,102,1);">上传主题包</span>
                             </div>
                             <div style="margin-bottom: 3px">
-                                <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(143,155,179,1);">支持扩展名：.rar .zip .doc .docx .pdf .jpg...</span>
+                                <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(143,155,179,1);">支持扩展名：.zip、jpg、png、zip</span>
+                            </div>
+                            <div style="margin-bottom: 3px">
+                                <span>{{attach.name}}</span>
                             </div>
                         </div>
                     </div>
@@ -133,7 +136,7 @@
                     </div>
                     <div class="imgCanvas" v-for="item in pic">
                         <img class="dels" src="../../../public/img/del.png" style="width: 16px" v-if="item!=main_preview" @click="Delete(item)">
-                        <img src="../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;left:121px;top:0px;z-index: 99" v-if="item==main_preview">
+                        <img src="../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;left:96px;top:0px;z-index: 99" v-if="item==main_preview">
                         <img :src="item" class="sc">
                         <div class="sz" @click="fm(item)">
                             <span>设置为封面</span>
@@ -461,7 +464,7 @@
     .upBag{
         display: inline-block;
         position: relative;
-        top:-19px;
+        top:-24px;
         width:98px;
         height:98px;
         background:rgba(0,0,0,0.02);
@@ -486,7 +489,7 @@
         height:98px;
         position: absolute;
         top:87px;
-        left: 135px;
+        left: 125px;
         opacity: 0;
     }
     .tag_box{
@@ -523,8 +526,9 @@
         cursor: pointer;
     }
     .img_box{
-        margin-left: 85px;
+        margin-left: 123px;
         margin-top: 20px;
+
     }
     .img_box1{
         display: inline-block;
@@ -534,6 +538,7 @@
         border:1px solid rgba(211,219,235,1);
         position: relative;
         vertical-align: top;
+        margin-bottom: 20px;
     }
     .img_box1_imgs{
         max-width:144px;
@@ -609,6 +614,7 @@
         background:rgba(0,0,0,0.05);
         border:1px dashed rgba(0,0,0,0.15);
         text-align: center;
+        margin-bottom: 20px;
     }
     .icon{
         text-align: center;
@@ -631,7 +637,9 @@
         width:144px;
         height:240px;
         margin-right: 20px;
+        margin-bottom: 20px;
         vertical-align: top;
+        background: #e3e7eb;
     }
     .sc{
         position: absolute;

@@ -30,8 +30,6 @@
                     <option value="">全部</option>
                     <option v-for="item in ui" :value="item.version">{{item.version}}</option>
                 </select>
-                <span class="seachSelect">状态</span>
-
                 <span class="cx" @click="dataList()">查询</span>
             </div>
         </div>

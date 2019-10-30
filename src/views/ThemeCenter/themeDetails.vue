@@ -321,7 +321,7 @@
     }
     .preview{
         width: 100%;
-        overflow-x: scroll;
+        overflow-x: auto;
         overflow-y: hidden;
         white-space:nowrap;
         min-height:425px;
@@ -363,6 +363,7 @@
         width:189px;
         height:315px;
         vertical-align: top;
+        background: #e3e7eb;
     }
     .imgID img{
         max-width:189px;

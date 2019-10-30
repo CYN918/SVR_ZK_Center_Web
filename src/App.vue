@@ -874,4 +874,7 @@ select{
   .fill .uplaod .upload-demo .el-upload-list__item {
     display: none;
   }
+  .themeUpLeft .el-upload-list__item {
+    display: none;
+  }
 </style>

@@ -2,9 +2,9 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fhs">排期管理 &nbsp;/&nbsp;</span>
-                <span class="log_url"  @click="fh">主题排期详情 &nbsp;/&nbsp;</span>
-                <span class="new_url">添加需求卡片 &nbsp;</span>
+                <span class="log_url" @click="fhs">排期管理&nbsp;/&nbsp;</span>
+                <span class="log_url"  @click="fh">主题排期详情&nbsp;/&nbsp;</span>
+                <span class="new_url">添加需求卡片&nbsp;</span>
             </div>
             <div>
                 <span class="topName">添加需求卡片</span>
@@ -180,32 +180,31 @@
                 })
             },
             addData(){
-                if(!this.name){
-                    this.$message.error('名称不能为空')
-                    return
-                }
-                if(!this.type){
-                    this.$message.error('类型不能为空')
-                    return
-                }
-                if(!this.channel){
-                    this.$message.error('渠道不能为空')
-                    return
-                }
-                if(!this.account){
-                    this.$message.error('上架账号不能为空')
-                    return
-                }
-                if(!this.person){
-                    this.$message.error('责任人不能为空')
-                    return
-                }
-                if(!this.note){
-                    this.$message.error('备注说明不能为空')
-                    return
-                }
-
                 for(var i=0;i<this.imgs.length;i++){
+                    if(this.name[i]===''){
+                        this.$message.error('名称不能为空')
+                        return
+                    }
+                    if(this.zzType[i]===''){
+                        this.$message.error('类型不能为空')
+                        return
+                    }
+                    if(this.Makechannel[i]===''){
+                        this.$message.error('渠道不能为空')
+                        return
+                    }
+                    if(this.zh[i]===''){
+                        this.$message.error('上架账号不能为空')
+                        return
+                    }
+                    if(this.person[i]===''){
+                        this.$message.error('责任人不能为空')
+                        return
+                    }
+                    if(this.note[i]===''){
+                        this.$message.error('备注说明不能为空')
+                        return
+                    }
                     let formData=new FormData;
                     formData.append('name',this.name[i]);
                     formData.append('schedule_id',this.$route.query.schedule_id);
