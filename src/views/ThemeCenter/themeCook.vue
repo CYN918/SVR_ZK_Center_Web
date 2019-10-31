@@ -82,7 +82,7 @@
                 </div>
             </div>
             <div>
-                <div class="phone" v-for="item in this.dataList">
+                <div class="phone" v-for="(item,index) in this.dataList">
                     <div style="width:189px;height:315px;">
                         <img :src="item.main_preview" style="height: 100%;width: 100%" @click="xq(themeChannel.channel,item.thid)">
                         <div class="select_type">
@@ -448,6 +448,9 @@
        margin-right: 40px;
         margin-bottom: 30px;
     }
+    .phone:hover{
+        box-shadow: 3px 3px 5px #e3e7ef;
+    }
     .select_type span{
         display: inline-block;
         font-size:12px;
@@ -461,13 +464,13 @@
     }
     .select_con{
         width:189px;
-        height:207px;
+        min-height:45px;
         background:rgba(28,28,28,1);
-        border-radius:4px;
+        border-radius:0px;
         opacity: 0;
-        position: relative;
+        position: absolute;
         left: 0;
-        bottom: 233px;
+        bottom: 34px;
     }
     .select_con input{
         width: 16px;

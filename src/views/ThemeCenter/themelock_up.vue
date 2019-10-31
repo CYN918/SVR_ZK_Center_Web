@@ -18,7 +18,7 @@
                 </div>
                 <div style="margin-bottom: 0">
                     <span >附件</span>
-                    <div style="display: inline-block">
+                    <div style="display: inline-block" v-if="this.type!='th_advertise'">
                         <div class="upBag">
                             <img src="../../../public/img/upbag.png"/>
                         </div>
@@ -30,6 +30,7 @@
                                 :limit="1"
                                 :on-remove="handleRemove"
                                 :on-exceed="handleExceed"
+                                :before-upload="beforeAvatarUploads"
                                 >
                             <el-button size="small" type="primary">点击上传</el-button>
                         </el-upload>
@@ -43,7 +44,39 @@
                             </div>
                             <div style="margin-bottom: 3px">
                                 <span>{{attach.name}}</span>
+                                <span class="content_xz" @click="dels()" v-if="this.attach.name!=undefined">删除</span>
                             </div>
+                            <el-progress :percentage="this.times" v-if="up"></el-progress>
+                        </div>
+                    </div>
+                    <div style="display: inline-block" v-if="this.type=='th_advertise'">
+                        <div class="upBag">
+                            <img src="../../../public/img/upbag.png"/>
+                        </div>
+                        <el-upload
+                                class="upload-demo"
+                                action="222"
+                                :http-request="upLoad"
+                                multiple
+                                :limit="1"
+                                :on-remove="handleRemove"
+                                :on-exceed="handleExceed"
+                        >
+                            <el-button size="small" type="primary">点击上传</el-button>
+                        </el-upload>
+                        <div style="display: inline-block">
+                            <div style="margin-bottom: 3px;margin-top:3px ">
+                                <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(61,73,102,1);">上传附件</span>
+                            </div>
+                            <div style="margin-bottom: 3px">
+                                <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(143,155,179,1);" v-if="type!='th_advertise'">支持扩展名：.zip、.theme .gnz .zmtp</span>
+                                <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(143,155,179,1);" v-if="type=='th_advertise'">支持扩展名：.zip、jpg、png</span>
+                            </div>
+                            <div style="margin-bottom: 3px">
+                                <span>{{attach.name}}</span>
+                                <span class="content_xz" @click="dels()" v-if="this.attach.name!=undefined">删除</span>
+                            </div>
+                            <el-progress :percentage="this.times" v-if="up"></el-progress>
                         </div>
                     </div>
                 </div>
@@ -201,6 +234,8 @@
                 scID:[],
                 IMGList:[],
                 listSC:[],
+                up:false,
+                times:0,
             }
         },
         mounted(){
@@ -247,6 +282,16 @@
                 this.api.themes_material_materials({params}).then((res)=>{
                     this.listSC=res;
                 })
+            },
+            beforeAvatarUploads(file) {
+                this.file = file;
+                console.log(this.file)
+                const isXzip = file.type === 'application/x-zip-compressed';
+                const iszip = file.type === 'application/zip';
+                if (!(isXzip||iszip)) {
+                    this.$message.error('只支持ZIP格式!');
+                }
+                return isXzip||iszip;
             },
             getList(){
                 let params ={page:1,p:100000,};
@@ -317,11 +362,30 @@
             handlePreview(file) {
                 console.log(file);
             },
+            dels(){
+                this.attach={};
+            },
+            scope(){
+                var _this=this;
+                _this.times=0;
+                var timer = setInterval(function () {
+                    if(_this.times<99){
+                        _this.times++
+                    }
+                },100);
+            },
             upLoad(file){
+                this.up=true;
+                this.times=0;
+                ++this.fcounter;
+                this.scope();
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
                     this.attach=res;
+                    this.times=100;
+                    --this.fcounter;
+                    this.up=false;
                 })
             },
             upYl(file){

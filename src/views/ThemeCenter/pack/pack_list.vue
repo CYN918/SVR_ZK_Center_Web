@@ -313,6 +313,9 @@
         margin-right: 40px;
         margin-bottom: 24px;
     }
+    .box:hover{
+        box-shadow: 3px 3px 5px #e3e7ef;
+    }
     .boxImgs{
         width: 189px;
         height: 315px;

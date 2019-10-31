@@ -360,10 +360,9 @@
                     formData.append('size',this.sjSize);
                     formData.append('is_bind_mid',1);
                     this.api.demand_add_material(formData).then((res)=>{
-                        if(res!=undefined){
+                        if(res!=false){
                             this.$parent.heidAddSC();
                             this.$parent.getscR();
-                            // this.getTagsList();
                         }
 
                     })

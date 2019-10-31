@@ -1,7 +1,7 @@
 <template>
     <div>
         <seePack v-if="packSee" :data="data"></seePack>
-        <div class="top">
+        <div class="top" >
             <div class="tit_top_url">
                 <span class="log_url" @click="fh()">主题库 &nbsp;/</span>
                 <span class="log_url"> &nbsp;主题详情</span>
@@ -14,6 +14,9 @@
             <div>
                 <span class="zy" style="margin-right: 18px">资源版本号</span>
                 <span class="uiName" v-for="item in zyBb"  :class="{click:version==item.version}" >{{item.version}}</span>
+            </div>
+            <div style="height: 100%;position: absolute;width: 300px;top:1px;right: 175px">
+                <img :src="bg"/>
             </div>
         </div>
         <div style="margin-top: 250px;background: #fff;height:266px;padding:0 24px">
@@ -177,6 +180,7 @@
                 pack:[],
                 packSee:false,
                 data:{},
+                bg:"",
             }
         },
         mounted(){
@@ -223,6 +227,16 @@
                     }
                 })
             },
+            qd(){
+                this.api.themes_config_channel().then((res)=>{
+                    // this.$route.query.channel
+                    for(var i=0;i<res.length;i++){
+                        if((this.$route.query.channel)==res[i].channel){
+                            this.bg=res[i].icon
+                        }
+                    }
+                })
+            },
             getData(){
                 let params={thid:this.thid,ch_thid:this.ch_thid,channel:this.channel};
                 this.api.themes_theme_details({params}).then((res)=>{
@@ -231,6 +245,7 @@
                     this.version=this.tableData.version;
                     this.getsc();
                     this.getUI();
+                    this.qd();
                 })
             },
             getUI(){
@@ -241,14 +256,14 @@
                 })
             },
             getsc(){
-                let params={thid:this.thid,ch_thid:this.ch_thid,channel:this.channel}
+                let params={thid:this.thid,ch_thid:this.ch_thid,channel:this.channel};
                 this.api.themes_theme_materials({params}).then((res)=>{
                     this.sc=res;
                     this.getPack();
                 })
             },
             getPack(){
-                let params={thid:this.thid,ch_thid:this.ch_thid,channel:this.channel}
+                let params={thid:this.thid,ch_thid:this.ch_thid,channel:this.channel};
               this.api.themes_theme_packeges({params}).then((res)=>{
                 this.pack=res;
               })
@@ -265,7 +280,7 @@
 
 <style scoped>
     .top{
-        width: 100%;
+        width: 90%;
         height:160px;
         background: rgba(255,255,255,1);
         position: fixed;

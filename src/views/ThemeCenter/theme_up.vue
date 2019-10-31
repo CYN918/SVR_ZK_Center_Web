@@ -33,6 +33,7 @@
                                 multiple
                                 :limit="1"
                                 :on-exceed="handleExceed"
+                                :before-upload="beforeAvatarUploads"
                                 >
                             <el-button size="small" type="primary">点击上传</el-button>
                         </el-upload>
@@ -41,11 +42,13 @@
                                 <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(61,73,102,1);">上传主题包</span>
                             </div>
                             <div style="margin-bottom: 3px">
-                                <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(143,155,179,1);">支持扩展名：.zip、jpg、png、zip</span>
+                                <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(143,155,179,1);">支持扩展名：.zip</span>
                             </div>
                             <div style="margin-bottom: 3px">
                                 <span>{{attach.name}}</span>
+                                <span class="content_xz" @click="dels()" v-if="this.attach.name!=undefined">删除</span>
                             </div>
+                            <el-progress :percentage="this.times" v-if="up"></el-progress>
                         </div>
                     </div>
                 </div>
@@ -190,6 +193,8 @@
                 IMGList:[],
                 attach:{},
                 tableData:{},
+                up:false,
+                times:0,
             }
         },
         mounted(){
@@ -219,6 +224,16 @@
                     this.getsc();
                     this.getCon();
                 })
+            },
+            beforeAvatarUploads(file) {
+                this.file = file;
+                console.log(this.file)
+                const isXzip = file.type === 'application/x-zip-compressed';
+                const iszip = file.type === 'application/zip';
+                if (!(isXzip||iszip)) {
+                    this.$message.error('只支持ZIP格式!');
+                }
+                return isXzip||iszip;
             },
             ADDtag(){
                 let formData =new FormData;
@@ -291,7 +306,7 @@
                 formData.append('previews',JSON.stringify(this.pic));
                 formData.append('attach',JSON.stringify(this.attach));
                 this.api.themes_theme_local_edit(formData).then((res)=>{
-                    this.qx()
+                    this.qx();
                     if(res!=false){
                         this.$router.go(-1)
                     }
@@ -395,11 +410,30 @@
                     this.getTagsList()
                 })
             },
+            dels(){
+                this.attach={};
+            },
+            scope(){
+                var _this=this;
+                _this.times=0;
+                var timer = setInterval(function () {
+                    if(_this.times<99){
+                        _this.times++
+                    }
+                },100);
+            },
             upLoad(file){
+                this.up=true;
+                this.times=0;
+                ++this.fcounter;
+                this.scope();
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
                     this.attach=res;
+                    this.times=100;
+                    --this.fcounter;
+                    this.up=false;
                 })
             },
             upYl(file){
@@ -781,5 +815,14 @@
         position: absolute;
         left: 0;
         top:0;
+    }
+    .content_xz{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(51,119,255,1);
+        margin-left: 10px;
+        cursor: pointer;
     }
 </style>
