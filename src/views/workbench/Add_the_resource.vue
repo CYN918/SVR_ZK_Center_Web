@@ -302,7 +302,7 @@
                 })
             },
             verified(){
-                if(this.numAll==this.num){
+                if((this.listSC.length+this.listWL.length)==this.num){
                     let formData = new FormData;
                     formData.append('id',this.id);
                     formData.append('status',this.status);
