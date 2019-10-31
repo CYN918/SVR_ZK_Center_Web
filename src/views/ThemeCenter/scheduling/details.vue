@@ -194,6 +194,8 @@
                   query:{
                       schedule_id:this.$route.query.schedule_id,
                       cycle_id:id,
+                      tstart:this.$route.query.tstart,
+                      tend:this.$route.query.tend,
                   },
               })
             },

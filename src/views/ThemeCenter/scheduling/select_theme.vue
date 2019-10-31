@@ -109,8 +109,8 @@
             <div class="box">
                 <div class="box_img"  v-for="(item,index) in IMGList" @click="clicks(index)">
                     <div class="box_top">
-                        <img src="../../../../public/img/select2.png" style="width: 48px;height: 48px;position: relative;right: -141px;z-index: 99" v-if="ind.indexOf(IMGList[index].thid)==-1">
-                        <img src="../../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;right: -141px;z-index: 99" v-if="ind.indexOf(IMGList[index].thid)!=-1">
+                        <img src="../../../../public/img/select2.png" style="width: 48px;height: 48px;position: relative;right: -141px;z-index: 9" v-if="ind.indexOf(IMGList[index].thid)==-1">
+                        <img src="../../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;right: -141px;z-index: 9" v-if="ind.indexOf(IMGList[index].thid)!=-1">
                         <img :src="item.main_preview" class="box_top_img">
                     </div>
                     <div class="box_name">
@@ -425,6 +425,8 @@
                             ind:this.ind,
                             ch_thids:this.ch_thids,
                             qdList:this.qdList,
+                            tstart:this.$route.query.tstart,
+                            tend:this.$route.query.tend,
                         },
                     })
 
@@ -708,6 +710,8 @@
         width: 189px;
         height: 349px;
         margin-right: 44px;
+        margin-bottom: 20px;
+        background: #e3e7ef;
     }
     .box_top{
         width: 189px;
@@ -730,7 +734,7 @@
     }
     .box_top_img{
         max-width: 189px;
-        max-height: 349px;
+        max-height: 315px;
         position: relative;
         top: 36%;
         left: 50%;

@@ -123,7 +123,14 @@
                 this.$router.go(-1)
             },
             fhs(){
-                this.$router.go(-2)
+                this.$router.push({
+                    path:"./details",
+                    query:{
+                        schedule_id:  this.$route.query.schedule_id,
+                        tstart:this.$route.query.tstart,
+                        tend:this.$route.query.tend,
+                    },
+                })
             },
 
             CK(item){
@@ -218,7 +225,16 @@
                     formData.append('thid',this.$route.query.ind[i]);
                     formData.append('ch_thid',this.$route.query.ch_thids[i]);
                     this.api.themes_schedule_demand_add(formData).then((res)=>{
-
+                        if(res!=false){
+                            this.$router.push({
+                                path:"./details",
+                                query:{
+                                    schedule_id:  this.$route.query.schedule_id,
+                                    tstart:this.$route.query.tstart,
+                                    tend:this.$route.query.tend,
+                                },
+                            })
+                        }
                     })
                 }
 
