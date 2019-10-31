@@ -7,7 +7,7 @@
                 <span class="new_url"> &nbsp;上传{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='theme_icon'?'图标主题素材':'二级页主题素材'}}</span>
             </div>
             <div class="tit_top_con">
-                <span class="tit_name">{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='theme_icon'?'图标主题素材':'二级页主题素材'}}</span>
+                <span class="tit_name">上传{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='theme_icon'?'图标主题素材':'二级页主题素材'}}</span>
             </div>
         </div>
         <div class="themeUp">
@@ -49,7 +49,7 @@
                 </div>
                 <div v-if="this.$route.query.thmid==undefined">
                     <span>使用范围</span>
-                    <select class="fw" v-model="account" >
+                    <select class="fw" v-model="range" >
                         <option v-for="item in AcctounsList" :value="item.range">{{item.range}}</option>
                     </select>
                 </div>
@@ -104,7 +104,7 @@
                     <a v-if="this.$route.query.thmid!=undefined">从主题库选择</a>
                     <input type="checkbox" class="check" v-model="is_material"/>
                     <span class="sm">与作品无关</span>
-                    <span class="sm2">绑定制作图标的相关作品，千万不要填错了</span>
+                    <span class="sm2">绑定制作图标的相关主题素材，千万不要填错了</span>
                     <div class="img_box">
                         <div class="img_box1" v-for="(item,index) in listSC">
                             <img class="img_box1_img" :src="item.main_preview">
@@ -190,7 +190,7 @@
                 tags:[],
                 tag:[],
                 tagsName:"",
-                account:'',
+                range:'',
                 note:'',
                 name:'',
                 type:this.$route.query.type,
@@ -217,7 +217,7 @@
                 this.api.themes_material_details({params}).then((res)=>{
                   this.name=res.name;
                   this.attach=res.attach;
-                  this.account=res.account;
+                  this.range=res.range;
                   this.note=res.note;
                   var arr=[];
                   for(var j=0;j<res.tags.split(',').length;j++){
@@ -357,6 +357,30 @@
                 }
             },
             setADDS(){
+                if(!this.name){
+                    this.$message.error('名称不能为空')
+                    return
+                }
+                if(this.attach.length==0){
+                    this.$message.error('附件不能为空')
+                    return
+                }
+                if(!this.range){
+                    this.$message.error('使用范围不能为空')
+                    return
+                }
+                if(!this.note){
+                    this.$message.error('备注不能为空')
+                    return
+                }
+                if(this.tags.length==0){
+                    this.$message.error('标签不能为空')
+                    return
+                }
+                if(!this.main_preview){
+                    this.$message.error('封面图不能为空')
+                    return
+                }
                 if(this.is_work==false){
                     this.is_work=1
                 }else{
@@ -372,7 +396,7 @@
                 formData.append('thmid',this.$route.query.thmid);
                 formData.append('name',this.name);
                 formData.append('note',this.note);
-                formData.append('account',this.account);
+                formData.append('range',this.range);
                 formData.append('tags',this.tags.join(','));
                 formData.append('is_work',this.is_work);
                 formData.append('works',JSON.stringify(this.works));
@@ -386,6 +410,31 @@
                 })
             },
             ADDs(){
+                if(!this.name){
+                    this.$message.error('名称不能为空')
+                    return
+                }
+                if(this.attach.length==0){
+                    this.$message.error('附件不能为空')
+                    return
+                }
+                if(!this.range){
+                    this.$message.error('使用范围不能为空')
+                    return
+                }
+                if(!this.note){
+                    this.$message.error('备注不能为空')
+                    return
+                }
+                if(this.tags.length==0){
+                    this.$message.error('标签不能为空')
+                    return
+                }
+                if(!this.main_preview){
+                    this.$message.error('封面图不能为空')
+                    return
+                }
+
                 if(this.is_work==false){
                     this.is_work=1
                 }else{
@@ -400,7 +449,7 @@
                 formData.append('type',this.type);
                 formData.append('name',this.name);
                 formData.append('note',this.note);
-                formData.append('account',this.account);
+                formData.append('range',this.range);
                 formData.append('tags',this.tags.join(','));
                 formData.append('is_work',this.is_work);
                 formData.append('works',JSON.stringify(this.works));

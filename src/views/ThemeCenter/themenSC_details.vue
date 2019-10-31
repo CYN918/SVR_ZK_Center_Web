@@ -17,7 +17,7 @@
                 <span class="titName">ID:</span>
                 <span class="titCon">{{this.tableData.thmid}}</span>
                 <span class="titName">使用范围:</span>
-                <span class="titCon">{{this.tableData.account}}</span>
+                <span class="titCon">{{this.tableData.range}}</span>
                 <span class="titName">标签</span>
                 <div class="tag">
                     <span v-for="item in ((this.tableData.tags).split(','))">{{item}}</span>
@@ -29,21 +29,21 @@
             </div>
             <div>
                 <span class="titName">状态:</span>
-                <span class="titCon">{{this.tableData.status}}</span>
+                <span class="titCon">{{this.tableData.status_name}}</span>
                 <span class="titName">创建时间:</span>
                 <span class="titCon" style="width: 300px">{{this.tableData.created_at}}</span>
             </div>
             <div style="margin-bottom: 56px">
-                <span class="titName">主题描述:</span>
+                <span class="titName">备注描述:</span>
                 <span class="titCon">{{this.tableData.note}}</span>
             </div>
             <div class="switcher">
                 <a href="#tab0" :class="{click:isType==0}" @click="changeover('0')">预览图</a>
-                <a href="#tab1" :class="{click:isType==1}" @click="changeover('1')">相关主题</a>
-                <a href="#tab2" :class="{click:isType==2}" @click="changeover('2')">相关项目</a>
-                <a href="#tab3" :class="{click:isType==3}" @click="changeover('3')">相关打包件</a>
-                <a href="#tab4" :class="{click:isType==4}" @click="changeover('4')">相关主题素材</a>
-                <a href="#tab5" :class="{click:isType==5}" @click="changeover('5')">相关合同</a>
+                <a href="#tab0" :class="{click:isType==1}" @click="changeover('1')">相关主题</a>
+                <a href="#tab1" :class="{click:isType==2}" @click="changeover('2')">相关项目</a>
+                <a href="#tab2" :class="{click:isType==3}" @click="changeover('3')">相关打包件</a>
+                <a href="#tab3" :class="{click:isType==4}" @click="changeover('4')">相关主题素材</a>
+                <a href="#tab4" :class="{click:isType==5}" @click="changeover('5')">相关合同</a>
             </div>
         </div>
         <div style="margin-top: 394px">

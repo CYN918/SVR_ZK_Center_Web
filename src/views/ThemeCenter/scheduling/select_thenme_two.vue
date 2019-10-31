@@ -188,28 +188,28 @@
             },
             addData(){
                 for(var i=0;i<this.imgs.length;i++){
-                    if(this.name[i]===''){
-                        this.$message.error('名称不能为空')
+                    if(this.name[i]==undefined){
+                        this.$message.error('名称不能为空');
                         return
                     }
-                    if(this.zzType[i]===''){
-                        this.$message.error('类型不能为空')
+                    if(this.zzType[i]==undefined){
+                        this.$message.error('类型不能为空');
                         return
                     }
-                    if(this.Makechannel[i]===''){
-                        this.$message.error('渠道不能为空')
+                    if(this.Makechannel[i]==undefined){
+                        this.$message.error('渠道不能为空');
                         return
                     }
-                    if(this.zh[i]===''){
-                        this.$message.error('上架账号不能为空')
+                    if(this.zh[i]==undefined){
+                        this.$message.error('上架账号不能为空');
                         return
                     }
-                    if(this.person[i]===''){
-                        this.$message.error('责任人不能为空')
+                    if(this.person[i]==undefined){
+                        this.$message.error('责任人不能为空');
                         return
                     }
-                    if(this.note[i]===''){
-                        this.$message.error('备注说明不能为空')
+                    if(this.note[i]==undefined){
+                        this.$message.error('备注说明不能为空');
                         return
                     }
                     let formData=new FormData;

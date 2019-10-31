@@ -51,7 +51,7 @@
                 </div>
                 <div>
                     <span>主题描述</span>
-                    <input type="text" placeholder="给主题写个自我介绍，50字内" v-model="note"/>
+                    <textarea  placeholder="给主题写个自我介绍，50字内" v-model="note"></textarea>
                 </div>
                 <div>
                     <span>主题类型</span>
@@ -292,6 +292,9 @@
                 formData.append('attach',JSON.stringify(this.attach));
                 this.api.themes_theme_local_edit(formData).then((res)=>{
                     this.qx()
+                    if(res!=false){
+                        this.$router.go(-1)
+                    }
                 })
             },
             addTheme(){
@@ -341,7 +344,10 @@
                 formData.append('previews',JSON.stringify(this.pic));
                 formData.append('attach',JSON.stringify(this.attach));
                 this.api.themes_theme_local_add(formData).then((res)=>{
-                    this.qx()
+                    this.qx();
+                    if(res!=false){
+                        this.$router.go(-1)
+                    }
                 })
             },
             getList(){
@@ -449,6 +455,14 @@
         padding-left: 14px;
         width:451px;
         height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+    }
+    textarea{
+        width:431px;
+        height:36px;
+        padding: 10px;
         background:rgba(255,255,255,1);
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);

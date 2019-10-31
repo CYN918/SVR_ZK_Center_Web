@@ -229,6 +229,30 @@
 
             },
            setData(){
+               if(!this.name){
+                   this.$message.error('名称不能为空');
+                   return
+               }
+               if(!this.type){
+                   this.$message.error('类型不能为空');
+                   return
+               }
+               if(!this.channel){
+                   this.$message.error('渠道不能为空');
+                   return
+               }
+               if(!this.account){
+                   this.$message.error('上架账号不能为空');
+                   return
+               }
+               if(!this.person){
+                   this.$message.error('责任人不能为空');
+                   return
+               }
+               if(!this.note){
+                   this.$message.error('备注说明不能为空');
+                   return
+               }
                let formData = new FormData;
                formData.append('demand_id',this.demand_id);
                formData.append('schedule_id',this.schedule_id);

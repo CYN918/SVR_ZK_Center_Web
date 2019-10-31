@@ -38,7 +38,7 @@
                 <span class="titCon">{{tableData.ui_version}}</span>
             </div>
             <div style="margin-bottom: 56px">
-                <span class="titName">主题描述:</span>
+                <span class="titName">备注描述:</span>
                 <span class="titCon" style="width: 60%">{{tableData.note}}</span>
             </div>
             <div class="switcher">

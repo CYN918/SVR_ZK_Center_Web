@@ -4,11 +4,11 @@
         <sel v-if="sel" @linet="linet"></sel>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh()">{{this.type=='th_lock_screen'?'锁屏打包件':this.type=='theme_icon'?'图标打包件':'二级页打包件'}} &nbsp;/</span>
-                <span class="new_url"> &nbsp;上传{{this.type=='th_lock_screen'?'锁屏主打包件':this.type=='theme_icon'?'图标打包件':'二级页打包件'}}</span>
+                <span class="log_url" @click="fh()">{{this.type=='th_lock_screen'?'锁屏打包件':this.type=='th_icon'?'图标打包件':'二级页打包件'}} &nbsp;/</span>
+                <span class="new_url"> &nbsp;上传{{this.type=='th_lock_screen'?'锁屏主打包件':this.type=='th_icon'?'图标打包件':'二级页打包件'}}</span>
             </div>
             <div class="tit_top_con">
-                <span class="tit_name">上传{{this.type=='th_lock_screen'?'锁屏打包件':this.type=='theme_icon'?'图标打包件':'二级页打包件'}}</span>
+                <span class="tit_name">上传{{this.type=='th_lock_screen'?'锁屏打包件':this.type=='th_icon'?'图标打包件':'二级页打包件'}}</span>
             </div>
         </div>
         <div class="themeUp">
@@ -262,24 +262,24 @@
             },
             setPack(){
                 if(!this.name){
-                    this.$message.error('主题名不能为空')
+                    this.$message.error('主题名不能为空');
                     return
                 }
                 if(!this.tags){
-                    this.$message.error('标签不能为空')
+                    this.$message.error('标签不能为空');
                     return
                 }
 
                 if(!this.main_preview){
-                    this.$message.error('封面图不能为空')
+                    this.$message.error('封面图不能为空');
                     return
                 }
                 if(!this.pic){
-                    this.$message.error('预览图不能为空')
+                    this.$message.error('预览图不能为空');
                     return
                 }
                 if(!this.attach.url){
-                    this.$message.error('未上传主题包')
+                    this.$message.error('未上传主题包');
                     return
                 }
                 let formData=new FormData;
@@ -428,43 +428,43 @@
                     return
                 }
                 if(!this.name){
-                    this.$message.error('主题名不能为空')
+                    this.$message.error('主题名不能为空');
                     return
                 }
                 if(!this.name){
-                    this.$message.error('主题名不能为空')
+                    this.$message.error('主题名不能为空');
                     return
                 }
                 if(!this.scID){
-                    this.$message.error('主题素材不能为空')
+                    this.$message.error('主题素材不能为空');
                     return
                 }
                 if(!this.tags){
-                    this.$message.error('标签不能为空')
+                    this.$message.error('标签不能为空');
                     return
                 }
                 if(!this.channel){
-                    this.$message.error('渠道不能为空')
+                    this.$message.error('渠道不能为空');
                     return
                 }
                 if(!this.ui_version){
-                    this.$message.error('版本不能为空')
+                    this.$message.error('版本不能为空');
                     return
                 }
                 if(!this.scID){
-                    this.$message.error('相关素材不能为空')
+                    this.$message.error('相关素材不能为空');
                     return
                 }
                 if(!this.main_preview){
-                    this.$message.error('封面图不能为空')
+                    this.$message.error('封面图不能为空');
                     return
                 }
                 if(!this.pic){
-                    this.$message.error('预览图不能为空')
+                    this.$message.error('预览图不能为空');
                     return
                 }
                 if(!this.attach.url){
-                    this.$message.error('未上传主题包')
+                    this.$message.error('未上传主题包');
                     return
                 }
                 let formData =new FormData;

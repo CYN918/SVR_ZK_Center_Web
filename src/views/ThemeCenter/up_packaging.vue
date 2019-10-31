@@ -31,6 +31,9 @@
                             <div style="margin-bottom: 3px">
                                 <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(143,155,179,1);">支持扩展名：.rar .zip .doc .docx .pdf .jpg...</span>
                             </div>
+                            <div style="margin-bottom: 3px">
+                                <span>{{attach.name}}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
