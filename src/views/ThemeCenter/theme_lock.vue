@@ -9,7 +9,7 @@
         </div>
         <div class="seach">
              <div class="tagSeach">
-                <span class="tagSeachName">内容标题</span>
+                <span class="tagSeachName">内容标签</span>
                  <span class="labelName" :class="{active:tags.length==0}" @click="ClickTag()">全部</span>
                  <div class="tags">
                      <span v-for="(item,index) in tag" class="labelName" @click="ClickTag(item.name)" :class="{active:tags.indexOf(item.name)!=-1}">{{item.name}}</span>
