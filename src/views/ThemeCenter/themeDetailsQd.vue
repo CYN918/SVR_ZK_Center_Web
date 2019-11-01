@@ -197,8 +197,11 @@
             gbPack(){
                 this.packSee=false;
             },
+
             fh(){
-                this.$router.go(-1);
+                this.$router.push({
+                    path:"./themeCook"
+                });
             },
             changeover(num){
                 this.isType=num;

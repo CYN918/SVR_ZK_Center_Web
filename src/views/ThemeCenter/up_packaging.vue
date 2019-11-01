@@ -4,7 +4,7 @@
         <div class="themeUp">
             <div class="themeUpLeft">
                 <div>
-                    <span >主题名称</span>
+                    <span >打包件名称</span>
                     <input type="text" placeholder="给主题起个名字" style=" margin-top: 26px;" v-model="name" maxlength="10">
                 </div>
                 <div style="margin-bottom: 0">
@@ -29,7 +29,7 @@
                                 <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(61,73,102,1);">上传资源包</span>
                             </div>
                             <div style="margin-bottom: 3px">
-                                <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(143,155,179,1);">支持扩展名：.rar .zip .doc .docx .pdf .jpg...</span>
+                                <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(143,155,179,1);">支持扩展名：.zip </span>
                             </div>
                             <div style="margin-bottom: 3px">
                                 <span>{{attach.name}}</span>
@@ -64,14 +64,14 @@
                 </div>
                 <div>
                     <span class="tit_name">渠道</span>
-                    <select  @change="getUI()" v-model="channel">
+                    <select  v-model="channel" disabled="disabled">
                         <option value="">全部</option>
                         <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
                     </select>
                 </div>
                 <div>
                     <span class="tit_name">厂商UI版本</span>
-                    <select style="margin-right: 68px" v-model="ui_version">
+                    <select style="margin-right: 68px" v-model="ui_version" disabled="disabled">
                         <option value="">全部</option>
                         <option v-for="item in ui" :value="item.version">{{item.version}}</option>
                     </select>
@@ -152,7 +152,7 @@
     import sel from './select_material'
     export default {
         components:{sel},
-        props:['types'],
+        props:['types','ui_v','chan'],
         name: "theme_up",
         data(){
             return{
@@ -173,9 +173,9 @@
                 IMGList:[],
                 attach:{},
                 ui:[],
-                channel:'',
+                channel:this.chan,
                 channels:[],
-                ui_version:'',
+                ui_version:this.ui_v,
                 up:false,
                 times:0,
             }
@@ -223,6 +223,7 @@
             qd(){
                 this.api.themes_config_channel().then((res)=>{
                     this.channels=res;
+                    this.getUI();
                 })
             },
             addTheme(){

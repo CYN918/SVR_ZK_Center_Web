@@ -2,7 +2,7 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh()">主题库 &nbsp;/</span>
+                <span class="log_url" @click="fh()">主题库&nbsp;/</span>
                 <span class="new_url"> &nbsp;主题详情</span>
             </div>
             <div class="name">
@@ -186,7 +186,9 @@
                 })
             },
             fh(){
-                this.$router.go(-1);
+                this.$router.push({
+                    path:"./themeCook"
+                });
             },
             changeover(num){
                 this.isType=num;

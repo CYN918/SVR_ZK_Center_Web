@@ -1,11 +1,11 @@
 <template>
     <div>
-        <pak v-if="pak" :types="types" @dataUp="dataUp"></pak>
+        <pak v-if="pak" :types="types" @dataUp="dataUp" :chan="channel" :ui_v="ui_version"></pak>
         <sel v-if="sel" @linet="linet"></sel>
         <div class="top" v-if="this.$route.query.con==undefined">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh()">主题库 &nbsp;/</span>
-                <span class="log_url" @click="fh()"> &nbsp;主题库详情&nbsp;/</span>
+                <span class="log_url" @click="fh()">主题库&nbsp;/</span>
+                <span class="log_url" @click="fh()">&nbsp;主题库详情&nbsp;/</span>
                 <span class="new_url"> &nbsp;编辑渠道详情</span>
             </div>
             <div class="tit_top_con">
@@ -14,8 +14,8 @@
         </div>
         <div class="top" v-if="this.$route.query.con!=undefined">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh()">主题库 &nbsp;/</span>
-                <span class="log_url" @click="fh()"> &nbsp;上传本地主题&nbsp;/</span>
+                <span class="log_url" @click="fh()">主题库&nbsp;/</span>
+                <span class="log_url" @click="fh()">&nbsp;上传本地主题&nbsp;/</span>
                 <span class="new_url"> &nbsp添加上架记录</span>
             </div>
             <div class="tit_top_con">
@@ -367,6 +367,14 @@
                     this.num=0;
                     return
                 }else{
+                    if(!this.channel){
+                        this.$message.error('渠道不能为空');
+                        return
+                    }
+                    if(!this.ui_version){
+                        this.$message.error('渠道不能为空');
+                        return
+                    }
                     this.types=type;
                     this.pak=true;
                 }
@@ -374,6 +382,14 @@
                     this.num=1;
                     return
                 }else{
+                    if(!this.channel){
+                        this.$message.error('渠道不能为空');
+                        return
+                    }
+                    if(!this.ui_version){
+                        this.$message.error('渠道不能为空');
+                        return
+                    }
                     this.types=type;
                     this.pak=true;
                 }
@@ -381,6 +397,14 @@
                     this.num=2;
                     return
                 }else{
+                    if(!this.channel){
+                        this.$message.error('渠道不能为空');
+                        return
+                    }
+                    if(!this.ui_version){
+                        this.$message.error('渠道不能为空');
+                        return
+                    }
                     this.types=type;
                     this.pak=true;
                 }

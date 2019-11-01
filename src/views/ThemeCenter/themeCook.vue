@@ -84,13 +84,13 @@
             <div>
                 <div class="phone" v-for="(item,index) in this.dataList">
                     <div style="width:189px;height:315px;">
-                        <img :src="item.main_preview" style="height: 100%;width: 100%" @click="xq(themeChannel.channel,item.thid)">
+                        <img :src="item.main_preview" style="height: 100%;width: 100%" @click="xq(themeChannel[index].channel,item.thid,index)">
                         <div class="select_type">
                             <!--<span v-if="item.channel_themes.length==0">本地</span>-->
-                            <span>{{themeChannel.channel_name}}</span>
+                            <span>{{themeChannel[index].channel_name}}</span>
                             <img src="../../../public/img/zk.png" style="width: 9px;height: 5px" />
                             <div class="select_con">
-                                <el-radio-group v-model="radio" class="radio" @change="getData()">
+                                <el-radio-group v-model="radio[index]" class="radio" @change="getDataLists(index)">
                                     <el-radio :label="da.ch_thid" v-for="da in item.channel_themes">{{da.channel_name}}</el-radio>
                                 </el-radio-group>
                             </div>
@@ -119,7 +119,7 @@
         name: "theme-cook",
         data(){
             return{
-                radio:'',
+                radio:[],
                 value1:[(new Date()).toLocaleDateString().split('/').join('-'),(new Date()).toLocaleDateString().split('/').join('-')],
                 isType:0,
                 isTypes:0,
@@ -145,10 +145,7 @@
                 class0:false,
                 class1:false,
                 dataList:[],
-                themeChannel:{
-                    channel_name:'',
-                    channel:''
-                }
+                themeChannel:[]
             }
         },
         mounted(){this.themeType();
@@ -179,14 +176,44 @@
                     status:this.status,type:this.type,class:this.contemt,tstart:this.value1[0],tend:this.value1[1],search:this.search,p:this.p,page:this.page};
                 this.api.themes_theme_search({params}).then((res)=>{
                     this.dataList=res.data;
+                    var arr={
+                        channel_name:'',
+                        channel:''
+                    };
                     for(var i=0;i<res.data.length;i++){
                         for(var j =0;j<res.data[i].channel_themes.length;j++){
-                            if(res.data[i].channel_themes[j].ch_thid==this.radio){
-                                this.themeChannel.channel=res.data[i].channel_themes[j].channel;
-                                this.themeChannel.channel_name=res.data[i].channel_themes[j].channel_name;
+                            if(res.data[i].channel_themes[j].channel==res.data[i].channel){
+                                arr.channel=res.data[i].channel_themes[j].channel;
+                                arr.channel_name=res.data[i].channel_themes[j].channel_name;
+                                this.radio.push(res.data[i].channel_themes[j].ch_thid);
+                                this.themeChannel.push(arr);
                             }
                         }
                     }
+                    this.total=res.total;
+                    this.getTagsList();
+                    this.getOperatorTag();
+                })
+            },
+            getDataLists(index){
+                let params={tags:this.listTag.concat(this.listTagData).join(','),channel:this.channel,ui_version:this.ui_version,account:this.account,
+                    status:this.status,type:this.type,class:this.contemt,tstart:this.value1[0],tend:this.value1[1],search:this.search,p:this.p,page:this.page};
+                this.api.themes_theme_search({params}).then((res)=>{
+                    this.dataList=res.data;
+                    var arr={
+                        channel_name:'',
+                        channel:''
+                    };
+                    for(var i=0;i<res.data.length;i++){
+                        for(var j =0;j<res.data[i].channel_themes.length;j++){
+                            if(res.data[i].channel_themes[j].ch_thid==this.radio[index]){
+                                arr.channel=res.data[i].channel_themes[j].channel;
+                                arr.channel_name=res.data[i].channel_themes[j].channel_name;
+                                this.themeChannel[index]=arr;
+                            }
+                        }
+                    }
+
                     this.total=res.total;
                     this.getTagsList();
                     this.getOperatorTag();
@@ -285,11 +312,11 @@
                     path:'./themeUp'
                 })
             },
-            xq(channel,id){
+            xq(channel,id,index){
                 var query = {
                     thid:id,
                     channel: channel,
-                    ch_thid:this.radio,
+                    ch_thid:this.radio[index],
                 };
                 if(channel=='local'){
                     this.$router.push({

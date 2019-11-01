@@ -42,7 +42,7 @@
                                 <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(61,73,102,1);">上传主题包</span>
                             </div>
                             <div style="margin-bottom: 3px">
-                                <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(143,155,179,1);">支持扩展名：.zip</span>
+                                <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(143,155,179,1);">支持扩展名：zip、.theme、.gnz、.zmtp</span>
                             </div>
                             <div style="margin-bottom: 3px">
                                 <span>{{attach.name}}</span>
@@ -108,7 +108,7 @@
                 </div>
                 <div class="themeBtn">
                     <span class="tj" @click="ADD()">提交</span>
-                    <span>取消</span>
+                    <span @click="fh">取消</span>
                 </div>
             </div>
             <div class="themeUpRight">
@@ -197,27 +197,29 @@
                 times:0,
             }
         },
+
         mounted(){
             this.getThemeType();
-            if(this.$route.query.thid!=undefined){
-                this.getData();
-            }
         },
         methods:{
             getData(){
-                let params={thid:this.$route.query.thid,ch_thid:this.$route.query.ch_thid,channel:this.$route.query.channel}
+                let params={thid:this.$route.query.thid,ch_thid:this.$route.query.ch_thid,channel:this.$route.query.channel};
                 this.api.themes_theme_details({params}).then((res)=>{
                     this.attach=res.attach;
                     this.name=res.name;
                     this.note=res.note;
                     this.type=res.type;
                     var arr=[];
-                    for(var j=0;j<res.tags.split(',').length;j++){
-                        if(this.tag.indexOf(res.tags.split(',')[j])!=-1){
-                            arr.push(res.tags.split(',')[j])
+                    for(var j=0;j<(res.tags.split(',')).length;j++){
+                        for(var i=0;i<this.tag.length;i++){
+                            if(this.tag[i].name==(res.tags.split(','))[j]){
+                                arr.push((res.tags.split(','))[j])
+                            }
                         }
                     }
                     this.tags=arr;
+                    console.log((res.tags.split(',')));
+                    console.log(this.tag);
                     this.content=res.class;
                     this.main_preview=res.main_preview;
                     this.pic=res.previews;
@@ -315,6 +317,7 @@
             addTheme(){
                 if(this.$route.query.thid!=undefined){
                     this.setTheme();
+                    return
                 }
                 if(!this.name){
                     this.$message.error('主题名不能为空')
@@ -393,6 +396,9 @@
                 let params = {material:'2',type:"theme",search:this.tagsName,p:500,page:1};
                 this.api.tags_search({params}).then((da)=>{
                     this.tag=da.data.self_tags;
+                    if(this.$route.query.thid!=undefined){
+                        this.getData();
+                    }
                 })
             },
             handleExceed(files, fileList) {

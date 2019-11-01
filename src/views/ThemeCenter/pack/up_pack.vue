@@ -214,9 +214,7 @@
         mounted(){
             this.qd();
             this.getTagsList();
-            if(this.$route.query.pkgid!=undefined){
-                this.getData()
-            }
+
         },
         methods:{
             getData(){
@@ -228,12 +226,13 @@
                     this.channel=res.channel;
                     this.ui_version=res.ui_version;
                     var arr=[];
-                    for(var j=0;j<res.tags.split(',').length;j++){
-                        if(this.tag.indexOf(res.tags.split(',')[j])!=-1){
-                            arr.push(res.tags.split(',')[j])
+                    for(var j=0;j<(res.tags.split(',')).length;j++){
+                        for(var i=0;i<this.tag.length;i++){
+                            if(this.tag[i].name==(res.tags.split(','))[j]){
+                                arr.push((res.tags.split(','))[j])
+                            }
                         }
                     }
-
                     this.tags=arr;
                     this.main_preview=res.main_preview;
                     this.pic=res.previews;
@@ -372,6 +371,9 @@
                 let params = {material:'2',type:'theme',search:this.tagsName,p:500,page:1};
                 this.api.tags_search({params}).then((da)=>{
                     this.tag=da.data.self_tags;
+                    if(this.$route.query.pkgid!=undefined){
+                        this.getData()
+                    }
                 })
             },
 
