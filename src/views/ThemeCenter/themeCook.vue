@@ -63,10 +63,10 @@
                         <option value="0">未使用</option>
                     </select>
                     <span class="tit_name">定投类型</span>
-                    <select >
-                        <option value="">全部</option>
+                    <select v-model="investment">
+                        <option value="0">全部</option>
                         <option value="1">可定投</option>
-                        <option value="0">不可定投</option>
+                        <option value="-1">不可定投</option>
                     </select>
                 </div>
                 <div>
@@ -151,7 +151,8 @@
                 class0:false,
                 class1:false,
                 dataList:[],
-                themeChannel:[]
+                themeChannel:[],
+                investment:'',
             }
         },
         mounted(){this.themeType();

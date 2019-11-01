@@ -83,12 +83,14 @@
                 <div v-if="this.$route.query.thmid==undefined">
                     <span>使用范围</span>
                     <select class="fw" v-model="range" >
+                        <option value="all">不限</option>
                         <option v-for="item in AcctounsList" :value="item.range">{{item.range}}</option>
                     </select>
                 </div>
                 <div v-if="this.$route.query.thmid!=undefined">
                     <span>使用范围</span>
-                    <select class="fw" v-model="account" disabled="disabled">
+                    <select class="fw" v-model="range" disabled="disabled">
+                        <option value="all">不限</option>
                         <option v-for="item in AcctounsList" :value="item.range">{{item.range}}</option>
                     </select>
                 </div>
