@@ -33,8 +33,8 @@
                 <span class="titCon">{{tableData.type_name}}</span>
                 <span class="titName">ID:</span>
                 <span class="titCon">{{tableData.thid}}</span>
-                <span class="titName">创建时间:</span>
-                <span class="titCon" style="width: 150px">{{tableData.created_at}}</span>
+                <span class="titName">定投ID:</span>
+                <span class="titCon" style="width: 150px"></span>
             </div>
             <div>
                 <span class="titName">内容分类:</span>
@@ -43,7 +43,7 @@
                 <span class="titCon">{{tableData.ui_version}}</span>
                 <span class="titName">标签</span>
                 <div class="tag">
-                    <span v-for="item in ((this.tableData.tags).split(','))">{{item}}</span>
+                    <span v-for="item in ((this.tableData.tags).split(','))" class="tagName" v-if="item!=''">{{item}}</span>
                     <span class="tagADD">
                         <img>
                         标签
@@ -53,6 +53,8 @@
             <div>
                 <span class="titName">适用范围:</span>
                 <span class="titCon">{{this.tableData.account}}</span>
+                <span class="titName">创建时间:</span>
+                <span class="titCon" style="width: 150px">{{tableData.created_at}}</span>
             </div>
             <div style="margin-bottom: 46px">
                 <span class="titName">主题描述:</span>
@@ -168,7 +170,7 @@
                 isUPload:1,
                 time:[],
                 isTime:"w",
-                tableData:{},
+                tableData:{attach:{url:''}},
                 sc:[],
                 thid:this.$route.query.thid,
                 channel:this.$route.query.channel,
@@ -370,6 +372,23 @@
         font-weight:400;
         color:rgba(31,46,77,0.45);
         text-align: center;
+        line-height: 24px;
+    }
+    .tagName{
+        display: inline-block;
+        width:46px;
+        height:24px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        line-height: 24px;
+        border:1px solid rgba(211,219,235,1);
+        font-size:12px;
+        font-family:PingFangSC;
+        font-weight:400;
+        color:rgba(31,46,77,0.45);
+        text-align: center;
+        margin-right: 5px;
+        vertical-align: bottom;
     }
     .switcher{
         margin-bottom: 0!important;

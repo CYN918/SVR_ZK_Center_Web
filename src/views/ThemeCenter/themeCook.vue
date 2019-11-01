@@ -57,10 +57,16 @@
                         <option v-for="item in ui" :value="item.version">{{item.version}}</option>
                     </select>
                     <span class="tit_name">状态</span>
-                    <select v-model="status">
+                    <select v-model="status" style="margin-right: 68px">
                         <option>全部</option>
                         <option value="1">已使用</option>
                         <option value="0">未使用</option>
+                    </select>
+                    <span class="tit_name">定投类型</span>
+                    <select >
+                        <option value="">全部</option>
+                        <option value="1">可定投</option>
+                        <option value="0">不可定投</option>
                     </select>
                 </div>
                 <div>

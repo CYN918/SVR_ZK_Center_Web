@@ -39,7 +39,7 @@
                                 <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(61,73,102,1);">上传附件</span>
                             </div>
                             <div style="margin-bottom: 3px">
-                                <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(143,155,179,1);" v-if="type!='th_advertise'">支持扩展名：.zip、.theme .gnz .zmtp</span>
+                                <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(143,155,179,1);" v-if="type!='th_advertise'">支持扩展名：.zip</span>
                                 <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(143,155,179,1);" v-if="type=='th_advertise'">支持扩展名：.zip、jpg、png</span>
                             </div>
                             <div style="margin-bottom: 3px">

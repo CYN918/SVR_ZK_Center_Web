@@ -63,7 +63,7 @@
                         <div v-for="das in da.contract_files">
                             <div style="display: inline-block;max-width: 200px;height: 20px;overflow:hidden;font-size:14px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(31,46,77,1);">{{da.contract_id}}</div>
                             <span class="content_ck">查看</span>
-                            <a class="content_xz" :href="das.url">下载</a>
+                            <a class="content_xz" :href="das.url" target="_blank">下载</a>
                             <span class="content_xz" @click="del(index)">删除</span>
                         </div>
 
@@ -77,7 +77,7 @@
                 <div style="margin: 14px 0 14px 140px" v-for="(item,index) in attachs">
                     <div style="display: inline-block;max-width: 200px;height: 20px;overflow:hidden;font-size:14px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(31,46,77,1);">{{item.name}}</div>
                     <span class="content_ck">查看</span>
-                    <a class="content_xz" :href="item.url">下载</a>
+                    <a class="content_xz" :href="item.url" target="_blank">下载</a>
                     <span class="content_xz" @click="dels(index)">删除</span>
                 </div>
             </div>
@@ -99,7 +99,7 @@
                     <div v-for="da in item.contract_files">
                         <div style="display: inline-block;width: 200px;height: 20px;overflow:hidden">{{item.contract_id}}</div>
                         <span class="content_ck">查看</span>
-                        <a class="content_xz" :href="da.url">下载</a>
+                        <a class="content_xz" :href="da.url" target="_blank">下载</a>
                     </div>
 
                 </div>

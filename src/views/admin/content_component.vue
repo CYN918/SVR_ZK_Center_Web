@@ -42,12 +42,18 @@
                                 >
                                     <el-button size="small" type="primary">上传</el-button>
                                 </el-upload>
+                                <el-tooltip placement="top" class="tit_txt_2 logs tit_txts" v-if="this.attach.name!=''">
+                                    <div slot="content" class="text">{{this.attach.name}}</div>
+                                    <span  class="text" style="overflow: hidden;width: 200px;height: 20px;line-height: 28px">{{this.attach.name}}</span>
+                                </el-tooltip>
+
                             </div>
                             <img src="../../../public/img/msg.png" @click="showHint" style="vertical-align: top"/>
                             <div class="progress" style="width: 100px;height: 5px;opacity: 0.5;display: inline-block " v-if="initiate" >
                                 <div class="strip" :style="{width:aaa+'%'}" style="background: blue;height: 5px"></div>
                                 <div style="text-align: center;font-size: 10px">当前附件上传{{aaa}}%</div>
                             </div>
+                            <span class="content_xz" @click="dels()" v-if="this.attach.name!=''">删除</span>
                         </div>
                         <div class="AddIMG_sc">
                             <span class="tit">绑定素材:</span>
@@ -202,7 +208,13 @@
             }
         },
         methods:{
-
+            dels(){
+                this.attach.name = "";
+                this.attach.size ='';
+                this.attach.ext ='';
+                this.attach.md5 ='';
+                this.attach.url ='';
+            },
             heidSc(){
                 this.$parent.heidSc()
             },
@@ -818,5 +830,13 @@
         border-radius: 5px;
         margin-bottom: 10px!important;
     }
-
+    .content_xz{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(51,119,255,1)!important;
+        margin-left: 10px;
+        cursor: pointer;
+    }
 </style>

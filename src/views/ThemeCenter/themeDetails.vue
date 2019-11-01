@@ -28,7 +28,7 @@
                 <!--<span class="titCon">{{tableData.ui_version}}</span>-->
                 <span class="titName">标签</span>
                 <div class="tag">
-                    <span v-for="item in ((tableData.tags).split(','))">{{item}}</span>
+                    <span v-for="item in ((tableData.tags).split(','))" class="tagName" v-if="item!=''">{{item}}</span>
                     <span class="tagADD">
                         <img>
                         标签
@@ -151,7 +151,7 @@
                 isUPload:1,
                 time:[],
                 isTime:"w",
-                tableData:{},
+                tableData:{attach:{url:''}},
                 sc:[],
                 thid:this.$route.query.thid,
                 channel:this.$route.query.channel,
@@ -302,6 +302,23 @@
         font-weight:400;
         color:rgba(31,46,77,0.45);
         text-align: center;
+        line-height: 24px;
+    }
+    .tagName{
+        display: inline-block;
+        width:46px;
+        height:24px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        line-height: 24px;
+        border:1px solid rgba(211,219,235,1);
+        font-size:12px;
+        font-family:PingFangSC;
+        font-weight:400;
+        color:rgba(31,46,77,0.45);
+        text-align: center;
+        margin-right: 5px;
+        vertical-align: bottom;
     }
     .switcher{
         margin-bottom: 0!important;

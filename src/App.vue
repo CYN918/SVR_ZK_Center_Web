@@ -877,4 +877,7 @@ select{
   .themeUpLeft .el-upload-list__item {
     display: none;
   }
+  .AddIMG_input_box .el-upload-list__item {
+    display: none;
+  }
 </style>
