@@ -63,7 +63,7 @@
                         <option value="0">未使用</option>
                     </select>
                     <span class="tit_name">定投类型</span>
-                    <select v-model="investment">
+                    <select v-model="special">
                         <option value="0">全部</option>
                         <option value="1">可定投</option>
                         <option value="-1">不可定投</option>
@@ -152,7 +152,7 @@
                 class1:false,
                 dataList:[],
                 themeChannel:[],
-                investment:'',
+                special:'',
             }
         },
         mounted(){this.themeType();
@@ -180,7 +180,7 @@
             },
             getData(){
                 let params={tags:this.listTag.concat(this.listTagData).join(','),channel:this.channel,ui_version:this.ui_version,account:this.account,
-                    status:this.status,type:this.type,class:this.contemt,tstart:this.value1[0],tend:this.value1[1],search:this.search,p:this.p,page:this.page};
+                    status:this.status,type:this.type,class:this.contemt,tstart:this.value1[0],tend:this.value1[1],search:this.search,p:this.p,page:this.page,special:this.special};
                 this.api.themes_theme_search({params}).then((res)=>{
                     this.dataList=res.data;
                     var arr={
@@ -204,7 +204,7 @@
             },
             getDataLists(index){
                 let params={tags:this.listTag.concat(this.listTagData).join(','),channel:this.channel,ui_version:this.ui_version,account:this.account,
-                    status:this.status,type:this.type,class:this.contemt,tstart:this.value1[0],tend:this.value1[1],search:this.search,p:this.p,page:this.page};
+                    status:this.status,type:this.type,class:this.contemt,tstart:this.value1[0],tend:this.value1[1],search:this.search,p:this.p,page:this.page,special:this.special};
                 this.api.themes_theme_search({params}).then((res)=>{
                     this.dataList=res.data;
                     var arr={

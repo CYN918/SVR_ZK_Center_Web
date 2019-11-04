@@ -2,7 +2,7 @@
     <div>
         <div class="top_tit">
             <div class="tit_top_url">
-                <span class="log_url">素材数据 &nbsp;/&nbsp;</span>
+                <span class="log_url">素材数据&nbsp;/&nbsp;</span>
                 <span class="new_url">物料数据</span>
             </div>
             <div class="tit_top_con">

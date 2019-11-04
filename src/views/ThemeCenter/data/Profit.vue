@@ -52,86 +52,86 @@
                         <el-table-columnt
                                 prop="date"
                                 label="日期"
-                                v-if="seach1==true"
+                                v-if="num.seach1==true"
                         >
                         </el-table-columnt>
                         <el-table-column
                                 prop="channel"
-                                v-if="seach2==true"
+                                v-if="num.seach2==true"
                                 label="渠道">
                         </el-table-column>
                         <el-table-column
                                 prop="theme_name"
                                 label="主题名称"
-                                v-if="seach3==true"
+                                v-if="num.seach3==true"
                         >
                         </el-table-column>
 
                         <el-table-column
                                 prop="price"
-                                v-if="seach4==true"
+                                v-if="num.seach4==true"
                                 label="单价">
                         </el-table-column>
 
                         <el-table-column
                                 prop="click"
-                                v-if="seach5==true"
+                                v-if="num.seach5==true"
                                 label="点击量">
                         </el-table-column>
                         <el-table-column
                                 prop="ctr"
-                                v-if="seach6==true"
+                                v-if="num.seach6==true"
                                 label="点击率">
                         </el-table-column>
 
                         <el-table-column
                                 prop="download"
-                                v-if="seach7==true"
+                                v-if="num.seach7==true"
                                 label="下载量">
                         </el-table-column>
                         <el-table-column
                                 prop="sales"
-                                v-if="seach8==true"
+                                v-if="num.seach8==true"
                                 label="销售量">
                         </el-table-column>
                         <el-table-column
                                 prop="cvr"
-                                v-if="seach9==true"
+                                v-if="num.seach9==true"
                                 label="转化率">
                         </el-table-column>
                         <el-table-column
                                 prop="sales_amount"
-                                v-if="seach10==true"
+                                v-if="num.seach10==true"
                                 label="销售额">
                         </el-table-column>
                         <el-table-column
                                 prop="cost_channel"
-                                v-if="seach11==true"
+                                v-if="num.seach11==true"
                                 label="渠道成本费">
                         </el-table-column>
                         <el-table-column
                                 prop="bad_debt"
-                                v-if="seach12==true"
+                                v-if="num.seach12==true"
                                 label="坏账">
                         </el-table-column>
                         <el-table-column
                                 prop="tax"
-                                v-if="seach13==true"
+                                v-if="num.seach13==true"
                                 label="扣税费">
                         </el-table-column>
                         <el-table-column
                                 prop=""
-                                v-if="seach14==true"
+                                v-if="num.seach14==true"
                                 label="设计师成本费">
                         </el-table-column>
                         <el-table-column
                                 prop=""
-                                v-if="seach15==true"
+                                v-if="num.seach15==true"
                                 label="利润">
                         </el-table-column>
                         <el-table-column
                                 prop="note"
-                                v-if="seach16==true"
+                                v-if="num.seach16==true"
                                 label="备注">
                         </el-table-column>
                     </el-table>
@@ -158,40 +158,40 @@
                     <div class="tits">
                         <span>筛选维度:</span>
                     </div>
-                    <input type="checkbox" style="margin-left: 24px" v-model="seach1"/>
+                    <input type="checkbox" style="margin-left: 24px" v-model="num.seach1"/>
                     <span>日期</span>
-                    <input type="checkbox" v-model="seach2"/>
+                    <input type="checkbox" v-model="num.seach2"/>
                     <span>渠道</span>
-                    <input type="checkbox" v-model="seach3"/>
+                    <input type="checkbox" v-model="num.seach3"/>
                     <span>主题名称</span>
-                    <input type="checkbox" v-model="seach4"/>
+                    <input type="checkbox" v-model="num.seach4"/>
                     <span>单价</span>
-                    <input type="checkbox" v-model="seach5"/>
+                    <input type="checkbox" v-model="num.seach5"/>
                     <span>点击量</span>
-                    <input type="checkbox"  style="margin-left: 24px" v-model="seach6"/>
+                    <input type="checkbox"  style="margin-left: 24px" v-model="num.seach6"/>
                     <span>点击率</span>
-                    <input type="checkbox" v-model="seach7"/>
+                    <input type="checkbox" v-model="num.seach7"/>
                     <span>下载量</span>
-                    <input type="checkbox" v-model="seach8"/>
+                    <input type="checkbox" v-model="num.seach8"/>
                     <span>销售量</span>
-                    <input type="checkbox" v-model="seach9"/>
+                    <input type="checkbox" v-model="num.seach9"/>
                     <span>转化率</span>
-                    <input type="checkbox" v-model="seach10"/>
+                    <input type="checkbox" v-model="num.seach10"/>
                     <span>销售额</span>
-                    <input type="checkbox" style="margin-left: 24px" v-model="seach11"/>
+                    <input type="checkbox" style="margin-left: 24px" v-model="num.seach11"/>
                     <span>渠道成本费</span>
                     <input type="checkbox" v-model="seach12"/>
                     <span>坏账</span>
-                    <input type="checkbox" v-model="seach13"/>
+                    <input type="checkbox" v-model="num.seach13"/>
                     <span>扣税费</span>
-                    <input type="checkbox" v-model="seach14"/>
+                    <input type="checkbox" v-model="num.seach14"/>
                     <span>设计师成本费</span>
-                    <input type="checkbox" v-model="seach15" />
+                    <input type="checkbox" v-model="num.seach15" />
                     <span>利润</span>
-                    <input type="checkbox" v-model="seach16" style="margin-left: 24px"/>
+                    <input type="checkbox" v-model="num.seach16" style="margin-left: 24px"/>
                     <span>备注</span>
                     <div class="checkBox_btn">
-                        <span @click="heidcheckBox()">确定</span>
+                        <span @click=" setTitName()">确定</span>
                     </div>
                 </div>
             </div>
@@ -215,22 +215,25 @@
                 page:1,
                 total:0,
                 selectBox:false,
-                seach1:true,
-                seach2:true,
-                seach3:true,
-                seach4:true,
-                seach5:true,
-                seach6:true,
-                seach7:true,
-                seach8:true,
-                seach9:true,
-                seach10:true,
-                seach11:true,
-                seach12:true,
-                seach13:true,
-                seach14:true,
-                seach15:true,
-                seach16:true,
+                num:{
+                    seach1:true,
+                    seach2:true,
+                    seach3:true,
+                    seach4:true,
+                    seach5:true,
+                    seach6:true,
+                    seach7:true,
+                    seach8:true,
+                    seach9:true,
+                    seach10:true,
+                    seach11:true,
+                    seach12:true,
+                    seach13:true,
+                    seach14:true,
+                    seach15:true,
+                    seach16:true,
+                },
+
 
             }
         },
@@ -248,6 +251,22 @@
             },
             checkBox(){
                 this.selectBox=true;
+            },
+            setTitName(){
+                let formData=new FormData;
+                formData.append('uri','/ThemeCenter/data/Profit');
+                formData.append('options',JSON.stringify(this.num));
+                this.api.common_options_update(formData).then((res)=>{
+                    this.heidcheckBox()
+                })
+            },
+            getTitName(){
+                let params={uri:"/ThemeCenter/data/Profit"};
+                this.api.common_options_get({params}).then((res)=>{
+                    if(res!=null){
+                        this.num=JSON.parse(res.options);
+                    }
+                });
             },
             heidcheckBox(){
                 this.selectBox=false;

@@ -26,7 +26,7 @@
                 </div>
                 <div>
                     <span >名称</span>
-                    <input type="text" placeholder="给主题起个名字" v-model="name" maxlength="10">
+                    <input type="text" placeholder="起个名字" v-model="name" maxlength="10">
                 </div>
                 <div style="margin-bottom: 0">
                     <span >附件</span>
@@ -39,7 +39,6 @@
                                 action="222"
                                 :http-request="upLoad"
                                 multiple
-                                :limit="1"
                                 :on-remove="handleRemove"
                                 :before-upload="beforeAvatarUploads"
                         >
@@ -220,7 +219,7 @@
             getData(){
                 let params = {pkgid:this.$route.query.pkgid};
                 this.api.themes_package_details({params}).then((res)=>{
-                    // this.tableData=res;
+
                     this.name=res.name;
                     this.note=res.note;
                     this.channel=res.channel;
@@ -237,6 +236,7 @@
                     this.main_preview=res.main_preview;
                     this.pic=res.previews;
                     this.attach=res.attach;
+                    this.getUI();
                     this.getsc();
                     this.getThmPkg()
                 })
@@ -306,7 +306,10 @@
                 formData.append('attach',JSON.stringify(this.attach));
                 formData.append('main_preview',this.main_preview);
                 this.api.themes_package_edit(formData).then((res)=>{
-
+                    if(res!=false){
+                        this.qx();
+                        this.$router.go(-1)
+                    }
                 })
             },
             ADDtag(){
@@ -515,7 +518,10 @@
                 formData.append('attach',JSON.stringify(this.attach));
                 formData.append('main_preview',this.main_preview);
                 this.api.themes_package_add(formData).then((res)=>{
-                    // this.qx();
+                    if(res!=false){
+                        this.qx();
+                        this.$router.go(-1)
+                    }
                 })
             },
         },
@@ -539,7 +545,7 @@
     }
     .themeUpLeft{
         display: inline-block;
-        width:883px;
+        width:870px;
         min-height:852px;
         background: #fff;
         margin-right: 24px;
@@ -903,5 +909,14 @@
     }
     .imgCanvas:hover .dels{
         opacity: 1;
+    }
+    .content_xz{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(51,119,255,1);
+        margin-left: 10px;
+        cursor: pointer;
     }
 </style>

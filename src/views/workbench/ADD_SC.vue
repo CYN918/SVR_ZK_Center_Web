@@ -308,12 +308,16 @@
                 })
             },
             ADDtags(){
+                if(!this.type){
+                    this.$message.error('类型不能为空')
+                    return
+                }
                 this.bardian.push(this.tagsName);
                 let formData = new FormData;
                 formData.append('name',this.tagsName);
                 formData.append('preset',0);
-                formData.append('material',this.material);
-                formData.append('type',this.types);
+                formData.append('material',1);
+                formData.append('type',this.type);
                 this.api.tags_add(formData).then((res)=>{
                     this.tagsName='';
                     this. getTagsList();

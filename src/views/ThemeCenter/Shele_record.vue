@@ -27,14 +27,14 @@
                 <div style="margin-top: 24px">
                     <span class="tit_name">渠道</span>
                     <select  @change="getUI()" v-model="channel">
-                        <option value="">全部</option>
+
                         <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
                     </select>
                 </div>
                 <div>
                     <span class="tit_name">厂商UI版本</span>
                     <select style="margin-right: 68px" v-model="ui_version" @change="getThemeType()">
-                        <option value="">全部</option>
+
                         <option v-for="item in ui" :value="item.version">{{item.version}}</option>
                     </select>
                 </div>
@@ -49,9 +49,6 @@
                                 action="https://jsonplaceholder.typicode.com/posts/"
                                 :on-remove="handleRemove"
                                 :http-request="upLoad"
-                                multiple
-                                :limit="1"
-                                :on-exceed="handleExceed"
                         >
                             <el-button size="small" type="primary">点击上传</el-button>
                         </el-upload>
@@ -121,8 +118,13 @@
                     </div>
                 </div>
                 <div>
-                    <span>绑定打包件</span>
-                    <div style="display: inline-block">
+                    <span>无需打包件</span>
+                    <input type="checkbox" v-model="is_package" style="width: 16px;height: 16px"/>
+                    <span style="width: 120px">暂无需整理打包件</span>
+                </div>
+                <div>
+                    <span  v-if="is_package==false">绑定打包件</span>
+                    <div style="display: inline-block"  v-if="is_package==false">
                         <div class="db" @click="getPak('th_lock_screen')">
                             <div class="icon">
                                 <img src="../../../public/img/add_msg.png" style="width: 18px;height: 18px;margin-bottom: 10px" >
@@ -136,7 +138,7 @@
                             </div>
                         </div>
                     </div>
-                    <div style="display: inline-block">
+                    <div style="display: inline-block"  v-if="is_package==false">
                         <div class="db" @click="getPak('th_icon')">
                             <div class="icon">
                                 <img src="../../../public/img/add_msg.png" style="width: 18px;height: 18px;margin-bottom: 10px" >
@@ -150,7 +152,7 @@
                             </div>
                         </div>
                     </div>
-                    <div style="display: inline-block">
+                    <div style="display: inline-block"  v-if="is_package==false">
                         <div class="db" @click="getPak('th_second_page')">
                             <div class="icon">
                                 <img src="../../../public/img/add_msg.png" style="width: 18px;height: 18px;margin-bottom: 10px" >
@@ -164,8 +166,8 @@
                             </div>
                         </div>
                     </div>
-                    <div style="margin-left: 102px;margin-top: 24px">
-                        <div style="margin-bottom: 14px"><span>{{this.titName}}打包件</span></div>
+                    <div style="margin-left: 102px;margin-top: 24px" >
+                        <div style="margin-bottom: 14px"  v-if="is_package==false"><span>{{this.titName}}打包件</span></div>
                         <a @click="jump()">从主题素材库选择</a>
                         <div class="img_box">
                             <div class="img_box1" v-for="(item,index) in SC">
@@ -294,27 +296,95 @@
                 packages:[],
                 up:false,
                 times:0,
+                is_package:false,
+                id:"",
             }
         },
         mounted(){
             this.getThemeType();
             this.active();
-            if(this.$route.query.com!=undefined){
-                this.getData()
+            if(this.$route.query.com==undefined){
+                this.getDataDetails();
+
             }
         },
         methods:{
-            getData(){
-                let params={thid:this.$route.query.thid,ch_thid:this.$route.query.ch_thid,channel:this.$route.query.channel}
+            getDataDetails(){
+                let params={thid:this.$route.query.thid,ch_thid:this.$route.query.ch_thid,channel:this.$route.query.channel};
                 this.api.themes_theme_details({params}).then((res)=>{
-                    this.tableData=res;
-                    this.getsc()
+                    this.attach=res.attach;
+                    this.name=res.name;
+                    this.note=res.note;
+                    this.type=res.type;
+                    var arr=[];
+                    for(var j=0;j<(res.tags.split(',')).length;j++){
+                        for(var i=0;i<this.tag.length;i++){
+                            if(this.tag[i].name==(res.tags.split(','))[j]){
+                                arr.push((res.tags.split(','))[j])
+                            }
+                        }
+                    }
+                    this.tags=arr;
+                    this.content=res.class;
+                    this.main_preview=res.main_preview;
+                    this.pic=res.previews;
+                    this.channel=res.channel;
+                    this.ui_version=res.ui_version;
+                    this.version=res.version;
+                    this.account=res.account;
+                    this.channel_theme_name=res.channel_theme_name;
+                    this.price=res.price;
+                    this.tdate=res.tdate;
+                    this.is_package=res.is_package;
+                    if(this.is_package==true){
+                        this.getsc();
+                    }
+                    this. getUI();
+                    this.getPack();
+                })
+            },
+            getPack(){
+                let params={thid:this.$route.query.thid,ch_thid:this.$route.query.ch_thid,channel:this.$route.query.channel};
+                this.api.themes_theme_packeges({params}).then((res)=>{
+                    for(var i=0;i<res.length;i++){
+                        if(res[i].type=='th_lock_screen'){
+                            this.lockYl=res[i].main_preview;
+                            this.lockSC=res[i].previews;
+                            this.SC=res[i].previews;
+                            if(this.num==0){
+                                this.id=res[i].pkgid
+                            }
+                        }
+                        if(res[i].type=='th_icon'){
+                            this.iconYl=res[i].main_preview;
+                            this.iconSC=res[i].previews;
+                            this.SC=res[i].previews;
+                            if(this.num==1){
+                                this.id=res[i].pkgid
+                            }
+                        }
+                        if(res[i].type=='th_second_page'){
+                            this.twoYl=res[i].main_preview;
+                            this.twoSC=res[i].previews;
+                            this.SC=res[i].previews;
+                            if(this.num==2){
+                                this.id=res[i].pkgid
+                            }
+                        }
+                    }
+                    this.getDataList();
+                })
+            },
+            getDataList(){
+                let params={pkgid:this.id};
+                this.api.themes_package_materials({params}).then((res)=>{
+                    this.SC=res;
                 })
             },
             getsc(){
-                let params={thid:this.$route.query.thid,ch_thid:this.$route.query.ch_thid,channel:this.$route.query.channel}
+                let params={thid:this.$route.query.thid,ch_thid:this.$route.query.ch_thid,channel:this.$route.query.channel};
                 this.api.themes_theme_materials({params}).then((res)=>{
-                    this.sc=res;
+                    this.SC=res;
                 })
             },
             getThemeType(){
@@ -365,6 +435,7 @@
             getPak(type){
                 if(type=='th_lock_screen'&&this.lockYl!=''){
                     this.num=0;
+                    this.getDataList();
                     return
                 }else{
                     if(!this.channel){
@@ -380,6 +451,7 @@
                 }
                 if(type=='th_icon'&&this.iconYl!=''){
                     this.num=1;
+                    this.getDataList();
                     return
                 }else{
                     if(!this.channel){
@@ -395,6 +467,7 @@
                 }
                 if(type=='th_second_page'&&this.twoYl!=''){
                     this.num=2;
+                    this.getDataList();
                     return
                 }else{
                     if(!this.channel){
@@ -456,8 +529,130 @@
                 this.scID=data;
                 this.getList();
             },
-            addTheme(){
+            setData(){
+                if(!this.channel){
+                    this.$message.error('渠道不能为空')
+                    return
+                }
 
+                if(!this.ui_version){
+                    this.$message.error('厂商UI版本不能为空')
+                    return
+                }
+                if(!this.account){
+                    this.$message.error('上架账号不能为空')
+                    return
+                }
+                if(!this.channel_theme_name){
+                    this.$message.error('上架名称不能为空')
+                    return
+                }
+                if(!this.tdate){
+                    this.$message.error('上架时间不能为空')
+                    return
+                }
+                if(new Date(this.tdate)<=new Date()){
+                    this.$message.error('上架时间不能小于当前时间');
+                    return
+                }
+                if(!this.note){
+                    this.$message.error('备注不能为空')
+                    return
+                }
+                if(!this.main_preview){
+                    this.$message.error('封面图不能为空')
+                    return
+                }
+                if(!this.attach.url){
+                    this.$message.error('未上传主题包')
+                    return
+                }
+                if(!this.price){
+                    this.$message.error('需求数量不能为空');
+                    return
+                }
+                if(this.price>99.9){
+                    this.$message.error('价格最大为99.9');
+                    return
+                }
+                if(this.price<=0){
+                    this.$message.error('价格为大于零的正数');
+                    return
+                }
+                var arr=[];
+                for(var i=0;i<this.lockSC.length;i++){
+                    arr.push(this.lockSC[i].thmid)
+                }
+                for(var i=0;i<this.iconSC.length;i++){
+                    arr.push(this.iconSC[i].thmid)
+                }
+                for(var i=0;i<this.twoSC.length;i++){
+                    arr.push(this.twoSC[i].thmid)
+                }
+                if(this.lockID!=''){
+                    this.packages.push(this.lockID);
+                }
+                if(this.iconID!=''){
+                    this.packages.push(this.iconID)
+                }
+                if(this.twoID!=''){
+                    this.packages.push(this.twoID)
+                }
+                if(this.is_package==false){
+                    let formData =new FormData;
+                    formData.append('thid',this.thid);
+                    formData.append('wpid',this.wpid);
+                    formData.append('account',this.account);
+                    formData.append('channel',this.channel);
+                    formData.append('ui_version',this.ui_version);
+                    formData.append('version',this.version);
+                    formData.append('price',this.price);
+                    formData.append('tdate',this.tdate);
+                    formData.append('note',this.note);
+                    formData.append('materials',JSON.stringify(arr));
+                    formData.append('channel_theme_name',this.channel_theme_name);
+                    formData.append('is_package',this.is_package);
+                    formData.append('tags',this.tags.join(','));
+                    formData.append('main_preview',this.main_preview);
+                    formData.append('previews',JSON.stringify(this.pic));
+                    formData.append('attach',JSON.stringify(this.attach));
+                    formData.append('packages',JSON.stringify(this.packages));
+                }else{
+                    let formData =new FormData;
+                    formData.append('thid',this.thid);
+                    formData.append('wpid',this.wpid);
+                    formData.append('account',this.account);
+                    formData.append('channel',this.channel);
+                    formData.append('ui_version',this.ui_version);
+                    formData.append('version',this.version);
+                    formData.append('price',this.price);
+                    formData.append('tdate',this.tdate);
+                    formData.append('note',this.note);
+                    formData.append('channel_theme_name',this.channel_theme_name);
+                    formData.append('tags',this.tags.join(','))
+                    formData.append('main_preview',this.main_preview);
+                    formData.append('previews',JSON.stringify(this.pic));
+                    formData.append('attach',JSON.stringify(this.attach));
+                    formData.append('is_package',this.is_package);
+                }
+                this.api.themes_theme_channel_edit(formData).then((res)=>{
+                    if(res!=false){
+                        this.$router.push({
+                            path:"./themeDetailsQd",
+                            query:{
+                                thid:this.$route.query.thid,
+                                channel:this.$route.query.channel,
+                                ch_thid:this.$route.query.ch_thid,
+                            }
+                        })
+                    }
+                })
+            },
+            addTheme(){
+                if(this.$route.query.com==undefined){
+                    this.setData();
+                    return
+                }
                 if(!this.channel){
                     this.$message.error('渠道不能为空')
                     return
@@ -527,24 +722,44 @@
                 if(this.twoID!=''){
                     this.packages.push(this.twoID)
                 }
-                console.log(this.packages)
-                let formData =new FormData;
-                formData.append('thid',this.thid);
-                formData.append('wpid',this.wpid);
-                formData.append('account',this.account);
-                formData.append('channel',this.channel);
-                formData.append('ui_version',this.ui_version);
-                formData.append('version',this.version);
-                formData.append('price',this.price);
-                formData.append('tdate',this.tdate);
-                formData.append('note',this.note);
-                formData.append('materials',JSON.stringify(arr));
-                formData.append('channel_theme_name',this.channel_theme_name);
-                formData.append('tags',this.tags.join(','))
-                formData.append('main_preview',this.main_preview);
-                formData.append('previews',JSON.stringify(this.pic));
-                formData.append('attach',JSON.stringify(this.attach));
-                formData.append('packages',JSON.stringify(this.packages));
+                if(this.is_package==false){
+                    let formData =new FormData;
+                    formData.append('thid',this.thid);
+                    formData.append('wpid',this.wpid);
+                    formData.append('account',this.account);
+                    formData.append('channel',this.channel);
+                    formData.append('ui_version',this.ui_version);
+                    formData.append('version',this.version);
+                    formData.append('price',this.price);
+                    formData.append('tdate',this.tdate);
+                    formData.append('note',this.note);
+                    formData.append('materials',JSON.stringify(arr));
+                    formData.append('channel_theme_name',this.channel_theme_name);
+                    formData.append('is_package',this.is_package);
+                    formData.append('tags',this.tags.join(','));
+                    formData.append('main_preview',this.main_preview);
+                    formData.append('previews',JSON.stringify(this.pic));
+                    formData.append('attach',JSON.stringify(this.attach));
+                    formData.append('packages',JSON.stringify(this.packages));
+                }else{
+                    let formData =new FormData;
+                    formData.append('thid',this.thid);
+                    formData.append('wpid',this.wpid);
+                    formData.append('account',this.account);
+                    formData.append('channel',this.channel);
+                    formData.append('ui_version',this.ui_version);
+                    formData.append('version',this.version);
+                    formData.append('price',this.price);
+                    formData.append('tdate',this.tdate);
+                    formData.append('note',this.note);
+                    formData.append('channel_theme_name',this.channel_theme_name);
+                    formData.append('tags',this.tags.join(','))
+                    formData.append('main_preview',this.main_preview);
+                    formData.append('previews',JSON.stringify(this.pic));
+                    formData.append('attach',JSON.stringify(this.attach));
+                    formData.append('is_package',this.is_package);
+                }
+
                 this.api.themes_theme_channel_add(formData).then((res)=>{
                     this.qx()
                 })
@@ -624,7 +839,7 @@
                 this.scope();
                 let formData = new FormData;
                 formData.append('file',file.file);
-                this.api.file_upload(formData).then((res)=>{
+                this.api.themes_theme_upload(formData).then((res)=>{
                     this.attach=res;
                     this.times=100;
                     --this.fcounter;
@@ -1020,5 +1235,14 @@
     }
     .imgCanvas:hover .dels{
         opacity: 1;
+    }
+    .content_xz{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(51,119,255,1);
+        margin-left: 10px;
+        cursor: pointer;
     }
 </style>

@@ -27,7 +27,7 @@
                     <!--<input type="text" placeholder="搜索结算方名称" v-model="search">-->
                 <!--</div>-->
                 <span class="cx" @click="getData()">查询</span>
-                <span class="dc">导出</span>
+                <!--<span class="dc">导出</span>-->
             </div>
         </div>
         <div class="table">

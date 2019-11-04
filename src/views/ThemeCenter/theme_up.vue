@@ -31,8 +31,6 @@
                                 :on-remove="handleRemove"
                                 :http-request="upLoad"
                                 multiple
-                                :limit="1"
-                                :on-exceed="handleExceed"
                                 :before-upload="beforeAvatarUploads"
                                 >
                             <el-button size="small" type="primary">点击上传</el-button>
@@ -42,7 +40,7 @@
                                 <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(61,73,102,1);">上传主题包</span>
                             </div>
                             <div style="margin-bottom: 3px">
-                                <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(143,155,179,1);">支持扩展名：zip、.theme、.gnz、.zmtp</span>
+                                <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(143,155,179,1);">支持扩展名：zip</span>
                             </div>
                             <div style="margin-bottom: 3px">
                                 <span>{{attach.name}}</span>
@@ -475,7 +473,7 @@
     }
     .themeUpLeft{
         display: inline-block;
-        width:883px;
+        width:870px;
         min-height:852px;
         background: #fff;
         margin-right: 24px;

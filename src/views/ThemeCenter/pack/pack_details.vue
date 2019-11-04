@@ -25,10 +25,10 @@
                 <span class="titName">标签</span>
                 <div class="tag">
                     <span class="tagName" v-for="item in ((this.tableData.tags).split(','))" v-if="item!=''">{{item}}</span>
-                    <span class="tagADD">
-                        <img>
-                        标签
-                    </span>
+                    <!--<span class="tagADD">-->
+                        <!--<img>-->
+                        <!--标签-->
+                    <!--</span>-->
                 </div>
             </div>
             <div>
@@ -431,8 +431,7 @@
     }
     .tagName{
         display: inline-block;
-        width:46px;
-        height:24px;
+        padding:2px 5px;
         background:rgba(255,255,255,1);
         border-radius:4px;
         line-height: 24px;

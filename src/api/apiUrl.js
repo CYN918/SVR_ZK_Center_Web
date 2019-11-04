@@ -1015,7 +1015,12 @@ export default {
     themes_theme_packeges:{
 		url:"themes/theme/packeges",method:"get"
 	},
-	//新增上架渠道主题
+	//编辑上架渠道主题
+
+    themes_theme_channel_edit:{
+		url:'themes/theme/channel/edit',method:'post',isType:{suktip:1}
+	},
+    //新增上架渠道主题
     themes_theme_channel_add:{
 		url:'themes/theme/channel/add',method:'post',isType:{suktip:1}
 	},
@@ -1115,6 +1120,19 @@ export default {
     themes_package_edit_tags:{
 		url:'themes/package/edit/tags',method:"post",isType:{suktip:1}
 	},
+	//上传主题文件
+    themes_theme_upload:{
+		url:'themes/theme/upload',method:"post",isType:{suktip:1}
+	},
+	//添加/更新用户表头筛选项
+    common_options_update:{
+		url:'common/options/update',method:"post",isType:{suktip:1}
+	},
+	//获取用户页面表头筛选项
+    common_options_get:{
+		url:'common/options/get',method:"get"
+	},
+
 
 
     //收益数据

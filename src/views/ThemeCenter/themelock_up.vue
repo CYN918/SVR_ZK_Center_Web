@@ -14,7 +14,7 @@
             <div class="themeUpLeft">
                 <div>
                     <span >名称</span>
-                    <input type="text" placeholder="给主题起个名字" style=" margin-top: 26px;"  v-model="name">
+                    <input type="text" placeholder="起个名字" style=" margin-top: 26px;"  v-model="name">
                 </div>
                 <div style="margin-bottom: 0">
                     <span >附件</span>
@@ -27,9 +27,7 @@
                                 action="222"
                                 :http-request="upLoad"
                                 multiple
-                                :limit="1"
                                 :on-remove="handleRemove"
-                                :on-exceed="handleExceed"
                                 :before-upload="beforeAvatarUploads"
                                 >
                             <el-button size="small" type="primary">点击上传</el-button>
@@ -138,7 +136,7 @@
                     <a @click="jump()" v-if="this.$route.query.thmid==undefined">从主题库选择</a>
                     <a v-if="this.$route.query.thmid!=undefined">从主题库选择</a>
                     <input type="checkbox" class="check" v-model="is_material"/>
-                    <span class="sm">与作品无关</span>
+                    <span class="sm">与主题无关</span>
                     <span class="sm2">绑定制作图标的相关主题素材，千万不要填错了</span>
                     <div class="img_box">
                         <div class="img_box1" v-for="(item,index) in listSC">
@@ -474,7 +472,11 @@
                 formData.append('attach',JSON.stringify(this.attach));
                 formData.append('main_preview',this.main_preview);
                 this.api.themes_material_edit(formData).then((res)=>{
-                    this.qx();
+                    if(res!=false){
+                        this.qx();
+                        this.$router.go(-1)
+                    }
+
                 })
             },
             ADDs(){
@@ -527,7 +529,10 @@
                 formData.append('attach',JSON.stringify(this.attach));
                 formData.append('main_preview',this.main_preview);
                 this.api.themes_material_add(formData).then((res)=>{
-                    this.qx();
+                    if(res!=false){
+                        this.qx();
+                        this.$router.go(-1)
+                    }
                 })
             },
         },
@@ -551,7 +556,7 @@
     }
     .themeUpLeft{
         display: inline-block;
-        width:883px;
+        width:870px;
         min-height:852px;
         background: #fff;
         margin-right: 24px;
@@ -913,5 +918,14 @@
     }
     .imgCanvas:hover .dels{
         opacity: 1;
+    }
+    .content_xz{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(51,119,255,1);
+        margin-left: 10px;
+        cursor: pointer;
     }
 </style>
