@@ -147,7 +147,7 @@
                         this. YCset();
             },
             getList(){
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,tags:this.listTag.join(','),status:this.status};
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,tags:this.listTag.join(','),status:this.status,account:this.account};
                 this.api.themes_material_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     this.total=res.total;

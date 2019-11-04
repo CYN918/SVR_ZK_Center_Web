@@ -3,8 +3,7 @@
         <tags v-if="ta"  :id="id" :bq="bq"></tags>
         <div class="top">
             <span class="topName">图标打包件</span>
-            <span class="total">共299套/</span>
-            <span class="total">200套已使用</span>
+            <span class="total">共{{TotalNum}}套</span>
             <span class="upLock" @click="jump">上传</span>
         </div>
         <div class="seach">
@@ -69,7 +68,6 @@
         data(){
             return{
                 type:'th_icon',
-
                 search:'',
                 tags:[],
                 tag:[],
@@ -85,10 +83,10 @@
                 ta:false,
                 bq:'',
                 id:"",
-
+                TotalNum:"",
             }
         },
-        mounted(){this.dataList()},
+        mounted(){this.dataList();this.getTotal()},
         methods:{
             getUI(){
                 let params={channel:this.channel};
@@ -99,6 +97,12 @@
             qd(){
                 this.api.themes_config_channel().then((res)=>{
                     this.channels=res;
+                })
+            },
+            getTotal(){
+                let params={type:this.type}
+                this.api.themes_package_count({params}).then((res)=>{
+                    this.TotalNum=res.total
                 })
             },
             ClickTag(name){

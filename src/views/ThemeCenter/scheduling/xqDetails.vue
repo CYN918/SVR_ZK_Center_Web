@@ -269,7 +269,9 @@
                formData.append('f_thid',this.f_thid);
                formData.append('f_ch_thid',this.f_ch_thid);
                 this.api.themes_schedule_demand_edit(formData).then((res)=>{
-
+                    if(res!=false){
+                        this.$router.go(-1)
+                    }
                 })
             },
             qd(){

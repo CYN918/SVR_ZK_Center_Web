@@ -4,9 +4,9 @@
                 <div>
                     <span class="theme_name">主题库</span>
                     <span class="top_txt">共</span>
-                    <span class="top_txt">200</span>
+                    <span class="top_txt">{{TotalNum}}</span>
                     <span class="top_txt">套/</span>
-                    <span class="top_txt">120</span>
+                    <span class="top_txt">{{valid_count}}</span>
                     <span class="top_txt">套已上架</span>
                     <span class="tit_right" @click="upTheme()">上传主题</span>
                 </div>
@@ -153,10 +153,13 @@
                 dataList:[],
                 themeChannel:[],
                 special:'',
+                TotalNum:"",
+                valid_count:"",
             }
         },
         mounted(){this.themeType();
-                this.getData()
+                this.getData();
+                this.getTotal();
         },
         methods:{
             handleSizeChange(p) { // 每页条数切换
@@ -176,6 +179,12 @@
             getOperatorTag(){
                 this.api.lockwallpaper_tags_list().then((res)=>{
                     this.self_tags=res;
+                })
+            },
+            getTotal(){
+                this.api.themes_theme_count().then((res)=>{
+                    this.TotalNum=res.total;
+                    this.valid_count=res.valid_count
                 })
             },
             getData(){

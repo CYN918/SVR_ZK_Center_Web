@@ -95,10 +95,12 @@
               <div>
                   <span>厂商UI版本</span>
                   <select style="margin-right: 68px" v-model="ui_version" v-if="pkgid==undefined">
-                      <option v-for="item in ui" :value="item.version">{{item.version}}</option>
+                      <option v-for="item in ui" :value="item.version" v-if="ui.length!=0">{{item.version}}</option>
+                      <option value="" v-if="ui.length==0">暂无</option>
                   </select>
                   <select style="margin-right: 68px" v-model="ui_version" disabled="disabled" v-if="pkgid!=undefined">
-                      <option v-for="item in ui" :value="item.version">{{item.version}}</option>
+                      <option v-for="item in ui" :value="item.version" v-if="ui.length!=0">{{item.version}}</option>
+                      <option value="" v-if="ui.length==0">暂无</option>
                   </select>
               </div>
                 <div>

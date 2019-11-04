@@ -34,7 +34,7 @@
                 <span class="titName">ID:</span>
                 <span class="titCon">{{tableData.thid}}</span>
                 <span class="titName">定投ID:</span>
-                <span class="titCon" style="width: 150px"></span>
+                <span class="titCon" style="width: 150px">{{tableData.wpid!=''?'tableData.wpid':'不可定投主题'}}</span>
             </div>
             <div>
                 <span class="titName">内容分类:</span>

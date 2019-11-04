@@ -3,8 +3,8 @@
         <tags v-if="ta" :type="type" :id="id" :bq="bq"></tags>
         <div class="top">
            <span class="topName">锁屏主题素材</span>
-           <span class="total">共299套/</span>
-           <span class="total">200套已使用</span>
+            <span class="total">共{{TotalNum}}套/</span>
+            <span class="total">{{valid_count}}套已使用</span>
             <span class="upLock" @click="jump">上传锁屏</span>
         </div>
         <div class="seach">
@@ -76,9 +76,11 @@
                 ta:false,
                 id:'',
                 bq:"",
+                TotalNum:"",
+                valid_count:"",
             }
         },
-        mounted(){this.dataList()},
+        mounted(){this.dataList();this.getTotal()},
         methods:{
             ClickTag(name){
                 if(name==undefined){
@@ -101,6 +103,12 @@
                 this.id=id;
                 this.ta=true;
                 this.bq=tag;
+            },
+            getTotal(){
+                this.api.themes_material_count().then((res)=>{
+                    this.TotalNum=res.total;
+                    this.valid_count=res.valid_count
+                })
             },
             qxTags(){
                 this.ta=false;

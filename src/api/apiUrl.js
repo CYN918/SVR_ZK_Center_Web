@@ -1132,7 +1132,18 @@ export default {
     common_options_get:{
 		url:'common/options/get',method:"get"
 	},
-
+	//主题及上架数量
+    themes_theme_count:{
+		url:"themes/theme/count",method:"get"
+	},
+	//主题素材数量及使用数量
+    themes_material_count:{
+		url:"themes/material/count",method:"get"
+	},
+	//主题打包件数量
+    themes_package_count:{
+		url:"themes/package/count",method:"get"
+	},
 
 
     //收益数据
