@@ -67,10 +67,7 @@ export default {
 			todata:[{name:'首页',url:'/index'},{name:'工作台',url:'/workbench/workbenchPadding'},{name:'数据',url:'/data/Material_data'},{name:'收益中心',url:'/income/earnings'},{name:'素材中心',url:'/admin/advertising'},{name:'主题中心',url:'/ThemeCenter'},{name:'用户',url:'/userinfo/user_info'}],
 		}
     },
-	created(){
 
-
-	},
 	mounted(){
 		this.name=localStorage.getItem('userName');
 		this.getLefNav();
@@ -92,7 +89,6 @@ export default {
 		},
         getLefNav(){
             this.api.perm_leftnav().then((res)=>{
-                console.log(localStorage.getItem('letNav'));
                 let navs = [];
                 for(var i=0;i<res.length;i++){
                     if(res[i].title=='素材中心'&&res[i].children!=0){

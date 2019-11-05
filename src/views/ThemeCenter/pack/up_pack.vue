@@ -4,8 +4,8 @@
         <sel v-if="sel" @linet="linet"></sel>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh()">{{this.type=='th_lock_screen'?'锁屏打包件':this.type=='th_icon'?'图标打包件':'二级页打包件'}} &nbsp;/</span>
-                <span class="new_url"> &nbsp;上传{{this.type=='th_lock_screen'?'锁屏主打包件':this.type=='th_icon'?'图标打包件':'二级页打包件'}}</span>
+                <span class="log_url" @click="fh()">{{this.type=='th_lock_screen'?'锁屏打包件':this.type=='th_icon'?'图标打包件':'二级页打包件'}}&nbsp;/</span>
+                <span class="new_url">&nbsp;上传{{this.type=='th_lock_screen'?'锁屏主打包件':this.type=='th_icon'?'图标打包件':'二级页打包件'}}</span>
             </div>
             <div class="tit_top_con">
                 <span class="tit_name">上传{{this.type=='th_lock_screen'?'锁屏打包件':this.type=='th_icon'?'图标打包件':'二级页打包件'}}</span>
@@ -140,6 +140,8 @@
                                     :on-remove="handleRemove"
                                     :http-request="upYl"
                                     multiple
+                                    :limit="10"
+                                    :on-exceed="handleExceed"
                             >
                                 <el-button size="small" type="primary">点击上传</el-button>
                             </el-upload>
@@ -242,6 +244,9 @@
                     this.getsc();
                     this.getThmPkg()
                 })
+            },
+            handleExceed(files, fileList) {
+                this.$message.error(`当前限制选择10个文件`);
             },
             beforeAvatarUploads(file) {
                 this.file = file;

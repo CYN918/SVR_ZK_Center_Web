@@ -342,7 +342,7 @@
                 })
             },
             handleExceed(files, fileList) {
-                this.$message.warning(`当前限制选择1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+                this.$message.error(`当前限制选择10个文件`);
             },
             fh(){
                 this.$router.go(-1)
@@ -748,6 +748,7 @@
         background:rgba(0,0,0,0.05);
         border:1px dashed rgba(0,0,0,0.15);
         text-align: center;
+        margin-bottom: 20px;
     }
     .icon{
         text-align: center;
@@ -773,6 +774,7 @@
         height:240px;
         margin-right: 20px;
         border: 1px solid #ddd;
+        margin-bottom: 20px;
     }
     .sc{
         max-width:144px;
