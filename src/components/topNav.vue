@@ -10,13 +10,19 @@
 			<!--</el-dropdown-menu>-->
 		<!--</el-dropdown>-->
 		<ul class="navd" v-if="config.showL!=-1&&this.type!=1">
-			<router-link  to="/workbench" v-if="top2"><li><span>工作台</span></li></router-link>
-			<router-link  to="/data"  v-if="top3"><li><span>数据中心</span></li></router-link>
-			<router-link  to="/income"  v-if="top4"><li><span>收益中心</span></li></router-link>
-			<router-link  to="/admin"  v-if="top1"><li> <span>素材中心</span></li></router-link>
-			<router-link  to="/ThemeCenter"  v-if="top5"><li><span>主题中心</span></li></router-link>
+			<router-link  v-for="(el,index) in navList" :key="index" :to="el.to">
+				<li>
+					<span>{{el.name}}</span>
+				</li>
+			</router-link>
 			<router-link  to="/login" class="right1"><li @click="loginout()"><span>退出登录</span></li></router-link>
 			<router-link  to="/userinfo" class="right0"><li><img :src="img" class="imgs_user"/>{{name}}</li></router-link>
+
+			<!--<router-link  to="/data"  v-if="top3"><li><span>数据中心</span></li></router-link>-->
+			<!--<router-link  to="/income"  v-if="top4"><li><span>收益中心</span></li></router-link>-->
+			<!--<router-link  to="/admin"  v-if="top1"><li> <span>素材中心</span></li></router-link>-->
+			<!--<router-link  to="/ThemeCenter"  v-if="top5"><li><span>主题中心</span></li></router-link>-->
+
 		</ul>
 		<ul class="navd" v-if="config.showL!=-1&&this.type==1">
 			<router-link  to="/workbench"><li><span>工作台</span></li></router-link>
@@ -45,6 +51,7 @@ export default {
 	props:['config'],
     data(){
 		return{
+			navList:[],
 		    type:'',
 			role_type:localStorage.getItem('role'),
 		    name:'',
@@ -61,11 +68,12 @@ export default {
 		}
     },
 	created(){
-        this.getLefNav();
+
+
 	},
 	mounted(){
 		this.name=localStorage.getItem('userName');
-
+		this.getLefNav();
         this.authority();
         this.type=localStorage.getItem('role');
         if(localStorage.getItem('icon')!=''){
@@ -73,7 +81,6 @@ export default {
 		}
 	},
 	methods:{
-
 		handleSelect(key){				
 			this.topNacd = this.todata[key].name;
 			this.$router.push(this.todata[key].url);
@@ -85,25 +92,48 @@ export default {
 		},
         getLefNav(){
             this.api.perm_leftnav().then((res)=>{
-
+                console.log(localStorage.getItem('letNav'));
+                let navs = [];
                 for(var i=0;i<res.length;i++){
                     if(res[i].title=='素材中心'&&res[i].children!=0){
+                        navs.push({
+                            to:'/admin',
+                            name:'素材中心'
+                        });
                         this.top1=true
 					}
                     if(res[i].title=='工作台'&&res[i].children!=0){
+                        navs.push({
+                            to:'/workbench',
+							name:'工作台'
+                        });
                         this.top2=true
                     }
                     if(res[i].title=='数据中心'&&res[i].children!=0){
+                        navs.push({
+                            to:'/data',
+                            name:'数据中心'
+                        });
                         this.top3=true
                     }
                     if(res[i].title=='收益中心'&&res[i].children!=0){
+                        navs.push({
+                            to:'/income',
+                            name:'收益中心'
+                        });
                         this.top4=true
                     }
                     if(res[i].title=='主题中心'&&res[i].children!=0){
+                        navs.push({
+                            to:'/ThemeCenter',
+                            name:'主题中心'
+                        });
                         this.top5=true
                     }
 				}
+				this.navList = navs;
                 localStorage.setItem('letNav',JSON.stringify(res));
+
             })
         },
 		goindex(){
