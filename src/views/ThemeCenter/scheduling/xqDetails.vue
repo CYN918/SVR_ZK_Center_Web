@@ -21,7 +21,7 @@
                    <img :src="this.url">
                    <div class="box1_BTN">
                        <span @click="zt('1')">重新选择</span>
-                       <span @click="CK(thid,channel,ch_thid)">查看详情</span>
+                       <span @click="CK(thid,ch_thid,channel)">查看详情</span>
                    </div>
                </div>
                <div class="name">
@@ -173,24 +173,27 @@
                 this.thm=false;
             },
             CK(id,qdID,qd){
-               console.log(id);
-                console.log(qdID);
-                console.log(qd);
                 var query = {
                     thid:id,
                     channel:qd,
                     ch_thid:qdID,
                 };
                 if(qd=='local'){
-                    this.$router.push({
+                    let Logistics= this.$router.resolve({
                         path:'../themeDetails',
                         query:query
                     })
+                    window.open(Logistics.href, '_blank','toolbar=yes');
                 }else{
-                    this.$router.push({
+                    // this.$router.push({
+                    //     path:'../themeDetailsQd',
+                    //     query:query
+                    // })
+                    let Logistics= this.$router.resolve({
                         path:'../themeDetailsQd',
                         query:query
                     })
+                    window.open(Logistics.href, '_blank','toolbar=yes');
                 }
 
             },

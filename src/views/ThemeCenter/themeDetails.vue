@@ -37,7 +37,7 @@
             </div>
             <div>
                 <span class="titName">适用范围:</span>
-                <span class="titCon">{{tableData.account}}</span>
+                <span class="titCon">{{tableData.range}}</span>
             </div>
             <div style="margin-bottom: 56px">
                 <span class="titName">主题描述:</span>
@@ -115,7 +115,10 @@
                     <div class="tendency">
                         <span>下载量趋势</span>
                     </div>
-                    <div id="tendencyImg">
+                    <div id="tendencyImg" v-for="item in upList">
+                        <div style="display: inline-block" v-for="key in item.themes">
+                            <img :src="key.main_preview">
+                        </div>
 
                     </div>
                 </div>
@@ -156,6 +159,7 @@
                 thid:this.$route.query.thid,
                 channel:this.$route.query.channel,
                 ch_thid:this.$route.query.ch_thid,
+                upList:[],
             }
         },
         mounted(){
@@ -176,6 +180,13 @@
                 let params={thid:this.thid,ch_thid:this.ch_thid,channel:this.channel}
                 this.api.themes_theme_materials({params}).then((res)=>{
                     this.sc=res;
+                    this.getUp();
+                })
+            },
+            getUp(){
+                let params ={thid:this.thid};
+                this.api.themes_theme_records({params}).then((res)=>{
+                    this.upList=res;
                 })
             },
             getData(){

@@ -974,8 +974,12 @@ export default {
     themes_theme_search:{
 		url:'themes/theme/search',method:'get'
 	},
+	//主题上架记录
+    themes_theme_records:{
+		url:'themes/theme/records',method:'get'
+	},
 
-	//新增本地主题
+    //新增本地主题
     themes_theme_local_add:{
 		url:'themes/theme/local/add',method:'post',isType:{suktip:1}
 	},

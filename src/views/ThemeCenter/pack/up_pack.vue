@@ -85,35 +85,29 @@
                 </div>
                 <div>
                     <span>渠道</span>
-                    <select style="margin-right: 40px" @change="getUI()" v-model="channel" v-if="pkgid==undefined">
-                        <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
-                    </select>
-                    <select style="margin-right: 40px" @change="getUI()" disabled="disabled" v-model="channel" v-if="pkgid!=undefined">
+
+                    <select style="margin-right: 40px" @change="getUI()" disabled="disabled" v-model="channel">
                         <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
                     </select>
                 </div>
               <div>
                   <span>厂商UI版本</span>
-                  <select style="margin-right: 68px" v-model="ui_version" v-if="pkgid==undefined">
+                  <select style="margin-right: 68px" v-model="ui_version" disabled="disabled">
                       <option v-for="item in ui" :value="item.version" v-if="ui.length!=0">{{item.version}}</option>
-                      <option value="" v-if="ui.length==0">暂无</option>
-                  </select>
-                  <select style="margin-right: 68px" v-model="ui_version" disabled="disabled" v-if="pkgid!=undefined">
-                      <option v-for="item in ui" :value="item.version" v-if="ui.length!=0">{{item.version}}</option>
-                      <option value="" v-if="ui.length==0">暂无</option>
+                      <option value="" v-if="ui.length==0&&channel!=''">暂无</option>
                   </select>
               </div>
-                <div>
-                    <span>绑定素材</span>
-                    <a @click="jump()" v-if="pkgid==undefined">从主题素材库选择</a>
-                    <a  v-if="pkgid!=undefined">从主题素材库选择</a>
-                    <div class="img_box">
-                        <div class="img_box1" v-for="(item,index) in listSC">
-                            <img :src="item.main_preview" class="img_box1_img">
-                            <img class="del" src="../../../../public/img/del.png"  v-if="pkgid==undefined" style="width: 17px;height: 16px" @click="Del(item.thmid)"/>
-                        </div>
-                    </div>
-                </div>
+                <!--<div>-->
+                    <!--<span>绑定素材</span>-->
+                    <!--<a @click="jump()" v-if="pkgid==undefined">从主题素材库选择</a>-->
+                    <!--<a  v-if="pkgid!=undefined">从主题素材库选择</a>-->
+                    <!--<div class="img_box">-->
+                        <!--<div class="img_box1" v-for="(item,index) in listSC">-->
+                            <!--<img :src="item.main_preview" class="img_box1_img">-->
+                            <!--<img class="del" src="../../../../public/img/del.png"  v-if="pkgid==undefined" style="width: 17px;height: 16px" @click="Del(item.thmid)"/>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
                 <div class="themeBtn">
                     <span class="tj" @click="ADD()">提交</span>
                     <span @click="fh()">返回</span>
@@ -271,13 +265,24 @@
                 })
             },
             zt(){
+                // if(!this.channel){
+                //     this.$message.error('渠道不能为空');
+                //     return
+                // }
+                // if(!this.channel){
+                //     this.$message.error('渠道不能为空');
+                //     return
+                // }
                 this.thm=true;
             },
             heidThm(){
                 this.thm=false;
             },
-            listData(data){
+            listData(data,data1,data2,data3,data4,data5,data6,data7){
                 this.themeID=data;
+                this.channel=data6;
+                this.ui_version=data7;
+                this.getUI();
                 this.getTheme();
 
             },
@@ -299,7 +304,7 @@
                     this.$message.error('预览图不能为空');
                     return
                 }
-                if(!this.attach.url){
+                if(!this.attach){
                     this.$message.error('未上传主题包');
                     return
                 }
@@ -358,7 +363,7 @@
                         }
                     }
                     this.listThm=list;
-                    console.log(this.listThm)
+
                 })
             },
             DelThmId(id){
@@ -477,14 +482,7 @@
                     this.$message.error('主题名不能为空');
                     return
                 }
-                if(!this.name){
-                    this.$message.error('主题名不能为空');
-                    return
-                }
-                if(!this.scID){
-                    this.$message.error('主题素材不能为空');
-                    return
-                }
+
                 if(!this.tags){
                     this.$message.error('标签不能为空');
                     return
@@ -497,10 +495,7 @@
                     this.$message.error('版本不能为空');
                     return
                 }
-                if(!this.scID){
-                    this.$message.error('相关素材不能为空');
-                    return
-                }
+
                 if(!this.main_preview){
                     this.$message.error('封面图不能为空');
                     return
@@ -519,7 +514,7 @@
                 formData.append('note',this.note);
                 formData.append('tags',this.tags.join(','));
                 formData.append('channel',this.channel);
-                formData.append('materials',JSON.stringify(this.scID));
+                // formData.append('materials',JSON.stringify(this.scID));
                 formData.append('previews',JSON.stringify(this.pic));
                 formData.append('ui_version',this.ui_version);
                 formData.append('attach',JSON.stringify(this.attach));

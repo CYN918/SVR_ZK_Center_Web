@@ -1,6 +1,6 @@
 <template>
     <div>
-        <sel v-if="sel" @listData="listData"></sel>
+        <sel v-if="sel" @linet="linet"></sel>
         <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="fh()">{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='th_icon'?'图标主题素材':'二级页主题素材'}}&nbsp;/</span>
@@ -132,7 +132,7 @@
 
                 </div>
                 <div>
-                    <span>绑定主题</span>
+                    <span>绑定主题素材</span>
                     <a @click="jump()" v-if="this.$route.query.thmid==undefined">从主题库选择</a>
                     <a v-if="this.$route.query.thmid!=undefined">从主题库选择</a>
                     <input type="checkbox" class="check" v-model="is_material"/>
@@ -207,7 +207,7 @@
 </template>
 
 <script>
-    import sel from './select'
+    import sel from './select_material'
     export default {
         components:{sel},
         name: "theme_up",
@@ -292,18 +292,18 @@
                 return isXzip||iszip;
             },
             getList(){
-                let params ={page:1,p:100000,};
-                this.api.themes_theme_search({params}).then((res)=>{
+                let params ={page:1,p:100000,type:'',search:'',tags:'',status:''};
+                this.api.themes_material_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     var list=[];
                     for(var i=0;i<this.IMGList.length;i++ ){
                         for(var j =0;j<this.scID.length;j++){
-                            if(this.IMGList[i].thid==this.scID[j]){
+                            if(this.IMGList[i].thmid==this.scID[j]){
                                 list.push(this.IMGList[i]);
                             }
                         }
                     }
-                    this.listSC=this.listSC.concat(list);
+                    this.listSC=list;
                 })
             },
             ADDtag(){
@@ -326,10 +326,7 @@
                         this.scID.splice(i,1);
                     }
                 }
-                // let formData =new FormData;
-                // formData.append('thmid',id);
-                // this.api.themes_material_del(formData).then((res)=>{
-                // })
+                this.getList();
             },
             getTagsList(){
                 let params = {material:'2',type:'theme',search:this.tagsName,p:500,page:1};
@@ -348,7 +345,7 @@
                 this.$router.go(-1)
             },
 
-            listData(data){
+          linet(data){
                 this.scID=data;
                 this.getList();
             },
@@ -400,7 +397,8 @@
             jump(){
                this.sel=true;
             },
-            heidThm(){
+
+            setJump(){
                 this.sel=false;
             },
             Acctouns(){
@@ -427,7 +425,7 @@
                     this.$message.error('名称不能为空')
                     return
                 }
-                if(this.attach.length==0){
+                if(!this.attach){
                     this.$message.error('附件不能为空')
                     return
                 }
@@ -484,7 +482,7 @@
                     this.$message.error('名称不能为空')
                     return
                 }
-                if(this.attach.length==0){
+                if(!this.attach){
                     this.$message.error('附件不能为空')
                     return
                 }

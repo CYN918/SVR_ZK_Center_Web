@@ -64,8 +64,8 @@
                 <a href="#tabs0" :class="{clicks:isType==0}" @click="changeover('0')">预览图</a>
                 <a href="#tabs0" :class="{clicks:isType==1}" @click="changeover('1')">相关主题素材</a>
                 <a href="#tabs1" :class="{clicks:isType==2}" @click="changeover('2')">收益数据</a>
-                <a href="#tabs2" :class="{clicks:isType==3}" @click="changeover('3')">相关打包件</a>
-                <a href="#tabs3" :class="{clicks:isType==4}" @click="changeover('4')">相关合同</a>
+                <a href="#tabs3" :class="{clicks:isType==3}" @click="changeover('3')">相关打包件</a>
+                <a href="#tabs4" :class="{clicks:isType==4}" @click="changeover('4')">相关合同</a>
             </div>
         </div>
         <div style="margin-top:24px">

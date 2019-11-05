@@ -279,6 +279,7 @@
             },
             linet(data){
                 this.scID=data;
+                console.log(this.scID)
                 this.getList();
             },
 
@@ -345,7 +346,7 @@
                     this.$message.error('预览图不能为空')
                     return
                 }
-                if(!this.attach.url){
+                if(!this.attach){
                     this.$message.error('未上传主题包')
                     return
                 }
@@ -378,7 +379,7 @@
                             }
                         }
                     }
-                    this.listSC=this.listSC.concat(list);
+                    this.listSC=list;
                 })
             },
 
@@ -386,6 +387,7 @@
                 for(var i=0;i<this.scID.length;i++){
                     if(this.scID[i]==id){
                         this.scID.splice(i,1);
+                        console.log(this.scID)
                         this.getList();
                     }
                 }

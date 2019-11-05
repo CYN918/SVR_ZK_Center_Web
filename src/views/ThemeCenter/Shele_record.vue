@@ -443,10 +443,6 @@
                         this.$message.error('渠道不能为空');
                         return
                     }
-                    if(!this.ui_version){
-                        this.$message.error('渠道不能为空');
-                        return
-                    }
                     this.types=type;
                     this.pak=true;
                 }
@@ -459,10 +455,7 @@
                         this.$message.error('渠道不能为空');
                         return
                     }
-                    if(!this.ui_version){
-                        this.$message.error('渠道不能为空');
-                        return
-                    }
+
                     this.types=type;
                     this.pak=true;
                 }
@@ -475,10 +468,7 @@
                         this.$message.error('渠道不能为空');
                         return
                     }
-                    if(!this.ui_version){
-                        this.$message.error('渠道不能为空');
-                        return
-                    }
+
                     this.types=type;
                     this.pak=true;
                 }
@@ -535,7 +525,10 @@
                     this.$message.error('渠道不能为空')
                     return
                 }
-
+                if(!this.attach){
+                    this.$message.error('未上传主题包')
+                    return
+                }
                 if(!this.ui_version){
                     this.$message.error('厂商UI版本不能为空')
                     return
@@ -562,10 +555,6 @@
                 }
                 if(!this.main_preview){
                     this.$message.error('封面图不能为空')
-                    return
-                }
-                if(!this.attach.url){
-                    this.$message.error('未上传主题包')
                     return
                 }
                 if(!this.price){

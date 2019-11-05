@@ -110,8 +110,8 @@
                     <div>
                         <span>厂商UI版本</span>
                         <select v-model="ADDui" @change="getThemeType()">
-                            <option value="">全部</option>
-                            <option v-for="item in uis" :value="item.version">{{item.version}}</option>
+                            <option v-for="item in uis" :value="item.version" v-if="uis.length!=0">{{item.version}}</option>
+                            <option value="" v-if="uis.length==0&&channel!=''">暂无</option>
                         </select>
                     </div>
                     <div>
@@ -258,7 +258,7 @@
 
             YCset(){this.$parent.heidThm()},
             messageID(){
-                    this.$emit('listData',this.ind,this.ch_thids,this.qdList,this.main_preview,this.name,this.channelName);
+                    this.$emit('listData',this.ind,this.ch_thids,this.qdList,this.main_preview,this.name,this.channelName,this.ADDchannel,this.ADDui);
                     this. YCset()
             },
             getList(){
@@ -363,7 +363,7 @@
     .content{
         position: absolute;
         width:1416px;
-        height:780px;
+        height:886px;
         background:rgba(255,255,255,1);
         border-radius:4px;
         top:-140px;
@@ -530,13 +530,13 @@
         background:rgba(255,255,255,1);
         box-shadow:0px -2px 6px 0px rgba(0,0,0,0.1);
         border-radius:0px 0px 4px 4px;
-        margin-bottom: 0;
+        margin-bottom: 0!important;
         position: fixed;
         bottom: 0;
         text-align: left;
     }
 
-    .block .el-pagination{display: inline-block;margin-top: 0;margin-top:15px}
+    .block .el-pagination{display: inline-block;margin-top:15px}
     .tags{
         display: inline-block;
         max-width: 1090px;
@@ -559,6 +559,7 @@
         width: 189px;
         height: 349px;
         margin-right: 44px;
+        margin-bottom: 20px;
     }
     .box_top{
         width: 189px;
