@@ -180,7 +180,7 @@
                     <span>销售额</span>
                     <input type="checkbox" style="margin-left: 24px" v-model="num.seach11"/>
                     <span>渠道成本费</span>
-                    <input type="checkbox" v-model="seach12"/>
+                    <input type="checkbox" v-model="num.seach12"/>
                     <span>坏账</span>
                     <input type="checkbox" v-model="num.seach13"/>
                     <span>扣税费</span>

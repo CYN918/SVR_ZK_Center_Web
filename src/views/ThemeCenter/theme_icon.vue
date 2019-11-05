@@ -101,7 +101,8 @@
                 }
             },
             getTotal(){
-                this.api.themes_material_count().then((res)=>{
+                let params={type:this.type}
+                this.api.themes_material_count({params}).then((res)=>{
                     this.TotalNum=res.total;
                     this.valid_count=res.valid_count
                 })

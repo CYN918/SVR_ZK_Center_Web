@@ -179,7 +179,7 @@
 
                 <div class="themeBtn">
                     <span class="tj" @click="ADD()">提交</span>
-                    <span>取消</span>
+                    <span @click="fh()">取消</span>
                 </div>
             </div>
             <div class="themeUpRight">
@@ -307,6 +307,9 @@
             }
         },
         methods:{
+            fh(){
+                this.$router.go(-1);
+            },
             getDataDetails(){
                 let params={thid:this.$route.query.thid,ch_thid:this.$route.query.ch_thid,channel:this.$route.query.channel};
                 this.api.themes_theme_details({params}).then((res)=>{

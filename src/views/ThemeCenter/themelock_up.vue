@@ -3,11 +3,11 @@
         <sel v-if="sel" @listData="listData"></sel>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh()">{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='theme_icon'?'图标主题素材':'二级页主题素材'}} &nbsp;/</span>
-                <span class="new_url"> &nbsp;上传{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='theme_icon'?'图标主题素材':'二级页主题素材'}}</span>
+                <span class="log_url" @click="fh()">{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='th_icon'?'图标主题素材':'二级页主题素材'}}&nbsp;/</span>
+                <span class="new_url">&nbsp;上传{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='th_icon'?'图标主题素材':'二级页主题素材'}}</span>
             </div>
             <div class="tit_top_con">
-                <span class="tit_name">上传{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='theme_icon'?'图标主题素材':'二级页主题素材'}}</span>
+                <span class="tit_name">上传{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='th_icon'?'图标主题素材':'二级页主题素材'}}</span>
             </div>
         </div>
         <div class="themeUp">
@@ -136,7 +136,7 @@
                     <a @click="jump()" v-if="this.$route.query.thmid==undefined">从主题库选择</a>
                     <a v-if="this.$route.query.thmid!=undefined">从主题库选择</a>
                     <input type="checkbox" class="check" v-model="is_material"/>
-                    <span class="sm">与主题无关</span>
+                    <span class="sm">与主题素材无关</span>
                     <span class="sm2">绑定制作图标的相关主题素材，千万不要填错了</span>
                     <div class="img_box">
                         <div class="img_box1" v-for="(item,index) in listSC">
