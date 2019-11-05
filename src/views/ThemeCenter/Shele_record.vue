@@ -542,7 +542,7 @@
                     this.$message.error('上架时间不能为空')
                     return
                 }
-                if(new Date(this.tdate)<=new Date()){
+                if(new Date(this.tdate)<new Date()){
                     this.$message.error('上架时间不能小于当前时间');
                     return
                 }
@@ -644,7 +644,7 @@
                     this.$message.error('渠道不能为空')
                     return
                 }
-                
+
                 if(!this.account){
                     this.$message.error('上架账号不能为空')
                     return
@@ -657,7 +657,7 @@
                     this.$message.error('上架时间不能为空')
                     return
                 }
-                if(new Date(this.tdate)<=new Date()){
+                if(new Date(this.tdate)<new Date()){
                     this.$message.error('上架时间不能小于当前时间');
                     return
                 }
