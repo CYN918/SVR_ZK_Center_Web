@@ -10,13 +10,13 @@
 			<!--</el-dropdown-menu>-->
 		<!--</el-dropdown>-->
 		<ul class="navd" v-if="config.showL!=-1&&this.type!=1">
-			<router-link  to="/workbench"><li><span>工作台</span></li></router-link>
-			<router-link  to="/data"><li><span>数据中心</span></li></router-link>
-			<router-link  to="/income"><li><span>收益中心</span></li></router-link>
-			<router-link  to="/admin"><li> <span>素材中心</span></li></router-link>
-			<router-link  to="/ThemeCenter"><li><span>主题中心</span></li></router-link>
-			<router-link  to="/userinfo"><li class="right"><img :src="img" class="imgs_user"/>{{name}}</li></router-link>
-			<router-link  to="/login"><li class="right" @click="loginout()"><span>退出登录</span></li></router-link>
+			<router-link  to="/workbench" v-if="top2"><li><span>工作台</span></li></router-link>
+			<router-link  to="/data"  v-if="top3"><li><span>数据中心</span></li></router-link>
+			<router-link  to="/income"  v-if="top4"><li><span>收益中心</span></li></router-link>
+			<router-link  to="/admin"  v-if="top1"><li> <span>素材中心</span></li></router-link>
+			<router-link  to="/ThemeCenter"  v-if="top5"><li><span>主题中心</span></li></router-link>
+			<router-link  to="/login" class="right1"><li @click="loginout()"><span>退出登录</span></li></router-link>
+			<router-link  to="/userinfo" class="right0"><li><img :src="img" class="imgs_user"/>{{name}}</li></router-link>
 		</ul>
 		<ul class="navd" v-if="config.showL!=-1&&this.type==1">
 			<router-link  to="/workbench"><li><span>工作台</span></li></router-link>
@@ -50,14 +50,22 @@ export default {
 		    name:'',
             email:"",
 			input:'',
+            top1:false,
+            top2:false,
+            top3:false,
+            top4:false,
+            top5:false,
 			topNacd:'首页',
 			img:"./img/user.png",
 			todata:[{name:'首页',url:'/index'},{name:'工作台',url:'/workbench/workbenchPadding'},{name:'数据',url:'/data/Material_data'},{name:'收益中心',url:'/income/earnings'},{name:'素材中心',url:'/admin/advertising'},{name:'主题中心',url:'/ThemeCenter'},{name:'用户',url:'/userinfo/user_info'}],
 		}
     },
+	created(){
+        this.getLefNav();
+	},
 	mounted(){
 		this.name=localStorage.getItem('userName');
-        this.getLefNav();
+
         this.authority();
         this.type=localStorage.getItem('role');
         if(localStorage.getItem('icon')!=''){
@@ -77,6 +85,24 @@ export default {
 		},
         getLefNav(){
             this.api.perm_leftnav().then((res)=>{
+
+                for(var i=0;i<res.length;i++){
+                    if(res[i].title=='素材中心'&&res[i].children!=0){
+                        this.top1=true
+					}
+                    if(res[i].title=='工作台'&&res[i].children!=0){
+                        this.top2=true
+                    }
+                    if(res[i].title=='数据中心'&&res[i].children!=0){
+                        this.top3=true
+                    }
+                    if(res[i].title=='收益中心'&&res[i].children!=0){
+                        this.top4=true
+                    }
+                    if(res[i].title=='主题中心'&&res[i].children!=0){
+                        this.top5=true
+                    }
+				}
                 localStorage.setItem('letNav',JSON.stringify(res));
             })
         },
@@ -224,15 +250,12 @@ export default {
 	color:rgba(143,155,179,1);
 	line-height: 65px;
 }
-.navd a:nth-child(6){
-	position: fixed;
-	right: 200px;
-	height: 63px!important;
+.right1{
+	float: right;
+	margin-right: 50px;
 }
-.navd a:nth-child(7){
-	position: fixed;
-	right: 24px;
-	height: 63px!important;
+.right0{
+	float: right;
 }
 .navd a.router-link-active{	
 	display: inline-block;
