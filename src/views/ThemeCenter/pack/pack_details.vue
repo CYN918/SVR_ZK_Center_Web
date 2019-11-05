@@ -5,49 +5,50 @@
                 <span class="log_url" @click="fh()">{{this.$route.query.name+'打包件'}} &nbsp;/</span>
                 <span class="new_url"> &nbsp;{{this.$route.query.name+'打包件详情'}}</span>
             </div>
-        </div>
-        <div class="content">
-            <div class="name">
-                <span>{{this.$route.query.name+'打包件名称:'}}</span>
-                <span>{{tableData.name}}</span>
-                <div>
-                    <span @click="bj()">编辑</span>
-                    <a :href="tableData.attach.url" class="dowload">下载</a>
-                </div>
-            </div>
             <div>
-                <!--<span class="titName">主题类型:</span>-->
-                <!--<span class="titCon"></span>-->
-                <span class="titName">ID:</span>
-                <span class="titCon">{{tableData.pkgid}}</span>
-                <span class="titName">创建时间:</span>
-                <span class="titCon" style="width: 150px">{{tableData.created_at}}</span>
-                <span class="titName">标签</span>
-                <div class="tag">
-                    <span class="tagName" v-for="item in ((this.tableData.tags).split(','))" v-if="item!=''">{{item}}</span>
-                    <!--<span class="tagADD">-->
+                <div class="name">
+                    <span>{{this.$route.query.name+'打包件名称:'}}</span>
+                    <span>{{tableData.name}}</span>
+                    <div>
+                        <span @click="bj()">编辑</span>
+                        <a :href="tableData.attach.url" class="dowload">下载</a>
+                    </div>
+                </div>
+                <div>
+                    <!--<span class="titName">主题类型:</span>-->
+                    <!--<span class="titCon"></span>-->
+                    <span class="titName">ID:</span>
+                    <span class="titCon">{{tableData.pkgid}}</span>
+                    <span class="titName">创建时间:</span>
+                    <span class="titCon" style="width: 150px">{{tableData.created_at}}</span>
+                    <span class="titName">标签</span>
+                    <div class="tag">
+                        <span class="tagName" v-for="item in ((this.tableData.tags).split(','))" v-if="item!=''">{{item}}</span>
+                        <!--<span class="tagADD">-->
                         <!--<img>-->
                         <!--标签-->
-                    <!--</span>-->
+                        <!--</span>-->
+                    </div>
+                </div>
+                <div>
+                    <span class="titName">状态:</span>
+                    <span class="titCon">{{tableData.status_name}}</span>
+                    <span class="titName">厂商UI版本:</span>
+                    <span class="titCon">{{tableData.ui_version}}</span>
+                </div>
+                <div>
+                    <span class="titName">备注描述:</span>
+                    <span class="titCon" style="width: 60%">{{tableData.note}}</span>
+                </div>
+                <div class="switcher">
+                    <a href="#page1" :class="{click:isType==0}" @click="changeover('0')">预览图</a>
+                    <a href="#page2" :class="{click:isType==1}" @click="changeover('1')">相关主题</a>
+                    <a href="#page3" :class="{click:isType==2}" @click="changeover('2')">绑定主题素材</a>
                 </div>
             </div>
-            <div>
-                <span class="titName">状态:</span>
-                <span class="titCon">{{tableData.status_name}}</span>
-                <span class="titName">厂商UI版本:</span>
-                <span class="titCon">{{tableData.ui_version}}</span>
-            </div>
-            <div style="margin-bottom: 56px">
-                <span class="titName">备注描述:</span>
-                <span class="titCon" style="width: 60%">{{tableData.note}}</span>
-            </div>
-            <div class="switcher">
-                <a href="#page1" :class="{click:isType==0}" @click="changeover('0')">预览图</a>
-                <a href="#page2" :class="{click:isType==1}" @click="changeover('1')">相关主题</a>
-                <a href="#page3" :class="{click:isType==2}" @click="changeover('2')">绑定主题素材</a>
-            </div>
         </div>
-        <div style="margin-top: 24px">
+
+        <div style="margin-top: 346px">
             <div class="preview" id="page1">
                 <div class="titID">
                     <span class="nameID">预览图</span>
@@ -89,7 +90,10 @@
                 isTime:"w",
                 tableData:{},
                 sc:[],
-                theme:[]
+                theme:[],
+                type:this.$route.query.type,
+                pkgid:this.$route.query.pkgid,
+                name:this.$route.query.name,
             }
         },
         mounted(){
@@ -100,8 +104,8 @@
                 this.$router.push({
                     path:'./upPack',
                     query:{
-                        type:this.$route.query.type,
-                        pkgid:this.$route.query.pkgid,
+                        type:this.type,
+                        pkgid:this.pkgid,
                     }
                 })
             },
@@ -124,7 +128,7 @@
                 })
             },
             getData(){
-                let params = {pkgid:this.$route.query.pkgid}
+                let params = {pkgid:this.pkgid}
                 this.api.themes_package_details({params}).then((res)=>{
                     this.tableData=res;
                     this.getsc();
@@ -132,13 +136,13 @@
                 })
             },
             getsc(){
-                let params={pkgid:this.$route.query.pkgid};
+                let params={pkgid:this.pkgid};
                 this.api.themes_package_materials({params}).then((res)=>{
                     this.sc=res;
                 })
             },
             getThmPkg(){
-                let params={pkgid:this.$route.query.pkgid}
+                let params={pkgid:this.pkgid}
                 this.api.themes_package_themes({params}).then((res)=>{
                     this.theme=res
                 })

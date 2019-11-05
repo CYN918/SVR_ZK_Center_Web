@@ -27,7 +27,6 @@
                 <div style="margin-top: 24px">
                     <span class="tit_name">渠道</span>
                     <select  @change="getUI()" v-model="channel">
-
                         <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
                     </select>
                 </div>
@@ -35,7 +34,7 @@
                     <span class="tit_name">厂商UI版本</span>
                     <select style="margin-right: 68px" v-model="ui_version" @change="getThemeType()">
                         <option v-for="item in ui" :value="item.version" v-if="ui.length!=0">{{item.version}}</option>
-                        <option value="" v-if="ui.length==0">暂无</option>
+                        <option value="" v-if="ui.length==0&&channel!=''">暂无</option>
                     </select>
                 </div>
                 <div style="margin-bottom: 0">
@@ -303,9 +302,8 @@
         mounted(){
             this.getThemeType();
             this.active();
-            if(this.$route.query.com==undefined){
+            if(this.$route.query.con==undefined){
                 this.getDataDetails();
-
             }
         },
         methods:{

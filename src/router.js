@@ -569,7 +569,7 @@ let leftNav =
 // 				{title:'渠道收益',url:'/income/returns_detailed'},
 // 				{title:'广告主收益',url:'/income/advertiser'}
 //             ]},
-//             {title:'收益管理',url:'2',list:[
+//             {title:'收益管理',url:'2',img:'&#xe611;',list:[
 //                     {title:'设计师成本管理',url:'/income/cost_management'}
 //                 ]},
 //             {title:'结算管理',url:'3',img:'&#xe60d;',list:[
@@ -586,27 +586,27 @@ let leftNav =
 //
 //         {title:'主题中心',default:'/ThemeCenter',defaultopen:['1'],
 //             children:[
-//                 {title:'数据中心',url:'1',img:'&#xe612;',list:[
+//                 {title:'数据中心',url:'1',img:'&#xe614;',list:[
 //                         {title:'全景数据',url:'/ThemeCenter/data/AllData'},
 //                         {title:'收益数据',url:'/ThemeCenter/data/Profit'},
 //                         {title:'排名数据',url:'/ThemeCenter/data/ranking'},
 //                     ]},
-//                 {title:'主题库',url:'2',img:'&#xe612;',list:[
+//                 {title:'主题库',url:'2',img:'&#xe625;',list:[
 //                         {title:'主题库',url:'/ThemeCenter/themeCook'},
 //                     ]},
 //
-//                 {title:'主题素材库',url:'3',img:'&#xe612;',list:[
+//                 {title:'主题素材库',url:'3',img:'&#xe626;',list:[
 //                         {title:'锁屏',url:'/ThemeCenter/themeLock'},
 //                         {title:'图标',url:'/ThemeCenter/theme_icon'},
 //                         {title:'二级页面',url:'/ThemeCenter/theme_two'},
 //                         {title:'宣传图',url:'/ThemeCenter/propaganda_img'},
 //                     ]},
-//                 {title:'打包件库',url:'4',img:'&#xe612;',list:[
+//                 {title:'打包件库',url:'4',img:'&#xe621;',list:[
 //                         {title:'锁屏',url:'/ThemeCenter/pack/packList'},
 //                         {title:'图标',url:'/ThemeCenter/pack/pack_icon'},
 //                         {title:'二级页面',url:'/ThemeCenter/pack/pack_two'},
 //                     ]},
-//                 {title:'运营管理',url:'5',img:'&#xe612;',list:[
+//                 {title:'运营管理',url:'5',img:'&#xe627;',list:[
 //                         {title:'排期管理',url:'/ThemeCenter/scheduling/Scheduling_management'},
 //                     ],
 //                     children:[
@@ -616,7 +616,7 @@ let leftNav =
 //                             ]},
 //                     ]
 // 				},
-//                 {title:'配置管理',url:'6',img:'&#xe612;',list:[
+//                 {title:'配置管理',url:'6',img:'&#xe622;',list:[
 //                         {title:'标签管理',url:'/ThemeCenter/configurationManagement/tags'}
 //                     ]},
 //             ]
