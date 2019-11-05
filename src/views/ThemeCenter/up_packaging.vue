@@ -5,7 +5,7 @@
             <div class="themeUpLeft">
                 <div>
                     <span >打包件名称</span>
-                    <input type="text" placeholder="给主题起个名字" style=" margin-top: 26px;" v-model="name" maxlength="10">
+                    <input type="text" placeholder="起个名字" style=" margin-top: 26px;" v-model="name" maxlength="10">
                 </div>
                 <div style="margin-bottom: 0">
                     <span >资源包</span>
@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 <div>
-                    <span>备注描叙</span>
+                    <span>备注描述</span>
                     <input type="text" placeholder="给主题写个自我介绍，50字内" v-model="note"/>
                 </div>
                 <div>
@@ -201,7 +201,7 @@
                 this.bg=true;
             },
             qx(){
-                this.$parent.heidPak();
+               this.bg=false
             },
             linet(data){
                 this.scID=data;
