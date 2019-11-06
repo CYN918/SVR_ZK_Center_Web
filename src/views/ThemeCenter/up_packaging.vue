@@ -88,7 +88,7 @@
                 </div>
                 <div class="themeBtn">
                     <span class="tj" @click="ADD()">提交</span>
-                    <span @click="qx()">取消</span>
+                    <span @click="heid()">取消</span>
                 </div>
             </div>
             <div class="themeUpRight">
@@ -199,6 +199,9 @@
             },
             ADD(){
                 this.bg=true;
+            },
+            heid(){
+                this.$parent.heidPak();
             },
             qx(){
                this.bg=false

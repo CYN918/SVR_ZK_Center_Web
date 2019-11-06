@@ -29,11 +29,11 @@
             </div>
             <div style="text-align: center" class="fill">
                 <div>
-                    <span class="fillName">实际到账金额</span>
+                    <span class="fillName">实际出账金额</span>
                     <input type="number" class="input" v-model="receive_amount">
                 </div>
                 <div>
-                    <span class="fillName">到账时间</span>
+                    <span class="fillName">出账时间</span>
                     <div class="fillTime">
 
                         <el-date-picker

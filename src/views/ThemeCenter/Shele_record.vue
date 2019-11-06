@@ -48,6 +48,7 @@
                                 action="https://jsonplaceholder.typicode.com/posts/"
                                 :on-remove="handleRemove"
                                 :http-request="upLoad"
+                                :before-upload="beforeAvatarUploads"
                         >
                             <el-button size="small" type="primary">点击上传</el-button>
                         </el-upload>
@@ -376,6 +377,18 @@
                     this.getDataList();
                 })
             },
+            beforeAvatarUploads(file) {
+                this.file = file;
+                const isXzip = file.type === 'application/x-zip-compressed';
+                const iszip = file.type === 'application/zip';
+                const isTheme=((file.name).split('.'))[(file.name).split('.').length-1]==='theme';
+                const isGnz=((file.name).split('.'))[(file.name).split('.').length-1]==='gnz';
+                const isZmtp=((file.name).split('.'))[(file.name).split('.').length-1]==='zmtp';
+                if (!(isXzip||iszip||isTheme||isGnz||isZmtp)) {
+                    this.$message.error('只支持.zip、.theme 、.gnz、 .zmtp格式!');
+                }
+                return isXzip||iszip||isTheme||isGnz||isZmtp;
+            },
             getDataList(){
                 let params={pkgid:this.id};
                 this.api.themes_package_materials({params}).then((res)=>{
@@ -623,6 +636,7 @@
                     formData.append('is_package',this.is_package);
                 }
                 this.api.themes_theme_channel_edit(formData).then((res)=>{
+                    this.qx();
                     if(res!=false){
                         this.$router.push({
                             path:"./themeDetailsQd",
@@ -742,9 +756,18 @@
                     formData.append('attach',JSON.stringify(this.attach));
                     formData.append('is_package',this.is_package);
                 }
-
                 this.api.themes_theme_channel_add(formData).then((res)=>{
-                    this.qx()
+                    this.qx();
+                    if(res!=false){
+                        this.$router.push({
+                            path:"./themeDetailsQd",
+                            query:{
+                                thid:this.$route.query.thid,
+                                channel:this.$route.query.channel,
+                                ch_thid:this.$route.query.ch_thid,
+                            }
+                        })
+                    }
                 })
             },
             getList(){
