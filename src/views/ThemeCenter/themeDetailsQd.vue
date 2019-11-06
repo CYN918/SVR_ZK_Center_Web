@@ -3,18 +3,20 @@
         <seePack v-if="packSee" :data="data"></seePack>
         <div class="top" >
             <div class="tit_top_url">
-                <span class="log_url" @click="fh()">主题库 &nbsp;/</span>
-                <span class="log_url"> &nbsp;主题详情</span>
-                <span class="new_url"> &nbsp;渠道主题详情</span>
+                <span class="log_url" @click="fh()">主题库&nbsp;/</span>
+                <span class="log_url">&nbsp;主题详情</span>
+                <span class="new_url">&nbsp;渠道主题详情</span>
             </div>
-            <div style="height: 60px ;border-bottom: 1px dashed #ddd">
-                <span class="ui" style="margin-right: 18px">厂商UI版本</span>
-                <span class="uiName" v-for="item in ui"  :class="{click:ui_version==item.version}" @click="selectBB(item.version)">{{item.version}}</span>
-            </div>
-            <div>
-                <span class="zy" style="margin-right: 18px">资源版本号</span>
-                <span class="uiName" v-for="item in zyBb"  :class="{click:version==item.version}" >{{item.version}}</span>
-            </div>
+
+                <div style="height: 60px ;border-bottom: 1px dashed #ddd">
+                    <span class="ui" style="margin-right: 18px">厂商UI版本</span>
+                    <span class="uiName"   v-for="(item,index) in ui" :class="{click:index==ind}" @click="selectBB(index)">{{item.ui_version}}</span>
+                </div>
+                <div>
+                    <span class="zy" style="margin-right: 18px">资源版本号</span>
+                    <span class="uiName" v-for="(key,da) in ui[indexs].version"  :class="{click:da==das}"  @click="bbh(da)">{{key}}</span>
+                </div>
+
             <div style="height: 100%;position: absolute;width: 300px;top:1px;right: 175px">
                 <img :src="bg"/>
             </div>
@@ -177,12 +179,14 @@
                 ch_thid:this.$route.query.ch_thid,
                 ui:[],
                 ui_version:"",
-                zyBb:[],
                 version:'',
                 pack:[],
                 packSee:false,
                 data:{},
                 bg:"",
+                ind:0,
+                indexs:0,
+                das:0,
             }
         },
         mounted(){
@@ -190,7 +194,11 @@
         },
         methods:{
             selectBB(data){
-                this.ui_version=data;
+                this.indexs=data;
+                this.ind=data;
+            },
+            bbh(index){
+                this.das=index;
             },
             ckPACK(data){
                 this.packSee=true;
@@ -254,10 +262,10 @@
                 })
             },
             getUI(){
-                let params={channel:this.channel};
-                this.api.themes_config_channelui({params}).then((res)=>{
+                let params={channel:this.channel,thid:this.thid};
+                this.api.themes_theme_uiversion({params}).then((res)=>{
                     this.ui=res;
-                    this.getThemeType();
+
                 })
             },
             getsc(){
@@ -272,12 +280,6 @@
               this.api.themes_theme_packeges({params}).then((res)=>{
                 this.pack=res;
               })
-            },
-            getThemeType(){
-                let params={channel:this.channel,ui_version:this.ui_version};
-                this.api.themes_config_version({params}).then((res)=>{
-                    this.zyBb=res;
-                })
             },
         },
     }

@@ -978,6 +978,10 @@ export default {
     themes_theme_records:{
 		url:'themes/theme/records',method:'get'
 	},
+	//上架主题渠道的UI版本
+    themes_theme_uiversion:{
+		url:'themes/theme/uiversion',method:'get'
+	},
 
     //新增本地主题
     themes_theme_local_add:{

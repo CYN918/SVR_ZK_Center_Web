@@ -31,8 +31,6 @@
                     </div>
                 </div>
                 <div>
-                    <span class="titName">状态:</span>
-                    <span class="titCon">{{tableData.status_name}}</span>
                     <span class="titName">厂商UI版本:</span>
                     <span class="titCon">{{tableData.ui_version}}</span>
                 </div>
@@ -304,6 +302,7 @@
         margin:24px;
         width:189px;
         height:315px;
+        vertical-align: top;
     }
     .imgID img{
         max-width:189px;

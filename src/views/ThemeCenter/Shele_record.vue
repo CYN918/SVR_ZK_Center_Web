@@ -539,8 +539,8 @@
                     this.$message.error('渠道不能为空')
                     return
                 }
-                if(!this.attach){
-                    this.$message.error('未上传主题包')
+                if(this.attach.name==''){
+                    this.$message.error('未上传主题包');
                     return
                 }
 
@@ -639,14 +639,7 @@
                 this.api.themes_theme_channel_edit(formData).then((res)=>{
                     this.qx();
                     if(res!=false){
-                        this.$router.push({
-                            path:"./themeDetailsQd",
-                            query:{
-                                thid:this.$route.query.thid,
-                                channel:this.$route.query.channel,
-                                ch_thid:this.$route.query.ch_thid,
-                            }
-                        })
+                        this.fh()
                     }
                 })
             },
@@ -684,8 +677,8 @@
                     this.$message.error('封面图不能为空')
                     return
                 }
-                if(!this.attach.url){
-                    this.$message.error('未上传主题包')
+                if(!this.attach.name==''){
+                    this.$message.error('未上传主题包');
                     return
                 }
                 if(!this.price){
@@ -760,14 +753,7 @@
                 this.api.themes_theme_channel_add(formData).then((res)=>{
                     this.qx();
                     if(res!=false){
-                        this.$router.push({
-                            path:"./themeDetailsQd",
-                            query:{
-                                thid:this.$route.query.thid,
-                                channel:this.$route.query.channel,
-                                ch_thid:this.$route.query.ch_thid,
-                            }
-                        })
+                        this.fh()
                     }
                 })
             },

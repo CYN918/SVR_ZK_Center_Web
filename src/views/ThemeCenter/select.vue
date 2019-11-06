@@ -36,13 +36,12 @@
                         </el-date-picker>
                         <span>渠道</span>
                         <select v-model="channel" @change="getUI">
-                            <option value="">全部</option>
                             <option v-for="item in channels" :value="item.channel">{{item.channel_name}}</option>
                         </select>
                         <span>厂商UI版本</span>
                         <select v-model="ui_version">
-                            <option value="">全部</option>
-                            <option v-for="item in ui" :value="item.version">{{item.version}}</option>
+                            <option v-for="item in ui" :value="item.version" v-if="ui.length!=0">{{item.version}}</option>
+                            <option value="" v-if="ui.length==0&&channel!=''">暂无</option>
                         </select>
                         <span>状态</span>
                         <select v-model="status">
