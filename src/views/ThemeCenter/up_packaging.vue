@@ -62,15 +62,14 @@
                 <div>
                     <span class="tit_name">渠道</span>
                     <select  v-model="channel" disabled="disabled">
-                        <option value="">全部</option>
                         <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
                     </select>
                 </div>
                 <div>
                     <span class="tit_name">厂商UI版本</span>
                     <select style="margin-right: 68px" v-model="ui_version" disabled="disabled">
-                        <option value="">全部</option>
-                        <option v-for="item in ui" :value="item.version">{{item.version}}</option>
+                        <option value="" v-if="ui.length==0&&channel!=''">暂无</option>
+                        <option v-for="item in ui" :value="item.version"  v-if="ui_version!=''">{{item.version}}</option>
                     </select>
                 </div>
                 <div>
@@ -241,10 +240,6 @@
                 }
                 if(!this.channel){
                     this.$message.error('渠道不能为空')
-                    return
-                }
-                if(!this.ui_version){
-                    this.$message.error('版本不能为空')
                     return
                 }
                 if(!this.scID){
