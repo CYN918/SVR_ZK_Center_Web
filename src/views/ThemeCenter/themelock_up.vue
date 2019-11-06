@@ -94,7 +94,7 @@
                 </div>
                 <div>
                     <span style="vertical-align: top">备注描述</span>
-                    <textarea  placeholder="写个自我介绍，50字内" v-model="note"></textarea>
+                    <textarea  placeholder="写个自我介绍，50字内" v-model="note" maxlength="50"></textarea>
                 </div>
                 <div>
                     <span style="vertical-align: top">内容标签</span>
@@ -134,7 +134,7 @@
                 <div>
                     <span>绑定主题素材</span>
                     <a @click="jump()" v-if="this.$route.query.thmid==undefined">从主题库选择</a>
-                    <a v-if="this.$route.query.thmid!=undefined">从主题库选择</a>
+                    <a v-if="this.$route.query.thmid!=undefined">从主题素材选择</a>
                     <input type="checkbox" class="check" v-model="is_material"/>
                     <span class="sm">与主题素材无关</span>
                     <span class="sm2">绑定制作图标的相关主题素材，千万不要填错了</span>

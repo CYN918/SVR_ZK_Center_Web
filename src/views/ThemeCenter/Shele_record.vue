@@ -15,7 +15,7 @@
         <div class="top" v-if="this.$route.query.con!=undefined">
             <div class="tit_top_url">
                 <span class="log_url" @click="fh()">主题库&nbsp;/</span>
-                <span class="log_url" @click="fh()">&nbsp;上传本地主题&nbsp;/</span>
+                <span class="log_url" @click="fh()">&nbsp;主题库详情&nbsp;/</span>
                 <span class="new_url"> &nbsp添加上架记录</span>
             </div>
             <div class="tit_top_con">

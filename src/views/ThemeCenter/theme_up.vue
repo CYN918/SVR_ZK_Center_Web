@@ -52,7 +52,7 @@
                 </div>
                 <div>
                     <span>主题描述</span>
-                    <textarea  placeholder="给主题写个自我介绍，50字内" v-model="note"></textarea>
+                    <textarea  placeholder="给主题写个自我介绍，50字内" v-model="note" maxlength="50"></textarea>
                 </div>
                 <div>
                     <span>主题类型</span>

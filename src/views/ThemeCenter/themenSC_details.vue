@@ -35,7 +35,7 @@
             </div>
             <div style="margin-bottom: 56px">
                 <span class="titName">备注描述:</span>
-                <span class="titCon">{{this.tableData.note}}</span>
+                <span class="titCon" style="width: 70%">{{this.tableData.note}}</span>
             </div>
             <div class="switcher">
                 <a href="#tab0" :class="{click:isType==0}" @click="changeover('0')">预览图</a>

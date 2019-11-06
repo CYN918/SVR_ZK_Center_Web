@@ -58,7 +58,7 @@
             </div>
             <div style="margin-bottom: 46px">
                 <span class="titName">主题描述:</span>
-                <span class="titCon">{{this.tableData.note}}</span>
+                <span class="titCon" style="width: 70%">{{this.tableData.note}}</span>
             </div>
             <div class="switcher">
                 <a href="#tabs0" :class="{clicks:isType==0}" @click="changeover('0')">预览图</a>
