@@ -115,10 +115,7 @@
                     <div class="tendency">
                         <span>下载量趋势</span>
                     </div>
-                    <div id="tendencyImg" v-for="item in upList">
-                        <div style="display: inline-block" v-for="key in item.themes">
-                            <img :src="key.main_preview">
-                        </div>
+                    <div  >
 
                     </div>
                 </div>
@@ -129,8 +126,13 @@
                     <span class="addJl" @click="jump">添加上架记录</span>
                 </div>
                 <div>
-
+                    <div style="display: inline-block" v-for="item in upList">
+                        <div style="display: inline-block"  class="imgID" v-for="key in item.themes">
+                            <img :src="key.main_preview">
+                        </div>
+                    </div>
                 </div>
+
             </div>
             <div  class="preview" id="tabs4">
                 <div class="titID">
