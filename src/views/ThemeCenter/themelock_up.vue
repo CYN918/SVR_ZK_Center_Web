@@ -276,14 +276,13 @@
                 })
             },
             getsc(){
-                let params={thmid:this.$route.query.thmid}
+                let params={thmid:this.$route.query.thmid};
                 this.api.themes_material_materials({params}).then((res)=>{
                     this.listSC=res;
                 })
             },
             beforeAvatarUploads(file) {
                 this.file = file;
-                console.log(this.file)
                 const isXzip = file.type === 'application/x-zip-compressed';
                 const iszip = file.type === 'application/zip';
                 if (!(isXzip||iszip)) {

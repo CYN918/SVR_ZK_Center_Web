@@ -36,7 +36,7 @@
         <div>
             <div class="box" v-for="item in list">
                 <div class="boxImgs">
-                    <img :src="item.previews[0]" @click="xq(item.pkgid)">
+                    <img :src="item.main_preview" @click="xq(item.pkgid)">
                 </div>
                 <div class="boxName">
                     <span>{{item.name}}</span>
