@@ -677,7 +677,7 @@
                     this.$message.error('封面图不能为空')
                     return
                 }
-                if(!this.attach.name==''){
+                if(this.attach.name==''){
                     this.$message.error('未上传主题包');
                     return
                 }

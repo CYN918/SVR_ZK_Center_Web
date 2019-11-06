@@ -85,7 +85,7 @@
                 <div>
                     <span class="box2_name">状态</span>
                     <select v-model="status">
-                        <option>全部</option>
+                        <option disabled="disabled">请选择</option>
                         <option value="1">已上架</option>
                         <option value="0">待打包</option>
                     </select>

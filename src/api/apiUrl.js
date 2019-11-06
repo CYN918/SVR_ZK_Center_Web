@@ -982,7 +982,10 @@ export default {
     themes_theme_uiversion:{
 		url:'themes/theme/uiversion',method:'get'
 	},
-
+	//检索渠道主题
+    themes_theme_channel_search:{
+		url:"themes/theme/channel/search",method:'get'
+	},
     //新增本地主题
     themes_theme_local_add:{
 		url:'themes/theme/local/add',method:'post',isType:{suktip:1}

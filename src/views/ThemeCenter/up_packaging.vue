@@ -18,6 +18,7 @@
                                 action="https://jsonplaceholder.typicode.com/posts/"
                                 :on-remove="handleRemove"
                                 :http-request="upLoad"
+                                :before-upload="beforeAvatarUploads"
                         >
                             <el-button size="small" type="primary">点击上传</el-button>
                         </el-upload>
@@ -212,6 +213,16 @@
                         this.pic.splice(i,1);
                     }
                 }
+            },
+            beforeAvatarUploads(file) {
+                this.file = file;
+                console.log(this.file)
+                const isXzip = file.type === 'application/x-zip-compressed';
+                const iszip = file.type === 'application/zip';
+                if (!(isXzip||iszip)) {
+                    this.$message.error('只支持ZIP格式!');
+                }
+                return isXzip||iszip;
             },
             getUI(){
                 let params={channel:this.channel};

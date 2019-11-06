@@ -63,7 +63,8 @@
                             <option value="">全部</option>
                             <option v-for="item in con" :value="item.class">{{item.class}}</option>
                         </select>
-                        <span class="box_btn" @click="getList()">查询</span>
+                        <span class="box_btn" @click="getList()" v-if="this.$route.query.type==undefined">查询</span>
+                        <span class="box_btn" @click="getData()" v-if="this.$route.query.type!=undefined">查询</span>
                     </div>
                 </div>
                     <div class="box">
@@ -182,7 +183,11 @@
             }
         },
         mounted() {
-            this.getList();
+            if(this.$route.query.type!=undefined){
+                this.getData()
+            }else{
+                this.getList();
+            }
             this.getChannel()
         },
         methods:{
@@ -260,11 +265,22 @@
                     this.$emit('listData',this.ind,this.ch_thids,this.qdList,this.main_preview,this.name,this.channelName,this.ADDchannel,this.ADDui);
                     this. YCset()
             },
+            getData(){
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,
+                    tags:this.listTagData.concat(this.listTag).join(','),status:this.status,
+                    class:this.content,ui_version:this.ui_version,channel:this.channel,account:'',tstart:this.time[0],tend:this.time[1]};
+                this.api.themes_theme_channel_search({params}).then((res)=>{
+                    this.IMGList=res.data;
+                    this.total=res.total;
+                    this.getTagsList();
+                    this.getOperatorTag()
+                })
+            },
             getList(){
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,
                     tags:this.listTagData.concat(this.listTag).join(','),status:this.status,
                     class:this.content,ui_version:this.ui_version,channel:this.channel,account:'',tstart:this.time[0],tend:this.time[1]};
-                this.api. themes_theme_search({params}).then((res)=>{
+                this.api.themes_theme_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     this.total=res.total;
                     this.getTagsList();

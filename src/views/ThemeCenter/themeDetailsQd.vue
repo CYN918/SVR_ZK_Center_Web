@@ -7,14 +7,14 @@
                 <span class="log_url">&nbsp;主题详情</span>
                 <span class="new_url">&nbsp;渠道主题详情</span>
             </div>
-
                 <div style="height: 60px ;border-bottom: 1px dashed #ddd">
                     <span class="ui" style="margin-right: 18px">厂商UI版本</span>
-                    <span class="uiName"   v-for="(item,index) in ui" :class="{click:index==ind}" @click="selectBB(index)">{{item.ui_version}}</span>
+                    <span class="uiName" v-if="ui.length!=0"  v-for="(item,index) in ui" :class="{click:index==ind}" @click="selectBB(index)" >{{item.ui_version}}</span>
+                    <span class="uiName" v-if="ui.length==0">暂无</span>
                 </div>
-                <div>
+                <div v-if="ui.length!=0">
                     <span class="zy" style="margin-right: 18px">资源版本号</span>
-                    <span class="uiName" v-for="(key,da) in ui[indexs].version"  :class="{click:da==das}"  @click="bbh(da)">{{key}}</span>
+                    <span class="uiName"  v-for="(key,da) in ui[indexs].version"  :class="{click:da==das}"  @click="bbh(da)">{{key}}</span>
                 </div>
 
             <div style="height: 100%;position: absolute;width: 300px;top:1px;right: 175px">

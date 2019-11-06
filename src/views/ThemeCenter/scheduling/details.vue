@@ -95,7 +95,7 @@
                         <span>添加周期</span>
                     </div>
                     <div class="ADDbtn">
-                        <span class="tj" @click="addTime()">添加</span>
+                        <span class="tj" @click="addTime()">确定</span>
                         <span @click="heidADD()">取消</span>
                     </div>
                 </div>
