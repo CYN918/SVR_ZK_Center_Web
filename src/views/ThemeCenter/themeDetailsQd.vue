@@ -465,7 +465,6 @@
         height:36px;
         background:rgba(255,255,255,1);
         border-radius:4px;
-        border:1px solid rgba(211,219,235,1);
         margin-right: 40px;
         margin-bottom: 0!important;
         margin-top: 8px;

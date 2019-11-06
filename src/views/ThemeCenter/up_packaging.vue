@@ -18,9 +18,6 @@
                                 action="https://jsonplaceholder.typicode.com/posts/"
                                 :on-remove="handleRemove"
                                 :http-request="upLoad"
-                                multiple
-                                :limit="1"
-                                :on-exceed="handleExceed"
                         >
                             <el-button size="small" type="primary">点击上传</el-button>
                         </el-upload>
@@ -41,7 +38,7 @@
                 </div>
                 <div>
                     <span>备注描述</span>
-                    <input type="text" placeholder="给主题写个自我介绍，50字内" v-model="note"/>
+                    <input type="text" placeholder="写个自我介绍，50字内" v-model="note"/>
                 </div>
                 <div>
                     <span>内容标签</span>
@@ -280,6 +277,7 @@
                 this.api.themes_package_add(formData).then((res)=>{
                     this.$emit('dataUp',this.main_preview,this.listSC,this.types,res.pkgid);
                     this.qx();
+                    this. heid()
 
                 })
             },
@@ -314,7 +312,7 @@
                 })
             },
             handleExceed(files, fileList) {
-                this.$message.warning(`当前限制选择1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+                this.$message.warning(`当前限制选择10个文件`);
             },
             // getCon(){
             //     let params={type:this.type};

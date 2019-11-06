@@ -384,10 +384,11 @@
                 const isTheme=((file.name).split('.'))[(file.name).split('.').length-1]==='theme';
                 const isGnz=((file.name).split('.'))[(file.name).split('.').length-1]==='gnz';
                 const isZmtp=((file.name).split('.'))[(file.name).split('.').length-1]==='zmtp';
-                if (!(isXzip||iszip||isTheme||isGnz||isZmtp)) {
-                    this.$message.error('只支持.zip、.theme 、.gnz、 .zmtp格式!');
+                const isHwt=((file.name).split('.'))[(file.name).split('.').length-1]==='hwt';
+                if (!(isXzip||iszip||isTheme||isGnz||isZmtp||isHwt)) {
+                    this.$message.error('只支持.zip、.theme 、.gnz、 .zmtp、.hwt格式!');
                 }
-                return isXzip||iszip||isTheme||isGnz||isZmtp;
+                return isXzip||iszip||isTheme||isGnz||isZmtp||isHwt;
             },
             getDataList(){
                 let params={pkgid:this.id};
@@ -599,7 +600,7 @@
                     this.packages.push(this.twoID)
                 }
                 if(this.is_package==false){
-                    let formData =new FormData;
+                    var formData =new FormData;
                     formData.append('thid',this.thid);
                     formData.append('wpid',this.wpid);
                     formData.append('account',this.account);
@@ -618,7 +619,7 @@
                     formData.append('attach',JSON.stringify(this.attach));
                     formData.append('packages',JSON.stringify(this.packages));
                 }else{
-                    let formData =new FormData;
+                    var formData =new FormData;
                     formData.append('thid',this.thid);
                     formData.append('wpid',this.wpid);
                     formData.append('account',this.account);
@@ -650,7 +651,7 @@
                 })
             },
             addTheme(){
-                if(this.$route.query.com==undefined){
+                if(this.$route.query.con==undefined){
                     this.setData();
                     return
                 }
@@ -720,7 +721,7 @@
                     this.packages.push(this.twoID)
                 }
                 if(this.is_package==false){
-                    let formData =new FormData;
+                    var formData =new FormData;
                     formData.append('thid',this.thid);
                     formData.append('wpid',this.wpid);
                     formData.append('account',this.account);
@@ -739,7 +740,7 @@
                     formData.append('attach',JSON.stringify(this.attach));
                     formData.append('packages',JSON.stringify(this.packages));
                 }else{
-                    let formData =new FormData;
+                    var formData =new FormData;
                     formData.append('thid',this.thid);
                     formData.append('wpid',this.wpid);
                     formData.append('account',this.account);

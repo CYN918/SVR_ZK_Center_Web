@@ -18,14 +18,16 @@
             </div>
             <div style="text-align: center" class="fill">
                 <div>
-                    <span class="fillName">实际到账金额</span>
+                    <span class="fillName" v-if="this.is_receiver==1">实际到账金额</span>
+                    <span class="fillName" v-if="this.is_receiver==0">实际出账金额</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
                         <span class="text">{{list.remit.receive_amount}}</span>
                     </div>
 
                 </div>
                 <div>
-                    <span class="fillName">到账时间</span>
+                    <span class="fillName" v-if="this.is_receiver==1">到账时间</span>
+                    <span class="fillName" v-if="this.is_receiver==0">出账时间</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
                         <span class="text">{{list.remit.receive_tdate}}</span>
                     </div>
@@ -76,7 +78,8 @@
                         attachs:"",
                     }
                 },
-                type:""
+                type:"",
+                is_receiver:'',
             }
         },
         mounted(){
@@ -88,7 +91,6 @@
                 this.$parent.heidFkCK();
             },
             scope(){
-
                 this.$parent.heidFkCK();
                 if(this.list.demand_type=='demand_settle_receive'){
                     this.type='收款结算'
