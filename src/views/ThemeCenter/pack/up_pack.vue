@@ -491,11 +491,7 @@
                     this.$message.error('渠道不能为空');
                     return
                 }
-                if(!this.ui_version){
-                    this.$message.error('版本不能为空');
-                    return
-                }
-
+                
                 if(!this.main_preview){
                     this.$message.error('封面图不能为空');
                     return

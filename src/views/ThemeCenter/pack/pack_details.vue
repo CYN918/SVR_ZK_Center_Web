@@ -140,7 +140,7 @@
                 })
             },
             getThmPkg(){
-                let params={pkgid:this.pkgid}
+                let params={pkgid:this.pkgid};
                 this.api.themes_package_themes({params}).then((res)=>{
                     this.theme=res
                 })
