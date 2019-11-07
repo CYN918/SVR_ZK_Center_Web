@@ -91,13 +91,7 @@ export default {
             this.api.perm_leftnav().then((res)=>{
                 let navs = [];
                 for(var i=0;i<res.length;i++){
-                    if(res[i].title=='素材中心'&&res[i].children!=0){
-                        navs.push({
-                            to:'/admin',
-                            name:'素材中心'
-                        });
-                        this.top1=true
-					}
+
                     if(res[i].title=='工作台'&&res[i].children!=0){
                         navs.push({
                             to:'/workbench',
@@ -111,6 +105,13 @@ export default {
                             name:'数据中心'
                         });
                         this.top3=true
+                    }
+                    if(res[i].title=='素材中心'&&res[i].children!=0){
+                        navs.push({
+                            to:'/admin',
+                            name:'素材中心'
+                        });
+                        this.top1=true
                     }
                     if(res[i].title=='收益中心'&&res[i].children!=0){
                         navs.push({

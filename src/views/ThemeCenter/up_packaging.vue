@@ -237,6 +237,10 @@
                 })
             },
             addTheme(){
+                if(this.attach.url==''){
+                    this.$message.error('打包件资源包未上传，请重新操作');
+                    return
+                }
                 if(!this.name){
                     this.$message.error('主题名不能为空')
                     return
@@ -265,10 +269,7 @@
                     this.$message.error('预览图不能为空')
                     return
                 }
-                if(!this.attach.url){
-                    this.$message.error('未上传主题包')
-                    return
-                }
+
                 let formData =new FormData;
                 formData.append('name',this.name);
                 formData.append('type',this.types);
@@ -719,5 +720,14 @@
     }
     .imgCanvas:hover .dels{
         opacity: 1;
+    }
+    .content_xz{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(51,119,255,1);
+        margin-left: 10px;
+        cursor: pointer;
     }
 </style>
