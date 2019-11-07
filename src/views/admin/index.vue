@@ -25,7 +25,7 @@ export default {
 	mounted: function () {
         for(var i=0;i<(JSON.parse(localStorage.getItem('letNav')).length);i++){
             if(JSON.parse(localStorage.getItem('letNav'))[i].title=='素材中心'){
-                if(JSON.parse(localStorage.getItem('letNav'))[i].children.length<=0&&JSON.parse(localStorage.getItem('letNav'))[0].list.length<=0){
+                if(JSON.parse(localStorage.getItem('letNav'))[i].children.length<=0&&JSON.parse(localStorage.getItem('letNav'))[i].list.length<=0){
                     this.$message({
                         type: 'error',
                         message: ` 无权访问，请联系管理员`

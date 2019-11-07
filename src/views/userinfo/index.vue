@@ -22,7 +22,13 @@ export default {
 		leftNav
 	},
 	mounted: function () {
-		this.letNav = JSON.parse(localStorage.getItem('letNav'))[3];
+        for(var i=0;i<(JSON.parse(localStorage.getItem('letNav')).length);i++){
+            if(JSON.parse(localStorage.getItem('letNav'))[i].title=='个人中心'){
+                this.letNav = JSON.parse(localStorage.getItem('letNav'))[i];
+
+            }
+
+        }
 	},	
 }
 </script>
