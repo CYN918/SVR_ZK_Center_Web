@@ -289,6 +289,7 @@
                 price:'',
                 range:[],
                 thid:this.$route.query.thid,
+                ch_thid:this.$route.query.ch_thid,
                 lockID:"",
                 iconID:'',
                 twoID:'',
@@ -341,7 +342,7 @@
                     if(this.is_package==true){
                         this.getsc();
                     }
-                    this. getUI();
+                    this.getUI();
                     this.getPack();
                 })
             },
@@ -374,7 +375,10 @@
                             }
                         }
                     }
-                    this.getDataList();
+                    if(this.is_package==false){
+                        this.getDataList();
+                    }
+
                 })
             },
             beforeAvatarUploads(file) {
@@ -580,6 +584,10 @@
                     this.$message.error('价格为大于零的正数');
                     return
                 }
+                if(this.is_package==false&&this.lockSC.length==0&&this.iconSC.length==0&&this.twoSC.length==0){
+                    this.$message.error('未绑定打包件');
+                    return
+                }
                 var arr=[];
                 for(var i=0;i<this.lockSC.length;i++){
                     arr.push(this.lockSC[i].thmid)
@@ -602,6 +610,7 @@
                 if(this.is_package==false){
                     var formData =new FormData;
                     formData.append('thid',this.thid);
+                    formData.append('ch_thid',this.ch_thid);
                     formData.append('wpid',this.wpid);
                     formData.append('account',this.account);
                     formData.append('channel',this.channel);
@@ -622,6 +631,7 @@
                     var formData =new FormData;
                     formData.append('thid',this.thid);
                     formData.append('wpid',this.wpid);
+                    formData.append('ch_thid',this.ch_thid);
                     formData.append('account',this.account);
                     formData.append('channel',this.channel);
                     formData.append('ui_version',this.ui_version);
@@ -691,6 +701,10 @@
                 }
                 if(this.price<=0){
                     this.$message.error('价格为大于零的正数');
+                    return
+                }
+                if(this.is_package==false&&this.lockSC.length==0&&this.iconSC.length==0&&this.twoSC.length==0){
+                    this.$message.error('未绑定打包件');
                     return
                 }
                 var arr=[];
@@ -834,6 +848,7 @@
                 formData.append('file',file.file);
                 this.api.themes_theme_upload(formData).then((res)=>{
                     this.attach=res;
+                    this.wpid=res.wpid;
                     this.times=100;
                     --this.fcounter;
                     this.up=false;

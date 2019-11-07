@@ -42,7 +42,7 @@
                 <span class="titName">内容分类:</span>
                 <span class="titCon">{{tableData.class_name}}</span>
                 <span class="titName">资源版本:</span>
-                <span class="titCon">{{tableData.ui_version}}</span>
+                <span class="titCon">{{tableData.version}}</span>
                 <span class="titName">标签</span>
                 <div class="tag">
                     <span v-for="item in ((this.tableData.tags).split(','))" class="tagName" v-if="item!=''">{{item}}</span>
@@ -56,7 +56,7 @@
                 <span class="titName">适用范围:</span>
                 <span class="titCon">{{this.tableData.account}}</span>
                 <span class="titName">创建时间:</span>
-                <span class="titCon" style="width: 150px">{{tableData.created_at}}</span>
+                <span class="titCon" style="width: 150px">{{tableData.tdate}}</span>
             </div>
             <div style="margin-bottom: 46px">
                 <span class="titName">主题描述:</span>
