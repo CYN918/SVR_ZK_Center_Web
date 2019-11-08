@@ -17,7 +17,7 @@
                 <span class="titName">ID:</span>
                 <span class="titCon">{{this.tableData.thmid}}</span>
                 <span class="titName">使用范围:</span>
-                <span class="titCon">{{this.tableData.range}}</span>
+                <span class="titCon">{{this.tableData.range=='all'?'不限':'this.tableData.range'}}</span>
                 <span class="titName">标签</span>
                 <div class="tag">
                     <span v-for="item in ((this.tableData.tags).split(','))" class="tagName" v-if="item!=''">{{item}}</span>
@@ -337,6 +337,7 @@
         width:189px;
         height:315px;
         vertical-align: top;
+        background: #e3e7eb;
     }
     .imgID img{
         position: relative;

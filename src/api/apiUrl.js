@@ -1027,7 +1027,6 @@ export default {
 		url:"themes/theme/packeges",method:"get"
 	},
 	//编辑上架渠道主题
-
     themes_theme_channel_edit:{
 		url:'themes/theme/channel/edit',method:'post',isType:{suktip:1}
 	},
@@ -1038,6 +1037,10 @@ export default {
 	//获取运营标签列表
     common_operate_tags:{
 		url:'common/operate/tags',method:"get"
+	},
+	//根据版本检索渠道主题
+    themes_theme_channel:{
+		url:"themes/theme/channel",method:"get"
 	},
     //新增上架渠道主题
     themes_theme_channel_add:{

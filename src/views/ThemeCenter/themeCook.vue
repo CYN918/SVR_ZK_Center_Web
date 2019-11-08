@@ -64,9 +64,9 @@
                     </select>
                     <span class="tit_name">定投类型</span>
                     <select v-model="special">
-                        <option value="0">全部</option>
+                        <option value="2">全部</option>
                         <option value="1">可定投</option>
-                        <option value="-1">不可定投</option>
+                        <option value="0">不可定投</option>
                     </select>
                 </div>
                 <div>

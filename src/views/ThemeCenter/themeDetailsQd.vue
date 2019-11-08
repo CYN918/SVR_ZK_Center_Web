@@ -1,7 +1,7 @@
 <template>
     <div>
         <seePack v-if="packSee" :data="data"></seePack>
-        <YYtags v-if="yybq" :op_tags="op_tags" :channel="channel" :ch_thid="ch_thid"></YYtags>
+        <YYtags v-if="yybq" :op_tags="op_tags" :channel="channel" :ch_thid="ch_thid" @upload="upload"></YYtags>
         <div class="top" >
             <div class="tit_top_url">
                 <span class="log_url" @click="fh()">主题库&nbsp;/</span>
@@ -37,7 +37,7 @@
                 <span class="titName">ID:</span>
                 <span class="titCon">{{tableData.thid}}</span>
                 <span class="titName">定投ID:</span>
-                <span class="titCon" style="width: 150px">{{tableData.wpid!=''?'tableData.wpid':'不可定投主题'}}</span>
+                <span class="titCon" style="width: 150px">{{tableData.wpid!=''?tableData.wpid:'不可定投主题'}}</span>
             </div>
             <div>
                 <span class="titName">内容分类:</span>
@@ -207,9 +207,39 @@
             selectBB(data){
                 this.indexs=data;
                 this.ind=data;
+                this.ui_version=this.ui[data].ui_version;
+                let params={
+                    thid:this.thid,
+                    channel:this.channel,
+                    ui_version:this.ui[data].ui_version,
+                    version:this.version
+                };
+                this.api.themes_theme_channel({params}).then((res)=>{
+                    this.tableData=res;
+                    this.op_tags=this.tableData.op_tags;
+                    this.version=this.tableData.version;
+                    this.getsc();
+                    this.getUI(this.tableData.ui_version);
+                    this.qd();
+                })
             },
             bbh(index){
                 this.das=index;
+                this.version=this.ui[this.indexs].version[index];
+                let params={
+                    thid:this.thid,
+                    channel:this.channel,
+                    ui_version:this.ui_version,
+                    version:this.version
+                };
+                this.api.themes_theme_channel({params}).then((res)=>{
+                    this.tableData=res;
+                    this.op_tags=this.tableData.op_tags;
+                    this.version=this.tableData.version;
+                    this.getsc();
+                    this.getUI(this.tableData.ui_version);
+                    this.qd();
+                })
             },
             ckPACK(data){
                 this.packSee=true;
@@ -218,7 +248,7 @@
             gbPack(){
                 this.packSee=false;
             },
-
+            upload(){this.getData()},
             fh(){
                 this.$router.push({
                     path:"./themeCook"
@@ -477,6 +507,7 @@
         width:189px;
         height:315px;
         background: #e3e7eb;
+        vertical-align: top;
     }
     .imgID img{
         max-width:189px;

@@ -66,13 +66,13 @@
                     }
 
                 }
-                console.log(this.ta);
                 let formData=new FormData;
                 formData.append('ch_thid',this.ch_thid);
                 formData.append('channel',this.channel);
                 formData.append('op_tags',JSON.stringify(this.ta));
                 this.api.themes_theme_channel_optags(formData).then((res)=>{
-
+                    this.qx();
+                    this.$emit('upload','a');
                 })
             },
         },

@@ -126,6 +126,26 @@
                     <span class="addJl" @click="jump">添加上架记录</span>
                 </div>
                 <div>
+                    <!--<template>-->
+                        <!--<el-table-->
+                                <!--:data="upList"-->
+                                <!--style="width: 100%">-->
+                            <!--<el-table-column-->
+                                    <!--prop="channel"-->
+
+                                   <!--&gt;-->
+                            <!--</el-table-column>-->
+                            <!--<el-table-column-->
+                                    <!--prop="name"-->
+
+                                    <!--&gt;-->
+                            <!--</el-table-column>-->
+                            <!--<el-table-column-->
+                                    <!--prop="address"-->
+                                    <!--&gt;-->
+                            <!--</el-table-column>-->
+                        <!--</el-table>-->
+                    <!--</template>-->
                     <div style="display: inline-block" v-for="item in upList">
                         <div style="display: inline-block"  class="imgID" v-for="key in item.themes">
                             <img :src="key.main_preview">

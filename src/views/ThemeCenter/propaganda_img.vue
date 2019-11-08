@@ -3,8 +3,8 @@
         <tags v-if="ta" :type="type" :id="id" :bq="bq"></tags>
         <div class="top">
             <span class="topName">宣传图</span>
-            <span class="total">共299套/</span>
-            <span class="total">200套已使用</span>
+            <span class="total">共{{TotalNum}}套/</span>
+            <span class="total">{{valid_count}}套已使用</span>
             <span class="upLock" @click="jump">上传</span>
         </div>
         <div class="seach">
@@ -72,14 +72,23 @@
                 id:'',
                 bq:"",
                 ta:false,
+                TotalNum:"",
+                valid_count:"",
             }
         },
-        mounted(){this.dataList()},
+        mounted(){this.dataList();this.getTotal()},
         methods:{
             getUI(){
                 let params={channel:this.channel};
                 this.api.themes_config_channelui({params}).then((res)=>{
                     this.ui=res
+                })
+            },
+            getTotal(){
+                let params={type:this.type};
+                this.api.themes_material_count({params}).then((res)=>{
+                    this.TotalNum=res.total;
+                    this.valid_count=res.valid_count
                 })
             },
             bjTags(id,tag){

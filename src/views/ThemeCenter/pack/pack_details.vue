@@ -303,6 +303,7 @@
         width:189px;
         height:315px;
         vertical-align: top;
+        background: #e3e7eb;
     }
     .imgID img{
         max-width:189px;

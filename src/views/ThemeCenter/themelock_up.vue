@@ -55,8 +55,6 @@
                                 class="upload-demo"
                                 action="222"
                                 :http-request="upLoad"
-                                multiple
-                                :limit="1"
                                 :on-remove="handleRemove"
                                 :on-exceed="handleExceed"
                         >
@@ -109,9 +107,7 @@
                                         <el-checkbox v-for="(item,index) in tag" :label="item.name">{{item.name}}</el-checkbox>
                                     </el-checkbox-group>
                                 </template>
-
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -121,7 +117,6 @@
                     <input type="checkbox" class="check" v-model="is_work" disabled="disabled"/>
                     <span class="sm">与作品无关</span>
                     <span class="sm2">绑定制作图标的相关作品，千万不要填错了</span>
-
                 </div>
                 <div v-if="this.$route.query.thmid==undefined">
                     <span>绑定设计师素材</span>
@@ -133,7 +128,7 @@
                 </div>
                 <div>
                     <span>绑定主题素材</span>
-                    <a @click="jump()" v-if="this.$route.query.thmid==undefined">从主题库选择</a>
+                    <a @click="jump()" v-if="this.$route.query.thmid==undefined">从主题素材库选择</a>
                     <a v-if="this.$route.query.thmid!=undefined">从主题素材选择</a>
                     <input type="checkbox" class="check" v-model="is_material"/>
                     <span class="sm">与主题素材无关</span>

@@ -11,7 +11,7 @@
                 <div style="display: inline-block;float: right;margin-right: 15%;">
                     <span class="jl">查看更新记录</span>
                     <span class="zq" @click="Adds">管理周期</span>
-                    <span class="dc">导出</span>
+                    <!--<span class="dc">导出</span>-->
                 </div>
             </div>
             <div>
@@ -25,8 +25,8 @@
                     <div>
                         <span>{{'周期'+(index+1)}}</span>
                         <span class="num">(1/2)</span>
-                        <img src="../../../../public/img/ups.png" v-if="index" @click="btn()">
-                        <img src="../../../../public/img/btn.png">
+                        <!--<img src="../../../../public/img/ups.png" v-if="index" @click="btn()">-->
+                        <!--<img src="../../../../public/img/btn.png">-->
                     </div>
                     <span>{{item.tstart+'至'+item.tend}}</span>
                 </div>
@@ -69,6 +69,7 @@
             <div class="newData">
                 <div>
                     <span class="tit_top">管理周期</span>
+                    <img src="../../../../public/img/gb.png" style="width: 16px;float: right;margin-right: 24px;cursor: pointer;margin-top: 21px" @click="heidADD()">
                 </div>
                 <div >
                     <div v-for="(item,index) in list">
@@ -87,16 +88,32 @@
                             >
                             </el-date-picker>
                         </div>
-                        <span style="width: 16px;height: 16px;color: #D3DBEB;display: inline-block;margin-left: 14px;line-height: 36px;cursor: pointer" @click="del(item.cycle_id)">x</span>
+                        <span style="width: 16px;height: 16px;color: #D3DBEB;display: inline-block;margin-left: 14px;line-height: 36px;cursor: pointer" @click="dels(item.cycle_id)">x</span>
                     </div>
 
                     <div class="addData" @click="addTime()">
                         <img src="../../../../public/img/add_msg.png">
                         <span>添加周期</span>
                     </div>
+                    <!--<div class="ADDbtn">-->
+                        <!--<span class="tj" @click="addTime()">保存</span>-->
+                        <!--<span @click="heidADD()">取消</span>-->
+                    <!--</div>-->
+                </div>
+            </div>
+        </div>
+        <div class="bg" v-if="sc">
+            <div class="newDatas">
+                <div>
+                    <span class="tit_top">删除周期</span>
+                </div>
+                <div >
+                    <div class="titName">
+                        <span>是否确定删除该项周期？</span>
+                    </div>
                     <div class="ADDbtn">
-                        <span class="tj" @click="addTime()">保存</span>
-                        <span @click="heidADD()">取消</span>
+                    <span class="tj" @click="del()">确定</span>
+                        <span @click="heidqx()">取消</span>
                     </div>
                 </div>
             </div>
@@ -114,6 +131,8 @@
                 time:[],
                 up:1,
                 listData:[],
+                cycle_id:"",
+                sc:false,
             }
         },
         mounted(){
@@ -175,11 +194,19 @@
                     this.getData();
                 })
             },
-            del(id){
+            dels(id){
+                this.sc=true;
+                this.cycle_id=id;
+            },
+            heidqx(){
+                this.sc=false;
+            },
+            del(){
                 let formData=new FormData;
-                formData.append('cycle_id',id);
+                formData.append('cycle_id',this.cycle_id);
                 this.api.themes_schedule_cycle_del(formData).then((res)=>{
                     this.getData();
+                    this.heidqx();
                 })
             },
             heidADD(){
@@ -233,6 +260,10 @@
         margin-left: 24px;
         margin-right: 10px;
         line-height: 45px;
+    }
+    .titName span{
+        display: inline-block;
+        margin: 0 0 20px 24px;
     }
     .new_url{
         color: rgba(61,73,102,1)!important;
@@ -345,6 +376,17 @@
     .newData{
         width:460px;
         min-height:255px;
+        background:rgba(255,255,255,1);
+        box-shadow:0px 1px 6px 0px rgba(0,0,0,0.06);
+        border-radius:4px;
+        position: relative;
+        left:50%;
+        top:50%;
+        transform: translate(-50%,-50%);
+    }
+    .newDatas{
+        width:300px;
+        min-height:200px;
         background:rgba(255,255,255,1);
         box-shadow:0px 1px 6px 0px rgba(0,0,0,0.06);
         border-radius:4px;
