@@ -78,8 +78,15 @@
                     <span class="nameID">预览图</span>
                     <span class="derivation">{{this.$route.query.channel}}</span>
                 </div>
-                <div class="imgID" v-for="item in tableData.previews">
+                <div class="imgID" v-for="item in tableData.previews" v-if="tableData.previews.length!=0">
                     <img :src="item">
+                </div>
+                <div style="width: 100%;text-align: center" v-if="tableData.previews.length==0">
+                    <img src="../../../public/img/null.png" style="width:48px;margin-top: 150px">
+                    <div>
+                        <span>暂无数据</span>
+                    </div>
+
                 </div>
             </div>
             <div  class="preview" id="tabs1">
@@ -87,8 +94,15 @@
                     <span class="nameID">相关主题素材</span>
                     <span class="derivation">{{this.$route.query.channel}}</span>
                 </div>
-                <div class="imgID" v-for="item in sc">
+                <div class="imgID" v-for="item in sc" v-if="sc.length!=0">
                     <img :src="item.main_preview">
+                </div>
+                <div style="width: 100%;text-align: center" v-if="sc.length==0">
+                    <img src="../../../public/img/null.png" style="width:48px;margin-top: 150px">
+                    <div>
+                        <span>暂无数据</span>
+                    </div>
+
                 </div>
             </div>
             <div class="preview" id="tabs3">
@@ -146,8 +160,15 @@
                     <span class="nameID">相关打包</span>
                     <span class="derivation">{{this.$route.query.channel}}</span>
                 </div>
-                <div class="imgID" v-for="item in pack" @click="ckPACK(item)">
+                <div class="imgID" v-for="item in pack" @click="ckPACK(item)"  v-if="pack.length!=0">
                     <img :src="item.main_preview">
+                </div>
+                <div style="width: 100%;text-align: center" v-if="pack.length==0">
+                    <img src="../../../public/img/null.png" style="width:48px;margin-top: 150px">
+                    <div>
+                        <span>暂无数据</span>
+                    </div>
+
                 </div>
             </div>
             <div  class="preview" id="tabs5">

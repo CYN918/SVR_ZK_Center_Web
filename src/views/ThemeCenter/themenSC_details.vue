@@ -51,16 +51,30 @@
                 <div class="titID">
                     <span class="nameID">预览图</span>
                 </div>
-                <div class="imgID" v-for="item in tableData.previews">
+                <div class="imgID" v-for="item in tableData.previews" v-if="tableData.previews.length!=0">
                     <img :src="item">
+                </div>
+                <div style="width: 100%;text-align: center" v-if="tableData.previews.length==0">
+                    <img src="../../../public/img/null.png" style="width:48px;margin-top: 150px">
+                    <div>
+                        <span>暂无数据</span>
+                    </div>
+
                 </div>
             </div>
             <div class="preview" id="tab1">
                 <div class="titID">
                     <span class="nameID">相关主题</span>
                 </div>
-                <div class="imgID" v-for="item in themeList">
-                    <img :src="item">
+                <div class="imgID" v-for="item in themeList" v-if="themeList.length!=0">
+                    <img :src="item.main_preview">
+                </div>
+                <div style="width: 100%;text-align: center" v-if="themeList.length==0">
+                    <img src="../../../public/img/null.png" style="width:48px;margin-top: 150px">
+                    <div>
+                        <span>暂无数据</span>
+                    </div>
+
                 </div>
             </div>
             <div class="preview"  id="tab2">
@@ -82,16 +96,30 @@
                 <div class="titID">
                     <span class="nameID">相关打包件</span>
                 </div>
-                <div class="imgID">
-                    <img src="../../../public/img/IMG.png">
+                <div class="imgID" v-for="item in pack" v-if="pack.length!=0">
+                    <img :src="item.main_preview">
+                </div>
+                <div style="width: 100%;text-align: center" v-if="pack.length==0">
+                    <img src="../../../public/img/null.png" style="width:48px;margin-top: 150px">
+                    <div>
+                        <span>暂无数据</span>
+                    </div>
+
                 </div>
             </div>
             <div  class="preview" id="tab4">
                 <div class="titID">
                     <span class="nameID">相关主题素材</span>
                 </div>
-                <div class="imgID" v-for="item in sc">
+                <div class="imgID" v-for="item in sc" v-if="sc.length!=0">
                     <img :src="item.main_preview">
+                </div>
+                <div style="width: 100%;text-align: center" v-if="sc.length==0">
+                    <img src="../../../public/img/null.png" style="width:48px;margin-top: 150px">
+                    <div>
+                        <span>暂无数据</span>
+                    </div>
+
                 </div>
             </div>
             <div  class="preview" id="tab5">
@@ -119,6 +147,8 @@
                 themeList:[],
                 sc:[],
                 type:'',
+                pack:[],
+                xm:{},
             }
         },
         mounted(){
@@ -140,6 +170,12 @@
             changeover(num){
                 this.isType=num;
             },
+            getXM(){
+                let params={thmid:this.$route.query.thmid};
+                this.api.themes_material_hireworks({params}).then((res)=>{
+                    this.xm=res;
+                })
+            },
             histogram(data){
                 this.isUPload=data;
             },
@@ -147,18 +183,26 @@
                 this.isTime=time;
             },
             getData(){
-                let params={thmid:this.$route.query.thmid}
+                let params={thmid:this.$route.query.thmid};
                 this.api.themes_material_details({params}).then((res)=>{
                     this.tableData=res;
                     this.type=res.type;
                     this. getTheme();
-                    this.getsc()
+                    this.getsc();
+                    this.getPack()
+                    this.getXM()
                 })
             },
             getTheme(){
                 let params={thmid:this.$route.query.thmid}
                 this.api.themes_material_themes({params}).then((res)=>{
                     this.themeList =res;
+                })
+            },
+            getPack(){
+                let params={thmid:this.$route.query.thmid}
+                this.api.themes_material_packages({params}).then((res)=>{
+                    this.pack=res;
                 })
             },
             getsc(){

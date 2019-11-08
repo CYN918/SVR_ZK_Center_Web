@@ -293,7 +293,7 @@ a{
 .Search>img{
   width: 28px;
   position: relative;
-  left: -485px;
+  left: -246px;
   top: 10px;
   cursor: pointer;
 }

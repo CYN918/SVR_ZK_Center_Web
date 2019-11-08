@@ -87,7 +87,7 @@
                     <span class="cx" @click="getData()">查询</span>
                 </div>
             </div>
-            <div>
+            <div style="margin-right: -42px">
                 <div class="phone" v-for="(item,index) in this.dataList">
                     <div style="width:189px;height:315px;">
                         <img :src="item.main_preview" style="height: 100%;width: 100%" @click="xq(themeChannel[index].channel,item.thid,index)">
@@ -488,7 +488,7 @@
     }
     .phone{
         display: inline-block;
-       margin-right: 40px;
+        margin-right: 42px;
         margin-bottom: 30px;
     }
     .phone:hover{

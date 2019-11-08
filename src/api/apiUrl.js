@@ -994,6 +994,10 @@ export default {
     themes_package_search:{
 	    url:'themes/package/search',method:'get'
     },
+	//获取主题素材相关项目/作品
+    themes_material_hireworks:{
+		url:"themes/material/hireworks",method:'get'
+	},
     //添加主题打包件
     themes_package_add:{
 	    url:'themes/package/add',method:'post',isType:{suktip:1}
@@ -1026,7 +1030,11 @@ export default {
     themes_theme_packeges:{
 		url:"themes/theme/packeges",method:"get"
 	},
-	//编辑上架渠道主题
+	//获取主题素材相关打包件
+    themes_material_packages:{
+		url:'themes/material/packages',method:"get"
+	},
+    //编辑上架渠道主题
     themes_theme_channel_edit:{
 		url:'themes/theme/channel/edit',method:'post',isType:{suktip:1}
 	},

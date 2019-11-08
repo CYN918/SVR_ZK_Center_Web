@@ -51,16 +51,30 @@
                 <div class="titID">
                     <span class="nameID">预览图</span>
                 </div>
-                <div class="imgID" v-for="item in tableData.previews">
+                <div class="imgID" v-for="item in tableData.previews" v-if="tableData.previews.length!=0">
                     <img :src="item">
+                </div>
+                <div style="width: 100%;text-align: center" v-if="tableData.previews.length==0">
+                    <img src="../../../../public/img/null.png" style="width:48px;margin-top: 150px">
+                    <div>
+                        <span>暂无数据</span>
+                    </div>
+
                 </div>
             </div>
             <div  class="preview" style="margin-top: 24px" id="page2">
                 <div class="titID">
                     <span class="nameID">相关主题</span>
                 </div>
-                <div class="imgID" v-for="item in theme">
+                <div class="imgID" v-for="item in theme" v-if="theme.length!=0">
                     <img :src="item.main_preview">
+                </div>
+                <div style="width: 100%;text-align: center" v-if="theme.length==0">
+                    <img src="../../../../public/img/null.png" style="width:48px;margin-top: 150px">
+                    <div>
+                        <span>暂无数据</span>
+                    </div>
+
                 </div>
             </div>
             <div class="preview" id="page3" style="margin-top: 24px">
@@ -68,8 +82,15 @@
                     <span class="nameID">绑定主题素材</span>
                 </div>
                 <div>
-                    <div class="imgID" v-for="item in sc">
+                    <div class="imgID" v-for="item in sc" v-if="sc.length!=0">
                         <img :src="item.main_preview">
+                    </div>
+                    <div style="width: 100%;text-align: center" v-if="sc.length==0">
+                        <img src="../../../../public/img/null.png" style="width:48px;margin-top: 150px">
+                        <div>
+                            <span>暂无数据</span>
+                        </div>
+
                     </div>
                 </div>
             </div>

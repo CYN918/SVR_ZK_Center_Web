@@ -149,7 +149,7 @@
             if(this.$route.query.data.ch_thid==''){
                 this.ch_thid='local'
             }else{
-                this.ch_thid=this.$route.query.data.channel
+                this.ch_thid=this.$route.query.data.ch_thid
             }
             if(this.$route.query.data.f_ch_thid==''){
                 this.f_ch_thid='local'
@@ -173,25 +173,24 @@
                 this.thm=false;
             },
             CK(id,qdID,qd){
-                var query = {
-                    thid:id,
-                    channel:qd,
-                    ch_thid:qdID,
-                };
-                if(qd=='local'){
+                if(this.channel=='local'){
                     let Logistics= this.$router.resolve({
                         path:'../themeDetails',
-                        query:query
+                        query:{
+                            thid:id,
+                            channel:qd,
+                            ch_thid:qdID,
+                        }
                     })
                     window.open(Logistics.href, '_blank','toolbar=yes');
                 }else{
-                    // this.$router.push({
-                    //     path:'../themeDetailsQd',
-                    //     query:query
-                    // })
                     let Logistics= this.$router.resolve({
                         path:'../themeDetailsQd',
-                        query:query
+                        query:{
+                            thid:id,
+                            channel:qd,
+                            ch_thid:qdID,
+                        }
                     })
                     window.open(Logistics.href, '_blank','toolbar=yes');
                 }

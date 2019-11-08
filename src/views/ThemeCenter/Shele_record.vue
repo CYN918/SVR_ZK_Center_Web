@@ -576,8 +576,8 @@
                     this.$message.error('上架时间不能为空')
                     return
                 }
-                if(new Date(this.tdate)<new Date()){
-                    this.$message.error('上架时间不能小于当前时间');
+                if(new Date(this.tdate)>new Date()){
+                    this.$message.error('上架时间不能大于当前时间');
                     return
                 }
                 if(!this.note){
@@ -698,8 +698,8 @@
                     this.$message.error('上架时间不能为空')
                     return
                 }
-                if(new Date(this.tdate)<new Date()){
-                    this.$message.error('上架时间不能小于当前时间');
+                if(new Date(this.tdate)>new Date()){
+                    this.$message.error('上架时间不能大于当前时间');
                     return
                 }
                 if(!this.note){

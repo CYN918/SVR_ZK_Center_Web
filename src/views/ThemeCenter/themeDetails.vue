@@ -57,8 +57,15 @@
                     <span class="nameID">预览图</span>
                     <span class="derivation">本地</span>
                 </div>
-                <div class="imgID" v-for="item in tableData.previews">
+                <div class="imgID" v-for="item in tableData.previews" v-if="tableData.previews.length!=0">
                     <img :src="item">
+                </div>
+                <div style="width: 100%;text-align: center" v-if="tableData.previews.length==0">
+                    <img src="../../../public/img/null.png" style="width:48px;margin-top: 150px">
+                    <div>
+                        <span>暂无数据</span>
+                    </div>
+
                 </div>
             </div>
             <div  class="preview" id="tabs1">
@@ -66,9 +73,16 @@
                     <span class="nameID">相关主题素材</span>
                     <span class="derivation">本地</span>
                 </div>
-                <div class="imgID" v-for="item in sc">
+                <div class="imgID" v-for="item in sc" v-if="sc.length!=0">
                     <img :src="item.main_preview">
                 </div>
+               <div style="width: 100%;text-align: center" v-if="sc.length==0">
+                   <img src="../../../public/img/null.png" style="width:48px;margin-top: 150px">
+                   <div>
+                       <span>暂无数据</span>
+                   </div>
+
+               </div>
             </div>
             <div class="preview" id="tabs2">
                 <div class="titID">
@@ -146,11 +160,12 @@
                             <!--</el-table-column>-->
                         <!--</el-table>-->
                     <!--</template>-->
-                    <div style="display: inline-block" v-for="item in upList">
+                    <div style="display: inline-block" v-for="item in upList" >
                         <div style="display: inline-block"  class="imgID" v-for="key in item.themes">
                             <img :src="key.main_preview">
                         </div>
                     </div>
+
                 </div>
 
             </div>

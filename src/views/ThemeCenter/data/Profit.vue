@@ -314,10 +314,11 @@
 
                 var params={
                     name:this.name,channel:this.channel,tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page
-                }
+                };
                 this.api.themes_report_income({params}).then((res)=>{
                     this.tableData=res.data;
                     this.total=res.total;
+                    this.getTitName();
                 })
             },
         }
