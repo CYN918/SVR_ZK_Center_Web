@@ -1,10 +1,11 @@
 <template>
     <div>
         <seePack v-if="packSee" :data="data"></seePack>
+        <YYtags v-if="yybq" :op_tags="op_tags" :channel="channel" :ch_thid="ch_thid"></YYtags>
         <div class="top" >
             <div class="tit_top_url">
                 <span class="log_url" @click="fh()">主题库&nbsp;/</span>
-                <span class="log_url">&nbsp;主题详情</span>
+                <span class="log_url" @click="fhs()">&nbsp;主题详情&nbsp;/</span>
                 <span class="new_url">&nbsp;渠道主题详情</span>
             </div>
                 <div style="height: 60px ;border-bottom: 1px dashed #ddd">
@@ -43,13 +44,9 @@
                 <span class="titCon">{{tableData.class_name}}</span>
                 <span class="titName">资源版本:</span>
                 <span class="titCon">{{tableData.version}}</span>
-                <span class="titName">标签</span>
+                <span class="titName">标签:</span>
                 <div class="tag">
                     <span v-for="item in ((this.tableData.tags).split(','))" class="tagName" v-if="item!=''">{{item}}</span>
-                    <!--<span class="tagADD">-->
-                        <!--<img>-->
-                        <!--标签-->
-                    <!--</span>-->
                 </div>
             </div>
             <div>
@@ -57,6 +54,11 @@
                 <span class="titCon">{{this.tableData.account}}</span>
                 <span class="titName">创建时间:</span>
                 <span class="titCon" style="width: 150px">{{tableData.tdate}}</span>
+                <span class="titName">运营标签</span>
+                <div class="tag">
+                    <span v-for="item in ((this.tableData.op_tags).split(','))" class="tagName" v-if="item!=''">{{item}}</span>
+                    <span class="tagADD" @click="BJtags()">+ 标签</span>
+                </div>
             </div>
             <div style="margin-bottom: 46px">
                 <span class="titName">主题描述:</span>
@@ -163,8 +165,9 @@
 
 <script>
     import seePack from './See_pack'
+    import YYtags from './yyTags'
     export default {
-        components:{seePack},
+        components:{seePack,YYtags},
         name: "theme-details",
         data(){
             return{
@@ -187,12 +190,20 @@
                 ind:0,
                 indexs:0,
                 das:0,
+                yybq:false,
+                op_tags:"",
             }
         },
         mounted(){
             this.getData()
         },
         methods:{
+            BJtags(){
+                this.yybq=true;
+            },
+            qxTags(){
+                this.yybq=false;
+            },
             selectBB(data){
                 this.indexs=data;
                 this.ind=data;
@@ -211,6 +222,16 @@
             fh(){
                 this.$router.push({
                     path:"./themeCook"
+                });
+            },
+            fhs(){
+                this.$router.push({
+                    path:"./themeDetails",
+                    query:{
+                        thid:this.thid,
+                        channel:'local',
+                        ch_thid:"",
+                    },
                 });
             },
             changeover(num){
@@ -254,17 +275,20 @@
                 let params={thid:this.thid,ch_thid:this.ch_thid,channel:this.channel};
                 this.api.themes_theme_details({params}).then((res)=>{
                     this.tableData=res;
-                    this.ui_version=this.tableData.ui_version;
+                    this.op_tags=this.tableData.op_tags;
                     this.version=this.tableData.version;
                     this.getsc();
-                    this.getUI();
+                    this.getUI(this.tableData.ui_version);
                     this.qd();
                 })
             },
-            getUI(){
+            getUI(da){
                 let params={channel:this.channel,thid:this.thid};
                 this.api.themes_theme_uiversion({params}).then((res)=>{
                     this.ui=res;
+                    if(da!=undefined){
+                        this.ui_version=da;
+                    }
 
                 })
             },
@@ -353,7 +377,7 @@
     }
     .titCon{
         display: inline-block;
-        width: 100px;
+        width: 150px;
         font-size:14px;
         font-family:HelveticaNeue;
         color:rgba(31,46,77,0.65);
@@ -375,10 +399,11 @@
         color:rgba(31,46,77,0.45);
         text-align: center;
         line-height: 24px;
+        cursor: pointer;
     }
     .tagName{
         display: inline-block;
-        padding:2px 5px;
+        padding:0px 5px;
         background:rgba(255,255,255,1);
         border-radius:4px;
         line-height: 24px;

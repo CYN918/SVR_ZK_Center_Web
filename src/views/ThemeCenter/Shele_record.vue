@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="dw">
         <pak v-if="pak" :types="types" @dataUp="dataUp" :chan="channel" :ui_v="ui_version"></pak>
         <sel v-if="sel" @linet="linet"></sel>
         <div class="top" v-if="this.$route.query.con==undefined">
@@ -308,6 +308,9 @@
                 this.getDataDetails();
             }
         },
+        updated() {
+            window.scroll(0, 0);
+        },
         methods:{
             fh(){
                 this.$router.go(-1);
@@ -332,7 +335,6 @@
                     this.main_preview=res.main_preview;
                     this.pic=res.previews;
                     this.channel=res.channel;
-                    this.ui_version=res.ui_version;
                     this.version=res.version;
                     this.account=res.account;
                     this.channel_theme_name=res.channel_theme_name;
@@ -342,7 +344,7 @@
                     if(this.is_package==true){
                         this.getsc();
                     }
-                    this.getUI();
+                    this.getUI(res.ui_version);
                     this.getPack();
                 })
             },
@@ -398,6 +400,17 @@
                 let params={pkgid:this.id};
                 this.api.themes_package_materials({params}).then((res)=>{
                     this.SC=res;
+                })
+            },
+            ADDtag(){
+                let formData =new FormData;
+                formData.append('name',this.tagsName);
+                formData.append('preset',"0");
+                formData.append('material','2');
+                formData.append('type','theme');
+                this.api.tags_add(formData).then((res)=>{
+                    this.tagsName='';
+                    this.getTagsList();
                 })
             },
             getsc(){
@@ -498,10 +511,13 @@
             heidPak(){
                 this.pak=false
             },
-            getUI(){
+            getUI(da){
                 let params={channel:this.channel};
                 this.api.themes_config_channelui({params}).then((res)=>{
-                    this.ui=res
+                    this.ui=res;
+                    if(da!=undefined){
+                        this.ui_version=da;
+                    }
                 })
             },
             Range(){
@@ -649,7 +665,14 @@
                 this.api.themes_theme_channel_edit(formData).then((res)=>{
                     this.qx();
                     if(res!=false){
-                        this.fh()
+                        this.$router.push({
+                            path:"./themeDetailsQd'",
+                            query:{
+                                thid:this.thid,
+                                ch_thid:this.ch_thid,
+                                channel:this.channel,
+                            },
+                        })
                     }
                 })
             },
@@ -767,7 +790,14 @@
                 this.api.themes_theme_channel_add(formData).then((res)=>{
                     this.qx();
                     if(res!=false){
-                        this.fh()
+                        this.$router.push({
+                            path:"./themeDetails",
+                            query:{
+                                thid:this.thid,
+                                channel:'local',
+                                ch_thid:"",
+                            },
+                        })
                     }
                 })
             },
@@ -840,12 +870,16 @@
                 },100);
             },
             upLoad(file){
+                if(!this.channel){
+                    this.$message.error('渠道不能为空')
+                }
                 this.up=true;
                 this.times=0;
                 ++this.fcounter;
                 this.scope();
                 let formData = new FormData;
                 formData.append('file',file.file);
+                formData.append('channel',this.channel);
                 this.api.themes_theme_upload(formData).then((res)=>{
                     this.attach=res;
                     this.wpid=res.wpid;

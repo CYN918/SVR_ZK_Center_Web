@@ -206,6 +206,7 @@
                 pkgid:this.$route.query.pkgid,
                 up:false,
                 times:0,
+                ch_thid:'',
             }
         },
         mounted(){
@@ -221,7 +222,6 @@
                     this.name=res.name;
                     this.note=res.note;
                     this.channel=res.channel;
-                    this.ui_version=res.ui_version;
                     var arr=[];
                     for(var j=0;j<(res.tags.split(',')).length;j++){
                         for(var i=0;i<this.tag.length;i++){
@@ -234,9 +234,9 @@
                     this.main_preview=res.main_preview;
                     this.pic=res.previews;
                     this.attach=res.attach;
-                    this.getUI();
-                    this.getsc();
-                    this.getThmPkg()
+                    this.ch_thid=res.ch_thid;
+                    this.getUI(res.ui_version);
+                    this.getThemeList()
                 })
             },
             handleExceed(files, fileList) {
@@ -252,27 +252,19 @@
                 }
                 return isXzip||iszip;
             },
-            getsc(){
-                let params={pkgid:this.$route.query.pkgid};
-                this.api.themes_package_materials({params}).then((res)=>{
-                    this.listSC=res;
-                })
-            },
-            getThmPkg(){
-                let params={pkgid:this.$route.query.pkgid};
-                this.api.themes_package_themes({params}).then((res)=>{
-                    this.listThm=res
-                })
-            },
+            // getsc(){
+            //     let params={pkgid:this.$route.query.pkgid};
+            //     this.api.themes_package_materials({params}).then((res)=>{
+            //         this.listSC=res;
+            //     })
+            // },
+            // getThmPkg(){
+            //     let params={pkgid:this.$route.query.pkgid};
+            //     this.api.themes_package_themes({params}).then((res)=>{
+            //         this.listThm=res
+            //     })
+            // },
             zt(){
-                // if(!this.channel){
-                //     this.$message.error('渠道不能为空');
-                //     return
-                // }
-                // if(!this.channel){
-                //     this.$message.error('渠道不能为空');
-                //     return
-                // }
                 this.thm=true;
             },
             heidThm(){
@@ -280,11 +272,12 @@
             },
             listData(data,data1,data2,data3,data4,data5,data6,data7){
                 this.themeID=data;
+                this.ch_thid=data1;
                 this.channel=data6;
-                this.ui_version=data7;
-                this.getUI();
-                this.getTheme();
+                this.getUI(data7);
 
+                this.getTheme();
+                console.log(this.ui);
             },
             setPack(){
                 if(!this.name){
@@ -304,7 +297,7 @@
                     this.$message.error('预览图不能为空');
                     return
                 }
-                if(!this.attach){
+                if(this.attach.name==''){
                     this.$message.error('未上传主题包');
                     return
                 }
@@ -335,10 +328,13 @@
                     this.getTagsList();
                 })
             },
-            getUI(){
+            getUI(da){
                 let params={channel:this.channel};
                 this.api.themes_config_channelui({params}).then((res)=>{
-                    this.ui=res
+                    this.ui=res;
+                    if(da!=undefined){
+                        this.ui_version=da;
+                    }
                 })
             },
             qd(){
@@ -361,6 +357,22 @@
                                 list.push(this.IMGList[i]);
                             }
                         }
+                    }
+                    this.listThm=list;
+
+                })
+            },
+            getThemeList(){
+                let params={tags:'',channel:'',ui_version:'',account:'',
+                    status:'',type:'',class:'',tstart:"2019-09-29",tend:(new Date()).toLocaleDateString().split('/').join('-'),search:'',p:1000000,page:1};
+                this.api.themes_theme_search({params}).then((res)=>{
+                    this.IMGList=res.data;
+                    var list=[];
+                    for(var i=0;i<this.IMGList.length;i++ ){
+                        if(this.IMGList[i].ch_thid==this.ch_thid){
+                            list.push(this.IMGList[i]);
+                        }
+
                     }
                     this.listThm=list;
 
@@ -491,7 +503,6 @@
                     this.$message.error('渠道不能为空');
                     return
                 }
-                
                 if(!this.main_preview){
                     this.$message.error('封面图不能为空');
                     return
@@ -510,6 +521,7 @@
                 formData.append('note',this.note);
                 formData.append('tags',this.tags.join(','));
                 formData.append('channel',this.channel);
+                formData.append('ch_thid',this.ch_thid);
                 // formData.append('materials',JSON.stringify(this.scID));
                 formData.append('previews',JSON.stringify(this.pic));
                 formData.append('ui_version',this.ui_version);

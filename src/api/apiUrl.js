@@ -1031,6 +1031,14 @@ export default {
     themes_theme_channel_edit:{
 		url:'themes/theme/channel/edit',method:'post',isType:{suktip:1}
 	},
+	//编辑渠道主题运营标签
+    themes_theme_channel_optags:{
+		url:"themes/theme/channel/optags",method:'post',isType:{suktip:1}
+	},
+	//获取运营标签列表
+    common_operate_tags:{
+		url:'common/operate/tags',method:"get"
+	},
     //新增上架渠道主题
     themes_theme_channel_add:{
 		url:'themes/theme/channel/add',method:'post',isType:{suktip:1}

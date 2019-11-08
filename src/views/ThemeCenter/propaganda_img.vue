@@ -25,8 +25,8 @@
         </div>
         <div>
             <div class="box" v-for="item in list">
-                <div class="boxImgs">
-                    <img :src="item.main_preview" @click="xq(item.thmid)">
+                <div class="boxImgs" @click="xq(item.thmid)">
+                    <img :src="item.main_preview">
                 </div>
                 <div class="boxName">
                     <span>{{item.name}}</span>

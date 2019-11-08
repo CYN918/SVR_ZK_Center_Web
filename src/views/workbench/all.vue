@@ -41,8 +41,8 @@
                         <option value=1>驳回</option>
                         <option value=0>已处理</option>
                     </select>
-                    <span>流转人员</span>
-                    <input type="text" placeholder="请输入流转人员" v-model="processor"/>
+                    <span>创建人员</span>
+                    <input type="text" placeholder="请输入创建人员" v-model="creator"/>
                     <span class="cx" @click="cx">查询</span>
                     <span class="tit_btn_sc" :class="{activeHeid:this.controlBtn}" @click="getSC('')">发布素材需求</span>
                     <span class="tit_btn_yw"  :class="{activeHeid:this.controlBtns}" @click="getYW('')">发布业务需求</span>
@@ -79,7 +79,7 @@
         name: "workbench_padding",
         data(){
             return{
-                processor:'',
+                creator:'',
                 reject:'',
                 statuss:'',
                 demand_type:'',
@@ -165,9 +165,9 @@
 
             getDataList(){
                 if(this.value){
-                    var params ={p:this.p,page:this.page,search:this.search,status:this.statuss,demand_type:this.demand_type,start_time:this.value[0],end_time:this.value[1],reject:this.reject,processor:this.processor}
+                    var params ={p:this.p,page:this.page,search:this.search,status:this.statuss,demand_type:this.demand_type,start_time:this.value[0],end_time:this.value[1],reject:this.reject,creator:this.creator}
                 }else{
-                    var params ={p:this.p,page:this.page,search:this.search,status:this.statuss,demand_type:this.demand_type,start_time:"",end_time:"",reject:this.reject,processor:this.processor}
+                    var params ={p:this.p,page:this.page,search:this.search,status:this.statuss,demand_type:this.demand_type,start_time:"",end_time:"",reject:this.reject,creator:this.creator}
                 }
 
                 this.api.demand_search({params}).then((res)=>{
@@ -229,14 +229,12 @@
                 this.getDataList()
             },
             typeData(){
-              console.log(this.demand_type)
                 if(this.demand_type==''){
                     this.statuss=''
                 }else{
                     let params = {demand_type:this.demand_type};
                     this.api.process_status({params}).then((res)=>{
                         this.statusList = res;
-                        console.log(res)
                     })
                 }
 
