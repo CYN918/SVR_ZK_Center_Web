@@ -242,7 +242,7 @@
                 })
             },
             getOperatorTag(){
-                this.api.lockwallpaper_tags_list().then((res)=>{
+                this.api.common_operate_tags().then((res)=>{
                     this.self_tags=res;
                 })
             },
