@@ -9,7 +9,7 @@
                 </div>
                 <div class="title_div">
                     <span class="title_div_span">已添加：</span>
-                    <span class="title_div_span">{{listSC.length+listWL.length}}</span>
+                    <span class="title_div_span">{{numWL+numSC}}</span>
                     <span class="title_div_span">/</span>
                     <span class="title_div_span">{{num}}</span>
                     <span class="title_div_btn" @click="ADDline">
@@ -111,7 +111,8 @@
                 numAll:0,
                 note:'',
                 line:[],
-
+                numWL:"",
+                numSC:"",
             }
         },
         mounted(){
@@ -119,19 +120,20 @@
                 this.sc = false;
                 this.wl=true;
             }
-            console.log(this.typeList)
+
             this.getDataList();
+            this.getDataListWl();
         },
         methods:{
             ADDline(){
                 if(this.sc==true){
-                    if((this.listSC.length+this.listWL.length)==this.num){
+                    if((this.numWL+this.numSC)==this.num){
                         return
                     }else{
                         this.listSC.unshift({text:false});
                     }
                 }else{
-                    if((this.listSC.length+this.listWL.length)==this.num){
+                    if((this.numWL+this.numSC)==this.num){
                         return
                     }else{
                         this.listWL.unshift({text:false});
@@ -284,11 +286,21 @@
                     if(this.sc==true){
                         this.listSC = res.data.material;
                         this.total = res.total;
+                        this.numSC=res.total;
                     }else{
                         this.listWL = res.data.mfinal;
-                        this.total = res.total
+                        this.total = res.total;
+                        this.numWL=res.total;
                     }
-                    this.numAll=res.total;
+
+                })
+            },
+            getDataListWl(){
+
+                let params = {id:this.id,p:this.p,page:this.page,material:0};
+                this.api.demand_business_bind_list({params}).then((res)=>{
+                        this.numWL=res.total;
+
                 })
             },
             addNote(index){
