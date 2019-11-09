@@ -534,7 +534,7 @@
     .tags{
         display: inline-block;
         max-width: 1090px;
-        max-height: 50px!important;
+        height: 45px;
         overflow: hidden;
         margin-top: 7px;
     }

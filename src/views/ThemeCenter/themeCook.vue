@@ -313,7 +313,6 @@
 
             },
             expansionTag(){
-
                 if(this.isTypes==0){
                     this.isTypes=1;
                     this.class1=true
