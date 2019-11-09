@@ -371,6 +371,7 @@
                 this.up=true;
                 this.times=0;
                 ++this.fcounter;
+                this.attach={};
                 this.scope();
                 let formData = new FormData;
                 formData.append('file',file.file);
@@ -419,7 +420,7 @@
                     this.$message.error('名称不能为空')
                     return
                 }
-                if(!this.attach){
+                if(!this.attach.name){
                     this.$message.error('附件不能为空')
                     return
                 }
@@ -476,7 +477,7 @@
                     this.$message.error('名称不能为空')
                     return
                 }
-                if(!this.attach){
+                if(!this.attach.name){
                     this.$message.error('附件不能为空')
                     return
                 }

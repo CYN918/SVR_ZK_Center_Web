@@ -21,12 +21,8 @@
                     <div class="date" style="width: 225px" >
                         <el-date-picker
                                 v-model="value"
-                                type="daterange"
-                                range-separator="至"
-                                format="yyyy-MM-dd"
-                                start-placeholder="开始日期"
-                                end-placeholder="结束日期"
-                                value-format="yyyy-MM-dd">
+                                type="month"
+                                placeholder="选择月">
                         </el-date-picker>
                     </div>
                     <span class="nameTit">主题名称</span>
@@ -49,12 +45,13 @@
                             :header-cell-style="getRowClass"
                             :cell-style="cell"
                     >
-                        <el-table-columnt
-                                prop="date"
+                        <el-table-column
+                                prop="tdate"
                                 label="日期"
                                 v-if="num.seach1==true"
                         >
-                        </el-table-columnt>
+                        </el-table-column>
+
                         <el-table-column
                                 prop="channel"
                                 v-if="num.seach2==true"
@@ -204,8 +201,7 @@
 
         data(){
             return{
-                value:[],
-                value1:"",
+                value:'',
                 tableData:[],
                 data_type:"2",
                 channels:[],
@@ -313,7 +309,7 @@
             GetData(){
 
                 var params={
-                    name:this.name,channel:this.channel,tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page
+                    name:this.name,channel:this.channel,tstart:this.value,p:this.p,page:this.page
                 };
                 this.api.themes_report_income({params}).then((res)=>{
                     this.tableData=res.data;

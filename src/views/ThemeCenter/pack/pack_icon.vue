@@ -348,7 +348,7 @@
         font-size:12px;
         font-family:PingFangSC;
         font-weight:400;
-        color:rgba(31,46,77,1);
+        color:#1f2e4d;
     }
     .boxTag{
         width: 169px;
@@ -374,14 +374,14 @@
     }
     .tagsBox{
         display: inline-block;
-        border: 1px solid #ddd;
-        padding: 5px;
-        margin-right: 10px;
-        border-radius: 5px;
+        border: 1px solid #d3dbeb;
+        padding:2px 5px;
+        margin-right: 5px;
+        border-radius: 4px;
         margin-bottom: 5px;
         font-size:12px;
         font-family:PingFangSC-Regular,PingFangSC;
         font-weight:400;
-        color:rgba(31,46,77,0.45);
+        color:#f7f9fc;
     }
 </style>

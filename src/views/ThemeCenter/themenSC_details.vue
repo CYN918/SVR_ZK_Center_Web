@@ -7,7 +7,7 @@
         </div>
             <div class="name">
                 <span>{{this.$route.query.name+'主题素材名称'}}:</span>
-                <span></span>
+                <span>{{tableData.name}}</span>
                 <div>
                     <span @click="bj()">编辑</span>
                     <a :href="tableData.attach.url" class="dowload">下载</a>
@@ -16,8 +16,8 @@
             <div>
                 <span class="titName">ID:</span>
                 <span class="titCon">{{this.tableData.thmid}}</span>
-                <span class="titName">使用范围:</span>
-                <span class="titCon">{{this.tableData.range=='all'?'不限':'this.tableData.range'}}</span>
+                <span class="titName" v-if="this.$route.query.name!='宣传图'">使用范围:</span>
+                <span class="titCon" v-if="this.$route.query.name!='宣传图'">{{this.tableData.range=='all'?'不限':this.tableData.range}}</span>
                 <span class="titName">标签</span>
                 <div class="tag">
                     <span v-for="item in ((this.tableData.tags).split(','))" class="tagName" v-if="item!=''">{{item}}</span>
@@ -28,8 +28,8 @@
                 </div>
             </div>
             <div>
-                <span class="titName">状态:</span>
-                <span class="titCon">{{this.tableData.status_name}}</span>
+                <span class="titName" v-if="this.$route.query.name!='宣传图'">状态:</span>
+                <span class="titCon" v-if="this.$route.query.name!='宣传图'">{{this.tableData.status_name}}</span>
                 <span class="titName">创建时间:</span>
                 <span class="titCon" style="width: 300px">{{this.tableData.created_at}}</span>
             </div>
@@ -40,10 +40,10 @@
             <div class="switcher">
                 <a href="#tab0" :class="{click:isType==0}" @click="changeover('0')">预览图</a>
                 <a href="#tab0" :class="{click:isType==1}" @click="changeover('1')">相关主题</a>
-                <a href="#tab1" :class="{click:isType==2}" @click="changeover('2')">相关项目</a>
-                <a href="#tab2" :class="{click:isType==3}" @click="changeover('3')">相关打包件</a>
-                <a href="#tab3" :class="{click:isType==4}" @click="changeover('4')">相关主题素材</a>
-                <a href="#tab4" :class="{click:isType==5}" @click="changeover('5')">相关合同</a>
+                <a href="#tab1" :class="{click:isType==2}" @click="changeover('2')" v-if="this.$route.query.name!='宣传图'">相关项目</a>
+                <a href="#tab2" :class="{click:isType==3}" @click="changeover('3')" v-if="this.$route.query.name!='宣传图'">相关打包件</a>
+                <a href="#tab3" :class="{click:isType==4}" @click="changeover('4')" v-if="this.$route.query.name!='宣传图'">相关主题素材</a>
+                <a href="#tab4" :class="{click:isType==5}" @click="changeover('5')" v-if="this.$route.query.name!='宣传图'">相关合同</a>
             </div>
         </div>
         <div style="margin-top: 314px">
@@ -77,7 +77,7 @@
 
                 </div>
             </div>
-            <div class="preview"  id="tab2">
+            <div class="preview"  id="tab2" v-if="this.$route.query.name!='宣传图'">
                 <div class="titID">
                     <span class="nameID">相关项目</span>
                 </div>
@@ -92,7 +92,7 @@
                     <span v-if="xm.length!=''">{{xm[0].price}}</span>
                 </div>
             </div>
-            <div  class="preview" id="tab3">
+            <div  class="preview" id="tab3" v-if="this.$route.query.name!='宣传图'">
                 <div class="titID">
                     <span class="nameID">相关打包件</span>
                 </div>
@@ -107,7 +107,7 @@
 
                 </div>
             </div>
-            <div  class="preview" id="tab4">
+            <div  class="preview" id="tab4" v-if="this.$route.query.name!='宣传图'">
                 <div class="titID">
                     <span class="nameID">相关主题素材</span>
                 </div>
@@ -122,7 +122,7 @@
 
                 </div>
             </div>
-            <div  class="preview" id="tab5">
+            <div  class="preview" id="tab5" v-if="this.$route.query.name!='宣传图'">
                 <div class="titID">
                     <span class="nameID">相关合同</span>
                     <span class="derivation">汇总</span>

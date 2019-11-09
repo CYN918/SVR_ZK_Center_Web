@@ -66,22 +66,6 @@
                                 >
                         </el-table-column>
                         <el-table-column
-                                prop="theme_name"
-                                label="主题名称"
-                                v-if="num.seach2==true"
-                                >
-                        </el-table-column>
-                        <el-table-column
-                                prop=""
-                                v-if="num.seach3==true"
-                                label="厂商UI版本">
-                        </el-table-column>
-                        <el-table-column
-                                prop="channel"
-                                v-if="num.seach4==true"
-                                label="渠道">
-                        </el-table-column>
-                        <el-table-column
                                 prop="type"
                                 v-if="num.seach5==true"
                                 label="主题类型">
@@ -92,14 +76,25 @@
                                 label="内容分类">
                         </el-table-column>
                         <el-table-column
+                                prop="channel"
+                                v-if="num.seach4==true"
+                                label="渠道">
+                        </el-table-column>
+                        <el-table-column
+                                prop="theme_name"
+                                label="主题名称"
+                                v-if="num.seach2==true"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                prop=""
+                                v-if="num.seach3==true"
+                                label="厂商UI版本">
+                        </el-table-column>
+                        <el-table-column
                                 prop="price"
                                 v-if="num.seach7==true"
                                 label="单价">
-                        </el-table-column>
-                        <el-table-column
-                            prop="cost_channel"
-                            v-if="num.seach8==true"
-                            label="渠道成本费">
                         </el-table-column>
                         <el-table-column
                                 prop="click"
@@ -107,9 +102,9 @@
                                 label="点击量">
                         </el-table-column>
                         <el-table-column
-                                prop="bad_debt"
-                                v-if="num.seach10==true"
-                                label="坏账">
+                                prop="ctr"
+                                v-if="num.seach16==true"
+                                label="点击率">
                         </el-table-column>
                         <el-table-column
                                 prop="download"
@@ -122,9 +117,9 @@
                                 label="销售量">
                         </el-table-column>
                         <el-table-column
-                                prop="tax"
-                                v-if="num.seach13==true"
-                                label="扣税费">
+                                prop="cvr"
+                                v-if="num.seach15==true"
+                                label="转化率">
                         </el-table-column>
                         <el-table-column
                                 prop="sales_amount"
@@ -132,15 +127,21 @@
                                 label="销售额">
                         </el-table-column>
                         <el-table-column
-                                prop="cvr"
-                                v-if="num.seach15==true"
-                                label="转化率">
+                                prop="cost_channel"
+                                v-if="num.seach8==true"
+                                label="渠道成本费">
                         </el-table-column>
                         <el-table-column
-                                prop="ctr"
-                                v-if="num.seach16==true"
-                                label="点击率">
+                                prop="bad_debt"
+                                v-if="num.seach10==true"
+                                label="坏账">
                         </el-table-column>
+                        <el-table-column
+                                prop="tax"
+                                v-if="num.seach13==true"
+                                label="扣税费">
+                        </el-table-column>
+
                         <el-table-column
                                 prop=""
                                 v-if="num.seach17==true"

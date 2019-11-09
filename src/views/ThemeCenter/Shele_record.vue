@@ -304,9 +304,6 @@
         mounted(){
             this.getThemeType();
             this.active();
-            if(this.$route.query.con==undefined){
-                this.getDataDetails();
-            }
         },
         updated() {
             window.scroll(0, 0);
@@ -327,10 +324,13 @@
                         for(var i=0;i<this.tag.length;i++){
                             if(this.tag[i].name==(res.tags.split(','))[j]){
                                 arr.push((res.tags.split(','))[j])
+                                console.log(arr);
                             }
                         }
                     }
                     this.tags=arr;
+                    console.log(arr);
+                    console.log(this.tags)
                     this.content=res.class;
                     this.main_preview=res.main_preview;
                     this.pic=res.previews;
@@ -341,8 +341,11 @@
                     this.price=res.price;
                     this.tdate=res.tdate;
                     this.is_package=res.is_package;
-                    if(this.is_package==true){
+                    if(this.is_package==1){
+                        this.is_package=true;
                         this.getsc();
+                    }else {
+                        this.is_package=false;
                     }
                     this.getUI(res.ui_version);
                     this.getPack();
@@ -423,6 +426,7 @@
                 let params={channel:this.channel,ui_version:this.ui_version};
                 this.api.themes_config_version({params}).then((res)=>{
                     this.zyBb=res;
+                    this.getTagsList()
                 })
             },
             dataUp(yl,sc,type,id){
@@ -555,11 +559,12 @@
                 this.getList();
             },
             setData(){
+                console.log(this.SC.length);
                 if(!this.channel){
                     this.$message.error('渠道不能为空')
                     return
                 }
-                if(this.attach.name==''){
+                if(!this.attach.name){
                     this.$message.error('未上传主题包');
                     return
                 }
@@ -600,7 +605,7 @@
                     this.$message.error('价格为大于零的正数');
                     return
                 }
-                if(this.is_package==false&&this.lockSC.length==0&&this.iconSC.length==0&&this.twoSC.length==0){
+                if((this.SC).length==0){
                     this.$message.error('未绑定打包件');
                     return
                 }
@@ -710,7 +715,7 @@
                     this.$message.error('封面图不能为空')
                     return
                 }
-                if(this.attach.name==''){
+                if(!this.attach.name){
                     this.$message.error('未上传主题包');
                     return
                 }
@@ -726,7 +731,7 @@
                     this.$message.error('价格为大于零的正数');
                     return
                 }
-                if(this.is_package==false&&this.lockSC.length==0&&this.iconSC.length==0&&this.twoSC.length==0){
+                if((this.SC).length==0){
                     this.$message.error('未绑定打包件');
                     return
                 }
@@ -839,6 +844,9 @@
                 let params = {material:'2',type:this.$route.query.type,search:this.tagsName,p:500,page:1};
                 this.api.tags_search({params}).then((da)=>{
                     this.tag=da.data.self_tags;
+                    if(this.$route.query.con==undefined){
+                        this.getDataDetails();
+                    }
                 })
             },
             handleExceed(files, fileList) {
@@ -873,6 +881,7 @@
                 if(!this.channel){
                     this.$message.error('渠道不能为空')
                 }
+                this.attach={};
                 this.up=true;
                 this.times=0;
                 ++this.fcounter;

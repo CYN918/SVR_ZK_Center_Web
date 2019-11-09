@@ -22,7 +22,7 @@
                 <img :src="bg"/>
             </div>
         </div>
-        <div style="margin-top: 250px;background: #fff;height:266px;padding:0 24px">
+        <div style="margin-top: 245px;background: #fff;height:231px;padding:0 24px">
             <div class="name">
                 <span>主题名称:</span>
                 <span>{{tableData.name}}</span>
@@ -60,7 +60,7 @@
                     <span class="tagADD" @click="BJtags()">+ 标签</span>
                 </div>
             </div>
-            <div style="margin-bottom: 46px">
+            <div style="margin-bottom: 24px">
                 <span class="titName">主题描述:</span>
                 <span class="titCon" style="width: 70%">{{this.tableData.note}}</span>
             </div>

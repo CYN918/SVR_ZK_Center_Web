@@ -297,7 +297,7 @@
                     this.$message.error('预览图不能为空');
                     return
                 }
-                if(this.attach.name==''){
+                if(!this.attach.name){
                     this.$message.error('未上传主题包');
                     return
                 }
@@ -460,6 +460,7 @@
             upLoad(file){
                 this.up=true;
                 this.times=0;
+                this.attach={};
                 ++this.fcounter;
                 this.scope();
                 let formData = new FormData;

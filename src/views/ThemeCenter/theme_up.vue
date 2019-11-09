@@ -57,20 +57,16 @@
                 <div>
                     <span>主题类型</span>
                     <select v-model="type" @change="getCon()" v-if="this.$route.query.thid==undefined">
-
                         <option :value="item.id" v-for="item in themeType">{{item.type}}</option>
                     </select>
                     <select v-model="type" @change="getCon()" disabled="disabled" v-if="this.$route.query.thid!=undefined">
-
                         <option :value="item.id" v-for="item in themeType">{{item.type}}</option>
                     </select>
                     <span>内容分类</span>
                     <select v-model="content" v-if="this.$route.query.thid==undefined">
-
                         <option :value="item.id" v-for="item in con">{{item.class}}</option>
                     </select>
                     <select v-model="content" disabled="disabled" v-if="this.$route.query.thid!=undefined">
-
                         <option :value="item.id" v-for="item in con">{{item.class}}</option>
                     </select>
                 </div>
@@ -344,8 +340,8 @@
                     this.$message.error('预览图不能为空')
                     return
                 }
-                if(!this.attach){
-                    this.$message.error('未上传主题包')
+                if(!this.attach.name){
+                    this.$message.error('未上传主题包');
                     return
                 }
                 let formData =new FormData;
@@ -431,6 +427,7 @@
                 this.times=0;
                 ++this.fcounter;
                 this.scope();
+                this.attach={};
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{

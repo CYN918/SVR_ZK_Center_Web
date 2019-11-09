@@ -363,7 +363,6 @@ a{
   margin-top: 5px;
 
 }
-
 .contentImg .label .active,.labelName:hover{
   display: inline-block;
   padding: 0 10px;

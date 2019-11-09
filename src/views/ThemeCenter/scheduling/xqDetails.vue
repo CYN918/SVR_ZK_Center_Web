@@ -353,7 +353,7 @@
     .box1_img{
         width:189px;
         height:315px;
-        background: #df5000;
+        background: #e3e7eb;
         position: relative;
         margin-left: 24px;
     }
@@ -389,13 +389,16 @@
         line-height: 34px;
         cursor: pointer;
     }
+    .box1_img:hover .box1_BTN{
+        opacity: 0.8;
+    }
     .box1_BTN{
         position: absolute;
         bottom: 0;
         width:189px;
         height:68px;
         background:rgba(10,10,10,1);
-        opacity:0.81;
+        opacity:0;
         text-align: center;
     }
     .name span{

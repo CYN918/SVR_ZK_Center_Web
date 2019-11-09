@@ -313,9 +313,9 @@
 
             },
             getTagsList(){
-                let params = {material:'2',type:this.types,search:this.tagsName,p:500,page:1};
+                let params = {material:'2',type:'theme',search:this.tagsName,p:500,page:1};
                 this.api.tags_search({params}).then((da)=>{
-                    this.tag=da.data.tags;
+                    this.tag=da.data.self_tags;
                 })
             },
             handleExceed(files, fileList) {

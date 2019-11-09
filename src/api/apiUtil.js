@@ -48,6 +48,9 @@ const sendApiInstance = (method, url, params, config = {},isType={}) => {
 			return data;
 		}else{
 			Message({dangerouslyUseHTMLString:true,message: message});
+            if(code!=0){
+                return false;
+            }
 		}
 	},error => {	  
 		Message({message: '服务器故障',type: 'warning'});

@@ -45,7 +45,7 @@
                     </el-table-column>
                     <el-table-column
                             prop="count"
-                            label="数据更新数目">
+                            label="数据更新条目数">
                     </el-table-column>
                     <el-table-column
                             prop="address"

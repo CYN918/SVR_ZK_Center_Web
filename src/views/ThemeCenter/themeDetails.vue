@@ -39,7 +39,7 @@
                 <span class="titName">适用范围:</span>
                 <span class="titCon">{{tableData.range}}</span>
             </div>
-            <div style="margin-bottom: 56px">
+            <div style="margin-bottom: 24px">
                 <span class="titName">主题描述:</span>
                 <span class="titCon" style="width: 70%">{{tableData.note}}</span>
             </div>
@@ -51,7 +51,7 @@
                 <a href="#tabs3" :class="{click:isType==4}" @click="changeover('4')">相关合同</a>
             </div>
         </div>
-        <div style="margin-top: 410px">
+        <div style="margin-top: 360px">
             <div class="preview" id="tabs0">
                 <div class="titID">
                     <span class="nameID">预览图</span>
@@ -330,7 +330,7 @@
 <style scoped>
     .top{
         width: 100%;
-        min-height: 297px;
+        min-height: 269px;
         background: rgba(255,255,255,1);
         position: fixed;
         left: 256px;
