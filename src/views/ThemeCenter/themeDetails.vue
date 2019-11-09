@@ -7,7 +7,7 @@
             </div>
             <div class="name">
                 <span>主题名称:</span>
-                <span>{{this.tableData.name}}</span>
+                <span>{{tableData.name}}</span>
                 <div>
                     <span @click="bj()">编辑</span>
                     <a :href="this.tableData.attach.url" class="dowload">下载</a>
@@ -140,31 +140,45 @@
                     <span class="addJl" @click="jump">添加上架记录</span>
                 </div>
                 <div>
-                    <!--<template>-->
-                        <!--<el-table-->
-                                <!--:data="upList"-->
-                                <!--style="width: 100%">-->
-                            <!--<el-table-column-->
-                                    <!--prop="channel"-->
-
-                                   <!--&gt;-->
-                            <!--</el-table-column>-->
-                            <!--<el-table-column-->
-                                    <!--prop="name"-->
-
-                                    <!--&gt;-->
-                            <!--</el-table-column>-->
-                            <!--<el-table-column-->
-                                    <!--prop="address"-->
-                                    <!--&gt;-->
-                            <!--</el-table-column>-->
-                        <!--</el-table>-->
-                    <!--</template>-->
-                    <div style="display: inline-block" v-for="item in upList" >
-                        <div style="display: inline-block"  class="imgID" v-for="key in item.themes">
-                            <img :src="key.main_preview">
-                        </div>
-                    </div>
+                    <template>
+                        <el-table
+                                :data="upList"
+                                style="width: 100%">
+                            <el-table-column
+                                    prop="channel"
+                                   >
+                                <template slot-scope="scope">
+                                    <span>渠道:{{upList[scope.$index].channel}}</span>
+                                </template>
+                            </el-table-column>
+                            <el-table-column
+                                    prop="name"
+                                    >
+                                <template slot-scope="scope">
+                                    <span>上架记录:{{upList[scope.$index].count}}</span>
+                                </template>
+                            </el-table-column>
+                            <el-table-column
+                                    prop="address"
+                                    >
+                                <template slot-scope="scope">
+                                    <span>最近更新时间:{{upList[scope.$index].updated_at}}</span>
+                                </template>
+                            </el-table-column>
+                            <el-table-column
+                                    prop="address"
+                            >
+                                <template slot-scope="scope">
+                                    <span style="display: inline-block;width: 100%;text-align:right;cursor: pointer" @click="channelDetails(scope.$index)">></span>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </template>
+                    <!--<div style="display: inline-block" v-for="item in upList" >-->
+                        <!--<div style="display: inline-block"  class="imgID" v-for="key in item.themes">-->
+                            <!--<img :src="key.main_preview">-->
+                        <!--</div>-->
+                    <!--</div>-->
 
                 </div>
 
@@ -174,7 +188,41 @@
                     <span class="nameID">相关合同</span>
                     <span class="derivation">汇总</span>
                 </div>
-                <div>
+                <div style="border-bottom: 1px solid #E6E9F0" v-for="item in Contract" v-if="Contract.length!=0">
+                    <div>
+                        <span class="Contract_name">合同名称({{item.contract_id}})</span>
+                        <div style="display: inline-block;width: 10px;height: 10px;border-radius: 50%;background: #39BD65" v-if="new Date(item.contract_end_time)>new Date()"></div>
+                        <span class="Contract_status"  v-if="new Date(item.contract_end_time)>new Date()">生效中</span>
+                        <div style="display: inline-block;width: 10px;height: 10px;border-radius: 50%;background: #F05656"  v-if="new Date(item.contract_end_time)<new Date()"></div>
+                        <span class="Contract_status"  v-if="new Date(item.contract_end_time)<new Date()">已过期</span>
+                    </div>
+                    <div >
+                        <span class="Contract_tit">甲方：</span>
+                        <span class="Contract_con">{{((item.signatories).split(','))[0]}}</span>
+                        <span class="Contract_tit">生效时间：</span>
+                        <span class="Contract_con">{{item.contract_start_time}}</span>
+                        <span class="Contract_tit">合同文件：</span>
+                        <div style="display: inline-block" v-for="da in item.contract_files">
+                            <span class="Contract_con">{{da.name}}</span>
+                            <a style="font-size:14px;font-family:PingFangSC-Regular,PingFang SC;font-weight:400;color:rgba(51,119,255,1);" :href="da.url">下载</a>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="Contract_tit">乙方：</span>
+                        <span class="Contract_con">{{((item.signatories).split(','))[1]}}</span>
+                        <span class="Contract_tit">失效时间：</span>
+                        <span class="Contract_con">{{item.contract_end_time}}</span>
+                    </div>
+                    <div>
+                        <span class="Contract_tit">描述</span>
+                        <span class="Contract_con">{{item.note}}</span>
+                    </div>
+                </div>
+                <div style="width: 100%;text-align: center" v-if="Contract.length==0">
+                    <img src="../../../public/img/null.png" style="width:48px;margin-top: 150px">
+                    <div>
+                        <span>暂无数据</span>
+                    </div>
 
                 </div>
             </div>
@@ -191,12 +239,13 @@
                 isUPload:1,
                 time:[],
                 isTime:"w",
-                tableData:{attach:{url:''}},
+                tableData:{name:'',attach:{url:''}},
                 sc:[],
                 thid:this.$route.query.thid,
                 channel:this.$route.query.channel,
                 ch_thid:this.$route.query.ch_thid,
                 upList:[],
+                Contract:[],
             }
         },
         mounted(){
@@ -213,8 +262,18 @@
                     }
                 })
             },
+            channelDetails(index){
+                this.$router.push({
+                    path:"./themeDetailsQd",
+                    query:{
+                        thid:this.upList[index].thid,
+                        channel:this.upList[index].channel,
+                        ch_thid:this.upList[index].ch_thid,
+                    }
+                })
+            },
             getsc(){
-                let params={thid:this.thid,ch_thid:this.ch_thid,channel:this.channel}
+                let params={thid:this.thid,ch_thid:this.ch_thid,channel:this.channel};
                 this.api.themes_theme_materials({params}).then((res)=>{
                     this.sc=res;
                     this.getUp();
@@ -223,14 +282,21 @@
             getUp(){
                 let params ={thid:this.thid};
                 this.api.themes_theme_records({params}).then((res)=>{
-                    this.upList=res;
+                    this.upList=res.channel_themes;
+                })
+            },
+            getContract(){
+                let params={thid:this.thid,ch_thid:this.ch_thid,channel:this.channel}
+                this.api.themes_theme_contracts({params}).then((res)=>{
+                    this.Contract=res;
                 })
             },
             getData(){
                 let params={thid:this.thid,ch_thid:this.ch_thid,channel:this.channel}
                 this.api.themes_theme_details({params}).then((res)=>{
                     this.tableData=res;
-                    this.getsc()
+                    this.getsc();
+                    this.getContract();
                 })
             },
             fh(){
@@ -557,5 +623,39 @@
         cursor: pointer;
         float: right;
         margin: 10px 24px 0 0 ;
+    }
+    .Contract_name{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC-Medium,PingFang SC;
+        font-weight:500;
+        color:rgba(31,46,77,1);
+        margin: 24px 10px 12px 24px;
+    }
+    .Contract_status{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC-Medium,PingFang SC;
+        font-weight:500;
+        color:rgba(31,46,77,0.45);
+        margin-left: 10px;
+    }
+    .Contract_tit{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:400;
+        color:rgba(31,46,77,1);
+        margin-bottom: 8px;
+        margin-left: 24px;
+    }
+    .Contract_con{
+        text-align: left;
+        display: inline-block;
+        width:150px;
+        height:22px;
+        font-size:14px;
+        font-family:HelveticaNeue;
+        color:rgba(31,46,77,0.65);
     }
 </style>

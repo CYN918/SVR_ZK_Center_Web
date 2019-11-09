@@ -10,7 +10,7 @@
                 <span></span>
                 <div>
                     <span @click="bj()">编辑</span>
-                    <a :href="tableData.attach.url" class="dowload" >下载</a>
+                    <a :href="tableData.attach.url" class="dowload">下载</a>
                 </div>
             </div>
             <div>
@@ -33,7 +33,7 @@
                 <span class="titName">创建时间:</span>
                 <span class="titCon" style="width: 300px">{{this.tableData.created_at}}</span>
             </div>
-            <div style="margin-bottom: 56px">
+            <div style="margin-bottom: 24px">
                 <span class="titName">备注描述:</span>
                 <span class="titCon" style="width: 70%">{{this.tableData.note}}</span>
             </div>
@@ -46,7 +46,7 @@
                 <a href="#tab4" :class="{click:isType==5}" @click="changeover('5')">相关合同</a>
             </div>
         </div>
-        <div style="margin-top: 394px">
+        <div style="margin-top: 314px">
             <div class="preview" id="tab0">
                 <div class="titID">
                     <span class="nameID">预览图</span>
@@ -84,12 +84,12 @@
                 <div style="margin: 24px 0 0 24px">
                     <div class="preview_tet">
                         <span>项目ID：</span>
-                        <span>{{}}</span>
+                        <span v-if="xm.length!=''">{{xm[0].work_id}}</span>
                     </div>
                     <span>结算方式</span>
-                    <span></span>
+                    <span v-if="xm.length!=''">{{xm[0].hire_type}}</span>
                     <span>分成比例</span>
-                    <span></span>
+                    <span v-if="xm.length!=''">{{xm[0].price}}</span>
                 </div>
             </div>
             <div  class="preview" id="tab3">
@@ -127,7 +127,41 @@
                     <span class="nameID">相关合同</span>
                     <span class="derivation">汇总</span>
                 </div>
-                <div>
+                <div style="border-bottom: 1px solid #E6E9F0" v-for="item in Contract" v-if="Contract.length!=0">
+                    <div>
+                        <span class="Contract_name">合同名称({{item.contract_id}})</span>
+                        <div style="display: inline-block;width: 10px;height: 10px;border-radius: 50%;background: #39BD65" v-if="new Date(item.contract_end_time)>new Date()"></div>
+                        <span class="Contract_status"  v-if="new Date(item.contract_end_time)>new Date()">生效中</span>
+                        <div style="display: inline-block;width: 10px;height: 10px;border-radius: 50%;background: #F05656"  v-if="new Date(item.contract_end_time)<new Date()"></div>
+                        <span class="Contract_status"  v-if="new Date(item.contract_end_time)<new Date()">已过期</span>
+                    </div>
+                    <div >
+                        <span class="Contract_tit">甲方：</span>
+                        <span class="Contract_con">{{((item.signatories).split(','))[0]}}</span>
+                        <span class="Contract_tit">生效时间：</span>
+                        <span class="Contract_con">{{item.contract_start_time}}</span>
+                        <span class="Contract_tit">合同文件：</span>
+                        <div style="display: inline-block" v-for="da in item.contract_files">
+                            <span class="Contract_con">{{da.name}}</span>
+                            <a style="font-size:14px;font-family:PingFangSC-Regular,PingFang SC;font-weight:400;color:rgba(51,119,255,1);" :href="da.url">下载</a>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="Contract_tit">乙方：</span>
+                        <span class="Contract_con">{{((item.signatories).split(','))[1]}}</span>
+                        <span class="Contract_tit">失效时间：</span>
+                        <span class="Contract_con">{{item.contract_end_time}}</span>
+                    </div>
+                    <div>
+                        <span class="Contract_tit">描述</span>
+                        <span class="Contract_con">{{item.note}}</span>
+                    </div>
+                </div>
+                <div style="width: 100%;text-align: center" v-if="Contract.length==0">
+                    <img src="../../../public/img/null.png" style="width:48px;margin-top: 150px">
+                    <div>
+                        <span>暂无数据</span>
+                    </div>
 
                 </div>
             </div>
@@ -143,12 +177,13 @@
                 isType:0,
                 isUPload:1,
                 time:[],
-                tableData:{},
+                tableData:{name:'',attach:{url:''}},
                 themeList:[],
                 sc:[],
                 type:'',
                 pack:[],
-                xm:{},
+                xm:[],
+                Contract:[],
             }
         },
         mounted(){
@@ -176,6 +211,13 @@
                     this.xm=res;
                 })
             },
+            getContract(){
+                let params={thmid:this.$route.query.thmid};
+                this.api.themes_material_contracts({params}).then((res)=>{
+                    this.Contract=res;
+                })
+            },
+
             histogram(data){
                 this.isUPload=data;
             },
@@ -189,8 +231,9 @@
                     this.type=res.type;
                     this. getTheme();
                     this.getsc();
-                    this.getPack()
-                    this.getXM()
+                    this.getPack();
+                    this.getXM();
+                    this.getContract();
                 })
             },
             getTheme(){
@@ -218,7 +261,7 @@
 <style scoped>
     .top{
         width: 100%;
-        min-height: 297px;
+        min-height: 230px;
         background: rgba(255,255,255,1);
         position: fixed;
         left: 256px;
@@ -517,5 +560,39 @@
         font-family:PingFang-SC-Bold,PingFang-SC;
         font-weight:bold;
         color:rgba(31,46,77,1);
+    }
+    .Contract_name{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC-Medium,PingFang SC;
+        font-weight:500;
+        color:rgba(31,46,77,1);
+        margin: 24px 10px 12px 24px;
+    }
+    .Contract_status{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC-Medium,PingFang SC;
+        font-weight:500;
+        color:rgba(31,46,77,0.45);
+        margin-left: 10px;
+    }
+    .Contract_tit{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:400;
+        color:rgba(31,46,77,1);
+        margin-bottom: 8px;
+        margin-left: 24px;
+    }
+    .Contract_con{
+        text-align: left;
+        display: inline-block;
+        width:150px;
+        height:22px;
+        font-size:14px;
+        font-family:HelveticaNeue;
+        color:rgba(31,46,77,0.65);
     }
 </style>

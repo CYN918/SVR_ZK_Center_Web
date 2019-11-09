@@ -958,7 +958,15 @@ export default {
     themes_config_theme_class:{
 		url:'themes/config/theme/class',method:'get'
 	},
-	//获取主题厂商渠道列表
+	//获取主题素材相关合同
+    themes_material_contracts:{
+		url:'themes/material/contracts',method:'get'
+	},
+	//获取主题相关合同
+    themes_theme_contracts:{
+		url:"themes/theme/contracts",method:'get'
+	},
+    //获取主题厂商渠道列表
     themes_config_channel:{
 		url:'themes/config/channel',method:'get'
 	},
