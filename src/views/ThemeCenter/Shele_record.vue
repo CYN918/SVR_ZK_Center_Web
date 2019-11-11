@@ -329,8 +329,6 @@
                         }
                     }
                     this.tags=arr;
-                    console.log(arr);
-                    console.log(this.tags)
                     this.content=res.class;
                     this.main_preview=res.main_preview;
                     this.pic=res.previews;

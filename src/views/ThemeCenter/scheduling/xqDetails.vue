@@ -137,9 +137,9 @@
                 f_thid:this.$route.query.data.f_thid,
                 f_ch_thid:this.$route.query.data.f_ch_thid,
                 qDname:'',
-                qDurl:'',
+                qDurl:"",
                 mz:"",
-                qds:'',
+                qds:this.$route.query.data.channel,
             }
         },
         mounted(){

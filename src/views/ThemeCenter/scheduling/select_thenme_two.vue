@@ -316,7 +316,7 @@
     .box1_img{
         width:189px;
         height:315px;
-        background: #df5000;
+        background: #e3e7ef;
         position: relative;
         margin-left: 24px;
     }

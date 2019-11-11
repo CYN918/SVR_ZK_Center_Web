@@ -328,8 +328,8 @@
                     this.$message.error('内容分类不能为空')
                     return
                 }
-                if(!this.scID){
-                    this.$message.error('相关素材不能为空')
+                if(this.scID.length==0){
+                    this.$message.error('相关素材不能为空');
                     return
                 }
                 if(!this.main_preview){
