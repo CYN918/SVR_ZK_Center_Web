@@ -218,8 +218,16 @@
                     this.$message.error('预计结算金额不能为空');
                     return
                 }
+                if(this.expect_amount>999999999.99){
+                    this.$message.error('预计结算金额不能大于999999999.99');
+                    return
+                }
                 if(!this.real_amount){
                     this.$message.error('实际结算金额不能为空');
+                    return
+                }
+                if(this.real_amount>999999999.99){
+                    this.$message.error('实际结算金额大于999999999.99');
                     return
                 }
                 if(!this.note){

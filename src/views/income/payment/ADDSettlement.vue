@@ -24,8 +24,8 @@
                 <select v-model="tdate">
                     <option v-for="item in num" :value="item">{{item}}</option>
                 </select>
-                <input type="checkbox" class="check" v-model="is_auto">
-                <span class="titText">不自动生成</span>
+                <!--<input type="checkbox" class="check" v-model="is_auto">-->
+                <!--<span class="titText">不自动生成</span>-->
             </div>
             <div>
                 <span  class="titName">开户名</span>
@@ -48,8 +48,8 @@
                 <input type="text" class="input" v-model="contact">
             </div>
             <div>
-                <span  class="titName">联系电话</span>
-                <input type="text" class="input" v-model="phone">
+                <span  class="titName">对账邮箱</span>
+                <input type="text" class="input" v-model="email">
             </div>
             <div>
                 <span  class="titName" style="vertical-align: top">备注</span>
@@ -62,8 +62,8 @@
                     <div v-for="da in item">
                         <div v-for="das in da.contract_files">
                             <div style="display: inline-block;max-width: 200px;height: 20px;overflow:hidden;font-size:14px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(31,46,77,1);">{{da.contract_id}}</div>
-                            <span class="content_ck">查看</span>
-                            <a class="content_xz" :href="das.url">下载</a>
+                            <!--<span class="content_ck">查看</span>-->
+                            <a class="content_xz" :href="das.url" target="_blank">下载</a>
                             <span class="content_xz" @click="del(index)">删除</span>
                         </div>
 
@@ -72,12 +72,12 @@
                 </div>
             </div>
             <div style="margin-bottom:20px">
-                <span  class="titName" >附件</span>
+                <span  class="titName" >附件<span style="color: #acadb0">(选填)</span></span>
                 <span class="ADDs" @click="ADDfj()">上传</span>
                 <div style="margin: 14px 0 14px 140px" v-for="(item,index) in attachs">
                     <div style="display: inline-block;max-width: 200px;height: 20px;overflow:hidden;font-size:14px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(31,46,77,1);">{{item.name}}</div>
-                    <span class="content_ck">查看</span>
-                    <a class="content_xz" :href="item.url">下载</a>
+                    <!--<span class="content_ck">查看</span>-->
+                    <a class="content_xz" :href="item.url" target="_blank">下载</a>
                     <span class="content_xz" @click="dels(index)">删除</span>
                 </div>
             </div>
@@ -98,8 +98,8 @@
                 <div style="margin: 14px 20px" v-for="item in list">
                     <div v-for="da in item.contract_files">
                         <div style="display: inline-block;width: 200px;height: 20px;overflow:hidden">{{item.contract_id}}</div>
-                        <span class="content_ck">查看</span>
-                        <a class="content_xz" :href="da.url">下载</a>
+                        <!--<span class="content_ck">查看</span>-->
+                        <a class="content_xz" :href="da.url" target="_blank">下载</a>
                     </div>
 
                 </div>
@@ -143,13 +143,13 @@
                 fj:false,
                 name:'',
                 tdate:'',
-                is_auto:"",
+                is_auto:"1",
                 account_name:"",
                 bank_card_id:"",
                 bank_name:"",
                 tax_id:"",
                 contact:"",
-                phone:"",
+                email:"",
                 note:"",
                 contracts:[],
                 attachs:[],
@@ -247,12 +247,6 @@
                     this.setData();
                     return
                 }
-                if(this.is_auto==false){
-                    this.auto=1;
-                }
-                if(this.is_auto==true){
-                    this.auto=0;
-                }
                 if(!this.name){
                     this.$message.error('名称不能为空');
                     return
@@ -281,8 +275,8 @@
                     this.$message.error('联系人不能为空');
                     return
                 }
-                if(!this.phone){
-                    this.$message.error('联系电话不能为空');
+                if(!this.email){
+                    this.$message.error('对账邮箱不能为空');
                     return
                 }
                 if(this.contract.length==0){
@@ -303,7 +297,7 @@
                 formData.append('bank_name',this.bank_name);
                 formData.append('tax_id',this.tax_id);
                 formData.append('contact',this.contact);
-                formData.append('phone',this.phone);
+                formData.append('email',this.email);
                 formData.append('note',this.note);
                 formData.append('contracts',JSON.stringify(this.contract));
                 formData.append('attachs',JSON.stringify(this.attachs));
@@ -319,18 +313,12 @@
                 this.api.settle_settlement_detail({params}).then((res)=>{
                     this.name=res.name;
                     this.tdate=res.tdate;
-                    if(res.is_auto==1){
-                        this.is_auto=false;
-                    }
-                    if(res.is_auto==0){
-                        this.is_auto=true;
-                    }
                     this.account_name=res.account_name;
                     this.bank_card_id=res.bank_card_id;
                     this.bank_name=res.bank_name;
                     this.tax_id=res.tax_id;
                     this.contact=res.contact;
-                    this.phone=res.phone;
+                    this.email=res.email;
                     this.note=res.note;
                     this.contracts=res.contracts;
                     this.attachs=res.attachs;
@@ -354,7 +342,7 @@
                     this.$message.error('名称不能为空');
                     return
                 }
-                if(!this.tdate&&this.is_auto!=0){
+                if(!this.tdate){
                     this.$message.error('生成对账时间不能为空');
                     return
                 }
@@ -378,8 +366,8 @@
                     this.$message.error('联系人不能为空');
                     return
                 }
-                if(!this.phone){
-                    this.$message.error('联系电话不能为空');
+                if(!this.email){
+                    this.$message.error('对账邮箱不能为空');
                     return
                 }
                 if(this.contracts.length==0){
@@ -400,7 +388,7 @@
                 formData.append('bank_name',this.bank_name);
                 formData.append('tax_id',this.tax_id);
                 formData.append('contact',this.contact);
-                formData.append('phone',this.phone);
+                formData.append('email',this.email);
                 formData.append('note',this.note);
                 formData.append('contracts',JSON.stringify(this.contract));
                 formData.append('attachs',JSON.stringify(this.attachs));

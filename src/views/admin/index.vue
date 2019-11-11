@@ -23,22 +23,23 @@ export default {
 		leftNav
 	},
 	mounted: function () {
-		if(JSON.parse(localStorage.getItem('letNav'))[0].children.length<=0&&JSON.parse(localStorage.getItem('letNav'))[0].list.length<=0){
-            this.$message({
-                type: 'error',
-                message: ` 无权访问，请联系管理员`
-            });
-		}else{
-            this.letNav = JSON.parse(localStorage.getItem('letNav'))[0];
+        for(var i=0;i<(JSON.parse(localStorage.getItem('letNav')).length);i++){
+            if(JSON.parse(localStorage.getItem('letNav'))[i].title=='素材中心'){
+                if(JSON.parse(localStorage.getItem('letNav'))[i].children.length<=0&&JSON.parse(localStorage.getItem('letNav'))[i].list.length<=0){
+                    this.$message({
+                        type: 'error',
+                        message: ` 无权访问，请联系管理员`
+                    });
+                }else{
+                    this.letNav = JSON.parse(localStorage.getItem('letNav'))[i];
 
-		}
-        // let Nav = JSON.parse(localStorage.getItem('leftNav'));
-        // for(let i = 0;i<Nav.length;i++){
-	     //  if(Nav[i].title=='管理'){
-         //      this.letNav = Nav[i];
-         //      console.log(i)
-		//   }
-		// }
+                }
+
+            }
+
+        }
+
+
 	},	
 }
 </script>

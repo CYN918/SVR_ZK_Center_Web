@@ -40,7 +40,7 @@
                 </div>
                 <div>
                     <div style="display: inline-block;width: 84px;margin-right: 20px;text-align: right">
-                        <span class="fj">附件</span>
+                        <span class="fj">附件<span style="color: #acadb0">(选填)</span></span>
                     </div>
                     <div style="display: inline-block;width: 300px">
                         <div v-for="item in list.remit.attachs">

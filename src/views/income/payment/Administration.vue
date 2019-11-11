@@ -131,9 +131,10 @@
             }
         },
         created(){
-            let date = new Date();
-            date.setMonth(date.getMonth()-3);
-            this.myformatter(date);
+            // let date = new Date();
+            // date.setMonth(date.getMonth()-3);
+            // this.myformatter(date);
+            this.getDataList()
         },
         mounted(){
             this.control=JSON.parse(localStorage.getItem('control'));
@@ -157,8 +158,8 @@
                         this.controlBtns = true;
                     }
                 }
-
             }
+
         },
         methods:{
             handleSizeChange(p) { // 每页条数切换

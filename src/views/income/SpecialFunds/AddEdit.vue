@@ -166,6 +166,10 @@
                     this.$message.error('支出金额不能为空');
                     return
                 }
+                if(this.amount>999999999.99){
+                    this.$message.error('支出金额不能大于999999999.99');
+                    return
+                }
                 let formData=new FormData;
                 formData.append('smid',this.$route.query.smid);
                 formData.append('status',this.status);

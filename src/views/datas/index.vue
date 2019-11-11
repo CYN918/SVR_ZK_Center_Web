@@ -23,17 +23,22 @@ export default {
 		leftNav
 	},
 	mounted: function () {
-
-        if(JSON.parse(localStorage.getItem('letNav'))[2].children.length<=0){
+for(var i=0;i<(JSON.parse(localStorage.getItem('letNav')).length);i++){
+    if(JSON.parse(localStorage.getItem('letNav'))[i].title=='数据中心'){
+        if(JSON.parse(localStorage.getItem('letNav'))[i].children.length<=0){
             this.$message({
                 type: 'error',
                 message: ` 无权访问，请联系管理员`
             });
         }else{
-            this.letNav = JSON.parse(localStorage.getItem('letNav'))[2]
+            this.letNav = JSON.parse(localStorage.getItem('letNav'))[i]
         }
 
-    },
+	}
+
+}
+
+}
 }
 </script>
 <style>
