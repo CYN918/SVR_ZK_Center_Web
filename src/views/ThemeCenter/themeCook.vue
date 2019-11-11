@@ -90,7 +90,7 @@
             <div style="margin-right: -42px">
                 <div class="phone" v-for="(item,index) in this.dataList">
                     <div style="width:189px;height:315px;">
-                        <img :src="item.main_preview" style="height: 100%;width: 100%" @click="xq(themeChannel[index].channel,item.thid,index)">
+                        <img :src="main_preview[index]" style="height: 100%;width: 100%" @click="xq(themeChannel[index].channel,item.thid,index)">
                         <div class="select_type">
                             <!--<span v-if="item.channel_themes.length==0">本地</span>-->
                             <span>{{themeChannel[index].channel_name}}</span>
@@ -155,6 +155,7 @@
                 special:'',
                 TotalNum:"",
                 valid_count:"",
+                main_preview:[],
             }
         },
         mounted(){this.themeType();
@@ -203,6 +204,7 @@
                                 arr.channel_name=res.data[i].channel_themes[j].channel_name;
                                 this.radio.push(res.data[i].channel_themes[j].ch_thid);
                                 this.themeChannel.push(arr);
+                                this.main_preview[i]=res.data[i].channel_themes[j].main_preview
                             }
                         }
                     }
@@ -226,6 +228,7 @@
                                 arr.channel=res.data[i].channel_themes[j].channel;
                                 arr.channel_name=res.data[i].channel_themes[j].channel_name;
                                 this.themeChannel[index]=arr;
+                                this.main_preview[i]=res.data[i].channel_themes[j].main_preview
                             }
                         }
                     }
