@@ -986,6 +986,10 @@ export default {
     themes_theme_records:{
 		url:'themes/theme/records',method:'get'
 	},
+	//排期周期需求历史
+	 themes_schedule_demands_history:{
+		url:'themes/schedule/demands/history',method:'get'
+	 },
 	//上架主题渠道的UI版本
     themes_theme_uiversion:{
 		url:'themes/theme/uiversion',method:'get'

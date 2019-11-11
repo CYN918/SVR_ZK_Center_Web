@@ -1,13 +1,14 @@
 <template>
     <div>
         <sel v-if="sel" @linet="linet"></sel>
+        <sel-theme v-if="themeSelect" @listData="listData"></sel-theme>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh()">{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='th_icon'?'图标主题素材':'二级页主题素材'}}&nbsp;/</span>
-                <span class="new_url">&nbsp;上传{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='th_icon'?'图标主题素材':'二级页主题素材'}}</span>
+                <span class="log_url" @click="fh()">{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='th_icon'?'图标主题素材':this.type=='theme_two'?'二级页主题素材':'宣传图'}}&nbsp;/</span>
+                <span class="new_url">&nbsp;上传{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='th_icon'?'图标主题素材':this.type=='theme_two'?'二级页主题素材':'宣传图'}}</span>
             </div>
             <div class="tit_top_con">
-                <span class="tit_name">上传{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='th_icon'?'图标主题素材':'二级页主题素材'}}</span>
+                <span class="tit_name">上传{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='th_icon'?'图标主题素材':this.type=='theme_two'?'二级页主题素材':'宣传图'}}</span>
             </div>
         </div>
         <div class="themeUp">
@@ -111,32 +112,55 @@
                         </div>
                     </div>
                 </div>
-                <div  v-if="this.$route.query.thmid!=undefined">
-                    <span>绑定设计师素材</span>
-                    <input class="xmID" type="text" v-model="previews" placeholder="请输入项目ID" disabled="disabled">
-                    <input type="checkbox" class="check" v-model="is_work" disabled="disabled"/>
-                    <span class="sm">与作品无关</span>
-                    <span class="sm2">绑定制作图标的相关作品，千万不要填错了</span>
-                </div>
-                <div v-if="this.$route.query.thmid==undefined">
-                    <span>绑定设计师素材</span>
-                    <input class="xmID" type="text" v-model="previews" placeholder="请输入项目ID">
-                    <input type="checkbox" class="check" v-model="is_work" />
-                    <span class="sm">与作品无关</span>
-                    <span class="sm2">绑定制作图标的相关作品，千万不要填错了</span>
 
-                </div>
-                <div>
+                    <div  v-if="this.$route.query.thmid!=undefined&&this.type!='th_advertise'">
+                        <span>绑定设计师素材</span>
+                        <input class="xmID" type="text" v-model="previews" placeholder="请输入项目ID" disabled="disabled">
+                        <!--<input type="checkbox" class="check" v-model="is_work" disabled="disabled"/>-->
+                        <template>
+                            <el-checkbox v-model="is_work" style="margin: 0 10px" disabled></el-checkbox>
+                        </template>
+                        <span class="sm">与作品无关</span>
+                        <span class="sm2">绑定制作图标的相关作品，千万不要填错了</span>
+                    </div>
+                    <div v-if="this.$route.query.thmid==undefined&&this.type!='th_advertise'">
+                        <span>绑定设计师素材</span>
+                        <input class="xmID" type="text" v-model="previews" placeholder="请输入项目ID">
+                        <!--<input type="checkbox" class="check" v-model="is_work" />-->
+                        <template>
+                            <el-checkbox v-model="is_work" style="margin: 0 10px"></el-checkbox>
+                        </template>
+                        <span class="sm">与作品无关</span>
+                        <span class="sm2">绑定制作图标的相关作品，千万不要填错了</span>
+
+                    </div>
+
+
+                <div v-if="this.type!='th_advertise'">
                     <span>绑定主题素材</span>
                     <a @click="jump()" v-if="this.$route.query.thmid==undefined">从主题素材库选择</a>
                     <a v-if="this.$route.query.thmid!=undefined">从主题素材选择</a>
-                    <input type="checkbox" class="check" v-model="is_material"/>
+                    <!--<input type="checkbox" class="check" v-model="is_material"/>-->
+                    <template>
+                        <el-checkbox v-model="is_material" style="margin: 0 10px"></el-checkbox>
+                    </template>
                     <span class="sm">与主题素材无关</span>
                     <span class="sm2">绑定制作图标的相关主题素材，千万不要填错了</span>
                     <div class="img_box">
                         <div class="img_box1" v-for="(item,index) in listSC">
                             <img class="img_box1_img" :src="item.main_preview">
-                            <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px" @click="Del(item.thmid)"/>
+                            <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px" v-if="this.$route.query.thmid==undefined" @click="Del(item.thmid)"/>
+                        </div>
+                    </div>
+                </div>
+                <div v-if="this.type=='th_advertise'">
+                    <span>绑定主题</span>
+                    <a @click="jumpTheme()" v-if="this.$route.query.thmid==undefined">从主题库选择</a>
+                    <a v-if="this.$route.query.thmid!=undefined">从主题选择</a>
+                    <div class="img_box">
+                        <div class="img_box1" v-for="(item,index) in listThm">
+                            <img class="img_box1_img" :src="item.main_preview">
+                            <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px" v-if="this.$route.query.thmid==undefined" @click="DelList(index)"/>
                         </div>
                     </div>
                 </div>
@@ -203,8 +227,9 @@
 
 <script>
     import sel from './select_material'
+    import selTheme from './select'
     export default {
-        components:{sel},
+        components:{sel,selTheme},
         name: "theme_up",
         data(){
             return{
@@ -231,6 +256,10 @@
                 listSC:[],
                 up:false,
                 times:0,
+                themeSelect:false,
+                listTheme:[],
+                themeID:[],
+                listThm:[],
             }
         },
         mounted(){
@@ -239,6 +268,8 @@
             this.Acctouns();
         },
         methods:{
+            jumpTheme(){this.themeSelect=true},
+            heidThm(){this.themeSelect=false},
             setData(){
                 let params={thmid:this.$route.query.thmid};
                 this.api.themes_material_details({params}).then((res)=>{
@@ -269,6 +300,34 @@
                     this.main_preview=res.main_preview;
                     this.pic= res.previews;
                 })
+            },
+            listData(data,data1,data2,data3,data4,data5,data6,data7){
+                var themeD= {thid:"",channel:"",ch_thid:""};
+                themeD.thid=data;
+                themeD.channel=data5;
+                themeD.channel=data1;
+                this.themeID.push(themeD);
+                this.getTheme()
+            },
+            getTheme(){
+                let params={tags:'',channel:'',ui_version:'',account:'',
+                    status:'',type:'',class:'',tstart:"2019-09-29",tend:(new Date()).toLocaleDateString().split('/').join('-'),search:'',p:1000000,page:1};
+                this.api.themes_theme_search({params}).then((res)=>{
+                    var list=[];
+                    for(var i=0;i<res.data.length;i++ ){
+                        for(var j =0;j<this.themeID.length;j++){
+                            if((res.data)[i].thid==this.themeID[j].thid){
+                                list.push((res.data)[i]);
+                            }
+                        }
+                    }
+                    this.listThm=list;
+
+                })
+            },
+            DelList(index){
+                this.listThm.splice(index,1);
+                this.themeID.splice(index,1);
             },
             getsc(){
                 let params={thmid:this.$route.query.thmid};
@@ -416,54 +475,91 @@
                 }
             },
             setADDS(){
-                if(!this.name){
-                    this.$message.error('名称不能为空')
-                    return
-                }
-                if(!this.attach.name){
-                    this.$message.error('附件不能为空')
-                    return
-                }
-                if(!this.range){
-                    this.$message.error('使用范围不能为空')
-                    return
-                }
-                if(!this.note){
-                    this.$message.error('备注不能为空')
-                    return
-                }
-                if(this.tags.length==0){
-                    this.$message.error('标签不能为空')
-                    return
-                }
-                if(!this.main_preview){
-                    this.$message.error('封面图不能为空')
-                    return
-                }
-                if(this.is_work==false){
-                    this.is_work=1
+                if(this.type=='th_advertise'){
+                    if(!this.name){
+                        this.$message.error('名称不能为空')
+                        return
+                    }
+                    if(!this.attach.name){
+                        this.$message.error('附件不能为空')
+                        return
+                    }
+                    if(!this.range){
+                        this.$message.error('使用范围不能为空')
+                        return
+                    }
+                    if(!this.note){
+                        this.$message.error('备注不能为空')
+                        return
+                    }
+                    if(this.tags.length==0){
+                        this.$message.error('标签不能为空')
+                        return
+                    }
+                    if(!this.main_preview){
+                        this.$message.error('封面图不能为空')
+                        return
+                    }
+                    var formData =new FormData;
+                    formData.append('type',this.type);
+                    formData.append('thmid',this.$route.query.thmid);
+                    formData.append('name',this.name);
+                    formData.append('note',this.note);
+                    formData.append('range',this.range);
+                    formData.append('tags',this.tags.join(','));
+                    formData.append('previews',JSON.stringify(this.pic));
+                    formData.append('attach',JSON.stringify(this.attach));
+                    formData.append('main_preview',this.main_preview);
                 }else{
-                    this.is_work=0
+                    if(!this.name){
+                        this.$message.error('名称不能为空')
+                        return
+                    }
+                    if(!this.attach.name){
+                        this.$message.error('附件不能为空')
+                        return
+                    }
+                    if(!this.range){
+                        this.$message.error('使用范围不能为空')
+                        return
+                    }
+                    if(!this.note){
+                        this.$message.error('备注不能为空')
+                        return
+                    }
+                    if(this.tags.length==0){
+                        this.$message.error('标签不能为空')
+                        return
+                    }
+                    if(!this.main_preview){
+                        this.$message.error('封面图不能为空')
+                        return
+                    }
+                    if(this.is_work==false){
+                        this.is_work=1
+                    }else{
+                        this.is_work=0
+                    }
+                    if(this.is_material==false){
+                        this.is_material=1
+                    }else{
+                        this.is_material=0
+                    }
+                    var formData =new FormData;
+                    formData.append('type',this.type);
+                    formData.append('thmid',this.$route.query.thmid);
+                    formData.append('name',this.name);
+                    formData.append('note',this.note);
+                    formData.append('range',this.range);
+                    formData.append('tags',this.tags.join(','));
+                    formData.append('is_work',this.is_work);
+                    formData.append('works',JSON.stringify(this.works));
+                    formData.append('materials',JSON.stringify(this.scID));
+                    formData.append('is_material',this.is_material);
+                    formData.append('previews',JSON.stringify(this.pic));
+                    formData.append('attach',JSON.stringify(this.attach));
+                    formData.append('main_preview',this.main_preview);
                 }
-                if(this.is_material==false){
-                    this.is_material=1
-                }else{
-                    this.is_material=0
-                }
-                let formData =new FormData;
-                formData.append('type',this.type);
-                formData.append('thmid',this.$route.query.thmid);
-                formData.append('name',this.name);
-                formData.append('note',this.note);
-                formData.append('range',this.range);
-                formData.append('tags',this.tags.join(','));
-                formData.append('is_work',this.is_work);
-                formData.append('works',JSON.stringify(this.works));
-                formData.append('materials',JSON.stringify(this.scID));
-                formData.append('is_material',this.is_material);
-                formData.append('previews',JSON.stringify(this.pic));
-                formData.append('attach',JSON.stringify(this.attach));
-                formData.append('main_preview',this.main_preview);
                 this.api.themes_material_edit(formData).then((res)=>{
                     if(res!=false){
                         this.qx();
@@ -473,54 +569,95 @@
                 })
             },
             ADDs(){
-                if(!this.name){
-                    this.$message.error('名称不能为空')
-                    return
-                }
-                if(!this.attach.name){
-                    this.$message.error('附件不能为空')
-                    return
-                }
-                if(!this.range){
-                    this.$message.error('使用范围不能为空')
-                    return
-                }
-                if(!this.note){
-                    this.$message.error('备注不能为空')
-                    return
-                }
-                if(this.tags.length==0){
-                    this.$message.error('标签不能为空')
-                    return
-                }
-                if(!this.main_preview){
-                    this.$message.error('封面图不能为空')
-                    return
-                }
+                if(this.type=='th_advertise'){
+                    if(!this.name){
+                        this.$message.error('名称不能为空')
+                        return
+                    }
+                    if(!this.attach.name){
+                        this.$message.error('附件不能为空')
+                        return
+                    }
+                    if(!this.range){
+                        this.$message.error('使用范围不能为空')
+                        return
+                    }
+                    if(!this.note){
+                        this.$message.error('备注不能为空')
+                        return
+                    }
+                    if(this.tags.length==0){
+                        this.$message.error('标签不能为空')
+                        return
+                    }
+                    if(!this.main_preview){
+                        this.$message.error('封面图不能为空')
+                        return
+                    }
+                    if(this.themeID.length==0){
+                        this.$message.error('绑定主题不能为空')
+                        return
+                    }
+                    let formData =new FormData;
+                    formData.append('type',this.type);
+                    formData.append('name',this.name);
+                    formData.append('note',this.note);
+                    formData.append('range',this.range);
+                    formData.append('tags',this.tags.join(','));
+                    formData.append('themes',JSON.stringify(this.themeID));
+                    formData.append('previews',JSON.stringify(this.pic));
+                    formData.append('attach',JSON.stringify(this.attach));
+                    formData.append('main_preview',this.main_preview);
+                }else{
+                    if(!this.name){
+                        this.$message.error('名称不能为空')
+                        return
+                    }
+                    if(!this.attach.name){
+                        this.$message.error('附件不能为空')
+                        return
+                    }
+                    if(!this.range){
+                        this.$message.error('使用范围不能为空')
+                        return
+                    }
+                    if(!this.note){
+                        this.$message.error('备注不能为空')
+                        return
+                    }
+                    if(this.tags.length==0){
+                        this.$message.error('标签不能为空')
+                        return
+                    }
+                    if(!this.main_preview){
+                        this.$message.error('封面图不能为空')
+                        return
+                    }
 
-                if(this.is_work==false){
-                    this.is_work=1
-                }else{
-                    this.is_work=0
+                    if(this.is_work==false){
+                        this.is_work=1
+                    }else{
+                        this.is_work=0
+                    }
+                    if(this.is_material==false){
+                        this.is_material=1
+                    }else{
+                        this.is_material=0
+                    }
+                    var formData =new FormData;
+                    formData.append('type',this.type);
+                    formData.append('name',this.name);
+                    formData.append('note',this.note);
+                    formData.append('range',this.range);
+                    formData.append('tags',this.tags.join(','));
+                    formData.append('is_work',this.is_work);
+                    formData.append('works',JSON.stringify(this.works));
+                    formData.append('materials',JSON.stringify(this.scID));
+                    formData.append('is_material',this.is_material);
+                    formData.append('previews',JSON.stringify(this.pic));
+                    formData.append('attach',JSON.stringify(this.attach));
+                    formData.append('main_preview',this.main_preview);
                 }
-                if(this.is_material==false){
-                    this.is_material=1
-                }else{
-                    this.is_material=0
-                }
-                let formData =new FormData;
-                formData.append('type',this.type);
-                formData.append('name',this.name);
-                formData.append('note',this.note);
-                formData.append('range',this.range);
-                formData.append('tags',this.tags.join(','));
-                formData.append('is_work',this.is_work);
-                formData.append('works',JSON.stringify(this.works));
-                formData.append('materials',JSON.stringify(this.scID));
-                formData.append('is_material',this.is_material);
-                formData.append('previews',JSON.stringify(this.pic));
-                formData.append('attach',JSON.stringify(this.attach));
-                formData.append('main_preview',this.main_preview);
                 this.api.themes_material_add(formData).then((res)=>{
                     if(res!=false){
                         this.qx();

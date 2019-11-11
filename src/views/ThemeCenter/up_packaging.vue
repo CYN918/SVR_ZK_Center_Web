@@ -301,6 +301,15 @@
                         }
                     }
                     this.listSC=list;
+                    for(var k=0;k<this.listSC.length;k++){
+                        if(k==0){
+                          continue
+                        }
+                        if(this.listSC[k].range!=this.listSC[k-1].range){
+                            this.$message.error('同一主题不可绑定使用范围不同的素材');
+                            return
+                        }
+                    }
                 })
             },
             Del(id){

@@ -5,10 +5,12 @@
             <div class="tit_top_url">
                 <span class="log_url" @click="fhs">排期管理&nbsp;/&nbsp;</span>
                 <span class="log_url" @click="fh">排期详情&nbsp;/&nbsp;</span>
-                <span class="new_url">需求详情&nbsp;</span>
+                <span class="new_url" v-if="this.$route.query.record==undefined">需求详情</span>
+                <span class="new_url" v-if="this.$route.query.record!=undefined">变更记录</span>
             </div>
             <div>
-                <span class="topName">需求详情</span>
+                <span class="topName" v-if="this.$route.query.record==undefined">需求详情</span>
+                <span class="topName" v-if="this.$route.query.record!=undefined">变更记录</span>
             </div>
         </div>
         <div class="seach">
@@ -20,7 +22,7 @@
                    <span class="box1_qd">{{this.channel_name}}</span>
                    <img :src="this.url">
                    <div class="box1_BTN">
-                       <span @click="zt('1')">重新选择</span>
+                       <span @click="zt('1')" v-if="this.$route.query.record==undefined">重新选择</span>
                        <span @click="CK(thid,ch_thid,channel)">查看详情</span>
                    </div>
                </div>
@@ -35,7 +37,7 @@
                    <span class="box1_qd">{{this.qDname}}</span>
                    <img :src="this.qDurl">
                    <div class="box1_BTN">
-                       <span @click="zt('2')">重新上传</span>
+                       <span @click="zt('2')" v-if="this.$route.query.record==undefined">重新上传</span>
                        <span @click="CK(f_thid,f_ch_thid,qds)">查看详情</span>
                    </div>
                </div>
@@ -46,11 +48,11 @@
             <div class="box2">
                 <div>
                     <span class="box2_name">名称</span>
-                    <input type="text" class="input1" v-model="name">
+                    <input type="text" class="input1" v-model="name" :disabled="this.$route.query.record!=undefined">
                 </div>
                 <div>
                     <span class="box2_name">类型</span>
-                    <select v-model="type">
+                    <select v-model="type" :disabled="this.$route.query.record!=undefined">
                         <option value="">请选择</option>
                         <option value="全局" >全局</option>
                         <option value="桌面" >桌面</option>
@@ -62,29 +64,29 @@
                 </div>
                 <div>
                     <span class="box2_name">待制作渠道</span>
-                    <select  v-model="channel">
+                    <select  v-model="channel" :disabled="this.$route.query.record!=undefined">
                         <option value="">全部</option>
                         <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
                     </select>
                 </div>
                 <div>
                     <span class="box2_name">上架账号</span>
-                    <select v-model="account">
+                    <select v-model="account" :disabled="this.$route.query.record!=undefined">
                         <option value="">请选择</option>
                         <option :value="item.account" v-for="item in range">{{item.account}}</option>
                     </select>
                 </div>
                 <div>
                     <span class="box2_name">需求说明</span>
-                    <textarea v-model="note"></textarea>
+                    <textarea v-model="note" :disabled="this.$route.query.record!=undefined"></textarea>
                 </div>
                 <div>
                     <span class="box2_name">责任人</span>
-                    <input type="text" class="input" v-model="person">
+                    <input type="text" class="input" v-model="person" :disabled="this.$route.query.record!=undefined">
                 </div>
                 <div>
                     <span class="box2_name">状态</span>
-                    <select v-model="status">
+                    <select v-model="status" :disabled="this.$route.query.record!=undefined">
                         <option disabled="disabled">请选择</option>
                         <option value="1">已上架</option>
                         <option value="0">待打包</option>
@@ -93,10 +95,11 @@
                 <div>
                     <span class="box2_name">绑定主题</span>
                     <input type="text" class="input2" v-model="f_thid" disabled>
-                    <span class="sel" @click="zt('2')">从主题库选择</span>
+                    <span class="sel" @click="zt('2')" v-if="this.$route.query.record==undefined" >从主题库选择</span>
+                    <span class="sel"  v-if="this.$route.query.record!=undefined">从主题库选择</span>
                 </div>
                 <div class="box2_btn">
-                    <span class="gx" @click="setData">更新</span>
+                    <span class="gx" @click="setData" v-if="this.$route.query.record==undefined">更新</span>
                     <span @click="fh()">取消</span>
                 </div>
             </div>

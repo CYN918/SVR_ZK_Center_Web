@@ -23,9 +23,9 @@
                             <option value="0">未上架</option>
                         </select>
                         <span>使用范围</span>
-                        <select v-model="account">
+                        <select v-model="range">
                             <option value="">全部</option>
-                            <option v-for="item in con" :value="item.account">{{item.account}}</option>
+                            <option v-for="item in con" :value="item.range">{{item.range}}</option>
                         </select>
                         <span class="box_btn" @click="getList()">查询</span>
                     </div>
@@ -103,7 +103,7 @@
                 ui:[],
                 con:[],
                 status:'',
-                account:'',
+                range:'',
                 ind:[],
             }
         },
@@ -147,7 +147,7 @@
                         this. YCset();
             },
             getList(){
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,tags:this.listTag.join(','),status:this.status,account:this.account};
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,tags:this.listTag.join(','),status:this.status,range:this.range};
                 this.api.themes_material_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     this.total=res.total;

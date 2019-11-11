@@ -2,7 +2,7 @@
     <div>
         <div class="top">
             <span class="topTit">标签管理</span>
-            <span class="allNum">共{{}}个标签</span>
+            <span class="allNum">共{{total}}个标签</span>
         </div>
         <div class="tagsTable">
             <div class="zdy_tags">

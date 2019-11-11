@@ -192,7 +192,7 @@
         },
         methods:{
             setID(){
-                this.ch_thids=[];
+                this.ch_thids='';
                 this.qdList=[];
                 for(var i=0 ;i<this.TCchannel.length;i++){
                     if(this.TCchannel[i].channel==this.ADDchannel){

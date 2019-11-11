@@ -113,6 +113,9 @@
                 </div>
                 <div class="imgID" v-for="item in sc" v-if="sc.length!=0">
                     <img :src="item.main_preview">
+                    <div class="See" @click="see(item.thmid,item.name)">
+                        查看详情
+                    </div>
                 </div>
                 <div style="width: 100%;text-align: center" v-if="sc.length==0">
                     <img src="../../../public/img/null.png" style="width:48px;margin-top: 150px">
@@ -198,6 +201,16 @@
                         type:this.type
                     },
                 })
+            },
+            see(id,name){
+                let Logistics= this.$router.resolve({
+                    path:'./themeSc_details',
+                    query:{
+                        name:name,
+                        thmid:id,
+                    },
+                })
+                window.open(Logistics.href, '_blank','toolbar=yes');
             },
             fh(){
                 this.$router.go(-1);
@@ -425,6 +438,7 @@
         height:315px;
         vertical-align: top;
         background: #e3e7eb;
+        position: relative;
     }
     .imgID img{
         position: relative;
@@ -594,5 +608,23 @@
         font-size:14px;
         font-family:HelveticaNeue;
         color:rgba(31,46,77,0.65);
+    }
+    .See{
+        width: 100%;
+        height:45px;
+        background:rgba(28,28,28,1);
+        border-radius:0px;
+        opacity: 0;
+        position: absolute;
+        left: 0;
+        bottom: 0px;
+        text-align: center;
+        line-height: 45px;
+        color: #fff;
+        cursor: pointer;
+    }
+    .imgID:hover .See{
+        opacity:0.8;
+
     }
 </style>

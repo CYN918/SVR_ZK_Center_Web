@@ -9,7 +9,7 @@
                 <span class="topName">{{this.$route.query.name}}</span>
                 <span class="num">(1/2)</span>
                 <div style="display: inline-block;float: right;margin-right: 15%;">
-                    <span class="jl">查看更新记录</span>
+                    <span class="jl" @click="record()">查看更新记录</span>
                     <span class="zq" @click="Adds">管理周期</span>
                     <!--<span class="dc">导出</span>-->
                 </div>
@@ -141,6 +141,14 @@
         methods:{
             fh(){
                 this.$router.go(-1)
+            },
+            record(){
+                this.$router.push({
+                    path:"./Record",
+                    query:{
+                        schedule_id:this.$route.query.schedule_id
+                    },
+                })
             },
             addTime(){
                 let formData =new FormData;

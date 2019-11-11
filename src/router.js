@@ -309,6 +309,10 @@ import dataSettlement from './views/ThemeCenter/dataAdministration/dataSettlemen
 mode['dataSettlement']=dataSettlement
 import tags from './views/ThemeCenter/configurationManagement/tags'
 mode['tags']=tags
+import themenRecord from './views/ThemeCenter/scheduling/Record'
+mode['themenRecord']=themenRecord
+import recordDetails from './views/ThemeCenter/scheduling/record_details'
+mode['recordDetails']=recordDetails
 
 
 Vue.use(Router)
@@ -474,6 +478,8 @@ let nb = [
             {path:'/ThemeCenter/scheduling/xqDetails',name:'详情',component:mode['xqDetails']},
             {path:'/ThemeCenter/scheduling/select_theme',name:'选择主题',component:mode['select_theme']},
             {path:'/ThemeCenter/scheduling/select_theme_two',name:'选择主题2',component:mode['select_theme_two']},
+            {path:'/ThemeCenter/scheduling/Record',name:'变更详情',component:mode['themenRecord']},
+            {path:'/ThemeCenter/scheduling/record_details',name:'变更详情2',component:mode['recordDetails']},
             {path:'/ThemeCenter/data/AllData',name:'全景数据',component:mode['AllData']},
             {path:'/ThemeCenter/data/ranking',name:'排行',component:mode['ranking']},
             {path:'/ThemeCenter/data/Profit',name:'收益',component:mode['Profit']},
