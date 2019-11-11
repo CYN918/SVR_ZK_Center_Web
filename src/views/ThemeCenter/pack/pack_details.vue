@@ -67,7 +67,7 @@
                     <span class="nameID">相关主题</span>
                 </div>
                 <div class="imgID" v-for="item in theme" v-if="theme.length!=0">
-                    <img :src="item.main_preview">
+                    <img :src="item.main_preview" v-if="item.main_preview">
                 </div>
                 <div style="width: 100%;text-align: center" v-if="theme.length==0">
                     <img src="../../../../public/img/null.png" style="width:48px;margin-top: 150px">
@@ -107,7 +107,9 @@
                 isUPload:1,
                 time:[],
                 isTime:"w",
-                tableData:{},
+                tableData:{attach:{
+                    url:''
+                    }},
                 sc:[],
                 theme:[],
                 type:this.$route.query.type,
@@ -149,7 +151,11 @@
             getData(){
                 let params = {pkgid:this.pkgid}
                 this.api.themes_package_details({params}).then((res)=>{
-                    this.tableData=res;
+                    if(res.length!=0){
+                        this.tableData=res;
+                    }else {
+                        return;
+                    }
                     this.getsc();
                     this.getThmPkg()
                 })
@@ -157,13 +163,23 @@
             getsc(){
                 let params={pkgid:this.pkgid};
                 this.api.themes_package_materials({params}).then((res)=>{
-                    this.sc=res;
+                    if(res.length==0){
+                        return
+                    }else{
+                        this.sc=res;
+                    }
+
                 })
             },
             getThmPkg(){
                 let params={pkgid:this.pkgid};
                 this.api.themes_package_themes({params}).then((res)=>{
-                    this.theme=res
+                    if(res.length==0){
+                        return
+                    }else {
+                        this.theme=res
+                    }
+
                 })
             },
         },
