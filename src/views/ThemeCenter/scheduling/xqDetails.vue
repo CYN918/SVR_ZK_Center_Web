@@ -100,7 +100,7 @@
                 </div>
                 <div class="box2_btn">
                     <span class="gx" @click="setData" v-if="this.$route.query.record==undefined">更新</span>
-                    <span @click="fh()">取消</span>
+                    <span @click="fh()" :class="{right:this.$route.query.record!=undefined}">取消</span>
                 </div>
             </div>
         </div>
@@ -372,7 +372,7 @@
         position: absolute;
         left: 0;
         top:0;
-        z-index: 9;
+        z-index:8;
         display: inline-block;
         height:24px;
         background:rgba(10,10,10,1);
@@ -399,7 +399,6 @@
         position: absolute;
         bottom: 0;
         width:189px;
-        height:68px;
         background:rgba(10,10,10,1);
         opacity:0;
         text-align: center;
@@ -501,5 +500,8 @@
         background:rgba(51,119,255,1)!important;
         margin-left: 125px;
         margin-right: 20px;
+    }
+    .right{
+        margin-left:120px ;
     }
 </style>
