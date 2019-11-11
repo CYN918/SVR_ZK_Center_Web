@@ -95,14 +95,13 @@
         name: "establish",
         data(){
             return{
-
                 note:"",
                 attachs:[],
                 receive_amount:"",
                 receive_tdate:"",
                 times:"",
                 up:false,
-                 fcounter:0,
+                fcounter:0,
             }
         },
         mounted(){
@@ -171,6 +170,10 @@
                     this.$message.error('实际到账金额不能为空');
                     return
                 }
+                if(this.receive_amount>999999999.99){
+                    this.$message.error('实际到账金额不能大于999999999.99');
+                    return
+                }
                 if(!this.note){
                     this.$message.error('备注不能为空');
                     return
@@ -186,16 +189,16 @@
                 if(this.attachs.length!=0){
                     var formData=new FormData;
                     formData.append('note',this.note);
-                    formData.append('id',this.skID);
-                    formData.append('status',this.status);
+                    formData.append('id',this.$route.query.id);
+                    formData.append('is_receiver',1);
                     formData.append('receive_amount',this.receive_amount);
                     formData.append('receive_tdate',this.receive_tdate);
                     formData.append('attachs',JSON.stringify(this.attachs));
                 }else{
                     var formData=new FormData;
                     formData.append('note',this.note);
-                    formData.append('id',this.skID);
-                    formData.append('status',this.status);
+                    formData.append('id',this.$route.query.id);
+                    formData.append('is_receiver',1);
                     formData.append('receive_amount',this.receive_amount);
                     formData.append('receive_tdate',this.receive_tdate);
                     formData.append('attachs',JSON.stringify(this.attachs));
