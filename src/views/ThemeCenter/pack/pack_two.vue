@@ -11,7 +11,7 @@
                 <span class="tagSeachName">内容标签</span>
                 <span class="labelName" :class="{active:tags.length==0}" @click="ClickTag()">全部</span>
                 <div class="tags">
-                    <span v-for="(item,index) in tag" class="labelName" @click="ClickTag(item.name)" :class="{active:tags.indexOf(item.name)!=-1}">{{item.name}}</span>
+                    <span v-for="(item,index) in tag" class="labelName" @click="ClickTag(item.name)" :class="{active:tags.indexOf(item.name)!=-1}" v-if="item.name">{{item.name}}</span>
                 </div>
                 <span class="tagsAll" v-if="this.class1==false" @click="getClass">查看更多</span>
                 <span class="tagsAll" v-if="this.class1==true" @click="getClass">收起</span>
@@ -41,7 +41,7 @@
                     <span>{{item.name}}</span>
                 </div>
                 <div class="boxTag">
-                    <span v-for="da in (item.tags).split(',')" class="tagsBox">{{da}}</span>
+                    <span v-for="da in (item.tags).split(',')" class="tagsBox" v-if="da">{{da}}</span>
                     <span class="addTags" @click="bjTags(item.pkgid,item.tags)"><span>+</span>标签</span>
                 </div>
             </div>
@@ -381,6 +381,6 @@
         font-size:12px;
         font-family:PingFangSC-Regular,PingFangSC;
         font-weight:400;
-        color:#f7f9fc;
+        color:rgba(31,46,77,0.45);
     }
 </style>

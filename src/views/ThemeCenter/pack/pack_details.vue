@@ -2,7 +2,7 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh()">{{this.$route.query.name+'打包件'}} &nbsp;/</span>
+                <span class="log_url" @click="fh()">{{this.$route.query.name+'打包件'}}&nbsp;/</span>
                 <span class="new_url"> &nbsp;{{this.$route.query.name+'打包件详情'}}</span>
             </div>
             <div>
@@ -23,7 +23,7 @@
                     <span class="titCon" style="width: 150px">{{tableData.created_at}}</span>
                     <span class="titName">标签</span>
                     <div class="tag">
-                        <span class="tagName" v-for="item in ((this.tableData.tags).split(','))" v-if="item!=''">{{item}}</span>
+                        <span class="tagName" v-for="item in tags" v-if="item!=''">{{item}}</span>
                         <!--<span class="tagADD">-->
                         <!--<img>-->
                         <!--标签-->
@@ -115,6 +115,7 @@
                 type:this.$route.query.type,
                 pkgid:this.$route.query.pkgid,
                 name:this.$route.query.name,
+                tags:[],
             }
         },
         mounted(){
@@ -153,6 +154,7 @@
                 this.api.themes_package_details({params}).then((res)=>{
                     if(res.length!=0){
                         this.tableData=res;
+                        this.tags=res.tags.split(',');
                     }else {
                         return;
                     }
@@ -168,7 +170,7 @@
                     }else{
                         this.sc=res;
                     }
-
+                    console.log(this.sc)
                 })
             },
             getThmPkg(){
@@ -179,7 +181,7 @@
                     }else {
                         this.theme=res
                     }
-
+                    console.log(this.theme)
                 })
             },
         },

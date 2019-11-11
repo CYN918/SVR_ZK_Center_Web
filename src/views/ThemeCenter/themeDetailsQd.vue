@@ -46,7 +46,7 @@
                 <span class="titCon">{{tableData.version}}</span>
                 <span class="titName">标签:</span>
                 <div class="tag">
-                    <span v-for="item in ((this.tableData.tags).split(','))" class="tagName" v-if="item!=''">{{item}}</span>
+                    <span v-for="item in tags" class="tagName" v-if="item!=''">{{item}}</span>
                 </div>
             </div>
             <div>
@@ -174,7 +174,7 @@
             <div  class="preview" id="tabs5">
                 <div class="titID">
                     <span class="nameID">相关合同</span>
-                    <span class="derivation">汇总</span>
+                    <span class="derivation">{{this.$route.query.channel}}</span>
                 </div>
                 <div style="border-bottom: 1px solid #E6E9F0" v-for="item in Contract" v-if="Contract.length!=0">
                     <div>
@@ -248,6 +248,7 @@
                 yybq:false,
                 op_tags:"",
                 Contract:[],
+                tags:[],
             }
         },
         mounted(){
@@ -291,6 +292,7 @@
                 };
                 this.api.themes_theme_channel({params}).then((res)=>{
                     this.tableData=res;
+                    this.tags=res.tags.split(',');
                     this.op_tags=this.tableData.op_tags;
                     this.version=this.tableData.version;
                     this.getsc();

@@ -38,7 +38,7 @@
                     <span>{{item.name}}</span>
                 </div>
                 <div class="boxTag">
-                    <span v-for="da in (item.tags).split(',')" class="tagsBox">{{da}}</span>
+                    <span v-for="da in (item.tags).split(',')" class="tagsBox"  v-if="da">{{da}}</span>
                     <span class="addTags" @click="bjTags(item.thmid,item.tags)"><span>+</span>标签</span>
                 </div>
             </div>
@@ -363,6 +363,6 @@
         font-size:12px;
         font-family:PingFangSC-Regular,PingFangSC;
         font-weight:400;
-        color:#f7f9fc;
+        color:rgba(31,46,77,0.45);
     }
 </style>

@@ -28,7 +28,7 @@
                 <!--<span class="titCon">{{tableData.ui_version}}</span>-->
                 <span class="titName">标签</span>
                 <div class="tag">
-                    <span v-for="item in ((tableData.tags).split(','))" class="tagName" v-if="item!=''">{{item}}</span>
+                    <span v-for="item in tags" class="tagName" v-if="item!=''">{{item}}</span>
                     <!--<span class="tagADD">-->
                         <!--<img>-->
                         <!--标签-->
@@ -186,7 +186,7 @@
             <div  class="preview" id="tabs4">
                 <div class="titID">
                     <span class="nameID">相关合同</span>
-                    <span class="derivation">汇总</span>
+                    <span class="derivation">本地</span>
                 </div>
                 <div style="border-bottom: 1px solid #E6E9F0" v-for="item in Contract" v-if="Contract.length!=0">
                     <div>
@@ -246,6 +246,7 @@
                 ch_thid:this.$route.query.ch_thid,
                 upList:[],
                 Contract:[],
+                tags:[],
             }
         },
         mounted(){
@@ -295,6 +296,7 @@
                 let params={thid:this.thid,ch_thid:this.ch_thid,channel:this.channel}
                 this.api.themes_theme_details({params}).then((res)=>{
                     this.tableData=res;
+                    this.tags=res.tags.split(',');
                     this.getsc();
                     this.getContract();
                 })
