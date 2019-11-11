@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <DS v-if="msg" :name="name"></DS>
+            <!--<DS v-if="msg" :name="name"></DS>-->
             <div class="top">
                 <div class="tit_top_url">
                     <span class="log_url" @click="jump()">收款结算&nbsp;/</span>

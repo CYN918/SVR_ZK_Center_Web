@@ -283,10 +283,7 @@
                     this.$message.error('合同不能为空');
                     return
                 }
-                if(this.attachs.length==0){
-                    this.$message.error('附件不能为空');
-                    return
-                }
+
                 let formData=new FormData;
                 formData.append('name',this.name);
                 formData.append('is_receiver',0);
@@ -372,10 +369,6 @@
                 }
                 if(this.contracts.length==0){
                     this.$message.error('合同不能为空');
-                    return
-                }
-                if(this.attachs.length==0){
-                    this.$message.error('附件不能为空');
                     return
                 }
                 let formData=new FormData;

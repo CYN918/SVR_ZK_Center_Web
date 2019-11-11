@@ -112,10 +112,6 @@
                     this.$message.error('文件上传中');
                     return
                 }
-                if(!this.express_id){
-                    this.$message.error('物流单号不能为空');
-                    return
-                }
                 if((this.express_id).match(/^[\u4e00-\u9fa5]+$/)){
                     this.$message.error('物流单号为非中文');
                     return
