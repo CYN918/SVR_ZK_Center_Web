@@ -123,6 +123,10 @@
                     this.$message.error('支出金额不能为空');
                     return
                 }
+                if(this.amount>999999999.99){
+                    this.$message.error("支出金额不能大于999999999.99");
+                    return
+                }
                 if(this.attachs.length==0){
                     this.$message.error('附件不能为空');
                     return

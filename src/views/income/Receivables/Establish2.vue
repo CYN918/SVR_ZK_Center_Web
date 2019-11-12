@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <DS v-if="msg" :name="name"></DS>
+            <!--<DS v-if="msg" :name="name"></DS>-->
             <div class="top">
                 <div class="tit_top_url">
                     <span class="log_url" @click="jump()">收款结算&nbsp;/</span>
@@ -32,7 +32,7 @@
             </div>
             <div style="text-align: center" class="fill">
                 <div>
-                    <span class="fillName">物流单号</span>
+                    <span class="fillName">物流单号<span style="color: #acadb0">(选填)</span></span>
                     <input type="text" class="input" v-model="express_id">
                 </div>
                 <div>
@@ -40,7 +40,7 @@
                     <textarea v-model="note"></textarea>
                 </div>
                 <div>
-                    <div style="display: inline-block;width: 84px;margin-right: 20px">
+                    <div style="display: inline-block;width: 100px;margin-right: 20px">
                         <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
                             <div slot="content">请上传对账确认邮件截图，结算数据明细等凭证</div>
                             <img src="../../../../public/img/wh.png" style="margin-right: 6px;cursor: pointer">
@@ -73,7 +73,7 @@
                 </div>
                 <div class="fillBtn">
                     <span class="tj" @click="setData()">提交</span>
-                    <span @click="fh(-1)" style="margin-right: 330px">取消</span>
+                    <span @click="fh(-1)" style="margin-right: 192px">取消</span>
                 </div>
             </div>
         </div>
@@ -157,10 +157,6 @@
                 if(this.fcounter != 0)
                 {
                     this.$message.error('文件上传中');
-                    return
-                }
-                if(!this.express_id){
-                    this.$message.error('物流单号不能为空');
                     return
                 }
                 if((this.express_id).match(/^[\u4e00-\u9fa5]+$/)){
@@ -251,7 +247,7 @@
     }
     .fillName{
         display: inline-block;
-        width:84px;
+        width:100px;
         height:20px;
         font-size:14px;
         font-family:PingFang-SC-Medium,PingFang-SC;

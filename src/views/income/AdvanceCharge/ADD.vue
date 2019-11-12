@@ -117,6 +117,10 @@
                         this.$message.error("预付款金额不能为空");
                         return
                     }
+                    if(this.amount>999999999.99){
+                        this.$message.error("预付款金额不能大于999999999.99");
+                        return
+                    }
                     if(!this.note){
                         this.$message.error("备注不能为空");
                         return
@@ -138,9 +142,13 @@
                             return
                         }
                         if (!this.amount) {
-                            this.$message.error("预付款金额不能为空");
+                            this.$message.error("消耗金额不能为空");
                             return
                         }
+                    if(this.amount>999999999.99){
+                        this.$message.error("消耗金额不能大于999999999.99");
+                        return
+                    }
                         if (!this.note) {
                             this.$message.error("备注不能为空");
                             return

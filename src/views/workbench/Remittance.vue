@@ -45,7 +45,8 @@
                             <div slot="content">请上传对账确认邮件截图，结算数据明细等凭证</div>
                             <img src="../../../public/img/wh.png" style="margin-right: 6px;cursor: pointer">
                         </el-tooltip>
-                        <span class="fj">附件</span>
+                        <span class="fj">附件 <span style="color: #acadb0">(选填)</span></span>
+
                     </div>
                     <div class="uplaod">
                         <el-upload
@@ -146,22 +147,29 @@
                     this.$message.error('实际到账时间不能大于当前操作时间');
                     return
                 }
-                if(this.attachs.length==0){
-                    this.$message.error('附件不能为空');
-                    return
-                }
                 if(this.skType=='收款结算'){
                     this.is_receiver=1
                 }else{
                     this.is_receiver=0
                 }
-                let formData=new FormData;
-                formData.append('note',this.note);
-                formData.append('id',this.skID);
-                formData.append('status',this.status);
-                formData.append('receive_amount',this.receive_amount);
-                formData.append('receive_tdate',this.receive_tdate);
-                formData.append('attachs',JSON.stringify(this.attachs));
+                if(this.attachs.length!=0){
+                    var formData=new FormData;
+                    formData.append('note',this.note);
+                    formData.append('id',this.skID);
+                    formData.append('status',this.status);
+                    formData.append('receive_amount',this.receive_amount);
+                    formData.append('receive_tdate',this.receive_tdate);
+                    formData.append('attachs',JSON.stringify(this.attachs));
+                }else{
+                    var formData=new FormData;
+                    formData.append('note',this.note);
+                    formData.append('id',this.skID);
+                    formData.append('status',this.status);
+                    formData.append('receive_amount',this.receive_amount);
+                    formData.append('receive_tdate',this.receive_tdate);
+                    formData.append('attachs',JSON.stringify(this.attachs));
+                }
+
                 this.api.demand_settle_audit(formData).then((res)=>{
                     this.fh();
                 })

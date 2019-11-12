@@ -486,13 +486,13 @@
                     return
                 }
                     if(this.chenck==true){
-                        this.size=this.cc
+                        this.size=this.cc;
                         if((this.limit_size).split(',').indexOf(this.cc)==-1){
                             this.$message.error('上传图片尺寸不符合需求尺寸，请重传');
                             return
                         }
                     }else{
-                        this.size=this.sjSize
+                        this.size=this.sjSize;
                         if((this.limit_size).split(',').indexOf(this.sjSize)==-1){
                             this.$message.error('上传图片尺寸不符合需求尺寸，请重传');
                             return
