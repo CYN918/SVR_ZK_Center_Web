@@ -40,7 +40,11 @@
                 </div>
                 <div v-if="this.list.type!='f_sls_lockscreen'">
                     <span class="tit_txt">投放链接</span>
-                    <span class="tit_txt_2">{{this.list.link}}</span>
+                    <!--<span class="tit_txt_2">{{this.list.link}}</span>-->
+                    <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                        <div slot="content">{{this.list.link}}</div>
+                        <span class="tit_txt_2">{{this.list.link}}</span>
+                    </el-tooltip>
                 </div>
                 <div v-if="this.list.type!='f_sls_lockscreen'">
                     <span class="tit_txt ">投放库</span>

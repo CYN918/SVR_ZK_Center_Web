@@ -6,7 +6,7 @@
             <div class="tit_top_url">
                 <span class="log_url" @click="fh()">主题库&nbsp;/</span>
                 <span class="log_url" @click="fh()">&nbsp;主题库详情&nbsp;/</span>
-                <span class="new_url"> &nbsp;编辑渠道详情</span>
+                <span class="new_url">&nbsp;编辑渠道详情</span>
             </div>
             <div class="tit_top_con">
                 <span class="tit_name">编辑渠道详情</span>
@@ -26,13 +26,13 @@
             <div class="themeUpLeft">
                 <div style="margin-top: 24px">
                     <span class="tit_name">渠道</span>
-                    <select  @change="getUI()" v-model="channel">
+                    <select  @change="getUI()" v-model="channel" :disabled="this.$route.query.con==undefined">
                         <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
                     </select>
                 </div>
                 <div>
                     <span class="tit_name">厂商UI版本</span>
-                    <select style="margin-right: 68px" v-model="ui_version" @change="getThemeType()">
+                    <select style="margin-right: 68px" v-model="ui_version" @change="getThemeType()" :disabled="this.$route.query.con==undefined">
                         <option v-for="item in ui" :value="item.version" v-if="ui.length!=0">{{item.version}}</option>
                         <option value="" v-if="ui.length==0&&channel!=''">暂无</option>
                     </select>
@@ -69,22 +69,22 @@
                 </div>
                 <div>
                     <span>资源版本号</span>
-                    <input type="text" v-model="version" placeholder="请输入上资源版本号">
+                    <input type="text" v-model="version" placeholder="请输入上资源版本号" :disabled="this.$route.query.con==undefined">
                 </div>
                 <div>
                     <span>上架账号</span>
-                    <select style="margin-right: 24px" v-model="account">
+                    <select style="margin-right: 24px" v-model="account" :disabled="this.$route.query.con==undefined">
                         <option value="" disabled="disabled">请选择上架该主题的账号信息</option>
                         <option :value="item.account" v-for="item in range">{{item.account}}</option>
                     </select>
                 </div>
                 <div>
                     <span>上架名称</span>
-                    <input type="text" placeholder="请输入上架该渠道的主题名称" v-model="channel_theme_name" maxlength="10">
+                    <input type="text" placeholder="请输入上架该渠道的主题名称" v-model="channel_theme_name" maxlength="10" :disabled="this.$route.query.con==undefined">
                 </div>
                 <div>
                     <span>上架单价</span>
-                    <input type="number" placeholder="请输入上架价格" v-model="price">
+                    <input type="number" placeholder="请输入上架价格" v-model="price" :disabled="this.$route.query.con==undefined">
                 </div>
                 <div>
                     <span>上架时间</span>
@@ -119,63 +119,67 @@
                 </div>
                 <div>
                     <span>无需打包件</span>
-                    <input type="checkbox" v-model="is_package" style="width: 16px;height: 16px"/>
+                    <input type="checkbox" v-model="is_package" style="width: 16px;height: 16px" :disabled="this.$route.query.con==undefined"/>
                     <span style="width: 120px">暂无需整理打包件</span>
                 </div>
                 <div>
-                    <span  v-if="is_package==false">绑定打包件</span>
-                    <div style="display: inline-block"  v-if="is_package==false">
-                        <div class="db" @click="getPak('th_lock_screen')">
-                            <div class="icon">
-                                <img src="../../../public/img/add_msg.png" style="width: 18px;height: 18px;margin-bottom: 10px" >
-                                <div>
-                                    <span style="display: inline-block;font-size:12px;font-family:PingFangSC;font-weight:400;color:rgba(31,46,77,0.45);">绑定锁屏打包件</span>
+                    <span  v-if="is_package==false" style="vertical-align: top">绑定打包件</span>
+                    <div style="display: inline-block" >
+                        <div style="display: inline-block" v-if="is_package==false">
+                            <div class="db"  :class="{boxShow:num==0}"  @click="getPak('th_lock_screen')">
+                                <div class="icon">
+                                    <img src="../../../public/img/add_msg.png" style="width: 18px;height: 18px;margin-bottom: 10px" >
+                                    <div>
+                                        <span style="display: inline-block;font-size:12px;font-family:PingFangSC;font-weight:400;color:rgba(31,46,77,0.45);">绑定锁屏打包件</span>
+                                    </div>
+                                </div>
+                                <img :src="this.lockYl" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);" @click="Switch('0')"/>
+                                <div v-if="this.lockYl!=''&&this.$route.query.con!=undefined" style="position: absolute;bottom: 0;width:189px;height:34px;background:rgba(0,0,0,1);opacity:0.8;text-align: center" @click="getUP('th_lock_screen')">
+                                    <span style="display: inline-block;font-size:12px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(255,255,255,1);line-height: 33px">重新上传</span>
                                 </div>
                             </div>
-                            <img :src="this.lockYl" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);" @click="Switch('0')"/>
-                            <div v-if="this.lockYl!=''" style="position: absolute;bottom: 0;width:189px;height:34px;background:rgba(0,0,0,1);opacity:0.8;text-align: center" @click="getUP('th_lock_screen')">
-                                <span style="display: inline-block;font-size:12px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(255,255,255,1);line-height: 33px">重新上传</span>
-                            </div>
                         </div>
-                    </div>
-                    <div style="display: inline-block"  v-if="is_package==false">
-                        <div class="db" @click="getPak('th_icon')">
-                            <div class="icon">
-                                <img src="../../../public/img/add_msg.png" style="width: 18px;height: 18px;margin-bottom: 10px" >
-                                <div>
-                                    <span style="display: inline-block;font-size:12px;font-family:PingFangSC;font-weight:400;color:rgba(31,46,77,0.45);">绑定图标打包件</span>
+                        <div style="display: inline-block" v-if="is_package==false">
+                            <div class="db" :class="{boxShow:num==1}" @click="getPak('th_icon')">
+                                <div class="icon">
+                                    <img src="../../../public/img/add_msg.png" style="width: 18px;height: 18px;margin-bottom: 10px" >
+                                    <div>
+                                        <span style="display: inline-block;font-size:12px;font-family:PingFangSC;font-weight:400;color:rgba(31,46,77,0.45);">绑定图标打包件</span>
+                                    </div>
+                                </div>
+                                <img :src="this.iconYl" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);" @click="Switch('1')"/>
+                                <div v-if="this.iconYl!=''&&this.$route.query.con!=undefined" style="position: absolute;bottom: 0;width:189px;height:34px;background:rgba(0,0,0,1);opacity:0.8;text-align: center" @click="getUP('th_icon')">
+                                    <span style="display: inline-block;font-size:12px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(255,255,255,1);line-height: 33px">重新上传</span>
                                 </div>
                             </div>
-                            <img :src="this.iconYl" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);" @click="Switch('1')"/>
-                            <div v-if="this.iconYl!=''" style="position: absolute;bottom: 0;width:189px;height:34px;background:rgba(0,0,0,1);opacity:0.8;text-align: center" @click="getUP('th_icon')">
-                                <span style="display: inline-block;font-size:12px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(255,255,255,1);line-height: 33px">重新上传</span>
-                            </div>
                         </div>
-                    </div>
-                    <div style="display: inline-block"  v-if="is_package==false">
-                        <div class="db" @click="getPak('th_second_page')">
-                            <div class="icon">
-                                <img src="../../../public/img/add_msg.png" style="width: 18px;height: 18px;margin-bottom: 10px" >
-                                <div>
-                                    <span style="display: inline-block;font-size:12px;font-family:PingFangSC;font-weight:400;color:rgba(31,46,77,0.45);">绑定二级页打包件</span>
+                        <div style="display: inline-block" v-if="is_package==false">
+                            <div class="db" :class="{boxShow:num==2}" @click="getPak('th_second_page')">
+                                <div class="icon">
+                                    <img src="../../../public/img/add_msg.png" style="width: 18px;height: 18px;margin-bottom: 10px" >
+                                    <div>
+                                        <span style="display: inline-block;font-size:12px;font-family:PingFangSC;font-weight:400;color:rgba(31,46,77,0.45);">绑定二级页打包件</span>
+                                    </div>
+                                </div>
+                                <img :src="this.twoYl" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);" @click="Switch('2')"/>
+                                <div v-if="this.twoYl!=''&&this.$route.query.con!=undefined" style="position: absolute;bottom: 0;width:189px;height:34px;background:rgba(0,0,0,1);opacity:0.8;text-align: center" @click="getUP('th_second_page')">
+                                    <span style="display: inline-block;font-size:12px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(255,255,255,1);line-height: 33px">重新上传</span>
                                 </div>
                             </div>
-                            <img :src="this.twoYl" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);" @click="Switch('2')"/>
-                            <div v-if="this.twoYl!=''" style="position: absolute;bottom: 0;width:189px;height:34px;background:rgba(0,0,0,1);opacity:0.8;text-align: center" @click="getUP('th_second_page')">
-                                <span style="display: inline-block;font-size:12px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(255,255,255,1);line-height: 33px">重新上传</span>
+                        </div>
+                        <div :class="{left_margin:this.is_package==true}" style="box-shadow: 0 1px 3px rgba(234, 230, 228, 1); padding:0 0 10px 10px;">
+                            <div style="margin-bottom: 14px"  v-if="is_package==false"><span>{{this.titName}}打包件</span></div>
+                            <a @click="jump()" v-if="is_package==true&&this.$route.query.con!=undefined">从主题素材库选择</a>
+                            <a  v-if="is_package==true&&this.$route.query.con==undefined">从主题素材库选择</a>
+                            <div class="img_box">
+                                <div class="img_box1" v-for="(item,index) in SC">
+                                    <img :src="item.main_preview" class="img_box1_imgs">
+                                    <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px" @click="Del(item.thmid)" v-if="is_package==true&&this.$route.query.con==undefined"/>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div style="margin-left: 102px;margin-top: 24px" >
-                        <div style="margin-bottom: 14px"  v-if="is_package==false"><span>{{this.titName}}打包件</span></div>
-                        <a @click="jump()">从主题素材库选择</a>
-                        <div class="img_box">
-                            <div class="img_box1" v-for="(item,index) in SC">
-                                <img :src="item.main_preview" class="img_box1_imgs">
-                                <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px" @click="Del(item.thmid)"/>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
 
                 <div class="themeBtn">
@@ -340,10 +344,10 @@
                     this.tdate=res.tdate;
                     this.is_package=res.is_package;
                     if(this.is_package==1){
+                        this.is_package=false;
+                    }else {
                         this.is_package=true;
                         this.getsc();
-                    }else {
-                        this.is_package=false;
                     }
                     this.getUI(res.ui_version);
                     this.getPack();
@@ -378,7 +382,7 @@
                             }
                         }
                     }
-                    if(this.is_package==false){
+                    if(this.id!=''){
                         this.getDataList();
                     }
 
@@ -557,7 +561,6 @@
                 this.getList();
             },
             setData(){
-                console.log(this.SC.length);
                 if(!this.channel){
                     this.$message.error('渠道不能为空')
                     return
@@ -603,7 +606,7 @@
                     this.$message.error('价格为大于零的正数');
                     return
                 }
-                if((this.SC).length==0){
+                if((this.SC).length==0&&this.is_package==false){
                     this.$message.error('未绑定打包件');
                     return
                 }
@@ -640,7 +643,7 @@
                     formData.append('note',this.note);
                     formData.append('materials',JSON.stringify(arr));
                     formData.append('channel_theme_name',this.channel_theme_name);
-                    formData.append('is_package',this.is_package);
+                    formData.append('is_package','1');
                     formData.append('tags',this.tags.join(','));
                     formData.append('main_preview',this.main_preview);
                     formData.append('previews',JSON.stringify(this.pic));
@@ -663,13 +666,13 @@
                     formData.append('main_preview',this.main_preview);
                     formData.append('previews',JSON.stringify(this.pic));
                     formData.append('attach',JSON.stringify(this.attach));
-                    formData.append('is_package',this.is_package);
+                    formData.append('is_package','0');
                 }
                 this.api.themes_theme_channel_edit(formData).then((res)=>{
                     this.qx();
                     if(res!=false){
                         this.$router.push({
-                            path:"./themeDetailsQd'",
+                            path:'./themeDetailsQd',
                             query:{
                                 thid:this.thid,
                                 ch_thid:this.ch_thid,
@@ -729,7 +732,7 @@
                     this.$message.error('价格为大于零的正数');
                     return
                 }
-                if((this.SC).length==0){
+                if((this.SC).length==0&&this.is_package==false){
                     this.$message.error('未绑定打包件');
                     return
                 }
@@ -766,7 +769,7 @@
                     formData.append('note',this.note);
                     formData.append('materials',JSON.stringify(arr));
                     formData.append('channel_theme_name',this.channel_theme_name);
-                    formData.append('is_package',this.is_package);
+                    formData.append('is_package','1');
                     formData.append('tags',this.tags.join(','));
                     formData.append('main_preview',this.main_preview);
                     formData.append('previews',JSON.stringify(this.pic));
@@ -788,7 +791,7 @@
                     formData.append('main_preview',this.main_preview);
                     formData.append('previews',JSON.stringify(this.pic));
                     formData.append('attach',JSON.stringify(this.attach));
-                    formData.append('is_package',this.is_package);
+                    formData.append('is_package','0');
                 }
                 this.api.themes_theme_channel_add(formData).then((res)=>{
                     this.qx();
@@ -1293,5 +1296,16 @@
         color:rgba(51,119,255,1);
         margin-left: 10px;
         cursor: pointer;
+    }
+
+    .left_margin{
+        margin-left: 102px;
+        margin-top: 24px;
+        box-shadow:0px 0px 0px #afafaf!important;
+        padding: 0 auto!important;
+    }
+    .boxShow{
+        box-shadow:0px -1px 5px rgb(222, 218, 216);
+        border-bottom:transparent!important; ;
     }
 </style>

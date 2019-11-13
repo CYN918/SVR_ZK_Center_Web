@@ -25,8 +25,8 @@
                         <span class="box1_qd">{{qdName[index]}}</span>
                         <img :src="item.main_preview">
                         <div class="box1_BTN">
-                            <span>重新选择</span>
-                            <span @click="CK(item)">查看详情</span>
+                            <span @click="age()">重新选择</span>
+                            <span @click="CK(index)">查看详情</span>
                         </div>
                     </div>
                     <div class="name">
@@ -132,19 +132,22 @@
                     },
                 })
             },
-
-            CK(item){
-                for(var i=0;i<item.channel_themes.length;i++){
-                    if(item.channel_themes[i].channel==item.channel){
-                        var ch_thid=item.channel_themes[i].ch_thid;
-                    }
-                }
+            age(){
+                this.$router.push({
+                    path:"./select_theme",
+                    query:{
+                        schedule_id:this.$route.query.schedule_id,
+                        cycle_id:this.$route.query.id,
+                    },
+                })
+            },
+            CK(index){
                 var query = {
-                    thid:item.thid,
-                    channel: item.channel,
-                    ch_thid:ch_thid,
+                    thid:this.$route.query.ind[index],
+                    channel: this.$route.query.qdList[index],
+                    ch_thid:this.$route.query.ch_thids[index],
                 };
-               if(item.channel=='channel'){
+               if(this.$route.query.qdList[index]=='channel'){
                    this.$router.push({
                        path:'../themeDetails',
                        query:query

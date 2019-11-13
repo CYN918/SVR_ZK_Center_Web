@@ -295,7 +295,7 @@
         margin-top: 0;
         display: inline-block;
         width:189px;
-        height: 411px;
+        height: 381px;
         margin-right: 40px;
         margin-bottom: 24px;
     }
@@ -333,7 +333,7 @@
     }
     .boxTag{
         width: 169px;
-        height: 62px;
+        height: 34px;
         background: #fff;
         padding:0 10px ;
         overflow-x:auto ;

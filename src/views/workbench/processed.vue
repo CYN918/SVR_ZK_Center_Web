@@ -81,7 +81,7 @@
                 controlBtn:true,
                 controlBtns:true,
                 btns:[],
-                value:[(new Date()).toLocaleDateString().split('/').join('-'),(new Date()).toLocaleDateString().split('/').join('-')],
+                value:[(new Date((new Date()).getTime() - 7*24*60*60*1000)).toLocaleDateString().split('/').join('-'),(new Date()).toLocaleDateString().split('/').join('-')],
                 demand_type:'',
             }
         },

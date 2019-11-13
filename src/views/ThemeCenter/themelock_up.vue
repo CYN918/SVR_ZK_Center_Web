@@ -77,20 +77,14 @@
                         </div>
                     </div>
                 </div>
-                <div v-if="this.$route.query.thmid==undefined">
+                <div v-if="this.type!='th_advertise'">
                     <span>使用范围</span>
-                    <select class="fw" v-model="range" >
+                    <select class="fw" v-model="range" :disabled="this.$route.query.thmid!=undefined">
                         <option value="all">不限</option>
                         <option v-for="item in AcctounsList" :value="item.range">{{item.range}}</option>
                     </select>
                 </div>
-                <div v-if="this.$route.query.thmid!=undefined">
-                    <span>使用范围</span>
-                    <select class="fw" v-model="range" disabled="disabled">
-                        <option value="all">不限</option>
-                        <option v-for="item in AcctounsList" :value="item.range">{{item.range}}</option>
-                    </select>
-                </div>
+
                 <div>
                     <span style="vertical-align: top">备注描述</span>
                     <textarea  placeholder="写个自我介绍，50字内" v-model="note" maxlength="50"></textarea>
@@ -484,10 +478,6 @@
                         this.$message.error('附件不能为空')
                         return
                     }
-                    if(!this.range){
-                        this.$message.error('使用范围不能为空')
-                        return
-                    }
                     if(!this.note){
                         this.$message.error('备注不能为空')
                         return
@@ -505,7 +495,6 @@
                     formData.append('thmid',this.$route.query.thmid);
                     formData.append('name',this.name);
                     formData.append('note',this.note);
-                    formData.append('range',this.range);
                     formData.append('tags',this.tags.join(','));
                     formData.append('previews',JSON.stringify(this.pic));
                     formData.append('attach',JSON.stringify(this.attach));
@@ -578,10 +567,6 @@
                         this.$message.error('附件不能为空')
                         return
                     }
-                    if(!this.range){
-                        this.$message.error('使用范围不能为空')
-                        return
-                    }
                     if(!this.note){
                         this.$message.error('备注不能为空')
                         return
@@ -602,7 +587,6 @@
                     formData.append('type',this.type);
                     formData.append('name',this.name);
                     formData.append('note',this.note);
-                    formData.append('range',this.range);
                     formData.append('tags',this.tags.join(','));
                     formData.append('themes',JSON.stringify(this.themeID));
                     formData.append('previews',JSON.stringify(this.pic));
@@ -610,7 +594,7 @@
                     formData.append('main_preview',this.main_preview);
                 }else{
                     if(!this.name){
-                        this.$message.error('名称不能为空')
+                        this.$message.error('名称不能为空');
                         return
                     }
                     if(!this.attach.name){

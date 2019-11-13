@@ -137,7 +137,7 @@
                 f_thid:this.$route.query.data.f_thid,
                 f_ch_thid:this.$route.query.data.f_ch_thid,
                 qDname:'',
-                qDurl:"",
+                qDurl:'',
                 mz:"",
                 qds:this.$route.query.data.channel,
             }
@@ -284,6 +284,7 @@
                     this.channels=res;
                     this.Range();
                     this.getData();
+                    this.getDataPending()
                 })
             },
             Range(){
@@ -293,17 +294,15 @@
                 })
             },
             getData(){
-                let params={tstart:"2019-10-1",tend:(new Date()).toLocaleDateString().split('/').join('-'),p:10000000,page:this.page};
-                this.api.themes_theme_search({params}).then((res)=>{
-                    this.dataList=res.data;
-                    for(var i=0;i<res.data.length;i++){
-                        if(res.data[i].thid==this.$route.query.data.thid){
-                            this.url=res.data[i].main_preview;
-                        }
-                        if(res.data[i].thid==this.$route.query.data.f_thid){
-                            this.qDurl=res.data[i].main_preview;
-                        }
-                    }
+                let params={thid:this.f_thid,channel:this.qds,ch_thid:this.f_ch_thid};
+                this.api.themes_theme_details({params}).then((res)=>{
+                    this.qDurl=res.main_preview;
+                })
+            },
+            getDataPending(){
+                let params={thid:this.thid,channel:this.channel,ch_thid:this.ch_thid};
+                this.api.themes_theme_details({params}).then((res)=>{
+                    this.url=res.main_preview;
                 })
             },
         },
