@@ -667,6 +667,7 @@
                     formData.append('previews',JSON.stringify(this.pic));
                     formData.append('attach',JSON.stringify(this.attach));
                     formData.append('is_package','0');
+                    formData.append('packages',JSON.stringify(this.packages));
                 }
                 this.api.themes_theme_channel_edit(formData).then((res)=>{
                     this.qx();
@@ -686,6 +687,16 @@
                 if(this.$route.query.con==undefined){
                     this.setData();
                     return
+                }
+                for(var i=0;i<this.range.length;i++){
+                    if(this.account==this.range[i].account){
+                       for(var k=0;k<this.SC.length;k++){
+                            if(this.SC[k].range!=this.range[i].range){
+                                this.$message.error('同一主题不可绑定使用范围不同的素材');
+                                return
+                            }
+                       }
+                    }
                 }
                 if(!this.channel){
                     this.$message.error('渠道不能为空')

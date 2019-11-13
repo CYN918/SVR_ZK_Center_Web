@@ -312,6 +312,15 @@
                     this.setTheme();
                     return
                 }
+                for(var i=0;i<this.listSC.length;i++){
+                    if(i==0){
+                        continue
+                    }
+                    if(this.listSC[i].range!=this.listSC[i-1].range){
+                        this.$message.error('同一主题不可绑定使用范围不同的素材');
+                        return
+                    }
+                }
                 if(!this.name){
                     this.$message.error('主题名不能为空')
                     return
