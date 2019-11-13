@@ -72,7 +72,8 @@
                             >
                                 <template slot-scope="scope">
                                     <div v-for="(item,key) in (contracts[scope.$index])">
-                                        <span>文件归档号:{{item.archive_id}}</span>
+                                        <span class="titTableName">文件归档号:</span>
+                                        <span class="titTableCon">{{item.archive_id}}</span>
                                     </div>
                                 </template>
                             </el-table-column>
@@ -82,7 +83,8 @@
                             >
                                 <template slot-scope="scope">
                                     <div v-for="(item,key) in (contracts[scope.$index])">
-                                        <span>合同编号:{{item.contract_id}}</span>
+                                        <span class="titTableName">合同编号:</span>
+                                        <span class="titTableCon">{{item.contract_id}}</span>
                                     </div>
                                 </template>
                             </el-table-column>
@@ -91,7 +93,10 @@
                             >
                                 <template slot-scope="scope">
                                     <div v-for="(item,key) in (contracts[scope.$index])">
-                                        <span>{{item.status_text}}</span>
+                                        <span v-if="item.status_text=='合同生效中'" style="color:#39BD65">{{item.status_text}}</span>
+                                        <span v-if="item.status_text=='合同待处理'" style="color:#FFA033">{{item.status_text}}</span>
+                                        <span v-if="item.status_text=='合同已过期'" style="color:#F05656">{{item.status_text}}</span>
+                                        <span v-if="item.status_text=='合同已作废'" style="color:#1F2E4D">{{item.status_text}}</span>
                                     </div>
                                 </template>
                             </el-table-column>
@@ -656,5 +661,17 @@
     .uplaod{
         margin-left: 20px;
         width: 200px;
+    }
+    .titTableName{
+        font-size:14px;
+        font-family:PingFang-SC-Regular,PingFang-SC;
+        font-weight:400;
+        color:rgba(31,46,77,0.65);
+    }
+    .titTableCon{
+        font-size:14px;
+        font-family:PingFangSC-Medium,PingFang SC;
+        font-weight:500;
+        color:#1F2E4D;
     }
 </style>

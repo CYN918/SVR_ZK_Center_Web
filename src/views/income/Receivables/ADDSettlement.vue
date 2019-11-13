@@ -57,7 +57,7 @@
             <div style="margin-bottom:20px">
                 <span  class="titName" >相关合同</span>
                 <span class="ADDs" @click="ADDht">添加合同</span>
-                <div style="width: 470px;margin-left: 140px" class="contract">
+                <div style="width: 714px;margin-left: 140px" class="contract">
                     <template>
                         <el-table
                                 :data="contracts"
@@ -92,7 +92,10 @@
                             >
                                 <template slot-scope="scope">
                                     <div v-for="(item,key) in (contracts[scope.$index])">
-                                        <span>{{item.status_text}}</span>
+                                        <span v-if="item.status_text=='合同生效中'" style="color:#39BD65">{{item.status_text}}</span>
+                                        <span v-if="item.status_text=='合同待处理'" style="color:#FFA033">{{item.status_text}}</span>
+                                        <span v-if="item.status_text=='合同已过期'" style="color:#F05656">{{item.status_text}}</span>
+                                        <span v-if="item.status_text=='合同已作废'" style="color:#1F2E4D">{{item.status_text}}</span>
                                     </div>
                                 </template>
                             </el-table-column>
@@ -668,6 +671,6 @@
         font-size:14px;
         font-family:PingFangSC-Medium,PingFang SC;
         font-weight:500;
-        color:rgba(31,46,77,1);
+        color:#1F2E4D;
     }
 </style>
