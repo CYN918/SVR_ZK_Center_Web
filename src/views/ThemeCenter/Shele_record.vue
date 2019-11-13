@@ -667,7 +667,6 @@
                     formData.append('previews',JSON.stringify(this.pic));
                     formData.append('attach',JSON.stringify(this.attach));
                     formData.append('is_package','0');
-                    formData.append('packages',JSON.stringify(this.packages));
                 }
                 this.api.themes_theme_channel_edit(formData).then((res)=>{
                     this.qx();
@@ -695,6 +694,10 @@
                                 this.$message.error('同一主题不可绑定使用范围不同的素材');
                                 return
                             }
+                           if(this.is_package==true&&(this.SC[i].type=='th_icon'||this.SC[i].type=='th_lock_screen'||this.SC[i].type=='th_second_page')){}else{
+                               this.$message.error('相关素材必须有锁屏/图标/二级页素材类型中的一种');
+                               return
+                           }
                        }
                     }
                 }
@@ -802,6 +805,7 @@
                     formData.append('main_preview',this.main_preview);
                     formData.append('previews',JSON.stringify(this.pic));
                     formData.append('attach',JSON.stringify(this.attach));
+                    formData.append('materials',JSON.stringify(this.lockID));
                     formData.append('is_package','0');
                 }
                 this.api.themes_theme_channel_add(formData).then((res)=>{

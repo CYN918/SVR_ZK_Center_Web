@@ -320,6 +320,10 @@
                         this.$message.error('同一主题不可绑定使用范围不同的素材');
                         return
                     }
+                    if(this.listSC[i].type=='th_icon'||this.listSC[i].type=='th_lock_screen'||this.listSC[i].type=='th_second_page'){}else{
+                        this.$message.error('相关素材必须有锁屏/图标/二级页素材类型中的一种');
+                        return
+                    }
                 }
                 if(!this.name){
                     this.$message.error('主题名不能为空')
