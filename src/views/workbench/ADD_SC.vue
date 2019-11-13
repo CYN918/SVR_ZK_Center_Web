@@ -170,7 +170,8 @@
                 bbb:0,
                 initiate:false,
                 initiate2:false,
-                status:''
+                status:'',
+                clickNmu:0,
             }
         },
         mounted(){
@@ -324,6 +325,11 @@
                 })
             },
             AddMatter(){
+                if(this.clickNmu==0){
+                    this.clickNmu=1
+                }else{
+                    return
+                }
                     if(!this.type){
                         this.$message('类型不能为空')
                         return
@@ -365,6 +371,7 @@
                     formData.append('is_bind_mid',1);
                     this.api.demand_add_material(formData).then((res)=>{
                         if(res!=false){
+                            this.clickNmu=0
                             this.$parent.heidAddSC();
                             this.$parent.getscR();
                         }

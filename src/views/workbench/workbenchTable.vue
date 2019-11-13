@@ -3,7 +3,7 @@
         <ADD v-if="ADD" :id="id" :num="num" :ind="index" :hqUrl="hqUrl" :bindMid="bindMid" :material="0" :types="types" :typeName="typeName" :limit_size="limit_size" :limit_model="limit_model"></ADD>
         <set v-if="sets"   @listenToChildEvent="listen" :material="0"></set>
         <uplodWl v-if='up'  :id="id"  :status="status"></uplodWl>
-        <BDadd v-if="BD"  :index="index" :id="id"></BDadd>
+        <BDadd v-if="BD"  :index="index" :id="id" :status="status"></BDadd>
         <AddWL v-if="wl"  :id="id" @dataType="datatype" :types="types" :typeName="typeName" :limit_type="limit_type" :limit_size="limit_size"></AddWL>
         <scwl v-if="scwl"  :index="index" :id="id"></scwl>
         <sct v-if="set"  :index="index" :id="id" @dataType="datatype"></sct>
@@ -595,15 +595,15 @@
                 this.move();
             },
             getBH(){
-                this.bh = true
+                this.bh = true;
                 this.stop()
             },
             heidBH(){
-                this.bh = false
+                this.bh = false;
                 this.move()
             },
             heidSH(){
-                this.sh=false
+                this.sh=false;
                 this.move()
             },
             getYW(id){
@@ -627,7 +627,7 @@
             getBH(index){
                 this.bh = true;
                 this.dbid=this.tableData[index].did;
-                console.log(this.dbid[0][0]);
+                this.status=this.tableData[index].status;
                 this.stop()
             },
             listen(msg,ddd){

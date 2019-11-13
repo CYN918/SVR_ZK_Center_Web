@@ -232,7 +232,8 @@
                 ad_pic:'0',
                 ad_num:'',
                 sizeList:[],
-                arr:[]
+                arr:[],
+                clickNmu:0,
             }
         },
         mounted(){
@@ -448,16 +449,21 @@
                 })
             },
             AddMatter(){
+                if(this.clickNmu==0){
+                    this.clickNmu=1
+                }else{
+                    return
+                }
                     if(!this.type){
-                        this.$message('类型不能为空')
+                        this.$message('类型不能为空');
                         return
                     }
                     if(!this.prev_uri&&this.chenck!=true){
-                        this.$message('未上传预览图')
+                        this.$message('未上传预览图');
                         return
                     }
                     if(!this.attach.name){
-                        this.$message('未上传文件')
+                        this.$message('未上传文件');
                         return
                     }
                     if(this.preinstall.length<=0){
@@ -481,10 +487,10 @@
                         this.$message('广告位数必须为正整数');
                         return
                     }
-                if(this.type=='f_sls_lockscreen'&&!this.attach.wpid){
-                    this.$message('壁纸标识不能为空');
-                    return
-                }
+                     if(this.type=='f_sls_lockscreen'&&!this.attach.wpid){
+                        this.$message('壁纸标识不能为空');
+                         return
+                    }
                     if(this.chenck==true){
                         this.size=this.cc;
                         if((this.limit_size).split(',').indexOf(this.cc)==-1){
@@ -514,6 +520,7 @@
                         formData.append('ad_pic',this.ad_pic);
                         formData.append('ad_num',this.ad_num);
                         this.api.demand_add_mfinal(formData).then((res)=>{
+                            this.clickNmu=0;
                             this.$parent.heidADD();
                             this.$parent.AddWl();
 
