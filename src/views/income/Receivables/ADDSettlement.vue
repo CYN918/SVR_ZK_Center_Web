@@ -57,18 +57,67 @@
             <div style="margin-bottom:20px">
                 <span  class="titName" >相关合同</span>
                 <span class="ADDs" @click="ADDht">添加合同</span>
-                <div style="margin: 14px 0 14px 140px" v-for="(item,index) in contracts">
-                    <div v-for="da in item">
-                        <div v-for="das in da.contract_files">
-                            <div style="display: inline-block;max-width: 200px;height: 20px;overflow:hidden;font-size:14px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(31,46,77,1);">{{da.contract_id}}</div>
-                            <!--<span class="content_ck">查看</span>-->
-                            <a class="content_xz" :href="das.url" target="_blank">下载</a>
-                            <span class="content_xz" @click="del(index)">删除</span>
-                        </div>
-
-                    </div>
-
+                <div style="width: 470px;margin-left: 140px" class="contract">
+                    <template>
+                        <el-table
+                                :data="contracts"
+                                style="width: 100%"
+                                :header-cell-style="getRowClass"
+                                :cell-style="cell"
+                        >
+                            <el-table-column
+                                    prop="date"
+                                    show-overflow-tooltip
+                            >
+                                <template slot-scope="scope">
+                                    <div v-for="(item,key) in (contracts[scope.$index])">
+                                        <span class="titTableName">文件归档号:</span>
+                                        <span class="titTableCon">{{item.archive_id}}</span>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                            <el-table-column
+                                    prop="name"
+                                    show-overflow-tooltip
+                            >
+                                <template slot-scope="scope">
+                                    <div v-for="(item,key) in (contracts[scope.$index])">
+                                        <span class="titTableName">合同编号:</span>
+                                        <span class="titTableCon">{{item.contract_id}}</span>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                            <el-table-column
+                                    prop="address"
+                            >
+                                <template slot-scope="scope">
+                                    <div v-for="(item,key) in (contracts[scope.$index])">
+                                        <span>{{item.status_text}}</span>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                            <el-table-column
+                                    prop="address"
+                                    width="50"
+                            >
+                                <template slot-scope="scope" >
+                                    <img src="../../../../public/img/dels.png" style="cursor: pointer" @click="del(scope.$index)"/>
+                                </template>
+                            </el-table-column>
+                            <el-table-column type="expand">
+                                <template slot-scope="scope">
+                                    <div v-for="(data,key) in (contracts[scope.$index])">
+                                        <div v-for="da in data.contract_files">
+                                            <span style="display: inline-block;width: 50%">{{da.name}}</span>
+                                            <a :href="da.url" target="_blank" style="display: inline-block;width: 50%;text-align: right">下载</a>
+                                        </div>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </template>
                 </div>
+
             </div>
             <div style="margin-bottom:20px">
                 <span  class="titName" >附件<span style="color: #acadb0">(选填)</span></span>
@@ -162,7 +211,6 @@
             }
         },
         mounted(){
-
             for(var i=0;i<31;i++){
                 this.num.push(i+1);
             }
@@ -171,7 +219,16 @@
             }
         },
         methods:{
-
+            getRowClass({row, column, rowIndex, columnIndex}) {
+                if (rowIndex === 0) {
+                    return ';color:rgba(31,46,77,1);text-align:center;font-size:14px;font-weight:500;font-family:PingFang-SC-Medium;height:0px;padding:0px'
+                } else {
+                    return ''
+                }
+            },
+            cell({row, column, rowIndex, columnIndex}){
+                return 'text-align:center;color:rgba(61,73,102,1);font-size:14px;font-weight:400;font-family:PingFangSC-Regula;'
+            },
             jump(){
                 this.$router.push({
                     path:"./Administration"
@@ -200,7 +257,7 @@
                 },100);
             },
             del(index){
-                this.contracts.splice(index,1)
+                this.contracts.splice(index,1);
             },
             dels(index){
                 this.attachs.splice(index,1)
@@ -600,5 +657,17 @@
     .uplaod{
         margin-left: 20px;
         width: 200px;
+    }
+    .titTableName{
+        font-size:14px;
+        font-family:PingFang-SC-Regular,PingFang-SC;
+        font-weight:400;
+        color:rgba(31,46,77,0.65);
+    }
+    .titTableCon{
+        font-size:14px;
+        font-family:PingFangSC-Medium,PingFang SC;
+        font-weight:500;
+        color:rgba(31,46,77,1);
     }
 </style>

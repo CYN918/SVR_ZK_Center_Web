@@ -879,4 +879,7 @@ select{
   .AddIMG_input_box .el-upload-list__item {
     display: none;
   }
+.contract el-table__expanded-cell{
+  padding: 0!important;
+}
 </style>
