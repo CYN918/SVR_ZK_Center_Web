@@ -274,7 +274,7 @@
                         thmid:id,
                     },
                 })
-                window.open(Logistics.href, '_blank','toolbar=yes');
+                window.open(Logistics.href);
             },
             channelDetails(index){
                 this.$router.push({

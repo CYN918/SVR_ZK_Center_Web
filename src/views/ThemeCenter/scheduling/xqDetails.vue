@@ -185,7 +185,7 @@
                             ch_thid:qdID,
                         }
                     })
-                    window.open(Logistics.href, '_blank','toolbar=yes');
+                    window.open(Logistics.href);
                 }else{
                     let Logistics= this.$router.resolve({
                         path:'../themeDetailsQd',
@@ -195,7 +195,7 @@
                             ch_thid:qdID,
                         }
                     })
-                    window.open(Logistics.href, '_blank','toolbar=yes');
+                    window.open(Logistics.href);
                 }
 
             },

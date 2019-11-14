@@ -89,13 +89,14 @@
                             </el-table-column>
                             <el-table-column
                                     prop="address"
+                                    width="100"
                             >
                                 <template slot-scope="scope">
                                     <div v-for="(item,key) in (contracts[scope.$index])">
-                                        <span v-if="item.status_text=='合同生效中'" style="color:#39BD65">{{item.status_text}}</span>
-                                        <span v-if="item.status_text=='合同待处理'" style="color:#FFA033">{{item.status_text}}</span>
-                                        <span v-if="item.status_text=='合同已过期'" style="color:#F05656">{{item.status_text}}</span>
-                                        <span v-if="item.status_text=='合同已作废'" style="color:#1F2E4D">{{item.status_text}}</span>
+                                        <span v-if="item.status=='1'" style="color:#39BD65">{{item.status_text}}</span>
+                                        <span v-if="item.status=='0'" style="color:#FFA033">{{item.status_text}}</span>
+                                        <span v-if="item.status=='2'" style="color:#F05656">{{item.status_text}}</span>
+                                        <span v-if="item.status=='3'" style="color:#1F2E4D">{{item.status_text}}</span>
                                     </div>
                                 </template>
                             </el-table-column>
@@ -147,10 +148,25 @@
                     <span class="content_seach" @click="getHT()">查询</span>
                 </div>
                 <div style="margin: 14px 20px" v-for="item in list">
-                    <div v-for="da in item.contract_files">
-                        <div style="display: inline-block;width: 200px;height: 20px;overflow:hidden">{{item.contract_id}}</div>
-                        <!--<span class="content_ck">查看</span>-->
-                        <a class="content_xz" target="_blank" :href="da.url">下载</a>
+                    <div>
+                        <span class="ContractID">合同编号：</span>
+                        <span style="display: inline-block;width: 200px;height: 20px" class="ContractID">{{item.contract_id}}</span>
+                        <span v-if="item.status=='1'" class="statusColor" style="color:#39BD65;float: right">{{item.status_text}}</span>
+                        <span v-if="item.status=='0'" class="statusColor" style="color:#FFA033;float: right">{{item.status_text}}</span>
+                        <span v-if="item.status=='2'" class="statusColor" style="color:#F05656;float: right">{{item.status_text}}</span>
+                        <span v-if="item.status=='3'" class="statusColor" style="color:#1F2E4D;float: right">{{item.status_text}}</span>
+                        <div>
+                            <span  class="ContractID">归档文件：</span>
+                            <div v-for="da in item.contract_files" style="display: inline-block">
+                                <div>
+                                    <span class="imgName">{{da.name}}</span>
+                                    <a class="content_xz" target="_blank" :href="da.url" >下载</a>
+                                </div>
+
+                            </div>
+
+                        </div>
+
                     </div>
 
                 </div>
@@ -673,4 +689,28 @@
         font-weight:500;
         color:#1F2E4D;
     }
+    .contract{
+        max-height: 368px;
+        overflow-y:auto;
+    }
+    .ContractID{
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:400;
+        color:rgba(31,46,77,1);
+        vertical-align: top;
+    }
+    .imgName{
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:400;
+        color:rgba(31,46,77,0.65);
+    }
+    .statusColor{
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:400;
+
+    }
+
 </style>

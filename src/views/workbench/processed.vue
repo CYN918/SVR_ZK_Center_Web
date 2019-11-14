@@ -97,6 +97,9 @@
                 }
             }
             this.btns = arr;
+            // let date = new Date();
+            // date.setMonth(date.getMonth()-3);
+            // this.myformatter(date);
         },
         mounted(){
             this.getList();
@@ -128,6 +131,33 @@
             typeListSearch(){
                     this.getList();
             },
+            // myformatter(date){
+            //
+            //     var strDate = date.getFullYear()+"-";
+            //
+            //     if(date.getMonth()<10){
+            //
+            //         var s = date.getMonth()+1+"-";
+            //
+            //         strDate += "0"+s;
+            //
+            //     }else{
+            //
+            //         strDate += date.getMonth()+1+"-";
+            //
+            //     }
+            //
+            //     if(date.getDate()<10){
+            //
+            //         strDate += "0"+date.getDate();
+            //
+            //     }else{
+            //
+            //         strDate += date.getDate();
+            //
+            //     }
+            //     this.value=[strDate,(new Date()).toLocaleDateString().split('/').join('-')];
+            // },
             getList(){
                 let params ={p:this.p,page:this.page,search:this.search,start_time:this.value[0],end_time:this.value[1],demand_type:this.demand_type};
                 this.api.demand_audited({params}).then((res)=>{

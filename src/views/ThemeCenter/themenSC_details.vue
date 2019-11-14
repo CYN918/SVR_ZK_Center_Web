@@ -229,7 +229,7 @@
                         ch_thid:qdid,
                     },
                 })
-                window.open(Logistics.href, '_blank','toolbar=yes');
+                window.open(Logistics.href);
             },
             fh(){
                 this.$router.go(-1);

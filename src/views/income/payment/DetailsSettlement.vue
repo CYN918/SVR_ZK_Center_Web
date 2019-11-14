@@ -42,17 +42,64 @@
                 <span class="text">{{data.note}}</span>
             </div>
             <div>
-                <span class="Name">相关合同</span>
+                <span class="Name" style="vertical-align: top">相关合同</span>
                 <div style="display: inline-block">
-                    <div v-for="item in data.contracts">
-                        <div v-for="da in item">
-                            <div v-for="data in da.contract_files">
-                                <span class="text">{{data.name}}</span>
-                                <span class="click">查看</span>
-                                <a class="click" :href="data.url">下载</a>
-                            </div>
-                        </div>
-
+                    <div style="width: 714px;mxa-height:216px;overflow-y:auto;border: 1px solid #D9D9D9 " class="contract">
+                        <template>
+                            <el-table
+                                    :class="tableSize"
+                                    :data="contracts"
+                                    style="width: 100%"
+                                    :header-cell-style="getRowClass"
+                                    :cell-style="cell"
+                            >
+                                <el-table-column
+                                        prop="date"
+                                        show-overflow-tooltip
+                                >
+                                    <template slot-scope="scope">
+                                        <div v-for="(item,key) in (contracts[scope.$index])">
+                                            <span class="titTableName">文件归档号:</span>
+                                            <span class="titTableCon">{{item.archive_id}}</span>
+                                        </div>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column
+                                        prop="name"
+                                        show-overflow-tooltip
+                                >
+                                    <template slot-scope="scope">
+                                        <div v-for="(item,key) in (contracts[scope.$index])">
+                                            <span class="titTableName">合同编号:</span>
+                                            <span class="titTableCon">{{item.contract_id}}</span>
+                                        </div>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column
+                                        prop="address"
+                                        width="100"
+                                >
+                                    <template slot-scope="scope">
+                                        <div v-for="(item,key) in (contracts[scope.$index])">
+                                            <span v-if="item.status=='1'" style="color:#39BD65">{{item.status_text}}</span>
+                                            <span v-if="item.status=='0'" style="color:#FFA033">{{item.status_text}}</span>
+                                            <span v-if="item.status=='2'" style="color:#F05656">{{item.status_text}}</span>
+                                            <span v-if="item.status=='3'" style="color:#1F2E4D">{{item.status_text}}</span>
+                                        </div>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column type="expand">
+                                    <template slot-scope="scope">
+                                        <div v-for="(data,key) in (contracts[scope.$index])">
+                                            <div v-for="da in data.contract_files">
+                                                <span style="display: inline-block;width: 50%">{{da.name}}</span>
+                                                <a :href="da.url" target="_blank" style="display: inline-block;width: 50%;text-align: right">下载</a>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                        </template>
                     </div>
                 </div>
             </div>
@@ -83,6 +130,7 @@
         data(){
             return{
                 data:{},
+                contracts:[],
             }
         },
         mounted(){this.getData()},
@@ -98,7 +146,8 @@
                     params={name:this.name,is_receiver:0};
                 }
                 this.api.settle_settlement_detail({params}).then((res)=>{
-                    this.data=res
+                    this.data=res;
+                    this.contracts=res.contracts;
                 })
             }
         }
@@ -121,7 +170,7 @@
         left: 50%;
         top:30%;
         transform: translate(-50%,-50%);
-        width:876px;
+        width:962px;
         height:773px;
         background:rgba(255,255,255,1);
         box-shadow:0px 1px 6px 0px rgba(0,0,0,0.06);
@@ -171,4 +220,20 @@
         color:rgba(51,119,255,1);
         margin-left: 10px;
     }
+.titTableName{
+    font-size:14px;
+    font-family:PingFang-SC-Regular,PingFang-SC;
+    font-weight:400;
+    color:rgba(31,46,77,0.65);
+}
+.titTableCon{
+    font-size:14px;
+    font-family:PingFangSC-Medium,PingFang SC;
+    font-weight:500;
+    color:#1F2E4D;
+}
+.contract{
+    max-height: 368px;
+    overflow-y:auto;
+}
 </style>
