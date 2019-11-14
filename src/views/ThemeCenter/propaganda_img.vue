@@ -303,7 +303,7 @@
         margin-top: 0;
         display: inline-block;
         width:189px;
-        height: 3811px;
+        height: 381px;
         margin-right: 40px;
         margin-bottom: 24px;
     }
