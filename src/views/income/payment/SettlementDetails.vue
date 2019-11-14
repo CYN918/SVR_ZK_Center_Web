@@ -41,8 +41,8 @@
                 <span class="tableBox_Obtain">{{list.contact}}</span>
             </div>
             <div>
-                <span class="tableBox_name">联系电话</span>
-                <span class="tableBox_Obtain">{{list.phone}}</span>
+                <span class="tableBox_name">对账邮箱</span>
+                <span class="tableBox_Obtain">{{list.email}}</span>
             </div>
             <div>
                 <span class="tableBox_name">备注</span>

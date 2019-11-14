@@ -58,7 +58,7 @@
             <div style="margin-bottom:20px">
                 <span  class="titName" >相关合同</span>
                 <span class="ADDs" @click="ADDht">添加合同</span>
-                <div style="width: 470px;margin-left: 140px" class="contract">
+                <div style="width: 714px;margin-left: 140px" class="contract">
                     <template>
                         <el-table
                                 :data="contracts"
@@ -306,7 +306,8 @@
             heidHT(){
                 this.ht=false;
                 this.contract.push(this.contract_id);
-                this.contracts.push(this.list)
+                this.contracts.push(this.list);
+                this.contract_id='';
             },
             heidHTs(){
                 this.ht=false;
