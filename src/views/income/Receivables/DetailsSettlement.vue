@@ -173,6 +173,7 @@
         position: absolute;
         left: 50%;
         top:30%;
+        overflow-y:auto ;
         transform: translate(-50%,-50%);
         width:962px;
         height:773px;

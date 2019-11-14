@@ -182,6 +182,7 @@
         transform: translate(-50%,-50%);
         width:962px;
         height:773px;
+        overflow-y:auto ;
         background:rgba(255,255,255,1);
         box-shadow:0px 1px 6px 0px rgba(0,0,0,0.06);
         border-radius:4px;
