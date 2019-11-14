@@ -47,7 +47,6 @@
                     <div style="width: 714px;mxa-height:216px;overflow-y:auto;border: 1px solid #D9D9D9 " class="contract">
                         <template>
                             <el-table
-                                    :class="tableSize"
                                     :data="contracts"
                                     style="width: 100%"
                                     :header-cell-style="getRowClass"
