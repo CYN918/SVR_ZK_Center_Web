@@ -257,6 +257,7 @@
         height: 20px;
         overflow: hidden;
         margin-right: 10px;
+        white-space:nowrap;
     }
     .img{
         width: 16px;
