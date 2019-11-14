@@ -9,10 +9,10 @@
                 <span class="Name">结算方名称</span>
                 <span class="text">{{data.name}}</span>
             </div>
-            <div>
-                <span class="Name">生成对账时间</span>
-                <span class="text">{{data.tdate}}</span>
-            </div>
+            <!--<div>-->
+                <!--<span class="Name">生成对账时间</span>-->
+                <!--<span class="text">{{data.tdate}}</span>-->
+            <!--</div>-->
             <div>
                 <span class="Name">开户名</span>
                 <span class="text">{{data.account_name}}</span>
@@ -34,8 +34,8 @@
                 <span class="text">{{data.contact}}</span>
             </div>
             <div>
-                <span class="Name">联系电话</span>
-                <span class="text">{{data.phone}}</span>
+                <span class="Name">对账邮箱</span>
+                <span class="text">{{data.email}}</span>
             </div>
             <div>
                 <span class="Name">备注</span>
@@ -113,7 +113,7 @@
                 <div style="display: inline-block">
                     <div v-for="item in data.attachs">
                         <span class="text">{{item.name}}</span>
-                        <span class="click">查看</span>
+                        <!--<span class="click">查看</span>-->
                         <a class="click" :href="item.url">下载</a>
                     </div>
                 </div>

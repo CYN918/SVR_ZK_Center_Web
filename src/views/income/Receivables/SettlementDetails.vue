@@ -15,11 +15,11 @@
                 <span class="tableBox_name">结算方名称</span>
                 <span class="tableBox_Obtain">{{list.name}}</span>
             </div>
-            <div>
-                <span class="tableBox_name">生成对账时间</span>
-                <span class="tableBox_Obtain" v-if="list.tdate!=0">每月{{list.tdate}}号</span>
-                <span class="tableBox_Obtain" v-if="list.tdate==0">不自动生成</span>
-            </div>
+            <!--<div>-->
+                <!--<span class="tableBox_name">生成对账时间</span>-->
+                <!--<span class="tableBox_Obtain" v-if="list.tdate!=0">每月{{list.tdate}}号</span>-->
+                <!--<span class="tableBox_Obtain" v-if="list.tdate==0">不自动生成</span>-->
+            <!--</div>-->
             <div>
                 <span class="tableBox_name">开户名</span>
                 <span class="tableBox_Obtain">{{list.account_name}}</span>
@@ -120,7 +120,7 @@
                 <div style="display: inline-block">
                     <div v-for="item in list.attachs">
                             <span class="textName">{{item.name}}</span>
-                            <span class="ck">查看</span>
+                            <!--<span class="ck">查看</span>-->
                             <a class="xz" :href="item.url">下载</a>
                     </div>
                 </div>

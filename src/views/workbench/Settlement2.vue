@@ -41,7 +41,7 @@
                                 <div slot="content" class="text">{{item.name}}</div>
                                 <span  class="text" style="overflow: hidden;width: 200px;height: 20px;line-height: 28px">{{item.name}}</span>
                             </el-tooltip>
-                            <span class="click">查看</span>
+                            <!--<span class="click">查看</span>-->
                             <a class="click" :href="item.url">下载</a>
                         </div>
                     </div>

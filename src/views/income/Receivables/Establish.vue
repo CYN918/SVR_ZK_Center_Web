@@ -107,7 +107,7 @@
                                     <span  class="text" style="overflow: hidden;width: 200px;height: 20px;line-height: 28px">{{item.name}}</span>
                                 </el-tooltip>
                             <!--<div style="display: inline-block;max-width: 200px;height: 20px;overflow:hidden;font-size:14px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(31,46,77,1);text-align: left">{{item.name}}</div>-->
-                            <span class="content_ck">查看</span>
+                            <!--<span class="content_ck">查看</span>-->
                             <a class="content_xz" :href="item.url">下载</a>
                             <span class="content_xz" @click="dels(index)">删除</span>
                         </div>

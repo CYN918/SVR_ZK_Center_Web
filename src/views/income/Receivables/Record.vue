@@ -38,7 +38,7 @@
                 <div style="display: inline-block">
                     <div v-for="item in data.history_attachs">
                         <span  class="cont">{{item.name}}</span>
-                        <span class="ck">查看</span>
+                        <!--<span class="ck">查看</span>-->
                         <a :href="item.url">下载</a>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
                 <div style="display: inline-block">
                     <div v-for="item in data.history_attachs">
                         <span  class="cont">{{item.name}}</span>
-                        <span class="ck">查看</span>
+                        <!--<span class="ck">查看</span>-->
                         <a :href="item.url">下载</a>
                     </div>
                 </div>
@@ -78,7 +78,7 @@
                 <div style="display: inline-block">
                     <div v-for="item in data.history_attachs">
                         <span  class="cont">{{item.name}}</span>
-                        <span class="ck">查看</span>
+                        <!--<span class="ck">查看</span>-->
                         <a :href="item.url" class="xz">下载</a>
                     </div>
                 </div>

@@ -49,7 +49,7 @@
                     <div>
                         <div v-for="(item,index) in attachs">
                             <span  class="text">{{item.name}}</span>
-                            <a class="click" :href="item.url">查看</a>
+                            <!--<a class="click" :href="item.url">查看</a>-->
                             <a class="click" :href="item.url">下载</a>
                             <span class="click" @click="dels(index)">删除</span>
                         </div>

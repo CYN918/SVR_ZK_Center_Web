@@ -18,15 +18,15 @@
                 <span class="titName">结算方名称</span>
                 <input type="text" class="input" v-model="name">
             </div>
-            <div>
-                <span  class="titName">生成对账时间</span>
-                <span class="titText">每月</span>
-                <select v-model="tdate">
-                    <option v-for="item in num" :value="item">{{item}}</option>
-                </select>
+            <!--<div>-->
+                <!--<span  class="titName">生成对账时间</span>-->
+                <!--<span class="titText">每月</span>-->
+                <!--<select v-model="tdate">-->
+                    <!--<option v-for="item in num" :value="item">{{item}}</option>-->
+                <!--</select>-->
                 <!--<input type="checkbox" class="check" v-model="is_auto">-->
                 <!--<span class="titText">不自动生成</span>-->
-            </div>
+            <!--</div>-->
             <div>
                 <span  class="titName">开户名</span>
                 <input type="text" class="input" v-model="account_name">

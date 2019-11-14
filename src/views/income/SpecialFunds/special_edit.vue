@@ -38,7 +38,7 @@
                 <div style="display: inline-block">
                     <div v-for="item in list.attachs">
                         <span  class="text">{{item.name}}</span>
-                        <span class="click">查看</span>
+                        <!--<span class="click">查看</span>-->
                         <a class="click" :href="item.url">下载</a>
                     </div>
                 </div>

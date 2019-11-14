@@ -32,7 +32,7 @@
                 <div style="display: inline-block">
                     <div v-for="item in data.attachs">
                         <span class="cont">{{item.name}}</span>
-                        <span class="ck">查看</span>
+                        <!--<span class="ck">查看</span>-->
                         <a :href="item.url"  class="xz" target="_blank">下载</a>
                     </div>
                 </div>
