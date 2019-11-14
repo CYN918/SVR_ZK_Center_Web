@@ -510,8 +510,8 @@
                         formData.append('ispic',(this.chenck==true?1:0));
                         formData.append('prev_uri',this.prev_uri);
                         formData.append('attach',JSON.stringify(this.attach));
-                        formData.append('tags',this.preinstall);
-                        formData.append('self_tags',this.bardian);
+                        formData.append('tags',JSON.stringify(this.preinstall));
+                        formData.append('self_tags',JSON.stringify(this.bardian));
                         formData.append('bind_mid',this.bind_mid);
                         formData.append('model',this.model);
                         formData.append('size',this.size);
@@ -521,9 +521,16 @@
                         this.api.demand_add_mfinal(formData).then((res)=>{
                             this.clickNmu=0;
                             if(res!=false){
-                                this.$router.go(0);
                                 this.$parent.heidADD();
                                 this.$parent.AddWl();
+                                this.bardian=[];
+                                this.preinstall=[];
+                                this.attach={};
+                                this.chenck=formData;
+                                this.bind_mid='';
+                                this.size='';
+                                this.ad_pic=0;
+                                this.ad_num='';
                             }
                         })
                 },

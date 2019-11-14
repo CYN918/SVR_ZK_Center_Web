@@ -326,8 +326,8 @@
                     formData.append('status',(this.value2==true?1:0));
                     formData.append('prev_uri',this.prev_uri);
                     formData.append('attach',JSON.stringify(this.attach));
-                    formData.append('tags',this.preinstall);
-                    formData.append('self_tags',this.bardian);
+                    formData.append('tags',JSON.stringify(this.preinstall));
+                    formData.append('self_tags',JSON.stringify(this.bardian));
                     formData.append('bind_mid',this.bind_mid);
                     formData.append('bind_workid',this.bind_workid);
                     formData.append('size',this.sjSize);
@@ -343,9 +343,16 @@
                         this.api.demand_business_bind(formData).then((res)=>{
                             this.clickNmu=0;
                             if(res!=false){
-                                this.$router.go(0);
                                 this.$parent.AddMaterial();
                                 this.$parent.heidBD();
+                                this.attach={};
+                                this.bind_mid='';
+                                this.bind_workid='';
+                                this.is_bind_mid='';
+                                this.is_bind_workid='';
+                                this.size='';
+                                this.preinstall=[];
+                                this.bardian=[];
                             }
 
                         })
