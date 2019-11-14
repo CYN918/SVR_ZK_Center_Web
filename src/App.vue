@@ -882,4 +882,7 @@ select{
 .contract el-table__expanded-cell{
   padding: 0!important;
 }
+.AddIMG_input_box .upload-demo .el-upload-list__item{
+  display: inline-block;
+}
 </style>

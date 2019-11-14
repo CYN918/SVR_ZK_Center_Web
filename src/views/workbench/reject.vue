@@ -19,7 +19,7 @@
 <script>
     export default {
         name: "reject",
-        props:["dbid",'id','open_id'],
+        props:["dbid",'id','open_id','status'],
         data(){
             return{
                 note:'',
@@ -41,6 +41,7 @@
                     }
                     let formData = new FormData;
                     formData.append("note",this.note);
+                    formData.append("status",this.status);
                     formData.append('id',this.id);
                     formData.append('arr_open_id',JSON.stringify(this.open_id));
                     this.api.demand_apply_reject(formData).then((res)=>{
@@ -53,6 +54,7 @@
                     }
                     let formData = new FormData;
                     formData.append("note",this.note);
+                    formData.append("status",this.status);
                     formData.append('id',this.dbid);
                     this.api.demand_reject(formData).then((res)=>{
 

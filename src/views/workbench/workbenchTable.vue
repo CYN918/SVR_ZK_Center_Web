@@ -8,7 +8,7 @@
         <scwl v-if="scwl"  :index="index" :id="id"></scwl>
         <sct v-if="set"  :index="index" :id="id" @dataType="datatype"></sct>
         <QD v-if="sh" :id="id" :status="status"></QD>
-        <BH v-if="bh" :dbid="dbid"></BH>
+        <BH v-if="bh" :dbid="dbid" :status="status"></BH>
         <ywxq v-if="yw" :YWid="YWid"></ywxq>
         <scxq v-if="sc" :SCid="SCid"></scxq>
         <CK v-if='ck' :id="CkID"></CK>
@@ -594,8 +594,9 @@
                 this.hqUrl='';
                 this.move();
             },
-            getBH(){
+            getBH(index){
                 this.bh = true;
+                this.status=this.tableData[index].status;
                 this.stop()
             },
             heidBH(){
