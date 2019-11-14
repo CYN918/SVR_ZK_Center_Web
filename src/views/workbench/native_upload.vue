@@ -186,6 +186,7 @@
                 initiate2:false,
                 arr:[],
                 sizeList:[],
+                clickNmu:0,
             }
         },
         mounted(){
@@ -315,6 +316,11 @@
             },
 
             AddMatter(){
+                if(this.clickNmu!=0){
+                    return
+                }else{
+                    this.clickNmu=1
+                }
                     let formData = new FormData;
                     formData.append('type',this.type);
                     formData.append('status',(this.value2==true?1:0));
@@ -335,8 +341,13 @@
                         formData.append('line_num',this.index);
                         formData.append('mid',JSON.stringify([this.list.mid]));
                         this.api.demand_business_bind(formData).then((res)=>{
-                            this.$parent.AddMaterial();
-                            this.$parent.heidBD();
+                            this.clickNmu=0;
+                            if(res!=false){
+                                this.$router.go(0);
+                                this.$parent.AddMaterial();
+                                this.$parent.heidBD();
+                            }
+
                         })
 
                     }).catch();

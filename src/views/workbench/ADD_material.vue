@@ -449,10 +449,10 @@
                 })
             },
             AddMatter(){
-                if(this.clickNmu==0){
-                    this.clickNmu=1
-                }else{
+                if(this.clickNmu!=0){
                     return
+                }else{
+                    this.clickNmu=1
                 }
                     if(!this.type){
                         this.$message('类型不能为空');
@@ -470,7 +470,6 @@
                         this.$message('预置标签不能为空')
                         return
                     }
-
                     if(!this.bind_mid&&this.is_bind_mid!=true){
                         this.$message('未绑定素材ID');
                         return
@@ -521,9 +520,11 @@
                         formData.append('ad_num',this.ad_num);
                         this.api.demand_add_mfinal(formData).then((res)=>{
                             this.clickNmu=0;
-                            this.$parent.heidADD();
-                            this.$parent.AddWl();
-
+                            if(res!=false){
+                                this.$router.go(0);
+                                this.$parent.heidADD();
+                                this.$parent.AddWl();
+                            }
                         })
                 },
 
