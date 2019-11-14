@@ -45,6 +45,7 @@
                         <div slot="content">{{this.list.link}}</div>
                         <span class="tit_txt_2">{{this.list.link}}</span>
                     </el-tooltip>
+                    <span class="copy" v-clipboard:copy="list.link" v-clipboard:success="onCopy"  v-clipboard:error="onError" v-if="list.link!=''">复制</span>
                 </div>
                 <div v-if="this.list.type!='f_sls_lockscreen'">
                     <span class="tit_txt ">投放库</span>
@@ -96,6 +97,12 @@
 
             heid(){
                 this.$parent.heidYW()
+            },
+            onCopy() {
+                this.$message.success('复制成功')
+            },
+            onError() {
+                this.$message.error('复制失败')
             },
             getData(){
                 let params ={id:this.YWid};
@@ -257,5 +264,16 @@
         z-index: 9999;
         bottom: 0;
         right: -548px;
+    }
+    .copy{
+        padding: 2px 5px;
+        border:1px solid #3377ff;
+        display: inline-block;
+        font-size: 14px;
+        font-family: PingFangSC-Regular;
+        font-weight: 400;
+        cursor: pointer;
+        color: #3377ff;
+        line-height: 19px;
     }
 </style>
