@@ -79,7 +79,7 @@
                 </div>
                 <div v-if="this.type!='th_advertise'">
                     <span>使用范围</span>
-                    <select class="fw" v-model="range" :disabled="this.$route.query.thmid!=undefined">
+                    <select class="fw" v-model="range" :disabled="thmid!=undefined">
                         <option value="all">不限</option>
                         <option v-for="item in AcctounsList" :value="item.range">{{item.range}}</option>
                     </select>
@@ -107,7 +107,7 @@
                     </div>
                 </div>
 
-                    <div  v-if="this.$route.query.thmid!=undefined&&this.type!='th_advertise'">
+                    <div  v-if="thmid!=undefined&&this.type!='th_advertise'">
                         <span>绑定设计师素材</span>
                         <input class="xmID" type="text" v-model="previews" placeholder="请输入项目ID" disabled="disabled">
                         <!--<input type="checkbox" class="check" v-model="is_work" disabled="disabled"/>-->
@@ -117,7 +117,7 @@
                         <span class="sm">与作品无关</span>
                         <span class="sm2">绑定制作图标的相关作品，千万不要填错了</span>
                     </div>
-                    <div v-if="this.$route.query.thmid==undefined&&this.type!='th_advertise'">
+                    <div v-if="thmid==undefined&&this.type!='th_advertise'">
                         <span>绑定设计师素材</span>
                         <input class="xmID" type="text" v-model="previews" placeholder="请输入项目ID">
                         <!--<input type="checkbox" class="check" v-model="is_work" />-->
@@ -132,8 +132,8 @@
 
                 <div v-if="this.type!='th_advertise'">
                     <span>绑定主题素材</span>
-                    <a @click="jump()" v-if="this.$route.query.thmid==undefined">从主题素材库选择</a>
-                    <a v-if="this.$route.query.thmid!=undefined">从主题素材选择</a>
+                    <a @click="jump()" v-if="thmid==undefined">从主题素材库选择</a>
+                    <a v-if="thmid!=undefined">从主题素材选择</a>
                     <!--<input type="checkbox" class="check" v-model="is_material"/>-->
                     <template>
                         <el-checkbox v-model="is_material" style="margin: 0 10px"></el-checkbox>
@@ -143,18 +143,18 @@
                     <div class="img_box">
                         <div class="img_box1" v-for="(item,index) in listSC">
                             <img class="img_box1_img" :src="item.main_preview">
-                            <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px" v-if="this.$route.query.thmid==undefined" @click="Del(item.thmid)"/>
+                            <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px" v-if="thmid==undefined" @click="Del(item.thmid)"/>
                         </div>
                     </div>
                 </div>
                 <div v-if="this.type=='th_advertise'">
                     <span>绑定主题</span>
-                    <a @click="jumpTheme()" v-if="this.$route.query.thmid==undefined">从主题库选择</a>
-                    <a v-if="this.$route.query.thmid!=undefined">从主题选择</a>
+                    <a @click="jumpTheme()" v-if="thmid==undefined">从主题库选择</a>
+                    <a v-if="thmid!=undefined">从主题选择</a>
                     <div class="img_box">
                         <div class="img_box1" v-for="(item,index) in listThm">
                             <img class="img_box1_img" :src="item.main_preview">
-                            <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px" v-if="this.$route.query.thmid==undefined" @click="DelList(index)"/>
+                            <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px" v-if="thmid==undefined" @click="DelList(index)"/>
                         </div>
                     </div>
                 </div>
@@ -254,6 +254,7 @@
                 listTheme:[],
                 themeID:[],
                 listThm:[],
+                thmid:this.$route.query.thmid,
             }
         },
         mounted(){
@@ -299,26 +300,18 @@
                 var themeD= {thid:"",channel:"",ch_thid:""};
                 themeD.thid=data;
                 themeD.channel=data5;
-                themeD.channel=data1;
+                themeD.ch_thid=data1;
                 this.themeID.push(themeD);
-                this.getTheme()
+                this.getTheme(data,data5,data1)
             },
-            getTheme(){
-                let params={tags:'',channel:'',ui_version:'',account:'',
-                    status:'',type:'',class:'',tstart:"2019-09-29",tend:(new Date()).toLocaleDateString().split('/').join('-'),search:'',p:1000000,page:1};
-                this.api.themes_theme_search({params}).then((res)=>{
-                    var list=[];
-                    for(var i=0;i<res.data.length;i++ ){
-                        for(var j =0;j<this.themeID.length;j++){
-                            if((res.data)[i].thid==this.themeID[j].thid){
-                                list.push((res.data)[i]);
-                            }
-                        }
-                    }
-                    this.listThm=list;
-
+            getTheme(thid,channel,ch_thid){
+                let params={thid:thid,channel:channel,ch_thid:ch_thid};
+                this.api.themes_theme_details({params}).then((res)=>{
+                    this.listThm.push(res);
+                    console.log(res)
                 })
             },
+          
             DelList(index){
                 this.listThm.splice(index,1);
                 this.themeID.splice(index,1);

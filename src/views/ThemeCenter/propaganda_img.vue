@@ -3,8 +3,7 @@
         <tags v-if="ta" :type="type" :id="id" :bq="bq"></tags>
         <div class="top">
             <span class="topName">宣传图</span>
-            <span class="total">共{{TotalNum}}套/</span>
-            <span class="total">{{valid_count}}套已使用</span>
+            <span class="total">共{{TotalNum}}套</span>
             <span class="upLock" @click="jump">上传</span>
         </div>
         <div class="seach">
