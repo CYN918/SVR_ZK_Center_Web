@@ -308,10 +308,12 @@
                 this.contract.push(this.contract_id);
                 this.contracts.push(this.list);
                 this.contract_id='';
+                this.list=[];
             },
             heidHTs(){
                 this.ht=false;
                 this.contract_id='';
+                this.list=[];
             },
             getHT(){
                 let params={contract_id:this.contract_id};
