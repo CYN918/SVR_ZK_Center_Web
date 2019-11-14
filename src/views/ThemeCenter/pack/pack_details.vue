@@ -228,6 +228,7 @@
         left: 256px;
         top: 64px;
         z-index: 99;
+        box-shadow: 0 5px 5px #dfdfdf;
     }
 
     .tit_top_url{padding-left: 0!important;}
@@ -332,7 +333,7 @@
     }
     .preview{
         width: 100%;
-        overflow-x: scroll;
+        overflow-x: auto;
         overflow-y: hidden;
         white-space:nowrap;
         min-height:425px;

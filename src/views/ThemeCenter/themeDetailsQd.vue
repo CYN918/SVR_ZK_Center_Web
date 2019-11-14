@@ -18,7 +18,7 @@
                     <span class="uiName"  v-for="(key,da) in ui[indexs].version"  :class="{click:da==das}"  @click="bbh(da)">{{key}}</span>
                 </div>
 
-            <div style="height: 100%;position: absolute;width: 300px;top:1px;right: 175px">
+            <div style="height: 100%;position: absolute;width: 300px;top:0px;margin-right:362px;right: 0">
                 <img :src="bg"/>
             </div>
         </div>
@@ -160,11 +160,14 @@
             </div>
             <div  class="preview" id="tabs4">
                 <div class="titID">
-                    <span class="nameID">相关打包</span>
+                    <span class="nameID">相关打包件</span>
                     <span class="derivation">{{this.$route.query.channel}}</span>
                 </div>
-                <div class="imgID" v-for="item in pack" @click="ckPACK(item)"  v-if="pack.length!=0">
+                <div class="imgID" v-for="item in pack"   v-if="pack.length!=0">
                     <img :src="item.main_preview">
+                    <div class="See" @click="ckPACK(item)">
+                        查看详情
+                    </div>
                 </div>
                 <div style="width: 100%;text-align: center" v-if="pack.length==0">
                     <img src="../../../public/img/null.png" style="width:48px;margin-top: 150px">
@@ -421,13 +424,14 @@
 
 <style scoped>
     .top{
-        width: 90%;
+        width: 100%;
         height:160px;
         background: rgba(255,255,255,1);
         position: fixed;
         left: 256px;
         top: 64px;
         z-index: 99;
+        box-shadow: 0 5px 5px #dfdfdf;
     }
     .tit_top_url{padding-left: 0!important;}
     .new_url{color: rgba(61,73,102,1)!important;}
@@ -570,13 +574,13 @@
     .derivation{
         display: inline-block;
         margin-left: 18px;
-        /*width:40px;*/
+        padding: 0 3px;
         height:24px;
         background:rgba(247,249,252,1);
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);
         text-align: center;
-        line-height: 24px;
+        line-height: 21px;
         font-size:12px;
         font-family:PingFangSC;
         font-weight:400;
@@ -740,7 +744,7 @@
         height:24px;
         line-height: 24px;
         text-align: center;
-        margin-right: 60px;
+        margin-right: 8px;
         font-size:12px;
         font-family:PingFangSC-Regular,PingFangSC;
         font-weight:400;
