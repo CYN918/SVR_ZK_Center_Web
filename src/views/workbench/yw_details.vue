@@ -42,8 +42,8 @@
                     <span class="tit_txt">投放链接</span>
                     <!--<span class="tit_txt_2">{{this.list.link}}</span>-->
                     <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
-                        <div slot="content">{{this.list.link}}</div>
-                        <span class="tit_txt_2">{{this.list.link}}</span>
+                        <div slot="content">{{list.link}}</div>
+                        <span class="tit_txt_2">{{list.link}}</span>
                     </el-tooltip>
                     <span class="copy" v-clipboard:copy="list.link" v-clipboard:success="onCopy"  v-clipboard:error="onError" v-if="list.link!=''">复制</span>
                 </div>

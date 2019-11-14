@@ -42,7 +42,7 @@
                         <option value=0>已处理</option>
                     </select>
                     <span>创建人员</span>
-                    <input type="text" placeholder="请输入创建人员" v-model="creator"/>
+                    <input type="text" placeholder="请输入邮箱账号" v-model="creator"/>
                     <span class="cx" @click="cx">查询</span>
                     <span class="tit_btn_sc" :class="{activeHeid:this.controlBtn}" @click="getSC('')">发布素材需求</span>
                     <span class="tit_btn_yw"  :class="{activeHeid:this.controlBtns}" @click="getYW('')">发布业务需求</span>
