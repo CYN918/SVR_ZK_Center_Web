@@ -311,7 +311,7 @@
                     console.log(res)
                 })
             },
-          
+
             DelList(index){
                 this.listThm.splice(index,1);
                 this.themeID.splice(index,1);
@@ -576,7 +576,7 @@
                         this.$message.error('绑定主题不能为空')
                         return
                     }
-                    let formData =new FormData;
+                    var formData =new FormData;
                     formData.append('type',this.type);
                     formData.append('name',this.name);
                     formData.append('note',this.note);

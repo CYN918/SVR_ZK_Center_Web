@@ -45,8 +45,6 @@
                             <div class="AddIMG_input_box" v-if="this.type=='f_sls_lockscreen'">
                                 <el-upload
                                         class="upload-demo"
-                                        :limit="1"
-                                        :on-exceed="handleExceed"
                                         :on-remove="handleRemove"
                                         :before-upload="ZipUpload"
                                         :http-request="uploadZip"
@@ -63,6 +61,12 @@
                             <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="chenck" v-if="this.type!='f_sls_lockscreen'"/><span v-if="this.type!='f_sls_lockscreen'">仅图片</span>
                             <div class="upChenck" v-if="this.type!='f_sls_lockscreen'">
                                 <p>勾选后可直接上传图片、且无需再次上传预览图</p>
+                            </div>
+                            <div v-if="attach.name!=''">
+                                <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                                    <div slot="content" class="text">{{attach.name}}</div>
+                                    <span  class="text" style="overflow: hidden;width: 100px;height: 24px;margin-left: 134px">{{attach.name}}</span>
+                                </el-tooltip>
                             </div>
                         </div>
                         <div class="AddIMG_sc">

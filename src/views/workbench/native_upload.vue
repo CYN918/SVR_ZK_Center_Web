@@ -32,8 +32,6 @@
                             <div class="AddIMG_input_box">
                                 <el-upload
                                         class="upload-demo"
-                                        :limit="1"
-                                        :on-exceed="handleExceed"
                                         :on-remove="handleRemove"
                                         :http-request="uploadF"
                                         action="111"
@@ -45,6 +43,12 @@
                             <div class="progress" style="width: 100px;height: 5px;opacity: 0.5;display: inline-block " v-if="initiate" >
                                 <div class="strip" :style="{width:aaa+'%'}" style="background: blue;height: 5px"></div>
                                 <div style="text-align: center;font-size: 10px">当前附件上传{{aaa}}%</div>
+                            </div>
+                            <div v-if="attach.name!=''">
+                                <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                                    <div slot="content" class="text">{{attach.name}}</div>
+                                    <span  class="text" style="overflow: hidden;width: 100px;height: 24px;margin-left: 134px">{{attach.name}}</span>
+                                </el-tooltip>
                             </div>
                         </div>
                         <div class="AddIMG_sc">
@@ -83,11 +87,9 @@
                             </select>
                             <div class="AddIMG_yl_upload">
                                 <el-upload
-                                        :limit="1"
                                         :on-exceed="handleExceed"
                                         :http-request="uploadFile"
-                                        :on-remove="Remove"
-                                        class="upload-demo"
+                                        class="upload-demo-sc"
                                         action="111"
                                         :file-list="fileList">
                                     <el-button size="small" type="primary">上传预览图</el-button>
@@ -96,6 +98,12 @@
                             <div class="progress" style="width: 100px;height: 5px;opacity: 0.5;display: inline-block " v-if="initiate2" >
                                 <div class="strip" :style="{width:bbb+'%'}" style="background: blue;height: 5px"></div>
                                 <div style="text-align: center;font-size: 10px">当前附件上传{{bbb}}%</div>
+                            </div>
+                            <div v-if="ylIMG.name!=undefined">
+                                <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                                    <div slot="content" class="text">{{ylIMG.name}}</div>
+                                    <span  class="text" style="overflow: hidden;width: 100px;height: 24px;margin-left: 377px">{{ylIMG.name}}</span>
+                                </el-tooltip>
                             </div>
                         </div>
                         <div class="AddIMG_bq">
@@ -187,11 +195,11 @@
                 arr:[],
                 sizeList:[],
                 clickNmu:0,
+                ylIMG:{},
             }
         },
         mounted(){
             this.getTagsList();
-            console.log(this.size)
         },
         methods:{
 
@@ -268,6 +276,7 @@
                     let formData = new FormData;
                     formData.append('file',file.file);
                     this.api.file_upload(formData).then((res)=>{
+                        this.ylIMG=res;
                         this.bbb=100;
                         this.initiate2=false;
                         this.prev_uri = res.url;
@@ -343,18 +352,19 @@
                         this.api.demand_business_bind(formData).then((res)=>{
                             this.clickNmu=0;
                             if(res!=false){
-                                this.$parent.AddMaterial();
-                                this.$parent.heidBD();
                                 this.attach={};
                                 this.bind_mid='';
                                 this.bind_workid='';
                                 this.is_bind_mid='';
                                 this.is_bind_workid='';
-                                this.size='';
+                                this.sjSize='';
+                                this.type='';
+                                this.prev_uri='';
                                 this.preinstall=[];
                                 this.bardian=[];
+                                this.$parent.AddMaterial();
+                                this.$parent.heidBD();
                             }
-
                         })
 
                     }).catch();
