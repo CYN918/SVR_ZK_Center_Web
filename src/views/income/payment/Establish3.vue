@@ -56,7 +56,7 @@
                             <div slot="content">请上传对账确认邮件截图，结算数据明细等凭证</div>
                             <img src="../../../../public/img/wh.png" style="margin-right: 6px;cursor: pointer">
                         </el-tooltip>
-                        <span class="fj">附件 <span style="color: #acadb0">(选填)</span></span>
+                        <span class="fj">附件</span>
 
                     </div>
                     <div class="uplaod">
@@ -177,6 +177,10 @@
                 }
                 if(!this.receive_tdate){
                     this.$message.error('实际到账时间不能为空');
+                    return
+                }
+                if(this.attachs.name==''){
+                    this.$message.error('附件不能为空');
                     return
                 }
                 if(this.attachs.length!=0){

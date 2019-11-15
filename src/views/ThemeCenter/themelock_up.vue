@@ -136,7 +136,7 @@
                     <a v-if="thmid!=undefined">从主题素材选择</a>
                     <!--<input type="checkbox" class="check" v-model="is_material"/>-->
                     <template>
-                        <el-checkbox v-model="is_material" style="margin: 0 10px"></el-checkbox>
+                        <el-checkbox v-model="is_material" style="margin: 0 10px" :disabled="thmid!=undefined"></el-checkbox>
                     </template>
                     <span class="sm">与主题素材无关</span>
                     <span class="sm2">绑定制作图标的相关主题素材，千万不要填错了</span>

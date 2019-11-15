@@ -442,13 +442,13 @@
                 if(type=='th_icon'){
                     this.iconYl=yl;
                     this.iconSC=sc;
-                    this.num=1
+                    this.num=1;
                     this.iconID=id
                 }
                 if(type=='th_second_page'){
                     this.twoYl=yl;
                     this.twoSC=sc;
-                    this.num=2
+                    this.num=2;
                     this.twoID=id
                 }
                 this.active()
@@ -466,7 +466,6 @@
                     this.SC=this.twoSC;
                     this.titName='二级页'
                 }
-                console.log(this.SC);
 
             },
             Switch(num){

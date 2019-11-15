@@ -31,7 +31,7 @@
             </div>
             <div style="text-align: center" class="fill">
                 <div>
-                    <span class="fillName">物流单号<span style="color: #acadb0">(选填)</span></span>
+                    <span class="fillName">物流单号</span></span>
                     <div style="display: inline-block;width: 300px;text-align: left">
                         <span class="text">{{list.express_id}}</span>
                     </div>

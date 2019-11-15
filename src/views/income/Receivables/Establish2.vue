@@ -32,7 +32,7 @@
             </div>
             <div style="text-align: center" class="fill">
                 <div>
-                    <span class="fillName">物流单号<span style="color: #acadb0">(选填)</span></span>
+                    <span class="fillName">物流单号</span>
                     <input type="text" class="input" v-model="express_id">
                 </div>
                 <div>
@@ -161,6 +161,10 @@
                 }
                 if((this.express_id).match(/^[\u4e00-\u9fa5]+$/)){
                     this.$message.error('物流单号为非中文');
+                    return
+                }
+                if(!this.express_id){
+                    this.$message.error('物流单号不能为空');
                     return
                 }
                 if(!this.note){
