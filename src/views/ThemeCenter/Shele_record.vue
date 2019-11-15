@@ -2,7 +2,7 @@
     <div class="dw">
         <pak v-if="pak" :types="types" @dataUp="dataUp" :chan="channel" :ui_v="ui_version"></pak>
         <sel v-if="sel" @linet="linet"></sel>
-        <div class="top" v-if="this.$route.query.con==undefined">
+        <div class="top" v-if="this.cons==undefined">
             <div class="tit_top_url">
                 <span class="log_url" @click="fh()">主题库&nbsp;/</span>
                 <span class="log_url" @click="fh()">&nbsp;主题库详情&nbsp;/</span>
@@ -12,7 +12,7 @@
                 <span class="tit_name">编辑渠道详情</span>
             </div>
         </div>
-        <div class="top" v-if="this.$route.query.con!=undefined">
+        <div class="top" v-if="this.cons!=undefined">
             <div class="tit_top_url">
                 <span class="log_url" @click="fh()">主题库&nbsp;/</span>
                 <span class="log_url" @click="fh()">&nbsp;主题库详情&nbsp;/</span>
@@ -26,13 +26,13 @@
             <div class="themeUpLeft">
                 <div style="margin-top: 24px">
                     <span class="tit_name">渠道</span>
-                    <select  @change="getUI()" v-model="channel" :disabled="this.$route.query.con==undefined">
+                    <select  @change="getUI()" v-model="channel" :disabled="this.cons==undefined">
                         <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
                     </select>
                 </div>
                 <div>
                     <span class="tit_name">厂商UI版本</span>
-                    <select style="margin-right: 68px" v-model="ui_version" @change="getThemeType()" :disabled="this.$route.query.con==undefined">
+                    <select style="margin-right: 68px" v-model="ui_version" @change="getThemeType()" :disabled="this.cons==undefined">
                         <option v-for="item in ui" :value="item.version" v-if="ui.length!=0">{{item.version}}</option>
                         <option value="" v-if="ui.length==0&&channel!=''">暂无</option>
                     </select>
@@ -69,22 +69,22 @@
                 </div>
                 <div>
                     <span>资源版本号</span>
-                    <input type="text" v-model="version" placeholder="请输入上资源版本号" :disabled="this.$route.query.con==undefined">
+                    <input type="text" v-model="version" placeholder="请输入上资源版本号" :disabled="this.cons==undefined">
                 </div>
                 <div>
                     <span>上架账号</span>
-                    <select style="margin-right: 24px" v-model="account" :disabled="this.$route.query.con==undefined">
+                    <select style="margin-right: 24px" v-model="account" :disabled="this.cons==undefined">
                         <option value="" disabled="disabled">请选择上架该主题的账号信息</option>
                         <option :value="item.account" v-for="item in range">{{item.account}}</option>
                     </select>
                 </div>
                 <div>
                     <span>上架名称</span>
-                    <input type="text" placeholder="请输入上架该渠道的主题名称" v-model="channel_theme_name" maxlength="10" :disabled="this.$route.query.con==undefined">
+                    <input type="text" placeholder="请输入上架该渠道的主题名称" v-model="channel_theme_name" maxlength="10" :disabled="this.cons==undefined">
                 </div>
                 <div>
                     <span>上架单价</span>
-                    <input type="number" placeholder="请输入上架价格" v-model="price" :disabled="this.$route.query.con==undefined">
+                    <input type="number" placeholder="请输入上架价格" v-model="price" :disabled="this.cons==undefined">
                 </div>
                 <div>
                     <span>上架时间</span>
@@ -119,7 +119,7 @@
                 </div>
                 <div>
                     <span>无需打包件</span>
-                    <input type="checkbox" v-model="is_package" style="width: 16px;height: 16px" :disabled="this.$route.query.con==undefined"/>
+                    <input type="checkbox" v-model="is_package" style="width: 16px;height: 16px" :disabled="this.cons==undefined"/>
                     <span style="width: 120px">暂无需整理打包件</span>
                 </div>
                 <div>
@@ -134,7 +134,7 @@
                                     </div>
                                 </div>
                                 <img :src="this.lockYl" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);" @click="Switch('0')"/>
-                                <div v-if="this.lockYl!=''&&this.$route.query.con!=undefined" style="position: absolute;bottom: 0;width:189px;height:34px;background:rgba(0,0,0,1);opacity:0.8;text-align: center" @click="getUP('th_lock_screen')">
+                                <div v-if="this.lockYl!=''&&this.cons!=undefined" style="position: absolute;bottom: 0;width:189px;height:34px;background:rgba(0,0,0,1);opacity:0.8;text-align: center" @click="getUP('th_lock_screen')">
                                     <span style="display: inline-block;font-size:12px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(255,255,255,1);line-height: 33px">重新上传</span>
                                 </div>
                             </div>
@@ -148,7 +148,7 @@
                                     </div>
                                 </div>
                                 <img :src="this.iconYl" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);" @click="Switch('1')"/>
-                                <div v-if="this.iconYl!=''&&this.$route.query.con!=undefined" style="position: absolute;bottom: 0;width:189px;height:34px;background:rgba(0,0,0,1);opacity:0.8;text-align: center" @click="getUP('th_icon')">
+                                <div v-if="this.iconYl!=''&&this.cons!=undefined" style="position: absolute;bottom: 0;width:189px;height:34px;background:rgba(0,0,0,1);opacity:0.8;text-align: center" @click="getUP('th_icon')">
                                     <span style="display: inline-block;font-size:12px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(255,255,255,1);line-height: 33px">重新上传</span>
                                 </div>
                             </div>
@@ -162,19 +162,19 @@
                                     </div>
                                 </div>
                                 <img :src="this.twoYl" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);" @click="Switch('2')"/>
-                                <div v-if="this.twoYl!=''&&this.$route.query.con!=undefined" style="position: absolute;bottom: 0;width:189px;height:34px;background:rgba(0,0,0,1);opacity:0.8;text-align: center" @click="getUP('th_second_page')">
+                                <div v-if="this.twoYl!=''&&this.cons!=undefined" style="position: absolute;bottom: 0;width:189px;height:34px;background:rgba(0,0,0,1);opacity:0.8;text-align: center" @click="getUP('th_second_page')">
                                     <span style="display: inline-block;font-size:12px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(255,255,255,1);line-height: 33px">重新上传</span>
                                 </div>
                             </div>
                         </div>
                         <div :class="{left_margin:this.is_package==true}" style="box-shadow: 0 1px 3px rgba(234, 230, 228, 1); padding:0 0 10px 10px;">
                             <div style="margin-bottom: 14px"  v-if="is_package==false"><span>{{this.titName}}打包件</span></div>
-                            <a @click="jump()" v-if="is_package==true&&this.$route.query.con!=undefined">从主题素材库选择</a>
-                            <a  v-if="is_package==true&&this.$route.query.con==undefined">从主题素材库选择</a>
+                            <a @click="jump()" v-if="is_package==true&&this.cons!=undefined">从主题素材库选择</a>
+                            <a  v-if="is_package==true&&this.cons==undefined">从主题素材库选择</a>
                             <div class="img_box">
                                 <div class="img_box1" v-for="(item,index) in SC">
                                     <img :src="item.main_preview" class="img_box1_imgs">
-                                    <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px" @click="Del(item.thmid)" v-if="is_package==true&&this.$route.query.con==undefined"/>
+                                    <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px" @click="Del(item.thmid)" v-if="is_package==true&&cons!=undefined"/>
                                 </div>
                             </div>
                         </div>
@@ -303,6 +303,7 @@
                 times:0,
                 is_package:false,
                 id:"",
+                cons:this.$route.query.con,
             }
         },
         mounted(){
@@ -462,9 +463,11 @@
                     this.titName='图标'
                 }
                 if(this.num==2){
-                    this.SC=this.twoSC
+                    this.SC=this.twoSC;
                     this.titName='二级页'
                 }
+                console.log(this.SC);
+
             },
             Switch(num){
                 this.num=num;
@@ -843,6 +846,8 @@
                     if(this.num==2){
                         this.twoSC=list;
                     }
+                    console.log(this.lockSC);
+                    console.log(list);
                     this.active();
                     // this.listSC=list;
                 })
