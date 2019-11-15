@@ -232,7 +232,7 @@
                 </div>
                 <div class="ts_con">
                     <span>
-                        提交后主题名称、主题类型 及主题素材、主题之间的绑定关系将无法修改请仔细核对相关信息，是否无误？
+                        提交后<span class="Tips">上架渠道</span>、<span class="Tips">厂商UI版本</span>、<span class="Tips">资源版本号</span>、<span class="Tips">上架名称</span>、<span class="Tips">上架单价</span>、<span class="Tips">主题类型</span> 及主题素材、打包件、主题之间的<span class="Tips">绑定关系</span>将无法修改请仔细核对相关信息，是否无误？
                     </span>
                 </div>
                 <div class="btn">
@@ -1323,4 +1323,5 @@
         box-shadow:0px -1px 5px rgb(222, 218, 216);
         border-bottom:transparent!important; ;
     }
+    .Tips{color: #ff240e!important;}
 </style>

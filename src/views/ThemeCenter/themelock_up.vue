@@ -206,8 +206,11 @@
                     <span>确认提示</span>
                 </div>
                 <div class="ts_con">
-                    <span>
-                        提交后主题名称、主题类型 及主题素材、主题之间的绑定关系将无法修改请仔细核对相关信息，是否无误？
+                    <span v-if="type!='th_advertise'">
+                        提交后<span class="Tips">使用范围</span>及主题素材、作品之间的<span class="Tips">绑定关系</span>将无法修改请仔细核对相关信息，是否无误？
+                    </span>
+                    <span v-if="type=='th_advertise'">
+                        提交后<span class="Tips">绑定关系</span>将无法修改请仔细核对相关信息，是否无误？
                     </span>
                 </div>
                 <div class="btn">
@@ -1037,4 +1040,5 @@
         margin-left: 10px;
         cursor: pointer;
     }
+    .Tips{color: #ff240e!important;}
 </style>
