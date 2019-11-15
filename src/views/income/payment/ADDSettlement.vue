@@ -305,7 +305,7 @@
             },
             heidHT(){
                 this.ht=false;
-                this.contract.push(this.contract_id);
+                this.contract.push((this.list[0]).archive_id);
                 this.contracts.push(this.list);
                 this.contract_id='';
                 this.list=[];
@@ -405,7 +405,7 @@
                 var arr=[];
                 for(var i=0;i<this.contracts.length;i++){
                     for(var j=0;j<this.contracts[i].length;j++){
-                        arr.push((this.contracts[i][j]).contract_id);
+                        arr.push((this.contracts[i][j]).archive_id);
                     }
                 }
                 this.contract=(this.contract).concat(arr);

@@ -304,7 +304,7 @@
             },
             heidHT(){
                 this.ht=false;
-                this.contract.push(this.contract_id);
+                this.contract.push((this.list[0]).archive_id);
                 this.contracts.push(this.list);
                 this.contract_id='';
                 this.list=[];
@@ -318,6 +318,7 @@
                 let params={contract_id:this.contract_id};
                 this.api.common_contract({params}).then((res)=>{
                     this.list=res;
+                    console.log(res);
                 })
             },
             ADDdata(){
@@ -361,8 +362,6 @@
                     this.$message.error('合同不能为空');
                     return
                 }
-
-
                 let formData=new FormData;
                 formData.append('name',this.name);
                 formData.append('is_receiver',1);
@@ -404,7 +403,7 @@
                 var arr=[];
                 for(var i=0;i<this.contracts.length;i++){
                     for(var j=0;j<this.contracts[i].length;j++){
-                        arr.push((this.contracts[i][j]).contract_id);
+                        arr.push((this.contracts[i][j]).archive_id);
                     }
                 }
                 this.contract=(this.contract).concat(arr);

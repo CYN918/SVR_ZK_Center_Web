@@ -201,7 +201,6 @@
                     }else{
                         this.sc=res;
                     }
-                    console.log(this.sc)
                 })
             },
             getThmPkg(){

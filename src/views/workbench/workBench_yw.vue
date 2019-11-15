@@ -152,16 +152,13 @@
             }
         },
         mounted(){
-
             if(this.YWid){
                 this.getData();
             }
             if(this.YWid==undefined||this.type=='f_sls_lockscreen'){
                 this.getSize();
             }
-
             this.getTypes();
-
         },
         methods:{
             sxFunction(){
