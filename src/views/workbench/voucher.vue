@@ -18,7 +18,7 @@
             </div>
             <div style="text-align: center" class="fill">
                 <div>
-                    <span class="fillName">物流单号<span style="color: #acadb0">(选填)</span></span>
+                    <span class="fillName">物流单号<span style="color: #acadb0" v-if="this.skType=='付款结算'">(选填)</span></span>
                     <input type="text" class="input" v-model="express_id">
                 </div>
                 <div>
@@ -69,11 +69,12 @@
         },
 
         methods:{
+
             fh(){
                 this.$parent.heidADDscope();
             },
             ck1(){
-                this.$parent.heidADDscope();;
+                this.$parent.heidADDscope();
                 this.$parent.getCK(this.skID,this.skType,'2');
             },
             handleExceed(files, fileList) {
@@ -116,6 +117,13 @@
                     this.$message.error('物流单号为非中文');
                     return
                 }
+                if(this.skType=='收款结算'){
+                    if(!this.express_id){
+                        this.$message.error('物流单号不能为空');
+                        return
+                    }
+                }
+
                 if(!this.note){
                     this.$message.error('备注不能为空');
                     return

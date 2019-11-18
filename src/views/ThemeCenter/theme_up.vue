@@ -273,7 +273,6 @@
             },
             linet(data){
                 this.scID=data;
-                console.log(this.scID)
                 this.getList();
             },
 
@@ -316,7 +315,7 @@
                     if(i==0){
                         continue
                     }
-                    if(this.listSC[i].range!=this.listSC[i-1].range){
+                    if((this.listSC[i].range!=this.listSC[i-1].range)&&(this.listSC[i].type!='th_advertise')){
                         this.$message.error('同一主题不可绑定使用范围不同的素材');
                         return
                     }
@@ -387,6 +386,7 @@
                         }
                     }
                     this.listSC=list;
+                    console.log(this.listSC);
                 })
             },
 
@@ -394,7 +394,6 @@
                 for(var i=0;i<this.scID.length;i++){
                     if(this.scID[i]==id){
                         this.scID.splice(i,1);
-                        console.log(this.scID)
                         this.getList();
                     }
                 }

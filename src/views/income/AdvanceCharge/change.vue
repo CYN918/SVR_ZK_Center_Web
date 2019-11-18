@@ -23,7 +23,7 @@
             <div v-if="list.type==1">
                 <span  class="TitName">绑定结算单</span>
                 <span class="text">{{list.settle_id}}</span>
-                <span class="click" @click="ck">查看详情</span>
+                <span class="click" @click="ck()">查看详情</span>
             </div>
             <div v-if="list.type==2">
                 <span  class="TitName">附件</span>
@@ -77,7 +77,7 @@
                 })
             },
             ck(){
-                if(this.type==1){
+                if(this.list.is_receiver==1){
                     this.$router.push({
                         path:"../Receivables/DetailsOfCollection",
                         query:{id:this.list.settle_id}

@@ -473,7 +473,11 @@
                 this.active()
             },
             getPak(type){
-                if(type=='th_lock_screen'&&this.lockYl!=''){
+                console.log(type);
+                console.log(this.lockYl);
+                console.log(this.iconYl);
+                console.log(this.twoYl);
+                if((type=='th_lock_screen')&&(this.lockYl!='')){
                     this.num=0;
                     this.getDataList();
                     return
@@ -485,7 +489,7 @@
                     this.types=type;
                     this.pak=true;
                 }
-                if(type=='th_icon'&&this.iconYl!=''){
+                if((type=='th_icon')&&(this.iconYl!='')){
                     this.num=1;
                     this.getDataList();
                     return
@@ -498,7 +502,7 @@
                     this.types=type;
                     this.pak=true;
                 }
-                if(type=='th_second_page'&&this.twoYl!=''){
+                if((type=='th_second_page')&&(this.twoYl!='')){
                     this.num=2;
                     this.getDataList();
                     return
@@ -507,7 +511,6 @@
                         this.$message.error('渠道不能为空');
                         return
                     }
-
                     this.types=type;
                     this.pak=true;
                 }
@@ -692,7 +695,7 @@
                 for(var i=0;i<this.range.length;i++){
                     if(this.account==this.range[i].account){
                        for(var k=0;k<this.SC.length;k++){
-                            if(this.SC[k].range!=this.range[i].range){
+                           if((this.SC[i].range!=this.SC[i-1].range)&&(this.SC[i].type!='th_advertise')){
                                 this.$message.error('同一主题不可绑定使用范围不同的素材');
                                 return
                             }

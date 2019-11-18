@@ -44,7 +44,7 @@
                 let formData=new FormData;
                 formData.append('id',this.skID);
                 formData.append('note',this.note);
-                formData.append('status',this.status);
+                formData.append('status',this.status+1);
                 this.api.demand_cancel(formData).then((res)=>{
                     this.heid();
                 })
