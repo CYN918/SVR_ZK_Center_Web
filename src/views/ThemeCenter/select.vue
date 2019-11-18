@@ -103,21 +103,21 @@
                 <div class="select_cons">
                     <div >
                         <span>渠道</span>
-                        <select  @change="getUIs()" v-model="ADDchannel">
-                            <option :value="item.channel" v-for="item in TCchannel">{{item.channel_name}}</option>
+                        <select v-model="ADDchannel" @change="qd()">
+                            <option :value="item.channel" v-for="(item,index) in channelDataList">{{item.channel_name}}</option>
                         </select>
                     </div>
                     <div>
                         <span>厂商UI版本</span>
-                        <select v-model="ADDui" @change="getThemeType()">
-                            <option v-for="item in uis" :value="item.version" v-if="uis.length!=0">{{item.version}}</option>
-                            <option value="" v-if="uis.length==0&&channel!=''">暂无</option>
+                        <select v-model="ADDui">
+                            <option v-for="item in channelData" :value="item" v-if="channelData.length!=0">{{item}}</option>
+                            <option value="" v-if="channelData.length==0&&channel!=''">暂无</option>
                         </select>
                     </div>
                     <div>
                         <span>资源版本</span>
-                        <select>
-                            <option v-for="item in zyBb" :value="item.version">{{item.version}}</option>
+                        <select v-model="bb">
+                            <option v-for="item in uiLIST" :value="item">{{item}}</option>
                         </select>
                     </div>
                 </div>
@@ -180,6 +180,11 @@
                 main_preview:'',
                 name:"",
                 channelName:'',
+                index:"",
+                bb:'',
+                channelData:[],
+                channelDataList:[],
+                uiLIST:[],
             }
         },
         mounted() {
@@ -207,22 +212,53 @@
             heidTC(){
                 this.ADDqd=false;
                 this.ind=[];
+                this.ADDchannel='';
+                this.ADDui='';
+                this.bb='';
+            },
+            qd(){
+                this.channelData=[];
+                this.uiLIST=[];
+                this.ADDui='';
+                this.bb='';
+                for(var i=0;i<this.TCchannel.length;i++){
+                    if((this.TCchannel[i].channel==this.ADDchannel)&&(this.channelData.indexOf(this.TCchannel[i].ui_version)==-1)){
+                        this.channelData.push(this.TCchannel[i].ui_version);
+                    }
+                }
+                for(var i=0;i<this.TCchannel.length;i++){
+                    if((this.TCchannel[i].channel==this.ADDchannel)&&(this.uiLIST.indexOf(this.TCchannel[i].version)==-1)){
+                        this.uiLIST.push(this.TCchannel[i].version);
+                    }
+                }
+
             },
             clicks(index){
+                this.channelDataList=[];
                 if(this.ind.indexOf(this.IMGList[index].thid)==-1){
                     this.ind=[];
+                    this.index=index;
                     this.ADDqd=true;
                     this.TCchannel=this.IMGList[index].channel_themes;
+                    this.channelDataList=this.TCchannel;
+                    // // for(var i=0;i<this.channelDataList.length;i++){
+                    // //     if(this.channelDataList[i].channel==this.channelDataList[i+2].channel){
+                    // //         this.channelDataList.splice(i,1);
+                    // //     }
+                    // // }
+                    // for(var i=0; i<this.channelDataList.length; i++){
+                    //     for(var j=i+1; j<this.channelDataList.length; j++){
+                    //         if(this.channelDataList[i]==this.channelDataList[j]){
+                    //             this.channelDataList.splice(j,1);
+                    //             j--;
+                    //         }
+                    //     }
+                    // }
                     this.name=this.IMGList[index].name;
-                    this.ind.push(this.IMGList[index].thid)
+                    this.ind.push(this.IMGList[index].thid);
+
                 }
-                // else{
-                //     for(var i = 0;i<this.ind.length;i++){
-                //         if(this.ind[i]==this.IMGList[index].thid){
-                //             this.ind.splice(i,1);
-                //         }
-                //     }
-                // }
+
             },
             getThemeType(){
                 let params={channel:this.ADDchannel,ui_version:this.ADDui};

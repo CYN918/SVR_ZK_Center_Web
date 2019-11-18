@@ -473,15 +473,14 @@
                 this.active()
             },
             getPak(type){
-                console.log(type);
-                console.log(this.lockYl);
-                console.log(this.iconYl);
-                console.log(this.twoYl);
+                console.log(type)
                 if((type=='th_lock_screen')&&(this.lockYl!='')){
                     this.num=0;
+                    this.id=this.lockID;
                     this.getDataList();
                     return
-                }else{
+                }
+                else if(type=='th_lock_screen'){
                     if(!this.channel){
                         this.$message.error('渠道不能为空');
                         return
@@ -491,22 +490,25 @@
                 }
                 if((type=='th_icon')&&(this.iconYl!='')){
                     this.num=1;
+                    this.id=this.iconID;
                     this.getDataList();
                     return
-                }else{
+                }
+                else if(type=='th_icon'){
                     if(!this.channel){
                         this.$message.error('渠道不能为空');
                         return
                     }
-
                     this.types=type;
                     this.pak=true;
                 }
                 if((type=='th_second_page')&&(this.twoYl!='')){
                     this.num=2;
+                    this.id=this.twoID;
                     this.getDataList();
                     return
-                }else{
+                }
+                else if(type=='th_second_page'){
                     if(!this.channel){
                         this.$message.error('渠道不能为空');
                         return

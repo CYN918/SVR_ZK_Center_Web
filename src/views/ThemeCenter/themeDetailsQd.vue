@@ -56,11 +56,13 @@
                 <span class="titCon" style="width: 150px">{{tableData.created_at}}</span>
                 <span class="titName">运营标签</span>
                 <div class="tag">
-                    <span v-for="item in ((this.tableData.op_tags).split(','))" class="tagName" v-if="item!=''">{{item}}</span>
+                    <div style="display: inline-block;width: 200px;height: 26px;overflow: hidden" >
+                        <span v-for="item in ((this.tableData.op_tags).split(','))" class="tagName" v-if="item!=''">{{item}}</span>
+                    </div>
                     <span class="tagADD" @click="BJtags()">+ 标签</span>
                 </div>
             </div>
-            <div style="margin-bottom: 24px">
+            <div style="margin-bottom: 13px">
                 <span class="titName">主题描述:</span>
                 <span class="titCon" style="width: 70%">{{this.tableData.note}}</span>
             </div>
@@ -527,7 +529,7 @@
         font-weight:400;
         color:rgba(31,46,77,0.45);
         text-align: center;
-        margin-right: 5px;
+        margin: 5px 5px 0  0;
         vertical-align: bottom;
     }
     .switcher{

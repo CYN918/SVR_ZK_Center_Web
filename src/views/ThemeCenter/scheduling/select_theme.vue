@@ -141,21 +141,20 @@
                 <div class="select_cons">
                     <div>
                         <span>渠道</span>
-                        <select  @change="getUIs()" v-model="ADDchannel">
+                        <select  @change="qd()" v-model="ADDchannel">
                             <option :value="item.channel" v-for="item in TCchannel">{{item.channel_name}}</option>
                         </select>
                     </div>
                     <div>
                         <span>厂商UI版本</span>
-                        <select v-model="ADDui" @change="getThemeType()">
-                            <option value="">全部</option>
-                            <option v-for="item in ui" :value="item.version">{{item.version}}</option>
+                        <select v-model="ADDui" >
+                            <option v-for="item in channelData" :value="item">{{item}}</option>
                         </select>
                     </div>
                     <div>
                         <span>资源版本</span>
-                        <select >
-                            <option v-for="item in zyBb" :value="item.version">{{item.version}}</option>
+                        <select v-model="zyBb">
+                            <option v-for="item in uiLIST" :value="item">{{item}}</option>
                         </select>
                     </div>
                 </div>
@@ -210,11 +209,13 @@
                 IMGList:[],
                 ADDchannel:'',
                 TCchannel:[],
-                zyBb:[],
+                zyBb:'',
                 ADDui:"",
                 index:'',
                 ch_thids:[],
                 qdList:[],
+                channelData:[],
+                uiLIST:[],
             }
         },
         mounted(){this.themeType();
@@ -246,6 +247,22 @@
                     this.self_tags=res;
                 })
             },
+            qd(){
+                this.channelData=[];
+                this.uiLIST=[];
+                this.ADDui='';
+                this.zyBb='';
+                for(var i=0;i<this.TCchannel.length;i++){
+                    if((this.TCchannel[i].channel==this.ADDchannel)&&(this.channelData.indexOf(this.TCchannel[i].ui_version)==-1)){
+                        this.channelData.push(this.TCchannel[i].ui_version);
+                    }
+                }
+                for(var i=0;i<this.TCchannel.length;i++){
+                    if((this.TCchannel[i].channel==this.ADDchannel)&&(this.uiLIST.indexOf(this.TCchannel[i].version)==-1)){
+                        this.uiLIST.push(this.TCchannel[i].version);
+                    }
+                }
+            },
             setID(){
                 for(var i=0 ;i<this.TCchannel.length;i++){
                     if(this.TCchannel[i].channel==this.ADDchannel){
@@ -257,6 +274,9 @@
             },
             heidTC(){
                 this.ADDqd=false;
+                this.ADDchannel='';
+                this.ADDui='';
+                this.zyBb='';
                 for(var i = 0;i<this.ind.length;i++){
                     if(this.ind[i]==this.IMGList[this.index].thid){
                         this.ind.splice(i,1);

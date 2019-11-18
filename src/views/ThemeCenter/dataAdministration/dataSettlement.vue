@@ -87,6 +87,7 @@
                 </div>
                 <div class="upTxtBtn">
                     <span @click="heidUP()">取消</span>
+                    <span @click="heidUP()" style="background: #3377ff;color: #fff;border: 0">确定</span>
                 </div>
             </div>
         </div>
@@ -105,6 +106,7 @@
                 total:0,
                 creator:'',
                 upTxt:false,
+                attach:{},
 
             }
         },
@@ -148,6 +150,7 @@
             },
             heidUP(){
                 this.upTxt=false;
+                this.attach={};
             },
             getData(){
                 if(this.value==[]){
@@ -163,8 +166,14 @@
                     this.total=res.total;
                 })
             },
+            // Load(file){
+            //     let formData = new FormData;
+            //     formData.append('file',file.file);
+            //     this.api.file_upload(formData).then((res)=>{
+            //         this.attach=res;
+            //     })
+            // },
             upLoad(file){
-                console.log(file);
                 let formData = new FormData;
                 formData.append('file',file.file);
                 formData.append('data_type','1');
