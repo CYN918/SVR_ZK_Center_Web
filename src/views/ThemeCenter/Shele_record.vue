@@ -694,17 +694,21 @@
                     this.setData();
                     return
                 }
+                console.log(this.SC[0].type);
                 for(var i=0;i<this.range.length;i++){
                     if(this.account==this.range[i].account){
-                       for(var k=0;k<this.SC.length;k++){
-                           if((this.SC[i].range!=this.SC[i-1].range)&&(this.SC[i].type!='th_advertise')){
-                                this.$message.error('同一主题不可绑定使用范围不同的素材');
-                                return
-                            }
-                           if(this.is_package!=true&&(this.SC[i].type!='th_icon'||this.SC[i].type!='th_lock_screen'||this.SC[i].type!='th_second_page')){
-                               this.$message.error('相关素材必须有锁屏/图标/二级页素材类型中的一种');
-                               return
+                       for(var k=1;k<this.SC.length;k++){
+                           if(this.SC[k].type!='th_advertise'){
+                               if(this.SC[k].range!=this.SC[k-1].range){
+                                   this.$message.error('同一主题不可绑定使用范围不同的素材');
+                                   return
+                               }
+                               if(this.is_package!=true&&(this.SC[k].type!='th_icon'||this.SC[k].type!='th_lock_screen'||this.SC[k].type!='th_second_page')){
+                                   this.$message.error('相关素材必须有锁屏/图标/二级页素材类型中的一种');
+                                   return
+                               }
                            }
+
                        }
                     }
                 }
