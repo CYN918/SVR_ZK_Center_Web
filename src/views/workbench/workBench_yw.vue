@@ -155,9 +155,9 @@
             if(this.YWid){
                 this.getData();
             }
-            if(this.YWid==undefined||this.type=='f_sls_lockscreen'){
-                this.getSize();
-            }
+            // if(this.YWid==undefined||this.type=='f_sls_lockscreen'){
+            //     this.getSize();
+            // }
             this.getTypes();
         },
         methods:{
@@ -191,6 +191,9 @@
                   this.pos_type=res.pos_type;
                   this.endtime = res.endtime;
                   this.requirement=res.require;
+                    if(this.type=='f_sls_lockscreen'){
+                        this.getSize();
+                    }
                   // this.libraryName=res.putlib.name;
 
                   // if(this.type!='f_sls_lockscreen'){

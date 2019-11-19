@@ -16,7 +16,7 @@
             <div>
                 <span class="titName">主题类型:</span>
                 <span class="titCon">{{tableData.type_name}}</span>
-                <span class="titName">ID:</span>
+                <span class="titName" style="width: 20px;margin-right: 15px">ID:</span>
                 <span class="titCon">{{tableData.thid}}</span>
                 <span class="titName">创建时间:</span>
                 <span class="titCon" style="width: 150px">{{tableData.created_at}}</span>
@@ -26,7 +26,7 @@
                 <span class="titCon">{{tableData.class_name}}</span>
                 <!--<span class="titName">资源版本:</span>-->
                 <!--<span class="titCon">{{tableData.ui_version}}</span>-->
-                <span class="titName">标签</span>
+                <span class="titName" style="width: 30px;margin-right: 15px">标签</span>
                 <div class="tag">
                     <span v-for="item in tags" class="tagName" v-if="item!=''">{{item}}</span>
                     <!--<span class="tagADD">-->
@@ -57,10 +57,10 @@
                     <span class="nameID">预览图</span>
                     <span class="derivation">本地</span>
                 </div>
-                <div class="imgID" v-for="item in tableData.previews" v-if="tableData.previews.length!=0">
+                <div class="imgID" v-for="item in tableData.previews" v-if="tableData.previews==[]">
                     <img :src="item">
                 </div>
-                <div style="width: 100%;text-align: center" v-if="tableData.previews.length==0">
+                <div style="width: 100%;text-align: center" v-if="tableData.previews==[]">
                     <img src="../../../public/img/null.png" style="width:48px;margin-top: 150px">
                     <div>
                         <span>暂无数据</span>
@@ -73,7 +73,7 @@
                     <span class="nameID">相关主题素材</span>
                     <span class="derivation">本地</span>
                 </div>
-                <div class="imgID" v-for="item in sc" v-if="sc.length!=0">
+                <div class="imgID" v-for="item in sc" v-if="sc==[]">
                     <img :src="item.main_preview">
                     <div class="See" @click="see(item.thmid,item.name)">
                         查看详情
@@ -191,7 +191,7 @@
                     <span class="nameID">相关合同</span>
                     <span class="derivation">本地</span>
                 </div>
-                <div style="border-bottom: 1px solid #E6E9F0" v-for="item in Contract" v-if="Contract.length!=0">
+                <div style="border-bottom: 1px solid #E6E9F0" v-for="item in Contract" v-if="Contract==[]">
                     <div>
                         <span class="Contract_name">合同名称({{item.contract_id}})</span>
                         <div style="display: inline-block;width: 10px;height: 10px;border-radius: 50%;background: #39BD65" v-if="new Date(item.contract_end_time)>new Date()"></div>
