@@ -217,6 +217,7 @@
                 this.bb='';
             },
             qd(){
+                alert('a')
                 this.channelData=[];
                 this.uiLIST=[];
                 this.ADDui='';

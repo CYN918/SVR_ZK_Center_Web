@@ -75,11 +75,13 @@
                 <div style="overflow-y:auto ">
                     <el-upload
                             class="uploadTxt"
+                            ref="upload"
                             action="222"
                             :http-request="upLoad"
                             multiple
                             :on-remove="handleRemove"
                             :before-upload="beforeAvatarUploads"
+                            :auto-upload="false"
                     >
                         <el-button size="small" type="primary">点击上传</el-button>
                     </el-upload>
@@ -87,7 +89,7 @@
                 </div>
                 <div class="upTxtBtn">
                     <span @click="heidUP()">取消</span>
-                    <span @click="heidUP()" style="background: #3377ff;color: #fff;border: 0">确定</span>
+                    <span @click="submitUpload" style="background: #3377ff;color: #fff;border: 0">确定</span>
                 </div>
             </div>
         </div>
@@ -125,6 +127,10 @@
             cell({row, column, rowIndex, columnIndex}){
                 return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
+            submitUpload() {
+                this.$refs.upload.submit();
+                this.heidUP();
+            },
             handleRemove(file) {
                 for(var i=0;i<this.fileList.length;i++){
                     if(this.fileList[i]==file){
@@ -132,7 +138,6 @@
                     }
 
                 }
-                console.log(this.fileList);
             },
             handlePreview(file) {
                 console.log(file);

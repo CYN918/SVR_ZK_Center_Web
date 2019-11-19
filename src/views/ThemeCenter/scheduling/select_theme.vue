@@ -139,16 +139,17 @@
                     <span>选择</span>
                 </div>
                 <div class="select_cons">
-                    <div>
+                    <div >
                         <span>渠道</span>
-                        <select  @change="qd()" v-model="ADDchannel">
-                            <option :value="item.channel" v-for="item in TCchannel">{{item.channel_name}}</option>
+                        <select v-model="ADDchannel" @change="qdDataList">
+                            <option :value="item.channel" v-for="(item,index) in TCchannel">{{item.channel_name}}</option>
                         </select>
                     </div>
                     <div>
                         <span>厂商UI版本</span>
-                        <select v-model="ADDui" >
-                            <option v-for="item in channelData" :value="item">{{item}}</option>
+                        <select v-model="ADDui">
+                            <option v-for="item in channelData" :value="item" v-if="channelData.length!=0">{{item}}</option>
+                            <option value="" v-if="channelData.length==0&&channel!=''">暂无</option>
                         </select>
                     </div>
                     <div>
@@ -247,7 +248,7 @@
                     this.self_tags=res;
                 })
             },
-            qd(){
+            qdDataList(){
                 this.channelData=[];
                 this.uiLIST=[];
                 this.ADDui='';

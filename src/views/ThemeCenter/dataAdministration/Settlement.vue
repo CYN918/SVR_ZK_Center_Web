@@ -76,10 +76,12 @@
                     <el-upload
                             class="uploadTxt"
                             action="222"
+                            ref="upload"
                             :http-request="upLoad"
                              multiple
                             :on-remove="handleRemove"
                             :before-upload="beforeAvatarUploads"
+                            :auto-upload="false"
                     >
                         <el-button size="small" type="primary">点击上传</el-button>
                     </el-upload>
@@ -87,6 +89,7 @@
                 </div>
                 <div class="upTxtBtn">
                     <span @click="heidUP()">取消</span>
+                    <span @click="submitUpload" style="background: #3377ff;color: #fff;border: 0">确定</span>
                 </div>
             </div>
         </div>
@@ -131,6 +134,10 @@
 
                }
                console.log(this.fileList);
+            },
+            submitUpload() {
+                this.$refs.upload.submit();
+                this.heidUP();
             },
             handlePreview(file) {
                 console.log(file);
