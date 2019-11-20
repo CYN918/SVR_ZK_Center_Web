@@ -710,7 +710,6 @@
                 })
             },
             upDataLists(){
-                alert('aaa')
                 this.$emit('upDataList');
             },
             getData(){

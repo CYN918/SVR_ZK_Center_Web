@@ -172,7 +172,6 @@
                 this.move()
             },
             upDataList(){
-                alert('sss')
                 this.getDataList();
             },
             getDataList(){
