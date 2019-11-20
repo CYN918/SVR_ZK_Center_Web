@@ -16,9 +16,9 @@
             <span :class="{active:this.active==1}" @click="getDataList">全部待处理</span>
         </div>
         <div class="centNavBox">
-            <tab v-if="tables" :tableData="tableData" :active="active" ></tab>
-            <sc v-if="sc" :SCid="id" :status="status"></sc>
-            <yw v-if="yw" :YWid="id" :status="status"></yw>
+            <tab v-if="tables" :tableData="tableData" :active="active" @upDataList="upDataList()"></tab>
+            <sc v-if="sc" :SCid="id" :status="status" @upDataList="upDataList()"></sc>
+            <yw v-if="yw" :YWid="id" :status="status" @upDataList="upDataList()"></yw>
         </div>
             <div class="block">
                 <el-pagination
@@ -112,6 +112,9 @@
                 this.status='';
                 this.yw=false;
                 this.move()
+            },
+            upDataList(){
+                this.typeListSearch();
             },
             typeListSearch(){
                 if(this.active ==0){

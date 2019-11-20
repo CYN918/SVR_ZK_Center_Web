@@ -574,11 +574,11 @@ export default {
 	},
 	//审核通过
     demand_audit:{
-		url:"/demand/audit",method:'post',isType:{suktip:1,reload:1}
+		url:"/demand/audit",method:'post',isType:{suktip:1}
 	},
 	//驳回
     demand_reject:{
-		url:"/demand/reject",method:'post',isType:{suktip:1,reload:1}
+		url:"/demand/reject",method:'post',isType:{suktip:1}
 	},
 	//提现驳回
 	demand_apply_reject:{

@@ -273,7 +273,10 @@
                         formData.append('id',this.SCid);
                         formData.append('status',this.status);
                         this.api.demand_audit(formData).then((res)=>{
-
+                            if(res!=false){
+                                this.$emit('upDataList');
+                                this.heid();
+                            }
                         }).catch(()=>{
                             this.bear=false
                         })

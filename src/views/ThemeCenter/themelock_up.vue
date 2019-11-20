@@ -92,7 +92,7 @@
                 <div>
                     <span style="vertical-align: top">内容标签</span>
                     <div class="tag_box">
-                        <input  type="text" placeholder="创建或搜索个性标签" v-model="tagsName" @input="getTagsList()"/>
+                        <input  type="text" placeholder="创建或搜索个性标签" v-model="tagsName" maxlength="32" @input="getTagsList()"/>
                         <div class="tags_box">
                             <span class="CJ" v-if="tagsName!=''" @click="ADDtag()" >创建“{{tagsName}}”标签</span>
                             <div>

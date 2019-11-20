@@ -45,7 +45,10 @@
                     formData.append('id',this.id);
                     formData.append('arr_open_id',JSON.stringify(this.open_id));
                     this.api.demand_apply_reject(formData).then((res)=>{
-
+                        if(res!=false){
+                            this.$emit('upDataLists');
+                            this.heid()
+                        }
                     })
                 }else{
                     if(!this.note){
@@ -57,7 +60,10 @@
                     formData.append("status",this.status);
                     formData.append('id',this.dbid);
                     this.api.demand_reject(formData).then((res)=>{
-
+                        if(res!=false){
+                            this.$emit('upDataLists');
+                            this.heid()
+                        }
                     })
                 }
 

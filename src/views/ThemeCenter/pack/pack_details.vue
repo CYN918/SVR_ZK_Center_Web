@@ -17,11 +17,11 @@
                 <div>
                     <!--<span class="titName">主题类型:</span>-->
                     <!--<span class="titCon"></span>-->
-                    <span class="titName">ID:</span>
+                    <span class="titName" style="width: 20px;margin-right: 10px">ID:</span>
                     <span class="titCon">{{tableData.pkgid}}</span>
-                    <span class="titName">创建时间:</span>
+                    <span class="titName" style="width: 60px;margin-right: 10px">创建时间:</span>
                     <span class="titCon" style="width: 150px">{{tableData.created_at}}</span>
-                    <span class="titName">标签</span>
+                    <span class="titName" style="width: 33px;margin-right: 10px">标签:</span>
                     <div class="tag">
                         <span class="tagName" v-for="item in tags" v-if="item!=''">{{item}}</span>
                         <!--<span class="tagADD">-->
@@ -31,11 +31,11 @@
                     </div>
                 </div>
                 <div>
-                    <span class="titName">厂商UI版本:</span>
+                    <span class="titName" style="width: 80px;margin-right: 10px">厂商UI版本:</span>
                     <span class="titCon">{{tableData.ui_version}}</span>
                 </div>
                 <div>
-                    <span class="titName">备注描述:</span>
+                    <span class="titName" style="width: 60px;margin-right: 10px">备注描述:</span>
                     <span class="titCon" style="width: 60%">{{tableData.note}}</span>
                 </div>
                 <div class="switcher">
@@ -51,10 +51,10 @@
                 <div class="titID">
                     <span class="nameID">预览图</span>
                 </div>
-                <div class="imgID" v-for="item in tableData.previews" v-if="tableData.previews.length!=0">
+                <div class="imgID" v-for="item in tableData.previews" v-if="tableData.previews!=[]">
                     <img :src="item">
                 </div>
-                <div style="width: 100%;text-align: center" v-if="tableData.previews.length==0">
+                <div style="width: 100%;text-align: center" v-if="tableData.previews==[]">
                     <img src="../../../../public/img/null.png" style="width:48px;margin-top: 150px">
                     <div>
                         <span>暂无数据</span>

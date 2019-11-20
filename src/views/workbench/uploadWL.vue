@@ -138,6 +138,10 @@
                     formData.append('id',this.id);
                     formData.append('status',this.status);
                     this.api.demand_audit(formData).then((res)=>{
+                        if(res!=false){
+                            this.$emit('upDataLists');
+                            this.heid()
+                        }
                     })
                 }else{
                     this.$message.error('添加资源的数量未达到需求数量')
