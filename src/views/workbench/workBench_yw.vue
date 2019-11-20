@@ -356,6 +356,7 @@
                         this.api.demand_audit(formData).then((res)=>{
                         });
                         this.$parent.heidYW();
+                        this.$emit('upDataList')
                     }).catch(()=>{
                         this.bear=false
                     });

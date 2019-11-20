@@ -34,9 +34,9 @@
             <div>
                 <span class="titName">主题类型:</span>
                 <span class="titCon">{{tableData.type_name}}</span>
-                <span class="titName">ID:</span>
-                <span class="titCon">{{tableData.thid}}</span>
-                <span class="titName">定投ID:</span>
+                <span class="titName" style="width: 20px;margin-right: 10px">ID:</span>
+                <span class="titCon" style="margin-right: 200px">{{tableData.thid}}</span>
+                <span class="titName" style="width: 47px;margin-right: 10px">定投ID:</span>
                 <span class="titCon" style="width: 150px">{{tableData.wpid!=''?tableData.wpid:'不可定投主题'}}</span>
             </div>
             <div>
@@ -44,7 +44,7 @@
                 <span class="titCon">{{tableData.class_name}}</span>
                 <span class="titName">资源版本:</span>
                 <span class="titCon">{{tableData.version}}</span>
-                <span class="titName">标签:</span>
+                <span class="titName" style="width: 32px;margin-right: 10px">标签:</span>
                 <div class="tag">
                     <span v-for="item in tags" class="tagName" v-if="item!=''">{{item}}</span>
                 </div>
@@ -54,10 +54,10 @@
                 <span class="titCon">{{this.tableData.account}}</span>
                 <span class="titName">创建时间:</span>
                 <span class="titCon" style="width: 150px">{{tableData.created_at}}</span>
-                <span class="titName">运营标签</span>
+                <span class="titName" style="width: 56px;margin-right: 10px">运营标签</span>
                 <div class="tag">
-                    <div style="display: inline-block;width: 200px;height: 26px;overflow: hidden" >
-                        <span v-for="item in ((this.tableData.op_tags).split(','))" class="tagName" v-if="item!=''">{{item}}</span>
+                    <div style="display: inline-block;max-width: 200px;height: 26px;overflow: hidden;margin-right: 10px" >
+                        <span v-for="item in op" class="tagName" v-if="item!=''">{{item}}</span>
                     </div>
                     <span class="tagADD" @click="BJtags()">+ 标签</span>
                 </div>
@@ -80,10 +80,10 @@
                     <span class="nameID">预览图</span>
                     <span class="derivation">{{this.$route.query.channel}}</span>
                 </div>
-                <div class="imgID" v-for="item in tableData.previews" v-if="tableData.previews.length!=0">
+                <div class="imgID" v-for="item in tableData.previews" v-if="tableData.previews!=[]">
                     <img :src="item">
                 </div>
-                <div style="width: 100%;text-align: center" v-if="tableData.previews.length==0">
+                <div style="width: 100%;text-align: center" v-if="(tableData.previews)==[]">
                     <img src="../../../public/img/null.png" style="width:48px;margin-top: 150px">
                     <div>
                         <span>暂无数据</span>
@@ -96,7 +96,7 @@
                     <span class="nameID">相关主题素材</span>
                     <span class="derivation">{{this.$route.query.channel}}</span>
                 </div>
-                <div class="imgID" v-for="item in sc" v-if="sc.length!=0">
+                <div class="imgID" v-for="item in sc" v-if="sc!=[]">
                     <img :src="item.main_preview">
                     <div class="See" @click="see(item.thmid,item.name)">
                         查看详情
@@ -165,7 +165,7 @@
                     <span class="nameID">相关打包件</span>
                     <span class="derivation">{{this.$route.query.channel}}</span>
                 </div>
-                <div class="imgID" v-for="item in pack"   v-if="pack.length!=0">
+                <div class="imgID" v-for="item in pack"   v-if="pack!=[]">
                     <img :src="item.main_preview">
                     <div class="See" @click="ckPACK(item)">
                         查看详情
@@ -184,7 +184,7 @@
                     <span class="nameID">相关合同</span>
                     <span class="derivation">{{this.$route.query.channel}}</span>
                 </div>
-                <div style="border-bottom: 1px solid #E6E9F0" v-for="item in Contract" v-if="Contract.length!=0">
+                <div style="border-bottom: 1px solid #E6E9F0" v-for="item in Contract" v-if="Contract!=[]">
                     <div>
                         <span class="Contract_name">合同名称({{item.contract_id}})</span>
                         <div style="display: inline-block;width: 10px;height: 10px;border-radius: 50%;background: #39BD65" v-if="new Date(item.contract_end_time)>new Date()"></div>
@@ -257,9 +257,10 @@
                 op_tags:"",
                 Contract:[],
                 tags:[],
+                op:[],
             }
         },
-        mounted(){
+        created(){
             this.getData()
         },
         methods:{
@@ -385,6 +386,7 @@
                     this.op_tags=this.tableData.op_tags;
                     this.version=this.tableData.version;
                     this.tags=res.tags.split(',');
+                    this.op=this.tableData.op_tags.split(',');
                     this.getsc();
                     this.getUI(this.tableData.ui_version);
                     this.qd();

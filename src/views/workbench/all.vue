@@ -22,6 +22,7 @@
                     </select>
                     <span>需求ID</span>
                     <input type="text" placeholder="请输入需求ID" v-model="search"/>
+                    <span class="cx" @click="cz">重置</span>
                 </div>
                 <div class="tit_btn_bom">
                     <div class="blocks">
@@ -50,9 +51,9 @@
             </div>
         </div>
         <div class="centNavBox">
-            <tab v-if="tables" :tableData="tableData" ></tab>
-            <sc v-if="sc" :SCid="id" :status="status"></sc>
-            <yw v-if="yw" :YWid="id" :status="status"></yw>
+            <tab v-if="tables" :tableData="tableData" @upDataList="upDataList()"></tab>
+            <sc v-if="sc" :SCid="id" :status="status" @upDataList="upDataList()"></sc>
+            <yw v-if="yw" :YWid="id" :status="status" @upDataList="upDataList()"></yw>
 
         </div>
         <div class="block">
@@ -134,6 +135,14 @@
             this.getDataList();
         },
         methods:{
+            cz(){
+                this.demand_type='';
+                this.statuss='';
+                this.search='';
+                this.value=[];
+                this.reject='';
+                this.creator='';
+            },
             cx(){
                 this.getDataList();
 
@@ -162,7 +171,9 @@
                 this.yw=false;
                 this.move()
             },
-
+            upDataList(){
+                this.getDataList();
+            },
             getDataList(){
                 if(this.value){
                     var params ={p:this.p,page:this.page,search:this.search,status:this.statuss,demand_type:this.demand_type,start_time:this.value[0],end_time:this.value[1],reject:this.reject,creator:this.creator}

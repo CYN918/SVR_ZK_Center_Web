@@ -2,21 +2,21 @@
     <div>
         <ADD v-if="ADD" :id="id" :num="num" :ind="index" :hqUrl="hqUrl" :bindMid="bindMid" :material="0" :types="types" :typeName="typeName" :limit_size="limit_size" :limit_model="limit_model"></ADD>
         <set v-if="sets"   @listenToChildEvent="listen" :material="0"></set>
-        <uplodWl v-if='up'  :id="id"  :status="status"></uplodWl>
+        <uplodWl v-if='up'  :id="id"  :status="status" @upDataLists="upDataLists"></uplodWl>
         <BDadd v-if="BD"  :index="index" :id="id" :status="status"></BDadd>
         <AddWL v-if="wl"  :id="id" @dataType="datatype" :types="types" :typeName="typeName" :limit_type="limit_type" :limit_size="limit_size"></AddWL>
         <scwl v-if="scwl"  :index="index" :id="id"></scwl>
         <sct v-if="set"  :index="index" :id="id" @dataType="datatype"></sct>
-        <QD v-if="sh" :id="id" :status="status"></QD>
-        <BH v-if="bh" :dbid="dbid" :status="status"></BH>
+        <QD v-if="sh" :id="id" :status="status" @upDataLists="upDataLists"></QD>
+        <BH v-if="bh" :dbid="dbid" :status="status" @upDataLists="upDataLists"></BH>
         <ywxq v-if="yw" :YWid="YWid"></ywxq>
         <scxq v-if="sc" :SCid="SCid"></scxq>
         <CK v-if='ck' :id="CkID"></CK>
         <WLp v-if="WLp" :id="wlID"></WLp>
         <BU v-if="BU" :id="id" :ind="index"></BU>
-        <ATR v-if="ADD_material" :id="id" :num="num" :ind="index" :typeList="this.typeList" :status="status"></ATR>
+        <ATR v-if="ADD_material" :id="id" :num="num" :ind="index" :typeList="this.typeList" :status="status" @upDataLists="upDataLists"></ATR>
         <ADDsc v-if="addSC" :index="index" :id="id"></ADDsc>
-        <scREQ v-if="scR"  :id="id" :num="num" :status="status"></scREQ>
+        <scREQ v-if="scR"  :id="id" :num="num" :status="status" @upDataLists="upDataLists"></scREQ>
         <Cm v-if="Cm" :id="id" ></Cm>
         <sett v-if="sett" :skID="skID" :skType="skType"></sett>
         <sett2 v-if="sett2" :skID="skID" :skType="skType"></sett2>
@@ -708,6 +708,9 @@
                 this.api.demand_audit(formData).then((res)=>{
 
                 })
+            },
+            upDataLists(){
+                this.$emit('upDataList');
             },
             getData(){
                 let params = {

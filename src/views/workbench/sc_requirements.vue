@@ -143,7 +143,9 @@
                 formData.append('id',this.id);
                 formData.append('status',this.status);
                 this.api.demand_audit(formData).then((res)=>{
+                    this.$emit('upDataLists');
                     this.$parent.heidscR();
+
                 })
             },
         },

@@ -38,12 +38,20 @@
                     formData.append('status',this.status);
                     formData.append('arr_open_id',JSON.stringify(this.open_id));
                     this.api.demand_apply_audit(formData).then((res)=>{
+                        if(res!=false){
+                            this.$emit('upDataLists');
+                            this.heid()
+                        }
                     })
                 }else{
                     let formData = new FormData;
                     formData.append('id',this.id);
                     formData.append('status',this.status);
                     this.api.demand_audit(formData).then((res)=>{
+                        if(res!=false){
+                            this.$emit('upDataLists');
+                            this.heid()
+                        }
                     })
                 }
 

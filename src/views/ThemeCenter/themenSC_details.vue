@@ -14,13 +14,13 @@
                 </div>
             </div>
             <div>
-                <span class="titName">ID:</span>
-                <span class="titCon">{{this.tableData.thmid}}</span>
+                <span class="titName" style="width: 20px;margin-right: 10px">ID:</span>
+                <span class="titCon" style="margin-right: 174px">{{this.tableData.thmid}}</span>
                 <span class="titName" v-if="this.$route.query.name!='宣传图'">使用范围:</span>
                 <span class="titCon" v-if="this.$route.query.name!='宣传图'">{{this.tableData.range=='all'?'不限':this.tableData.range}}</span>
-                <span class="titName">标签</span>
+                <span class="titName" style="width: 33px;margin-right: 10px">标签:</span>
                 <div class="tag">
-                    <span v-for="item in ((this.tableData.tags).split(','))" class="tagName" v-if="item!=''">{{item}}</span>
+                    <span v-for="item in tags" class="tagName" v-if="item!=''">{{item}}</span>
                     <!--<span class="tagADD">-->
                         <!--<img>-->
                         <!--标签-->
@@ -28,7 +28,7 @@
                 </div>
             </div>
             <div>
-                <span class="titName" v-if="this.$route.query.name!='宣传图'">状态:</span>
+                <span class="titName" v-if="this.$route.query.name!='宣传图'" style="width: 33px;margin-right: 10px">状态:</span>
                 <span class="titCon" v-if="this.$route.query.name!='宣传图'">{{this.tableData.status_name}}</span>
                 <span class="titName">创建时间:</span>
                 <span class="titCon" style="width: 300px">{{this.tableData.created_at}}</span>
@@ -51,10 +51,10 @@
                 <div class="titID">
                     <span class="nameID">预览图</span>
                 </div>
-                <div class="imgID" v-for="item in tableData.previews" v-if="tableData.previews.length!=0">
+                <div class="imgID" v-for="item in tableData.previews" v-if="(tableData.previews)!=[]">
                     <img :src="item">
                 </div>
-                <div style="width: 100%;text-align: center" v-if="tableData.previews.length==0">
+                <div style="width: 100%;text-align: center" v-if="(tableData.previews)==[]">
                     <img src="../../../public/img/null.png" style="width:48px;margin-top: 150px">
                     <div>
                         <span>暂无数据</span>
@@ -190,6 +190,7 @@
                 pack:[],
                 xm:[],
                 Contract:[],
+                tags:[],
             }
         },
         mounted(){
@@ -260,6 +261,7 @@
                 let params={thmid:this.$route.query.thmid};
                 this.api.themes_material_details({params}).then((res)=>{
                     this.tableData=res;
+                    this.tags=(this.tableData.tags).split(',');
                     this.type=res.type;
                     this. getTheme();
                     this.getsc();
