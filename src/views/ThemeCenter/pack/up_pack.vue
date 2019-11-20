@@ -540,7 +540,7 @@
 </script>
 
 <style scoped>
-
+    html{font-size:10px}
     .top{
         width: 100%;
         height: 98px;
@@ -556,7 +556,7 @@
     }
     .themeUpLeft{
         display: inline-block;
-        width:870px;
+        width:55%;
         min-height:852px;
         background: #fff;
         margin-right: 24px;
@@ -673,6 +673,7 @@
         border:1px solid rgba(211,219,235,1);
         position: relative;
         vertical-align: top;
+        margin-bottom: 15px;
     }
     .img_box1_img{
         max-width:144px;
@@ -715,7 +716,7 @@
     .themeUpRight{
         vertical-align: top;
         display: inline-block;
-        width:696px;
+        width:43%;
         min-height:852px;
         background:rgba(255,255,255,1);
     }

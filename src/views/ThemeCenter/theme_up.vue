@@ -485,7 +485,7 @@
     }
     .themeUpLeft{
         display: inline-block;
-        width:870px;
+        width:55%;
         min-height:852px;
         background: #fff;
         margin-right: 24px;
@@ -645,7 +645,7 @@
     .themeUpRight{
         vertical-align: top;
         display: inline-block;
-        width:696px;
+        width:43%;
         min-height:648px;
         background:rgba(255,255,255,1);
     }
