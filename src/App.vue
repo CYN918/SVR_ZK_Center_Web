@@ -20,7 +20,7 @@
       }
   }
 </script>
-<style lang="scss">
+<style >
   html{font-size:10px}
 html,body,div,h1,ul,li,a,p,img{
 	margin: 0;padding: 0;border: none;
