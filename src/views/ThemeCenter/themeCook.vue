@@ -80,8 +80,9 @@
                     <select style="margin-right: 40px" v-model="contemt">
                         <option :value="item.class" v-for="item in cont">{{item.class}}</option>
                     </select>
-                    <span class="tit_name">适用范围</span>
+                    <span class="tit_name">使用范围</span>
                     <select style="margin-right: 24px" v-model="account">
+                        <option value='all'>不限</option>
                         <option :value="item.account" v-for="item in range">{{item.account}}</option>
                     </select>
                     <span class="cx" @click="getData()">查询</span>
