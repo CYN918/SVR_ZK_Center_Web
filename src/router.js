@@ -767,7 +767,7 @@ router.beforeEach((to, from, next) => {
 			}
 			next({ path: '/index'});
 		}).catch(()=>{
-			alert("登录成功，请联系管理员添加角色，或启用账号");
+			alert("登录成功，请联系管理员添加角色或启用账号");
 		});
 			
 	}else{
