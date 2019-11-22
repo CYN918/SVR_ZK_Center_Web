@@ -190,7 +190,7 @@
                 })
             },
             getData(){
-                let params={tags:this.listTag.concat(this.listTagData).join(','),channel:this.channel,ui_version:this.ui_version,account:this.account,
+                let params={tags:this.listTag.join(','),op_tags:this.listTagData.join(','),channel:this.channel,ui_version:this.ui_version,account:this.account,
                     status:this.status,type:this.type,class:this.contemt,tstart:this.value1[0],tend:this.value1[1],search:this.search,p:this.p,page:this.page,special:this.special};
                 this.api.themes_theme_search({params}).then((res)=>{
                     this.dataList=res.data;
@@ -215,7 +215,7 @@
                 })
             },
             getDataLists(index){
-                let params={tags:this.listTag.concat(this.listTagData).join(','),channel:this.channel,ui_version:this.ui_version,account:this.account,
+                let params={tags:this.listTag.join(','),op_tags:this.listTagData.join(','),channel:this.channel,ui_version:this.ui_version,account:this.account,
                     status:this.status,type:this.type,class:this.contemt,tstart:this.value1[0],tend:this.value1[1],search:this.search,p:this.p,page:this.page,special:this.special};
                 this.api.themes_theme_search({params}).then((res)=>{
                     this.dataList=res.data;

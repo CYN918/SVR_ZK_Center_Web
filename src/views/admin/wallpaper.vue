@@ -349,7 +349,7 @@
                     }
                 }
 
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status}
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),status:this.status}
                 this.api.material_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     for(let i =0;i<this.IMGList.length;i++){
@@ -384,7 +384,7 @@
                     }
                 }
 
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status}
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),status:this.status}
                 this.api.material_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     for(let i =0;i<this.IMGList.length;i++){

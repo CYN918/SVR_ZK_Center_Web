@@ -15,7 +15,7 @@ export default {
   position: absolute;
   left: 0;
   top: 0;
-  background: url('../../public/img/loading.gif') center center no-repeat rgba(255,255,255,0.5);
+  background: url('../../public/img/loading.gif') center center no-repeat rgba(255,255,255,0.4);
   width: 100%;
   height: 100%;
   z-index: 100;
