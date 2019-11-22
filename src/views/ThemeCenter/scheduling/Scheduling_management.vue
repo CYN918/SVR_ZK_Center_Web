@@ -44,7 +44,12 @@
                     <el-table-column
                             prop="pv"
                             label="进度(实际/计划)">
+                            <template slot-scope="scope">
+                            <span >{{tableData[scope.$index].real_count+'/'+ tableData[scope.$index].total}}</span>
+
+                        </template>
                     </el-table-column>
+                
                     <el-table-column
                             prop="creator"
                             label="创建人"
