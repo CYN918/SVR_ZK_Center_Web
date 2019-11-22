@@ -1,5 +1,6 @@
 <template>
     <div>
+   
         <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="jump()">收款结算&nbsp;/</span>
@@ -11,6 +12,9 @@
             </div>
         </div>
         <div class="tableBox">
+             <!-- <transition name="fade"> -->
+                <loading v-if="isLoading"></loading>
+            <!-- </transition> -->
             <div>
                 <span class="tableBox_name">结算方名称</span>
                 <span class="tableBox_Obtain">{{list.name}}</span>
@@ -130,12 +134,15 @@
 </template>
 
 <script>
+import Loading from '@/components/loading'
     export default {
+         components:{ Loading  },
         name: "settlement-details",
         data(){
             return{
                 list:{},
                 contracts:[],
+                isLoading: true
             }
         },
         mounted(){
@@ -160,6 +167,7 @@
                 this.api.settle_settlement_detail({params}).then((res)=>{
                     this.list=res;
                     this.contracts=res.contracts;
+                    this.isLoading = false;
                 })
             },
             getRowClass({row, column, rowIndex, columnIndex}) {

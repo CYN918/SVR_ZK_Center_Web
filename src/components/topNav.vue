@@ -143,15 +143,17 @@ export default {
 			let urld = 'http://ts-i.idatachain.cn';
 			if(window.location.host=='c.zookingsoft.com'){
 				urld = 'http://c.zookingsoft.com';
+				
 			}
             if(window.location.host=='c2.zookingsoft.com'){
-                urld = 'http://c2.zookingsoft.com';
-            }
+				urld = 'http://c2.zookingsoft.com';
+			}
 			this.$ajax({
 				method: 'get',
 				timeout: 10000,
 				url:urld+'/api/logout',			     
 			}).then((msg)=>{
+				console.log(msg)
 				if(msg.data.code==0){
 					localStorage.setItem('token','');
                     localStorage.removeItem('letNav');
