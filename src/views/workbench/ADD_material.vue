@@ -283,11 +283,12 @@
                 this.api.file_upload(formData).then((res)=>{
                     this.aaa=100;
                     this.initiate=false;
-                    this.attach.name = res.name;
-                    this.attach.size = res.size;
-                    this.attach.ext = res.ext;
-                    this.attach.md5 = res.md5;
-                    this.attach.url = res.url;
+                    // this.attach.name = res.name;
+                    // this.attach.size = res.size;
+                    // this.attach.ext = res.ext;
+                    // this.attach.md5 = res.md5;
+                    // this.attach.url = res.url;
+                    this.attach=res
                     var image = new Image();
                     var _this=this;
                     image.onload=function(){
@@ -307,13 +308,14 @@
                 this.api.file_zip_upload(formData).then((res)=>{
                     this.aaa=100;
                     this.initiate=false;
-                    this.attach.md5=res.md5;
-                    this.attach.name = res.name;
-                    this.attach.size = res.size;
-                    this.attach.ext = res.ext;
-                    this.attach.url = res.url;
-                    this.attach.check_md5 = res.check_md5;
-                    this.attach.checksum_md5 = res.checksum_md5;
+                    // this.attach.md5=res.md5;
+                    // this.attach.name = res.name;
+                    // this.attach.size = res.size;
+                    // this.attach.ext = res.ext;
+                    // this.attach.url = res.url;
+                    // this.attach.check_md5 = res.check_md5;
+                    // this.attach.checksum_md5 = res.checksum_md5;
+                    this.attach=res
                     if(res.wpid==''){
                         this.$message.error('您上传的非壁纸压缩包，请重新上传')
                     }else{

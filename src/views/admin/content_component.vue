@@ -209,11 +209,12 @@
         },
         methods:{
             dels(){
-                this.attach.name = "";
-                this.attach.size ='';
-                this.attach.ext ='';
-                this.attach.md5 ='';
-                this.attach.url ='';
+                // this.attach.name = "";
+                // this.attach.size ='';
+                // this.attach.ext ='';
+                // this.attach.md5 ='';
+                // this.attach.url ='';
+                this.attach={}
             },
             heidSc(){
                 this.$parent.heidSc()
@@ -310,11 +311,12 @@
                     this.api.file_upload(formData).then((res)=>{
                         this.aaa=100;
                         this.initiate=false;
-                        this.attach.name = res.name;
-                        this.attach.size = res.size;
-                        this.attach.ext = res.ext;
-                        this.attach.md5 = res.md5;
-                        this.attach.url = res.url;
+                        // this.attach.name = res.name;
+                        // this.attach.size = res.size;
+                        // this.attach.ext = res.ext;
+                        // this.attach.md5 = res.md5;
+                        // this.attach.url = res.url;
+                        this.attach=res;
                     })
                 }
 
