@@ -224,7 +224,7 @@
                     formData.append('channel',this.Makechannel[i]);
                     formData.append('account',this.zh[i]);
                     formData.append('note',this.note[i]);
-                    formData.append('person',this.person[1]);
+                    formData.append('person',this.person[i]);
                     formData.append('thid',this.$route.query.ind[i]);
                     formData.append('ch_thid',this.$route.query.ch_thids[i]);
                     this.api.themes_schedule_demand_add(formData).then((res)=>{
