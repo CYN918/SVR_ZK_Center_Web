@@ -526,13 +526,17 @@
             },
             AddMaterial(index){
                 this.ADD_material =true;
-                this.status=this.tableData[index].status;
-                this.id = this.tableData[index].did;
+                if(this.tableData[index]){
+                     this.status=this.tableData[index].status;
+                      this.id = this.tableData[index].did;
                 this.num = this.tableData[index].num;
                 this.types = this.tableData[index].type;
                 this.limit_size=this.tableData[index].putlib.size;
                 this.limit_type=this.tableData[index].putlib.put_type;
                 this.typeName = this.tableData[index].type_name;
+                }
+               
+               
                 this.stop();
             },
             AddWl(index){

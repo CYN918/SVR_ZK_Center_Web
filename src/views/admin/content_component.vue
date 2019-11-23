@@ -42,7 +42,7 @@
                                 >
                                     <el-button size="small" type="primary">上传</el-button>
                                 </el-upload>
-                                <el-tooltip placement="top" class="tit_txt_2 logs tit_txts" v-if="this.attach.name!=''">
+                                <el-tooltip placement="top" class="tit_txt_2 logs tit_txts" v-if="attach.name!=undefined">
                                     <div slot="content" class="text">{{this.attach.name}}</div>
                                     <span  class="text" style="overflow: hidden;width: 200px;height: 20px;line-height: 28px">{{this.attach.name}}</span>
                                 </el-tooltip>
@@ -53,7 +53,7 @@
                                 <div class="strip" :style="{width:aaa+'%'}" style="background: blue;height: 5px"></div>
                                 <div style="text-align: center;font-size: 10px">当前附件上传{{aaa}}%</div>
                             </div>
-                            <span class="content_xz" @click="dels()" v-if="this.attach.name!=''">删除</span>
+                            <span class="content_xz" @click="dels()" v-if="attach.name!=undefined">删除</span>
                         </div>
                         <div class="AddIMG_sc">
                             <span class="tit">绑定素材:</span>
@@ -164,11 +164,7 @@
                 fileList:[],
                 prev_uri:'',
                 attach:{
-                    name:'',
-                    url:'',
-                    size:'',
-                    ext:'',
-                    md5:''
+                
                 },
                 bind_mid:'',
                 bind_workid:'',

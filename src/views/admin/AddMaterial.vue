@@ -43,6 +43,10 @@
                                 >
                                     <el-button size="small" type="primary" >上传</el-button>
                                 </el-upload>
+                                 <el-tooltip placement="top" class="tit_txt_2 logs tit_txts" v-if="attach.name!=undefined">
+                                    <div slot="content" class="text">{{this.attach.name}}</div>
+                                    <span  class="text" style="overflow: hidden;width: 200px;height: 20px;line-height: 28px">{{this.attach.name}}</span>
+                                </el-tooltip>
                             </div>
                             <div class="AddIMG_input_box" v-if="this.types=='f_sls_lockscreen'">
                                 <el-upload
@@ -56,13 +60,18 @@
                                 >
                                     <el-button size="small" type="primary" >上传</el-button>
                                 </el-upload>
+                                 <el-tooltip placement="top" class="tit_txt_2 logs tit_txts" v-if="attach.name!=undefined">
+                                    <div slot="content" class="text">{{this.attach.name}}</div>
+                                    <span  class="text" style="overflow: hidden;width: 200px;height: 20px;line-height: 28px">{{this.attach.name}}</span>
+                                </el-tooltip>
                             </div>
                             <img src="../../../public/img/msg.png" @click="showHint" style="vertical-align: top"/>
                             <div class="progress" style="width: 100px;height: 5px;opacity: 0.5;display: inline-block " v-if="initiate" >
                                 <div class="strip" :style="{width:aaa+'%'}" style="background: blue;height: 5px"></div>
                                 <div style="text-align: center;font-size: 10px">当前附件上传{{aaa}}%</div>
                             </div>
-                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="chenck" v-if="this.types!='f_sls_lockscreen'" @click="checkSelect()"/><span v-if="this.types!='f_sls_lockscreen'" >仅图片</span>
+                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="chenck" v-if="this.types!='f_sls_lockscreen'" @click="checkSelect()"/><span v-if="this.types!='f_sls_lockscreen'" style="vertical-align: top">仅图片</span>
+                            <span class="content_xz" @click="dels()" v-if="attach.name!=undefined">删除</span>
                             <div class="upChenck" v-if="this.types!='f_sls_lockscreen'">
                                 <p>勾选后可直接上传图片、且无需再次上传预览图</p>
                             </div>
@@ -213,14 +222,7 @@
                 fileList:[],
                 prev_uri:'',
                 attach:{
-                    name:'',
-                    url:'',
-                    size:'',
-                    ext:'',
-                    md5:'',
-                    check_md5:'',
-                    checksum_md5:'',
-                    wpid:"",
+                 
                 },
                 bind_mid:'',
                 bind_workid:'',
@@ -267,6 +269,9 @@
                 if(this.chenck==false&&this.types=='f_ad_picture'){
                     this.model='无'
                 }
+            },
+             dels(){
+                this.attach={}
             },
             heidSc(){
                 this.$parent.heidSc();
@@ -837,6 +842,7 @@
         height: 14px!important;
         margin-right: 11px;
         padding-left: 0!important;
+        vertical-align: top;
     }
     .AddIMG_sc_btn{
         display: inline-block;
@@ -1013,5 +1019,14 @@
     }
     .disbld>span{
         color: #e0e0e0!important;
+    }
+     .content_xz{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(51,119,255,1)!important;
+        margin-left: 10px;
+        cursor: pointer;
     }
 </style>
