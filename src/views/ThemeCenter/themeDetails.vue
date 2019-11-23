@@ -45,10 +45,10 @@
             </div>
             <div class="switcher">
                 <a href="#tabs0" :class="{click:isType==0}" @click="changeover('0')">预览图</a>
-                <a href="#tabs0" :class="{click:isType==1}" @click="changeover('1')">相关主题素材</a>
-                <a href="#tabs1" :class="{click:isType==2}" @click="changeover('2')">收益数据</a>
-                <a href="#tabs2" :class="{click:isType==3}" @click="changeover('3')">上架记录</a>
-                <a href="#tabs3" :class="{click:isType==4}" @click="changeover('4')">相关合同</a>
+                <a href="#tabs1" :class="{click:isType==1}" @click="changeover('1')">相关主题素材</a>
+                <a href="#tabs2" :class="{click:isType==2}" @click="changeover('2')">收益数据</a>
+                <a href="#tabs3" :class="{click:isType==3}" @click="changeover('3')">上架记录</a>
+                <a href="#tabs4" :class="{click:isType==4}" @click="changeover('4')">相关合同</a>
             </div>
         </div>
         <div style="margin-top: 360px">
@@ -69,6 +69,7 @@
                 </div>
             </div>
             <div  class="preview" id="tabs1">
+                 <div class='line' style="height:24px;width:100%;background:rgba(239,244,248,1)"></div>
                 <div class="titID">
                     <span class="nameID">相关主题素材</span>
                     <span class="derivation">本地</span>
@@ -88,6 +89,7 @@
                </div>
             </div>
             <div class="preview" id="tabs2">
+                 <div class='line' style="height:24px;width:100%;background:rgba(239,244,248,1)"></div>
                 <div class="titID">
                     <span class="nameID">收益数据</span>
                     <span class="derivation">本地</span>
@@ -138,6 +140,7 @@
                 </div>
             </div>
             <div  class="preview" id="tabs3">
+                 <div class='line' style="height:24px;width:100%;background:rgba(239,244,248,1)"></div>
                 <div class="titID">
                     <span class="nameID">上架记录</span>
                     <span class="addJl" @click="jump">添加上架记录</span>
@@ -187,6 +190,7 @@
 
             </div>
             <div  class="preview" id="tabs4">
+                 <div class='line' style="height:24px;width:100%;background:rgba(239,244,248,1)"></div>
                 <div class="titID">
                     <span class="nameID">相关合同</span>
                     <span class="derivation">本地</span>
@@ -351,6 +355,7 @@
         left: 256px;
         top: 64px;
         z-index: 99;
+        box-shadow: 0 5px 5px #dfdfdf;
     }
     .tit_top_url{padding-left: 0!important;}
     .new_url{color: rgba(61,73,102,1)!important;}
@@ -691,5 +696,9 @@
     .imgID:hover .See{
         opacity:0.8;
 
+    }
+    #tabs0,#tabs1,#tabs2,#tabs3,#tabs4{
+        padding-top:330px;
+        margin-top:-330px;
     }
 </style>

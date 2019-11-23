@@ -68,8 +68,8 @@
             </div>
             <div class="switcher">
                 <a href="#tabs0" :class="{clicks:isType==0}" @click="changeover('0')">预览图</a>
-                <a href="#tabs0" :class="{clicks:isType==1}" @click="changeover('1')">相关主题素材</a>
-                <a href="#tabs1" :class="{clicks:isType==2}" @click="changeover('2')">收益数据</a>
+                <a href="#tabs1" :class="{clicks:isType==1}" @click="changeover('1')">相关主题素材</a>
+                <a href="#tabs2" :class="{clicks:isType==2}" @click="changeover('2')">收益数据</a>
                 <a href="#tabs3" :class="{clicks:isType==3}" @click="changeover('3')">相关打包件</a>
                 <a href="#tabs4" :class="{clicks:isType==4}" @click="changeover('4')">相关合同</a>
             </div>
@@ -110,7 +110,7 @@
 
                 </div>
             </div>
-            <div class="preview" id="tabs3">
+            <div class="preview" id="tabs2">
                 <div class="titID">
                     <span class="nameID">收益数据</span>
                     <span class="derivation">{{this.$route.query.channel}}</span>
@@ -160,7 +160,7 @@
                     </div>
                 </div>
             </div>
-            <div  class="preview" id="tabs4">
+            <div  class="preview" id="tabs3">
                 <div class="titID">
                     <span class="nameID">相关打包件</span>
                     <span class="derivation">{{this.$route.query.channel}}</span>
@@ -179,7 +179,7 @@
 
                 </div>
             </div>
-            <div  class="preview" id="tabs5">
+            <div  class="preview" id="tabs4">
                 <div class="titID">
                     <span class="nameID">相关合同</span>
                     <span class="derivation">{{this.$route.query.channel}}</span>
@@ -812,4 +812,8 @@
         opacity:0.8;
 
     }
+     /* #tabs0,#tabs1,#tabs2,#tabs3,#tabs4{
+        padding-top:320px;
+        margin-top:-320px;
+    } */
 </style>

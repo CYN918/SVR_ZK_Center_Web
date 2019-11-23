@@ -39,11 +39,11 @@
             </div>
             <div class="switcher">
                 <a href="#tab0" :class="{click:isType==0}" @click="changeover('0')">预览图</a>
-                <a href="#tab0" :class="{click:isType==1}" @click="changeover('1')">相关主题</a>
-                <a href="#tab1" :class="{click:isType==2}" @click="changeover('2')" v-if="this.$route.query.name!='宣传图'">相关项目</a>
-                <a href="#tab2" :class="{click:isType==3}" @click="changeover('3')" v-if="this.$route.query.name!='宣传图'">相关打包件</a>
-                <a href="#tab3" :class="{click:isType==4}" @click="changeover('4')" v-if="this.$route.query.name!='宣传图'">相关主题素材</a>
-                <a href="#tab4" :class="{click:isType==5}" @click="changeover('5')" v-if="this.$route.query.name!='宣传图'">相关合同</a>
+                <a href="#tab1" :class="{click:isType==1}" @click="changeover('1')">相关主题</a>
+                <a href="#tab2" :class="{click:isType==2}" @click="changeover('2')" v-if="this.$route.query.name!='宣传图'">相关项目</a>
+                <a href="#tab3" :class="{click:isType==3}" @click="changeover('3')" v-if="this.$route.query.name!='宣传图'">相关打包件</a>
+                <a href="#tab4" :class="{click:isType==4}" @click="changeover('4')" v-if="this.$route.query.name!='宣传图'">相关主题素材</a>
+                <a href="#tab5" :class="{click:isType==5}" @click="changeover('5')" v-if="this.$route.query.name!='宣传图'">相关合同</a>
             </div>
         </div>
         <div style="margin-top: 314px">
@@ -63,6 +63,7 @@
                 </div>
             </div>
             <div class="preview" id="tab1">
+                <div class='line' style="height:24px;width:100%;background:rgba(239,244,248,1)"></div>
                 <div class="titID">
                     <span class="nameID">相关主题</span>
                 </div>
@@ -81,6 +82,7 @@
                 </div>
             </div>
             <div class="preview"  id="tab2" v-if="this.$route.query.name!='宣传图'">
+               <div class='line' style="height:24px;width:100%;background:rgba(239,244,248,1)"></div>
                 <div class="titID">
                     <span class="nameID">相关项目</span>
                 </div>
@@ -96,6 +98,7 @@
                 </div>
             </div>
             <div  class="preview" id="tab3" v-if="this.$route.query.name!='宣传图'">
+                <div class='line' style="height:24px;width:100%;background:rgba(239,244,248,1)"></div>
                 <div class="titID">
                     <span class="nameID">相关打包件</span>
                 </div>
@@ -111,6 +114,7 @@
                 </div>
             </div>
             <div  class="preview" id="tab4" v-if="this.$route.query.name!='宣传图'">
+                <div class='line' style="height:24px;width:100%;background:rgba(239,244,248,1)"></div>
                 <div class="titID">
                     <span class="nameID">相关主题素材</span>
                 </div>
@@ -129,6 +133,7 @@
                 </div>
             </div>
             <div  class="preview" id="tab5" v-if="this.$route.query.name!='宣传图'">
+                <div class='line' style="height:24px;width:100%;background:rgba(239,244,248,1)"></div>
                 <div class="titID">
                     <span class="nameID">相关合同</span>
                     <span class="derivation">汇总</span>
@@ -345,7 +350,7 @@
     }
     #tab2{
         /*width:1616px;*/
-        min-height:175px!important;
+        min-height:300px!important;
         background:rgba(255,255,255,1);
         border-radius:2px;
     }
@@ -648,5 +653,9 @@
     .imgID:hover .See{
         opacity:0.8;
 
+    }
+    #tab0,#tab1,#tab2,#tab3,#tab4,#tab5{
+        padding-top:300px;
+        margin-top:-300px!important;
     }
 </style>

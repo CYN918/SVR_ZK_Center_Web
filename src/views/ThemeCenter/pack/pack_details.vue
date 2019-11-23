@@ -62,7 +62,8 @@
 
                 </div>
             </div>
-            <div  class="preview" style="margin-top: 24px" id="page2">
+            <div  class="preview" id="page2">
+                 <div class='line' style="height:24px;width:100%;background:rgba(239,244,248,1)"></div>
                 <div class="titID">
                     <span class="nameID">相关主题</span>
                 </div>
@@ -80,7 +81,7 @@
 
                 </div>
             </div>
-            <div class="preview" id="page3" style="margin-top: 24px">
+            <div class="preview" id="page3">
                 <div class="titID">
                     <span class="nameID">绑定主题素材</span>
                 </div>
@@ -324,6 +325,7 @@
         margin-right: 48px;
         padding-bottom: 10px;
         cursor: pointer;
+        
     }
     .click{
         font-weight:500!important;
@@ -338,6 +340,7 @@
         min-height:425px;
         background:rgba(255,255,255,1);
         border-radius:2px;
+        margin-bottom: 24px
     }
     .titID{
         height: 55px;
@@ -537,4 +540,10 @@
         opacity:0.8;
 
     }
+    #page1,#page2,#page3{
+    
+        padding-top:300px;
+        margin-top:-300px!important;
+    }
+   
 </style>
