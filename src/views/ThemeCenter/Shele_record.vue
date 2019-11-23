@@ -294,10 +294,11 @@
         },
         mounted(){
             this.getThemeType();
+             window.scroll(0, 0);
         },
-        updated() {
-            window.scroll(0, 0);
-        },
+        // updated() {
+        //     window.scroll(0, 0);
+        // },
         methods:{
             fh(){
                 this.$router.go(-1);
