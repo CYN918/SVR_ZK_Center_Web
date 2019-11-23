@@ -1,6 +1,5 @@
 <template>
     <div class="bg">
-        <sel v-if="sel" @linet="linet"></sel>
         <div class="themeUp">
             <div class="themeUpLeft">
                 <div>
@@ -60,7 +59,7 @@
                         </div>
                     </div>
                 </div>
-                <div>
+                <!-- <div>
                     <span class="tit_name">渠道</span>
                     <select  v-model="channel" disabled="disabled">
                         <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
@@ -72,8 +71,8 @@
                         <option value="" v-if="ui.length==0&&channel!=''">暂无</option>
                         <option v-for="item in ui" :value="item.version"  v-if="ui_version!=''">{{item.version}}</option>
                     </select>
-                </div>
-                <div>
+                </div> -->
+                <!-- <div>
                     <span>绑定主题素材</span>
                     <a @click="jump()">从主题素材库选择</a>
                     <div class="img_box">
@@ -82,9 +81,9 @@
                             <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px" @click="Del(item.thmid)"/>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="themeBtn">
-                    <span class="tj" @click="ADD()">提交</span>
+                    <span class="qd" @click="addTheme()">提交</span>
                     <span @click="heid()">取消</span>
                 </div>
             </div>
@@ -126,7 +125,7 @@
                 </div>
             </div>
         </div>
-        <div v-if="bg" class="bg">
+        <!-- <div v-if="bg" class="bg">
             <div class="ts">
                 <div class="ts_name">
                     <span>确认提示</span>
@@ -141,21 +140,19 @@
                     <span @click="qx()">取消</span>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 
 <script>
-    import sel from './select_material'
+
     export default {
-        components:{sel},
         props:['types','ui_v','chan'],
         name: "theme_up",
         data(){
             return{
-                bg:false,
+
                 pic:[],
-                sel:false,
                 themeType:[],
                 con:[],
                 main_preview:'',
@@ -188,20 +185,9 @@
             fh(){
                 this.$router.go(-1)
             },
-            jump(){
-                this.sel=true;
-            },
-            setJump(){
-                this.sel=false;
-            },
-            ADD(){
-                this.bg=true;
-            },
+           
             heid(){
                 this.$parent.heidPak();
-            },
-            qx(){
-               this.bg=false
             },
             linet(data){
                 this.scID=data;
@@ -224,103 +210,34 @@
                 }
                 return isXzip||iszip;
             },
-            getUI(){
-                let params={channel:this.channel};
-                this.api.themes_config_channelui({params}).then((res)=>{
-                    this.ui=res
-                })
-            },
-            qd(){
-                this.api.themes_config_channel().then((res)=>{
-                    this.channels=res;
-                    this.getUI();
-                })
-            },
+         
             addTheme(){
-                if(this.attach.url==''){
-                    this.$message.error('打包件资源包未上传，请重新操作');
-                    return
-                }
                 if(!this.name){
-                    this.$message.error('主题名不能为空')
+                    this.$message.error('名称不能为空')
                     return
                 }
-                if(!this.scID){
-                    this.$message.error('主题素材不能为空')
+                if(!this.attach){
+                    this.$message.error('附件不能为空')
+                    return
+                }
+                if(!this.note){
+                    this.$message.error('备注不能为空')
                     return
                 }
                 if(!this.tags){
                     this.$message.error('标签不能为空')
                     return
                 }
-                if(!this.channel){
-                    this.$message.error('渠道不能为空')
-                    return
-                }
-                if(!this.scID){
-                    this.$message.error('相关素材不能为空')
-                    return
-                }
                 if(!this.main_preview){
-                    this.$message.error('封面图不能为空')
-                    return
-                }
-                if(!this.pic){
                     this.$message.error('预览图不能为空')
                     return
                 }
-
-                let formData =new FormData;
-                formData.append('name',this.name);
-                formData.append('type',this.types);
-                formData.append('note',this.note);
-                formData.append('tags',this.tags.join(','));
-                formData.append('channel',this.channel);
-                formData.append('ui_version',this.ui_version);
-                formData.append('materials',JSON.stringify(this.scID));
-                formData.append('main_preview',this.main_preview);
-                formData.append('previews',JSON.stringify(this.pic));
-                formData.append('attach',JSON.stringify(this.attach));
-                this.api.themes_package_add(formData).then((res)=>{
-                    this.$emit('dataUp',this.main_preview,this.listSC,this.types,res.pkgid);
-                    this.qx();
-                    this. heid()
-
-                })
-            },
-            getList(){
-                let params ={page:1,p:100000,type:'',search:'',tags:'',status:''};
-                this.api.themes_material_search({params}).then((res)=>{
-                    this.IMGList=res.data;
-                    var list=[];
-                    for(var i=0;i<this.IMGList.length;i++ ){
-                        for(var j =0;j<this.scID.length;j++){
-                            if(this.IMGList[i].thmid==this.scID[j]){
-                                list.push(this.IMGList[i]);
-                            }
-                        }
-                    }
-                    this.listSC=list;
-                    for(var k=0;k<this.listSC.length;k++){
-                        if(k==0){
-                          continue
-                        }
-                        if(this.listSC[k].range!=this.listSC[k-1].range){
-                            this.$message.error('同一主题不可绑定使用范围不同的素材');
-                            return
-                        }
-                    }
-                })
-            },
-            Del(id){
-                for(var i=0;i<this.scID.length;i++){
-                    if(this.scID[i]==id){
-                        this.scID.splice(i,1);
-                        this.getList();
-                    }
-                }
+                this.$emit('dataUp',this.name,JSON.stringify(this.attach),this.tags.join(','),this.note,this.main_preview,this.pic,this.types);
+                this. heid()
 
             },
+           
+           
             getTagsList(){
                 let params = {material:'2',type:'theme',search:this.tagsName,p:500,page:1};
                 this.api.tags_search({params}).then((da)=>{
@@ -340,7 +257,6 @@
                 this.api.themes_config_theme_type().then((res)=>{
                     this.themeType=res;
                     this.getTagsList();
-                    this.qd();
                 })
             },
             dels(){
@@ -376,7 +292,6 @@
                     this.pic.push(res.url);
                 })
             },
-            upload(){},
             handleRemove(file, fileList) {
                 console.log(file, fileList);
             },
@@ -398,7 +313,7 @@
     .themeUpLeft{
         display: inline-block;
         width:883px;
-        height:852px;
+        height:648px;
         background: #fff;
         margin-right: 24px;
         margin-left: 10%;

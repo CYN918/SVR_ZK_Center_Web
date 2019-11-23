@@ -1066,6 +1066,10 @@ export default {
     themes_theme_channel_add:{
 		url:'themes/theme/channel/add',method:'post',isType:{suktip:1}
 	},
+	//新增上架渠道主题(同时上传打包件)
+	themes_theme_channel_add2:{
+		url:'themes/theme/channel/add2',method:'post',isType:{suktip:1}
+	},
 	//编辑本地主题
     themes_theme_local_edit:{
 		url:'themes/theme/local/edit',method:"post",isType:{suktip:1}

@@ -117,64 +117,50 @@
                         </div>
                     </div>
                 </div>
+    
                 <div>
-                    <span>无需打包件</span>
-                    <input type="checkbox" v-model="is_package" style="width: 16px;height: 16px" :disabled="this.cons==undefined"/>
-                    <span style="width: 120px">暂无需整理打包件</span>
-                </div>
-                <div>
-                    <span  v-if="is_package==false" style="vertical-align: top">绑定打包件</span>
+                    <span style="vertical-align: top">绑定打包件(选填)</span>
                     <div style="display: inline-block" >
-                        <div style="display: inline-block" v-if="is_package==false">
+                        <div style="display: inline-block" >
                             <div class="db"  :class="{boxShow:num==0}"  @click="getPak('th_lock_screen')">
                                 <div class="icon">
                                     <img src="../../../public/img/add_msg.png" style="width: 18px;height: 18px;margin-bottom: 10px" >
-                                    <div>
-                                        <span style="display: inline-block;font-size:12px;font-family:PingFangSC;font-weight:400;color:rgba(31,46,77,0.45);">绑定锁屏打包件</span>
-                                    </div>
                                 </div>
-                                <img :src="this.lockYl" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);" @click="Switch('0')"/>
+                                <img :src="this.lockYl" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);" />
                                 <div v-if="this.lockYl!=''&&this.cons!=undefined" style="position: absolute;bottom: 0;width:189px;height:34px;background:rgba(0,0,0,1);opacity:0.8;text-align: center" @click="getUP('th_lock_screen')">
                                     <span style="display: inline-block;font-size:12px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(255,255,255,1);line-height: 33px">重新上传</span>
                                 </div>
                             </div>
                         </div>
-                        <div style="display: inline-block" v-if="is_package==false">
+                        <div style="display: inline-block">
                             <div class="db" :class="{boxShow:num==1}" @click="getPak('th_icon')">
                                 <div class="icon">
                                     <img src="../../../public/img/add_msg.png" style="width: 18px;height: 18px;margin-bottom: 10px" >
-                                    <div>
-                                        <span style="display: inline-block;font-size:12px;font-family:PingFangSC;font-weight:400;color:rgba(31,46,77,0.45);">绑定图标打包件</span>
-                                    </div>
                                 </div>
-                                <img :src="this.iconYl" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);" @click="Switch('1')"/>
+                                <img :src="this.iconYl" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);"/>
                                 <div v-if="this.iconYl!=''&&this.cons!=undefined" style="position: absolute;bottom: 0;width:189px;height:34px;background:rgba(0,0,0,1);opacity:0.8;text-align: center" @click="getUP('th_icon')">
                                     <span style="display: inline-block;font-size:12px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(255,255,255,1);line-height: 33px">重新上传</span>
                                 </div>
                             </div>
                         </div>
-                        <div style="display: inline-block" v-if="is_package==false">
+                        <div style="display: inline-block">
                             <div class="db" :class="{boxShow:num==2}" @click="getPak('th_second_page')">
                                 <div class="icon">
                                     <img src="../../../public/img/add_msg.png" style="width: 18px;height: 18px;margin-bottom: 10px" >
-                                    <div>
-                                        <span style="display: inline-block;font-size:12px;font-family:PingFangSC;font-weight:400;color:rgba(31,46,77,0.45);">绑定二级页打包件</span>
-                                    </div>
                                 </div>
-                                <img :src="this.twoYl" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);" @click="Switch('2')"/>
+                                <img :src="this.twoYl" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);"/>
                                 <div v-if="this.twoYl!=''&&this.cons!=undefined" style="position: absolute;bottom: 0;width:189px;height:34px;background:rgba(0,0,0,1);opacity:0.8;text-align: center" @click="getUP('th_second_page')">
                                     <span style="display: inline-block;font-size:12px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(255,255,255,1);line-height: 33px">重新上传</span>
                                 </div>
                             </div>
                         </div>
-                        <div :class="{left_margin:this.is_package==true}" style="box-shadow: 0 1px 3px rgba(234, 230, 228, 1); padding:0 0 10px 10px;">
-                            <div style="margin-bottom: 14px"  v-if="is_package==false"><span>{{this.titName}}打包件</span></div>
-                            <a @click="jump()" v-if="is_package==true&&this.cons!=undefined">从主题素材库选择</a>
-                            <a  v-if="is_package==true&&this.cons==undefined">从主题素材库选择</a>
+                        <div  style="margin-top:20px">
+                            <a @click="jump()" v-if="this.cons!=undefined">从主题素材库选择</a>
+                            <a  v-if="this.cons==undefined">从主题素材库选择</a>
                             <div class="img_box">
                                 <div class="img_box1" v-for="(item,index) in SC">
                                     <img :src="item.main_preview" class="img_box1_imgs">
-                                    <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px" @click="Del(item.thmid)" v-if="is_package==true&&cons!=undefined"/>
+                                    <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px" @click="Del(index)" v-if="cons!=undefined"/>
                                 </div>
                             </div>
                         </div>
@@ -308,7 +294,6 @@
         },
         mounted(){
             this.getThemeType();
-            this.active();
         },
         updated() {
             window.scroll(0, 0);
@@ -432,52 +417,39 @@
                     this.getTagsList()
                 })
             },
-            dataUp(yl,sc,type,id){
-                if(type=='th_lock_screen'){
-                        this.lockYl=yl;
-                        this.lockSC=sc;
-                        this.num=0;
-                        this.lockID=id
+            dataUp(da1,da2,da3,da4,da5,da6,da7){
+            var obj={
+                name:da1,
+                type:da7,
+                attach:da2,
+                tags:da3,
+                note:da4,
+                main_preview:da5,
+                previews:da6
+            }
+            this.packages.push(obj);
+            for(var i=0;i<this.packages.length;i++){
+                if(this.packages[i].type==da7){
+                    this.packages[i]=obj;
+                }
+            }
+                if(da7=='th_lock_screen'){
+                        this.lockYl=da5;
+                        
                     }
-                if(type=='th_icon'){
-                    this.iconYl=yl;
-                    this.iconSC=sc;
-                    this.num=1;
-                    this.iconID=id
+                if(da7=='th_icon'){
+                    this.iconYl=da5;
+                   
                 }
-                if(type=='th_second_page'){
-                    this.twoYl=yl;
-                    this.twoSC=sc;
-                    this.num=2;
-                    this.twoID=id
+                if(da7=='th_second_page'){
+                    this.twoYl=da5;
+                   
                 }
-                this.active()
+                
             },
-            active(){
-                if(this.num==0){
-                    this.SC=this.lockSC;
-                    this.titName='锁屏'
-                }
-                if(this.num==1){
-                    this.SC=this.iconSC
-                    this.titName='图标'
-                }
-                if(this.num==2){
-                    this.SC=this.twoSC;
-                    this.titName='二级页'
-                }
-
-            },
-            Switch(num){
-                this.num=num;
-                this.active()
-            },
+    
             getPak(type){
-                console.log(type)
                 if((type=='th_lock_screen')&&(this.lockYl!='')){
-                    this.num=0;
-                    this.id=this.lockID;
-                    this.getDataList();
                     return
                 }
                 else if(type=='th_lock_screen'){
@@ -489,9 +461,6 @@
                     this.pak=true;
                 }
                 if((type=='th_icon')&&(this.iconYl!='')){
-                    this.num=1;
-                    this.id=this.iconID;
-                    this.getDataList();
                     return
                 }
                 else if(type=='th_icon'){
@@ -503,9 +472,6 @@
                     this.pak=true;
                 }
                 if((type=='th_second_page')&&(this.twoYl!='')){
-                    this.num=2;
-                    this.id=this.twoID;
-                    this.getDataList();
                     return
                 }
                 else if(type=='th_second_page'){
@@ -613,50 +579,7 @@
                     this.$message.error('价格为大于零的正数');
                     return
                 }
-                if((this.SC).length==0&&this.is_package==false){
-                    this.$message.error('未绑定打包件');
-                    return
-                }
-                var arr=[];
-                for(var i=0;i<this.lockSC.length;i++){
-                    arr.push(this.lockSC[i].thmid)
-                }
-                for(var i=0;i<this.iconSC.length;i++){
-                    arr.push(this.iconSC[i].thmid)
-                }
-                for(var i=0;i<this.twoSC.length;i++){
-                    arr.push(this.twoSC[i].thmid)
-                }
-                if(this.lockID!=''){
-                    this.packages.push(this.lockID);
-                }
-                if(this.iconID!=''){
-                    this.packages.push(this.iconID)
-                }
-                if(this.twoID!=''){
-                    this.packages.push(this.twoID)
-                }
-                if(this.is_package==false){
-                    var formData =new FormData;
-                    formData.append('thid',this.thid);
-                    formData.append('ch_thid',this.ch_thid);
-                    formData.append('wpid',this.wpid);
-                    formData.append('account',this.account);
-                    formData.append('channel',this.channel);
-                    formData.append('ui_version',this.ui_version);
-                    formData.append('version',this.version);
-                    formData.append('price',this.price);
-                    formData.append('tdate',this.tdate);
-                    formData.append('note',this.note);
-                    formData.append('materials',JSON.stringify(arr));
-                    formData.append('channel_theme_name',this.channel_theme_name);
-                    formData.append('is_package','1');
-                    formData.append('tags',this.tags.join(','));
-                    formData.append('main_preview',this.main_preview);
-                    formData.append('previews',JSON.stringify(this.pic));
-                    formData.append('attach',JSON.stringify(this.attach));
-                    formData.append('packages',JSON.stringify(this.packages));
-                }else{
+                
                     var formData =new FormData;
                     formData.append('thid',this.thid);
                     formData.append('wpid',this.wpid);
@@ -673,8 +596,6 @@
                     formData.append('main_preview',this.main_preview);
                     formData.append('previews',JSON.stringify(this.pic));
                     formData.append('attach',JSON.stringify(this.attach));
-                    formData.append('is_package','0');
-                }
                 this.api.themes_theme_channel_edit(formData).then((res)=>{
                     this.qx();
                     if(res!=false){
@@ -694,29 +615,40 @@
                     this.setData();
                     return
                 }
-                var arrType=['th_icon','th_lock_screen','th_second_page'];
-                if(this.is_package==true){
-                    for(var i=0;i<this.range.length;i++){
-                        if(this.account==this.range[i].account){
-                            for(var k=0;k<this.SC.length;k++){
-                                if(this.is_package==true&&arrType.indexOf(this.SC[k].type)==-1){
-                                    this.$message.error('相关素材必须有锁屏/图标/二级页素材类型中的一种');
-                                    return
-                                }
-                                if(i==0){
-                                    continue
-                                }
-                                if(this.SC[k].type!='th_advertise'){
-                                    if(this.SC[k].range!=this.SC[k-1].range){
-                                        this.$message.error('同一主题不可绑定使用范围不同的素材');
-                                        return
-                                    }
-
-                                }
-
-                            }
-                        }
+                var arrType=[];
+                var strRange= '';
+                 if(this.SC.length>3){
+                    this.$message.error('相关素材必须有锁屏/图标/二级页3种素材类型');
+                }
+            
+                for(var i=0;i<this.SC.length;i++){
+                    arrType.push(this.SC[i].type)
+                    if(this.SC[i].type!='th_advertise'){
+                        continue;
                     }
+                    if(this.SC[i].range == 'all'){
+                        continue;
+                    }
+                    if(!strRange){
+                        strRange = this.SC[i].range;
+                    }
+                    if(strRange != this.SC[i].range){
+                        this.$message.error('同一主题不可绑定使用范围不同的素材');
+                        return 
+                    }
+                }
+
+                if(arrType.indexOf('th_icon')==-1){
+                    this.$message.error('相关素材必须有锁屏/图标/二级页3种素材类型');
+                    return
+                }
+                if(arrType.indexOf('th_lock_screen')==-1){
+                    this.$message.error('相关素材必须有锁屏/图标/二级页3种素材类型');
+                    return
+                }
+                if(arrType.indexOf('th_second_page')==-1){
+                    this.$message.error('相关素材必须有锁屏/图标/二级页3种素材类型');
+                    return
                 }
                 if(!this.channel){
                     this.$message.error('渠道不能为空')
@@ -763,31 +695,7 @@
                     this.$message.error('价格为大于零的正数');
                     return
                 }
-                if((this.SC).length==0&&this.is_package==false){
-                    this.$message.error('未绑定打包件');
-                    return
-                }
-                var arr=[];
-                for(var i=0;i<this.lockSC.length;i++){
-                    arr.push(this.lockSC[i].thmid)
-                }
-                for(var i=0;i<this.iconSC.length;i++){
-                    arr.push(this.iconSC[i].thmid)
-                }
-                for(var i=0;i<this.twoSC.length;i++){
-                    arr.push(this.twoSC[i].thmid)
-                }
-                if(this.lockID!=''){
-                    this.packages.push(this.lockID);
-                    console.log(this.packages)
-                }
-                if(this.iconID!=''){
-                    this.packages.push(this.iconID)
-                }
-                if(this.twoID!=''){
-                    this.packages.push(this.twoID)
-                }
-                if(this.is_package==false){
+               
                     var formData =new FormData;
                     formData.append('thid',this.thid);
                     formData.append('wpid',this.wpid);
@@ -798,7 +706,7 @@
                     formData.append('price',this.price);
                     formData.append('tdate',this.tdate);
                     formData.append('note',this.note);
-                    formData.append('materials',JSON.stringify(arr));
+                    formData.append('materials',JSON.stringify(this.scID));
                     formData.append('channel_theme_name',this.channel_theme_name);
                     formData.append('is_package','1');
                     formData.append('tags',this.tags.join(','));
@@ -806,25 +714,6 @@
                     formData.append('previews',JSON.stringify(this.pic));
                     formData.append('attach',JSON.stringify(this.attach));
                     formData.append('packages',JSON.stringify(this.packages));
-                }else{
-                    var formData =new FormData;
-                    formData.append('thid',this.thid);
-                    formData.append('wpid',this.wpid);
-                    formData.append('account',this.account);
-                    formData.append('channel',this.channel);
-                    formData.append('ui_version',this.ui_version);
-                    formData.append('version',this.version);
-                    formData.append('price',this.price);
-                    formData.append('tdate',this.tdate);
-                    formData.append('note',this.note);
-                    formData.append('channel_theme_name',this.channel_theme_name);
-                    formData.append('tags',this.tags.join(','))
-                    formData.append('main_preview',this.main_preview);
-                    formData.append('previews',JSON.stringify(this.pic));
-                    formData.append('attach',JSON.stringify(this.attach));
-                    formData.append('materials',JSON.stringify(this.lockID));
-                    formData.append('is_package','0');
-                }
                 this.api.themes_theme_channel_add(formData).then((res)=>{
                     this.qx();
                     if(res!=false){
@@ -840,40 +729,18 @@
                 })
             },
             getList(){
-                let params ={page:1,p:100000,type:'',search:'',tags:'',status:''};
-                this.api.themes_material_search({params}).then((res)=>{
-                    this.IMGList=res.data;
-                    var list=[];
-                    for(var i=0;i<this.IMGList.length;i++ ){
-                        for(var j =0;j<this.scID.length;j++){
-                            if(this.IMGList[i].thmid==this.scID[j]){
-                                list.push(this.IMGList[i]);
-                            }
-                        }
-                    }
-                    if(this.num==0){
-                        this.lockSC=list;
-                    }
-                    if(this.num==1){
-                        this.iconSC=list;
-                    }
-                    if(this.num==2){
-                        this.twoSC=list;
-                    }
-                    console.log(this.lockSC);
-                    console.log(list);
-                    this.active();
-                    // this.listSC=list;
-                })
-            },
-            Del(id){
                 for(var i=0;i<this.scID.length;i++){
-                    if(this.scID[i]==id){
-                        this.scID.splice(i,1);
-                        this.getList();
-                    }
+                    var params ={thmid:this.scID[i]};
+                     this.api.themes_material_details({params}).then((res)=>{
+                     this.SC.push(res);
+                })
                 }
-
+                
+               
+            },
+            Del(index){
+                this.scID.splice(index,1);
+                this.SC.splice(index,1);
             },
             getTagsList(){
                 let params = {material:'2',type:this.$route.query.type,search:this.tagsName,p:500,page:1};
