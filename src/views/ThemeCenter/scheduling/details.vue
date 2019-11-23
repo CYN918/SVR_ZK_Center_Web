@@ -24,7 +24,7 @@
                 <div class="ADDtimes">
                     <div>
                         <span>{{'周期'+(index+1)}}</span>
-                        <span class="num">({{num[index]}}/{{listData[index].length}})</span>
+                        <span class="num">({{num[index]}}/{{listData[index]?listData[index].length:'0'}})</span>
                         <img src="../../../../public/img/ups.png" v-if="close[index]" @click="pocket(index)">
                         <img src="../../../../public/img/btn.png" v-if="close[index]==false" @click='unfold(index)'>
                     </div>
@@ -219,7 +219,7 @@
 
 <script>
     export default {
-        name: "details",
+        name: "detail",
         data(){
             return{
                 list:[],
@@ -245,6 +245,7 @@
                 total:this.$route.query.total,
                 real_count:this.$route.query.real_count,
                 num:[],
+                nums:[],
             
             }
         },
@@ -390,7 +391,6 @@
                         this.close[i]=false;
                     }
                     this.time=arr;
-                    console.log(this.close)
                 })
             },
             demandList(id,index){
@@ -408,13 +408,15 @@
                             this.listData[i]=arr;
                         
                         }
-                        for(var k=0;k<this.listData[i].length;k++){
+                        if(this.listData[i]){
+                            for(var k=0;k<this.listData[i].length;k++){
                             if(this.listData[i][k].status==1){
                                 ++this.num[i];
                             }
                         }
+                        }
+                       
                     }
-                
                 })
             },
             setTimes(index,id){
