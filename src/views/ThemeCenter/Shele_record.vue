@@ -296,9 +296,7 @@
             this.getThemeType();
              window.scroll(0, 0);
         },
-        // updated() {
-        //     window.scroll(0, 0);
-        // },
+       
         methods:{
             fh(){
                 this.$router.go(-1);
@@ -715,7 +713,7 @@
                     formData.append('previews',JSON.stringify(this.pic));
                     formData.append('attach',JSON.stringify(this.attach));
                     formData.append('packages',JSON.stringify(this.packages));
-                this.api.themes_theme_channel_add(formData).then((res)=>{
+                this.api.themes_theme_channel_add2(formData).then((res)=>{
                     this.qx();
                     if(res!=false){
                         this.$router.push({
