@@ -7,7 +7,7 @@
             </div>
             <div>
                 <span class="topName">{{this.$route.query.name}}</span>
-                <span class="num">(1/2)</span>
+                <span class="num">({{real_count}}/{{total}})</span>
                 <div style="display: inline-block;float: right;margin-right: 15%;">
                     <span class="jl" @click="record()">查看更新记录</span>
                     <span class="zq" @click="Adds">管理周期</span>
@@ -24,7 +24,7 @@
                 <div class="ADDtimes">
                     <div>
                         <span>{{'周期'+(index+1)}}</span>
-                        <span class="num">(1/2)</span>
+                        <span class="num">({{num[index]}}/{{listData[index].length}})</span>
                         <img src="../../../../public/img/ups.png" v-if="close[index]" @click="pocket(index)">
                         <img src="../../../../public/img/btn.png" v-if="close[index]==false" @click='unfold(index)'>
                     </div>
@@ -242,6 +242,9 @@
                 tableData:[],
                 index:'',
                 close:[],
+                total:this.$route.query.total,
+                real_count:this.$route.query.real_count,
+                num:[],
             
             }
         },
@@ -395,6 +398,7 @@
                 this.api.themes_schedule_demands({params}).then((res)=>{
                     this.listData.push(res);
                     for(var i=0;i<this.listData.length;i++){
+                        this.num[i]=0;
                         if(this.listData[i]==res&&i!=index){
                             if(this.listData[index]==undefined){
                                 this.listData[index]='';
@@ -402,11 +406,15 @@
                             var arr=this.listData[index];
                             this.listData[index]=this.listData[i];
                             this.listData[i]=arr;
-                        }
                         
-                       
-                    
+                        }
+                        for(var k=0;k<this.listData[i].length;k++){
+                            if(this.listData[i][k].status==1){
+                                ++this.num[i];
+                            }
+                        }
                     }
+                
                 })
             },
             setTimes(index,id){

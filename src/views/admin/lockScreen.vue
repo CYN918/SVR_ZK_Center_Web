@@ -378,7 +378,7 @@
                 console.log(this.checkedCities1)
 			},
             XStag(a){
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search}
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),op_tags:JSON.stringify(this.listTags),status:this.status}
                 this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
 
@@ -411,7 +411,7 @@
                 })
             },
             getWl(){
-                let params={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,status:this.status};
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),op_tags:JSON.stringify(this.listTags),status:this.status}
                 this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     this.total=res.total;

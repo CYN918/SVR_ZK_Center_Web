@@ -238,7 +238,7 @@ export default {
 
         },
 		XStag(a){
-            let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:this.search_tags};
+            let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),status:this.status}
             this.api.material_search({params}).then((res)=>{
                 this.IMGList=res.data;
                 for(let i =0;i<this.IMGList.length;i++){
@@ -292,7 +292,7 @@ export default {
         },
         getLt(a){
            if(this.userData.roles[0].role_name=='admin'){
-               let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,status:this.status};
+               let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),status:this.status}
                this.api.material_search({params}).then((res)=>{
                    this.IMGList=res.data;
                    for(let i =0;i<this.IMGList.length;i++){

@@ -301,7 +301,10 @@
                         page: this.currentPage,
                         type: this.type,
                         search: this.search,
-                        status: this.status
+                        status: this.status,
+                        search_tags:JSON.stringify(this.listTag),
+                        search_self_tags:JSON.stringify(this.listTagData)
+
                     }
                     this.api.mfinal_search({params}).then((res) => {
                         this.IMGList = res.data;
@@ -331,7 +334,7 @@
                 this.getTagsList()
             },
             XStag(a){
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search}
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),status:this.status}
                 this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     for(let i =0;i<this.IMGList.length;i++){

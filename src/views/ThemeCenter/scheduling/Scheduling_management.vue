@@ -151,6 +151,8 @@
                         schedule_id:data.schedule_id,
                         tstart:data.tstart,
                         tend:data.tend,
+                        real_count:data.real_count,
+                        total:data.total,
                     }
                 })
             },
