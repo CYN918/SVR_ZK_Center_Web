@@ -82,6 +82,7 @@
                 </div>
             </div>
             <div class="preview" id="page3">
+                 <div class='line' style="height:24px;width:100%;background:rgba(239,244,248,1)"></div>
                 <div class="titID">
                     <span class="nameID">绑定主题素材</span>
                 </div>
