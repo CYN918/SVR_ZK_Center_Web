@@ -184,7 +184,7 @@
                 this.scope();
                 let formData = new FormData;
                 formData.append('file',file.file);
-                this.api.file_upload(formData).then((res)=>{
+                this.api.file_private_upload(formData).then((res)=>{
                     this.attachs.push(res);
                     this.times=100;
                     --this.fcounter;

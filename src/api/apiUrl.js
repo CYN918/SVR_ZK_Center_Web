@@ -1297,7 +1297,11 @@ export default {
     //特殊款项修改记录
     settle_special_history:{
         url:'settle/special/history',method:'get'
-    }
+	},
+	//私有文件上传
+	file_private_upload:{
+		url:'file/private/upload',method:"post",isType:{suktip:1}
+	},
 }
 
 
