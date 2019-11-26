@@ -654,10 +654,10 @@
         top:-31px
     }
     .box_top_img{
-        max-width: 189px;
-        max-height: 349px;
+        max-width: 100%;
+        max-height: 100%;
         position: relative;
-        top: 36%;
+        top: 33%;
         left: 50%;
         transform: translate(-50%,-50%);
     }
@@ -665,7 +665,8 @@
         width:189px;
         height:34px;
         background:rgba(255,255,255,1);
-        opacity:0.8;
+        opacity:1;
+    
     }
     .box_name span{
         display: inline-block;

@@ -469,7 +469,7 @@
         width:100%;
         height:34px;
         background:rgba(255,255,255,1);
-        opacity:0.8;
+        opacity:1;
     }
     .bottom_name span{
         display: inline-block;
