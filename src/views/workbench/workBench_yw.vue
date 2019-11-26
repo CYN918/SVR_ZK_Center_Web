@@ -374,8 +374,12 @@
             },
             getTypeURL(){
                 this.api.config_position_type().then((res)=> {
-                    this.pos_type = res[this.typeIndex].pos_type;
-                    this.url = res[this.typeIndex].view_url;
+                    if(res[this.typeIndex]){
+                        this.pos_type = res[this.typeIndex].pos_type;
+                         this.url = res[this.typeIndex].view_url;
+                    }
+                    
+                   
                 })
             },
             getTypes(){

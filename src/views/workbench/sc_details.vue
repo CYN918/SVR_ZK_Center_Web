@@ -35,9 +35,9 @@
                     </div>
                     <div>
                         <span class="tit_txt">附件</span>
-                        <span v-if="list.attach.name==''"  class="tit_txt_2 ">无</span>
-                        <span v-if="list.attach.name!=''"  class="tit_txt_2 ">{{this.list.attach.name}}</span>
-                        <a v-if="list.attach.name!=''" :href="list.attach.url" >下载</a>
+                        <span v-if="!(list.attach)"  class="tit_txt_2 ">无</span>
+                        <span v-if="list.attach"  class="tit_txt_2 ">{{this.list.attach.name}}</span>
+                        <a v-if="list.attach" :href="list.attach.url" >下载</a>
                     </div>
                     <div>
                         <span class="tit_txt">风格</span>
