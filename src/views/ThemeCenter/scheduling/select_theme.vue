@@ -141,13 +141,13 @@
                 <div class="select_cons">
                     <div >
                         <span>渠道</span>
-                        <select v-model="ADDchannel" @change="qdDataList()">
-                            <option :value="item.channel" v-for="(item,index) in TCchannel">{{item.channel_name}}</option>
+                        <select v-model="ADDchannel" @change="qd()">
+                            <option :value="item.channel" v-for="(item,index) in channelDataList">{{item.channel_name}}</option>
                         </select>
                     </div>
                     <div>
                         <span>厂商UI版本</span>
-                        <select v-model="ADDui">
+                         <select v-model="ADDui" @change="Ver()">
                             <option v-for="item in channelData" :value="item" v-if="channelData.length!=0">{{item}}</option>
                             <option value="" v-if="channelData.length==0&&channel!=''">暂无</option>
                         </select>
@@ -155,7 +155,7 @@
                     <div>
                         <span>资源版本</span>
                         <select v-model="zyBb">
-                            <option v-for="item in uiLIST" :value="item">{{item}}</option>
+                            <option v-for="item in uiLIST" :value="item.version">{{item.version}}</option>
                         </select>
                     </div>
                 </div>
@@ -217,7 +217,10 @@
                 qdList:[],
                 channelData:[],
                 uiLIST:[],
-                picture:[]
+                picture:[],
+                channelDataList:[],
+                uiLIST:[],
+                channelData:[],
             }
         },
         mounted(){this.themeType();
@@ -249,22 +252,22 @@
                     this.self_tags=res;
                 })
             },
-            qdDataList(){
-                this.channelData=[];
-                this.uiLIST=[];
-                this.ADDui='';
-                this.zyBb='';
-                for(var i=0;i<this.TCchannel.length;i++){
-                    if((this.TCchannel[i].channel==this.ADDchannel)&&(this.channelData.indexOf(this.TCchannel[i].ui_version)==-1)){
-                        this.channelData.push(this.TCchannel[i].ui_version);
-                    }
-                }
-                for(var i=0;i<this.TCchannel.length;i++){
-                    if((this.TCchannel[i].channel==this.ADDchannel)&&(this.uiLIST.indexOf(this.TCchannel[i].version)==-1)){
-                        this.uiLIST.push(this.TCchannel[i].version);
-                    }
-                }
-            },
+            // qdDataList(){
+            //     this.channelData=[];
+            //     this.uiLIST=[];
+            //     this.ADDui='';
+            //     this.zyBb='';
+            //     for(var i=0;i<this.TCchannel.length;i++){
+            //         if((this.TCchannel[i].channel==this.ADDchannel)&&(this.channelData.indexOf(this.TCchannel[i].ui_version)==-1)){
+            //             this.channelData.push(this.TCchannel[i].ui_version);
+            //         }
+            //     }
+            //     for(var i=0;i<this.TCchannel.length;i++){
+            //         if((this.TCchannel[i].channel==this.ADDchannel)&&(this.uiLIST.indexOf(this.TCchannel[i].version)==-1)){
+            //             this.uiLIST.push(this.TCchannel[i].version);
+            //         }
+            //     }
+            // },
             setID(){
                 for(var i=0 ;i<this.TCchannel.length;i++){
                     if(this.TCchannel[i].channel==this.ADDchannel){
@@ -285,12 +288,60 @@
                     }
                 }
             },
+              qd(){
+                this.channelData=[];
+                this.ADDui='';
+                this.zyBb='';
+                for(var i=0;i<this.TCchannel.length;i++){
+                    if((this.TCchannel[i].channel==this.ADDchannel)&&(this.channelData.indexOf(this.TCchannel[i].ui_version)==-1)){
+                        this.channelData.push(this.TCchannel[i].ui_version);
+                    }
+                }
+
+            },
+            Ver(){
+                this.uiLIST=[];
+                var uiData=[];
+                 for(var i=0;i<this.TCchannel.length;i++){
+                    if((this.TCchannel[i].channel==this.ADDchannel)&&(this.TCchannel[i].ui_version==this.ADDui)){
+                        if(uiData.indexOf(this.TCchannel[i].version)==-1){
+                            uiData.push(this.TCchannel[i].version);
+                            this.uiLIST.push(this.TCchannel[i]);
+                        }
+                        
+                    }
+                }
+            },
             clicks(index){
+                // if(this.ind.indexOf(this.IMGList[index].thid)==-1){
+                //     this.ind.push(this.IMGList[index].thid);
+                //     this.ADDqd=true;
+                //     this.index=index;
+                //     this.TCchannel=this.IMGList[index].channel_themes;
+                // }else{
+                //     for(var i = 0;i<this.ind.length;i++){
+                //         if(this.ind[i]==this.IMGList[index].thid){
+                //             this.ind.splice(i,1);
+                //             this.ch_thids.splice(i,1);
+                //             this.qdList.splice(i,1)
+                //         }
+                //     }
+                // }
+                 this.channelDataList=[];
                 if(this.ind.indexOf(this.IMGList[index].thid)==-1){
-                    this.ind.push(this.IMGList[index].thid);
-                    this.ADDqd=true;
                     this.index=index;
+                    this.ADDqd=true;
                     this.TCchannel=this.IMGList[index].channel_themes;
+                    var channel_number=[];
+                    for(var i=0;i<this.TCchannel.length;i++){
+                        if(channel_number.indexOf(this.TCchannel[i].channel)==-1){
+                            this.channelDataList.push(this.TCchannel[i]);
+                            channel_number.push(this.TCchannel[i].channel);
+                        }
+                    }
+                    this.name=this.IMGList[index].name;
+                    this.ind.push(this.IMGList[index].thid);
+
                 }else{
                     for(var i = 0;i<this.ind.length;i++){
                         if(this.ind[i]==this.IMGList[index].thid){
@@ -300,25 +351,18 @@
                         }
                     }
                 }
+
             },
             getData(){
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,
+                let params ={p:this.p,page:this.page,type:this.type,search:this.search,
                     op_tags:(this.listTagData).join(','),tags:(this.listTag).join(','),status:this.status,
                     class:this.contemt,ui_version:this.ui_version,channel:this.channel,account:this.account,tstart:this.value1[0],tend:this.value1[1],group_channe:1};
                 this.api.themes_theme_channel_search({params}).then((res)=>{
                     this.IMGList=res.data;
-                    // for(var i=0;i<res.data.length;i++){
-                    //     for(var j =0;j<res.data[i].channel_themes.length;j++){
-                    //         if(res.data[i].channel_themes[j].ch_thid==this.radio){
-                    //             this.themeChannel.channel=res.data[i].channel_themes[j].channel;
-                    //             this.themeChannel.channel_name=res.data[i].channel_themes[j].channel_name;
-                    //         }
-                    //     }
-                    // }
                     this.picture=[];
-                //    for(var i=0;i<(res.data).length;i++){
-                //        this.picture.push(res.data[i].main_preview);
-                //    }
+                   for(var i=0;i<(res.data).length;i++){
+                       this.picture.push(res.data[i].main_preview);
+                   }
                     this.total=res.total;
                     this.getTagsList();
                     this.getOperatorTag();
