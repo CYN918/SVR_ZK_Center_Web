@@ -111,8 +111,7 @@
                     <div>
                         <span>厂商UI版本</span>
                         <select v-model="ADDui" @change="Ver()">
-                            <option v-for="item in channelData" :value="item" v-if="channelData.length!=0">{{item}}</option>
-                            <option value="" v-if="channelData.length==0&&channel!=''">暂无</option>
+                            <option v-for="item in channelData" :value="item" >{{item}}</option>
                         </select>
                     </div>
                     <div>
@@ -322,7 +321,7 @@
             getData(){
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,
                     op_tags:(this.listTagData).join(','),tags:(this.listTag).join(','),status:this.status,
-                    class:this.content,ui_version:this.ui_version,channel:this.channel,account:'',tstart:this.time[0],tend:this.time[1],group_channe:0};
+                    class:this.content,ui_version:this.ui_version,channel:this.channel,account:'',tstart:this.time[0],tend:this.time[1]};
                 this.api.themes_theme_channel_search({params}).then((res)=>{
                     this.picture=[];
                     this.IMGList=res.data;

@@ -141,18 +141,17 @@
                 <div class="select_cons">
                     <div >
                         <span>渠道</span>
-                        <select v-model="ADDchannel" @change="qd()">
+                        <select v-model="ADDchannel" @change="qdName()">
                             <option :value="item.channel" v-for="(item,index) in channelDataList">{{item.channel_name}}</option>
                         </select>
                     </div>
-                    <div>
+                    <div v-if="ADDchannel!='local'">
                         <span>厂商UI版本</span>
                          <select v-model="ADDui" @change="Ver()">
-                            <option v-for="item in channelData" :value="item" v-if="channelData.length!=0">{{item}}</option>
-                            <option value="" v-if="channelData.length==0&&channel!=''">暂无</option>
+                            <option v-for="item in channelData" :value="item">{{item}}</option>
                         </select>
                     </div>
-                    <div>
+                    <div v-if="ADDchannel!='local'">
                         <span>资源版本</span>
                         <select v-model="zyBb">
                             <option v-for="item in uiLIST" :value="item.version">{{item.version}}</option>
@@ -275,6 +274,25 @@
                         this.qdList.push(this.TCchannel[i].channel_name)
                     }
                 }
+                if(this.ADDchannel!='local'){
+                     for(var j=0;j<this.uiLIST.length;j++){
+                        if(this.zyBb==this.uiLIST[j].version){
+                            this.picture[this.index]=this.uiLIST[j].main_preview
+                        }
+                    }
+                }else{
+                    for(var k=0;k<this.TCchannel.length;k++){
+                        if(this.ADDchannel==this.TCchannel[k].channel){
+                            this.picture[this.index]=this.TCchannel[k].main_preview
+                        }
+                    }    
+                }
+                this.ADDchannel='';
+                this.ADDui='';
+                this.zyBb='';
+                this.channelDataList=[];
+                this.channelData=[];
+                this.uiLIST=[];
                 this.ADDqd=false;
             },
             heidTC(){
@@ -288,7 +306,7 @@
                     }
                 }
             },
-              qd(){
+              qdName(){
                 this.channelData=[];
                 this.ADDui='';
                 this.zyBb='';
@@ -347,7 +365,7 @@
                         if(this.ind[i]==this.IMGList[index].thid){
                             this.ind.splice(i,1);
                             this.ch_thids.splice(i,1);
-                            this.qdList.splice(i,1)
+                            this.qdList.splice(i,1);
                         }
                     }
                 }
@@ -356,8 +374,8 @@
             getData(){
                 let params ={p:this.p,page:this.page,type:this.type,search:this.search,
                     op_tags:(this.listTagData).join(','),tags:(this.listTag).join(','),status:this.status,
-                    class:this.contemt,ui_version:this.ui_version,channel:this.channel,account:this.account,tstart:this.value1[0],tend:this.value1[1],group_channe:1};
-                this.api.themes_theme_channel_search({params}).then((res)=>{
+                    class:this.contemt,ui_version:this.ui_version,channel:this.channel,account:this.account,tstart:this.value1[0],tend:this.value1[1],group_channel:1};
+                this.api.themes_theme_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     this.picture=[];
                    for(var i=0;i<(res.data).length;i++){
