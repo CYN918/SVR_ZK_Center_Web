@@ -63,8 +63,8 @@
                             <option value="">全部</option>
                             <option v-for="item in con" :value="item.class">{{item.class}}</option>
                         </select>
-                        <span class="box_btn" @click="getList()" v-if="this.$route.query.type==undefined">查询</span>
-                        <span class="box_btn" @click="getData()" v-if="this.$route.query.type!=undefined">查询</span>
+                        <span class="box_btn" @click="getList()" v-if="this.$route.query.type=='th_advertise'">查询</span>
+                        <span class="box_btn" @click="getData()" v-if="this.$route.query.type!='th_advertise'">查询</span>
                     </div>
                 </div>
                     <div class="box">
@@ -189,7 +189,7 @@
             }
         },
         mounted() {
-            if(this.$route.query.type!=undefined){
+            if(this.$route.query.type!='th_advertise'){
                 this.getData()
             }else{
                 this.getList();
@@ -255,7 +255,7 @@
                 }
             },
             clicks(index){
-                this.getData();
+                // this.getData();
                 this.channelDataList=[];
                 if(this.ind!=this.IMGList[index].thid){
                     this.ind='';
@@ -332,14 +332,18 @@
                 })
             },
             getList(){
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,
-                    tags:this.listTagData.concat(this.listTag).join(','),status:this.status,
-                    class:this.content,ui_version:this.ui_version,channel:this.channel,account:'',tstart:this.time[0],tend:this.time[1]};
+                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,
+                    op_tags:(this.listTagData).join(','),tags:(this.listTag).join(','),status:this.status,
+                    class:this.contemt,ui_version:this.ui_version,channel:this.channel,account:this.account,tstart:this.time[0],tend:this.time[1],group_channel:1};
                 this.api.themes_theme_search({params}).then((res)=>{
                     this.IMGList=res.data;
+                    this.picture=[];
+                   for(var i=0;i<(res.data).length;i++){
+                       this.picture.push(res.data[i].main_preview);
+                   }
                     this.total=res.total;
                     this.getTagsList();
-                    this.getOperatorTag()
+                    this.getOperatorTag();
                 })
             },
             getTag(){
@@ -382,7 +386,12 @@
                         }
                     }
                 }
-                this.getData()
+                if(his.$route.query.type!='th_advertise'){
+                    this.getData()
+                }else{
+                    this.getList();
+                }
+                
             },
             getListTag(name){
                 if(!name){
@@ -400,15 +409,30 @@
                         }
                     }
                 }
-                this.getData()
+                if(his.$route.query.type!='th_advertise'){
+                    this.getData()
+                }else{
+                    this.getList();
+                }
+                
             },
             handleSizeChange1(pageSize) { // 每页条数切换
                 this.pageSize = pageSize;
-                this.getData()
+                 if(his.$route.query.type!='th_advertise'){
+                    this.getData()
+                }else{
+                    this.getList();
+                }
+                
             },
             handleCurrentChange1(currentPage) {//页码切换
                 this.currentPage = currentPage;
-                this.getData()
+                 if(his.$route.query.type!='th_advertise'){
+                    this.getData()
+                }else{
+                    this.getList();
+                }
+                
             },
         },
         watch:{

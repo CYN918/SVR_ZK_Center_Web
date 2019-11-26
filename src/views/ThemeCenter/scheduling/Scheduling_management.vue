@@ -110,7 +110,7 @@
                         </el-date-picker>
                     </div>
                     <div class="ADDbtn">
-                        <span class="tj" @click="ADDdata()">添加</span>
+                        <span class="tj" @click="ADDdata()">保存</span>
                         <span @click="heidADD()">取消</span>
                     </div>
                 </div>
@@ -159,6 +159,7 @@
             heidADD(){
                 this.add=false;
                 this.id='';
+                this.name='';
             },
             setData(){
                 if(!this.name){
