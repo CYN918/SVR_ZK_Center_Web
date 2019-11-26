@@ -40,15 +40,15 @@
                     <textarea v-model="note"></textarea>
                 </div>
                 <div>
-                    <div style="display: inline-block;width: 84px;margin-right: 20px">
+                    <div style="display: inline-block;width: 108px;vertical-align: top">
                         <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
                             <div slot="content">请上传对账确认邮件截图，结算数据明细等凭证</div>
                             <img src="../../../public/img/wh.png" style="margin-right: 6px;cursor: pointer">
                         </el-tooltip>
                         <span class="fj">附件 <span style="color: #acadb0" v-if="this.skType=='收款结算'">(选填)</span></span>
-
                     </div>
-                    <div class="uplaod">
+                    <div style="display: inline-block;">
+                         <div class="uplaod">
                         <el-upload
                                 class="ups"
                                 :on-remove="handleRemove"
@@ -58,6 +58,16 @@
                         </el-upload>
                         <el-progress :percentage="this.times" v-if="up"></el-progress>
                     </div>
+                    <div style="margin: 14px 0 ; text-align: left;" v-for="(item,index) in attachs">
+                            <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                                <div slot="content" class="text">{{item.name}}</div>
+                                <span  class="text" style="overflow: hidden;width: 200px;height: 20px;line-height: 28px">{{item.name}}</span>
+                            </el-tooltip>
+                        <a class="content_xz" :href="item.url">下载</a>
+                        <span class="content_xz" @click="dels(index)">删除</span>
+                    </div>
+                    </div>
+                   
                 </div>
                 <div class="fillBtn">
                     <span class="tj" @click="ADD">提交</span>
@@ -116,6 +126,9 @@
                     --this.fcounter;
                     this.up=false;
                 })
+            },
+             dels(index){
+                this.attachs.splice(index,1)
             },
             ck1(){
                 this.$parent.heidADDRemit();
@@ -319,5 +332,14 @@
     }
     .block{
         color: #000!important;
+    }
+    .content_ck, .content_xz{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(51,119,255,1);
+        margin-left: 10px;
+        cursor: pointer;
     }
 </style>

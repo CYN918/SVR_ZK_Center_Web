@@ -889,7 +889,9 @@ select{
   .AddIMG_yl_upload .upload-demo-sc .el-upload-list__item{
     display: none;
   }
-
+.ups .el-upload-list__item-name{
+    display: none;
+  }
 
 
 
