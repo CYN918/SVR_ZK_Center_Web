@@ -17,10 +17,10 @@
                     <span style=" margin-top: 26px;">绑定主题</span>
                     <a @click="zt()" v-if="pkgid==undefined">从主题库选择</a>
                     <a  v-if="pkgid!=undefined">从主题库选择</a>
-                    <div class="img_box">
-                        <div class="img_box1" v-for="item in listThm">
-                            <img :src="item.main_preview" class="img_box1_img">
-                            <img class="del" src="../../../../public/img/del.png" v-if="pkgid==undefined" style="width: 17px;height: 16px" @click="DelThmId(item.thid)"/>
+                    <div class="img_box" v-if="listThm!=''">
+                        <div class="img_box1">
+                            <img :src="listThm" class="img_box1_img">
+                            <img class="del" src="../../../../public/img/del.png" v-if="pkgid==undefined" style="width: 17px;height: 16px" @click="DelThmId()"/>
                         </div>
                     </div>
                 </div>
@@ -201,7 +201,7 @@
                 ui:[],
                 ui_version:'',
                 thm:false,
-                themeID:[],
+                themeID:'',
                 listThm:[],
                 pkgid:this.$route.query.pkgid,
                 up:false,
@@ -275,9 +275,8 @@
                 this.ch_thid=data1;
                 this.channel=data6;
                 this.getUI(data7);
-
                 this.getTheme();
-                console.log(this.ui);
+                console.log(this.channel);
             },
             setPack(){
                 if(!this.name){
@@ -346,45 +345,23 @@
                 this.main_preview=url;
             },
             getTheme(){
-                let params={tags:'',channel:'',ui_version:'',account:'',
-                    status:'',type:'',class:'',tstart:"2019-09-29",tend:(new Date()).toLocaleDateString().split('/').join('-'),search:'',p:1000000,page:1};
-                this.api.themes_theme_search({params}).then((res)=>{
-                    this.IMGList=res.data;
-                    var list=[];
-                    for(var i=0;i<this.IMGList.length;i++ ){
-                        for(var j =0;j<this.themeID.length;j++){
-                            if(this.IMGList[i].thid==this.themeID[j]){
-                                list.push(this.IMGList[i]);
-                            }
-                        }
-                    }
-                    this.listThm=list;
-
+                let params={thid:this.themeID,ch_thid:this.ch_thid,channel:this.channel}
+                this.api.themes_theme_details({params}).then((res)=>{
+                    this.listThm=res.main_preview;
                 })
             },
             getThemeList(){
-                let params={tags:'',channel:'',ui_version:'',account:'',
-                    status:'',type:'',class:'',tstart:"2019-09-29",tend:(new Date()).toLocaleDateString().split('/').join('-'),search:'',p:1000000,page:1};
-                this.api.themes_theme_search({params}).then((res)=>{
-                    this.IMGList=res.data;
-                    var list=[];
-                    for(var i=0;i<this.IMGList.length;i++ ){
-                        if(this.IMGList[i].ch_thid==this.ch_thid){
-                            list.push(this.IMGList[i]);
-                        }
-
+                let params={pkgid:this.pkgid}
+                this.api.themes_package_themes({params}).then((res)=>{
+                    if(res){
+                        this.listThm=res[0].main_preview;
                     }
-                    this.listThm=list;
-
+                    
                 })
             },
-            DelThmId(id){
-                for(var i=0;i<this.themeID.length;i++){
-                    if(this.themeID[i]==id){
-                        this.themeID.splice(i,1);
-                    }
-                }
-                this.getTheme();
+            DelThmId(){
+                this.themeID='';
+                this.listThm='';
             },
             Del(id){
                 for(var i=0;i<this.scID.length;i++){

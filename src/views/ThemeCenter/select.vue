@@ -213,8 +213,6 @@
                         this.picture[this.index]=this.uiLIST[j].main_preview
                     }
                 }
-                this.ADDchannel='';
-                this.ADDui='';
                 this.bb='';
                  this.channelDataList=[];
                 this.channelData=[];
@@ -223,7 +221,7 @@
             },
             heidTC(){
                 this.ADDqd=false;
-                this.ind=[];
+                this.ind='';
                 this.ADDchannel='';
                 this.ADDui='';
                 this.bb='';
@@ -259,8 +257,8 @@
             clicks(index){
                 this.getData();
                 this.channelDataList=[];
-                if(this.ind.indexOf(this.IMGList[index].thid)==-1){
-                    this.ind=[];
+                if(this.ind!=this.IMGList[index].thid){
+                    this.ind='';
                     this.index=index;
                     this.ADDqd=true;
                     this.TCchannel=this.IMGList[index].channel_themes;
@@ -272,7 +270,7 @@
                         }
                     }
                     this.name=this.IMGList[index].name;
-                    this.ind.push(this.IMGList[index].thid);
+                    this.ind=this.IMGList[index].thid;
 
                 }
 
