@@ -86,6 +86,7 @@
                         <option :value="item.account" v-for="item in range">{{item.account}}</option>
                     </select>
                     <span class="cx" @click="getData()">查询</span>
+                    <span class='cz' @click='reset()'>重置</span>
                 </div>
             </div>
             <div style="margin-right: -42px">
@@ -172,6 +173,15 @@
                 this.page = page;
                 this.getData()
             },
+            reset(){
+                this.channel='';
+                this.ui_version='';
+                this.status='';
+                this.special='';
+                this.type='';
+                this.contemt='';
+                this.account='';
+            },
             getTagsList(){
                 let params = {preset:1,material:2,type:"theme",search:''};
                 this.api.tags_search({params}).then((da)=>{
@@ -255,7 +265,7 @@
                         }
                     }
                 }
-                // this.getList();
+                this.getData();
             },
             getListTags(name){
                 if(name==''){
@@ -274,7 +284,7 @@
                         }
                     }
                 }
-                // this.getList()
+                this.getData()
             },
             themeType(){
                 this.api.themes_config_theme_type().then((res)=>{
@@ -284,6 +294,9 @@
                 })
             },
             getUI(){
+                if(this.channel==''){
+                    return;
+                }
                 let params={channel:this.channel};
                 this.api.themes_config_channelui({params}).then((res)=>{
                     this.ui=res
@@ -556,5 +569,20 @@
         background:#3377ff!important;
         color: #fff!important;
         border:0!important;
+    }
+    .cz{
+        margin-left: 15px;
+        display: inline-block;
+        width:68px;
+        height:36px;
+        border:1px solid rgba(51,119,255,1);
+        border-radius:4px;
+        font-size:14px;
+        font-family:PingFangSC;
+        font-weight:400;
+        color:rgba(51,119,255,1);
+        line-height: 36px;
+        text-align: center;
+        margin-bottom: 23px;
     }
 </style>

@@ -16,7 +16,7 @@
                 <div >
                     <span style=" margin-top: 26px;">绑定主题</span>
                     <a @click="zt()" v-if="pkgid==undefined">从主题库选择</a>
-                    <a  v-if="pkgid!=undefined">从主题库选择</a>
+                    <a  v-if="pkgid!=undefined" class='disab'>从主题库选择</a>
                     <div class="img_box" v-if="listThm!=''">
                         <div class="img_box1">
                             <img :src="listThm" class="img_box1_img">
@@ -909,4 +909,8 @@
         cursor: pointer;
     }
     .Tips{color: #ff240e!important;}
+    .disab{
+        border: 1px solid #e6e9f0;
+        color:#e6e9f0
+    }
 </style>

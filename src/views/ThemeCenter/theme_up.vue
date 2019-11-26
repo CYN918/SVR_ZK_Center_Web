@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 <div>
-                    <span>主题描述</span>
+                    <span style=" vertical-align: top">主题描述</span>
                     <textarea  placeholder="给主题写个自我介绍，50字内" v-model="note" maxlength="50"></textarea>
                 </div>
                 <div>
@@ -71,7 +71,7 @@
                     </select>
                 </div>
                 <div>
-                    <span>内容标签</span>
+                    <span style=" vertical-align: top">内容标签</span>
                     <div class="tag_box">
                         <input  type="text" placeholder="创建或搜索个性标签" maxlength="32" v-model="tagsName"/>
                         <div class="tags_box">
@@ -92,11 +92,11 @@
                 <div>
                     <span>绑定主题素材</span>
                     <a @click="jump()" v-if="this.$route.query.thid==undefined">从主题素材库选择</a>
-                    <a  v-if="this.$route.query.thid!=undefined">从主题素材库选择</a>
+                    <a  v-if="this.$route.query.thid!=undefined" class='disab'>从主题素材库选择</a>
                     <div class="img_box">
                         <div class="img_box1" v-for="(item,index) in listSC">
                             <img :src="item.main_preview" class="img_box1_imgs">
-                            <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px" @click="Del(item.thmid)" />
+                            <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px" @click="Del(item.thmid)" v-if="themeID==undefined"/>
                         </div>
                     </div>
                 </div>
@@ -189,6 +189,7 @@
                 tableData:{},
                 up:false,
                 times:0,
+                themeID:this.$route.query.thid,
             }
         },
 
@@ -861,4 +862,8 @@
         cursor: pointer;
     }
     .Tips{color: #ff240e!important;}
+     .disab{
+        border: 1px solid #e6e9f0;
+        color:#e6e9f0
+    }
 </style>

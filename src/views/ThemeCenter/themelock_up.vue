@@ -133,7 +133,7 @@
                 <div v-if="this.type!='th_advertise'">
                     <span>绑定主题素材</span>
                     <a @click="jump()" v-if="thmid==undefined">从主题素材库选择</a>
-                    <a v-if="thmid!=undefined">从主题素材选择</a>
+                    <a v-if="thmid!=undefined" class='disab'>从主题素材选择</a>
                     <!--<input type="checkbox" class="check" v-model="is_material"/>-->
                     <template>
                         <el-checkbox v-model="is_material" style="margin: 0 10px" :disabled="thmid!=undefined"></el-checkbox>
@@ -150,10 +150,10 @@
                 <div v-if="this.type=='th_advertise'">
                     <span>绑定主题</span>
                     <a @click="jumpTheme()" v-if="thmid==undefined">从主题库选择</a>
-                    <a v-if="thmid!=undefined">从主题选择</a>
-                    <div class="img_box">
-                        <div class="img_box1" v-for="(item,index) in listThm">
-                            <img class="img_box1_img" :src="item.main_preview">
+                    <a v-if="thmid!=undefined" class='disab'>从主题选择</a>
+                    <div class="img_box" v-if="listThms!=''">
+                        <div class="img_box1">
+                            <img class="img_box1_img" :src="listThms">
                             <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px" v-if="thmid==undefined" @click="DelList(index)"/>
                         </div>
                     </div>
@@ -191,7 +191,7 @@
                     </div>
                     <div class="imgCanvas" v-for="item in pic">
                         <img class="dels" src="../../../public/img/del.png" style="width: 16px" v-if="item!=main_preview" @click="Delete(item)">
-                        <img src="../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;left:96px;top:0px;z-index: 99" v-if="item==main_preview">
+                        <img src="../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;left:96px;top:0px;z-index: 1" v-if="item==main_preview">
                         <img :src="item" class="sc">
                         <div class="sz" @click="fm(item)">
                             <span>设置为封面</span>
@@ -254,15 +254,15 @@
                 up:false,
                 times:0,
                 themeSelect:false,
-                listTheme:[],
+                listTheme:'',
                 themeID:[],
+                listThms:"",
                 listThm:[],
                 thmid:this.$route.query.thmid,
             }
         },
         mounted(){
             this.getTagsList();
-
             this.Acctouns();
         },
         methods:{
@@ -310,13 +310,12 @@
             getTheme(thid,channel,ch_thid){
                 let params={thid:thid,channel:channel,ch_thid:ch_thid};
                 this.api.themes_theme_details({params}).then((res)=>{
-                    this.listThm.push(res);
-                    console.log(res)
+                    this.listThms=res.main_preview;
                 })
             },
 
             DelList(index){
-                this.listThm.splice(index,1);
+                this.listThms='';
                 this.themeID.splice(index,1);
             },
             getsc(){
@@ -371,6 +370,15 @@
                 }
                 this.getList();
             },
+            getThemeList(){
+                let params={thmid:this.$route.query.thmid}
+                this.api.themes_material_themes({params}).then((res)=>{
+                    this.themeID=res;
+                    if(this.themeID){
+                        this.listThms=this.themeID[0].main_preview
+                    }
+                })
+            },
             getTagsList(){
                 let params = {material:'2',type:'theme',search:this.tagsName,p:500,page:1};
                 this.api.tags_search({params}).then((da)=>{
@@ -378,6 +386,9 @@
                     if(this.$route.query.thmid!=undefined){
                         this.setData();
                         this.getsc();
+                    }
+                    if(this.$route.query.thmid!=undefined&&this.$route.query.type=='th_advertise'){
+                        this.getThemeList();
                     }
                 })
             },
@@ -1041,4 +1052,8 @@
         cursor: pointer;
     }
     .Tips{color: #ff240e!important;}
+    .disab{
+        border: 1px solid #e6e9f0;
+        color:#e6e9f0
+    }
 </style>

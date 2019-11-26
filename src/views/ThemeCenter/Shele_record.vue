@@ -61,7 +61,7 @@
                             </div>
                             <div style="margin-bottom: 3px">
                                 <span>{{attach.name}}</span>
-                                <span class="content_xz" @click="dels()" v-if="this.attach.name!=undefined">删除</span>
+                                <span class="content_xz" @click="dels()" v-if="(this.attach.name!=undefined)">删除</span>
                             </div>
                             <el-progress :percentage="this.times" v-if="up"></el-progress>
                         </div>
@@ -97,11 +97,11 @@
                     </el-date-picker>
                 </div>
                 <div>
-                    <span>上架备注</span>
+                    <span style=" vertical-align: top">上架备注</span>
                     <textarea placeholder="给主题写个自我介绍，50字内" v-model="note" maxlength="50"></textarea>
                 </div>
                 <div>
-                    <span>内容标签</span>
+                    <span style=" vertical-align: top">内容标签</span>
                     <div class="tag_box">
                         <input  type="text" placeholder="创建或搜索个性标签" maxlength="32" v-model="tagsName"/>
                         <div class="tags_box">
@@ -117,7 +117,19 @@
                         </div>
                     </div>
                 </div>
-    
+                 <div>
+                        <span style="vertical-align: top">从主题素材库选择</span>
+                        <div  style=" display: inline-block;min-height:38px">
+                            <a @click="jump()" v-if="this.cons!=undefined">从主题素材库选择</a>
+                            <a  v-if="this.cons==undefined" class='disab'>从主题素材库选择</a>
+                            <div class="img_box">
+                                <div class="img_box1" v-for="(item,index) in SC">
+                                    <img :src="item.main_preview" class="img_box1_imgs">
+                                    <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px" @click="Del(index)" v-if="cons!=undefined"/>
+                                </div>
+                            </div>
+                        </div>
+                </div>
                 <div>
                     <span style="vertical-align: top">绑定打包件(选填)</span>
                     <div style="display: inline-block" >
@@ -157,20 +169,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div  style="margin-top:20px">
-                            <a @click="jump()" v-if="this.cons!=undefined">从主题素材库选择</a>
-                            <a  v-if="this.cons==undefined">从主题素材库选择</a>
-                            <div class="img_box">
-                                <div class="img_box1" v-for="(item,index) in SC">
-                                    <img :src="item.main_preview" class="img_box1_imgs">
-                                    <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px" @click="Del(index)" v-if="cons!=undefined"/>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
-
                 </div>
-
                 <div class="themeBtn">
                     <span class="tj" @click="ADD()">提交</span>
                     <span @click="fh()">取消</span>
@@ -847,7 +848,7 @@
         background: #fff;
         margin-right: 24px;
     }
-    .themeUpLeft>div{margin-bottom: 20px;margin-left: 60px;}
+    .themeUpLeft>div{margin-bottom: 20px;margin-left: 20px;}
     .themeUpLeft>div>span{
         text-align: right;
         margin-right: 24px;
@@ -856,7 +857,7 @@
         font-family:PingFangSC;
         font-weight:500;
         color:rgba(31,46,77,1);
-        width: 80px;
+        width: 120px;
     }
     textarea{
         padding: 10px;
@@ -1212,4 +1213,8 @@
         border-bottom:transparent!important; ;
     }
     .Tips{color: #ff240e!important;}
+     .disab{
+        border: 1px solid #e6e9f0;
+        color:#e6e9f0
+    }
 </style>
