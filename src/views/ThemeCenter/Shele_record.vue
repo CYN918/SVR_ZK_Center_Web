@@ -125,6 +125,7 @@
                             <div class="db"  :class="{boxShow:num==0}"  @click="getPak('th_lock_screen')">
                                 <div class="icon">
                                     <img src="../../../public/img/add_msg.png" style="width: 18px;height: 18px;margin-bottom: 10px" >
+                                    <div>锁屏打包件</div>
                                 </div>
                                 <img :src="this.lockYl" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);" />
                                 <div v-if="this.lockYl!=''&&this.cons!=undefined" style="position: absolute;bottom: 0;width:189px;height:34px;background:rgba(0,0,0,1);opacity:0.8;text-align: center" @click="getUP('th_lock_screen')">
@@ -136,6 +137,7 @@
                             <div class="db" :class="{boxShow:num==1}" @click="getPak('th_icon')">
                                 <div class="icon">
                                     <img src="../../../public/img/add_msg.png" style="width: 18px;height: 18px;margin-bottom: 10px" >
+                                     <div>图标打包件</div>
                                 </div>
                                 <img :src="this.iconYl" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);"/>
                                 <div v-if="this.iconYl!=''&&this.cons!=undefined" style="position: absolute;bottom: 0;width:189px;height:34px;background:rgba(0,0,0,1);opacity:0.8;text-align: center" @click="getUP('th_icon')">
@@ -147,6 +149,7 @@
                             <div class="db" :class="{boxShow:num==2}" @click="getPak('th_second_page')">
                                 <div class="icon">
                                     <img src="../../../public/img/add_msg.png" style="width: 18px;height: 18px;margin-bottom: 10px" >
+                                     <div>二级页打包件</div>
                                 </div>
                                 <img :src="this.twoYl" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);"/>
                                 <div v-if="this.twoYl!=''&&this.cons!=undefined" style="position: absolute;bottom: 0;width:189px;height:34px;background:rgba(0,0,0,1);opacity:0.8;text-align: center" @click="getUP('th_second_page')">

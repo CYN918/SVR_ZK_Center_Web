@@ -111,7 +111,7 @@
                     <div class="box_top">
                         <img src="../../../../public/img/select2.png" style="width: 48px;height: 48px;position: relative;right: -141px;z-index: 9" v-if="ind.indexOf(IMGList[index].thid)==-1">
                         <img src="../../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;right: -141px;z-index: 9" v-if="ind.indexOf(IMGList[index].thid)!=-1">
-                        <img :src="item.main_preview" class="box_top_img">
+                        <img :src="picture[index]" class="box_top_img">
                     </div>
                     <div class="box_name">
                         <span>{{item.name}}</span>
@@ -141,7 +141,7 @@
                 <div class="select_cons">
                     <div >
                         <span>渠道</span>
-                        <select v-model="ADDchannel" @change="qdDataList">
+                        <select v-model="ADDchannel" @change="qdDataList()">
                             <option :value="item.channel" v-for="(item,index) in TCchannel">{{item.channel_name}}</option>
                         </select>
                     </div>
@@ -217,6 +217,7 @@
                 qdList:[],
                 channelData:[],
                 uiLIST:[],
+                picture:[]
             }
         },
         mounted(){this.themeType();
@@ -301,18 +302,23 @@
                 }
             },
             getData(){
-                let params={tags:this.listTag.concat(this.listTagData).join(','),channel:this.channel,ui_version:this.ui_version,account:this.account,
-                    status:this.status,type:this.type,class:this.contemt,tstart:this.value1[0],tend:this.value1[1],search:this.search,p:this.p,page:this.page};
-                this.api.themes_theme_search({params}).then((res)=>{
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,
+                    op_tags:(this.listTagData).join(','),tags:(this.listTag).join(','),status:this.status,
+                    class:this.contemt,ui_version:this.ui_version,channel:this.channel,account:this.account,tstart:this.value1[0],tend:this.value1[1],group_channe:1};
+                this.api.themes_theme_channel_search({params}).then((res)=>{
                     this.IMGList=res.data;
-                    for(var i=0;i<res.data.length;i++){
-                        for(var j =0;j<res.data[i].channel_themes.length;j++){
-                            if(res.data[i].channel_themes[j].ch_thid==this.radio){
-                                this.themeChannel.channel=res.data[i].channel_themes[j].channel;
-                                this.themeChannel.channel_name=res.data[i].channel_themes[j].channel_name;
-                            }
-                        }
-                    }
+                    // for(var i=0;i<res.data.length;i++){
+                    //     for(var j =0;j<res.data[i].channel_themes.length;j++){
+                    //         if(res.data[i].channel_themes[j].ch_thid==this.radio){
+                    //             this.themeChannel.channel=res.data[i].channel_themes[j].channel;
+                    //             this.themeChannel.channel_name=res.data[i].channel_themes[j].channel_name;
+                    //         }
+                    //     }
+                    // }
+                    this.picture=[];
+                //    for(var i=0;i<(res.data).length;i++){
+                //        this.picture.push(res.data[i].main_preview);
+                //    }
                     this.total=res.total;
                     this.getTagsList();
                     this.getOperatorTag();
@@ -666,6 +672,7 @@
         display: inline-block;
         margin-right: 40px;
     }
+   
     .select_type span{
         display: inline-block;
         font-size:12px;
@@ -726,11 +733,14 @@
         height: 452px;
         background: #F5F5F5;
     }
+      .box_img:nth-child(7n){
+         margin-right:0px;
+    }
     .box_img{
         display: inline-block;
-        width: 189px;
+        width: 12%;
         height: 349px;
-        margin-right: 44px;
+        margin-right: 40px;
         margin-bottom: 20px;
         background: #e3e7ef;
     }

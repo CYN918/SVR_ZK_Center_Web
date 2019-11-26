@@ -301,23 +301,26 @@
     .box{
         margin-top: 0;
         display: inline-block;
-        width:189px;
+        width:12%;
         height: 381px;
         margin-right: 40px;
         margin-bottom: 24px;
+    }
+     .box:nth-child(7n){
+        margin-right: 0px
     }
     .box:hover{
         box-shadow: 3px 3px 5px #e3e7ef;
     }
     .boxImgs{
-        width: 189px;
+        width: 100%;
         height: 315px;
         margin: 0 auto;
         background: #fff;
         padding: 0 auto!important;
     }
     .boxImgs img{
-        max-width: 189px;
+        max-width: 100%;
         max-height: 315px;
         position: relative;
         left:50%;
@@ -339,10 +342,10 @@
         color:rgba(31,46,77,1);
     }
     .boxTag{
-        width: 169px;
+        width: 94%;
         height: 34px;
         background: #fff;
-        padding:0 10px ;
+        padding:0 3% ;
         overflow-x:auto ;
 
     }

@@ -90,8 +90,8 @@
             </div>
             <div style="margin-right: -42px">
                 <div class="phone" v-for="(item,index) in this.dataList">
-                    <div style="width:189px;height:315px;">
-                        <img :src="main_preview[index]" style="height: 100%;width: 100%" @click="xq(themeChannel[index].channel,item.thid,index)">
+                    <div style="width:100%;height:315px;background:#e3e7eb">
+                        <img :src="main_preview[index]" style="max-height: 100%;max-width: 100%;position: relative;top:50%;left:50%;transform: translate(-50%,-50%)" @click="xq(themeChannel[index].channel,item.thid,index)">
                         <div class="select_type">
                             <!--<span v-if="item.channel_themes.length==0">本地</span>-->
                             <span>{{themeChannel[index].channel_name}}</span>
@@ -377,6 +377,7 @@
         min-height: 60px;
         margin-right: 22px;
         border-bottom: 1px dashed #E6E9F0;
+        
     }
     .tags{
         display: inline-block;
@@ -465,7 +466,7 @@
     }
     .bottom_name{
         display: inline-block;
-        width:189px;
+        width:100%;
         height:34px;
         background:rgba(255,255,255,1);
         opacity:0.8;
@@ -480,19 +481,24 @@
     }
     .select_type{
         display: inline-block;
-        position: relative;
-        bottom: 38px;
+        position: absolute;
+        bottom: 34px;
         left: 0;
         z-index: 999;
-        width:189px;
+        width:100%;
         height:34px;
         background:rgba(10,10,10,1);
         opacity:0.81;
     }
     .phone{
         display: inline-block;
-        margin-right: 42px;
+        margin-right: 38px;
         margin-bottom: 30px;
+        width: 12%;
+        position: relative;
+    }
+    .phone:nth-child(7n){
+         margin-right:0px;
     }
     .phone:hover{
         box-shadow: 3px 3px 5px #e3e7ef;
@@ -509,7 +515,7 @@
         opacity: 1;
     }
     .select_con{
-        width:189px;
+        width:100%;
         min-height:45px;
         background:rgba(28,28,28,1);
         border-radius:0px;

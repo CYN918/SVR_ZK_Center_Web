@@ -35,7 +35,7 @@
                                 value-format="yyyy-MM-dd">
                         </el-date-picker>
                         <span>渠道</span>
-                        <select v-model="channel" @change="getUI">
+                        <select v-model="channel" @change="getUI()">
                             <option v-for="item in channels" :value="item.channel">{{item.channel_name}}</option>
                         </select>
                         <span>厂商UI版本</span>
@@ -72,8 +72,9 @@
                             <div class="box_top">
                                 <img src="../../../public/img/select2.png" style="width: 48px;height: 48px;position: relative;right: -141px;z-index: 99" v-if="ind.indexOf(IMGList[index].thid)==-1">
                                 <img src="../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;right: -141px;z-index: 99" v-if="ind.indexOf(IMGList[index].thid)!=-1">
-                                <img :src="item.main_preview" class="box_top_img">
-                            </div>
+                                <img :src="picture[index]" class="box_top_img" >
+                    
+                        </div>
                             <div class="box_name">
                                 <span>{{item.name}}</span>
                             </div>
@@ -109,7 +110,7 @@
                     </div>
                     <div>
                         <span>厂商UI版本</span>
-                        <select v-model="ADDui">
+                        <select v-model="ADDui" @change="Ver()">
                             <option v-for="item in channelData" :value="item" v-if="channelData.length!=0">{{item}}</option>
                             <option value="" v-if="channelData.length==0&&channel!=''">暂无</option>
                         </select>
@@ -117,7 +118,7 @@
                     <div>
                         <span>资源版本</span>
                         <select v-model="bb">
-                            <option v-for="item in uiLIST" :value="item">{{item}}</option>
+                            <option v-for="item in uiLIST" :value="item.version">{{item.version}}</option>
                         </select>
                     </div>
                 </div>
@@ -185,6 +186,7 @@
                 channelData:[],
                 channelDataList:[],
                 uiLIST:[],
+                picture :[],
             }
         },
         mounted() {
@@ -207,6 +209,17 @@
                         this.main_preview=this.TCchannel[i].main_preview;
                     }
                 }
+                for(var j=0;j<this.uiLIST.length;j++){
+                    if(this.bb==this.uiLIST[j].version){
+                        this.picture[this.index]=this.uiLIST[j].main_preview
+                    }
+                }
+                this.ADDchannel='';
+                this.ADDui='';
+                this.bb='';
+                 this.channelDataList=[];
+                this.channelData=[];
+                this.uiLIST=[];
                 this.ADDqd=false;
             },
             heidTC(){
@@ -215,11 +228,13 @@
                 this.ADDchannel='';
                 this.ADDui='';
                 this.bb='';
-            },
-            qd(){
-                alert('a')
+                this.channelDataList=[];
                 this.channelData=[];
                 this.uiLIST=[];
+            },
+        
+            qd(){
+                this.channelData=[];
                 this.ADDui='';
                 this.bb='';
                 for(var i=0;i<this.TCchannel.length;i++){
@@ -227,34 +242,36 @@
                         this.channelData.push(this.TCchannel[i].ui_version);
                     }
                 }
-                for(var i=0;i<this.TCchannel.length;i++){
-                    if((this.TCchannel[i].channel==this.ADDchannel)&&(this.uiLIST.indexOf(this.TCchannel[i].version)==-1)){
-                        this.uiLIST.push(this.TCchannel[i].version);
-                    }
-                }
 
             },
+            Ver(){
+                this.uiLIST=[];
+                var uiData=[];
+                 for(var i=0;i<this.TCchannel.length;i++){
+                    if((this.TCchannel[i].channel==this.ADDchannel)&&(this.TCchannel[i].ui_version==this.ADDui)){
+                        if(uiData.indexOf(this.TCchannel[i].version)==-1){
+                            uiData.push(this.TCchannel[i].version);
+                            this.uiLIST.push(this.TCchannel[i]);
+                        }
+                        
+                    }
+                }
+            },
             clicks(index){
+                this.getData();
                 this.channelDataList=[];
                 if(this.ind.indexOf(this.IMGList[index].thid)==-1){
                     this.ind=[];
                     this.index=index;
                     this.ADDqd=true;
                     this.TCchannel=this.IMGList[index].channel_themes;
-                    this.channelDataList=this.TCchannel;
-                    // // for(var i=0;i<this.channelDataList.length;i++){
-                    // //     if(this.channelDataList[i].channel==this.channelDataList[i+2].channel){
-                    // //         this.channelDataList.splice(i,1);
-                    // //     }
-                    // // }
-                    // for(var i=0; i<this.channelDataList.length; i++){
-                    //     for(var j=i+1; j<this.channelDataList.length; j++){
-                    //         if(this.channelDataList[i]==this.channelDataList[j]){
-                    //             this.channelDataList.splice(j,1);
-                    //             j--;
-                    //         }
-                    //     }
-                    // }
+                    var channel_number=[];
+                    for(var i=0;i<this.TCchannel.length;i++){
+                        if(channel_number.indexOf(this.TCchannel[i].channel)==-1){
+                            this.channelDataList.push(this.TCchannel[i]);
+                            channel_number.push(this.TCchannel[i].channel);
+                        }
+                    }
                     this.name=this.IMGList[index].name;
                     this.ind.push(this.IMGList[index].thid);
 
@@ -267,12 +284,12 @@
                     this.zyBb=res;
                 })
             },
-            getUIs(){
-                let params={channel:this.ADDchannel};
-                this.api.themes_config_channelui({params}).then((res)=>{
-                    this.uis=res;
-                })
-            },
+            // getUIs(){
+            //     let params={channel:this.ADDchannel};
+            //     this.api.themes_config_channelui({params}).then((res)=>{
+            //         this.uis=res;
+            //     })
+            // },
             getChannel(){
                 this.api.themes_config_channel().then((res)=>{
                     this.channels=res;
@@ -304,11 +321,15 @@
             },
             getData(){
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,
-                    tags:this.listTagData.concat(this.listTag).join(','),status:this.status,
-                    class:this.content,ui_version:this.ui_version,channel:this.channel,account:'',tstart:this.time[0],tend:this.time[1]};
+                    op_tags:(this.listTagData).join(','),tags:(this.listTag).join(','),status:this.status,
+                    class:this.content,ui_version:this.ui_version,channel:this.channel,account:'',tstart:this.time[0],tend:this.time[1],group_channe:0};
                 this.api.themes_theme_channel_search({params}).then((res)=>{
+                    this.picture=[];
                     this.IMGList=res.data;
                     this.total=res.total;
+                   for(var i=0;i<res.data.length;i++){
+                       this.picture.push(res.data[i].main_preview);
+                   }
                     this.getTagsList();
                     this.getOperatorTag()
                 })
@@ -364,7 +385,7 @@
                         }
                     }
                 }
-                this.getList()
+                this.getData()
             },
             getListTag(name){
                 if(!name){
@@ -382,15 +403,15 @@
                         }
                     }
                 }
-                this.getList()
+                this.getData()
             },
             handleSizeChange1(pageSize) { // 每页条数切换
                 this.pageSize = pageSize;
-                this.getList()
+                this.getData()
             },
             handleCurrentChange1(currentPage) {//页码切换
                 this.currentPage = currentPage;
-                this.getList()
+                this.getData()
             },
         },
         watch:{
@@ -616,6 +637,7 @@
     .box_top{
         width: 189px;
         height: 315px;
+        position: relative;
     }
     .box_top span{
         display: inline-block;
@@ -793,4 +815,47 @@
         border: none!important;
         margin-right: 20px;
     }
+     /* .select_type{
+        display: inline-block;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        z-index: 999;
+        width:100%;
+        height:34px;
+        background:rgba(10,10,10,1);
+        opacity:0.81;
+    }
+     .select_type span{
+        display: inline-block;
+        font-size:12px;
+        font-family:PingFangSC;
+        font-weight:400;
+        color:rgba(230,233,240,1);
+        margin: 9px 8px 0 14px;
+    }
+    .select_type:hover .select_con{
+        opacity: 1;
+    }
+     .select_con{
+        width:100%;
+        min-height:45px;
+        background:rgba(28,28,28,1);
+        border-radius:0px;
+        opacity: 0;
+        position: absolute;
+        left: 0;
+        bottom: 34px;
+    }
+    .select_con input{
+        width: 16px;
+        height: 16px;
+    }
+    .radio{margin: 0px 9px}
+    .radio .el-radio{
+       margin: 16px 3px 0 3px;
+    }
+    .radio .el-radio__label{
+        color: #fff!important;
+    } */
 </style>

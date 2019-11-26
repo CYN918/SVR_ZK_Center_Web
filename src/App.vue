@@ -382,7 +382,7 @@ a{
 }
 .boxImg{
   display: inline-block;
-  width:776px;
+  width:48.2%;
   height:327px;
   background:rgba(255,255,255,1);
   border-radius:4px;
@@ -440,7 +440,7 @@ a{
 }
 .boxImg_xz_yz{
   display: inline-block;
-  max-width: 234px !important;
+  max-width: 200px !important;
   height:35px;
   overflow: hidden;
 }
@@ -489,7 +489,7 @@ a{
 /*}*/
 .boxImg_xz{
   display: inline-block;
-  width: 300px;
+  width: 260px;
   max-height: 35px;
   overflow: hidden;
 }

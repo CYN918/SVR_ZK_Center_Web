@@ -13,6 +13,7 @@
                             <option value="th_lock_screen">锁屏</option>
                             <option value="th_icon">图标</option>
                             <option value="th_second_page">二级页</option>
+                             <option value="th_advertise">宣传图</option>
                         </select>
                         <img src="../../../public/img/ss.png" />
                         <input type="text" placeholder="搜索标签或ID" v-model="search" @input="getList()"/>
