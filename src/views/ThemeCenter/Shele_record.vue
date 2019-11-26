@@ -783,7 +783,8 @@
             },
             upLoad(file){
                 if(!this.channel){
-                    this.$message.error('渠道不能为空')
+                    this.$message.error('渠道不能为空');
+                    return
                 }
                 this.attach={};
                 this.up=true;
@@ -808,7 +809,6 @@
                     this.pic.push(res.url);
                 })
             },
-            upload(){},
             handleRemove(file, fileList) {
                 console.log(file, fileList);
             },
