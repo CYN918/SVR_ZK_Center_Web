@@ -345,6 +345,7 @@
         font-family:PingFangSC-Regular,PingFangSC;
         font-weight:400;
         color:rgba(230,233,240,1);
+        z-index: 9;
     }
     .box1_BTN span{
         display: block;
