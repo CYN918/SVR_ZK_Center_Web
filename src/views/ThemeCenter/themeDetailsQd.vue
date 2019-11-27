@@ -22,7 +22,7 @@
                 <img :src="bg"/>
             </div>
         </div>
-        <div style="margin-top: 245px;background: #fff;height:231px;padding:0 24px">
+        <div style="margin-top: 245px;background: #fff;height:223px;padding:0 24px">
             <div class="name">
                 <span>主题名称:</span>
                 <span>{{tableData.name}}</span>
@@ -31,7 +31,7 @@
                     <a :href="this.tableData.attach.url" class="dowload">下载</a>
                 </div>
             </div>
-            <div>
+            <div style="margin-top:8px">
                 <span class="titName">主题类型:</span>
                 <span class="titCon">{{tableData.type_name}}</span>
                 <span class="titName" style="width: 20px;margin-right: 10px">ID:</span>
@@ -62,7 +62,7 @@
                     <span class="tagADD" @click="BJtags()">+ 标签</span>
                 </div>
             </div>
-            <div style="margin-bottom: 13px">
+            <div style="margin:8px 0 24px 0 ">
                 <span class="titName">主题描述:</span>
                 <span class="titCon" style="width: 70%">{{this.tableData.note}}</span>
             </div>
@@ -491,7 +491,6 @@
     .titName{
         display: inline-block;
         width:70px;
-        margin-bottom: 9px;
         font-size:14px;
         font-family:PingFangSC;
         font-weight:400;
