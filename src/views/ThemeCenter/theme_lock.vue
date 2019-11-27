@@ -98,6 +98,7 @@
                         }
                     }
                 }
+                this.dataList()
             },
             bjTags(id,tag){
                 this.id=id;

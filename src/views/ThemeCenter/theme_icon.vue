@@ -99,6 +99,7 @@
                         }
                     }
                 }
+                this.dataList()
             },
             getTotal(){
                 let params={type:this.type}

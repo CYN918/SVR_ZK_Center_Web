@@ -304,6 +304,7 @@
                 themeD.thid=data;
                 themeD.channel=data5;
                 themeD.ch_thid=data1;
+                console.log(themeD)
                 this.themeID.push(themeD);
                 this.getTheme(data,data5,data1)
             },

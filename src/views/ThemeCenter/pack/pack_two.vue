@@ -121,6 +121,7 @@
                         }
                     }
                 }
+                this.dataList()
             },
             qxTags(){
                 this.ta=false;
