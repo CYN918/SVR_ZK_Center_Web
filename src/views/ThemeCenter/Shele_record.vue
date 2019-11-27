@@ -543,7 +543,7 @@
                 this.bg=false;
             },
             linet(data){
-                this.scID=data;
+                this.scID=this.scID.concat(data);
                 this.getList();
             },
             setData(){

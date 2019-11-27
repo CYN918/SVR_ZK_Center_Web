@@ -86,11 +86,7 @@
                                 v-if="num.seach2==true"
                         >
                         </el-table-column>
-                        <el-table-column
-                                prop=""
-                                v-if="num.seach3==true"
-                                label="厂商UI版本">
-                        </el-table-column>
+                       
                         <el-table-column
                                 prop="price"
                                 v-if="num.seach7==true"
@@ -198,8 +194,7 @@
                     <span>日期</span>
                     <input type="checkbox" v-model="num.seach2"/>
                     <span>主题名称</span>
-                    <input type="checkbox" v-model="num.seach3"/>
-                    <span>厂商UI版本</span>
+                    
                     <input type="checkbox" v-model="num.seach4"/>
                     <span>渠道</span>
                     <input type="checkbox" v-model="num.seach5"/>
@@ -268,7 +263,7 @@
                     seachClassName:true,
                     seach1:true,
                     seach2:true,
-                    seach3:true,
+                    
                     seach4:true,
                     seach5:true,
                     seach6:true,
