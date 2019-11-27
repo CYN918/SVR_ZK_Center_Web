@@ -464,6 +464,9 @@
             },
     
             getPak(type){
+                if(!this.cons){
+                    return
+                }
                 if((type=='th_lock_screen')&&(this.lockYl!='')){
                     return
                 }
