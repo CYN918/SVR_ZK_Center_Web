@@ -181,6 +181,7 @@
                 this.type='';
                 this.contemt='';
                 this.account='';
+                this.value1=[];
             },
             getTagsList(){
                 let params = {preset:1,material:2,type:"theme",search:''};
