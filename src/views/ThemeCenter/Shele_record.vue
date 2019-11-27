@@ -5,7 +5,7 @@
         <div class="top" v-if="this.cons==undefined">
             <div class="tit_top_url">
                 <span class="log_url" @click="fh()">主题库&nbsp;/</span>
-                <span class="log_url" @click="fh()">&nbsp;主题库详情&nbsp;/</span>
+                <span class="log_url" @click="fhs()">&nbsp;主题库详情&nbsp;/</span>
                 <span class="new_url">&nbsp;编辑渠道详情</span>
             </div>
             <div class="tit_top_con">
@@ -15,7 +15,7 @@
         <div class="top" v-if="this.cons!=undefined">
             <div class="tit_top_url">
                 <span class="log_url" @click="fh()">主题库&nbsp;/</span>
-                <span class="log_url" @click="fh()">&nbsp;主题库详情&nbsp;/</span>
+                <span class="log_url" @click="fhs()">&nbsp;主题库详情&nbsp;/</span>
                 <span class="new_url"> &nbsp添加上架记录</span>
             </div>
             <div class="tit_top_con">
@@ -174,7 +174,7 @@
                 </div>
                 <div class="themeBtn">
                     <span class="tj" @click="ADD()">提交</span>
-                    <span @click="fh()">取消</span>
+                    <span @click="fhs()">取消</span>
                 </div>
             </div>
             <div class="themeUpRight">
@@ -303,7 +303,19 @@
        
         methods:{
             fh(){
-                this.$router.go(-1);
+                this.$router.push({
+                    path:"./themeCook"
+                });
+            },
+             fhs(){
+                this.$router.push({
+                    path:"./themeDetails",
+                    query:{
+                        thid:this.thid,
+                        channel:'local',
+                        ch_thid:"",
+                    },
+                });
             },
             getDataDetails(){
                 let params={thid:this.$route.query.thid,ch_thid:this.$route.query.ch_thid,channel:this.$route.query.channel};

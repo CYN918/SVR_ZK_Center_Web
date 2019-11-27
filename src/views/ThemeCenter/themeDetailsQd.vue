@@ -260,8 +260,12 @@
                 op:[],
             }
         },
+         
         created(){
             this.getData()
+        },
+        mounted(){
+             window.scroll(0, 0);
         },
         methods:{
             BJtags(){
