@@ -418,7 +418,7 @@
             },
             handleSizeChange1(pageSize) { // 每页条数切换
                 this.pageSize = pageSize;
-                 if(his.$route.query.type!='th_advertise'){
+                 if(this.$route.query.type!='th_advertise'){
                     this.getData()
                 }else{
                     this.getList();
@@ -427,7 +427,7 @@
             },
             handleCurrentChange1(currentPage) {//页码切换
                 this.currentPage = currentPage;
-                 if(his.$route.query.type!='th_advertise'){
+                 if(this.$route.query.type!='th_advertise'){
                     this.getData()
                 }else{
                     this.getList();
