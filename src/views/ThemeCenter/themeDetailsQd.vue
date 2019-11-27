@@ -521,7 +521,7 @@
     }
     .tagName{
         display: inline-block;
-        padding:0px 5px;
+        padding:0px 8px;
         background:rgba(255,255,255,1);
         border-radius:4px;
         line-height: 24px;
