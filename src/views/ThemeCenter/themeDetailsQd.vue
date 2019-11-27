@@ -299,6 +299,7 @@
                     this.tableData=res;
                     this.op_tags=this.tableData.op_tags;
                     this.version=this.tableData.version;
+                    this.ch_thid=res.ch_thid;
                     this.getsc();
                     this.getUI(this.tableData.ui_version);
                     this.qd();
