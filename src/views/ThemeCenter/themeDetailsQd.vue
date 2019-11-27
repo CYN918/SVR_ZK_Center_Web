@@ -748,7 +748,7 @@
     }
     .uiName{
         display: inline-block;
-        padding: 0 3px;
+        padding: 0 8px;
         height:24px;
         line-height: 24px;
         text-align: center;
