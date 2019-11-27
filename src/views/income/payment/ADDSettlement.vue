@@ -144,7 +144,7 @@
                     <span>添加合同</span>
                 </div>
                 <div>
-                    <input type="text" class="content_input" v-model="contract_id"/>
+                    <input type="text" class="content_input" v-model="contract_id" placeholder="搜索文件归档号"/>
                     <span class="content_seach" @click="getHT()">查询</span>
                 </div>
                 <div style="margin: 14px 20px" v-for="item in list">
