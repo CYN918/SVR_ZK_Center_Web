@@ -117,6 +117,7 @@
                         }
                     }
                 }
+                this.dataList()
             },
             getClass(){
                 if(this.class1==false){
