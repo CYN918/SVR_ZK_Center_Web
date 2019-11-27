@@ -311,7 +311,7 @@
     .tit_top_url{padding-left: 0!important;}
     .new_url{color: rgba(61,73,102,1)!important;}
     .name{
-        margin: 12px 0 12px 23px;
+        margin: 24px 0 12px 23px;
     }
     .top>div{
         margin-left: 23px;

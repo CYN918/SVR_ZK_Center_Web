@@ -35,9 +35,9 @@
                 <span class="titName">主题类型:</span>
                 <span class="titCon">{{tableData.type_name}}</span>
                 <span class="titName" style="width: 20px;margin-right: 10px">ID:</span>
-                <span class="titCon" style="margin-right: 200px">{{tableData.thid}}</span>
+                <span class="titCon" style="margin-right: 140px">{{tableData.thid}}</span>
                 <span class="titName" style="width: 47px;margin-right: 10px">定投ID:</span>
-                <span class="titCon" style="width: 150px">{{tableData.wpid!=''?tableData.wpid:'不可定投主题'}}</span>
+                <span class="titCon" style="width: 150px;margin-right:0">{{tableData.wpid!=''?tableData.wpid:'不可定投主题'}}</span>
             </div>
             <div>
                 <span class="titName">内容分类:</span>
@@ -502,7 +502,7 @@
         font-size:14px;
         font-family:HelveticaNeue;
         color:rgba(31,46,77,0.65);
-        margin-right:160px ;
+        margin-right:100px ;
     }
     .tag{
         display: inline-block;
@@ -547,7 +547,7 @@
         font-weight:400;
         color:rgba(31,46,77,0.65);
         margin-right: 48px;
-        padding-bottom: 10px;
+        padding-bottom: 15px;
         cursor: pointer;
     }
     .clicks{

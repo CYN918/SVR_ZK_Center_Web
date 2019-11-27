@@ -242,11 +242,10 @@
         background:rgba(255,255,255,1);
     }
     .name{
-        margin-bottom:14px ;
+        margin:24px 0 14px 0 ;
     }
     .top>div{
         margin-left: 23px;
-        margin-bottom: 12px;
     }
     .name>span{
         font-size:18px;

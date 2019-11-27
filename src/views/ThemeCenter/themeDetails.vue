@@ -19,7 +19,7 @@
                 <span class="titName" style="width: 20px;margin-right: 15px">ID:</span>
                 <span class="titCon">{{tableData.thid}}</span>
                 <span class="titName">创建时间:</span>
-                <span class="titCon" style="width: 150px">{{tableData.created_at}}</span>
+                <span class="titCon" style="width: 150px;margin-right:0">{{tableData.created_at}}</span>
             </div>
             <div>
                 <span class="titName">内容分类:</span>
@@ -360,7 +360,7 @@
     .tit_top_url{padding-left: 0!important;}
     .new_url{color: rgba(61,73,102,1)!important;}
     .name{
-        margin: 12px 0 12px 23px;
+        margin: 24px 0 12px 23px;
     }
     .top>div{
         margin-left: 23px;
@@ -463,7 +463,7 @@
         font-weight:400;
         color:rgba(31,46,77,0.65);
         margin-right: 48px;
-        padding-bottom: 10px;
+        padding-bottom: 15px;
         cursor: pointer;
     }
     .click{
