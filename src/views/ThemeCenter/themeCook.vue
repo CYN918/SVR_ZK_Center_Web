@@ -128,7 +128,7 @@
         data(){
             return{
                 radio:[],
-                value1:[(new Date()).toLocaleDateString().split('/').join('-'),(new Date()).toLocaleDateString().split('/').join('-')],
+                value1:[],
                 isType:0,
                 isTypes:0,
                 theme_type:[],
