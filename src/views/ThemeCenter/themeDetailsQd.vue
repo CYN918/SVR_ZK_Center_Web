@@ -316,6 +316,7 @@
                 };
                 this.api.themes_theme_channel({params}).then((res)=>{
                     this.tableData=res;
+                    this.ch_thid=res.ch_thid;
                     this.tags=res.tags.split(',');
                     this.op_tags=this.tableData.op_tags;
                     this.version=this.tableData.version;
