@@ -344,12 +344,7 @@
                     this.price=res.price;
                     this.tdate=res.tdate;
                     this.is_package=res.is_package;
-                    if(this.is_package==1){
-                        this.is_package=false;
-                    }else {
-                        this.is_package=true;
-                        this.getsc();
-                    }
+                    this.getsc();
                     this.getUI(res.ui_version);
                     this.getPack();
                 })
@@ -383,9 +378,9 @@
                             }
                         }
                     }
-                    if(this.id!=''){
-                        this.getDataList();
-                    }
+                    // if(this.id!=''){
+                    //     this.getDataList();
+                    // }
 
                 })
             },
@@ -402,12 +397,12 @@
                 }
                 return isXzip||iszip||isTheme||isGnz||isZmtp||isHwt;
             },
-            getDataList(){
-                let params={pkgid:this.id};
-                this.api.themes_package_materials({params}).then((res)=>{
-                    this.SC=res;
-                })
-            },
+            // getDataList(){
+            //     let params={pkgid:this.id};
+            //     this.api.themes_package_materials({params}).then((res)=>{
+            //         this.SC=res;
+            //     })
+            // },
             ADDtag(){
                 let formData =new FormData;
                 formData.append('name',this.tagsName);
