@@ -630,8 +630,9 @@
                 }
                 var arrType=[];
                 var strRange= '';
-                 if(this.SC.length>3){
+                 if(this.SC.length<3){
                     this.$message.error('相关素材必须有锁屏/图标/二级页3种素材类型');
+                    return
                 }
             
                 for(var i=0;i<this.SC.length;i++){
