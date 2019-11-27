@@ -743,6 +743,7 @@
                 })
             },
             getList(){
+                this.SC=[];
                 for(var i=0;i<this.scID.length;i++){
                     var params ={thmid:this.scID[i]};
                      this.api.themes_material_details({params}).then((res)=>{
