@@ -96,7 +96,7 @@
                     <div class="img_box">
                         <div class="img_box1" v-for="(item,index) in listSC">
                             <img :src="item.main_preview" class="img_box1_imgs">
-                            <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px" @click="Del(item.thmid)" v-if="themeID==undefined"/>
+                            <img class="del" src="../../../public/img/del.png" style="width: 17px;height: 16px" @click="Del(index)" v-if="themeID==undefined"/>
                         </div>
                     </div>
                 </div>
@@ -273,7 +273,7 @@
                 this.bg=false;
             },
             linet(data){
-                this.scID=data;
+                this.scID=this.scID.push(data);
                 this.getList();
             },
 
@@ -329,6 +329,7 @@
                     }
                     if(!strRange){
                         strRange = this.listSC[i].range;
+                        continue;
                     }
                     if(strRange != this.listSC[i].range){
                         this.$message.error('同一主题不可绑定使用范围不同的素材');
@@ -398,29 +399,30 @@
                 })
             },
             getList(){
-                let params ={page:1,p:1000000,type:'',search:'',tags:'',status:''};
-                this.api.themes_material_search({params}).then((res)=>{
-                    this.IMGList=res.data;
-                    var list=[];
-                    for(var i=0;i<this.IMGList.length;i++ ){
-                        for(var j =0;j<this.scID.length;j++){
-                            if(this.IMGList[i].thmid==this.scID[j]){
-                                list.push(this.IMGList[i]);
-                            }
-                        }
-                    }
-                    this.listSC=list;
-                    console.log(this.listSC);
+                this.istSC=[];
+                for(var i=0;i<this.scID.length;i++){
+                    var params={thmid:this.scID[i]};
+                     this.api.themes_material_details({params}).then((res)=>{
+                        this.listSC.push(res);
                 })
+                }
+                // this.api.themes_material_details({params}).then((res)=>{
+                //     this.IMGList=res.data;
+                //     var list=[];
+                //     for(var i=0;i<this.IMGList.length;i++ ){
+                //         for(var j =0;j<this.scID.length;j++){
+                //             if(this.IMGList[i].thmid==this.scID[j]){
+                //                 list.push(this.IMGList[i]);
+                //             }
+                //         }
+                //     }
+                //     this.listSC=list;
+                // })
             },
 
-            Del(id){
-                for(var i=0;i<this.scID.length;i++){
-                    if(this.scID[i]==id){
-                        this.scID.splice(i,1);
-                        this.getList();
-                    }
-                }
+            Del(index){
+                    this.scID.splice(index,1);
+                    this.listSC.splice(index,1)
             },
             getTagsList(){
                 let params = {material:'2',type:"theme",search:this.tagsName,p:500,page:1};

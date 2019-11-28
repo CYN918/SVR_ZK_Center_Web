@@ -645,6 +645,7 @@
                     }
                     if(!strRange){
                         strRange = this.SC[i].range;
+                         continue;
                     }
                     if(strRange != this.SC[i].range){
                         this.$message.error('同一主题不可绑定使用范围不同的素材');
