@@ -143,6 +143,7 @@
             }
         },
         mounted(){
+            console.log(this.$route.query.data)
             this.qd();
             if(this.$route.query.data.channel==''){
                 this.channel='local'
@@ -201,7 +202,7 @@
             },
             listData(data,id,name,url,mz,qd){
                if(this.num==1){
-                   this.themeID=data[0];
+                   this.themeID=data;
                    if(id==''){
                        this.ch_thid='local'
                    }else{
@@ -216,7 +217,7 @@
                        this.channel=qd;
                    }
                }else{
-                   this.f_thid=data[0];
+                   this.f_thid=data;
                    if(id==''){
                        this.f_ch_thid='local'
                    }else{
@@ -296,7 +297,7 @@
             getData(){
                 let params={thid:this.f_thid,channel:this.qds,ch_thid:this.f_ch_thid};
                 this.api.themes_theme_details({params}).then((res)=>{
-                    this.qDurl=res.main_preview;
+                    // this.qDurl=res.main_preview;
                 })
             },
             getDataPending(){
