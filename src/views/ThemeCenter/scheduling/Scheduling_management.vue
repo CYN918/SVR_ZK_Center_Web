@@ -166,7 +166,7 @@
                     this.$message.error('名称不能为空')
                     return
                 }
-                if(!this.date){
+                if(this.date==[]){
                     this.$message.error('时间范围不能为空')
                     return
                 }
@@ -191,7 +191,7 @@
                     this.$message.error('名称不能为空')
                     return
                 }
-                if(!this.date){
+                if(this.date==[]){
                     this.$message.error('时间范围不能为空')
                     return
                 }
