@@ -27,7 +27,7 @@
                    </div>
                </div>
                <div class="name">
-                   <span>{{this.name}}</span>
+                   <span>{{this.imgname}}</span>
                </div>
 
                <div class="box1_name">
@@ -130,7 +130,6 @@
                 ch_thid:this.$route.query.data.ch_thid,
                 schedule_id:this.$route.query.schedule_id,
                 thm:false,
-                themeID:[],
                 qdName:[],
                 url:'',
                 num:'',
@@ -140,26 +139,14 @@
                 qDurl:'',
                 mz:"",
                 qds:this.$route.query.data.channel,
+                imgname:'',
             }
         },
         mounted(){
-            console.log(this.$route.query.data)
-            this.qd();
-            if(this.$route.query.data.channel==''){
-                this.channel='local'
-            }else{
-                this.channel=this.$route.query.data.channel
-            }
-            if(this.$route.query.data.ch_thid==''){
-                this.ch_thid='local'
-            }else{
-                this.ch_thid=this.$route.query.data.ch_thid
-            }
-            if(this.$route.query.data.f_ch_thid==''){
-                this.f_ch_thid='local'
-            }else{
-                this.f_ch_thid=this.$route.query.data.f_ch_thid
-            }
+            this.qd();  
+            this.channel=this.$route.query.data.channel
+            this.ch_thid=this.$route.query.data.ch_thid
+            this.f_ch_thid=this.$route.query.data.f_ch_thid
         },
 
         methods:{
@@ -202,27 +189,16 @@
             },
             listData(data,id,name,url,mz,qd){
                if(this.num==1){
-                   this.themeID=data;
-                   if(id==''){
-                       this.ch_thid='local'
-                   }else{
-                       this.ch_thid=id;
-                   }
+                   this.thid=data;
+                    this.ch_thid=id;
                    this.channel_name=name;
                    this.url=url;
-                   this.name=mz;
-                   if(qd==''){
-                       this.channel='local'
-                   }else{
+                   this.imgname=mz;
+                   
                        this.channel=qd;
-                   }
                }else{
                    this.f_thid=data;
-                   if(id==''){
-                       this.f_ch_thid='local'
-                   }else{
-                       this.f_ch_thid=id;
-                   }
+                    this.f_ch_thid=id;
                    this.qDname=name;
                    this.qDurl=url;
                    this.mz=mz;
@@ -284,7 +260,9 @@
                 this.api.themes_config_channel().then((res)=>{
                     this.channels=res;
                     this.Range();
-                    this.getData();
+                    if(this.f_thid){
+                         this.getData();
+                    }
                     this.getDataPending()
                 })
             },
@@ -297,13 +275,15 @@
             getData(){
                 let params={thid:this.f_thid,channel:this.qds,ch_thid:this.f_ch_thid};
                 this.api.themes_theme_details({params}).then((res)=>{
-                    // this.qDurl=res.main_preview;
+                    this.qDurl=res.main_preview;
+                    this.mz=res.name;
                 })
             },
             getDataPending(){
-                let params={thid:this.thid,channel:this.channel,ch_thid:this.ch_thid};
+                let params={thid:this.thid,channel:'',ch_thid:this.ch_thid};
                 this.api.themes_theme_details({params}).then((res)=>{
                     this.url=res.main_preview;
+                    this.imgname=res.name;
                 })
             },
         },

@@ -331,20 +331,6 @@
                 }
             },
             clicks(index){
-                // if(this.ind.indexOf(this.IMGList[index].thid)==-1){
-                //     this.ind.push(this.IMGList[index].thid);
-                //     this.ADDqd=true;
-                //     this.index=index;
-                //     this.TCchannel=this.IMGList[index].channel_themes;
-                // }else{
-                //     for(var i = 0;i<this.ind.length;i++){
-                //         if(this.ind[i]==this.IMGList[index].thid){
-                //             this.ind.splice(i,1);
-                //             this.ch_thids.splice(i,1);
-                //             this.qdList.splice(i,1)
-                //         }
-                //     }
-                // }
                  this.channelDataList=[];
                 if(this.ind.indexOf(this.IMGList[index].thid)==-1){
                     this.index=index;

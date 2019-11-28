@@ -527,8 +527,8 @@
             AddMaterial(index){
                 this.ADD_material =true;
                 if(this.tableData[index]){
-                     this.status=this.tableData[index].status;
-                    this.id = this.tableData[index].did;
+                this.status=this.tableData[index].status;
+                this.id = this.tableData[index].did;
                 this.num = this.tableData[index].num;
                 this.types = this.tableData[index].type;
                 this.limit_size=this.tableData[index].putlib.size;

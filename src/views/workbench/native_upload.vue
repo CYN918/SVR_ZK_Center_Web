@@ -3,7 +3,7 @@
         <div class="bg" >
             <div class="AddIMG" >
                 <div class="AddIMG_tit">
-                    <span>添加素材</span>
+                    <span>添加素材ssss</span>
                 </div>
                 <div class="AddIMG_content">
                     <div class="AddIMG_content_left">
@@ -44,11 +44,12 @@
                                 <div class="strip" :style="{width:aaa+'%'}" style="background: blue;height: 5px"></div>
                                 <div style="text-align: center;font-size: 10px">当前附件上传{{aaa}}%</div>
                             </div>
-                            <div v-if="attach.name!=''">
+                            <div v-if="attach.name!=undefined">
                                 <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
                                     <div slot="content" class="text">{{attach.name}}</div>
                                     <span  class="text" style="overflow: hidden;width: 100px;height: 24px;margin-left: 134px">{{attach.name}}</span>
                                 </el-tooltip>
+                                <span class="content_xz" @click="dels()" >删除</span>
                             </div>
                         </div>
                         <div class="AddIMG_sc">
@@ -165,11 +166,7 @@
                 fileList:[],
                 prev_uri:'',
                 attach:{
-                    name:'',
-                    url:'',
-                    size:'',
-                    ext:'',
-                    md5:''
+            
                 },
                 bind_mid:'',
                 bind_workid:'',
@@ -233,6 +230,10 @@
                         _this.bbb++
                     }
                 },100);
+            },
+              dels(){
+               
+                this.attach={};
             },
             uploadF(file){
                     this.initiate=true;
@@ -689,5 +690,14 @@
         border-radius: 5px;
         margin-bottom: 10px!important;
     }
-
+ .content_xz{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(51,119,255,1)!important;
+        margin-left: 10px;
+        cursor: pointer;
+        vertical-align: top;
+    }
 </style>

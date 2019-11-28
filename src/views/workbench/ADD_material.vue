@@ -33,8 +33,6 @@
                             <div class="AddIMG_input_box" v-if="this.type!='f_sls_lockscreen'">
                                 <el-upload
                                         class="upload-demo"
-                                        :limit="1"
-                                        :on-exceed="handleExceed"
                                         :on-remove="handleRemove"
                                         :http-request="uploadF"
                                         action="111"
@@ -58,16 +56,19 @@
                                 <div class="strip" :style="{width:aaa+'%'}" style="background: blue;height: 5px"></div>
                                 <div style="text-align: center;font-size: 10px">当前附件上传{{aaa}}%</div>
                             </div>
+                            
                             <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="chenck" v-if="this.type!='f_sls_lockscreen'"/><span v-if="this.type!='f_sls_lockscreen'">仅图片</span>
-                            <div class="upChenck" v-if="this.type!='f_sls_lockscreen'">
-                                <p>勾选后可直接上传图片、且无需再次上传预览图</p>
-                            </div>
-                            <div v-if="attach.name!=''">
+                             <div v-if="attach.name!=undefined">
                                 <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
                                     <div slot="content" class="text">{{attach.name}}</div>
                                     <span  class="text" style="overflow: hidden;width: 100px;height: 24px;margin-left: 134px">{{attach.name}}</span>
                                 </el-tooltip>
+                                 <span class="content_xz" @click="dels()" >删除</span>
                             </div>
+                            <div class="upChenck" v-if="this.type!='f_sls_lockscreen'">
+                                <p>勾选后可直接上传图片、且无需再次上传预览图</p>
+                            </div>
+                           
                         </div>
                         <div class="AddIMG_sc">
                             <span class="tit">绑定素材:</span>
@@ -201,14 +202,7 @@
                 fileList:[],
                 prev_uri:'',
                 attach:{
-                    name:'',
-                    url:'',
-                    size:'',
-                    ext:'',
-                    md5:'',
-                    check_md5:'',
-                    checksum_md5:'',
-                    wpid:"",
+                
                 },
                 bind_mid:'',
                 bind_workid:'',
@@ -299,6 +293,10 @@
                     image.src= res.url;
 
                 })
+            },
+            dels(){
+               
+                this.attach={};
             },
             uploadZip(file){
                 this.time();
@@ -896,5 +894,15 @@
         font-size: 12px;
         border-radius: 5px;
         margin-bottom: 10px!important;
+    }
+     .content_xz{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(51,119,255,1)!important;
+        margin-left: 10px;
+        cursor: pointer;
+        vertical-align: top;
     }
 </style>
