@@ -678,7 +678,14 @@
                     this.$message.error('渠道不能为空')
                     return
                 }
-
+                if(!this.ui_version){
+                    this.$message.error('渠道版本不能为空')
+                    return
+                } 
+                if(!this.version){
+                    this.$message.error('资源版本不能为空')
+                    return
+                }
                 if(!this.account){
                     this.$message.error('上架账号不能为空')
                     return
