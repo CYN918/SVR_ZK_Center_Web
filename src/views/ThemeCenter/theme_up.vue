@@ -273,7 +273,17 @@
                 this.bg=false;
             },
             linet(data){
-                this.scID=this.scID.push(data);
+                if(!this.scID){
+                    this.scID=data;
+                }else{
+                    for(var i=0;i<data.length;i++){
+                            if(this.scID.indexOf(data[i])==-1){
+                                this.scID.push(data[i])
+                            }
+                    }
+
+                }
+               
                 this.getList();
             },
 
@@ -399,7 +409,7 @@
                 })
             },
             getList(){
-                this.istSC=[];
+                this.listSC=[];
                 for(var i=0;i<this.scID.length;i++){
                     var params={thmid:this.scID[i]};
                      this.api.themes_material_details({params}).then((res)=>{

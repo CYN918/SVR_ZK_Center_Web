@@ -543,7 +543,16 @@
                 this.bg=false;
             },
             linet(data){
-                this.scID=this.scID.concat(data);
+               if(!this.scID){
+                    this.scID=data;
+                }else{
+                    for(var i=0;i<data.length;i++){
+                            if(this.scID.indexOf(data[i])==-1){
+                                this.scID.push(data[i])
+                            }
+                    }
+
+                }
                 this.getList();
             },
             setData(){
@@ -961,6 +970,7 @@
     }
     .img_box{
         margin-top: 20px;
+        max-width: 650px;
     }
     .img_box1{
         display: inline-block;
@@ -978,6 +988,7 @@
         left: 50%;
         top:50%;
         transform: translate(-50%,-50%);
+        margin-bottom: 15px
     }
     .del{
         display: inline-block;
