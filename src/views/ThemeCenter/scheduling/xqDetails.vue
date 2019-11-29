@@ -19,7 +19,7 @@
                    <span>待制作</span>
                </div>
                <div class="box1_img">
-                   <span class="box1_qd">{{this.channel_name}}</span>
+                   <span class="box1_qd">{{this.channelName=='local'?'本地':this.channelName==''?'本地':"this.channelName"}}</span>
                    <img :src="this.url">
                    <div class="box1_BTN">
                        <span @click="zt('1')" v-if="this.$route.query.record==undefined">重新选择</span>
@@ -140,6 +140,7 @@
                 mz:"",
                 qds:this.$route.query.data.channel,
                 imgname:'',
+                channelName:'',
             }
         },
         mounted(){
@@ -284,6 +285,7 @@
                 this.api.themes_theme_details({params}).then((res)=>{
                     this.url=res.main_preview;
                     this.imgname=res.name;
+                    this.channelName=res.channel
                 })
             },
         },
