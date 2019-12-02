@@ -1,6 +1,6 @@
 <template>
     <div>
-        <thmSelect v-if="thm" @listData="listData"></thmSelect>
+        <thmSelect v-if="thm" @listData="listData" :num='num'></thmSelect>
         <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="fhs">排期管理&nbsp;/&nbsp;</span>

@@ -597,8 +597,8 @@
                     this.$message.error('价格最大为99.9');
                     return
                 }
-                if(this.price<=0){
-                    this.$message.error('价格为大于零的正数');
+                if(this.price<0){
+                    this.$message.error('价格为不小于零的正数');
                     return
                 }
                 
@@ -722,8 +722,8 @@
                     this.$message.error('价格最大为99.9');
                     return
                 }
-                if(this.price<=0){
-                    this.$message.error('价格为大于零的正数');
+                if(this.price<0){
+                    this.$message.error('价格为不小于零的正数');
                     return
                 }
                

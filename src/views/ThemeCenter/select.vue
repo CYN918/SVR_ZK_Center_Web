@@ -133,7 +133,7 @@
 <script>
     export default {
         name: "select_material",
-        props:['material','typeSC'],
+        props:['material','typeSC','num'],
         data(){
             return {
                 checked:[],
@@ -160,7 +160,7 @@
                 listTag:[],
                 listTagData:[],
                 search_tags:[],
-                time:[(new Date()).toLocaleDateString().split('/').join('-'),(new Date()).toLocaleDateString().split('/').join('-')],
+                time:[],
                 channels:[],
                 channel:'',
                 ui:[],
@@ -189,7 +189,7 @@
             }
         },
         mounted() {
-            if(this.$route.query.type!='th_advertise'){
+            if(this.$route.query.type!='th_advertise'&&this.num==undefined){
                 this.getData()
             }else{
                 this.getList();

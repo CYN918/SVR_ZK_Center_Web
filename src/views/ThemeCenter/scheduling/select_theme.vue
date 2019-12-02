@@ -35,7 +35,7 @@
                 </select>
             </div>
         </div>
-        <div class="polling">
+        <!-- <div class="polling">
             <div class="polling_tag">
                 <span class="tag_name">内容标签</span>
                 <span class="labelName"  @click="getListTag()" :class="{active:listTag.length==0}">全部</span>
@@ -104,13 +104,153 @@
                 </select>
                 <span class="cx" @click="getData()">查询</span>
             </div>
-        </div>
+        </div> -->
+            <div class="polling">
+                <div>
+                     <el-date-picker
+                            class="time"
+                            v-model="value1"
+                            type="daterange"
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期"
+                            format="yyyy-MM-dd"
+                            value-format="yyyy-MM-dd"
+                    >
+                    </el-date-picker>
+
+
+                    <img src="../../../../public/img/ss.png" class="img"/>
+                    <input type="text" placeholder="搜索主题库" v-model="search"/>
+
+                    <span class="tit_name" style="width:30px">渠道</span>
+                    <select style="margin-right: 44px" @change="getUI()" v-model="channel">
+                        <option value="">全部</option>
+                        <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
+                    </select>
+                    <span class="tit_name">定投类型</span>
+                    <select v-model="special" style="margin-right: 44px">
+                        <option value="2">全部</option>
+                        <option value="1">可定投</option>
+                        <option value="0">不可定投</option>
+                    </select>
+                    <span class="cx" @click="getData()">查询</span>
+                    <!-- <span class='cz' @click='reset()'>重置</span> -->
+                   
+                    <span class='screen' @click='unwind()'>更多筛选项
+                        <img style="width: 10px;height: 6px" src="../../../../public/img/xs.png" v-if="unfold==false"/>
+                        <img style="width: 10px;height: 6px" src="../../../../public/img/sq.png" v-if="unfold==true"/>
+                    </span>
+                </div>
+
+            </div>
+            <div class='more' v-if="unfold">
+                 <div>
+                    <div style="margin-bottom:16px">
+                        <!-- <span class="tit_name">厂商UI版本</span>
+                        <select  v-model="ui_version">
+                            <option value="">全部</option>
+                            <option v-for="item in ui" :value="item.version">{{item.version}}</option>
+                        </select> -->
+                        <span class="tit_name" style="margin-left:24px">使用范围</span>
+                        <select  v-model="account">
+                            <option value='all'>不限</option>
+                            <option :value="item.account" v-for="item in range">{{item.account}}</option>
+                        </select>
+                        <span class="tit_name">状态</span>
+                        <select v-model="status">
+                            <option>全部</option>
+                            <option value="1">已使用</option>
+                            <option value="0">未使用</option>
+                        </select>
+                        <span class="tit_name">主题类型</span>
+                        <select  v-model="type" @change="content()">
+                            <option :value="item.type" v-for="item in theme_type">{{item.type}}</option>
+                        </select>
+                        <span class="tit_name">内容分类</span>
+                        <select v-model="contemt">
+                            <option :value="item.class" v-for="item in cont">{{item.class}}</option>
+                        </select>
+                    </div>
+                <div class='tx'>
+                    <span class="tit_name" style="margin-left:24px">色彩</span>
+                    <template>
+                        <el-select v-model="result1" multiple placeholder="请选择">
+                            <el-option
+                            v-for="item in color"
+                            :key="item.category"
+                            :label="item.category"
+                            :value="item.category">
+                            </el-option>
+                        </el-select>
+                    </template>
+                     <span class="tit_name">功能特效</span>
+                     <template>
+                        <el-select v-model="result2" multiple placeholder="请选择">
+                            <el-option
+                            v-for="item in functional"
+                            :key="item.category"
+                            :label="item.category"
+                            :value="item.category">
+                            </el-option>
+                        </el-select>
+                    </template>
+                     <span class="tit_name">风格</span>
+                   <template>
+                        <el-select v-model="result3" multiple placeholder="请选择">
+                            <el-option
+                            v-for="item in stylize"
+                            :key="item.category"
+                            :label="item.category"
+                            :value="item.category">
+                            </el-option>
+                        </el-select>
+                    </template>
+                     <span class="tit_name">内容</span>
+                    <template>
+                        <el-select v-model="result4" multiple placeholder="请选择">
+                            <el-option
+                            v-for="item in contents"
+                            :key="item.category"
+                            :label="item.category"
+                            :value="item.category">
+                            </el-option>
+                        </el-select>
+                    </template>
+                </div>
+
+                <div class="polling_tag">
+                    <span class="tag_name">内容标签</span>
+                    <span class="labelName"  @click="getListTag('')" :class="{active:listTag.length==0}">全部</span>
+                    <div class="tags" :class="{ALLtags:class0==true}">
+                        <span v-for="(item,index) in preset_tags" class="labelName" @click="getListTag(item.name,index)" :class="{active:listTag.indexOf(item.name)!=-1}">{{item.name}}</span>
+                    </div>
+                    <span class="unfold" v-if="isType==0" @click="expansion">展开</span>
+                    <img style="width: 10px;height: 6px" src="../../../../public/img/xs.png" v-if="isType==0"/>
+                    <span class="unfold" v-if="isType==1" @click="expansion">收起</span>
+                    <img style="width: 10px;height: 6px" src="../../../../public/img/sq.png" v-if="isType==1"/>
+                </div>
+
+                <div class="polling_tag" style="margin-top:0">
+                    <span class="tag_name">运营标签</span>
+                    <span class="labelName" @click="getListTags('')" :class="{active:listTagData.length==0}">全部</span>
+                    <div class="tags" :class="{ALLtags:class1==true}">
+                        <span v-for="(item,index) in self_tags" class="labelName" @click="getListTags(item.desc,index)" :class="{active:listTagData.indexOf(item.desc)!=-1}">{{item.desc}}</span>
+                    </div>
+                    <span class="unfold" v-if="isTypes==0" @click="expansionTag">展开</span>
+                    <img style="width: 10px;height: 6px" src="../../../../public/img/xs.png" v-if="isTypes==0"/>
+                    <span class="unfold" v-if="isTypes==1" @click="expansionTag">收起</span>
+                    <img style="width: 10px;height: 6px" src="../../../../public/img/sq.png" v-if="isTypes==1"/>
+                </div>
+
+                </div>
+            </div> 
         <div>
             <div class="box">
                 <div class="box_img"  v-for="(item,index) in IMGList" @click="clicks(index)">
                     <div class="box_top">
-                        <img src="../../../../public/img/select2.png" style="width: 48px;height: 48px;position: relative;right: -141px;z-index: 9" v-if="ind.indexOf(IMGList[index].thid)==-1">
-                        <img src="../../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;right: -141px;z-index: 9" v-if="ind.indexOf(IMGList[index].thid)!=-1">
+                        <img src="../../../../public/img/select2.png" style="width: 48px;height: 48px;position: relative;right: -141px;z-index: 7" v-if="ind.indexOf(IMGList[index].thid)==-1">
+                        <img src="../../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;right: -141px;z-index: 7" v-if="ind.indexOf(IMGList[index].thid)!=-1">
                         <img :src="picture[index]" class="box_top_img">
                     </div>
                     <div class="box_name">
@@ -200,7 +340,7 @@
                 self_tags:[],
                 listTag:[],
                 listTagData:[],
-                class:false,
+                class0:false,
                 class1:false,
                 themeChannel:{
                     channel_name:'',
@@ -220,12 +360,50 @@
                 channelDataList:[],
                 uiLIST:[],
                 channelData:[],
+
+                special:"",
+                unfold:false,
+                color:[],
+                functional:[],
+                stylize:[],
+                contents:[],
+                result1:[],
+                result2:[],
+                result3:[],
+                result4:[],
+                feature_category:''
             }
         },
         mounted(){this.themeType();
             this.getData();
+            this.speciality()
         },
         methods:{
+             unwind(){
+                if(this.unfold==false){
+                    this.unfold=true;
+                }else{
+                    this.unfold=false;
+                }
+            },
+            speciality(){
+                this.api.themes_config_feature_category().then((res)=>{
+                    for(var i=0;i<res.length;i++){
+                        if(res[i].feature=='色彩'){
+                            this.color=res[i].categories
+                        }
+                        if(res[i].feature=='功能特效'){
+                            this.functional=res[i].categories
+                        }
+                        if(res[i].feature=='风格'){
+                            this.stylize=res[i].categories
+                        }
+                        if(res[i].feature=='内容'){
+                            this.contents=res[i].categories
+                        }
+                    }
+                })
+            },
             fh(){
                 this.$router.go(-1)
             },
@@ -455,10 +633,10 @@
             expansion(){
                 if(this.isType==0){
                     this.isType=1
-                    this.class==true
+                    this.class0==true
                 }else{
                     this.isType=0
-                    this.class==false
+                    this.class0==false
                 }
 
             },
@@ -598,7 +776,6 @@
     .polling{
         margin-top: 232px;
         background: #FFFFFF;
-        margin-bottom: 24px;
     }
     .polling_tag{
         margin-left: 24px;
@@ -648,17 +825,28 @@
     .tit_name{
         display: inline-block;
         margin-right: 14px;
+        width:56px;
+        height:20px;
         font-size:14px;
-        font-family:PingFang-SC;
+        font-family:PingFang-SC-Medium,PingFang-SC;
         font-weight:500;
         color:rgba(31,46,77,1);
+        text-align: right;
     }
-    select{
+   
+     select,.el-select{
         width:200px;
         height:36px;
         background:rgba(255,255,255,1);
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);
+        margin-right: 68px;
+    }
+    .el-select{
+         border:0px !important;
+    }
+    .el-select .el-input__inner{
+        border:1px solid rgba(211,219,235,1)!important;
     }
     input{
         margin-left: -5px;
@@ -913,5 +1101,23 @@
         color: #fff!important;
         border: none!important;
         margin-right: 20px;
+    }
+
+
+     .more{
+        position:absolute;
+        top:75px;
+        background:rgba(255,255,255,1);
+        z-index: 8;
+        width: 100%;
+    }
+    .screen{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFang-SC-Medium,PingFang-SC;
+        font-weight:500;
+        color:rgba(51,119,255,1);
+        margin-left: 44px;
+        cursor: pointer;
     }
 </style>

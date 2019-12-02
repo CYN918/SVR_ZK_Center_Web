@@ -56,19 +56,65 @@
                 </div>
                 <div>
                     <span>主题类型</span>
-                    <select v-model="type" @change="getCon()" v-if="this.$route.query.thid==undefined">
-                        <option :value="item.id" v-for="item in themeType">{{item.type}}</option>
-                    </select>
-                    <select v-model="type" @change="getCon()" disabled="disabled" v-if="this.$route.query.thid!=undefined">
+                    <select v-model="type" @change="getCon()" >
                         <option :value="item.id" v-for="item in themeType">{{item.type}}</option>
                     </select>
                     <span>内容分类</span>
-                    <select v-model="content" v-if="this.$route.query.thid==undefined">
+                    <select v-model="content">
                         <option :value="item.id" v-for="item in con">{{item.class}}</option>
                     </select>
-                    <select v-model="content" disabled="disabled" v-if="this.$route.query.thid!=undefined">
-                        <option :value="item.id" v-for="item in con">{{item.class}}</option>
-                    </select>
+                </div>
+                <div class='colour'>
+                    <span>色彩</span>
+                    <template>
+                        <el-select v-model="result1" multiple placeholder="请选择">
+                            <el-option
+                            v-for="item in color"
+                            :key="item.category"
+                            :label="item.category"
+                            :value="item.category">
+                            </el-option>
+                        </el-select>
+                    </template>
+                </div>
+                <div class='colour'>
+                    <span>功能特效</span>
+                    <template>
+                        <el-select v-model="result2" multiple placeholder="请选择">
+                            <el-option
+                            v-for="item in functional"
+                            :key="item.category"
+                            :label="item.category"
+                            :value="item.category">
+                            </el-option>
+                        </el-select>
+                    </template>
+                </div>
+                 <div class='colour'>
+                    <span>风格</span>
+                    <template>
+                        <el-select v-model="result3" multiple placeholder="请选择">
+                            <el-option
+                            v-for="item in stylize"
+                            :key="item.category"
+                            :label="item.category"
+                            :value="item.category">
+                            </el-option>
+                        </el-select>
+                    </template>
+                </div>
+                <div class='colour'>
+                    <span>内容</span>
+                    <template>
+                        <el-select v-model="result4" multiple placeholder="请选择">
+                            <el-option
+                            v-for="item in content"
+                            :key="item.category"
+                            :label="item.category"
+                            :value="item.category">
+                            </el-option>
+                        </el-select>
+                    </template>
                 </div>
                 <div>
                     <span style=" vertical-align: top">内容标签</span>
@@ -190,6 +236,16 @@
                 up:false,
                 times:0,
                 themeID:this.$route.query.thid,
+                value1:[],
+                color:[],
+                functional:[],
+                stylize:[],
+                content:[],
+                result1:[],
+                result2:[],
+                result3:[],
+                result4:[],
+                feature_category:''
             }
         },
 
@@ -218,6 +274,24 @@
                     this.pic=res.previews;
                     this.getsc();
                     this.getCon();
+                })
+            },
+            speciality(){
+                this.api.themes_config_feature_category().then((res)=>{
+                    for(var i=0;i<res.length;i++){
+                        if(res[i].feature=='色彩'){
+                            this.color=res[i].categories
+                        }
+                        if(res[i].feature=='功能特效'){
+                            this.functional=res[i].categories
+                        }
+                        if(res[i].feature=='风格'){
+                            this.stylize=res[i].categories
+                        }
+                        if(res[i].feature=='内容'){
+                            this.content=res[i].categories
+                        }
+                    }
                 })
             },
             beforeAvatarUploads(file) {
@@ -292,6 +366,14 @@
                     this.$message.error('主题名不能为空')
                     return
                 }
+                 if(!this.type){
+                    this.$message.error('主题类型不能为空')
+                    return
+                }
+                if(!this.content){
+                    this.$message.error('内容分类不能为空')
+                    return
+                }
                 if(!this.main_preview){
                     this.$message.error('封面图不能为空')
                     return
@@ -304,12 +386,30 @@
                     this.$message.error('未上传主题包')
                     return
                 }
+                 if(!this.result1){
+                    this.$message.error('色彩不能为空')
+                    return
+                }
+                if(!this.result2){
+                    this.$message.error('功能特效不能为空')
+                    return
+                }
+                if(!this.result3){
+                    this.$message.error('风格不能为空')
+                    return
+                }
+                if(!this.result4){
+                    this.$message.error('内容不能为空')
+                    return
+                }
                 let formData =new FormData;
                 formData.append('thid',this.$route.query.thid);
                 formData.append('type',this.type);
+                formData.append('class',this.content);
                 formData.append('main_preview',this.main_preview);
                 formData.append('previews',JSON.stringify(this.pic));
                 formData.append('attach',JSON.stringify(this.attach));
+                formData.append('feature_category',(this.result1.concat(this.result2).concat(this.result3).concat(this.result4)).join(','));
                 this.api.themes_theme_local_edit(formData).then((res)=>{
                     this.qx();
                     if(res!=false){
@@ -367,12 +467,24 @@
                     this.$message.error('主题类型不能为空')
                     return
                 }
-                if(!this.name){
-                    this.$message.error('主题名不能为空')
-                    return
-                }
                 if(!this.content){
                     this.$message.error('内容分类不能为空')
+                    return
+                }
+                 if(!this.result1){
+                    this.$message.error('色彩不能为空')
+                    return
+                }
+                if(!this.result2){
+                    this.$message.error('功能特效不能为空')
+                    return
+                }
+                if(!this.result3){
+                    this.$message.error('风格不能为空')
+                    return
+                }
+                if(!this.result4){
+                    this.$message.error('内容不能为空')
                     return
                 }
                 if(this.scID.length==0){
@@ -401,6 +513,7 @@
                 formData.append('main_preview',this.main_preview);
                 formData.append('previews',JSON.stringify(this.pic));
                 formData.append('attach',JSON.stringify(this.attach));
+                formData.append('feature_category',(this.result1.concat(this.result2).concat(this.result3).concat(this.result4)).join(','));
                 this.api.themes_theme_local_add(formData).then((res)=>{
                     this.qx();
                     if(res!=false){
@@ -455,7 +568,8 @@
             getThemeType(){
                 this.api.themes_config_theme_type().then((res)=>{
                     this.themeType=res;
-                    this.getTagsList()
+                    this.getTagsList();
+                    this.speciality();
                 })
             },
             dels(){
@@ -503,6 +617,7 @@
 </script>
 
 <style scoped>
+
     .top{
         width: 100%;
         height: 98px;
@@ -878,5 +993,8 @@
      .disab{
         border: 1px solid #e6e9f0;
         color:#e6e9f0
+    }
+    .colour .el-select{
+        width: 412px;
     }
 </style>

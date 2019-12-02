@@ -36,6 +36,68 @@
                 </div>
             </div>
             <div>
+                <span class="titName">内容特征:</span>
+                <div class='tag'>
+                    <span v-for="item in feature_category" class="tagName" v-if="item!=''">{{item}}</span>
+                </div>
+                <el-tooltip class="item" effect="dark" placement="right-start">
+                    <div slot="content" class="text">
+                        <div>
+                            <span class='specialName' style="margin-top:21px">色彩</span>
+                            <span class='special'>黑色</span>
+                            <span class='special'>彩色</span>
+                            <span class='special'>蓝色</span>
+                            <span class='special'>粉色</span>
+                            <span class='special'>紫色</span>
+                            <span class='special'>白色</span>
+                            <span class='special'>绿色</span>
+                            <span class='special'>黄色</span>
+                            <span class='special'>红色</span>
+                        </div>
+                        <div>
+                            <span class='specialName'>功能特效</span>
+                            <span class='special'>多壁纸</span>
+                            <span class='special'>充电特效</span>
+                            <span class='special'>动态</span>
+                            <span class='special'>跟手动效</span>
+                            <span class='special'>锁屏游戏</span>
+                            <span class='special'>百变锁屏</span>
+                            <span class='special'>声音特效</span>
+                            <span class='special'>全景长轴</span>
+                            <span class='special'>自定义</span>
+                            <span class='special'>重力感应</span>
+                        </div>
+                        <div>
+                            <span class='specialName'>风格</span>
+                            <span class='special'>文艺清新</span>
+                            <span class='special'>时尚简约</span>
+                            <span class='special'>超然个性</span>
+                            <span class='special'>质感黑金</span>
+                            <span class='special'>古韵金典</span>
+                            <span class='special'>热点话题</span>
+                            <span class='special'>贱萌可爱</span>
+                            <span class='special'>情感</span>
+                            <span class='special'>IP形象</span>
+                        </div>
+                         <div>
+                            <span class='specialName'>内容</span>
+                            <span class='special'>明星</span>
+                            <span class='special'>动物萌宠</span>
+                            <span class='special'>卡通动漫</span>
+                            <span class='special'>节日</span>
+                            <span class='special'>诗与远方</span>
+                            <span class='special'>俊男美女</span>
+                            <span class='special'>天气</span>
+                            <span class='special'>体育运动</span>
+                            <span class='special'>花本植物</span>
+                            <span class='special'>城市建筑</span>
+                            <span class='special'>自然风景</span>
+                        </div>
+                    </div>
+                    <span style="color:#3377FF;cursor: pointer;margin-left:17px;display:inline-block; vertical-align: top;margin-top: 3px;">更多</span>
+                </el-tooltip>
+            </div>
+            <div>
                 <span class="titName">适用范围:</span>
                 <span class="titCon">{{tableData.range}}</span>
             </div>
@@ -254,6 +316,7 @@
                 upList:[],
                 Contract:[],
                 tags:[],
+                feature_category:[],
             }
         },
         mounted(){
@@ -314,6 +377,7 @@
                 this.api.themes_theme_details({params}).then((res)=>{
                     this.tableData=res;
                     this.tags=res.tags.split(',');
+                    this.feature_category=res.feature_category.split(',')
                     this.getsc();
                     this.getContract();
                 })
@@ -700,5 +764,21 @@
     #tabs0,#tabs1,#tabs2,#tabs3,#tabs4{
         padding-top:330px;
         margin-top:-330px;
+    }
+    .specialName{
+        display: inline-block;
+        font-size: 14px;
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:400;
+        color:rgba(255,255,255,0.5);
+        margin: 0px 10px 8px 12px;
+    }
+    .special{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:400;
+        color:rgba(255,255,255,1);
+        margin-right: 8px;
     }
 </style>

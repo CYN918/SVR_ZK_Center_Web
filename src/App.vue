@@ -903,5 +903,8 @@ select{
 .fade-leave-active {
   transition: opacity 0.5s;
 }
-
+.tx .el-select  .el-select__tags{
+        height: 28px!important;
+        overflow: hidden!important;
+    }
 </style>

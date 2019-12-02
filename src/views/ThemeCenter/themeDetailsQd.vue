@@ -22,7 +22,7 @@
                 <img :src="bg"/>
             </div>
         </div>
-        <div style="margin-top: 245px;background: #fff;height:223px;padding:0 24px">
+        <div style="margin-top: 245px;background: #fff;min-height:223px;padding:0 24px">
             <div class="name">
                 <span>主题名称:</span>
                 <span>{{tableData.name}}</span>
@@ -34,16 +34,76 @@
             <div style="margin-top:8px">
                 <span class="titName">主题类型:</span>
                 <span class="titCon">{{tableData.type_name}}</span>
-                <span class="titName" style="width: 20px;margin-right: 10px">ID:</span>
-                <span class="titCon" style="margin-right: 140px">{{tableData.thid}}</span>
-                <span class="titName" style="width: 47px;margin-right: 10px">定投ID:</span>
-                <span class="titCon" style="width: 150px;margin-right:0">{{tableData.wpid!=''?tableData.wpid:'不可定投主题'}}</span>
+                <!-- <span class="titName" style="width: 20px;margin-right: 10px">ID:</span>
+                <span class="titCon" style="margin-right: 140px">{{tableData.thid}}</span> -->
+                 <span class="titName">资源版本:</span>
+                <span class="titCon">{{tableData.version}}</span>
+                <span class="titName">内容特征:</span>
+                <div class='tag'>
+                    <span v-for="item in feature_category" class="tagName" v-if="item!=''">{{item}}</span>
+                </div>
+                <el-tooltip class="item" effect="dark" placement="right-start">
+                    <div slot="content" class="text">
+                        <div>
+                            <span class='specialName' style="margin-top:21px">色彩</span>
+                            <span class='special'>黑色</span>
+                            <span class='special'>彩色</span>
+                            <span class='special'>蓝色</span>
+                            <span class='special'>粉色</span>
+                            <span class='special'>紫色</span>
+                            <span class='special'>白色</span>
+                            <span class='special'>绿色</span>
+                            <span class='special'>黄色</span>
+                            <span class='special'>红色</span>
+                        </div>
+                        <div>
+                            <span class='specialName'>功能特效</span>
+                            <span class='special'>多壁纸</span>
+                            <span class='special'>充电特效</span>
+                            <span class='special'>动态</span>
+                            <span class='special'>跟手动效</span>
+                            <span class='special'>锁屏游戏</span>
+                            <span class='special'>百变锁屏</span>
+                            <span class='special'>声音特效</span>
+                            <span class='special'>全景长轴</span>
+                            <span class='special'>自定义</span>
+                            <span class='special'>重力感应</span>
+                        </div>
+                        <div>
+                            <span class='specialName'>风格</span>
+                            <span class='special'>文艺清新</span>
+                            <span class='special'>时尚简约</span>
+                            <span class='special'>超然个性</span>
+                            <span class='special'>质感黑金</span>
+                            <span class='special'>古韵金典</span>
+                            <span class='special'>热点话题</span>
+                            <span class='special'>贱萌可爱</span>
+                            <span class='special'>情感</span>
+                            <span class='special'>IP形象</span>
+                        </div>
+                         <div>
+                            <span class='specialName'>内容</span>
+                            <span class='special'>明星</span>
+                            <span class='special'>动物萌宠</span>
+                            <span class='special'>卡通动漫</span>
+                            <span class='special'>节日</span>
+                            <span class='special'>诗与远方</span>
+                            <span class='special'>俊男美女</span>
+                            <span class='special'>天气</span>
+                            <span class='special'>体育运动</span>
+                            <span class='special'>花本植物</span>
+                            <span class='special'>城市建筑</span>
+                            <span class='special'>自然风景</span>
+                        </div>
+                    </div>
+                    <span style="color:#3377FF;cursor: pointer;margin-left:17px;display:inline-block; vertical-align: top;margin-top: 3px;">更多</span>
+                </el-tooltip>
             </div>
             <div>
                 <span class="titName">内容分类:</span>
                 <span class="titCon">{{tableData.class_name}}</span>
-                <span class="titName">资源版本:</span>
-                <span class="titCon">{{tableData.version}}</span>
+                <span class="titName">上架单价:</span>
+                <span class="titCon">￥{{tableData.price}}</span>
                 <span class="titName" style="width: 32px;margin-right: 10px">标签:</span>
                 <div class="tag">
                     <span v-for="item in tags" class="tagName" v-if="item!=''">{{item}}</span>
@@ -61,6 +121,10 @@
                     </div>
                     <span class="tagADD" @click="BJtags()">+ 标签</span>
                 </div>
+            </div>
+            <div style="margin-top:8px">
+                 <span class="titName" style="width: 47px;margin-right: 10px">定投ID:</span>
+                <span class="titCon" style="width: 150px;margin-right:0">{{tableData.wpid!=''?tableData.wpid:'不可定投主题'}}</span>
             </div>
             <div style="margin:8px 0 24px 0 ">
                 <span class="titName">主题描述:</span>
@@ -258,6 +322,7 @@
                 Contract:[],
                 tags:[],
                 op:[],
+                feature_category:[],
             }
         },
          
@@ -396,7 +461,8 @@
                     this.getsc();
                     this.getUI(this.tableData.ui_version);
                     this.qd();
-                    this.getContract()
+                    this.getContract();
+                    this.feature_category=res.feature_category.split(",");
                 })
             },
             getUI(da){
@@ -816,6 +882,22 @@
     .imgID:hover .See{
         opacity:0.8;
 
+    }
+    .specialName{
+        display: inline-block;
+        font-size: 14px;
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:400;
+        color:rgba(255,255,255,0.5);
+        margin: 0px 10px 8px 12px;
+    }
+    .special{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:400;
+        color:rgba(255,255,255,1);
+        margin-right: 8px;
     }
      /* #tabs0,#tabs1,#tabs2,#tabs3,#tabs4{
         padding-top:320px;
