@@ -225,9 +225,9 @@
                     <div class="tags" :class="{ALLtags:class0==true}">
                         <span v-for="(item,index) in preset_tags" class="labelName" @click="getListTag(item.name,index)" :class="{active:listTag.indexOf(item.name)!=-1}">{{item.name}}</span>
                     </div>
-                    <span class="unfold" v-if="isType==0" @click="expansion">展开</span>
+                    <span class="unfold" v-if="isType==0" @click="expansion()">展开</span>
                     <img style="width: 10px;height: 6px" src="../../../../public/img/xs.png" v-if="isType==0"/>
-                    <span class="unfold" v-if="isType==1" @click="expansion">收起</span>
+                    <span class="unfold" v-if="isType==1" @click="expansion()">收起</span>
                     <img style="width: 10px;height: 6px" src="../../../../public/img/sq.png" v-if="isType==1"/>
                 </div>
 
@@ -237,9 +237,9 @@
                     <div class="tags" :class="{ALLtags:class1==true}">
                         <span v-for="(item,index) in self_tags" class="labelName" @click="getListTags(item.desc,index)" :class="{active:listTagData.indexOf(item.desc)!=-1}">{{item.desc}}</span>
                     </div>
-                    <span class="unfold" v-if="isTypes==0" @click="expansionTag">展开</span>
+                    <span class="unfold" v-if="isTypes==0" @click="expansionTag()">展开</span>
                     <img style="width: 10px;height: 6px" src="../../../../public/img/xs.png" v-if="isTypes==0"/>
-                    <span class="unfold" v-if="isTypes==1" @click="expansionTag">收起</span>
+                    <span class="unfold" v-if="isTypes==1" @click="expansionTag()">收起</span>
                     <img style="width: 10px;height: 6px" src="../../../../public/img/sq.png" v-if="isTypes==1"/>
                 </div>
 
@@ -791,7 +791,7 @@
         margin-top: 7px;
     }
     .ALLtags{
-        max-height: 100%!important;
+        height: 100%!important;
     }
     .tag_name{
         display: inline-block;
