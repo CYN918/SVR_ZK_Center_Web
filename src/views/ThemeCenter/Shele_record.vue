@@ -321,6 +321,7 @@
                 let params={thid:this.$route.query.thid,ch_thid:this.$route.query.ch_thid,channel:this.$route.query.channel};
                 this.api.themes_theme_details({params}).then((res)=>{
                     this.attach=res.attach;
+                    this.wpid=res.wpid;
                     this.name=res.name;
                     this.note=res.note;
                     this.type=res.type;

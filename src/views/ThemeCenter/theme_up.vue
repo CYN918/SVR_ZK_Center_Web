@@ -108,7 +108,7 @@
                     <template>
                         <el-select v-model="result4" multiple placeholder="请选择">
                             <el-option
-                            v-for="item in content"
+                            v-for="item in contents"
                             :key="item.category"
                             :label="item.category"
                             :value="item.category">
@@ -240,7 +240,7 @@
                 color:[],
                 functional:[],
                 stylize:[],
-                content:[],
+                contents:[],
                 result1:[],
                 result2:[],
                 result3:[],
@@ -289,7 +289,7 @@
                             this.stylize=res[i].categories
                         }
                         if(res[i].feature=='内容'){
-                            this.content=res[i].categories
+                            this.contents=res[i].categories
                         }
                     }
                 })
@@ -386,19 +386,19 @@
                     this.$message.error('未上传主题包')
                     return
                 }
-                 if(!this.result1){
+                 if(this.result1==[]){
                     this.$message.error('色彩不能为空')
                     return
                 }
-                if(!this.result2){
+                if(!this.result2==[]){
                     this.$message.error('功能特效不能为空')
                     return
                 }
-                if(!this.result3){
+                if(this.result3==[]){
                     this.$message.error('风格不能为空')
                     return
                 }
-                if(!this.result4){
+                if(this.result4==[]){
                     this.$message.error('内容不能为空')
                     return
                 }
@@ -471,19 +471,19 @@
                     this.$message.error('内容分类不能为空')
                     return
                 }
-                 if(!this.result1){
+                 if(this.result1==[]){
                     this.$message.error('色彩不能为空')
                     return
                 }
-                if(!this.result2){
+                if(this.result2==[]){
                     this.$message.error('功能特效不能为空')
                     return
                 }
-                if(!this.result3){
+                if(this.result3==[]){
                     this.$message.error('风格不能为空')
                     return
                 }
-                if(!this.result4){
+                if(this.result4==[]){
                     this.$message.error('内容不能为空')
                     return
                 }
