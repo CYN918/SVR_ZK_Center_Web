@@ -272,6 +272,27 @@
                     this.content=res.class;
                     this.main_preview=res.main_preview;
                     this.pic=res.previews;
+                    var tx=[];
+                    var txIndex={category:''};
+                    tx=res.feature_category.split(',');
+                    for(var i=0;i<tx.length;i++){
+                        txIndex.category=tx[i];
+                        if((this.color).indexOf(txIndex)!=-1){
+                            this.result1.push(txIndex);
+                            return
+                        }
+                        if((this.functional).indexOf(txIndex)!=-1){
+                            this.result2.push(txIndex);
+                            return
+                        }
+                         if((this.stylize).indexOf(txIndex)!=-1){
+                            this.result3.push(txIndex);
+                            return
+                        }
+                         if((this.contents).indexOf(txIndex)!=-1){
+                            this.result4.push(txIndex);
+                        }
+                    }
                     this.getsc();
                     this.getCon();
                 })
@@ -390,7 +411,7 @@
                     this.$message.error('色彩不能为空')
                     return
                 }
-                if(!this.result2==[]){
+                if(this.result2==[]){
                     this.$message.error('功能特效不能为空')
                     return
                 }
@@ -409,6 +430,8 @@
                 formData.append('main_preview',this.main_preview);
                 formData.append('previews',JSON.stringify(this.pic));
                 formData.append('attach',JSON.stringify(this.attach));
+                formData.append('note',this.note);
+                formData.append('tags',this.tags.join(','));
                 formData.append('feature_category',(this.result1.concat(this.result2).concat(this.result3).concat(this.result4)).join(','));
                 this.api.themes_theme_local_edit(formData).then((res)=>{
                     this.qx();
