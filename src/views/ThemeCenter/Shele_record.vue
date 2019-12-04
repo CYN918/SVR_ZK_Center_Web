@@ -590,16 +590,16 @@
                     this.$message.error('封面图不能为空')
                     return
                 }
-                if(!this.price){
-                    this.$message.error('需求数量不能为空');
+                if(this.price===''){
+                    this.$message.error('单价不能为空');
                     return
                 }
                 if(this.price>99.9){
-                    this.$message.error('价格最大为99.9');
+                    this.$message.error('单价最大为99.9');
                     return
                 }
                 if(this.price<0){
-                    this.$message.error('价格为不小于零的正数');
+                    this.$message.error('单价为不小于零的正数');
                     return
                 }
                 
@@ -715,16 +715,16 @@
                     this.$message.error('未上传主题包');
                     return
                 }
-                if(!this.price){
-                    this.$message.error('需求数量不能为空');
+                if(this.price===''){
+                    this.$message.error('单价不能为空');
                     return
                 }
                 if(this.price>99.9){
-                    this.$message.error('价格最大为99.9');
+                    this.$message.error('单价最大为99.9');
                     return
                 }
                 if(this.price<0){
-                    this.$message.error('价格为不小于零的正数');
+                    this.$message.error('单价为不小于零的正数');
                     return
                 }
                
