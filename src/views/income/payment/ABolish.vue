@@ -53,7 +53,10 @@
                 let params = {id:this.skID,status:this.status+1};
                 this.api.demand_reject_logs({params}).then((res)=>{
                     this.list=res;
-                    this.note=res[0].note;
+                  if(this.list.length!=0){
+                        this.note=res[0].note;
+                    }
+                    
                 })
             },
         },

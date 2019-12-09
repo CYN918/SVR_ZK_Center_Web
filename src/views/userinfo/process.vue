@@ -51,7 +51,7 @@
                     </div>
                     <div class="banner_btn">
                         <span class="qd" @click="ADDuserName('demand_business',type)">确定</span>
-                        <span @click="heidBan">取消</span>
+                        <span @click="heidBan()">取消</span>
                     </div>
 
                 </div>
@@ -103,7 +103,7 @@
                     </div>
                     <div class="banner_btn">
                         <span class="qd" @click="ADDuserName('demand_material',WLtype)">确定</span>
-                        <span @click="heidBan">取消</span>
+                        <span @click="heidBan()">取消</span>
                     </div>
 
                 </div>
@@ -145,7 +145,7 @@
                     </div>
                     <div class="banner_btn">
                         <span class="qd" @click="ADDuserName('demand_apply')">确定</span>
-                        <span @click="heidBan">取消</span>
+                        <span @click="heidBan()">取消</span>
                     </div>
 
                 </div>
@@ -173,7 +173,7 @@
                             </div>
                         </div>
                     </div>
-                    <div v-if="item.status!=4" style="width: 120px;height: 2px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
+                    <div v-if="item.status<6" style="width: 120px;height: 2px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
                 </div>
                 <div class="banner bannerTop" v-if="ban3" :style="{left:this.left+'px'}">
                     <span class="tit">负责人</span>
@@ -186,7 +186,7 @@
                     </div>
                     <div class="banner_btn">
                         <span class="qd" @click="ADDuserName('demand_settle_receive')">确定</span>
-                        <span @click="heidBan">取消</span>
+                        <span @click="heidBan()">取消</span>
                     </div>
 
                 </div>
@@ -214,7 +214,7 @@
                             </div>
                         </div>
                     </div>
-                    <div v-if="item.status!=4" style="width: 120px;height: 2px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
+                    <div v-if="item.status<6" style="width: 120px;height: 2px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
                 </div>
                 <div class="banner bannerTop" v-if="ban4" :style="{left:this.left+'px'}">
                     <span class="tit">负责人</span>
@@ -227,7 +227,7 @@
                     </div>
                     <div class="banner_btn">
                         <span class="qd" @click="ADDuserName('demand_settle_paying')">确定</span>
-                        <span @click="heidBan">取消</span>
+                        <span @click="heidBan()">取消</span>
                     </div>
 
                 </div>
@@ -433,6 +433,7 @@
                 this.left=this.index*276;
                 this.ban1=false;
                 this.ban2=false;
+                this.ban4=false;
                 this.ban=false;
 
             },
@@ -450,6 +451,8 @@
                 this.ban=false;
                 this.ban1=false;
                 this.ban2=false;
+                 this.ban3=false;
+                this.ban4=false;
                 this.left=''
                 this.search=''
                 this.tableData=[];

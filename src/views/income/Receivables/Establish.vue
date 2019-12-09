@@ -1,6 +1,7 @@
 <template>
     <div>
         <DS v-if="msg" :name="name"></DS>
+        <pro v-if='budget' :name='list.check.check1.name' :tstart='list.check.check1.tstart' :tend='list.check.check1.tend' :is_receiver='1'></pro>
         <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="jump">收款结算&nbsp;/</span>
@@ -60,28 +61,33 @@
                             >
                             </el-date-picker>
                         </div>
+                        <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                                    <div slot="content" class="text">{{step>0?"aaa":'bb'}}</div>
+                                    <img src='../../../../public/img/TBC.png' v-if="step==1" style="margin-left: 6px;cursor: pointer;width:16px"/>
+                                    <img src='../../../../public/img/confirmed.png' v-if="step>1" style="margin-left: 6px;cursor: pointer;width:16px"/>
+                        </el-tooltip>
                     </div>
                 </div>
-                <div>
+                <div v-if='step>=2'>
                     <span class="fillName">预计结算金额</span>
                     <div style="display: inline-block;width: 593px;text-align: left" >
                         <input type="number" class="input" v-model="expect_amount">
-                        <span class="click">查看预计结算数据</span>
+                        <span class="click" @click='detail()'>查看预计结算数据</span>
                     </div>
                 </div>
-                <div>
+                <div v-if='step>=3'>
                     <span class="fillName">实际结算金额</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
                         <input type="number" class="input" v-model="real_amount">
                     </div>
                 </div>
-                <div>
+                <div v-if='step>=3'>
                     <span class="fillName">备注说明</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
                         <textarea v-model="note"></textarea>
                     </div>
                 </div>
-                <div>
+                <div v-if='step>=3'>
                     <div style="display: inline-block;width: 84px;margin-right: 20px">
                         <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
                             <div slot="content">请上传对账确认邮件截图，结算数据明细等凭证</div>
@@ -106,8 +112,6 @@
                                     <div slot="content" class="text">{{item.name}}</div>
                                     <span  class="text" style="overflow: hidden;width: 200px;height: 20px;line-height: 28px">{{item.name}}</span>
                                 </el-tooltip>
-                            <!--<div style="display: inline-block;max-width: 200px;height: 20px;overflow:hidden;font-size:14px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(31,46,77,1);text-align: left">{{item.name}}</div>-->
-                            <!--<span class="content_ck">查看</span>-->
                             <a class="content_xz" :href="item.url">下载</a>
                             <span class="content_xz" @click="dels(index)">删除</span>
                         </div>
@@ -115,7 +119,7 @@
 
                 </div>
                 <div class="fillBtn">
-                    <span class="tj" @click="ADD">提交</span>
+                    <span class="tj" @click="ADD">确认提交</span>
                     <span @click="fh(-1)" style="margin-right: 330px">取消</span>
                 </div>
             </div>
@@ -125,8 +129,9 @@
 
 <script>
     import DS from './DetailsSettlement'
+    import pro from '../projection'
     export default {
-        components:{DS},
+        components:{DS,pro},
         name: "establish",
         data(){
             return{
@@ -143,6 +148,8 @@
                 times:"",
                 up:false,
                 fcounter:0,
+                step:this.$route.query.step,
+                budget:false,
             }
         },
         mounted(){
@@ -165,6 +172,12 @@
             handleRemove(file, fileList) {
                 this.file = '';
                 this.initiate2 = false
+            },
+             detail(){
+                this.budget=true;
+            },
+             heidDetail(){
+                this.budget=false;
             },
             scope(){
                 var _this=this;
@@ -214,30 +227,30 @@
                     this.$message.error('结算时间段不能为空');
                     return
                 }
-                if(!this.expect_amount){
-                    this.$message.error('预计结算金额不能为空');
-                    return
-                }
-                if(this.expect_amount>999999999.99){
-                    this.$message.error('预计结算金额不能大于999999999.99');
-                    return
-                }
-                if(!this.real_amount){
-                    this.$message.error('实际结算金额不能为空');
-                    return
-                }
-                if(this.real_amount>999999999.99){
-                    this.$message.error('实际结算金额大于999999999.99');
-                    return
-                }
-                if(!this.note){
-                    this.$message.error('备注不能为空');
-                    return
-                }
-                if(this.attachs.length==0){
-                    this.$message.error('附件不能为空');
-                    return
-                }
+                // if(!this.expect_amount){
+                //     this.$message.error('预计结算金额不能为空');
+                //     return
+                // }
+                // if(this.expect_amount>999999999.99){
+                //     this.$message.error('预计结算金额不能大于999999999.99');
+                //     return
+                // }
+                // if(!this.real_amount){
+                //     this.$message.error('实际结算金额不能为空');
+                //     return
+                // }
+                // if(this.real_amount>999999999.99){
+                //     this.$message.error('实际结算金额大于999999999.99');
+                //     return
+                // }
+                // if(!this.note){
+                //     this.$message.error('备注不能为空');
+                //     return
+                // }
+                // if(this.attachs.length==0){
+                //     this.$message.error('附件不能为空');
+                //     return
+                // }
                 let formData = new FormData;
                 formData.append('name',this.name);
                 formData.append('statement',this.statement);
@@ -247,6 +260,7 @@
                 formData.append('expect_amount',this.expect_amount);
                 formData.append('real_amount',this.real_amount);
                 formData.append('note',this.note);
+                formData.append('status',this.step);
                 formData.append('attachs',JSON.stringify(this.attachs));
                 this.api.settlemanage_check_add(formData).then((res)=>{
                    if(res!=false){
@@ -268,15 +282,22 @@
             getList(){
                 let params={is_receiver:1,id:this.$route.query.id};
                 this.api.settlemanage_detail({params}).then((res)=>{
-                    this.statement=res.check.statement;
-                    this.name=res.check.name;
-                    this.time=[res.check.tstart,res.check.tend];
-                    this.expect_amount=res.check.expect_amount;
-                    this.real_amount=res.check.real_amount;
-                    this.note=res.check.note;
-                    this.attachs=res.check.attachs;
+                    this.statement=res.check.check1.statement;
+                    this.name=res.check.check1.name;
+                    this.time=[res.check.check1.tstart,res.check.check1.tend];
+                    this.expect_amount=res.check.check2.expect_amount;
+                    this.real_amount=res.check.check3.real_amount;
+                    this.note=res.check.check3.note;
+                    this.attachs=res.check.check3.attachs;
+                    this.getsettle();
                 })
             },
+             getsettle(){
+               let params={is_receiver:0,name:this.name,tstart:this.time[0],tend:this.time[1]};
+               this.api.settle_data_estimate_amount({params}).then((res)=>{
+                    this.expect_amount=res.amount;
+               })
+           },
             setData(){
                 if(this.fcounter != 0)
                 {
@@ -295,30 +316,36 @@
                     this.$message.error('结算时间段不能为空');
                     return
                 }
-                if(!this.expect_amount){
-                    this.$message.error('预计结算金额不能为空');
-                    return
+                if(step==2||step==3){
+                    if(!this.expect_amount){
+                        this.$message.error('预计结算金额不能为空');
+                        return
+                    }
+                    if(this.expect_amount>999999999.99){
+                        this.$message.error('预计结算金额不能大于999999999.99');
+                        return
+                    }
                 }
-                if(this.expect_amount>999999999.99){
-                    this.$message.error('预计结算金额不能大于999999999.99');
-                    return
+                if(step==3){
+                     if(!this.real_amount){
+                        this.$message.error('实际结算金额不能为空');
+                        return
+                    }
+                    if(this.real_amount>999999999.99){
+                        this.$message.error('实际结算金额大于999999999.99');
+                        return
+                    }
+                    if(!this.note){
+                        this.$message.error('备注不能为空');
+                        return
+                    }
+
+                    if(this.attachs.length==0){
+                        this.$message.error('附件不能为空');
+                        return
+                    }
                 }
-                if(!this.real_amount){
-                    this.$message.error('实际结算金额不能为空');
-                    return
-                }
-                if(this.real_amount>999999999.99){
-                    this.$message.error('实际结算金额大于999999999.99');
-                    return
-                }
-                if(!this.note){
-                    this.$message.error('备注不能为空');
-                    return
-                }
-                if(this.attachs.length==0){
-                    this.$message.error('附件不能为空');
-                    return
-                }
+               
                 let formData = new FormData;
                 formData.append('name',this.name);
                 formData.append('statement',this.statement);
@@ -329,6 +356,7 @@
                 formData.append('expect_amount',this.expect_amount);
                 formData.append('real_amount',this.real_amount);
                 formData.append('note',this.note);
+                formData.append('status',this.step);
                 formData.append('attachs',JSON.stringify(this.attachs));
                 this.api.demandsettle_check_edit(formData).then((res)=>{
                     this.$router.go(-1);

@@ -1,6 +1,6 @@
 <template>
     <div class="bg">
-        <DS v-if="msg" :name="list.check.name" :type="type"></DS>
+        <DS v-if="msg" :name="list.check.check1.name" :type="type"></DS>
         <div class="tableBox">
             <div style="text-align: center;margin-bottom: 40px;max-width: 893px;border-bottom: 1px solid #ddd;position: relative;left: 50%;transform: translateX(-50%)">
                 <div style="margin-right: 350px;text-align: center;border-bottom: 1px solid #3377ff;display: inline-block">
@@ -21,14 +21,14 @@
                 <div>
                     <span class="fillName">结算单名称</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
-                        <span class="text">{{list.check.statement}}</span>
+                        <span class="text">{{list.check.check1.statement}}</span>
                     </div>
 
                 </div>
                 <div>
                     <span class="fillName">结算方</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
-                        <span  class="text">{{list.check.name}}</span>
+                        <span  class="text">{{list.check.check1.name}}</span>
                         <span class="click" @click="massgae()">查看结算方信息</span>
                     </div>
 
@@ -36,38 +36,38 @@
                 <div>
                     <span class="fillName">结算时间段</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
-                        <span  class="text">{{list.check.tstart}}-{{list.check.tend}}</span>
+                        <span  class="text">{{list.check.check1.tstart}}-{{list.check.check1.tend}}</span>
                     </div>
 
                 </div>
-                <div>
+                <div v-if="list.status>=2">
                     <span class="fillName">预计结算金额</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
-                        <span  class="text">{{list.check.expect_amount}}</span>
+                        <span  class="text">{{list.check.check2.expect_amount}}</span>
                         <span class="click">查看预计结算数据</span>
                     </div>
 
                 </div>
-                <div>
+                <div v-if="list.status>2">
                     <span class="fillName">实际结算金额</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
-                        <span  class="text">{{list.check.real_amount}}</span>
+                        <span  class="text">{{list.check.check3.real_amount}}</span>
                     </div>
 
                 </div>
-                <div>
+                <div v-if="list.status>2">
                     <span class="fillName">备注说明</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
-                        <span  class="text">{{list.check.note}}</span>
+                        <span  class="text">{{list.check.check3.note}}</span>
                     </div>
 
                 </div>
-                <div>
+                <div v-if="list.status>2">
                     <div style="display: inline-block;width: 84px;margin-right: 20px;text-align: right">
                         <span class="fj">附件</span>
                     </div>
                     <div style="display: inline-block;width: 300px">
-                        <div v-for="item in list.check.attachs" style="text-align: left">
+                        <div v-for="item in list.check.check3.attachs" style="text-align: left">
                             <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
                                 <div slot="content" class="text">{{item.name}}</div>
                                 <span  class="text" style="overflow: hidden;width: 200px;height: 20px;line-height: 28px">{{item.name}}</span>
@@ -79,6 +79,7 @@
 
                 </div>
                 <div class="fillBtn">
+                    <span v-if="list.status<4&&list.status>1" class="tj">确认提交</span>
                     <span @click="fh()">返回</span>
                 </div>
             </div>
@@ -94,16 +95,7 @@
         name: "establish",
         data(){
             return{
-                list:{check:{
-                        statement:"",
-                        name:"",
-                        tstart:"",
-                        tend:"",
-                        expect_amount:"",
-                        real_amount:"",
-                        note:"",
-                        attachs:[],
-                    }},
+                list:{check:{check1:{},check2:{},check3:{}}},
                 control:[],
                 controlBtn:false,
                 is_receiver:'',
@@ -317,5 +309,12 @@
     }
     .Jurisdiction{
         display: none;
+    }
+    .tj{
+        color: #fff!important;
+        background: #3377ff!important;
+        border: none!important;
+        margin-right: 20px;
+        margin-bottom: 50px;
     }
 </style>

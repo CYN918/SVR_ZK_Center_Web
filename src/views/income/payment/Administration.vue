@@ -30,12 +30,12 @@
         </div>
         <div class="table">
             <div>
-                <template>
+                 <template>
                     <el-table
                             :data="tableData"
                             :header-cell-style="getRowClass"
                             :cell-style="cell"
-                    >
+                            >
                         <el-table-column
                                 prop="id"
                                 label="结算单ID">
@@ -45,7 +45,7 @@
                                 :show-overflow-tooltip="true"
                                 label="结算方名称">
                             <template slot-scope="scope">
-                                <span v-if="tableData[scope.$index].check!=null">{{tableData[scope.$index].check.name}}</span>
+                                <span>{{tableData[scope.$index].check.check1.name}}</span>
                             </template>
                         </el-table-column>
                         <el-table-column
@@ -57,38 +57,38 @@
                                 prop="status"
                                 :show-overflow-tooltip="true"
                                 label="结算时间段">
-                            <template slot-scope="scope">
-                                <span>{{(tableData[scope.$index].check.tstart).split('-').join('/')}}至</span>
-                                <span>{{(tableData[scope.$index].check.tend).split('-').join('/')}}</span>
-                            </template>
+                                <template slot-scope="scope">
+                                    <span>{{(tableData[scope.$index].check.check1.tstart).split('-').join('/')}}至</span>
+                                    <span>{{(tableData[scope.$index].check.check1.tend).split('-').join('/')}}</span>
+                                </template>
                         </el-table-column>
                         <el-table-column
                                 prop="check.expect_amount"
                                 label="预计结算金额">
                             <template slot-scope="scope">
-                                <span>{{(tableData[scope.$index].check.expect_amount).toLocaleString("zh-Hans-CN",{style:'currency',currency:'CNY'})}}</span>
+                                <span v-if="tableData[scope.$index].check.check2">{{(tableData[scope.$index].check.check2.expect_amount).toLocaleString("zh-Hans-CN",{style:'currency',currency:'CNY'})}}</span>
                             </template>
                         </el-table-column>
                         <el-table-column
                                 prop="check.real_amount"
                                 label="实际结算金额">
                             <template slot-scope="scope">
-                                <span>{{(tableData[scope.$index].check.real_amount).toLocaleString("zh-Hans-CN",{style:'currency',currency:'CNY'})}}</span>
+                                <span v-if="tableData[scope.$index].check.check3">{{(tableData[scope.$index].check.check3.real_amount).toLocaleString("zh-Hans-CN",{style:'currency',currency:'CNY'})}}</span>
                             </template>
                         </el-table-column>
                         <el-table-column
                                 prop="remit.receive_amount"
                                 label="实际到账金额">
                             <template slot-scope="scope" v-if="tableData[scope.$index].remit!=null">
-                                <span :class="{red:tableData[scope.$index].remit.receive_amount!=tableData[scope.$index].check.real_amount}">{{(tableData[scope.$index].remit.receive_amount).toLocaleString("zh-Hans-CN",{style:'currency',currency:'CNY'})}}</span>
+                                <span :class="{red:tableData[scope.$index].remit.receive_amount!=tableData[scope.$index].check.check2.real_amount}">{{(tableData[scope.$index].remit.receive_amount).toLocaleString("zh-Hans-CN",{style:'currency',currency:'CNY'})}}</span>
                             </template>
                         </el-table-column>
                         <el-table-column
                                 label="操作">
                             <template slot-scope="scope">
-                                <el-button  type="text" size="small" @click="details(tableData[scope.$index].id)" >查看详情</el-button>
+                                <el-button  type="text" size="small" @click="details(tableData[scope.$index].id)">查看详情</el-button>
                                 <el-button  type="text" size="small" @click="zfXQ(tableData[scope.$index].id,tableData[scope.$index].status)" v-if="tableData[scope.$index].isfinish==2">查看作废原因</el-button>
-                                <el-button  type="text" size="small" v-if="tableData[scope.$index].isfinish!=2&&tableData[scope.$index].status!=3" @click="zf(tableData[scope.$index].id,tableData[scope.$index].status)">作废</el-button>
+                                <el-button  type="text" size="small"  v-if="tableData[scope.$index].isfinish!=2&&tableData[scope.$index].status!=3" @click="zf(tableData[scope.$index].id,tableData[scope.$index].status)">作废</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -121,7 +121,7 @@
                 p:10,
                 total:0,
                 search:'',
-                tableData:[{check:{name:"",tstart:"",tend:"",expect_amount:"",real_amount:"",receive_amount:"",}}],
+                tableData:[],
                 control:[],
                 controlBtn:false,
                 controlBtns:false,
@@ -187,7 +187,10 @@
             },
             establish(){
                 this.$router.push({
-                    path:"./establish"
+                    path:"./establish",
+                     query:{
+                        step:1,
+                    }
                 })
             },
             details(id){

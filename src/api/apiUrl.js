@@ -525,8 +525,7 @@ export default {
 	standard_del:{
 		url:'/standard/del',method:'post',isType:{suktip:1,reload:1}
 	},
-
-
+	
 
 	//工作台
 	//新增素材需求
@@ -933,8 +932,18 @@ export default {
     adreview_config_channel:{
 		url:'adreview/config/channel',method:'get'
 	},
-
-
+	//预估结算清单
+	settle_data_estimate_list:{
+		url:'settle/data/estimate/list',method:'get'
+	},
+	//结算数据列表
+	settle_data_search:{
+		url:'settle/data/search',method:'get'
+	},
+	//获取预估额度
+	settle_data_estimate_amount:{
+		url:'settle/data/estimate/amount',method:'get'
+	},
 	//主题中心
 
 

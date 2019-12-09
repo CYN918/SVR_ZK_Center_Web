@@ -147,6 +147,7 @@
                     path:'./establish3',
                     query:{
                         id:this.$route.query.id,
+                        spet:this.list.status,
                     },
                 })
             },

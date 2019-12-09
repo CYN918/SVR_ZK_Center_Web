@@ -24,6 +24,7 @@
         <ADDscope v-if="scope" :skID="skID" :skType="skType" :status="status"></ADDscope>
         <fk v-if="fkjs"  :skID="skID" :skType="skType" :status="status"></fk>
         <fc v-if="fc"  :skID="skID"  :status="status"></fc>
+        <Val v-if='val' :skID="skID" :skType="skType" :status='status'></Val>
         <div class="problem">
             <template>
                 <el-table
@@ -85,11 +86,11 @@
                     </el-table-column>
                     <el-table-column label="操作">
                         <template slot-scope="props">
-                            <el-button v-if="(tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算')&&tableData[props.$index].isfinish!=2" @click="getCK(tableData[props.$index].id,tableData[props.$index].demand_type,tableData[props.$index].status)">查看详情</el-button>
+                            <el-button v-if="(tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算')&&tableData[props.$index].isfinish!=2&&tableData[props.$index].emails.indexOf(email)!=-1" @click="getCKz(tableData[props.$index].id,tableData[props.$index].demand_type,tableData[props.$index].status)">查看详情</el-button>
                             <el-button v-if="(tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算')&&tableData[props.$index].isfinish==2" @click="CKbh(tableData[props.$index].id,tableData[props.$index].status)">查看作废原因</el-button>
-                            <el-button v-if="(tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算')&&tableData[props.$index].status==2&&tableData[props.$index].isfinish!=2" @click="ADDscope(tableData[props.$index].id,tableData[props.$index].demand_type,tableData[props.$index].status)">票据凭证</el-button>
-                            <el-button v-if="(tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算')&&tableData[props.$index].status==3&&tableData[props.$index].isfinish!=2" @click="ADDRemit(tableData[props.$index].id,tableData[props.$index].demand_type,tableData[props.$index].status)">结算汇款</el-button>
-                            <el-button v-if="(tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算')&&tableData[props.$index].isfinish!=2" @click="Abolish(tableData[props.$index].id,tableData[props.$index].status)">作废</el-button>
+                            <el-button v-if="(tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算')&&tableData[props.$index].status==4&&tableData[props.$index].isfinish!=2&&tableData[props.$index].emails.indexOf(email)!=-1" @click="ADDscope(tableData[props.$index].id,tableData[props.$index].demand_type,tableData[props.$index].status)">票据凭证</el-button>
+                            <el-button v-if="(tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算')&&tableData[props.$index].status==5&&tableData[props.$index].isfinish!=2&&tableData[props.$index].emails.indexOf(email)!=-1" @click="ADDRemit(tableData[props.$index].id,tableData[props.$index].demand_type,tableData[props.$index].status)">结算汇款</el-button>
+                            <el-button v-if="(tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算')&&tableData[props.$index].isfinish!=2&&tableData[props.$index].emails.indexOf(email)!=-1" @click="Abolish(tableData[props.$index].id,tableData[props.$index].status)">作废</el-button>
                             <el-button v-if="tableData[props.$index].status_name=='资源准备'&&tableData[props.$index].reject=='0'" @click="getYW(tableData[props.$index].bdid)">查看需求</el-button>
                             <el-button v-if="tableData[props.$index].status_name=='上传物料'&&tableData[props.$index].reject=='0'" @click="getYWSC(tableData[props.$index].bdid)">查看资源</el-button>
                             <el-button v-if="(tableData[props.$index].status_name=='发布审核'&&tableData[props.$index].reject=='0')||(tableData[props.$index].status_name=='活动发布'&&tableData[props.$index].reject=='0')" @click="getSC(tableData[props.$index].mdid)">查看需求</el-button>
@@ -273,8 +274,9 @@
     import ADDscope from './voucher'
     import fk from './Remittance'
     import fc from './Abolish'
+    import Val from'./validation'
     export default {
-        components:{QD,BH,ADDsc,sct,BDadd,AddWL,ywxq,scxq,CK,uplodWl,scwl,WLp,ATR,scREQ,ADD,set,Cm,BU,sett,sett2,sett3,ADDscope,fk,fc},
+        components:{QD,BH,ADDsc,sct,BDadd,AddWL,ywxq,scxq,CK,uplodWl,scwl,WLp,ATR,scREQ,ADD,set,Cm,BU,sett,sett2,sett3,ADDscope,fk,fc,Val},
         props:['tableData','active'],
         name: "workbench-table",
         data(){
@@ -293,6 +295,7 @@
                 BD:false,
                 yw:false,
                 sc:false,
+                val:false,
                 scMessage:[],
                 wlMessage:[],
                 num:'',
@@ -392,10 +395,44 @@
                     if(scope==3){
                         this.skID=id;
                         this.skType=type;
-                        this.sett2=true;
+                        this.sett=true;
                         return
                     }
                     if(scope==4){
+                        this.skID=id;
+                        this.skType=type;
+                        this.sett2=true;
+                        return
+                    }
+                    if(scope==5){
+                        this.skID=id;
+                        this.skType=type;
+                        this.sett3=true;
+                        return
+                    }
+            },
+             getCKz(id,type,scope){
+                    if(scope==2){
+                        this.skID=id;
+                        this.status=scope;
+                        this.skType=type;
+                        this.val=true;
+                        return
+                    }
+                    if(scope==3){
+                        this.skID=id;
+                        this.status=scope;
+                        this.skType=type;
+                        this.val=true;
+                        return
+                    }
+                    if(scope==4){
+                        this.skID=id;
+                        this.skType=type;
+                        this.sett2=true;
+                        return
+                    }
+                    if(scope==5){
                         this.skID=id;
                         this.skType=type;
                         this.sett3=true;
@@ -467,6 +504,10 @@
             },
             heidscR(){
                 this.scR = false;
+                this.move()
+            },
+            heidVal(){
+                this.val=false;
                 this.move()
             },
             getCm(id){

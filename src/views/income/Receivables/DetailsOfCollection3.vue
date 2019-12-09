@@ -151,6 +151,7 @@
                     path:'./establish3',
                     query:{
                         id:this.$route.query.id,
+                        step:this.list.status,
                     },
                 })
             },

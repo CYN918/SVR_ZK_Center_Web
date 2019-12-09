@@ -1,6 +1,8 @@
 <template>
     <div>
-        <DS v-if="msg" :name="list.check.name"></DS>
+        <DS v-if="msg" :name="list.check.check1.name"></DS>
+        <pro v-if='budget' :name='list.check.check1.name' :tstart='list.check.check1.tstart' :tend='list.check.check1.tend' :is_receiver='1'></pro>
+
         <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="jump()">收款结算&nbsp;/</span>
@@ -21,11 +23,11 @@
                     <span class="boxName">对账确认</span>
                 </div>
                 <div style="margin-right: 350px;text-align: center;display: inline-block">
-                    <div class="box" :class="{boxs:this.list.status>1}" @click="scope2()">2</div>
+                    <div class="box" :class="{boxs:this.list.status>3}" @click="scope2()">2</div>
                     <span class="boxName" @click="scope2()">票据凭证</span>
                 </div>
                 <div style="text-align: center;display: inline-block">
-                    <div class="box" :class="{boxs:this.list.status>2}" @click="scope3()">3</div>
+                    <div class="box" :class="{boxs:this.list.status>4}" @click="scope3()">3</div>
                     <span class="boxName" @click="scope3()">结算汇款</span>
                 </div>
 
@@ -34,14 +36,14 @@
                 <div>
                     <span class="fillName">结算单名称</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
-                        <span class="text">{{list.check.statement}}</span>
+                        <span class="text">{{list.check.check1.statement}}</span>
                     </div>
 
                 </div>
                 <div>
                     <span class="fillName">结算方</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
-                        <span  class="text">{{list.check.name}}</span>
+                        <span  class="text">{{list.check.check1.name}}</span>
                         <span class="click" @click="massgae()">查看结算方信息</span>
                     </div>
 
@@ -49,38 +51,38 @@
                 <div>
                     <span class="fillName">结算时间段</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
-                        <span  class="text">{{list.check.tstart}}至{{list.check.tend}}</span>
+                        <span  class="text">{{list.check.check1.tstart}}至{{list.check.check1.tend}}</span>
                     </div>
 
                 </div>
-                <div>
+                <div v-if='this.list.status>=2'>
                     <span class="fillName">预计结算金额</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
-                        <span  class="text">{{list.check.expect_amount}}</span>
-                        <span class="click">查看预计结算数据</span>
+                        <span  class="text">{{list.check.check2.expect_amount}}</span>
+                        <span class="click" @click='detail()'>查看预计结算数据</span>
                     </div>
 
                 </div>
-                <div>
+                <div v-if='this.list.status>2'>
                     <span class="fillName">实际结算金额</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
-                        <span  class="text">{{list.check.real_amount}}</span>
+                        <span  class="text">{{list.check.check3.real_amount}}</span>
                     </div>
 
                 </div>
-                <div>
+                <div v-if='this.list.status>2'>
                     <span class="fillName">备注说明</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
-                        <span  class="text">{{list.check.note}}</span>
+                        <span  class="text">{{list.check.check3.note}}</span>
                     </div>
 
                 </div>
-                <div>
+                <div v-if='this.list.status>2'>
                     <div style="display: inline-block;width: 84px;margin-right: 20px;text-align: right">
                         <span class="fj">附件</span>
                     </div>
                     <div style="display: inline-block;width: 300px">
-                        <div v-for="item in list.check.attachs" style="text-align: left">
+                        <div v-for="item in list.check.check3.attachs" style="text-align: left">
                             <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
                                 <div slot="content" class="text">{{item.name}}</div>
                                 <span  class="text" style="overflow: hidden;width: 200px;height: 20px;line-height: 28px">{{item.name}}</span>
@@ -101,23 +103,16 @@
 
 <script>
     import DS from './DetailsSettlement'
+    import pro from '../projection'
     export default {
-        components:{DS},
+        components:{DS,pro},
         data(){
             return{
-                list:{check:{
-                        statement:"",
-                        name:"",
-                        tstart:"",
-                        tend:"",
-                        expect_amount:"",
-                        real_amount:"",
-                        note:"",
-                        attachs:[],
-                    }},
+                list:{check:{check1:{},check2:{},check3:{}}},
                 control:[],
                 controlBtn:false,
                 msg:false,
+                budget:false,
             }
         },
         created(){
@@ -162,8 +157,14 @@
             heidMassage(){
                 this.msg=false
             },
+            detail(){
+                this.budget=true;
+            },
+            heidDetail(){
+                this.budget=false;
+            },
             scope2(){
-                if(this.list.status>1){
+                if(this.list.status>3){
                     this.$router.push({
                         path:"./DetailsOfCollection2",
                         query:{
@@ -174,7 +175,7 @@
 
             },
             scope3(){
-                if(this.list.status>2){
+                if(this.list.status>4){
                     this.$router.push({
                         path:"./DetailsOfCollection3",
                         query:{
@@ -189,6 +190,7 @@
                     path:"./establish",
                     query:{
                         id:this.$route.query.id,
+                        step:this.list.status,
                     },
                 })
             },
@@ -196,6 +198,7 @@
                 let params={is_receiver:1,id:this.$route.query.id};
                 this.api.settlemanage_detail({params}).then((res)=>{
                     this.list=res;
+                    console.log(this.list.check.check1);
                 })
             },
         }
