@@ -892,7 +892,9 @@ select{
 .ups .el-upload-list__item-name{
     display: none;
   }
-
+.upBox .el-upload-list__item-name{
+    display: none;
+  }
 
 
   .fade-enter,

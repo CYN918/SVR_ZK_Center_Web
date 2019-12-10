@@ -41,6 +41,7 @@
                         <div class="fillTime">
                             <el-date-picker
                                     v-model="time"
+                                    disabled="disabled"
                                     type="daterange"
                                     range-separator="至"
                                     start-placeholder="开始日期"
@@ -60,7 +61,7 @@
                 <div  v-if='this.status>=2'>
                     <span class="fillName">预计结算金额</span>
                     <div style="display: inline-block;width: 593px;text-align: left" >
-                        <input type="number" class="input" v-model="expect_amount" disabled>
+                        <input type="text" class="input" v-model="expect_amount" disabled>
                         <span class="click"  @click='detail()'>查看预计结算数据</span>
                     </div>
                 </div>
@@ -119,9 +120,9 @@
         </div>
         <div class='bg' v-if="upList">
             <div class='upBox'>
-                <div class="uplaod">
+                <div class="uplaod" style="width:50%;padding-left:24px">
                             <el-upload
-                                    class="upload-demo"
+                                    class="upDemo"
                                     :on-remove="handleRemove"
                                     :http-request="uploadf"
                                     action="111"
@@ -131,7 +132,7 @@
                             </el-upload>
                             <el-progress :percentage="this.times" v-if="up"></el-progress>
                 </div>
-                <div style="margin: 14px 0 14px 0px" v-for="(item,index) in attach">
+                <div style="margin: 14px 0 14px 24px" v-for="(item,index) in attach">
                     <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
                     <div slot="content" class="text">{{item.name}}</div>
                         <span  class="text" style="overflow: hidden;width: 200px;height: 20px;line-height: 28px">{{item.name}}</span>
@@ -139,9 +140,9 @@
                         <a class="content_xz" :href="item.url">下载</a>
                         <span class="content_xz" @click="del(index)">删除</span>
                 </div> 
-                 <div class="fillBtn">
-                    <span class="tj" @click="tjData()">确认</span>
-                    <span @click="fh()" style="margin-right: 330px">取消</span>
+                 <div class="fillBtn" style="">
+                    <span class="tj" @click="tjData()" style="margin:14px 24px 0 24px;">确认</span>
+                    <span @click="fhs()" >取消</span>
                 </div>
             </div>
         </div>
@@ -254,7 +255,11 @@ import pro from '../income/projection'
            getsettle(){
                let params={is_receiver:this.is_receiver,name:this.name,tstart:this.time[0],tend:this.time[1]};
                this.api.settle_data_estimate_amount({params}).then((res)=>{
-                    this.expect_amount=res.amount;
+                   if(res.amount==0){
+                       this.expect_amount='--'
+                   }else{
+                        this.expect_amount=res.amount;
+                   }
                })
            },
             massgae(){this.msg=true},
@@ -326,6 +331,10 @@ import pro from '../income/projection'
                     }
                 })
             },
+            fhs(){
+                this.upList=false;
+                this.attach=[];
+            },
             tjData(){
                  if(this.fcounter != 0)
                 {
@@ -394,16 +403,15 @@ import pro from '../income/projection'
         width: 1020px;
     }
     .upBox{
-         position: absolute;
+        position: absolute;
         left: 50%;
         top: 40%;
         -webkit-transform: translate(-50%,-50%);
         transform: translate(-50%,-50%);
         border-radius: 4px;
-        text-align: center;
         background: rgba(0,0,0,0);
         background: #fff;
-        padding-top:48px ;
+        padding-top:24px ;
         min-height: 300px;
         width: 400px;
     }

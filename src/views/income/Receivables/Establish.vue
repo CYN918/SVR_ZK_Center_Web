@@ -71,7 +71,7 @@
                 <div v-if='step>=2'>
                     <span class="fillName">预计结算金额</span>
                     <div style="display: inline-block;width: 593px;text-align: left" >
-                        <input type="number" class="input" v-model="expect_amount">
+                        <input type="text" class="input" v-model="expect_amount">
                         <span class="click" @click='detail()'>查看预计结算数据</span>
                     </div>
                 </div>
@@ -295,7 +295,11 @@
              getsettle(){
                let params={is_receiver:0,name:this.name,tstart:this.time[0],tend:this.time[1]};
                this.api.settle_data_estimate_amount({params}).then((res)=>{
-                    this.expect_amount=res.amount;
+                    if(res.amount==0){
+                       this.expect_amount='--'
+                   }else{
+                        this.expect_amount=res.amount;
+                   }
                })
            },
             setData(){
@@ -321,10 +325,7 @@
                         this.$message.error('预计结算金额不能为空');
                         return
                     }
-                    if(this.expect_amount>999999999.99){
-                        this.$message.error('预计结算金额不能大于999999999.99');
-                        return
-                    }
+                   
                 }
                 if(step==3){
                      if(!this.real_amount){

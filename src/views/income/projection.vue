@@ -9,7 +9,7 @@
             <span :class="{pitch:this.num==0}" style="margin-right:82px" @click='listData("0")'>结算数据</span>
             <span :class="{pitch:this.num==1}" @click='listData("1")'>数据凭证</span>
         </div>
-        <div class='table'>
+        <div class='table' v-if='this.num==0'>
                 <template>
                     <el-table
                             :data="list"
@@ -35,14 +35,14 @@
                     </el-table>
                 </template>
         </div>
-        <div style='height:41px'>
+        <div style='height:41px'  v-if='this.num==0'>
             <span style="display:inline-block;width:46%;text-align:left;font-size:12px;font-family:Roboto-Regular,Roboto;font-weight:400;color:rgba(23,43,77,1);margin-left:20px;line-height:41px">合计</span>
             <span style="display:inline-block;width:47%;text-align:right;font-size:12px;font-family:Roboto-Regular,Roboto;font-weight:400;color:rgba(23,43,77,1);margin-right:20px;line-height:41px">￥{{price}}</span>
         </div>
-        <div class='CKmassage'>
+        <div class='CKmassage'  v-if='this.num==0'>
             <span @click="getMsg()">查看详细信息</span>
         </div>
-       <div class="block">
+       <div class="block"  v-if='this.num==0'>
             <el-pagination
                     @size-change="handleSizeChange"
                     @current-change="handleCurrentChange"
