@@ -39,23 +39,23 @@
                 <input type="text" class="input" v-model="bank_name">
             </div>
             <div>
-                <span  class="titName">税号</span>
+                <span  class="titName">信用代码</span>
                 <input type="text" class="input" v-model="tax_id">
             </div>
             <div>
-                <span  class="titName">联系人</span>
+                <span  class="titName">联系人<span style="color: #acadb0">(选填)</span></span>
                 <input type="text" class="input" v-model="contact">
             </div>
             <div>
-                <span  class="titName">对账邮箱</span>
+                <span  class="titName">对账邮箱<span style="color: #acadb0">(选填)</span></span>
                 <input type="text" class="input" v-model="email">
             </div>
             <div>
-                <span  class="titName" style="vertical-align: top">备注</span>
+                <span  class="titName" style="vertical-align: top">备注<span style="color: #acadb0">(选填)</span></span>
                 <textarea v-model="note"></textarea>
             </div>
             <div style="margin-bottom:20px">
-                <span  class="titName" >相关合同</span>
+                <span  class="titName" >相关合同<span style="color: #acadb0">(选填)</span></span>
                 <span class="ADDs" @click="ADDht">添加合同</span>
                 <div style="width: 714px;margin-left: 140px" class="contract">
                     <template>
@@ -330,10 +330,10 @@
                     this.$message.error('名称不能为空');
                     return
                 }
-                if(!this.tdate&&this.auto!=0){
-                    this.$message.error('生成对账时间不能为空');
-                    return
-                }
+                // if(!this.tdate&&this.auto!=0){
+                //     this.$message.error('生成对账时间不能为空');
+                //     return
+                // }
                 if(!this.account_name){
                     this.$message.error('开户名不能为空');
                     return
@@ -347,21 +347,21 @@
                     return
                 }
                 if(!this.tax_id){
-                    this.$message.error('税号不能为空');
+                    this.$message.error('信用代码不能为空');
                     return
                 }
-                if(!this.contact){
-                    this.$message.error('联系人不能为空');
-                    return
-                }
-                if(!this.email){
-                    this.$message.error('对账邮箱不能为空');
-                    return
-                }
-                if(this.contracts.length==0){
-                    this.$message.error('合同不能为空');
-                    return
-                }
+                // if(!this.contact){
+                //     this.$message.error('联系人不能为空');
+                //     return
+                // }
+                // if(!this.email){
+                //     this.$message.error('对账邮箱不能为空');
+                //     return
+                // }
+                // if(this.contracts.length==0){
+                //     this.$message.error('合同不能为空');
+                //     return
+                // }
                 let formData=new FormData;
                 formData.append('name',this.name);
                 formData.append('is_receiver',1);
@@ -417,10 +417,10 @@
                     this.$message.error('名称不能为空');
                     return
                 }
-                if(!this.tdate&&this.auto!=0){
-                    this.$message.error('生成对账时间不能为空');
-                    return
-                }
+                // if(!this.tdate&&this.auto!=0){
+                //     this.$message.error('生成对账时间不能为空');
+                //     return
+                // }
                 if(!this.account_name){
                     this.$message.error('开户名不能为空');
                     return
@@ -434,21 +434,21 @@
                     return
                 }
                 if(!this.tax_id){
-                    this.$message.error('税号不能为空');
+                    this.$message.error('信用代码不能为空');
                     return
                 }
-                if(!this.contact){
-                    this.$message.error('联系人不能为空');
-                    return
-                }
-                if(!this.email){
-                    this.$message.error('对账邮箱不能为空');
-                    return
-                }
-                if(this.contract.length==0){
-                    this.$message.error('合同不能为空');
-                    return
-                }
+                // if(!this.contact){
+                //     this.$message.error('联系人不能为空');
+                //     return
+                // }
+                // if(!this.email){
+                //     this.$message.error('对账邮箱不能为空');
+                //     return
+                // }
+                // if(this.contract.length==0){
+                //     this.$message.error('合同不能为空');
+                //     return
+                // }
                 let formData=new FormData;
                 formData.append('name',this.name);
                 formData.append('is_receiver',1);
