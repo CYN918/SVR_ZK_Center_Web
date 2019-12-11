@@ -207,8 +207,10 @@
                 })
             },
             getAdd(data){
-                this.$router.push({
-                    query:{
+                
+                let routeData = this.$router.resolve({
+                    path:'./Has_replaced',
+                     query:{
                         id:data.mid,
                         sdk_id:data.sdk_id,
                         src:data.src,
@@ -219,8 +221,8 @@
                         sdkid:this.$route.query.sdkid,
                         source:this.$route.query.source,
                     },
-                    path:'./Has_replaced'
-                })
+                });
+                window.open(routeData.href, '_blank');
             },
             handleSelectionChange(val) {
                 this.num = val;
