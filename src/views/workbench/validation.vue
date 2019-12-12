@@ -354,7 +354,7 @@ import pro from '../income/projection'
                 let formData = new FormData;
                 formData.append('id',this.skID);
                 formData.append('expect_amount',this.expect_amount);
-                formData.append('attach',JSON.stringify(this.attach))
+                formData.append('attachs',JSON.stringify(this.attach))
                 formData.append('status',this.status);
                  this.api.demand_settle_audit(formData).then((res)=>{
                     if(res!=false){
