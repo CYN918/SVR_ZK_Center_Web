@@ -181,10 +181,11 @@
                     var a1= 0;
                     var a2= 0;
                     var a4= 0;
-                    for(var i=0;i<res.data.length;i++){
-                        a1+= parseInt(res.data[i].pv);
-                        a2+= parseInt(res.data[i].click);
-                        a4+= parseFloat(res.data[i].income);
+                    for(var i=0;i<this.tableData.length;i++){
+                        a1 += parseInt(res.data[i].pv);
+                        a2 += parseInt(res.data[i].click);
+                        a4 += parseFloat(res.data[i].income);
+                        this.tableData[i].income = parseFloat(this.tableData[i].income / 100).toFixed(2);
                     }
                     this.exhibition1 = a1;
                     this.exhibition2 = a2;
