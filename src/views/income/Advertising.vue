@@ -193,9 +193,9 @@
                     
                     var sratio = 0;
                     if(this.exhibition1 > 0){
-                        sratio =  parseFloat(this.exhibition2 / this.exhibition1 * 100).toFixed(2).toString() +'%';
+                        sratio =  parseFloat(this.exhibition2 / this.exhibition1 * 100).toFixed(2);
                     }
-                    this.click_ratio = sratio + '%';
+                    this.click_ratio = sratio.toString() +'%';
                     this.exhibition4 = parseFloat(a4 / 100 ).toFixed(2);
                     this.total = res.total;
                     console.log(this.tableData)
