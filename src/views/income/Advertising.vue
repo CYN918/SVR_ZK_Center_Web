@@ -188,9 +188,14 @@
                         a4 += parseFloat(res.data[i].income);
                         this.tableData[i].income = parseFloat(this.tableData[i].income / 100).toFixed(2);
                     }
-                    this.exhibition1 = a1;
-                    this.exhibition2 = a2;
-                    this.click_ratio =  parseFloat(this.exhibition2 / this.exhibition1 * 100).toFixed(2).toString() +'%';
+                    this.exhibition1 = parseInt(a1);
+                    this.exhibition2 = parseInt(a2);
+                    
+                    var sratio = 0;
+                    if(this.exhibition1 > 0){
+                        sratio =  parseFloat(this.exhibition2 / this.exhibition1 * 100).toFixed(2).toString() +'%';
+                    }
+                    this.click_ratio = sratio + '%';
                     this.exhibition4 = parseFloat(a4 / 100 ).toFixed(2);
                     this.total = res.total;
                     console.log(this.tableData)
