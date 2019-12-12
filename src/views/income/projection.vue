@@ -107,12 +107,11 @@ data() {
             this.api.settle_data_estimate_list({params}).then((res)=>{
                 this.list=res.data;
                 this.total=res.total;
-                var unit=0;
+                
+                this.price = 0;
                 for(var i=0;i<res.data.length;i++){
-                    unit+=res.data[i];
+                    this.price += parseFloat(res.data[i]);
                 }
-                this.price=unit;
-
             })
         },
         getRowClass({row, column, rowIndex, columnIndex}) {
