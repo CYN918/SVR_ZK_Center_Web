@@ -190,7 +190,7 @@
                     }
                     this.exhibition1 = a1;
                     this.exhibition2 = a2;
-                    this.click_ratio =  parseFloat(exhibition2/exhibition1 / 100).toFixed(2).toString() +'%';
+                    this.click_ratio =  parseFloat(this.exhibition2 / this.exhibition1 * 100).toFixed(2).toString() +'%';
                     this.exhibition4 = parseFloat(a4 / 100 ).toFixed(2);
                     this.total = res.total;
                     console.log(this.tableData)
