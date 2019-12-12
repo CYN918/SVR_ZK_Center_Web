@@ -182,10 +182,9 @@
                     var a2='';
                     var a4='';
                     for(var i=0;i<res.data.length;i++){
-                        a1+=res.data[i].pv;
-                        a2+=res.data[i].click;
-                        a4+=res.data[i].income;
-
+                        a1+= parseInt(res.data[i].pv);
+                        a2+= parseInt(res.data[i].click);
+                        a4+= parseFloat(res.data[i].income);
                     }
                     this.exhibition1=a1;
                     this.exhibition2=a2;
