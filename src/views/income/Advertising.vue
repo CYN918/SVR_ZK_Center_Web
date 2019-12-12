@@ -178,18 +178,18 @@
                 let params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,name:this.name,is_receiver:this.is_receiver}
                 this.api.settle_data_search({params}).then((res)=>{
                     this.tableData=res.data;
-                    var a1='';
-                    var a2='';
-                    var a4='';
+                    var a1= 0;
+                    var a2= 0;
+                    var a4= 0;
                     for(var i=0;i<res.data.length;i++){
                         a1+= parseInt(res.data[i].pv);
                         a2+= parseInt(res.data[i].click);
                         a4+= parseFloat(res.data[i].income);
                     }
-                    this.exhibition1=a1;
-                    this.exhibition2=a2;
-                    this.exhibition4=a4;
-                    this.total=res.total;
+                    this.exhibition1 = a1;
+                    this.exhibition2 = a2;
+                    this.exhibition4 = parseFloat(a4 / 100 ).toFixed(2);
+                    this.total = res.total;
                     console.log(this.tableData)
                 })
             },
