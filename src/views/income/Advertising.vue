@@ -101,7 +101,7 @@
                 <span v-if="is_receiver==0">—</span>
                 <span>{{exhibition1}}</span>
                 <span>{{exhibition2}}</span>
-                <span>{{exhibition2/exhibition1}}</span>
+                <span>{{click_ratio}}</span>
                 <span>{{exhibition4}}</span>
             </div>
         </div>
@@ -133,6 +133,7 @@
                 total:0,
                 exhibition1:'',
                 exhibition2:'',
+                click_ratio:'',
                 exhibition4:'',
             }
         },
@@ -189,6 +190,7 @@
                     }
                     this.exhibition1 = a1;
                     this.exhibition2 = a2;
+                    this.click_ratio =  parseFloat(exhibition2/exhibition1 / 100).toFixed(2).toString() +'%';
                     this.exhibition4 = parseFloat(a4 / 100 ).toFixed(2);
                     this.total = res.total;
                     console.log(this.tableData)
