@@ -227,6 +227,11 @@
                     this.$message.error('结算时间段不能为空');
                     return
                 }
+
+                if(new Date(this.time[1]) > new Date()){
+                    this.$message.error('截止时间不能大于当前时间');
+                    return
+                }
                 // if(!this.expect_amount){
                 //     this.$message.error('预计结算金额不能为空');
                 //     return
