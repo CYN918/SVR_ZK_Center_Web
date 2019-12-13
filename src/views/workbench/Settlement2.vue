@@ -11,7 +11,7 @@
                     <span class="boxName">票据凭证</span>
                 </div>
                 <div style="text-align: center;display: inline-block">
-                    <div class="box" :class="{boxs:list.status>2}"  @click="scope2()">3</div>
+                    <div class="box" :class="{boxs:list.status>4}"  @click="scope2()">3</div>
                     <span class="boxName"  @click="scope2()">结算汇款</span>
                 </div>
 
@@ -94,18 +94,18 @@
                 this.$parent.ADDRemit(this.skID,this.skType,3)
             },
             scope2(){
-                if(this.list.status==2){
+                if(this.list.status==4){
                     this.add();
                     return
                 }
-                if(this.list.status>2){
+                if(this.list.status>4){
                     this.$parent.heidFkCK();
                     if(this.list.demand_type=='demand_settle_receive'){
                         this.type='收款结算'
                     }else{
                         this.type='付款结算'
                     }
-                    this.$parent.getCK(this.list.id,this.type,'4');
+                    this.$parent.getCK(this.list.id,this.type,'5');
                 }
             },
             getData(){

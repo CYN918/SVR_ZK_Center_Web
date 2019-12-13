@@ -97,7 +97,7 @@
                 }else{
                     this.type='付款结算'
                 }
-                this.$parent.getCK(this.list.id,this.type,'2');
+                this.$parent.getCK(this.list.id,this.type,'3');
             },
             scope2(){
                 this.$parent.heidFkCK();
@@ -106,7 +106,7 @@
                     }else{
                         this.type='付款结算'
                     }
-                this.$parent.getCK(this.list.id,this.type,'3');
+                this.$parent.getCK(this.list.id,this.type,'4');
             },
             getData(){
                 if(this.skType=='收款结算'){

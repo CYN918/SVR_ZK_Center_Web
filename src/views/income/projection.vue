@@ -55,12 +55,9 @@
     </div>
 </div>
 </template>
-
 <script>
-
-
 export default {
-props:['name','tstart','tend','is_receiver'],
+props:['name','tstart','tend','is_receiver','a'],
 components: {},
 data() {
     return {
@@ -92,7 +89,18 @@ data() {
                 this.getData()
             },
             getMsg(){
-                this.$router.push({
+                if(this.a!=undefined){
+                    this.$router.push({
+                    path:"../income/Advertising",
+                    query:{
+                        tstart:this.tstart,
+                        tend:this.tend,
+                        is_receiver:this.is_receiver,
+                        name:this.name,
+                        }
+                    })
+                }else{
+                     this.$router.push({
                     path:"../Advertising",
                     query:{
                         tstart:this.tstart,
@@ -101,6 +109,8 @@ data() {
                         name:this.name,
                     }
                 })
+                }
+               
             },
         getData(){
             let params={name:this.name,tstart:this.tstart,tend:this.tend,is_receiver:this.is_receiver,p:this.p,page:this.page}
@@ -109,8 +119,10 @@ data() {
                 this.total=res.total;
                 var unit=0;
                 for(var i=0;i<res.data.length;i++){
-                    unit+=res.data[i];
+                    unit+=parseFloat(res.data[i].income);
+                console.log(parseFloat(res.data[i].income))
                 }
+                console.log(unit)
                 this.price=unit;
 
             })

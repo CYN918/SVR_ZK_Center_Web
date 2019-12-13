@@ -1,6 +1,7 @@
 <template>
     <div class="bg">
         <DS v-if="msg" :name="list.check.check1.name" :type="type"></DS>
+        <pro v-if='budget' :name='list.check.check1.name' :tstart='list.check.check1.tstart' :tend='list.check.check1.tend' :is_receiver='this.is_receiver' :a='a'></pro>
         <div class="tableBox">
             <div style="text-align: center;margin-bottom: 40px;max-width: 893px;border-bottom: 1px solid #ddd;position: relative;left: 50%;transform: translateX(-50%)">
                 <div style="margin-right: 350px;text-align: center;border-bottom: 1px solid #3377ff;display: inline-block">
@@ -8,11 +9,11 @@
                     <span class="boxName">对账确认</span>
                 </div>
                 <div style="margin-right: 350px;text-align: center;display: inline-block">
-                    <div class="box" :class="{boxs:list.status>1}" @click="scope()">2</div>
+                    <div class="box" :class="{boxs:list.status>3}" @click="scope()">2</div>
                     <span class="boxName" @click="scope()">票据凭证</span>
                 </div>
                 <div style="text-align: center;display: inline-block">
-                    <div class="box" :class="{boxs:list.status>2}"  @click="scope2()">3</div>
+                    <div class="box" :class="{boxs:list.status>4}"  @click="scope2()">3</div>
                     <span class="boxName" @click="scope2()">结算汇款</span>
                 </div>
 
@@ -79,7 +80,7 @@
 
                 </div>
                 <div class="fillBtn">
-                    <span v-if="list.status<4&&list.status>1" class="tj">确认提交</span>
+                    <span v-if="this.list.status>3" class="tj">确认提交</span>
                     <span @click="fh()">返回</span>
                 </div>
             </div>
@@ -89,9 +90,10 @@
 
 <script>
     import DS from '../income/payment/DetailsSettlement'
+    import pro from '../income/projection'
     export default {
         components:{DS},
-        props:['skID','skType'],
+        props:['skID','skType','status'],
         name: "establish",
         data(){
             return{
@@ -105,7 +107,12 @@
         },
         mounted(){
             this.getData();
-            this.type=this.skType
+            this.type=this.skType;
+            if(this.skType=='收款结算'){
+                    this.is_receiver=1
+                }else{
+                    this.is_receiver=0
+                }
         },
         methods:{
             fh(){
@@ -116,41 +123,41 @@
                 this.msg=false
             },
             scope(){
-                if(this.list.status==1){
+                if(this.list.status==3){
                     this.add();
                     return
                 }
-               if(this.list.status>1){
+               if(this.list.status>3){
                    this.$parent.heidFkCK();
                    if(this.list.demand_type=='demand_settle_receive'){
                        this.type='收款结算'
                    }else{
                        this.type='付款结算'
                    }
-                   this.$parent.getCK(this.list.id,this.type,'3');
+                   this.$parent.getCK(this.list.id,this.type,'4');
                }
             },
             add(){
                 this.$parent.heidFkCK();
-                this.$parent.ADDscope(this.skID,this.skType,2)
+                this.$parent.ADDscope(this.skID,this.skType,4)
             },
             add2(){
                 this.$parent.heidFkCK();
-                this.$parent.ADDRemit(this.skID,this.skType,3)
+                this.$parent.ADDRemit(this.skID,this.skType,5)
             },
             scope2(){
-                if(this.list.status==2){
+                if(this.list.status==4){
                     this.add2();
                     return
                 }
-                if(this.list.status>2){
+                if(this.list.status>4){
                     this.$parent.heidFkCK();
                     if(this.list.demand_type=='demand_settle_receive'){
                         this.type='收款结算'
                     }else{
                         this.type='付款结算'
                     }
-                    this.$parent.getCK(this.list.id,this.type,'4');
+                    this.$parent.getCK(this.list.id,this.type,'5');
                 }
             },
             getData(){

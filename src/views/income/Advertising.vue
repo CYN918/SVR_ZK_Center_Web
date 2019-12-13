@@ -98,7 +98,7 @@
                 <span>—</span>
                 <span>—</span>
                 <span>—</span>
-                <span v-if="is_receiver==0">—</span>
+                <span >{{is_receiver==0?'—':''}}</span>
                 <span>{{exhibition1}}</span>
                 <span>{{exhibition2}}</span>
                 <span>{{exhibition2/exhibition1}}</span>
@@ -178,13 +178,13 @@
                 let params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,name:this.name,is_receiver:this.is_receiver}
                 this.api.settle_data_search({params}).then((res)=>{
                     this.tableData=res.data;
-                    var a1='';
-                    var a2='';
-                    var a4='';
+                    var a1=0;
+                    var a2=0;
+                    var a4=0;
                     for(var i=0;i<res.data.length;i++){
-                        a1+=res.data[i].pv;
-                        a2+=res.data[i].click;
-                        a4+=res.data[i].income;
+                        a1+=parseFloat(res.data[i].pv);
+                        a2+=parseFloat(res.data[i].click);
+                        a4+=parseFloat(res.data[i].income);
 
                     }
                     this.exhibition1=a1;
@@ -288,6 +288,7 @@
     }
     .summary{
         height:48px;
+        text-align: left;
     }
     .summary span{
         display: inline-block;
@@ -297,8 +298,8 @@
         font-weight:bold;
         line-height:48px;
         font-family:PingFang-SC-Regular;
-        min-width:10%;
+        min-width:8.4%;
         max-width: 11%;
-        text-align: center;
+        padding-left: 24px;
     }
 </style>
