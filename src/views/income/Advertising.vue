@@ -179,16 +179,15 @@
                 let params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,name:this.name,is_receiver:this.is_receiver}
                 this.api.settle_data_search({params}).then((res)=>{
                     this.tableData=res.data;
-<<<<<<< HEAD
-                    var a1=0;
-                    var a2=0;
-                    var a4=0;
-                    for(var i=0;i<res.data.length;i++){
-                        a1+=parseFloat(res.data[i].pv);
-                        a2+=parseFloat(res.data[i].click);
-                        a4+=parseFloat(res.data[i].income);
 
-=======
+                    // var a1=0;
+                    // var a2=0;
+                    // var a4=0;
+                    // for(var i=0;i<res.data.length;i++){
+                    //     a1+=parseFloat(res.data[i].pv);
+                    //     a2+=parseFloat(res.data[i].click);
+                    //     a4+=parseFloat(res.data[i].income);
+
                     var a1= 0;
                     var a2= 0;
                     var a4= 0;
@@ -204,7 +203,7 @@
                     var sratio = 0;
                     if(this.exhibition1 > 0){
                         sratio =  parseFloat(this.exhibition2 / this.exhibition1 * 100).toFixed(2);
->>>>>>> 23d4372299d6d4e259aa3ba319b08e8f21e060f6
+
                     }
                     this.click_ratio = sratio.toString() +'%';
                     this.exhibition4 = parseFloat(a4 / 100 ).toFixed(2);
