@@ -29,7 +29,7 @@
                                 prop="remit.receive_amount"
                                 label="预期结算金额">
                             <template slot-scope="scope" style="text-align:right">
-                                <span>￥{{list[scope.$index].income}}</span>
+                                <span>￥{{parseFloat(list[scope.$index].income / 100).toFixed(2)}}</span>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -62,7 +62,7 @@ components: {},
 data() {
     return {
             list:[],
-            p:10,
+            p:50,
             page:1,
             total:0,
             num:0,
@@ -117,14 +117,21 @@ data() {
             this.api.settle_data_estimate_list({params}).then((res)=>{
                 this.list=res.data;
                 this.total=res.total;
-                var unit=0;
-                for(var i=0;i<res.data.length;i++){
-                    unit+=parseFloat(res.data[i].income);
-                console.log(parseFloat(res.data[i].income))
-                }
-                console.log(unit)
-                this.price=unit;
 
+                this.price = 0;
+                for(var i=0;i<res.data.length;i++){
+
+                //     unit+=parseFloat(res.data[i].income);
+                // console.log(parseFloat(res.data[i].income))
+                // }
+                // console.log(unit)
+                // this.price=unit;
+
+                    this.price += parseFloat(res.data[i].income);
+                }
+
+
+                this.price = parseFloat(this.price / 100).toFixed(2);
             })
         },
         getRowClass({row, column, rowIndex, columnIndex}) {

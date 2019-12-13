@@ -101,7 +101,7 @@
                 <span >{{is_receiver==0?'—':''}}</span>
                 <span>{{exhibition1}}</span>
                 <span>{{exhibition2}}</span>
-                <span>{{exhibition2/exhibition1}}</span>
+                <span>{{click_ratio}}</span>
                 <span>{{exhibition4}}</span>
             </div>
         </div>
@@ -133,6 +133,7 @@
                 total:0,
                 exhibition1:'',
                 exhibition2:'',
+                click_ratio:'',
                 exhibition4:'',
             }
         },
@@ -178,6 +179,7 @@
                 let params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,name:this.name,is_receiver:this.is_receiver}
                 this.api.settle_data_search({params}).then((res)=>{
                     this.tableData=res.data;
+<<<<<<< HEAD
                     var a1=0;
                     var a2=0;
                     var a4=0;
@@ -186,11 +188,27 @@
                         a2+=parseFloat(res.data[i].click);
                         a4+=parseFloat(res.data[i].income);
 
+=======
+                    var a1= 0;
+                    var a2= 0;
+                    var a4= 0;
+                    for(var i=0;i<this.tableData.length;i++){
+                        a1 += parseInt(res.data[i].pv);
+                        a2 += parseInt(res.data[i].click);
+                        a4 += parseFloat(res.data[i].income);
+                        this.tableData[i].income = parseFloat(this.tableData[i].income / 100).toFixed(2);
                     }
-                    this.exhibition1=a1;
-                    this.exhibition2=a2;
-                    this.exhibition4=a4;
-                    this.total=res.total;
+                    this.exhibition1 = parseInt(a1);
+                    this.exhibition2 = parseInt(a2);
+                    
+                    var sratio = 0;
+                    if(this.exhibition1 > 0){
+                        sratio =  parseFloat(this.exhibition2 / this.exhibition1 * 100).toFixed(2);
+>>>>>>> 23d4372299d6d4e259aa3ba319b08e8f21e060f6
+                    }
+                    this.click_ratio = sratio.toString() +'%';
+                    this.exhibition4 = parseFloat(a4 / 100 ).toFixed(2);
+                    this.total = res.total;
                     console.log(this.tableData)
                 })
             },

@@ -257,7 +257,7 @@ import pro from '../income/projection'
                let params={is_receiver:this.is_receiver,name:this.name,tstart:this.time[0],tend:this.time[1]};
                this.api.settle_data_estimate_amount({params}).then((res)=>{
                    if(res.amount==0){
-                       this.expect_amount='--'
+                        this.expect_amount='--'
                    }else{
                         this.expect_amount=res.amount;
                    }
@@ -337,33 +337,43 @@ import pro from '../income/projection'
                 this.attach=[];
             },
             tjData(){
-                 if(this.fcounter != 0)
+                if(this.fcounter != 0)
                 {
                     this.$message.error('文件上传中');
-                    return
+                    return;
                 }
                 
-                if(this.status>=2){
-                    if(!this.expect_amount){
-                        this.$message.error('预计结算金额不能为空');
-                        return
-                    }
-                    if(this.expect_amount>999999999.99){
-                        this.$message.error('预计结算金额不能大于999999999.99');
-                        return
-                    }
+                if(this.status < 2 )
+                {
+                    this.$message.error('审核状态异常');
+                    return;
+                }
+
+                if(this.expect_amount <= 0 || this.expect_amount  == '--'){
+                    this.$message.error('预计结算金额不能为空');
+                    return;
+                }
+                if(this.expect_amount>999999999.99){
+                    this.$message.error('预计结算金额不能大于999999999.99');
+                    return;
+                }
+
+                if(this.attach.length <= 0){
+                    this.$message.error('附件不能为空');
+                    return;
+                }
+                
                 let formData = new FormData;
                 formData.append('id',this.skID);
                 formData.append('expect_amount',this.expect_amount);
-                formData.append('attach',JSON.stringify(this.attach))
+                formData.append('attachs',JSON.stringify(this.attach))
                 formData.append('status',this.status);
-                 this.api.demand_settle_audit(formData).then((res)=>{
+                this.api.demand_settle_audit(formData).then((res)=>{
                     if(res!=false){
                         this.upList=false;
                         this.fh();
                     }
                 })
-                }
             },
         }
     }
