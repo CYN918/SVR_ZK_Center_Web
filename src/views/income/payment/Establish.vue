@@ -293,13 +293,20 @@
             getList(){
                 let params={is_receiver:0,id:this.$route.query.id};
                 this.api.settlemanage_detail({params}).then((res)=>{
+                    if(res.check.check1){
                     this.statement=res.check.check1.statement;
                     this.name=res.check.check1.name;
                     this.time=[res.check.check1.tstart,res.check.check1.tend];
-                    this.expect_amount=res.check.check2.expect_amount;
+                    }
+                   
+                    if(res.check.check2){
+                         this.expect_amount=res.check.check2.expect_amount;
+                    }
+                   if(res.check.check3){
                     this.real_amount=res.check.check3.real_amount;
                     this.note=res.check.check3.note;
                     this.attachs=res.check.check3.attachs;
+                   }
                     this.getsettle();
                 })
             },
@@ -321,13 +328,13 @@
                     this.$message.error('结算时间段不能为空');
                     return
                 }
-                if(step>=2){
+                if(this.step>=2){
                     if(!this.expect_amount){
                         this.$message.error('预计结算金额不能为空');
                         return
                     }
                 }
-                if(step==3){
+                if(this.step==3){
                      if(!this.real_amount){
                         this.$message.error('实际结算金额不能为空');
                         return
