@@ -67,7 +67,7 @@
 <script>
     export default {
         name: "establish",
-        props:['skID','skType'],
+        props:['skID','skType',"processor"],
         data(){
             return{
                 list:{
@@ -97,7 +97,7 @@
                 }else{
                     this.type='付款结算'
                 }
-                this.$parent.getCK(this.list.id,this.type,'3');
+                this.$parent.getCK(this.list.id,this.type,'3',this.processor);
             },
             scope2(){
                 this.$parent.heidFkCK();
@@ -106,7 +106,7 @@
                     }else{
                         this.type='付款结算'
                     }
-                this.$parent.getCK(this.list.id,this.type,'4');
+                this.$parent.getCK(this.list.id,this.type,'4',this.processor);
             },
             getData(){
                 if(this.skType=='收款结算'){

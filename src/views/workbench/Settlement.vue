@@ -45,7 +45,7 @@
                     <span class="fillName">预计结算金额</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
                         <span  class="text">{{list.check.check2.expect_amount}}</span>
-                        <span class="click">查看预计结算数据</span>
+                        <span class="click" @click='detail()'>查看预计结算数据</span>
                     </div>
 
                 </div>
@@ -80,7 +80,7 @@
 
                 </div>
                 <div class="fillBtn">
-                    <span v-if="this.list.status>3" class="tj">确认提交</span>
+                    <!-- <span v-if="this.list.status>3" class="tj">确认提交</span> -->
                     <span @click="fh()">返回</span>
                 </div>
             </div>
@@ -92,8 +92,8 @@
     import DS from '../income/payment/DetailsSettlement'
     import pro from '../income/projection'
     export default {
-        components:{DS},
-        props:['skID','skType','status'],
+        components:{DS,pro},
+        props:['skID','skType','status','processor'],
         name: "establish",
         data(){
             return{
@@ -103,9 +103,12 @@
                 is_receiver:'',
                 type:"",
                 msg:false,
+                budget:false,
+                a:0,
             }
         },
         mounted(){
+            console.log(this.processor)
             this.getData();
             this.type=this.skType;
             if(this.skType=='收款结算'){
@@ -115,6 +118,12 @@
                 }
         },
         methods:{
+             detail(){
+                this.budget=true;
+            },
+             heidDetail(){
+                this.budget=false;
+            },
             fh(){
                 this.$parent.heidFkCK();
             },
@@ -134,16 +143,20 @@
                    }else{
                        this.type='付款结算'
                    }
-                   this.$parent.getCK(this.list.id,this.type,'4');
+                   this.$parent.getCK(this.list.id,this.type,'4',this.processor);
                }
             },
             add(){
-                this.$parent.heidFkCK();
-                this.$parent.ADDscope(this.skID,this.skType,4)
+                if((this.processor).indexOf(localStorage.getItem('userName'))!=-1){
+                     this.$parent.heidFkCK();
+                     this.$parent.ADDscope(this.skID,this.skType,4)
+                }
             },
             add2(){
-                this.$parent.heidFkCK();
-                this.$parent.ADDRemit(this.skID,this.skType,5)
+                if((this.processor).indexOf(localStorage.getItem('userName'))!=-1){
+                    this.$parent.heidFkCK();
+                    this.$parent.ADDRemit(this.skID,this.skType,5)
+                }
             },
             scope2(){
                 if(this.list.status==4){
@@ -157,7 +170,7 @@
                     }else{
                         this.type='付款结算'
                     }
-                    this.$parent.getCK(this.list.id,this.type,'5');
+                    this.$parent.getCK(this.list.id,this.type,'5',this.processor);
                 }
             },
             getData(){

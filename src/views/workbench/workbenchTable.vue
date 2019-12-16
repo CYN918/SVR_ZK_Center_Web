@@ -18,8 +18,8 @@
         <ADDsc v-if="addSC" :index="index" :id="id"></ADDsc>
         <scREQ v-if="scR"  :id="id" :num="num" :status="status" @upDataLists="upDataLists"></scREQ>
         <Cm v-if="Cm" :id="id" ></Cm>
-        <sett v-if="sett" :skID="skID" :skType="skType"></sett>
-        <sett2 v-if="sett2" :skID="skID" :skType="skType"></sett2>
+        <sett v-if="sett" :skID="skID" :skType="skType" :processor='processor'></sett>
+        <sett2 v-if="sett2" :skID="skID" :skType="skType" :processor='processor'></sett2>
         <sett3 v-if="sett3" :skID="skID" :skType="skType"></sett3>
         <ADDscope v-if="scope" :skID="skID" :skType="skType" :status="status"></ADDscope>
         <fk v-if="fkjs"  :skID="skID" :skType="skType" :status="status"></fk>
@@ -86,7 +86,7 @@
                     </el-table-column>
                     <el-table-column label="操作">
                         <template slot-scope="props">
-                            <el-button v-if="(tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算')&&tableData[props.$index].isfinish!=2&&tableData[props.$index].emails.indexOf(email)!=-1" @click="getCKz(tableData[props.$index].id,tableData[props.$index].demand_type,tableData[props.$index].status)">查看详情</el-button>
+                            <el-button v-if="(tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算')&&tableData[props.$index].isfinish!=2&&tableData[props.$index].emails.indexOf(email)!=-1" @click="getCKz(tableData[props.$index].id,tableData[props.$index].demand_type,tableData[props.$index].status,tableData[props.$index].processor)">查看详情</el-button>
                             <el-button v-if="(tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算')&&tableData[props.$index].isfinish==2" @click="CKbh(tableData[props.$index].id,tableData[props.$index].status)">查看作废原因</el-button>
                             <el-button v-if="(tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算')&&tableData[props.$index].status==4&&tableData[props.$index].isfinish!=2&&tableData[props.$index].emails.indexOf(email)!=-1" @click="ADDscope(tableData[props.$index].id,tableData[props.$index].demand_type,tableData[props.$index].status)">票据凭证</el-button>
                             <el-button v-if="(tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算')&&tableData[props.$index].status==5&&tableData[props.$index].isfinish!=2&&tableData[props.$index].emails.indexOf(email)!=-1" @click="ADDRemit(tableData[props.$index].id,tableData[props.$index].demand_type,tableData[props.$index].status)">结算汇款</el-button>
@@ -160,7 +160,7 @@
                                         <span v-if="tableData[props.$index].status==item.status&&item.key!=0&&((tableData[props.$index].demand_type=='收款结算'&&item.status!=6)||(tableData[props.$index].demand_type=='付款结算'&&item.status!=6))&&item.isfinish!=2">待处理</span>
                                         <span class="dj" v-if="item.isfinish==1&&item.status_name!='提现完成'&&item.status_name!='素材入库'" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status)">查看详情</span>
                                         <span class="dj" v-if="item.status_name=='结算汇款'&&tableData[props.$index].demand_type=='设计师结算'" @click="withdraw(tableData[props.$index].did,item.status)">查看详情</span>
-                                        <span class="dj" v-if="item.key=='0'&&(tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算')&&item.isfinish!=2" @click="getCK(tableData[props.$index].id,tableData[props.$index].demand_type,item.status)">查看详情</span>
+                                        <span class="dj" v-if="item.key=='0'&&(tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算')&&item.isfinish!=2" @click="getCK(tableData[props.$index].id,tableData[props.$index].demand_type,item.status,tableData[props.$index].processor)">查看详情</span>
                                         <span class="dj" v-if="(tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算')&&item.isfinish==2" @click="CKbh(tableData[props.$index].did,item.status)">查看作废原因</span>
                                         <span class="dj" v-if="(tableData[props.$index].demand_type=='业务需求'&&item.status=='4'&&item.key==0&&item.reject!='1')">审核通过</span>
                                         <span class="dj" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,tableData[props.$index].status+1,item.reject)"  v-if="item.reject=='1'&&tableData[props.$index].status!=item.status">查看驳回原因</span>
@@ -340,6 +340,7 @@
                 skID:'',
                 skType:"",
                 status:'',
+                processor:[],
                 getRowKeys(row) {
                     return row.did;
                 },
@@ -385,43 +386,49 @@
                 this.status=status;
                 this.fc=true;
             },
-            getCK(id,type,scope){
+            getCK(id,type,scope,processor){
                     if(scope==1){
                         this.skID=id;
                         this.skType=type;
+                        this.processor=processor;
                         this.sett=true;
                         return
                     }
                     if(scope==2){
                         this.skID=id;
                         this.skType=type;
+                        this.processor=processor;
                         this.sett=true;
                         return
                     }
                     if(scope==3){
                         this.skID=id;
                         this.skType=type;
+                        this.processor=processor;
                         this.sett=true;
                         return
                     }
                     if(scope==4){
                         this.skID=id;
                         this.skType=type;
+                        this.processor=processor;
                         this.sett2=true;
                         return
                     }
                     if(scope==5){
                         this.skID=id;
                         this.skType=type;
+                        this.processor=processor;
                         this.sett3=true;
                         return
                     }
             },
-             getCKz(id,type,scope){
+             getCKz(id,type,scope,processor){
                     if(scope==2){
                         this.skID=id;
                         this.status=scope;
                         this.skType=type;
+                        this.processor=processor;
                         this.val=true;
                         return
                     }
@@ -429,18 +436,28 @@
                         this.skID=id;
                         this.status=scope;
                         this.skType=type;
+                        this.processor=processor;
                         this.val=true;
                         return
                     }
                     if(scope==4){
                         this.skID=id;
                         this.skType=type;
-                        this.sett2=true;
+                        this.processor=processor;
+                        this.sett=true;
                         return
                     }
                     if(scope==5){
                         this.skID=id;
                         this.skType=type;
+                        this.processor=processor;
+                        this.sett2=true;
+                        return
+                    }
+                     if(scope==6){
+                        this.skID=id;
+                        this.skType=type;
+                        this.processor=processor;
                         this.sett3=true;
                         return
                     }

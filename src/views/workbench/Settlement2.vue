@@ -60,7 +60,7 @@
 <script>
     export default {
         name: "establish",
-        props:['skID','skType'],
+        props:['skID','skType','processor'],
         data(){
             return{
                 list:{invoice:{
@@ -86,12 +86,14 @@
                     }else{
                         this.type='付款结算'
                     }
-                    this.$parent.getCK(this.list.id,this.type,'2');
+                    this.$parent.getCK(this.list.id,this.type,'2',this.processor);
 
             },
             add(){
-                this.$parent.heidFkCK();
-                this.$parent.ADDRemit(this.skID,this.skType,3)
+                if(this.processor.indexOf(localStorage.getItem('userName'))!=-1){
+                    this.$parent.heidFkCK();
+                    this.$parent.ADDRemit(this.skID,this.skType,3)
+                }
             },
             scope2(){
                 if(this.list.status==4){
@@ -105,7 +107,7 @@
                     }else{
                         this.type='付款结算'
                     }
-                    this.$parent.getCK(this.list.id,this.type,'5');
+                    this.$parent.getCK(this.list.id,this.type,'5',this.processor);
                 }
             },
             getData(){
