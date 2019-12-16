@@ -26,7 +26,7 @@
                     <option value="0">付款数据</option>
                 </select>
                 <span class="ad">结算方</span>
-                <input type="text" placeholder="请输入结算方" v-model="name"/>
+                <input type="text" placeholder="请输入结算方" v-model="search"/>
                 <span class="cx" @click="getDataList">查询</span>
             </div>
             <div>
@@ -125,7 +125,7 @@
         data(){
             return{
                 value:[],
-                name:'',
+                search:'',
                 tableData:[],
                 is_receiver:1,
                 p:10,
@@ -140,7 +140,7 @@
         mounted(){
                 if(this.$route.query.name){
                     this.value=[this.$route.query.tstart,this.$route.query.tend];
-                    this.name=this.$route.query.name;
+                    this.search=this.$route.query.name;
                     this.is_receiver=this.$route.query.is_receiver;
                 }else{
                     var qt = (new Date((new Date()).getTime() - 1*24*60*60*1000)).toLocaleDateString().split('/');
@@ -176,7 +176,7 @@
                 this.getDataList()
             },
             getDataList(){
-                let params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,name:this.name,is_receiver:this.is_receiver}
+                let params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,search:this.search,is_receiver:this.is_receiver}
                 this.api.settle_data_search({params}).then((res)=>{
                     this.tableData=res.data;
 
