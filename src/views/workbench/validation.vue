@@ -320,6 +320,7 @@ import pro from '../income/projection'
                
                 let formData = new FormData;
                 formData.append('id',this.skID);
+                formData.append('expect_amount',this.expect_amount);
                 formData.append('real_amount',this.real_amount);
                 formData.append('note',this.note);
                 formData.append('status',this.status);
