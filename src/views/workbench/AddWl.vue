@@ -10,7 +10,7 @@
                 <div class="Search_select">
                     <span class="Search_select_tit">物料类型：</span>
                     <select v-model="type" @change="getList()">
-                        <option value="">全部</option>
+                        <!-- <option value="">全部</option> -->
                         <option  :value="this.types">{{this.typeName}}</option>
                     </select>
                     <span class="Search_select_tit" style="margin-left: 20px">实现方式</span>
@@ -105,7 +105,7 @@
                 scMid:[],
                 scUrl:'',
                 scType:'',
-                type:this.types,
+                type:'',
                 mid_list:[],
                 url_list:[],
                 inx:null,
@@ -121,6 +121,7 @@
             }
         },
         mounted() {
+            this.type=this.types;
             this.getList();
         },
         methods: {

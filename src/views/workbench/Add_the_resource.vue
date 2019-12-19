@@ -44,7 +44,9 @@
                             </div>
                             <div class="ADD_img" v-for="(data,index2) in item.middleware" >
                                 <img class="ADD_img_del" src="../../../public/img/del.png" @click="delIMG(index,data.id)">
-                                <img  class="ADD_img_img" :src="data.url"/>
+                                <img  class="ADD_img_img" :src="data.url"  v-if="(data.uri.split('.'))[(data.uri.split('.').length-1)]!='mp4'&&(data.uri.split('.'))[(data.uri.split('.').length-1)]!='zip'"/>
+                                <div  class="ADD_img_img" style="text-align:center;" v-if="(data.uri.split('.'))[(data.uri.split('.').length-1)]=='zip'"> 无预览图</div>
+                                 <video class="ADD_img_img" :src="data.uri" controls="controls" v-if="(data.uri.split('.'))[(data.uri.split('.').length-1)]=='mp4'" />
                                 <span>{{data.name}}</span>
                             </div>
                         </div>
@@ -94,7 +96,7 @@
 
 <script>
     export default {
-        props:['id','num','ind','typeList','status'],
+        props:['id','num','ind','typeList','status','types','typeName'],
         name: "add_the_resource",
         data(){
             return{
@@ -116,6 +118,7 @@
             }
         },
         mounted(){
+            
             if(this.typeList==1){
                 this.sc = false;
                 this.wl=true;
@@ -260,7 +263,7 @@
                 if(this.listWL[index].bind!=undefined){
                     return
                 }else{
-                    this.$parent.getWl();
+                    this.$parent.getWl(this.types,this.typeName);
                     this.$parent.heidAddMaterial();
                 }
 

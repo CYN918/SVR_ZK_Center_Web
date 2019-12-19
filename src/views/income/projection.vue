@@ -90,7 +90,8 @@ data() {
             },
             getMsg(){
                 if(this.a!=undefined){
-                    this.$router.push({
+
+                    let routeData = this.$router.resolve({
                     path:"../income/Advertising",
                     query:{
                         tstart:this.tstart,
@@ -98,17 +99,20 @@ data() {
                         is_receiver:this.is_receiver,
                         name:this.name,
                         }
-                    })
+                    });
+                     window.open(routeData.href, '_blank');
                 }else{
-                     this.$router.push({
-                    path:"../Advertising",
+                    let routeData = this.$router.resolve({
+                    path:'../Advertising',
                     query:{
                         tstart:this.tstart,
                         tend:this.tend,
                         is_receiver:this.is_receiver,
                         name:this.name,
                     }
-                })
+                });
+                window.open(routeData.href, '_blank');
+
                 }
                
             },

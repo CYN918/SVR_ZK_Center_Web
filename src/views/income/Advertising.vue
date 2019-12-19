@@ -29,12 +29,13 @@
                 <input type="text" placeholder="请输入结算方" v-model="search"/>
                 <span class="cx" @click="getDataList">查询</span>
             </div>
-            <div>
+            <div >
                 <template>
                     <el-table
                             :header-cell-style="getRowClass"
                             :cell-style="cell"
                             :data="tableData"
+                            height="450"
                             style="width: 100%">
                         <el-table-column
                                 prop="tdate"
@@ -110,7 +111,7 @@
                     @size-change="handleSizeChange"
                     @current-change="handleCurrentChange"
                     :current-page="page"
-                    :page-sizes="[10, 20, 30, 40]"
+                    :page-sizes="[10, 50, 100, 200,500]"
                     :page-size="p"
                     layout="total, sizes, prev, pager, next, jumper"
                     :total="total">
@@ -319,4 +320,5 @@
         max-width: 11%;
         padding-left: 24px;
     }
+    
 </style>

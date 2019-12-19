@@ -14,7 +14,7 @@
         <CK v-if='ck' :id="CkID"></CK>
         <WLp v-if="WLp" :id="wlID"></WLp>
         <BU v-if="BU" :id="id" :ind="index"></BU>
-        <ATR v-if="ADD_material" :id="id" :num="num" :ind="index" :typeList="this.typeList" :status="status" @upDataLists="upDataLists"></ATR>
+        <ATR v-if="ADD_material" :id="id" :num="num" :ind="index" :typeList="typeList" :types='types' :status="status" @upDataLists="upDataLists" :typeName='typeName'></ATR>
         <ADDsc v-if="addSC" :index="index" :id="id"></ADDsc>
         <scREQ v-if="scR"  :id="id" :num="num" :status="status" @upDataLists="upDataLists"></scREQ>
         <Cm v-if="Cm" :id="id" ></Cm>
@@ -61,7 +61,7 @@
                             :show-overflow-tooltip="true"
                             >
                         <template slot-scope="scope">
-                           <span v-for="item in  tableData[scope.$index].processor">
+                           <span v-for="item in (tableData[scope.$index].processor)">
                                {{item}};
                            </span>
                         </template>
@@ -71,15 +71,15 @@
                             >
                         <template slot-scope="scope">
                             <el-button
-                                    size="mini"
+                                    
                                    >{{(tableData[scope.$index].endtime)}}
                             </el-button>
                             <el-button v-if="tableData[scope.$index].isfinish!=1"
-                                    size="mini"
+                                    
                             >{{(tableData[scope.$index].endtime_toast)}}
                             </el-button>
                             <el-button v-if="tableData[scope.$index].isfinish==1"
-                                       size="mini"
+                                      
                             >{{(tableData[scope.$index].endtime_toast)}}
                             </el-button>
                         </template>
@@ -146,10 +146,22 @@
                                         <span class="step_txt" v-if="item.status==1&&tableData[props.$index].status!=item.status">来源</span>
                                         <span class="step_txt" v-if="item.status==1&&tableData[props.$index].status==item.status">待处理人</span>
                                         <span class="step_txt" v-if="item.status!=1">处理人</span>
-                                        <span v-if="item.did!=undefined&&tableData[props.$index].status!=item.status">{{item.user_name}}</span>
-                                        <span v-if="item.did!=undefined&&tableData[props.$index].status==item.status&&item.isfinish!=2" v-for="da in tableData[props.$index].processor">{{da}};</span>
-                                        <span v-if="item.did!=undefined&&tableData[props.$index].status==item.status&&item.isfinish==2" >{{item.user_name}};</span>
-                                        <span  v-if="item.did==undefined&&item.reject!='1'&&tableData[props.$index].status==item.status&&tableData[props.$index].status_name!='提现完成'" v-for="da in tableData[props.$index].processor">{{da}};</span>
+                                        <div class='clr' v-if="item.did!=undefined&&tableData[props.$index].status!=item.status">
+                                            <span >{{item.user_name}}</span>
+                                        </div>
+                                        <div class='clr' v-if="item.did!=undefined&&tableData[props.$index].status==item.status&&item.isfinish!=2">
+                                            <span  v-for="da in tableData[props.$index].processor">{{da}};</span>
+                                        </div>
+                                        <div class='clr' v-if="item.did!=undefined&&tableData[props.$index].status==item.status&&item.isfinish==2" >
+                                            <span >{{item.user_name}};</span>
+                                        </div>
+                                        <div class='clr' v-if="item.did==undefined&&item.reject!='1'&&tableData[props.$index].status==item.status&&tableData[props.$index].status_name!='提现完成'">
+                                            <span  v-for="da in tableData[props.$index].processor">{{da}};</span>
+                                        </div>
+                                        
+                                        
+                                       
+                                        
                                     </div>
                                     <div class="step_contnet" v-if="(item.creator!=''||tableData[props.$index].status==item.status)&&((tableData[props.$index].demand_type=='收款结算'&&item.status!=6)||(tableData[props.$index].demand_type=='付款结算'&&item.status!=6)||(tableData[props.$index].demand_type=='业务需求')||(tableData[props.$index].demand_type=='素材需求')||(tableData[props.$index].demand_type=='设计师结算'))">
                                         <span class="step_txt" v-if="index=='0'">需求内容</span>
@@ -510,8 +522,10 @@
                 this.BU=false;
                 this.move()
             },
-            getWl(){
+            getWl(data,name){
                 this.wl = true;
+                this.types=data;
+                this.typeName=name;
                 this.stop()
             },
             HeidWl(){
@@ -590,17 +604,15 @@
             },
             AddMaterial(index){
                 this.ADD_material =true;
-                if(this.tableData[index]){
                 this.status=this.tableData[index].status;
                 this.id = this.tableData[index].did;
                 this.num = this.tableData[index].num;
                 this.types = this.tableData[index].type;
-                this.limit_size=this.tableData[index].putlib.size;
-                this.limit_type=this.tableData[index].putlib.put_type;
                 this.typeName = this.tableData[index].type_name;
+                if(this.this.tableData[index].putlib!=null){
+                    this.limit_size=this.tableData[index].putlib.size;
+                    this.limit_type=this.tableData[index].putlib.put_type;
                 }
-               
-               
                 this.stop();
             },
             AddWl(index){
@@ -993,6 +1005,7 @@
     font-weight:400;
     color:rgba(143,155,179,1);
     margin-right: 16px;
+    vertical-align: top
 }
     .dj{
         font-size:14px;
@@ -1157,5 +1170,12 @@
     border: 0!important;
     color:rgba(255,255,255,1)!important;
     margin-right: 14px!important;
+}
+.clr{
+    display: inline-block;
+    width: 200px;
+    white-space:normal; 
+    word-break:break-all;
+    overflow:hidden;
 }
 </style>

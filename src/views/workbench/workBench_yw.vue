@@ -344,6 +344,7 @@
                     formData.append('endtime',this.endtime);
                     formData.append('pos_type',this.pos_type);
                     formData.append('size',this.size);
+                    formData.append('status',this.status)
                     formData.append('model',this.model);
                     formData.append('link',this.link);
                     formData.append('requirement',this.requirement);
