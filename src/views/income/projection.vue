@@ -57,7 +57,7 @@
 </template>
 <script>
 export default {
-props:['name','tstart','tend','is_receiver','a'],
+props:['name','tstart','tend','is_receiver','id','a'],
 components: {},
 data() {
     return {
@@ -90,7 +90,6 @@ data() {
             },
             getMsg(){
                 if(this.a!=undefined){
-
                     let routeData = this.$router.resolve({
                     path:"../income/Advertising",
                     query:{
@@ -117,11 +116,15 @@ data() {
                
             },
         getData(){
-            let params={name:this.name,tstart:this.tstart,tend:this.tend,is_receiver:this.is_receiver,p:this.p,page:this.page}
+            if(this.a==undefined){
+                var params={id:this.$route.query.id,is_receiver:this.is_receiver,p:this.p,page:this.page}
+            }else{
+                 var params={id:this.id,is_receiver:this.is_receiver,p:this.p,page:this.page}
+            }
+           
             this.api.settle_data_estimate_list({params}).then((res)=>{
                 this.list=res.data;
                 this.total=res.total;
-
                 this.price = 0;
                 for(var i=0;i<res.data.length;i++){
 
