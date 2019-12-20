@@ -93,13 +93,22 @@
                     </el-table>
                 </template>
             </div>
-            <div v-if="tableData.length>0" class='summary'>
+            <div v-if="tableData.length>0&&is_receiver==1" class='summary1'>
+                <span>汇总</span>
+                <span>—</span>
+                <span>—</span>
+                <span>—</span>
+                <span>{{exhibition1}}</span>
+                <span>{{exhibition2}}</span>
+                <span>{{click_ratio}}</span>
+                <span>{{exhibition4}}</span>
+            </div>
+            <div v-if="tableData.length>0&&is_receiver==0" class='summary2'>
                 <span>汇总</span>
                 <span>—</span>
                 <span>—</span>
                 <span>—</span>
                 <span>—</span>
-                <span >{{is_receiver==0?'—':''}}</span>
                 <span>{{exhibition1}}</span>
                 <span>{{exhibition2}}</span>
                 <span>{{click_ratio}}</span>
@@ -304,11 +313,11 @@
         float: right;
         margin: 24px 24px 0 0 ;
     }
-    .summary{
+    .summary1,.summary2{
         height:48px;
         text-align: left;
     }
-    .summary span{
+    .summary1 span{
         display: inline-block;
         background:#f7f9fc;
         color:#1F2E4D;
@@ -316,8 +325,18 @@
         font-weight:bold;
         line-height:48px;
         font-family:PingFang-SC-Regular;
-        min-width:8.4%;
-        max-width: 11%;
+       width: 11%;
+        padding-left: 24px;
+    }
+    .summary2 span{
+         display: inline-block;
+        background:#f7f9fc;
+        color:#1F2E4D;
+        font-size:14px;
+        font-weight:bold;
+        line-height:48px;
+        font-family:PingFang-SC-Regular;
+       width: 9.5%;
         padding-left: 24px;
     }
     
