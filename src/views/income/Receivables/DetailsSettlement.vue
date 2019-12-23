@@ -104,8 +104,8 @@
             </div>
             <div>
                 <span class="Name">已绑定数据来源主体</span>
-                <div style="display: inline-block">
-                    <span class="text"></span>
+                <div style="display: inline-block" v-for='(value,key) in this.data.advertisers'>
+                    <span class="text">{{value}}</span>
                 </div>
             </div>
             <div>

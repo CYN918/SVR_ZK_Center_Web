@@ -111,7 +111,7 @@
             </div>
             <div>
                 <span class="tableBox_name">已绑定数据来源主体</span>
-                <div style="display: inline-block" v-for(value,key) in list.advertisers>
+                <div style="display: inline-block" v-for='(value,key) in list.advertisers'>
                     <span class="textName">{{value}}</span>
                 </div>
             </div>
@@ -159,6 +159,7 @@
                 let params={name:this.$route.query.name,is_receiver:0};
                 this.api.settle_settlement_detail({params}).then((res)=>{
                     this.list=res;
+                    console.log(this.list)
                     this.contracts=res.contracts;
                 })
             },
