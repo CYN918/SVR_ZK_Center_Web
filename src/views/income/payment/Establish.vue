@@ -1,7 +1,7 @@
 <template>
     <div>
         <DS v-if="msg" :name="name"></DS>
-        <pro v-if='budget'  :is_receiver='0'></pro>
+        <pro v-if='budget'  :is_receiver='0' :fj='fj'></pro>
         <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="jump()">付款结算&nbsp;/</span>
@@ -154,6 +154,7 @@
                 up:false,
                 step:this.$route.query.step,
                 budget:false,
+                fj:{},
             }
         },
         mounted(){
@@ -276,7 +277,9 @@
                 formData.append('status',this.step);
                 formData.append('attachs',JSON.stringify(this.attachs));
                 this.api.settlemanage_check_add(formData).then((res)=>{
-                    this.fh(-1);
+                    if(res!=false){
+                        this.fh(-1);
+                    }
                 })
 
             },
@@ -301,6 +304,7 @@
                    
                     if(res.check.check2){
                          this.expect_amount=res.check.check2.expect_amount;
+                          this.fj=res.check.check2;
                     }
                    if(res.check.check3){
                     this.real_amount=res.check.check3.real_amount;
@@ -366,7 +370,10 @@
                 formData.append('status',this.step);
                 formData.append('attachs',JSON.stringify(this.attachs));
                 this.api.demandsettle_check_edit(formData).then((res)=>{
-                    this.$router.go(-1);
+                    if(res!=false){
+                         this.$router.go(-1);
+                    }
+                    
                 })
             },
         }

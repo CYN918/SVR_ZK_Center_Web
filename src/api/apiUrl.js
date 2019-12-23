@@ -1315,6 +1315,15 @@ export default {
 	file_private_upload:{
 		url:'file/private/upload',method:"post",isType:{suktip:1}
 	},
+	//运营审核(仅补充第二阶段的说明文件)
+	demandsettle_opt_audit_add:{
+		url:'demandsettle/opt/audit/add',method:"post",isType:{suktip:1},
+	},
+	//财务编辑(仅编辑第二阶段的说明文件)
+	demandsettle_opt_audit_edit:{
+		url:'demandsettle/opt/audit/edit',method:"post",isType:{suktip:1},
+	}
+
 }
 
 

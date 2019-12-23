@@ -88,6 +88,13 @@
                         <el-table-column
                                 prop="income"
                                 label="收益"
+                                v-if="is_receiver==1"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                prop="income"
+                                label="成本"
+                                v-if="is_receiver==0"
                         >
                         </el-table-column>
                     </el-table>

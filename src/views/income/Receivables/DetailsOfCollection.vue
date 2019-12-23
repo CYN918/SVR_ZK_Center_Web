@@ -1,8 +1,7 @@
 <template>
     <div>
         <DS v-if="msg" :name="list.check.check1.name"></DS>
-        <pro v-if='budget' :name='list.check.check1.name' :tstart='list.check.check1.tstart' :tend='list.check.check1.tend' :is_receiver='1'></pro>
-
+        <pro v-if='budget' :name='list.check.check1.name' :tstart='list.check.check1.tstart' :tend='list.check.check1.tend' :is_receiver='1' :fj='fj'></pro>
         <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="jump()">收款结算&nbsp;/</span>
@@ -113,6 +112,7 @@
                 controlBtn:false,
                 msg:false,
                 budget:false,
+                fj:{},
             }
         },
         created(){
@@ -198,6 +198,7 @@
                 let params={is_receiver:1,id:this.$route.query.id};
                 this.api.settlemanage_detail({params}).then((res)=>{
                     this.list=res;
+                     this.fj=res.check.check2;
                     console.log(this.list.check.check1);
                 })
             },

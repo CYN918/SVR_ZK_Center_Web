@@ -909,4 +909,10 @@ select{
         height: 28px!important;
         overflow: hidden!important;
     }
+    .aaa .el-button{
+      background: #3377ff!important
+    }
+    .aaa .el-upload-list__item-name{
+      display: none;
+    }
 </style>

@@ -1,7 +1,7 @@
 <template>
     <div class="bg">
-         <DS v-if="msg" :name="name" :type="type"></DS>
-        <pro v-if='budget' :name='name' :tstart='time[0]' :tend='time[1]' :id='id' :is_receiver='this.is_receiver' :a='a'></pro>
+        <DS v-if="msg" :name="name" :type="type"></DS>
+        <pro v-if='budget' :name='name' :tstart='time[0]' :tend='time[1]' :id='id' :is_receiver='this.is_receiver' :a='a' :fj='fj'></pro>
         <div class="tableBox">
             <div style="text-align: center;margin-bottom: 40px;max-width: 893px;border-bottom: 1px solid #ddd;position: relative;left: 50%;transform: translateX(-50%)">
                 <div style="margin-right: 350px;text-align: center;display: inline-block;border-bottom: 1px solid #3377ff">
@@ -178,6 +178,7 @@ import pro from '../income/projection'
                 budget:false,
                 a:0,
                 id:'',
+                fj:{},
             }
         },
        
@@ -281,6 +282,7 @@ import pro from '../income/projection'
                 this.api.settlemanage_detail({params}).then((res)=>{
                     this.statement=res.check.check1.statement;
                     this.name=res.check.check1.name;
+                    this.fj=res.check.check2;
                     this.time=[res.check.check1.tstart,res.check.check1.tend];
                     this.getsettle();
                     // if(this.status>1){
@@ -290,9 +292,13 @@ import pro from '../income/projection'
                 })
             },
             setData(){
-                if(this.status==2){
+                if(this.status==2&&this.is_receiver==1){
                     this.upList=true;
                     return;
+                }
+                if(this.status==2&&this.is_receiver==0){
+                    this.tjData();
+                    return
                 }
                if(this.fcounter != 0)
                 {
@@ -352,7 +358,7 @@ import pro from '../income/projection'
                     return;
                 }
 
-                if(this.expect_amount <= 0 || this.expect_amount  == '--'){
+                if(this.expect_amount <= 0 || this.expect_amount  != '--'){
                     this.$message.error('预计结算金额不能为空');
                     return;
                 }
@@ -361,16 +367,22 @@ import pro from '../income/projection'
                     return;
                 }
 
-                if(this.attach.length <= 0){
+                if(this.attach.length <= 0&&this.is_receiver==1){
                     this.$message.error('附件不能为空');
                     return;
                 }
-                
-                let formData = new FormData;
-                formData.append('id',this.skID);
-                formData.append('expect_amount',this.expect_amount);
-                formData.append('attachs',JSON.stringify(this.attach))
-                formData.append('status',this.status);
+                if(this.is_receiver==1){
+                     var formData = new FormData;
+                    formData.append('id',this.skID);
+                    formData.append('expect_amount',this.expect_amount);
+                    formData.append('attachs',JSON.stringify(this.attach))
+                    formData.append('status',this.status);
+                }else{
+                      var formData = new FormData;
+                    formData.append('id',this.skID);
+                    formData.append('expect_amount',this.expect_amount);
+                    formData.append('status',this.status);
+                }
                 this.api.demand_settle_audit(formData).then((res)=>{
                     if(res!=false){
                         this.upList=false;

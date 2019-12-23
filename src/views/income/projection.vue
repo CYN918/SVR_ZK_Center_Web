@@ -5,9 +5,9 @@
                 <span>预计结算数据详情</span>
                 <img src="../../../public/img/gb.png" @click="heidMassage()">
         </div>
-        <div class='switcher'>
+        <div class='switcher' v-if='this.is_receiver==1'>
             <span :class="{pitch:this.num==0}" style="margin-right:82px" @click='listData("0")'>结算数据</span>
-            <span :class="{pitch:this.num==1}" @click='listData("1")'>数据凭证</span>
+            <span :class="{pitch:this.num==1}" @click='listData("1")' >数据凭证</span>
         </div>
         <div class='table' v-if='this.num==0'>
                 <template>
@@ -52,12 +52,41 @@
                     :total="total">
             </el-pagination>
         </div>
+        <div v-if='this.num==1'>
+            <div class='titNames'>
+                <span class='titName_tit'>附件</span>
+                 <span class='icon' v-if='up'>+</span> 
+                <div class='titName_add' v-if='up'>
+                    <el-upload
+                            class="aaa"
+                            :http-request="uploadf"
+                             action="111"
+                            multiple
+                            >
+                            <span size="small" type="primary">添加</span>
+                    </el-upload>
+                   
+                </div>
+            </div>
+            <div v-for="(item,index) in (this.fj.attachs.concat(this.attachs))" style="margin:0 0 10px 24px">
+               <span class='fjName'>{{item.name}}</span>
+                <a class='xz' :href="item.url">下载</a>
+                <span class='sc' @click="delFJ(index)" v-if="decan">删除</span>
+            </div>
+             <el-progress :percentage="this.times" v-if="jd"></el-progress>
+        </div>
+        <div class='btn_bottom' v-if='this.num==1'>
+            <span class='cancel' @click='heidMassage()'>取消</span>
+            <span class='bj' @click='modifier(0)' v-if='edit'>编辑</span>
+            <span class='ok' v-if="qd" @click='affirm()'>确认</span>
+            <span class='bc' @click='modifier(1)' v-if='replenish'>补充文件</span>
+        </div>
     </div>
 </div>
 </template>
 <script>
 export default {
-props:['name','tstart','tend','is_receiver','id','a'],
+props:['name','tstart','tend','is_receiver','id','a','fj'],
 components: {},
 data() {
     return {
@@ -67,18 +96,111 @@ data() {
             total:0,
             num:0,
             price:'',
+            qd:false,
+            decan:false,
+            up:false,
+            authority:[],
+            edit:false,
+            replenish:false,
+            index:'',
+            times:"",
+            fcounter:0,
+            jd:false,
+            attachs:[],
     };
 },
     mounted(){
         this.getData();
+        this.authority=JSON.parse(localStorage.getItem('control'));
+        console.log( this.authority.length)
+        for(var i=0;i<this.authority.length;i++){
+            
+            if(this.authority[i].uri=='demandsettle/opt/audit/add'){
+                this.edit=true;
+                return
+            }
+            if(this.authority[i].uri=='demandsettle/opt/audit/edit'){
+                this.replenish=true;
+                return
+            }
+        }
     },
     methods: {
+        modifier(num){
+            if(num==0){
+                this.decan=true;
+                this.edit=false;
+                this.index=num;
+            }
+            if(num==1){
+                this.replenish=false;
+                this.index=num;
+            }
+            this.qd=true;
+            this.up=true;
+        },
+        affirm(){
+            if(this.index==0){
+                 this.redact()
+            }else{
+                this.add()
+            }
+        },
+        add(){
+            let formData=new FormData;
+            formData.append('id',this.id);
+            formData.append('is_receiver',this.is_receiver);
+            formData.append('attachs',JSON.stringify(this.fj.attachs.concat(this.attachs)));
+            this.api.demandsettle_opt_audit_add(formData).then((res)=>{
+                if(res!=false){
+                    this.heidMassage();
+                }
+            })
+        },
+        redact(){
+             let formData=new FormData;
+            formData.append('id',this.id);
+            formData.append('is_receiver',this.is_receiver);
+            formData.append('attachs',JSON.stringify(this.fj.attachs.concat(this.attachs)));
+            this.api.demandsettle_opt_audit_edit(formData).then((res)=>{
+                if(res!=false){
+                    this.heidMassage();
+                }
+            })
+        },
+         scope(){
+                var _this=this;
+                _this.times=0;
+                var timer = setInterval(function () {
+                    if(_this.times<99){
+                        _this.times++
+                    }
+                },100);
+            },
+        uploadf(file){
+            this.jd=true;
+                this.times=0;
+                ++this.fcounter;
+                this.scope();
+                let formData = new FormData;
+                formData.append('file',file.file);
+                this.api.file_private_upload(formData).then((res)=>{
+                    this.attachs.push(res);
+                    this.times=100;
+                    --this.fcounter;
+                    this.jd=false;
+                })
+            },
         heidMassage(){
-                    this.$parent.heidDetail()
+                    this.$parent.heidDetail();
+                    this.attachs=[];
         },
         listData(num){
             this.num=num;
             this.getData();
+        },
+        delFJ(index){
+            (this.fj.attachs).splice(index, 1);
         },
          handleSizeChange(p) { // 每页条数切换
                 this.p = p;
@@ -234,5 +356,88 @@ data() {
         font-family:PingFangSC-Regular,PingFang SC;
         font-weight:400;
         margin-right: 20px;
+    }
+    .titNames{
+        border-top:1px solid rgba(223, 225, 230, 1);
+        height: 46px;
+    }
+    .titName_tit{
+       display: inline-block;
+      font-size:14px;
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:500;
+        color: rgba(31, 44, 77, 1);
+        margin-left: 24px;
+        line-height: 46px;
+    }
+    .titName_add{
+        display: inline-block;
+        font-size:12px;
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:400;
+        color:rgba(107,119,140,1);
+        cursor: pointer;
+    }
+    .icon{
+        color:rgba(0, 82, 204, 1);
+        margin:0 10px
+    }
+    .fjName{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:400;
+        color:rgba(38,52,82,1);
+    }
+    .xz,.sc{
+      display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:400;
+        color:rgba(51,119,255,1);  
+        margin-left: 12px;
+        cursor: pointer;
+    }
+    .btn_bottom{
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        height: 56px;
+        width: 100%;
+    }
+    .bj,.ok,.bc{
+        display: inline-block;
+        width:60px;
+        height:32px;
+        background:rgba(0,82,204,1);
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:400;
+        color:rgba(255,255,255,1);
+        line-height:32px;
+        text-align: center;
+        border-radius: 5px; 
+        margin: 11px 12px 0 0;
+        float: right;
+        cursor: pointer;
+    }
+    .bc{
+        width:88px!important;
+    }
+    .cancel{
+        display: inline-block;
+        width:60px;
+        height:32px;
+        border:1px solid rgba(165,173,186,1);
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:400;
+        color:rgba(107,119,140,1);
+        line-height:32px;
+         text-align: center;
+        border-radius: 5px; 
+        margin: 11px 24px 0 0;
+        float: right;
+        cursor: pointer;
     }
 </style>

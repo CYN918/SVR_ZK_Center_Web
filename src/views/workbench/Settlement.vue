@@ -1,7 +1,7 @@
 <template>
     <div class="bg">
         <DS v-if="msg" :name="list.check.check1.name" :type="type"></DS>
-        <pro v-if='budget' :name='list.check.check1.name' :tstart='list.check.check1.tstart' :id="id" :tend='list.check.check1.tend' :is_receiver='this.is_receiver' :a='a'></pro>
+        <pro v-if='budget' :name='list.check.check1.name' :tstart='list.check.check1.tstart' :id="id" :tend='list.check.check1.tend' :is_receiver='this.is_receiver' :a='a' :fj='fj'></pro>
         <div class="tableBox">
             <div style="text-align: center;margin-bottom: 40px;max-width: 893px;border-bottom: 1px solid #ddd;position: relative;left: 50%;transform: translateX(-50%)">
                 <div style="margin-right: 350px;text-align: center;border-bottom: 1px solid #3377ff;display: inline-block">
@@ -106,6 +106,7 @@
                 budget:false,
                 a:0,
                 id:"",
+                fj:{},
             }
         },
         mounted(){
@@ -183,6 +184,7 @@
                 let params={is_receiver:this.is_receiver,id:this.skID};
                 this.api.settlemanage_detail({params}).then((res)=>{
                     this.list=res;
+                     this.fj=res.check.check2;
                 })
             },
         }
