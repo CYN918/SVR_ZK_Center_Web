@@ -358,7 +358,7 @@ import pro from '../income/projection'
                     return;
                 }
 
-                if(this.expect_amount <= 0 || this.expect_amount  != '--'){
+                if(this.expect_amount <=0 || this.expect_amount == '--'){
                     this.$message.error('预计结算金额不能为空');
                     return;
                 }
