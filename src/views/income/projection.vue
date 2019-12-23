@@ -42,7 +42,7 @@
         <div class='CKmassage'  v-if='this.num==0'>
             <span @click="getMsg()">查看详细信息</span>
         </div>
-       <div class="block"  v-if='this.num==0'>
+       <!-- <div class="block"  v-if='this.num==0'>
             <el-pagination
                     @size-change="handleSizeChange"
                     @current-change="handleCurrentChange"
@@ -51,7 +51,7 @@
                     layout="prev, pager, next,total, jumper"
                     :total="total">
             </el-pagination>
-        </div>
+        </div> -->
         <div v-if='this.num==1'>
             <div class='titNames'>
                 <span class='titName_tit'>附件</span>
@@ -202,14 +202,14 @@ data() {
         delFJ(index){
             (this.fj.attachs).splice(index, 1);
         },
-         handleSizeChange(p) { // 每页条数切换
-                this.p = p;
-                this.getData()
-            },
-            handleCurrentChange(page) {//页码切换
-                this.page = page;
-                this.getData()
-            },
+        //  handleSizeChange(p) { // 每页条数切换
+        //         this.p = p;
+        //         this.getData()
+        //     },
+        //     handleCurrentChange(page) {//页码切换
+        //         this.page = page;
+        //         this.getData()
+        //     },
             getMsg(){
                 if(this.a!=undefined){
                     let routeData = this.$router.resolve({
@@ -239,14 +239,14 @@ data() {
             },
         getData(){
             if(this.a==undefined){
-                var params={id:this.$route.query.id,is_receiver:this.is_receiver,p:this.p,page:this.page}
+                var params={id:this.$route.query.id,is_receiver:this.is_receiver}
             }else{
-                 var params={id:this.id,is_receiver:this.is_receiver,p:this.p,page:this.page}
+                 var params={id:this.id,is_receiver:this.is_receiver}
             }
            
             this.api.settle_data_estimate_list({params}).then((res)=>{
                 this.list=res.data;
-                this.total=res.total;
+               
                 this.price = 0;
                 for(var i=0;i<res.data.length;i++){
 
