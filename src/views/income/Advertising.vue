@@ -29,7 +29,7 @@
                 <input type="text" placeholder="请输入结算方" v-model="search"/>
                 <span class="cx" @click="getDataList">查询</span>
             </div>
-            <div >
+            <div  v-if="is_receiver==1">
                 <template>
                     <el-table
                             :header-cell-style="getRowClass"
@@ -54,21 +54,10 @@
                         <el-table-column
                                 prop="project"
                                 label="项目名称"
-                                v-if="is_receiver==1"
+                               
                         >
                         </el-table-column>
-                        <el-table-column
-                                prop="scene"
-                                label="场景"
-                                v-if="is_receiver==0"
-                        >
-                        </el-table-column>
-                        <el-table-column
-                                prop="adid"
-                                label="广告位ID"
-                                 v-if="is_receiver==0"
-                        >
-                        </el-table-column>
+                       
                         <el-table-column
                                 prop="pv"
                                 label="展示"
@@ -88,13 +77,68 @@
                         <el-table-column
                                 prop="income"
                                 label="收益"
-                                v-if="is_receiver==1"
+                        >
+                        </el-table-column>
+                       
+                    </el-table>
+                </template>
+            </div>
+             <div  v-if="is_receiver==0">
+                <template>
+                    <el-table
+                            :header-cell-style="getRowClass"
+                            :cell-style="cell"
+                            :data="tableData"
+                            height="450"
+                            style="width: 100%">
+                        <el-table-column
+                                prop="tdate"
+                                label="日期"
                         >
                         </el-table-column>
                         <el-table-column
+                                prop="name"
+                                label="结算方"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                prop="advertiser"
+                                label="投放公司">
+                        </el-table-column>
+                      
+                        <el-table-column
+                                prop="scene"
+                                label="场景"
+                                
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                prop="adid"
+                                label="广告位ID"
+                                
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                prop="pv"
+                                label="展示"
+                                :show-overflow-tooltip="true"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                prop="click"
+                                label="点击">
+                        </el-table-column> 
+                        <el-table-column
+                            prop="click_ratio"
+                            label="点击率"
+                            :show-overflow-tooltip="true"
+                        >
+                        </el-table-column>
+                     
+                        <el-table-column
                                 prop="income"
                                 label="成本"
-                                v-if="is_receiver==0"
+                                
                         >
                         </el-table-column>
                     </el-table>
