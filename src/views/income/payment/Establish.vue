@@ -61,11 +61,7 @@
                             >
                             </el-date-picker>
                         </div>
-                         <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
-                                    <div slot="content" class="text">{{step>1?"aaa":'bb'}}</div>
-                                    <img src='../../../../public/img/TBC.png' v-if="step==1" style="margin-left: 6px;cursor: pointer;width:16px"/>
-                                    <img src='../../../../public/img/confirmed.png' v-if="step>1" style="margin-left: 6px;cursor: pointer;width:16px"/>
-                        </el-tooltip>
+                        
                     </div>
                 </div>
                 <div  v-if='step>=2'>
