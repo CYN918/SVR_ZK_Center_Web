@@ -36,17 +36,17 @@
                             </div>
                         </div>
                         <div  class="img_box">
-                            <div class="ADD_img" v-for="(data,index2) in item.bind" >
-                                <img class="ADD_img_del" src="../../../public/img/del.png" @click="delmid(index,data.mid)">
-                                <img  class="ADD_img_img" :src="data.prev_uri" v-if="(data.prev_uri.split('.'))[(data.prev_uri.split('.').length-1)]!='mp4'"/>
-                                <video class="ADD_img_img" :src="data.prev_uri" controls="controls" v-if="(data.prev_uri.split('.'))[(data.prev_uri.split('.').length-1)]=='mp4'" />
-                                <span>{{data.mid}}</span>
+                            <div class="ADD_img" v-for="(datas,index2) in item.bind" >
+                                <img class="ADD_img_del" src="../../../public/img/del.png" @click="delmid(index,datas.mid)">
+                                <img  class="ADD_img_img" :src="datas.prev_uri" v-if="(datas.prev_uri.split('.'))[(datas.prev_uri.split('.').length-1)]!='mp4'"/>
+                                <video class="ADD_img_img" :src="datas.prev_uri" controls="controls" v-if="(datas.prev_uri.split('.'))[(datas.prev_uri.split('.').length-1)]=='mp4'" />
+                                <span>{{datas.mid}}</span>
                             </div>
                             <div class="ADD_img" v-for="(data,index2) in item.middleware" >
                                 <img class="ADD_img_del" src="../../../public/img/del.png" @click="delIMG(index,data.id)">
-                                <img  class="ADD_img_img" :src="data.url"  v-if="(data.uri.split('.'))[(data.uri.split('.').length-1)]!='mp4'&&(data.uri.split('.'))[(data.uri.split('.').length-1)]!='zip'"/>
-                                <div  class="ADD_img_img" style="text-align:center;" v-if="(data.uri.split('.'))[(data.uri.split('.').length-1)]=='zip'"> 无预览图</div>
-                                 <video class="ADD_img_img" :src="data.uri" controls="controls" v-if="(data.uri.split('.'))[(data.uri.split('.').length-1)]=='mp4'" />
+                                <img  class="ADD_img_img" :src="data.url"  v-if="(data.url.split('.'))[(data.url.split('.').length-1)]!='mp4'&&(data.url.split('.'))[(data.url.split('.').length-1)]!='zip'"/>
+                                <div  class="ADD_img_img" style="text-align:center;" v-if="(data.url.split('.'))[(data.url.split('.').length-1)]=='zip'"> 无预览图</div>
+                                 <video class="ADD_img_img" :src="data.url" controls="controls" v-if="(data.url.split('.'))[(data.url.split('.').length-1)]=='mp4'" />
                                 <span>{{data.name}}</span>
                             </div>
                         </div>
@@ -63,7 +63,7 @@
                         <div class="btn_img" >
                             <img style="margin-right: 34px" src="../../../public/img/delet.png" @click="delLine(index)"/>
                         </div>
-                        <div v-if="" class="img_box">
+                        <div class="img_box">
                             <div class="ADD_img" v-for="(data2,index3) in item.bind" >
                                 <img  class="ADD_img_img" :src="data2.prev_uri" v-if="(data2.prev_uri.split('.'))[(data2.prev_uri.split('.').length-1)]!='mp4'"/>
                                 <video class="ADD_img_img" :src="data2.prev_uri" controls="controls" v-if="(data2.prev_uri.split('.'))[(data2.prev_uri.split('.').length-1)]=='mp4'" />
@@ -272,6 +272,7 @@
                 this.sc = true;
                 this.wl = false;
                 this.getDataList();
+
             },
             ADDwl(){
                 this.wl = true;
