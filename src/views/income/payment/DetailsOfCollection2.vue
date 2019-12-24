@@ -46,7 +46,7 @@
                 </div>
                 <div>
                     <div style="display: inline-block;width: 100px;margin-right: 20px;text-align: right">
-                        <span class="fj">附件</span>
+                        <span class="fj">票据凭证</span>
                     </div>
                     <div style="display: inline-block;width: 300px;text-align: left">
                         <div v-for="item in list.attachs" style="text-align: left">

@@ -33,7 +33,7 @@
                 </div>
                 <div>
                     <div style="display: inline-block;width: 100px;margin-right: 20px;text-align: right">
-                        <span class="fj">附件
+                        <span class="fj">票据凭证
                             <!--<span style="color: #acadb0">(选填)</span>-->
                         </span>
                     </div>
