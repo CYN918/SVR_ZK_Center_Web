@@ -315,7 +315,7 @@
                     var s = '{"'+'sdk_id' + '":"'+this.text + '"}';
                     this.search=s;
                 }
-                var url = '/replace/sdk/overview/export'+'?tdate='+this.tdate+'&times='+JSON.stringify(this.number)+'&search='+this.search+'&source'+this.source+'is_preview'+this.is_preview;
+                var url = '/replace/sdk/overview/export'+'?tdate='+this.tdate+'&times='+JSON.stringify(this.number)+'&search='+this.search+'&source='+this.source+'&is_preview='+this.is_preview;
                 download.downloadImg(url);
             },
             getTimes(){

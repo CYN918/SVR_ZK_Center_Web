@@ -165,7 +165,7 @@
             derived(){
                 var s = '{"'+'sdk_id' + '":"'+this.$route.query.sdkid + '"}';
                 this.search=s;
-                var url = '/replace/pending/export'+'?tdate='+this.$route.query.time+'&times='+this.$route.query.num+'&search='+this.search+'&source='+this.$route.query.source+'is_preview'+this.$route.query.is_preview;
+                var url = '/replace/pending/export'+'?tdate='+this.$route.query.time+'&times='+this.$route.query.num+'&search='+this.search+'&source='+this.$route.query.source+'&is_preview='+this.$route.query.is_preview;
                 download.downloadImg(url);
             },
                 getTimes(){
