@@ -12,14 +12,23 @@
             <div style="padding: 0 24px">
                 <span style="font-size: 14px">数据源:</span>
                 <select v-model="is_preview" style="margin-right: 10px;width: 150px">
-                    <option value="0">图片</option>
-                    <option value="1">落地页</option>
+                    <option value="0">图片逻辑</option>
+                    <option value="1">落地页逻辑</option>
                 </select>
                 <select v-model="source" style="margin:0 20px 0 10px;width: 150px">
                     <option value="SDK-API">SDK-API</option>
-                    <option value="own">拥有</option>
+                    <option value="own">OWN</option>
                 </select>
-                <div class="block" style="display: inline-block">
+                <span class="tit_text">SDK_ID:</span>
+                <input type="text" placeholder="请输入sdkID查询" v-model="text"/>
+                <span class="cx" @click="getList()">
+                查询
+            </span>
+                <span class="reset" @click="resetRemove">重置</span>
+                 <span class="educe" @click="downloadImg()">导出</span>
+                <span class="batch_upload" @click="batchUpload()">批量上传</span>
+                <div>
+                    <div class="block" style="display: inline-block">
                     <el-date-picker
                             v-model="tdate"
                             type="date"
@@ -29,14 +38,7 @@
                             value-format="yyyy-MM-dd">
                     </el-date-picker>
                 </div>
-                <span class="tit_text">SDK_ID:</span>
-                <input type="text" placeholder="请输入sdkID查询" v-model="text"/>
-                <span class="cx" @click="getList()">
-                查询
-            </span>
-                <span class="reset" @click="resetRemove">重置</span>
-                <div>
-                    <span class="tit_text" style="margin-left: 0!important;">获取次数:</span>
+                    <span class="tit_text" >获取次数:</span>
                     <div class="select_check">
                         <template>
                             <el-select
@@ -55,8 +57,6 @@
                             </el-select>
                         </template>
                     </div>
-                    <span class="educe" @click="downloadImg()">导出</span>
-                    <span class="batch_upload" @click="batchUpload()">批量上传</span>
                 </div>
             </div>
             <div>
