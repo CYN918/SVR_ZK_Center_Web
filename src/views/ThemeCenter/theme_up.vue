@@ -56,11 +56,17 @@
                 </div>
                 <div>
                     <span>主题类型</span>
-                    <select v-model="type" @change="getCon()" >
-                        <option :value="item.id" v-for="item in themeType">{{item.type}}</option>
+                    <select v-model="type" @change="getCon()" v-if='this.$route.query.thid==undefined'>
+                        <option :value="item.type" v-for="item in themeType">{{item.type}}</option>
+                    </select>
+                      <select v-model="type" @change="getCon()" v-if='this.$route.query.thid!=undefined' disabled>
+                        <option :value="item.type" v-for="item in themeType">{{item.type}}</option>
                     </select>
                     <span>内容分类</span>
-                    <select v-model="content">
+                    <select v-model="content"  v-if='this.$route.query.thid==undefined'>
+                        <option :value="item.id" v-for="item in con">{{item.class}}</option>
+                    </select>
+                     <select v-model="content"  v-if='this.$route.query.thid!=undefined' disabled>
                         <option :value="item.id" v-for="item in con">{{item.class}}</option>
                     </select>
                 </div>
@@ -273,25 +279,29 @@
                     this.main_preview=res.main_preview;
                     this.pic=res.previews;
                     var tx=[];
-                    var txIndex={category:''};
                     tx=res.feature_category.split(',');
                     for(var i=0;i<tx.length;i++){
-                        txIndex.category=tx[i];
-                        if((this.color).indexOf(txIndex)!=-1){
-                            this.result1.push(txIndex);
-                            return
+                        for(var j=0;j<this.color.length;j++){
+                            if((this.color[j].category)==tx[i]){
+                                this.result1.push({category:tx[i]});
+                            }
                         }
-                        if((this.functional).indexOf(txIndex)!=-1){
-                            this.result2.push(txIndex);
-                            return
+                        for(var k=0;k<this.functional.length;k++){
+                            if((this.functional[k].category)==tx[i]){
+                                this.result2.push({category:tx[i]});
+                            }
                         }
-                         if((this.stylize).indexOf(txIndex)!=-1){
-                            this.result3.push(txIndex);
-                            return
+                        for(var w=0;w<this.stylize.length;w++){
+                            if((this.stylize[w].category)==tx[i]){
+                                this.result3.push({category:tx[i]});
+                            }
                         }
-                         if((this.contents).indexOf(txIndex)!=-1){
-                            this.result4.push(txIndex);
+                        for(var e=0;e<this.contents.length;e++){
+                            if((this.contents[e].category)==tx[i]){
+                                this.result4.push({category:tx[i]});
+                            }
                         }
+                        
                     }
                     this.getsc();
                     this.getCon();
@@ -312,6 +322,9 @@
                         if(res[i].feature=='内容'){
                             this.contents=res[i].categories
                         }
+                    }
+                     if(this.$route.query.thid!=undefined){
+                        this.getData();
                     }
                 })
             },
@@ -574,9 +587,6 @@
                 let params = {material:'2',type:"theme",search:this.tagsName,p:500,page:1};
                 this.api.tags_search({params}).then((da)=>{
                     this.tag=da.data.self_tags;
-                    if(this.$route.query.thid!=undefined){
-                        this.getData();
-                    }
                 })
             },
             handleExceed(files, fileList) {

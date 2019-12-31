@@ -471,7 +471,7 @@ export default {
 	},
 	//添加标签
     tags_add:{
-		url:'/tags/add',method:'post',isType:{suktip:1}
+		url:'/tags/add',method:'post',isType:{suktip:1,reload:1}
 	},
 	//获取物料库列表
     mfinal_search:{
@@ -1173,11 +1173,11 @@ export default {
     },
 	//编辑标签
     themes_material_edit_tags:{
-		url:'themes/material/edit/tags',method:"post",isType:{suktip:1}
+		url:'themes/material/edit/tags',method:"post",isType:{suktip:1,reload:1}
 	},
 	//编辑标签
     themes_package_edit_tags:{
-		url:'themes/package/edit/tags',method:"post",isType:{suktip:1}
+		url:'themes/package/edit/tags',method:"post",isType:{suktip:1,reload:1}
 	},
 	//上传主题文件
     themes_theme_upload:{

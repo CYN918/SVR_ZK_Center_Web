@@ -469,6 +469,12 @@
                 let params={channel:this.channel,thid:this.thid};
                 this.api.themes_theme_uiversion({params}).then((res)=>{
                     this.ui=res;
+                    for(var i=0;i<this.ui[0].version.length;i++){
+                        if((this.ui[0].version)[i]==this.tableData.version){
+                            this.das=i
+                        }
+                    }
+                    
                     if(da!=undefined){
                         this.ui_version=da;
                     }
