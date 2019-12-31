@@ -165,7 +165,7 @@
             derived(){
                 var s = '{"'+'sdk_id' + '":"'+this.$route.query.sdkid + '"}';
                 this.search=s;
-                var url = '/replace/pending/export'+'?tdate='+this.$route.query.time+'&times='+this.$route.query.num+'&search='+this.search+'&source='+this.$route.query.source;
+                var url = '/replace/pending/export'+'?tdate='+this.$route.query.time+'&times='+this.$route.query.num+'&search='+this.search+'&source='+this.$route.query.source+'is_preview'+this.$route.query.is_preview;
                 download.downloadImg(url);
             },
                 getTimes(){
@@ -191,7 +191,7 @@
                 this.cl=[];
                 var s = '{"'+'sdk_id' + '":"'+this.$route.query.sdkid + '"}';
                 this.search=s;
-                let params ={tdate:this.$route.query.time,times:this.$route.query.num,p:this.p,page:this.page,search:this.search,source:this.$route.query.source};
+                let params ={tdate:this.$route.query.time,times:this.$route.query.num,p:this.p,page:this.page,search:this.search,source:this.$route.query.source,is_preview:this.$route.query.is_preview};
                 this.api.replace_pending_list({params}).then((res)=>{
                     this.tableData = res;
                     for(var i=0;i<this.tableData.length;i++){
@@ -220,6 +220,7 @@
                         times:this.$route.query.num,
                         sdkid:this.$route.query.sdkid,
                         source:this.$route.query.source,
+                        is_preview:this.$route.query.is_preview,
                     },
                 });
                 window.open(routeData.href, '_blank');

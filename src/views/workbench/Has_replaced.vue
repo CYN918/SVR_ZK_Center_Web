@@ -247,6 +247,7 @@
                 formData.append('tdate',this.tableData.tdate);
                 formData.append('model',this.tableData.model);
                 formData.append('source',this.$route.query.source);
+                formData.append('is_preview',this.$route.query.is_preview);
                 formData.append('pv',this.tableData.pv);
                 formData.append('url_md5',this.tableData.original_res[0].url_md5);
                 formData.append('preview_url',this.tableData.preview_url);
@@ -337,6 +338,7 @@
                 formData.append('md5',this.md5);
                 formData.append('mid',this.mid);
                 formData.append('source',this.$route.query.source);
+                formData.append('is_preview',this.$route.query.is_preview);
                 formData.append('sdk_id',this.$route.query.sdk_id);
                 formData.append('src',this.tableData.src);
                 formData.append('url_md5',this.$route.query.url_md5);

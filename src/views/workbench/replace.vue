@@ -11,9 +11,13 @@
         <div class="content_right">
             <div style="padding: 0 24px">
                 <span style="font-size: 14px">数据源:</span>
-                <select v-model="source" style="margin-right: 20px;width: 150px">
+                <select v-model="is_preview" style="margin-right: 10px;width: 150px">
+                    <option value="0">图片</option>
+                    <option value="1">落地页</option>
+                </select>
+                <select v-model="source" style="margin:0 20px 0 10px;width: 150px">
                     <option value="SDK-API">SDK-API</option>
-                    <option value="own">OWN</option>
+                    <option value="own">拥有</option>
                 </select>
                 <div class="block" style="display: inline-block">
                     <el-date-picker
@@ -31,8 +35,6 @@
                 查询
             </span>
                 <span class="reset" @click="resetRemove">重置</span>
-                <span class="educe" @click="downloadImg()">导出</span>
-                <span class="batch_upload" @click="batchUpload()">批量上传</span>
                 <div>
                     <span class="tit_text" style="margin-left: 0!important;">获取次数:</span>
                     <div class="select_check">
@@ -53,6 +55,8 @@
                             </el-select>
                         </template>
                     </div>
+                    <span class="educe" @click="downloadImg()">导出</span>
+                    <span class="batch_upload" @click="batchUpload()">批量上传</span>
                 </div>
             </div>
             <div>
@@ -207,7 +211,8 @@
                 width:"",
                 height:'',
                 tableDataList:[],
-                source:'own',
+                source:'SDK-API',
+                is_preview:'0'
             }
         },
         mounted(){
@@ -250,7 +255,13 @@
                     var s = '{"'+'sdk_id' + '":"'+this.text + '"}';
                     this.search=s;
                 }
-                let params ={tdate:this.tdate,times:JSON.stringify(this.number),p:this.p,page:this.page,search:this.search,source:this.source};
+                if(!this.is_preview){
+                    this.$message.error('数据源不能为空');
+                }
+                if(!this.source){
+                    this.$message.error('数据源不能为空');
+                }
+                let params ={tdate:this.tdate,times:JSON.stringify(this.number),p:this.p,page:this.page,search:this.search,source:this.source,is_preview:this.is_preview};
                 this.api.replace_sdk_overview({params}).then((res)=>{
                     this.tableData = res;
                     this.total=res.total;
@@ -304,7 +315,7 @@
                     var s = '{"'+'sdk_id' + '":"'+this.text + '"}';
                     this.search=s;
                 }
-                var url = '/replace/sdk/overview/export'+'?tdate='+this.tdate+'&times='+JSON.stringify(this.number)+'&search='+this.search+'&source'+this.source;
+                var url = '/replace/sdk/overview/export'+'?tdate='+this.tdate+'&times='+JSON.stringify(this.number)+'&search='+this.search+'&source'+this.source+'is_preview'+this.is_preview;
                 download.downloadImg(url);
             },
             getTimes(){
@@ -327,6 +338,7 @@
                         sdkid:data,
                         time:this.tdate,
                         num:JSON.stringify(this.number),
+                        is_preview:this.is_preview,
                         source:this.source,
                     },
                     path:'./resource'
