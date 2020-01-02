@@ -97,6 +97,9 @@ import tags from './tags'
                 this.ta=true;
                 this.bq=tag;
             },
+            qxTags(){
+                this.ta=false;
+            },
             qd(){
                 this.api.themes_config_channel().then((res)=>{
                     this.channels=res;
