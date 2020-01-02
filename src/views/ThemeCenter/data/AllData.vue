@@ -81,6 +81,7 @@
                                 label="渠道">
                         </el-table-column>
                         <el-table-column
+                        :show-overflow-tooltip="true"
                                 prop="theme_name"
                                 label="主题名称"
                                 v-if="num.seach2==true"
@@ -101,6 +102,9 @@
                                 prop="ctr"
                                 v-if="num.seach16==true"
                                 label="点击率">
+                                <template slot-scope="scope">
+                                    <span>{{tableData[scope.$index].ctr}}%</span>
+                                </template>
                         </el-table-column>
                         <el-table-column
                                 prop="download"
@@ -116,6 +120,9 @@
                                 prop="cvr"
                                 v-if="num.seach15==true"
                                 label="转化率">
+                                <template slot-scope="scope">
+                                    <span>{{tableData[scope.$index].cvr}}%</span>
+                                </template>
                         </el-table-column>
                         <el-table-column
                                 prop="sales_amount"
@@ -149,6 +156,7 @@
                                 label="利润">
                         </el-table-column>
                         <el-table-column
+                        :show-overflow-tooltip="true"
                                 prop="note"
                                 v-if="num.seach19==true"
                                 label="备注">
@@ -311,12 +319,15 @@
             heidcheckBox(){
                 this.selectBox=false;
             },
-            getRowClass({row, column, rowIndex, columnIndex}) {
+             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
-                    return 'background:rgb(246, 245, 245,1);color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
+                    return 'background:rgba(255,255,255,1);color:#1f2e4d;margin:0 24px;font-size:14px;font-weight:Medium;font-family:PingFang-SC-Regular;'
                 } else {
                     return ''
                 }
+            },
+            cell({row, column, rowIndex, columnIndex}){
+                return 'margin:0 24px;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
             getTitName(){
                 let params={uri:"/ThemeCenter/data/AllData"};
@@ -326,9 +337,7 @@
                     }
                 });
             },
-            cell({row, column, rowIndex, columnIndex}){
-                return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
-            },
+           
             themeType(){
                 this.api.themes_config_theme_type().then((res)=>{
                     this.theme_type=res;

@@ -66,12 +66,16 @@
                                 prop="date"
                                 label="排名"
                         >
+                         <template slot-scope="scope">
+                                    <span>{{scope.$index+1}}</span>
+                                </template>
                         </el-table-column>
                         <el-table-column
                                 prop="channel"
                                 label="渠道">
                         </el-table-column>
                         <el-table-column
+                        :show-overflow-tooltip="true"
                                 prop="theme_name"
                                 label="主题名称"
                         >
@@ -92,6 +96,9 @@
                         <el-table-column
                                 prop="ctr"
                                 label="点击率">
+                                 <template slot-scope="scope">
+                                    <span>{{tableData[scope.$index].ctr}}%</span>
+                                </template>
                         </el-table-column>
                         <el-table-column
                                 prop="download"
@@ -104,6 +111,9 @@
                         <el-table-column
                                 prop="cvr"
                                 label="转化率">
+                                 <template slot-scope="scope">
+                                    <span>{{tableData[scope.$index].cvr}}%</span>
+                                </template>
                         </el-table-column>
                         <el-table-column
                                 prop="sales_amount"
@@ -130,6 +140,7 @@
                                 label="利润">
                         </el-table-column>
                         <el-table-column
+                        :show-overflow-tooltip="true"
                                 prop="note"
                                 label="备注">
                         </el-table-column>
@@ -246,14 +257,13 @@
             },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
-                    return 'background:rgb(246, 245, 245,1);color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
+                    return 'background:rgba(255,255,255,1);color:#1f2e4d;margin:0 24px;font-size:14px;font-weight:Medium;font-family:PingFang-SC-Regular;'
                 } else {
                     return ''
                 }
             },
-
             cell({row, column, rowIndex, columnIndex}){
-                return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
+                return 'margin:0 24px;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
 
             qd(){

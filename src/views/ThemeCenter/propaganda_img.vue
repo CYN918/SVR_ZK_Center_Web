@@ -50,8 +50,10 @@
 </template>
 
 <script>
+import tags from './tags'
     export default {
         name: "theme_lock",
+        components:{tags},
         data(){
             return{
                 type:'th_advertise',
@@ -94,6 +96,9 @@
                 this.id=id;
                 this.ta=true;
                 this.bq=tag;
+            },
+            qxTags(){
+                this.ta=false;
             },
             qd(){
                 this.api.themes_config_channel().then((res)=>{
