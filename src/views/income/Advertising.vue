@@ -290,7 +290,7 @@
                 this.show=false;
             },
             getDataList(){
-                let params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,search:this.search,is_receiver:this.is_receiver}
+                let params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,search:this.search,is_receiver:this.is_receiver,name:this.name,channel:this.channel}
                 this.api.settle_data_search({params}).then((res)=>{
                     this.tableData=res.data;
 
