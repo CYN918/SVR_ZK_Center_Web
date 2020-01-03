@@ -944,6 +944,10 @@ export default {
 	settle_data_estimate_amount:{
 		url:'settle/data/estimate/amount',method:'get'
 	},
+	//广告源渠道列表
+	settle_data_ssp_channel:{
+		url:"settle/data/ssp/channel",method:'get'
+	},
 	//主题中心
 
 
@@ -1322,6 +1326,10 @@ export default {
 	//财务编辑(仅编辑第二阶段的说明文件)
 	demandsettle_opt_audit_edit:{
 		url:'demandsettle/opt/audit/edit',method:"post",isType:{suktip:1},
+	},
+	//导出结算数据列表
+	settle_data_export:{
+		url:'settle/data/export',method:'get'
 	}
 
 }

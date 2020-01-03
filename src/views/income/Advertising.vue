@@ -25,9 +25,23 @@
                     <option value="1">收款数据</option>
                     <option value="0">付款数据</option>
                 </select>
-                <span class="ad">结算方</span>
-                <input type="text" placeholder="请输入结算方" v-model="search"/>
+                 <span  class="ad" v-if="is_receiver==0">渠道</span>
+                <select v-model="channel"  v-if="is_receiver==0">
+                    <option value="item.channel" v-for="item in channelData">{{item.channel}}</option>
+                </select>
+                <div style=" display: inline-block;position: relative;">
+                    <span class="ad">结算方</span>
+                    <input type="text" placeholder="请输入结算方" v-model="name" @input="getName"/>
+                    <div class='names' v-if="show">
+                        <span v-for="da in JSname" @click='setName(da.name)'>{{da.name}}</span>
+                    </div>
+                </div>
+               
+                
+                <span class="ad">搜索</span>
+                <input type="text" placeholder="请输入关键词" v-model="search"/>
                 <span class="cx" @click="getDataList">查询</span>
+                <span class="cx" @click="downloadImg()">导出</span>
             </div>
             <div  v-if="is_receiver==1">
                 <template>
@@ -112,6 +126,12 @@
                                 
                         >
                         </el-table-column>
+                          <el-table-column
+                                prop="channel"
+                                label="渠道"
+                                
+                        >
+                        </el-table-column>
                         <el-table-column
                                 prop="adid"
                                 label="广告位ID"
@@ -181,6 +201,7 @@
 </template>
 
 <script>
+ import download from '../../api/commonality'
     export default {
         name: "advertiser",
         data(){
@@ -196,6 +217,11 @@
                 exhibition2:'',
                 click_ratio:'',
                 exhibition4:'',
+                name:'',
+                channel:"",
+                channelData:[],
+                JSname:[],
+                show:false
             }
         },
         mounted(){
@@ -215,7 +241,8 @@
                     }
                     this.value=[qt.join('-'),next.join('-')];
                 }
-                this.getDataList()
+                this.getDataList();
+                this.getqd();
         },
         methods:{
             getRowClass({row, column, rowIndex}) {
@@ -235,6 +262,32 @@
             handleCurrentChange(page) {//页码切换
                 this.page = page;
                 this.getDataList()
+            },
+            getqd(){
+                this.api.settle_data_ssp_channel().then((res)=>{
+                    this.channelData=res;
+                })
+            },
+            
+             downloadImg(){
+                var url = '/settle/data/export'+'?is_receiver='+this.is_receiver+'&name='+this.name+'&search='+this.search+'&channel='+this.channel+'&tstart='+this.value[0]+'&tend='+this.value[1];
+                download.downloadImg(url);
+            },
+            getName(){
+                if(this.name!=''){
+                    this.show=true;
+                    this.JSname=[];
+                     let params={is_receiver:this.is_receiver,search:this.name,p:100,page:1}
+                        this.api.settle_settlement_search({params}).then((res)=>{
+                    this.JSname=res.data;
+                })
+                }
+               
+                console.log(this.name)
+            },
+            setName(da){
+                this.name=da;
+                this.show=false;
             },
             getDataList(){
                 let params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,search:this.search,is_receiver:this.is_receiver}
@@ -300,22 +353,22 @@
         margin: 0 24px 0 44px;
     }
     select{
-        width:200px;
+        width:150px;
         height:36px;
         background:rgba(255,255,255,1);
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);
-        margin-right: 28px;
+        /* margin-right: 28px; */
         margin-top: 24px;
     }
     input{
-        width:190px;
+        width:140px;
         height:36px;
         background:rgba(255,255,255,1);
         border-radius:4px;
         padding: 0 5px;
         border:1px solid rgba(211,219,235,1);
-        margin-right: 28px;
+        /* margin-right: 28px; */
         margin-top: 24px;
     }
     .cx{
@@ -331,7 +384,7 @@
         line-height:36px;
         text-align: center;
         cursor: pointer;
-        margin-right: 24px;
+        margin-left: 24px;
     }
     .cz{
         display: inline-block;
@@ -376,7 +429,7 @@
         font-weight:bold;
         line-height:48px;
         font-family:PingFang-SC-Regular;
-       width: 11%;
+        width: 11%;
         padding-left: 24px;
     }
     .summary2 span{
@@ -387,8 +440,24 @@
         font-weight:bold;
         line-height:48px;
         font-family:PingFang-SC-Regular;
-       width: 9.5%;
+        width: 9.5%;
         padding-left: 24px;
     }
-    
+    .names{
+        position: absolute;
+        top:65px;
+        right: 0;
+        height: 200px;
+        overflow-y:auto;
+        background: #fff;
+        z-index: 999999;
+        border: 1px solid #ddd;
+    }
+    .names span{
+        text-align: center;
+        display: block;
+        height: 36px;
+        line-height: 36px;
+        border-bottom:1px solid #eee 
+    }
 </style>
