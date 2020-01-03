@@ -27,7 +27,7 @@
                 </select>
                  <span  class="ad" v-if="is_receiver==0">渠道</span>
                 <select v-model="channel"  v-if="is_receiver==0">
-                    <option value="item.channel" v-for="item in channelData">{{item.channel}}</option>
+                    <option :value="item.channel" v-for="item in channelData">{{item.channel}}</option>
                 </select>
                 <div style=" display: inline-block;position: relative;">
                     <span class="ad">结算方</span>
