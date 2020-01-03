@@ -38,9 +38,10 @@
                     <span>{{item.name}}</span>
                 </div>
                 <div class="boxTag">
-                    <span v-for="da in (item.tags).split(',')" class="tagsBox"  v-if="da">{{da}}</span>
                     <span class="addTags" @click="bjTags(item.thmid,item.tags)"><span>+</span>标签</span>
+                    <span v-for="da in (item.tags).split(',')" class="tagsBox"  v-if="da">{{da}}</span>
                 </div>
+                 
             </div>
         </div>
         <div class="block">
@@ -342,7 +343,8 @@
         height: 34px;
         background: #fff;
         padding:0 3% ;
-        overflow-x: auto;
+        display: inline-block;
+        overflow:hidden;
 
     }
     .addTags{
@@ -352,6 +354,7 @@
         border-radius:4px;
         border:1px dashed rgba(230,233,240,1);
         font-size:12px;
+        margin-right: 5px;
         font-family:PingFangSC;
         font-weight:400;
         color:rgba(31,46,77,0.45);
@@ -366,7 +369,7 @@
         padding:2px 5px;
         margin-right: 5px;
         border-radius: 4px;
-        margin-bottom: 5px;
+        margin-bottom: 10px;
         font-size:12px;
         font-family:PingFangSC-Regular,PingFangSC;
         font-weight:400;

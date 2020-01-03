@@ -57,10 +57,10 @@
                 <div>
                     <span>主题类型</span>
                     <select v-model="type" @change="getCon()" v-if='this.$route.query.thid==undefined'>
-                        <option :value="item.type" v-for="item in themeType">{{item.type}}</option>
+                        <option :value="item.id" v-for="item in themeType">{{item.type}}</option>
                     </select>
                       <select v-model="type" @change="getCon()" v-if='this.$route.query.thid!=undefined' disabled>
-                        <option :value="item.type" v-for="item in themeType">{{item.type}}</option>
+                        <option :value="item.id" v-for="item in themeType">{{item.type}}</option>
                     </select>
                     <span>内容分类</span>
                     <select v-model="content"  v-if='this.$route.query.thid==undefined'>
@@ -75,8 +75,8 @@
                     <template>
                         <el-select v-model="result1" multiple placeholder="请选择">
                             <el-option
-                            v-for="item in color"
-                            :key="item.category"
+                            v-for="(item,index) in color"
+                            :key="index"
                             :label="item.category"
                             :value="item.category">
                             </el-option>
@@ -114,8 +114,8 @@
                     <template>
                         <el-select v-model="result4" multiple placeholder="请选择">
                             <el-option
-                            v-for="item in contents"
-                            :key="item.category"
+                            v-for="(item,index) in contents"
+                            :key="index"
                             :label="item.category"
                             :value="item.category">
                             </el-option>
@@ -231,6 +231,7 @@
                 content:'',
                 name:'',
                 type:'',
+                type_name:'',
                 note:'',
                 tags:[],
                 tag:[],
@@ -266,6 +267,7 @@
                     this.name=res.name;
                     this.note=res.note;
                     this.type=res.type;
+                    this.type_name=res.type_name;
                     var arr=[];
                     for(var j=0;j<(res.tags.split(',')).length;j++){
                         for(var i=0;i<this.tag.length;i++){
@@ -283,22 +285,22 @@
                     for(var i=0;i<tx.length;i++){
                         for(var j=0;j<this.color.length;j++){
                             if((this.color[j].category)==tx[i]){
-                                this.result1.push({category:tx[i]});
+                                this.result1.push(tx[i]);
                             }
                         }
                         for(var k=0;k<this.functional.length;k++){
                             if((this.functional[k].category)==tx[i]){
-                                this.result2.push({category:tx[i]});
+                                this.result2.push(tx[i]);
                             }
                         }
                         for(var w=0;w<this.stylize.length;w++){
                             if((this.stylize[w].category)==tx[i]){
-                                this.result3.push({category:tx[i]});
+                                this.result3.push(tx[i]);
                             }
                         }
                         for(var e=0;e<this.contents.length;e++){
                             if((this.contents[e].category)==tx[i]){
-                                this.result4.push({category:tx[i]});
+                                this.result4.push(tx[i]);
                             }
                         }
                         
@@ -420,22 +422,39 @@
                     this.$message.error('未上传主题包')
                     return
                 }
-                 if(this.result1==[]){
+                 if(!this.result1){
                     this.$message.error('色彩不能为空')
                     return
                 }
-                if(this.result2==[]){
+                if(!this.result2){
                     this.$message.error('功能特效不能为空')
                     return
                 }
-                if(this.result3==[]){
+                if(!this.result3){
                     this.$message.error('风格不能为空')
                     return
                 }
-                if(this.result4==[]){
+                if(!this.result4){
                     this.$message.error('内容不能为空')
                     return
                 }
+                // let special1=[];
+                // let special2=[];
+                // let special3=[];
+                // let special4=[];
+                // for(var i=0;i<this.result1.length;i++){
+                //     special1.push(this.result1[i].category);
+                // }
+                // for(var s=0;s<this.result2.length;s++){
+                //     special2.push(this.result2[s].category);
+                // }
+                // for(var d=0;d<this.result3.length;d++){
+                //     special3.push(this.result3[d].category);
+                // }
+                // for(var w=0;w<this.result4.length;w++){
+                //     special4.push(this.result4[w].category);
+                // }
+                console.log(this.result1)
                 let formData =new FormData;
                 formData.append('thid',this.$route.query.thid);
                 formData.append('type',this.type);
@@ -507,19 +526,19 @@
                     this.$message.error('内容分类不能为空')
                     return
                 }
-                 if(this.result1==[]){
+                 if(!this.result1){
                     this.$message.error('色彩不能为空')
                     return
                 }
-                if(this.result2==[]){
+                if(!this.result2){
                     this.$message.error('功能特效不能为空')
                     return
                 }
-                if(this.result3==[]){
+                if(!this.result3){
                     this.$message.error('风格不能为空')
                     return
                 }
-                if(this.result4==[]){
+                if(!this.result4){
                     this.$message.error('内容不能为空')
                     return
                 }
@@ -593,7 +612,7 @@
                 this.$message.error(`当前限制选择10个文件`);
             },
             getCon(){
-                let params={type:this.type};
+                let params={type:this.type_name};
                 this.api.themes_config_theme_class({params}).then((res)=>{
                     this.con=res;
                 })
