@@ -469,11 +469,22 @@
                 let params={channel:this.channel,thid:this.thid};
                 this.api.themes_theme_uiversion({params}).then((res)=>{
                     this.ui=res;
-                    for(var i=0;i<this.ui[0].version.length;i++){
-                        if((this.ui[0].version)[i]==this.tableData.version){
+                    for(var j=0;j<this.ui.length;j++){
+                        if(da!=undefined&&da==this.ui[j].ui_version){
+                            this.ind=j;
+                            this.indexs=j
+                        }
+                        for(var i=0;i<this.ui[j].version.length;i++){
+                        if((this.ui[j].version)[i]==this.tableData.version){
                             this.das=i
                         }
                     }
+                    }
+                    // for(var i=0;i<this.ui[0].version.length;i++){
+                    //     if((this.ui[0].version)[i]==this.tableData.version){
+                    //         this.das=i
+                    //     }
+                    // }
                     
                     if(da!=undefined){
                         this.ui_version=da;
