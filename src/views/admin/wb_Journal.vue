@@ -19,6 +19,7 @@
                 <div class="num">
                     <span>数量:</span>
                     <span>{{this.total}}</span>
+                     <span class="dated" v-if="new Date(this.date)<=new Date(new Date().getTime() - 24*60*60*1000)">(已过期)</span>
                 </div>
             </div>
         </div>
@@ -38,7 +39,7 @@
                     </div>
                     <div>
                         <span class="right_txt_name">文件</span>
-                        <span class="boxImg_content" v-if="(DL.attach.size/1024).toFixed(0)<1">1kb</span>
+                        <span class="boxImg_content" v-if="(item.attach.size/1024).toFixed(0)<1">1kb</span>
                         <span class="right_txt_content" v-if="(item.attach.size/1024).toFixed(0)>=1&&(item.attach.size/1024/1024).toFixed(0)<1">{{(item.attach.size/1024).toFixed(0)}}kb</span>
                         <span class="right_txt_content" v-if="(item.attach.size/1024/1024).toFixed(1)>=1&&(item.attach.size/1024/1024/1024).toFixed(1)<1">{{(item.attach.size/1024/1024).toFixed(1)}}MB</span>
                         <span class="right_txt_content" v-if="(item.attach.size/1024/1024/1024).toFixed(2)>=1">{{(item.attach.size/1024/1024/1024).toFixed(2)}}GB</span>
@@ -238,5 +239,10 @@
         font-weight:400;
         color:rgba(143,155,179,1);
         text-align: center;
+    }
+     .dated{
+        display: inline-block;
+        margin-left: 10px;
+        color: red!important;
     }
 </style>
