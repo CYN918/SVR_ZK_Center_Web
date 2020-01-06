@@ -180,6 +180,7 @@
                 <span>—</span>
                 <span>—</span>
                 <span>—</span>
+                <span>—</span>
                 <span>{{exhibition1}}</span>
                 <span>{{exhibition2}}</span>
                 <span>{{click_ratio}}</span>
@@ -440,8 +441,9 @@
         font-weight:bold;
         line-height:48px;
         font-family:PingFang-SC-Regular;
-        width: 9.5%;
-        padding-left: 24px;
+        width: 9%;
+       padding-left: 16px;
+
     }
     .names{
         position: absolute;
