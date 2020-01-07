@@ -33,7 +33,8 @@
                 <div>
                     <span class="fillName">结算单名称</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
-                        <input type="text" class="input" v-model="statement">
+                        <input type="text" class="input" v-model="statement" v-if='this.step==undefined'>
+                        <input type="text" class="input" v-model="statement" disabled v-if='this.step!=undefined'>
                     </div>
 
                 </div>

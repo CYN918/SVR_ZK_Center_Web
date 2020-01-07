@@ -3,7 +3,7 @@
         <div class="bg" >
             <div class="AddIMG" >
                 <div class="AddIMG_tit">
-                    <span>添加素材ssss</span>
+                    <span>添加素材</span>
                 </div>
                 <div class="AddIMG_content">
                     <div class="AddIMG_content_left">
@@ -139,8 +139,8 @@
                             </div>
                         </div>
                         <div class="bg_btn">
-                            <span class="bg_btn_up" @click="AddMatter">上传</span>
-                            <span @click="heidSc">取消</span>
+                            <span class="bg_btn_up" @click="AddMatter()">上传</span>
+                            <span @click="heidSc()">取消</span>
                         </div>
                     </div>
                 </div>
@@ -363,9 +363,8 @@
                                 this.type='';
                                 this.prev_uri='';
                                 this.preinstall=[];
-                                this.bardian=[];
-                                this.$parent.AddMaterial();
-                                this.$parent.heidBD();
+                                this.bardian=[]; 
+                                this.heidSc()
                             }
                         })
 

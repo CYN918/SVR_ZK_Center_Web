@@ -190,7 +190,7 @@
                     path:"./establish",
                     query:{
                         id:this.$route.query.id,
-                        spet:this.list.status,
+                        step:this.list.status,
                     },
                 })
             },
