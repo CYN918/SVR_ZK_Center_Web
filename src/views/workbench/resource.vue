@@ -215,7 +215,6 @@
                         sdk_id:data.sdk_id,
                         src:data.src,
                         url_md5:data.original_res[0].url_md5,
-                        url_md5:data.original_res[0].url_md5,
                         tdate:this.$route.query.time,
                         times:this.$route.query.num,
                         sdkid:this.$route.query.sdkid,
