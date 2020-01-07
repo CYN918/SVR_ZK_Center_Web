@@ -948,6 +948,10 @@ export default {
 	settle_data_ssp_channel:{
 		url:"settle/data/ssp/channel",method:'get'
 	},
+	//推送渠道列表
+	pushlib_configs_channel:{
+		url:'pushlib/configs/channel',method:"get"
+	},
 	//主题中心
 
 

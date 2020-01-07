@@ -65,7 +65,8 @@ import add_library from './views/admin/add_library'
 mode['add_library'] = add_library
 import details_library from './views/admin/details_library'
 mode['details_library'] = details_library
-
+import userControl from './views/admin/userControl'
+mode['userControl']=userControl
 
 
 //收益中心
@@ -351,6 +352,7 @@ let nb = [
 			{path:'/admin/settags',name:'标签管理',component: mode['settags']},
 			{path:'/admin/library',name:'投放库',component: mode['library'],},
             {path:'/admin/journal_of_push',name:'杂志锁屏推送管理',component: mode['journal_of_push'],},
+            {path:'/admin/userControl',name:'杂志锁屏用户管理',component: mode['userControl'],},
             {path:'/admin/journal_Administrator',name:'杂志锁屏推送管理删除',component: mode['journal_Administrator'],},
             {path:'/admin/wb_Journal',name:'外部杂志锁屏推送管理删除',component: mode['wb_Journal'],},
 			{path:'/admin/WLtemplate',name:'广告模版',component: mode['WLtemplate']},
@@ -542,7 +544,7 @@ let leftNav =
 //                     {title:'锁屏壁纸MD5库',url:'/workbench/MD5'},
 //                     {title:'聚合内容配置',url:'/workbench/allocation'},
 //                     {title:'资源待替换',url:'/workbench/replace'},
-// 					{title:'官方物料投放库',url:'/workbench/theme'},
+// 					   {title:'官方物料投放库',url:'/workbench/theme'},
 //                     {title:'主题壁纸-标签定投',url:'/workbench/theme_screen'},
 //                     {title:'物料预审管理',url:'/workbench/ad_source'},
 //                 ],},

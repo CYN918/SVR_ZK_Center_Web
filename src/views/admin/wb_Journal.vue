@@ -45,6 +45,19 @@
                         <span class="right_txt_content" v-if="(item.attach.size/1024/1024/1024).toFixed(2)>=1">{{(item.attach.size/1024/1024/1024).toFixed(2)}}GB</span>
                         <a :href="item.attach.url">下载</a>
                     </div>
+                     <div class="img_size">
+                        <span class="right_txt_name">线上埋点状态</span>
+                        <span class="right_txt_content">{{}}</span>
+                    </div>    
+                    <div class="img_size">
+                        <span class="right_txt_name">外部确认状态</span>
+                        <span class="right_txt_content">{{}}</span>
+                        <span class="right_txt_content  yy" @click='updateStatus()'>更新状态</span>
+                    </div>    
+                    <div class="img_size" v-if="show">
+                        <span class="right_txt_name">原因说明</span>
+                        <span class="right_txt_content">{{}}</span>
+                    </div>
                 </div>
 
             </div>
@@ -63,13 +76,43 @@
                     :total="total">
             </el-pagination>
         </div>
+         <div class="bg" v-if="tc">
+            <div class='content'>
+                <div class='con_tit'>
+                    <span>更新状态</span>
+                </div>
+                <div class='sel'>
+                    <select v-model="status">
+                        <option value="已上线">已上线</option>
+                        <option value="拒绝上线">拒绝上线</option>
+                    </select>
+                    <div class='sel_1' v-if="status=='拒绝上线'">
+                        <el-checkbox-group v-model="checkList">
+                            <el-checkbox label="测试不通过" class='aaa'></el-checkbox>
+                            <el-checkbox label="内容差"  class='aaa'></el-checkbox>
+                            <el-checkbox label="屏蔽竞品"  class='aaa'></el-checkbox>
+                            <el-checkbox label="其他"  class='aaa bb'>
+                                <template>
+                                    <span style="margin-right:10px">其他</span>
+                                    <textarea placeholder="最多20字" maxlength="20"></textarea>
+                                </template>
+                            </el-checkbox>
+                        </el-checkbox-group>
+                        
+                    </div>
+                </div>
+                <div class='sel_btn'>
+                    <span class="sel_btn_qd">确定</span>
+                    <span @click='qx()'>取消</span>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
-    import ADDWL from './Jounrnal_select'
+
     export default {
-        components:{ADDWL},
         name: "journal_of_push",
         data(){
             return{
@@ -80,6 +123,10 @@
                 total:0,
                 pageSize:8,
                 currentPage: 1,
+                show:false,
+                tc:false,
+                status:"",
+                checkList:[],
             }
         },
         mounted(){
@@ -87,7 +134,7 @@
             console.log(this.date)
         },
         methods:{
-            handleSizeChange1() { // 每页条数切换
+            handleSizeChange1(pageSize) { // 每页条数切换
                 this.pageSize = pageSize;
                 this.getData()
             },
@@ -95,6 +142,14 @@
                 this.currentPage = currentPage;
                 this.getData()
             },
+            updateStatus(){
+               this.tc=true;
+           },
+           qx(){
+               this.tc=false;
+               this.status='';
+               this.checkList=[];
+           },
             getData(){
                 let params = {plid:this.plid,p:this.pageSize,page:this.currentPage,date:this.date};
                 this.api.pushlib_external_mfinal({params}).then((res)=>{
@@ -245,4 +300,90 @@
         margin-left: 10px;
         color: red!important;
     }
+    .yy{
+        color: #3377ff!important;
+        cursor: pointer;
+    }
+
+
+
+    .bg{
+        position: fixed;
+        top:0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.3);
+    }
+    .content{
+        width: 400px;
+        max-height:400px;
+        position: absolute;
+        top:30%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        border-radius: 10px;
+    }
+    .con_tit{
+        width: 100%;
+        height: 40px;
+        border-bottom: 1px solid #ddd;
+    }
+    .con_tit span{
+        display: inline;
+        margin-left: 24px;
+        display: inline-block;
+        line-height: 40px;
+        font-size: 18px;
+        font-weight: 500;
+    }
+    .sel{
+        margin: 20px 0;
+    }
+    .sel select{
+        width: 200px;
+        height: 36px;
+        margin-left: 24px;
+        border-radius: 5px;
+    }
+    .sel_1{
+        margin: 30px 0 0px 24px;
+    }
+    .aaa{
+          display: block!important;
+      margin: 0 0 15px 0 !important
+    }
+     .bb span{
+        vertical-align: top;
+    }
+   .bb textarea{
+       padding: 5px
+   }
+   .sel_btn{
+       width: 100%;
+       height: 50px;
+       text-align: right;
+   }
+   .sel_btn span{
+    margin-right: 24px;
+    display: inline-block;
+    width: 68px;
+    height: 36px;
+    background: rgba(255,255,255,1);
+    border-radius: 4px;
+    border: 1px solid rgba(211,219,235,1);
+    font-size: 14px;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(61,73,102,1);
+    line-height: 36px;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 7px
+   }
+   .sel_btn_qd{
+       border: 0!important;
+    background: rgba(51,119,255,1)!important;
+    color: rgba(255,255,255,1)!important;
+   }
 </style>

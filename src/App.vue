@@ -915,4 +915,7 @@ select{
     .aaa .el-upload-list__item-name{
       display: none;
     }
+     .bb .el-checkbox__input{
+        vertical-align: top;
+    }
 </style>
