@@ -179,8 +179,8 @@
                             </div>
                         </div>
                         <div class="bg_btn">
-                            <span class="bg_btn_up" @click="AddMatter">上传</span>
-                            <span @click="heidSc">取消</span>
+                            <span class="bg_btn_up" @click="AddMatter()">上传</span>
+                            <span @click="heidSc()">取消</span>
                         </div>
                     </div>
                 </div>

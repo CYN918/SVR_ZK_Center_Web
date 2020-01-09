@@ -153,7 +153,6 @@
                 })
             },
             getShow(index){
-            
                 if(index!=''){
                     this.name='编辑';
                     this.role=this.list[index].role.role_id;
@@ -205,7 +204,6 @@
         }
     }
 </script>
-
 <style scoped>
     .top_name{
         height: 98px;
@@ -312,3 +310,4 @@
         margin-right: 20px;
     }
 </style>
+

@@ -41,9 +41,9 @@
             </div>
         </div>
         <div class="box" v-if="this.dataList.length>0">
-            <div class="box_img" v-for="item in this.dataList">
+            <div class="box_img" v-for="(item,index) in this.dataList">
                 <div class="left_img">
-                    <img :src="item.prev_uri">
+                    <img :src="item.mfinal.prev_uri">
                 </div>
                 <div class="right_txt">
                     <div>
@@ -52,23 +52,23 @@
                     </div>
                     <div class="img_size">
                         <span class="right_txt_name">尺寸</span>
-                        <span class="right_txt_content">{{item.size}}</span>
+                        <span class="right_txt_content">{{item.mfinal.size}}</span>
                     </div>
                     <div>
                         <span class="right_txt_name">文件</span>
-                        <span class="right_txt_content" v-if="(item.attach.size/1024).toFixed(0)>=1&&(item.attach.size/1024/1024).toFixed(0)<1">{{(item.attach.size/1024).toFixed(0)}}kb</span>
-                        <span class="right_txt_content" v-if="(item.attach.size/1024/1024).toFixed(1)>=1&&(item.attach.size/1024/1024/1024).toFixed(1)<1">{{(item.attach.size/1024/1024).toFixed(1)}}MB</span>
-                        <span class="right_txt_content" v-if="(item.attach.size/1024/1024/1024).toFixed(2)>=1">{{(item.attach.size/1024/1024/1024).toFixed(2)}}GB</span>
-                        <a :href="item.attach.url">下载</a>
+                        <span class="right_txt_content" v-if="(item.mfinal.attach.size/1024).toFixed(0)>=1&&(item.mfinal.attach.size/1024/1024).toFixed(0)<1">{{(item.mfinal.attach.size/1024).toFixed(0)}}kb</span>
+                        <span class="right_txt_content" v-if="(item.mfinal.attach.size/1024/1024).toFixed(1)>=1&&(item.mfinal.attach.size/1024/1024/1024).toFixed(1)<1">{{(item.mfinal.attach.size/1024/1024).toFixed(1)}}MB</span>
+                        <span class="right_txt_content" v-if="(item.mfinal.attach.size/1024/1024/1024).toFixed(2)>=1">{{(item.mfinal.attach.size/1024/1024/1024).toFixed(2)}}GB</span> 
+                        <a :href="item.mfinal.attach.url">下载</a>
                     </div>
                     <div class="img_size">
                         <span class="right_txt_name">线上埋点状态</span>
-                        <span class="right_txt_content">{{}}</span>
+                        <span class="right_txt_content">{{item.status==0?'不通过':"审核通过"}}</span>
                     </div>
                     <div class="img_size">
                         <span class="right_txt_name">外部确认状态</span>
-                        <span class="right_txt_content">{{}}</span>
-                        <span class="right_txt_content  yy" @click='updateStatus()'>更新状态</span>
+                        <span class="right_txt_content">{{item.status_online==0?"拒绝上线":"上线"}}</span>
+                        <span class="right_txt_content  yy" @click='updateStatus(index)'>更新状态</span>
                     </div>
                      <div class="img_size" v-if="show">
                         <span class="right_txt_name">原因说明</span>
@@ -99,10 +99,10 @@
                 </div>
                 <div class='sel'>
                     <select v-model="status">
-                        <option value="已上线">已上线</option>
-                        <option value="拒绝上线">拒绝上线</option>
+                        <option value="1">已上线</option>
+                        <option value="2">拒绝上线</option>
                     </select>
-                    <div class='sel_1' v-if="status=='拒绝上线'">
+                    <div class='sel_1' v-if="status=='2'">
                         <el-checkbox-group v-model="checkList">
                             <el-checkbox label="测试不通过" class='aaa'></el-checkbox>
                             <el-checkbox label="内容差"  class='aaa'></el-checkbox>
@@ -110,7 +110,7 @@
                             <el-checkbox label="其他"  class='aaa bb'>
                                 <template>
                                     <span style="margin-right:10px">其他</span>
-                                    <textarea placeholder="最多20字" maxlength="20"></textarea>
+                                    <textarea placeholder="最多20字" maxlength="20" v-model="yy"></textarea>
                                 </template>
                             </el-checkbox>
                         </el-checkbox-group>
@@ -118,7 +118,7 @@
                     </div>
                 </div>
                 <div class='sel_btn'>
-                    <span class="sel_btn_qd">确定</span>
+                    <span class="sel_btn_qd" @click="pushLib()">确定</span>
                     <span @click='qx()'>取消</span>
                 </div>
             </div>
@@ -146,6 +146,8 @@
                 checkList:[],
                 qdLists:[],
                 channel:"",
+                yy:"",
+                index:"",
             }
         },
         mounted(){
@@ -175,8 +177,9 @@
                this.currentPage = currentPage;
                this.getData()
            },
-           updateStatus(){
+           updateStatus(index){
                this.tc=true;
+               this.index=index;
            },
              getChannel(){
                 this.api.pushlib_configs_channel().then((res)=>{
@@ -193,6 +196,18 @@
            },
            heidWL(){
                this.ADDwl = false;
+           },
+           pushLib(){
+             let formData= new FormData;
+             formData.append('status',this.status),
+             formData.append('plid',this.dataList[this.index].plid),
+             formData.append('mfid',this.dataList[this.index].mfid),
+             formData.append('note',this.checkList.join(',')+this.yy)   
+                this.api.pushlib_external_audit(formData).then((res)=>{
+                    if(res!=false){
+                        this.qx();
+                    }
+                })
            },
            getData(){
                 let params = {plid:this.plid,p:this.pageSize,page:this.currentPage,date:this.date,channel:this.channel};

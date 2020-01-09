@@ -924,6 +924,18 @@ export default {
     adreview_user_channel_list:{
 		url:"adreview/user/channel/list",method:'get'
 	},
+	//渠道用户信息列表
+	pushlib_configs_channel_user_list:{
+		url:"pushlib/configs/channel/user/list",method:'get'
+	},
+	//添加/编辑渠道用户
+	pushlib_configs_channel_user_add:{
+		url:"pushlib/configs/channel/user/add",method:"post",isType:{suktip:1}
+	},
+	//外部账户审核资源
+	pushlib_external_audit:{
+		url:"pushlib/external/audit",method:"post",isType:{suktip:1}
+	},
 	//配置用户渠道信息
     adreview_user_channel_add:{
 		url:'adreview/user/channel/add',method:'post',isType:{suktip:1}
