@@ -387,6 +387,6 @@ li{list-style-type: none;}
 }
 .xqList{
 	position: relative;
-	margin: 114px 24px 50px 276px!important;
+	margin: 114px 24px 85px 276px!important;
 }
 </style>

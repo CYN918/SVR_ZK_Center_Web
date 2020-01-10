@@ -35,12 +35,7 @@ import tags_details from './views/admin/tags_details'
 mode['tags_details'] = tags_details
 import mangement from './views/admin/management'
 mode['mangement'] =mangement
-import journal_of_push from './views/admin/Journal_of_push'
-mode['journal_of_push'] = journal_of_push
-import journal_Administrator from './views/admin/Jounrnal_Administrator'
-mode['journal_Administrator']= journal_Administrator
-import wb_Journal from  './views/admin/wb_Journal'
-mode['wb_Journal']=wb_Journal
+
 
 import wallpaper from './views/admin/wallpaper.vue'
 mode['wallpaper'] = wallpaper
@@ -65,8 +60,7 @@ import add_library from './views/admin/add_library'
 mode['add_library'] = add_library
 import details_library from './views/admin/details_library'
 mode['details_library'] = details_library
-import userControl from './views/admin/userControl'
-mode['userControl']=userControl
+
 
 
 //收益中心
@@ -220,8 +214,21 @@ import Journal_user from './views/workbench/Journal_user'
 mode['Journal_user']=Journal_user
 import Journal_details from './views/workbench/Journal_details'
 mode['Journal_details']=Journal_details 
+import journal_of_push from './views/workbench/Journal_of_push'
+mode['journal_of_push'] = journal_of_push
+import journal_Administrator from './views/workbench/Jounrnal_Administrator'
+mode['journal_Administrator']= journal_Administrator
+import wb_Journal from  './views/workbench/wb_Journal'
+mode['wb_Journal']=wb_Journal
+import userControl from './views/workbench/userControl'
+mode['userControl']=userControl
+import Offline_resources from './views/workbench/Offline_resources'
+mode['Offline_resources']=Offline_resources
+import record from './views/workbench/record'
+mode['record']=record
 
-
+import Offline_details from './views/workbench/Offline_details'
+mode['Offline_details']=Offline_details
 
 import axios from 'axios'
 import api from './api/index'
@@ -356,10 +363,10 @@ let nb = [
 			{path:'/admin/standard',name:'设计规范库',component: mode['standard']},
 			{path:'/admin/settags',name:'标签管理',component: mode['settags']},
 			{path:'/admin/library',name:'投放库',component: mode['library'],},
-            {path:'/admin/journal_of_push',name:'杂志锁屏推送管理',component: mode['journal_of_push'],},
-            {path:'/admin/userControl',name:'杂志锁屏用户管理',component: mode['userControl'],},
-            {path:'/admin/journal_Administrator',name:'杂志锁屏推送管理删除',component: mode['journal_Administrator'],},
-            {path:'/admin/wb_Journal',name:'外部杂志锁屏推送管理删除',component: mode['wb_Journal'],},
+            // {path:'/admin/journal_of_push',name:'杂志锁屏推送管理',component: mode['journal_of_push'],},
+            // {path:'/admin/userControl',name:'杂志锁屏用户管理',component: mode['userControl'],},
+            // {path:'/admin/journal_Administrator',name:'杂志锁屏推送管理删除',component: mode['journal_Administrator'],},
+            // {path:'/admin/wb_Journal',name:'外部杂志锁屏推送管理删除',component: mode['wb_Journal'],},
 			{path:'/admin/WLtemplate',name:'广告模版',component: mode['WLtemplate']},
 			{path:'/admin/lockScreen',name:'场景锁屏',component: mode['lockScreen']},
 			{path:'/admin/add_library',name:'添加投放库',component: mode['add_library']},
@@ -401,6 +408,13 @@ let nb = [
             {path:'/workbench/Jounrnal_ys',name:'杂志锁屏物料预审',component: mode['Jounrnal_ys']},
             {path:'/workbench/Journal_user',name:'杂志锁屏物料预审用户',component: mode['Journal_user']},
             {path:'/workbench/Journal_details',name:'杂志锁屏物料预审详情',component: mode['Journal_details']},
+            {path:'/workbench/journal_of_push',name:'杂志锁屏推送管理',component: mode['journal_of_push'],},
+            {path:'/workbench/userControl',name:'杂志锁屏用户管理',component: mode['userControl'],},
+            {path:'/workbench/journal_Administrator',name:'杂志锁屏推送管理',component: mode['journal_Administrator'],},
+            {path:'/workbench/wb_Journal',name:'外部杂志锁屏推送管理',component: mode['wb_Journal'],},
+            {path:'/workbench/Offline_resources',name:'线下资源替换',component: mode['Offline_resources'],},
+            {path:'/workbench/record',name:'操作记录',component: mode['record'],},
+            {path:'/workbench/Offline_details',name:'线下详情',component: mode['Offline_details'],},
             
             
 	]},
@@ -538,7 +552,7 @@ let leftNav =
 		]},
 		{title:'投放库',url:'5',img:'&#xe60e;',list:[
 				{title:'投放库',url:'/admin/library'},
-                {title:'杂志锁屏推送管理',url:'/admin/journal_of_push'},
+                // {title:'杂志锁屏推送管理',url:'/admin/journal_of_push'},
                 // {title:'杂志锁屏推送管理',url:'/admin/wb_Journal'}
 
 			]}
@@ -558,6 +572,8 @@ let leftNav =
                     {title:'主题壁纸-标签定投',url:'/workbench/theme_screen'},
                     {title:'物料预审管理',url:'/workbench/ad_source'},
                     {title:'杂志锁屏物料预审',url:'/workbench/Jounrnal_ys'},
+                    {title:'杂志锁屏推送管理',url:'/workbench/journal_of_push'},
+                    {title:'线下资源替换',url:'/workbench/Offline_resources'},
                 ],},
 
         ]

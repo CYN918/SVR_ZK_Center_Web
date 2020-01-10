@@ -1,9 +1,9 @@
 <template>
     <div>
         <div class="top_name">
-            <span class="top_txt">投放库 / 杂志锁屏推送管理</span>
+            <span class="top_txt">杂志锁屏物料</span>
             <div class="tit_name">
-                <span>杂志锁屏推送管理</span>
+                <span>查看杂志锁屏</span>
             </div>
             <div class="search_criteria">
                 <div class="date">
@@ -16,34 +16,18 @@
                             value-format="yyyy-MM-dd">
                     </el-date-picker>
                 </div>
-                <div class="num" >
+                <div class="num">
                     <span>数量:</span>
                     <span>{{this.total}}</span>
-                    <span class="dated" v-if="new Date(this.date)<=new Date(new Date().getTime() - 24*60*60*1000)">(已过期)</span>
-                   
-                </div>
-                <div  class="num" >
-                    <span>渠道</span>
-                    <select v-model="channel"  @change="getData()">
-                        <option :value="item.channel" v-for="item in qdLists">{{item.channel}}</option>
-                    </select>
-                </div>
-                <div class="action_btn">
-                    <span class="manage" @click="jumps()" v-if="!(new Date(this.date)<new Date(new Date().getTime() - 24*60*60*1000))">管理</span>
-                    <span class="select" @click="getWl" v-if="!(new Date(this.date)<new Date(new Date().getTime() - 24*60*60*1000))" style="margin-right:20px">
-                        <img src="../../../public/img/add.png" style="width: 16px;display: inline-block;position: relative;top:50%;transform: translateY(-90%);margin-right: 10px">
-                        从物料库选择
-                    </span>
-                     <span class="select" @click='SetUser()' v-if="!(new Date(this.date)<new Date(new Date().getTime() - 24*60*60*1000))">
-                       账号管理
-                    </span>
+                     <span class="dated" v-if="new Date(this.date)<=new Date(new Date().getTime() - 24*60*60*1000)">(已过期)</span>
                 </div>
             </div>
         </div>
         <div class="box" v-if="this.dataList.length>0">
-            <div class="box_img" v-for="(item,index) in this.dataList">
+            <div class="box_img" v-for="item in this.dataList">
                 <div class="left_img">
-                    <img :src="item.mfinal.prev_uri">
+                     <img :src="item.mfinal.prev_uri" v-if="((item.mfinal.prev_uri).split('.'))[((item.mfinal.prev_uri).split('.')).length-1]!='mp4'" />
+                    <video :src="item.mfinal.prev_uri" v-if="((item.mfinal.prev_uri).split('.'))[((item.mfinal.prev_uri).split('.')).length-1]=='mp4'"></video>
                 </div>
                 <div class="right_txt">
                     <div>
@@ -68,7 +52,7 @@
                     <div class="img_size">
                         <span class="right_txt_name">外部确认状态</span>
                         <span class="right_txt_content">{{item.status_online==0?"拒绝上线":"上线"}}</span>
-                        <!-- <span class="right_txt_content  yy" @click='updateStatus(index)'>更新状态</span> -->
+                        <span class="right_txt_content  yy" @click='updateStatus(index)'>更新状态</span>
                     </div>
                      <div class="img_size">
                         <span class="right_txt_name">对接上线状态</span>
@@ -95,18 +79,17 @@
                     :total="total">
             </el-pagination>
         </div>
-        <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :date="date"></ADDWL>
-        <div class="bg" v-if="tc">
+         <div class="bg" v-if="tc">
             <div class='content'>
                 <div class='con_tit'>
                     <span>更新状态</span>
                 </div>
                 <div class='sel'>
                     <select v-model="status">
-                        <option value="1">已上线</option>
-                        <option value="2">拒绝上线</option>
+                        <option value="已上线">已上线</option>
+                        <option value="拒绝上线">拒绝上线</option>
                     </select>
-                    <div class='sel_1' v-if="status=='2'">
+                    <div class='sel_1' v-if="status=='拒绝上线'">
                         <el-checkbox-group v-model="checkList">
                             <el-checkbox label="测试不通过" class='aaa'></el-checkbox>
                             <el-checkbox label="内容差"  class='aaa'></el-checkbox>
@@ -131,9 +114,8 @@
 </template>
 
 <script>
-    import ADDWL from './Jounrnal_select'
+
     export default {
-        components:{ADDWL},
         name: "journal_of_push",
         data(){
             return{
@@ -148,60 +130,37 @@
                 tc:false,
                 status:"",
                 checkList:[],
-                qdLists:[],
-                channel:"",
                 yy:"",
                 index:"",
             }
         },
         mounted(){
             this.getData();
+            console.log(this.date)
         },
-       methods:{
-            jumps(){
-                this.$router.push({
-                    path:"./journal_Administrator",
-                    query:{
-                        date:this.date,
-                        id:this.plid
-                    }
-                })
+        methods:{
+            handleSizeChange1(pageSize) { // 每页条数切换
+                this.pageSize = pageSize;
+                this.getData()
             },
-            SetUser(){
-                  this.$router.push({
-                    path:"./userControl",
-                  
-                })
+            handleCurrentChange1(currentPage) {//页码切换
+                this.currentPage = currentPage;
+                this.getData()
             },
-           handleSizeChange1(pageSize) { // 每页条数切换
-               this.pageSize = pageSize;
-               this.getData()
-           },
-           handleCurrentChange1(currentPage) {//页码切换
-               this.currentPage = currentPage;
-               this.getData()
-           },
-           updateStatus(index){
+            updateStatus(index){
                this.tc=true;
-               this.index=index;
+                 if(index==''){
+                   this.index=0;
+               }else{
+                   this.index=index;
+               }
            },
-             getChannel(){
-                this.api.pushlib_configs_channel().then((res)=>{
-                    this.qdLists=res;
-                })
-            },
            qx(){
                this.tc=false;
                this.status='';
                this.checkList=[];
            },
-           getWl(){
-                this.ADDwl = true;
-           },
-           heidWL(){
-               this.ADDwl = false;
-           },
-           pushLib(){
+            pushLib(){
              let formData= new FormData;
              formData.append('status',this.status),
              formData.append('plid',this.dataList[this.index].plid),
@@ -213,25 +172,13 @@
                     }
                 })
            },
-           getData(){
-                let params = {plid:this.plid,p:this.pageSize,page:this.currentPage,date:this.date,channel:this.channel};
-                this.api.pushlib_binds({params}).then((res)=>{
+            getData(){
+                let params = {plid:this.plid,p:this.pageSize,page:this.currentPage,date:this.date};
+                this.api.pushlib_external_mfinal({params}).then((res)=>{
                     this.dataList = res.data;
-                    this.total=res.total;
-                    this. getChannel()
+                    this.total=res.total
                 })
-           },
-           listenToChildEvent(id,date){
-                console.log(id);
-                let formData =new FormData;
-                formData.append('plid',this.plid);
-                formData.append('date',date);
-                formData.append('bind_mfid',JSON.stringify(id));
-                this.api.pushlib_add_mfinal(formData).then((res)=>{
-                    this.heidWL();
-                    this.getData()
-                })
-           },
+            },
         },
     }
 </script>
@@ -278,9 +225,6 @@
     .date{
         margin-right: 12px;
     }
-    .num{
-        margin-right: 20px
-    }
     .num span{
         display: inline-block;
         font-size:14px;
@@ -288,17 +232,7 @@
         font-weight:500;
         color:rgba(50,50,50,1);
     }
-    .num select{
-        margin-left: 20px;
-        width: 200px;
-        height: 36px;
-        border-radius: 5px;
 
-    }
-    .action_btn{
-        float: right;
-        margin-right: 250px;
-    }
     .action_btn span{
         display: inline-block;
         height: 36px;
@@ -308,24 +242,7 @@
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);
     }
-    .manage{
-        width:68px;
-        background:rgba(51,119,255,1);
-        font-size:14px;
-        font-family:PingFangSC-Regular;
-        font-weight:400;
-        color:rgba(255,255,255,1);
-        margin-right: 20px;
-    }
-    .select{
-        width:144px;
-        background:rgba(242,246,252,1);
-        border:1px solid rgba(211,219,235,1);
-        font-size:14px;
-        font-family:PingFang-SC-Medium;
-        font-weight:500;
-        color:rgba(61,73,102,1);
-    }
+
     .box{
         margin-top: 244px;
     }
@@ -336,7 +253,6 @@
         background:rgba(255,255,255,1);
         border-radius:4px;
         margin:0px 20px 24px 0;
-        position: relative;
     }
     /*.box_img:nth-child(4n){*/
         /*margin-right: 0!important;*/
@@ -347,12 +263,12 @@
         height:149px;
         background:rgba(227,231,235,1);
         border-radius:2px;
-        margin-left: 15px;
-        position: absolute;
+        margin-left: 49px;
+        position: relative;
         top:50%;
         transform: translateY(-50%);
     }
-    .left_img img{
+    .left_img img ,.left_img video{
         max-width: 99px;
         max-height: 149px;
         position: absolute;
@@ -362,13 +278,13 @@
     }
     .right_txt{
         display: inline-block;
-        position: absolute;
-        top: 50%;
+        position: relative;
+        top: 25%;
         transform: translateY(-50%);
-        margin-left: 150px;
+        margin-left: 20px;
     }
     .right_txt div{
-        height: 30px;
+        height: 40px;
     }
     .right_txt_name{
         display: inline-block;
@@ -401,7 +317,7 @@
         color:rgba(143,155,179,1);
         text-align: center;
     }
-    .dated{
+     .dated{
         display: inline-block;
         margin-left: 10px;
         color: red!important;
@@ -410,6 +326,8 @@
         color: #3377ff!important;
         cursor: pointer;
     }
+
+
 
     .bg{
         position: fixed;

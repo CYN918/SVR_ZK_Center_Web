@@ -19,22 +19,25 @@
                             value-format="yyyy-MM-dd">
                     </el-date-picker>
                 </div>
-                <span class='qdName'>状态</span>
-                <select v-model="status">
+                <span class='qdName' v-if='pl==false'>状态</span>
+                <select v-model="status" v-if='pl==false'>
                     <option value="0">待审核</option>
                     <option value="1">审核通过</option>
                     <option value="-1">审核未通过</option>
                 </select>
                 <div class='btn_sx'>
-                    <span class='cx' >查询</span>
-                    <span class='cz' >批量操作</span>
-                    <span class='dc'>导出</span>
+                    <span class='cx' v-if='pl==false'>查询</span>
+                    <span class='cz' @click='plcz()' v-if='pl==false'>批量操作</span>
+                    <span class='dc' v-if='pl==false'>导出</span>
+                    <span class='cz'  v-if='pl' @click='updateStatus()'>批量操作</span>
+                    <span class='dc' @click='Qxplcz()' v-if='pl'>取消</span>
                 </div>
                
         </div>
         <div style="margin-top:230px;background:#fff" class='rePadding'>
              <template>
                     <el-table
+                            ref="tab"
                             :data="tableData"
                             style="width: 100%"
                             :header-cell-style="getRowClass"
@@ -43,6 +46,7 @@
                             >
                           <el-table-column
                             type="selection"
+                            v-if='pl'
                             width="50" style="padding:0 auto!important">
                         </el-table-column>    
                         <el-table-column
@@ -81,7 +85,7 @@
                                 width="150"
                         >
                             <template slot-scope="scope">
-                                 <el-button  type="text" size="small" v-if='tableData[scope.$index].status=="1"' @click='updateStatus()'>审核</el-button>
+                                 <el-button  type="text" size="small" v-if='tableData[scope.$index].status=="1"' @click='updateStatus(index)'>审核</el-button>
                                  <el-button v-if='tableData[scope.$index].status=="-1"' type="text" size="small">修改结果</el-button>
                                 <el-button  type="text" size="small" @click="details(scope.$index)">查看详情</el-button>
                             </template>
@@ -125,7 +129,7 @@
                     </div>
                 </div>
                 <div class='sel_btn'>
-                    <span class="sel_btn_qd">确定</span>
+                    <span class="sel_btn_qd" @click="pushLib()">确定</span>
                     <span @click='qx()'>取消</span>
                 </div>
             </div>
@@ -146,13 +150,16 @@ return {
        channel:"",
        date:'',
        status:'',
-       tableData:[{sdkid:"1",status:'1'}],
+       tableData:[{sdkid:"1",status:'1',plid:'20',mfid:'md_302'},{sdkid:"1",status:'1',plid:'20',mfid:'md_302'}],
         page:1,
         p:10,
         total:0,
         tc:false,
         status2:"",
         checkList:[],
+        pl:false,
+        value:[],
+        index:'',
 };
 },
 
@@ -160,18 +167,45 @@ return {
 
 
 methods: {
+     pushLib(){
+             let formData = new FormData;
+             formData.append('plid',this.tableData[this.index].plid),
+             formData.append('mfid',this.tableData[this.index].mfid),
+              formData.append('status',this.status2),
+             formData.append('note',this.checkList.join(',')+this.yy)   
+                this.api.pushlib_external_audit(formData).then((res)=>{
+                    if(res!=false){
+                        this.qx();
+                    }
+                })
+           },   
+    plcz(){
+        this.pl=true;
+    },
+    Qxplcz(){
+        this.pl=false;
+       if(this.value.length>0){
+            this.tableData.map((option) => {
+                    this.$refs.tab.toggleRowSelection(option);
+                })
+       }else{
+           this.value=[];
+       }
+       
+    },
     getChannel(){
                     this.api.pushlib_configs_channel().then((res)=>{
                         this.qdLists=res;
                     })
-                },
+    },
      getRowClass({row, column, rowIndex}) {
-                if (rowIndex === 0) {
-                    return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;padding:20px 0px 20px 14px'
-                } else {
-                    return ''
-                }
-            },
+        if (rowIndex === 0) {
+            return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;padding:20px 0px 20px 14px'
+        } 
+        else {
+            return ''
+        }
+    },
             cell({row, column, rowIndex, columnIndex}){
                 return 'padding:15px 14px;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
@@ -184,26 +218,37 @@ methods: {
                 
             },  
              handleSelectionChange(val) {
-                this.multipleSelection = val;
+                this.value= val;
+                console.log(this.value)
              },  
              jump(){
                  this.$router.push({
                      path:"./Journal_user"
                  })
              },
-              updateStatus(){
+              updateStatus(index){
+                  if(!index&&this.value.length==0){
+                      return
+                  }
                this.tc=true;
+               if(index==''){
+                   this.index=0;
+               }else{
+                   this.index=index;
+               }
+               
            }, 
             qx(){
                this.tc=false;
-               this.status='';
+               this.status2='';
                this.checkList=[];
            }, 
            details(index){
                 this.$router.push({
                     path:"./Journal_details"
                 })
-           }     
+           },
+            
 },
 
 created() {

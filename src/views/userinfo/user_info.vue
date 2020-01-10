@@ -131,7 +131,7 @@ export default {
 	width: 100px;
 }
 .xqList{
-	margin: 114px 24px 50px 276px!important;
+	margin: 114px 24px 85px 276px!important;
 }
 .center{
 	margin-bottom: 210px;

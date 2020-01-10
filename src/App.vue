@@ -918,5 +918,35 @@ select{
      .bb .el-checkbox__input{
         vertical-align: top;
     }
-
+    .footerBox_2 {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    min-width: 1300px;
+    height: 70px;
+    background: #fff;
+    font-size: 14px;
+    color: #666;
+    line-height: 60px;
+    text-align: center
+}
+.footerBox_2>a, .footerBox_2>span {
+    line-height: 75px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #666;
+    margin: 0 25px;
+    
+}
+.footerBox_2>a {
+    cursor: pointer;
+}
+.footer_ga {
+    display: inline-block;
+    vertical-align: top;
+    width: 20px;
+    margin-top: 26px;
+    margin-right: 5px;
+}
 </style>

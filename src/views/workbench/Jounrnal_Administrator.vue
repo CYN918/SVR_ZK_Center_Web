@@ -26,7 +26,8 @@
                     </template>
                 </div>
                 <div class="left_img">
-                    <img :src="item.prev_uri">
+                     <img :src="item.mfinal.prev_uri" v-if="((item.mfinal.prev_uri).split('.'))[((item.mfinal.prev_uri).split('.')).length-1]!='mp4'" />
+                    <video :src="item.mfinal.prev_uri" v-if="((item.mfinal.prev_uri).split('.'))[((item.mfinal.prev_uri).split('.')).length-1]=='mp4'"></video>
                 </div>
                 <div class="right_txt">
                     <div>
@@ -35,14 +36,31 @@
                     </div>
                     <div class="img_size">
                         <span class="right_txt_name">尺寸</span>
-                        <span class="right_txt_content">{{item.size}}</span>
+                        <span class="right_txt_content">{{item.mfinal.size}}</span>
                     </div>
                     <div>
                         <span class="right_txt_name">文件</span>
-                        <span class="right_txt_content" v-if="(item.attach.size/1024).toFixed(0)>=1&&(item.attach.size/1024/1024).toFixed(0)<1">{{(item.attach.size/1024).toFixed(0)}}kb</span>
-                        <span class="right_txt_content" v-if="(item.attach.size/1024/1024).toFixed(1)>=1&&(item.attach.size/1024/1024/1024).toFixed(1)<1">{{(item.attach.size/1024/1024).toFixed(1)}}MB</span>
-                        <span class="right_txt_content" v-if="(item.attach.size/1024/1024/1024).toFixed(2)>=1">{{(item.attach.size/1024/1024/1024).toFixed(2)}}GB</span>
-                        <a :href="item.attach.url">下载</a>
+                        <span class="right_txt_content" v-if="(item.mfinal.attach.size/1024).toFixed(0)>=1&&(item.mfinal.attach.size/1024/1024).toFixed(0)<1">{{(item.mfinal.attach.size/1024).toFixed(0)}}kb</span>
+                        <span class="right_txt_content" v-if="(item.mfinal.attach.size/1024/1024).toFixed(1)>=1&&(item.mfinal.attach.size/1024/1024/1024).toFixed(1)<1">{{(item.mfinal.attach.size/1024/1024).toFixed(1)}}MB</span>
+                        <span class="right_txt_content" v-if="(item.mfinal.attach.size/1024/1024/1024).toFixed(2)>=1">{{(item.mfinal.attach.size/1024/1024/1024).toFixed(2)}}GB</span>
+                        <a :href="item.mfinal.attach.url">下载</a>
+                    </div>
+                     <div class="img_size">
+                        <span class="right_txt_name">线上埋点状态</span>
+                        <span class="right_txt_content">{{item.status==0?'不通过':"审核通过"}}</span>
+                    </div>
+                    <div class="img_size">
+                        <span class="right_txt_name">外部确认状态</span>
+                        <span class="right_txt_content">{{item.status_online==0?"拒绝上线":"上线"}}</span>
+                        <!-- <span class="right_txt_content  yy" @click='updateStatus(index)'>更新状态</span> -->
+                    </div>
+                     <div class="img_size">
+                        <span class="right_txt_name">对接上线状态</span>
+                        <span class="right_txt_content"></span>
+                    </div>
+                     <div class="img_size" v-if="show">
+                        <span class="right_txt_name">原因说明</span>
+                        <span class="right_txt_content">{{}}</span>
                     </div>
                 </div>
             </div>
@@ -91,6 +109,7 @@
                 total:0,
                 pageSize:8,
                 currentPage: 1,
+                show:false
             }
         },
         mounted(){
@@ -241,6 +260,7 @@
         background:rgba(255,255,255,1);
         border-radius:4px;
         margin:0px 20px 24px 0;
+        position: relative;
     }
     /*.box_img:nth-child(4n){*/
         /*margin-right: 0!important;*/
@@ -251,12 +271,12 @@
         height:149px;
         background:rgba(227,231,235,1);
         border-radius:2px;
-        margin-left: 12px;
-        position: relative;
+         margin-left: 35px;
+        position: absolute;
         top:50%;
         transform: translateY(-50%);
     }
-    .left_img img{
+    .left_img img ,.left_img video{
         max-width: 99px;
         max-height: 149px;
         position:absolute;
@@ -264,15 +284,15 @@
         left: 50%;
         transform: translate(-50%,-50%);
     }
-    .right_txt{
+     .right_txt{
         display: inline-block;
-        position: relative;
-        top: 25%;
+        position: absolute;
+        top: 50%;
         transform: translateY(-50%);
-        margin-left: 20px;
+        margin-left: 170px;
     }
     .right_txt div{
-        height: 40px;
+        height: 25px;
     }
     .right_txt_name{
         display: inline-block;
@@ -309,8 +329,8 @@
         display: inline-block;
         width: 24px;
         margin-left: 13px;
-        position: relative;
-        top:-25%;
+        position: absolute;
+        top:50%;
         transform: translateY(-50%);
     }
     .remove_content{
