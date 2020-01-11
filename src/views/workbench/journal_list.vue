@@ -2,7 +2,7 @@
 <template>
 <div>
      <div class="top_name">
-        <span class="top_txt">杂志锁屏物料预审</span>
+        <span class="top_txt">杂志锁屏物料推送</span>
         <span class='userGl' @click='newADD()'>新建推送库</span>
     </div>
     <div style="margin-top:145px;background:#fff;padding:24px" class='rePadding'>
@@ -15,35 +15,32 @@
                             :cell-style="cell"
                             >   
                         <el-table-column
-                                prop="num"
+                                prop="plid"
                                 label="推送库ID">
-                            <template slot-scope="scope">
-                                <span>{{scope.$index+1}}</span>
-                            </template>
+
                         </el-table-column>
                         <el-table-column
-                                prop="sdkid"
+                                prop="name"
                                 label="推送库名称">
                         </el-table-column>
                         <el-table-column
-                                prop="count"
+                                prop="channel.channel"
                                 label="渠道">
                         </el-table-column>
                          <el-table-column
-                                prop="count"
+                                prop="role"
                                 label="今日推送数">
                         </el-table-column>
                          <el-table-column
-                                prop="status"
+                                prop="updated_at"
                                 label="最后推送时间">
                         </el-table-column>
                         <el-table-column
                                 label="操作"
-                                width="150"
                         >
                             <template slot-scope="scope">
                                  <el-button  type="text" size="small">账户管理</el-button>
-                                <el-button  type="text" size="small" >查看详情</el-button>
+                                <el-button  type="text" size="small" @click='jump(scope.$index)'>查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -151,8 +148,17 @@ methods: {
              formData.append('channel',this.channel)
              this.api.pushlib_channel_add(formData).then((res)=>{
                  if(res!=false){
-                     this.qx()
+                     this.qx();
+                     this.getData();
                  }
+             })
+         },
+         jump(index){
+             this.$router.push({
+                 path:"./Journal_of_push",
+                 query:{
+                    channel:this.tableData[index].channel.channel
+                 },
              })
          },
 },
@@ -295,5 +301,6 @@ mounted() {
         border-radius: 5px;
         height: 36px;
         margin-left: 20px;
+        
     }
 </style>

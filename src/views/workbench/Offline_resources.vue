@@ -19,7 +19,7 @@
                     <div>导入原始数据</div>
                     <div>导出替换数据</div>
                     <div>批量上传</div>
-                    <div>导入结果数据</div>
+                    <!-- <div>导入结果数据</div> -->
                     <div @click='jump()'>操作记录</div>
                 </div>
             </span>
@@ -64,10 +64,10 @@
                         </el-table-column>
                         <el-table-column
                                 label="操作"
-                                width="150"
+                               
                         >
                             <template slot-scope="scope">
-                                 <el-button  type="text" size="small" >编辑</el-button>
+                                 <el-button  type="text" size="small" v-clipboard:copy="tableData[scope.$index].copy_file_name" v-clipboard:success="onCopy"   v-clipboard:error="onError">复制命名</el-button>
                                 <el-button  type="text" size="small" @click='details()'>查看详情</el-button>
                             </template>
                         </el-table-column>
@@ -143,7 +143,13 @@ methods: {
             this.$router.push({
                 path:"./Offline_details"
             })
-        }
+        },
+         onCopy() {
+               this.$message.success('复制成功')
+        },
+        onError() {
+            this.$message.error('复制失败')
+        },
 },
 
 mounted() {

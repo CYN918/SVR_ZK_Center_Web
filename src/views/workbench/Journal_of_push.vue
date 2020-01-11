@@ -22,12 +22,13 @@
                     <span class="dated" v-if="new Date(this.date)<=new Date(new Date().getTime() - 24*60*60*1000)">(已过期)</span>
                    
                 </div>
-                <div  class="num" >
+                <!-- <div  class="num" >
                     <span>渠道</span>
                     <select v-model="channel"  @change="getData()">
                         <option :value="item.channel" v-for="item in qdLists">{{item.channel}}</option>
                     </select>
-                </div>
+                </div> -->
+                <span class='qud'>{{this.$route.query.channel}}</span>
                 <div class="action_btn">
                     <span class="manage" @click="jumps()" v-if="!(new Date(this.date)<new Date(new Date().getTime() - 24*60*60*1000))">管理</span>
                     <span class="select" @click="getWl()" v-if="!(new Date(this.date)<new Date(new Date().getTime() - 24*60*60*1000))" style="margin-right:20px">
@@ -68,16 +69,16 @@
                     </div>
                     <div class="img_size">
                         <span class="right_txt_name">外部确认状态</span>
-                        <span class="right_txt_content">{{item.status_online==0?"拒绝上线":"上线"}}</span>
+                        <span class="right_txt_content">{{item.status_online==0?"待确定":item.status_online==1?"上线":'拒绝上线'}}</span>
                         <!-- <span class="right_txt_content  yy" @click='updateStatus(index)'>更新状态</span> -->
                     </div>
                      <div class="img_size">
                         <span class="right_txt_name">对接上线状态</span>
-                        <span class="right_txt_content"></span>
+                        <span class="right_txt_content">{{item.status_check==0?'待确定':item.status_check==1?'已上线':'未上线'}}</span>
                     </div>
                      <div class="img_size" v-if="show">
                         <span class="right_txt_name">原因说明</span>
-                        <span class="right_txt_content">{{}}</span>
+                        <span class="right_txt_content">{{item.note}}</span>
                     </div>
                 </div>
             </div>
@@ -150,7 +151,7 @@
                 status:"",
                 checkList:[],
                 qdLists:[],
-                channel:"",
+                channel:this.$route.query.channel,
                 yy:"",
                 index:"",
             }
@@ -498,5 +499,13 @@
        border: 0!important;
     background: rgba(51,119,255,1)!important;
     color: rgba(255,255,255,1)!important;
+   }
+   .qud{
+       display: inline-block;
+       padding: 5px;
+       border:1px solid  rgba(51,119,255,1);
+       text-align: center;
+       color: rgba(51,119,255,1);
+       border-radius: 5px;
    }
 </style>
