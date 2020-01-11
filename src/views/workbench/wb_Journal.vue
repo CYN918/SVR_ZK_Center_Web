@@ -47,12 +47,12 @@
                     </div>
                     <div class="img_size">
                         <span class="right_txt_name">线上埋点状态</span>
-                        <span class="right_txt_content">{{item.status==0?'不通过':"审核通过"}}</span>
+                        <span class="right_txt_content">{{item.status_online==0?'不通过':"审核通过"}}</span>
                     </div>
                     <div class="img_size">
                         <span class="right_txt_name">外部确认状态</span>
-                        <span class="right_txt_content">{{item.status_online==0?"待确定":item.status_online==1?"上线":'拒绝上线'}}</span>
-                        <!-- <span class="right_txt_content  yy" @click='updateStatus(index)'>更新状态</span> -->
+                        <span class="right_txt_content">{{item.status==0?"待确定":item.status==1?"上线":'拒绝上线'}}</span>
+                        <span class="right_txt_content  yy" @click='updateStatus(index)'>更新状态</span>
                     </div>
                      <div class="img_size">
                         <span class="right_txt_name">对接上线状态</span>
@@ -86,10 +86,10 @@
                 </div>
                 <div class='sel'>
                     <select v-model="status">
-                        <option value="已上线">已上线</option>
-                        <option value="拒绝上线">拒绝上线</option>
+                        <option value="1">已上线</option>
+                        <option value="2">拒绝上线</option>
                     </select>
-                    <div class='sel_1' v-if="status=='拒绝上线'">
+                    <div class='sel_1' v-if="status=='2'">
                         <el-checkbox-group v-model="checkList">
                             <el-checkbox label="测试不通过" class='aaa'></el-checkbox>
                             <el-checkbox label="内容差"  class='aaa'></el-checkbox>
@@ -169,6 +169,7 @@
                 this.api.pushlib_external_audit(formData).then((res)=>{
                     if(res!=false){
                         this.qx();
+                         this.getData();
                     }
                 })
            },
@@ -250,6 +251,7 @@
         display: inline-block;
         width:380px;
         height:189px;
+        position: relative;
         background:rgba(255,255,255,1);
         border-radius:4px;
         margin:0px 20px 24px 0;
@@ -263,8 +265,8 @@
         height:149px;
         background:rgba(227,231,235,1);
         border-radius:2px;
-        margin-left: 49px;
-        position: relative;
+        margin-left: 15px;
+        position: absolute;
         top:50%;
         transform: translateY(-50%);
     }
@@ -278,13 +280,13 @@
     }
     .right_txt{
         display: inline-block;
-        position: relative;
-        top: 25%;
+        position: absolute;
+        top: 50%;
         transform: translateY(-50%);
-        margin-left: 20px;
+        margin-left: 150px;
     }
     .right_txt div{
-        height: 40px;
+        height: 25px;
     }
     .right_txt_name{
         display: inline-block;
