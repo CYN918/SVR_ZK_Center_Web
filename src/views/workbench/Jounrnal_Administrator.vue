@@ -46,21 +46,21 @@
                         <a :href="item.mfinal.attach.url">下载</a>
                     </div>
                      <div class="img_size">
-                        <span class="right_txt_name">线上埋点状态</span>
+                        <span class="right_txt_name">埋点状态</span>
                         <span class="right_txt_content">{{item.status==0?'不通过':"审核通过"}}</span>
                     </div>
                     <div class="img_size">
                         <span class="right_txt_name">外部确认状态</span>
-                        <span class="right_txt_content">{{item.status_online==0?"拒绝上线":"上线"}}</span>
+                        <span class="right_txt_content">{{item.status_online==0?"待确定":item.status_online==1?"上线":'拒绝上线'}}</span>
                         <!-- <span class="right_txt_content  yy" @click='updateStatus(index)'>更新状态</span> -->
                     </div>
                      <div class="img_size">
                         <span class="right_txt_name">对接上线状态</span>
-                        <span class="right_txt_content"></span>
+                        <span class="right_txt_content">{{item.status_check==0?'待确定':item.status_check==1?'已上线':'未上线'}}</span>
                     </div>
-                     <div class="img_size" v-if="show">
+                     <div class="img_size" v-if="item.note">
                         <span class="right_txt_name">原因说明</span>
-                        <span class="right_txt_content">{{}}</span>
+                        <span class="right_txt_content">{{item.note}}</span>
                     </div>
                 </div>
             </div>
@@ -89,7 +89,7 @@
                     <span>确认移除选中物料吗？</span>
                 </div>
                 <div class="del_btn">
-                    <span class="qd" @click="removeDEL">确定</span>
+                    <span class="qd" @click="removeDEL()">确定</span>
                     <span @click="qx">取消</span>
                 </div>
             </div>
@@ -109,7 +109,7 @@
                 total:0,
                 pageSize:8,
                 currentPage: 1,
-                show:false
+                
             }
         },
         mounted(){
@@ -161,7 +161,7 @@
             },
             removeDEL(){
                 let formData = new FormData;
-                formData.append('plid',"2");
+                formData.append('plid',this.$route.query.id);
                 formData.append('bind_mfid',JSON.stringify(this.checked));
                 this.api.pushlib_del_mfinal(formData).then((res)=>{
                     this.qx();

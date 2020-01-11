@@ -58,7 +58,7 @@
                         <span class="right_txt_name">对接上线状态</span>
                         <span class="right_txt_content">{{item.status_check==0?'待确定':item.status_check==1?'已上线':'未上线'}}</span>
                     </div>
-                     <div class="img_size" v-if="show">
+                     <div class="img_size" v-if="item.note">
                         <span class="right_txt_name">原因说明</span>
                         <span class="right_txt_content">{{item.note}}</span>
                     </div>
