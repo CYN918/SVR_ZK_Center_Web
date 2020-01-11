@@ -64,7 +64,7 @@
                         <a :href="item.mfinal.attach.url">下载</a>
                     </div>
                     <div class="img_size">
-                        <span class="right_txt_name">线上埋点状态</span>
+                        <span class="right_txt_name">埋点状态</span>
                         <span class="right_txt_content">{{item.status==0?'不通过':"审核通过"}}</span>
                     </div>
                     <div class="img_size">
