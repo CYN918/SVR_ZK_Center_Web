@@ -1363,6 +1363,34 @@ export default {
 	pushlib_external_mfinal:{
 		url:"pushlib/external/mfinal",method:'get'
 	},
+	//本地资源导入
+	replace_import_add:{
+		url:'replace/import/add',method:"post",isType:{suktip:1},
+	},
+	//本地导入的资源列表
+	replace_import_list:{
+		url:'replace/import/list',method:'get'
+	},
+	//资源详情
+	replace_import_detail:{
+		url:'replace/import/detail',method:'get'
+	},
+	//导出审核资源列表
+	replace_import_export:{
+		url:'replace/import/export',method:"post",isType:{suktip:1},
+	},
+	//批量上传图片
+	replace_import_bat:{
+		url:"replace/import/bat",method:"post",isType:{suktip:1},
+	},
+	//添加替换资源
+	replace_import_image_add:{
+		url:'replace/import/image/add',method:"post",isType:{suktip:1},
+	},
+	//删除替换资源
+	replace_import_image_del:{
+		url:'replace/import/image/del',method:"post",isType:{suktip:1},
+	}
 }
 
 

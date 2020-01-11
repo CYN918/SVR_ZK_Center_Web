@@ -13,11 +13,11 @@
                 </el-date-picker>
         </div>
         <div class='operation'>
-            <span class='cx'>查询</span>
+            <span class='cx' @click='dataList()'>查询</span>
             <span class='mun' @mousemove="unfold()" @mouseout="fold()">...
                 <div class='tree' v-if="show">
-                    <div>导入原始数据</div>
-                    <div>导出替换数据</div>
+                    <div @click='dr()'>导入原始数据</div>
+                    <div @click='downloadImg()'>导出替换数据</div>
                     <div @click='batchUpload()'>批量上传</div>
                     <!-- <div>导入结果数据</div> -->
                     <div @click='jump()'>操作记录</div>
@@ -45,26 +45,35 @@
                         <el-table-column
                                 prop="sdkid"
                                 label="原始图">
+                            <template slot-scope="scope">
+                                <img :src="tableData[scope.$index].image_url" style="max-width:80px;max-height: 80px;cursor: pointer"  preview="0" />
+                            </template>
                         </el-table-column>
                         <el-table-column
                                 prop="count"
                                 label="落地页">
+                            <template slot-scope="scope">
+                                <a :href="tableData[scope.$index].preview_url" target="_blank" style="text-decoration: none;color: #66b1ff" v-if="tableData[scope.$index].preview_url!=''">点击查看</a>
+                                <a  v-if="tableData[scope.$index].preview_url==''">-</a>
+                            </template>
                         </el-table-column>
                          <el-table-column
                                 prop="status"
                                 label="状态">
+                                 <template slot-scope="scope">
+                                    <span>{{tableData[scope.$index].status==0?'待替换':'已替换'}}</span>
+                                </template>
                         </el-table-column>
                          <el-table-column
-                                prop="count"
+                                prop="updated_at"
                                 label="更新时间">
                         </el-table-column>
                          <el-table-column
-                                prop="count"
+                                prop="creator"
                                 label="操作人员">
                         </el-table-column>
                         <el-table-column
-                                label="操作"
-                               
+                                label="操作" 
                         >
                             <template slot-scope="scope">
                                  <el-button  type="text" size="small" v-clipboard:copy="tableData[scope.$index].copy_file_name" v-clipboard:success="onCopy"   v-clipboard:error="onError">复制命名</el-button>
@@ -143,18 +152,49 @@
                     </div>
                 </div>
             </div>
+            <div class="bg" v-if="th">
+                <div class="load_up">
+                    <div class="load_tit">
+                        <span>导入数据</span>
+                    </div>
+                    <div class='ext'>
+                        <el-upload
+                        class="upload-demo"
+                        action="aaaa"
+                        :http-request="uploads"
+                        >
+                            <el-button size="small" type="primary">点击上传</el-button>
+                        </el-upload>
+                    </div>
+                     <div v-if="file.name!=undefined">
+                                <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                                    <div slot="content" class="text">{{file.name}}</div>
+                                    <span  class="text" style="overflow: hidden;width: 100px;height: 24px;margin-left: 24px">{{file.name}}</span>
+                                </el-tooltip>
+                                 <span class="content_xz" @click="dels()" >删除</span>
+                    </div>
+                     <div class="progress" style="width: 100px;height: 5px;opacity: 0.5;display: inline-block " v-if="initiate" >
+                                <div class="strip" :style="{width:aaa+'%'}" style="background: blue;height: 5px"></div>
+                                <div style="text-align: center;font-size: 10px">当前附件上传{{aaa}}%</div>
+                    </div>
+                    <div class="btns">
+                        <span class="tj" @click="add()">添加</span>
+                        <span @click="heidTHs()">取消</span>
+                    </div>
+                </div>
+            </div>
 </div>
 </template>
 
 <script>
-
+import download from '../../api/commonality'
 export default {
 
 components: {},
 data() {
 
 return {
-        date:'',
+        date:(new Date()).toLocaleDateString().split('/').join('-'),
         show:false,
         tableData:[],
         p:10,
@@ -162,6 +202,10 @@ return {
         total:0,  
         upload:false,     
         tableDataList:[], 
+        th:false,
+        aaa:0,
+        initiate:false,
+        file:{}
         };
 },
 
@@ -170,6 +214,20 @@ computed: {},
 watch: {},
 
 methods: {
+    dataList(){
+        let params={tdate:this.date,p:this.p,page:this.page}
+        this.api.replace_import_list({params}).then((res)=>{
+            this.tableData=res.data;
+            this.total=res.total;
+        })
+    },
+        dr(){
+            this.th=true;
+        },
+        heidTHs(){
+            this.th=false;
+            this.file={};
+        },
         unfold(){
             this.show=true;
         },
@@ -192,11 +250,11 @@ methods: {
         },
         handleSizeChange(p) { // 每页条数切换
              this.p = p;
-                
+             this.dataList()   
         },
         handleCurrentChange(page) {//页码切换
             this.page = page;
-                
+             this.dataList()   
         }, 
         jump(){
             this.$router.push({
@@ -207,7 +265,7 @@ methods: {
             this.$router.push({
                 path:"./Offline_details",
                 query:{
-                    data:this.tableData[index]
+                   mid:this.tableData[index].mid
                 },
             })
         },
@@ -244,8 +302,8 @@ methods: {
                 formData.append('file',file.file);
                 formData.append('width',this.width);
                 formData.append('height',this.height);
-                this.api.replace_bat(formData).then((res)=>{
-                    if(!res){
+                this.api.replace_import_bat(formData).then((res)=>{
+                    if(res==false){
                         obj.status='上传失败';
                         console.log(obj)
                     }else {
@@ -261,11 +319,53 @@ methods: {
         },  
         remove(index){
                 this.tableDataList.splice(index,1);
-            },  
+            }, 
+         time(){
+                var _this=this;
+                _this.aaa=0;
+                var timer = setInterval(function () {
+                    if(_this.aaa<99){
+                        _this.aaa++
+                    }
+                },100);
+            },     
+        uploads(file){
+            this.time();
+             this.file=file.file;
+            this.initiate=true;
+            let formData =new FormData;
+                formData.append('file',file.file);
+                this.api.file_upload(formData).then((res)=>{
+                    if(res!=false){
+                        this.aaa=100;
+                        this.initiate=false;
+                    }else{
+                        this.initiate=false;
+                    }
+                   
+                })
+        },   
+        dels(){
+            this.file={};
+        },
+        add(){
+            console.log(this.file)
+            let formData =new FormData;
+            formData.append('file',this.file)
+            this.api.replace_import_add(formData).then((res)=>{
+                if(res!=false){
+                    this.heidTHs();
+                }
+            })
+        },
+         downloadImg(){
+                var url = '/replace/import/export'+'?tdate='+this.date;
+                download.downloadImg(url);
+            },
 },
 
 mounted() {
-
+    this.dataList()
 },
 
 }
@@ -386,5 +486,71 @@ mounted() {
     }
     .content_right .block{
         margin-bottom: 0!important;
+    }
+    .load_up{
+        border-radius: 10px;
+        width: 500px;
+        min-height: 270px;
+        position: relative;
+        background: #fff;
+        left: 50%;
+        top:50%;
+        transform: translate(-50%,-50%);
+    }
+    .load_tit{border-bottom: 1px solid #ddd}
+    .load_tit span{
+        display: inline-block;
+        height: 36px;
+        line-height: 36px;
+        margin:10px 0 10px 0;
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .load_up div{
+        margin:15px 24px 0 24px
+    }
+    .text_tit span{
+        display: inline-block;
+        margin-right: 15px;
+        font-size: 16px;
+        color: #666666;
+        width: 80px;
+    }
+    .text_tit input{
+        width: 200px;
+        height: 36px;
+        padding:0 8px ;
+        margin-right: 15px;
+    }
+    .btns{
+        text-align: center;
+        margin-top: 30px;
+    }
+    .btns span{
+        display: inline-block;
+        width: 80px!important;
+        height: 36px;
+        line-height: 36px;
+        cursor: pointer;
+        border: 1px solid #c3c3c3;
+        color: #9c9c9c;
+        margin-right: 10px;
+        text-align: center;
+
+    }
+    .tj{
+        border: 0!important;
+        background: #4f4cf1!important;
+        color: #fff!important;
+    }
+    .content_xz{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(51,119,255,1)!important;
+        margin-left: 10px;
+        cursor: pointer;
+        vertical-align: top;
     }
 </style>

@@ -233,11 +233,7 @@
                 if(!this.new_url){
                     this.$message.error('请上传文件或等待文件上传成功！')
                 }
-                // if(this.$route.query.source=='SDK-API'){
-                //     this.url_md5=this.tableData.original_res[0].url_md5;
-                // }else{
-                //     this.url_md5=this.tableData.original_res[0].url_md5;
-                // }
+                
                 let formData = new FormData;
                 formData.append('new_res',JSON.stringify(this.new_res));
                 formData.append('original_res',  JSON.stringify(this.tableData.original_res));

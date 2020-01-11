@@ -295,7 +295,6 @@
                 })
             },
             dels(){
-               
                 this.attach={};
             },
             uploadZip(file){

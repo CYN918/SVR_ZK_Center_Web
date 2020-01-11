@@ -279,7 +279,7 @@
                 formData.append('width',this.width);
                 formData.append('height',this.height);
                 this.api.replace_bat(formData).then((res)=>{
-                    if(!res){
+                    if(res==false){
                         obj.status='上传失败';
                         console.log(obj)
                     }else {

@@ -78,7 +78,13 @@
                     </div>
                      <div class="img_size" v-if="item.note">
                         <span class="right_txt_name">原因说明</span>
-                        <span class="right_txt_content">{{item.note}}</span>
+                        <!-- <span class="right_txt_content" style="max-width:120px;overflow: hidden;">{{item.note}}</span> -->
+                        <div v-if="item.note!=undefined" style="display:inline-block;max-width:100px;overflow: hidden;height:15px">
+                                <el-tooltip placement="top" class="tit_txt_2 logs tit_txts" >
+                                    <div slot="content" class="text">{{item.note}}</div>
+                                    <span  class="text" style="overflow: hidden;width: 100px;height: 24px;margin-left: 10px">{{item.note}}</span>
+                                </el-tooltip>
+                    </div>
                     </div>
                 </div>
             </div>

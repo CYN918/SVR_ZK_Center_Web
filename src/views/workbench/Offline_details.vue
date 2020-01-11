@@ -16,11 +16,16 @@
                 </div>
                 <div>
                     <span>状态:</span>
-                    <span >{{}}</span>
+                    <span >{{this.tableData.status==0?"待替换":'已替换'}}</span>
                      <span>更新时间:</span>
-                    <span >{{}}</span>
-                     <span>操作人员</span>
-                    <span >{{}}</span>
+                      <div style="display:inline-block">
+                                <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                                    <div slot="content" class="text">{{this.tableData.updated_at}}</div>
+                                    <span  class="text" style="overflow: hidden;width: 100px;height: 24px;margin-left: 24px">{{this.tableData.updated_at}}</span>
+                                </el-tooltip>     
+                    </div>
+                     <span>操作人员:</span>
+                    <span >{{this.tableData.creator}}</span>
                     <div class="updataLoad">
                         <span @click="getTH">上传</span>
                     </div>
@@ -28,17 +33,17 @@
                 <div>
                     <span>原因：</span>
                     <div style="display:inline-block;">
-                        aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                        {{this.tableData.note}}
                     </div>
                 </div>
                  <div>
                     <span >落地页:</span>
-                    <a href="" style="display:inline-block;max-width:1300px;overflow: auto " target="_blank">{{}}</a>
+                    <a :href="this.tableData.preview_url" style="display:inline-block;max-width:1300px;overflow: auto " target="_blank">{{this.tableData.preview_url}}</a>
                 </div>
                 <div>
                     <span style="vertical-align: top">原始图:</span>
                     <div style="display: inline-block">
-                        <div ><a href="" style="display:inline-block;max-width:1300px;overflow: auto" target="_blank">{{}}</a></div>
+                        <div ><a :href="this.tableData.image_url" style="display:inline-block;max-width:1300px;overflow: auto" target="_blank">{{this.tableData.image_url}}</a></div>
                     </div>
                 </div>
             </div>
@@ -48,7 +53,7 @@
                 </div>
                 <template>
                     <el-table
-                            :data="tableData2"
+                            :data="listData"
                             style="width: 100%"
                             :header-cell-style="getRowClass"
                             :cell-style="cell"
@@ -58,7 +63,7 @@
                                 label="预览图"
                         >
                             <template slot-scope="scope">
-                                <img :src="tableData2[scope.$index].url" style="width: 80px"/>
+                                <img :src="listData[scope.$index].url" style="width: 80px"/>
                             </template>
                         </el-table-column>
                         <el-table-column
@@ -69,6 +74,9 @@
                         <el-table-column
                                 prop="width"
                                 label="尺寸">
+                                 <template slot-scope="scope">
+                                        <span>{{listData[scope.$index].width+'*'+listData[scope.$index].height}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                                 prop="created_at"
@@ -82,8 +90,8 @@
                                 prop="pv"
                                 label="操作">
                             <template slot-scope="scope">
-                                <a class="iconfont" :href="downloadLink(scope.$index)" style="margin-right: 10px;text-decoration: none;color:#409EFF">下载</a>
-                                <el-button @click="getRemove(tableData2[scope.$index].md5)" type="text" >删除</el-button>
+                                <a class="iconfont" :href="listData[scope.$index].url" style="margin-right: 10px;text-decoration: none;color:#409EFF">下载</a>
+                                <el-button @click="getRemove(listData[scope.$index].md5)" type="text" >删除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -94,7 +102,7 @@
                     <div class="load_tit">
                         <span>添加替换</span>
                     </div>
-                    <div>
+                    <div class='upyc'>
                         <el-upload
                         class="upload-demo"
                         action="aaaa"
@@ -110,7 +118,7 @@
                     <div class="text_tit">
                         <span>新资源URL</span>
                         <div style="display: inline-block;width: 235px">
-                            <input type="text" disabled />
+                            <input type="text" v-model="item.new_url" disabled v-for="item in new_res"/>
                         </div>
                     </div>
 
@@ -129,7 +137,7 @@
                         <span>是否确认删除？</span>
                     </div>
                     <div class="btn">
-                        <span class="sc" >删除</span>
+                        <span class="sc" @click="delelt()">删除</span>
                         <span @click="heidRemove()">取消</span>
                     </div>
                 </div>
@@ -144,19 +152,24 @@
         name: "has_replaced",
         data(){
             return{
-                tableData2:[],
-                tableData:[],
+                listData:[],
+                tableData:{},
                 th:false,
                 remove:false,
-               
-
+                new_res:[],
+                new_url:"",
+                new_url_md5:"",
+                mid:'',
             }
         },
 
         mounted(){
-            
+            this.getData();
         },
         methods:{
+            fh(){
+                this.$router.go(-1)
+            },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
                     return 'background:rgb(246, 245, 245,1);color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
@@ -179,23 +192,64 @@
             heidTH(){
                 this.th=false;
             },
-           
-            add(){
-                
-            },
-            getRemove(id){
+            getRemove(md5){
                 this.remove =true;
+                this.md5=md5;
+            },
+            delelt(){
+                let formData =new FormData;
+                formData.append('md5',this.md5);
+                formData.append('mid',this.$route.query.mid);
+                this.api.replace_import_image_del(formData).then((res)=>{
+                   this.getData();
+                   this.heidRemove();
+                })
             },
             heidRemove(){
                 this.remove =false;
             },
             upload(file){
-                   
+                    let formData =new FormData;
+                    formData.append('file',file.file);
+                   this.api.file_upload(formData).then((res)=>{
+                       var obj = {};
+                       this.new_url= res.url;
+                       this.new_url_md5=res.md5;
+                       var image = new Image();
+                       var _this=this;
+                       image.onload=function(){
+                           _this.width = image.width;
+                           _this.height = image.height;
+                           obj.width =_this.width;
+                           obj.height = _this.height
+                       };
+                       image.src= res.url;
+                       obj.new_url=this.new_url;
+                       
+                       obj.md5=this.new_url_md5;
+                       this.new_res.push(obj);
+                   })
             },
-           
-           
-           
-              
+             add(){
+                if(!this.new_url){
+                    this.$message.error('请上传文件或等待文件上传成功！')
+                }
+                let formData = new FormData;
+                formData.append('mid',this.$route.query.mid)
+                formData.append('new_res',JSON.stringify(this.new_res));
+                this.api.replace_import_image_add(formData).then((res)=>{
+                    this.th=false;
+                    this.new_res = [];
+                    this.getData()
+                })
+            },
+            getData(){
+                let params={mid:this.$route.query.mid}
+                this.api.replace_import_detail({params}).then((res)=>{
+                    this.tableData=res;
+                    this.listData=res.new_res; 
+                })
+            },
         },
 
     }
