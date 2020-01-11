@@ -1346,8 +1346,19 @@ export default {
 	//导出结算数据列表
 	settle_data_export:{
 		url:'settle/data/export',method:'get'
-	}
-
+	},
+	//根据渠道获取推送库详情
+	pushlib_channel_binds:{
+		url:"pushlib/channel/binds",method:'get'
+	},
+	//获取推送库列表
+	pushlib_search:{
+		url:'pushlib/search',method:'get'
+	},
+	//新增锁屏壁纸推送库
+	pushlib_channel_add:{
+		url:'pushlib/channel/add',method:"post",isType:{suktip:1},
+	},
 }
 
 

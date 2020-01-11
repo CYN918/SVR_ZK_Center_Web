@@ -86,7 +86,7 @@
 <script>
     export default {
         name: "select_material",
-        props:['material','typeSC',"date"],
+        props:['material','typeSC',"date",'channel'],
         data(){
             return {
                 checked:[],

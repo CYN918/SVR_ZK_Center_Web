@@ -11,7 +11,7 @@
                             v-model="date"
                             @change="getData()"
                             type="date"
-                            format="yyyy 年 MM 月 dd 日"
+                            format="yyyy年MM月dd日"
                             placeholder="选择日期"
                             value-format="yyyy-MM-dd">
                     </el-date-picker>
@@ -30,7 +30,7 @@
                 </div>
                 <div class="action_btn">
                     <span class="manage" @click="jumps()" v-if="!(new Date(this.date)<new Date(new Date().getTime() - 24*60*60*1000))">管理</span>
-                    <span class="select" @click="getWl" v-if="!(new Date(this.date)<new Date(new Date().getTime() - 24*60*60*1000))" style="margin-right:20px">
+                    <span class="select" @click="getWl()" v-if="!(new Date(this.date)<new Date(new Date().getTime() - 24*60*60*1000))" style="margin-right:20px">
                         <img src="../../../public/img/add.png" style="width: 16px;display: inline-block;position: relative;top:50%;transform: translateY(-90%);margin-right: 10px">
                         从物料库选择
                     </span>
@@ -40,7 +40,7 @@
                 </div>
             </div>
         </div>
-        <div class="box" v-if="this.dataList.length>0">
+        <div class="box" v-if="dataList.length>0">
             <div class="box_img" v-for="(item,index) in this.dataList">
                 <div class="left_img">
                     <img :src="item.mfinal.prev_uri" v-if="((item.mfinal.prev_uri).split('.'))[((item.mfinal.prev_uri).split('.')).length-1]!='mp4'" />
@@ -96,7 +96,7 @@
                     :total="total">
             </el-pagination>
         </div>
-        <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :date="date"></ADDWL>
+        <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel'></ADDWL>
         <div class="bg" v-if="tc">
             <div class='content'>
                 <div class='con_tit'>
@@ -157,6 +157,7 @@
         },
         mounted(){
             this.getData();
+             this. getChannel();
         },
        methods:{
             jumps(){
@@ -189,6 +190,7 @@
              getChannel(){
                 this.api.pushlib_configs_channel().then((res)=>{
                     this.qdLists=res;
+                    console.log(this.qdLists)
                 })
             },
            qx(){
@@ -197,6 +199,10 @@
                this.checkList=[];
            },
            getWl(){
+               if(!this.channel){
+                    this.$message.error('渠道不能为空');
+                    return
+               }
                 this.ADDwl = true;
            },
            heidWL(){
@@ -215,18 +221,20 @@
                 })
            },
            getData(){
-                let params = {plid:this.plid,p:this.pageSize,page:this.currentPage,date:this.date,channel:this.channel};
-                this.api.pushlib_binds({params}).then((res)=>{
+               if(this.date==null){
+                   return
+               }
+                let params = {p:this.pageSize,page:this.currentPage,tdate:this.date,channel:this.channel};
+                this.api.pushlib_channel_binds({params}).then((res)=>{
                     this.dataList = res.data;
                     this.total=res.total;
-                    this. getChannel()
+                   
                 })
            },
            listenToChildEvent(id,date){
-                console.log(id);
                 let formData =new FormData;
-                formData.append('plid',this.plid);
-                formData.append('date',date);
+                formData.append('channel',this.channel);
+                formData.append('tdate',date);
                 formData.append('bind_mfid',JSON.stringify(id));
                 this.api.pushlib_add_mfinal(formData).then((res)=>{
                     this.heidWL();

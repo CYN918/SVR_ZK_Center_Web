@@ -216,6 +216,8 @@ import Journal_details from './views/workbench/Journal_details'
 mode['Journal_details']=Journal_details 
 import journal_of_push from './views/workbench/Journal_of_push'
 mode['journal_of_push'] = journal_of_push
+import journal_list from './views/workbench/journal_list'
+mode['journal_list']=journal_list
 import journal_Administrator from './views/workbench/Jounrnal_Administrator'
 mode['journal_Administrator']= journal_Administrator
 import wb_Journal from  './views/workbench/wb_Journal'
@@ -226,7 +228,6 @@ import Offline_resources from './views/workbench/Offline_resources'
 mode['Offline_resources']=Offline_resources
 import record from './views/workbench/record'
 mode['record']=record
-
 import Offline_details from './views/workbench/Offline_details'
 mode['Offline_details']=Offline_details
 
@@ -411,6 +412,7 @@ let nb = [
             {path:'/workbench/journal_of_push',name:'杂志锁屏推送管理',component: mode['journal_of_push'],},
             {path:'/workbench/userControl',name:'杂志锁屏用户管理',component: mode['userControl'],},
             {path:'/workbench/journal_Administrator',name:'杂志锁屏推送管理',component: mode['journal_Administrator'],},
+            {path:'/workbench/journal_list',name:'杂志锁屏推送管理列表',component: mode['journal_list'],},
             {path:'/workbench/wb_Journal',name:'外部杂志锁屏推送管理',component: mode['wb_Journal'],},
             {path:'/workbench/Offline_resources',name:'线下资源替换',component: mode['Offline_resources'],},
             {path:'/workbench/record',name:'操作记录',component: mode['record'],},
@@ -572,8 +574,10 @@ let leftNav =
                     {title:'主题壁纸-标签定投',url:'/workbench/theme_screen'},
                     {title:'物料预审管理',url:'/workbench/ad_source'},
                     {title:'杂志锁屏物料预审',url:'/workbench/Jounrnal_ys'},
-                    {title:'杂志锁屏推送管理',url:'/workbench/journal_of_push'},
+                    {title:'杂志锁屏推送管理',url:'/workbench/journal_list'},
                     {title:'线下资源替换',url:'/workbench/Offline_resources'},
+                    
+                    
                 ],},
 
         ]
