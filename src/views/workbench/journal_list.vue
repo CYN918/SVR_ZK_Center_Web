@@ -28,7 +28,7 @@
                                 label="渠道">
                         </el-table-column>
                          <el-table-column
-                                prop="role"
+                                prop="num"
                                 label="今日推送数">
                         </el-table-column>
                          <el-table-column

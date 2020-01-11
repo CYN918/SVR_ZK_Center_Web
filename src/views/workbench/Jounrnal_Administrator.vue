@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="top_name">
-            <span class="top_txt">投放库 / 杂志锁屏推送管理</span>
+            <span class="top_txt" @click='fh()'>投放库 / 杂志锁屏推送管理</span>
             <div class="tit_name">
                 <span>杂志锁屏推送管理</span>
             </div>
@@ -116,6 +116,9 @@
             this.getData();
         },
         methods:{
+            fh(){
+                this.$router.go(-1)
+            },
             del_remove(){
                 if(this.checked.length==0){
                     return this.$message.error('请至少选择一个物料')
