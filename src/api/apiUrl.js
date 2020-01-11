@@ -728,9 +728,9 @@ export default {
 		url:'pushlib/add/mfinal',method:'post',isType:{suktip:1}
 	},
 	//外部账户推送物料列表
-    pushlib_external_mfinal:{
-		url:"pushlib/external/mfinal",method:'get'
-	},
+    // pushlib_external_mfinal:{
+	// 	url:"pushlib/external/mfinal",method:'get'
+	// },
 	//删除推送物料
     pushlib_del_mfinal:{
 		url:'pushlib/del/mfinal',method:'post',isType:{suktip:1}
@@ -1358,6 +1358,10 @@ export default {
 	//新增锁屏壁纸推送库
 	pushlib_channel_add:{
 		url:'pushlib/channel/add',method:"post",isType:{suktip:1},
+	},
+	//外部账户推送物料列表
+	pushlib_external_mfinal:{
+		url:"pushlib/external/mfinal",method:'get'
 	},
 }
 
