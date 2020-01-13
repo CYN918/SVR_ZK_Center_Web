@@ -28,7 +28,7 @@ export default {
         xmlResquest.onload = function (oEvent) {
             var content = xmlResquest.response;
             var eLink = document.createElement("a");
-            eLink.download = "test.xlsx";
+            eLink.download = (new Date()).toLocaleDateString().split('/').join('-')+'_'+"导出数据.xlsx";
             eLink.style.display = 'none';
             var blob = new Blob([content]);
             eLink.href = URL.createObjectURL(blob);
