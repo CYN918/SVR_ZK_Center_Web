@@ -205,7 +205,9 @@ return {
         th:false,
         aaa:0,
         initiate:false,
-        file:{}
+        file:{},
+        width:'',
+        height:'',
         };
 },
 
@@ -319,31 +321,33 @@ methods: {
         },  
         remove(index){
                 this.tableDataList.splice(index,1);
+                
+
             }, 
-         time(){
-                var _this=this;
-                _this.aaa=0;
-                var timer = setInterval(function () {
-                    if(_this.aaa<99){
-                        _this.aaa++
-                    }
-                },100);
-            },     
+        //  time(){
+        //         var _this=this;
+        //         _this.aaa=0;
+        //         var timer = setInterval(function () {
+        //             if(_this.aaa<99){
+        //                 _this.aaa++
+        //             }
+        //         },100);
+        //     },     
         uploads(file){
-            this.time();
+            // this.time();
              this.file=file.file;
-            this.initiate=true;
-            let formData =new FormData;
-                formData.append('file',file.file);
-                this.api.file_upload(formData).then((res)=>{
-                    if(res!=false){
-                        this.aaa=100;
-                        this.initiate=false;
-                    }else{
-                        this.initiate=false;
-                    }
+            // this.initiate=true;
+            // let formData =new FormData;
+            //     formData.append('file',file.file);
+            //     this.api.file_upload(formData).then((res)=>{
+            //         if(res!=false){
+            //             this.aaa=100;
+            //             this.initiate=false;
+            //         }else{
+            //             this.initiate=false;
+            //         }
                    
-                })
+            //     })
         },   
         dels(){
             this.file={};

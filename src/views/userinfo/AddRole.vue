@@ -64,7 +64,6 @@
                                 </el-checkbox-group>
                             </template>
                         </div>
-
                     </div>
                 </div>
                 <div class="btn">
@@ -287,7 +286,8 @@
 .el-checkbox{margin-right: 100px}
 .btn{
     text-align: left;
-    margin-top: 40px;
+    margin-bottom: 80px;
+    position: relative!important;
 }
 .btn>span{
     display: inline-block;
