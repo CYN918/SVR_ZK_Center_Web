@@ -2,13 +2,13 @@
     <div>
         <div class="top_name">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh(-1)">广告源列表 &nbsp;/&nbsp;</span>
+                <span class="log_url" @click="fh(-1)">杂志锁屏推送管理 &nbsp;/&nbsp;</span>
                 <span class="log_ur">账号管理</span>
             </div>
             <div class="tit_top_con">
                 <span class="tit_name">账号管理</span>
             </div>
-            <span class="add_btn" @click="getShow('')">添加外部账号</span>
+            <span class="add_btn" @click="getShow('aa')">添加外部账号</span>
         </div>
         <div style="margin-top:187px">
             <template>
@@ -62,19 +62,19 @@
                 </div>
                  <div class="set">
                     <span>角色</span>
-                    <select v-model="role" @change="getRoleUser()">
+                    <select v-model="role" @change="getRoleUser()" :disabled='{disabled:this.name=="编辑"}'>
                         <option v-for='(item,index) in user' :value="item.role_id" >{{item.role_name}}</option>
                     </select>
                 </div>
                 <div class="set">
                     <span>账号</span>
-                    <select v-model="email">
+                    <select v-model="email" :disabled='{disabled:this.name=="编辑"}'>
                         <option :value="da.email" v-for='(da,key) in userEmail'>{{da.email}}</option>
                     </select>
                 </div>
                 <div class="set">
                     <span>分配渠道</span>
-                    <select v-model="channel">
+                    <select >
                         <option :value="item.channel" v-for="item in qdLists">{{item.channel}}</option>
                     </select>
                 </div>
@@ -154,7 +154,7 @@
             },
             getShow(index){
             
-                if(index!=''){
+                if(index!='aa'){
                     this.name='编辑';
                     this.role=this.list[index].role.role_id;
                     this.email=this.list[index].user.email;

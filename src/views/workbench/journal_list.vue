@@ -2,7 +2,10 @@
 <template>
 <div>
      <div class="top_name">
-        <span class="top_txt">杂志锁屏物料推送</span>
+        <span class="top_txt">杂志锁屏推送管理</span>
+         <span class="select" @click='SetUser()' >
+                       账号管理
+        </span>
         <span class='userGl' @click='newADD()'>新建推送库</span>
     </div>
     <div style="margin-top:145px;background:#fff;padding:24px" class='rePadding'>
@@ -39,7 +42,7 @@
                                 label="操作"
                         >
                             <template slot-scope="scope">
-                                 <el-button  type="text" size="small">账户管理</el-button>
+                                 <!-- <el-button  type="text" size="small">账户管理</el-button> -->
                                 <el-button  type="text" size="small" @click='jump(scope.$index)'>查看详情</el-button>
                             </template>
                         </el-table-column>
@@ -161,6 +164,12 @@ methods: {
                  },
              })
          },
+         SetUser(){
+                  this.$router.push({
+                    path:"./userControl",
+                  
+                })
+            },
 },
 
 mounted() {
@@ -191,7 +200,7 @@ mounted() {
     margin-left: 40px;
     width: 90px
 }
-.userGl{
+.userGl,.select{
     float: right;
     display: inline-block;
     height: 36px;
@@ -207,6 +216,9 @@ mounted() {
     font-weight: 500;
     color: rgba(61,73,102,1);
     margin: 10px 20% 0 0 
+}
+.userGl{
+    margin-right: 20px!important
 }
 .bg{
         position: fixed;
@@ -303,4 +315,5 @@ mounted() {
         margin-left: 20px;
         
     }
+    
 </style>

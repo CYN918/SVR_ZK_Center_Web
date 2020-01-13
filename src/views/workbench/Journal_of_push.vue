@@ -1,9 +1,9 @@
 <template>
     <div>
         <div class="top_name">
-            <span class="top_txt" @click='fh()'>投放库 / 杂志锁屏推送管理</span>
+            <span class="top_txt" @click='fh()'>杂志锁屏推送  /   推送内容管理</span>
             <div class="tit_name">
-                <span>杂志锁屏推送管理</span>
+                <span>推送内容管理</span>
             </div>
             <div class="search_criteria">
                 <div class="date">
@@ -35,9 +35,9 @@
                         <img src="../../../public/img/add.png" style="width: 16px;display: inline-block;position: relative;top:50%;transform: translateY(-90%);margin-right: 10px">
                         从物料库选择
                     </span>
-                     <span class="select" @click='SetUser()' v-if="!(new Date(this.date)<new Date(new Date().getTime() - 24*60*60*1000))">
+                     <!-- <span class="select" @click='SetUser()' v-if="!(new Date(this.date)<new Date(new Date().getTime() - 24*60*60*1000))">
                        账号管理
-                    </span>
+                    </span> -->
                 </div>
             </div>
         </div>
