@@ -20,7 +20,7 @@
                     <div @click='downloadImg()'>导出替换数据</div>
                     <div @click='batchUpload()'>批量上传</div>
                     <!-- <div>导入结果数据</div> -->
-                    <div @click='jump()'>操作记录</div>
+                    <!-- <div @click='jump()'>操作记录</div> -->
                 </div>
             </span>
         </div>
