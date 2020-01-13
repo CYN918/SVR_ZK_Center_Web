@@ -359,6 +359,7 @@ methods: {
             this.api.replace_import_add(formData).then((res)=>{
                 if(res!=false){
                     this.heidTHs();
+                    this.dataList()
                 }
             })
         },

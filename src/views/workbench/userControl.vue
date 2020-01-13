@@ -80,7 +80,7 @@
                 </div>
                 <div class="set">
                     <span>分配渠道</span>
-                    <select >
+                    <select v-model="channel">
                         <option :value="item.channel" v-for="item in qdLists">{{item.channel}}</option>
                     </select>
                 </div>
