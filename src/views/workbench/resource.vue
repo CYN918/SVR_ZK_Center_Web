@@ -391,6 +391,7 @@
     .blocks{
         margin-top: 30px;
         float: right;
+        margin-bottom: 80px
     }
     .tit_top{
         width: 103%;
