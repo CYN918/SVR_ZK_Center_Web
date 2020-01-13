@@ -36,11 +36,11 @@
                             >
 
                         <el-table-column
-                                prop="num"
+                                prop="id"
                                 label="序号">
-                            <template slot-scope="scope">
+                            <!-- <template slot-scope="scope">
                                 <span>{{scope.$index+1}}</span>
-                            </template>
+                            </template> -->
                         </el-table-column>
                         <el-table-column
                                 prop="sdkid"
