@@ -45,17 +45,17 @@
                         <span class="right_txt_content" v-if="(item.mfinal.attach.size/1024/1024/1024).toFixed(2)>=1">{{(item.mfinal.attach.size/1024/1024/1024).toFixed(2)}}GB</span> 
                         <a :href="item.mfinal.attach.url">下载</a>
                     </div>
-                    <div class="img_size">
+                    <!-- <div class="img_size">
                         <span class="right_txt_name">线上埋点状态</span>
                         <span class="right_txt_content">{{item.status_online==0?'不通过':"审核通过"}}</span>
-                    </div>
+                    </div> -->
                     <div class="img_size">
-                        <span class="right_txt_name">外部确认状态</span>
+                        <span class="right_txt_name">审核状态</span>
                         <span class="right_txt_content">{{item.status==0?"待确定":item.status==1?"上线":'拒绝上线'}}</span>
                         <span class="right_txt_content  yy" @click='updateStatus(index)' v-if="item.status==0">更新状态</span>
                     </div>
                      <div class="img_size">
-                        <span class="right_txt_name">对接上线状态</span>
+                        <span class="right_txt_name">上线状态</span>
                         <span class="right_txt_content">{{item.status_check==0?'待确定':item.status_check==1?'已上线':'未上线'}}</span>
                     </div>
                      <div class="img_size" v-if="item.note">
