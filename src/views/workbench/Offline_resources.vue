@@ -53,7 +53,7 @@
                                 prop="count"
                                 label="落地页">
                             <template slot-scope="scope">
-                                <a :href="tableData[scope.$index].preview_url" target="_blank" style="text-decoration: none;color: #66b1ff" v-if="tableData[scope.$index].preview_url!=''">点击查看</a>
+                                <a :href="tableData[scope.$index].preview_url" target="_blank" style="text-decoration: none;color: #3377ff" v-if="tableData[scope.$index].preview_url!=''">点击查看</a>
                                 <a  v-if="tableData[scope.$index].preview_url==''">-</a>
                             </template>
                         </el-table-column>
@@ -406,7 +406,7 @@ mounted() {
 }   
 .cx{
     border: 0!important;
-    background: rgba(51,119,255,1)!important;
+    background: #3377ff!important;
     color: rgba(255,255,255,1)!important;
 }
 .tree{
@@ -426,7 +426,7 @@ mounted() {
     border-bottom: 1px solid #ddd;
 }
 .tree>div:hover{
-    background: rgba(51,119,255,1);
+    background: #3377ff;
     color: #fff;
 }
 .bg{
@@ -544,7 +544,7 @@ mounted() {
     }
     .tj{
         border: 0!important;
-        background: #4f4cf1!important;
+        background: #3377ff!important;
         color: #fff!important;
     }
     .content_xz{
@@ -552,7 +552,7 @@ mounted() {
         font-size:14px;
         font-family:PingFangSC-Regular,PingFangSC;
         font-weight:400;
-        color:rgba(51,119,255,1)!important;
+        color:#3377ff!important;
         margin-left: 10px;
         cursor: pointer;
         vertical-align: top;

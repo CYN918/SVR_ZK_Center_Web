@@ -90,7 +90,7 @@
                                 prop="pv"
                                 label="操作">
                             <template slot-scope="scope">
-                                <a class="iconfont" :href="listData[scope.$index].url" style="margin-right: 10px;text-decoration: none;color:#409EFF">下载</a>
+                                <a class="iconfont" :href="listData[scope.$index].url" style="margin-right: 10px;color:#3377ff;font-size:14px">下载</a>
                                 <el-button @click="getRemove(listData[scope.$index].md5)" type="text" >删除</el-button>
                             </template>
                         </el-table-column>
@@ -347,7 +347,7 @@
     }
     .sc{
         color: #f5f6fa!important;
-        background: #4f4cf1 !important;
+        background: rgba(51,119,255,1)!important;
         border: 0!important;
         margin-right: 40px;
     }
@@ -364,7 +364,7 @@
         cursor: pointer;
         border-radius: 5px;
         color: #f5f6fa;
-        background: #4f4cf1 ;
+        background: rgba(51,119,255,1)!important ;
         border: 0;
         text-align: center;
         margin:20px 0 20px 24px ;
@@ -425,7 +425,7 @@
         display: inline-block;
         width: 100px;
         height: 36px;
-        background:#4f4cf1 ;
+        background:rgba(51,119,255,1)!important ;
         color: #fff;
         cursor: pointer;
         line-height: 36px;
@@ -485,7 +485,10 @@
     }
     .tj{
         border: 0!important;
-        background: #4f4cf1!important;
+        background: rgba(51,119,255,1)!important;
         color: #fff!important;
+    }
+    a{
+        color: #3377ff!important
     }
 </style>
