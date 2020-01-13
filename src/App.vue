@@ -929,7 +929,9 @@ select{
     font-size: 14px;
     color: #666;
     line-height: 60px;
-    text-align: center
+    text-align: center;
+    box-shadow: 3px 3px 5px #666;
+    z-index: 8;
 }
 .footerBox_2>a, .footerBox_2>span {
     line-height: 75px;

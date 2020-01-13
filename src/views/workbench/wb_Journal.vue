@@ -103,7 +103,8 @@
                             <el-checkbox label="其他"  class='aaa bb'>
                                 <template>
                                     <span style="margin-right:10px">其他</span>
-                                    <textarea placeholder="最多20字" maxlength="20" v-model="yy"></textarea>
+                                    <textarea placeholder="最多20字" maxlength="20" disabled v-model="yy" v-if="checkList.indexOf('其他')==-1"></textarea>
+                                     <textarea placeholder="最多20字" maxlength="20"  v-model="yy" v-if="checkList.indexOf('其他')!=-1"></textarea>
                                 </template>
                             </el-checkbox>
                         </el-checkbox-group>
