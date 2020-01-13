@@ -181,7 +181,7 @@
                 })
            },
             getData(){
-                let params = {p:this.pageSize,page:this.currentPage,date:this.date};
+                let params = {p:this.pageSize,page:this.currentPage,tdate:this.date};
                 this.api.pushlib_external_mfinal({params}).then((res)=>{
                     this.dataList = res.data;
                     this.total=res.total
