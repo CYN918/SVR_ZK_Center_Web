@@ -62,13 +62,19 @@
                 </div>
                  <div class="set">
                     <span>角色</span>
-                    <select v-model="role" @change="getRoleUser()" :disabled='{disabled:this.name=="编辑"}'>
+                    <select v-model="role" @change="getRoleUser()" disabled v-if="this.name='编辑'">
+                        <option v-for='(item,index) in user' :value="item.role_id" >{{item.role_name}}</option>
+                    </select>
+                     <select v-model="role" @change="getRoleUser()"v-if="this.name='新增'">
                         <option v-for='(item,index) in user' :value="item.role_id" >{{item.role_name}}</option>
                     </select>
                 </div>
                 <div class="set">
                     <span>账号</span>
-                    <select v-model="email" :disabled='{disabled:this.name=="编辑"}'>
+                    <select v-model="email" disabled v-if="this.name='编辑'">
+                        <option :value="da.email" v-for='(da,key) in userEmail'>{{da.email}}</option>
+                    </select>
+                    <select v-model="email" v-if="this.name='新增'">
                         <option :value="da.email" v-for='(da,key) in userEmail'>{{da.email}}</option>
                     </select>
                 </div>

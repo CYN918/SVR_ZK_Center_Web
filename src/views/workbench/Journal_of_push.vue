@@ -275,8 +275,12 @@
         color:rgba(51,119,255,1);
         margin-left: 14px;
     }
+    .top_txt{
+        cursor: pointer;
+    }
     .top_txt,.tit_name span{
         margin-left: 24px;
+
     }
     .top_name{
         height: 166px;

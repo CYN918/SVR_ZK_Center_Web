@@ -1,9 +1,9 @@
 <template>
     <div>
         <div class="top_name">
-            <span class="top_txt" @click='fh()'>投放库 / 杂志锁屏推送管理</span>
+            <span class="top_txt" @click='fh()'>杂志锁屏推送  /   推送内容管理</span>
             <div class="tit_name">
-                <span>杂志锁屏推送管理</span>
+                <span>推送内容管理</span>
             </div>
             <div class="search_criteria">
                 <div class="num">
@@ -190,6 +190,7 @@
         color:rgba(51,119,255,1);
         margin-left: 14px;
     }
+    .top_txt{cursor: pointer;}
     .top_txt,.tit_name span{
         margin-left: 24px;
     }
