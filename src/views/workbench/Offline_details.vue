@@ -81,6 +81,9 @@
                         <el-table-column
                                 prop="status"
                                 label="审核状态">
+                                 <template slot-scope="scope">
+                                        <span>{{listData[scope.$index].status==0?'待审核':listData[scope.$index].status==1?"审核通过":'审核不通过'}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                                 prop="note"
