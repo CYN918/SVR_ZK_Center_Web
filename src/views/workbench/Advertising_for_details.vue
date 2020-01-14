@@ -2,7 +2,8 @@
     <div>
         <div class="titl">
             <div style="margin:24px 0 20px 24px">
-                <span style="color: #b3b3b3;cursor: pointer " @click="fh()">资源替换管理</span>
+                <span style="color: #b3b3b3;cursor: pointer " @click="goIndex()">广告源列表</span>
+                <span style="color: #b3b3b3;cursor: pointer" @click="goHome()">&nbsp;/&nbsp;广告源详情</span>
                 <span style="color: #1890ff;">&nbsp;/&nbsp;广告详情</span>
             </div>
             <div>
@@ -15,45 +16,49 @@
                     <span>广告内容</span>
                 </div>
                 <div>
-                    <span>状态:</span>
-                    <span >{{this.tableData.status==0?"待替换":'已替换'}}</span>
-                     <span>更新时间:</span>
-                      <div style="display:inline-block">
-                                <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
-                                    <div slot="content" class="text">{{this.tableData.updated_at}}</div>
-                                    <span  class="text" style="overflow: hidden;width: 100px;height: 24px;margin-left: 24px">{{this.tableData.updated_at}}</span>
-                                </el-tooltip>     
-                    </div>
-                     <span>操作人员:</span>
-                    <span >{{this.tableData.creator}}</span>
+                    <!-- <span v-if="this.$route.query.source=='SDK-API'">图片MD5:</span>
+                    <span class="con" v-if="this.$route.query.source=='SDK-API'">{{this.$route.query.url_md5}}</span> -->
+                    <span v-if="this.$route.query.source=='own'">落地页MD5:</span>
+                    <span class="con" v-if="this.$route.query.source=='own'">{{this.preview_md5}}</span>
+                    <span>获取内容时间:</span>
+                    <span >{{time}}</span>
                     <div class="updataLoad">
-                        <span @click="getTH">上传</span>
+                        <span @click="getTH">添加替换</span>
                     </div>
                 </div>
                 <div>
-                    <span>原因：</span>
-                    <div style="display:inline-block;">
-                        {{this.tableData.note}}
-                    </div>
+                    <span>广告名称:</span>
+                    <span class="con"></span>
+                    <span >包名:</span>
+                    <span >{{pkg}}</span>
                 </div>
-                 <div>
+                <div>
+                    <span>数据访问量:</span>
+                    <span class="con">{{pv}}</span>
+                    <span >实现方式:</span>
+                    <span>{{model}}</span>
+                </div>
+                <div>
+                    <span>sdkID:</span>
+                    <span class="con">{{sdk_id}}</span>
+                    <span >来源:</span>
+                    <span >{{src}}</span>
+                </div>
+                <div>
+                    <span>渠道</span>
+                    <span class="con">{{sdk_id}}</span>
+                    
+                </div>
+                <div>
                     <span >落地页:</span>
-                    <a :href="this.tableData.preview_url" style="display:inline-block;max-width:1300px;overflow: auto " target="_blank">{{this.tableData.preview_url}}</a>
+                    <a :href="preview_url" style="display:inline-block;max-width:1300px;overflow: auto " target="_blank">{{preview_url}}</a>
                 </div>
+                
                 <div>
-                    <span style="vertical-align: top">原始图:</span>
-                    <div style="display: inline-block">
-                        <div ><a :href="this.tableData.image_url" style="display:inline-block;max-width:1300px;overflow: auto" target="_blank">{{this.tableData.image_url}}</a></div>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <div>
-                    <span>替换列表</span>
-                </div>
-                <template>
+                    <span>原始图:</span>
+                    <template>
                     <el-table
-                            :data="listData"
+                            :data="tableData2"
                             style="width: 100%"
                             :header-cell-style="getRowClass"
                             :cell-style="cell"
@@ -63,7 +68,7 @@
                                 label="预览图"
                         >
                             <template slot-scope="scope">
-                                <img :src="listData[scope.$index].url" style="width: 80px"/>
+                                <img :src="tableData2[scope.$index].url" style="width: 80px"/>
                             </template>
                         </el-table-column>
                         <el-table-column
@@ -74,17 +79,6 @@
                         <el-table-column
                                 prop="width"
                                 label="尺寸">
-                                 <template slot-scope="scope">
-                                        <span>{{listData[scope.$index].width+'*'+listData[scope.$index].height}}</span>
-                            </template>
-                        </el-table-column>
-                        <el-table-column
-                                prop="status"
-                                label="审核状态">
-                        </el-table-column>
-                        <el-table-column
-                                prop="note"
-                                label="原因">
                         </el-table-column>
                         <el-table-column
                                 prop="created_at"
@@ -98,8 +92,59 @@
                                 prop="pv"
                                 label="操作">
                             <template slot-scope="scope">
-                                <a class="iconfont" :href="listData[scope.$index].url" style="margin-right: 10px;color:#3377ff;font-size:14px">下载</a>
-                                <el-button @click="getRemove(listData[scope.$index].md5)" type="text" >删除</el-button>
+                                <a class="iconfont" :href="downloadLink(scope.$index)" style="margin-right: 10px;text-decoration: none;color:#409EFF">下载</a>
+                                <el-button @click="getRemove(tableData2[scope.$index].md5)" type="text" >删除</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </template>
+            </div>
+                
+            
+        </div>
+            
+            <div>
+                <div>
+                    <span>替换列表</span>
+                </div>
+                <template>
+                    <el-table
+                            :data="tableData2"
+                            style="width: 100%"
+                            :header-cell-style="getRowClass"
+                            :cell-style="cell"
+                            :on-exceed="handleExceed"
+                            border>
+                        <el-table-column
+                                label="预览图"
+                        >
+                            <template slot-scope="scope">
+                                <img :src="tableData2[scope.$index].url" style="width: 80px"/>
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                                prop="url"
+                                label="url"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                prop="width"
+                                label="尺寸">
+                        </el-table-column>
+                        <el-table-column
+                                prop="created_at"
+                                label="上传时间">
+                        </el-table-column>
+                        <el-table-column
+                                prop="creator"
+                                label="操作人员">
+                        </el-table-column>
+                        <el-table-column
+                                prop="pv"
+                                label="操作">
+                            <template slot-scope="scope">
+                                <a class="iconfont" :href="downloadLink(scope.$index)" style="margin-right: 10px;text-decoration: none;color:#409EFF">下载</a>
+                                <el-button @click="getRemove(tableData2[scope.$index].md5)" type="text" >删除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -110,7 +155,7 @@
                     <div class="load_tit">
                         <span>添加替换</span>
                     </div>
-                    <div class='upyc'>
+                    <div>
                         <el-upload
                         class="upload-demo"
                         action="aaaa"
@@ -160,24 +205,44 @@
         name: "has_replaced",
         data(){
             return{
-                listData:[],
-                tableData:{},
-                th:false,
+                tableData2:[],
+                times:[],
                 remove:false,
-                new_res:[],
-                new_url:"",
-                new_url_md5:"",
+                start_date:'',
+                end_date:'',
                 mid:'',
+                md5:'',
+                p:10,
+                page:1,
+                total:0,
+                time:'',
+                preview_url:'',
+                imgs:[],
+                new_url_md5:'',
+                new_url:'',
+                tableData:[],
+                width:'',
+                height:'',
+                th:false,
+                pv:"",
+                sdk_id:'',
+                src:'',
+                model:'',
+                pkg:'',
+                text:'',
+                type:'',
+                search:'',
+                new_res:[],
+                url_md5:'',
+                preview_md5:''
+
             }
         },
 
         mounted(){
-            this.getData();
+            this.getDataList();
         },
         methods:{
-            fh(){
-                this.$router.go(-1)
-            },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
                     return 'background:rgb(246, 245, 245,1);color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
@@ -192,26 +257,54 @@
                 this.$message.warning(`当前限制选择10 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
             },
             handleRemove(file, fileList) {
-              
+                for(var i=0;i<this.new_res.length;i++){
+                    if(this.new_res[i].name!='file.name'){
+                        this.new_res.splice(i,1);
+                    }
+                }
             },
             getTH(){
                 this.th=true
             },
             heidTH(){
                 this.th=false;
+                this.new_res=[];
             },
-            getRemove(md5){
-                this.remove =true;
-                this.md5=md5;
+            goIndex(){
+                    this.$router.go(-2)
             },
-            delelt(){
-                let formData =new FormData;
-                formData.append('md5',this.md5);
-                formData.append('mid',this.$route.query.mid);
-                this.api.replace_import_image_del(formData).then((res)=>{
-                   this.getData();
-                   this.heidRemove();
+            goHome(){
+                this.$router.go(-1)
+            },
+
+            add(){
+                if(!this.new_url){
+                    this.$message.error('请上传文件或等待文件上传成功！')
+                }
+                
+                let formData = new FormData;
+                formData.append('new_res',JSON.stringify(this.new_res));
+                formData.append('original_res',  JSON.stringify(this.tableData.original_res));
+                formData.append('adids',this.$route.query.id);
+                formData.append('sdk_id',this.tableData.sdk_id);
+                formData.append('src',this.tableData.src);
+                formData.append('tdate',this.tableData.tdate);
+                formData.append('model',this.tableData.model);
+                formData.append('source',this.$route.query.source);
+                formData.append('is_preview',this.$route.query.is_preview);
+                formData.append('pv',this.tableData.pv);
+                formData.append('url_md5',this.tableData.original_res[0].url_md5);
+                formData.append('preview_url',this.tableData.preview_url);
+                formData.append('preview_md5',this.tableData.preview_md5);
+                this.api.replace_add(formData).then((res)=>{
+                    this.th=false;
+                    this.new_res = [];
+                    this.getDataList()
                 })
+            },
+            getRemove(id){
+                this.remove =true;
+                this.md5=id;
             },
             heidRemove(){
                 this.remove =false;
@@ -233,29 +326,67 @@
                        };
                        image.src= res.url;
                        obj.new_url=this.new_url;
-                       
+                       obj.name=file.file.name;
                        obj.md5=this.new_url_md5;
                        this.new_res.push(obj);
                    })
             },
-             add(){
-                if(!this.new_url){
-                    this.$message.error('请上传文件或等待文件上传成功！')
-                }
-                let formData = new FormData;
-                formData.append('mid',this.$route.query.mid)
-                formData.append('new_res',JSON.stringify(this.new_res));
-                this.api.replace_import_image_add(formData).then((res)=>{
-                    this.th=false;
-                    this.new_res = [];
-                    this.getData()
+            getDataList(){
+                // this.type= this.$route.query.type;
+                // this.text=this.$route.query.text;
+                // this.start_date = this.$route.query.start_date;
+                // this.end_date = this.$route.query.end_date;
+                // if(!this.type||!this.text){
+                //     this.search=''
+                // }else{
+                //     var s = '{"'+this.type + '":"'+this.text + '"}';
+                //     this.search=s;
+                // }
+                let params;
+                // if(this.$route.query.source=='SDK-API'){
+                     params ={mid:this.$route.query.id,tdate:this.$route.query.tdate,times:this.$route.query.times,source:this.$route.query.source,sdk_id:this.$route.query.sdk_id,src:this.$route.query.src,url_md5:this.$route.query.url_md5,is_preview:this.$route.query.is_preview};
+                // }else{
+                //      params ={mid:this.$route.query.id,tdate:this.$route.query.tdate,times:this.$route.query.times,source:this.$route.query.source};
+                // }
+                this.api.replace_res_detail({params}).then((res)=>{
+                    for(var i=0;i<res.length;i++){
+                        if(res[i].mid==this.$route.query.id){
+                            this.tableData=res[i];
+                            this.time = res[i].tdate;
+                            this.mid=res[i].mid;
+                            this.preview_url = res[i].preview_url;
+                            this.preview_md5 = res[i].preview_md5;
+                            this.pv = res[i].pv;
+                            this.model = res[i].model;
+                            this.src = res[i].src;
+                            this.pkg = res[i].pkg;
+                            this.sdk_id = res[i].sdk_id;
+                            this.imgs = res[i].original_res;
+                            // this.url_md5 =res[i].original_res[0].url_md5
+                            this.tableData2=res[i].new_res;
+                            for(var j=0;j<this.tableData2.length;j++){
+                                this.tableData2[j].width=this.tableData2[j].width+'*'+this.tableData2[j].height
+                            }
+                        }
+                    }
                 })
+
             },
-            getData(){
-                let params={mid:this.$route.query.mid}
-                this.api.replace_import_detail({params}).then((res)=>{
-                    this.tableData=res;
-                    this.listData=res.new_res; 
+            downloadLink(a){
+                return this.tableData2[a].url;
+            },
+            delelt(){
+                let formData =new FormData;
+                formData.append('md5',this.md5);
+                formData.append('mid',this.mid);
+                formData.append('source',this.$route.query.source);
+                formData.append('is_preview',this.$route.query.is_preview);
+                formData.append('sdk_id',this.$route.query.sdk_id);
+                formData.append('src',this.tableData.src);
+                formData.append('url_md5',this.$route.query.url_md5);
+                this.api.replace_del(formData).then((res)=>{
+                    this.getDataList();
+                    this.heidRemove()
                 })
             },
         },
@@ -355,7 +486,7 @@
     }
     .sc{
         color: #f5f6fa!important;
-        background: rgba(51,119,255,1)!important;
+        background: #4f4cf1 !important;
         border: 0!important;
         margin-right: 40px;
     }
@@ -372,7 +503,7 @@
         cursor: pointer;
         border-radius: 5px;
         color: #f5f6fa;
-        background: rgba(51,119,255,1)!important ;
+        background: #4f4cf1 ;
         border: 0;
         text-align: center;
         margin:20px 0 20px 24px ;
@@ -433,7 +564,7 @@
         display: inline-block;
         width: 100px;
         height: 36px;
-        background:rgba(51,119,255,1)!important ;
+        background:#4f4cf1 ;
         color: #fff;
         cursor: pointer;
         line-height: 36px;
@@ -493,10 +624,7 @@
     }
     .tj{
         border: 0!important;
-        background: rgba(51,119,255,1)!important;
+        background: #4f4cf1!important;
         color: #fff!important;
-    }
-    a{
-        color: #3377ff!important
     }
 </style>

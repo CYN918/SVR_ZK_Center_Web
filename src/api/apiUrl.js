@@ -1390,7 +1390,11 @@ export default {
 	//删除替换资源
 	replace_import_image_del:{
 		url:'replace/import/image/del',method:"post",isType:{suktip:1},
-	}
+	},
+	//审核结果导入
+	replace_import_add_audit:{
+		url:"replace/import/add/audit",method:"post",isType:{suktip:1},
+	},
 }
 
 

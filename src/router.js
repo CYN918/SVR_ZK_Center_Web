@@ -230,6 +230,14 @@ import record from './views/workbench/record'
 mode['record']=record
 import Offline_details from './views/workbench/Offline_details'
 mode['Offline_details']=Offline_details
+import channel_resource from './views/workbench/channel_resource'
+mode['channel_resource']=channel_resource
+import Channels_for_details from './views/workbench/Channels_for_details'
+mode['Channels_for_details']=Channels_for_details
+import Advertising_source_details from './views/workbench/Advertising_source_details'
+mode['Advertising_source_details']=Advertising_source_details
+import Advertising_for_details from './views/workbench/Advertising_for_details'
+mode['Advertising_for_details']=Advertising_for_details
 
 import axios from 'axios'
 import api from './api/index'
@@ -417,8 +425,11 @@ let nb = [
             {path:'/workbench/Offline_resources',name:'线下资源替换',component: mode['Offline_resources'],},
             {path:'/workbench/record',name:'操作记录',component: mode['record'],},
             {path:'/workbench/Offline_details',name:'线下详情',component: mode['Offline_details'],},
-            
-            
+            {path:'/workbench/channel_resource',name:'渠道资源替换',component: mode['channel_resource'],},
+            {path:'/workbench/Channels_for_details',name:'渠道详情',component: mode['Channels_for_details'],},
+            {path:'/workbench/Advertising_source_details',name:'渠道源详情',component: mode['Advertising_source_details'],},
+            {path:'/workbench/Advertising_for_details',name:'广告详情',component: mode['Advertising_for_details'],},
+           
 	]},
     {path:'/income',name:'收益中心',component:mode['income'],children:[
             {path:'/income/earnings',name:'收益总览',component:mode['earnings']},
@@ -576,6 +587,8 @@ let leftNav =
 //                     {title:'杂志锁屏物料预审',url:'/workbench/Jounrnal_ys'},
 //                     {title:'杂志锁屏推送管理',url:'/workbench/journal_list'},
 //                     {title:'线下资源替换',url:'/workbench/Offline_resources'},
+//                     {title:'渠道资源替换',url:'/workbench/channel_resource'},
+                    
                     
                     
 //                 ],},

@@ -16,10 +16,10 @@
             <span class='cx' @click='dataList()'>查询</span>
             <span class='mun' @mousemove="unfold()" @mouseout="fold()">...
                 <div class='tree' v-if="show">
-                    <div @click='dr()'>导入原始数据</div>
+                    <div @click='dr("1")'>导入原始数据</div>
                     <div @click='downloadImg()'>导出替换数据</div>
+                    <div @click='dr("2")'>导入结果数据</div>
                     <div @click='batchUpload()'>批量上传</div>
-                    <!-- <div>导入结果数据</div> -->
                     <!-- <div @click='jump()'>操作记录</div> -->
                 </div>
             </span>
@@ -171,7 +171,7 @@
                                     <div slot="content" class="text">{{file.name}}</div>
                                     <span  class="text" style="overflow: hidden;width: 100px;height: 24px;margin-left: 24px">{{file.name}}</span>
                                 </el-tooltip>
-                                 <span class="content_xz" @click="dels()" >删除</span>
+                                 <span class="content_xz" @click="dels()">删除</span>
                     </div>
                      <div class="progress" style="width: 100px;height: 5px;opacity: 0.5;display: inline-block " v-if="initiate" >
                                 <div class="strip" :style="{width:aaa+'%'}" style="background: blue;height: 5px"></div>
@@ -208,6 +208,7 @@ return {
         file:{},
         width:'',
         height:'',
+        dj:"",
         };
 },
 
@@ -223,8 +224,9 @@ methods: {
             this.total=res.total;
         })
     },
-        dr(){
+        dr(index){
             this.th=true;
+            this.dj=index;
         },
         heidTHs(){
             this.th=false;
@@ -279,6 +281,7 @@ methods: {
         },
          batchUpload(){
                 this.upload=true;
+                
             },
         beforupload(file){
                 var reader = new FileReader();
@@ -353,15 +356,27 @@ methods: {
             this.file={};
         },
         add(){
-            console.log(this.file)
-            let formData =new FormData;
+             let formData =new FormData;
             formData.append('file',this.file)
-            this.api.replace_import_add(formData).then((res)=>{
-                if(res!=false){
-                    this.heidTHs();
-                    this.dataList()
-                }
-            })
+            if(this.dj=='1'){
+                this.api.replace_import_add(formData).then((res)=>{
+                    if(res!=false){
+                        this.heidTHs();
+                        this.dataList();
+                        this.dj=''
+                    }
+                })
+            }else{
+                this.api.replace_import_add_audit(formData).then((res)=>{
+                     if(res!=false){
+                        this.heidTHs();
+                        this.dataList();
+                        this.dj=''
+                    }
+                })
+            }
+            
+           
         },
          downloadImg(){
                 var url = '/replace/import/export'+'?tdate='+this.date;
