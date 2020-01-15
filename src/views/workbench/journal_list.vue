@@ -31,6 +31,10 @@
                                 label="渠道">
                         </el-table-column>
                          <el-table-column
+                                prop="channel_secret"
+                                label="渠道key">
+                        </el-table-column>
+                         <el-table-column
                                 prop="num"
                                 label="今日推送数">
                         </el-table-column>
