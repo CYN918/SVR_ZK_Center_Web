@@ -28,10 +28,12 @@
                         </el-table-column>
                         <el-table-column
                                 prop="channel.channel"
+                                :show-overflow-tooltip="true"
                                 label="渠道">
                         </el-table-column>
                          <el-table-column
-                                prop="channel_secret"
+                                prop="channel.channel_secret"
+                                :show-overflow-tooltip="true"
                                 label="渠道授权码">
                         </el-table-column>
                          <el-table-column
