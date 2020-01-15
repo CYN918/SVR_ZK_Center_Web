@@ -32,7 +32,7 @@
                         </el-table-column>
                          <el-table-column
                                 prop="channel_secret"
-                                label="渠道key">
+                                label="渠道授权码">
                         </el-table-column>
                          <el-table-column
                                 prop="num"
