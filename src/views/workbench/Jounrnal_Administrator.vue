@@ -143,7 +143,7 @@
                 this.getData()
             },
             getData(){
-                let params = {plid:this.$route.query.id,date:this.$route.query.date,p:this.pageSize,page:this.currentPage};
+                let params = {plid:this.$route.query.id,tdate:this.$route.query.date,p:this.pageSize,page:this.currentPage};
                 this.api.pushlib_binds({params}).then((res)=>{
                     this.dataList = res.data;
                     this.total=res.total
