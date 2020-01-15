@@ -51,7 +51,7 @@
                     </div> -->
                     <div class="img_size">
                         <span class="right_txt_name">审核状态</span>
-                        <span class="right_txt_content">{{item.status==0?"待确定":item.status==1?"上线":'拒绝上线'}}</span>
+                          <span class="right_txt_content">{{item.status==0?"待审核":item.status==1?"审核通过":'审核不通过'}}</span>
                         <span class="right_txt_content  yy" @click='updateStatus(index)' v-if="item.status==0">更新状态</span>
                     </div>
                      <div class="img_size">
@@ -92,8 +92,8 @@
                 </div>
                 <div class='sel'>
                     <select v-model="status">
-                        <option value="1">已上线</option>
-                        <option value="2">拒绝上线</option>
+                        <option value="1">审核通过</option>
+                        <option value="2">审核不通过</option>
                     </select>
                     <div class='sel_1' v-if="status=='2'">
                         <el-checkbox-group v-model="checkList">
@@ -184,7 +184,8 @@
                 let params = {p:this.pageSize,page:this.currentPage,tdate:this.date};
                 this.api.pushlib_external_mfinal({params}).then((res)=>{
                     this.dataList = res.data;
-                    this.total=res.total
+                    this.total=res.total;
+                    this.$previewRefresh()
                 })
             },
         },

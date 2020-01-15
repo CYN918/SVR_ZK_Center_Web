@@ -44,7 +44,7 @@
         <div class="box" v-if="dataList.length>0">
             <div class="box_img" v-for="(item,index) in this.dataList">
                 <div class="left_img">
-                    <img :src="item.mfinal.prev_uri" v-if="((item.mfinal.prev_uri).split('.'))[((item.mfinal.prev_uri).split('.')).length-1]!='mp4'" />
+                    <img :src="item.mfinal.prev_uri"  preview="0" v-if="((item.mfinal.prev_uri).split('.'))[((item.mfinal.prev_uri).split('.')).length-1]!='mp4'"  />
                     <video :src="item.mfinal.prev_uri" v-if="((item.mfinal.prev_uri).split('.'))[((item.mfinal.prev_uri).split('.')).length-1]=='mp4'"></video>
                 </div>
                 <div class="right_txt">
@@ -65,11 +65,11 @@
                     </div>
                     <div class="img_size">
                         <span class="right_txt_name">埋点状态</span>
-                        <span class="right_txt_content">{{item.status_check==0?'不通过':"审核通过"}}</span>
+                        <span class="right_txt_content">{{item.status_check==0?'暂未上线':"已上线"}}</span>
                     </div>
                     <div class="img_size">
                         <span class="right_txt_name">外部确认状态</span>
-                        <span class="right_txt_content">{{item.status==0?"待确定":item.status==1?"上线":'拒绝上线'}}</span>
+                        <span class="right_txt_content">{{item.status==0?"待审核":item.status==1?"审核通过":'审核不通过'}}</span>
                         <!-- <span class="right_txt_content  yy" @click='updateStatus(index)'>更新状态</span> -->
                     </div>
                      <div class="img_size">
@@ -241,6 +241,7 @@
                 this.api.pushlib_channel_binds({params}).then((res)=>{
                     this.dataList = res.data;
                     this.total=res.total;
+                    this.$previewRefresh()
                    
                 })
            },
