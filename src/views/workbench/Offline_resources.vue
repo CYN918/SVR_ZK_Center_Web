@@ -37,7 +37,7 @@
 
                         <el-table-column
                                 prop="id"
-                                label="序号">
+                                label="ID">
                             <!-- <template slot-scope="scope">
                                 <span>{{scope.$index+1}}</span>
                             </template> -->
@@ -156,6 +156,7 @@
                 <div class="load_up">
                     <div class="load_tit">
                         <span>导入数据</span>
+                        <a class='xzmb' href="text/线下资源替换-导入原始数据模板.xlsx">下载模板</a>
                     </div>
                     <div class='ext'>
                         <el-upload
@@ -572,5 +573,15 @@ mounted() {
         margin-left: 10px;
         cursor: pointer;
         vertical-align: top;
+    }
+    .xzmb{
+        display: inline-block;
+        padding: 5px;
+        text-align: center;
+        border-radius: 3px;
+        background: #3377ff;
+        color: #fff;
+        float: right;
+        margin: 15px 24px 0 0;
     }
 </style>

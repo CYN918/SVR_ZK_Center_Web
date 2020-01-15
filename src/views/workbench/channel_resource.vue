@@ -19,7 +19,7 @@
                     </el-date-picker>
                 </div>
                 <span>渠道</span>
-                <select v-model="sdkid">
+                <select v-model="channel">
                     <option value="">全部</option>
                 </select>
                 <span class="screen_btn1" >查询</span>
@@ -102,7 +102,7 @@
                 page:1,
                 p:10,
                 total:0,
-                sdkid:'',
+                channel:"",
                 admaster:"",
                 type:'',
                 status:'',
@@ -112,7 +112,7 @@
             }
         },
         mounted(){
-           
+           this.getData()
         },
         methods:{
             getRowClass({row, column, rowIndex}) {
@@ -127,17 +127,20 @@
             },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
-                
+                this.getData()
             },
             handleCurrentChange(page) {//页码切换
                 this.page = page;
-                
+                this.getData()
             },
             jump(){
                 this.$router.push({
                     path:'./Channels_for_details',
                   
                 })
+            },
+            getData(){
+               
             },
             
         },

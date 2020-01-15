@@ -1395,6 +1395,20 @@ export default {
 	replace_import_add_audit:{
 		url:"replace/import/add/audit",method:"post",isType:{suktip:1},
 	},
+	//根据日期/次数获取统计概况(渠道资源替换)
+	channel_replace_sdk_overview:{
+		url:"channel/replace/sdk/overview",method:"get"
+	},
+	//根据日期获取PV的趋势数据(渠道资源替换)
+	channel_replace_sdk_graph:{
+		url:"channel/replace/sdk/graph",method:"get"
+	},
+	//获取当天的处理批次(渠道资源替换)
+	channel_replace_times:{
+		url:'channel/replace/times',method:"get"
+	},
+
+
 }
 
 
