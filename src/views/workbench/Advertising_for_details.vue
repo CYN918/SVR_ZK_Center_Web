@@ -135,12 +135,18 @@
                                 label="尺寸">
                         </el-table-column>
                          <el-table-column
-                                prop="width"
+                                prop="space_type"
                                 label="场景类型">
+                                 <template slot-scope="scope">
+                                <span >{{tableData2[scope.$index].space_type==2?"开屏广告":tableData2[scope.$index].space_type==9?'暂停广告':"角标广告"}}</span>
+                            </template>
                         </el-table-column>
                          <el-table-column
-                                prop="width"
+                                prop="status"
                                 label="审核状态">
+                                <template slot-scope="scope">
+                                <span >{{tableData2[scope.$index].status==0?"待审核":tableData2[scope.$index].status==1?'审核通过':"审核不通过"}}</span>
+                                </template>
                         </el-table-column>
                         <el-table-column
                                 prop="created_at"
