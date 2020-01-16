@@ -78,22 +78,22 @@
                         </el-table-column>
                         <el-table-column
                                 prop="width"
-                                label="尺寸">
+                                label="场景类型">
                         </el-table-column>
                         <el-table-column
                                 prop="created_at"
-                                label="上传时间">
+                                label="资源状态">
                         </el-table-column>
                         <el-table-column
                                 prop="creator"
-                                label="操作人员">
+                                label="审核状态">
                         </el-table-column>
                         <el-table-column
                                 prop="pv"
                                 label="操作">
                             <template slot-scope="scope">
-                                <a class="iconfont" :href="downloadLink(scope.$index)" style="margin-right: 10px;text-decoration: none;color:#409EFF">下载</a>
-                                <el-button @click="getRemove(tableData2[scope.$index].md5)" type="text" >删除</el-button>
+                                <el-button  type="text" >更新为可送审</el-button>
+                                <el-button  type="text" >更新为不可送审</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -131,6 +131,14 @@
                                 prop="width"
                                 label="尺寸">
                         </el-table-column>
+                         <el-table-column
+                                prop="width"
+                                label="场景类型">
+                        </el-table-column>
+                         <el-table-column
+                                prop="width"
+                                label="审核状态">
+                        </el-table-column>
                         <el-table-column
                                 prop="created_at"
                                 label="上传时间">
@@ -154,6 +162,12 @@
                 <div class="load_up">
                     <div class="load_tit">
                         <span>添加替换</span>
+                    </div>
+                    <div>
+                        <span>场景类型</span>
+                        <select >
+                            <option :value="item.space_type" v-for="(item,index) in typeList">{{item.space_type_name}}</option>
+                        </select>
                     </div>
                     <div>
                         <el-upload
@@ -234,7 +248,8 @@
                 search:'',
                 new_res:[],
                 url_md5:'',
-                preview_md5:''
+                preview_md5:'',
+                typeList:[],
 
             }
         },
@@ -264,7 +279,8 @@
                 }
             },
             getTH(){
-                this.th=true
+                this.th=true;
+                this.getTypes();
             },
             heidTH(){
                 this.th=false;
@@ -276,12 +292,16 @@
             goHome(){
                 this.$router.go(-1)
             },
+            getTypes(){
+                this.api.replace_channel_space_type().then((res)=>{
+                    this.typeList=res;
+                })
+            },
 
             add(){
                 if(!this.new_url){
                     this.$message.error('请上传文件或等待文件上传成功！')
                 }
-                
                 let formData = new FormData;
                 formData.append('new_res',JSON.stringify(this.new_res));
                 formData.append('original_res',  JSON.stringify(this.tableData.original_res));

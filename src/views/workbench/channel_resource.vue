@@ -19,11 +19,11 @@
                     </el-date-picker>
                 </div>
                 <span>渠道</span>
-                <select v-model="channel">
-                    <option value="">全部</option>
+                <select v-model="channel" >
+                    <option :value="item.sdk_id" v-for='(item,index) in channelList'>{{item.sdk_id}}</option>
                 </select>
+                <span class="screen_btn1" @click='pushService()'>一键推送</span>
                 <span class="screen_btn1" >查询</span>
-                
             </div>
             <div>
                 <template>
@@ -86,7 +86,21 @@
                 </el-pagination>
             </div>
         </div>
-       
+        <div class='bg' v-if='ts'>
+                <div class="load">
+                     <div class="load_tit">
+                        <span>一键推送</span>
+                    </div>
+                    <div class='text'>
+                        <span>将当前所有可送审状态资源推送给广告平台，是否确定？</span>
+                    </div>
+                    <div class='btns'>
+                        <span class='qd' @click="submit()">确定</span>
+                        <span @click='qx()'>取消</span>
+                    </div>
+                   
+                </div>
+        </div>
     </div>
 </template>
 
@@ -103,16 +117,19 @@
                 p:10,
                 total:0,
                 channel:"",
+                channelList:[],
                 admaster:"",
                 type:'',
                 status:'',
                 sdkList:[],
-                userType:localStorage.getItem('userType')
+                userType:localStorage.getItem('userType'),
+                ts:false,
 
             }
         },
         mounted(){
-           this.getData()
+        //    this.getData();
+           this.getType()
         },
         methods:{
             getRowClass({row, column, rowIndex}) {
@@ -133,14 +150,48 @@
                 this.page = page;
                 this.getData()
             },
+            pushService(){
+                this.ts=true;
+            },
+            qx(){
+               this.ts=false; 
+            },
             jump(){
                 this.$router.push({
                     path:'./Channels_for_details',
                   
                 })
             },
+            getType(){
+                this.api.replace_channel_media_channel().then((res)=>{
+                    this.channelList=res;
+                })
+            },
+            submit(){
+                if(!this.value1){
+                    this.$message.error('日期不能为空');
+                    return
+                }
+                if(!this.channel){
+                    this.$message.error('渠道不能为空');
+                    return
+                }
+                let formData=new FormData;
+                formData.append('is_preview','2');
+                formData.append('tdate',this.value1);
+                formData.append('media_channel',this.channel)
+                this.api.replace_channel_shortcut_audit().then((res)=>{
+                    if(res!=false){
+                        this.qx()
+                    }
+                })
+            },
             getData(){
-               
+                let params={tdate:this.value1,media_channel:this.channel,p:this.p,page:this.page}
+               this.api.replace_channel_audit_statistics({params}).then((res)=>{
+                   this.tableData=res.data;
+                   this.total=res.total
+               })
             },
             
         },
@@ -211,5 +262,65 @@
         background:rgba(255,255,255,1);
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);
+    }
+    .bg{
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.2);
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        z-index: 999;
+    }
+     .load{
+        border-radius: 10px;
+        width: 500px;
+        min-height: 270px;
+       
+        position: relative;
+        background: #fff;
+        left: 50%;
+        top:50%;
+        transform: translate(-50%,-50%);
+        overflow-y: auto;
+    }
+    .load_tit{border-bottom: 1px solid #ddd}
+    .load_tit span{
+        display: inline-block;
+        height: 36px;
+        line-height: 36px;
+        margin:10px 0 10px 0;
+        font-size: 18px;
+        font-weight: bold;
+        margin-left: 24px
+    }
+    .text{
+        padding:24px;
+        margin: 30px 0;
+        text-align: center
+    }
+    .text span{
+        display: inline-block;
+        font-size: 16px
+    }
+    .btns{
+        text-align: right
+    }
+    .btns span{
+        display: inline-block;
+        border-radius: 8px;
+        width: 80px!important;
+        height: 36px;
+        line-height: 36px;
+        cursor: pointer;
+        border: 1px solid #c3c3c3;
+        color: #9c9c9c;
+        margin-right: 24px;
+        text-align: center;
+    }
+    .qd{
+        border: 0!important;
+        background: #3377ff!important;
+        color: #fff!important 
     }
 </style>

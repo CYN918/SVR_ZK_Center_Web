@@ -12,11 +12,10 @@
             <div style="padding: 0 24px">
                 <span style="font-size: 14px" >渠道:</span>
                 <select  style="margin-right: 10px;width: 150px" v-model="channel">
-                    <option value="0">图片逻辑</option>
-                    <option value="1">落地页逻辑</option>
+                    <option :value="item.sdk_id" v-for='(item,index) in channelList'>{{item.sdk_id}}</option>
                 </select>
                <span style="font-size: 14px">数据源:</span>
-                <select v-model="is_preview" style="margin-right: 10px;width: 150px">
+                <select v-model="source" style="margin-right: 10px;width: 150px">
                     <option value="SDK-API">SDK-API</option>
                     <option value="OWN">OWN</option>
                 </select>
@@ -25,7 +24,7 @@
                 <span class="cx" @click="getList()">
                 查询
             </span>
-                <span class="reset" @click="resetRemove()">重置</span>
+                <span class="reset" @click="resetRemove">重置</span>
                  <span class="educe" @click="downloadImg()">导出</span>
                 <span class="batch_upload" @click="batchUpload()">批量上传</span>
                 <div>
@@ -191,6 +190,7 @@
             <div class="bg" v-if="tendency" @click="heidTendency">
                 <div id="myChart" @click.stop ref="myChart"></div>
             </div>
+          
         </div>
     </div>
 
@@ -217,13 +217,15 @@
                 width:"",
                 height:'',
                 tableDataList:[],
-                source:'SDK-API',
-                is_preview:'0',
-                channel:'2'
+                source:'OWN',
+                is_preview:'2',
+                 channel:"",
+                channelList:[],
             }
         },
         mounted(){
             this.getTimes();
+            this.getType()
         },
 
         methods:{
@@ -231,6 +233,11 @@
                 this.$router.push({
                     path:"./channel_resource"
                 }) 
+            },
+             getType(){
+                this.api.replace_channel_media_channel().then((res)=>{
+                    this.channelList=res;
+                })
             },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
@@ -244,8 +251,6 @@
                 this.times='';
                 this.number=[];
                 this.text='';
-                this.is_preview='0';
-                this.channel='2'
             },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
@@ -275,8 +280,8 @@
                 if(!this.source){
                     this.$message.error('数据源不能为空');
                 }
-                let params ={tdate:this.tdate,times:JSON.stringify(this.number),p:this.p,page:this.page,search:this.search,channel:this.channel};
-                this.api.channel_replace_sdk_overview({params}).then((res)=>{
+                let params ={tdate:this.tdate,times:JSON.stringify(this.number),p:this.p,page:this.page,search:this.search,source:this.source,is_preview:this.is_preview};
+                this.api.replace_sdk_overview({params}).then((res)=>{
                     this.tableData = res;
                     this.total=res.total;
 
@@ -334,8 +339,8 @@
             },
             getTimes(){
                 this.number=[];
-                let params = {tdate:this.tdate,channel:this.channel};
-                this.api.channel_replace_times({params}).then((res)=>{
+                let params = {tdate:this.tdate};
+                this.api.replace_times({params}).then((res)=>{
                     this.options5=res;
                     // this.number.push(this.options5[this.options5.length-1].hour);
                     var arr=[];
@@ -362,8 +367,8 @@
             getPv(sdk_id){
                 var s = '{"'+'sdk_id' + '":"'+sdk_id + '"}';
                 this.search=s;
-                let params = {tdate:this.tdate,search:this.search,channel:this.channel};
-                this.api.channel_replace_sdk_graph({params}).then((res)=>{
+                let params = {tdate:this.tdate,search:this.search,source:this.source};
+                this.api.replace_sdk_graph({params}).then((res)=>{
                     let dataList = res;
                     let pv =[];
                     let hour =[];
