@@ -155,7 +155,7 @@
                                 label="操作">
                             <template slot-scope="scope">
                                 <a class="iconfont" :href="downloadLink(scope.$index)" style="margin-right: 10px;text-decoration: none;color:#3377ff;font-size:14px">下载</a>
-                                <el-button @click="getRemove(tableData2[scope.$index].md5)" type="text" >删除</el-button>
+                                <el-button @click="getRemove(tableData2[scope.$index].md5,tableData2[scope.$index].space_type)" type="text" >删除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -277,6 +277,7 @@
                 ss:false,
                 space_type:"",
                 index:'',
+                newType:""
 
             }
         },
@@ -330,7 +331,8 @@
                 this.$router.go(-1)
             },
             getTypes(){
-                this.api.replace_channel_space_type().then((res)=>{
+                let params={media_channel:this.tableData.media_channel}
+                this.api.replace_channel_space_type({params}).then((res)=>{
                     this.typeList=res;
                 })
             },
@@ -402,9 +404,10 @@
                     }
                 })
             },
-            getRemove(id){
+            getRemove(id,type){
                 this.remove =true;
                 this.md5=id;
+                this.newType=type;
             },
             heidRemove(){
                 this.remove =false;
@@ -483,14 +486,20 @@
                 let formData =new FormData;
                 formData.append('md5',this.md5);
                 formData.append('mid',this.mid);
+                formData.append('preview_url',this.tableData.preview_url);
+                formData.append('space_type',this.newType);
+                formData.append('media_channel',this.tableData.media_channel);
                 formData.append('source',this.$route.query.source);
                 formData.append('is_preview',this.$route.query.is_preview);
                 formData.append('sdk_id',this.$route.query.sdk_id);
                 formData.append('src',this.tableData.src);
                 formData.append('url_md5',this.$route.query.url_md5);
                 this.api.replace_del(formData).then((res)=>{
+                    if(res!=false){
                     this.getDataList();
                     this.heidRemove()
+                    }
+                   
                 })
             },
         },
