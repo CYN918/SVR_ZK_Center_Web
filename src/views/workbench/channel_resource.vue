@@ -20,10 +20,10 @@
                 </div>
                 <span>渠道</span>
                 <select v-model="channel" >
-                    <option :value="item.sdk_id" v-for='(item,index) in channelList'>{{item.sdk_id}}</option>
+                    <option :value="item.media_channel" v-for='(item,index) in channelList'>{{item.media_channel}}</option>
                 </select>
                 <span class="screen_btn1" @click='pushService()'>一键推送</span>
-                <span class="screen_btn1" >查询</span>
+                <span class="screen_btn1" @click='getData()'>查询</span>
             </div>
             <div>
                 <template>
@@ -34,31 +34,40 @@
                             :cell-style="cell"
                             >
                         <el-table-column
-                                prop="num"
+                                prop="tdate"
                                 label="日期">
-                            <template slot-scope="scope">
-                                <span>{{scope.$index+1}}</span>
-                            </template>
                         </el-table-column>
                         <el-table-column
-                                prop="sdkid"
+                                prop="media_channel"
                                 label="渠道">
                         </el-table-column>
                         <el-table-column
-                                prop="count"
+                                prop="pass_ratio"
                                 label="审核通过率">
                         </el-table-column>
                         <el-table-column
                                 prop="count"
                                 label="开屏审核通过率">
+                                <template slot-scope="scope">
+                                    <span v-if='!Array.isArray(tableData[scope.$index].space_ratio) || !tableData[scope.$index].space_ratio[0]'>0</span>
+                                   
+                                </template>
                         </el-table-column>
                         <el-table-column
                                 prop="count"
                                 label="暂停审核通过率">
+                                 <template slot-scope="scope">
+                                    <span v-if='!Array.isArray(tableData[scope.$index].space_ratio) || !tableData[scope.$index].space_ratio[0]'>0</span>
+                                   
+                                </template>
                         </el-table-column>
                         <el-table-column
                                 prop="count"
                                 label="角标审核通过率">
+                                 <template slot-scope="scope">
+                                    <span v-if='!Array.isArray(tableData[scope.$index].space_ratio) || !tableData[scope.$index].space_ratio[0]'>0</span>
+                                   
+                                </template>
                         </el-table-column>
                         <el-table-column
                                 prop="count"
@@ -128,7 +137,7 @@
             }
         },
         mounted(){
-        //    this.getData();
+           this.getData();
            this.getType()
         },
         methods:{
@@ -159,6 +168,10 @@
             jump(){
                 this.$router.push({
                     path:'./Channels_for_details',
+                    query:{
+                        tdate:this.value1,
+                        channel:this.channel,
+                    },
                   
                 })
             },

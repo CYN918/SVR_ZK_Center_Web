@@ -12,7 +12,7 @@
             <div style="padding: 0 24px">
                 <span style="font-size: 14px" >渠道:</span>
                 <select  style="margin-right: 10px;width: 150px" v-model="channel">
-                    <option :value="item.sdk_id" v-for='(item,index) in channelList'>{{item.sdk_id}}</option>
+                    <option :value="item.media_channel" v-for='(item,index) in channelList'>{{item.media_channel}}</option>
                 </select>
                <span style="font-size: 14px">数据源:</span>
                 <select v-model="source" style="margin-right: 10px;width: 150px">
@@ -24,7 +24,7 @@
                 <span class="cx" @click="getList()">
                 查询
             </span>
-                <span class="reset" @click="resetRemove">重置</span>
+                <span class="reset" @click="resetRemove()">重置</span>
                  <span class="educe" @click="downloadImg()">导出</span>
                 <span class="batch_upload" @click="batchUpload()">批量上传</span>
                 <div>
@@ -204,7 +204,7 @@
         data(){
             return{
                 tableData:[],
-                tdate:(new Date()).toLocaleDateString().split('/').join('-'),
+                tdate:this.$route.query.tdate,
                 total:0,
                 search:'',
                 page:1,
@@ -217,9 +217,9 @@
                 width:"",
                 height:'',
                 tableDataList:[],
-                source:'OWN',
+                source:'own',
                 is_preview:'2',
-                 channel:"",
+                channel:this.$route.query.channel,
                 channelList:[],
             }
         },
@@ -248,9 +248,9 @@
                 this. getList()
             },
             resetRemove(){
-                this.times='';
-                this.number=[];
+                this.channel='';
                 this.text='';
+                this.source='';
             },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
@@ -280,7 +280,7 @@
                 if(!this.source){
                     this.$message.error('数据源不能为空');
                 }
-                let params ={tdate:this.tdate,times:JSON.stringify(this.number),p:this.p,page:this.page,search:this.search,source:this.source,is_preview:this.is_preview};
+                let params ={tdate:this.tdate,times:JSON.stringify(this.number),p:this.p,page:this.page,search:this.search,source:this.source,is_preview:this.is_preview,media_channel:this.channel};
                 this.api.replace_sdk_overview({params}).then((res)=>{
                     this.tableData = res;
                     this.total=res.total;
@@ -334,7 +334,7 @@
                     var s = '{"'+'sdk_id' + '":"'+this.text + '"}';
                     this.search=s;
                 }
-                var url = '/replace/sdk/overview/export'+'?tdate='+this.tdate+'&times='+JSON.stringify(this.number)+'&search='+this.search+'&source='+this.source+'&is_preview='+this.is_preview;
+                var url = '/replace/sdk/overview/export'+'?tdate='+this.tdate+'&times='+JSON.stringify(this.number)+'&search='+this.search+'&source='+this.source+'&is_preview='+this.is_preview+'&media_channel='+this.channel;
                 download.downloadImg(url);
             },
             getTimes(){
@@ -367,7 +367,7 @@
             getPv(sdk_id){
                 var s = '{"'+'sdk_id' + '":"'+sdk_id + '"}';
                 this.search=s;
-                let params = {tdate:this.tdate,search:this.search,source:this.source};
+                let params = {tdate:this.tdate,search:this.search,source:this.source,media_channel:this.channel};
                 this.api.replace_sdk_graph({params}).then((res)=>{
                     let dataList = res;
                     let pv =[];
