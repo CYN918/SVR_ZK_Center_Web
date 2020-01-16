@@ -145,7 +145,7 @@
                                 prop="status"
                                 label="审核状态">
                                 <template slot-scope="scope">
-                                <span >{{tableData2[scope.$index].status==0?"待审核":tableData2[scope.$index].status==1?'审核通过':"审核不通过"}}</span>
+                                <span >{{tableData2[scope.$index].status==0?"待审核":tableData2[scope.$index].status==1?'送审中':tableData2[scope.$index].status==2?'审核通过':"审核不通过"}}</span>
                                 </template>
                         </el-table-column>
                         <el-table-column
