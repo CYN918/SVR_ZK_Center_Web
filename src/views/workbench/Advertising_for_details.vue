@@ -28,7 +28,7 @@
                 </div>
                 <div>
                     <span>广告名称:</span>
-                    <span class="con"></span>
+                    <span class="con">{{tableData.title}}</span>
                     <span >包名:</span>
                     <span >{{pkg}}</span>
                 </div>
@@ -46,7 +46,7 @@
                 </div>
                 <div>
                     <span>渠道</span>
-                    <span class="con">{{sdk_id}}</span>
+                    <span class="con">{{tableData.media_channel}}</span>
                     
                 </div>
                 <div>
@@ -58,7 +58,7 @@
                     <span>原始图:</span>
                     <template>
                     <el-table
-                            :data="tableData2"
+                            :data="tableData.original_res"
                             style="width: 100%"
                             :header-cell-style="getRowClass"
                             :cell-style="cell"
@@ -68,7 +68,7 @@
                                 label="预览图"
                         >
                             <template slot-scope="scope">
-                                <img :src="tableData2[scope.$index].url" style="width: 80px"/>
+                                <img :src="tableData.original_res[scope.$index].url" style="width: 80px" />
                             </template>
                         </el-table-column>
                         <el-table-column
@@ -76,24 +76,27 @@
                                 label="url"
                         >
                         </el-table-column>
-                        <el-table-column
+                        <!-- <el-table-column
                                 prop="width"
                                 label="场景类型">
-                        </el-table-column>
+                        </el-table-column> -->
                         <el-table-column
                                 prop="created_at"
                                 label="资源状态">
+                                 <template slot-scope="scope">
+                                     <span>{{newIMG&&newIMG.indexOf(tableData.original_res[scope.$index].url)==-1?'未送审':'已送审'}}</span>
+                                </template>
                         </el-table-column>
-                        <el-table-column
+                        <!-- <el-table-column
                                 prop="creator"
                                 label="审核状态">
-                        </el-table-column>
+                        </el-table-column> -->
                         <el-table-column
                                 prop="pv"
                                 label="操作">
                             <template slot-scope="scope">
-                                <el-button  type="text" >更新为可送审</el-button>
-                                <el-button  type="text" >更新为不可送审</el-button>
+                                <el-button  type="text" @click='verifier(scope.$index)' v-if="newIMG.indexOf(tableData.original_res[scope.$index].url)==-1">更新为可送审</el-button>
+                                <span v-else style='color:#ddd;font-size:14px;'>更新为可送审</span>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -151,7 +154,7 @@
                                 prop="pv"
                                 label="操作">
                             <template slot-scope="scope">
-                                <a class="iconfont" :href="downloadLink(scope.$index)" style="margin-right: 10px;text-decoration: none;color:#409EFF">下载</a>
+                                <a class="iconfont" :href="downloadLink(scope.$index)" style="margin-right: 10px;text-decoration: none;color:#3377ff;font-size:14px">下载</a>
                                 <el-button @click="getRemove(tableData2[scope.$index].md5)" type="text" >删除</el-button>
                             </template>
                         </el-table-column>
@@ -163,13 +166,14 @@
                     <div class="load_tit">
                         <span>添加替换</span>
                     </div>
-                    <div>
-                        <span>场景类型</span>
-                        <select >
+                    <div class="text_tit">
+                        <span >场景类型</span>
+                        <select style="width:200px;height:36px" v-model="space_type">
                             <option :value="item.space_type" v-for="(item,index) in typeList">{{item.space_type_name}}</option>
                         </select>
                     </div>
-                    <div>
+                    <div class='qdTh'> 
+                        <span class='fj'>附件</span>
                         <el-upload
                         class="upload-demo"
                         action="aaaa"
@@ -181,17 +185,35 @@
                         >
                             <el-button size="small" type="primary">点击上传</el-button>
                         </el-upload>
-                    </div>
-                    <div class="text_tit">
-                        <span>新资源URL</span>
-                        <div style="display: inline-block;width: 235px">
-                            <input type="text" v-model="item.new_url" disabled v-for="item in new_res"/>
+                        <div v-for="(item,index) in fileName" style="text-align: left;margin-left:95px">
+                            <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                                <div slot="content" class="text">{{item}}</div>
+                                <span  class="text" style="overflow: hidden;width: 200px;height: 20px;line-height: 28px">{{item}}</span>
+                            </el-tooltip>
+                            <span class='eliminate' @click='eraser(index)'>x</span>
                         </div>
                     </div>
-
+                
                     <div class="btns">
                         <span class="tj" @click="add()">添加</span>
                         <span @click="heidTH()">取消</span>
+                    </div>
+                </div>
+            </div>
+            <div class="bg" v-if="ss">
+                <div class="load_up">
+                    <div class="load_tit">
+                        <span>原图送审</span>
+                    </div>
+                    <div class="text_tit">
+                        <span >场景类型</span>
+                        <select style="width:200px;height:36px" v-model="space_type">
+                            <option :value="item.space_type" v-for="(item,index) in typeList">{{item.space_type_name}}</option>
+                        </select>
+                    </div>
+                    <div class="btns">
+                        <span class="tj" @click="check()">添加</span>
+                        <span @click="heidSS()">取消</span>
                     </div>
                 </div>
             </div>
@@ -234,7 +256,7 @@
                 imgs:[],
                 new_url_md5:'',
                 new_url:'',
-                tableData:[],
+                tableData:{},
                 width:'',
                 height:'',
                 th:false,
@@ -250,6 +272,11 @@
                 url_md5:'',
                 preview_md5:'',
                 typeList:[],
+                fileName:[],
+                newIMG:[],
+                ss:false,
+                space_type:"",
+                index:'',
 
             }
         },
@@ -285,6 +312,16 @@
             heidTH(){
                 this.th=false;
                 this.new_res=[];
+                this.space_type=''
+            },
+            verifier(index){
+                this.ss=true;
+                this.index=index;
+                this.getTypes();
+            },
+            heidSS(){
+                this.ss=false;
+                this.space_type=''
             },
             goIndex(){
                     this.$router.go(-2)
@@ -297,15 +334,32 @@
                     this.typeList=res;
                 })
             },
-
+            eraser(index){
+                for(var i=0;i<this.new_res.length;i++){
+                    if(this.new_res[i].name==this.fileName[index]){
+                        this.new_res.splice(i,1);
+                    }
+                }
+                this.fileName.splice(index,1);
+            },
             add(){
                 if(!this.new_url){
                     this.$message.error('请上传文件或等待文件上传成功！')
                 }
+                if(this.new_res.length==0){
+                    this.$message.error('请上传文件')
+                }
+                if(!this.space_type){
+                    this.$message.error('场景类型不能为空')
+                }
                 let formData = new FormData;
+                formData.append('media_channel',this.tableData.media_channel);
+                formData.append('content',this.tableData.content);
+                formData.append('title',this.tableData.title);
+                formData.append('space_type',this.space_type);
                 formData.append('new_res',JSON.stringify(this.new_res));
                 formData.append('original_res',  JSON.stringify(this.tableData.original_res));
-                formData.append('adids',this.$route.query.id);
+                formData.append('adid',this.$route.query.id);
                 formData.append('sdk_id',this.tableData.sdk_id);
                 formData.append('src',this.tableData.src);
                 formData.append('tdate',this.tableData.tdate);
@@ -317,9 +371,35 @@
                 formData.append('preview_url',this.tableData.preview_url);
                 formData.append('preview_md5',this.tableData.preview_md5);
                 this.api.replace_add(formData).then((res)=>{
-                    this.th=false;
-                    this.new_res = [];
-                    this.getDataList()
+                    if(res!=false){
+                        this.heidTH()
+                        this.getDataList()
+                    }
+                   
+                })
+            },
+            check(){
+                if(!this.space_type){
+                    this.$message.error('广告位类型不能为空');
+                    return
+                }
+                let formData=new FormData;
+                formData.append('is_preview',this.$route.query.is_preview);
+                formData.append('source',this.$route.query.source);
+                formData.append('space_type',this.space_type);
+                formData.append('url',this.tableData.original_res[this.index].url);
+                formData.append('media_channel',this.tableData.media_channel);
+                formData.append('adid',this.tableData.adid);
+                formData.append('sdk_id',this.tableData.sdk_id);
+                formData.append('src',this.tableData.src);
+                formData.append('tdate',this.tableData.tdate);
+                formData.append('preview_url',this.tableData.preview_url);
+                 formData.append('preview_md5',this.tableData.preview_md5);
+                this.api.replace_channel_trans_original_audit(formData).then((res)=>{
+                    if(res!=false){
+                        this.heidSS();
+                        this.getDataList()
+                    }
                 })
             },
             getRemove(id){
@@ -330,6 +410,7 @@
                 this.remove =false;
             },
             upload(file){
+                    this.fileName.push(file.file.name)
                     let formData =new FormData;
                     formData.append('file',file.file);
                    this.api.file_upload(formData).then((res)=>{
@@ -352,6 +433,7 @@
                    })
             },
             getDataList(){
+                 this.newIMG=[];
                 // this.type= this.$route.query.type;
                 // this.text=this.$route.query.text;
                 // this.start_date = this.$route.query.start_date;
@@ -364,7 +446,7 @@
                 // }
                 let params;
                 // if(this.$route.query.source=='SDK-API'){
-                     params ={mid:this.$route.query.id,tdate:this.$route.query.tdate,times:this.$route.query.times,source:this.$route.query.source,sdk_id:this.$route.query.sdk_id,src:this.$route.query.src,url_md5:this.$route.query.url_md5,is_preview:this.$route.query.is_preview};
+                     params ={mid:this.$route.query.id,tdate:this.$route.query.tdate,times:this.$route.query.times,source:this.$route.query.source,sdk_id:this.$route.query.sdk_id,src:this.$route.query.src,url_md5:this.$route.query.url_md5,is_preview:this.$route.query.is_preview,media_channel:this.$route.query.media_channel,preview_url:this.$route.query.preview_url};
                 // }else{
                 //      params ={mid:this.$route.query.id,tdate:this.$route.query.tdate,times:this.$route.query.times,source:this.$route.query.source};
                 // }
@@ -385,9 +467,11 @@
                             // this.url_md5 =res[i].original_res[0].url_md5
                             this.tableData2=res[i].new_res;
                             for(var j=0;j<this.tableData2.length;j++){
-                                this.tableData2[j].width=this.tableData2[j].width+'*'+this.tableData2[j].height
+                                this.tableData2[j].width=this.tableData2[j].width+'*'+this.tableData2[j].height;
+                                this.newIMG.push(this.tableData2[j].url);
                             }
                         }
+                       
                     }
                 })
 
@@ -506,11 +590,11 @@
     }
     .sc{
         color: #f5f6fa!important;
-        background: #4f4cf1 !important;
+        background: #3377ff !important;
         border: 0!important;
         margin-right: 40px;
     }
-    .upload-demo{margin-left: 95px!important;}
+    .upload-demo{display: inline-block!important;margin: 0!important}
     .upload{
         margin-top: 20px;
         width: 100px;
@@ -523,7 +607,7 @@
         cursor: pointer;
         border-radius: 5px;
         color: #f5f6fa;
-        background: #4f4cf1 ;
+        background: #3377ff ;
         border: 0;
         text-align: center;
         margin:20px 0 20px 24px ;
@@ -584,7 +668,7 @@
         display: inline-block;
         width: 100px;
         height: 36px;
-        background:#4f4cf1 ;
+        background:#3377ff ;
         color: #fff;
         cursor: pointer;
         line-height: 36px;
@@ -593,7 +677,7 @@
     }
     .load_up{
         border-radius: 10px;
-        width: 500px;
+        width: 600px;
         min-height: 270px;
         position: relative;
         background: #fff;
@@ -613,7 +697,7 @@
     .load_up div{
         margin:15px 24px 0 24px
     }
-    .text_tit span{
+    .text_tit span,.fj{
         display: inline-block;
         margin-right: 15px;
         font-size: 16px;
@@ -640,11 +724,27 @@
         color: #9c9c9c;
         margin-right: 30px;
         text-align: center;
+        border-radius: 3px;
+        margin-bottom: 30px
 
     }
     .tj{
         border: 0!important;
-        background: #4f4cf1!important;
+        background: #3377ff!important;
         color: #fff!important;
+    }
+    .eliminate{
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        background: red;
+        border-radius: 50%;
+        color: #fff;
+        line-height: 12px;
+        font-size: 12px;
+        font-weight: bold;
+        text-align: center;
+        cursor: pointer;
+        margin-left: 15px
     }
 </style>

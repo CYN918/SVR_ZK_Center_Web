@@ -1411,6 +1411,10 @@ export default {
 	replace_channel_shortcut_audit:{
 		url:'replace/channel/shortcut/audit',method:"post",isType:{suktip:1},
 	},
+	//原图直接送审
+	replace_channel_trans_original_audit:{
+		url:"replace/channel/trans/original/audit",method:"post",isType:{suktip:1},
+	},
 
 }
 

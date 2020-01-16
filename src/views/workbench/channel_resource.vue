@@ -78,7 +78,7 @@
                                 width="150"
                         >
                             <template slot-scope="scope">
-                                <el-button @click="jump(tableData[scope.$index].sdkid,tableData[scope.$index].value1)" type="text" size="small">查看详情</el-button>
+                                <el-button @click="jump(tableData[scope.$index].media_channel,tableData[scope.$index].tdate)" type="text" size="small">查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -165,12 +165,12 @@
             qx(){
                this.ts=false; 
             },
-            jump(){
+            jump(type,date){
                 this.$router.push({
                     path:'./Channels_for_details',
                     query:{
-                        tdate:this.value1,
-                        channel:this.channel,
+                        tdate:date,
+                        channel:type,
                     },
                   
                 })
@@ -193,7 +193,7 @@
                 formData.append('is_preview','2');
                 formData.append('tdate',this.value1);
                 formData.append('media_channel',this.channel)
-                this.api.replace_channel_shortcut_audit().then((res)=>{
+                this.api.replace_channel_shortcut_audit(formData).then((res)=>{
                     if(res!=false){
                         this.qx()
                     }

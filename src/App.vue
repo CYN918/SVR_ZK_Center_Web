@@ -912,7 +912,7 @@ select{
     .aaa .el-button{
       background: #3377ff!important
     }
-    .aaa .el-upload-list__item-name,.ext .el-upload-list__item-name,.upyc .el-upload-list__item-name{
+    .aaa .el-upload-list__item-name,.ext .el-upload-list__item-name,.upyc .el-upload-list__item-name,.qdTh .el-upload-list__item .el-upload-list__item-name{
       display: none;
     }
      .bb .el-checkbox__input{

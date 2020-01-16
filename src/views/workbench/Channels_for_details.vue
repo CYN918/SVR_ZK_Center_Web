@@ -16,8 +16,8 @@
                 </select>
                <span style="font-size: 14px">数据源:</span>
                 <select v-model="source" style="margin-right: 10px;width: 150px">
-                    <option value="SDK-API">SDK-API</option>
-                    <option value="OWN">OWN</option>
+                    <option value="sdk-api">SDK-API</option>
+                    <option value="own">OWN</option>
                 </select>
                 <span style="font-size: 14px">SDK_ID:</span>
                 <input type="text" placeholder="请输入sdkID查询" v-model="text"/>
@@ -68,7 +68,7 @@
                             :cell-style="cell"
                             border>
                         <el-table-column
-                                prop="sdk_id"
+                                prop="media_channel"
                                 label="渠道">
                         </el-table-column>
                         <el-table-column
@@ -109,7 +109,7 @@
                         <el-table-column
                                 label="操作">
                             <template slot-scope="scope">
-                                <el-button @click="getAdd(tableData[scope.$index].sdk_id)" type="text" size="small">查看详情</el-button>
+                                <el-button @click="getAdd(tableData[scope.$index])" type="text" size="small">查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -293,8 +293,13 @@
             before(file,obj){
                 obj.status='上传中';
                 this.tableDataList.push(obj);
+                if(!this.channel){
+                    this.$messags.error('渠道不能为空');
+                    return
+                }
                 let formData = new FormData;
                 formData.append('file',file.file);
+                formData.append('media_channel',this.channel);
                 formData.append('width',this.width);
                 formData.append('height',this.height);
                 this.api.replace_bat(formData).then((res)=>{
@@ -354,7 +359,8 @@
             getAdd(data){
                 this.$router.push({
                     query:{
-                        sdkid:data,
+                        channel:data.media_channel,
+                        sdkid:data.sdkid,
                         time:this.tdate,
                         num:JSON.stringify(this.number),
                         is_preview:this.is_preview,
