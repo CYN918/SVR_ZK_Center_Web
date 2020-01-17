@@ -99,7 +99,7 @@
                         <el-table-column
                                 label="操作">
                             <template slot-scope="scope">
-                                <el-button  type="text" size="small" v-clipboard:copy="tableData[scope.$index].copy_file_name" v-clipboard:success="onCopy"   v-clipboard:error="onError">复制命名</el-button>
+                                <!-- <el-button  type="text" size="small" v-clipboard:copy="tableData[scope.$index].copy_file_name" v-clipboard:success="onCopy"   v-clipboard:error="onError">复制命名</el-button> -->
                                 <el-button @click="getAdd(tableData[scope.$index])" type="text" size="small">查看详情</el-button>
                             </template>
                         </el-table-column>

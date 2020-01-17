@@ -26,7 +26,7 @@
             </span>
                 <span class="reset" @click="resetRemove()">重置</span>
                  <span class="educe" @click="downloadImg()">导出</span>
-                <span class="batch_upload" @click="batchUpload()">批量上传</span>
+                <!-- <span class="batch_upload" @click="batchUpload()">批量上传</span> -->
                 <div>
                     <div class="block" style="display: inline-block">
                     <el-date-picker
