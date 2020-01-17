@@ -393,6 +393,11 @@
                     return
                 }
                 let formData=new FormData;
+                 formData.append('id_adsrc',this.tableData.id_adsrc);
+                 formData.append('content',this.tableData.content);
+                formData.append('title',this.tableData.title);
+                formData.append('model',this.tableData.model);
+                formData.append('pv',this.tableData.pv);
                 formData.append('is_preview',this.$route.query.is_preview);
                 formData.append('source',this.$route.query.source);
                 formData.append('space_type',this.space_type);

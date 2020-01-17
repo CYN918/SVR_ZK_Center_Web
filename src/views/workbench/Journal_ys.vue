@@ -47,6 +47,7 @@
                           <el-table-column
                             type="selection"
                             v-if='pl'
+                            :selectable='checkboxT'
                             width="50" style="padding:0 auto!important">
                         </el-table-column>    
                         <el-table-column
@@ -198,6 +199,17 @@ methods: {
                         this.qdLists=res;
                     })
     },
+    checkboxT(row, rowIndex){
+        console.log(row);
+        console.log(rowIndex);
+        if(rowIndex==0){
+      
+          return false;//禁用
+        }else{
+          return true;//不禁用
+        }
+      },
+
      getRowClass({row, column, rowIndex}) {
         if (rowIndex === 0) {
             return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;padding:20px 0px 20px 14px'
