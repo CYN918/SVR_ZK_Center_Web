@@ -49,7 +49,7 @@
             </div>
             <div>
                 <div>
-                    <span>替换列表</span>
+                    <span style="font-size:14px;margin-bottom:15px">替换列表</span>
                 </div>
                 <template>
                     <el-table
@@ -179,7 +179,9 @@
         },
         methods:{
             fh(){
-                this.$router.go(-1)
+                this.$router.push({
+                    path:'./Offline_resources'
+                })
             },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
@@ -286,6 +288,7 @@
         line-height: 36px;
         font-weight: bold;
         font-size: 18px;
+        
     }
     .title_top{
         margin-top: 60px;

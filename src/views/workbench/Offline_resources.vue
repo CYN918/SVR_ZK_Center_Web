@@ -267,12 +267,13 @@ methods: {
             })
         },
         details(index){
-            this.$router.push({
+             let routeData = this.$router.resolve({
                 path:"./Offline_details",
                 query:{
                    mid:this.tableData[index].mid
                 },
             })
+            window.open(routeData.href, '_blank');
         },
          onCopy() {
                this.$message.success('复制成功')

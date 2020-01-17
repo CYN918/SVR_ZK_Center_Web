@@ -108,7 +108,7 @@
             
             <div>
                 <div>
-                    <span>替换列表</span>
+                    <span style="font-size:14px;margin-bottom:15px">替换列表</span>
                 </div>
                 <template>
                     <el-table
@@ -331,10 +331,21 @@
                 this.space_type=''
             },
             goIndex(){
-                    this.$router.go(-2)
+                     this.$router.push({
+                    path:"./channel_resource",
+                })
             },
             goHome(){
-                this.$router.go(-1)
+                this.$router.push({
+                    path:"./Advertising_source_details",
+                    query:{
+                        channel:this.$route.query.media_channel,
+                        time:this.$route.query.tdate,
+                        num:this.$route.query.time,
+                        is_preview:2,
+                        source:this.$route.query.source
+                    }
+                })
             },
             getTypes(){
                 let params={media_channel:this.tableData.media_channel}
