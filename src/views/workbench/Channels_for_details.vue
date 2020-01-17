@@ -12,6 +12,7 @@
             <div style="padding: 0 24px">
                 <span style="font-size: 14px" >渠道:</span>
                 <select  style="margin-right: 10px;width: 150px" v-model="channel">
+                    <option value="">全部</option>
                     <option :value="item.media_channel" v-for='(item,index) in channelList'>{{item.media_channel}}</option>
                 </select>
                <span style="font-size: 14px">数据源:</span>

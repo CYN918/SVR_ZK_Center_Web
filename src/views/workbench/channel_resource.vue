@@ -20,6 +20,7 @@
                 </div>
                 <span>渠道</span>
                 <select v-model="channel" >
+                    <option value="">全部</option>
                     <option :value="item.media_channel" v-for='(item,index) in channelList'>{{item.media_channel}}</option>
                 </select>
                 <span class="screen_btn1" @click='pushService()'>一键推送</span>
