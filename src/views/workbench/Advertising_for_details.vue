@@ -361,6 +361,7 @@
                     this.$message.error('场景类型不能为空')
                 }
                 let formData = new FormData;
+                formData.append('id_adsrc',this.tableData.id_adsrc);
                 formData.append('media_channel',this.tableData.media_channel);
                 formData.append('content',this.tableData.content);
                 formData.append('title',this.tableData.title);
