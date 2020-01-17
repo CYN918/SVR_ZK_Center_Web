@@ -138,7 +138,7 @@
                                 prop="space_type"
                                 label="场景类型">
                                  <template slot-scope="scope">
-                                <span >{{tableData2[scope.$index].space_type==2?"开屏广告":tableData2[scope.$index].space_type==9?'暂停广告':"角标广告"}}</span>
+                                <span >{{tableData2[scope.$index].space_type_name}}</span>
                             </template>
                         </el-table-column>
                          <el-table-column
