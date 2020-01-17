@@ -82,7 +82,7 @@
                                 label="替换占比">
                         </el-table-column>
                         <el-table-column
-                                prop="status"
+                                prop="pass_ratio"
                                 sortable
                                 label="审核通过率">
                         </el-table-column>
