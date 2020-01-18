@@ -471,7 +471,7 @@ export default {
 	},
 	//添加标签
     tags_add:{
-		url:'/tags/add',method:'post',isType:{suktip:1,reload:1}
+		url:'/tags/add',method:'post',isType:{suktip:1}
 	},
 	//获取物料库列表
     mfinal_search:{

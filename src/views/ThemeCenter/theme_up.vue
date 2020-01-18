@@ -422,19 +422,19 @@
                     this.$message.error('未上传主题包')
                     return
                 }
-                 if(!this.result1){
+                 if(this.result1.length==0){
                     this.$message.error('色彩不能为空')
                     return
                 }
-                if(!this.result2){
+                if(this.result2.length==0){
                     this.$message.error('功能特效不能为空')
                     return
                 }
-                if(!this.result3){
+                if(this.result3.length==0){
                     this.$message.error('风格不能为空')
                     return
                 }
-                if(!this.result4){
+                if(this.result4.length==0){
                     this.$message.error('内容不能为空')
                     return
                 }
@@ -526,19 +526,19 @@
                     this.$message.error('内容分类不能为空')
                     return
                 }
-                 if(!this.result1){
+                 if(this.result1.length==0){
                     this.$message.error('色彩不能为空')
                     return
                 }
-                if(!this.result2){
+                if(this.result2.length==0){
                     this.$message.error('功能特效不能为空')
                     return
                 }
-                if(!this.result3){
+                if(this.result3.length==0){
                     this.$message.error('风格不能为空')
                     return
                 }
-                if(!this.result4){
+                if(this.result4.length==0){
                     this.$message.error('内容不能为空')
                     return
                 }

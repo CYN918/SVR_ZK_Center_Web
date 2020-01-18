@@ -42,7 +42,7 @@
                 <div class='tag'>
                     <span v-for="item in feature_category" class="tagName" v-if="item!=''">{{item}}</span>
                 </div>
-                <el-tooltip class="item" effect="dark" placement="right-start">
+                <!-- <el-tooltip class="item" effect="dark" placement="right-start">
                     <div slot="content" class="text">
                         <div>
                             <span class='specialName' style="margin-top:21px">色彩</span>
@@ -97,7 +97,7 @@
                         </div>
                     </div>
                     <span style="color:#3377FF;cursor: pointer;margin-left:17px;display:inline-block; vertical-align: top;margin-top: 3px;">更多</span>
-                </el-tooltip>
+                </el-tooltip> -->
             </div>
             <div>
                 <span class="titName">内容分类:</span>
@@ -591,7 +591,13 @@
     }
     .tag{
         display: inline-block;
+        max-width: 300px;
+        height: 32px;
+        overflow: -moz-scrollbars-none;
+        -ms-overflow-style: none;
+        overflow-y: scroll;
     }
+    .tag::-webkit-scrollbar { width: 0 !important }
     .tagADD{
         display: inline-block;
         width:46px;

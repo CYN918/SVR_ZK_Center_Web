@@ -3,63 +3,101 @@
 <div>
     <div class="top_name">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh(-1)">杂志锁屏物料预审 &nbsp;/&nbsp;</span>
-                <span class="log_ur">物料详情</span>
+                <span class="log_url" @click="fh(-1)">杂志锁屏推送 &nbsp;/&nbsp;</span>
+                <span class="log_url" @click="fh(-1)"> 推送审核内容管理 &nbsp;/&nbsp;</span>
+                <span class="log_ur">内容详情</span>
             </div>
             <div class="tit_top_con">
-                <span class="tit_name">物料详情</span>
+                <span class="tit_name">内容详情</span>
             </div>
     </div>
     <div class='details'>
         <div>
+            <div class='tits'>
+                <span>广告内容</span>
+            </div>
             <div class='details_left'>
                 <img src="" alt=""/>
             </div>
             <div class='details_right'>
+               <div>
+                   <span>广告图URL</span>
+                    <a href="">aaaaaaa</a>
+               </div>
                 <div>
-                    <span class='details_name'>状态</span>
-                    <span></span>
-                </div>
-                 <div>
-                    <span class='details_name'>更新时间</span>
-                    <span></span>
-                </div>
-                 <div>
-                    <span class='details_name'>操作人员</span>
-                    <span></span>
-                </div>
-                 <div>
-                    <span class='details_name'>原因</span>
-                    <span></span>
-                </div>
+                    <span>落地页URL</span>
+                    <a href="">aaaaaaa</a>
+               </div>
             </div>
         </div>
-        <div >
-            <div style="margin: 0 40px 60px 40px">
-                <div class='details_tit'>
-                    <span class='details_name'>落地页</span>
-                    <span class='details_num'>共10个</span>
-                </div>
-                
-                <div class='details_box'>
-                    <div class='details_url'>dsjklajfdlsjfld;sjfldsjfkljdslfjdsklfhdkshfkds</div>
-                </div>
+        <div>
+            <div class='tits'>
+                <span>杂志锁屏</span>
             </div>
-        </div>
-        <div style="margin: 0 40px 60px 40px">
-            <div class='details_tit'>
-                    <span class='details_name'>杂志锁屏</span>
-                    <span class='details_num'>共10个</span>
+            <div class='details_left'>
+                <img src="" alt=""/>
             </div>
-            <div class='img_box'>
-                <div class='img_url'>
-                    <img />
+            <div class='details_right2'>
+               <div>
+                   <div class='tab_box'>
+                       <span class='tab_box_name'>物料ID</span>
+                       <span class='tab_box_con'>ssssss</span>
+                   </div>
+                   <div class='tab_box'>
+                       <span class='tab_box_name' style="margin-left:30px">壁纸标签</span>
+                       <span  class='tab_box_con' style="margin-left:30px">ssss</span>
+                   </div>
+                   <div class='tab_box' style="border-right:0!important">
+                       <span  class='tab_box_name' style="margin-left:30px">尺寸</span>
+                       <span  class='tab_box_con' style="margin-left:30px">ssss</span>
+                   </div>
+               </div>
+                <div>
+                   <div class='tab_box'>
+                       <span  class='tab_box_name'>文件大小</span>
+                       <span  class='tab_box_con'>ssss</span>
+                       <a class='xz'>下载</a>
+                   </div>
+                   <div class='tab_box'>
+                       <span  class='tab_box_name' style="margin-left:30px">埋点状态</span>
+                       <span  class='tab_box_con' style="margin-left:30px">sssss</span>
+                   </div>
+                   <div class='tab_box' style="border-right:0!important">
+                       <span  class='tab_box_name' style="margin-left:30px">对接上线状态</span>
+                       <span  class='tab_box_con' style="margin-left:30px">sssss</span>
+                   </div>
+               </div>
+            </div>
+            <div >
+                <div class='tits'>
+                    <span>处理结果</span>
                 </div>
+                <div class='jg'>
+                    <div>
+                        <span>审核结果</span>
+                         <span class='jg_con'>广告图URL</span>
+                    </div>
+                    <div>
+                        <span>原因说明</span>
+                         <span class='jg_con'>广告图URL</span>
+                    </div>
+                    <div>
+                        <span>更新时间</span>
+                         <span class='jg_con'>广告图URL</span>
+                    </div>
+                    <div style="border:0!important">
+                        <span>操作人员</span>
+                         <span class='jg_con'>广告图URL</span>
+                    </div>
+                </div>
+               
             </div>
+           
         </div>
         <div style="margin:0 40px">
             <span class='sh'>审核</span>
             <span class='qx'>取消</span>
+            <span class='qx'>返回</span>
         </div>
     </div>
 </div>
@@ -105,13 +143,14 @@ mounted() {
     }
     .details{
         margin-top: 185px;
-        background: #fff
+        background: #fff;
+        padding: 0 40px;
     }
     .details_left{
-        margin: 40px 100px 60px 40px;
+        margin: 20px 100px 10px 40px;
         display: inline-block;
-        width: 200px;
-        height: 300px;
+        width: 160px;
+        height: 230px;
         background: #ddd;
         position: relative;
     }
@@ -124,15 +163,40 @@ mounted() {
         transform: translate(-50%,-50%)
         
     }
-    .details_right{
+    .details_right,.details_right2{
         display: inline-block;
         position: relative;
         vertical-align: top;
-        margin-top: 40px
+        margin-top: 40px;
+        width: 60%;
     }
     .details_right>div{
+        width: 100%;
         height: 50px;
+        border:1px solid rgb(241, 240, 240);
+        padding: 15px 30px;
     } 
+    .details_right2>div{
+        width: 100%;
+        height: 80px;
+        padding: 0 30px;
+        border:1px solid rgb(241, 240, 240);
+    }
+    .details_right>div>span{
+        display: block;
+        font-size: 12px;
+        color: rgb(177, 174, 174);
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+    .details_right>div>a{
+         font-size: 12px;
+         color: #3377ff;
+        font-family: Arial, Helvetica, sans-serif;
+        overflow: hidden;
+        text-decoration:#3377ff!important;
+    }
     .details_name{
         display: inline-block;
         font-family: 'Courier New', Courier, monospace;
@@ -199,5 +263,76 @@ mounted() {
            border: 0!important;
     background: rgba(51,119,255,1)!important;
     color: rgba(255,255,255,1)!important;
+    }
+    .tits{
+        width: 100%;
+        border-bottom: 1px solid #ddd;
+    }
+    .tits span{
+        display: inline-block;
+        margin: 20px 0 20px 40px;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 16px;
+        font-weight: bold;
+        color: #000;
+
+    }
+    .tab_box{
+        display: inline-block;
+        width: 33%;
+        height: 100%;
+        border-right: 1px solid rgb(241, 240, 240);
+        position: relative;
+    }
+    .tab_box_name{
+        display: block;
+        margin: 25px 0 0 0;
+        font-size: 12px;
+        color: rgb(177, 174, 174);
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: bold;
+        
+    }
+    .tab_box_con{
+        font-size: 12px;
+        color: rgb(43, 42, 42);
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: bold;
+    }
+    .xz{
+        display: inline-block;
+        padding: 5px 10px;
+        text-align: center;
+        border:1px solid #ddd;
+        border-radius: 3px;
+        cursor: pointer;
+        position: absolute;
+        right:30px;
+        top:25px;
+    }
+    .jg{
+        margin: 30px 0 30px 0;
+        width: 100%;
+        height: 80px;
+        border:1px solid  rgb(241, 240, 240);
+    }
+    .jg>div{
+        width: 24.5%;
+        display: inline-block;
+        border-right:1px solid rgb(241, 240, 240);
+        height: 100%;
+    }
+    .jg>div>span{
+        display: block;
+        font-size: 12px;
+        color: rgb(177, 174, 174);
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: bold;
+        margin: 25px 0 0 40px;
+    }
+    .jg_con{
+      display: inline-block!important;
+      color: rgb(53, 53, 53)!important;
+       margin: 0 0 0 40px!important;
     }
 </style>

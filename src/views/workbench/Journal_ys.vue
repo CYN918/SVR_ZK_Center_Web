@@ -83,7 +83,7 @@
                         </el-table-column>
                         <el-table-column
                                 label="操作"
-                                width="150"
+                                
                         >
                             <template slot-scope="scope">
                                  <el-button  type="text" size="small" v-if='tableData[scope.$index].status=="1"' @click='updateStatus(index)'>审核</el-button>
@@ -151,7 +151,7 @@ return {
        channel:"",
        date:'',
        status:'',
-       tableData:[{sdkid:"1",status:'1',plid:'20',mfid:'md_302'},{sdkid:"1",status:'1',plid:'20',mfid:'md_302'}],
+       tableData:[{sdkid:"1",status:'1',plid:'20',mfid:'md_302'},{sdkid:"1",status:'-1',plid:'20',mfid:'md_302'}],
         page:1,
         p:10,
         total:0,
@@ -239,9 +239,9 @@ methods: {
                  })
              },
               updateStatus(index){
-                  if(!index&&this.value.length==0){
-                      return
-                  }
+                if(index==undefined&&this.value.length==0){
+                    return
+                }
                this.tc=true;
                if(index==''){
                    this.index=0;
