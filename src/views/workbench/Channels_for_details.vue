@@ -361,7 +361,7 @@
                 this.$router.push({
                     query:{
                         channel:data.media_channel,
-                        sdkid:data.sdkid,
+                        sdkid:data.sdk_id,
                         time:this.tdate,
                         num:JSON.stringify(this.number),
                         is_preview:this.is_preview,
