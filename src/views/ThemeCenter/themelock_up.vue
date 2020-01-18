@@ -115,7 +115,7 @@
                             <el-checkbox v-model="is_work" style="margin: 0 10px" disabled></el-checkbox>
                         </template>
                         <span class="sm">与作品无关</span>
-                        <span class="sm2">绑定制作{{this.type=='th_lock_screen'?'锁屏':this.type=='th_icon'?'图标':this.type=='th_second_page'?'二级页':'宣传图'}}的相关作品，千万不要填错了</span>
+                        <span class="sm2">绑定制作{{this.type=='th_lock_screen'?'锁屏':this.type=='th_icon'?'图标':this.type=='th_second_page'?'二级界面':'宣传图'}}的相关作品，千万不要填错了</span>
                     </div>
                     <div v-if="thmid==undefined&&this.type!='th_advertise'">
                         <span>绑定设计师素材</span>
@@ -125,7 +125,7 @@
                             <el-checkbox v-model="is_work" style="margin: 0 10px"></el-checkbox>
                         </template>
                         <span class="sm">与作品无关</span>
-                        <span class="sm2">绑定制作{{this.type=='th_lock_screen'?'锁屏':this.type=='th_icon'?'图标':this.type=='th_second_page'?'二级页':'宣传图'}}的相关作品，千万不要填错了</span>
+                        <span class="sm2">绑定制作{{this.type=='th_lock_screen'?'锁屏':this.type=='th_icon'?'图标':this.type=='th_second_page'?'二级界面':'宣传图'}}的相关作品，千万不要填错了</span>
 
                     </div>
 
@@ -139,7 +139,7 @@
                         <el-checkbox v-model="is_material" style="margin: 0 10px" :disabled="thmid!=undefined"></el-checkbox>
                     </template>
                     <span class="sm">与主题素材无关</span>
-                    <span class="sm2">绑定制作{{this.type=='th_lock_screen'?'锁屏':this.type=='th_icon'?'图标':this.type=='th_second_page'?'二级页':'宣传图'}}的相关主题素材，千万不要填错了</span>
+                    <span class="sm2">绑定制作{{this.type=='th_lock_screen'?'锁屏':this.type=='th_icon'?'图标':this.type=='th_second_page'?'二级界面':'宣传图'}}的相关主题素材，千万不要填错了</span>
                     <div class="img_box">
                         <div class="img_box1" v-for="(item,index) in listSC">
                             <img class="img_box1_img" :src="item.main_preview">
