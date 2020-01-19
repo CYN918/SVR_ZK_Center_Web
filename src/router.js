@@ -438,7 +438,7 @@ let nb = [
             {path:'/workbench/Advertising_source_details',name:'渠道源详情',component: mode['Advertising_source_details'],},
             {path:'/workbench/Advertising_for_details',name:'广告详情',component: mode['Advertising_for_details'],},
             {path:'/workbench/External_pre_trial',name:'外部杂志锁屏推送管理',component: mode['External_pre_trial'],},
-            {path:'/workbench/External_details,name:'外部杂志锁屏推送管理详情',component: mode['External_details'],},
+            {path:'/workbench/External_details',name:'外部杂志锁屏推送管理详情',component: mode['External_details'],},
             
            
 	]},

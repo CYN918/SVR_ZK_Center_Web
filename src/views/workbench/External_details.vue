@@ -49,7 +49,10 @@
                    </div>
                    <div class='tab_box' style="border-right:0!important">
                        <span  class='tab_box_name' style="margin-left:30px">尺寸</span>
-                       <span  class='tab_box_con' style="margin-left:30px">{{list.mfinal.size}}</span>
+                       <span class="tab_box_con" v-if="(list.mfinal.attach.size/1024).toFixed(0)<1">1kb</span>
+						<span class="tab_box_con" v-if="list.mfinal.attach.size>1024&&list.mfinal.attach.size<1024*1024">{{(list.mfinal.attach.size/1024).toFixed(0)}}kb</span>
+						<span class="tab_box_con" v-if="list.mfinal.attach.size>1024*1024&&list.mfinal.attach.size<1024*1024*1024">{{(list.mfinal.attach.size/1024/1024).toFixed(1)}}MB</span>
+						<span class="tab_box_con" v-if="list.mfinal.attach.size>1024*1024*1024">{{(list.mfinal.attach.size/1024/1024/1024).toFixed(2)}}GB</span>
                    </div>
                </div>
                 <div>

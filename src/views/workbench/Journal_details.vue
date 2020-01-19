@@ -56,16 +56,20 @@
                 <div>
                    <div class='tab_box'>
                        <span  class='tab_box_name'>文件大小</span>
-                       <span  class='tab_box_con'>{{list.mfinal.attach.size}}</span>
+                       <!-- <span  class='tab_box_con'>{{list.mfinal.attach.size}}</span> -->
+                       <span class="tab_box_con" v-if="(list.mfinal.attach.size/1024).toFixed(0)<1">1kb</span>
+						<span class="tab_box_con" v-if="list.mfinal.attach.size>1024&&list.mfinal.attach.size<1024*1024">{{(list.mfinal.attach.size/1024).toFixed(0)}}kb</span>
+						<span class="tab_box_con" v-if="list.mfinal.attach.size>1024*1024&&list.mfinal.attach.size<1024*1024*1024">{{(list.mfinal.attach.size/1024/1024).toFixed(1)}}MB</span>
+						<span class="tab_box_con" v-if="list.mfinal.attach.size>1024*1024*1024">{{(list.mfinal.attach.size/1024/1024/1024).toFixed(2)}}GB</span>
                        <a class='xz' :href='list.mfinal.attach.url'>下载</a>
                    </div>
                    <div class='tab_box'>
                        <span  class='tab_box_name' style="margin-left:30px">埋点状态</span>
-                       <span  class='tab_box_con' style="margin-left:30px">{{}}</span>
+                       <span  class='tab_box_con' style="margin-left:30px">{{list.mfinal.status_check==0?'暂未上线':"已上线"}}</span>
                    </div>
                    <div class='tab_box' style="border-right:0!important">
                        <span  class='tab_box_name' style="margin-left:30px">对接上线状态</span>
-                       <span  class='tab_box_con' style="margin-left:30px">{{}}</span>
+                       <span  class='tab_box_con' style="margin-left:30px">{{list.mfinal.status_online==0?'待确定':item.status_online==1?'已上线':'未上线'}}</span>
                    </div>
                </div>
             </div>
