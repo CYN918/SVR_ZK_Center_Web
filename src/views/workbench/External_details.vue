@@ -1,4 +1,3 @@
-
 <template>
 <div>
     <div class="top_name">
@@ -59,14 +58,14 @@
                        <span  class='tab_box_con'>{{list.mfinal.attach.size}}</span>
                        <a class='xz' :href='list.mfinal.attach.url'>下载</a>
                    </div>
-                   <div class='tab_box'>
+                   <!-- <div class='tab_box'>
                        <span  class='tab_box_name' style="margin-left:30px">埋点状态</span>
                        <span  class='tab_box_con' style="margin-left:30px">{{}}</span>
                    </div>
                    <div class='tab_box' style="border-right:0!important">
                        <span  class='tab_box_name' style="margin-left:30px">对接上线状态</span>
                        <span  class='tab_box_con' style="margin-left:30px">{{}}</span>
-                   </div>
+                   </div> -->
                </div>
             </div>
             <div >
@@ -95,12 +94,44 @@
             </div>
            
         </div>
+
         <div style="margin:0 40px">
-            <!-- <span class='sh'>审核</span>
-            <span class='qx'>取消</span> -->
-            <span @click='fh(-1)' class='qx'>返回</span>
+            <span class='sh' v-if='list.status==0' @click='SH()'>审核</span>
+            <span class='qx' v-if='list.status==0'  @click='fh(-1)'>取消</span>
+            <span @click='fh(-1)' class='qx' v-if='list.status!=0'>返回</span>
         </div>
     </div>
+     <div class="bg" v-if="tc">
+            <div class='content'>
+                <div class='con_tit'>
+                    <span>更新状态</span>
+                </div>
+                <div class='sel'>
+                    <select v-model="status2">
+                        <option value="1">已上线</option>
+                        <option value="2">拒绝上线</option>
+                    </select>
+                    <div class='sel_1' v-if="status2=='拒绝上线'">
+                        <el-checkbox-group v-model="checkList">
+                            <el-checkbox label="测试不通过" class='aaa'></el-checkbox>
+                            <el-checkbox label="内容差"  class='aaa'></el-checkbox>
+                            <el-checkbox label="屏蔽竞品"  class='aaa'></el-checkbox>
+                            <el-checkbox label="其他"  class='aaa bb'>
+                                <template>
+                                    <span style="margin-right:10px">其他</span>
+                                    <textarea placeholder="最多20字" maxlength="20"  v-model="yy"></textarea>
+                                </template>
+                            </el-checkbox>
+                        </el-checkbox-group>
+                        
+                    </div>
+                </div>
+                <div class='sel_btn'>
+                    <span class="sel_btn_qd" @click="pushLib()">确定</span>
+                    <span @click='qx()'>取消</span>
+                </div>
+            </div>
+        </div>
 </div>
 </template>
 
@@ -112,6 +143,10 @@ components: {},
 data() {        
     return {
         list:{},
+        tc:false,
+        status2:"1",
+        checkList:[],
+        yy:""
     };
 },
 
@@ -119,12 +154,40 @@ methods: {
     fh(index){
         this.$router.go(index)
     },
+     qx(){
+               this.tc=false;
+               this.status2='';
+               this.checkList=[];
+           }, 
     getDetail(){
         let params={adid:this.$route.query.adid,mfid:this.$route.query.mfid,plid:this.$route.query.plid}
         this.api.pushlib_adver_mfinal_detail({params}).then((res)=>{
             this.list=res;
         })
     },
+     pushLib(){
+         
+                   let array={plid:"",adid:"",mfid:""}
+                     array.plid=this.$route.query.plid;
+                     array.adid=this.$route.query.adid;
+                     array.mfid=this.$route.query.mfid;
+                    this.advers.push(array);
+                       if(!this.status2){
+                             this.$message.error('状态不能为空')
+                        }
+                     let formData =new FormData;
+                      formData.append('status',this.status2),
+                        formData.append('note',this.checkList.join(',')+this.yy) 
+                        formData.append('advers',JSON.stringify(this.advers))
+                        this.api.pushlib_adver_mfinal_audit(formData).then((res)=>{
+                            if(res!=false){
+                                this.qx(); 
+                                this.getDetail();  
+                            }
+                    })
+               
+            
+           },   
 },
 
 created() {
@@ -291,7 +354,7 @@ mounted() {
         display: inline-block;
         width: 33%;
         height: 100%;
-        border-right: 1px solid rgb(241, 240, 240);
+        /* border-right: 1px solid rgb(241, 240, 240); */
         position: relative;
     }
     .tab_box_name{
@@ -350,4 +413,83 @@ mounted() {
         padding: 2px 5px;
         border:1px solid #ddd;
     }
+    .bg{
+        position: fixed;
+        top:0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.3);
+    }
+    .content{
+        width: 400px;
+        max-height:400px;
+        position: absolute;
+        top:30%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        border-radius: 10px;
+    }
+    .con_tit{
+        width: 100%;
+        height: 40px;
+        border-bottom: 1px solid #ddd;
+    }
+    .con_tit span{
+        display: inline;
+        margin-left: 24px;
+        display: inline-block;
+        line-height: 40px;
+        font-size: 18px;
+        font-weight: 500;
+    }
+    .sel{
+        margin: 20px 0;
+    }
+    .sel select{
+        width: 200px;
+        height: 36px;
+        margin-left: 24px;
+        border-radius: 5px;
+    }
+    .sel_1{
+        margin: 30px 0 0px 24px;
+    }
+    .aaa{
+          display: block!important;
+      margin: 0 0 15px 0 !important
+    }
+     .bb span{
+        vertical-align: top;
+    }
+   .bb textarea{
+       padding: 5px
+   }
+   .sel_btn{
+       width: 100%;
+       height: 50px;
+       text-align: right;
+   }
+   .sel_btn span{
+    margin-right: 24px;
+    display: inline-block;
+    width: 68px;
+    height: 36px;
+    background: rgba(255,255,255,1);
+    border-radius: 4px;
+    border: 1px solid rgba(211,219,235,1);
+    font-size: 14px;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(61,73,102,1);
+    line-height: 36px;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 7px
+   }
+   .sel_btn_qd{
+       border: 0!important;
+    background: rgba(51,119,255,1)!important;
+    color: rgba(255,255,255,1)!important;
+   }
 </style>

@@ -2,7 +2,7 @@
 <template>
 <div >
        <div class="top_name">
-                <span class="top_txt" @click='fh()'>杂志锁屏推送  /  推送审核内容管理</span>
+                <span class="top_txt"> 推送审核内容管理</span>
                 <span class="top_txts">推送审核内容管理</span>
                
                
@@ -10,7 +10,7 @@
                 <select v-model="channel">
                         <option :value="item.channel" v-for="item in qdLists">{{item.channel}}</option>
                 </select> -->
-                <span class='qud'>{{this.$route.query.channel}}</span>
+                <span class='qud'>{{channel}}</span>
                 <!-- <span class='userGl' @click="jump()">账号管理</span> -->
         </div>
         <div class='screening'>
@@ -31,7 +31,7 @@
                 </select>
                 <div class='btn_sx'>
                     <span class='cx' v-if='pl==false' @click='getData()'>查询</span>
-                    <!-- <span class='cz' @click='plcz()' v-if='pl==false'>批量操作</span> -->
+                    <span class='cz' @click='plcz()' v-if='pl==false'>批量操作</span>
                     <span class='dc' v-if='pl==false'>导出</span>
                     <span class='cz'  v-if='pl' @click='updateStatus("aa")'>批量操作</span>
                     <span class='dc' @click='Qxplcz()' v-if='pl'>取消</span>
@@ -103,7 +103,7 @@
                                 
                         >
                             <template slot-scope="scope">
-                                 <!-- <el-button  type="text" size="small" v-if='tableData[scope.$index].status=="0"' @click='updateStatus(index)'>审核</el-button> -->
+                                 <el-button  type="text" size="small" v-if='tableData[scope.$index].status=="0"' @click='updateStatus(index)'>审核</el-button>
                                  <!-- <el-button v-if='tableData[scope.$index].status!="0"' type="text" size="small">修改结果</el-button> -->
                                 <el-button  type="text" size="small" @click="details(scope.$index)">查看详情</el-button>
                             </template>
@@ -139,7 +139,7 @@
                             <el-checkbox label="其他"  class='aaa bb'>
                                 <template>
                                     <span style="margin-right:10px">其他</span>
-                                    <textarea placeholder="最多20字" maxlength="20"  v-model="yy"></textarea>
+                                    <textarea placeholder="最多20字" maxlength="20" v-model="yy"></textarea>
                                 </template>
                             </el-checkbox>
                         </el-checkbox-group>
@@ -184,6 +184,15 @@ return {
 },
 
 methods: {
+    getUSER(){
+        this.api.pushlib_configs_user_channel().then((res)=>{
+            if(res!=false){
+                this.channel=res;
+                this.getData();
+            }
+            
+        })
+    },
      pushLib(){
           if(this.index=='aa'){
                     let array={plid:"",adid:"",mfid:""}
@@ -233,11 +242,11 @@ methods: {
     plcz(){
         this.pl=true;
     },
-    fh(){
-        this.$router.push({
-            path:"./journal_list"
-        })
-    },
+    // fh(){
+    //     this.$router.push({
+    //         path:"./journal_list"
+    //     })
+    // },
     Qxplcz(){
         this.pl=false;
        if(this.value.length>0){
@@ -276,7 +285,6 @@ methods: {
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
                 this.getData()
-                
             },
             handleCurrentChange(page) {//页码切换
                 this.page = page;
@@ -285,11 +293,11 @@ methods: {
              handleSelectionChange(val) {
                 this.value= val;
              },  
-             jump(){
-                 this.$router.push({
-                     path:"./Journal_user"
-                 })
-             },
+            //  jump(){
+            //      this.$router.push({
+            //          path:"./Journal_user"
+            //      })
+            //  },
               updateStatus(index){
                 this.advers=[];
                 if(index=='aa'&&this.value.length==0){
@@ -312,7 +320,7 @@ methods: {
            }, 
            details(index){
                 this.$router.push({
-                    path:"./Journal_details",
+                    path:"./External_details",
                     query:{
                         plid:this.tableData[index].plid,
                         mfid:this.tableData[index].mfid,
@@ -321,7 +329,7 @@ methods: {
                 })
            },
            getData(){
-               let params={p:this.p,page:this.page,tdate:this.date,channel:this.$route.query.channel,status:this.status}
+               let params={p:this.p,page:this.page,tdate:this.date,channel:this.channel,status:this.status}
                this.api.pushlib_adver_mfinal_list({params}).then((res)=>{
                    this.tableData=res.data;
                    this.total=res.total;
@@ -337,7 +345,8 @@ created() {
 //生命周期 - 挂载完成（可以访问DOM元素）
 mounted() {
     //  this.getChannel();
-     this.getData()
+     
+     this.getUSER()
 },
 
 }

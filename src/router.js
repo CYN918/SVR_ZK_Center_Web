@@ -242,6 +242,10 @@ import Advertising_source_details from './views/workbench/Advertising_source_det
 mode['Advertising_source_details']=Advertising_source_details
 import Advertising_for_details from './views/workbench/Advertising_for_details'
 mode['Advertising_for_details']=Advertising_for_details
+import External_pre_trial from './views/workbench/External_pre_trial'
+mode['External_pre_trial']=External_pre_trial
+import External_details from './views/workbench/External_details'
+mode['External_details']=External_details
 
 import axios from 'axios'
 import api from './api/index'
@@ -433,6 +437,9 @@ let nb = [
             {path:'/workbench/Channels_for_details',name:'渠道详情',component: mode['Channels_for_details'],},
             {path:'/workbench/Advertising_source_details',name:'渠道源详情',component: mode['Advertising_source_details'],},
             {path:'/workbench/Advertising_for_details',name:'广告详情',component: mode['Advertising_for_details'],},
+            {path:'/workbench/External_pre_trial',name:'外部杂志锁屏推送管理',component: mode['External_pre_trial'],},
+            {path:'/workbench/External_details,name:'外部杂志锁屏推送管理详情',component: mode['External_details'],},
+            
            
 	]},
     {path:'/income',name:'收益中心',component:mode['income'],children:[
@@ -594,6 +601,8 @@ let leftNav =
 //                     {title:'杂志锁屏推送管理',url:'/workbench/journal_list'},
 //                     {title:'线下资源替换',url:'/workbench/Offline_resources'},
 //                     {title:'渠道资源替换',url:'/workbench/channel_resource'},
+//                     {title:'杂志锁屏物料预审',url:'/workbench/External_pre_trial'},
+
                     
                     
                     

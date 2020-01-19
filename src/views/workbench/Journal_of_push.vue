@@ -203,7 +203,6 @@
              getChannel(){
                 this.api.pushlib_configs_channel().then((res)=>{
                     this.qdLists=res;
-                    console.log(this.qdLists)
                 })
             },
            qx(){

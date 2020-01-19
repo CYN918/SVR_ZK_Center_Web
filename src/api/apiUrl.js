@@ -1415,7 +1415,22 @@ export default {
 	replace_channel_trans_original_audit:{
 		url:"replace/channel/trans/original/audit",method:"post",isType:{suktip:1},
 	},
-
+	//获取推送库列表
+	pushlib_adver_mfinal_list:{
+		url:"pushlib/adver/mfinal/list",method:"get"
+	},
+	//广告物料详情
+	pushlib_adver_mfinal_detail:{
+		url:"pushlib/adver/mfinal/detail",method:'get'
+	},
+	//审核广告物料
+	pushlib_adver_mfinal_audit:{
+		url:'pushlib/adver/mfinal/audit',method:"post",isType:{suktip:1},
+	},
+	//用户渠道信息
+	pushlib_configs_user_channel:{
+		url:"pushlib/configs/user/channel",method:'get'
+	},
 }
 
 

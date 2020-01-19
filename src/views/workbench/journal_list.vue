@@ -31,6 +31,15 @@
                                 :show-overflow-tooltip="true"
                                 label="渠道">
                         </el-table-column>
+                        <el-table-column
+                                prop="audit_type"
+                                label="功能">
+                                 <template slot-scope="scope">
+                                     <span v-if="tableData[scope.$index].channel">
+                                         {{backfn(tableData[scope.$index].channel)}}
+                                    </span>
+                                </template>
+                        </el-table-column>
                          <el-table-column
                                 prop="channel.channel_secret"
                                 :show-overflow-tooltip="true"
@@ -75,8 +84,15 @@
                    <input type="text" maxlength="10" placeholder="最多可输入10个字" v-model="name"/>
                 </div>
                 <div>
-                <span class='qdName'>渠道：</span>
-               <input type="text" maxlength="10" placeholder="最多可输入10个字节且不能为汉字" v-model="channel"/>
+                    <span class='qdName'>渠道：</span>
+                    <input type="text" maxlength="10" placeholder="最多可输入10个字节且不能为汉字" v-model="channel"/>
+                </div>
+                <div style="margin-top:15px">
+                    <span  class='qdName'>功能：</span>
+                    <template>
+                        <el-radio v-model="audit_type" label="1">内容推送</el-radio>
+                        <el-radio v-model="audit_type" label="2">推送及审核</el-radio>
+                    </template>
                 </div>
                 <div class='sel_btn'>
                     <span class="sel_btn_qd" @click='ADDlist()'>确定</span>
@@ -102,11 +118,16 @@ data() {
             tc:false,
             channel:"",
             qdLists:[],
-            name:""
+            name:"",
+            audit_type:"1"
     };
 },
 
 methods: {
+    backfn(n){
+        if(!n){return '--'}
+        return n.audit_type ==1?'内容推送':"推送及审核";
+    },
          getRowClass({row, column, rowIndex}) {
                 if (rowIndex === 0) {
                     return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;padding:20px 0px 20px 14px'
@@ -152,8 +173,17 @@ methods: {
                   this.$message.error('渠道不能为中文')
                  return
              }
+              if(!this.name){
+                  this.$message.error('名称不能为空')
+                 return
+             }
+             if(!this.channel){
+                  this.$message.error('渠道不能为空')
+                 return
+             }
              let formData=new FormData;
-             formData.append('name',this.name);
+             formData.append('audit_type',this.audit_type);
+              formData.append('name',this.name);
              formData.append('channel',this.channel)
              this.api.pushlib_channel_add(formData).then((res)=>{
                  if(res!=false){
@@ -163,12 +193,22 @@ methods: {
              })
          },
          jump(index){
-             this.$router.push({
-                 path:"./Journal_of_push",
+             if(this.tableData[index].channel.audit_type==1){
+                this.$router.push({
+                    path:"./Journal_of_push",
+                    query:{
+                        channel:this.tableData[index].channel.channel
+                    },
+                })
+             }else{
+                   this.$router.push({
+                 path:"./Jounrnal_ys",
                  query:{
                     channel:this.tableData[index].channel.channel
                  },
              })
+             }
+            
          },
          SetUser(){
                   this.$router.push({
@@ -236,7 +276,7 @@ mounted() {
     }
     .content{
         width: 400px;
-       height:240px;
+       height:300px;
         position: absolute;
         top:30%;
         left: 50%;
