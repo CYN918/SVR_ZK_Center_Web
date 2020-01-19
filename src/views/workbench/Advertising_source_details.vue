@@ -85,6 +85,9 @@
                                 prop="pass_ratio"
                                 sortable
                                 label="审核通过率">
+                                 <template slot-scope="scope">
+                                <span>{{tableData[scope.$index].pass_ratio=''?'--':tableData[scope.$index].pass_ratio}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                                 prop="status"

@@ -50,7 +50,7 @@
                                 prop="count"
                                 label="开屏审核通过率">
                                 <template slot-scope="scope">
-                                    <span v-if='!Array.isArray(tableData[scope.$index].space_ratio) || !tableData[scope.$index].space_ratio[0]'>0</span>
+                                    <span v-if='!Array.isArray(tableData[scope.$index].space_ratio) || !tableData[scope.$index].space_ratio[0]'>--</span>
                                    
                                 </template>
                         </el-table-column>
@@ -58,7 +58,7 @@
                                 prop="count"
                                 label="暂停审核通过率">
                                  <template slot-scope="scope">
-                                    <span v-if='!Array.isArray(tableData[scope.$index].space_ratio) || !tableData[scope.$index].space_ratio[0]'>0</span>
+                                    <span v-if='!Array.isArray(tableData[scope.$index].space_ratio) || !tableData[scope.$index].space_ratio[0]'>--</span>
                                    
                                 </template>
                         </el-table-column>
@@ -66,7 +66,7 @@
                                 prop="count"
                                 label="角标审核通过率">
                                  <template slot-scope="scope">
-                                    <span v-if='!Array.isArray(tableData[scope.$index].space_ratio) || !tableData[scope.$index].space_ratio[0]'>0</span>
+                                    <span v-if='!Array.isArray(tableData[scope.$index].space_ratio) || !tableData[scope.$index].space_ratio[0]'>--</span>
                                    
                                 </template>
                         </el-table-column>
