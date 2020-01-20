@@ -80,7 +80,7 @@
                                 prop="count"
                                 label="杂志锁屏">
                                 <template slot-scope="scope">
-                                <img :src='tableData[scope.$index].mfinal' style="max-width:80px;max-height: 80px;cursor: pointer"  preview="1" />
+                                <img :src='tableData[scope.$index].mfinal.prev_uri' style="max-width:80px;max-height: 80px;cursor: pointer"  preview="1" />
                             </template>
                         </el-table-column>
                          <el-table-column

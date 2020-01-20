@@ -45,7 +45,6 @@
                    </div>
                    <div class='tab_box'>
                        <span class='tab_box_name' style="margin-left:30px">壁纸标签</span>
-                       <span  class='tab_box_con tag' style="margin-left:30px" v-for='item in list.mfinal.tags'>{{item}}</span>
                        <span  class='tab_box_con tag' style="margin-left:30px" v-for='da in list.mfinal.sls_tags'>{{da}}</span>
                    </div>
                    <div class='tab_box' style="border-right:0!important">
