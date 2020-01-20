@@ -78,7 +78,7 @@
                 <div class='jg'>
                     <div>
                         <span>审核结果</span>
-                         <span class='jg_con'>{{list.status==0?'待审核':list.status==1?"审核通过":"审核不通过"}}</span>
+                         <span class='jg_con'>{{list.adver_status==0?'待审核':list.adver_status==1?"审核通过":"审核不通过"}}</span>
                     </div>
                     <div>
                         <span>原因说明</span>
@@ -99,9 +99,9 @@
         </div>
 
         <div style="margin:0 40px">
-            <span class='sh' v-if='list.status==0' @click='SH()'>审核</span>
-            <span class='qx' v-if='list.status==0'  @click='fh(-1)'>取消</span>
-            <span @click='fh(-1)' class='qx' v-if='list.status!=0'>返回</span>
+            <span class='sh' v-if='list.adver_status==0' @click='SH()'>审核</span>
+            <span class='qx' v-if='list.adver_status==0'  @click='fh(-1)'>取消</span>
+            <span @click='fh(-1)' class='qx' v-if='list.adver_status!=0'>返回</span>
         </div>
     </div>
      <div class="bg" v-if="tc">
