@@ -42,11 +42,6 @@
                        <span class='tab_box_name'>物料ID</span>
                        <span class='tab_box_con'>{{list.mfinal.mfid}}</span>
                    </div>
-                   <div class='tab_box'>
-                       <span class='tab_box_name' style="margin-left:30px">壁纸标签</span>
-                       <span  class='tab_box_con tag' style="margin-left:30px" v-for='item in list.mfinal.tags'>{{item}}</span>
-                       <span  class='tab_box_con tag' style="margin-left:30px" v-for='item in list.mfinal.sls_tags'>{{item}}</span>
-                   </div>
                    <div class='tab_box' style="border-right:0!important">
                        <span  class='tab_box_name' style="margin-left:30px">尺寸</span>
                        <span class="tab_box_con" v-if="(list.mfinal.attach.size/1024).toFixed(0)<1">1kb</span>
@@ -54,21 +49,26 @@
 						<span class="tab_box_con" v-if="list.mfinal.attach.size>1024*1024&&list.mfinal.attach.size<1024*1024*1024">{{(list.mfinal.attach.size/1024/1024).toFixed(1)}}MB</span>
 						<span class="tab_box_con" v-if="list.mfinal.attach.size>1024*1024*1024">{{(list.mfinal.attach.size/1024/1024/1024).toFixed(2)}}GB</span>
                    </div>
-               </div>
-                <div>
-                   <div class='tab_box'>
+                    <div class='tab_box' style="border-right:0!important">
                        <span  class='tab_box_name'>文件大小</span>
                        <span  class='tab_box_con'>{{list.mfinal.attach.size}}</span>
                        <a class='xz' :href='list.mfinal.attach.url'>下载</a>
                    </div>
+               </div>
+                <div>
+                   <!-- <div class='tab_box'>
+                       <span  class='tab_box_name'>文件大小</span>
+                       <span  class='tab_box_con'>{{list.mfinal.attach.size}}</span>
+                       <a class='xz' :href='list.mfinal.attach.url'>下载</a>
+                   </div> -->
                    <!-- <div class='tab_box'>
                        <span  class='tab_box_name' style="margin-left:30px">埋点状态</span>
                        <span  class='tab_box_con' style="margin-left:30px">{{}}</span>
-                   </div>
-                   <div class='tab_box' style="border-right:0!important">
-                       <span  class='tab_box_name' style="margin-left:30px">对接上线状态</span>
-                       <span  class='tab_box_con' style="margin-left:30px">{{}}</span>
                    </div> -->
+                   <div class='tab_box' style="border-right:0!important">
+                       <span  class='tab_box_name' style="margin-left:30px">上线状态</span>
+                       <span  class='tab_box_con' style="margin-left:30px">{{list.status_online==0?'待确定':list.status_online==1?'已上线':'未上线'}}</span>
+                   </div>
                </div>
             </div>
             <div >

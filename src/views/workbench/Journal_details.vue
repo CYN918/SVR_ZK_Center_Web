@@ -69,7 +69,7 @@
                    </div>
                    <div class='tab_box' style="border-right:0!important">
                        <span  class='tab_box_name' style="margin-left:30px">对接上线状态</span>
-                       <span  class='tab_box_con' style="margin-left:30px">{{list.mfinal.status_online==0?'待确定':list.mfinal.status_online==1?'已上线':'未上线'}}</span>
+                       <span  class='tab_box_con' style="margin-left:30px">{{list.status_online==0?'待确定':list.status_online==1?'已上线':'未上线'}}</span>
                    </div>
                </div>
             </div>
@@ -80,7 +80,7 @@
                 <div class='jg'>
                     <div>
                         <span>审核结果</span>
-                         <span class='jg_con'>{{list.status==0?'待审核':list.status==1?"审核通过":"审核不通过"}}</span>
+                         <span class='jg_con'>{{list.adver_status==0?'待审核':list.adver_status==1?"审核通过":"审核不通过"}}</span>
                     </div>
                     <div>
                         <span>原因说明</span>
