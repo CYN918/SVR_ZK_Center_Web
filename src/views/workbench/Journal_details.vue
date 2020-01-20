@@ -17,12 +17,12 @@
                 <span>广告内容</span>
             </div>
             <div class='details_left'>
-                <img :src="list.adver.pict_url" alt=""/>
+                <img :src="list.adver.pict_url" alt="" v-if="list.adver.pict_url"/>
             </div>
             <div class='details_right'>
                <div>
                    <span>广告图URL</span>
-                    <a :href="list.adver.pict_url" >{{list.adver.pict_url}}</a>
+                    <a :href="list.adver.pict_url" v-if="list.adver.pict_url">{{list.adver.pict_url}}</a>
                </div>
                 <div>
                     <span>落地页URL</span>
@@ -35,7 +35,7 @@
                 <span>杂志锁屏</span>
             </div>
             <div class='details_left'>
-                <img :src="list.mfinal.prev_uri" alt=""/>
+                <img :src="list.mfinal.prev_uri"  alt=""/>
             </div>
             <div class='details_right2'>
                <div>
@@ -46,7 +46,7 @@
                    <div class='tab_box'>
                        <span class='tab_box_name' style="margin-left:30px">壁纸标签</span>
                        <span  class='tab_box_con tag' style="margin-left:30px" v-for='item in list.mfinal.tags'>{{item}}</span>
-                       <span  class='tab_box_con tag' style="margin-left:30px" v-for='item in list.mfinal.sls_tags'>{{item}}</span>
+                       <span  class='tab_box_con tag' style="margin-left:30px" v-for='da in list.mfinal.sls_tags'>{{da}}</span>
                    </div>
                    <div class='tab_box' style="border-right:0!important">
                        <span  class='tab_box_name' style="margin-left:30px">尺寸</span>
@@ -69,7 +69,7 @@
                    </div>
                    <div class='tab_box' style="border-right:0!important">
                        <span  class='tab_box_name' style="margin-left:30px">对接上线状态</span>
-                       <span  class='tab_box_con' style="margin-left:30px">{{list.mfinal.status_online==0?'待确定':item.status_online==1?'已上线':'未上线'}}</span>
+                       <span  class='tab_box_con' style="margin-left:30px">{{list.mfinal.status_online==0?'待确定':list.mfinal.status_online==1?'已上线':'未上线'}}</span>
                    </div>
                </div>
             </div>
