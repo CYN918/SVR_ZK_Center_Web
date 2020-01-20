@@ -87,7 +87,7 @@
                                 prop="status"
                                 label="状态">
                                   <template slot-scope="scope">
-                                      <span>{{tableData[scope.$index].status==0?"待审核":tableData[scope.$index].status==1?"审核通过":'审核不通过'}}</span>
+                                      <span>{{tableData[scope.$index].adver_status==0?"待审核":tableData[scope.$index].adver_status==1?"审核通过":'审核不通过'}}</span>
                                 </template>
                         </el-table-column>
                          <el-table-column
