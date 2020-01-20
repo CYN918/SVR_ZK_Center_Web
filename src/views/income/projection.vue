@@ -86,7 +86,7 @@
 </template>
 <script>
 export default {
-props:['name','tstart','tend','is_receiver','id','a','fj'],
+props:['name','tstart','tend','is_receiver','id','a','fj','type'],
 components: {},
 data() {
     return {
@@ -230,6 +230,7 @@ data() {
                         tend:this.tend,
                         is_receiver:this.is_receiver,
                         name:this.name,
+                        type:this.type
                     }
                 });
                 window.open(routeData.href, '_blank');

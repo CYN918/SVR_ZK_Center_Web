@@ -1,7 +1,7 @@
 <template>
     <div>
-        <DS v-if="msg" :name="list.check.check1.name"></DS>
-        <pro v-if='budget'  :is_receiver='0' :fj='fj'></pro>
+       
+        <pro v-if='budget'  :is_receiver='0' :fj='fj' :type='type'></pro>
         <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="jump()">付款结算&nbsp;/</span>
@@ -9,26 +9,17 @@
             </div>
             <div class="title_left">
                 <span>付款结算详情</span>
-                <!-- <div class="top_btn">
-                    <span class="bj" @click="bj()" :class="{Jurisdiction:this.controlBtn}">编辑</span>
-                    <span class="ck" @click="change()">查看变更记录</span>
-                </div> -->
+              
             </div>
         </div>
         <div class="tableBox">
             <div style="text-align: center;margin-bottom: 40px;">
-                <!-- <div style="margin-right: 350px;text-align: center;border-bottom: 1px solid #3377ff;display: inline-block">
-                    <div class="box boxs">1</div>
-                    <span class="boxName">对账确认</span>
-                </div> -->
+              
                 <div style="text-align: center;display: inline-block">
-                    <!-- <div class="box" :class="{boxs:this.list.status>3}">2</div> -->
+                  
                     <span class="boxName">结算信息确认</span>
                 </div>
-                <!-- <div style="text-align: center;display: inline-block">
-                    <div class="box" :class="{boxs:this.list.status>4}" @click="scope3()">3</div>
-                    <span class="boxName" @click="scope3()">结算汇款</span>
-                </div> -->
+               
 
             </div>
             <div style="text-align: center" class="fill">
@@ -39,14 +30,6 @@
                     </div>
 
                 </div>
-                <!-- <div>
-                    <span class="fillName">结算方</span>
-                    <div style="display: inline-block;width: 300px;text-align: left">
-                        <span  class="text">{{list.check.check1.name}}</span>
-                        <span class="click" @click="massgae()">查看结算方信息</span>
-                    </div>
-
-                </div> -->
                 <div>
                     <span class="fillName">结算时间段</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
@@ -62,20 +45,6 @@
                     </div>
 
                 </div>
-                <!-- <div v-if='this.list.status>2'>
-                    <span class="fillName">实际结算金额</span>
-                    <div style="display: inline-block;width: 300px;text-align: left">
-                        <span  class="text">{{list.check.check3.real_amount}}</span>
-                    </div>
-
-                </div> -->
-                <!-- <div v-if='this.list.status>2'>
-                    <span class="fillName">备注说明</span>
-                    <div style="display: inline-block;width: 300px;text-align: left">
-                        <span  class="text">{{list.check.check3.note}}</span>
-                    </div>
-
-                </div> -->
                 
                 <div class="fillBtn">
                     <span @click="jump()">返回</span>
@@ -86,9 +55,9 @@
 </template>
 
 <script>
-   
+    import pro from '../projection'
     export default {
-        
+        components:{pro},
         data(){
             return{
                 list:{check:{check1:{},check2:{},check3:{}}},
@@ -97,6 +66,7 @@
                 msg:false,
                 budget:false,
                 fj:{},
+                type:'yy'
             }
         },
         created(){

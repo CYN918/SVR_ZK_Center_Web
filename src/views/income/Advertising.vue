@@ -59,6 +59,7 @@
                         <el-table-column
                                 prop="name"
                                 label="结算方"
+                               
                         >
                         </el-table-column>
                         <el-table-column
@@ -113,11 +114,14 @@
                         <el-table-column
                                 prop="name"
                                 label="结算方"
+                                v-if="!this.$route.query.type"
                         >
                         </el-table-column>
                         <el-table-column
                                 prop="advertiser"
+                                 v-if="!this.$route.query.type"
                                 label="投放公司">
+                               
                         </el-table-column>
                       
                         <el-table-column
@@ -174,12 +178,12 @@
                 <span>{{click_ratio}}</span>
                 <span>{{exhibition4}}</span>
             </div>
-            <div v-if="tableData.length>0&&is_receiver==0" class='summary2'>
+            <div v-if="tableData.length>0&&is_receiver==0" class='summary2' :class='{big:this.$route.query.type!=undefined}'>
                 <span>汇总</span>
                 <span>—</span>
                 <span>—</span>
-                <span>—</span>
-                <span>—</span>
+                <span  v-if="!this.$route.query.type">—</span>
+                <span  v-if="!this.$route.query.type">—</span>
                 <span>—</span>
                 <span>{{exhibition1}}</span>
                 <span>{{exhibition2}}</span>
@@ -281,6 +285,7 @@
                      let params={is_receiver:this.is_receiver,search:this.name,p:100,page:1}
                         this.api.settle_settlement_search({params}).then((res)=>{
                     this.JSname=res.data;
+                    
                 })
                 }
                
@@ -450,6 +455,9 @@
         width: 9%;
        padding-left: 16px;
 
+    }
+    .big span{
+        width: 11.5%!important;
     }
     .names{
         position: absolute;

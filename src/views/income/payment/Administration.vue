@@ -43,9 +43,9 @@
                         <el-table-column
                                 prop="creator"
                                 :show-overflow-tooltip="true"
-                                label="结算方名称">
+                                label="结算单名称">
                             <template slot-scope="scope">
-                                <span>{{tableData[scope.$index].check.check1.name}}</span>
+                                <span>{{tableData[scope.$index].demand_name}}</span>
                             </template>
                         </el-table-column>
                         <el-table-column
