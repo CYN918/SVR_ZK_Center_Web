@@ -504,10 +504,15 @@ mounted() {
     color: rgba(255,255,255,1)!important;
    }
    .wcl{
-       text-align: center;
+       position: relative;
+       padding-bottom:30px ;
    }
-   .wcl span{
+   .wcl>span{
        color: #ddd;
        font-size: 14px;
+       position: absolute;
+       top:80px;
+       left: 50%;
+       transform: translate-x(-50%)
    }
 </style>
