@@ -28,7 +28,7 @@
                </div>
             </div>
         </div>
-        <div>
+        <div v-if="list.mfinal">
             <div class='tits'>
                 <span>杂志锁屏</span>
             </div>

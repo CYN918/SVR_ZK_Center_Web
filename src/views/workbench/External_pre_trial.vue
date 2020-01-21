@@ -96,8 +96,11 @@
                                 label="更新时间">
                         </el-table-column>
                          <el-table-column
-                                prop="creator"
+                                prop="updator"
                                 label="操作人员">
+                                 <template slot-scope="scope">
+                                      <span>{{tableData[scope.$index].updator==''?'--':tableData[scope.$index].updator}}</span>
+                                </template>
                         </el-table-column>
                         <el-table-column
                                 label="操作"
