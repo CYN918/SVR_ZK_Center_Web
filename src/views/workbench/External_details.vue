@@ -108,22 +108,22 @@
      <div class="bg" v-if="tc">
             <div class='content'>
                 <div class='con_tit'>
-                    <span>更新状态</span>
+                    <span>审核</span>
                 </div>
                 <div class='sel'>
                     <select v-model="status2">
-                        <option value="1">已上线</option>
-                        <option value="2">拒绝上线</option>
+                        <option value="1">审核通过</option>
+                        <option value="2">审核不通过</option>
                     </select>
-                    <div class='sel_1' v-if="status2=='拒绝上线'">
+                    <div class='sel_1' v-if="status2=='2'">
                         <el-checkbox-group v-model="checkList">
-                            <el-checkbox label="测试不通过" class='aaa'></el-checkbox>
-                            <el-checkbox label="内容差"  class='aaa'></el-checkbox>
+                            <el-checkbox label="物料和落地页不匹配" class='aaa'></el-checkbox>
+                            <el-checkbox label="物料内容差"  class='aaa'></el-checkbox>
                             <el-checkbox label="屏蔽竞品"  class='aaa'></el-checkbox>
-                            <el-checkbox label="其他"  class='aaa bb'>
+                            <el-checkbox label="物料与杂志锁屏不匹配"  class='aaa bb'>
                                 <template>
                                     <span style="margin-right:10px">其他</span>
-                                    <textarea placeholder="最多20字" maxlength="20"  v-model="yy"></textarea>
+                                    <textarea placeholder="最多20字" maxlength="20" v-model="yy"></textarea>
                                 </template>
                             </el-checkbox>
                         </el-checkbox-group>

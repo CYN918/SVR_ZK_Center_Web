@@ -951,4 +951,7 @@ select{
     margin-top: 26px;
     margin-right: 5px;
 }
+#padd .cell{
+  padding: 0 !important
+}
 </style>

@@ -14,7 +14,7 @@
                 <!-- <span class='userGl' @click="jump()">账号管理</span> -->
         </div>
         <div class='screening'>
-                 <div class="date">
+                 <div class="date"  v-if='pl==false'>
                     <el-date-picker
                             v-model="date"
                             type="date"
@@ -34,7 +34,7 @@
                     <span class='cx' v-if='pl==false' @click='getData()'>查询</span>
                     <span class='cz' @click='plcz()' v-if='pl==false'>批量操作</span>
                     <span class='dc' v-if='pl==false'>导出</span>
-                    <span class='cz'  v-if='pl' @click='updateStatus("aa")'>批量操作</span>
+                    <span class='cz'  v-if='pl' @click='updateStatus("aa")'>审核</span>
                     <span class='dc' @click='Qxplcz()' v-if='pl'>取消</span>
                 </div>
                
@@ -47,6 +47,7 @@
                             style="width: 100%"
                             :header-cell-style="getRowClass"
                             :cell-style="cell"
+                            id='padd'
                             @selection-change="handleSelectionChange"
                             >
                           <el-table-column
@@ -128,19 +129,19 @@
         <div class="bg" v-if="tc">
             <div class='content'>
                 <div class='con_tit'>
-                    <span>更新状态</span>
+                    <span>审核</span>
                 </div>
                 <div class='sel'>
                     <select v-model="status2">
-                        <option value="1">已上线</option>
-                        <option value="2">拒绝上线</option>
+                        <option value="1">审核通过</option>
+                        <option value="2">审核不通过</option>
                     </select>
-                    <div class='sel_1' v-if="status2=='拒绝上线'">
+                    <div class='sel_1' v-if="status2=='2'">
                         <el-checkbox-group v-model="checkList">
-                            <el-checkbox label="测试不通过" class='aaa'></el-checkbox>
-                            <el-checkbox label="内容差"  class='aaa'></el-checkbox>
+                            <el-checkbox label="物料和落地页不匹配" class='aaa'></el-checkbox>
+                            <el-checkbox label="物料内容差"  class='aaa'></el-checkbox>
                             <el-checkbox label="屏蔽竞品"  class='aaa'></el-checkbox>
-                            <el-checkbox label="其他"  class='aaa bb'>
+                            <el-checkbox label="物料与杂志锁屏不匹配"  class='aaa bb'>
                                 <template>
                                     <span style="margin-right:10px">其他</span>
                                     <textarea placeholder="最多20字" maxlength="20" v-model="yy"></textarea>
