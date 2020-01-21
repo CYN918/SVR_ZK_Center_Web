@@ -141,11 +141,11 @@ methods: {
         },
          handleSizeChange(p) { // 每页条数切换
                 this.p = p;
-                
+                this.getData();
         },
         handleCurrentChange(page) {//页码切换
             this.page = page;
-                
+            this.getData(); 
         },
          getChannel(){
             this.api.pushlib_configs_channel().then((res)=>{
