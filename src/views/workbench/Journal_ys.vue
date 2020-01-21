@@ -25,6 +25,7 @@
                 </div>
                 <span class='qdName' v-if='pl==false'>状态</span>
                 <select v-model="status" v-if='pl==false'>
+                    <option value="">全部</option>
                     <option value="0">待审核</option>
                     <option value="1">审核通过</option>
                     <option value="-1">审核未通过</option>
@@ -167,7 +168,7 @@ return {
        qdLists:[], 
        channel:"",
        date:(new Date()).toLocaleDateString().split('/').join('-'),
-       status:'0',
+       status:'',
        tableData:[],
         page:1,
         p:10,

@@ -2,7 +2,6 @@
 <div>
     <div class="top_name">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh(-1)">杂志锁屏推送 &nbsp;/&nbsp;</span>
                 <span class="log_url" @click="fh(-1)"> 推送审核内容管理 &nbsp;/&nbsp;</span>
                 <span class="log_ur">内容详情</span>
             </div>
@@ -10,22 +9,22 @@
                 <span class="tit_name">内容详情</span>
             </div>
     </div>
-    <div class='details'>
+    <div class='details' >
         <div>
             <div class='tits'>
                 <span>广告内容</span>
             </div>
             <div class='details_left'>
-                <img :src="list.adver.pict_url" alt=""/>
+                <img :src="list.adver.pict_url" v-if='list.adver' alt="" />
             </div>
             <div class='details_right'>
                <div>
                    <span>广告图URL</span>
-                    <a :href="list.adver.pict_url" >{{list.adver.pict_url}}</a>
+                    <a :href="list.adver.pict_url" v-if='list.adver'>{{list.adver.pict_url}}</a>
                </div>
                 <div>
                     <span>落地页URL</span>
-                    <a :href="list.adver.click_url">{{list.adver.click_url}}</a>
+                    <a :href="list.adver.click_url" v-if='list.adver'>{{list.adver.click_url}}</a>
                </div>
             </div>
         </div>
@@ -34,7 +33,7 @@
                 <span>杂志锁屏</span>
             </div>
             <div class='details_left'>
-                <img :src="list.mfinal.prev_uri" alt=""/>
+                <img :src="list.mfinal.prev_uri" v-if="list.mfinal" alt=""/>
             </div>
             <div class='details_right2'>
                <div>
@@ -42,16 +41,16 @@
                        <span class='tab_box_name'>物料ID</span>
                        <span class='tab_box_con'>{{list.mfinal.mfid}}</span>
                    </div>
-                   <div class='tab_box' style="border-right:0!important">
+                   <div class='tab_box' >
                        <span  class='tab_box_name' style="margin-left:30px">尺寸</span>
-                       <span class="tab_box_con" v-if="(list.mfinal.attach.size/1024).toFixed(0)<1">1kb</span>
-						<span class="tab_box_con" v-if="list.mfinal.attach.size>1024&&list.mfinal.attach.size<1024*1024">{{(list.mfinal.attach.size/1024).toFixed(0)}}kb</span>
-						<span class="tab_box_con" v-if="list.mfinal.attach.size>1024*1024&&list.mfinal.attach.size<1024*1024*1024">{{(list.mfinal.attach.size/1024/1024).toFixed(1)}}MB</span>
-						<span class="tab_box_con" v-if="list.mfinal.attach.size>1024*1024*1024">{{(list.mfinal.attach.size/1024/1024/1024).toFixed(2)}}GB</span>
+                       <span  class='tab_box_con' style="margin-left:30px">{{list.mfinal.size}}</span>
                    </div>
                     <div class='tab_box' style="border-right:0!important">
-                       <span  class='tab_box_name'>文件大小</span>
-                       <span  class='tab_box_con'>{{list.mfinal.attach.size}}</span>
+                       <span  class='tab_box_name' style="margin-left:30px">文件大小</span>
+                        <span style="margin-left:30px" class="tab_box_con" v-if="(list.mfinal.attach.size/1024).toFixed(0)<1">1kb</span>
+						<span style="margin-left:30px" class="tab_box_con" v-if="list.mfinal.attach.size>1024&&list.mfinal.attach.size<1024*1024">{{(list.mfinal.attach.size/1024).toFixed(0)}}kb</span>
+						<span style="margin-left:30px" class="tab_box_con" v-if="list.mfinal.attach.size>1024*1024&&list.mfinal.attach.size<1024*1024*1024">{{(list.mfinal.attach.size/1024/1024).toFixed(1)}}MB</span>
+						<span style="margin-left:30px" class="tab_box_con" v-if="list.mfinal.attach.size>1024*1024*1024">{{(list.mfinal.attach.size/1024/1024/1024).toFixed(2)}}GB</span>
                        <a class='xz' :href='list.mfinal.attach.url'>下载</a>
                    </div>
                </div>
@@ -66,12 +65,12 @@
                        <span  class='tab_box_con' style="margin-left:30px">{{}}</span>
                    </div> -->
                    <div class='tab_box' style="border-right:0!important">
-                       <span  class='tab_box_name' style="margin-left:30px">上线状态</span>
-                       <span  class='tab_box_con' style="margin-left:30px">{{list.status_online==0?'待确定':list.status_online==1?'已上线':'未上线'}}</span>
+                       <span  class='tab_box_name' >上线状态</span>
+                       <span  class='tab_box_con' >{{list.status_online==0?'待确定':list.status_online==1?'已上线':'未上线'}}</span>
                    </div>
                </div>
             </div>
-            <div >
+            <div v-if='list.adver_status!=0'>
                 <div class='tits'>
                     <span>处理结果</span>
                 </div>
@@ -95,7 +94,9 @@
                 </div>
                
             </div>
-           
+           <div v-if='list.adver_status==0' class='wcl'>
+               <span>暂未处理</span>
+           </div>
         </div>
 
         <div style="margin:0 40px">
@@ -357,7 +358,7 @@ mounted() {
         display: inline-block;
         width: 33%;
         height: 100%;
-        /* border-right: 1px solid rgb(241, 240, 240); */
+        border-right: 1px solid rgb(241, 240, 240);
         position: relative;
     }
     .tab_box_name{
@@ -383,7 +384,7 @@ mounted() {
         border-radius: 3px;
         cursor: pointer;
         position: absolute;
-        right:30px;
+        left:90px;
         top:25px;
     }
     .jg{
@@ -494,5 +495,12 @@ mounted() {
        border: 0!important;
     background: rgba(51,119,255,1)!important;
     color: rgba(255,255,255,1)!important;
+   }
+   .wcl{
+       text-align: center;
+   }
+   .wcl span{
+       color: #ddd;
+       font-size: 14px;
    }
 </style>

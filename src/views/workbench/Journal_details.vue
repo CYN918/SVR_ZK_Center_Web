@@ -72,7 +72,7 @@
                    </div>
                </div>
             </div>
-            <div >
+            <div v-if='list.adver_status!=0'>
                 <div class='tits'>
                     <span>处理结果</span>
                 </div>
@@ -96,6 +96,9 @@
                 </div>
                
             </div>
+             <div v-if='list.adver_status==0' class='wcl'>
+               <span>暂未处理</span>
+           </div>
            
         </div>
         <div style="margin:0 40px">
@@ -353,4 +356,11 @@ mounted() {
         padding: 2px 5px;
         border:1px solid #ddd;
     }
+     .wcl{
+       text-align: center;
+   }
+   .wcl span{
+       color: #ddd;
+       font-size: 14px;
+   }
 </style>

@@ -2,15 +2,15 @@
 <template>
 <div >
        <div class="top_name">
-                <span class="top_txt"> 推送审核内容管理</span>
-                <span class="top_txts">推送审核内容管理</span>
+                <span class="top_txt"> 杂志锁屏物料预审</span>
+                <span class="top_txts">杂志锁屏物料预审</span>
                
                
                 <!-- <span class='qdName'>渠道</span>
                 <select v-model="channel">
                         <option :value="item.channel" v-for="item in qdLists">{{item.channel}}</option>
                 </select> -->
-                <span class='qud'>{{channel}}</span>
+                <span class='qud'>{{channel.channel}}</span>
                 <!-- <span class='userGl' @click="jump()">账号管理</span> -->
         </div>
         <div class='screening'>
@@ -25,6 +25,7 @@
                 </div>
                 <span class='qdName' v-if='pl==false'>状态</span>
                 <select v-model="status" v-if='pl==false'>
+                    <option value="">全部</option>
                     <option value="0">待审核</option>
                     <option value="1">审核通过</option>
                     <option value="-1">审核未通过</option>
@@ -38,7 +39,7 @@
                 </div>
                
         </div>
-        <div style="margin-top:250px;background:#fff" class='rePadding'>
+        <div style="margin-top:250px;background:#fff;padding-bottom:30px" class='rePadding'>
              <template>
                     <el-table
                             ref="tab"
@@ -103,14 +104,14 @@
                                 
                         >
                             <template slot-scope="scope">
-                                 <el-button  type="text" size="small" v-if='tableData[scope.$index].status=="0"' @click='updateStatus(index)'>审核</el-button>
+                                 <el-button  type="text" size="small" v-if='tableData[scope.$index].adver_status=="0"' @click='updateStatus(index)'>审核</el-button>
                                  <!-- <el-button v-if='tableData[scope.$index].status!="0"' type="text" size="small">修改结果</el-button> -->
                                 <el-button  type="text" size="small" @click="details(scope.$index)">查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
                 </template>
-                 <div class="block">
+                 <div class="block" style="margin-bottom:0">
                     <el-pagination
                             @size-change="handleSizeChange"
                             @current-change="handleCurrentChange"
@@ -167,7 +168,7 @@ return {
        qdLists:[], 
        channel:"",
        date:(new Date()).toLocaleDateString().split('/').join('-'),
-       status:'0',
+       status:'',
        tableData:[],
         page:1,
         p:10,

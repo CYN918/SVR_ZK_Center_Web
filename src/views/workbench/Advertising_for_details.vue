@@ -2,7 +2,8 @@
     <div>
         <div class="titl">
             <div style="margin:24px 0 20px 24px">
-                <span style="color: #b3b3b3;cursor: pointer " @click="goIndex()">广告源列表</span>
+                <span style="color: #b3b3b3;cursor: pointer " @click="fh()">渠道资源替换</span>
+                <span style="color: #b3b3b3;cursor: pointer " @click="goIndex()">&nbsp;/&nbsp;渠道详情</span>
                 <span style="color: #b3b3b3;cursor: pointer" @click="goHome()">&nbsp;/&nbsp;广告源详情</span>
                 <span style="color: #1890ff;">&nbsp;/&nbsp;广告详情</span>
             </div>
@@ -146,6 +147,13 @@
                                 label="审核状态">
                                 <template slot-scope="scope">
                                 <span >{{tableData2[scope.$index].status==0?"待审核":tableData2[scope.$index].status==1?'送审中':tableData2[scope.$index].status==2?'审核通过':"审核不通过"}}</span>
+                                </template>
+                        </el-table-column>
+                         <el-table-column
+                                prop="status"
+                                label="原因说明">
+                                <template slot-scope="scope">
+                                <span >{{tableData2[scope.$index].note==''?"--":tableData2[scope.$index].note}}</span>
                                 </template>
                         </el-table-column>
                         <el-table-column
@@ -330,9 +338,19 @@
                 this.ss=false;
                 this.space_type=''
             },
+            fh(){
+                  this.$router.push({
+                    path:"./channel_resource",
+                })
+            },
             goIndex(){
                      this.$router.push({
-                    path:"./channel_resource",
+                     path:"./Channels_for_details",
+                     query:{
+                         channel:this.$route.query.media_channel,
+                        tdate:this.$route.query.tdate,
+                     }
+                        
                 })
             },
             goHome(){
@@ -341,9 +359,10 @@
                     query:{
                         channel:this.$route.query.media_channel,
                         time:this.$route.query.tdate,
-                        num:this.$route.query.time,
+                        num:this.$route.query.times,
                         is_preview:2,
-                        source:this.$route.query.source
+                        source:this.$route.query.source,
+                        sdkid:this.$route.query.sdkid,
                     }
                 })
             },
