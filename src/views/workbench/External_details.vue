@@ -173,6 +173,9 @@ methods: {
             this.list=res;
         })
     },
+    SH(){
+        this.tc=true;
+    },
      pushLib(){
          
                    let array={plid:"",adid:"",mfid:""}
