@@ -89,7 +89,7 @@
                     </div>
                     <div style="border:0!important">
                         <span>操作人员</span>
-                         <span class='jg_con'>{{list.creator}}</span>
+                         <span class='jg_con'>{{list.updator}}</span>
                     </div>
                 </div>
                
