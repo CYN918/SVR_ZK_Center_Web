@@ -144,6 +144,7 @@
                 this.creator='';
             },
             cx(){
+                this.page=1;
                 this.getDataList();
 
             },
