@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="box" v-if="this.dataList.length>0">
-            <div class="box_img" v-for="item in this.dataList">
+            <div class="box_img" v-for="(item,index) in this.dataList">
                 <div class="left_img">
                      <img :src="item.mfinal.prev_uri" v-if="((item.mfinal.prev_uri).split('.'))[((item.mfinal.prev_uri).split('.')).length-1]!='mp4'" />
                     <video :src="item.mfinal.prev_uri" v-if="((item.mfinal.prev_uri).split('.'))[((item.mfinal.prev_uri).split('.')).length-1]=='mp4'"></video>

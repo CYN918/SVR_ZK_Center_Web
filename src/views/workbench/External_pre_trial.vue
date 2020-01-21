@@ -322,6 +322,7 @@ methods: {
                this.tc=false;
                this.status2='';
                this.checkList=[];
+               this.yy=''
            }, 
            details(index){
                 this.$router.push({

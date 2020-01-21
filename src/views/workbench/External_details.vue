@@ -95,6 +95,9 @@
                
             </div>
            <div v-if='list.adver_status==0' class='wcl'>
+                <div class='tits'>
+                    <span>处理结果</span>
+                </div>
                <span>暂未处理</span>
            </div>
         </div>
@@ -162,6 +165,7 @@ methods: {
                this.tc=false;
                this.status2='';
                this.checkList=[];
+               this.yy='';
            }, 
     getDetail(){
         let params={adid:this.$route.query.adid,mfid:this.$route.query.mfid,plid:this.$route.query.plid}
