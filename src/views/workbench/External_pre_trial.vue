@@ -33,7 +33,7 @@
                 <div class='btn_sx'>
                     <span class='cx' v-if='pl==false' @click='getData()'>查询</span>
                     <span class='cz' @click='plcz()' v-if='pl==false'>批量操作</span>
-                    <span class='dc' v-if='pl==false'>导出</span>
+                    <!-- <span class='dc' v-if='pl==false'>导出</span> -->
                     <span class='cz'  v-if='pl' @click='updateStatus("aa")'>审核</span>
                     <span class='dc' @click='Qxplcz()' v-if='pl'>取消</span>
                 </div>
@@ -199,9 +199,11 @@ methods: {
         })
     },
      pushLib(){
+         
           if(this.index=='aa'){
-                    let array={plid:"",adid:"",mfid:""}
+                   
                     for(var i=0;i<this.value.length;i++){
+                        let array={plid:"",adid:"",mfid:""}
                             array.plid=this.value[i].plid;
                             array.adid=this.value[i].adid;
                             array.mfid=this.value[i].mfid;
