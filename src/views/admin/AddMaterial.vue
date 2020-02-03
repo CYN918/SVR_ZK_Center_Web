@@ -80,6 +80,15 @@
                             <span class="tit">绑定素材:</span>
                             <input type="text" placeholder="请输入素材ID" v-model="bind_mid" :disabled="(this.message.mfid!=undefined)" @change="IDchange"/>
                             <span class="AddIMG_sc_btn" @click="XSset" :class="{AddIMG_sc_btn_jy:(this.message.mfid!=undefined)}">从素材库选择</span>
+                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="is_bind_mid" :disabled="(this.message.mid!=undefined)"/><span style="vertical-align: top">绑定特殊素材</span>
+                            <el-popover
+                                placement="top-start"
+                                width="200"
+                                trigger="hover"
+                                content="仅制作物料的素材无商用版,不可入库时,才可绑定特殊素材上传入库.">
+                                <img src="../../../public/img/msg.png" slot="reference"/>
+                            </el-popover>
+
                             <p>上传物料前，请务必保证素材库内有对应素材！多个素材用英文半角;隔开</p>
                         </div>
                         <div class="AddIMG_select">
@@ -215,6 +224,7 @@
         name: "content_component",
         data(){
             return {
+                is_bind_mid:false,
                 title:'添加素材',
                 preinstall:[],
                 bardian:[],
@@ -283,7 +293,11 @@
                 if(this.message.mfid!=undefined){
                     return
                 }
-                this.$parent.XSset();
+                if(this.is_bind_mid==true){
+                    return
+                }else{
+                    this.$parent.XSset();
+                }
             },
             time(){
                 var _this=this;
@@ -566,6 +580,7 @@
                         formData.append('bind_mid',this.bind_mid);
                         formData.append('model',this.model);
                         formData.append('size',this.size);
+                        formData.append('is_bind_mid',this.is_bind_mid==true?1:0);
                         formData.append('link',this.link);
                         formData.append('ad_pic',this.ad_pic);
                         formData.append('ad_num',this.ad_num);
@@ -622,6 +637,7 @@
                     console.log(this.attach)
                     this.sjSize=res.size;
                     this.type=res.type;
+                    this.is_bind_mid=res.is_bind_mid==1?true:false;
                     this.link = res.link;
                     this.model = res.model;
                     var a = [];
@@ -668,6 +684,14 @@
         watch: {
             'bindMid': function(newVal){
                 this.bind_mid = newVal.join(';')
+            },
+            'is_bind_mid':function(newVal){
+                if(newVal==true){
+                    this.bind_mid='';
+                    this.bindMid='';
+                    this.hqUrl='';
+                    this.$emit('dataId');
+                }
             },
         },
     }
