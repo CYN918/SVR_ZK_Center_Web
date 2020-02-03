@@ -153,7 +153,8 @@ data() {
         tc:false,
         status2:"1",
         checkList:[],
-        yy:""
+        yy:"",
+        advers: []
     };
 },
 

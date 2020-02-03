@@ -284,8 +284,11 @@
                     this.JSname=[];
                      let params={is_receiver:this.is_receiver,search:this.name,p:100,page:1}
                         this.api.settle_settlement_search({params}).then((res)=>{
-                    this.JSname=res.data;
-                    
+                            if(res.data.length = '0'){
+                                this.show=false;
+                            }else{
+                                this.JSname=res.data;
+                            }
                 })
                 }
                
