@@ -141,7 +141,7 @@
                             <el-checkbox label="物料和落地页不匹配" class='aaa'></el-checkbox>
                             <el-checkbox label="物料内容差"  class='aaa'></el-checkbox>
                             <el-checkbox label="屏蔽竞品"  class='aaa'></el-checkbox>
-                            <el-checkbox  class='aaa bb'>
+                            <el-checkbox label=""  class='aaa bb'>
                                 <template>
                                     <span style="margin-right:10px">其他</span>
                                     <textarea placeholder="最多20字" maxlength="20" v-model="yy"></textarea>
@@ -214,8 +214,12 @@ methods: {
                              this.$message.error('状态不能为空')
                         }
                         let formData =new FormData;
-                        formData.append('status',this.status2),
-                        formData.append('note',this.checkList.join(',')+',' +this.yy) 
+                        formData.append('status',this.status2);
+                        if(!this.yy){
+                          formData.append('note',this.checkList.join(',').substr(1)+ ',' +this.yy); 
+                        }else{
+                            formData.append('note',this.checkList.join(',').substr(1) +this.yy);
+                        } 
                         formData.append('advers',JSON.stringify(this.advers))
                         this.api.pushlib_adver_mfinal_audit(formData).then((res)=>{
                             if(res!=false){
@@ -234,9 +238,14 @@ methods: {
                              this.$message.error('状态不能为空')
                         }
                      let formData =new FormData;
-                      formData.append('status',this.status2),
-                        formData.append('note',this.checkList.join(',')+',' +this.yy) 
+                      formData.append('status',this.status2);
+                      if(!this.yy){
+                          formData.append('note',this.checkList.join(',').substr(1)+ ',' +this.yy) 
+                      }else{
+                          formData.append('note',this.checkList.join(',').substr(1) +this.yy) 
+                      }
                         formData.append('advers',JSON.stringify(this.advers))
+                        
                         this.api.pushlib_adver_mfinal_audit(formData).then((res)=>{
                             if(res!=false){
                                 this.getData();
