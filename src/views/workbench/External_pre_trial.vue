@@ -108,7 +108,7 @@
                                 
                         >
                             <template slot-scope="scope">
-                                 <el-button  type="text" size="small" v-if='tableData[scope.$index].adver_status=="0"' @click='updateStatus(index)'>审核</el-button>
+                                 <el-button  type="text" size="small" v-if='tableData[scope.$index].adver_status=="0"' @click='updateStatus(index,scope.row)'>审核</el-button>
                                  <!-- <el-button v-if='tableData[scope.$index].status!="0"' type="text" size="small">修改结果</el-button> -->
                                 <el-button  type="text" size="small" @click="details(scope.$index)">查看详情</el-button>
                             </template>
@@ -141,7 +141,7 @@
                             <el-checkbox label="物料和落地页不匹配" class='aaa'></el-checkbox>
                             <el-checkbox label="物料内容差"  class='aaa'></el-checkbox>
                             <el-checkbox label="屏蔽竞品"  class='aaa'></el-checkbox>
-                            <el-checkbox label="物料与杂志锁屏不匹配"  class='aaa bb'>
+                            <el-checkbox  class='aaa bb'>
                                 <template>
                                     <span style="margin-right:10px">其他</span>
                                     <textarea placeholder="最多20字" maxlength="20" v-model="yy"></textarea>
@@ -182,6 +182,7 @@ return {
         checkList:[],
         pl:false,
         value:[],
+        auditData: '',
         index:'',
         advers:[],
         yy:""
@@ -214,7 +215,7 @@ methods: {
                         }
                         let formData =new FormData;
                         formData.append('status',this.status2),
-                        formData.append('note',this.checkList.join(',')+this.yy) 
+                        formData.append('note',this.checkList.join(',')+',' +this.yy) 
                         formData.append('advers',JSON.stringify(this.advers))
                         this.api.pushlib_adver_mfinal_audit(formData).then((res)=>{
                             if(res!=false){
@@ -225,16 +226,16 @@ methods: {
                     })
                }else{
                    let array={plid:"",adid:"",mfid:""}
-                     array.plid=this.tableData[this.index].plid;
-                     array.adid=this.tableData[this.index].adid;
-                     array.mfid=this.tableData[this.index].mfid;
+                     array.plid=this.auditData.plid;
+                     array.adid=this.auditData.adid;
+                     array.mfid=this.auditData.mfid;
                     this.advers.push(array);
                        if(!this.status2){
                              this.$message.error('状态不能为空')
                         }
                      let formData =new FormData;
                       formData.append('status',this.status2),
-                        formData.append('note',this.checkList.join(',')+this.yy) 
+                        formData.append('note',this.checkList.join(',')+',' +this.yy) 
                         formData.append('advers',JSON.stringify(this.advers))
                         this.api.pushlib_adver_mfinal_audit(formData).then((res)=>{
                             if(res!=false){
@@ -305,8 +306,9 @@ methods: {
             //          path:"./Journal_user"
             //      })
             //  },
-              updateStatus(index){
+              updateStatus(index,row){
                 this.advers=[];
+                this.auditData = row;
                 if(index=='aa'&&this.value.length==0){
                     return
                 }
