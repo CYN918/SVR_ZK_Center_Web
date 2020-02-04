@@ -52,7 +52,7 @@
                     <div class="img_size">
                         <span class="right_txt_name">审核状态</span>
                           <span class="right_txt_content">{{item.status==0?"待审核":item.status==1?"审核通过":'审核不通过'}}</span>
-                        <span class="right_txt_content  yy" @click='updateStatus(index)' v-if="item.status==0">更新状态</span>
+                        <span class="right_txt_content  yy" @click='updateStatus(index)' v-if="item.status==0" v-show="isShow">更新状态</span>
                     </div>
                      <div class="img_size">
                         <span class="right_txt_name">上线状态</span>
@@ -139,11 +139,12 @@
                 checkList:[],
                 yy:"",
                 index:"",
+                isShow: true,
             }
         },
         mounted(){
             this.getData();
-            console.log(this.date)
+            
         },
         methods:{
             handleSizeChange1(pageSize) { // 每页条数切换
@@ -181,6 +182,9 @@
                 })
            },
             getData(){
+                if(new Date(this.date)<=new Date(new Date().getTime() - 24*60*60*1000)){
+                    this.isShow = false;
+                }
                 let params = {p:this.pageSize,page:this.currentPage,tdate:this.date};
                 this.api.pushlib_external_mfinal({params}).then((res)=>{
                     this.dataList = res.data;

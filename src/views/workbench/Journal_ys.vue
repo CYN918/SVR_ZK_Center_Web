@@ -66,7 +66,7 @@
                                 prop="sdkid"
                                 label="广告图">
                                 <template slot-scope="scope">
-                                <img  style="max-width:80px;max-height: 80px;cursor: pointer" v-if="tableData[scope.$index].adver" :src='tableData[scope.$index].adver.pict_url' preview="0" />
+                                <img  style="max-width:80px;max-height: 80px;cursor: pointer" v-if="tableData[scope.$index].adver" :src='tableData[scope.$index].adver.pict_url' preview="1" />
                             </template>
                         </el-table-column>
                         <el-table-column

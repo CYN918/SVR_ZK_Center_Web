@@ -10,7 +10,7 @@
                 <select v-model="channel">
                         <option :value="item.channel" v-for="item in qdLists">{{item.channel}}</option>
                 </select> -->
-                <span class='qud'>{{channel.channel}}</span>
+                <!-- <span class='qud'>{{channel.channel}}</span> -->
                 <!-- <span class='userGl' @click="jump()">账号管理</span> -->
         </div>
         <div class='screening'>
