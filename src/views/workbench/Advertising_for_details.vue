@@ -409,6 +409,7 @@
                 formData.append('url_md5',this.tableData.original_res[0].url_md5);
                 formData.append('preview_url',this.tableData.preview_url);
                 formData.append('preview_md5',this.tableData.preview_md5);
+                formData.append('oss_channel','fanmai');
                 this.api.replace_add(formData).then((res)=>{
                     if(res!=false){
                         this.heidTH()
