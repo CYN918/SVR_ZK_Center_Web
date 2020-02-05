@@ -226,6 +226,7 @@ methods: {
                                 this.getData();
                                 this.qx();
                                 this.Qxplcz();
+                                this.index = '';
                             }
                     })
                }else{

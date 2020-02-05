@@ -45,7 +45,8 @@
                    </div>
                    <div class='tab_box'>
                        <span class='tab_box_name' style="margin-left:30px">壁纸标签</span>
-                       <span  class='tab_box_con tag' style="margin-left:30px" v-for='da in list.mfinal.sls_tags'>{{da}}</span>
+                       <!-- <span  class='tab_box_con tag' style="margin-left:30px" v-for='da in list.mfinal.sls_tags'>{{da}}</span> -->
+                       <span  class='tab_box_con tag' style="margin-left:30px">{{list.wpid_tags_id}}</span>
                    </div>
                    <div class='tab_box' style="border-right:0!important">
                        <span  class='tab_box_name' style="margin-left:30px">尺寸</span>
@@ -91,7 +92,7 @@
                     </div>
                     <div style="border:0!important">
                         <span>操作人员</span>
-                         <span class='jg_con'>{{list.creator}}</span>
+                         <span class='jg_con'>{{list.updator}}</span>
                     </div>
                 </div>
                
