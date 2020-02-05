@@ -84,7 +84,8 @@
                     </div>
                     <div>
                         <span>原因说明</span>
-                         <span class='jg_con'>{{list.note}}</span>
+                         <span class='jg_con' v-if="list.note != ''">{{list.note}}</span>
+                         <span class='jg_con' v-else>--</span>
                     </div>
                     <div>
                         <span>更新时间</span>
