@@ -200,7 +200,6 @@ methods: {
         })
     },
      pushLib(){
-         
           if(this.index=='aa'){
                    
                     for(var i=0;i<this.value.length;i++){
@@ -213,6 +212,21 @@ methods: {
                         if(!this.status2){
                              this.$message.error('状态不能为空')
                         }
+                        if(this.status2 == '2'){
+                            if(this.checkList.length == '0'){
+                                this.$message.error('请勾选原因')
+                                return false
+                            }
+                        }
+                        
+                        // for(var i = 0;i < this.checkList.length;i++){
+                        //     if(this.checkList[i] == ""){
+                        //         if(!this.yy){
+                        //             this.$message.error('其他不能为空')
+                        //             return false
+                        //         }     
+                        //     }
+                        // }
                         let formData =new FormData;
                         formData.append('status',this.status2);
                         if(!this.yy){
@@ -238,6 +252,20 @@ methods: {
                        if(!this.status2){
                              this.$message.error('状态不能为空')
                         }
+                        if(this.status2 == '2'){
+                            if(this.checkList.length == '0'){
+                                this.$message.error('请勾选原因')
+                                return false
+                            }
+                        }
+                        // for(var i = 0;i < this.checkList.length;i++){
+                        //     if(this.checkList[i] == ""){
+                        //         if(!this.yy){
+                        //             this.$message.error('其他不能为空')
+                        //             return false
+                        //         }
+                        //     }
+                        // }
                      let formData =new FormData;
                       formData.append('status',this.status2);
                       if(!this.yy){
