@@ -246,9 +246,16 @@
                         qt[1]=(0).toString()+qt[1]
 
                     }
+                    if(Number(qt[2])<10){
+                        qt[2]=(0).toString()+qt[2]
+
+                    }
                     var next = (new Date()).toLocaleDateString().split('/');
                     if(Number(next[1])<10){
                         next[1]=(0).toString()+next[1]
+                    }
+                    if(Number(next[2])<10){
+                        next[2]=(0).toString()+next[2]
                     }
                     this.value=[qt.join('-'),next.join('-')];
                 }

@@ -152,7 +152,7 @@
                 let params={is_receiver:0,id:this.$route.query.id};
                 this.api.settlemanage_detail({params}).then((res)=>{
                     this.list=res;
-                     this.fj=res.check.check2;
+                    this.fj=res.check.check2;
                 })
             },
         }
