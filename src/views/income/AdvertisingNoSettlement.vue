@@ -136,6 +136,13 @@
                                 
                         >
                         </el-table-column>
+                        
+                        <el-table-column
+                                prop="channel_name"
+                                label="渠道名"
+                                
+                        >
+                        </el-table-column>
                         <el-table-column
                                 prop="channel_name"
                                 label="渠道名"
