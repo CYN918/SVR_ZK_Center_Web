@@ -70,6 +70,8 @@ import earnings from './views/income/earnings_all'
 mode['earnings'] = earnings
 import Advertising from './views/income/Advertising'
 mode['Advertising']=Advertising
+import AdvertisingNoSettlement from './views/income/AdvertisingNoSettlement'
+mode['AdvertisingNoSettlement']=AdvertisingNoSettlement
 import settlement from './views/income/settlement'
 mode['settlement'] = settlement
 import money_details from './views/income/money_details'
@@ -444,7 +446,8 @@ let nb = [
 	]},
     {path:'/income',name:'收益中心',component:mode['income'],children:[
             {path:'/income/earnings',name:'收益总览',component:mode['earnings']},
-            {path:'/income/Advertising',name:'广告结算数据',component:mode['Advertising']},
+            {path:'/income/Advertising',name:'广告结算数据',component:mode['Advertising']}, //有结算方
+            {path:'/income/AdvertisingNoSettlement',name:'广告结算数据',component:mode['AdvertisingNoSettlement']}, //无结算方
             {path:'/income/settlement',name:'设计师结算管理',component:mode['settlement']},
             {path:'/income/money_details',name:'收益详情',component:mode['money_details']},
             {path:'/income/cost_management',name:'设计师成本管理',component:mode['cost_management']},
@@ -643,6 +646,7 @@ let leftNav =
 // 				{title:'渠道收益',url:'/income/returns_detailed'},
 //                 {title:'广告主收益',url:'/income/advertiser'},
 //                 {title:'广告结算数据',url:'/income/Advertising'}
+//                 {title:'广告结算数据',url:'/income/AdvertisingNoSettlement'}
 //             ]},
 //             {title:'收益管理',url:'2',img:'&#xe611;',list:[
 //                     {title:'设计师成本管理',url:'/income/cost_management'}
