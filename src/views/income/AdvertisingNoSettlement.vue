@@ -111,7 +111,7 @@
                                 label="日期"
                         >
                         </el-table-column>
-                        <el-table-column
+                        <!-- <el-table-column
                                 prop="name"
                                 label="结算方"
                                 v-if="!this.$route.query.type"
@@ -122,7 +122,7 @@
                                  v-if="!this.$route.query.type"
                                 label="投放公司">
                                
-                        </el-table-column>
+                        </el-table-column> -->
                       
                         <el-table-column
                                 prop="scene"
@@ -133,6 +133,13 @@
                           <el-table-column
                                 prop="channel"
                                 label="渠道"
+                                
+                        >
+                        </el-table-column>
+                        
+                        <el-table-column
+                                prop="channel_name"
+                                label="渠道名"
                                 
                         >
                         </el-table-column>
