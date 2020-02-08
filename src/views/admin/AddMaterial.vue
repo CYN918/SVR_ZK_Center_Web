@@ -694,16 +694,22 @@
                     // this.hqUrl='';
                     // this.$emit('dataId');
                     if(window.location.host=='ts-centerweb.idatachain.cn'){
-                        this.bind_mid = this.bind_mid + ';' + 'ADP_178';
-                        this.bindMid.push('ADP_178');
+                        if(this.bindMid.indexOf('ADP_178') <= -1){
+                            this.bind_mid = this.bind_mid + ';' + 'ADP_178';
+                            this.bindMid.push('ADP_178');
+                        }
                     }
                     if(window.location.host=='c2.zookingsoft.com'){
-                        this.bind_mid = this.bind_mid + ';' + 'ADP_1';
-                        this.bindMid.push('ADP_1');
+                        if(this.bindMid.indexOf('ADP_1') <= -1){
+                            this.bind_mid = this.bind_mid + ';' + 'ADP_1';
+                            this.bindMid.push('ADP_1');
+                        }
                     }
                     if(window.location.host=='localhost:8080'){
-                        this.bind_mid = this.bind_mid + ';' + 'ADP_178';
-                        this.bindMid.push('ADP_178');   
+                        if(this.bindMid.indexOf('ADP_178') <= -1){
+                            this.bind_mid = this.bind_mid + ';' + 'ADP_178';
+                            this.bindMid.push('ADP_178');
+                        } 
                     }
                 }
             },
