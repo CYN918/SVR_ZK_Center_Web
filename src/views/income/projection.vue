@@ -211,9 +211,11 @@ data() {
         //         this.getData()
         //     },
             getMsg(){
-                if(this.a!=undefined){
+                console.log(window.location.hash.split("?")[0])
+                let urld = window.location.hash.split("?")[0];
+                if(urld == '#/income/Payment_operation/details'){
                     let routeData = this.$router.resolve({
-                    path:"../income/Advertising",
+                    path:"../AdvertisingNoSettlement",
                     query:{
                         tstart:this.tstart,
                         tend:this.tend,
@@ -222,19 +224,30 @@ data() {
                         }
                     });
                      window.open(routeData.href, '_blank');
+                }else if(urld == '#/workbench/ALL'){
+                    let routeData = this.$router.resolve({
+                    path:'/income/Advertising',
+                    query:{
+                            tstart:this.tstart,
+                            tend:this.tend,
+                            is_receiver:this.is_receiver,
+                            name:this.name,
+                            type:this.type
+                        }
+                    });
+                    window.open(routeData.href, '_blank');
                 }else{
                     let routeData = this.$router.resolve({
                     path:'../Advertising',
                     query:{
-                        tstart:this.tstart,
-                        tend:this.tend,
-                        is_receiver:this.is_receiver,
-                        name:this.name,
-                        type:this.type
-                    }
-                });
-                window.open(routeData.href, '_blank');
-
+                            tstart:this.tstart,
+                            tend:this.tend,
+                            is_receiver:this.is_receiver,
+                            name:this.name,
+                            type:this.type
+                        }
+                    });
+                    window.open(routeData.href, '_blank'); 
                 }
                
             },
