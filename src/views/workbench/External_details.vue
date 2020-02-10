@@ -81,7 +81,8 @@
                     </div>
                     <div>
                         <span>原因说明</span>
-                         <span class='jg_con'>{{list.note}}</span>
+                         <span class='jg_con' v-if="list.note != ''">{{list.note}}</span>
+                         <span class='jg_con' v-else>-</span>
                     </div>
                     <div>
                         <span>更新时间</span>
@@ -188,8 +189,12 @@ methods: {
                              this.$message.error('状态不能为空')
                         }
                      let formData =new FormData;
-                      formData.append('status',this.status2),
-                        formData.append('note',this.checkList.join(',')+this.yy) 
+                      formData.append('status',this.status2);
+                        if(!this.yy){
+                          formData.append('note',this.checkList.join(',').substr(1)+ ',' +this.yy); 
+                        }else{
+                            formData.append('note',this.checkList.join(',').substr(1) +this.yy);
+                        }  
                         formData.append('advers',JSON.stringify(this.advers))
                         this.api.pushlib_adver_mfinal_audit(formData).then((res)=>{
                             if(res!=false){
