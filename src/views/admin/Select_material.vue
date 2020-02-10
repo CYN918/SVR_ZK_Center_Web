@@ -126,7 +126,6 @@
         },
         methods:{
             getID(index){
-                console.log(this.checked)
                 if(this.material==1){
                 this.scMid=this.IMGList[index].mid;
                 this.scUrl=this.IMGList[index].prev_uri;

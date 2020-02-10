@@ -1,7 +1,7 @@
 <template>
     <div>
        
-        <pro v-if='budget'  :is_receiver='0' :fj='fj' :type='type'></pro>
+        <pro v-if='budget' :name='list.check.check1.name' :tstart='list.check.check1.tstart' :tend='list.check.check1.tend'   :is_receiver='0' :fj='fj' :type='type'></pro>
         <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="jump()">付款结算&nbsp;/</span>
@@ -152,7 +152,7 @@
                 let params={is_receiver:0,id:this.$route.query.id};
                 this.api.settlemanage_detail({params}).then((res)=>{
                     this.list=res;
-                    this.fj=res.check.check2;
+                     this.fj=res.check.check2;
                 })
             },
         }
