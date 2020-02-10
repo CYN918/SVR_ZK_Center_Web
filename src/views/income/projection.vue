@@ -224,6 +224,18 @@ data() {
                         }
                     });
                      window.open(routeData.href, '_blank');
+                }else if(urld == '#/workbench/ALL'){
+                    let routeData = this.$router.resolve({
+                    path:'/income/Advertising',
+                    query:{
+                            tstart:this.tstart,
+                            tend:this.tend,
+                            is_receiver:this.is_receiver,
+                            name:this.name,
+                            type:this.type
+                        }
+                    });
+                    window.open(routeData.href, '_blank');
                 }else{
                     let routeData = this.$router.resolve({
                     path:'../Advertising',
@@ -236,7 +248,6 @@ data() {
                         }
                     });
                     window.open(routeData.href, '_blank'); 
-
                 }
             },
         getData(){
