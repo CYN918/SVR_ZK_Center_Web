@@ -28,7 +28,7 @@
                     <option value="">全部</option>
                     <option value="0">待审核</option>
                     <option value="1">审核通过</option>
-                    <option value="-1">审核未通过</option>
+                    <option value="2">审核未通过</option>
                 </select>
                 <div class='btn_sx'>
                     <span class='cx' v-if='pl==false' @click='getData()'>查询</span>
