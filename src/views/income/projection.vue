@@ -211,34 +211,9 @@ data() {
         //         this.getData()
         //     },
             getMsg(){
-                let arr = [];
-                let letNav = JSON.parse(localStorage.getItem('letNav'));
-                letNav.forEach(element => {
-                    if(element.title == '收益中心'){
-                        element.children.forEach(item => {
-                            if(item.title == '收益数据'){
-                                item.list.forEach(da => {
-                                    arr.push(da.url)
-                                })
-                            }
-                        })
-                    }
-                });
-                // console.log(arr)
-                // console.log(arr.indexOf("/income/Advertising"))
-                if(arr.indexOf("/income/Advertising") > -1){
-                    let routeData = this.$router.resolve({
-                        path:'../Advertising',
-                        query:{
-                            tstart:this.tstart,
-                            tend:this.tend,
-                            is_receiver:this.is_receiver,
-                            name:this.name,
-                            type:this.type
-                        }
-                    });
-                    window.open(routeData.href, '_blank');  
-                }else{
+                console.log(window.location.hash.split("?")[0])
+                let urld = window.location.hash.split("?")[0];
+                if(urld == '#/income/Payment_operation/details'){
                     let routeData = this.$router.resolve({
                     path:"../AdvertisingNoSettlement",
                     query:{
@@ -249,8 +224,20 @@ data() {
                         }
                     });
                      window.open(routeData.href, '_blank');
+                }else{
+                    let routeData = this.$router.resolve({
+                    path:'../Advertising',
+                    query:{
+                            tstart:this.tstart,
+                            tend:this.tend,
+                            is_receiver:this.is_receiver,
+                            name:this.name,
+                            type:this.type
+                        }
+                    });
+                    window.open(routeData.href, '_blank'); 
+
                 }
-               
             },
         getData(){
             if(this.a==undefined){
