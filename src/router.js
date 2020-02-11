@@ -267,6 +267,8 @@ import userinfo from './views/userinfo/user_info.vue'
 mode['userinfo'] = userinfo
 import passWord from './views/userinfo/password'
 mode['passWord'] = passWord
+import message from './views/userinfo/message'
+mode['message'] = message
 import MyPerm from './views/userinfo/MyPermission'
 mode['MyPerm'] = MyPerm
 import account from  './views/userinfo/account'
@@ -504,6 +506,7 @@ let nb = [
 		children:[
             {path:'/userinfo/user_info',name:'基本信息',component:mode['userinfo']},
             {path:'/userinfo/passWord',name:'修改密码',component:mode['passWord']},
+            {path:'/userinfo/message',name:'消息通知',component:mode['message']},
             {path:'/userinfo/user_info',name:'退出',component:mode['userinfo']},
             {path:'/userinfo/MyPerm',name:'修改密码',component:mode['MyPerm']},
             {path:'/userinfo/account',name:'账号管理',component:mode['account']},
@@ -625,7 +628,7 @@ let leftNav =
 //             {title:'个人中心',url:'1',img:'&#xe60b;',list:[
 //             {title:'基本信息', url:'/userinfo/user_info'},
 //             {title:'修改密码', url:'/userinfo/passWord'},
-//             {title:'消息通知', url:'/userinfo/'},
+//             {title:'消息通知', url:'/userinfo/message'},
 //                 ]},
 // 			{title:'账号权限',url:'1-2',img:'&#xe619;',list:[
 // 			{title:'我的权限',url:'/userinfo/MyPerm'},

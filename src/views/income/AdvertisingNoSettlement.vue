@@ -176,9 +176,9 @@
             </div>
             <div v-if="tableData.length>0&&is_receiver==1" class='summary1'>
                 <span>汇总</span>
-                <span>—</span>
-                <span>—</span>
-                <span>—</span>
+                <span></span>
+                <span></span>
+                <span></span>
                 <span>{{exhibition1}}</span>
                 <span>{{exhibition2}}</span>
                 <span>{{click_ratio}}</span>

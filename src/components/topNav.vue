@@ -15,6 +15,37 @@
 					<span>{{el.name}}</span>
 				</li>
 			</router-link> -->
+			<span class="iconfont  messgeH1 right3">
+				<span class="pend" @click="showisXXNav">
+					<img class="head_top2" :src="img1"/>
+				    <div @click="showisXXNav" v-if="messgNum && messgNum.unread_total_num>0" :class="['messgeH2',messgNum.unread_total_num>9?'messgeH2x':'']">{{backXXnUM(messgNum.unread_total_num)}}</div>
+				</span>
+				
+				<div v-if="isXXNav" @click="hidisXXNav" class="messgeH3Boxf1"></div>
+				<div v-if="isXXNav" class="messgeH3">
+					<div class="messgeH3_1">
+						<span @click="getNotice('notify')" :class="[messgNum.unread_notify_num>0?'onckf':'']">未读</span>
+						<span @click="getNotice('comment')" :class="[messgNum.unread_comment_num>0?'onckf':'']">最近</span>
+						<span>全部标为已读</span></div>
+					<div class="messgeH3_2">
+						<div class="messgeH3_2_x1">
+							<ul class="xxBox_1">
+								<li v-for="(el,index) in mData" :key="index">
+									<div @click="goMssg(index)">{{el.title}}</div>								
+								</li>							
+							</ul>
+							
+							<div v-if="mData.length==0" class="messgeH3_2_1"><img  src="https://static.zookingsoft.com/SVR_NEW_DESIGNER_WEB/img/wxx.png" alt="">暂无新的消息</div>
+						</div>
+						
+						
+					</div>
+					
+				
+					<div @click="goMssg()" class="messgeH3_3 pend">查看全部</div>
+				</div>
+				
+			</span>
 			<router-link  to="/login" class="right1"><li @click="loginout()"><span>退出登录</span></li></router-link>
 			<router-link  to="/userinfo" class="right0"><li><img :src="img" class="imgs_user"/>{{name}}</li></router-link>
 			<router-link  to="/workbench"  ><li><span>工作台</span></li></router-link>
@@ -27,6 +58,37 @@
 		<ul class="navd" v-if="config.showL!=-1&&this.type==1">
 			<router-link  to="/workbench"><li><span>工作台</span></li></router-link>
 			<!-- <router-link  to="/admin"><li> <span>素材中心</span></li></router-link> -->
+			<span class="iconfont  messgeH1 right2">
+				<span class="pend" @click="showisXXNav">
+					<img class="head_top2" :src="img1"/>
+				    <div @click="showisXXNav" v-if="messgNum && messgNum.unread_total_num>0" :class="['messgeH2',messgNum.unread_total_num>9?'messgeH2x':'']">{{backXXnUM(messgNum.unread_total_num)}}</div>
+				</span>
+				
+				<div v-if="isXXNav" @click="hidisXXNav" class="messgeH3Boxf1"></div>
+				<div v-if="isXXNav" class="messgeH3">
+					<div class="messgeH3_1">
+						<span @click="getNotice('notify')" :class="[messgNum.unread_notify_num>0?'onckf':'']">未读</span>
+						<span @click="getNotice('comment')" :class="[messgNum.unread_comment_num>0?'onckf':'']">最近</span>
+						<span>全部标为已读</span></div>
+					<div class="messgeH3_2">
+						<div class="messgeH3_2_x1">
+							<ul class="xxBox_1">
+								<li v-for="(el,index) in mData" :key="index">
+									<div @click="goMssg(index)">{{el.title}}</div>								
+								</li>							
+							</ul>
+							
+							<div v-if="mData.length==0" class="messgeH3_2_1"><img  src="https://static.zookingsoft.com/SVR_NEW_DESIGNER_WEB/img/wxx.png" alt="">暂无新的消息</div>
+						</div>
+						
+						
+					</div>
+					
+				
+					<div @click="goMssg()" class="messgeH3_3 pend">查看全部</div>
+				</div>
+				
+			</span>
 			<router-link class="right2" to="/userinfo"><li ><img :src="img" class="imgs_user"/>{{name}}</li></router-link>
 			<router-link class="right2" to="/login"><li  @click="loginout()"><span>退出登录</span></li></router-link>
 		</ul>
@@ -64,6 +126,10 @@ export default {
             top5:false,
 			topNacd:'首页',
 			img:"./img/user.png",
+			img1: "./img/top2.svg",
+			isXXNav:false,
+			messgNum:{},
+			mData:[],
 			todata:[{name:'首页',url:'/index'},{name:'工作台',url:'/workbench/workbenchPadding'},{name:'数据',url:'/data/Material_data'},{name:'收益中心',url:'/income/earnings'},{name:'素材中心',url:'/admin/advertising'},{name:'主题中心',url:'/ThemeCenter'},{name:'用户',url:'/userinfo/user_info'}],
 		}
     },
@@ -78,6 +144,78 @@ export default {
 		}
 	},
 	methods:{
+		showisXXNav(){
+			this.isXXNav = true;
+			this.getNotice();
+		},
+		hidisXXNav(){
+			this.isXXNav = false;
+
+		},
+		getMessgNumber(){
+			if(!window.userInfo){
+				return
+			}
+			this.api.getCounter().then((da)=>{
+				if(da=='error'){
+					return
+				}
+				this.messgNum = da;
+		
+			})
+		},
+		getNotice(type){	
+			if(!window.userInfo){
+				return
+			}
+			this.navType = type?type:'notify';
+			let pr = {
+				access_token:window.userInfo.access_token,
+				type:this.navType,
+			};
+			this.api.getNotice(pr).then((da)=>{
+				if(da=='error'){return}
+
+				this.mData= da;
+				this.getMessgNumber();
+				if(this.mData.length==0){
+					return
+				}
+				if(this.navType!='notify'){
+					return
+				}
+				let ids = '';
+				for(let i=0,n=this.mData.length;i<n;i++){
+					ids+=','+this.mData[i].op_open_id;
+				}
+				ids = ids.slice(1);
+				let op = {
+					access_token:window.userInfo.access_token,
+					type:'notify',
+					read_ids:ids,
+				};
+				this.api.Messageread(op).then((da)=>{
+					if(da=='error'){
+						return
+					}
+				})
+				
+			});
+		},
+		goMssg(on){
+			// if(!window.userInfo){
+			// 	this.$router.push({path:'/login'});	
+			// 	return
+			// }
+			// setTimeout(()=>{
+			// 	this.getMessgNumber();
+			// },500);
+			// if(on || on==0){				
+			// 	this.$router.push({path:this.navType,query:{id:this.mData[on].chat_id}})	
+			// 	return
+			// }			
+			this.$router.push({path:"/userinfo/message"})	
+		},
 		handleSelect(key){				
 			this.topNacd = this.todata[key].name;
 			this.$router.push(this.todata[key].url);
@@ -290,6 +428,9 @@ export default {
 .right0{
 	float: right;
 }
+.right3{
+	left: 62%;
+}
 .navd a.router-link-active{	
 	display: inline-block;
 	height: 100%;
@@ -368,5 +509,202 @@ export default {
 	line-height: 60px;
 	border-bottom: 4px solid rgba(51,119,255,1);
 	vertical-align: top;
+}
+.messgeH1{
+	position: relative;
+	top: 4px;
+}
+.messgeH2{
+	display: block;
+	position: absolute;
+	top: 7px;
+	left: 7px;
+	background: #F4523B;
+	min-width: 18px;
+	height: 18px;
+	line-height: 18px;
+	font-size: 12px;
+	color: #fff;
+	letter-spacing: 0;
+	text-align: center;
+	
+	border-radius: 9px;
+}
+.messgeH3{
+    position: absolute;
+    top: 35px;
+    left: -240px;
+    background: #FFFFFF;
+    -webkit-box-shadow: 0 2px 8px 0 rgba(0,0,0,0.10);
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.10);
+    border-radius: 5px;
+    width: 269px;
+    height: 320px;
+	z-index: 999;
+}
+.messgeH3_1{
+	background: #FFFFFF;
+	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.05);
+	border-radius: 5px 5px 0 0;
+	width: 100%;
+	height: 60px;
+}
+.messgeH3_1>span.onckf:before{
+	content: "";
+	position: absolute;
+	right: 30px;
+	top: 0;
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: #F4523B;
+}
+.messgeH3_1>span:nth-child(1),.messgeH3_1>span:nth-child(2){
+	position: relative;
+	margin-top: 16px;
+	display: inline-block;
+	width: 20%;
+	height: 28px;
+	text-align: center;
+}
+.messgeH3_1>span:nth-child(3){
+	position: relative;
+	margin-top: 16px;
+	display: inline-block;
+	width: 60%;
+	height: 28px;
+	text-align: center;
+}
+.messgeH3_1>span:last-child{
+	border: none;
+}
+.messgeH3_1>span>img{
+	display: block;
+	margin: 6px auto;
+	width: 19px;
+}
+.messgeH3_2{
+	width: 100%;
+	height: 210px;
+	overflow: hidden;
+	overflow-y: auto;
+}
+.messgeH3_2_1{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	font-size: 14px;
+	color: #999999;
+	text-align: center;
+	-webkit-transform: translate(-50%,-50%);
+	transform: translate(-50%,-50%);
+}
+.messgeH3_2_1>img{
+	display: block;
+	width: 100px;
+	margin: 30px auto 0;
+}
+.messgeH3_3{
+	background: #FFFFFF;
+	box-shadow: 2px 0 4px 0 rgba(0,0,0,0.05);
+	border-radius:0 0 5px 5px;
+	font-size: 14px;
+	color: #1E1E1E;
+	line-height: 50px;
+	text-align: center;
+	width: 100%;
+	height: 50px;
+}
+.xxBox_1>li{
+	position: relative;
+	border: 1px solid #E6E6E6;
+	width: 100%;
+	height: 73px;
+	font-size: 14px;
+	color: #1E1E1E;
+}
+.xxBox_1>li>div{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%,-50%);
+	transform: translate(-50%,-50%);
+	width: 211px;
+	line-height: 18px;
+    text-align: left;
+}
+.xxBox_1>li:last-child{
+	border: none;
+}
+.messgeH3_2_x1{
+	overflow: hidden;
+	overflow-y: auto;
+}
+.messgeH3Boxf1{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 997;
+
+}
+.searcBox5_2imf{
+	display: inline-block;
+    width: 20px;
+    height: 20px;
+    vertical-align: top;
+	margin-top: 10px;
+    margin-right: 4px;
+    border-radius: 50%;
+}
+.searcBox5_2xv>div:first-child{
+	margin-top: 8px;
+}
+.pdxf{
+	display: inline-block;
+}
+.svgImg2{
+	display: inline-block;
+	vertical-align: top;
+    margin-right: 10px;
+    margin-top: 10px;
+    width: 16px;
+}
+.svgImg2_1{
+	margin-top: 12px;
+	width: 17px;
+}
+.svgImg2_2{
+	margin-top: 12px;
+	width: 18px;
+}
+.ts_svg_img{
+	margin-top: 11px;
+}
+.messgeH2x{
+	padding:0 5px;
+}
+.head_top1{
+	width: 20px;
+  	margin-top: 20px;
+}
+.head_top2{
+	width: 16px;
+    margin-top: 20px;
+}
+.head_top3{
+	width: 24px;
+    margin-top: 20px;
+}
+.searcBox6{
+	opacity: 0;
+	position: absolute;
+	top: 24px;
+	right: -218px;
+	width: 10px;
+	
+	-webkit-animation: xs .5s .3s forwards;
+	animation: xs .5s .3s forwards;
 }
 </style>
