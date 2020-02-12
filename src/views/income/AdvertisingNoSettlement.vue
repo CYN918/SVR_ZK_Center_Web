@@ -50,18 +50,18 @@
                             :cell-style="cell"
                             :data="tableData"
                             height="450"
-                            style="width: 100%">
+                            style="width: 100%;">
                         <el-table-column
                                 prop="tdate"
                                 label="日期"
                         >
                         </el-table-column>
-                        <!-- <el-table-column
+                        <el-table-column
                                 prop="name"
                                 label="结算方"
                                
                         >
-                        </el-table-column> -->
+                        </el-table-column>
                         <el-table-column
                                 prop="advertiser"
                                 label="投放公司">
@@ -105,7 +105,7 @@
                             :cell-style="cell"
                             :data="tableData"
                             height="450"
-                            style="width: 100%">
+                            style="width: 100%;">
                         <el-table-column
                                 prop="tdate"
                                 label="日期"
@@ -186,11 +186,11 @@
             </div>
             <div v-if="tableData.length>0&&is_receiver==0" class='summary2' :class='{big:this.$route.query.type!=undefined}'>
                 <span>汇总</span>
-                <span></span>
-                <span></span>
-                <span  v-if="!this.$route.query.type"></span>
-                <span  v-if="!this.$route.query.type"></span>
-                <span></span>
+                <span>—</span>
+                <!-- <span>—</span> -->
+                <span  v-if="!this.$route.query.type">—</span>
+                <span  v-if="!this.$route.query.type">—</span>
+                <span>—</span>
                 <span>{{exhibition1}}</span>
                 <span>{{exhibition2}}</span>
                 <span>{{click_ratio}}</span>
@@ -443,8 +443,8 @@
         font-weight:400;
         color:rgba(255,255,255,1)!important;
         line-height:36px;
+        margin: 24px 24px 0 0;
         float: right;
-        margin: 24px 24px 0 0 ;
     }
     .summary1,.summary2{
         height:48px;
@@ -458,8 +458,8 @@
         font-weight:bold;
         line-height:48px;
         font-family:PingFang-SC-Regular;
-        width: 11%;
-        padding-left: 24px;
+        width: 11.27%;
+        padding-left: 17px;
     }
     .summary2 span{
          display: inline-block;
@@ -469,8 +469,8 @@
         font-weight:bold;
         line-height:48px;
         font-family:PingFang-SC-Regular;
-        width: 9%;
-       padding-left: 16px;
+        width: 10.02%;
+       padding-left: 15px;
 
     }
     .big span{
