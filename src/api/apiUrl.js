@@ -1431,6 +1431,18 @@ export default {
 	pushlib_configs_user_channel:{
 		url:"pushlib/configs/user/channel",method:'get'
 	},
+	//消息通知
+	pushlib_message:{
+		url:"/news/preview",method:"get"
+	},
+	//消息列表
+	pushlib_message_all:{
+		url:"/news/all",method:"get"
+	},
+	//未读消息列表
+	pushlib_message_unread:{
+		url:"/news/unread/count",method:"get"
+	},
 }
 
 

@@ -18,20 +18,22 @@
 			<span class="iconfont  messgeH1 right3">
 				<span class="pend" @click="showisXXNav">
 					<img class="head_top2" :src="img1"/>
-				    <div @click="showisXXNav" v-if="messgNum && messgNum.unread_total_num>0" :class="['messgeH2',messgNum.unread_total_num>9?'messgeH2x':'']">{{backXXnUM(messgNum.unread_total_num)}}</div>
+				    <div @click="showisXXNav" v-if="messgNum && messgNum.count>0" :class="['messgeH2',messgNum.count>9?'messgeH2x':'']">{{backXXnUM(messgNum.count)}}</div>
 				</span>
 				
 				<div v-if="isXXNav" @click="hidisXXNav" class="messgeH3Boxf1"></div>
 				<div v-if="isXXNav" class="messgeH3">
 					<div class="messgeH3_1">
-						<span @click="getNotice('notify')" :class="[messgNum.unread_notify_num>0?'onckf':'']">未读</span>
+						<span @click="getNotice('notify')" :class="[messgNum.unread_notify_num>0?'onckf':'']">未读
+							<div v-if="messgNum && messgNum.count>0" :class="['messgeH5',messgNum.count>9?'messgeH5x':'']">{{backXXnUM(messgNum.count)}}</div>
+						</span>
 						<span @click="getNotice('comment')" :class="[messgNum.unread_comment_num>0?'onckf':'']">最近</span>
-						<span>全部标为已读</span></div>
+						<span @click="getNotice('read')">全部标为已读</span></div>
 					<div class="messgeH3_2">
 						<div class="messgeH3_2_x1">
 							<ul class="xxBox_1">
 								<li v-for="(el,index) in mData" :key="index">
-									<div @click="goMssg(index)">{{el.title}}</div>								
+									<div @click="goMssg(index)">{{el.name}}</div>								
 								</li>							
 							</ul>
 							
@@ -61,20 +63,22 @@
 			<span class="iconfont  messgeH1 right2">
 				<span class="pend" @click="showisXXNav">
 					<img class="head_top2" :src="img1"/>
-				    <div @click="showisXXNav" v-if="messgNum && messgNum.unread_total_num>0" :class="['messgeH2',messgNum.unread_total_num>9?'messgeH2x':'']">{{backXXnUM(messgNum.unread_total_num)}}</div>
+				    <div @click="showisXXNav" v-if="messgNum && messgNum.count>0" :class="['messgeH2',messgNum.count>9?'messgeH2x':'']">{{backXXnUM(messgNum.count)}}</div>
 				</span>
 				
 				<div v-if="isXXNav" @click="hidisXXNav" class="messgeH3Boxf1"></div>
 				<div v-if="isXXNav" class="messgeH3">
 					<div class="messgeH3_1">
-						<span @click="getNotice('notify')" :class="[messgNum.unread_notify_num>0?'onckf':'']">未读</span>
+						<span @click="getNotice('notify')" :class="[messgNum.unread_notify_num>0?'onckf':'']">未读
+							<div v-if="messgNum && messgNum.count>0" :class="['messgeH5',messgNum.count>9?'messgeH5x':'']">{{backXXnUM(messgNum.count)}}</div>
+						</span>
 						<span @click="getNotice('comment')" :class="[messgNum.unread_comment_num>0?'onckf':'']">最近</span>
-						<span>全部标为已读</span></div>
+						<span @click="getNotice('read')">全部标为已读</span></div>
 					<div class="messgeH3_2">
 						<div class="messgeH3_2_x1">
 							<ul class="xxBox_1">
 								<li v-for="(el,index) in mData" :key="index">
-									<div @click="goMssg(index)">{{el.title}}</div>								
+									<div @click="goMssg(index)">{{el.name}}</div>								
 								</li>							
 							</ul>
 							
@@ -135,6 +139,7 @@ export default {
     },
 
 	mounted(){
+		this.getMessgNumber();
 		this.name=localStorage.getItem('userName');
 		this.getLefNav();
         this.authority();
@@ -144,19 +149,22 @@ export default {
 		}
 	},
 	methods:{
+		backXXnUM(n){
+			if(n>999){
+				return 999;
+			}
+			return n;
+		},
 		showisXXNav(){
 			this.isXXNav = true;
-			this.getNotice();
+			this.getNotice('all');
 		},
 		hidisXXNav(){
 			this.isXXNav = false;
 
 		},
 		getMessgNumber(){
-			if(!window.userInfo){
-				return
-			}
-			this.api.getCounter().then((da)=>{
+			this.api.pushlib_message_unread().then((da)=>{
 				if(da=='error'){
 					return
 				}
@@ -165,42 +173,34 @@ export default {
 			})
 		},
 		getNotice(type){	
-			if(!window.userInfo){
-				return
-			}
-			this.navType = type?type:'notify';
-			let pr = {
-				access_token:window.userInfo.access_token,
-				type:this.navType,
-			};
-			this.api.getNotice(pr).then((da)=>{
-				if(da=='error'){return}
-
-				this.mData= da;
-				this.getMessgNumber();
-				if(this.mData.length==0){
-					return
-				}
-				if(this.navType!='notify'){
-					return
-				}
-				let ids = '';
-				for(let i=0,n=this.mData.length;i<n;i++){
-					ids+=','+this.mData[i].op_open_id;
-				}
-				ids = ids.slice(1);
-				let op = {
-					access_token:window.userInfo.access_token,
-					type:'notify',
-					read_ids:ids,
-				};
-				this.api.Messageread(op).then((da)=>{
-					if(da=='error'){
-						return
-					}
+			// if(!window.userInfo){
+			// 	return
+			// }
+			//全部消息
+			if(type == 'all'){
+				this.api.pushlib_message_all().then((da)=>{
+					if(da=='error'){return}
+					this.mData= da.data;
+				});
+			}	
+			//未读消息
+			if(type == 'notify'){
+				this.api.pushlib_message().then((da) => {
+					if(da=='error'){return}
+					this.mData= da.unread;
 				})
+			}
+			//最近消息
+			if(type == 'comment'){
+				this.api.pushlib_message().then((da) => {
+					if(da=='error'){return}
+					this.mData= da.recent;
+				})
+			}
+			//全部标记已读
+			if(type == 'read'){
 				
-			});
+			}
 		},
 		goMssg(on){
 			// if(!window.userInfo){
@@ -517,7 +517,7 @@ export default {
 .messgeH2{
 	display: block;
 	position: absolute;
-	top: 7px;
+	top: -18px;
 	left: 7px;
 	background: #F4523B;
 	min-width: 18px;
@@ -525,6 +525,21 @@ export default {
 	line-height: 18px;
 	font-size: 12px;
 	color: #fff;
+	letter-spacing: 0;
+	text-align: center;
+	
+	border-radius: 9px;
+}
+.messgeH5{
+	display: block;
+	position: absolute;
+	top: -4px;
+	left: 39px;
+	min-width: 18px;
+	height: 18px;
+	line-height: 18px;
+	font-size: 12px;
+	color: #F4523B;
 	letter-spacing: 0;
 	text-align: center;
 	
@@ -548,6 +563,7 @@ export default {
 	border-radius: 5px 5px 0 0;
 	width: 100%;
 	height: 60px;
+	position: relative;
 }
 .messgeH3_1>span.onckf:before{
 	content: "";
@@ -566,6 +582,7 @@ export default {
 	width: 20%;
 	height: 28px;
 	text-align: center;
+	cursor: pointer;
 }
 .messgeH3_1>span:nth-child(3){
 	position: relative;
@@ -574,6 +591,7 @@ export default {
 	width: 60%;
 	height: 28px;
 	text-align: center;
+	cursor: pointer;
 }
 .messgeH3_1>span:last-child{
 	border: none;

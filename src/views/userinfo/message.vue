@@ -11,6 +11,7 @@
         </div>
         <div class="content_table">
             <div style="margin-bottom: 24px;padding: 0 24px;">
+                <span  class="ad" style="margin: 0px 24px 0px 4px;">筛选时间</span>
                 <el-date-picker
                         v-model="value"
                         type="daterange"
@@ -21,17 +22,17 @@
                         value-format="yyyy-MM-dd">
                 </el-date-picker>
                 <span  class="ad">消息类型</span>
-                <select v-model="is_receiver">
+                <select v-model="type">
                     <option value="">全部</option>
-                    <option value="1">入库提示</option>
-                    <option value="2">新用户申请</option>
+                    <option value="1">新用户申请</option>
+                    <option value="2">入口提示</option>
                 </select>
                  <span  class="ad">状态</span>
-                <select v-model="channel">
+                <select v-model="status">
                     <option value="">全部</option>
-                    <option value="1">未读</option>
-                    <option value="2">待处理</option>
-                    <option value="3">已处理</option>
+                    <option value="0">未读</option>
+                    <option value="1">待处理</option>
+                    <option value="2">已处理</option>
                 </select>
                
                 
@@ -49,25 +50,29 @@
                             height="450"
                             style="width: 100%">
                         <el-table-column
-                                prop="tdate"
+                                prop="name"
                                 label="通知标题"
+                                :show-overflow-tooltip="true"
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="advertiser"
-                                label="消息类型">
+                                prop="type"
+                                label="消息类型"
+                                :show-overflow-tooltip="true"
+                                :formatter="formatType"
+                        >
                         </el-table-column>
                         <el-table-column
-                                prop="project"
+                                prop="status"
                                 label="状态"
-                               
+                               :formatter="formatState"
                         >
                         </el-table-column>
                        
                         <el-table-column
-                                prop="pv"
+                                prop="newsContent.created_at"
                                 label="通知时间"
-                                :show-overflow-tooltip="true"
+                                
                         >
                         </el-table-column>
                         <el-table-column
@@ -107,49 +112,56 @@
                 value:[],
                 search:'',
                 tableData:[],
-                is_receiver:1,
+                type:'',
                 p:10,
                 page:1,
                 total:0,
-                exhibition1:'',
-                exhibition2:'',
-                click_ratio:'',
-                exhibition4:'',
-                name:'',
-                channel:"",
-                channelData:[],
-                JSname:[],
-                show:false
+                status:"",
             }
         },
         mounted(){
-                if(this.$route.query.name){
-                    this.value=[this.$route.query.tstart,this.$route.query.tend];
-                    this.search=this.$route.query.name;
-                    this.is_receiver=this.$route.query.is_receiver;
-                }else{
-                    var qt = (new Date((new Date()).getTime() - 1*24*60*60*1000)).toLocaleDateString().split('/');
-                    if(Number(qt[1])<10){
-                        qt[1]=(0).toString()+qt[1]
+            if(this.$route.query.name){
+                this.value=[this.$route.query.tstart,this.$route.query.tend];
+                this.search=this.$route.query.name;
+                this.is_receiver=this.$route.query.is_receiver;
+            }else{
+                var qt = (new Date((new Date()).getTime() - 1*24*60*60*1000)).toLocaleDateString().split('/');
+                if(Number(qt[1])<10){
+                    qt[1]=(0).toString()+qt[1]
 
-                    }
-                    if(Number(qt[2])<10){
-                        qt[2]=(0).toString()+qt[2]
-
-                    }
-                    var next = (new Date()).toLocaleDateString().split('/');
-                    if(Number(next[1])<10){
-                        next[1]=(0).toString()+next[1]
-                    }
-                    if(Number(next[2])<10){
-                        next[2]=(0).toString()+next[2]
-                    }
-                    this.value=[qt.join('-'),next.join('-')];
                 }
-                this.getDataList();
-                this.getqd();
+                if(Number(qt[2])<10){
+                    qt[2]=(0).toString()+qt[2]
+
+                }
+                var next = (new Date()).toLocaleDateString().split('/');
+                if(Number(next[1])<10){
+                    next[1]=(0).toString()+next[1]
+                }
+                if(Number(next[2])<10){
+                    next[2]=(0).toString()+next[2]
+                }
+                this.value=[qt.join('-'),next.join('-')];
+            }
+            this.getDataList();
         },
         methods:{
+            formatType(row, column, cellValue) {
+                if(cellValue == "1"){
+	                return '新用户申请';
+	            }else if (cellValue == "2"){
+	                return '入口提示';
+	            }
+            },
+            formatState(row, column, cellValue) {
+                if(cellValue == "0"){
+	                return '未读';
+	            }else if (cellValue == "1"){
+	                return '待处理';
+	            }else if (cellValue == "2"){
+	                return '已处理';
+	            }
+		    },
             getRowClass({row, column, rowIndex}) {
                 if (rowIndex === 0) {
                     return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;padding:20px 0px 20px 14px'
@@ -168,77 +180,18 @@
                 this.page = page;
                 this.getDataList()
             },
-            getqd(){
-                this.api.settle_data_ssp_channel().then((res)=>{
-                    this.channelData=res;
-                })
-            },
-            
-             downloadImg(){
-                var url = '/settle/data/export'+'?is_receiver='+this.is_receiver+'&name='+this.name+'&search='+this.search+'&channel='+this.channel+'&tstart='+this.value[0]+'&tend='+this.value[1];
-                download.downloadImg(url);
-            },
-            getName(){
-                if(this.name!=''){
-                    this.show=true;
-                    this.JSname=[];
-                     let params={is_receiver:this.is_receiver,search:this.name,p:100,page:1}
-                        this.api.settle_settlement_search({params}).then((res)=>{
-                            if(res.data.length == '0'){
-                                this.show = false
-                            }else{
-                                this.JSname=res.data;
-                            }
-                            
-                })
-                }
-               
-                console.log(this.name)
-            },
-            setName(da){
-                this.name=da;
-                this.show=false;
-            },
-            getDataList(num){
-                if(num!=undefined){
-                    this.page=num;
-                   var params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:num,search:this.search,is_receiver:this.is_receiver,name:this.name,channel:this.channel} 
-                }else{
-                     params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,search:this.search,is_receiver:this.is_receiver,name:this.name,channel:this.channel}
-                }
-                
-                this.api.settle_data_search({params}).then((res)=>{
+            getDataList(){
+                var params = {
+                    tstart:this.value[0],
+                    tend:this.value[1],
+                    p:this.p,
+                    page:this.page,
+                    search:this.search,
+                    type:this.type,
+                    status:this.status}
+                this.api.pushlib_message_all({params}).then((res)=>{
                     this.tableData=res.data;
-
-                    // var a1=0;
-                    // var a2=0;
-                    // var a4=0;
-                    // for(var i=0;i<res.data.length;i++){
-                    //     a1+=parseFloat(res.data[i].pv);
-                    //     a2+=parseFloat(res.data[i].click);
-                    //     a4+=parseFloat(res.data[i].income);
-
-                    var a1= 0;
-                    var a2= 0;
-                    var a4= 0;
-                    for(var i=0;i<this.tableData.length;i++){
-                        a1 += parseInt(res.data[i].pv);
-                        a2 += parseInt(res.data[i].click);
-                        a4 += parseFloat(res.data[i].income);
-                        this.tableData[i].income = parseFloat(this.tableData[i].income / 100).toFixed(2);
-                    }
-                    this.exhibition1 = parseInt(a1);
-                    this.exhibition2 = parseInt(a2);
-                    
-                    var sratio = 0;
-                    if(this.exhibition1 > 0){
-                        sratio =  parseFloat(this.exhibition2 / this.exhibition1 * 100).toFixed(2);
-
-                    }
-                    this.click_ratio = sratio.toString() +'%';
-                    this.exhibition4 = parseFloat(a4 / 100 ).toFixed(2);
                     this.total = res.total;
-                    console.log(this.tableData)
                 })
             },
            
