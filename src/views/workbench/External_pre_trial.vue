@@ -395,6 +395,7 @@ mounted() {
     //  this.getChannel();
      
      this.getUSER()
+    // this.getData();
 },
 
 }

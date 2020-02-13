@@ -2,7 +2,7 @@
     <div class="bg">
         <div class="content">
             <div class="tit_name">
-                <span>从素材库选择素材</span>
+                <span>从素材库选择</span>
             </div>
             <div class="Search">
                 <img src="../../../public/img/ss.png" />
@@ -118,6 +118,7 @@
                 listTag:[],
                 listTagData:[],
                 search_tags:[],
+                search_self_tags:[],
 
             }
         },
@@ -177,7 +178,7 @@
                     this.self_tags = da.data.self_tags
                 })
             },
-            handleSizeChange1() { // 每页条数切换
+            handleSizeChange1(pageSize) { // 每页条数切换
                 this.pageSize = pageSize;
                 console.log(this.pagesize);
                 this.getList()
@@ -217,7 +218,7 @@
                     }
                 }
 
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status}
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),status:this.status}
                 this.api.material_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     this.total=res.total;
@@ -241,7 +242,7 @@
                     }
                 }
 
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status}
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),status:this.status}
                 this.api.material_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     this.total=res.total;
@@ -335,7 +336,7 @@
     }
     .labelName{
         display: inline-block;
-        width:78px;
+        /* width:78px; */
         height:38px;
         border-radius:5px;
         font-size:14px;
