@@ -2,7 +2,7 @@
     <div class="bg" >
         <div class="content" >
             <div class="tit_name">
-                <span>从物料库</span>
+                <span>从物料库选择</span>
             </div>
             <div class="Search">
                 <img src="../../../public/img/ss.png" />
@@ -117,6 +117,7 @@
                 listTag:[],
                 listTagData:[],
                 search_tags:[],
+                search_self_tags:[],
                 model:'',
             }
         },
@@ -159,7 +160,7 @@
                     this.model='脚本';
                     this.type='f_ad_template'
                 }
-                let params = {p: this.pageSize, page: this.currentPage, type: this.type, search: this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status,size:this.limit_size,model:this.model};
+                let params = {p: this.pageSize, page: this.currentPage, type: this.type, search: this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),status:this.status,size:this.limit_size,model:this.model};
                 this.api.mfinal_search({params}).then((res) => {
                     this.IMGList = res.data;
                     this.total = res.total;
