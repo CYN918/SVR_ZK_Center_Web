@@ -271,7 +271,7 @@
             getCon(){
                 this.sc = true;
                 this.message=''
-				this.stop();
+				// this.stop();
             },
             SCsc(){
                 this.sc = true
