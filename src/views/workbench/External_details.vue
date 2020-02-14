@@ -191,7 +191,7 @@ methods: {
                      let formData =new FormData;
                       formData.append('status',this.status2);
                         if(!this.yy){
-                          formData.append('note',this.checkList.join(',').substr(1)+ ',' +this.yy); 
+                          formData.append('note',this.checkList.join(',').substr(1) +this.yy); 
                         }else{
                             formData.append('note',this.checkList.join(',').substr(1) +this.yy);
                         }  
