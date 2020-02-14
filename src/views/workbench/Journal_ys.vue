@@ -14,7 +14,7 @@
                 <!-- <span class='userGl' @click="jump()">账号管理</span> -->
         </div>
         <div class='screening'>
-                 <div class="date">
+                <!-- <div class="date">
                     <el-date-picker
                             v-model="date"
                             type="date"
@@ -22,7 +22,7 @@
                             placeholder="选择日期"
                             value-format="yyyy-MM-dd">
                     </el-date-picker>
-                </div>
+                </div> -->
                 <span class='qdName' v-if='pl==false'>状态</span>
                 <select v-model="status" v-if='pl==false'>
                     <option value="">全部</option>
@@ -325,7 +325,13 @@ methods: {
                 })
            },
            getData(){
-               let params={p:this.p,page:this.page,tdate:this.date,channel:this.$route.query.channel,status:this.status}
+               let params={
+                   p:this.p,
+                   page:this.page,
+                //    tdate:this.date,
+                   channel:this.$route.query.channel,
+                   status:this.status
+                }
                this.api.pushlib_adver_mfinal_list({params}).then((res)=>{
                    this.tableData=res.data;
                    this.total=res.total;
