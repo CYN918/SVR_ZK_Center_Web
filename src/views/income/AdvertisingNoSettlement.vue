@@ -21,7 +21,7 @@
                         value-format="yyyy-MM-dd">
                 </el-date-picker>
                 <span  class="ad">数据类型</span>
-                <select v-model="is_receiver">
+                <select v-model="is_receiver" @change="change(value)">
                     <option value="1">收款数据</option>
                     <option value="0">付款数据</option>
                 </select>
@@ -38,8 +38,8 @@
                 </div> -->
                
                 
-                <span class="ad">搜索</span>
-                <input type="text" placeholder="请输入关键词" v-model="search"/>
+                <span class="ad" v-if="is_receiver==1">搜索</span>
+                <input type="text" placeholder="请输入关键词" v-model="search" v-if="is_receiver==1"/>
                 <span class="cx" @click="getDataList(1)">查询</span>
                 <span class="cx" @click="downloadImg()">导出</span>
             </div>
@@ -263,6 +263,9 @@
                 this.getqd();
         },
         methods:{
+            change(value){
+                this.getDataList();
+            },
             getRowClass({row, column, rowIndex}) {
                 if (rowIndex === 0) {
                     return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;padding:20px 0px 20px 14px'
