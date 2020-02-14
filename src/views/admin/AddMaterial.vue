@@ -634,6 +634,10 @@
                         }
                     }
                     this.attach = res.attach;
+                    if(res.attach.wpid==undefined){
+                        this.attach.wpid=res.wpid
+                    }
+                    this.ad_num=res.ad_num;
                     console.log(this.attach)
                     this.sjSize=res.size;
                     this.type=res.type;
