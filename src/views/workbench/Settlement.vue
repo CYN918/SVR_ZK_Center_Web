@@ -26,7 +26,7 @@
                     </div>
 
                 </div>
-                <div>
+                <div v-if="userNames">
                     <span class="fillName">结算方</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
                         <span  class="text">{{list.check.check1.name}}</span>
@@ -107,9 +107,27 @@
                 a:0,
                 id:"",
                 fj:{},
+                purview:[],
+                userNames:true,
             }
         },
         mounted(){
+            this.purview=JSON.parse(localStorage.getItem('letNav'));
+            for(var i=0;i<this.purview.length;i++){
+                if(this.purview[i].title=='收益中心'){
+                    var alt1 = this.purview[i].children;
+                    for(var k=0;k<alt1.length;k++){
+                        if(alt1[k].title=='结算管理'){
+                            var alt2=alt1[k].list;   
+                            for(var t=0;t<alt2.length;t++){
+                                if(alt2[t].url=='/income/Payment_operation/Administration'){      
+                                    this.userNames=false;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             this.id=this.skID,
             this.getData();
             this.type=this.skType;
