@@ -2,7 +2,7 @@
     <div>
         <div>
             <div class="top_name">
-                <span class="top_txt">渠道资源替换</span>
+                <span class="top_txt">线上审核资源替换</span>
             </div>
         </div>
         <div class="content_right">

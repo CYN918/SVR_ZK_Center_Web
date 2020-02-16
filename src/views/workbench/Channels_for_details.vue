@@ -2,13 +2,13 @@
     <div>
         <div>
             <div class="top_name" v-if="sdk_type == 'adsdk'">
-                <span class="top_txt" @click='fh()'>渠道资源替换&nbsp;/&nbsp;ADSDK类型</span>
+                <span class="top_txt" @click='fh()'>渠道资源替换&nbsp;/&nbsp;ADSDK渠道详情</span>
                 <div class="title_left">
                     <span>渠道详情</span>
                 </div>
             </div>
             <div class="top_name" v-if="sdk_type == 'fmsdk'">
-                <span class="top_txt" @click='fh()'>渠道资源替换&nbsp;/&nbsp;FMSDK类型</span>
+                <span class="top_txt" @click='fh()'>渠道资源替换&nbsp;/&nbsp;FMSDK渠道详情</span>
                 <div class="title_left">
                     <span>渠道详情</span>
                 </div>
@@ -21,11 +21,6 @@
                     <option value="">全部</option>
                     <option :value="item.media_channel" v-for='(item,index) in channelList'>{{item.media_channel}}</option>
                 </select> -->
-                <span style="font-size: 14px" >三方广告位:</span>
-                <select  style="margin-right: 10px;width: 150px" v-model="id_adsrc">
-                    <option value="">全部</option>
-                    <option :value="item.id_adsrc" v-for='(item,index) in mediaAdsrc'>{{item.id_adsrc}}</option>
-                </select>
                 <span style="font-size: 14px" v-if="sdk_type == 'fmsdk'">替换逻辑:<i style="font-style:normal;color:red;">(必选)</i></span>
                 <select v-model="is_preview" style="margin-right: 10px;width: 150px" v-if="sdk_type == 'fmsdk'">
                     <option value="3">图片逻辑</option>
@@ -38,6 +33,11 @@
                 </select>
                 <span style="font-size: 14px">SDK_ID:</span>
                 <input type="text" placeholder="请输入sdkID查询" v-model="text"/>
+                <span style="font-size: 14px" >三方广告位:</span>
+                <select  style="margin-right: 10px;width: 150px" v-model="id_adsrc">
+                    <option value="">全部</option>
+                    <option :value="item.id_adsrc" v-for='(item,index) in mediaAdsrc'>{{item.id_adsrc}}</option>
+                </select>
                 <span class="cx" @click="getList()">
                 查询
             </span>
@@ -345,7 +345,8 @@
             //     })
             // },
             getTypeAdsrc(){
-                this.api.replace_channel_media_adsrc().then((res)=>{
+                let params = {sdk_type:this.sdk_type,media_channel:this.channel};
+                this.api.replace_channel_media_adsrc({params}).then((res)=>{
                     this.mediaAdsrc=res;
                 })
             },
@@ -476,6 +477,7 @@
                         is_preview:this.is_preview,
                         source:this.source,
                         sdk_type:this.sdk_type,
+                        id_adsrc:this.id_adsrc,
                     },
                     path:'./Advertising_source_details'
                 })
