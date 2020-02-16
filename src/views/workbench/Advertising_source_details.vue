@@ -3,7 +3,7 @@
         <div class="tit_top" v-if="sdk_type == 'adsdk'">
             <div class="tit_top_url">
                 <span class="log_url" @click="fhs">渠道资源替换 &nbsp;/&nbsp;</span>
-                <span class="log_url" @click="fh">ADSDK类型 &nbsp;/&nbsp;</span>
+                <span class="log_url" @click="fh">ADSDK渠道详情 &nbsp;/&nbsp;</span>
                 <span class="new_url">广告内容列表</span>
             </div>
             <div class="tit_top_con">
@@ -20,7 +20,7 @@
         <div class="tit_top" v-if="sdk_type == 'fmsdk'">
             <div class="tit_top_url">
                 <span class="log_url" @click="fhs">渠道资源替换 &nbsp;/&nbsp;</span>
-                <span class="log_url" @click="fh">FMSDK类型 &nbsp;/&nbsp;</span>
+                <span class="log_url" @click="fh">FMSDK渠道详情 &nbsp;/&nbsp;</span>
                 <span class="new_url">广告内容列表</span>
             </div>
             <div class="tit_top_con">
@@ -31,6 +31,8 @@
                     {{this.rank.join(';')}}
                 </span>
                 <span class="sdk">SKD_ID:{{this.$route.query.sdkid}}</span>
+                <span class="sdk">三方广告位ID：{{this.$route.query.id_adsrc}}</span>
+                <span class="sdk">渠道信息:{{this.$route.query.channel}}</span>
                 <!-- <span class="educe" @click="derived()">导出</span> -->
             </div>
         </div>
@@ -196,17 +198,18 @@
                                 type="index"
                                 label="序号">
                         </el-table-column> -->
-                        <el-table-column
-                                label="原始图片">
-                            <template slot-scope="scope">
-                                <img :src="tableData[scope.$index].original_res[0].url" style="max-width:80px;max-height: 80px;cursor: pointer"  preview="0" />
-                            </template>
-                        </el-table-column>
+                        
                         <el-table-column
                                 label="落地页">
                             <template slot-scope="scope">
                                 <a :href="tableData[scope.$index].preview_url" target="_blank" style="text-decoration: none;color: #66b1ff" v-if="tableData[scope.$index].preview_url!=''">点击查看</a>
                                 <a  v-if="tableData[scope.$index].preview_url==''">-</a>
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                                label="原始图片">
+                            <template slot-scope="scope">
+                                <img :src="tableData[scope.$index].original_res[0].url" style="max-width:80px;max-height: 80px;cursor: pointer"  preview="0" />
                             </template>
                         </el-table-column>
                         <el-table-column
@@ -378,7 +381,7 @@
                     this.search='';
                 }
                 
-                let params ={tdate:this.$route.query.time,times:this.$route.query.num,p:this.p,page:this.page,search:this.search,source:this.$route.query.source,is_preview:this.$route.query.is_preview,media_channel:this.$route.query.channel};
+                let params ={tdate:this.$route.query.time,times:this.$route.query.num,p:this.p,page:this.page,search:this.search,source:this.$route.query.source,is_preview:this.$route.query.is_preview,media_channel:this.$route.query.channel,sdk_id:this.$route.query.sdkid,id_adsrc:this.$route.query.id_adsrc};
                 this.api.replace_pending_list({params}).then((res)=>{
                     this.tableData = res;
                     for(var i=0;i<this.tableData.length;i++){
