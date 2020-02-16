@@ -18,11 +18,6 @@
                     >
                     </el-date-picker>
                 </div>
-                <span>渠道</span>
-                <select v-model="channel" >
-                    <option value="">全部</option>
-                    <option :value="item.media_channel" v-for='(item,index) in channelList'>{{item.media_channel}}</option>
-                </select>
                 <span>SDK类型:<i style="font-style:normal;color:red;">(必选)</i></span>
                 <el-select v-model="sdk_type" placeholder="请选择" @change="change">
                     <el-option
@@ -32,10 +27,16 @@
                         :value="item.value">
                     </el-option>
                 </el-select>
-                <span class="screen_btn1" @click='pushService()'>一键推送</span>
-                <span class="screen_btn1" @click='getData()'>查询</span>
+                <span>渠道</span>
+                <select v-model="channel" >
+                    <option value="">全部</option>
+                    <option :value="item.media_channel" v-for='(item,index) in channelList'>{{item.media_channel}}</option>
+                </select>
+                <span class="screen_btn1" @click='pushService()' v-if="sdk_type == 'adsdk'">一键推送</span>
+                <span class="screen_btn1" @click='getData()' v-if="sdk_type == 'adsdk'">查询</span>
+                <span class="screen_btn1" @click='getData_fm()' v-if="sdk_type == 'fmsdk'">查询</span>
             </div>
-            <div v-if="sdk_type == '1'">
+            <div v-if="sdk_type == 'adsdk'">
                 <template>
                     <el-table
                             :data="tableData"
@@ -88,7 +89,7 @@
                                 </template>
                         </el-table-column>
                         <el-table-column
-                                prop="count"
+                                prop="updated_at"
                                 label="更新时间">
                         </el-table-column>
                         <el-table-column
@@ -102,7 +103,7 @@
                     </el-table>
                 </template>
             </div>
-            <div v-if="sdk_type == '2'">
+            <div v-if="sdk_type == 'fmsdk'">
                 <template>
                     <el-table
                             :data="tableData"
@@ -121,10 +122,14 @@
                         <el-table-column
                                 prop="count"
                                 label="已替换数量">
+                                <template slot-scope="scope">
+                                    <span v-if='!Array.isArray(tableData[scope.$index].space_ratio) || !tableData[scope.$index].space_ratio[0]'>--</span>
+                                   
+                                </template>
                         </el-table-column>
                         
                         <el-table-column
-                                prop="count"
+                                prop="updated_at"
                                 label="更新时间">
                         </el-table-column>
                         <el-table-column
@@ -192,24 +197,26 @@
                 ts:false,
                 sdk_type:'',
                 options: [{
-                    value: '1',
+                    value: 'adsdk',
                     label: 'ADSDK类型'
                     }, {
-                    value: '2',
+                    value: 'fmsdk',
                     label: 'FMSDK类型'
                 }],
 
             }
         },
         mounted(){
-           this.getType()
+           
         },
         methods:{
             change(value){
-                if(value == '1'){
+                if(value == 'adsdk'){
                     this.getData();
+                    this.getType()
                 }else{
                     this.getData_fm();
+                    this.getType()
                 }
             },
             getRowClass({row, column, rowIndex}) {
@@ -248,7 +255,8 @@
                 })
             },
             getType(){
-                this.api.replace_channel_media_channel().then((res)=>{
+                let params={sdk_type:this.sdk_type}
+                this.api.replace_channel_media_channel({params}).then((res)=>{
                     this.channelList=res;
                 })
             },
@@ -272,14 +280,14 @@
                 })
             },
             getData(){
-                let params={tdate:this.value1,media_channel:this.channel,p:this.p,page:this.page}
+                let params={tdate:this.value1,media_channel:this.channel,p:this.p,page:this.page,sdk_type:this.sdk_type}
                this.api.replace_channel_audit_statistics({params}).then((res)=>{
                    this.tableData=res.data;
                    this.total=res.total
                })
             },
             getData_fm(){
-                let params={tdate:this.value1,media_channel:this.channel,p:this.p,page:this.page}
+                let params={tdate:this.value1,media_channel:this.channel,p:this.p,page:this.page,sdk_type:this.sdk_type}
                this.api.replace_fm_statistics({params}).then((res)=>{
                    this.tableData=res.data;
                    this.total=res.total
