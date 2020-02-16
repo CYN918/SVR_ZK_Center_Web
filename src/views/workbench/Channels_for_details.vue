@@ -1,8 +1,14 @@
 <template>
     <div>
         <div>
-            <div class="top_name">
-                <span class="top_txt" @click='fh()'>渠道资源替换&nbsp;/&nbsp;渠道详情</span>
+            <div class="top_name" v-if="sdk_type == '1'">
+                <span class="top_txt" @click='fh()'>渠道资源替换&nbsp;/&nbsp;ADSDK类型</span>
+                <div class="title_left">
+                    <span>渠道详情</span>
+                </div>
+            </div>
+            <div class="top_name" v-if="sdk_type == '2'">
+                <span class="top_txt" @click='fh()'>渠道资源替换&nbsp;/&nbsp;FMSDK类型</span>
                 <div class="title_left">
                     <span>渠道详情</span>
                 </div>
@@ -14,6 +20,11 @@
                 <select  style="margin-right: 10px;width: 150px" v-model="channel">
                     <option value="">全部</option>
                     <option :value="item.media_channel" v-for='(item,index) in channelList'>{{item.media_channel}}</option>
+                </select>
+                <span style="font-size: 14px" >三方广告位:</span>
+                <select  style="margin-right: 10px;width: 150px" v-model="id_adsrc">
+                    <option value="">全部</option>
+                    <option :value="item.id_adsrc" v-for='(item,index) in mediaAdsrc'>{{item.id_adsrc}}</option>
                 </select>
                <span style="font-size: 14px">数据源:</span>
                 <select v-model="source" style="margin-right: 10px;width: 150px">
@@ -193,6 +204,9 @@
             </div>
           
         </div>
+        <!-- <div class="content_right" v-if="sdk_type == '2'">
+
+        </div> -->
     </div>
 
 </template>
@@ -206,6 +220,7 @@
             return{
                 tableData:[],
                 tdate:this.$route.query.tdate,
+                sdk_type:this.$route.query.sdk_type,
                 total:0,
                 search:'',
                 page:1,
@@ -221,12 +236,15 @@
                 source:'own',
                 is_preview:'2',
                 channel:this.$route.query.channel,
+                id_adsrc: '',
                 channelList:[],
+                mediaAdsrc:[],
             }
         },
         mounted(){
             this.getTimes();
-            this.getType()
+            this.getType();
+            this.getTypeAdsrc();
         },
 
         methods:{
@@ -238,6 +256,11 @@
              getType(){
                 this.api.replace_channel_media_channel().then((res)=>{
                     this.channelList=res;
+                })
+            },
+            getTypeAdsrc(){
+                this.api.replace_channel_media_adsrc().then((res)=>{
+                    this.mediaAdsrc=res;
                 })
             },
             handleSizeChange(p) { // 每页条数切换
@@ -281,7 +304,7 @@
                 if(!this.source){
                     this.$message.error('数据源不能为空');
                 }
-                let params ={tdate:this.tdate,times:JSON.stringify(this.number),p:this.p,page:this.page,search:this.search,source:this.source,is_preview:this.is_preview,media_channel:this.channel};
+                let params ={tdate:this.tdate,times:JSON.stringify(this.number),p:this.p,page:this.page,search:this.search,source:this.source,is_preview:this.is_preview,media_channel:this.channel,id_adsrc:this.id_adsrc};
                 this.api.replace_sdk_overview({params}).then((res)=>{
                     this.tableData = res;
                     this.total=res.total;
@@ -366,6 +389,7 @@
                         num:JSON.stringify(this.number),
                         is_preview:this.is_preview,
                         source:this.source,
+                        sdk_type:this.sdk_type,
                     },
                     path:'./Advertising_source_details'
                 })

@@ -1,10 +1,21 @@
 <template>
     <div>
-        <div class="titl">
+        <div class="titl" v-if="sdk_type == '1'">
             <div style="margin:24px 0 20px 24px">
                 <span style="color: #b3b3b3;cursor: pointer " @click="fh()">渠道资源替换</span>
-                <span style="color: #b3b3b3;cursor: pointer " @click="goIndex()">&nbsp;/&nbsp;渠道详情</span>
-                <span style="color: #b3b3b3;cursor: pointer" @click="goHome()">&nbsp;/&nbsp;广告源详情</span>
+                <span style="color: #b3b3b3;cursor: pointer " @click="goIndex()">&nbsp;/&nbsp;ADSDK类型</span>
+                <span style="color: #b3b3b3;cursor: pointer" @click="goHome()">&nbsp;/&nbsp;广告内容列表</span>
+                <span style="color: #1890ff;">&nbsp;/&nbsp;广告详情</span>
+            </div>
+            <div>
+                <span class="titl_name">广告详情</span>
+            </div>
+        </div>
+        <div class="titl" v-if="sdk_type == '2'">
+            <div style="margin:24px 0 20px 24px">
+                <span style="color: #b3b3b3;cursor: pointer " @click="fh()">渠道资源替换</span>
+                <span style="color: #b3b3b3;cursor: pointer " @click="goIndex()">&nbsp;/&nbsp;FMSDK类型</span>
+                <span style="color: #b3b3b3;cursor: pointer" @click="goHome()">&nbsp;/&nbsp;广告内容列表</span>
                 <span style="color: #1890ff;">&nbsp;/&nbsp;广告详情</span>
             </div>
             <div>
@@ -106,6 +117,7 @@
                 
             
         </div>
+        <!-- <div class="content_right" v-if="sdk_type == '2'"></div> -->
             
             <div>
                 <div>
@@ -255,6 +267,7 @@
         name: "has_replaced",
         data(){
             return{
+                sdk_type:this.$route.query.sdk_type,
                 tableData2:[],
                 times:[],
                 remove:false,
