@@ -31,10 +31,23 @@
                     {{this.rank.join(';')}}
                 </span>
                 <span class="sdk">SKD_ID:{{this.$route.query.sdkid}}</span>
-                <span class="educe" @click="derived()">导出</span>
+                <!-- <span class="educe" @click="derived()">导出</span> -->
             </div>
         </div>
         <div class="content_right" v-if="sdk_type == 'adsdk'">
+            <div class="screen">
+                <span>状态:</span>
+                <el-select v-model="status" placeholder="请选择">
+                    <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                    </el-option>
+                </el-select>
+                
+                <span class="screen_btn1" @click='getList()'>查询</span>
+            </div>
             <div class="titel_table">
                 <span class="circle"></span>
                 <span>共</span>
@@ -139,6 +152,25 @@
             </div>
         </div>
         <div class="content_right" v-if="sdk_type == 'fmsdk'">
+            <div class="screen">
+                <span style="font-size: 14px">替换逻辑:<i style="font-style:normal;color:red;">(必选)</i></span>
+                <select v-model="is_preview" style="margin-right: 10px;width: 150px">
+                    <option value="3">图片逻辑</option>
+                    <option value="4">落地页逻辑</option>
+                </select>
+                <span>状态:</span>
+                <el-select v-model="status" placeholder="请选择">
+                    <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                    </el-option>
+                </el-select>
+                
+                <span class="screen_btn1" @click='getList()'>查询</span>
+                <!-- <span class="screen_btn1" @click='reset()'>重置</span> -->
+            </div>
             <div class="titel_table">
                 <span class="circle"></span>
                 <span>共</span>
@@ -253,6 +285,7 @@
         data(){
             return{
                 sdk_type:this.$route.query.sdk_type,
+                is_preview:'',
                 tableData:[],
                 times:[],
                 cl:[],
@@ -263,6 +296,18 @@
                 p:10,
                 search:'',
                 rank:[],
+                status:'',
+                options: [{
+                    value: '1',
+                    label: '已完成'
+                    }, {
+                    value: '2',
+                    label: '待处理'
+                    },{
+                    value: '3',
+                    label: '处理中'
+
+                }],
             }
         },
         mounted(){
@@ -377,6 +422,24 @@
 </script>
 
 <style scoped>
+   .screen_btn1{
+        background:rgba(51,119,255,1)!important;
+        color:rgba(255,255,255,1)!important;
+        border: 0!important;
+        float:right;
+        margin:5px  24px 0 0 ;
+    }
+    
+    .screen_btn1{
+        width:68px;
+        height:36px;
+        text-align: center;
+        line-height: 36px;
+        cursor: pointer;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+    }
     input,select{
         margin-left: 20px;
         width: 200px;

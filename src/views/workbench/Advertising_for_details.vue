@@ -57,6 +57,8 @@
                     <span >{{src}}</span>
                 </div>
                 <div>
+                    <span>三方广告ID:</span>
+                    <span class="con">{{id_adsrc}}</span>
                     <span>渠道</span>
                     <span class="con">{{tableData.media_channel}}</span>
                     
@@ -86,6 +88,11 @@
                         <el-table-column
                                 prop="url"
                                 label="url"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                prop=""
+                                label="尺寸"
                         >
                         </el-table-column>
                         <!-- <el-table-column
