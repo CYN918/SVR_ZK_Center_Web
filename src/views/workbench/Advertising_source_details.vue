@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="tit_top" v-if="sdk_type == '1'">
+        <div class="tit_top" v-if="sdk_type == 'adsdk'">
             <div class="tit_top_url">
                 <span class="log_url" @click="fhs">渠道资源替换 &nbsp;/&nbsp;</span>
                 <span class="log_url" @click="fh">ADSDK类型 &nbsp;/&nbsp;</span>
@@ -17,7 +17,7 @@
                 <span class="educe" @click="derived()">导出</span>
             </div>
         </div>
-        <div class="tit_top" v-if="sdk_type == '2'">
+        <div class="tit_top" v-if="sdk_type == 'fmsdk'">
             <div class="tit_top_url">
                 <span class="log_url" @click="fhs">渠道资源替换 &nbsp;/&nbsp;</span>
                 <span class="log_url" @click="fh">FMSDK类型 &nbsp;/&nbsp;</span>
@@ -34,7 +34,7 @@
                 <span class="educe" @click="derived()">导出</span>
             </div>
         </div>
-        <div class="content_right">
+        <div class="content_right" v-if="sdk_type == 'adsdk'">
             <div class="titel_table">
                 <span class="circle"></span>
                 <span>共</span>
@@ -138,9 +138,111 @@
                 </el-pagination>
             </div>
         </div>
-        <!-- <div class="content_right" v-if="sdk_type == '2'">
+        <div class="content_right" v-if="sdk_type == 'fmsdk'">
+            <div class="titel_table">
+                <span class="circle"></span>
+                <span>共</span>
+                <span class="all">{{this.tableData.length}}</span>
+                <span>项&nbsp&nbsp</span>
+                <span>已处理</span>
+                <span >{{cl.length}}</span>
+                <span>项&nbsp&nbsp</span>
+                <span>剩余</span>
+                <span class="red">{{dcl.length}}</span>
+                <span>项&nbsp&nbsp</span>
+            </div>
+            <div>
+                <template>
+                    <el-table
+                            :data="tableData"
+                            style="width: 100%"
+                            :header-cell-style="getRowClass"
+                            :cell-style="cell"
+                            @selection-change="handleSelectionChange"
+                            border>
+                        <!-- <el-table-column
+                                type="index"
+                                label="序号">
+                        </el-table-column> -->
+                        <el-table-column
+                                label="原始图片">
+                            <template slot-scope="scope">
+                                <img :src="tableData[scope.$index].original_res[0].url" style="max-width:80px;max-height: 80px;cursor: pointer"  preview="0" />
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                                label="落地页">
+                            <template slot-scope="scope">
+                                <a :href="tableData[scope.$index].preview_url" target="_blank" style="text-decoration: none;color: #66b1ff" v-if="tableData[scope.$index].preview_url!=''">点击查看</a>
+                                <a  v-if="tableData[scope.$index].preview_url==''">-</a>
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                                prop="pv"
+                                sortable
+                                label="图片填充量">
+                        </el-table-column>
+                        <el-table-column
+                                prop="ratio"
+                                sortable
+                                label="填充量占比">
+                        </el-table-column>
+                        <el-table-column
+                                prop="new_res.length"
+                                sortable
+                                label="替换资源数量">
+                        </el-table-column>
+                        <el-table-column
+                                prop="level"
+                                sortable
+                                label="资源新鲜度">
+                        </el-table-column>
+                        <!-- <el-table-column
+                                prop="tdate"
+                                sortable
+                                label="资源新鲜度">
+                        </el-table-column> -->
+                        <!-- <el-table-column
+                                prop="sucess_ratio"
+                                sortable
+                                label="替换占比">
+                        </el-table-column>
+                        <el-table-column
+                                prop="pass_ratio"
+                                sortable
+                                label="审核通过率">
+                                 <template slot-scope="scope">
+                                <span>{{tableData[scope.$index].pass_ratio=''?'--':tableData[scope.$index].pass_ratio}}</span>
+                            </template>
+                        </el-table-column> -->
+                        <el-table-column
+                                prop="status"
+                                sortable
+                                label="状态">
+                        </el-table-column>   
+                        <el-table-column
+                                label="操作">
+                            <template slot-scope="scope">
+                                <!-- <el-button  type="text" size="small" v-clipboard:copy="tableData[scope.$index].copy_file_name" v-clipboard:success="onCopy"   v-clipboard:error="onError">复制命名</el-button> -->
+                                <el-button @click="getAdd(tableData[scope.$index])" type="text" size="small">查看详情</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </template>
+            </div>
+            <div class="blocks">
+                <el-pagination
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page="page"
+                        :page-sizes="[10, 20, 30, 40]"
+                        :page-size="p"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="total">
+                </el-pagination>
+            </div>
 
-        </div> -->
+        </div>
     </div>
 </template>
 
