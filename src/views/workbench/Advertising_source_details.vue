@@ -1,13 +1,30 @@
 <template>
     <div>
-        <div class="tit_top">
+        <div class="tit_top" v-if="sdk_type == '1'">
             <div class="tit_top_url">
                 <span class="log_url" @click="fhs">渠道资源替换 &nbsp;/&nbsp;</span>
-                <span class="log_url" @click="fh">渠道详情 &nbsp;/&nbsp;</span>
-                <span class="new_url">广告源详情</span>
+                <span class="log_url" @click="fh">ADSDK类型 &nbsp;/&nbsp;</span>
+                <span class="new_url">广告内容列表</span>
             </div>
             <div class="tit_top_con">
-                <span class="tit_name">广告源详情</span>
+                <span class="tit_name">广告内容列表</span>
+                <span class="time">{{this.$route.query.source}}</span>
+                <span class="time">{{this.$route.query.time}}</span>
+                <span class="num" >
+                    {{this.rank.join(';')}}
+                </span>
+                <span class="sdk">SKD_ID:{{this.$route.query.sdkid}}</span>
+                <span class="educe" @click="derived()">导出</span>
+            </div>
+        </div>
+        <div class="tit_top" v-if="sdk_type == '2'">
+            <div class="tit_top_url">
+                <span class="log_url" @click="fhs">渠道资源替换 &nbsp;/&nbsp;</span>
+                <span class="log_url" @click="fh">FMSDK类型 &nbsp;/&nbsp;</span>
+                <span class="new_url">广告内容列表</span>
+            </div>
+            <div class="tit_top_con">
+                <span class="tit_name">广告内容列表</span>
                 <span class="time">{{this.$route.query.source}}</span>
                 <span class="time">{{this.$route.query.time}}</span>
                 <span class="num" >
@@ -121,6 +138,9 @@
                 </el-pagination>
             </div>
         </div>
+        <!-- <div class="content_right" v-if="sdk_type == '2'">
+
+        </div> -->
     </div>
 </template>
 
@@ -130,6 +150,7 @@
         name: "replace",
         data(){
             return{
+                sdk_type:this.$route.query.sdk_type,
                 tableData:[],
                 times:[],
                 cl:[],
@@ -240,6 +261,7 @@
                         is_preview:this.$route.query.is_preview,
                         media_channel:this.$route.query.channel,
                         preview_url:data.preview_url,
+                        sdk_type:this.sdk_type,
                     },
                 });
                 window.open(routeData.href, '_blank');
