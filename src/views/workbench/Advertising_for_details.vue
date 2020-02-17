@@ -639,6 +639,7 @@
                 formData.append('source',this.$route.query.source);
                 formData.append('is_preview',this.$route.query.is_preview);
                 formData.append('sdk_id',this.$route.query.sdk_id);
+                formData.append('id_adsrc',this.$route.query.id_adsrc);
                 formData.append('src',this.tableData.src);
                 formData.append('url_md5',this.$route.query.url_md5);
                 this.api.replace_del(formData).then((res)=>{

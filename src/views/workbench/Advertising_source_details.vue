@@ -41,7 +41,7 @@
         <div class="content_right" v-if="sdk_type == 'adsdk'">
             <div class="screen">
                 <span>状态:</span>
-                <select v-model="is_preview" style="margin-right: 10px;width: 150px">
+                <select v-model="status" style="margin-right: 10px;width: 150px">
                     <option value="-1">全部</option>
                     <option value="0">待处理</option>
                     <option value="1">已完成</option>
@@ -160,7 +160,7 @@
                     <option value="4">落地页逻辑</option>
                 </select>
                 <span>状态:</span>
-                <select v-model="is_preview" style="margin-right: 10px;width: 150px">
+                <select v-model="status" style="margin-right: 10px;width: 150px">
                     <option value="-1">全部</option>
                     <option value="0">待处理</option>
                     <option value="1">已完成</option>
@@ -406,6 +406,7 @@
                         media_channel:this.$route.query.channel,
                         preview_url:data.preview_url,
                         sdk_type:this.sdk_type,
+                        id_adsrc:this.$route.query.id_adsrc
                     },
                 });
                 window.open(routeData.href, '_blank');
