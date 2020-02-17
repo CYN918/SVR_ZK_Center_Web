@@ -91,9 +91,16 @@
                         >
                         </el-table-column>
                         <el-table-column
-                                prop=""
+                                
                                 label="尺寸"
                         >
+                                <template slot-scope="scope">
+                                    <div>
+                                        <span>宽:{{cuWidth}}</span><br/>
+                                        <span>高:{{cuHeight}}</span>
+                                    </div>
+                                </template>
+                        
                         </el-table-column>
                         <!-- <el-table-column
                                 prop="width"
@@ -124,7 +131,6 @@
                 
             
         </div>
-        <!-- <div class="content_right" v-if="sdk_type == '2'"></div> -->
             
             <div>
                 <div>
@@ -311,8 +317,10 @@
                 ss:false,
                 space_type:"",
                 index:'',
-                newType:""
-
+                newType:"",
+                id_adsrc:"",
+                cuWidth: "",
+                cuHeight:"",
             }
         },
 
@@ -517,8 +525,13 @@
                 //      params ={mid:this.$route.query.id,tdate:this.$route.query.tdate,times:this.$route.query.times,source:this.$route.query.source};
                 // }
                 this.api.replace_res_detail({params}).then((res)=>{
-                    for(var i=0;i<res.length;i++){
-                        if(res[i].mid==this.$route.query.id){
+                    if(res.length == '1'){
+                        for(var i=0;i<res.length;i++){
+                            res[i].original_res.forEach(element => {
+                                this.id_adsrc = (element.id_adsrc + ',').substring(0,(element.id_adsrc + ',').length-1)
+                                this.cuWidth = (element.width + ',').substring(0,(element.width + ',').length-1)
+                                this.cuHeight = (element.height + ',').substring(0,(element.height + ',').length-1)
+                            });   
                             this.tableData=res[i];
                             this.time = res[i].tdate;
                             this.mid=res[i].mid;
@@ -537,8 +550,11 @@
                                 this.newIMG.push(this.tableData2[j].url);
                             }
                         }
-                       
+
+                    }else{
+                        this.$message.error('数据错误')
                     }
+                    
                 })
 
             },
