@@ -282,6 +282,7 @@
                         :limit="10"
                         :on-exceed="handleExceed"
                         :on-remove="handleRemove"
+                        :before-upload="beforeAvatarUpload"
                         :http-request="upload"
                         >
                             <el-button size="small" type="primary">点击上传</el-button>
@@ -390,6 +391,15 @@
             this.getDataList();
         },
         methods:{
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                
+                if (!isJPG) {
+                    this.$message.error('上传图片只能是 JPG 格式!');
+                }
+                
+                return isJPG;
+            },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
                     return 'background:rgb(246, 245, 245,1);color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
