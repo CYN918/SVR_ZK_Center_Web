@@ -113,7 +113,7 @@
                             </template>
                         </el-table-column>
                         <el-table-column
-                                prop=""
+                                prop="audit_num"
                                 sortable
                                 label="可送审数量">
                         </el-table-column>
