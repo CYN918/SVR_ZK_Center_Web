@@ -230,6 +230,7 @@
                             </template>
                         </el-table-column>
                          <el-table-column
+                                v-if="sdk_type == 'adsdk'"
                                 prop="status"
                                 label="审核状态">
                                 <template slot-scope="scope">
@@ -237,6 +238,7 @@
                                 </template>
                         </el-table-column>
                          <el-table-column
+                                v-if="sdk_type == 'adsdk'"
                                 prop="status"
                                 label="原因说明">
                                 <template slot-scope="scope">

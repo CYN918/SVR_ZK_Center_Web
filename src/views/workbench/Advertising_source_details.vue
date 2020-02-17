@@ -155,7 +155,7 @@
         <div class="content_right" v-if="sdk_type == 'fmsdk'">
             <div class="screen">
                 <span style="font-size: 14px">替换逻辑:<i style="font-style:normal;color:red;">(必选)</i></span>
-                <select v-model="is_preview" style="margin-right: 10px;width: 150px">
+                <select v-model="is_preview" style="margin-right: 10px;width: 150px" @change="change">
                     <option value="3">图片逻辑</option>
                     <option value="4">落地页逻辑</option>
                 </select>
@@ -310,7 +310,8 @@
         },
         methods:{
             change(value){
-                this.is_preview = value;
+                console.log(value)
+                // this.is_preview = value;
             },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
@@ -402,7 +403,7 @@
                         times:this.$route.query.num,
                         sdkid:this.$route.query.sdkid,
                         source:this.$route.query.source,
-                        is_preview:this.$route.query.is_preview,
+                        is_preview:this.is_preview,
                         media_channel:this.$route.query.channel,
                         preview_url:data.preview_url,
                         sdk_type:this.sdk_type,
