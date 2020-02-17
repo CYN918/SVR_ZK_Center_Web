@@ -230,6 +230,7 @@
                             </template>
                         </el-table-column>
                          <el-table-column
+                                v-if="sdk_type == 'adsdk'"
                                 prop="status"
                                 label="审核状态">
                                 <template slot-scope="scope">
@@ -237,6 +238,7 @@
                                 </template>
                         </el-table-column>
                          <el-table-column
+                                v-if="sdk_type == 'adsdk'"
                                 prop="status"
                                 label="原因说明">
                                 <template slot-scope="scope">
@@ -395,7 +397,7 @@
                 const isJPG = file.type === 'image/jpeg';
                 
                 if (!isJPG) {
-                    this.$message.error('上传图片只能是 JPG 格式!');
+                    this.$message.error('仅支持.jpg格式， 请调整后重新上传!');
                 }
                 
                 return isJPG;
@@ -440,10 +442,7 @@
             },
             fh(){
                   this.$router.push({
-                    path:"./channel_resource",
-                    query:{
-                        sdk_type:this.sdk_type,
-                    }
+                    path:"./channel_resource"
                 })
             },
             goIndex(){

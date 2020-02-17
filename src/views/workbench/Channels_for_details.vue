@@ -113,7 +113,7 @@
                             </template>
                         </el-table-column>
                         <el-table-column
-                                prop=""
+                                prop="audit_num"
                                 sortable
                                 label="可送审数量">
                         </el-table-column>
@@ -336,10 +336,7 @@
         methods:{
             fh(){
                 this.$router.push({
-                    path:"./channel_resource",
-                    query:{
-                        sdk_type:this.sdk_type,
-                    }
+                    path:"./channel_resource"
                 }) 
             },
             //  getType(){
