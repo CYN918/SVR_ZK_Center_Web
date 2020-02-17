@@ -442,10 +442,7 @@
             },
             fh(){
                   this.$router.push({
-                    path:"./channel_resource",
-                    query:{
-                        sdk_type:this.sdk_type,
-                    }
+                    path:"./channel_resource"
                 })
             },
             goIndex(){
