@@ -397,7 +397,7 @@
                 const isJPG = file.type === 'image/jpeg';
                 
                 if (!isJPG) {
-                    this.$message.error('上传图片只能是 JPG 格式!');
+                    this.$message.error('仅支持.jpg格式， 请调整后重新上传!');
                 }
                 
                 return isJPG;
