@@ -2,7 +2,7 @@
     <div>
         <div class="titl" v-if="sdk_type == 'adsdk'">
             <div style="margin:24px 0 20px 24px">
-                <span style="color: #b3b3b3;cursor: pointer " @click="fh()">渠道资源替换</span>
+                <span style="color: #b3b3b3;cursor: pointer " @click="fh()">线上审核资源替换</span>
                 <span style="color: #b3b3b3;cursor: pointer " @click="goIndex()">&nbsp;/&nbsp;ADSDK渠道详情</span>
                 <span style="color: #b3b3b3;cursor: pointer" @click="goHome()">&nbsp;/&nbsp;广告内容列表</span>
                 <span style="color: #1890ff;">&nbsp;/&nbsp;广告详情</span>
@@ -13,7 +13,7 @@
         </div>
         <div class="titl" v-if="sdk_type == 'fmsdk'">
             <div style="margin:24px 0 20px 24px">
-                <span style="color: #b3b3b3;cursor: pointer " @click="fh()">渠道资源替换</span>
+                <span style="color: #b3b3b3;cursor: pointer " @click="fh()">线上审核资源替换</span>
                 <span style="color: #b3b3b3;cursor: pointer " @click="goIndex()">&nbsp;/&nbsp;FMSDK渠道详情</span>
                 <span style="color: #b3b3b3;cursor: pointer" @click="goHome()">&nbsp;/&nbsp;广告内容列表</span>
                 <span style="color: #1890ff;">&nbsp;/&nbsp;广告详情</span>
@@ -68,7 +68,7 @@
                     <a :href="preview_url" style="display:inline-block;max-width:1300px;overflow: auto " target="_blank">{{preview_url}}</a>
                 </div>
                 
-                <div>
+                <div v-if="sdk_type == 'adsdk'">
                     <span>原始图:</span>
                     <template>
                     <el-table
@@ -125,6 +125,68 @@
                                 <span v-else style='color:#ddd;font-size:14px;'>更新为可送审</span>
                             </template>
                         </el-table-column>
+                    </el-table>
+                </template>
+            </div>
+
+            <div v-if="sdk_type == 'fmsdk'">
+                    <span>原始图:</span>
+                    <template>
+                    <el-table
+                            :data="tableData.original_res"
+                            style="width: 100%"
+                            :header-cell-style="getRowClass"
+                            :cell-style="cell"
+                            :on-exceed="handleExceed"
+                            border>
+                        <el-table-column
+                                label="预览图"
+                        >
+                            <template slot-scope="scope">
+                                <img :src="tableData.original_res[scope.$index].url" style="width: 80px" />
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                                
+                                label="尺寸"
+                        >
+                                <template slot-scope="scope">
+                                    <div>
+                                        <span>宽:{{cuWidth}}</span><br/>
+                                        <span>高:{{cuHeight}}</span>
+                                    </div>
+                                </template>
+                        
+                        </el-table-column>
+                        <el-table-column
+                                prop="url"
+                                label="url"
+                        >
+                        </el-table-column>
+                        
+                        <!-- <el-table-column
+                                prop="width"
+                                label="场景类型">
+                        </el-table-column> -->
+                        <!-- <el-table-column
+                                prop="created_at"
+                                label="资源状态">
+                                 <template slot-scope="scope">
+                                     <span>{{newIMG&&newIMG.indexOf(tableData.original_res[scope.$index].url)==-1?'未送审':'已送审'}}</span>
+                                </template>
+                        </el-table-column> -->
+                        <!-- <el-table-column
+                                prop="creator"
+                                label="审核状态">
+                        </el-table-column> -->
+                        <!-- <el-table-column
+                                prop="pv"
+                                label="操作">
+                            <template slot-scope="scope">
+                                <el-button  type="text" @click='verifier(scope.$index)' v-if="newIMG.indexOf(tableData.original_res[scope.$index].url)==-1">更新为可送审</el-button>
+                                <span v-else style='color:#ddd;font-size:14px;'>更新为可送审</span>
+                            </template>
+                        </el-table-column> -->
                     </el-table>
                 </template>
             </div>
@@ -369,6 +431,9 @@
             fh(){
                   this.$router.push({
                     path:"./channel_resource",
+                    query:{
+                        sdk_type:this.sdk_type,
+                    }
                 })
             },
             goIndex(){
@@ -377,6 +442,7 @@
                      query:{
                          channel:this.$route.query.media_channel,
                         tdate:this.$route.query.tdate,
+                        sdk_type:this.sdk_type,
                      }
                         
                 })
@@ -388,9 +454,10 @@
                         channel:this.$route.query.media_channel,
                         time:this.$route.query.tdate,
                         num:this.$route.query.times,
-                        is_preview:2,
+                        is_preview:this.$route.query.is_preview,
                         source:this.$route.query.source,
                         sdkid:this.$route.query.sdkid,
+                        sdk_type:this.sdk_type
                     }
                 })
             },

@@ -2,13 +2,13 @@
     <div>
         <div>
             <div class="top_name" v-if="sdk_type == 'adsdk'">
-                <span class="top_txt" @click='fh()'>渠道资源替换&nbsp;/&nbsp;ADSDK渠道详情</span>
+                <span class="top_txt" @click='fh()'>线上审核资源替换&nbsp;/&nbsp;ADSDK渠道详情</span>
                 <div class="title_left">
                     <span>渠道详情</span>
                 </div>
             </div>
             <div class="top_name" v-if="sdk_type == 'fmsdk'">
-                <span class="top_txt" @click='fh()'>渠道资源替换&nbsp;/&nbsp;FMSDK渠道详情</span>
+                <span class="top_txt" @click='fh()'>线上审核资源替换&nbsp;/&nbsp;FMSDK渠道详情</span>
                 <div class="title_left">
                     <span>渠道详情</span>
                 </div>
@@ -336,7 +336,10 @@
         methods:{
             fh(){
                 this.$router.push({
-                    path:"./channel_resource"
+                    path:"./channel_resource",
+                    query:{
+                        sdk_type:this.sdk_type,
+                    }
                 }) 
             },
             //  getType(){
