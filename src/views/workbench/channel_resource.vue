@@ -207,8 +207,8 @@
             }
         },
         created(){
-            if(this.$router.query.sdk_type){
-               this.sdk_type = this.$router.query.sdk_type
+            if(this.$route.query.sdk_type){
+               this.sdk_type = this.$route.query.sdk_type
            }else{
                this.sdk_type = ''
            }
