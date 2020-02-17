@@ -508,6 +508,7 @@
                     if(res!=false){
                         this.heidTH()
                         this.getDataList()
+                        this.fileName = []
                     }
                    
                 })

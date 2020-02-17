@@ -14,7 +14,9 @@
                     {{this.rank.join(';')}}
                 </span>
                 <span class="sdk">SKD_ID:{{this.$route.query.sdkid}}</span>
-                <span class="educe" @click="derived()">导出</span>
+                <span class="sdk">三方广告位ID：{{this.$route.query.id_adsrc}}</span>
+                <span class="sdk">渠道信息:{{this.$route.query.channel}}</span>
+                <!-- <span class="educe" @click="derived()">导出</span> -->
             </div>
         </div>
         <div class="tit_top" v-if="sdk_type == 'fmsdk'">
@@ -39,14 +41,11 @@
         <div class="content_right" v-if="sdk_type == 'adsdk'">
             <div class="screen">
                 <span>状态:</span>
-                <el-select v-model="status" placeholder="请选择">
-                    <el-option
-                        v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                    </el-option>
-                </el-select>
+                <select v-model="is_preview" style="margin-right: 10px;width: 150px">
+                    <option value="-1">全部</option>
+                    <option value="0">待处理</option>
+                    <option value="1">已完成</option>
+                </select>
                 
                 <span class="screen_btn1" @click='getList()'>查询</span>
             </div>
@@ -156,23 +155,16 @@
         <div class="content_right" v-if="sdk_type == 'fmsdk'">
             <div class="screen">
                 <span style="font-size: 14px">替换逻辑:<i style="font-style:normal;color:red;">(必选)</i></span>
-                <el-select v-model="is_preview" style="margin-right: 10px;width: 150px" @change="change">
-                    <el-option
-                        v-for="item in is_preview_options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                    </el-option>
-                </el-select>
+                <select v-model="is_preview" style="margin-right: 10px;width: 150px">
+                    <option value="3">图片逻辑</option>
+                    <option value="4">落地页逻辑</option>
+                </select>
                 <span>状态:</span>
-                <el-select v-model="status" placeholder="请选择">
-                    <el-option
-                        v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                    </el-option>
-                </el-select>
+                <select v-model="is_preview" style="margin-right: 10px;width: 150px">
+                    <option value="-1">全部</option>
+                    <option value="0">待处理</option>
+                    <option value="1">已完成</option>
+                </select>
                 
                 <span class="screen_btn1" @click='getList()'>查询</span>
                 <!-- <span class="screen_btn1" @click='reset()'>重置</span> -->
@@ -292,7 +284,7 @@
         data(){
             return{
                 sdk_type:this.$route.query.sdk_type,
-                is_preview:this.$route.query.is_preview,
+                is_preview:'',
                 tableData:[],
                 times:[],
                 cl:[],
@@ -303,22 +295,14 @@
                 p:10,
                 search:'',
                 rank:[],
-                status:'',
-                options: [{
-                    value: '1',
-                    label: '已完成'
-                    }, {
-                    value: '0',
-                    label: '待处理'
-                }],
-                is_preview_options: [{
-                    value: '3',
-                    label: '图片逻辑'
-                    }, {
-                    value: '4',
-                    label: '落地页逻辑'
-                }],
+                status:-1,
             }
+        },
+        created(){
+            console.log()
+            if(this.$route.query.is_preview){
+               this.is_preview = this.$route.query.is_preview
+           }
         },
         mounted(){
             this.getList();
