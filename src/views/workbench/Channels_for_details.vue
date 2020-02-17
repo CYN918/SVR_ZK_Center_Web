@@ -477,7 +477,7 @@
                         is_preview:this.is_preview,
                         source:this.source,
                         sdk_type:this.sdk_type,
-                        id_adsrc:this.id_adsrc,
+                        id_adsrc:data.id_adsrc,
                     },
                     path:'./Advertising_source_details'
                 })
