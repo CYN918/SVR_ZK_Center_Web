@@ -391,7 +391,7 @@
                 if(!this.source){
                     this.$message.error('数据源不能为空');
                 }
-                let params ={tdate:this.tdate,times:JSON.stringify(this.number),p:this.p,page:this.page,search:this.search,source:this.source,is_preview:this.is_preview,media_channel:this.channel,id_adsrc:this.id_adsrc};
+                let params ={tdate:this.tdate,times:JSON.stringify(this.number),p:this.p,page:this.page,search:this.search,source:this.source,is_preview:this.is_preview,media_channel:this.channel,id_adsrc:this.id_adsrc,sdk_type:this.sdk_type};
                 this.api.replace_sdk_overview({params}).then((res)=>{
                     this.tableData = res;
                     this.total=res.total;
