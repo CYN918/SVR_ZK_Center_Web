@@ -8,7 +8,7 @@
                     <div class="box boxs">1</div>
                     <span class="boxName">对账确认</span>
                 </div>
-                <div style="margin-right: 828px;text-align: center;display: inline-block;border-bottom: 1px solid #3377ff" v-if="isShow">
+                <div style="margin: 0 auto;text-align: center;display: inline-block;border-bottom: 1px solid #3377ff" v-if="isShow">
                     <span class="boxName">对账确认</span>
                 </div>
                 <div style="margin-right: 350px;text-align: center;display: inline-block" v-if="userNames">
@@ -52,21 +52,21 @@
                     </div>
 
                 </div>
-                <div v-if="list.status>2">
+                <div v-if="list.status>2 && userNames">
                     <span class="fillName">实际结算金额</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
                         <span  class="text">{{list.check.check3.real_amount}}</span>
                     </div>
 
                 </div>
-                <div v-if="list.status>2">
+                <div v-if="list.status>2 && userNames">
                     <span class="fillName">备注说明</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
                         <span  class="text">{{list.check.check3.note}}</span>
                     </div>
 
                 </div>
-                <div v-if="list.status>2">
+                <div v-if="list.status>2 && userNames">
                     <div style="display: inline-block;width: 84px;margin-right: 20px;text-align: right">
                         <span class="fj">附件</span>
                     </div>
