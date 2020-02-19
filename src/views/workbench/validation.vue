@@ -4,15 +4,18 @@
         <pro v-if='budget' :name='name' :tstart='time[0]' :tend='time[1]' :id='id' :is_receiver='this.is_receiver' :a='a' :fj='fj'></pro>
         <div class="tableBox">
             <div style="text-align: center;margin-bottom: 40px;max-width: 893px;border-bottom: 1px solid #ddd;position: relative;left: 50%;transform: translateX(-50%)">
-                <div style="margin-right: 350px;text-align: center;display: inline-block;border-bottom: 1px solid #3377ff">
+                <div style="margin-right: 350px;text-align: center;display: inline-block;border-bottom: 1px solid #3377ff" v-if="userNames">
                     <div class="box boxs">1</div>
                     <span class="boxName">对账确认</span>
                 </div>
-                <div style="margin-right: 350px;text-align: center;display: inline-block">
+                <div style="margin-right: 828px;text-align: center;display: inline-block;border-bottom: 1px solid #3377ff" v-if="isShow">
+                    <span class="boxName">对账确认</span>
+                </div>
+                <div style="margin-right: 350px;text-align: center;display: inline-block" v-if="userNames">
                     <div class="box">2</div>
                     <span class="boxName">票据凭证</span>
                 </div>
-                <div style="text-align: center;display: inline-block">
+                <div style="text-align: center;display: inline-block" v-if="userNames">
                     <div class="box">3</div>
                     <span class="boxName">结算汇款</span>
                 </div>
@@ -26,7 +29,7 @@
                     </div>
 
                 </div>
-                <div>
+                <div v-if="userNames">
                     <span class="fillName">结算方</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
                         <select v-model="name" disabled>
@@ -179,10 +182,30 @@ import pro from '../income/projection'
                 a:0,
                 id:'',
                 fj:{},
+                purview:[],
+                userNames:true,
+                isShow: false,
             }
         },
        
         mounted(){
+            this.purview=JSON.parse(localStorage.getItem('letNav'));
+            for(var i=0;i<this.purview.length;i++){
+                if(this.purview[i].title=='收益中心'){
+                    var alt1 = this.purview[i].children;
+                    for(var k=0;k<alt1.length;k++){
+                        if(alt1[k].title=='结算管理'){
+                            var alt2=alt1[k].list;   
+                            for(var t=0;t<alt2.length;t++){
+                                if(alt2[t].url=='/income/Payment_operation/Administration'){      
+                                    this.userNames=false;
+                                    this.isShow = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             this.id=this.skID;
             if(this.skType=='收款结算'){
                     this.is_receiver=1
