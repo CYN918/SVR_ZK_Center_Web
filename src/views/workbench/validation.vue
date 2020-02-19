@@ -8,7 +8,7 @@
                     <div class="box boxs">1</div>
                     <span class="boxName">对账确认</span>
                 </div>
-                <div style="margin-right: 828px;text-align: center;display: inline-block;border-bottom: 1px solid #3377ff" v-if="isShow">
+                <div style="margin: 0 auto;text-align: center;display: inline-block;border-bottom: 1px solid #3377ff" v-if="isShow">
                     <span class="boxName">对账确认</span>
                 </div>
                 <div style="margin-right: 350px;text-align: center;display: inline-block" v-if="userNames">
@@ -68,19 +68,19 @@
                         <span class="click"  @click='detail()'>查看预计结算数据</span>
                     </div>
                 </div>
-                <div  v-if='this.status>2'>
+                <div  v-if='this.status>2 &&  userNames'>
                     <span class="fillName">实际结算金额</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
                         <input type="number" class="input" v-model="real_amount">
                     </div>
                 </div>
-                <div v-if='this.status>2'>
+                <div v-if='this.status>2 &&  userNames'>
                     <span class="fillName">备注说明</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
                         <textarea v-model="note"></textarea>
                     </div>
                 </div>
-                <div v-if='this.status>2'>
+                <div v-if='this.status>2 &&  userNames'>
                     <div style="display: inline-block;width: 84px;margin-right: 20px">
                         <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
                             <div slot="content">请上传对账确认邮件截图，结算数据明细等凭证</div>

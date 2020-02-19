@@ -214,9 +214,16 @@
                             </template>
                         </el-table-column>
                         <el-table-column
+                        v-if="is_preview == '3'"
                                 prop="pv"
                                 sortable
                                 label="图片填充量">
+                        </el-table-column>
+                        <el-table-column
+                        v-if="is_preview == '4'"
+                                prop="pv"
+                                sortable
+                                label="落地页填充量">
                         </el-table-column>
                         <el-table-column
                                 prop="ratio"
@@ -304,10 +311,9 @@
             }
         },
         created(){
-            console.log()
             if(this.$route.query.is_preview){
                this.is_preview = this.$route.query.is_preview
-           }
+            }
         },
         mounted(){
             this.getList();
