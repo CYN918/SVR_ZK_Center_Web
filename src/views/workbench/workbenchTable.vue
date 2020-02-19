@@ -436,6 +436,7 @@
                     }
             },
              getCKz(id,type,scope,processor){
+                 console.log(scope)
                     if(scope==2){
                         this.skID=id;
                         this.status=scope;

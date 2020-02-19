@@ -52,10 +52,6 @@
                                 prop="media_channel"
                                 label="渠道">
                         </el-table-column>
-                        <!-- <el-table-column
-                                prop="media_channel"
-                                label="已送审数量">
-                        </el-table-column> -->
                         <el-table-column
                                 prop="count"
                                 label="审核通过率">
@@ -122,10 +118,10 @@
                         <el-table-column
                                 prop="count"
                                 label="已替换数量">
-                                <template slot-scope="scope">
+                                <!-- <template slot-scope="scope">
                                     <span v-if='!Array.isArray(tableData[scope.$index].space_ratio) || !tableData[scope.$index].space_ratio[0]'>--</span>
                                    
-                                </template>
+                                </template> -->
                         </el-table-column>
                         
                         <el-table-column

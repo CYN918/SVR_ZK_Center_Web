@@ -4,15 +4,18 @@
         <pro v-if='budget' :name='list.check.check1.name' :tstart='list.check.check1.tstart' :id="id" :tend='list.check.check1.tend' :is_receiver='this.is_receiver' :a='a' :fj='fj'></pro>
         <div class="tableBox">
             <div style="text-align: center;margin-bottom: 40px;max-width: 893px;border-bottom: 1px solid #ddd;position: relative;left: 50%;transform: translateX(-50%)">
-                <div style="margin-right: 350px;text-align: center;border-bottom: 1px solid #3377ff;display: inline-block">
+                <div style="margin-right: 350px;text-align: center;border-bottom: 1px solid #3377ff;display: inline-block" v-if="userNames">
                     <div class="box boxs">1</div>
                     <span class="boxName">对账确认</span>
                 </div>
-                <div style="margin-right: 350px;text-align: center;display: inline-block">
+                <div style="margin-right: 828px;text-align: center;display: inline-block;border-bottom: 1px solid #3377ff" v-if="isShow">
+                    <span class="boxName">对账确认</span>
+                </div>
+                <div style="margin-right: 350px;text-align: center;display: inline-block" v-if="userNames">
                     <div class="box" :class="{boxs:list.status>3}" @click="scope()">2</div>
                     <span class="boxName" @click="scope()">票据凭证</span>
                 </div>
-                <div style="text-align: center;display: inline-block">
+                <div style="text-align: center;display: inline-block" v-if="userNames">
                     <div class="box" :class="{boxs:list.status>4}"  @click="scope2()">3</div>
                     <span class="boxName" @click="scope2()">结算汇款</span>
                 </div>
@@ -109,6 +112,7 @@
                 fj:{},
                 purview:[],
                 userNames:true,
+                isShow: false,
             }
         },
         mounted(){
@@ -122,6 +126,7 @@
                             for(var t=0;t<alt2.length;t++){
                                 if(alt2[t].url=='/income/Payment_operation/Administration'){      
                                     this.userNames=false;
+                                    this.isShow = true;
                                 }
                             }
                         }
