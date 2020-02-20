@@ -33,7 +33,7 @@
 						<div class="messgeH3_2_x1">
 							<ul class="xxBox_1">
 								<li v-for="(el,index) in mData" :key="index">
-									<div @click="goMssg(index)">{{el.name}}</div>								
+									<div @click="goMssg(el)">{{el.name}}</div>								
 								</li>							
 							</ul>
 							
@@ -44,7 +44,7 @@
 					</div>
 					
 				
-					<div @click="goMssg()" class="messgeH3_3 pend">查看全部</div>
+					<div @click="goMssg(1)" class="messgeH3_3 pend">查看全部</div>
 				</div>
 				
 			</span>
@@ -78,7 +78,7 @@
 						<div class="messgeH3_2_x1">
 							<ul class="xxBox_1">
 								<li v-for="(el,index) in mData" :key="index">
-									<div @click="goMssg(index)">{{el.name}}</div>								
+									<div @click="goMssg(el)">{{el.name}}</div>								
 								</li>							
 							</ul>
 							
@@ -89,7 +89,7 @@
 					</div>
 					
 				
-					<div @click="goMssg()" class="messgeH3_3 pend">查看全部</div>
+					<div @click="goMssg(1)" class="messgeH3_3 pend">查看全部</div>
 				</div>
 				
 			</span>
@@ -199,10 +199,23 @@ export default {
 			}
 			//全部标记已读
 			if(type == 'read'){
-				
+				this.api.pushlib_message_all_handled().then((da) => {
+					if(da=='error'){return}
+					this.mData= da.recent;
+				})
 			}
 		},
 		goMssg(on){
+			if(on == '1'){
+				this.$router.push({path:"/userinfo/message"})
+			}else{
+				this.$router.push({
+                    path:"/userinfo/messageDetails",
+                    query:{
+                        id:on.id,      
+                    }
+                })
+			}
 			// if(!window.userInfo){
 			// 	this.$router.push({path:'/login'});	
 			// 	return
@@ -214,7 +227,7 @@ export default {
 			// 	this.$router.push({path:this.navType,query:{id:this.mData[on].chat_id}})	
 			// 	return
 			// }			
-			this.$router.push({path:"/userinfo/message"})	
+				
 		},
 		handleSelect(key){				
 			this.topNacd = this.todata[key].name;
@@ -429,7 +442,7 @@ export default {
 	float: right;
 }
 .right3{
-	left: 62%;
+	left: 55%;
 }
 .navd a.router-link-active{	
 	display: inline-block;

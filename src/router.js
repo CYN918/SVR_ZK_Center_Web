@@ -269,6 +269,8 @@ import passWord from './views/userinfo/password'
 mode['passWord'] = passWord
 import message from './views/userinfo/message'
 mode['message'] = message
+import messageDetails from './views/userinfo/messageDetails'
+mode['messageDetails'] = messageDetails
 import MyPerm from './views/userinfo/MyPermission'
 mode['MyPerm'] = MyPerm
 import account from  './views/userinfo/account'
@@ -507,6 +509,7 @@ let nb = [
             {path:'/userinfo/user_info',name:'基本信息',component:mode['userinfo']},
             {path:'/userinfo/passWord',name:'修改密码',component:mode['passWord']},
             {path:'/userinfo/message',name:'消息通知',component:mode['message']},
+            {path:'/userinfo/messageDetails',name:'消息通知详情',component:mode['messageDetails']},
             {path:'/userinfo/user_info',name:'退出',component:mode['userinfo']},
             {path:'/userinfo/MyPerm',name:'修改密码',component:mode['MyPerm']},
             {path:'/userinfo/account',name:'账号管理',component:mode['account']},

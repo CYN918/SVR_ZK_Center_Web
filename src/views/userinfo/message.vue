@@ -78,7 +78,7 @@
                         <el-table-column
                                 label="操作">
                             <template slot-scope="scope">
-                                <el-button  type="text" size="small" @click="details(tableData[scope.$index].id)">查看详情</el-button>
+                                <el-button  type="text" size="small" @click="details(scope.row)">查看详情</el-button>
                                 <!-- <el-button  type="text" size="small" @click="zfXQ(tableData[scope.$index].id,tableData[scope.$index].status)" v-if="tableData[scope.$index].isfinish==2">查看作废原因</el-button> -->
                                 
                             </template>
@@ -146,6 +146,14 @@
             this.getDataList();
         },
         methods:{
+            details(row){
+                this.$router.push({
+                    path:"./messageDetails",
+                    query:{
+                        id:row.id,      
+                    }
+                })
+           },
             formatType(row, column, cellValue) {
                 if(cellValue == "1"){
 	                return '新用户申请';

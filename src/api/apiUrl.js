@@ -1443,6 +1443,14 @@ export default {
 	pushlib_message_unread:{
 		url:"/news/unread/count",method:"get"
 	},
+	//所有消息标记为已读
+	pushlib_message_all_handled:{
+		url:"/news/sign/all/handled",method:"get"
+	},
+	//处理某个消息
+	pushlib_message_handled:{
+		url:"/news/handle",method:"get"
+	},
 }
 
 
