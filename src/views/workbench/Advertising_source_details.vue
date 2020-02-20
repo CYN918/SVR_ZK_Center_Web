@@ -160,7 +160,7 @@
         <div class="content_right" v-if="sdk_type == 'fmsdk'">
             <div class="screen">
                 <span style="font-size: 14px">替换逻辑:<i style="font-style:normal;color:red;">(必选)</i></span>
-                <select v-model="is_preview" style="margin-right: 10px;width: 150px" @change="change">
+                <select v-model="is_preview" style="margin-right: 10px;width: 150px">
                     <option value="3">图片逻辑</option>
                     <option value="4">落地页逻辑</option>
                 </select>
@@ -214,13 +214,13 @@
                             </template>
                         </el-table-column>
                         <el-table-column
-                        v-if="is_preview == '3'"
+                        v-if="isShow_pv"
                                 prop="pv"
                                 sortable
                                 label="图片填充量">
                         </el-table-column>
                         <el-table-column
-                        v-if="is_preview == '4'"
+                        v-if="isShow"
                                 prop="pv"
                                 sortable
                                 label="落地页填充量">
@@ -308,11 +308,19 @@
                 search:'',
                 rank:[],
                 status:-1,
+                isShow:false,
+                isShow_pv:false,
             }
         },
         created(){
             if(this.$route.query.is_preview){
                this.is_preview = this.$route.query.is_preview
+            }
+            if(this.$route.query.is_preview == '3'){
+               this.isShow_pv = true;
+            }
+            if(this.$route.query.is_preview == '4'){
+               this.isShow = true;
             }
         },
         mounted(){
@@ -320,10 +328,6 @@
             this.getTimes()
         },
         methods:{
-            change(value){
-                console.log(value)
-                // this.is_preview = value;
-            },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
                 this.getList()
@@ -398,6 +402,14 @@
                 let params ={tdate:this.$route.query.time,times:this.$route.query.num,p:this.p,page:this.page,search:this.search,source:this.$route.query.source,is_preview:this.is_preview,media_channel:this.$route.query.channel,sdk_id:this.$route.query.sdkid,id_adsrc:this.$route.query.id_adsrc};
                 this.api.replace_pending_list({params}).then((res)=>{
                     this.tableData = res;
+                    if(this.is_preview == '3'){
+                        this.isShow_pv = true;
+                        this.isShow = false;
+                    }
+                    if(this.is_preview == '4'){
+                        this.isShow = true;
+                        this.isShow_pv = false;
+                    }
                     for(var i=0;i<this.tableData.length;i++){
                         if(this.tableData[i].new_res.length>0){
                             this.tableData[i].status='已处理';
