@@ -512,6 +512,8 @@
                 formData.append('self_tags',this.bardian);
                 formData.append('size',this.size);
                 formData.append('model',this.model);
+                formData.append('ad_pic',this.ad_pic);
+                formData.append('ad_num',this.ad_num);
                 this.api.mfinal_edit(formData).then((res)=>{
                     if(res.data!=''){
                         this.$parent.heidSc();
@@ -608,6 +610,8 @@
                         formData.append('model',this.model);
                         formData.append('size',this.size);
                         formData.append('link',this.link);
+                        formData.append('ad_pic',this.ad_pic);
+                        formData.append('ad_num',this.ad_num);
                         this.api.mfinal_add(formData).then((res)=>{
                             if(res.data!=''){
                                 this.$parent.heidSc();
@@ -636,6 +640,10 @@
                         }
                     }
                     this.attach = res.attach;
+                    if(res.attach.wpid==undefined){
+                        this.attach.wpid=res.wpid
+                    }
+                    this.ad_num=res.ad_num;
                     console.log(this.attach)
                     this.sjSize=res.size;
                     this.type=res.type;

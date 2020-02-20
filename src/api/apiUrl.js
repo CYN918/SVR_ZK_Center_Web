@@ -1403,9 +1403,17 @@ export default {
 	replace_channel_media_channel:{
 		url:"replace/channel/media/channel",method:"get"
 	},
-	//渠道资源替换审核统计
+	//三方广告位列表
+	replace_channel_media_adsrc:{
+		url:"replace/channel/media/adsrc",method:"get"
+	},
+	//ADSDK类型渠道资源替换审核统计
 	replace_channel_audit_statistics:{
 		url:'replace/channel/audit/statistics',method:"get"
+	},
+	//FMSDK类型渠道资源替换审核统计
+	replace_fm_statistics:{
+		url:'replace/fm/statistics',method:"get"
 	},
 	//一键送审
 	replace_channel_shortcut_audit:{

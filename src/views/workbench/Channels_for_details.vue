@@ -1,8 +1,14 @@
 <template>
     <div>
         <div>
-            <div class="top_name">
-                <span class="top_txt" @click='fh()'>渠道资源替换&nbsp;/&nbsp;渠道详情</span>
+            <div class="top_name" v-if="sdk_type == 'adsdk'">
+                <span class="top_txt" @click='fh()'>线上审核资源替换&nbsp;/&nbsp;ADSDK渠道详情</span>
+                <div class="title_left">
+                    <span>渠道详情</span>
+                </div>
+            </div>
+            <div class="top_name" v-if="sdk_type == 'fmsdk'">
+                <span class="top_txt" @click='fh()'>线上审核资源替换&nbsp;/&nbsp;FMSDK渠道详情</span>
                 <div class="title_left">
                     <span>渠道详情</span>
                 </div>
@@ -10,23 +16,33 @@
         </div>
         <div class="content_right">
             <div style="padding: 0 24px">
-                <span style="font-size: 14px" >渠道:</span>
+                <!-- <span style="font-size: 14px" >渠道:</span>
                 <select  style="margin-right: 10px;width: 150px" v-model="channel">
                     <option value="">全部</option>
                     <option :value="item.media_channel" v-for='(item,index) in channelList'>{{item.media_channel}}</option>
+                </select> -->
+                <span style="font-size: 14px" v-if="sdk_type == 'fmsdk'">替换逻辑:<i style="font-style:normal;color:red;">(必选)</i></span>
+                <select v-model="is_preview" style="margin-right: 10px;width: 150px" v-if="sdk_type == 'fmsdk'">
+                    <option value="3">图片逻辑</option>
+                    <option value="4">落地页逻辑</option>
                 </select>
-               <span style="font-size: 14px">数据源:</span>
+               <span style="font-size: 14px">数据源:<i style="font-style:normal;color:red;">(必选)</i></span>
                 <select v-model="source" style="margin-right: 10px;width: 150px">
                     <option value="sdk-api">SDK-API</option>
                     <option value="own">OWN</option>
                 </select>
                 <span style="font-size: 14px">SDK_ID:</span>
                 <input type="text" placeholder="请输入sdkID查询" v-model="text"/>
+                <span style="font-size: 14px" >三方广告位:</span>
+                <select  style="margin-right: 10px;width: 150px" v-model="id_adsrc">
+                    <option value="">全部</option>
+                    <option :value="item.id_adsrc" v-for='(item,index) in mediaAdsrc'>{{item.id_adsrc}}</option>
+                </select>
                 <span class="cx" @click="getList()">
                 查询
             </span>
                 <span class="reset" @click="resetRemove()">重置</span>
-                 <span class="educe" @click="downloadImg()">导出</span>
+                 <!-- <span class="educe" @click="downloadImg()">导出</span> -->
                 <!-- <span class="batch_upload" @click="batchUpload()">批量上传</span> -->
                 <div>
                     <div class="block" style="display: inline-block">
@@ -39,7 +55,7 @@
                             value-format="yyyy-MM-dd">
                     </el-date-picker>
                 </div>
-                    <span class="tit_text" >获取次数:</span>
+                    <span class="tit_text" >获取时段:</span>
                     <div class="select_check">
                         <template>
                             <el-select
@@ -60,7 +76,7 @@
                     </div>
                 </div>
             </div>
-            <div>
+            <div v-if="sdk_type == 'adsdk'">
                 <template>
                     <el-table
                             :data="tableData"
@@ -68,13 +84,17 @@
                             :header-cell-style="getRowClass"
                             :cell-style="cell"
                             border>
-                        <el-table-column
+                        <!-- <el-table-column
                                 prop="media_channel"
                                 label="渠道">
-                        </el-table-column>
+                        </el-table-column> -->
                         <el-table-column
                                 prop="sdk_id"
                                 label="SDK_ID">
+                        </el-table-column>
+                        <el-table-column
+                                prop="id_adsrc"
+                                label="三方广告位ID">
                         </el-table-column>
                         <el-table-column
                                 prop="pv"
@@ -93,19 +113,18 @@
                             </template>
                         </el-table-column>
                         <el-table-column
-                                prop="created_at"
+                                prop="audit_num"
                                 sortable
-                                label="内容获取时间">
+                                label="可送审数量">
                         </el-table-column>
-                        <el-table-column
+                        <!-- <el-table-column
                                 prop="had_replace"
                                 sortable
                                 label="替换资源数量">
-                        </el-table-column>
+                        </el-table-column> -->
                         <el-table-column
-                                prop="sucess_ratio"
-                                sortable
-                                label="替换占比">
+                                prop="created_at"
+                                label="更新时间">
                         </el-table-column>
                         <el-table-column
                                 label="操作">
@@ -125,7 +144,83 @@
                         layout="total, sizes, prev, pager, next, jumper"
                         :total="total">
                 </el-pagination>
+                </div>
             </div>
+
+            <div v-if="sdk_type == 'fmsdk'">
+                <template>
+                    <el-table
+                            :data="tableData"
+                            style="width: 100%"
+                            :header-cell-style="getRowClass"
+                            :cell-style="cell"
+                            border>
+                        <!-- <el-table-column
+                                prop="media_channel"
+                                label="渠道">
+                        </el-table-column> -->
+                        <el-table-column
+                                prop="sdk_id"
+                                label="SDK_ID">
+                        </el-table-column>
+                        <el-table-column
+                                prop="id_adsrc"
+                                label="三方广告位ID">
+                        </el-table-column>
+                        <el-table-column
+                                prop="pv"
+                                sortable
+                                label="数据填充量">
+                        </el-table-column>
+                        <el-table-column
+                                prop="ratio"
+                                sortable
+                                label="填充量占比">
+                        </el-table-column>
+                        <el-table-column
+                                label="填充量趋势">
+                            <template slot-scope="scope">
+                                <img src="../../../public/img/qs.png" style="max-height: 40px;max-width: 80px" @click="getTendency(tableData[scope.$index].sdk_id)">
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                                prop="kp_ratio"
+                                sortable
+                                label="开屏完成替换占比">
+                        </el-table-column>
+                        <el-table-column
+                                prop="zt_ratio"
+                                sortable
+                                label="暂停完成替换占比">
+                        </el-table-column>
+                        <el-table-column
+                                prop="jb_ratio"
+                                sortable
+                                label="角标完成替换占比">
+                        </el-table-column>
+                        <el-table-column
+                                prop="created_at"
+                                label="更新时间">
+                        </el-table-column>
+                        <el-table-column
+                                label="操作">
+                            <template slot-scope="scope">
+                                <el-button @click="getAdd(tableData[scope.$index])" type="text" size="small">查看详情</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </template>
+                <div class="blocks">
+                <el-pagination
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page="page"
+                        :page-sizes="[10, 20, 30, 40]"
+                        :page-size="p"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="total">
+                </el-pagination>
+                </div>
             </div>
             
             <div class="bg" v-if="upload">
@@ -206,6 +301,7 @@
             return{
                 tableData:[],
                 tdate:this.$route.query.tdate,
+                sdk_type:this.$route.query.sdk_type,
                 total:0,
                 search:'',
                 page:1,
@@ -219,14 +315,22 @@
                 height:'',
                 tableDataList:[],
                 source:'own',
-                is_preview:'2',
+                is_preview:'',
                 channel:this.$route.query.channel,
+                id_adsrc: '',
                 channelList:[],
+                mediaAdsrc:[],
             }
         },
         mounted(){
             this.getTimes();
-            this.getType()
+            // this.getType();
+            this.getTypeAdsrc();
+            if(this.$route.query.sdk_type == 'adsdk'){
+                this.is_preview = 2;
+            }else{
+                this.is_preview = 3;
+            }
         },
 
         methods:{
@@ -235,9 +339,15 @@
                     path:"./channel_resource"
                 }) 
             },
-             getType(){
-                this.api.replace_channel_media_channel().then((res)=>{
-                    this.channelList=res;
+            //  getType(){
+            //     this.api.replace_channel_media_channel().then((res)=>{
+            //         this.channelList=res;
+            //     })
+            // },
+            getTypeAdsrc(){
+                let params = {sdk_type:this.sdk_type,media_channel:this.channel};
+                this.api.replace_channel_media_adsrc({params}).then((res)=>{
+                    this.mediaAdsrc=res;
                 })
             },
             handleSizeChange(p) { // 每页条数切换
@@ -276,12 +386,12 @@
                     this.search=s;
                 }
                 if(!this.is_preview){
-                    this.$message.error('数据源不能为空');
+                    this.$message.error('替换逻辑不能为空');
                 }
                 if(!this.source){
                     this.$message.error('数据源不能为空');
                 }
-                let params ={tdate:this.tdate,times:JSON.stringify(this.number),p:this.p,page:this.page,search:this.search,source:this.source,is_preview:this.is_preview,media_channel:this.channel};
+                let params ={tdate:this.tdate,times:JSON.stringify(this.number),p:this.p,page:this.page,search:this.search,source:this.source,is_preview:this.is_preview,media_channel:this.channel,id_adsrc:this.id_adsrc,sdk_type:this.sdk_type};
                 this.api.replace_sdk_overview({params}).then((res)=>{
                     this.tableData = res;
                     this.total=res.total;
@@ -333,16 +443,16 @@
             error(err, file, fileList){
                 alert(err)
             },
-            downloadImg(){
-                if(!this.text){
-                    this.search=''
-                }else{
-                    var s = '{"'+'sdk_id' + '":"'+this.text + '"}';
-                    this.search=s;
-                }
-                var url = '/replace/sdk/overview/export'+'?tdate='+this.tdate+'&times='+JSON.stringify(this.number)+'&search='+this.search+'&source='+this.source+'&is_preview='+this.is_preview+'&media_channel='+this.channel;
-                download.downloadImg(url);
-            },
+            // downloadImg(){
+            //     if(!this.text){
+            //         this.search=''
+            //     }else{
+            //         var s = '{"'+'sdk_id' + '":"'+this.text + '"}';
+            //         this.search=s;
+            //     }
+            //     var url = '/replace/sdk/overview/export'+'?tdate='+this.tdate+'&times='+JSON.stringify(this.number)+'&search='+this.search+'&source='+this.source+'&is_preview='+this.is_preview+'&media_channel='+this.channel;
+            //     download.downloadImg(url);
+            // },
             getTimes(){
                 this.number=[];
                 let params = {tdate:this.tdate};
@@ -366,6 +476,8 @@
                         num:JSON.stringify(this.number),
                         is_preview:this.is_preview,
                         source:this.source,
+                        sdk_type:this.sdk_type,
+                        id_adsrc:data.id_adsrc,
                     },
                     path:'./Advertising_source_details'
                 })

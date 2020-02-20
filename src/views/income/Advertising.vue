@@ -21,7 +21,7 @@
                         value-format="yyyy-MM-dd">
                 </el-date-picker>
                 <span  class="ad">数据类型</span>
-                <select v-model="is_receiver">
+                <select v-model="is_receiver" @change="change(value)">
                     <option value="1">收款数据</option>
                     <option value="0">付款数据</option>
                 </select>
@@ -137,12 +137,6 @@
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="channel_name"
-                                label="渠道名"
-                                
-                        >
-                        </el-table-column>
-                        <el-table-column
                                 prop="adid"
                                 label="广告位ID"
                                 
@@ -246,16 +240,9 @@
                         qt[1]=(0).toString()+qt[1]
 
                     }
-                    if(Number(qt[2])<10){
-                        qt[2]=(0).toString()+qt[2]
-
-                    }
                     var next = (new Date()).toLocaleDateString().split('/');
                     if(Number(next[1])<10){
                         next[1]=(0).toString()+next[1]
-                    }
-                    if(Number(next[2])<10){
-                        next[2]=(0).toString()+next[2]
                     }
                     this.value=[qt.join('-'),next.join('-')];
                 }
@@ -263,6 +250,9 @@
                 this.getqd();
         },
         methods:{
+            change(value){
+                this.getDataList();
+            },
             getRowClass({row, column, rowIndex}) {
                 if (rowIndex === 0) {
                     return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;padding:20px 0px 20px 14px'

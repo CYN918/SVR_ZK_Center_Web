@@ -436,6 +436,7 @@
                     }
             },
              getCKz(id,type,scope,processor){
+                 console.log(scope)
                     if(scope==2){
                         this.skID=id;
                         this.status=scope;
@@ -821,6 +822,8 @@
                 }
             },
             check(type,id,status,reject){
+                console.log(type)
+                console.log(status)
                 if(type=='业务需求'){
                     if(status ==1){
                         if(reject==1){

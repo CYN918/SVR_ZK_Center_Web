@@ -1,10 +1,21 @@
 <template>
     <div>
-        <div class="titl">
+        <div class="titl" v-if="sdk_type == 'adsdk'">
             <div style="margin:24px 0 20px 24px">
-                <span style="color: #b3b3b3;cursor: pointer " @click="fh()">渠道资源替换</span>
-                <span style="color: #b3b3b3;cursor: pointer " @click="goIndex()">&nbsp;/&nbsp;渠道详情</span>
-                <span style="color: #b3b3b3;cursor: pointer" @click="goHome()">&nbsp;/&nbsp;广告源详情</span>
+                <span style="color: #b3b3b3;cursor: pointer " @click="fh()">线上审核资源替换</span>
+                <span style="color: #b3b3b3;cursor: pointer " @click="goIndex()">&nbsp;/&nbsp;ADSDK渠道详情</span>
+                <span style="color: #b3b3b3;cursor: pointer" @click="goHome()">&nbsp;/&nbsp;广告内容列表</span>
+                <span style="color: #1890ff;">&nbsp;/&nbsp;广告详情</span>
+            </div>
+            <div>
+                <span class="titl_name">广告详情</span>
+            </div>
+        </div>
+        <div class="titl" v-if="sdk_type == 'fmsdk'">
+            <div style="margin:24px 0 20px 24px">
+                <span style="color: #b3b3b3;cursor: pointer " @click="fh()">线上审核资源替换</span>
+                <span style="color: #b3b3b3;cursor: pointer " @click="goIndex()">&nbsp;/&nbsp;FMSDK渠道详情</span>
+                <span style="color: #b3b3b3;cursor: pointer" @click="goHome()">&nbsp;/&nbsp;广告内容列表</span>
                 <span style="color: #1890ff;">&nbsp;/&nbsp;广告详情</span>
             </div>
             <div>
@@ -46,6 +57,8 @@
                     <span >{{src}}</span>
                 </div>
                 <div>
+                    <span>三方广告ID:</span>
+                    <span class="con">{{id_adsrc}}</span>
                     <span>渠道</span>
                     <span class="con">{{tableData.media_channel}}</span>
                     
@@ -55,7 +68,7 @@
                     <a :href="preview_url" style="display:inline-block;max-width:1300px;overflow: auto " target="_blank">{{preview_url}}</a>
                 </div>
                 
-                <div>
+                <div v-if="sdk_type == 'adsdk'">
                     <span>原始图:</span>
                     <template>
                     <el-table
@@ -76,6 +89,18 @@
                                 prop="url"
                                 label="url"
                         >
+                        </el-table-column>
+                        <el-table-column
+                                
+                                label="尺寸"
+                        >
+                                <template slot-scope="scope">
+                                    <div>
+                                        <span>宽:{{cuWidth}}</span><br/>
+                                        <span>高:{{cuHeight}}</span>
+                                    </div>
+                                </template>
+                        
                         </el-table-column>
                         <!-- <el-table-column
                                 prop="width"
@@ -100,6 +125,68 @@
                                 <span v-else style='color:#ddd;font-size:14px;'>更新为可送审</span>
                             </template>
                         </el-table-column>
+                    </el-table>
+                </template>
+            </div>
+
+            <div v-if="sdk_type == 'fmsdk'">
+                    <span>原始图:</span>
+                    <template>
+                    <el-table
+                            :data="tableData.original_res"
+                            style="width: 100%"
+                            :header-cell-style="getRowClass"
+                            :cell-style="cell"
+                            :on-exceed="handleExceed"
+                            border>
+                        <el-table-column
+                                label="预览图"
+                        >
+                            <template slot-scope="scope">
+                                <img :src="tableData.original_res[scope.$index].url" style="width: 80px" />
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                                
+                                label="尺寸"
+                        >
+                                <template slot-scope="scope">
+                                    <div>
+                                        <span>宽:{{cuWidth}}</span><br/>
+                                        <span>高:{{cuHeight}}</span>
+                                    </div>
+                                </template>
+                        
+                        </el-table-column>
+                        <el-table-column
+                                prop="url"
+                                label="url"
+                        >
+                        </el-table-column>
+                        
+                        <!-- <el-table-column
+                                prop="width"
+                                label="场景类型">
+                        </el-table-column> -->
+                        <!-- <el-table-column
+                                prop="created_at"
+                                label="资源状态">
+                                 <template slot-scope="scope">
+                                     <span>{{newIMG&&newIMG.indexOf(tableData.original_res[scope.$index].url)==-1?'未送审':'已送审'}}</span>
+                                </template>
+                        </el-table-column> -->
+                        <!-- <el-table-column
+                                prop="creator"
+                                label="审核状态">
+                        </el-table-column> -->
+                        <!-- <el-table-column
+                                prop="pv"
+                                label="操作">
+                            <template slot-scope="scope">
+                                <el-button  type="text" @click='verifier(scope.$index)' v-if="newIMG.indexOf(tableData.original_res[scope.$index].url)==-1">更新为可送审</el-button>
+                                <span v-else style='color:#ddd;font-size:14px;'>更新为可送审</span>
+                            </template>
+                        </el-table-column> -->
                     </el-table>
                 </template>
             </div>
@@ -143,6 +230,7 @@
                             </template>
                         </el-table-column>
                          <el-table-column
+                                v-if="sdk_type == 'adsdk'"
                                 prop="status"
                                 label="审核状态">
                                 <template slot-scope="scope">
@@ -150,6 +238,7 @@
                                 </template>
                         </el-table-column>
                          <el-table-column
+                                v-if="sdk_type == 'adsdk'"
                                 prop="status"
                                 label="原因说明">
                                 <template slot-scope="scope">
@@ -195,6 +284,7 @@
                         :limit="10"
                         :on-exceed="handleExceed"
                         :on-remove="handleRemove"
+                        :before-upload="beforeAvatarUpload"
                         :http-request="upload"
                         >
                             <el-button size="small" type="primary">点击上传</el-button>
@@ -255,6 +345,7 @@
         name: "has_replaced",
         data(){
             return{
+                sdk_type:this.$route.query.sdk_type,
                 tableData2:[],
                 times:[],
                 remove:false,
@@ -291,8 +382,10 @@
                 ss:false,
                 space_type:"",
                 index:'',
-                newType:""
-
+                newType:"",
+                id_adsrc:"",
+                cuWidth: "",
+                cuHeight:"",
             }
         },
 
@@ -300,6 +393,15 @@
             this.getDataList();
         },
         methods:{
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                
+                if (!isJPG) {
+                    this.$message.error('仅支持.jpg格式， 请调整后重新上传!');
+                }
+                
+                return isJPG;
+            },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
                     return 'background:rgb(246, 245, 245,1);color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
@@ -340,7 +442,7 @@
             },
             fh(){
                   this.$router.push({
-                    path:"./channel_resource",
+                    path:"./channel_resource"
                 })
             },
             goIndex(){
@@ -349,6 +451,7 @@
                      query:{
                          channel:this.$route.query.media_channel,
                         tdate:this.$route.query.tdate,
+                        sdk_type:this.sdk_type,
                      }
                         
                 })
@@ -360,9 +463,10 @@
                         channel:this.$route.query.media_channel,
                         time:this.$route.query.tdate,
                         num:this.$route.query.times,
-                        is_preview:2,
+                        is_preview:this.$route.query.is_preview,
                         source:this.$route.query.source,
                         sdkid:this.$route.query.sdkid,
+                        sdk_type:this.sdk_type
                     }
                 })
             },
@@ -413,6 +517,7 @@
                     if(res!=false){
                         this.heidTH()
                         this.getDataList()
+                        this.fileName = []
                     }
                    
                 })
@@ -497,8 +602,13 @@
                 //      params ={mid:this.$route.query.id,tdate:this.$route.query.tdate,times:this.$route.query.times,source:this.$route.query.source};
                 // }
                 this.api.replace_res_detail({params}).then((res)=>{
-                    for(var i=0;i<res.length;i++){
-                        if(res[i].mid==this.$route.query.id){
+                    if(res.length == '1'){
+                        for(var i=0;i<res.length;i++){
+                            res[i].original_res.forEach(element => {
+                                this.id_adsrc = (element.id_adsrc + ',').substring(0,(element.id_adsrc + ',').length-1)
+                                this.cuWidth = (element.width + ',').substring(0,(element.width + ',').length-1)
+                                this.cuHeight = (element.height + ',').substring(0,(element.height + ',').length-1)
+                            });   
                             this.tableData=res[i];
                             this.time = res[i].tdate;
                             this.mid=res[i].mid;
@@ -517,8 +627,11 @@
                                 this.newIMG.push(this.tableData2[j].url);
                             }
                         }
-                       
+
+                    }else{
+                        this.$message.error('数据错误')
                     }
+                    
                 })
 
             },
@@ -535,6 +648,7 @@
                 formData.append('source',this.$route.query.source);
                 formData.append('is_preview',this.$route.query.is_preview);
                 formData.append('sdk_id',this.$route.query.sdk_id);
+                formData.append('id_adsrc',this.$route.query.id_adsrc);
                 formData.append('src',this.tableData.src);
                 formData.append('url_md5',this.$route.query.url_md5);
                 this.api.replace_del(formData).then((res)=>{

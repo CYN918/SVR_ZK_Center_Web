@@ -2,7 +2,7 @@
     <div>
         <div>
             <div class="top_name">
-                <span class="top_txt">渠道资源替换</span>
+                <span class="top_txt">线上审核资源替换</span>
             </div>
         </div>
         <div class="content_right">
@@ -18,15 +18,25 @@
                     >
                     </el-date-picker>
                 </div>
+                <span>SDK类型:<i style="font-style:normal;color:red;">(必选)</i></span>
+                <el-select v-model="sdk_type" placeholder="请选择" @change="change">
+                    <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                    </el-option>
+                </el-select>
                 <span>渠道</span>
                 <select v-model="channel" >
                     <option value="">全部</option>
                     <option :value="item.media_channel" v-for='(item,index) in channelList'>{{item.media_channel}}</option>
                 </select>
-                <span class="screen_btn1" @click='pushService()'>一键推送</span>
-                <span class="screen_btn1" @click='getData()'>查询</span>
+                <span class="screen_btn1" @click='pushService()' v-if="sdk_type == 'adsdk'">一键推送</span>
+                <span class="screen_btn1" @click='getData()' v-if="sdk_type == 'adsdk'">查询</span>
+                <span class="screen_btn1" @click='getData_fm()' v-if="sdk_type == 'fmsdk'">查询</span>
             </div>
-            <div>
+            <div v-if="sdk_type == 'adsdk'">
                 <template>
                     <el-table
                             :data="tableData"
@@ -60,14 +70,6 @@
                         </el-table-column>
                         <el-table-column
                                 prop="count"
-                                label="暂停审核通过率">
-                                 <template slot-scope="scope">
-                                    <span v-if='!Array.isArray(tableData[scope.$index].space_ratio) || !tableData[scope.$index].space_ratio[0]'>--</span>
-                                   
-                                </template>
-                        </el-table-column>
-                        <el-table-column
-                                prop="count"
                                 label="角标审核通过率">
                                  <template slot-scope="scope">
                                     <span v-if='!Array.isArray(tableData[scope.$index].space_ratio) || !tableData[scope.$index].space_ratio[0]'>--</span>
@@ -76,6 +78,14 @@
                         </el-table-column>
                         <el-table-column
                                 prop="count"
+                                label="暂停审核通过率">
+                                 <template slot-scope="scope">
+                                    <span v-if='!Array.isArray(tableData[scope.$index].space_ratio) || !tableData[scope.$index].space_ratio[0]'>--</span>
+                                   
+                                </template>
+                        </el-table-column>
+                        <el-table-column
+                                prop="updated_at"
                                 label="更新时间">
                         </el-table-column>
                         <el-table-column
@@ -89,7 +99,50 @@
                     </el-table>
                 </template>
             </div>
-            <div class="block">
+            <div v-if="sdk_type == 'fmsdk'">
+                <template>
+                    <el-table
+                            :data="tableData"
+                            style="width: 100%"
+                            :header-cell-style="getRowClass"
+                            :cell-style="cell"
+                            >
+                        <el-table-column
+                                prop="tdate"
+                                label="日期">
+                        </el-table-column>
+                        <el-table-column
+                                prop="media_channel"
+                                label="渠道">
+                        </el-table-column>
+                        <el-table-column
+                                prop="count"
+                                label="已替换数量">
+                                <!-- <template slot-scope="scope">
+                                    <span v-if='!Array.isArray(tableData[scope.$index].space_ratio) || !tableData[scope.$index].space_ratio[0]'>--</span>
+                                   
+                                </template> -->
+                        </el-table-column>
+                        
+                        <el-table-column
+                                prop="updated_at"
+                                label="更新时间">
+                        </el-table-column>
+                        <el-table-column
+                                label="操作"
+                                width="150"
+                        >
+                            <template slot-scope="scope">
+                                <el-button @click="jump(tableData[scope.$index].media_channel,tableData[scope.$index].tdate)" type="text" size="small">查看详情</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </template>
+            </div>
+            <div v-if="sdk_type == ''">
+                <p style="text-align: center;font-size: 21px;color: grey;margin-top: 80px;">暂无数据</p>
+            </div>
+            <div class="block" v-if="sdk_type != ''">
                 <el-pagination
                         @size-change="handleSizeChange"
                         @current-change="handleCurrentChange"
@@ -138,14 +191,38 @@
                 sdkList:[],
                 userType:localStorage.getItem('userType'),
                 ts:false,
+                sdk_type:'',
+                options: [{
+                    value: 'adsdk',
+                    label: 'ADSDK类型'
+                    }, {
+                    value: 'fmsdk',
+                    label: 'FMSDK类型'
+                }],
 
             }
         },
+        created(){
+            if(this.$route.query.sdk_type){
+               this.sdk_type = this.$route.query.sdk_type
+           }else{
+               this.sdk_type = ''
+           }
+
+        },
         mounted(){
-           this.getData();
-           this.getType()
+           
         },
         methods:{
+            change(value){
+                if(value == 'adsdk'){
+                    this.getData();
+                    this.getType()
+                }else{
+                    this.getData_fm();
+                    this.getType()
+                }
+            },
             getRowClass({row, column, rowIndex}) {
                 if (rowIndex === 0) {
                     return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;padding:20px 0px 20px 14px'
@@ -176,12 +253,14 @@
                     query:{
                         tdate:date,
                         channel:type,
+                        sdk_type:this.sdk_type
                     },
                   
                 })
             },
             getType(){
-                this.api.replace_channel_media_channel().then((res)=>{
+                let params={sdk_type:this.sdk_type}
+                this.api.replace_channel_media_channel({params}).then((res)=>{
                     this.channelList=res;
                 })
             },
@@ -205,8 +284,15 @@
                 })
             },
             getData(){
-                let params={tdate:this.value1,media_channel:this.channel,p:this.p,page:this.page}
+                let params={tdate:this.value1,media_channel:this.channel,p:this.p,page:this.page,sdk_type:this.sdk_type}
                this.api.replace_channel_audit_statistics({params}).then((res)=>{
+                   this.tableData=res.data;
+                   this.total=res.total
+               })
+            },
+            getData_fm(){
+                let params={tdate:this.value1,media_channel:this.channel,p:this.p,page:this.page,sdk_type:this.sdk_type}
+               this.api.replace_fm_statistics({params}).then((res)=>{
                    this.tableData=res.data;
                    this.total=res.total
                })

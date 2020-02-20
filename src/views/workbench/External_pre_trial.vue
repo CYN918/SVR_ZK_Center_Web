@@ -14,7 +14,7 @@
                 <!-- <span class='userGl' @click="jump()">账号管理</span> -->
         </div>
         <div class='screening'>
-                 <div class="date"  v-if='pl==false'>
+                 <!-- <div class="date"  v-if='pl==false'>
                     <el-date-picker
                             v-model="date"
                             type="date"
@@ -22,7 +22,7 @@
                             placeholder="选择日期"
                             value-format="yyyy-MM-dd">
                     </el-date-picker>
-                </div>
+                </div> -->
                 <span class='qdName' v-if='pl==false'>状态</span>
                 <select v-model="status" v-if='pl==false'>
                     <option value="">全部</option>
@@ -229,7 +229,7 @@ methods: {
                         let formData =new FormData;
                         formData.append('status',this.status2);
                         if(!this.yy){
-                          formData.append('note',this.checkList.join(',').substr(1)+ ',' +this.yy); 
+                          formData.append('note',this.checkList.join(',').substr(1) +this.yy); 
                         }else{
                             formData.append('note',this.checkList.join(',').substr(1) +this.yy);
                         } 
@@ -268,7 +268,7 @@ methods: {
                      let formData =new FormData;
                       formData.append('status',this.status2);
                       if(!this.yy){
-                          formData.append('note',this.checkList.join(',').substr(1)+ ',' +this.yy) 
+                          formData.append('note',this.checkList.join(',').substr(1) +this.yy) 
                       }else{
                           formData.append('note',this.checkList.join(',').substr(1) +this.yy) 
                       }
@@ -376,7 +376,9 @@ methods: {
                 })
            },
            getData(){
-               let params={p:this.p,page:this.page,tdate:this.date,channel:this.channel,status:this.status}
+               let params={p:this.p,page:this.page,
+            //    tdate:this.date,
+               channel:this.channel,status:this.status}
                this.api.pushlib_adver_mfinal_list({params}).then((res)=>{
                    this.tableData=res.data;
                    this.total=res.total;
@@ -394,6 +396,7 @@ mounted() {
     //  this.getChannel();
      
      this.getUSER()
+    // this.getData();
 },
 
 }

@@ -64,10 +64,6 @@
 							<span class="boxImg_text">物料ID:</span>
 							<span class="boxImg_content">{{DL.mfid}}</span>
 						</div>
-                        <!-- <div>
-							<span class="boxImg_text">壁纸唯一标签:</span>
-							<span class="boxImg_content">{{DL.mfid}}</span>
-						</div> -->
 						<div>
 							<span class="boxImg_text boxImg_bq">内容标签:</span>
 							<div class="boxImg_xz">
@@ -275,7 +271,7 @@
             getCon(){
                 this.sc = true;
                 this.message=''
-				this.stop();
+				// this.stop();
             },
             SCsc(){
                 this.sc = true

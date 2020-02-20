@@ -191,10 +191,17 @@ methods: {
                      let formData =new FormData;
                       formData.append('status',this.status2);
                         if(!this.yy){
+<<<<<<< HEAD
                           formData.append('note',this.checkList.join(',').substr(1)+ ',' +this.yy); 
                         }else{
                             formData.append('note',this.checkList.join(',').substr(1) +this.yy);
                         } 
+=======
+                          formData.append('note',this.checkList.join(',').substr(1) +this.yy); 
+                        }else{
+                            formData.append('note',this.checkList.join(',').substr(1) +this.yy);
+                        }  
+>>>>>>> origin/develop
                         formData.append('advers',JSON.stringify(this.advers))
                         this.api.pushlib_adver_mfinal_audit(formData).then((res)=>{
                             if(res!=false){

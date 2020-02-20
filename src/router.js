@@ -439,7 +439,7 @@ let nb = [
             {path:'/workbench/Offline_resources',name:'线下资源替换',component: mode['Offline_resources'],},
             {path:'/workbench/record',name:'操作记录',component: mode['record'],},
             {path:'/workbench/Offline_details',name:'线下详情',component: mode['Offline_details'],},
-            {path:'/workbench/channel_resource',name:'渠道资源替换',component: mode['channel_resource'],},
+            {path:'/workbench/channel_resource',name:'线上审核资源替换',component: mode['channel_resource'],},
             {path:'/workbench/Channels_for_details',name:'渠道详情',component: mode['Channels_for_details'],},
             {path:'/workbench/Advertising_source_details',name:'渠道源详情',component: mode['Advertising_source_details'],},
             {path:'/workbench/Advertising_for_details',name:'广告详情',component: mode['Advertising_for_details'],},
@@ -609,7 +609,7 @@ let leftNav =
 //                     {title:'杂志锁屏物料预审',url:'/workbench/Jounrnal_ys'},
 //                     {title:'杂志锁屏推送管理',url:'/workbench/journal_list'},
 //                     {title:'线下资源替换',url:'/workbench/Offline_resources'},
-//                     {title:'渠道资源替换',url:'/workbench/channel_resource'},
+//                     {title:'线上审核资源替换',url:'/workbench/channel_resource'},
 //                     {title:'杂志锁屏物料预审',url:'/workbench/External_pre_trial'},
 
                     
