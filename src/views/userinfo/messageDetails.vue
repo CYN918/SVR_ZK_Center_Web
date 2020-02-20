@@ -60,8 +60,8 @@
                 <div class="detail_1_1_3">
                     <span class="txt txt_right">角色范围</span>
                     <select v-model="roles_scope">
-                        <option value="1">内部角色</option>
-                        <option value="2">外部角色</option>
+                        <option value="0">内部角色</option>
+                        <option value="1">外部角色</option>
                     </select> 
                 </div>
                 <div class="detail_1_1_3" style="margin-top:20px;">

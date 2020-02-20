@@ -1459,6 +1459,10 @@ export default {
 	pushlib_message_handled:{
 		url:"/news/handle",method:"get"
 	},
+	//查询是否申请
+	account_apply_status:{
+		url:"/account/apply/status",method:"get"
+	},
 }
 
 

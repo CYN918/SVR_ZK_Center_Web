@@ -44,7 +44,7 @@
 					</div>
 					
 				
-					<div @click="goMssg(1)" class="messgeH3_3 pend">查看全部</div>
+					<!-- <div @click="goMssg(1)" class="messgeH3_3 pend">查看全部</div> -->
 				</div>
 				
 			</span>
@@ -89,7 +89,7 @@
 					</div>
 					
 				
-					<div @click="goMssg(1)" class="messgeH3_3 pend">查看全部</div>
+					<!-- <div @click="goMssg(1)" class="messgeH3_3 pend">查看全部</div> -->
 				</div>
 				
 			</span>

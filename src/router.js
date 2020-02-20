@@ -252,6 +252,7 @@ mode['External_details']=External_details
 import axios from 'axios'
 import api from './api/index'
 
+
 /*数据*/
 import data from './views/datas/index'
 mode['data'] = data
@@ -353,6 +354,7 @@ import themenRecord from './views/ThemeCenter/scheduling/Record'
 mode['themenRecord']=themenRecord
 import recordDetails from './views/ThemeCenter/scheduling/record_details'
 mode['recordDetails']=recordDetails
+
 
 
 Vue.use(Router)
@@ -805,22 +807,22 @@ router.beforeEach((to, from, next) => {
     }
 	
 	let cent = 'center',
-	urld = 'http://c.zookingsoft.com/api/login';
+    urld = 'http://c.zookingsoft.com/api/login';
 	if(window.location.host=='ts-centerweb.idatachain.cn'){
 		cent = 'center_dev';
-		urld ='http://ts-i.idatachain.cn/api/login';
+        urld ='http://ts-i.idatachain.cn/api/login';
 
 	}
     if(window.location.host=='c2.zookingsoft.com'){
         cent = 'center_dev2';
         urld ='http://c2.zookingsoft.com/api/login';
-
+        
     }
 	if(window.location.host=='localhost:8080'){
 		cent = 'center_local';
 		urld ='http://ts-i.idatachain.cn/api/login';
-
-	}
+        
+    }
 	if(to.query.ticket){	
 		axios({
 			method: 'post',
@@ -847,7 +849,22 @@ router.beforeEach((to, from, next) => {
 			}
 			next({ path: '/index'});
 		}).catch(()=>{
-			alert("登录成功，请联系管理员添加角色或启用账号");
+            // alert("登录成功，请联系管理员添加角色或启用账号");
+            let params = {Authorization:"Bearer"+localStorage.getItem('token')}
+            api.account_apply_status({params}).then((datas)=>{					
+                if(datas.status == 0){
+                    
+                }
+                if(datas.status == 1){
+
+                }
+                if(datas.status == 2){
+
+                }
+                if(datas.status == 3){
+
+                }
+            })
 		});
 			
 	}else{
