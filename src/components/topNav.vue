@@ -24,10 +24,10 @@
 				<div v-if="isXXNav" @click="hidisXXNav" class="messgeH3Boxf1"></div>
 				<div v-if="isXXNav" class="messgeH3">
 					<div class="messgeH3_1">
-						<span @click="getNotice('notify')" :class="[messgNum.unread_notify_num>0?'onckf':'']">未读
-							<div v-if="messgNum && messgNum.count>0" :class="['messgeH5',messgNum.count>9?'messgeH5x':'']">{{backXXnUM(messgNum.count)}}</div>
+						<span @click="getNotice('notify')">未读
+							<!-- <div v-if="messgNum && messgNum.count>0" :class="['messgeH5',messgNum.count>9?'messgeH5x':'']">{{backXXnUM(messgNum.count)}}</div> -->
 						</span>
-						<span @click="getNotice('comment')" :class="[messgNum.unread_comment_num>0?'onckf':'']">最近</span>
+						<span @click="getNotice('comment')">最近</span>
 						<span @click="getNotice('read')">全部标为已读</span></div>
 					<div class="messgeH3_2">
 						<div class="messgeH3_2_x1">
@@ -69,10 +69,10 @@
 				<div v-if="isXXNav" @click="hidisXXNav" class="messgeH3Boxf1"></div>
 				<div v-if="isXXNav" class="messgeH3">
 					<div class="messgeH3_1">
-						<span @click="getNotice('notify')" :class="[messgNum.unread_notify_num>0?'onckf':'']">未读
-							<div v-if="messgNum && messgNum.count>0" :class="['messgeH5',messgNum.count>9?'messgeH5x':'']">{{backXXnUM(messgNum.count)}}</div>
+						<span @click="getNotice('notify')">未读
+							<!-- <div v-if="messgNum && messgNum.count>0" :class="['messgeH5',messgNum.count>9?'messgeH5x':'']">{{backXXnUM(messgNum.count)}}</div> -->
 						</span>
-						<span @click="getNotice('comment')" :class="[messgNum.unread_comment_num>0?'onckf':'']">最近</span>
+						<span @click="getNotice('comment')">最近</span>
 						<span @click="getNotice('read')">全部标为已读</span></div>
 					<div class="messgeH3_2">
 						<div class="messgeH3_2_x1">
@@ -157,7 +157,7 @@ export default {
 		},
 		showisXXNav(){
 			this.isXXNav = true;
-			this.getNotice('all');
+			this.getNotice('notify');
 		},
 		hidisXXNav(){
 			this.isXXNav = false;
@@ -578,7 +578,7 @@ export default {
 	height: 60px;
 	position: relative;
 }
-.messgeH3_1>span.onckf:before{
+/* .messgeH3_1>span:before{
 	content: "";
 	position: absolute;
 	right: 30px;
@@ -587,13 +587,13 @@ export default {
 	height: 6px;
 	border-radius: 50%;
 	background: #F4523B;
-}
+} */
 .messgeH3_1>span:nth-child(1),.messgeH3_1>span:nth-child(2){
 	position: relative;
 	margin-top: 16px;
 	display: inline-block;
 	width: 20%;
-	height: 28px;
+	height: 45px;
 	text-align: center;
 	cursor: pointer;
 }
@@ -602,7 +602,7 @@ export default {
 	margin-top: 16px;
 	display: inline-block;
 	width: 60%;
-	height: 28px;
+	height: 45px;
 	text-align: center;
 	cursor: pointer;
 }
@@ -613,6 +613,9 @@ export default {
 	display: block;
 	margin: 6px auto;
 	width: 19px;
+}
+.messgeH3_1 .active_1{
+	border-bottom: 1px solid #F4523B;
 }
 .messgeH3_2{
 	width: 100%;

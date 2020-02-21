@@ -1463,6 +1463,10 @@ export default {
 	account_apply_status:{
 		url:"/account/apply/status",method:"get"
 	},
+	//新账号申请权限
+	account_apply_permission:{
+		url:"/account/apply/permission",method:"post"
+	},
 }
 
 

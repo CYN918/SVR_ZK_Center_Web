@@ -373,7 +373,7 @@ router.addRoutes(wb);
 let nb = [
     {path:'*',redirect: '/index',},
 	{path:'/',name:'首页',component:Index},
-	{path:'/erro',name:'cuwi',component:erro},
+    {path:'/erro',name:'cuwi',component:erro},
 	{path:'/index',name:'首页',component:Index},
 	{path:'/admin',name:'素材中心',component:mode['admin'],
 		children:[			
@@ -830,41 +830,28 @@ router.beforeEach((to, from, next) => {
 			url: urld,
 			data:{ticket:to.query.ticket}
 		}).then((msg)=>{
-			console.log(msg);
-			localStorage.setItem('token',msg.data.data.token);
-			localStorage.setItem('logintime',Date.parse(new Date()));
-			localStorage.setItem('userAd',msg.data.data.user.email);
-			localStorage.setItem('userType',msg.data.data.user.type);
+            console.log(msg);    
+            localStorage.setItem('token',msg.data.data.token);
+            localStorage.setItem('logintime',Date.parse(new Date()));
+            localStorage.setItem('userAd',msg.data.data.user.email);
+            localStorage.setItem('userType',msg.data.data.user.type);
             localStorage.setItem('userName',msg.data.data.user.name);
-			localStorage.setItem('status',msg.data.data.user.status);
-            localStorage.setItem('role',msg.data.data.role[0].type);
-            localStorage.setItem('icon',msg.data.data.role[0].icon);
-			if(msg.data.data.user.type==1){
-				next({ path: '/admin/wb_Journal'});
-				return;
-			}
-			if(msg.data.data.user.status==0){
-				next({ path: '/erro'});
-				return
-			}
-			next({ path: '/index'});
+            localStorage.setItem('status',msg.data.data.user.status);
+            if(msg.data.data.role.length != '0'){
+                localStorage.setItem('role',msg.data.data.role[0].type);
+                localStorage.setItem('icon',msg.data.data.role[0].icon); 
+            }
+            if(msg.data.data.user.type=='1'){
+                next({ path: '/admin/wb_Journal'});
+                return;
+            }
+            if(msg.data.data.user.status=='0'){
+                next({ path: '/erro'});
+                return
+            }
+            next({ path: '/index'});   	
 		}).catch(()=>{
-            // alert("登录成功，请联系管理员添加角色或启用账号");
-            let params = {Authorization:"Bearer"+localStorage.getItem('token')}
-            api.account_apply_status({params}).then((datas)=>{					
-                if(datas.status == 0){
-                    
-                }
-                if(datas.status == 1){
-
-                }
-                if(datas.status == 2){
-
-                }
-                if(datas.status == 3){
-
-                }
-            })
+            alert("登录成功，请联系管理员添加角色或启用账号");
 		});
 			
 	}else{
