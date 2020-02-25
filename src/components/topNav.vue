@@ -214,6 +214,7 @@ export default {
 					this.active_1 = false;
 					this.active_2 = false;
 					this.active_3 = true;
+					this.getMessgNumber();
 				})
 			}
 		},

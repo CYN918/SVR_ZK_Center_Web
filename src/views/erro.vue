@@ -29,18 +29,17 @@
 			width="30%"
 			left
 			:before-close="handleClose">
-			<span>已申请权限，请耐心等待</span>
 			<div class="titl_right">
                 <div class="message">
-                    <span class="message_name">用户名:</span>
+                    <span class="message_name" style="width:135px;">用户名:</span>
                     <span class="message_box">{{ruleForm.name}}</span>
                 </div>
                 <div class="message">
-                    <span class="message_name">申请说明(选填):</span>
+                    <span class="message_name" style="width:135px;">申请说明(选填):</span>
                     <span class="message_box">{{ruleForm.reason}}</span>
                 </div>
                 <div class="message">
-                    <span class="message_name">申请时间:</span>
+                    <span class="message_name" style="width:135px;">申请时间:</span>
                     <span class="message_box">{{ruleForm.refuse_reason}}</span>
                 </div>
             </div>
@@ -66,13 +65,10 @@
 			left
 			:before-close="handleClose">
 			<span>权限申请已拒绝，请联系管理员</span>
-			<div class="message" v-if="ruleForm.reason != ''">
+			<div class="message" v-if="ruleForm.reason != ''" style="margin-top:20px;">
 				<span class="message_name">拒绝原因:</span>
-				<span class="message_box">{{ruleForm.reason}}</span>
+				<span class="message_box">{{ruleForm.refuse_reason}}</span>
 			</div>
-			<el-form-item label="拒绝原因:">
-				<span>222</span>
-			</el-form-item>
 			<span slot="footer" class="dialog-footer">
 				<el-button type="primary" @click="sure4">确 认</el-button>
 				<el-button type="primary" @click="newApply">重新申请</el-button>
@@ -137,6 +133,7 @@ export default {
 			this.centerDialogVisible = true;
 		},
 		sure(){
+			this.centerDialogVisible = false;
 			this.refusedVisible_pop = false;
 			this.loginout()
 		},
@@ -168,9 +165,13 @@ export default {
 			formData.append('name',this.ruleForm.userName);
 			formData.append('email',this.ruleForm.email);
 			formData.append('reason',this.ruleForm.desc);
-			this.api.account_apply_permission(formData).then((datas)=>{
-				console.log(datas)			
+			this.api.account_apply_permission(formData).then((da)=>{
+				console.log(da)
+				if(da=='error'){return}
+				
+			    this.refusedVisible_pop = true;				
 				this.$message.success('申请成功,请耐心等待!')
+				
             })
 			
 		},
@@ -215,15 +216,14 @@ export default {
                     this.centerDialogVisible = true;
                 }
                 if(datas.status == 1){
-					this.popupWindow = true;
+					this.refusedVisible_pop = true;
                 }
                 if(datas.status == 2){
-					this.dialogVisible = true;
+					this.refusedVisible = true;
 					this.ruleForm = datas;
                 }
                 if(datas.status == 3){
-					this.refusedVisible = true;
-					this.ruleForm = datas;
+					this.popupWindow = true;
 				}
 				if(datas.status == 4){
 					this.centerDialogVisible = true;

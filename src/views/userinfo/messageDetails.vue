@@ -30,8 +30,8 @@
                 </div>
             </div>
             <div class="btn_bottom">
-                <span class="btn_bottom_o" @click="dialogVisible = true" v-if="messageData.type == '1' && messageData.status == '2'">通过申请</span>
-                <span class="btn_bottom_t" @click="centerDialogVisible = true" v-if="messageData.type == '1' && messageData.status == '2'">拒绝</span>
+                <span class="btn_bottom_o" @click="dialogVisible = true" v-if="messageData.type == '1' && messageData.status != '1'">通过申请</span>
+                <span class="btn_bottom_t" @click="centerDialogVisible = true" v-if="messageData.type == '1' && messageData.status != '1'">拒绝</span>
                 <span class="btn_bottom_f" @click="back">返回</span>
             </div>
             <el-dialog
@@ -122,32 +122,29 @@
                 var params = {
                     id:this.$route.query.id,
                     type:1,
-                    result:true,
+                    result:1,
                     role_type:this.roles_scope,
                     role_id:this.roles,
                     name:this.userName}
-                this.api.pushlib_message_handled({params}).then((res)=>{
-                    if(res.code == '0'){
-                        this.dialogVisible = false;
-                        this.getMessage();
-                    }else{
-                        this.$message.error(res.message)
-                    }                  
+                this.api.pushlib_message_handled({params}).then((da)=>{
+                    console.log(da)
+                    if(da=='error'){this.$message.error(da.message)}
+                    this.dialogVisible = false;
+                    this.getMessage();
+                                   
                 })
             },
             refused(){
                 var params = {
                     id:this.$route.query.id,
                     type:1,
-                    result:false,
+                    result:0,
                     refuse_reason:this.textarea}
-                this.api.pushlib_message_handled({params}).then((res)=>{
-                    if(res.code == '0'){      
-                        this.centerDialogVisible = false;
-                        this.getMessage();
-                    }else{
-                        this.$message.error(res.message)
-                    }
+                this.api.pushlib_message_handled({params}).then((da)=>{
+                    console.log(da)
+                    if(da=='error'){this.$message.error(da.message)}     
+                    this.centerDialogVisible = false;
+                    this.getMessage();
                 })
             },
             getMessage(){
