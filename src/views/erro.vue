@@ -169,10 +169,8 @@ export default {
 			formData.append('email',this.ruleForm.email);
 			formData.append('reason',this.ruleForm.desc);
 			this.api.account_apply_permission(formData).then((datas)=>{
-				if(datas.code == '0'){
-					this.$message.success('申请成功,请耐心等待!')
-				}					
-                
+				console.log(datas)			
+				this.$message.success('申请成功,请耐心等待!')
             })
 			
 		},
