@@ -250,7 +250,7 @@ export default {
     border-color: #409EFF;
 }
 .box >>> .el-input{
-	width: 325.88px;
+	width: 87%;
 }
 .message{
     margin-bottom: 46px;
