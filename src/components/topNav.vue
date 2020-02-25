@@ -24,11 +24,11 @@
 				<div v-if="isXXNav" @click="hidisXXNav" class="messgeH3Boxf1"></div>
 				<div v-if="isXXNav" class="messgeH3">
 					<div class="messgeH3_1">
-						<span @click="getNotice('notify')">未读
+						<span @click="getNotice('notify')" :class="{'active_1':active_1}">未读
 							<!-- <div v-if="messgNum && messgNum.count>0" :class="['messgeH5',messgNum.count>9?'messgeH5x':'']">{{backXXnUM(messgNum.count)}}</div> -->
 						</span>
-						<span @click="getNotice('comment')">最近</span>
-						<span @click="getNotice('read')">全部标为已读</span></div>
+						<span @click="getNotice('comment')" :class="{'active_1':active_2}">最近</span>
+						<span @click="getNotice('read')" :class="{'active_1':active_3}">全部标为已读</span></div>
 					<div class="messgeH3_2">
 						<div class="messgeH3_2_x1">
 							<ul class="xxBox_1">
@@ -37,7 +37,7 @@
 								</li>							
 							</ul>
 							
-							<div v-if="mData.length==0" class="messgeH3_2_1"><img  src="https://static.zookingsoft.com/SVR_NEW_DESIGNER_WEB/img/wxx.png" alt="">暂无新的消息</div>
+							<div v-if="mData.length==0||mData==null" class="messgeH3_2_1"><img  src="https://static.zookingsoft.com/SVR_NEW_DESIGNER_WEB/img/wxx.png" alt="">暂无新的消息</div>
 						</div>
 						
 						
@@ -69,11 +69,11 @@
 				<div v-if="isXXNav" @click="hidisXXNav" class="messgeH3Boxf1"></div>
 				<div v-if="isXXNav" class="messgeH3">
 					<div class="messgeH3_1">
-						<span @click="getNotice('notify')">未读
+						<span @click="getNotice('notify')" :class="{'active_1':active_1}">未读
 							<!-- <div v-if="messgNum && messgNum.count>0" :class="['messgeH5',messgNum.count>9?'messgeH5x':'']">{{backXXnUM(messgNum.count)}}</div> -->
 						</span>
-						<span @click="getNotice('comment')">最近</span>
-						<span @click="getNotice('read')">全部标为已读</span></div>
+						<span @click="getNotice('comment')" :class="{'active_1':active_2}">最近</span>
+						<span @click="getNotice('read')" :class="{'active_1':active_3}">全部标为已读</span></div>
 					<div class="messgeH3_2">
 						<div class="messgeH3_2_x1">
 							<ul class="xxBox_1">
@@ -82,7 +82,7 @@
 								</li>							
 							</ul>
 							
-							<div v-if="mData.length==0" class="messgeH3_2_1"><img  src="https://static.zookingsoft.com/SVR_NEW_DESIGNER_WEB/img/wxx.png" alt="">暂无新的消息</div>
+							<div v-if="mData.length==0||mData==null" class="messgeH3_2_1"><img  src="https://static.zookingsoft.com/SVR_NEW_DESIGNER_WEB/img/wxx.png" alt="">暂无新的消息</div>
 						</div>
 						
 						
@@ -134,6 +134,9 @@ export default {
 			isXXNav:false,
 			messgNum:{},
 			mData:[],
+			active_1:false,
+			active_2:false,
+			active_3:false,
 			todata:[{name:'首页',url:'/index'},{name:'工作台',url:'/workbench/workbenchPadding'},{name:'数据',url:'/data/Material_data'},{name:'收益中心',url:'/income/earnings'},{name:'素材中心',url:'/admin/advertising'},{name:'主题中心',url:'/ThemeCenter'},{name:'用户',url:'/userinfo/user_info'}],
 		}
     },
@@ -188,6 +191,9 @@ export default {
 				this.api.pushlib_message().then((da) => {
 					if(da=='error'){return}
 					this.mData= da.unread;
+					this.active_1 = true;
+					this.active_2 = false;
+					this.active_3 = false;
 				})
 			}
 			//最近消息
@@ -195,13 +201,19 @@ export default {
 				this.api.pushlib_message().then((da) => {
 					if(da=='error'){return}
 					this.mData= da.recent;
+					this.active_1 = false;
+					this.active_2 = true;
+					this.active_3 = false;
 				})
 			}
 			//全部标记已读
 			if(type == 'read'){
 				this.api.pushlib_message_all_handled().then((da) => {
 					if(da=='error'){return}
-					this.mData= da.recent;
+					this.mData= da;
+					this.active_1 = false;
+					this.active_2 = false;
+					this.active_3 = true;
 				})
 			}
 		},
@@ -615,7 +627,8 @@ export default {
 	width: 19px;
 }
 .messgeH3_1 .active_1{
-	border-bottom: 1px solid #F4523B;
+    border-bottom: 4px solid rgba(51,119,255,1) !important;
+    vertical-align: top;
 }
 .messgeH3_2{
 	width: 100%;

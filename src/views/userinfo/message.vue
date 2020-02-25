@@ -31,8 +31,8 @@
                 <select v-model="status">
                     <option value="">全部</option>
                     <option value="0">未读</option>
-                    <option value="1">待处理</option>
-                    <option value="2">已处理</option>
+                    <option value="2">待处理</option>
+                    <option value="1">已处理</option>
                 </select>
                
                 
@@ -164,9 +164,9 @@
             formatState(row, column, cellValue) {
                 if(cellValue == "0"){
 	                return '未读';
-	            }else if (cellValue == "1"){
-	                return '待处理';
 	            }else if (cellValue == "2"){
+	                return '待处理';
+	            }else if (cellValue == "1"){
 	                return '已处理';
 	            }
 		    },

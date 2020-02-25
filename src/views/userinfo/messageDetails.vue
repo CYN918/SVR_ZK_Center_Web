@@ -30,8 +30,8 @@
                 </div>
             </div>
             <div class="btn_bottom">
-                <span class="btn_bottom_o" @click="dialogVisible = true" v-if="messageData.type == '1' && messageData.status == '1'">通过申请</span>
-                <span class="btn_bottom_t" @click="centerDialogVisible = true" v-if="messageData.type == '1' && messageData.status == '1'">拒绝</span>
+                <span class="btn_bottom_o" @click="dialogVisible = true" v-if="messageData.type == '1' && messageData.status == '2'">通过申请</span>
+                <span class="btn_bottom_t" @click="centerDialogVisible = true" v-if="messageData.type == '1' && messageData.status == '2'">拒绝</span>
                 <span class="btn_bottom_f" @click="back">返回</span>
             </div>
             <el-dialog
