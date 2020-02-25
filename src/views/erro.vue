@@ -89,7 +89,7 @@
 				<el-button type="primary" @click="sure">确 认</el-button>
 			</span>
 		</el-dialog>
-		<el-dialog
+		<!-- <el-dialog
 			title="提示"
 			:visible.sync="refusedVisible_pop2"
 			width="30%"
@@ -99,7 +99,7 @@
 			<span slot="footer" class="dialog-footer">
 				<el-button type="primary" @click="sure2">确 认</el-button>
 			</span>
-		</el-dialog>
+		</el-dialog> -->
 	</div>
 </template>
 
@@ -126,7 +126,7 @@ export default {
 			popupWindow:false,
 			refusedVisible:false,
 			refusedVisible_pop:false,
-			refusedVisible_pop2:false,
+			// refusedVisible_pop2:false,
 		}
 	},
     mounted:function (){
@@ -138,23 +138,23 @@ export default {
 		},
 		sure(){
 			this.refusedVisible_pop = false;
-			window.location.href="https://account.zookingsoft.com/auth/login?from=center_dev";
+			this.loginout()
 		},
 		sure1(){
 			this.dialogVisible = false;
-			window.location.href="https://account.zookingsoft.com/auth/login?from=center_dev";
+			this.loginout()
 		},
-		sure2(){
-			this.refusedVisible_pop2 = false;
-			window.location.href="https://account.zookingsoft.com/auth/login?from=center_dev";
-		},
+		// sure2(){
+		// 	this.refusedVisible_pop2 = false;
+		// 	this.loginout()
+		// },
 		sure3(){
 			this.popupWindow = false;
-			window.location.href="https://account.zookingsoft.com/auth/login?from=center_dev";
+			this.loginout()
 		},
 		sure4(){
 			this.refusedVisible = false;
-            window.location.href="https://account.zookingsoft.com/auth/login?from=center_dev";
+            this.loginout()
 		},
 		handleClose(done) {
 			this.$confirm('确认关闭？')
@@ -168,7 +168,10 @@ export default {
 			formData.append('name',this.ruleForm.userName);
 			formData.append('email',this.ruleForm.email);
 			formData.append('reason',this.ruleForm.desc);
-			this.api.account_apply_permission(formData).then((datas)=>{					
+			this.api.account_apply_permission(formData).then((datas)=>{
+				if(datas.code == '0'){
+					this.$message.success('申请成功,请耐心等待!')
+				}					
                 
             })
 			
@@ -176,37 +179,37 @@ export default {
 		resetForm() {
 			this.ruleForm = {};
 		},
-		// loginout(){
-		//     window.localStorage.clear();
-		// 	let urld = 'http://ts-i.idatachain.cn';
-		// 	if(window.location.host=='c.zookingsoft.com'){
-		// 		urld = 'http://c.zookingsoft.com';
-		// 	}
-        //     if(window.location.host=='c2.zookingsoft.com'){
-        //         urld = 'http://c2.zookingsoft.com';
-        //     }
-		// 	this.$ajax({
-		// 		method: 'get',
-		// 		timeout: 10000,
-		// 		url: urld+'/api/logout',			     
-		// 	}).then((msg)=>{	
-		// 			if(msg.data.code==0){
-		// 				localStorage.setItem('token','');
-		// 				let cent = 'center';
-		// 				if(window.location.host=='ts-centerweb.idatachain.cn'){
-		// 					cent = 'center_dev';
-		// 				}else
-		// 				if(window.location.host=='localhost:8080'){
-		// 					cent = 'center_local';
-		// 				}else if(window.location.host=='c2.zookingsoft.com'){
-        //                     cent = 'center_dev2';
-		// 				}
-		// 				window.location.href="http://account.zookingsoft.com/auth/logout?from="+cent;
-		// 			}						
-		// 	}).catch(()=>{
+		loginout(){
+		    window.localStorage.clear();
+			let urld = 'http://ts-i.idatachain.cn';
+			if(window.location.host=='c.zookingsoft.com'){
+				urld = 'http://c.zookingsoft.com';
+			}
+            if(window.location.host=='c2.zookingsoft.com'){
+                urld = 'http://c2.zookingsoft.com';
+            }
+			this.$ajax({
+				method: 'get',
+				timeout: 10000,
+				url: urld+'/api/logout',			     
+			}).then((msg)=>{	
+					if(msg.data.code==0){
+						localStorage.setItem('token','');
+						let cent = 'center';
+						if(window.location.host=='ts-centerweb.idatachain.cn'){
+							cent = 'center_dev';
+						}else
+						if(window.location.host=='localhost:8080'){
+							cent = 'center_local';
+						}else if(window.location.host=='c2.zookingsoft.com'){
+                            cent = 'center_dev2';
+						}
+						window.location.href="http://account.zookingsoft.com/auth/logout?from="+cent;
+					}						
+			}).catch(()=>{
 			
-		// 	})			
-		// },
+			})			
+		},
 		account_apply_status(){
 			let params = {Authorization:"Bearer"+localStorage.getItem('token')}
             this.api.account_apply_status({params}).then((datas)=>{					
@@ -225,7 +228,7 @@ export default {
 					this.ruleForm = datas;
 				}
 				if(datas.status == 4){
-					this.refusedVisible_pop2 = true;
+					this.centerDialogVisible = true;
                 }
             })
 

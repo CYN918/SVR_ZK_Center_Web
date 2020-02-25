@@ -30,9 +30,9 @@
                 </div>
             </div>
             <div class="btn_bottom">
-                <span @click="dialogVisible = true" v-if="messageData.type == '1'">通过申请</span>
-                <span @click="centerDialogVisible = true" v-if="messageData.type == '1'">拒绝</span>
-                <span @click="back">返回</span>
+                <span class="btn_bottom_o" @click="dialogVisible = true" v-if="messageData.type == '1' && messageData.status == '1'">通过申请</span>
+                <span class="btn_bottom_t" @click="centerDialogVisible = true" v-if="messageData.type == '1' && messageData.status == '1'">拒绝</span>
+                <span class="btn_bottom_f" @click="back">返回</span>
             </div>
             <el-dialog
                 title="拒绝"
@@ -59,7 +59,7 @@
                 left>
                 <div class="detail_1_1_3">
                     <span class="txt txt_right">角色范围</span>
-                    <select v-model="roles_scope">
+                    <select v-model="roles_scope" @change="change($event)">
                         <option value="0">内部角色</option>
                         <option value="1">外部角色</option>
                     </select> 
@@ -104,14 +104,18 @@
         },
         mounted(){
             this.getMessage();
-            this.getuserDATA();
         },
         methods:{
+            change(event){
+                // console.log(event.target.value)
+                this.getuserDATA();
+            },
             getuserDATA(){
-                this.api.role_child_roles().then((res)=>{
-                    console.log(res);
+                let params = {role_type:this.roles_scope}
+                this.api.role_child_roles({params}).then((res)=>{
+                    // console.log(res);
                     this.selectData = res;
-                    console.log(this.selectData)
+                    // console.log(this.selectData)
                 })
             },
             apply(){
@@ -123,9 +127,13 @@
                     role_id:this.roles,
                     name:this.userName}
                 this.api.pushlib_message_handled({params}).then((res)=>{
-                    this.dialogVisible = false;
+                    if(res.code == '0'){
+                        this.dialogVisible = false;
+                        this.getMessage();
+                    }else{
+                        this.$message.error(res.message)
+                    }                  
                 })
-
             },
             refused(){
                 var params = {
@@ -134,7 +142,12 @@
                     result:false,
                     refuse_reason:this.textarea}
                 this.api.pushlib_message_handled({params}).then((res)=>{
-                    this.centerDialogVisible = false;
+                    if(res.code == '0'){      
+                        this.centerDialogVisible = false;
+                        this.getMessage();
+                    }else{
+                        this.$message.error(res.message)
+                    }
                 })
             },
             getMessage(){
@@ -237,9 +250,16 @@
     text-align: center;
     margin-top: 100px;
 }
-.btn_bottom>span:nth-child(1){
+.btn_bottom .btn_bottom_o{
     background: #0052ff;
     color: #ffffff;
+}
+.btn_bottom .btn_bottom_t{
+    background: #0052ff;
+    color: #ffffff;
+}
+.btn_bottom .btn_bottom_f{
+    background: #ffffff;
 }
 .btn_bottom>span{
     display: inline-block;
