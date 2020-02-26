@@ -6,21 +6,21 @@
 			width="30%"
 			left
 			:before-close="handleClose">
-			<span style="margin-bottom:20px;display: inline-block;">账号暂无权限，请输入权限申请说明，耐心等待处理</span>
+			<span style="margin-bottom:20px;display: inline-block;">账号暂无权限，请输入权限申请说明，发起权限申请</span>
 			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="125px" class="demo-ruleForm">
 				<el-form-item label="用户名:">
-					<el-input v-model="ruleForm.userName"></el-input>
+					<el-input type="text" maxlength="10" show-word-limit v-model="ruleForm.userName" placeholder="请输入用户名，最多可输入10字"></el-input>
 				</el-form-item>
 				<!-- <el-form-item label="邮箱:">
 					<el-input v-model="ruleForm.email"></el-input>
 				</el-form-item> -->
 				<el-form-item label="申请说明(选填):">
-					<el-input :rows="3" type="textarea" v-model="ruleForm.desc"></el-input>
+					<el-input :rows="3" type="textarea" maxlength="200" show-word-limit v-model="ruleForm.desc" placeholder="请输入申请内容，最多200字"></el-input>
 				</el-form-item>
 			</el-form>
 			<span slot="footer" class="dialog-footer">
-				<el-button @click="resetForm()">重新申请</el-button>
-				<el-button type="primary" @click="submitForm()">确 定</el-button>
+				<el-button type="primary" @click="submitForm()">确 认</el-button>
+				<el-button @click="resetForm()">取消</el-button>	
 			</span>
 		</el-dialog>
 		<el-dialog
@@ -174,7 +174,8 @@ export default {
 			
 		},
 		resetForm() {
-			this.ruleForm = {};
+			this.centerDialogVisible = false;
+			this.loginout()
 		},
 		loginout(){
 		    window.localStorage.clear();
