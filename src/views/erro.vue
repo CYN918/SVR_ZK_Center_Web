@@ -29,6 +29,7 @@
 			width="30%"
 			left
 			:before-close="handleClose">
+			<span style="margin-bottom:20px;display: inline-block;">已申请权限，请耐心等待</span>
 			<div class="titl_right">
                 <div class="message">
                     <span class="message_name" style="width:135px;">用户名:</span>
@@ -85,7 +86,7 @@
 				<el-button type="primary" @click="sure">确 认</el-button>
 			</span>
 		</el-dialog>
-		<!-- <el-dialog
+		<el-dialog
 			title="提示"
 			:visible.sync="refusedVisible_pop2"
 			width="30%"
@@ -95,7 +96,7 @@
 			<span slot="footer" class="dialog-footer">
 				<el-button type="primary" @click="sure2">确 认</el-button>
 			</span>
-		</el-dialog> -->
+		</el-dialog>
 	</div>
 </template>
 
@@ -215,7 +216,8 @@ export default {
                     this.centerDialogVisible = true;
                 }
                 if(datas.status == 1){
-					this.refusedVisible_pop = true;
+					this.handleClose = true;
+					this.ruleForm = datas;
                 }
                 if(datas.status == 2){
 					this.refusedVisible = true;
@@ -225,7 +227,7 @@ export default {
 					this.popupWindow = true;
 				}
 				if(datas.status == 4){
-					this.centerDialogVisible = true;
+					this.refusedVisible_pop2 = true;
                 }
             })
 
