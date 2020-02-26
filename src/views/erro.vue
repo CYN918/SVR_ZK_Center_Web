@@ -11,9 +11,9 @@
 				<el-form-item label="用户名:">
 					<el-input v-model="ruleForm.userName"></el-input>
 				</el-form-item>
-				<el-form-item label="邮箱:">
+				<!-- <el-form-item label="邮箱:">
 					<el-input v-model="ruleForm.email"></el-input>
-				</el-form-item>
+				</el-form-item> -->
 				<el-form-item label="申请说明(选填):">
 					<el-input :rows="3" type="textarea" v-model="ruleForm.desc"></el-input>
 				</el-form-item>
@@ -161,17 +161,15 @@ export default {
 			.catch(_ => {});
 		},
 		submitForm() {
-			let formData=new FormData;
-			formData.append('name',this.ruleForm.userName);
-			formData.append('email',this.ruleForm.email);
-			formData.append('reason',this.ruleForm.desc);
-			this.api.account_apply_permission(formData).then((da)=>{
-				console.log(da)
-				if(da=='error'){return}
-				
-			    this.refusedVisible_pop = true;				
-				this.$message.success('申请成功,请耐心等待!')
-				
+			this.api.account_apply_permission({name:this.ruleForm.userName,reason:this.ruleForm.desc}).then((datas)=>{
+				console.log(datas)
+				if(datas==false){
+					return
+				}
+				if(datas==null){
+					this.refusedVisible_pop = true;				
+				    this.$message.success('申请成功,请耐心等待!')
+				}			
             })
 			
 		},
