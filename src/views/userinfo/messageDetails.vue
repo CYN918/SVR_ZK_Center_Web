@@ -7,7 +7,7 @@
             </div>
         </div>
         <div class="centNavBox">
-            <div class="titl_right">
+            <div class="titl_right" style="min-height:400px;"> 
                 <div class="message">
                     <span class="message_name">通知标题:</span>
                     <span class="message_box">{{messageData.name}}</span>
@@ -25,8 +25,22 @@
                     <span class="message_box">{{created_at}}</span>
                 </div>
                 <div class="message">
-                    <span class="message_name">内容详情:</span>
-                    <span class="message_box">{{messageData.email}}</span>
+                    <span class="message_name" style="float:left;">内容详情:</span>
+                    <span class="message_box" style="width:700px;float:left;">
+                        <div class="message">
+                            <span class="message_name" style="width:100px;">新用户登录:</span>
+                            <span class="message_box">{{newsContent.email}}</span>
+                        </div>
+                        <div class="message">
+                            <span class="message_name" style="width:100px;">申请用户名:</span>
+                            <span class="message_box">{{newsContent.name}}</span>
+                        </div>
+                        <div class="message">
+                            <span class="message_name" style="width:100px;">申请备注:</span>
+                            <span class="message_box" v-if="newsContent.reason != ''">{{newsContent.reason}}</span>
+                            <span class="message_box" v-else>--</span>
+                        </div>
+                    </span>        
                 </div>
             </div>
             <div class="btn_bottom">
@@ -92,6 +106,7 @@
         data(){
             return {
                 messageData:{},
+                newsContent:{},
                 created_at:'',
                 centerDialogVisible: false,
                 dialogVisible: false,
@@ -157,6 +172,7 @@
                 }
                 axios.get(basrurl + 'news/' + this.$route.query.id + '/detail').then((res)=>{
                     this.messageData=res.data.data;
+                    this.newsContent = res.data.data.newsContent;
                     this.created_at = res.data.data.newsContent.created_at;
                     console.log(this.messageData);
                 })

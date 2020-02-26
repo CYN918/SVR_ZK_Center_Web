@@ -16,7 +16,7 @@
 				</li>
 			</router-link> -->
 			<span class="iconfont  messgeH1 right3">
-				<span class="pend" @click="showisXXNav">
+				<span class="pend" @click="showisXXNav" v-on:mouseover="go">
 					<img class="head_top2" :src="img1"/>
 				    <div @click="showisXXNav" v-if="messgNum && messgNum.count>0" :class="['messgeH2',messgNum.count>9?'messgeH2x':'']">{{backXXnUM(messgNum.count)}}</div>
 				</span>
@@ -29,7 +29,7 @@
 						</span>
 						<span @click="getNotice('comment')" :class="{'active_1':active_2}">最近</span>
 						<span @click="getNotice('read')" :class="{'active_1':active_3}">全部标为已读</span></div>
-					<div class="messgeH3_2">
+					<div class="messgeH3_2" v-on:mouseout="stop">
 						<div class="messgeH3_2_x1">
 							<ul class="xxBox_1">
 								<li v-for="(el,index) in mData" :key="index">
@@ -37,7 +37,7 @@
 								</li>							
 							</ul>
 							
-							<div v-if="mData.length==0||mData==null" class="messgeH3_2_1"><img  src="https://static.zookingsoft.com/SVR_NEW_DESIGNER_WEB/img/wxx.png" alt="">暂无新的消息</div>
+							<div v-if="mData.length==0" class="messgeH3_2_1"><img  src="https://static.zookingsoft.com/SVR_NEW_DESIGNER_WEB/img/wxx.png" alt="">暂无新的消息</div>
 						</div>
 						
 						
@@ -61,7 +61,7 @@
 			<router-link  to="/workbench"><li><span>工作台</span></li></router-link>
 			<!-- <router-link  to="/admin"><li> <span>素材中心</span></li></router-link> -->
 			<span class="iconfont  messgeH1 right2">
-				<span class="pend" @click="showisXXNav">
+				<span class="pend" @click="showisXXNav" v-on:mouseover="go">
 					<img class="head_top2" :src="img1"/>
 				    <div @click="showisXXNav" v-if="messgNum && messgNum.count>0" :class="['messgeH2',messgNum.count>9?'messgeH2x':'']">{{backXXnUM(messgNum.count)}}</div>
 				</span>
@@ -74,7 +74,7 @@
 						</span>
 						<span @click="getNotice('comment')" :class="{'active_1':active_2}">最近</span>
 						<span @click="getNotice('read')" :class="{'active_1':active_3}">全部标为已读</span></div>
-					<div class="messgeH3_2">
+					<div class="messgeH3_2" v-on:mouseout="stop">
 						<div class="messgeH3_2_x1">
 							<ul class="xxBox_1">
 								<li v-for="(el,index) in mData" :key="index">
@@ -82,7 +82,7 @@
 								</li>							
 							</ul>
 							
-							<div v-if="mData.length==0||mData==null" class="messgeH3_2_1"><img  src="https://static.zookingsoft.com/SVR_NEW_DESIGNER_WEB/img/wxx.png" alt="">暂无新的消息</div>
+							<div v-if="mData.length==0" class="messgeH3_2_1"><img  src="https://static.zookingsoft.com/SVR_NEW_DESIGNER_WEB/img/wxx.png" alt="">暂无新的消息</div>
 						</div>
 						
 						
@@ -152,6 +152,13 @@ export default {
 		}
 	},
 	methods:{
+		stop(){
+			this.isXXNav = false;
+		},
+		go(){
+			this.isXXNav = true;
+			this.getNotice('notify');
+		},
 		backXXnUM(n){
 			if(n>999){
 				return 999;
@@ -159,8 +166,9 @@ export default {
 			return n;
 		},
 		showisXXNav(){
-			this.isXXNav = true;
-			this.getNotice('notify');
+			this.$router.push({
+				path:"/userinfo/message",
+			})
 		},
 		hidisXXNav(){
 			this.isXXNav = false;
@@ -210,7 +218,7 @@ export default {
 			if(type == 'read'){
 				this.api.pushlib_message_all_handled().then((da) => {
 					if(da=='error'){return}
-					this.mData= da;
+					// this.mData= da;
 					this.active_1 = false;
 					this.active_2 = false;
 					this.active_3 = true;
@@ -539,6 +547,7 @@ export default {
 .messgeH1{
 	position: relative;
 	top: 4px;
+	cursor: pointer;
 }
 .messgeH2{
 	display: block;
