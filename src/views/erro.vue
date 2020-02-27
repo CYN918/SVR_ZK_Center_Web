@@ -123,7 +123,7 @@ export default {
 			popupWindow:false,
 			refusedVisible:false,
 			refusedVisible_pop:false,
-			// refusedVisible_pop2:false,
+			refusedVisible_pop2:false,
 		}
 	},
     mounted:function (){
@@ -142,10 +142,10 @@ export default {
 			this.dialogVisible = false;
 			this.loginout()
 		},
-		// sure2(){
-		// 	this.refusedVisible_pop2 = false;
-		// 	this.loginout()
-		// },
+		sure2(){
+			this.refusedVisible_pop2 = false;
+			this.loginout()
+		},
 		sure3(){
 			this.popupWindow = false;
 			this.loginout()
