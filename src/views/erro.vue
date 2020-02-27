@@ -216,7 +216,7 @@ export default {
                     this.centerDialogVisible = true;
                 }
                 if(datas.status == 1){
-					this.handleClose = true;
+					this.dialogVisible = true;
 					this.ruleForm = datas;
                 }
                 if(datas.status == 2){
