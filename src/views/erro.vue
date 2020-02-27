@@ -41,7 +41,7 @@
                 </div>
                 <div class="message">
                     <span class="message_name" style="width:135px;">申请时间:</span>
-                    <span class="message_box">{{ruleForm.refuse_reason}}</span>
+                    <span class="message_box">{{ruleForm.apply_time}}</span>
                 </div>
             </div>
 			<span slot="footer" class="dialog-footer">
@@ -227,7 +227,7 @@ export default {
 					this.popupWindow = true;
 				}
 				if(datas.status == 4){
-					this.refusedVisible_pop2 = true;
+					this.centerDialogVisible = true;
                 }
             })
 
