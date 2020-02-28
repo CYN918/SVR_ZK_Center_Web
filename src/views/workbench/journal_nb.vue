@@ -30,7 +30,7 @@
                 </div>
                 <span class='qdName'>数量:</span>
                 <span>{{this.total}}</span>
-                <span class="dated" v-if="new Date(this.date)<=new Date(new Date().getTime() - 24*60*60*1000)">(已过期)</span>
+                <!-- <span class="dated" v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)">(已过期)</span> -->
                
         </div>
         <div style="margin-top:250px;background:#fff" class='rePadding'>
@@ -48,11 +48,19 @@
                             v-if='pl'
                             :selectable='checkboxT'
                             width="50" style="padding:0 auto!important">
-                        </el-table-column>     
+                        </el-table-column>  
                         <el-table-column
-                                label="权重">
+                                label="权重"
+                                v-if="new Date(this.date)<=new Date(new Date().getTime() - 24*60*60*1000)">
                             <template slot-scope="scope">
-                                <div><span v-if="isShow">{{tableData[scope.$index].weight}}</span><span><el-input v-if="Tw" v-model="theWeight" @change="InputClick"></el-input><i class="el-icon-edit" style="font-size: 30px;" @click="icon_click(scope.row)" v-if="isShow"></i></span></div>
+                                <div><span v-if="isShow">{{tableData[scope.$index].weight}}</span></div>
+                            </template>
+                        </el-table-column>   
+                        <el-table-column
+                                label="权重"
+                                v-else>
+                            <template slot-scope="scope">
+                                <div><span v-if="isShow">{{tableData[scope.$index].weight}}</span><span><el-input v-if="Tw" v-model="theWeight" @change="InputClick"></el-input><i class="el-icon-edit" style="font-size: 30px;cursor: pointer;" @click="icon_click(scope.$index,scope.row)" v-if="isShow"></i></span></div>
                             </template>
                         </el-table-column>
                         <el-table-column
@@ -109,7 +117,7 @@
                         <el-table-column
                                 label="操作"
                                 
-                                v-if="new Date(this.date)<=new Date(new Date().getTime() - 24*60*60*1000)"
+                                v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)"
                         >
                             <template slot-scope="scope">
                                  <!-- <el-button  type="text" size="small" v-if='tableData[scope.$index].status=="0"' @click='updateStatus(index)'>审核</el-button> -->
@@ -243,7 +251,7 @@ return {
 },
 
 methods: {
-    icon_click(rows){
+    icon_click(index,rows){
         console.log(rows)
         this.isShow = false;
         this.Tw = true;
@@ -476,6 +484,7 @@ methods: {
 },
 
 created() {
+   
 
 },
 //生命周期 - 挂载完成（可以访问DOM元素）
