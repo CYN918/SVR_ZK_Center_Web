@@ -17,16 +17,16 @@
                 <span>广告内容</span>
             </div>
             <div class='details_left'>
-                <img :src="list.adver.pict_url" alt="" v-if="list.adver.pict_url"/>
+                <img :src="adver.pict_url" alt="" v-if="adver.pict_url"/>
             </div>
             <div class='details_right'>
                <div>
                    <span>广告图URL</span>
-                    <a :href="list.adver.pict_url" v-if="list.adver.pict_url">{{list.adver.pict_url}}</a>
+                    <a :href="adver.pict_url" v-if="adver.pict_url">{{adver.pict_url}}</a>
                </div>
                 <div>
                     <span>落地页URL</span>
-                    <a :href="list.adver.click_url">{{list.adver.click_url}}</a>
+                    <a :href="adver.click_url">{{adver.click_url}}</a>
                </div>
             </div>
         </div>
@@ -35,13 +35,13 @@
                 <span>杂志锁屏</span>
             </div>
             <div class='details_left'>
-                <img :src="list.mfinal.prev_uri"  alt=""/>
+                <img :src="mfinal.prev_uri"  alt=""/>
             </div>
             <div class='details_right2'>
                <div>
                    <div class='tab_box'>
                        <span class='tab_box_name'>物料ID</span>
-                       <span class='tab_box_con'>{{list.mfinal.mfid}}</span>
+                       <span class='tab_box_con'>{{mfinal.mfid}}</span>
                    </div>
                    <div class='tab_box'>
                        <span class='tab_box_name' style="margin-left:30px">壁纸标签</span>
@@ -50,22 +50,22 @@
                    </div>
                    <div class='tab_box' style="border-right:0!important">
                        <span  class='tab_box_name' style="margin-left:30px">尺寸</span>
-                       <span  class='tab_box_con' style="margin-left:30px">{{list.mfinal.size}}</span>
+                       <span  class='tab_box_con' style="margin-left:30px">{{mfinal.size}}</span>
                    </div>
                </div>
                 <div>
                    <div class='tab_box'>
                        <span  class='tab_box_name'>文件大小</span>
                        <!-- <span  class='tab_box_con'>{{list.mfinal.attach.size}}</span> -->
-                       <span class="tab_box_con" v-if="(list.mfinal.attach.size/1024).toFixed(0)<1">1kb</span>
-						<span class="tab_box_con" v-if="list.mfinal.attach.size>1024&&list.mfinal.attach.size<1024*1024">{{(list.mfinal.attach.size/1024).toFixed(0)}}kb</span>
-						<span class="tab_box_con" v-if="list.mfinal.attach.size>1024*1024&&list.mfinal.attach.size<1024*1024*1024">{{(list.mfinal.attach.size/1024/1024).toFixed(1)}}MB</span>
-						<span class="tab_box_con" v-if="list.mfinal.attach.size>1024*1024*1024">{{(list.mfinal.attach.size/1024/1024/1024).toFixed(2)}}GB</span>
-                       <a class='xz' :href='list.mfinal.attach.url'>下载</a>
+                       <span class="tab_box_con" v-if="mfinal.attach&&(mfinal.attach.size/1024).toFixed(0)<1">1kb</span>
+						<span class="tab_box_con" v-if="mfinal.attach&&mfinal.attach.size>1024&&mfinal.attach.size<1024*1024">{{(mfinal.attach.size/1024).toFixed(0)}}kb</span>
+						<span class="tab_box_con" v-if="mfinal.attach&&mfinal.attach.size>1024*1024&&mfinal.attach.size<1024*1024*1024">{{(mfinal.attach.size/1024/1024).toFixed(1)}}MB</span>
+						<span class="tab_box_con" v-if="mfinal.attach&&mfinal.attach.size>1024*1024*1024">{{(mfinal.attach.size/1024/1024/1024).toFixed(2)}}GB</span>
+                       <a class='xz' :href='mfinal.attach.url' v-if="mfinal.attach">下载</a>
                    </div>
                    <div class='tab_box'>
                        <span  class='tab_box_name' style="margin-left:30px">埋点状态</span>
-                       <span  class='tab_box_con' style="margin-left:30px">{{list.mfinal.status_check==0?'暂未上线':"已上线"}}</span>
+                       <span  class='tab_box_con' style="margin-left:30px">{{mfinal.status_check==0?'暂未上线':"已上线"}}</span>
                    </div>
                    <div class='tab_box' style="border-right:0!important">
                        <span  class='tab_box_name' style="margin-left:30px">对接上线状态</span>
@@ -123,6 +123,8 @@ components: {},
 data() {        
     return {
         list:{},
+        mfinal:{},
+        adver:{},
     };
 },
 
@@ -134,16 +136,18 @@ methods: {
         let params={adid:this.$route.query.adid,mfid:this.$route.query.mfid,plid:this.$route.query.plid}
         this.api.pushlib_adver_mfinal_detail({params}).then((res)=>{
             this.list=res;
+            this.mfinal = res.mfinal;
+            this.adver = res.adver;
         })
     },
 },
 
 created() {
-
+    this.getDetail()
 },
 
 mounted() {
-    this.getDetail()
+    
 },
 
 }
