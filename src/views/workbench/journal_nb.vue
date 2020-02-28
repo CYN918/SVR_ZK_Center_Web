@@ -108,8 +108,8 @@
                         </el-table-column>
                         <el-table-column
                                 label="操作"
-                                v-if="new Date(this.date)<=new Date(new Date().getTime() - 24*60*60*1000)"
                                 
+                                v-if="new Date(this.date)<=new Date(new Date().getTime() - 24*60*60*1000)"
                         >
                             <template slot-scope="scope">
                                  <!-- <el-button  type="text" size="small" v-if='tableData[scope.$index].status=="0"' @click='updateStatus(index)'>审核</el-button> -->
@@ -238,6 +238,7 @@ return {
         },
         theWeight:'',
         rouelForm:{},
+        textlink:[],
 };
 },
 
@@ -393,23 +394,29 @@ methods: {
                  this.dialogVisible = true;
              },
              surRemove(){
-                let formData =new FormData;;
-                for(let i=0;i<this.value.length;i++){
-                    for(let key in this.value[i]){
-                        formData.append(`textlink[${i}][${key}]`,this.value[i][key])          
-                    }
+                let formData =new FormData;
+                let array={plid:"",mfid:"",tdate:""}
+                for(var i=0;i<this.value.length;i++){
+                    array.plid=this.value[i].plid;
+                    array.mfid=this.value[i].mfid;
+                    array.tdate=this.date;
+                    this.textlink.push(array); 
                 }
+                formData.append('textlink',JSON.stringify(this.textlink))
                 this.api.pushlib_textlink_del(formData).then((res)=>{
                     this.getData();
                 })
 
              },
              deleteRow(index, rows) {
-                    let formData =new FormData;
-                    formData.getAll("textlink");
-                    formData.append('textlink[plid]',rows.plid);
-                    formData.append('textlink[mfid]',rows.mfid);
-                    formData.append('textlink[tdate]',this.date);
+                 let formData =new FormData;
+                 
+                let array={plid:"",mfid:"",tdate:""}
+                     array.plid=rows.plid;
+                     array.mfid=rows.mfid;
+                     array.tdate=this.date;
+                   this.textlink.push(array); 
+                   formData.append('textlink',JSON.stringify(this.textlink))
                     this.api.pushlib_textlink_del(formData).then((res)=>{
                         this.getData();
                     })
