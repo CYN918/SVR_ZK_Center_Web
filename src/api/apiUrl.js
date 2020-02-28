@@ -727,6 +727,22 @@ export default {
     pushlib_add_mfinal:{
 		url:'pushlib/add/mfinal',method:'post',isType:{suktip:1}
 	},
+	//内部杂志锁屏添加推送物料
+    pushlib_textlink_add:{
+		url:'pushlib/textlink/add',method:'post',isType:{suktip:1}
+	},
+	//编辑内部杂志锁屏壁纸文字链
+	pushlib_textlink_edit:{
+		url:'pushlib/textlink/edit',method:'post',isType:{suktip:1}
+	},
+	//删除内部杂志锁屏文字链
+	pushlib_textlink_del:{
+		url:'pushlib/textlink/del',method:'post',isType:{suktip:1}
+	},
+	//编辑内部杂志锁屏壁纸文字链权限
+	pushlib_textlink_edit_weight:{
+		url:'pushlib/textlink/edit/weight',method:'post',isType:{suktip:1}
+	},
 	//外部账户推送物料列表
     // pushlib_external_mfinal:{
 	// 	url:"pushlib/external/mfinal",method:'get'
@@ -1426,6 +1442,10 @@ export default {
 	//获取推送库列表
 	pushlib_adver_mfinal_list:{
 		url:"pushlib/adver/mfinal/list",method:"get"
+	},
+	//获取推送库列表
+	pushlib_textlink_search:{
+		url:"pushlib/textlink/search",method:"get"
 	},
 	//广告物料详情
 	pushlib_adver_mfinal_detail:{

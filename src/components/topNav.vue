@@ -26,19 +26,20 @@
 							<!-- <div v-if="messgNum && messgNum.count>0" :class="['messgeH5',messgNum.count>9?'messgeH5x':'']">{{backXXnUM(messgNum.count)}}</div> -->
 						</span>
 						<span @click="getNotice('comment')" :class="{'active_1':active_2}">最近</span>
-						<span @click="getNotice('read')" :class="{'active_1':active_3}">全部标为已读</span>
+						
 					</div>
 					<div class="messgeH3_2">
 						<div class="messgeH3_2_x1">
 							<ul class="xxBox_1">
 								<li v-for="(el,index) in mData" :key="index">
 									<div @click="goMssg(el)">{{el.name}}</div>								
-								</li>							
+								</li>	
+													
 							</ul>
 							
 							<div v-if="mData.length==0" class="messgeH3_2_1"><img  src="https://static.zookingsoft.com/SVR_NEW_DESIGNER_WEB/img/wxx.png" alt="">暂无新的消息</div>
 						</div>
-						
+						<span @click="getNotice('read')" :class="{'active_1':active_3}" style="position: absolute;bottom: 0px;width: 100%;text-align: center;height: 30px;">全部标为已读</span>
 						
 					</div>
 					
@@ -70,20 +71,20 @@
 							<!-- <div v-if="messgNum && messgNum.count>0" :class="['messgeH5',messgNum.count>9?'messgeH5x':'']">{{backXXnUM(messgNum.count)}}</div> -->
 						</span>
 						<span @click="getNotice('comment')" :class="{'active_1':active_2}">最近</span>
-						<span @click="getNotice('read')" :class="{'active_1':active_3}">全部标为已读</span>
 					</div>
 					<div class="messgeH3_2">
 						<div class="messgeH3_2_x1">
 							<ul class="xxBox_1">
 								<li v-for="(el,index) in mData" :key="index">
 									<div @click="goMssg(el)">{{el.name}}</div>								
-								</li>							
+								</li>
+														
 							</ul>
 							
 							<div v-if="mData.length==0" class="messgeH3_2_1"><img  src="https://static.zookingsoft.com/SVR_NEW_DESIGNER_WEB/img/wxx.png" alt="">暂无新的消息</div>
 						</div>
 						
-						
+						<span @click="getNotice('read')" :class="{'active_1':active_3}" style="position: absolute;bottom: 0px;width: 100%;text-align: center;height: 30px;">全部标为已读</span>
 					</div>
 					
 				
@@ -147,7 +148,8 @@ export default {
         this.type=localStorage.getItem('role');
         if(localStorage.getItem('icon')!=''){
             this.img=localStorage.getItem('icon')
-		}
+		};
+		this.getNotice('notify');
 	},
 	methods:{
 		stop(){
@@ -155,7 +157,6 @@ export default {
 		},
 		go(){
 			this.isXXNav = true;
-			this.getNotice('notify');
 		},
 		backXXnUM(n){
 			if(n>999){
@@ -432,7 +433,10 @@ export default {
 .sskzd>input{
 	border: none;
 }
-.navd{height: 100%;}
+.navd{
+	height: 100%;
+	position: relative;
+}
 .navd li{
 	display: inline-block;
 	width: 100%;
@@ -457,7 +461,7 @@ export default {
 	float: right;
 }
 .right3{
-	left: 55%;
+	left: 75%;
 }
 .navd a.router-link-active{	
 	display: inline-block;
@@ -539,7 +543,7 @@ export default {
 	vertical-align: top;
 }
 .messgeH1{
-	position: relative;
+	position: absolute;
 	top: 4px;
 	cursor: pointer;
 }
@@ -608,20 +612,12 @@ export default {
 	position: relative;
 	margin-top: 16px;
 	display: inline-block;
-	width: 20%;
+	width: 35%;
 	height: 45px;
 	text-align: center;
 	cursor: pointer;
 }
-.messgeH3_1>span:nth-child(3){
-	position: relative;
-	margin-top: 16px;
-	display: inline-block;
-	width: 60%;
-	height: 45px;
-	text-align: center;
-	cursor: pointer;
-}
+
 .messgeH3_1>span:last-child{
 	border: none;
 }

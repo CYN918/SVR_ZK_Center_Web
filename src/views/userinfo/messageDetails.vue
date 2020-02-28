@@ -9,23 +9,23 @@
         <div class="centNavBox">
             <div class="titl_right" style="min-height:400px;"> 
                 <div class="message">
-                    <span class="message_name">通知标题:</span>
+                    <span class="message_name" style="width: 90px;">通知标题:</span>
                     <span class="message_box">{{messageData.name}}</span>
                 </div>
                 <div class="message" v-if="messageData.type == '1'">
-                    <span class="message_name">消息类型:</span>
+                    <span class="message_name" style="width: 90px;">消息类型:</span>
                     <span class="message_box">新用户申请</span>
                 </div>
                 <div class="message" v-if="messageData.type == '2'">
-                    <span class="message_name">消息类型:</span>
+                    <span class="message_name" style="width: 90px;">消息类型:</span>
                     <span class="message_box">入口提示</span>
                 </div>
                 <div class="message">
-                    <span class="message_name">通知时间:</span>
+                    <span class="message_name" style="width: 90px;">通知时间:</span>
                     <span class="message_box">{{created_at}}</span>
                 </div>
                 <div class="message">
-                    <span class="message_name" style="float:left;">内容详情:</span>
+                    <span class="message_name" style="float:left;width: 90px;">内容详情:</span>
                     <span class="message_box" style="width:700px;float:left;">
                         <div class="message">
                             <span class="message_name" style="width:100px;">新用户登录:</span>
@@ -42,7 +42,25 @@
                         </div>
                     </span>        
                 </div>
+            </div>         
+        </div>
+        <div class="centNavBox" style="margin-top: 10px;" v-if="messageData.status == '1'">
+            <div class="titl_right" style="min-height:400px;"> 
+                <div class="message">
+                    <span class="message_name" style="width: 90px;">处理人:</span>
+                    <span class="message_box">{{messageData.handler}}</span>
+                </div>
+                <div class="message">
+                    <span class="message_name" style="width: 90px;">处理结果:</span>
+                    <span class="message_box">{{messageData.handler_result}}</span>
+                </div>
+                <div class="message">
+                    <span class="message_name" style="width: 90px;">处理时间:</span>
+                    <span class="message_box">{{messageData.handler_at}}</span>
+                </div>
             </div>
+        </div>
+        <div class="centNavBox" style="margin-top: 10px;padding:5px 0px 5px 0px;">
             <div class="btn_bottom">
                 <span class="btn_bottom_o" @click="dialogVisible = true" v-if="messageData.type == '1' && messageData.status != '1'">通过申请</span>
                 <span class="btn_bottom_t" @click="centerDialogVisible = true" v-if="messageData.type == '1' && messageData.status != '1'">拒绝</span>
@@ -88,12 +106,11 @@
                     <span class="txt txt_right">用户名</span>
                     <input type="text" v-model="userName"/>
                 </div>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="apply">确 定</el-button>
-            </span>
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="dialogVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="apply">确 定</el-button>
+                </span>
             </el-dialog>
-            
         </div>
     </div>
 
@@ -323,5 +340,8 @@
     border:1px solid rgba(211,219,235,1);
     margin-right: 24px;
     margin-left:24px;
+}
+.centNavBox >>> .btn_bottom{
+    margin-top: 0px;
 }
 </style>
