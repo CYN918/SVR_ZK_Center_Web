@@ -177,6 +177,7 @@
                     if(da=='error'){this.$message.error(da.message)}     
                     this.centerDialogVisible = false;
                     this.getMessage();
+                    this.textarea = '';
                 })
             },
             getMessage(){
