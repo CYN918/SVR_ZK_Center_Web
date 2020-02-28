@@ -52,11 +52,11 @@
                 </div>
                 <div class="message">
                     <span class="message_name" style="width: 90px;">处理结果:</span>
-                    <span class="message_box">{{messageData.handler_result}}</span>
+                    <span class="message_box">{{messageData.handle_result}}</span>
                 </div>
                 <div class="message">
                     <span class="message_name" style="width: 90px;">处理时间:</span>
-                    <span class="message_box">{{messageData.handler_at}}</span>
+                    <span class="message_box">{{messageData.handle_at}}</span>
                 </div>
             </div>
         </div>

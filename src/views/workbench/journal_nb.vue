@@ -53,14 +53,14 @@
                                 label="权重"
                                 v-if="new Date(this.date)<=new Date(new Date().getTime() - 24*60*60*1000)">
                             <template slot-scope="scope">
-                                <div><span v-if="isShow">{{tableData[scope.$index].weight}}</span></div>
+                                <div><span :id='"isShow"+scope.$index'>{{tableData[scope.$index].weight}}</span></div>
                             </template>
                         </el-table-column>   
                         <el-table-column
                                 label="权重"
                                 v-else>
                             <template slot-scope="scope">
-                                <div><span v-if="isShow">{{tableData[scope.$index].weight}}</span><span><el-input v-if="Tw" v-model="theWeight" @change="InputClick"></el-input><i class="el-icon-edit" style="font-size: 30px;cursor: pointer;" @click="icon_click(scope.$index,scope.row)" v-if="isShow"></i></span></div>
+                                <div><span :id='"isShow"+scope.$index'>{{tableData[scope.$index].weight}}<i class="el-icon-edit" style="font-size: 30px;cursor: pointer;" @click="icon_click(scope.$index,scope.row)"></i></span><span class="box"><input :id='"pro"+scope.$index' v-model="theWeight" @change="InputClick(scope.$index)"/></span></div>
                             </template>
                         </el-table-column>
                         <el-table-column
@@ -202,7 +202,7 @@
                 <el-button type="primary" @click="textVisible = false">取消</el-button>
             </span>
         </el-dialog>
-        <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel'></ADDWL>
+        <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material"></ADDWL>
 </div>
 </template>
 
@@ -218,6 +218,7 @@ return {
        qdLists:[], 
        plid:this.$route.query.plid,
        channel:this.$route.query.channel,
+       material:3,
        date:(new Date()).toLocaleDateString().split('/').join('-'),
        status:'',
        tableData:[],
@@ -238,7 +239,6 @@ return {
         ADDwl:false,
         textVisible:false,
         isShow:true,
-        Tw:false,
         form: {
           title: '',
           content: '',
@@ -253,12 +253,12 @@ return {
 methods: {
     icon_click(index,rows){
         console.log(rows)
-        this.isShow = false;
-        this.Tw = true;
+        document.getElementById('isShow'+index).style.display = 'none';
+        document.getElementById('pro'+index).style.display = 'block';
         this.theWeight = rows.weight;
         this.rouelForm = rows;
     },
-    InputClick(){
+    InputClick(index){
         let formData =new FormData;
         formData.append('plid',this.rouelForm.plid);
         formData.append('tdate',this.date);
@@ -268,8 +268,8 @@ methods: {
         formData.append('url',this.rouelForm.url);
         formData.append('weight',this.theWeight);
         this.api.pushlib_textlink_edit_weight(formData).then((res)=>{
-            this.isShow = true;
-            this.Tw = false;
+            document.getElementById('isShow'+index).style.display = 'block';
+            document.getElementById('pro'+index).style.display = 'none';
             this.getData()
         })
     },
@@ -712,8 +712,10 @@ mounted() {
         color: rgba(61,73,102,1);
         margin: 10px 20% 0 0;
     }
-    .box >>> .el-input{
-        width: 70px;
+    .box > input{
+        display: none;
+        width: 80px;
+    height: 25px;
     }
    
 </style>
