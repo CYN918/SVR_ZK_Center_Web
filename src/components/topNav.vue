@@ -461,7 +461,7 @@ export default {
 	float: right;
 }
 .right3{
-	left: 75%;
+	left: 78%;
 }
 .navd a.router-link-active{	
 	display: inline-block;

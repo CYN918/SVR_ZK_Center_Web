@@ -1,6 +1,6 @@
 
 <template>
-<div >
+<div class="template">
        <div class="top_name">
                 <span class="top_txt" @click='fh()'>杂志锁屏推送审核管理  /  上线内容管理</span><br/>
                 <span class="top_txts" style="width: 113px;display: inline-block;">上线内容管理</span>
@@ -25,7 +25,8 @@
                             type="date"
                             format="yyyy 年 MM 月 dd 日"
                             placeholder="选择日期"
-                            value-format="yyyy-MM-dd">
+                            value-format="yyyy-MM-dd"
+                            @change="changeDate">
                     </el-date-picker>
                 </div>
                 <span class='qdName'>数量:</span>
@@ -199,7 +200,7 @@
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="savePage">保存</el-button>
-                <el-button type="primary" @click="textVisible = false">取消</el-button>
+                <el-button type="primary" @click="cancelTx">取消</el-button>
             </span>
         </el-dialog>
         <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material"></ADDWL>
@@ -251,6 +252,9 @@ return {
 },
 
 methods: {
+    changeDate(val){
+        this.getData()
+    },
     icon_click(index,rows){
         console.log(rows)
         document.getElementById('isShow'+index).style.display = 'none';
@@ -451,7 +455,11 @@ methods: {
            }, 
            details(row){
                 this.textVisible = true;
-                this.form = row;
+                // this.form = row;
+           },
+           cancelTx(){
+               this.textVisible = false;
+                this.form = {};
            },
            savePage(){
                 let formData =new FormData;
@@ -464,6 +472,7 @@ methods: {
                this.api.pushlib_textlink_edit(formData).then((res)=>{
                    this.textVisible = false;
                    this.getData();
+                   this.form = {};
                })
 
            },
@@ -716,6 +725,9 @@ mounted() {
         display: none;
         width: 80px;
     height: 25px;
+    }
+    .template >>> .el-textarea{
+        width: 100%;
     }
    
 </style>
