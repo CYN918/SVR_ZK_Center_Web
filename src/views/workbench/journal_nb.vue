@@ -498,7 +498,7 @@ methods: {
            }, 
            details(row){
                 this.textVisible = true;
-                // this.form = row;
+                this.form = row;
            },
            cancelTx(){
                this.textVisible = false;
@@ -527,13 +527,10 @@ methods: {
                 formData.append('click_action',this.form.click_action);
                 formData.append('url',this.form.url);
                this.api.pushlib_textlink_edit(formData).then((res)=>{
-                   if(!res){
-                       
-                   }else{
+                   
                        this.textVisible = false;
                         this.getData();
                         this.form = {};
-                   }
                    
                })
 
