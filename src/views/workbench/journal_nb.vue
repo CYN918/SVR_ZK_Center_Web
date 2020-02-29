@@ -12,11 +12,9 @@
                 </select> -->
                 <span class='qud'>{{this.$route.query.channel}}</span>
                 
-                <span class='userGl' v-if="pl_a" @click='addWl()' style="margin: 0px 20% 0 0;">添加物料</span>
-                <span class="select" v-if="pl_a" @click='jump()' style="margin: 0px 1% 0 0;background: rgba(51,119,255,1);color:#ffffff;">管理</span>
+                <span class='userGl' @click='addWl()' style="margin: 0px 20% 0 0;">添加物料</span>
+                <span class="select" @click='jump()' style="margin: 0px 1% 0 0;background: rgba(51,119,255,1);color:#ffffff;">一键确认</span>
 
-                <span class='userGl' v-if="pl" @click='cancel()' style="margin: 0px 20% 0 0;">取消</span>
-                <span class="select" v-if="pl" @click='remove()' style="margin: 0px 1% 0 0;background: rgba(51,119,255,1);color:#ffffff;">移除({{this.value.length}})</span>
         </div>
         <div class='screening'>
                 <div class="date">
@@ -31,7 +29,7 @@
                 </div>
                 <span class='qdName'>数量:</span>
                 <span>{{this.total}}</span>
-                <!-- <span class="dated" v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)">(已过期)</span> -->
+                <span class="dated" v-if="new Date(this.date)<=new Date(new Date().getTime() - 24*60*60*1000)">(已过期)</span>
                
         </div>
         <div style="margin-top:250px;background:#fff" class='rePadding'>
@@ -45,12 +43,6 @@
                             @selection-change="handleSelectionChange"
                             >
                         <el-table-column
-                            type="selection"
-                            v-if='pl'
-                            
-                            width="50" style="padding:0 auto!important">
-                        </el-table-column>  
-                        <el-table-column
                                 label="权重"
                                 v-if="new Date(this.date)<=new Date(new Date().getTime() - 24*60*60*1000)">
                             <template slot-scope="scope">
@@ -61,7 +53,7 @@
                                 label="权重"
                                 v-else>
                             <template slot-scope="scope">
-                                <div><span :id='"isShow"+scope.$index'>{{tableData[scope.$index].weight}}<i class="el-icon-edit" style="font-size: 30px;cursor: pointer;" @click="icon_click(scope.$index,scope.row)"></i></span><span class="box"  @click="dJ(scope.$index)"><input :id='"pro"+scope.$index' v-model="theWeight" @blur="InputClick(scope.$index)"/></span></div>
+                                <div><span :id='"isShow"+scope.$index'>{{tableData[scope.$index].weight}}<i class="el-icon-edit" style="font-size: 30px;cursor: pointer;" @click="icon_click(scope.$index,scope.row)"></i></span><span class="box"><input :id='"pro"+scope.$index' v-model="theWeight" @blur="InputClick(scope.$index)"/></span></div>
                             </template>
                         </el-table-column>
                         <el-table-column
@@ -90,6 +82,14 @@
                                 </template>
                         </el-table-column>
                         <el-table-column
+                                label="文字链标识"
+                                >
+                                 <template slot-scope="scope">
+                                    <a :href="tableData[scope.$index].click_action" target="_blank" style="text-decoration: none;color: #66b1ff" v-if="tableData[scope.$index].click_action!=''">点击查看</a>
+                                    <a  v-if="tableData[scope.$index].click_action==''">-</a>
+                                </template>
+                        </el-table-column>
+                        <el-table-column
                                 label="落地页"
                                 >
                                  <template slot-scope="scope">
@@ -98,10 +98,9 @@
                                 </template>
                         </el-table-column>
                          <el-table-column
-                                prop="status"
                                 label="状态">
                                   <template slot-scope="scope">
-                                      <span>{{tableData[scope.$index].adver_status==0?"待审核":tableData[scope.$index].adver_status==1?"审核通过":'审核不通过'}}</span>
+                                      <span>{{tableData[scope.$index].status_name}}</span>
                                 </template>
                         </el-table-column>
                          <el-table-column
@@ -123,8 +122,8 @@
                             <template slot-scope="scope">
                                  <!-- <el-button  type="text" size="small" v-if='tableData[scope.$index].status=="0"' @click='updateStatus(index)'>审核</el-button> -->
                                  <!-- <el-button v-if='tableData[scope.$index].status!="0"' type="text" size="small">修改结果</el-button> -->
-                                <el-button v-if="pl_a"  type="text" size="small" @click="details(scope.row)">管理文字链</el-button>
-                                <el-button v-if="pl"  type="text" size="small" @click="deleteRow(scope.$index, scope.row)">移除</el-button>
+                                <el-button  type="text" size="small" @click="details(scope.row)">管理文字链</el-button>
+                                <el-button  type="text" size="small" @click="deleteRow(scope.$index, scope.row)">移除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -175,24 +174,48 @@
             title="提示"
             :visible.sync="dialogVisible"
             :showClose="showClo"
+            :before-close="handleClose"
             width="30%">
             <span>确认将该物料从该投放库移除吗?</span>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="surRemove">确 定</el-button>
+                <el-button type="primary" @click="surRemove">确 认</el-button>
+            </span>
+        </el-dialog>
+        <el-dialog
+            title="一键确认"
+            :visible.sync="confirmVisible"
+            :showClose="showClo"
+            :before-close="handleClose"
+            width="30%">
+            <span>将所有待确认状态的内容状态更新为已确认(已确认的内容会按排期下发到客户端)</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="confirmVisible = false">取 消</el-button>
+                <el-button type="primary" @click="confirmSur">确 认</el-button>
             </span>
         </el-dialog>
         <el-dialog
             title="管理文字链"
             :visible.sync="textVisible"
             width="30%"
-            :showClose="showClo">
+            :showClose="showClo"
+            :before-close="handleClose">
             <el-form ref="form" :model="form" label-width="90px">
                 <el-form-item label="标题:">
                     <el-input type="text" maxlength="12" show-word-limit v-model="form.title"></el-input>
                 </el-form-item>
                 <el-form-item label="内容描述:">
                     <el-input type="textarea" maxlength="70" show-word-limit  v-model="form.content"></el-input>
+                </el-form-item>
+                <el-form-item label="标识:">
+                    <el-select v-model="form.click_action">
+                        <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                        </el-option>
+                    </el-select>
                 </el-form-item>
                 <el-form-item label="落地页:">
                     <el-input v-model="form.url"></el-input>
@@ -230,12 +253,12 @@ return {
         status2:"",
         checkList:[],
         pl:false,
-        pl_a:true,
         value:[],
         index:'',
         advers:[],
         yy:"",
         dialogVisible: false,
+        confirmVisible:false,
         showClo:false,
         ADDwl:false,
         textVisible:false,
@@ -243,15 +266,47 @@ return {
         form: {
           title: '',
           content: '',
+          click_action:'',
           url: '',
         },
         theWeight:'',
         rouelForm:{},
         textlink:[],
+        rows:{},
+        options: [{
+          value: '0',
+          label: '请选择'
+        }, {
+          value: '1',
+          label: '点击查看'
+        }, {
+          value: '2',
+          label: '打开应用'
+        }, {
+          value: '3',
+          label: '下载应用'
+        }],
 };
 },
 
 methods: {
+     handleClose(done) {
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+      },
+    //一键确认
+    confirmSur(){
+        let formData =new FormData;
+        formData.append('plid',this.plid);
+        formData.append('tdate',this.date);
+        this.api.pushlib_textlink_audit(formData).then((res)=>{
+            this.confirmVisible = false;
+            this.getData()
+        })
+    },
     dJ(index){
         document.getElementById('isShow'+index).style.display = 'block';
         document.getElementById('pro'+index).style.display = 'none';
@@ -371,14 +426,6 @@ methods: {
                         this.qdLists=res;
                     })
     },
-    // checkboxT(row, rowIndex){
-    //     if(row.status!=0){
-    //       return false;//禁用
-    //     }else{
-    //       return true;//不禁用
-    //     }
-    //   },
-
      getRowClass({row, column, rowIndex}) {
         if (rowIndex === 0) {
             return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;padding:20px 0px 20px 14px'
@@ -403,47 +450,31 @@ methods: {
                 this.value= val;
              },  
              jump(){
-                 this.pl = true;
-                 this.pl_a = false;
-             },
-             cancel(){
-                 this.pl = false;
-                 this.pl_a = true;
+                 this.confirmVisible = true;          
              },
              remove(){
                  this.dialogVisible = true;
              },
              surRemove(){
-                 console.log(this.value)
+                 console.log(this.rows)
                 let formData =new FormData;
-                
-                for(var i=0;i<this.value.length;i++){
-                    let array={
-                        plid:this.value[i].plid,
-                        mfid:this.value[i].mfid,
-                        tdate:this.date
-                    }
-                    this.textlink.push(array); 
-                }             
-                formData.append('textlink',JSON.stringify(this.textlink))
-                this.api.pushlib_textlink_del(formData).then((res)=>{
-                    this.dialogVisible = false;
-                    this.getData();
-                })
-
-             },
-             deleteRow(index, rows) {
-                 let formData =new FormData;
                  
                 let array={plid:"",mfid:"",tdate:""}
-                     array.plid=rows.plid;
-                     array.mfid=rows.mfid;
+                     array.plid=this.rows.plid;
+                     array.mfid=this.rows.mfid;
                      array.tdate=this.date;
                    this.textlink.push(array); 
                    formData.append('textlink',JSON.stringify(this.textlink))
                     this.api.pushlib_textlink_del(formData).then((res)=>{
+                        this.dialogVisible = false;
                         this.getData();
                     })
+
+             },
+             deleteRow(index, rows) {
+                 this.dialogVisible = true;
+                 this.rows = rows;
+                 
                 },
               updateStatus(index){
                 this.advers=[];
@@ -474,17 +505,36 @@ methods: {
                 this.form = {};
            },
            savePage(){
+               var reg = /^((https|http|ftp|rtsp|mms)?:\/\/)?[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=?%\-&_~`@[\]':+!]*([^<>"])*$/;
+               if(!this.form.title){
+                   this.$message.warning('标题必填')
+                   return false
+               }
+               if(!this.form.content){
+                   this.$message.warning('内容描述必填')
+                   return false
+               }
+               if(!reg.test(this.form.url)){
+                   this.$message.warning('落地页地址非法')
+                   return false
+               }
                 let formData =new FormData;
                 formData.append('plid',this.plid);
                 formData.append('mfid',this.form.mfid);
                 formData.append('tdate',this.date);
                 formData.append('title',this.form.title);
                 formData.append('content',this.form.content);
+                formData.append('click_action',this.form.click_action);
                 formData.append('url',this.form.url);
                this.api.pushlib_textlink_edit(formData).then((res)=>{
-                   this.textVisible = false;
-                   this.getData();
-                   this.form = {};
+                   if(!res){
+                       
+                   }else{
+                       this.textVisible = false;
+                        this.getData();
+                        this.form = {};
+                   }
+                   
                })
 
            },

@@ -743,6 +743,10 @@ export default {
 	pushlib_textlink_edit_weight:{
 		url:'pushlib/textlink/edit/weight',method:'post',isType:{suktip:1}
 	},
+	//一键确认
+	pushlib_textlink_audit:{
+		url:"pushlib/textlink/audit",method:"post"
+	},
 	//外部账户推送物料列表
     // pushlib_external_mfinal:{
 	// 	url:"pushlib/external/mfinal",method:'get'
@@ -1487,6 +1491,7 @@ export default {
 	account_apply_permission:{
 		url:"/account/apply/permission",method:"post"
 	},
+	
 }
 
 
