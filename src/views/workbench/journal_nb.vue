@@ -271,7 +271,7 @@ return {
         textlink:[],
         rows:{},
         options: [{
-          value: '请选择',
+          value: '',
           label: '请选择'
         }, {
           value: '点击查看',
@@ -512,17 +512,20 @@ methods: {
                    this.$message.warning('内容描述必填')
                    return false
                }
-               if(!reg.test(this.form.url)){
-                   this.$message.warning('落地页地址非法')
-                   return false
+               if(this.form.url){
+                   if(reg.test(this.form.url) == false){
+                    this.$message.warning('落地页地址非法')
+                    return false
+                }
                }
+               
                 let formData =new FormData;
                 formData.append('plid',this.plid);
                 formData.append('mfid',this.rowData.mfid);
                 formData.append('tdate',this.date);
-                formData.append('title',this.rowData.title);
-                formData.append('content',this.rowData.content);
-                formData.append('click_action',this.rowData.click_action);
+                formData.append('title',this.form.title);
+                formData.append('content',this.form.content);
+                formData.append('click_action',this.form.click_action);
                 formData.append('url',this.rowData.url);
                this.api.pushlib_textlink_edit(formData).then((res)=>{
                    
