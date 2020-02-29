@@ -47,7 +47,7 @@
                         <el-table-column
                             type="selection"
                             v-if='pl'
-                            :selectable='checkboxT'
+                            
                             width="50" style="padding:0 auto!important">
                         </el-table-column>  
                         <el-table-column
@@ -61,7 +61,7 @@
                                 label="权重"
                                 v-else>
                             <template slot-scope="scope">
-                                <div><span :id='"isShow"+scope.$index'>{{tableData[scope.$index].weight}}<i class="el-icon-edit" style="font-size: 30px;cursor: pointer;" @click="icon_click(scope.$index,scope.row)"></i></span><span class="box"><input :id='"pro"+scope.$index' v-model="theWeight" @change="InputClick(scope.$index)"/></span></div>
+                                <div><span :id='"isShow"+scope.$index'>{{tableData[scope.$index].weight}}<i class="el-icon-edit" style="font-size: 30px;cursor: pointer;" @click="icon_click(scope.$index,scope.row)"></i></span><span class="box"  @click="dJ(scope.$index)"><input :id='"pro"+scope.$index' v-model="theWeight" @blur="InputClick(scope.$index)"/></span></div>
                             </template>
                         </el-table-column>
                         <el-table-column
@@ -252,17 +252,25 @@ return {
 },
 
 methods: {
+    dJ(index){
+        document.getElementById('isShow'+index).style.display = 'block';
+        document.getElementById('pro'+index).style.display = 'none';
+    },
     changeDate(val){
         this.getData()
     },
     icon_click(index,rows){
-        console.log(rows)
+        // console.log(rows)
         document.getElementById('isShow'+index).style.display = 'none';
         document.getElementById('pro'+index).style.display = 'block';
         this.theWeight = rows.weight;
         this.rouelForm = rows;
     },
     InputClick(index){
+        if(this.theWeight > 99 || this.theWeight < 0){
+            this.$message.error('权重值范围限制为0~99')
+            return false
+        }
         let formData =new FormData;
         formData.append('plid',this.rouelForm.plid);
         formData.append('tdate',this.date);
@@ -363,13 +371,13 @@ methods: {
                         this.qdLists=res;
                     })
     },
-    checkboxT(row, rowIndex){
-        if(row.status!=0){
-          return false;//禁用
-        }else{
-          return true;//不禁用
-        }
-      },
+    // checkboxT(row, rowIndex){
+    //     if(row.status!=0){
+    //       return false;//禁用
+    //     }else{
+    //       return true;//不禁用
+    //     }
+    //   },
 
      getRowClass({row, column, rowIndex}) {
         if (rowIndex === 0) {
@@ -406,16 +414,20 @@ methods: {
                  this.dialogVisible = true;
              },
              surRemove(){
+                 console.log(this.value)
                 let formData =new FormData;
-                let array={plid:"",mfid:"",tdate:""}
+                
                 for(var i=0;i<this.value.length;i++){
-                    array.plid=this.value[i].plid;
-                    array.mfid=this.value[i].mfid;
-                    array.tdate=this.date;
+                    let array={
+                        plid:this.value[i].plid,
+                        mfid:this.value[i].mfid,
+                        tdate:this.date
+                    }
                     this.textlink.push(array); 
-                }
+                }             
                 formData.append('textlink',JSON.stringify(this.textlink))
                 this.api.pushlib_textlink_del(formData).then((res)=>{
+                    this.dialogVisible = false;
                     this.getData();
                 })
 
@@ -720,6 +732,11 @@ mounted() {
         font-weight: 500;
         color: rgba(61,73,102,1);
         margin: 10px 20% 0 0;
+    }
+    .box{
+        display: block;
+        width: 100%;
+        height: 100%;  
     }
     .box > input{
         display: none;
