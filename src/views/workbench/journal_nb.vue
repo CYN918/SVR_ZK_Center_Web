@@ -82,12 +82,9 @@
                                 </template>
                         </el-table-column>
                         <el-table-column
+                                prop="click_action"
                                 label="文字链标识"
                                 >
-                                 <template slot-scope="scope">
-                                    <a :href="tableData[scope.$index].click_action" target="_blank" style="text-decoration: none;color: #66b1ff" v-if="tableData[scope.$index].click_action!=''">点击查看</a>
-                                    <a  v-if="tableData[scope.$index].click_action==''">-</a>
-                                </template>
                         </el-table-column>
                         <el-table-column
                                 label="落地页"
@@ -274,18 +271,19 @@ return {
         textlink:[],
         rows:{},
         options: [{
-          value: '0',
+          value: '请选择',
           label: '请选择'
         }, {
-          value: '1',
+          value: '点击查看',
           label: '点击查看'
         }, {
-          value: '2',
+          value: '打开应用',
           label: '打开应用'
         }, {
-          value: '3',
+          value: '下载应用',
           label: '下载应用'
         }],
+        rowData:{},
 };
 },
 
@@ -498,7 +496,7 @@ methods: {
            }, 
            details(row){
                 this.textVisible = true;
-                this.form = row;
+                this.rowData = row;
            },
            cancelTx(){
                this.textVisible = false;
@@ -520,12 +518,12 @@ methods: {
                }
                 let formData =new FormData;
                 formData.append('plid',this.plid);
-                formData.append('mfid',this.form.mfid);
+                formData.append('mfid',this.rowData.mfid);
                 formData.append('tdate',this.date);
-                formData.append('title',this.form.title);
-                formData.append('content',this.form.content);
-                formData.append('click_action',this.form.click_action);
-                formData.append('url',this.form.url);
+                formData.append('title',this.rowData.title);
+                formData.append('content',this.rowData.content);
+                formData.append('click_action',this.rowData.click_action);
+                formData.append('url',this.rowData.url);
                this.api.pushlib_textlink_edit(formData).then((res)=>{
                    
                        this.textVisible = false;
