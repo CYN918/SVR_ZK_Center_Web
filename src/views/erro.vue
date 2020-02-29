@@ -168,8 +168,10 @@ export default {
 					return
 				}
 				if(datas==null){
+					this.$message.success('申请成功,请耐心等待!')
+					this.centerDialogVisible = false;
 					this.refusedVisible_pop = true;				
-				    this.$message.success('申请成功,请耐心等待!')
+				    
 				}			
             })
 			

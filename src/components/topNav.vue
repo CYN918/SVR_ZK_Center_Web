@@ -32,7 +32,8 @@
 						<div class="messgeH3_2_x1">
 							<ul class="xxBox_1">
 								<li v-for="(el,index) in mData" :key="index">
-									<div @click="goMssg(el)">{{el.name}}</div>								
+									<div @click="goMssg(el)">{{el.name}}</div>	
+									<div>{{el.newsContent.created_at}}</div>							
 								</li>	
 													
 							</ul>
@@ -76,7 +77,8 @@
 						<div class="messgeH3_2_x1">
 							<ul class="xxBox_1">
 								<li v-for="(el,index) in mData" :key="index">
-									<div @click="goMssg(el)">{{el.name}}</div>								
+									<div @click="goMssg(el)">{{el.name}}</div>	
+									<div>{{el.newsContent.created_at}}</div>							
 								</li>
 														
 							</ul>
@@ -550,7 +552,7 @@ export default {
 .messgeH2{
 	display: block;
 	position: absolute;
-	top: -18px;
+	top: 10px;
 	left: 7px;
 	background: #F4523B;
 	min-width: 18px;
@@ -580,7 +582,7 @@ export default {
 }
 .messgeH3{
     position: absolute;
-    top: 35px;
+    top: 60px;
     left: -240px;
     background: #FFFFFF;
     -webkit-box-shadow: 0 2px 8px 0 rgba(0,0,0,0.10);
@@ -612,10 +614,11 @@ export default {
 	position: relative;
 	margin-top: 16px;
 	display: inline-block;
-	width: 35%;
+	width: 30%;
 	height: 45px;
 	text-align: center;
 	cursor: pointer;
+	margin-left: 5px;
 }
 
 .messgeH3_1>span:last-child{
@@ -664,21 +667,35 @@ export default {
 }
 .xxBox_1>li{
 	position: relative;
-	border: 1px solid #E6E6E6;
+	border-bottom: 1px solid #E6E6E6;
 	width: 100%;
-	height: 73px;
+	height: 37px;
 	font-size: 14px;
 	color: #1E1E1E;
 }
-.xxBox_1>li>div{
+.xxBox_1>li>div:nth-child(1){
 	position: absolute;
 	top: 50%;
-	left: 50%;
+	left: 32%;
 	-webkit-transform: translate(-50%,-50%);
 	transform: translate(-50%,-50%);
-	width: 211px;
+	width: 145px;
 	line-height: 18px;
     text-align: left;
+	height: 15px;
+    overflow: hidden;
+}
+.xxBox_1>li>div:nth-child(2){
+	position: absolute;
+	top: 50%;
+	right: -15%;
+	-webkit-transform: translate(-50%,-50%);
+	transform: translate(-50%,-50%);
+	width: 90px;
+	line-height: 18px;
+    text-align: right;
+	height: 15px;
+    overflow: hidden;
 }
 .xxBox_1>li:last-child{
 	border: none;
