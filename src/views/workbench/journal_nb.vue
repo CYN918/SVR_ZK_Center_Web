@@ -526,7 +526,7 @@ methods: {
                 formData.append('title',this.form.title);
                 formData.append('content',this.form.content);
                 formData.append('click_action',this.form.click_action);
-                formData.append('url',this.rowData.url);
+                formData.append('url',this.form.url);
                this.api.pushlib_textlink_edit(formData).then((res)=>{
                    
                        this.textVisible = false;
