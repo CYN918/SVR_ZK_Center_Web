@@ -853,13 +853,13 @@ router.beforeEach((to, from, next) => {
                 next({ path: '/erro'});
                 return;
             }
-            // let params = {Authorization:"Bearer"+localStorage.getItem('token')}
-            // api.account_apply_status({params}).then((datas)=>{					
-            //     if(datas.status != '3'){
-            //         next({ path: '/erro'});
-            //         return
-            //     }
-            // })
+            let params = {Authorization:"Bearer"+localStorage.getItem('token')}
+            api.account_apply_status({params}).then((datas)=>{					
+                if(datas.status != '3'){
+                    next({ path: '/erro'});
+                    return
+                }
+            })
             next({ path: '/index'});   	
 		}).catch(()=>{
             alert("账户异常，请联系管理员添加角色或启用账号");
