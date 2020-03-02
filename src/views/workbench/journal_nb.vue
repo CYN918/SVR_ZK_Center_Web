@@ -100,7 +100,8 @@
                          <el-table-column
                                 label="状态">
                                   <template slot-scope="scope">
-                                      <span>{{tableData[scope.$index].status_name}}</span>
+                                      <span v-if="tableData[scope.$index].status_name == '待确认'" style="color:red;">{{tableData[scope.$index].status_name}}</span>
+                                      <span v-else>{{tableData[scope.$index].status_name}}</span>
                                 </template>
                         </el-table-column>
                          <el-table-column
@@ -178,8 +179,8 @@
             width="30%">
             <span>确认将该物料从该投放库移除吗?</span>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false">取 消</el-button>
                 <el-button type="primary" @click="surRemove">确 认</el-button>
+                <el-button @click="dialogVisible = false">取 消</el-button>
             </span>
         </el-dialog>
         <el-dialog
@@ -190,8 +191,8 @@
             width="30%">
             <span>将所有待确认状态的内容状态更新为已确认(已确认的内容会按排期下发到客户端)</span>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="confirmVisible = false">取 消</el-button>
                 <el-button type="primary" @click="confirmSur">确 认</el-button>
+                <el-button @click="confirmVisible = false">取 消</el-button>
             </span>
         </el-dialog>
         <el-dialog
@@ -222,8 +223,8 @@
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="savePage">保存</el-button>
-                <el-button type="primary" @click="cancelTx">取消</el-button>
+                <el-button type="primary" @click="savePage">保存</el-button>
+                <el-button @click="cancelTx">取消</el-button>
             </span>
         </el-dialog>
         <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material"></ADDWL>
@@ -498,7 +499,9 @@ methods: {
            details(row){
                 this.textVisible = true;
                 this.rowData = row;
-                this.title = row.title;
+                this.title                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+                
+                = row.title;
                 this.content = row.content;
                 this.click_action = row.click_action;
                 this.url = row.url;
@@ -798,6 +801,9 @@ mounted() {
     }
     .template >>> .el-textarea{
         width: 100%;
+    }
+    .template >>> .el-button--primary{
+        background: #155BD4;
     }
    
 </style>
