@@ -200,6 +200,7 @@
             :visible.sync="textVisible"
             width="30%"
             :showClose="showClo"
+            :close-on-click-modal='false'
             :before-close="handleClose">
             <el-form label-width="90px">
                 <el-form-item label="标题:">
