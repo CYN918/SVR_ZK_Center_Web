@@ -12,8 +12,8 @@
                 </select> -->
                 <span class='qud'>{{this.$route.query.channel}}</span>
                 
-                <span class='userGl' @click='addWl()' style="margin: 0px 20% 0 0;">添加物料</span>
-                <span class="select" @click='jump()' style="margin: 0px 1% 0 0;background: rgba(51,119,255,1);color:#ffffff;">一键确认</span>
+                <span class='userGl' v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)" @click='addWl()' style="margin: 0px 20% 0 0;">添加物料</span>
+                <span class="select" v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)" @click='jump()' style="margin: 0px 1% 0 0;background: rgba(51,119,255,1);color:#ffffff;">一键确认</span>
 
         </div>
         <div class='screening'>
@@ -82,9 +82,12 @@
                                 </template>
                         </el-table-column>
                         <el-table-column
-                                prop="click_action"
                                 label="文字链标识"
                                 >
+                                <template slot-scope="scope">
+                                    <span v-if="tableData[scope.$index].click_action!=''">{{tableData[scope.$index].click_action}}</span>
+                                    <span v-if="tableData[scope.$index].click_action==''">--</span>
+                                </template>
                         </el-table-column>
                         <el-table-column
                                 label="落地页"
@@ -197,15 +200,15 @@
             width="30%"
             :showClose="showClo"
             :before-close="handleClose">
-            <el-form ref="form" :model="form" label-width="90px">
+            <el-form label-width="90px">
                 <el-form-item label="标题:">
-                    <el-input type="text" maxlength="12" show-word-limit v-model="form.title"></el-input>
+                    <el-input type="text" maxlength="12" show-word-limit v-model="title"></el-input>
                 </el-form-item>
                 <el-form-item label="内容描述:">
-                    <el-input type="textarea" maxlength="70" show-word-limit  v-model="form.content"></el-input>
+                    <el-input type="textarea" maxlength="70" show-word-limit  v-model="content"></el-input>
                 </el-form-item>
                 <el-form-item label="标识:">
-                    <el-select v-model="form.click_action">
+                    <el-select v-model="click_action">
                         <el-option
                         v-for="item in options"
                         :key="item.value"
@@ -215,7 +218,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="落地页:">
-                    <el-input v-model="form.url"></el-input>
+                    <el-input v-model="url"></el-input>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -260,12 +263,10 @@ return {
         ADDwl:false,
         textVisible:false,
         isShow:true,
-        form: {
-          title: '',
-          content: '',
-          click_action:'',
-          url: '',
-        },
+        title: '',
+        content: '',
+        click_action:'',
+        url: '',
         theWeight:'',
         rouelForm:{},
         textlink:[],
@@ -497,23 +498,27 @@ methods: {
            details(row){
                 this.textVisible = true;
                 this.rowData = row;
+                this.title = row.title;
+                this.content = row.content;
+                this.click_action = row.click_action;
+                this.url = row.url;
            },
            cancelTx(){
                this.textVisible = false;
-                this.form = {};
+               this.form = {};
            },
            savePage(){
                var reg = /^((https|http|ftp|rtsp|mms)?:\/\/)?[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=?%\-&_~`@[\]':+!]*([^<>"])*$/;
-               if(!this.form.title){
+               if(!this.title){
                    this.$message.warning('标题必填')
                    return false
                }
-               if(!this.form.content){
+               if(!this.content){
                    this.$message.warning('内容描述必填')
                    return false
                }
-               if(this.form.url){
-                   if(reg.test(this.form.url) == false){
+               if(this.url){
+                   if(reg.test(this.url) == false){
                     this.$message.warning('落地页地址非法')
                     return false
                 }
@@ -523,18 +528,18 @@ methods: {
                 formData.append('plid',this.plid);
                 formData.append('mfid',this.rowData.mfid);
                 formData.append('tdate',this.date);
-                formData.append('title',this.form.title);
-                formData.append('content',this.form.content);
-                formData.append('click_action',this.form.click_action);
-                formData.append('url',this.form.url);
-               this.api.pushlib_textlink_edit(formData).then((res)=>{
-                   
-                       this.textVisible = false;
-                        this.getData();
-                        this.form = {};
-                   
+                formData.append('title',this.title);
+                formData.append('content',this.content);
+                formData.append('click_action',this.click_action);
+                formData.append('url',this.url);
+               this.api.pushlib_textlink_edit(formData).then((res)=>{  
+                    this.textVisible = false;
+                    this.getData();
+                    this.title = '';
+                    this.content = '';
+                    this.click_action = '';
+                    this.url = '';        
                })
-
            },
            getData(){
                let params={
