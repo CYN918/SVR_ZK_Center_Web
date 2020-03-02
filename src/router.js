@@ -840,15 +840,16 @@ router.beforeEach((to, from, next) => {
             localStorage.setItem('userType',msg.data.data.user.type);
             localStorage.setItem('userName',msg.data.data.user.name);
             localStorage.setItem('status',msg.data.data.user.status);
-            // if(msg.data.data.role.length != '0'){
+            if(msg.data.data.role.length != '0'){
                 localStorage.setItem('role',msg.data.data.role[0].type);
                 localStorage.setItem('icon',msg.data.data.role[0].icon); 
-            // }
+            }
             if(msg.data.data.user.type=='1'){
                 next({ path: '/admin/wb_Journal'});
                 return;
             }
             if(msg.data.data.user.status=='0'){
+                alert("没有权限，请联系管理员添加角色或启用账号");
                 next({ path: '/erro'});
                 return;
             }
@@ -861,7 +862,7 @@ router.beforeEach((to, from, next) => {
             // })
             next({ path: '/index'});   	
 		}).catch(()=>{
-            alert("登录成功，请联系管理员添加角色或启用账号");
+            alert("账户异常，请联系管理员添加角色或启用账号");
 		});
 			
 	}else{
