@@ -100,7 +100,7 @@
                          <el-table-column
                                 label="状态">
                                   <template slot-scope="scope">
-                                      <span v-if="tableData[scope.$index].status_name == '待确认'" style="color:red;">{{tableData[scope.$index].status_name}}</span>
+                                      <span v-if="tableData[scope.$index].status_name == '信息缺失'" style="color:red;">{{tableData[scope.$index].status_name}}</span>
                                       <span v-else>{{tableData[scope.$index].status_name}}</span>
                                 </template>
                         </el-table-column>
