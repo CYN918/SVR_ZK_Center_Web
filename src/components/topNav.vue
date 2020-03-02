@@ -40,7 +40,7 @@
 							
 							<div v-if="mData.length==0" class="messgeH3_2_1"><img  src="https://static.zookingsoft.com/SVR_NEW_DESIGNER_WEB/img/wxx.png" alt="">暂无新的消息</div>
 						</div>
-						<span @click="getNotice('read')" :class="{'active_1':active_3}" style="position: absolute;bottom: 0px;width: 100%;text-align: center;height: 30px;">全部标为已读</span>
+						<span v-if="mData.length!=0" @click="getNotice('read')" :class="{'active_1':active_3}" style="position: absolute;bottom: 0px;width: 100%;text-align: center;height: 30px;">全部标为已读</span>
 						
 					</div>
 					
@@ -86,7 +86,7 @@
 							<div v-if="mData.length==0" class="messgeH3_2_1"><img  src="https://static.zookingsoft.com/SVR_NEW_DESIGNER_WEB/img/wxx.png" alt="">暂无新的消息</div>
 						</div>
 						
-						<span @click="getNotice('read')" :class="{'active_1':active_3}" style="position: absolute;bottom: 0px;width: 100%;text-align: center;height: 30px;">全部标为已读</span>
+						<span v-if="mData.length!=0" @click="getNotice('read')" :class="{'active_1':active_3}" style="position: absolute;bottom: 0px;width: 100%;text-align: center;height: 30px;">全部标为已读</span>
 					</div>
 					
 				
@@ -615,7 +615,7 @@ export default {
 	margin-top: 16px;
 	display: inline-block;
 	width: 30%;
-	height: 45px;
+	height: 40px;
 	text-align: center;
 	cursor: pointer;
 	margin-left: 5px;

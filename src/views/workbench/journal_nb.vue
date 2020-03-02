@@ -511,7 +511,7 @@ methods: {
                this.form = {};
            },
            savePage(){
-               var reg = /^((https|http|ftp|rtsp|mms)?:\/\/)?[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=?%\-&_~`@[\]':+!]*([^<>"])*$/;
+               var reg = /(http|https):\/\/([\w.]+\/?)\S*/;
                if(!this.title){
                    this.$message.warning('标题必填')
                    return false
