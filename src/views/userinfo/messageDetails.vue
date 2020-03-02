@@ -2,41 +2,41 @@
     <div class="box">
         <div class="top_name">
             <span class="top_txt">个人中心/消息通知</span>
-            <div class="title_left">
-                <span>查看消息通知详情</span>
-            </div>
         </div>
-        <div class="centNavBox">
-            <div class="titl_right" style="min-height:400px;"> 
-                <div class="message">
-                    <span class="message_name" style="width: 90px;">通知标题:</span>
+        <div class="centNavBox" style="min-height:460px;">
+            <div class="titl_right"> 
+                <div class="title_left">
+                    <span>通知详情</span>
+                </div>
+                <div class="message" style="margin-top:24px;">
+                    <span class="message_name">通知标题:</span>
                     <span class="message_box">{{messageData.name}}</span>
                 </div>
                 <div class="message" v-if="messageData.type == '1'">
-                    <span class="message_name" style="width: 90px;">消息类型:</span>
+                    <span class="message_name">消息类型:</span>
                     <span class="message_box">新用户申请</span>
                 </div>
                 <div class="message" v-if="messageData.type == '2'">
-                    <span class="message_name" style="width: 90px;">消息类型:</span>
+                    <span class="message_name">消息类型:</span>
                     <span class="message_box">入口提示</span>
                 </div>
                 <div class="message">
-                    <span class="message_name" style="width: 90px;">通知时间:</span>
+                    <span class="message_name">通知时间:</span>
                     <span class="message_box">{{created_at}}</span>
                 </div>
                 <div class="message">
-                    <span class="message_name" style="float:left;width: 90px;">内容详情:</span>
+                    <span class="message_name" style="float:left;width: 70px;">内容详情:</span>
                     <span class="message_box" style="width:700px;float:left;">
                         <div class="message">
-                            <span class="message_name" style="width:100px;">新用户登录:</span>
+                            <span class="message_name" style="width:80px;">新用户登录:</span>
                             <span class="message_box">{{newsContent.email}}</span>
                         </div>
                         <div class="message">
-                            <span class="message_name" style="width:100px;">申请用户名:</span>
+                            <span class="message_name" style="width:80px;">申请用户名:</span>
                             <span class="message_box">{{newsContent.name}}</span>
                         </div>
                         <div class="message">
-                            <span class="message_name" style="width:100px;">申请备注:</span>
+                            <span class="message_name" style="width:80px;float:left;">申请备注:</span>
                             <span class="message_box" v-if="newsContent.reason != ''">{{newsContent.reason}}</span>
                             <span class="message_box" v-else>--</span>
                         </div>
@@ -45,17 +45,20 @@
             </div>         
         </div>
         <div class="centNavBox" style="margin-top: 10px;" v-if="messageData.status == '1'">
-            <div class="titl_right" style="min-height:400px;"> 
-                <div class="message">
-                    <span class="message_name" style="width: 90px;">处理人:</span>
+            <div class="titl_right"> 
+                <div class="title_left">
+                    <span>处理详情</span>
+                </div>
+                <div class="message" style="margin-top:24px;">
+                    <span class="message_name">处理人:</span>
                     <span class="message_box">{{messageData.handler}}</span>
                 </div>
                 <div class="message">
-                    <span class="message_name" style="width: 90px;">处理结果:</span>
+                    <span class="message_name">处理结果:</span>
                     <span class="message_box">{{messageData.handle_result}}</span>
                 </div>
                 <div class="message">
-                    <span class="message_name" style="width: 90px;">处理时间:</span>
+                    <span class="message_name">处理时间:</span>
                     <span class="message_box">{{messageData.handle_at}}</span>
                 </div>
             </div>
@@ -206,20 +209,23 @@
 
 <style scoped>
     .top_name{
-        height: 109px;
+        height: 55px;
         z-index: 999999;
     }
     .top_txt{
         display: inline-block;
         margin-left: 24px;
     }
+    .title_left{
+        border-bottom: 1px solid #EBEDF0;
+    }
     .title_left>span{
         display: inline-block;
-        margin-left: 24px;
-        font-size:20px;
+        font-size:14px;
         font-family:PingFang-SC-Medium;
-        font-weight:500;
-        color:rgba(50,50,50,1);
+        font-weight:bold;
+        color:#323233;
+        margin-bottom: 10px;
     }
     .centNavBox{
         width: 100%;
@@ -227,7 +233,7 @@
         -webkit-box-sizing: border-box;
         box-sizing: border-box;
         background: #FFF;
-        margin-top:194px;
+        margin-top:135px;
     }
 .title_name>span{
     font-size:20px;
@@ -238,17 +244,17 @@
 }
 
 .message{
-    margin-bottom: 46px;
+    margin-bottom: 24px;
 }
 .message_name{
     display: inline-block;
     width: 70px;
-    text-align: right;
+    text-align: left;
     margin-right: 24px;
     font-size:14px;
     font-family:PingFang-SC-Medium;
     font-weight:500;
-    color:rgba(31,46,77,1);
+    color:#646566;
 }
 .message_top{
     vertical-align: top;
@@ -278,7 +284,7 @@
     margin-right: 0;
 }
 .btn_bottom{
-    text-align: center;
+    text-align: right;
     margin-top: 100px;
 }
 .btn_bottom .btn_bottom_o{
@@ -311,10 +317,10 @@
 .message_box{
     display: inline-block;
     width: 500px;
-    font-size:16px;
+    font-size:14px;
     font-family:PingFang-SC-Regular;
     font-weight:400;
-    color:#8F9BB3;
+    color:#323233;
     text-align: left!important;
 }
 .box >>> .el-button--primary{
