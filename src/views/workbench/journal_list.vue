@@ -124,7 +124,7 @@ data() {
             channel:"",
             qdLists:[],
             name:"",
-            audit_type:"1"
+            audit_type:""
     };
 },
 
@@ -187,6 +187,10 @@ methods: {
              }
              if(!this.channel){
                   this.$message.error('渠道不能为空')
+                 return
+             }
+             if(!this.audit_type){
+                 this.$message.error('请选择功能')
                  return
              }
              let formData=new FormData;
