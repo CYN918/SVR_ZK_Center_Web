@@ -840,10 +840,10 @@ router.beforeEach((to, from, next) => {
             localStorage.setItem('userType',msg.data.data.user.type);
             localStorage.setItem('userName',msg.data.data.user.name);
             localStorage.setItem('status',msg.data.data.user.status);
-            if(msg.data.data.role.length != '0'){
+            // if(msg.data.data.role.length != '0'){
                 localStorage.setItem('role',msg.data.data.role[0].type);
                 localStorage.setItem('icon',msg.data.data.role[0].icon); 
-            }
+            // }
             if(msg.data.data.user.type=='1'){
                 next({ path: '/admin/wb_Journal'});
                 return;
