@@ -511,7 +511,7 @@ methods: {
                this.form = {};
            },
            savePage(){
-               var reg = /(http|https):\/\/([\w.]+\/?)\S*/;
+            //    var reg = /(http|https):\/\/([\w.]+\/?)\S*/;
                if(!this.title){
                    this.$message.warning('标题必填')
                    return false
@@ -520,12 +520,12 @@ methods: {
                    this.$message.warning('内容描述必填')
                    return false
                }
-               if(this.url){
-                   if(reg.test(this.url) == false){
-                    this.$message.warning('落地页地址非法')
-                    return false
-                }
-               }
+            //    if(this.url){
+            //        if(reg.test(this.url) == false){
+            //         this.$message.warning('落地页地址非法')
+            //         return false
+            //     }
+            //    }
                
                 let formData =new FormData;
                 formData.append('plid',this.plid);
