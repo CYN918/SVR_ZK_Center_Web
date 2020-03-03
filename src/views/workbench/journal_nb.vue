@@ -214,7 +214,7 @@
                         v-for="item in options"
                         :key="item.value"
                         :label="item.label"
-                        :value="item.value">
+                        :value="item">
                         </el-option>
                     </el-select>
                 </el-form-item>
@@ -276,13 +276,13 @@ return {
           value: '',
           label: '请选择'
         }, {
-          value: '点击查看',
+          value: '0',
           label: '点击查看'
         }, {
-          value: '打开应用',
+          value: '1',
           label: '打开应用'
         }, {
-          value: '下载应用',
+          value: '2',
           label: '下载应用'
         }],
         rowData:{},
@@ -533,7 +533,8 @@ methods: {
                 formData.append('tdate',this.date);
                 formData.append('title',this.title);
                 formData.append('content',this.content);
-                formData.append('click_action',this.click_action);
+                formData.append('click_action',this.click_action.label);
+                formData.append('click_action_type',this.click_action.value);
                 formData.append('url',this.url);
                this.api.pushlib_textlink_edit(formData).then((res)=>{  
                     this.textVisible = false;
