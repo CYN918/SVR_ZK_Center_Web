@@ -210,6 +210,7 @@
                 </el-form-item>
                 <el-form-item label="标识:">
                     <select v-model="click_action">
+                        <option value="-1">请选择</option>
                         <option value="0">点击查看</option>
                         <option value="1">打开应用</option>
                         <option value="2">下载应用</option>
