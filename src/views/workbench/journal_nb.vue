@@ -515,6 +515,8 @@ methods: {
                    var click_action_title = '打开应用'
                }else if(this.click_action == 2){
                    var click_action_title = '下载应用'
+               }else if(this.click_action == -1){
+                   var click_action_title = ''
                }
                 let formData =new FormData;
                 formData.append('plid',this.plid);
