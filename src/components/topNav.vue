@@ -66,7 +66,7 @@
 					<img class="head_top2" :src="img1"/>
 				    <div @click="showisXXNav" v-if="messgNum && messgNum.count>0" :class="['messgeH2',messgNum.count>9?'messgeH2x':'']">{{backXXnUM(messgNum.count)}}</div>
 				</span>
-				<div v-if="isXXNav" class="messgeH3" v-on:mouseout="stop">
+				<div v-if="isXXNav" class="messgeH3" v-on:mouseout="stop" style="top:34px;">
 					<div class="messgeH3_1">
 						<span @click="getNotice('notify')" :class="{'active_1':active_1}">未读
 							<!-- <div v-if="messgNum && messgNum.count>0" :class="['messgeH5',messgNum.count>9?'messgeH5x':'']">{{backXXnUM(messgNum.count)}}</div> -->
@@ -437,7 +437,6 @@ export default {
 }
 .navd{
 	height: 100%;
-	position: relative;
 }
 .navd li{
 	display: inline-block;
@@ -463,6 +462,7 @@ export default {
 	float: right;
 }
 .right3{
+	position: absolute;
 	left: 78%;
 }
 .navd a.router-link-active{	
@@ -545,7 +545,6 @@ export default {
 	vertical-align: top;
 }
 .messgeH1{
-	position: absolute;
 	top: 4px;
 	cursor: pointer;
 }
