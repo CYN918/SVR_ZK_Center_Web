@@ -13,7 +13,7 @@
             </div>
             <div class="detail_1_1_4">
                 <span  class="txt">用户名</span>
-                <input type="text" v-model="name" maxlength="5"/>
+                <input type="text" v-model="name" maxlength="10"/>
             </div>
             <div class="detail_1_1_5">
                 <span  class="txt">邮箱账号</span>
@@ -115,7 +115,10 @@
                     return
                 }
                 this.api.account_external_add({name:this.name,email:this.email,password:this.password,password_confirmation:this.password_confirmation,role_id:this.role,company:this.company,phone:this.phone,contact_email:this.email}).then((res)=>{
-                    this.$parent.qx()
+                    console.log(res)
+                    if(res != false){
+                        this.$parent.qx()
+                    }
                 })
             },
         },

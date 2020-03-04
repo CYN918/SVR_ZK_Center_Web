@@ -195,8 +195,7 @@ methods: {
             if(res!=false){
                 this.channel=res;
                 this.getData();
-            }
-            
+            }    
         })
     },
      pushLib(){

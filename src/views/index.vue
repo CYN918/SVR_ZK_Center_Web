@@ -66,7 +66,7 @@
 				<!--</div>-->
 			<!--</div>-->
 		</div>
-		</div>
+	</div>
 </template>
 
 <script>
@@ -81,7 +81,7 @@ export default {
 				last:[],
 			},
 			topConfig:{showL:1},
-			dt:{}
+			dt:{},
 		}
 	},
 	components: {
@@ -104,7 +104,7 @@ export default {
 				console.log(datas);
 				this.czlog = datas;
 			})
-		},
+		},	
 		get_logs(){
 			this.api.get_logs().then((datas)=>{
 				this.loind = datas;

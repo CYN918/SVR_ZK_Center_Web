@@ -727,6 +727,26 @@ export default {
     pushlib_add_mfinal:{
 		url:'pushlib/add/mfinal',method:'post',isType:{suktip:1}
 	},
+	//内部杂志锁屏添加推送物料
+    pushlib_textlink_add:{
+		url:'pushlib/textlink/add',method:'post',isType:{suktip:1}
+	},
+	//编辑内部杂志锁屏壁纸文字链
+	pushlib_textlink_edit:{
+		url:'pushlib/textlink/edit',method:'post',isType:{suktip:1}
+	},
+	//删除内部杂志锁屏文字链
+	pushlib_textlink_del:{
+		url:'pushlib/textlink/del',method:'post',isType:{suktip:1}
+	},
+	//编辑内部杂志锁屏壁纸文字链权限
+	pushlib_textlink_edit_weight:{
+		url:'pushlib/textlink/edit/weight',method:'post',isType:{suktip:1}
+	},
+	//一键确认
+	pushlib_textlink_audit:{
+		url:"pushlib/textlink/audit",method:"post"
+	},
 	//外部账户推送物料列表
     // pushlib_external_mfinal:{
 	// 	url:"pushlib/external/mfinal",method:'get'
@@ -1427,6 +1447,10 @@ export default {
 	pushlib_adver_mfinal_list:{
 		url:"pushlib/adver/mfinal/list",method:"get"
 	},
+	//获取推送库列表
+	pushlib_textlink_search:{
+		url:"pushlib/textlink/search",method:"get"
+	},
 	//广告物料详情
 	pushlib_adver_mfinal_detail:{
 		url:"pushlib/adver/mfinal/detail",method:'get'
@@ -1439,6 +1463,35 @@ export default {
 	pushlib_configs_user_channel:{
 		url:"pushlib/configs/user/channel",method:'get'
 	},
+	//消息通知
+	pushlib_message:{
+		url:"/news/preview",method:"get"
+	},
+	//消息列表
+	pushlib_message_all:{
+		url:"/news/all",method:"get"
+	},
+	//未读消息列表
+	pushlib_message_unread:{
+		url:"/news/unread/count",method:"get"
+	},
+	//所有消息标记为已读
+	pushlib_message_all_handled:{
+		url:"/news/sign/all/handled",method:"get"
+	},
+	//处理某个消息
+	pushlib_message_handled:{
+		url:"/news/handle",method:"get"
+	},
+	//查询是否申请
+	account_apply_status:{
+		url:"/account/apply/status",method:"get"
+	},
+	//新账号申请权限
+	account_apply_permission:{
+		url:"/account/apply/permission",method:"post"
+	},
+	
 }
 
 

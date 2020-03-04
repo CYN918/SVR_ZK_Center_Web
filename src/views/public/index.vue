@@ -36,6 +36,12 @@
 				
 			};
 		},
+		mounted: function (){
+			
+		},
+		methods:{
+			
+		}
 
 	}
 </script>

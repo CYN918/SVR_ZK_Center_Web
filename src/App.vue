@@ -262,7 +262,7 @@ a{
   position: fixed;
   left: 256px;
   top:63px;
-  z-index: 99;
+  z-index: 8 !important;
 }
 .inner{
   margin-left: 18px;
@@ -703,7 +703,7 @@ select{
   display: none!important;
 }
 .el-button{
-  background: rgba(0,0,0,0)!important;
+  /* background: rgba(0,0,0,0)!important; */
 }
   .uplaod .el-button{
     background: rgba(51,119,255,1)!important;
@@ -953,5 +953,8 @@ select{
 }
 #padd .cell{
   padding: 0 !important
+}
+.top_tit{
+    z-index: 8 !important;
 }
 </style>

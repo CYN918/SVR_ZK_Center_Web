@@ -15,6 +15,40 @@
 					<span>{{el.name}}</span>
 				</li>
 			</router-link> -->
+			<!-- <span class="iconfont  messgeH1 right3" v-on:mouseover="go">
+				<span class="pend" @click="showisXXNav">
+					<img class="head_top2" :src="img1"/>
+				    <div @click="showisXXNav" v-if="messgNum && messgNum.count>0" :class="['messgeH2',messgNum.count>9?'messgeH2x':'']">{{backXXnUM(messgNum.count)}}</div>
+				</span>
+				<div v-if="isXXNav" class="messgeH3" v-on:mouseout="stop">
+					<div class="messgeH3_1">
+						<span @click="getNotice('notify')" :class="{'active_1':active_1}">未读 -->
+							<!-- <div v-if="messgNum && messgNum.count>0" :class="['messgeH5',messgNum.count>9?'messgeH5x':'']">{{backXXnUM(messgNum.count)}}</div> -->
+						<!-- </span>
+						<span @click="getNotice('comment')" :class="{'active_1':active_2}">最近</span>
+						
+					</div>
+					<div class="messgeH3_2">
+						<div class="messgeH3_2_x1">
+							<ul class="xxBox_1">
+								<li v-for="(el,index) in mData" :key="index">
+									<div @click="goMssg(el)">{{el.name}}</div>	
+									<div>{{el.newsContent.created_at}}</div>							
+								</li>	
+													
+							</ul>
+							
+							<div v-if="mData.length==0" class="messgeH3_2_1"><img  src="https://static.zookingsoft.com/SVR_NEW_DESIGNER_WEB/img/wxx.png" alt="">暂无新的消息</div>
+						</div>
+						<span v-if="mData.length!=0" @click="getNotice('read')" :class="{'active_1':active_3}" style="position: absolute;bottom: 0px;width: 100%;text-align: center;height: 30px;">全部标为已读</span>
+						
+					</div> -->
+					
+				
+					<!-- <div @click="goMssg(1)" class="messgeH3_3 pend">查看全部</div> -->
+				<!-- </div>
+				
+			</span> -->
 			<router-link  to="/login" class="right1"><li @click="loginout()"><span>退出登录</span></li></router-link>
 			<router-link  to="/userinfo" class="right0"><li><img :src="img" class="imgs_user"/>{{name}}</li></router-link>
 			<router-link  to="/workbench"  ><li><span>工作台</span></li></router-link>
@@ -27,6 +61,39 @@
 		<ul class="navd" v-if="config.showL!=-1&&this.type==1">
 			<router-link  to="/workbench"><li><span>工作台</span></li></router-link>
 			<!-- <router-link  to="/admin"><li> <span>素材中心</span></li></router-link> -->
+			<!-- <span class="iconfont  messgeH1 right2" v-on:mouseover="go">
+				<span class="pend" @click="showisXXNav">
+					<img class="head_top2" :src="img1"/>
+				    <div @click="showisXXNav" v-if="messgNum && messgNum.count>0" :class="['messgeH2',messgNum.count>9?'messgeH2x':'']">{{backXXnUM(messgNum.count)}}</div>
+				</span>
+				<div v-if="isXXNav" class="messgeH3" v-on:mouseout="stop">
+					<div class="messgeH3_1">
+						<span @click="getNotice('notify')" :class="{'active_1':active_1}">未读 -->
+							<!-- <div v-if="messgNum && messgNum.count>0" :class="['messgeH5',messgNum.count>9?'messgeH5x':'']">{{backXXnUM(messgNum.count)}}</div> -->
+						<!-- </span>
+						<span @click="getNotice('comment')" :class="{'active_1':active_2}">最近</span>
+					</div>
+					<div class="messgeH3_2">
+						<div class="messgeH3_2_x1">
+							<ul class="xxBox_1">
+								<li v-for="(el,index) in mData" :key="index">
+									<div @click="goMssg(el)">{{el.name}}</div>	
+									<div>{{el.newsContent.created_at}}</div>							
+								</li>
+														
+							</ul>
+							
+							<div v-if="mData.length==0" class="messgeH3_2_1"><img  src="https://static.zookingsoft.com/SVR_NEW_DESIGNER_WEB/img/wxx.png" alt="">暂无新的消息</div>
+						</div>
+						
+						<span v-if="mData.length!=0" @click="getNotice('read')" :class="{'active_1':active_3}" style="position: absolute;bottom: 0px;width: 100%;text-align: center;height: 30px;">全部标为已读</span>
+					</div> -->
+					
+				
+					<!-- <div @click="goMssg(1)" class="messgeH3_3 pend">查看全部</div> -->
+				<!-- </div>
+				
+			</span> -->
 			<router-link class="right2" to="/userinfo"><li ><img :src="img" class="imgs_user"/>{{name}}</li></router-link>
 			<router-link class="right2" to="/login"><li  @click="loginout()"><span>退出登录</span></li></router-link>
 		</ul>
@@ -64,20 +131,122 @@ export default {
             top5:false,
 			topNacd:'首页',
 			img:"./img/user.png",
+			img1: "./img/top2.svg",
+			isXXNav:false,
+			messgNum:{},
+			mData:[],
+			active_1:false,
+			active_2:false,
+			active_3:false,
 			todata:[{name:'首页',url:'/index'},{name:'工作台',url:'/workbench/workbenchPadding'},{name:'数据',url:'/data/Material_data'},{name:'收益中心',url:'/income/earnings'},{name:'素材中心',url:'/admin/advertising'},{name:'主题中心',url:'/ThemeCenter'},{name:'用户',url:'/userinfo/user_info'}],
 		}
     },
 
 	mounted(){
+		// this.getMessgNumber();
 		this.name=localStorage.getItem('userName');
 		this.getLefNav();
         this.authority();
         this.type=localStorage.getItem('role');
         if(localStorage.getItem('icon')!=''){
             this.img=localStorage.getItem('icon')
-		}
+		};
+		// this.getNotice('notify');
 	},
 	methods:{
+		stop(){
+			this.isXXNav = false;
+		},
+		go(){
+			this.isXXNav = true;
+		},
+		backXXnUM(n){
+			if(n>999){
+				return 999;
+			}
+			return n;
+		},
+		showisXXNav(){
+			this.$router.push({
+				path:"/userinfo/message",
+			})
+		},
+		getMessgNumber(){
+			this.api.pushlib_message_unread().then((da)=>{
+				if(da=='error'){
+					return
+				}
+				this.messgNum = da;
+		
+			})
+		},
+		getNotice(type){	
+			// if(!window.userInfo){
+			// 	return
+			// }
+			//全部消息
+			if(type == 'all'){
+				this.api.pushlib_message_all().then((da)=>{
+					if(da=='error'){return}
+					this.mData= da.data;
+				});
+			}	
+			//未读消息
+			if(type == 'notify'){
+				this.api.pushlib_message().then((da) => {
+					if(da=='error'){return}
+					this.mData= da.unread;
+					this.active_1 = true;
+					this.active_2 = false;
+					this.active_3 = false;
+				})
+			}
+			//最近消息
+			if(type == 'comment'){
+				this.api.pushlib_message().then((da) => {
+					if(da=='error'){return}
+					this.mData= da.recent;
+					this.active_1 = false;
+					this.active_2 = true;
+					this.active_3 = false;
+				})
+			}
+			//全部标记已读
+			if(type == 'read'){
+				this.api.pushlib_message_all_handled().then((da) => {
+					if(da=='error'){return}
+					// this.mData= da;
+					this.active_1 = false;
+					this.active_2 = false;
+					this.active_3 = true;
+					this.getMessgNumber();
+				})
+			}
+		},
+		goMssg(on){
+			if(on == '1'){
+				this.$router.push({path:"/userinfo/message"})
+			}else{
+				this.$router.push({
+                    path:"/userinfo/messageDetails",
+                    query:{
+                        id:on.id,      
+                    }
+                })
+			}
+			// if(!window.userInfo){
+			// 	this.$router.push({path:'/login'});	
+			// 	return
+			// }
+			// setTimeout(()=>{
+			// 	this.getMessgNumber();
+			// },500);
+			// if(on || on==0){				
+			// 	this.$router.push({path:this.navType,query:{id:this.mData[on].chat_id}})	
+			// 	return
+			// }			
+				
+		},
 		handleSelect(key){				
 			this.topNacd = this.todata[key].name;
 			this.$router.push(this.todata[key].url);
@@ -266,7 +435,10 @@ export default {
 .sskzd>input{
 	border: none;
 }
-.navd{height: 100%;}
+.navd{
+	height: 100%;
+	position: relative;
+}
 .navd li{
 	display: inline-block;
 	width: 100%;
@@ -289,6 +461,9 @@ export default {
 }
 .right0{
 	float: right;
+}
+.right3{
+	left: 78%;
 }
 .navd a.router-link-active{	
 	display: inline-block;
@@ -368,5 +543,232 @@ export default {
 	line-height: 60px;
 	border-bottom: 4px solid rgba(51,119,255,1);
 	vertical-align: top;
+}
+.messgeH1{
+	position: absolute;
+	top: 4px;
+	cursor: pointer;
+}
+.messgeH2{
+	display: block;
+	position: absolute;
+	top: 10px;
+	left: 7px;
+	background: #F4523B;
+	min-width: 18px;
+	height: 18px;
+	line-height: 18px;
+	font-size: 12px;
+	color: #fff;
+	letter-spacing: 0;
+	text-align: center;
+	
+	border-radius: 9px;
+}
+.messgeH5{
+	display: block;
+	position: absolute;
+	top: -4px;
+	left: 39px;
+	min-width: 18px;
+	height: 18px;
+	line-height: 18px;
+	font-size: 12px;
+	color: #F4523B;
+	letter-spacing: 0;
+	text-align: center;
+	
+	border-radius: 9px;
+}
+.messgeH3{
+    position: absolute;
+    top: 60px;
+    left: -240px;
+    background: #FFFFFF;
+    -webkit-box-shadow: 0 2px 8px 0 rgba(0,0,0,0.10);
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.10);
+    border-radius: 5px;
+    width: 269px;
+    height: 320px;
+	z-index: 999;
+}
+.messgeH3_1{
+	background: #FFFFFF;
+	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.05);
+	border-radius: 5px 5px 0 0;
+	width: 100%;
+	height: 60px;
+	position: relative;
+}
+/* .messgeH3_1>span:before{
+	content: "";
+	position: absolute;
+	right: 30px;
+	top: 0;
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: #F4523B;
+} */
+.messgeH3_1>span:nth-child(1),.messgeH3_1>span:nth-child(2){
+	position: relative;
+	margin-top: 16px;
+	display: inline-block;
+	width: 30%;
+	height: 40px;
+	text-align: center;
+	cursor: pointer;
+	margin-left: 5px;
+}
+
+.messgeH3_1>span:last-child{
+	border: none;
+}
+.messgeH3_1>span>img{
+	display: block;
+	margin: 6px auto;
+	width: 19px;
+}
+.messgeH3_1 .active_1{
+    border-bottom: 4px solid rgba(51,119,255,1) !important;
+    vertical-align: top;
+}
+.messgeH3_2{
+	width: 100%;
+	height: 210px;
+	overflow: hidden;
+	overflow-y: auto;
+}
+.messgeH3_2_1{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	font-size: 14px;
+	color: #999999;
+	text-align: center;
+	-webkit-transform: translate(-50%,-50%);
+	transform: translate(-50%,-50%);
+}
+.messgeH3_2_1>img{
+	display: block;
+	width: 100px;
+	margin: 30px auto 0;
+}
+.messgeH3_3{
+	background: #FFFFFF;
+	box-shadow: 2px 0 4px 0 rgba(0,0,0,0.05);
+	border-radius:0 0 5px 5px;
+	font-size: 14px;
+	color: #1E1E1E;
+	line-height: 50px;
+	text-align: center;
+	width: 100%;
+	height: 50px;
+}
+.xxBox_1>li{
+	position: relative;
+	border-bottom: 1px solid #E6E6E6;
+	width: 100%;
+	height: 37px;
+	font-size: 14px;
+	color: #1E1E1E;
+}
+.xxBox_1>li>div:nth-child(1){
+	position: absolute;
+	top: 50%;
+	left: 32%;
+	-webkit-transform: translate(-50%,-50%);
+	transform: translate(-50%,-50%);
+	width: 145px;
+	line-height: 18px;
+    text-align: left;
+	height: 15px;
+    overflow: hidden;
+}
+.xxBox_1>li>div:nth-child(2){
+	position: absolute;
+	top: 50%;
+	right: -15%;
+	-webkit-transform: translate(-50%,-50%);
+	transform: translate(-50%,-50%);
+	width: 90px;
+	line-height: 18px;
+    text-align: right;
+	height: 15px;
+    overflow: hidden;
+}
+.xxBox_1>li:last-child{
+	border: none;
+}
+.messgeH3_2_x1{
+	overflow: hidden;
+	overflow-y: auto;
+}
+.messgeH3Boxf1{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 997;
+
+}
+.searcBox5_2imf{
+	display: inline-block;
+    width: 20px;
+    height: 20px;
+    vertical-align: top;
+	margin-top: 10px;
+    margin-right: 4px;
+    border-radius: 50%;
+}
+.searcBox5_2xv>div:first-child{
+	margin-top: 8px;
+}
+.pdxf{
+	display: inline-block;
+}
+.svgImg2{
+	display: inline-block;
+	vertical-align: top;
+    margin-right: 10px;
+    margin-top: 10px;
+    width: 16px;
+}
+.svgImg2_1{
+	margin-top: 12px;
+	width: 17px;
+}
+.svgImg2_2{
+	margin-top: 12px;
+	width: 18px;
+}
+.ts_svg_img{
+	margin-top: 11px;
+}
+.messgeH2x{
+	padding:0 5px;
+}
+.head_top1{
+	width: 20px;
+  	margin-top: 20px;
+}
+.head_top2{
+	width: 16px;
+    margin-top: 20px;
+}
+.head_top3{
+	width: 24px;
+    margin-top: 20px;
+}
+.searcBox6{
+	opacity: 0;
+	position: absolute;
+	top: 24px;
+	right: -218px;
+	width: 10px;
+	
+	-webkit-animation: xs .5s .3s forwards;
+	animation: xs .5s .3s forwards;
 }
 </style>

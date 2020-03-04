@@ -249,7 +249,6 @@ data() {
                     });
                     window.open(routeData.href, '_blank'); 
                 }
-               
             },
         getData(){
             if(this.a==undefined){

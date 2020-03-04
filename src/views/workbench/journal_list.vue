@@ -58,7 +58,7 @@
                         >
                             <template slot-scope="scope">
                                  <!-- <el-button  type="text" size="small">账户管理</el-button> -->
-                                <el-button  type="text" size="small" @click='jump(scope.$index)'>查看详情</el-button>
+                                <el-button  type="text" size="small" @click='jump(scope.$index,scope.row)'>查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -89,10 +89,15 @@
                 </div>
                 <div style="margin-top:15px">
                     <span  class='qdName'>功能：</span>
-                    <template>
+                    <!-- <template>
                         <el-radio v-model="audit_type" label="1">内容推送</el-radio>
                         <el-radio v-model="audit_type" label="2">推送及审核</el-radio>
-                    </template>
+                    </template> -->
+                    <select v-model="audit_type">
+                        <option value="1">外部杂志锁屏审核</option>
+                        <option value="2">外部投放内容审核</option>
+                        <option value="3">内部杂志锁屏管理</option>
+                    </select>
                 </div>
                 <div class='sel_btn'>
                     <span class="sel_btn_qd" @click='ADDlist()'>确定</span>
@@ -119,14 +124,17 @@ data() {
             channel:"",
             qdLists:[],
             name:"",
-            audit_type:"1"
+            audit_type:""
     };
 },
 
 methods: {
     backfn(n){
         if(!n){return '--'}
-        return n.audit_type ==1?'内容推送':"推送及审核";
+        if(n.audit_type ==1){return '外部杂志锁屏审核'}
+        if(n.audit_type ==2){return '外部投放内容审核'}
+        if(n.audit_type ==3){return '内部杂志锁屏管理'}
+        
     },
          getRowClass({row, column, rowIndex}) {
                 if (rowIndex === 0) {
@@ -154,7 +162,7 @@ methods: {
          },  
          newADD(){
              this.tc=true;
-             this. getChannel();
+             this.getChannel();
          },
          qx(){
              this.tc=false,
@@ -181,6 +189,10 @@ methods: {
                   this.$message.error('渠道不能为空')
                  return
              }
+             if(!this.audit_type){
+                 this.$message.error('请选择功能')
+                 return
+             }
              let formData=new FormData;
              formData.append('audit_type',this.audit_type);
               formData.append('name',this.name);
@@ -192,12 +204,20 @@ methods: {
                  }
              })
          },
-         jump(index){
+         jump(index,row){
              if(this.tableData[index].channel.audit_type==1){
                 this.$router.push({
                     path:"./Journal_of_push",
                     query:{
                         channel:this.tableData[index].channel.channel
+                    },
+                })
+             }else if(this.tableData[index].channel.audit_type==3){
+                this.$router.push({
+                    path:"./journal_nb",
+                    query:{
+                        channel:this.tableData[index].channel.channel,
+                        plid:row.plid,
                     },
                 })
              }else{

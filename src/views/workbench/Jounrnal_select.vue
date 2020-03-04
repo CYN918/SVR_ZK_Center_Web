@@ -102,7 +102,7 @@
                 scMid:[],
                 scUrl:'',
                 scType:'',
-                type:'',
+                type:'f_sls_lockscreen',
                 mid_list:[],
                 url_list:[],
                 inx:null,

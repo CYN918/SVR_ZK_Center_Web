@@ -224,6 +224,8 @@ import journal_of_push from './views/workbench/Journal_of_push'
 mode['journal_of_push'] = journal_of_push
 import journal_list from './views/workbench/journal_list'
 mode['journal_list']=journal_list
+import journal_nb from './views/workbench/journal_nb'
+mode['journal_nb']=journal_nb
 import journal_Administrator from './views/workbench/Jounrnal_Administrator'
 mode['journal_Administrator']= journal_Administrator
 import wb_Journal from  './views/workbench/wb_Journal'
@@ -252,6 +254,7 @@ mode['External_details']=External_details
 import axios from 'axios'
 import api from './api/index'
 
+
 /*数据*/
 import data from './views/datas/index'
 mode['data'] = data
@@ -267,6 +270,10 @@ import userinfo from './views/userinfo/user_info.vue'
 mode['userinfo'] = userinfo
 import passWord from './views/userinfo/password'
 mode['passWord'] = passWord
+import message from './views/userinfo/message'
+mode['message'] = message
+import messageDetails from './views/userinfo/messageDetails'
+mode['messageDetails'] = messageDetails
 import MyPerm from './views/userinfo/MyPermission'
 mode['MyPerm'] = MyPerm
 import account from  './views/userinfo/account'
@@ -351,6 +358,7 @@ import recordDetails from './views/ThemeCenter/scheduling/record_details'
 mode['recordDetails']=recordDetails
 
 
+
 Vue.use(Router)
 const router = new Router({routes: []})
 let tonek = localStorage.getItem('token');
@@ -367,7 +375,7 @@ router.addRoutes(wb);
 let nb = [
     {path:'*',redirect: '/index',},
 	{path:'/',name:'首页',component:Index},
-	{path:'/erro',name:'cuwi',component:erro},
+    {path:'/erro',name:'cuwi',component:erro},
 	{path:'/index',name:'首页',component:Index},
 	{path:'/admin',name:'素材中心',component:mode['admin'],
 		children:[			
@@ -431,6 +439,7 @@ let nb = [
             {path:'/workbench/userControl',name:'杂志锁屏用户管理',component: mode['userControl'],},
             {path:'/workbench/journal_Administrator',name:'杂志锁屏推送管理',component: mode['journal_Administrator'],},
             {path:'/workbench/journal_list',name:'杂志锁屏推送管理列表',component: mode['journal_list'],},
+            {path:'/workbench/journal_nb',name:'内部杂志锁屏推送管理列表',component: mode['journal_nb'],},
             {path:'/workbench/wb_Journal',name:'外部杂志锁屏推送管理',component: mode['wb_Journal'],},
             {path:'/workbench/Offline_resources',name:'线下资源替换',component: mode['Offline_resources'],},
             {path:'/workbench/record',name:'操作记录',component: mode['record'],},
@@ -504,6 +513,8 @@ let nb = [
 		children:[
             {path:'/userinfo/user_info',name:'基本信息',component:mode['userinfo']},
             {path:'/userinfo/passWord',name:'修改密码',component:mode['passWord']},
+            {path:'/userinfo/message',name:'消息通知',component:mode['message']},
+            {path:'/userinfo/messageDetails',name:'消息通知详情',component:mode['messageDetails']},
             {path:'/userinfo/user_info',name:'退出',component:mode['userinfo']},
             {path:'/userinfo/MyPerm',name:'修改密码',component:mode['MyPerm']},
             {path:'/userinfo/account',name:'账号管理',component:mode['account']},
@@ -625,7 +636,7 @@ let leftNav =
 //             {title:'个人中心',url:'1',img:'&#xe60b;',list:[
 //             {title:'基本信息', url:'/userinfo/user_info'},
 //             {title:'修改密码', url:'/userinfo/passWord'},
-//             {title:'消息通知', url:'/userinfo/'},
+//             {title:'消息通知', url:'/userinfo/message'},
 //                 ]},
 // 			{title:'账号权限',url:'1-2',img:'&#xe619;',list:[
 // 			{title:'我的权限',url:'/userinfo/MyPerm'},
@@ -799,22 +810,22 @@ router.beforeEach((to, from, next) => {
     }
 	
 	let cent = 'center',
-	urld = 'http://c.zookingsoft.com/api/login';
+    urld = 'http://c.zookingsoft.com/api/login';
 	if(window.location.host=='ts-centerweb.idatachain.cn'){
 		cent = 'center_dev';
-		urld ='http://ts-i.idatachain.cn/api/login';
+        urld ='http://ts-i.idatachain.cn/api/login';
 
 	}
     if(window.location.host=='c2.zookingsoft.com'){
         cent = 'center_dev2';
         urld ='http://c2.zookingsoft.com/api/login';
-
+        
     }
 	if(window.location.host=='localhost:8080'){
 		cent = 'center_local';
 		urld ='http://ts-i.idatachain.cn/api/login';
-
-	}
+        
+    }
 	if(to.query.ticket){	
 		axios({
 			method: 'post',
@@ -822,26 +833,36 @@ router.beforeEach((to, from, next) => {
 			url: urld,
 			data:{ticket:to.query.ticket}
 		}).then((msg)=>{
-			console.log(msg);
-			localStorage.setItem('token',msg.data.data.token);
-			localStorage.setItem('logintime',Date.parse(new Date()));
-			localStorage.setItem('userAd',msg.data.data.user.email);
-			localStorage.setItem('userType',msg.data.data.user.type);
+            console.log(msg);    
+            localStorage.setItem('token',msg.data.data.token);
+            localStorage.setItem('logintime',Date.parse(new Date()));
+            localStorage.setItem('userAd',msg.data.data.user.email);
+            localStorage.setItem('userType',msg.data.data.user.type);
             localStorage.setItem('userName',msg.data.data.user.name);
-			localStorage.setItem('status',msg.data.data.user.status);
-            localStorage.setItem('role',msg.data.data.role[0].type);
-            localStorage.setItem('icon',msg.data.data.role[0].icon);
-			if(msg.data.data.user.type==1){
-				next({ path: '/admin/wb_Journal'});
-				return;
-			}
-			if(msg.data.data.user.status==0){
-				next({ path: '/erro'});
-				return
-			}
-			next({ path: '/index'});
+            localStorage.setItem('status',msg.data.data.user.status);
+            if(msg.data.data.role.length != '0'){
+                localStorage.setItem('role',msg.data.data.role[0].type);
+                localStorage.setItem('icon',msg.data.data.role[0].icon); 
+            }
+            if(msg.data.data.user.type=='1'){
+                next({ path: '/admin/wb_Journal'});
+                return;
+            }
+            if(msg.data.data.user.status=='0'){
+                alert("没有权限，请联系管理员添加角色或启用账号");
+                next({ path: '/erro'});
+                return;
+            }
+            // let params = {Authorization:"Bearer"+localStorage.getItem('token')}
+            // api.account_apply_status({params}).then((datas)=>{					
+            //     if(datas.status != '3'){
+            //         next({ path: '/erro'});
+            //         return
+            //     }
+            // })
+            next({ path: '/index'});   	
 		}).catch(()=>{
-			alert("登录成功，请联系管理员添加角色或启用账号");
+            alert("账户异常，请联系管理员添加角色或启用账号");
 		});
 			
 	}else{
