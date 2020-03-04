@@ -1,6 +1,6 @@
 <template>
 	<div class="box">
-		<!-- <el-dialog
+		<el-dialog
 			title="提示"
 			:visible.sync="centerDialogVisible"
 			width="30%"
@@ -25,7 +25,8 @@
 			:visible.sync="dialogVisible"
 			width="30%"
 			left
-			:before-close="handleClose">
+			:close-on-click-modal="false"
+			:showClose="showClo">
 			<span style="margin-bottom:20px;display: inline-block;">已申请权限，请耐心等待</span>
 			<div class="titl_right">
                 <div class="message">
@@ -93,7 +94,7 @@
 			<span slot="footer" class="dialog-footer">
 				<el-button type="primary" @click="sure2">确 认</el-button>
 			</span>
-		</el-dialog> -->
+		</el-dialog>
 	</div>
 </template>
 
@@ -121,63 +122,68 @@ export default {
 			refusedVisible:false,
 			refusedVisible_pop:false,
 			refusedVisible_pop2:false,
+			showClo:false,
 		}
 	},
     mounted:function (){
-		// this.account_apply_status();
-		this.loginout()
+		this.account_apply_status();
+		// this.loginout()
 	},
 	methods:{
-		// newApply(){
-		// 	this.centerDialogVisible = true;
-		// },
-		// sure(){
-		// 	this.centerDialogVisible = false;
-		// 	this.refusedVisible_pop = false;
-		// 	this.loginout()
-		// },
-		// sure1(){
-		// 	this.dialogVisible = false;
-		// 	this.loginout()
-		// },
-		// sure2(){
-		// 	this.refusedVisible_pop2 = false;
-		// 	this.loginout()
-		// },
-		// sure3(){
-		// 	this.popupWindow = false;
-		// 	this.loginout()
-		// },
-		// sure4(){
-		// 	this.refusedVisible = false;
-        //     this.loginout()
-		// },
-		// handleClose(done) {
-		// 	this.$confirm('确认关闭？')
-		// 	.then(_ => {
-		// 		done();
-		// 	})
-		// 	.catch(_ => {});
-		// },
-		// submitForm() {
-		// 	this.api.account_apply_permission({name:this.ruleForm.userName,reason:this.ruleForm.desc}).then((datas)=>{
-		// 		console.log(datas)
-		// 		if(datas==false){
-		// 			return
-		// 		}
-		// 		if(datas==null){
-		// 			this.$message.success('申请成功,请耐心等待!')
-		// 			this.centerDialogVisible = false;
-		// 			this.refusedVisible_pop = true;				
+		newApply(){
+			this.centerDialogVisible = true;
+		},
+		sure(){
+			this.centerDialogVisible = false;
+			this.refusedVisible_pop = false;
+			this.loginout()
+		},
+		sure1(){
+			this.dialogVisible = false;
+			this.loginout()
+		},
+		sure2(){
+			this.refusedVisible_pop2 = false;
+			this.loginout()
+		},
+		sure3(){
+			this.popupWindow = false;
+			this.loginout()
+		},
+		sure4(){
+			this.refusedVisible = false;
+            this.loginout()
+		},
+		handleClose(done) {
+			this.$confirm('确认关闭？')
+			.then(_ => {
+				done();
+			})
+			.catch(_ => {});
+		},
+		submitForm() {
+			if(!this.ruleForm.userName){
+				this.$message.error('请输入用户名!')
+				return false
+			}
+			this.api.account_apply_permission({name:this.ruleForm.userName,reason:this.ruleForm.desc}).then((datas)=>{
+				console.log(datas)
+				if(datas==false){
+					return
+				}
+				if(datas==null){
+					this.$message.success('申请成功,请耐心等待!')
+					this.centerDialogVisible = false;
+					this.refusedVisible_pop = true;				
 				    
-		// 		}			
-        //     })
+				}			
+            })
 			
-		// },
-		// resetForm() {
-		// 	this.centerDialogVisible = false;
-		// 	this.loginout()
-		// },
+		},
+		resetForm() {
+			this.centerDialogVisible = false;
+			this.loginout()
+		},
 		loginout(){
 		    window.localStorage.clear();
 			let urld = 'http://ts-i.idatachain.cn';
@@ -209,29 +215,29 @@ export default {
 			
 			})			
 		},
-		// account_apply_status(){
-		// 	let params = {Authorization:"Bearer"+localStorage.getItem('token')}
-        //     this.api.account_apply_status({params}).then((datas)=>{					
-        //         if(datas.status == 0){
-        //             this.centerDialogVisible = true;
-        //         }
-        //         if(datas.status == 1){
-		// 			this.dialogVisible = true;
-		// 			this.ruleForm = datas;
-        //         }
-        //         if(datas.status == 2){
-		// 			this.refusedVisible = true;
-		// 			this.ruleForm = datas;
-        //         }
-        //         if(datas.status == 3){
-		// 			this.popupWindow = true;
-		// 		}
-		// 		if(datas.status == 4){
-		// 			this.centerDialogVisible = true;
-        //         }
-        //     })
+		account_apply_status(){
+			let params = {Authorization:"Bearer"+localStorage.getItem('token')}
+            this.api.account_apply_status({params}).then((datas)=>{					
+                if(datas.status == 0){
+                    this.centerDialogVisible = true;
+                }
+                if(datas.status == 1){
+					this.dialogVisible = true;
+					this.ruleForm = datas;
+                }
+                if(datas.status == 2){
+					this.refusedVisible = true;
+					this.ruleForm = datas;
+                }
+                if(datas.status == 3){
+					this.popupWindow = true;
+				}
+				if(datas.status == 4){
+					this.centerDialogVisible = true;
+                }
+            })
 
-		// },
+		},
 	}
 }
 </script>

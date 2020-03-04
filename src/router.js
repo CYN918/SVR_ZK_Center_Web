@@ -849,17 +849,17 @@ router.beforeEach((to, from, next) => {
                 return;
             }
             if(msg.data.data.user.status=='0'){
-                alert("没有权限，请联系管理员添加角色或启用账号");
+                // alert("没有权限，请联系管理员添加角色或启用账号");
                 next({ path: '/erro'});
                 return;
             }
-            // let params = {Authorization:"Bearer"+localStorage.getItem('token')}
-            // api.account_apply_status({params}).then((datas)=>{					
-            //     if(datas.status != '3'){
-            //         next({ path: '/erro'});
-            //         return
-            //     }
-            // })
+            let params = {Authorization:"Bearer"+localStorage.getItem('token')}
+            api.account_apply_status({params}).then((datas)=>{					
+                if(datas.status != '3'){
+                    next({ path: '/erro'});
+                    return
+                }
+            })
             next({ path: '/index'});   	
 		}).catch(()=>{
             alert("账户异常，请联系管理员添加角色或启用账号");

@@ -15,16 +15,16 @@
 					<span>{{el.name}}</span>
 				</li>
 			</router-link> -->
-			<!-- <span class="iconfont  messgeH1 right3" v-on:mouseover="go">
+			<span class="iconfont  messgeH1 right3" v-on:mouseover="go">
 				<span class="pend" @click="showisXXNav">
 					<img class="head_top2" :src="img1"/>
 				    <div @click="showisXXNav" v-if="messgNum && messgNum.count>0" :class="['messgeH2',messgNum.count>9?'messgeH2x':'']">{{backXXnUM(messgNum.count)}}</div>
 				</span>
 				<div v-if="isXXNav" class="messgeH3" v-on:mouseout="stop">
 					<div class="messgeH3_1">
-						<span @click="getNotice('notify')" :class="{'active_1':active_1}">未读 -->
+						<span @click="getNotice('notify')" :class="{'active_1':active_1}">未读
 							<!-- <div v-if="messgNum && messgNum.count>0" :class="['messgeH5',messgNum.count>9?'messgeH5x':'']">{{backXXnUM(messgNum.count)}}</div> -->
-						<!-- </span>
+						</span>
 						<span @click="getNotice('comment')" :class="{'active_1':active_2}">最近</span>
 						
 					</div>
@@ -42,13 +42,13 @@
 						</div>
 						<span v-if="mData.length!=0" @click="getNotice('read')" :class="{'active_1':active_3}" style="position: absolute;bottom: 0px;width: 100%;text-align: center;height: 30px;">全部标为已读</span>
 						
-					</div> -->
+					</div>
 					
 				
 					<!-- <div @click="goMssg(1)" class="messgeH3_3 pend">查看全部</div> -->
-				<!-- </div>
+				</div>
 				
-			</span> -->
+			</span>
 			<router-link  to="/login" class="right1"><li @click="loginout()"><span>退出登录</span></li></router-link>
 			<router-link  to="/userinfo" class="right0"><li><img :src="img" class="imgs_user"/>{{name}}</li></router-link>
 			<router-link  to="/workbench"  ><li><span>工作台</span></li></router-link>
@@ -61,16 +61,16 @@
 		<ul class="navd" v-if="config.showL!=-1&&this.type==1">
 			<router-link  to="/workbench"><li><span>工作台</span></li></router-link>
 			<!-- <router-link  to="/admin"><li> <span>素材中心</span></li></router-link> -->
-			<!-- <span class="iconfont  messgeH1 right2" v-on:mouseover="go">
+			<span class="iconfont  messgeH1 right2" v-on:mouseover="go">
 				<span class="pend" @click="showisXXNav">
 					<img class="head_top2" :src="img1"/>
 				    <div @click="showisXXNav" v-if="messgNum && messgNum.count>0" :class="['messgeH2',messgNum.count>9?'messgeH2x':'']">{{backXXnUM(messgNum.count)}}</div>
 				</span>
-				<div v-if="isXXNav" class="messgeH3" v-on:mouseout="stop">
+				<div v-if="isXXNav" class="messgeH3" v-on:mouseout="stop" style="top:34px;">
 					<div class="messgeH3_1">
-						<span @click="getNotice('notify')" :class="{'active_1':active_1}">未读 -->
+						<span @click="getNotice('notify')" :class="{'active_1':active_1}">未读
 							<!-- <div v-if="messgNum && messgNum.count>0" :class="['messgeH5',messgNum.count>9?'messgeH5x':'']">{{backXXnUM(messgNum.count)}}</div> -->
-						<!-- </span>
+						</span>
 						<span @click="getNotice('comment')" :class="{'active_1':active_2}">最近</span>
 					</div>
 					<div class="messgeH3_2">
@@ -87,13 +87,13 @@
 						</div>
 						
 						<span v-if="mData.length!=0" @click="getNotice('read')" :class="{'active_1':active_3}" style="position: absolute;bottom: 0px;width: 100%;text-align: center;height: 30px;">全部标为已读</span>
-					</div> -->
+					</div>
 					
 				
 					<!-- <div @click="goMssg(1)" class="messgeH3_3 pend">查看全部</div> -->
-				<!-- </div>
+				</div>
 				
-			</span> -->
+			</span>
 			<router-link class="right2" to="/userinfo"><li ><img :src="img" class="imgs_user"/>{{name}}</li></router-link>
 			<router-link class="right2" to="/login"><li  @click="loginout()"><span>退出登录</span></li></router-link>
 		</ul>
@@ -143,7 +143,7 @@ export default {
     },
 
 	mounted(){
-		// this.getMessgNumber();
+		this.getMessgNumber();
 		this.name=localStorage.getItem('userName');
 		this.getLefNav();
         this.authority();
@@ -151,7 +151,7 @@ export default {
         if(localStorage.getItem('icon')!=''){
             this.img=localStorage.getItem('icon')
 		};
-		// this.getNotice('notify');
+		this.getNotice('notify');
 	},
 	methods:{
 		stop(){
@@ -437,7 +437,6 @@ export default {
 }
 .navd{
 	height: 100%;
-	position: relative;
 }
 .navd li{
 	display: inline-block;
@@ -463,6 +462,7 @@ export default {
 	float: right;
 }
 .right3{
+	position: absolute;
 	left: 78%;
 }
 .navd a.router-link-active{	
@@ -545,7 +545,6 @@ export default {
 	vertical-align: top;
 }
 .messgeH1{
-	position: absolute;
 	top: 4px;
 	cursor: pointer;
 }
