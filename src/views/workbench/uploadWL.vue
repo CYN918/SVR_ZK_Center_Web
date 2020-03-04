@@ -24,7 +24,7 @@
                         <div class="btn_img" >
                             <img style="margin-right: 34px" src="../../../public/img/delet.png" @click="delLine(index)"/>
                         </div>
-                        <div v-if="" class="img_box">
+                        <div  class="img_box">
                             <div class="ADD_img" v-for="(data2,index3) in item.bind" >
                                 <img  class="ADD_img_img" :src="data2.prev_uri" v-if="(data2.prev_uri.split('.'))[(data2.prev_uri.split('.').length-1)]!='mp4'"/>
                                 <video class="ADD_img_img" :src="data2.prev_uri" controls="controls" v-if="(data2.prev_uri.split('.'))[(data2.prev_uri.split('.').length-1)]=='mp4'" />

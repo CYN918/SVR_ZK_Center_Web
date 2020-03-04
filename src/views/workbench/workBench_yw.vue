@@ -37,7 +37,7 @@
                 <div>
                     <span class="tit_txt">需求数量</span>
                     <input type="number" class="num" v-model="num" placeholder="请输入需求数量"/>
-                    <span class="tit_txt right">实现方式</span>
+                    <span class="tit_txt right">资源类型</span>
                     <select v-model="model" v-if="type==''">
                         <option value="" disabled selected style="color: #8b9bb3">请选择</option>
                         <option value="无">无</option>
@@ -58,6 +58,7 @@
                     <select v-model="model" v-if="type=='f_sls_lockscreen'">
                         <option value="" disabled selected style="color: #8b9bb3">请选择</option>
                         <option value="脚本">脚本</option>
+                        <option value="图片">图片</option>
                     </select>
                 </div>
                 <div v-if="this.type!='f_sls_lockscreen'">
