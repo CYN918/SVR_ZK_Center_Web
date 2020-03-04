@@ -849,7 +849,7 @@ router.beforeEach((to, from, next) => {
                 return;
             }
             if(msg.data.data.user.status=='0'){
-                alert("没有权限，请联系管理员添加角色或启用账号");
+                // alert("没有权限，请联系管理员添加角色或启用账号");
                 next({ path: '/erro'});
                 return;
             }
