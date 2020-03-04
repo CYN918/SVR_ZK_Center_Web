@@ -73,7 +73,9 @@
                 title="拒绝"
                 :visible.sync="centerDialogVisible"
                 width="30%"
-                left>
+                left
+                :close-on-click-modal="false"
+                :before-close="handleClose">
             <el-input
                 type="textarea"
                 placeholder="请输入内容"
@@ -83,7 +85,7 @@
                 >
             </el-input>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="centerDialogVisible = false">取 消</el-button>
+                <el-button @click="cannal">取 消</el-button>
                 <el-button type="primary" @click="refused">确 定</el-button>
             </span>
             </el-dialog>
@@ -91,7 +93,9 @@
                 title="通过申请"
                 :visible.sync="dialogVisible"
                 width="30%"
-                left>
+                left
+                :close-on-click-modal="false"
+                :before-close="handleClose">
                 <div class="detail_1_1_3">
                     <span class="txt txt_right">角色范围</span>
                     <select v-model="roles_scope" @change="change($event)">
@@ -141,6 +145,17 @@
             this.getMessage();
         },
         methods:{
+            handleClose(done) {
+                this.$confirm('确认关闭？')
+                .then(_ => {
+                    done();
+                })
+                .catch(_ => {});
+            },
+            cannal(){
+                this.centerDialogVisible = false;
+                this.textarea = '';
+            },
             change(event){
                 // console.log(event.target.value)
                 this.getuserDATA();

@@ -25,7 +25,8 @@
 			:visible.sync="dialogVisible"
 			width="30%"
 			left
-			:before-close="handleClose">
+			:close-on-click-modal="false"
+			:showClose="showClo">
 			<span style="margin-bottom:20px;display: inline-block;">已申请权限，请耐心等待</span>
 			<div class="titl_right">
                 <div class="message">
@@ -121,6 +122,7 @@ export default {
 			refusedVisible:false,
 			refusedVisible_pop:false,
 			refusedVisible_pop2:false,
+			showClo:false,
 		}
 	},
     mounted:function (){
@@ -160,6 +162,10 @@ export default {
 			.catch(_ => {});
 		},
 		submitForm() {
+			if(!this.ruleForm.userName){
+				this.$message.error('请输入用户名!')
+				return false
+			}
 			this.api.account_apply_permission({name:this.ruleForm.userName,reason:this.ruleForm.desc}).then((datas)=>{
 				console.log(datas)
 				if(datas==false){
