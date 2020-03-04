@@ -51,11 +51,7 @@
                             <div class="AddIMG_input_box" v-if="this.types=='f_sls_lockscreen'">
                                 <el-upload
                                         class="upload-demo"
-                                        :limit="1"
-                                        :on-exceed="handleExceed"
-                                        :on-remove="handleRemove"
                                         :http-request="uploadZip"
-                                        :before-upload="beforeAvatarUploads"
                                         action="111"
                                 >
                                     <el-button size="small" type="primary" >上传</el-button>
@@ -327,6 +323,7 @@
             },
             uploadZip(file){
                 this.time();
+                 this.attach={};
                 this.initiate=true;
                 let formData =new FormData;
                 formData.append('file',file.file);

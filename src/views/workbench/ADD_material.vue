@@ -305,6 +305,7 @@
             },
             uploadZip(file){
                 this.time();
+                this.attach={};
                 this.initiate=true;
                 let formData =new FormData;
                 formData.append('file',file.file);
