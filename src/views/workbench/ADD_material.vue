@@ -128,15 +128,20 @@
                                 <div style="text-align: center;font-size: 10px">当前附件上传{{bbb}}%</div>
                             </div>
                         </div>
+                          <div class="box_sel" v-if="this.type=='f_sls_lockscreen'">
+                            <span class="tit">来源:</span>
+                            <input class="AddIMG_yl_size" v-model="resource" placeholder="请输入来源(最多6字)"  >
+                        </div>
                         <div class="box_sel" v-if="this.type=='f_sls_lockscreen'">
                             <span class="tit">壁纸标识:</span>
                             <input class="AddIMG_yl_size" v-model="attach.wpid" placeholder="上传附件后自动获取"  disabled >
                         </div>
                         <div class="box_sel">
-                            <span class="tit">实现方式:</span>
+                            <span class="tit">资源类型:</span>
                             <select v-model="model" disabled="disabled">
                                 <option value="无">无</option>
                                 <option value="H5">H5</option>
+                                <option value="图片">图片</option>
                                 <option value="脚本">脚本</option>
                             </select>
                             <!--<select v-model="model" v-if="this.type=='f_sls_lockscreen'">-->
@@ -232,6 +237,7 @@
                 sizeList:[],
                 arr:[],
                 clickNmu:0,
+                resource:''
             }
         },
         mounted(){
@@ -493,6 +499,10 @@
                         this.$message('壁纸标识不能为空');
                          return
                     }
+                     if(this.type=='f_sls_lockscreen'&&!this.resource){
+                        this.$message('来源不能为空');
+                         return
+                    }
                     if(this.chenck==true){
                         this.size=this.cc;
                         if((this.limit_size).split(',').indexOf(this.cc)==-1){
@@ -517,6 +527,7 @@
                         formData.append('self_tags',this.bardian);
                         formData.append('bind_mid',this.bind_mid);
                         formData.append('model',this.model);
+                        formData.append('resource',this.resource);
                         formData.append('size',this.size);
                         formData.append('link',this.link);
                         formData.append('ad_pic',this.ad_pic);
@@ -534,6 +545,7 @@
                                 this.size='';
                                 this.ad_pic=0;
                                 this.ad_num='';
+                                this.resource=''
                             }
                         })
                 },

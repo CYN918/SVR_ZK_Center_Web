@@ -366,7 +366,7 @@ a{
 }
 .contentImg .label .active,.labelName:hover{
   display: inline-block;
-  padding: 0 10px;
+  padding: 0 3px;
   background: #3377ff;
   border-radius: 4px;
   margin-right: 10px!important;
