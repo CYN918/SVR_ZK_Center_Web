@@ -184,9 +184,7 @@ export default {
                         };
                         obj.mid=id;
                         (obj.tags).push(name);
-                        this.advers.push(obj);
-                        // this.nums.push(index),
-                        // this.WCindex.push(wcIndex);
+                        this.advers.push(obj);                   
                         return
                 }
                 if(this.advers.length>0){
@@ -198,43 +196,24 @@ export default {
                             };
                             obj.mid=id;
                             (obj.tags).push(name);
-                            this.advers.push(obj);
-                            // this.nums.push(index),
-                            // this.WCindex.push(wcIndex);
+                            this.advers.push(obj);                        
                             return
                         }
                         if(this.advers[i].mid==id&&(this.advers[i].tags).indexOf(name)==-1){
                             (this.advers[i].tags).push(name);
-                            //  this.nums.push(index)
                             return
                         }
                         if(this.advers[i].mid==id&&(this.advers[i].tags).indexOf(name)!=-1&&this.advers[i].tags.length>2){
                             for(var k=0;k<this.advers[i].tags.length;k++){
                                 if(this.advers[i].tags[k].tags_id==name.tags_id){
                                     (this.advers[i].tags).splice(k,1);
-                                    //  for(var j=0;j<this.nums.length;j++){
-                                    //      if(this.nums[j]==index){
-                                    //          this.nums.splice(j,1)
-                                    //      }
-                                    //  }
-
                                     return
                                 }
                             
                             }
                         }
                         if(this.advers[i].mid==id&&(this.advers[i].tags).indexOf(name)!=-1&&this.advers[i].tags.length<2){
-                             this.advers.splice(i,1);
-                            //  for(var m=0;m<this.WCindex.length;m++){
-                            //      if(this.WCindex[m]==wcIndex){
-                            //          this.WCindex.splice(m,1);
-                            //      }
-                            //  }
-                            //  for(var j=0;j<this.nums.length;j++){
-                            //              if(this.nums[j]==index){
-                            //                  this.nums.splice(j,1)
-                            //              }
-                            //          }
+                             this.advers.splice(i,1);                           
                         }
                     }  
                 }
