@@ -854,8 +854,7 @@ router.beforeEach((to, from, next) => {
                 next({ path: '/erro'});
                 return;
             }
-            let params = {Authorization:"Bearer"+localStorage.getItem('token')}
-            api.account_apply_status({params}).then((datas)=>{					
+            api.account_apply_status().then((datas)=>{					
                 if(datas.status != '3'){
                     next({ path: '/erro'});
                     return

@@ -224,16 +224,13 @@ export default {
 			}
 		},
 		goMssg(on){
-			if(on == '1'){
-				this.$router.push({path:"/userinfo/message"})
-			}else{
-				this.$router.push({
-                    path:"/userinfo/messageDetails",
-                    query:{
-                        id:on.id,      
-                    }
-                })
-			}
+			console.log(on)
+			this.$router.push({
+				path:"/userinfo/messageDetails",
+				query:{
+					id:on.id,      
+				}
+			})
 			// if(!window.userInfo){
 			// 	this.$router.push({path:'/login'});	
 			// 	return
