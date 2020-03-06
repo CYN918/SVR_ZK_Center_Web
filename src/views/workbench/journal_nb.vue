@@ -567,6 +567,9 @@ methods: {
                 formData.append('title',this.title);
                 formData.append('content',this.content);
                 formData.append('click_action',click_action_title);
+                formData.append('pkgname',this.pkgname);
+                formData.append('download_url',this.download_url);
+                formData.append('deeplink',this.deeplink);
                 formData.append('click_action_type',this.click_action);
                 formData.append('url',this.url);
                this.api.pushlib_textlink_edit(formData).then((res)=>{  
