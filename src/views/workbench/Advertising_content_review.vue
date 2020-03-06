@@ -256,11 +256,11 @@ export default {
                 this.show=false;
             },
             add(){
-               
                 let formData = new FormData;
                 formData.append('advers',JSON.stringify(this.advers));
                 this.api.adver_tags_audit(formData).then((res)=>{
                     if(res!=false){
+                        this.this.advers=[];
                         this.getData();
                         this.heid();
                     }
