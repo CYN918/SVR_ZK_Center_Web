@@ -507,6 +507,9 @@ methods: {
                 this.content = row.content;
                 this.click_action = row.click_action_type;
                 this.url = row.url;
+                this.deeplink = row.deeplink;
+                this.pkgname = row.pkgname;
+                this.download_url = row.download_url;
            },
            cancelTx(){
                this.textVisible = false;

@@ -834,7 +834,7 @@ router.beforeEach((to, from, next) => {
 			url: urld,
 			data:{ticket:to.query.ticket}
 		}).then((msg)=>{
-            console.log(msg);    
+            console.log(msg);
             localStorage.setItem('token',msg.data.data.token);
             localStorage.setItem('logintime',Date.parse(new Date()));
             localStorage.setItem('userAd',msg.data.data.user.email);
@@ -855,12 +855,13 @@ router.beforeEach((to, from, next) => {
                 return;
             }
             api.account_apply_status().then((datas)=>{					
-                if(datas.status != '3'){
+                if(datas.status != 3){
                     next({ path: '/erro'});
                     return
                 }
+                next({ path: '/index'});
             })
-            next({ path: '/index'});   	
+
 		}).catch(()=>{
             alert("账户异常，请联系管理员添加角色或启用账号");
 		});
