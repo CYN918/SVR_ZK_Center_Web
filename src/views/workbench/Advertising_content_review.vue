@@ -245,17 +245,18 @@ export default {
             },
 
             tc(){
+                 if(this.advers.length==0){
+                    this.$message.error('请最少配置一个分类');
+                    return
+                    
+                }
                 this.show=true;
             },
             heid(){
                 this.show=false;
             },
             add(){
-                if(this.advers.length==0){
-                    this.$message.error('请最少配置一个分类');
-                    return
-                    
-                }
+               
                 let formData = new FormData;
                 formData.append('advers',JSON.stringify(this.advers));
                 this.api.adver_tags_audit(formData).then((res)=>{
