@@ -250,6 +250,8 @@ import External_pre_trial from './views/workbench/External_pre_trial'
 mode['External_pre_trial']=External_pre_trial
 import External_details from './views/workbench/External_details'
 mode['External_details']=External_details
+import Advertising_content_review from './views/workbench/Advertising_content_review'
+mode['Advertising_content_review']=Advertising_content_review
 
 import axios from 'axios'
 import api from './api/index'
@@ -450,6 +452,7 @@ let nb = [
             {path:'/workbench/Advertising_for_details',name:'广告详情',component: mode['Advertising_for_details'],},
             {path:'/workbench/External_pre_trial',name:'外部杂志锁屏推送管理',component: mode['External_pre_trial'],},
             {path:'/workbench/External_details',name:'外部杂志锁屏推送管理详情',component: mode['External_details'],},
+            {path:'/workbench/Advertising_content_review',name:'广告内容审核',component: mode['Advertising_content_review'],},
             
            
 	]},
@@ -616,9 +619,7 @@ let leftNav =
 //                     {title:'线下资源替换',url:'/workbench/Offline_resources'},
 //                     {title:'线上审核资源替换',url:'/workbench/channel_resource'},
 //                     {title:'杂志锁屏物料预审',url:'/workbench/External_pre_trial'},
-
-                    
-                    
+//                     {title:'广告内容审核',url:'/workbench/Advertising_content_review'},
                     
 //                 ],},
 
@@ -656,7 +657,7 @@ let leftNav =
 //                 {title:'收益总览',url:'/income/earnings'},
 // 				{title:'渠道收益',url:'/income/returns_detailed'},
 //                 {title:'广告主收益',url:'/income/advertiser'},
-//                 {title:'广告结算数据',url:'/income/Advertising'}
+//                 {title:'广告结算数据',url:'/income/Advertising'},
 //                 {title:'广告业务结算数据',url:'/income/AdvertisingNoSettlement'}
 //             ]},
 //             {title:'收益管理',url:'2',img:'&#xe611;',list:[

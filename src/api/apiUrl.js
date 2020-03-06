@@ -1495,6 +1495,22 @@ export default {
 	account_apply_first_login:{
 		url:"/account/apply/first/login",method:"get"
 	},
+	//获取待审核图片列表
+	adver_tags_pending:{
+		url:"/adver/tags/pending",method:'get'
+	},
+	//获取sdkid列表
+	adver_tags_config_sdkid:{
+		url:"adver/tags/config/sdkid",method:"get"
+	},
+	//获取分类列表
+	adver_tags_config_opstags:{
+		url:"adver/tags/config/opstags",method:"get"
+	},
+	//一键确认
+	adver_tags_audit:{
+		url:'adver/tags/audit',method:"post",isType:{suktip:1}
+	}
 }
 
 
