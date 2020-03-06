@@ -74,7 +74,7 @@
                                 prop=""
                                 label="分类">
                                  <template slot-scope="scope">
-                                    <span class='tagsName'  v-for='(da,num) in tags'  style="margin-right:15px" @click='sgtData(da,tableData[scope.$index].mid,num)'>{{da.tags_name}}</span>
+                                    <span class='tagsName'  v-for='(da,num) in tags'   style="margin-right:15px" @click='sgtData(da,tableData[scope.$index].mid,num,scope.$index)'>{{da.tags_name}}</span>
                                 </template>
                         </el-table-column>
                         <el-table-column
@@ -126,7 +126,8 @@ export default {
                 index:0,
                 tags:[],
                 advers:[],
-                show:false
+                show:false,
+            
             }
         },
         
@@ -175,8 +176,7 @@ export default {
                     this.tags=res;
                 })
             },
-            sgtData(name,id,index){
-                
+            sgtData(name,id){
                 if(this.advers.length==0){
                         var obj={
                             mid:'',
@@ -185,7 +185,8 @@ export default {
                         obj.mid=id;
                         (obj.tags).push(name);
                         this.advers.push(obj);
-                        document.getElementsByClassName('tagsName')[index].className +=' act'
+                        // this.nums.push(index),
+                        // this.WCindex.push(wcIndex);
                         return
                 }
                 if(this.advers.length>0){
@@ -198,19 +199,25 @@ export default {
                             obj.mid=id;
                             (obj.tags).push(name);
                             this.advers.push(obj);
-                            document.getElementsByClassName('tagsName')[index].className +=' act'
+                            // this.nums.push(index),
+                            // this.WCindex.push(wcIndex);
                             return
                         }
                         if(this.advers[i].mid==id&&(this.advers[i].tags).indexOf(name)==-1){
                             (this.advers[i].tags).push(name);
-                             document.getElementsByClassName('tagsName')[index].className +=' act'
+                            //  this.nums.push(index)
                             return
                         }
                         if(this.advers[i].mid==id&&(this.advers[i].tags).indexOf(name)!=-1&&this.advers[i].tags.length>2){
                             for(var k=0;k<this.advers[i].tags.length;k++){
                                 if(this.advers[i].tags[k].tags_id==name.tags_id){
                                     (this.advers[i].tags).splice(k,1);
-                                     document.getElementsByClassName('tagsName')[index].classList.remove("act")
+                                    //  for(var j=0;j<this.nums.length;j++){
+                                    //      if(this.nums[j]==index){
+                                    //          this.nums.splice(j,1)
+                                    //      }
+                                    //  }
+
                                     return
                                 }
                             
@@ -218,7 +225,16 @@ export default {
                         }
                         if(this.advers[i].mid==id&&(this.advers[i].tags).indexOf(name)!=-1&&this.advers[i].tags.length<2){
                              this.advers.splice(i,1);
-                              document.getElementsByClassName('tagsName')[index].classList.remove("act")
+                            //  for(var m=0;m<this.WCindex.length;m++){
+                            //      if(this.WCindex[m]==wcIndex){
+                            //          this.WCindex.splice(m,1);
+                            //      }
+                            //  }
+                            //  for(var j=0;j<this.nums.length;j++){
+                            //              if(this.nums[j]==index){
+                            //                  this.nums.splice(j,1)
+                            //              }
+                            //          }
                         }
                     }  
                 }
@@ -237,7 +253,7 @@ export default {
                     
                 }
                 let formData = new FormData;
-                formData.append('advers',this.advers);
+                formData.append('advers',JSON.stringify(this.advers));
                 this.api.adver_tags_audit(formData).then((res)=>{
                     if(res!=false){
                         this.getData();
