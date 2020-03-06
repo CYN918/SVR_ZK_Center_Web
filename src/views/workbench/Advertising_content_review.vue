@@ -7,20 +7,21 @@
                     <span>图片审核</span>
                 </div>
                 <span class='tits'>三方广告源ID：</span>
-            <select v-model="sdk_id" @change="ganged()">
-                <option value="">全部</option>
-                <option :value="item.sdk_id" v-for='(item,index) in adAPI'>{{item.sdk_id}}</option>
-            </select>
-             <span class='tits'>三方广告位ID：</span>
-            <select v-model="id_adsrc">
-                <option value="">全部</option>
-                <option :value="item" v-if='sdk_id!=""' v-for='item in adAPI[index].id_adsrc'>{{item}}</option>
-            </select>
-            <div class='sel'>
-                <span @click='getData()'>查询</span>
-               
-                <span class='yjqr' @click='tc()'>一键确认</span>
-            </div>
+                <select v-model="sdk_id" @change="ganged()">
+                    <option value="">全部</option>
+                    <option :value="item.sdk_id" v-for='(item,index) in adAPI'>{{item.sdk_id}}</option>
+                </select>
+                <span class='tits'>三方广告位ID：</span>
+                <select v-model="id_adsrc">
+                    <option value="">全部</option>
+                    <option :value="item" v-if='sdk_id!=""' v-for='item in adAPI[index].id_adsrc'>{{item}}</option>
+                </select>
+                <span class='tits'>页码：</span>
+                <input type="number" placeholder="输入页码" v-model="page"/>
+                <div class='sel'>
+                    <span @click='getData()'>查询</span>
+                    <span class='yjqr' @click='tc()'>一键确认</span>
+                </div>
             </div>
         </div>
        
@@ -154,12 +155,13 @@ export default {
                 return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
             getData(){
+                var res=/^\+?[1-9]\d*$/;
+                if(!res.test(this.page)){
+                    this.$message.error('页码只能为大于零的正整数');
+                    return
+                }
                 let params={sdk_id:this.sdk_id,id_adsrc:this.id_adsrc,p:this.p,page:this.page}
                 this.api.adver_tags_pending({params}).then((res=>{
-                    // this.tableData=res.data;
-                    // this.tableData.forEach(item =>{
-                    //     item.tags = []
-                    // })
                     this.total=res.total;
                     this.updata();
                     this. getAPI();
@@ -191,6 +193,7 @@ export default {
                         item.tags = JSON.parse(JSON.stringify(res))
                     })
                     this.tableData =data
+                    this.updata();
                 })
             },
             sgtData(name,id,indexs, idxs){
@@ -288,6 +291,12 @@ export default {
         background: rgba(255,255,255,1);
         border-radius: 4px;
         border: 1px solid rgba(211,219,235,1);
+    }
+    input{
+        width: 80px;
+        height: 30px!important;
+        padding-left: 3px!important;
+        border: 1px solid rgba(211,219,235,1)!important;
     }
     .sel{
         display: inline-block;
