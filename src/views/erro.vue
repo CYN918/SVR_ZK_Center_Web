@@ -215,9 +215,14 @@ export default {
 			
 			})			
 		},
+		account_apply_first_login(){
+            this.api.account_apply_first_login().then((datas)=>{
+				this.popupWindow = true;
+			})				
+		},
 		account_apply_status(){
-			let params = {Authorization:"Bearer"+localStorage.getItem('token')}
-            this.api.account_apply_status({params}).then((datas)=>{					
+			// let params = {Authorization:"Bearer"+localStorage.getItem('token')}
+            this.api.account_apply_status().then((datas)=>{					
                 if(datas.status == 0){
                     this.centerDialogVisible = true;
                 }
@@ -234,6 +239,9 @@ export default {
 				}
 				if(datas.status == 4){
 					this.centerDialogVisible = true;
+				}
+				if(datas.status == 5){
+					this.account_apply_first_login();
                 }
             })
 

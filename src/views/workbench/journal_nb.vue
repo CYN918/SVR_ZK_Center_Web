@@ -217,7 +217,22 @@
                         <option value="2">下载应用</option>
                     </select>
                 </el-form-item>
-                <el-form-item label="落地页:">
+                <el-form-item label="跳转链接:" v-if="click_action == '0'">
+                    <el-input v-model="url"></el-input>
+                </el-form-item>
+                <el-form-item label="包名(选填):" v-if="click_action == '1'">
+                    <el-input v-model="url"></el-input>
+                </el-form-item>
+                <el-form-item label="拉活链接:" v-if="click_action == '1'">
+                    <el-input v-model="url"></el-input>
+                </el-form-item>
+                <el-form-item label="下载链接:" v-if="click_action == '1'">
+                    <el-input v-model="url"></el-input>
+                </el-form-item>
+                <el-form-item label="包名:" v-if="click_action == '2'">
+                    <el-input v-model="url"></el-input>
+                </el-form-item>
+                <el-form-item label="下载链接:" v-if="click_action == '2'">
                     <el-input v-model="url"></el-input>
                 </el-form-item>
             </el-form>
@@ -265,7 +280,7 @@ return {
         isShow:true,
         title: '',
         content: '',
-        click_action:'',
+        click_action:-1,
         url: '',
         theWeight:'',
         rouelForm:{},
@@ -512,10 +527,13 @@ methods: {
             //    }
                if(this.click_action == 0){
                    var click_action_title = '点击查看'
+                   
                }else if(this.click_action == 1){
                    var click_action_title = '打开应用'
+
                }else if(this.click_action == 2){
                    var click_action_title = '下载应用'
+
                }else if(this.click_action == -1){
                    var click_action_title = ''
                }

@@ -1491,7 +1491,10 @@ export default {
 	account_apply_permission:{
 		url:"/account/apply/permission",method:"post"
 	},
-	
+	//新账号权限申请第一次登入
+	account_apply_first_login:{
+		url:"/account/apply/first/login",method:"get"
+	},
 }
 
 
