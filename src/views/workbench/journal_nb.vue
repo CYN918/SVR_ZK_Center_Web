@@ -221,19 +221,19 @@
                     <el-input v-model="url"></el-input>
                 </el-form-item>
                 <el-form-item label="包名(选填):" v-if="click_action == '1'">
-                    <el-input v-model="url"></el-input>
+                    <el-input v-model="pkgname"></el-input>
                 </el-form-item>
                 <el-form-item label="拉活链接:" v-if="click_action == '1'">
-                    <el-input v-model="url"></el-input>
+                    <el-input v-model="deeplink"></el-input>
                 </el-form-item>
                 <el-form-item label="下载链接:" v-if="click_action == '1'">
-                    <el-input v-model="url"></el-input>
+                    <el-input v-model="download_url"></el-input>
                 </el-form-item>
                 <el-form-item label="包名:" v-if="click_action == '2'">
-                    <el-input v-model="url"></el-input>
+                    <el-input v-model="pkgname"></el-input>
                 </el-form-item>
                 <el-form-item label="下载链接:" v-if="click_action == '2'">
-                    <el-input v-model="url"></el-input>
+                    <el-input v-model="download_url"></el-input>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -287,6 +287,9 @@ return {
         textlink:[],
         rows:{},
         rowData:{},
+        pkgname:'',
+        deeplink:'',
+        download_url:'',
 };
 },
 
@@ -527,12 +530,32 @@ methods: {
             //    }
                if(this.click_action == 0){
                    var click_action_title = '点击查看'
-                   
+                   if(!this.url){
+                       this.$message.warning('跳转链接不能为空!')
+                       return false
+                   }
+
                }else if(this.click_action == 1){
                    var click_action_title = '打开应用'
+                   if(!this.deeplink){
+                       this.$message.warning('拉活链接不能为空!')
+                       return false
+                   }
+                   if(!this.download_url){
+                       this.$message.warning('下载链接不能为空!')
+                       return false
+                   }
 
                }else if(this.click_action == 2){
                    var click_action_title = '下载应用'
+                   if(!this.pkgname){
+                       this.$message.warning('包名不能为空!')
+                       return false
+                   }
+                   if(!this.download_url){
+                       this.$message.warning('下载链接不能为空!')
+                       return false
+                   }
 
                }else if(this.click_action == -1){
                    var click_action_title = ''
