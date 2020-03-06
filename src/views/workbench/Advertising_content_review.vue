@@ -162,10 +162,6 @@ export default {
                 }
                 let params={sdk_id:this.sdk_id,id_adsrc:this.id_adsrc,p:this.p,page:this.page}
                 this.api.adver_tags_pending({params}).then((res=>{
-                    // this.tableData=res.data;
-                    // this.tableData.forEach(item =>{
-                    //     item.tags = []
-                    // })
                     this.total=res.total;
                     this.updata();
                     this. getAPI();
@@ -197,6 +193,7 @@ export default {
                         item.tags = JSON.parse(JSON.stringify(res))
                     })
                     this.tableData =data
+                    this.updata();
                 })
             },
             sgtData(name,id,indexs, idxs){
