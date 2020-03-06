@@ -74,7 +74,7 @@
                                 prop=""
                                 label="分类">
                                  <template slot-scope="scope">
-                                    <span class='tagsName'  v-for='(da,num) in tags' :class='actives(da,tableData[scope.$index].mid)'  style="margin-right:15px" @click='sgtData(da,tableData[scope.$index].mid,num,scope.$index)'>{{da.tags_name}}</span>
+                                    <span class='tagsName'  v-for='(da,num) in tags' :class='{act:actives(da,tableData[scope.$index].mid)}'  style="margin-right:15px" @click='sgtData(da,tableData[scope.$index].mid,num,scope.$index)'>{{da.tags_name}}</span>
                                 </template>
                         </el-table-column>
                         <el-table-column
@@ -223,18 +223,16 @@ export default {
                 
             },
             actives(da,id){
-                
                 for(var i=0;i<this.advers.length;i++){
                     if(this.advers[i].mid==id){
-                       for(var s=0;s<this.advers[i].tags.length;s++){
+                       for(var s=0;s <this.advers[i].tags.length; s++){
                            if(this.advers[i].tags[s].tags_id==da.tags_id){
-                               return 'act'
+                               return true
                            }
                        }
-                    }else{
-                        return 
                     }
                 }
+                return false
             },
             tc(){
                 this.show=true;
