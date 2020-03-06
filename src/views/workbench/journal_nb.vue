@@ -217,8 +217,23 @@
                         <option value="2">下载应用</option>
                     </select>
                 </el-form-item>
-                <el-form-item label="落地页:">
+                <el-form-item label="跳转链接:" v-if="click_action == '0'">
                     <el-input v-model="url"></el-input>
+                </el-form-item>
+                <el-form-item label="包名(选填):" v-if="click_action == '1'">
+                    <el-input v-model="pkgname"></el-input>
+                </el-form-item>
+                <el-form-item label="拉活链接:" v-if="click_action == '1'">
+                    <el-input v-model="deeplink"></el-input>
+                </el-form-item>
+                <el-form-item label="下载链接:" v-if="click_action == '1'">
+                    <el-input v-model="download_url"></el-input>
+                </el-form-item>
+                <el-form-item label="包名:" v-if="click_action == '2'">
+                    <el-input v-model="pkgname"></el-input>
+                </el-form-item>
+                <el-form-item label="下载链接:" v-if="click_action == '2'">
+                    <el-input v-model="download_url"></el-input>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -265,13 +280,16 @@ return {
         isShow:true,
         title: '',
         content: '',
-        click_action:'',
+        click_action:-1,
         url: '',
         theWeight:'',
         rouelForm:{},
         textlink:[],
         rows:{},
         rowData:{},
+        pkgname:'',
+        deeplink:'',
+        download_url:'',
 };
 },
 
@@ -489,6 +507,9 @@ methods: {
                 this.content = row.content;
                 this.click_action = row.click_action_type;
                 this.url = row.url;
+                this.deeplink = row.deeplink;
+                this.pkgname = row.pkgname;
+                this.download_url = row.download_url;
            },
            cancelTx(){
                this.textVisible = false;
@@ -512,10 +533,33 @@ methods: {
             //    }
                if(this.click_action == 0){
                    var click_action_title = '点击查看'
+                   if(!this.url){
+                       this.$message.warning('跳转链接不能为空!')
+                       return false
+                   }
+
                }else if(this.click_action == 1){
                    var click_action_title = '打开应用'
+                   if(!this.deeplink){
+                       this.$message.warning('拉活链接不能为空!')
+                       return false
+                   }
+                   if(!this.download_url){
+                       this.$message.warning('下载链接不能为空!')
+                       return false
+                   }
+
                }else if(this.click_action == 2){
                    var click_action_title = '下载应用'
+                   if(!this.pkgname){
+                       this.$message.warning('包名不能为空!')
+                       return false
+                   }
+                   if(!this.download_url){
+                       this.$message.warning('下载链接不能为空!')
+                       return false
+                   }
+
                }else if(this.click_action == -1){
                    var click_action_title = ''
                }
@@ -526,6 +570,9 @@ methods: {
                 formData.append('title',this.title);
                 formData.append('content',this.content);
                 formData.append('click_action',click_action_title);
+                formData.append('pkgname',this.pkgname);
+                formData.append('download_url',this.download_url);
+                formData.append('deeplink',this.deeplink);
                 formData.append('click_action_type',this.click_action);
                 formData.append('url',this.url);
                this.api.pushlib_textlink_edit(formData).then((res)=>{  

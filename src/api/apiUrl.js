@@ -1491,6 +1491,10 @@ export default {
 	account_apply_permission:{
 		url:"/account/apply/permission",method:"post"
 	},
+	//新账号权限申请第一次登入
+	account_apply_first_login:{
+		url:"/account/apply/first/login",method:"get"
+	},
 	//获取待审核图片列表
 	adver_tags_pending:{
 		url:"/adver/tags/pending",method:'get'
