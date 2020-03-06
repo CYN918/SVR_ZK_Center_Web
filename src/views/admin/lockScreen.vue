@@ -21,25 +21,25 @@
 				<div class="label">
 					<span class="label_txt">预置标签:</span>
 					<span class="labelName" @click="getListTag()" :class="{active:listTag.length==0}">全部</span>
-					<div class="tags" :class="{ALLtags:this.class==true}">
+					<div class="tags" :class="{ALLtags:class0==true}">
 						<span v-for="(item,index) in preset_tags" class="labelName" @click="getListTag(item.name,index)" :class="{active:listTag.indexOf(item.name)!=-1}">{{item.name}}</span>
 					</div>
-					<span class="tagsAll" v-if="this.class==false" @click="getTag">查看更多</span>
-					<span class="tagsAll" v-if="this.class==true" @click="heidTag">收起</span>
+					<span class="tagsAll" v-if="this.class0==false" @click="getTag">查看更多</span>
+					<span class="tagsAll" v-if="this.class0==true" @click="heidTag">收起</span>
 				</div>
 				<div class="label">
 					<span class="label_txt" >个性标签:</span>
 					<span class="labelName" @click="getListTags()" :class="{active:listTagData.length==0}">全部</span>
-					<div class="tags" :class="{ALLtags:this.class1==true}">
+					<div class="tags" :class="{ALLtags:class1==true}">
 						<span v-for="(item,index) in self_tags" class="labelName" @click="getListTags(item.name,index)" :class="{active:listTagData.indexOf(item.name)!=-1}">{{item.name}}</span>
 					</div>
 					<span class="tagsAll" v-if="this.class1==false" @click="getTag1">查看更多</span>
 					<span class="tagsAll" v-if="this.class1==true" @click="heidTag1">收起</span>
 				</div>
-				<div class="label">
+				<div class="label" >
 					<span class="label_txt">运营标签:</span>
 					<span class="labelName" @click="getTagYY()" :class="{active:listTags.length==0}">全部</span>
-					<div class="tags">
+					<div class="tags" :class="{ALLtags:class2==true}">
 						<span v-for="(item,index) in Operatorlist" class="labelName" @click="getTagYY(item.desc,index)" :class="{active:listTags.indexOf(item.desc)!=-1}">{{item.desc}}</span>
 					</div>
 					<span class="tagsAll" v-if="this.class2==false" @click="getTag2">查看更多</span>
@@ -83,6 +83,7 @@
 								<span class="img"  @click="BJtag(index)">+ 标签</span>
 							</div>
 						</div>
+                    
 						<div>
 							<div class="zt">
 								<span class="boxImg_text">物料状态:</span>
@@ -114,6 +115,16 @@
 								<span class="boxImg_content">{{DL.ad_num}}</span>
 							</div>
 						</div>
+                        <div>
+                            <div class='zt'>
+								<span class="boxImg_text">资源类型:</span>
+								<span class="boxImg_content" style="width:100px">{{DL.model}}</span>
+							</div>
+                            <div class="xgsc">
+								<span class="boxImg_text">来源:</span>
+								<span class="boxImg_content" style="width:100px">{{DL.resource}}</span>
+							</div>
+                        </div>
 						<div>
 							<span class="boxImg_text">壁纸标识:</span>
 							<span class="boxImg_content">{{DL.wpid}}</span>
@@ -202,7 +213,7 @@
                 inde:null,
                 status:null,
                 userData:{},
-                class:false,
+                class0:false,
                 class1:false,
                 class2:false,
                 listTag:[],
@@ -251,10 +262,10 @@
                 });
             },
             getTag(){
-                this.class=true;
+                this.class0=true;
             },
             heidTag(){
-                this.class=false;
+                this.class0=false;
             },
             getTag1(){
                 this.class1=true;
@@ -587,6 +598,7 @@
 		margin-left: 50%;
 		transform: translate(-50%,-50%);
 	}
+    .ALLtags{height:100%!important;}
 	.btn{
 		width: 100%;
 		height: 50px;
@@ -611,4 +623,7 @@
 		color: #fff!important;
 		margin-right:50px;
 	}
+    .boxImg_right_1 div{
+        height: 32px;
+    }
 </style>
