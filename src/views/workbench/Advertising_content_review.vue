@@ -6,10 +6,7 @@
                 <div class="title_left">
                     <span>图片审核</span>
                 </div>
-            </div>
-        </div>
-        <div class="centNavBox">
-            <span class='tits'>三方广告源ID：</span>
+                <span class='tits'>三方广告源ID：</span>
             <select v-model="sdk_id" @change="ganged()">
                 <option value="">全部</option>
                 <option :value="item.sdk_id" v-for='(item,index) in adAPI'>{{item.sdk_id}}</option>
@@ -21,10 +18,12 @@
             </select>
             <div class='sel'>
                 <span @click='getData()'>查询</span>
-                <!-- <span>换一批</span> -->
+               
                 <span class='yjqr' @click='tc()'>一键确认</span>
             </div>
+            </div>
         </div>
+       
           <div class="content_right">
             <div class="titel_table">
                 <span class="circle"></span>
@@ -38,7 +37,7 @@
                 <span class="red">{{}}</span>
                 <span>项&nbsp&nbsp</span>
             </div>
-            <div>
+            <div class='tableBox'>
                 <template>
                     <el-table
                             :data="tableData"
@@ -197,7 +196,6 @@ export default {
             sgtData(name,id,indexs, idxs){
                
                 this.tableData[idxs].tags[indexs].isShow = !this.tableData[idxs].tags[indexs].isShow
-                console.log(this.tableData)
                 if(this.advers.length==0){
                         var obj={
                             mid:'',
@@ -224,10 +222,11 @@ export default {
                             (this.advers[i].tags).push(name);
                             return
                         }
-                        if(this.advers[i].mid==id&&(this.advers[i].tags).indexOf(name)!=-1&&this.advers[i].tags.length>2){
+                        if(this.advers[i].mid==id&&this.advers[i].tags.length>1){
                             for(var k=0;k<this.advers[i].tags.length;k++){
                                 if(this.advers[i].tags[k].tags_id==name.tags_id){
                                     (this.advers[i].tags).splice(k,1);
+
                                     return
                                 }
                             
@@ -235,6 +234,7 @@ export default {
                         }
                         if(this.advers[i].mid==id&&(this.advers[i].tags).indexOf(name)!=-1&&this.advers[i].tags.length<2){
                              this.advers.splice(i,1);                           
+
                         }
                     }  
                 }
@@ -269,21 +269,11 @@ export default {
 </script>
 
 <style scoped>
-    .top_name{height: 112px}
+    .top_name{height: 130px}
     .top_txt,.title_left span{
         margin-left: 24px;
     }
-    .centNavBox{
-        background:rgba(255,255,255,1);
-        box-shadow:0px 1px 3px 0px rgba(0, 0, 0, 0.06);
-        height: 100px;
-        font-size:14px;
-        line-height:60px ;
-        color:rgba(0,0,0,1) !important;
-        margin-top: 195px;
-        border-radius: 5px;
-        line-height: 100px;
-    }
+    
     .tit_name,.tits{
         display: inline-block;
         font-size: 14px;
@@ -302,7 +292,7 @@ export default {
     .sel{
         display: inline-block;
         float: right;
-        margin-right: 24px;
+        margin-right: 20%;
     }
     .sel span{
         display: inline-block;
@@ -331,7 +321,7 @@ export default {
         -webkit-box-sizing: border-box;
         box-sizing: border-box;
         background: #fff;
-        margin-top: 40px
+        margin-top: 217px
     }
     .titel_table{
         width: 100%;
@@ -535,6 +525,9 @@ export default {
         border:1px solid #000;
         border-radius: 3px;
         cursor: pointer;
+        display: inline-block;
+        height: 30px;
+        line-height: 30px
     }
     .tagsName:hover{
         border: 0!important;
@@ -619,4 +612,5 @@ export default {
     margin-right: 24px!important;
     cursor: pointer;
 }
+
 </style>
