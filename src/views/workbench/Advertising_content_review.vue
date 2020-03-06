@@ -74,7 +74,7 @@
                                 prop=""
                                 label="分类">
                                  <template slot-scope="scope">
-                                    <span class='tagsName'  v-for='(da,num) in tags' :class='{act: JSON.stringify(advers).indexOf(JSON.stringify(list))!=-1}'  style="margin-right:15px" @click='sgtData(da,tableData[scope.$index].mid,num,scope.$index)'>{{da.tags_name}}</span>
+                                    <span class='tagsName'  v-for='(da,num) in tags' :class='actives(da,tableData[scope.$index].mid)'  style="margin-right:15px" @click='sgtData(da,tableData[scope.$index].mid,num,scope.$index)'>{{da.tags_name}}</span>
                                 </template>
                         </el-table-column>
                         <el-table-column
@@ -91,7 +91,7 @@
             </div>
           
         </div>
-        <div class='tcvBox' v-if='show'>
+        <div class='tcvBox' v-if='this.show'>
             <div class='box'>
                 <div class='box_tit'>
                     <span>
@@ -127,14 +127,14 @@ export default {
                 tags:[],
                 advers:[],
                 show:false,
-                list:{},
+                list:[],
             }
         },
         
         mounted(){
             this.getData()
         },
-        
+       
         methods:{
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
@@ -185,8 +185,6 @@ export default {
                         obj.mid=id;
                         (obj.tags).push(name);
                         this.advers.push(obj);
-                      this.list.mid=id;
-                      this.list.tags=[name];
                         return
                 }
                 if(this.advers.length>0){
@@ -219,20 +217,24 @@ export default {
                         }
                         if(this.advers[i].mid==id&&(this.advers[i].tags).indexOf(name)!=-1&&this.advers[i].tags.length<2){
                              this.advers.splice(i,1);
-                            //  for(var m=0;m<this.WCindex.length;m++){
-                            //      if(this.WCindex[m]==wcIndex){
-                            //          this.WCindex.splice(m,1);
-                            //      }
-                            //  }
-                            //  for(var j=0;j<this.nums.length;j++){
-                            //              if(this.nums[j]==index){
-                            //                  this.nums.splice(j,1)
-                            //              }
-                            //          }
                         }
                     }  
                 }
                 
+            },
+            actives(da,id){
+                
+                for(var i=0;i<this.advers.length;i++){
+                    if(this.advers[i].mid==id){
+                       for(var s=0;s<this.advers[i].tags.length;s++){
+                           if(this.advers[i].tags[s].tags_id==da.tags_id){
+                               return 'act'
+                           }
+                       }
+                    }else{
+                        return 
+                    }
+                }
             },
             tc(){
                 this.show=true;
@@ -251,6 +253,7 @@ export default {
                 this.api.adver_tags_audit(formData).then((res)=>{
                     if(res!=false){
                         this.getData();
+                        this.heid();
                     }
                 })
             },
