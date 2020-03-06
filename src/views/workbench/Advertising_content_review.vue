@@ -74,7 +74,14 @@
                                 prop=""
                                 label="分类">
                                  <template slot-scope="scope">
-                                    <span class='tagsName'  v-for='(da,num) in tags' :class='{act:actives(da,tableData[scope.$index].mid)}'  style="margin-right:15px" @click='sgtData(da,tableData[scope.$index].mid,num,scope.$index)'>{{da.tags_name}}</span>
+
+                                    <span class='tagsName'  
+                                    v-for='(da,num) in tableData[scope.$index].tags' 
+                                    :class="{'act': da.isShow}"  
+                                    style="margin-right:15px" 
+                                    @click='sgtData(da,tableData[scope.$index].mid,num,scope.$index)'
+                                    >{{da.tags_name}}</span>
+
                                 </template>
                         </el-table-column>
                         <el-table-column
@@ -128,6 +135,7 @@ export default {
                 advers:[],
                 show:false,
                 list:[],
+                tagsList:[]
             }
         },
         
@@ -149,11 +157,14 @@ export default {
             getData(){
                 let params={sdk_id:this.sdk_id,id_adsrc:this.id_adsrc,p:this.p,page:this.page}
                 this.api.adver_tags_pending({params}).then((res=>{
-                    this.tableData=res.data;
+                    // this.tableData=res.data;
+                    // this.tableData.forEach(item =>{
+                    //     item.tags = []
+                    // })
                     this.total=res.total;
                     this.updata();
                     this. getAPI();
-                    this.getTags()
+                    this.getTags(res.data)
                 }))
             },
             getAPI(){
@@ -171,12 +182,22 @@ export default {
                     }
                 }
             },
-            getTags(){
+            getTags(data){
                 this.api.adver_tags_config_opstags().then((res)=>{
-                    this.tags=res;
+                    res.forEach(item => {
+                        item.isShow = false
+                    })
+                    this.tagsList = res
+                    data.forEach((item, index) =>{
+                        item.tags = JSON.parse(JSON.stringify(res))
+                    })
+                    this.tableData =data
                 })
             },
-            sgtData(name,id){
+            sgtData(name,id,indexs, idxs){
+               
+                this.tableData[idxs].tags[indexs].isShow = !this.tableData[idxs].tags[indexs].isShow
+                console.log(this.tableData)
                 if(this.advers.length==0){
                         var obj={
                             mid:'',
@@ -219,18 +240,7 @@ export default {
                 }
                 
             },
-            actives(da,id){
-                for(var i=0;i<this.advers.length;i++){
-                    if(this.advers[i].mid==id){
-                       for(var s=0;s <this.advers[i].tags.length; s++){
-                           if(this.advers[i].tags[s].tags_id==da.tags_id){
-                               return true
-                           }
-                       }
-                    }
-                }
-                return false
-            },
+
             tc(){
                 this.show=true;
             },
