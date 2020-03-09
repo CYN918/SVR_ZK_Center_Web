@@ -56,7 +56,7 @@
                  <div class="titel_table">
                     <span class="circle"></span>
                     <span>共</span>
-                    <span class="all">{{total}}</span>
+                    <span class="all">{{all}}</span>
                     <span>项&nbsp&nbsp</span>
                     <span>已处理</span>
                     <span >{{audited}}</span>
@@ -137,24 +137,36 @@
                         </el-table>
                     </template>
                 </div>
+                <div class="block">
+                    <el-pagination
+                            @size-change="handleSizeChange1"
+                            @current-change="handleCurrentChange1"
+                            :current-page.sync="page"
+                            :page-size="p"
+                            layout="prev, pager, next,total, jumper"
+                            :total="total">
+                    </el-pagination>
+		        </div>
             </div>    
             <div class='tcvBox' v-if='this.show'>
-            <div class='box'>
-                <div class='box_tit'>
-                    <span>
-                        一键确认
-                    </span>
-                </div>
-                <div class='box_con'>
-                    <span>确认更新当前分类数据？</span>
-                </div>
-                <div class='btn'>
-                   
-                    <span class='qx' @click='heid()'>取消</span>
-                     <span class='yes' @click='add()'>确认</span>
+                <div class='box'>
+                    <div class='box_tit'>
+                        <span>
+                            一键确认
+                        </span>
+                    </div>
+                    <div class='box_con'>
+                        <span>确认更新当前分类数据？</span>
+                    </div>
+                    <div class='btn'>
+                    
+                        <span class='qx' @click='heid()'>取消</span>
+                        <span class='yes' @click='add()'>确认</span>
+                    </div>
+                    
                 </div>
             </div>
-        </div>
+
         </div>
 </template>
 
@@ -178,7 +190,8 @@ export default {
                         advers:[],
                         class:false,
                         pending:"",
-                        audited:""
+                        audited:"",
+                        all:""
                 }
             },
             methods:{
@@ -255,6 +268,16 @@ export default {
                         this.updata();
                     })
                  },
+                  handleSizeChange1(p) { // 每页条数切换
+                    this.p = p;
+                   
+                    this.getData()
+                },
+                handleCurrentChange1(Page) {//页码切换
+                    console.log(Page);
+                    this.page = Page;
+                    this.getData()
+                },
                  getData(){
                      let params={status:this.status,sdk_id:this.sdk_id,tdate:this.date,id_adsrc:this.id_adsrc,tags_name:this.ListTags.join(','),p:this.p,page:this.page}
                      this.api.adver_tags_search({params}).then((res)=>{
@@ -291,6 +314,7 @@ export default {
                     this.api.adver_tags_count({params}).then((res)=>{
                         this.pending=res.pending;
                         this.audited=res.audited;
+                        this.all=res.total;
                     })
                 },
                 setTags(name){
