@@ -2,7 +2,7 @@
   <div>
         <div>
             <div class="top_name">
-                <span class="top_txt">广告内容审核&nbsp;/&nbsp;图片审核</span>
+                <span class="top_txt" @click='fh'>广告内容审核&nbsp;/&nbsp;图片审核</span>
                 <div class="title_left">
                     <span>图片审核</span>
                 </div>
@@ -30,12 +30,6 @@
                 <span class="circle"></span>
                 <span>共</span>
                 <span class="all">{{total}}</span>
-                <span>项&nbsp&nbsp</span>
-                <span>已处理</span>
-                <span >{{process}}</span>
-                <span>项&nbsp&nbsp</span>
-                <span>剩余</span>
-                <span class="red">{{}}</span>
                 <span>项&nbsp&nbsp</span>
             </div>
             <div class='tableBox'>
@@ -144,6 +138,9 @@ export default {
         },
        
         methods:{
+            fh(){
+                this.$router.go(-1)
+            },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
                     return 'background:rgb(246, 245, 245,1);color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:blod;font-family:PingFang-SC-Regular;'
@@ -229,15 +226,15 @@ export default {
                             for(var k=0;k<this.advers[i].tags.length;k++){
                                 if(this.advers[i].tags[k].tags_id==name.tags_id){
                                     (this.advers[i].tags).splice(k,1);
-                                   console.log(this.advers)
+
                                     return
                                 }
                             
                             }
                         }
                         if(this.advers[i].mid==id&&(this.advers[i].tags).indexOf(name)!=-1&&this.advers[i].tags.length<2){
-                             this.advers.splice(i,1); 
-                             console.log(this.advers)                          
+                             this.advers.splice(i,1);                           
+
                         }
                     }  
                 }

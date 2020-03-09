@@ -1506,7 +1506,11 @@ export default {
 	//一键确认
 	adver_tags_audit:{
 		url:'adver/tags/audit',method:"post",isType:{suktip:1}
-	}
+	},
+	//获取图片列表
+	adver_tags_search:{
+		url:"adver/tags/search",method:"get"
+	},
 }
 
 
