@@ -344,36 +344,42 @@ export default {
                             };
                             obj.mid=id;
                             (obj.tags).push(name);
-                            this.advers.push(obj);                   
+                            this.advers.push(obj); 
+                            console.log(this.advers)                   
                             return
                     }
                     if(this.advers.length>0){
                         for(var i=0;i<this.advers.length;i++){
-                            if(this.advers[i].mid!=id){
+                            if(this.advers[i].mid!=id){             
                                 var obj={
                                     mid:'',
                                     tags:[]
                                 };
+                                
                                 obj.mid=id;
                                 (obj.tags).push(name);
-                                this.advers.push(obj);                        
+                                this.advers.push(obj); 
+                                console.log(this.advers) 
                                 return
                             }
                             if(this.advers[i].mid==id&&(this.advers[i].tags).indexOf(name)==-1){
                                 (this.advers[i].tags).push(name);
+                                console.log(this.advers) 
                                 return
                             }
                             if(this.advers[i].mid==id&&this.advers[i].tags.length>1){
                                 for(var k=0;k<this.advers[i].tags.length;k++){
                                     if(this.advers[i].tags[k].tags_id==name.tags_id){
                                         (this.advers[i].tags).splice(k,1);
+                                        console.log(this.advers) 
                                         return
                                     }
                                 
                                 }
                             }
                             if(this.advers[i].mid==id&&(this.advers[i].tags).indexOf(name)!=-1&&this.advers[i].tags.length<2){
-                                this.advers.splice(i,1);                           
+                                this.advers.splice(i,1); 
+                                console.log(this.advers)                           
 
                             }
                         }  
