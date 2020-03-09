@@ -217,6 +217,7 @@ export default {
                 },
                 getTags(data){
                     let dataList=data;
+                    this.advers=[];
                     this.api.adver_tags_config_opstags().then((res)=>{
                         res.forEach(item => {
                             item.isShow = false
@@ -243,8 +244,6 @@ export default {
                                             for(var k=0;k<this.tableData[j].tags.length;k++){
                                                 if(this.tableData[j].tags[k].tags_name==dataList[i].ops_tags[s].tags_name){
                                                     this.tableData[j].tags[k].isShow=true;
-                                                   
-
                                                 }
                                             }
                                         }
