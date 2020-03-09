@@ -41,15 +41,15 @@
                     </div>
                     <div>
                         <span class='tits'>分类</span>
-                        <!-- <div>
-                            <span class="labelName" @click="getListTag()" :class="{active:listTag.length==0}">全部</span>
+                        
+                            <span class="labelName" @click="setTags()" :class="{active:ListTags.length==0}">全部</span>
                             <div class="tags" :class="{ALLtags:this.class==true}">
-                                <span v-for="(item,index) in tagsList" class="labelName" @click="getListTag(item.name,index)" :class="{active:listTag.indexOf(item.name)!=-1}">{{item.name}}</span>
+                                <span v-for="(item,index) in tagsList" class="labelName" @click="setTags(item.tags_name,index)" :class="{active:ListTags.indexOf(item.tags_name)!=-1}">{{item.tags_name}}</span>
                             </div>
                             <span class="tagsAll" v-if="this.class==false" @click="getTag">查看更多</span>
                             <span class="tagsAll" v-if="this.class==true" @click="heidTag">收起</span>   
-                        </div> -->
-                    </div>
+                        </div>
+                    
                 </div>
             </div>
             <div  class="content_right">
@@ -59,80 +59,85 @@
                     <span class="all">{{total}}</span>
                     <span>项&nbsp&nbsp</span>
                     <span>已处理</span>
-                    <span >{{}}</span>
+                    <span >{{audited}}</span>
                     <span>项&nbsp&nbsp</span>
                     <span>剩余</span>
-                    <span class="red">{{}}</span>
+                    <span class="red">{{pending}}</span>
                     <span>项&nbsp&nbsp</span>
                 </div>
-            </div>
-             <div class='tableBox'>
-                <template>
-                    <el-table
-                            :data="tableData"
-                            style="width: 100%"
-                            :header-cell-style="getRowClass"
-                            :cell-style="cell"
-                            >
-                       
-                        <el-table-column
-                                label="图片"
-                                width="150">
-                                <template slot-scope="scope">
-                                    <img :src='tableData[scope.$index].image_url' style="max-width:80px;max-height: 80px;cursor: pointer"  preview="0" />
-                                </template>
-                        </el-table-column>
-                       
-                        <el-table-column
-                                prop="a"
-                                width='90'
-                                label="落地页">
-                                 <template slot-scope="scope">
-                                    <a :href='tableData[scope.$index].preview_url' target="_blank" style="color:#3377ff;cursor: pointer">点击查看</a>
-                                </template>
-                        </el-table-column>
-                        <el-table-column
-                                prop=""
-                                label="AI标签">
-                                 <template slot-scope="scope">
-                                 <span v-for='val in tableData[scope.$index].ai_tags'>{{val.tags_name+"("+val.confidence+"%)"}},</span>
-                                </template>
-                        </el-table-column>
-                        <el-table-column
-                                prop=""
-                                label="分类">
-                                 <template slot-scope="scope">
+            
+                <div class='tableBox'>
+                    <template>
+                        <el-table
+                                :data="tableData"
+                                style="width: 100%;"
+                                :header-cell-style="getRowClass"
+                                :cell-style="cell"
+                                >
+                        
+                            <el-table-column
+                                    label="图片"
+                                    width="150">
+                                    <template slot-scope="scope">
+                                        <img :src='tableData[scope.$index].image_url' style="max-width:80px;max-height: 80px;cursor: pointer"  preview="0" />
+                                    </template>
+                            </el-table-column>
+                        
+                            <el-table-column
+                                    prop="a"
+                                    width='90'
+                                    label="落地页">
+                                    <template slot-scope="scope">
+                                        <a :href='tableData[scope.$index].preview_url' target="_blank" style="color:#3377ff;cursor: pointer">点击查看</a>
+                                    </template>
+                            </el-table-column>
+                            <el-table-column
+                                    prop=""
+                                    label="AI标签">
+                                    <template slot-scope="scope">
+                                    <span v-for='val in tableData[scope.$index].ai_tags'>{{val.tags_name+"("+val.confidence+"%)"}},</span>
+                                    </template>
+                            </el-table-column>
+                            <el-table-column
+                                    prop=""
+                                    label="分类">
+                                    <template slot-scope="scope">
 
-                                    <span class='tagsName'  
-                                    v-for='(da,num) in tableData[scope.$index].tags' 
-                                    :class="{'act': da.isShow}"  
-                                    style="margin-right:15px" 
-                                    @click='sgtData(da,tableData[scope.$index].mid,num,scope.$index)'
-                                    >{{da.tags_name}}</span>
+                                        <span class='tagsName'  
+                                        v-for='(da,num) in tableData[scope.$index].tags' 
+                                        :class="{'act': da.isShow}"  
+                                        style="margin-right:15px" 
+                                        @click='sgtData(da,tableData[scope.$index].mid,num,scope.$index)'
+                                        >{{da.tags_name}}</span>
 
-                                </template>
-                        </el-table-column>
-                        <el-table-column
-                                prop=""
-                                width='90'
-                                label="确认状态">
-                                 <template slot-scope="scope">
-                                    <span>{{tableData[scope.$index].status_name}}</span>
-                                </template>
-                        </el-table-column>
-                        <el-table-column
-                                prop=""
-                                label="更新时间">
-                                 
-                        </el-table-column>
-                        <el-table-column
-                                prop=""
-                                label="操作人员">
-                                 
-                        </el-table-column>
-                    </el-table>
-                </template>
-            </div>
+                                    </template>
+                            </el-table-column>
+                            <el-table-column
+                                    prop=""
+                                    width='90'
+                                    label="确认状态">
+                                    <template slot-scope="scope">
+                                        <span>{{tableData[scope.$index].status_name}}</span>
+                                    </template>
+                            </el-table-column>
+                            <el-table-column
+                            :show-overflow-tooltip="true"
+                            width="90"
+                                    prop="updated_at"
+                                    label="更新时间">
+                                    
+                            </el-table-column>
+                            <el-table-column 
+                            width="90"
+                            :show-overflow-tooltip="true"
+                                    prop="updator"
+                                    label="操作人员">
+                                    
+                            </el-table-column>
+                        </el-table>
+                    </template>
+                </div>
+            </div>    
             <div class='tcvBox' v-if='this.show'>
             <div class='box'>
                 <div class='box_tit'>
@@ -165,12 +170,15 @@ export default {
                         total:0,
                         tableData:[],
                         tagsList:[],
+                        ListTags:[],
                         status:-1,
-                        tags_name:[],
                         p:10,
                         index:0,
                         show:false,
                         advers:[],
+                        class:false,
+                        pending:"",
+                        audited:""
                 }
             },
             methods:{
@@ -201,7 +209,14 @@ export default {
                         path:"./Advertising_content_review"
                     })
                 },
+                 getTag(){
+                     this.class=true;
+                 },
+                heidTag(){
+                    this.class=false;
+                },
                 getTags(data){
+                    let dataList=data;
                     this.api.adver_tags_config_opstags().then((res)=>{
                         res.forEach(item => {
                             item.isShow = false
@@ -211,15 +226,43 @@ export default {
                             item.tags = JSON.parse(JSON.stringify(res))
                         })
                         this.tableData =data
+
+                        for(var i=0;i<dataList.length;i++){
+                            if(dataList[i].ops_tags.length!=0){
+                                 var obj={
+                                mid:'',
+                                tags:[]
+                            };
+                                obj.mid=dataList[i].mid;
+                                obj.tags=dataList[i].ops_tags;
+                                this.advers.push(obj);
+                                console.log(this.advers)
+                                for(var s=0;s<dataList[i].ops_tags.length;s++){
+                                    for(var j=0;j< this.tableData.length;j++){
+                                        if(this.tableData[j].mid==dataList[i].mid){
+                                            for(var k=0;k<this.tableData[j].tags.length;k++){
+                                                if(this.tableData[j].tags[k].tags_name==dataList[i].ops_tags[s].tags_name){
+                                                    this.tableData[j].tags[k].isShow=true;
+                                                   
+
+                                                }
+                                            }
+                                        }
+                                    } 
+                                }
+                             
+                            }
+                        }
                         this.updata();
                     })
                  },
                  getData(){
-                     let params={status:this.status,sdk_id:this.sdk_id,tdate:this.date,id_adsrc:this.id_adsrc,tags_name:this.tags_name.splice(','),p:this.p,page:this.page}
+                     let params={status:this.status,sdk_id:this.sdk_id,tdate:this.date,id_adsrc:this.id_adsrc,tags_name:this.ListTags.join(','),p:this.p,page:this.page}
                      this.api.adver_tags_search({params}).then((res)=>{
                          this.total=res.total
                         this.getAPI() ;
                         this.updata();
+                        this. getMessage();
                         this.getTags(res.data)
                      })
                  },
@@ -233,17 +276,97 @@ export default {
                     }
                 },
                 updata(){this.$previewRefresh()},
-                 tc(){
-                 if(this.advers.length==0){
-                    this.$message.error('请最少配置一个分类');
-                    return
-                    
-                }
-                this.show=true;
-            },
-            heid(){
-                this.show=false;
-            },
+                    tc(){
+                    if(this.advers.length==0){
+                        this.$message.error('请最少配置一个分类');
+                        return
+                        
+                    }
+                    this.show=true;
+                },
+                heid(){
+                    this.show=false;
+                },
+                getMessage(){
+                     let params={status:this.status,sdk_id:this.sdk_id,tdate:this.date,id_adsrc:this.id_adsrc,tags_name:this.ListTags.join(',')}
+                    this.api.adver_tags_count({params}).then((res)=>{
+                        this.pending=res.pending;
+                        this.audited=res.audited;
+                    })
+                },
+                setTags(name){
+                    if(!name){
+                        this.ListTags=[];
+                    }else{
+                        if(this.ListTags.indexOf(name)==-1){
+                            this.ListTags.push(name);
+
+                        }else{
+                            for(var i=0;i<this.ListTags.length;i++ ){
+                                if(this.ListTags[i]==name){
+                                    this.ListTags.splice(i,1);
+
+                                }
+                            }
+                        }
+                    }
+                },
+                sgtData(name,id,indexs, idxs){
+                    this.tableData[idxs].tags[indexs].isShow = !this.tableData[idxs].tags[indexs].isShow
+                    if(this.advers.length==0){
+                            var obj={
+                                mid:'',
+                                tags:[]
+                            };
+                            obj.mid=id;
+                            (obj.tags).push(name);
+                            this.advers.push(obj);                   
+                            return
+                    }
+                    if(this.advers.length>0){
+                        for(var i=0;i<this.advers.length;i++){
+                            if(this.advers[i].mid!=id){
+                                var obj={
+                                    mid:'',
+                                    tags:[]
+                                };
+                                obj.mid=id;
+                                (obj.tags).push(name);
+                                this.advers.push(obj);                        
+                                return
+                            }
+                            if(this.advers[i].mid==id&&(this.advers[i].tags).indexOf(name)==-1){
+                                (this.advers[i].tags).push(name);
+                                return
+                            }
+                            if(this.advers[i].mid==id&&this.advers[i].tags.length>1){
+                                for(var k=0;k<this.advers[i].tags.length;k++){
+                                    if(this.advers[i].tags[k].tags_id==name.tags_id){
+                                        (this.advers[i].tags).splice(k,1);
+                                        return
+                                    }
+                                
+                                }
+                            }
+                            if(this.advers[i].mid==id&&(this.advers[i].tags).indexOf(name)!=-1&&this.advers[i].tags.length<2){
+                                this.advers.splice(i,1);                           
+
+                            }
+                        }  
+                    }
+                
+                },
+                add(){
+                    let formData = new FormData;
+                    formData.append('advers',JSON.stringify(this.advers));
+                    this.api.adver_tags_audit(formData).then((res)=>{
+                        if(res!=false){
+                            this.advers=[];
+                            this.getData();
+                            this.heid();
+                        }
+                    })
+                },
             },
             mounted(){
                
@@ -410,4 +533,34 @@ export default {
     margin-right: 24px!important;
     cursor: pointer;
 }
+.active{
+    color: #fff!important;
+    background: #3377ff!important;
+    padding:0 3px;
+}
+.labelName:hover{
+    margin-right: 24px!important
+}
+.ALLtags{
+    height: 100%!important;
+}
+.tagsName{
+        padding:0 5px;
+        border:1px solid #000;
+        border-radius: 3px;
+        cursor: pointer;
+        display: inline-block;
+        height: 30px;
+        line-height: 30px
+    }
+    .tagsName:hover{
+        border: 0!important;
+        background: #3377ff;
+        color: #fff!important
+    }
+    .act{
+         border: 0!important;
+        background: #3377ff;
+        color: #fff!important
+    }
 </style>

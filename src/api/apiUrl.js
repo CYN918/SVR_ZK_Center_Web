@@ -1515,6 +1515,10 @@ export default {
 	adver_tags_search:{
 		url:"adver/tags/search",method:"get"
 	},
+	//获取图片查询统计信息
+	adver_tags_count:{
+		url:"adver/tags/count",method:"get"
+	},
 }
 
 
