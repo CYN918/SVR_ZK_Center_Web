@@ -349,18 +349,10 @@ export default {
                             return
                     }
                     if(this.advers.length>0){
+						var bFind = false;
                         for(var i=0;i<this.advers.length;i++){
                             if(this.advers[i].mid!=id){             
-                                var obj={
-                                    mid:'',
-                                    tags:[]
-                                };
-                                
-                                obj.mid=id;
-                                (obj.tags).push(name);
-                                this.advers.push(obj); 
-                                console.log(this.advers) 
-                                return
+                                continue;
                             }
                             if(this.advers[i].mid==id&&(this.advers[i].tags).indexOf(name)==-1){
                                 (this.advers[i].tags).push(name);
@@ -382,7 +374,20 @@ export default {
                                 console.log(this.advers)                           
 
                             }
-                        }  
+                        }
+						if(!bFind)
+						{
+							var obj = {
+							    mid:'',
+							    tags:[]
+							};
+							
+							obj.mid=id;
+							(obj.tags).push(name);
+							this.advers.push(obj); 
+							console.log(this.advers) 
+							return
+						}
                     }
                 
                 },
