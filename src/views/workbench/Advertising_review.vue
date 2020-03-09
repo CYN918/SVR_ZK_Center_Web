@@ -196,7 +196,7 @@ export default {
             },
             methods:{
                 reset(){
-                    this.date=(new Date()).toLocaleDateString().split('/').join('-'),;
+                    this.date=(new Date()).toLocaleDateString().split('/').join('-');
                     this.sdk_id='';
                     this.id_adsrc='';
                     this.tags_name=[];
