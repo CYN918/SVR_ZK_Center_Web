@@ -436,6 +436,21 @@ export default {
         border: 1px solid #ddd!important;
         background: transparent!important;
    }
+    .circle{
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background: #98d6f1;
+        border-radius: 50%;
+        line-height: 36px;
+        margin:9px 15px 0 15px;
+    }
+    .all{
+        color:#4f4cf1
+    }
+    .red{
+        color:red
+    }
     .content_right{
         width: 100%;
         padding: 24px;
