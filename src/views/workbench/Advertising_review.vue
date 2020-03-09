@@ -178,7 +178,7 @@ export default {
                         sdk_id:'',
                         id_adsrc:"",
                         page:1,
-                        date:'',
+                        date:(new Date()).toLocaleDateString().split('/').join('-'),
                         total:0,
                         tableData:[],
                         tagsList:[],
@@ -196,7 +196,7 @@ export default {
             },
             methods:{
                 reset(){
-                    this.date='';
+                    this.date=(new Date()).toLocaleDateString().split('/').join('-'),;
                     this.sdk_id='';
                     this.id_adsrc='';
                     this.tags_name=[];
