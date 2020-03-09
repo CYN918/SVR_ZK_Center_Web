@@ -193,53 +193,75 @@ export default {
                     this.updata();
                 })
             },
-            sgtData(name,id,indexs, idxs){
-               
-                this.tableData[idxs].tags[indexs].isShow = !this.tableData[idxs].tags[indexs].isShow
-                if(this.advers.length==0){
-                        var obj={
-                            mid:'',
-                            tags:[]
-                        };
-                        obj.mid=id;
-                        (obj.tags).push(name);
-                        this.advers.push(obj);                   
-                        return
-                }
-                if(this.advers.length>0){
-                    for(var i=0;i<this.advers.length;i++){
-                        if(this.advers[i].mid!=id){
-                             var obj={
+             sgtData(name,id,indexs, idxs){
+                    this.tableData[idxs].tags[indexs].isShow = !this.tableData[idxs].tags[indexs].isShow
+                    if(this.advers.length==0){
+                            var obj={
                                 mid:'',
                                 tags:[]
                             };
                             obj.mid=id;
                             (obj.tags).push(name);
-                            this.advers.push(obj);                        
+                            this.advers.push(obj); 
+                            console.log(this.advers)                   
                             return
-                        }
-                        if(this.advers[i].mid==id&&(this.advers[i].tags).indexOf(name)==-1){
-                            (this.advers[i].tags).push(name);
-                            return
-                        }
-                        if(this.advers[i].mid==id&&this.advers[i].tags.length>1){
-                            for(var k=0;k<this.advers[i].tags.length;k++){
-                                if(this.advers[i].tags[k].tags_id==name.tags_id){
-                                    (this.advers[i].tags).splice(k,1);
-
+                    }
+                    if(this.advers.length>0){
+                        var bFind = false;
+                        var sFind = false;
+                        for(var i=0;i<this.advers.length;i++){
+                            if(this.advers[i].mid!=id){             
+                                continue;
+                            } 
+							bFind =true;
+                            if(this.advers[i].mid==id){
+                                for(var s=0;s<this.advers[i].tags.length;s++){
+                                    if(this.advers[i].tags[s].tags_name!=name.tags_name){
+                                        continue;
+                                    }
+                                    sFind=true;
+                                }
+                                if(!sFind){
+                                     (this.advers[i].tags).push(name);
+                                    console.log(this.advers) 
                                     return
                                 }
-                            
+                                // (this.advers[i].tags).push(name);
+                                // console.log(this.advers) 
+                                // return
+                            }
+                            if(this.advers[i].mid==id&&this.advers[i].tags.length>1){
+                                for(var k=0;k<this.advers[i].tags.length;k++){
+                                    if(this.advers[i].tags[k].tags_id==name.tags_id){
+                                        (this.advers[i].tags).splice(k,1);
+                                        console.log(this.advers) 
+                                        return
+                                    }
+                                
+                                }
+                            }
+                            if(this.advers[i].mid==id&&(this.advers[i].tags).indexOf(name)!=-1&&this.advers[i].tags.length<2){
+                                this.advers.splice(i,1); 
+                                console.log(this.advers)                           
+
                             }
                         }
-                        if(this.advers[i].mid==id&&(this.advers[i].tags).indexOf(name)!=-1&&this.advers[i].tags.length<2){
-                             this.advers.splice(i,1);                           
-
-                        }
-                    }  
-                }
+						if(!bFind)
+						{
+							var obj = {
+							    mid:'',
+							    tags:[]
+							};
+							
+							obj.mid=id;
+							(obj.tags).push(name);
+							this.advers.push(obj); 
+							console.log(this.advers) 
+							return
+						}
+                    }
                 
-            },
+                },
 
             tc(){
                  if(this.advers.length==0){
