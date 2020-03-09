@@ -196,11 +196,12 @@ export default {
             },
             methods:{
                 reset(){
-                    this.date='',
-                    this.sdk_id='',
-                    this.id_adsrc='',
-                    this.tags_name=[],
-                    this.status=-1
+                    this.date='';
+                    this.sdk_id='';
+                    this.id_adsrc='';
+                    this.tags_name=[];
+                    this.status=-1;
+                    this.page=1;
                 },
                 getRowClass({row, column, rowIndex, columnIndex}) {
                     if (rowIndex === 0) {
