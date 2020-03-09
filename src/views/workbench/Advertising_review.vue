@@ -354,7 +354,7 @@ export default {
                             if(this.advers[i].mid!=id){             
                                 continue;
                             }
-							$bFind =true;
+							bFind =true;
                             if(this.advers[i].mid==id&&(this.advers[i].tags).indexOf(name)==-1){
                                 (this.advers[i].tags).push(name);
                                 console.log(this.advers) 
