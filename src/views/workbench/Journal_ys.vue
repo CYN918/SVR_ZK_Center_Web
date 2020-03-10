@@ -190,11 +190,12 @@ return {
 methods: {
      pushLib(){
           if(this.index=='aa'){
-                    let array={plid:"",adid:"",mfid:""}
+                    let array={plid:"",adid:"",mfid:"",tags_id:""}
                     for(var i=0;i<this.value.length;i++){
                             array.plid=this.value[i].plid;
                             array.adid=this.value[i].adid;
                             array.mfid=this.value[i].mfid;
+                            array.tags_id=this.value[i].tags_id;
                             this.advers.push(array);
                         }
                         if(!this.status2){
@@ -212,10 +213,11 @@ methods: {
                             }
                     })
                }else{
-                   let array={plid:"",adid:"",mfid:""}
+                   let array={plid:"",adid:"",mfid:"",tags_id:""}
                      array.plid=this.tableData[this.index].plid;
                      array.adid=this.tableData[this.index].adid;
                      array.mfid=this.tableData[this.index].mfid;
+                     array.tags_id=this.tableData[this.index].tags_id;
                     this.advers.push(array);
                        if(!this.status2){
                              this.$message.error('状态不能为空')
@@ -320,7 +322,8 @@ methods: {
                     query:{
                         plid:this.tableData[index].plid,
                         mfid:this.tableData[index].mfid,
-                        adid:this.tableData[index].adid
+                        adid:this.tableData[index].adid,
+                        tags_id:this.tableData[index].tags_id
                     }
                 })
            },
