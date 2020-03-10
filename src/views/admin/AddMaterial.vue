@@ -161,10 +161,15 @@
                             <span class="tit">资源类型:</span>
                             <select v-model="model">
                                 <option value="脚本" >脚本</option>
+                            </select>
+                        </div>
+                         <div class="box_sel" v-if="this.types=='f_sls_picture'">
+                            <span class="tit">资源类型:</span>
+                            <select v-model="model">
                                 <option value="图片" >图片</option>
                             </select>
                         </div>
-                         <div class="box_sel" v-if="this.types=='f_sls_lockscreen'">
+                         <div class="box_sel" v-if="this.types=='f_sls_lockscreen'||this.types=='f_sls_picture'">
                             <span class="tit">来源:</span>
                             <input class="AddIMG_yl_size"  v-model='resource' placeholder="请输入来源(最多6字)" maxlength="6"  >
                         </div>
@@ -571,6 +576,10 @@
                         this.$message('来源不能为空');
                         return
                     }
+                    if(!this.resource&&this.type=='f_sls_picture'){
+                        this.$message('来源不能为空');
+                        return
+                    }
                     if(this.types=='f_sls_lockscreen'&&!this.attach.wpid){
                         this.$message('壁纸标识不能为空');
                         return
@@ -615,6 +624,7 @@
                         formData.append('tags',this.preinstall);
                         formData.append('self_tags',this.bardian);
                         formData.append('bind_mid',this.bind_mid);
+                        formData.append('resource',this.resource);
                         formData.append('model',this.model);
                         formData.append('size',this.size);
                         formData.append('link',this.link);

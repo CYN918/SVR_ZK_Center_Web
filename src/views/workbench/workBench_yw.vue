@@ -58,7 +58,6 @@
                     <select v-model="model" v-if="type=='f_sls_lockscreen'">
                         <option value="" disabled selected style="color: #8b9bb3">请选择</option>
                         <option value="脚本">脚本</option>
-                        <option value="图片">图片</option>
                     </select>
                 </div>
                 <div v-if="this.type!='f_sls_lockscreen'">
