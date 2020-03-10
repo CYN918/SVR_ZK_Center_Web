@@ -6,6 +6,13 @@
                 <div class="title_left">
                     <span>图片审核</span>
                 </div>
+                <span  class='tits'>项目：</span>
+                <select v-model="pid">
+                    <option value="">全部</option>
+                    <option value="1" >魅族开屏</option>
+                    <option value="2" >魅族信息流</option>
+                    <option value="3" >金立开屏</option>
+                </select>
                 <span class='tits'>三方广告源ID：</span>
                 <select v-model="sdk_id" @change="ganged()">
                     <option value="">全部</option>
@@ -129,7 +136,8 @@ export default {
                 advers:[],
                 show:false,
                 list:[],
-                tagsList:[]
+                tagsList:[],
+                pid:""
             }
         },
         
@@ -157,7 +165,7 @@ export default {
                     this.$message.error('页码只能为大于零的正整数');
                     return
                 }
-                let params={sdk_id:this.sdk_id,id_adsrc:this.id_adsrc,p:this.p,page:this.page}
+                let params={sdk_id:this.sdk_id,id_adsrc:this.id_adsrc,p:this.p,page:this.page,pid:this.pid}
                 this.api.adver_tags_pending({params}).then((res=>{
                     this.total=res.total;
                     this.updata();
