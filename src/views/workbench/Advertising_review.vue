@@ -17,6 +17,13 @@
                                 value-format="yyyy-MM-dd">
                             </el-date-picker>
                         </div>
+                        <span  class='tits'>项目：</span>
+                        <select v-model="pid">
+                            <option value="">全部</option>
+                            <option value="1" >魅族开屏</option>
+                            <option value="2" >魅族信息流</option>
+                            <option value="3" >金立开屏</option>
+                        </select>
                         <span class='tits'>三方广告源ID：</span>
                         <select v-model="sdk_id" @change="ganged()">
                             <option value="">全部</option>
@@ -191,7 +198,8 @@ export default {
                         class:false,
                         pending:"",
                         audited:"",
-                        all:""
+                        all:"",
+                        pid:''
                 }
             },
             methods:{
@@ -280,7 +288,7 @@ export default {
                     this.getData()
                 },
                  getData(){
-                     let params={status:this.status,sdk_id:this.sdk_id,tdate:this.date,id_adsrc:this.id_adsrc,tags_name:this.ListTags.join(','),p:this.p,page:this.page}
+                     let params={status:this.status,sdk_id:this.sdk_id,tdate:this.date,id_adsrc:this.id_adsrc,tags_name:this.ListTags.join(','),p:this.p,page:this.page,pid:this.pid}
                      this.api.adver_tags_search({params}).then((res)=>{
                          this.total=res.total
                         this.getAPI() ;
