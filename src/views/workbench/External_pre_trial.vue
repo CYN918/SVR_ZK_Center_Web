@@ -202,10 +202,11 @@ methods: {
           if(this.index=='aa'){
                    
                     for(var i=0;i<this.value.length;i++){
-                        let array={plid:"",adid:"",mfid:""}
+                        let array={plid:"",adid:"",mfid:"",tags_id:""}
                             array.plid=this.value[i].plid;
                             array.adid=this.value[i].adid;
                             array.mfid=this.value[i].mfid;
+                            array.tags_id=this.value[i].tags_id;
                             this.advers.push(array);
                         }
                         if(!this.status2){
@@ -243,10 +244,11 @@ methods: {
                             }
                     })
                }else{
-                   let array={plid:"",adid:"",mfid:""}
+                   let array={plid:"",adid:"",mfid:"",tags_id:""}
                      array.plid=this.auditData.plid;
                      array.adid=this.auditData.adid;
                      array.mfid=this.auditData.mfid;
+                     array.tags_id=this.auditData.tags_id;
                     this.advers.push(array);
                        if(!this.status2){
                              this.$message.error('状态不能为空')
@@ -371,7 +373,8 @@ methods: {
                     query:{
                         plid:this.tableData[index].plid,
                         mfid:this.tableData[index].mfid,
-                        adid:this.tableData[index].adid
+                        adid:this.tableData[index].adid,
+                        tags_id:this.tableData[index].tags_id
                     }
                 })
            },
