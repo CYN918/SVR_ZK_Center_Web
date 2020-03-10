@@ -319,7 +319,7 @@ export default {
                     this.show=false;
                 },
                 getMessage(){
-                     let params={status:this.status,sdk_id:this.sdk_id,tdate:this.date,id_adsrc:this.id_adsrc,tags_name:this.ListTags.join(',')}
+                     let params={status:this.status,sdk_id:this.sdk_id,tdate:this.date,id_adsrc:this.id_adsrc,tags_name:this.ListTags.join(','),pid:this.pid}
                     this.api.adver_tags_count({params}).then((res)=>{
                         this.pending=res.pending;
                         this.audited=res.audited;
