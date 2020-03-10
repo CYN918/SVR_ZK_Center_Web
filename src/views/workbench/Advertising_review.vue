@@ -359,7 +359,7 @@ export default {
 							bFind =true;
                             if(this.advers[i].mid==id){
                                 for(var s=0;s<this.advers[i].tags.length;s++){
-                                    if(this.advers[i].tags[s].tags_name!=name.tags_name){
+                                    if(this.advers[i].tags[s].tags_id!=name.tags_id){
                                         continue;
                                     }
                                     sFind=true;
