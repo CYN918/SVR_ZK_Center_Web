@@ -2,7 +2,7 @@
   <div>
         <div>
             <div class="top_name">
-                <span class="top_txt" @click='fh'>广告内容审核&nbsp;/&nbsp;图片审核</span>
+                <span class="top_txt gesture" @click='fh'>广告内容审核&nbsp;/&nbsp;图片审核</span>
                 <div class="title_left">
                     <span>图片审核</span>
                 </div>
@@ -640,5 +640,7 @@ export default {
     margin-right: 24px!important;
     cursor: pointer;
 }
-
+.gesture{
+    cursor: pointer;
+}
 </style>
