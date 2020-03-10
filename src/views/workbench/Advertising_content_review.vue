@@ -2,7 +2,7 @@
   <div>
         <div>
             <div class="top_name">
-                <span class="top_txt">广告内容审核&nbsp;/&nbsp;图片审核</span>
+                <span class="top_txt gesture" @click='fh'>广告内容审核&nbsp;/&nbsp;图片审核</span>
                 <div class="title_left">
                     <span>图片审核</span>
                 </div>
@@ -30,12 +30,6 @@
                 <span class="circle"></span>
                 <span>共</span>
                 <span class="all">{{total}}</span>
-                <span>项&nbsp&nbsp</span>
-                <span>已处理</span>
-                <span >{{process}}</span>
-                <span>项&nbsp&nbsp</span>
-                <span>剩余</span>
-                <span class="red">{{}}</span>
                 <span>项&nbsp&nbsp</span>
             </div>
             <div class='tableBox'>
@@ -144,6 +138,9 @@ export default {
         },
        
         methods:{
+            fh(){
+                this.$router.go(-1)
+            },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
                     return 'background:rgb(246, 245, 245,1);color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:blod;font-family:PingFang-SC-Regular;'
@@ -196,53 +193,75 @@ export default {
                     this.updata();
                 })
             },
-            sgtData(name,id,indexs, idxs){
-               
-                this.tableData[idxs].tags[indexs].isShow = !this.tableData[idxs].tags[indexs].isShow
-                if(this.advers.length==0){
-                        var obj={
-                            mid:'',
-                            tags:[]
-                        };
-                        obj.mid=id;
-                        (obj.tags).push(name);
-                        this.advers.push(obj);                   
-                        return
-                }
-                if(this.advers.length>0){
-                    for(var i=0;i<this.advers.length;i++){
-                        if(this.advers[i].mid!=id){
-                             var obj={
+             sgtData(name,id,indexs, idxs){
+                    this.tableData[idxs].tags[indexs].isShow = !this.tableData[idxs].tags[indexs].isShow
+                    if(this.advers.length==0){
+                            var obj={
                                 mid:'',
                                 tags:[]
                             };
                             obj.mid=id;
                             (obj.tags).push(name);
-                            this.advers.push(obj);                        
+                            this.advers.push(obj); 
+                            console.log(this.advers)                   
                             return
-                        }
-                        if(this.advers[i].mid==id&&(this.advers[i].tags).indexOf(name)==-1){
-                            (this.advers[i].tags).push(name);
-                            return
-                        }
-                        if(this.advers[i].mid==id&&this.advers[i].tags.length>1){
-                            for(var k=0;k<this.advers[i].tags.length;k++){
-                                if(this.advers[i].tags[k].tags_id==name.tags_id){
-                                    (this.advers[i].tags).splice(k,1);
-                                   console.log(this.advers)
+                    }
+                    if(this.advers.length>0){
+                        var bFind = false;
+                        var sFind = false;
+                        for(var i=0;i<this.advers.length;i++){
+                            if(this.advers[i].mid!=id){             
+                                continue;
+                            } 
+							bFind =true;
+                            if(this.advers[i].mid==id){
+                                for(var s=0;s<this.advers[i].tags.length;s++){
+                                    if(this.advers[i].tags[s].tags_id!=name.tags_id){
+                                        continue;
+                                    }
+                                    sFind=true;
+                                }
+                                if(!sFind){
+                                     (this.advers[i].tags).push(name);
+                                    console.log(this.advers) 
                                     return
                                 }
-                            
+                                // (this.advers[i].tags).push(name);
+                                // console.log(this.advers) 
+                                // return
+                            }
+                            if(this.advers[i].mid==id&&this.advers[i].tags.length>1){
+                                for(var k=0;k<this.advers[i].tags.length;k++){
+                                    if(this.advers[i].tags[k].tags_id==name.tags_id){
+                                        (this.advers[i].tags).splice(k,1);
+                                        console.log(this.advers) 
+                                        return
+                                    }
+                                
+                                }
+                            }
+                            if(this.advers[i].mid==id&&(this.advers[i].tags).indexOf(name)!=-1&&this.advers[i].tags.length<2){
+                                this.advers.splice(i,1); 
+                                console.log(this.advers)                           
+
                             }
                         }
-                        if(this.advers[i].mid==id&&(this.advers[i].tags).indexOf(name)!=-1&&this.advers[i].tags.length<2){
-                             this.advers.splice(i,1); 
-                             console.log(this.advers)                          
-                        }
-                    }  
-                }
+						if(!bFind)
+						{
+							var obj = {
+							    mid:'',
+							    tags:[]
+							};
+							
+							obj.mid=id;
+							(obj.tags).push(name);
+							this.advers.push(obj); 
+							console.log(this.advers) 
+							return
+						}
+                    }
                 
-            },
+                },
 
             tc(){
                  if(this.advers.length==0){
@@ -621,5 +640,7 @@ export default {
     margin-right: 24px!important;
     cursor: pointer;
 }
-
+.gesture{
+    cursor: pointer;
+}
 </style>

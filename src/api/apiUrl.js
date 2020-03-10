@@ -1510,7 +1510,15 @@ export default {
 	//一键确认
 	adver_tags_audit:{
 		url:'adver/tags/audit',method:"post",isType:{suktip:1}
-	}
+	},
+	//获取图片列表
+	adver_tags_search:{
+		url:"adver/tags/search",method:"get"
+	},
+	//获取图片查询统计信息
+	adver_tags_count:{
+		url:"adver/tags/count",method:"get"
+	},
 }
 
 
