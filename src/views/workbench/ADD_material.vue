@@ -500,7 +500,7 @@
                         this.$message('壁纸标识不能为空');
                          return
                     }
-                     if(this.type=='f_sls_lockscreen'&&!this.resource){
+                     if(this.type=='f_sls_picture'&&!this.resource){
                         this.$message('来源不能为空');
                          return
                     }
