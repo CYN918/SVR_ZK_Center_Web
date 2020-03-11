@@ -170,10 +170,10 @@
                                 <option value="图片" selected>图片</option>
                             </select>
                         </div>
-                         <!-- <div class="box_sel" v-if="this.types=='f_sls_lockscreen'||this.types=='f_sls_picture'">
+                         <div class="box_sel" v-if="this.types=='f_sls_picture'">
                             <span class="tit">来源:</span>
                             <input class="AddIMG_yl_size"  v-model='resource' placeholder="请输入来源(最多6字)" maxlength="6"  >
-                        </div> -->
+                        </div>
                         <div v-if="model=='H5'" class="link" style="margin-bottom: 10px">
                             <span class="tit">H5链接:</span>
                             <input type="text" v-model="link">
@@ -583,14 +583,11 @@
                         this.$message('广告位数数量不能为空');
                         return
                     }
-                    // if(!this.resource&&this.type=='f_sls_lockscreen'){
-                    //     this.$message('来源不能为空');
-                    //     return
-                    // }
-                    // if(!this.resource&&this.type=='f_sls_picture'){
-                    //     this.$message('来源不能为空');
-                    //     return
-                    // }
+                    
+                    if(!this.resource&&this.type=='f_sls_picture'){
+                        this.$message('来源不能为空');
+                        return
+                    }
                     if(this.types=='f_sls_lockscreen'&&!this.attach.wpid){
                         this.$message('壁纸标识不能为空');
                         return
@@ -609,7 +606,7 @@
                         formData.append('tags',this.preinstall);
                         formData.append('self_tags',this.bardian);
                         formData.append('bind_mid',this.bind_mid);
-                        // formData.append('resource',this.resource);
+                        formData.append('resource',this.resource);
                         formData.append('model',this.model);
                         formData.append('size',this.size);
                         formData.append('is_special',this.is_bind_mid==true?1:0);
@@ -635,7 +632,7 @@
                         formData.append('tags',this.preinstall);
                         formData.append('self_tags',this.bardian);
                         formData.append('bind_mid',this.bind_mid);
-                        // formData.append('resource',this.resource);
+                        formData.append('resource',this.resource);
                         formData.append('model',this.model);
                         formData.append('size',this.size);
                         formData.append('link',this.link);
@@ -682,6 +679,9 @@
                     this.is_bind_mid=res.is_special==1?true:false;
                     this.link = res.link;
                     this.model = res.model;
+                    if(this.types=='f_sls_picture'){
+                        this.resource=res.resource;
+                    }
                     var a = [];
                     var b = [];
                     for(let i=0;i<res.bind_mid.length;i++){
