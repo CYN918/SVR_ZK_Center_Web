@@ -89,18 +89,17 @@
 							</div>
 						</div>
 
-						<div>
+						<div class="xgsc">
 							<span class="boxImg_text">物料使用记录:</span>
 							<span class="ck">查看详情</span>
 						</div>
-						<div>
-							<span class="boxImg_text">动效实现方式:</span>
+						<div class='zt'>
+							<span class="boxImg_text">资源类型:</span>
 							<span class="boxImg_content">{{DL.model}}</span>
 						</div>
-						<div>
-							<span class="boxImg_text">链接:</span>
-							<span class="boxImg_content" style="display: inline-block;max-width: 200px;height: 20px;overflow: hidden">{{DL.link}}</span>
-							<span class="copy" v-clipboard:copy="DL.link" v-clipboard:success="onCopy"   v-clipboard:error="onError" v-if="DL.link!=''">复制</span>
+						<div class="xgsc">
+								<span class="boxImg_text">来源:</span>
+								<span class="boxImg_content" style="width:100px">{{DL.resource}}</span>
 						</div>
 						<div>
 							<span class="boxImg_text">更新时间:</span>
