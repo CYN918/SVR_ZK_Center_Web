@@ -199,6 +199,7 @@ methods: {
         })
     },
      pushLib(){
+		 this.advers = [];
           if(this.index=='aa'){
                    
                     for(var i=0;i<this.value.length;i++){
