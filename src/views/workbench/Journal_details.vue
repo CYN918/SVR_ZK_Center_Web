@@ -133,7 +133,7 @@ methods: {
         this.$router.go(index)
     },
     getDetail(){
-        let params={adid:this.$route.query.adid,mfid:this.$route.query.mfid,plid:this.$route.query.plid}
+        let params={adid:this.$route.query.adid,mfid:this.$route.query.mfid,plid:this.$route.query.plid,tags_id:this.$route.query.tags_id}
         this.api.pushlib_adver_mfinal_detail({params}).then((res)=>{
             this.list=res;
             this.mfinal = res.mfinal;

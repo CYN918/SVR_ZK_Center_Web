@@ -170,7 +170,10 @@ methods: {
                this.yy='';
            }, 
     getDetail(){
-        let params={adid:this.$route.query.adid,mfid:this.$route.query.mfid,plid:this.$route.query.plid}
+        let params={adid:this.$route.query.adid,
+					mfid:this.$route.query.mfid,
+					plid:this.$route.query.plid,
+					tags_id:this.$route.query.tags_id}
         this.api.pushlib_adver_mfinal_detail({params}).then((res)=>{
             this.list=res;
         })
@@ -180,10 +183,11 @@ methods: {
     },
      pushLib(){
          
-                   let array={plid:"",adid:"",mfid:""}
+                   let array={plid:"",adid:"",mfid:"",tags_id:""}
                      array.plid=this.$route.query.plid;
                      array.adid=this.$route.query.adid;
                      array.mfid=this.$route.query.mfid;
+                     array.tags_id=this.$route.query.tags_id;
                     this.advers.push(array);
                        if(!this.status2){
                              this.$message.error('状态不能为空')
