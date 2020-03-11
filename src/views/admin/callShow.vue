@@ -2,7 +2,7 @@
 	<div>
 		<div class="top_name">
 			<span class="inner">|</span>
-			<span class="top_txt">物料库>广告壁纸</span>
+			<span class="top_txt">物料库>来电秀</span>
 		</div>
 		<div class="content">
 			<div class="Search">
@@ -15,42 +15,33 @@
 					<option value="1001">未使用</option>
 					<option value="1201">禁用</option>
 				</select>
-				<span class="Search_tit" @click="getCon" :class="{activeHeid:this.controlBtn}"><img src="../../../public/img/add_msg.png" style="width: 12px;margin-right: 14px" >添加本地物料</span>
+				<span class="Search_tit" @click="getCon" :class="{activeHeid:this.controlBtn}"><img src="../../../public/img/add_msg.png" style="width: 12px;margin-right: 14px" >上传物料</span>
 			</div>
 			<div class="contentImg">
 				<div class="label">
 					<span class="label_txt">预置标签:</span>
 					<span class="labelName" @click="getListTag()" :class="{active:listTag.length==0}">全部</span>
-					<div class="tags" :class="{ALLtags:class0==true}">
+					<div class="tags" :class="{ALLtags:this.class==true}">
 						<span v-for="(item,index) in preset_tags" class="labelName" @click="getListTag(item.name,index)" :class="{active:listTag.indexOf(item.name)!=-1}">{{item.name}}</span>
 					</div>
-					<span class="tagsAll" v-if="this.class0==false" @click="getTag">查看更多</span>
-					<span class="tagsAll" v-if="this.class0==true" @click="heidTag">收起</span>
+					<span class="tagsAll" v-if="this.class==false" @click="getTag">查看更多</span>
+					<span class="tagsAll" v-if="this.class==true" @click="heidTag">收起</span>
 				</div>
 				<div class="label">
 					<span class="label_txt" >个性标签:</span>
 					<span class="labelName" @click="getListTags()" :class="{active:listTagData.length==0}">全部</span>
-					<div class="tags" :class="{ALLtags:class1==true}">
+					<div class="tags" :class="{ALLtags:this.class1==true}">
 						<span v-for="(item,index) in self_tags" class="labelName" @click="getListTags(item.name,index)" :class="{active:listTagData.indexOf(item.name)!=-1}">{{item.name}}</span>
 					</div>
 					<span class="tagsAll" v-if="this.class1==false" @click="getTag1">查看更多</span>
 					<span class="tagsAll" v-if="this.class1==true" @click="heidTag1">收起</span>
 				</div>
-				<div class="label" >
-					<span class="label_txt">运营标签:</span>
-					<span class="labelName" @click="getTagYY()" :class="{active:listTags.length==0}">全部</span>
-					<div class="tags" :class="{ALLtags:class2==true}">
-						<span v-for="(item,index) in Operatorlist" class="labelName" @click="getTagYY(item.desc,index)" :class="{active:listTags.indexOf(item.desc)!=-1}">{{item.desc}}</span>
-					</div>
-					<span class="tagsAll" v-if="this.class2==false" @click="getTag2">查看更多</span>
-					<span class="tagsAll" v-if="this.class2==true" @click="heidTag2">收起</span>
-				</div>
 			</div>
 			<rel v-if="getRe" :num="num" :material="material" ></rel>
-			<AM v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type" :lx="lx" @updatas="updatas" @listID="listID"></AM>
+			<AM v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type" :lx="lx" @updatas="updatas"></AM>
 			<hin v-if='hint' ></hin>
 			<tag v-if="tags" :message="message" :typeSC='type' :material="material" @updata="updata"></tag>
-			<set v-if="sets" :typeSC='type'  @listenToChildEvent="listen" :material="material" :ids='ids'></set>
+			<set v-if="sets" :typeSC='type'  @listenToChildEvent="listen" :material="material"></set>
 		</div>
 		<div class="box">
 			<div class="boxImg" v-for="(DL,index) in IMGList">
@@ -65,7 +56,7 @@
 							<span class="boxImg_content">{{DL.mfid}}</span>
 						</div>
 						<div>
-							<span class="boxImg_text boxImg_bq">内容标签:</span>
+							<span class="boxImg_text boxImg_bq">标签:</span>
 							<div class="boxImg_xz">
 								<div class="boxImg_xz_yz">
 									<span class="box_box"  v-for="(tag,index2) in DL.tags" v-if="tag!=''">{{tag}}</span>
@@ -74,16 +65,6 @@
 								<span class="img"  @click="XStag(index)">+ 标签</span>
 							</div>
 						</div>
-						<div>
-							<span class="boxImg_text boxImg_bq">运营标签:</span>
-							<div class="boxImg_xz">
-								<div class="boxImg_xz_yz">
-									<span class="box_box"  v-for="(tags,index2) in DL.sls_tags" v-if="tags!=''">{{tags}}</span>
-								</div>
-								<span class="img"  @click="BJtag(index)">+ 标签</span>
-							</div>
-						</div>
-                    
 						<div>
 							<div class="zt">
 								<span class="boxImg_text">物料状态:</span>
@@ -99,35 +80,26 @@
 								<span class="boxImg_text">相关素材:</span>
 								<span class="ck" @click="getRel(index)">查看详情</span>
 							</div>
-							<div class="xgsc">
-								<span class="boxImg_text">打底广告图:</span>
-								<span class="boxImg_content">{{DL.ad_pic==1?'有':'无'}}</span>
+							<div class="dx">
+								<span class="boxImg_text">预览图大小:</span>
+								<span class="boxImg_content" v-if="(DL.attach.size/1024).toFixed(0)<1">1kb</span>
+								<span class="boxImg_content" v-if="DL.attach.size>1024&&DL.attach.size<1024*1024">{{(DL.attach.size/1024).toFixed(0)}}kb</span>
+								<span class="boxImg_content" v-if="DL.attach.size>1024*1024&&DL.attach.size<1024*1024*1024">{{(DL.attach.size/1024/1024).toFixed(1)}}MB</span>
+								<span class="boxImg_content" v-if="DL.attach.size>1024*1024*1024">{{(DL.attach.size/1024/1024/1024).toFixed(2)}}GB</span>
 							</div>
+						</div>
 
+						<div class="xgsc">
+							<span class="boxImg_text">物料使用记录:</span>
+							<span class="ck">查看详情</span>
 						</div>
-						<div>
-							<div class="xgsc">
-								<span class="boxImg_text">物料使用记录:</span>
-								<span class="ck">查看详情</span>
-							</div>
-							<div class="xgsc">
-								<span class="boxImg_text">广告图位数:</span>
-								<span class="boxImg_content">{{DL.ad_num}}</span>
-							</div>
+						<div class='zt'>
+							<span class="boxImg_text">资源类型:</span>
+							<span class="boxImg_content">{{DL.model}}</span>
 						</div>
-                        <div>
-                            <div class='zt'>
-								<span class="boxImg_text">资源类型:</span>
-								<span class="boxImg_content" style="width:100px">{{DL.model}}</span>
-							</div>
-                            <!-- <div class="xgsc">
+						<div class="xgsc">
 								<span class="boxImg_text">来源:</span>
 								<span class="boxImg_content" style="width:100px">{{DL.resource}}</span>
-							</div> -->
-                        </div>
-						<div>
-							<span class="boxImg_text">壁纸标识:</span>
-							<span class="boxImg_content">{{DL.wpid}}</span>
 						</div>
 						<div>
 							<span class="boxImg_text">更新时间:</span>
@@ -145,23 +117,6 @@
 				</div>
 				<div class="bjImg" @click="getLt(index)">
 					<span>编辑物料</span>
-				</div>
-			</div>
-		</div>
-		<div class="bgs" v-if="tagData">
-			<div class="contents">
-				<div style="font-size: 18px;font-weight: bold;margin-bottom: 15px">运营标签编辑</div>
-				<div class="tags_name" style="width: 100%;border: 1px solid #e2e2e2;border-radius: 5px;height: 200px;text-align: left;overflow-y: auto;padding: 5px">
-					<template>
-						<el-checkbox-group
-								v-model="checkedCities1">
-							<el-checkbox v-for="(item,index) in tagslist" :label="item" :key="item.usertag" @change="ffff">{{item.desc}}</el-checkbox>
-						</el-checkbox-group>
-					</template>
-				</div>
-				<div class="btn">
-					<span class="adds" @click="addTags()">保存</span>
-					<span @click="Heidtags()">取消</span>
 				</div>
 			</div>
 		</div>
@@ -188,7 +143,6 @@
         components:{AM,hin,tag,set,rel},
         data() {
             return {
-                tagData:false,
                 sc:false,
                 hint:false,
                 tags:false,
@@ -198,8 +152,8 @@
                 pageSize: 4,
                 total: 0,
                 currentPage: 1,
-                type:'f_sls_lockscreen',
-				lx:'广告壁纸',
+                type:'f_laidian_show',
+				lx:'来电秀',
                 message:{},
                 preset_tags:[],
                 preset:[],
@@ -212,22 +166,14 @@
                 inx:null,
                 inde:null,
                 status:null,
-                userData:{},
-                class0:false,
+				userData:{},
+                class:false,
                 class1:false,
-                class2:false,
                 listTag:[],
                 listTagData:[],
-                listTags:[],
                 search_tags:[],
                 controlBtn:true,
-                control:[],
-                Operatorlist:[],
-                tagslist:[],
-                checkedCities1:[],
-                wpid:'',
-                ta:[],
-                ids:'',
+                control:[]
             }
         },
         created(){
@@ -244,15 +190,10 @@
 
         },
         mounted() {
-            this.getWl()
-            this.getData()
+            this.getWl();
+			this.getData()
         },
         methods: {
-            Heidtags(){
-                this.tagData=false;
-                this.checkedCities1=[];
-                this.ta=[];
-            },
             getData(){
                 let params = {
                     email:localStorage.getItem('userAd'),
@@ -262,11 +203,17 @@
 
                 });
             },
+            onCopy() {
+                this.$message.success('复制成功')
+            },
+            onError() {
+                this.$message.error('复制失败')
+            },
             getTag(){
-                this.class0=true;
+                this.class=true;
             },
             heidTag(){
-                this.class0=false;
+                this.class=false;
             },
             getTag1(){
                 this.class1=true;
@@ -274,20 +221,10 @@
             heidTag1(){
                 this.class1=false;
             },
-            getTag2(){
-                this.class2=true;
-            },
-            heidTag2(){
-                this.class2=false;
-            },
             getCon(){
                 this.sc = true;
                 this.message=''
-				// this.stop();
-            },
-            listID(data){
-                this.ids=data;
-                this.XSset();
+				this.stop();
             },
             SCsc(){
                 this.sc = true
@@ -327,7 +264,6 @@
             },
             YCset(){
                 this.sets = false
-
             },
             updatas(){
                 this.getWl()
@@ -364,7 +300,10 @@
                         page: this.currentPage,
                         type: this.type,
                         search: this.search,
-                        status: this.status
+                        status: this.status,
+                        search_tags:JSON.stringify(this.listTag),
+                        search_self_tags:JSON.stringify(this.listTagData)
+
                     }
                     this.api.mfinal_search({params}).then((res) => {
                         this.IMGList = res.data;
@@ -390,14 +329,24 @@
                     this.$message('您没有该权限')
                 }
             },
-			ffff(){
-                console.log(this.checkedCities1)
-			},
+            updata(){
+                this.getTagsList()
+            },
             XStag(a){
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),op_tags:JSON.stringify(this.listTags),status:this.status}
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),status:this.status}
                 this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
-
+                    for(let i =0;i<this.IMGList.length;i++){
+                        if(this.IMGList[i].status=='1101'){
+                            this.IMGList[i].status='使用中'
+                        }
+                        if(this.IMGList[i].status=='1001'){
+                            this.IMGList[i].status='未使用'
+                        }
+                        if(this.IMGList[i].status=='1201'){
+                            this.IMGList[i].status='禁用'
+                        }
+                    }
                     if(a!=undefined){
                         this.message = res.data[a];
                         this.tags = true;
@@ -405,34 +354,31 @@
                     }
                 })
             },
-            BJtag(index){
-                this.tagData = true;
-                this.wpid=this.IMGList[index].wpid;
-                this.api.lockwallpaper_tags_list().then((res)=>{
-                    this.tagslist=res;
-                    for(var i=0;i<this.IMGList[index].sls_tags.length;i++){
-                        for(var j=0;j<res.length;j++){
-                            if(res[j].desc==this.IMGList[index].sls_tags[i]){
-                                this.checkedCities1.push(res[j])
-							}
-						}
-					}
-                })
-			},
             getTagsList(){
                 let params = {preset:this.preset,material:this.material,type:this.type};
                 this.api.tags_search({params}).then((da)=>{
+                    console.log(da);
                     this.preset_tags = da.data.tags;
                     this.self_tags = da.data.self_tags
                 })
             },
             getWl(){
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),op_tags:JSON.stringify(this.listTags),status:this.status}
+                let params={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,status:this.status};
                 this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
+                    for(let i =0;i<this.IMGList.length;i++){
+                        if(this.IMGList[i].status=='1101'){
+                            this.IMGList[i].status='使用中'
+                        }
+                        if(this.IMGList[i].status=='1001'){
+                            this.IMGList[i].status='未使用'
+                        }
+                        if(this.IMGList[i].status=='1201'){
+                            this.IMGList[i].status='禁用'
+                        }
+                    }
                     this.total=res.total;
                     this.getTagsList();
-                    this.getOperatorTag();
                     for(let i =0;i<this.IMGList.length;i++){
                         if(this.IMGList[i].status=='1101'){
                             this.IMGList[i].status='使用中'
@@ -462,7 +408,8 @@
                         }
                     }
                 }
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),op_tags:JSON.stringify(this.listTags),status:this.status}
+
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),status:this.status}
                 this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     for(let i =0;i<this.IMGList.length;i++){
@@ -496,7 +443,8 @@
                         }
                     }
                 }
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),op_tags:JSON.stringify(this.listTags),status:this.status}
+
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),status:this.status}
                 this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     for(let i =0;i<this.IMGList.length;i++){
@@ -512,66 +460,6 @@
                     }
                     this.total=res.total;
                     this.getTagsList()
-                })
-            },
-            getTagYY(name){
-                if(!name){
-                    this.listTags.length=0
-                }else{
-                    if(this.listTags.indexOf(name)==-1){
-                        this.listTags.push(name);
-
-                    }else{
-                        for(var i=0;i<this.listTags.length;i++ ){
-                            if(this.listTags[i]==name){
-                                this.listTags.splice(i,1);
-
-                            }
-                        }
-                    }
-                }
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),op_tags:JSON.stringify(this.listTags),status:this.status}
-                this.api.mfinal_search({params}).then((res)=>{
-                    this.IMGList=res.data;
-                    for(let i =0;i<this.IMGList.length;i++){
-                        if(this.IMGList[i].status=='1101'){
-                            this.IMGList[i].status='使用中'
-                        }
-                        if(this.IMGList[i].status=='1001'){
-                            this.IMGList[i].status='未使用'
-                        }
-                        if(this.IMGList[i].status=='1201'){
-                            this.IMGList[i].status='禁用'
-                        }
-                    }
-                    this.total=res.total;
-                    this.getTagsList()
-                })
-            },
-            updata(){
-                this.getTagsList()
-            },
-			getOperatorTag(){
-                this.api.lockwallpaper_tags_list().then((res)=>{
-                    this.Operatorlist=res;
-                })
-			},
-            addTags(){
-				for (var i=0;i<this.checkedCities1.length;i++){
-                    var listD={
-                        tags_id:'',
-                        tags_name:'',
-					}
-                    listD.tags_id=this.checkedCities1[i].usertag;
-                    listD.tags_name=this.checkedCities1[i].desc;
-                    this.ta.push(listD);
-				}
-                let formData = new FormData;
-                formData.append('wpid',this.wpid);
-                formData.append('tags',JSON.stringify(this.ta));
-                this.api.lockwallpaper_tags_add(formData).then((res)=>{
-					this.getWl();
-                    this.Heidtags();
                 })
             },
 
@@ -579,56 +467,8 @@
 
     }
 </script>
-<style>
+<style scoped>
 	.active{
-		color: #1583e2!important;
-		border:0!important;}
-	.bgs{
-		width: 100%;
-		height: 100%;
-		background: rgba(0,0,0,0.2);
-		position: fixed;
-		left: 0;
-		bottom: 0;
-		z-index: 999;
-		text-align: center;
-	}
-	.contents{
-		background: #fff;
-		width: 600px;
-		height: 300px;
-		padding: 24px;
-		border-radius: 10px;
-		margin-top: 20%;
-		margin-left: 50%;
-		transform: translate(-50%,-50%);
-	}
-    .ALLtags{height:100%!important;}
-	.btn{
-		width: 100%;
-		height: 50px;
-		position:fixed;
-		bottom: 0;
-		text-align: center;
-	}
-	.btn span{
-		display: inline-block;
-		line-height:40px;
-		border:1px solid #ddd;
-		text-align: center;
-		width: 80px;
-		height: 40px;
-		border-radius: 10px;
-		color: #666666;
-		cursor: pointer;
-	}
-	.adds{
-		border: 0px!important;
-		background:#2ad5cd!important; ;
-		color: #fff!important;
-		margin-right:50px;
-	}
-    .boxImg_right_1 div{
-        height: 32px;
-    }
+		color: #1583e2!important;}
+
 </style>
