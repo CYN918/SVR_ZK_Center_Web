@@ -74,6 +74,7 @@
                             <span class="tit">绑定素材:</span>
                             <input type="text" placeholder="请输入素材ID" v-model="bind_mid"  @change="IDchange"/>
                             <span class="AddIMG_sc_btn" @click="XSset" >从素材库选择</span>
+                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="is_bind_mid"/><span >绑定特殊素材</span>
                             <p>上传物料前，请务必保证素材库内有对应素材！多个素材用英文半角;隔开</p>
                         </div>
                         <div class="AddIMG_select">
@@ -237,7 +238,8 @@
                 sizeList:[],
                 arr:[],
                 clickNmu:0,
-                resource:''
+                resource:'',
+                is_bind_mid:false,
             }
         },
         mounted(){
@@ -255,7 +257,11 @@
                 this.$parent.ShowHint()
             },
             XSset(){
-                this.$parent.XSset()
+                if(this.bind_mid!=''){
+                    this.$emit('listID',this.bind_mid);
+                }else{
+                    this.$parent.XSset();
+                }   
             },
             time(){
                 var _this=this;
@@ -576,9 +582,48 @@
 
             },
         },
-        watch: {
+         watch: {
             'bindMid': function(newVal){
                 this.bind_mid = newVal.join(';')
+            },
+            'is_bind_mid':function(newVal){
+                if(newVal==true){
+                    // this.bind_mid='';
+                    // this.bindMid='';
+                    // this.hqUrl='';
+                    // this.$emit('dataId');
+                    if(window.location.host=='ts-centerweb.idatachain.cn'){
+                        if(this.bindMid.indexOf('ADP_178') == -1){
+                            if(this.bind_mid==''){
+                                this.bind_mid = this.bind_mid  + 'ADP_178' +';';
+                            }else{
+                                this.bind_mid = this.bind_mid + ';' + 'ADP_178';
+                            }
+                            this.bindMid.push('ADP_178');
+                        }    
+                    }
+                    if(window.location.host=='c2.zookingsoft.com'){
+                        if(this.bindMid.indexOf('ADP_1') == -1){
+                            if(this.bind_mid==''){
+                                this.bind_mid = this.bind_mid + 'ADP_1' + ';';
+                            }else{
+                                this.bind_mid = this.bind_mid + ';' + 'ADP_1';
+                            }
+                            
+                            this.bindMid.push('ADP_1');
+                        }
+                    }
+                    if(window.location.host=='localhost:8080'){
+                        if(this.bindMid.indexOf('ADP_178') == -1){
+                            if(this.bind_mid==''){
+                                this.bind_mid = this.bind_mid  + 'ADP_178' +';';
+                            }else{
+                                this.bind_mid = this.bind_mid + ';' + 'ADP_178';
+                            }
+                            this.bindMid.push('ADP_178');
+                        } 
+                    }
+                }
             },
         },
     }

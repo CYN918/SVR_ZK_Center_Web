@@ -38,10 +38,10 @@
 				</div>
 			</div>
 			<rel v-if="getRe" :num="num" :material="material" ></rel>
-			<AM v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type" :lx="lx" @updatas="updatas"></AM>
+			<AM v-if="sc" :message="message" :hqUrl="hqUrl" :bindMid="bindMid" :material="material" :types="type" :lx="lx" @updatas="updatas" @listID="listID"></AM>
 			<hin v-if='hint' ></hin>
 			<tag v-if="tags" :message="message" :typeSC='type' :material="material" @updata="updata"></tag>
-			<set v-if="sets" :typeSC='type'  @listenToChildEvent="listen" :material="material"></set>
+			<set v-if="sets" :typeSC='type'  @listenToChildEvent="listen" :material="material"  :ids='ids'></set>
 		</div>
 		<div class="box">
 			<div class="boxImg" v-for="(DL,index) in IMGList">
@@ -173,7 +173,8 @@
                 listTagData:[],
                 search_tags:[],
                 controlBtn:true,
-                control:[]
+                control:[],
+                ids:'',
             }
         },
         created(){
@@ -214,6 +215,10 @@
             },
             heidTag(){
                 this.class=false;
+            },
+             listID(data){
+                this.ids=data;
+                this.XSset();
             },
             getTag1(){
                 this.class1=true;
