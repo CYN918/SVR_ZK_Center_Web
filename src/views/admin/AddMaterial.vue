@@ -161,19 +161,19 @@
                         <div class="box_sel" v-if="this.types=='f_sls_lockscreen'">
                             <span class="tit">资源类型:</span>
                             <select v-model="model">
-                                <option value="脚本" >脚本</option>
+                                <option value="脚本" selected>脚本</option>
                             </select>
                         </div>
                          <div class="box_sel" v-if="this.types=='f_sls_picture'">
                             <span class="tit">资源类型:</span>
                             <select v-model="model">
-                                <option value="图片" >图片</option>
+                                <option value="图片" selected>图片</option>
                             </select>
                         </div>
-                         <div class="box_sel" v-if="this.types=='f_sls_lockscreen'||this.types=='f_sls_picture'">
+                         <!-- <div class="box_sel" v-if="this.types=='f_sls_lockscreen'||this.types=='f_sls_picture'">
                             <span class="tit">来源:</span>
                             <input class="AddIMG_yl_size"  v-model='resource' placeholder="请输入来源(最多6字)" maxlength="6"  >
-                        </div>
+                        </div> -->
                         <div v-if="model=='H5'" class="link" style="margin-bottom: 10px">
                             <span class="tit">H5链接:</span>
                             <input type="text" v-model="link">
@@ -274,6 +274,7 @@
                 is_zip:""
             }
         },
+
         mounted(){
             this.getTagsList();
             if(this.message.mfid!=undefined){
@@ -283,6 +284,9 @@
             }
             if(this.types=='f_sls_lockscreen'){
                 this.model='脚本'
+            }
+            if(this.types=='f_sls_picture'){
+                this.model='图片'
             }
         },
         methods:{
@@ -579,14 +583,14 @@
                         this.$message('广告位数数量不能为空');
                         return
                     }
-                    if(!this.resource&&this.type=='f_sls_lockscreen'){
-                        this.$message('来源不能为空');
-                        return
-                    }
-                    if(!this.resource&&this.type=='f_sls_picture'){
-                        this.$message('来源不能为空');
-                        return
-                    }
+                    // if(!this.resource&&this.type=='f_sls_lockscreen'){
+                    //     this.$message('来源不能为空');
+                    //     return
+                    // }
+                    // if(!this.resource&&this.type=='f_sls_picture'){
+                    //     this.$message('来源不能为空');
+                    //     return
+                    // }
                     if(this.types=='f_sls_lockscreen'&&!this.attach.wpid){
                         this.$message('壁纸标识不能为空');
                         return
@@ -605,7 +609,7 @@
                         formData.append('tags',this.preinstall);
                         formData.append('self_tags',this.bardian);
                         formData.append('bind_mid',this.bind_mid);
-                        formData.append('resource',this.resource);
+                        // formData.append('resource',this.resource);
                         formData.append('model',this.model);
                         formData.append('size',this.size);
                         formData.append('is_special',this.is_bind_mid==true?1:0);
@@ -631,7 +635,7 @@
                         formData.append('tags',this.preinstall);
                         formData.append('self_tags',this.bardian);
                         formData.append('bind_mid',this.bind_mid);
-                        formData.append('resource',this.resource);
+                        // formData.append('resource',this.resource);
                         formData.append('model',this.model);
                         formData.append('size',this.size);
                         formData.append('link',this.link);
