@@ -128,7 +128,7 @@
                                 <div style="text-align: center;font-size: 10px">当前附件上传{{bbb}}%</div>
                             </div>
                         </div>
-                          <div class="box_sel" v-if="this.type=='f_sls_lockscreen'">
+                          <div class="box_sel" v-if="this.type=='f_sls_picture'">
                             <span class="tit">来源:</span>
                             <input class="AddIMG_yl_size" v-model="resource" placeholder="请输入来源(最多6字)"  >
                         </div>
