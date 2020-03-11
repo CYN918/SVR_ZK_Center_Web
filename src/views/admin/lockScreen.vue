@@ -120,10 +120,10 @@
 								<span class="boxImg_text">资源类型:</span>
 								<span class="boxImg_content" style="width:100px">{{DL.model}}</span>
 							</div>
-                            <div class="xgsc">
+                            <!-- <div class="xgsc">
 								<span class="boxImg_text">来源:</span>
 								<span class="boxImg_content" style="width:100px">{{DL.resource}}</span>
-							</div>
+							</div> -->
                         </div>
 						<div>
 							<span class="boxImg_text">壁纸标识:</span>
