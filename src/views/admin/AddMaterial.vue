@@ -32,7 +32,7 @@
                     <div class="AddIMG_content_right">
                         <div class="AddIMG_input">
                             <span class="tit" style="vertical-align: top">附件:</span>
-                            <div class="AddIMG_input_box" v-if="this.types!='f_sls_lockscreen'">
+                            <div class="AddIMG_input_box" v-if="this.types!='f_sls_lockscreen'&&this.types!='f_sls_picture'">
                                 <el-upload
                                         class="upload-demo"
                                         :limit="1"
@@ -48,11 +48,12 @@
                                     <span  class="text" style="overflow: hidden;width: 200px;height: 20px;line-height: 28px">{{this.attach.name}}</span>
                                 </el-tooltip>
                             </div>
-                            <div class="AddIMG_input_box" v-if="this.types=='f_sls_lockscreen'">
+                            <div class="AddIMG_input_box" v-if="this.types=='f_sls_lockscreen'||this.types=='f_sls_picture'">
                                 <el-upload
                                         class="upload-demo"
                                         :http-request="uploadZip"
                                         action="111"
+                                        :before-upload="beforeAvatarUploads"
                                 >
                                     <el-button size="small" type="primary" >上传</el-button>
                                 </el-upload>
@@ -270,6 +271,7 @@
                 arr:[],
                 sizeList:[],
                 resource:'',
+                is_zip:""
             }
         },
         mounted(){
@@ -330,19 +332,20 @@
                 this.time();
                  this.attach={};
                 this.initiate=true;
+                if(this.types=='f_sls_picture'){
+                    this.is_zip='0'
+                }
+                if(this.types=='f_sls_lockscreen'){
+                    this.is_zip='1'
+                }
                 let formData =new FormData;
                 formData.append('file',file.file);
+                formData.append('is_zip',this.is_zip)
                 this.api.file_zip_upload(formData).then((res)=>{
                     this.aaa=100;
                     this.initiate=false;
-                    // this.attach.md5=res.md5;
-                    // this.attach.name = res.name;
-                    // this.attach.size = res.size;
-                    // this.attach.ext = res.ext;
-                    // this.attach.url = res.url;
-                    // this.attach.check_md5 = res.check_md5;
-                    // this.attach.checksum_md5 = res.checksum_md5;
-                    this.attach=res
+                    this.attach=res;
+                    console.log(this.attach)
                     if(res.wpid==''){
                         this.$message.error('您上传的非壁纸压缩包，请重新上传')
                         return
@@ -416,14 +419,18 @@
                 this.$message.warning(`当前限制选择1个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
             },
             beforeAvatarUploads(file) {
-                this.file = file;
-                console.log(this.file)
-                const isXzip = file.type === 'application/x-zip-compressed';
-                const iszip = file.type === 'application/zip';
-                if (!(isXzip||iszip)) {
-                    this.$message.error('只支持ZIP格式!');
+                if(this.types=='f_sls_picture'){
+                    return
+                }else{
+                     this.file = file;
+                    const isXzip = file.type === 'application/x-zip-compressed';
+                    const iszip = file.type === 'application/zip';
+                    if (!(isXzip||iszip)) {
+                        this.$message.error('只支持ZIP格式!');
+                    }
+                    return isXzip||iszip;
                 }
-                return isXzip||iszip;
+               
             },
             handleRemove(file, fileList) {
                 this.file = '';
