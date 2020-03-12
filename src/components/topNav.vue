@@ -145,7 +145,7 @@ export default {
 	mounted(){
 		this.getMessgNumber();
 		this.name=localStorage.getItem('userName');
-		this.getLefNav();
+		// this.getLefNav();
         this.authority();
         this.type=localStorage.getItem('role');
         if(localStorage.getItem('icon')!=''){

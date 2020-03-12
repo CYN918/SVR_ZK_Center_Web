@@ -7,7 +7,7 @@
                 </div>
                 <div class="AddIMG_content">
                     <div class="AddIMG_content_left">
-                        <div v-if='this.types!="f_laidian_show"'>
+                        <div v-if='types!="f_call_show"'>
                             <div>
                                 <span>素材预览图</span>
                             </div>
@@ -83,13 +83,17 @@
                                 <div class="strip" :style="{width:aaa+'%'}" style="background: blue;height: 5px"></div>
                                 <div style="text-align: center;font-size: 10px">当前附件上传{{aaa}}%</div>
                             </div>
-                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="chenck" v-if="this.types!='f_sls_lockscreen'&&this.types!='f_laidian_show'" @click="checkSelect()"/><span v-if="this.types!='f_sls_lockscreen'&&this.types!='f_laidian_show'" style="vertical-align: top">仅图片</span>
+                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="chenck" v-if="this.types!='f_sls_lockscreen'" @click="checkSelect()"/><span v-if="this.types!='f_sls_lockscreen'||this.types!='f_call_show'" style="vertical-align: top">仅图片</span>
                             <span class="content_xz" @click="dels()" v-if="attach.name!=undefined">删除</span>
-                            <div class="upChenck" v-if="this.types!='f_sls_lockscreen'&&this.types!='f_laidian_show'">
+                            <div class="upChenck" v-if="this.types!='f_sls_lockscreen'">
                                 <p>勾选后可直接上传图片、且无需再次上传预览图</p>
                             </div>
                         </div>
-                        <div class="AddIMG_sc" v-if='this.types!="f_laidian_show"'>
+                        <div class='AddIMG_sc' v-if="this.types=='f_call_show'">
+                            <span class="tit">名称:</span>
+                            <input type="text" v-model="name" placeholder="请输入">
+                        </div>
+                        <div class="AddIMG_sc" v-if='this.types!="f_call_show"'>
                             <span class="tit">绑定素材:</span>
                             <!-- <input type="text" placeholder="请输入素材ID" v-model="bind_mid" :disabled="(this.message.mfid!=undefined)" @change="IDchange"/> -->
                             <input type="text" placeholder="请输入素材ID" v-model="bind_mid" @change="IDchange"/>
@@ -123,6 +127,12 @@
                                 <input type="number" placeholder="请输入广告位数量" v-model="ad_num" style="width: 100px;height: 30px;border-radius: 5px"/>
 
                             </div>
+                        </div>
+                        <div class='AddIMG_sc' v-if='this.types=="f_call_show"'>
+                            <span class="tit">绑定项目ID:</span>
+                            <input type='test' v-model="project_id" placeholder="请输入项目ID"/>
+                            <input type="checkbox" style="width:16px;height:16px;margin:0 15px" v-model="is_designer">
+                            <span>是否来自狮圈</span>
                         </div>
                         <div class="AddIMG_yl">
                             <span class="tit">尺寸:</span>
@@ -186,7 +196,7 @@
                                 <option value="图片" selected>图片</option>
                             </select>
                         </div>
-                         <div class="box_sel" v-if="this.types=='f_laidian_show'">
+                         <div class="box_sel" v-if="this.types=='f_call_show'">
                             <span class="tit">资源类型:</span>
                             <select v-model="model">
                                 <option value="视频" selected>视频</option>
@@ -293,12 +303,18 @@
                 arr:[],
                 sizeList:[],
                 resource:'',
-                is_zip:""
+                is_zip:"",
+                name:"",
+                project_id:"",
+                audioDuration:"",
+                is_designer:false,
+                showType:''
             }
         },
 
         mounted(){
             this.getTagsList();
+            
             if(this.message.mfid!=undefined){
                 this.title='编辑物料'
             }else{
@@ -309,6 +325,9 @@
             }
             if(this.types=='f_sls_picture'){
                 this.model='图片'
+            }
+             if(this.types=='f_call_show'){
+                this.model='视频'
             }
         },
         methods:{
@@ -398,12 +417,20 @@
                 this.api.file_upload(formData).then((res)=>{
                     this.aaa=100;
                     this.initiate=false;
-                    // this.attach.name = res.name;
-                    // this.attach.size = res.size;
-                    // this.attach.ext = res.ext;
-                    // this.attach.md5 = res.md5;
-                    // this.attach.url = res.url;
+                    // this.showType=file.fiel.type;
+                    if(this.types=='f_call_show'){
+                        var url = URL.createObjectURL(file.file);
+                        //经测试，发现audio也可获取视频的时长
+                        var audioElement = new Audio(url);
+                        audioElement.addEventListener("loadedmetadata", (_event) => {
+                            this.audioDuration = parseInt(audioElement.duration);
+                            console.log(this.audioDuration)
+                        });
+                    }
+                    
                     this.attach=res
+                    this.showType=res.ext;
+                    console.log(this.attach)
                     var image = new Image();
                     var _this=this;
                     image.onload=function(){
@@ -529,7 +556,7 @@
                     this.$message('实现方式不能为空');
                     return
                 }
-                if(!this.ad_pic){
+                if(!this.ad_pic&&this.type=='f_sls_lockscreen'){
                     this.$message('有无打底广告图不能为空')
                     return
                 }
@@ -547,6 +574,10 @@
                     this.size=this.sjSize
                 }
                 let formData = new FormData;
+                  formData.append('name',this.name);
+                formData.append('video_type',this.showType);
+                formData.append('duration',this.audioDuration);
+                 formData.append('is_designer',this.is_designer==true?'1':'0');
                 formData.append('mfid',this.message.mfid);
                 formData.append('type',this.type);
                 formData.append('prev_uri',this.prev_uri);
@@ -570,6 +601,12 @@
                         this.$message('类型不能为空')
                         return
                     }
+                    if(!this.name&&this.types=='f_call_show'){
+                        this.$message.error('名字不能为空')
+                    }
+                    if(!this.project_id&&this.types=='f_call_show'){
+                        this.$message.error('项目ID不能为空')
+                    }
                     if(!this.prev_uri&&this.chenck!=true){
                         this.$message('未上传预览图')
                         return
@@ -591,7 +628,7 @@
                         this.$message('实现方式不能为空')
                         return
                     }
-                    if(!this.bind_mid&&this.is_bind_mid!=true){
+                    if(!this.bind_mid&&this.is_bind_mid!=true&&this.types!='f_call_show'){
                         this.$message('未绑定素材ID');
                         return
                     }
@@ -648,8 +685,13 @@
                         }else{
                             this.size=this.sjSize
                         }
+                       
                         let formData = new FormData;
                         formData.append('type',this.type);
+                        formData.append('name',this.name);
+                        formData.append('video_type',this.showType);
+                        formData.append('duration',this.audioDuration);
+                        formData.append('is_designer',this.is_designer==true?'1':'0');
                         formData.append('ispic',(this.chenck==true?1:0));
                         formData.append('prev_uri',this.prev_uri);
                         formData.append('attach',JSON.stringify(this.attach));
@@ -689,12 +731,19 @@
                             this.bardian=res.self_tags.splice(e);
                         }
                     }
+                    if(this.types=='f_call_show'){
+                        this.name=res.name;
+                        this.project_id=res.project_id;
+                        this.audioDuration=res.duration;
+                        this.is_designer=res.is_designer=='1'?true:false;
+                        this.showType=res.video_type
+                    }
                     this.attach = res.attach;
                     if(res.attach.wpid==undefined){
                         this.attach.wpid=res.wpid
                     }
                     this.ad_num=res.ad_num;
-                    console.log(this.attach)
+                    
                     if(res.resource!=undefined){
                         this.resource=res.resource
                     }
