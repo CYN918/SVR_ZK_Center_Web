@@ -10,8 +10,8 @@
                 <div class="Search_select">
                     <span class="Search_select_tit">物料类型：</span>
                     <select v-model="type" @change="getList()">
-                        <option value="">全部</option>
-                        <option v-for="item in scType" :value="item.type">{{item.name}}</option>
+                        <!-- <option value="">全部</option> -->
+                        <option v-for="item in scType" :value="item.type" v-if='item.type=="f_sls_lockscreen"||item.type=="f_sls_picture"'>{{item.name}}</option>
                     </select>
                 </div>
             </div>

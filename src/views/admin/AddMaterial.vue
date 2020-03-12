@@ -752,11 +752,8 @@
                 this.bind_mid = newVal.join(';')
             },
             'is_bind_mid':function(newVal){
+               
                 if(newVal==true){
-                    // this.bind_mid='';
-                    // this.bindMid='';
-                    // this.hqUrl='';
-                    // this.$emit('dataId');
                     if(window.location.host=='ts-centerweb.idatachain.cn'){
                         if(this.bindMid.indexOf('ADP_178') == -1){
                             if(this.bind_mid==''){
@@ -787,6 +784,53 @@
                             }
                             this.bindMid.push('ADP_178');
                         } 
+                    }
+                }
+                 if(newVal==false){
+                     if(window.location.host=='ts-centerweb.idatachain.cn'){
+                        if(this.bindMid.indexOf('ADP_178') != -1){
+                            var arr=this.bind_mid.split(';');
+                            for(var s=0;s<arr.length;s++){
+                                if(arr[s]=='ADP_178'){
+                                    this.bind_mid=arr.splice(s,1).join(';')
+                                }
+                            }
+                            for(var i=0;i<this.bindMid.length;i++){
+                                if(this.bindMid[i]=='ADP_178'){
+                                    this.bindMid.splice(i,1)
+                                }
+                            }
+                        }    
+                    }
+                    if(window.location.host=='c2.zookingsoft.com'){
+                        if(this.bindMid.indexOf('ADP_1') != -1){
+                            var arr=this.bind_mid.split(';');
+                            for(var s=0;s<arr.length;s++){
+                                if(arr[s]=='ADP_1'){
+                                    this.bind_mid=arr.splice(s,1).join(';')
+                                }
+                            }
+                            for(var i=0;i<this.bindMid.length;i++){
+                                if(this.bindMid[i]=='ADP_1'){
+                                    this.bindMid.splice(i,1)
+                                }
+                            }
+                        }    
+                    }
+                    if(window.location.host=='localhost:8080'){
+                        if(this.bindMid.indexOf('ADP_178') != -1){
+                            var arr=this.bind_mid.split(';');
+                            for(var s=0;s<arr.length;s++){
+                                if(arr[s]=='ADP_178'){
+                                    this.bind_mid=arr.splice(s,1).join(';')
+                                }
+                            }
+                            for(var i=0;i<this.bindMid.length;i++){
+                                if(this.bindMid[i]=='ADP_178'){
+                                    this.bindMid.splice(i,1)
+                                }
+                            }
+                        }    
                     }
                 }
             },
