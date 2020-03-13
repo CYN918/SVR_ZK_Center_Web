@@ -14,8 +14,8 @@
                             <div class="AddIMG_box">
                                 <div v-for="item in hqUrl" style="display: inline-block">
                                     <!--<img :src="item"  />-->
-                                    <img :src="item" v-if="(item.split('.'))[(item.split('.')).length-1]!='mp4'"/>
-                                    <video :src="item" controls="controls" v-if="(item.split('.'))[(item.split('.')).length-1]=='mp4'" />
+                                    <img :src="item" v-if="(item.split('.'))[(item.split('.')).length-1]!='mp4'&&(item.split('.'))[(item.split('.')).length-1]!='MP4'"/>
+                                    <video :src="item" controls="controls" v-if="(item.split('.'))[(item.split('.')).length-1]=='mp4'||(item.split('.'))[(item.split('.')).length-1]!='MP4'" />
                                 </div>
 
                             </div>
@@ -41,8 +41,8 @@
                             <span>上传预览图</span>
                         </div>
                         <div class="AddIMG_box_1">
-                            <img :src="chenck==false?prev_uri:attach.url" v-if="this.arr[this.arr.length-1]!='mp4'"/>
-                            <video  :src="chenck==false?prev_uri:attach.url" controls="controls" v-if="this.arr[this.arr.length-1]=='mp4'" />
+                            <img :src="chenck==false?prev_uri:attach.url" v-if="this.arr[this.arr.length-1]!='mp4'&&this.arr[this.arr.length-1]!='MP4'"/>
+                            <video  :src="chenck==false?prev_uri:attach.url" controls="controls" v-if="this.arr[this.arr.length-1]=='mp4'||this.arr[this.arr.length-1]=='MP4'" />
                         </div>
                     </div>
                     <div class="AddIMG_content_right">
@@ -83,15 +83,15 @@
                                 <div class="strip" :style="{width:aaa+'%'}" style="background: blue;height: 5px"></div>
                                 <div style="text-align: center;font-size: 10px">当前附件上传{{aaa}}%</div>
                             </div>
-                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="chenck" v-if="this.types!='f_sls_lockscreen'" @click="checkSelect()"/><span v-if="this.types!='f_sls_lockscreen'||this.types!='f_call_show'" style="vertical-align: top">仅图片</span>
+                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="chenck" v-if="this.types!='f_sls_lockscreen'&&this.types!='f_call_show'" @click="checkSelect()"/><span v-if="this.types!='f_sls_lockscreen'&&this.types!='f_call_show'" style="vertical-align: top">仅图片</span>
                             <span class="content_xz" @click="dels()" v-if="attach.name!=undefined">删除</span>
-                            <div class="upChenck" v-if="this.types!='f_sls_lockscreen'">
+                            <div class="upChenck" v-if="this.types!='f_sls_lockscreen'&&this.types!='f_call_show'">
                                 <p>勾选后可直接上传图片、且无需再次上传预览图</p>
                             </div>
                         </div>
                         <div class='AddIMG_sc' v-if="this.types=='f_call_show'">
                             <span class="tit">名称:</span>
-                            <input type="text" v-model="name" placeholder="请输入">
+                            <input type="text" v-model="name" placeholder="请输入" :disabled="(this.message.mfid!=undefined)">
                         </div>
                         <div class="AddIMG_sc" v-if='this.types!="f_call_show"'>
                             <span class="tit">绑定素材:</span>
@@ -130,15 +130,15 @@
                         </div>
                         <div class='AddIMG_sc' v-if='this.types=="f_call_show"'>
                             <span class="tit">绑定项目ID:</span>
-                            <input type='test' v-model="project_id" placeholder="请输入项目ID"/>
-                            <input type="checkbox" style="width:16px;height:16px;margin:0 15px" v-model="is_designer">
+                            <input type='test' v-model="project_id" placeholder="请输入项目ID" :disabled="(this.message.mfid!=undefined)"/>
+                            <input type="checkbox" style="width:16px;height:16px;margin:0 15px" v-model="is_designer" :disabled="(this.message.mfid!=undefined)">
                             <span>是否来自狮圈</span>
                         </div>
                         <div class="AddIMG_yl">
                             <span class="tit">尺寸:</span>
-                            <input class="AddIMG_yl_size" v-model="sjSize" placeholder="上传预览图后自动获取"  disabled v-if="chenck==false&&this.arr[this.arr.length-1]!='mp4'">
-                            <input class="AddIMG_yl_size" v-model="cc" placeholder="上传预览图后自动获取"  disabled v-if="chenck==true&&this.arr[this.arr.length-1]!='mp4'">
-                            <select v-model="sjSize" v-if="chenck==false&&this.arr[this.arr.length-1]=='mp4'">
+                            <input class="AddIMG_yl_size" v-model="sjSize" placeholder="上传预览图后自动获取"  disabled v-if="chenck==false&&this.arr[this.arr.length-1]!='mp4'&&this.arr[this.arr.length-1]!='MP4'">
+                            <input class="AddIMG_yl_size" v-model="cc" placeholder="上传预览图后自动获取"  disabled v-if="chenck==true&&this.arr[this.arr.length-1]!='mp4'&&this.arr[this.arr.length-1]!='MP4'">
+                            <select v-model="sjSize" v-if="(chenck==false&&this.arr[this.arr.length-1]=='mp4')||(chenck==false&&this.arr[this.arr.length-1]=='MP4')" :disabled="(this.message.mfid!=undefined)&&this.types=='f_call_show'">
                                 <option :value="item.size" v-for="item in sizeList">{{item.size}}</option>
                             </select>
                             <div class="AddIMG_yl_upload" >
@@ -155,7 +155,7 @@
                                     <el-button size="small" type="primary" :class="{disbld:this.chenck==true}">上传预览图</el-button>
                                 </el-upload>
                             </div>
-                            <div class="AddIMG_switch" v-if="sw">
+                            <div class="AddIMG_switch" v-if="sw&&this.types!='f_call_show'">
                                 <span  class="tit">是否启用:</span>
                                 <el-switch
                                         @change="open"
@@ -171,7 +171,7 @@
                         </div>
                         <div class="box_sel" v-if="this.types=='f_ad_picture'">
                             <span class="tit">资源类型:</span>
-                            <select v-model="model">
+                            <select v-model="model" >
                                 <option value="无">无</option>
                                 <option value="H5">H5</option>
                                 <option value="脚本">脚本</option>
@@ -198,7 +198,7 @@
                         </div>
                          <div class="box_sel" v-if="this.types=='f_call_show'">
                             <span class="tit">资源类型:</span>
-                            <select v-model="model">
+                            <select v-model="model" :disabled="(this.message.mfid!=undefined)">
                                 <option value="视频" selected>视频</option>
                             </select>
                         </div>
@@ -314,7 +314,6 @@
 
         mounted(){
             this.getTagsList();
-            
             if(this.message.mfid!=undefined){
                 this.title='编辑物料'
             }else{
@@ -508,7 +507,7 @@
                     this.arr=this.prev_uri.split('.');
                      console.log(this.arr)
                     console.log(this.chenck)
-                    if(this.arr[this.arr.length-1]=='mp4'){
+                    if(this.arr[this.arr.length-1]=='mp4'||this.arr[this.arr.length-1]=='MP4'){
                         this.getSize()
                     }
                     var image = new Image();
@@ -571,6 +570,7 @@
                     this.$message('广告位数必须为正整数');
                     return
                 }
+                
                 if(this.chenck==true){
                    this.size=this.cc
                 }else{
@@ -592,8 +592,10 @@
                 formData.append('ad_pic',this.ad_pic);
                 formData.append('ad_num',this.ad_num);
                 this.api.mfinal_edit(formData).then((res)=>{
-                    if(res.data!=''){
+                    if(res!=false){
                         this.$parent.heidSc();
+                        this.$parent.getWl();
+			            this.$parent.getData()
                     }
                 })
             },
@@ -708,7 +710,7 @@
                         formData.append('ad_pic',this.ad_pic);
                         formData.append('ad_num',this.ad_num);
                         this.api.mfinal_add(formData).then((res)=>{
-                            if(res.data!=''){
+                            if(res!=false){
                                 this.$parent.heidSc();
                             }
                         }).catch(this.$message(message))
@@ -751,10 +753,14 @@
                         this.resource=res.resource
                     }
                     this.sjSize=res.size;
+                    if(this.arr[this.arr.length-1]=='mp4'||this.arr[this.arr.length-1]=='MP4'){
+                        this.getSize()
+                    }
                     this.type=res.type;
                     this.is_bind_mid=res.is_special==1?true:false;
                     this.link = res.link;
                     this.model = res.model;
+                    this.arr=res.prev_uri.split('.');
                     if(this.types=='f_sls_picture'){
                         this.resource=res.resource;
                     }

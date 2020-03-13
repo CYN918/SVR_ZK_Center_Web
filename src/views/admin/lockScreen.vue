@@ -55,8 +55,8 @@
 		<div class="box">
 			<div class="boxImg" v-for="(DL,index) in IMGList">
 				<div class="img_box">
-					<img :src="DL.prev_uri" v-if="(DL.prev_uri.split('.'))[(DL.prev_uri.split('.')).length-1]!='mp4'"/>
-					<video :src="DL.prev_uri" controls="controls" v-if="(DL.prev_uri.split('.'))[(DL.prev_uri.split('.').length-1)]=='mp4'"></video>
+					<img :src="DL.prev_uri" v-if="(DL.prev_uri.split('.'))[(DL.prev_uri.split('.')).length-1]!='mp4'&&(DL.prev_uri.split('.'))[(DL.prev_uri.split('.').length-1)]!='MP4'"/>
+					<video :src="DL.prev_uri" controls="controls" v-if="(DL.prev_uri.split('.'))[(DL.prev_uri.split('.').length-1)]=='mp4'||(DL.prev_uri.split('.'))[(DL.prev_uri.split('.').length-1)]=='MP4'"></video>
 				</div>
 				<div class="boxImg_right" >
 					<div class="boxImg_right_1">
