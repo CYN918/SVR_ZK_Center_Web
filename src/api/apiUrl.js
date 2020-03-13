@@ -1519,6 +1519,10 @@ export default {
 	adver_tags_count:{
 		url:"adver/tags/count",method:"get"
 	},
+	//编辑信息流信息
+	appad_edit:{
+		url:"appad/edit",method:"post",isType:{suktip:1}
+	},
 }
 
 

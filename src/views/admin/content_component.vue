@@ -12,8 +12,8 @@
                         </div>
                         <div class="AddIMG_box">
                             <!--<img :src="hqUrl" v-if="hqUrl!=''"/>-->
-                            <img :src="hqUrl" v-if="hqUrl!=''&&(hqUrl.split('.'))[(hqUrl.split('.')).length-1]!='mp4'"/>
-                            <video :src="hqUrl" controls="controls" v-if="hqUrl!=''&&(hqUrl.split('.'))[(hqUrl.split('.')).length-1]=='mp4'" />
+                            <img :src="hqUrl" v-if="hqUrl!=''&&(hqUrl.split('.'))[(hqUrl.split('.')).length-1]!='mp4'&&(hqUrl.split('.'))[(hqUrl.split('.')).length-1]!='MP4'"/>
+                            <video :src="hqUrl" controls="controls" v-if="(hqUrl!=''&&(hqUrl.split('.'))[(hqUrl.split('.')).length-1]=='mp4')||(hqUrl!=''&&(hqUrl.split('.'))[(hqUrl.split('.')).length-1]=='MP4')"/>
                         </div>
                         <div class="AddIMG_box_txt">
                             <span>{{bindMid}}</span>
@@ -86,8 +86,8 @@
                         </div>
                         <div class="AddIMG_yl">
                             <span class="tit">尺寸:</span>
-                            <input class="AddIMG_yl_size" v-model="sjSize" placeholder="上传预览图后自动获取" disabled v-if="this.arr[this.arr.length-1]!='mp4'">
-                            <select v-model="sjSize" v-if="this.arr[this.arr.length-1]=='mp4'">
+                            <input class="AddIMG_yl_size" v-model="sjSize" placeholder="上传预览图后自动获取" disabled v-if="this.arr[this.arr.length-1]!='mp4'&&this.arr[this.arr.length-1]!='MP4'">
+                            <select v-model="sjSize" v-if="this.arr[this.arr.length-1]=='mp4'||this.arr[this.arr.length-1]=='MP4'">
                                 <option :value="item.size" v-for="item in sizeList">{{item.size}}</option>
                             </select>
                             <div class="AddIMG_yl_upload">
@@ -347,7 +347,8 @@
                         this.initiate2=false;
                         this.prev_uri = res.url;
                         this.arr=this.prev_uri.split('.');
-                        if(this.arr[this.arr.length-1]=='mp4'){
+                         
+                        if(this.arr[this.arr.length-1]=='mp4'||this.arr[this.arr.length-1]=='MP4'){
                             this.getSize()
                         }
                         var image = new Image();
