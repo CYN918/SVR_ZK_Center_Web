@@ -65,6 +65,10 @@
 							<span class="boxImg_content">{{DL.mfid}}</span>
 						</div>
 						<div>
+							<span class="boxImg_text">壁纸唯一标签:</span>
+							<span class="boxImg_content">{{DL.attach.wpid_tags_id}}</span>
+						</div>
+						<div>
 							<span class="boxImg_text boxImg_bq">内容标签:</span>
 							<div class="boxImg_xz">
 								<div class="boxImg_xz_yz">
