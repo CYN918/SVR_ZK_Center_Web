@@ -487,12 +487,15 @@
             add(){
                 if(!this.new_url){
                     this.$message.error('请上传文件或等待文件上传成功！')
+					return;
                 }
                 if(this.new_res.length==0){
                     this.$message.error('请上传文件')
+					return;
                 }
                 if(!this.space_type){
                     this.$message.error('场景类型不能为空')
+					return;
                 }
                 let formData = new FormData;
                 formData.append('id_adsrc',this.tableData.id_adsrc);

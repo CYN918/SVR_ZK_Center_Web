@@ -68,7 +68,7 @@
                 <div  v-if='this.step>=2'>
                     <span class="fillName">预计结算金额</span>
                     <div style="display: inline-block;width: 593px;text-align: left" >
-                        <input type="text" class="input" v-model="expect_amount">
+                        <input type="text" class="input" v-model="expect_amount" disabled="disabled">
                         <span class="click"  @click='detail()'>查看预计结算数据</span>
                     </div>
                 </div>

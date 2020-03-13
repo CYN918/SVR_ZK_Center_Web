@@ -308,11 +308,11 @@ export default {
 		loginout(){
 			let urld = 'http://ts-i.idatachain.cn';
 			if(window.location.host=='c.zookingsoft.com'){
-				urld = 'http://c.zookingsoft.com';
+				urld = 'https://c.zookingsoft.com';
 				
 			}
             if(window.location.host=='c2.zookingsoft.com'){
-				urld = 'http://c2.zookingsoft.com';
+				urld = 'https://c2.zookingsoft.com';
 			}
 			this.$ajax({
 				method: 'get',
