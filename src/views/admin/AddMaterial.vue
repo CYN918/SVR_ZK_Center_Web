@@ -306,9 +306,9 @@
                 is_zip:"",
                 name:"",
                 project_id:"",
-                audioDuration:"",
+                // audioDuration:"",
                 is_designer:false,
-                showType:''
+                // showType:''
             }
         },
 
@@ -422,13 +422,14 @@
                         //经测试，发现audio也可获取视频的时长
                         var audioElement = new Audio(url);
                         audioElement.addEventListener("loadedmetadata", (_event) => {
-                            this.audioDuration = parseInt(audioElement.duration);
-                            console.log(this.audioDuration)
+                            res.duration = parseInt(audioElement.duration);
+                             res.video_type=res.ext;
                         });
                     }
-                    
+                    // res.duration=this.audioDuration;
+                    // res.video_type=res.ext;
                     this.attach=res
-                    this.showType=res.ext;
+                    // this.showType=res.ext;
                     console.log(this.attach)
                     var image = new Image();
                     var _this=this;
@@ -578,8 +579,8 @@
                 }
                 let formData = new FormData;
                   formData.append('name',this.name);
-                formData.append('video_type',this.showType);
-                formData.append('duration',this.audioDuration);
+                // formData.append('video_type',this.showType);
+                // formData.append('duration',this.audioDuration);
                  formData.append('is_designer',this.is_designer==true?'1':'0');
                 formData.append('mfid',this.message.mfid);
                 formData.append('type',this.type);
@@ -694,8 +695,8 @@
                         let formData = new FormData;
                         formData.append('type',this.type);
                         formData.append('name',this.name);
-                        formData.append('video_type',this.showType);
-                        formData.append('duration',this.audioDuration);
+                        // formData.append('video_type',this.showType);
+                        // formData.append('duration',this.audioDuration);
                         formData.append('is_designer',this.is_designer==true?'1':'0');
                         formData.append('ispic',(this.chenck==true?1:0));
                         formData.append('prev_uri',this.prev_uri);
@@ -739,9 +740,9 @@
                     if(this.types=='f_call_show'){
                         this.name=res.name;
                         this.project_id=res.project_id;
-                        this.audioDuration=res.duration;
+                        // this.audioDuration=res.duration;
                         this.is_designer=res.is_designer=='1'?true:false;
-                        this.showType=res.video_type
+                        // this.showType=res.video_type
                     }
                     this.attach = res.attach;
                     if(res.attach.wpid==undefined){
