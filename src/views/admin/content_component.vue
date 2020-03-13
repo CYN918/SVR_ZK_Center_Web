@@ -22,8 +22,8 @@
                             <span>上传素材预览图</span>
                         </div>
                         <div class="AddIMG_box">
-                            <img :src="prev_uri" v-if="this.prev_uri!=''&&this.arr[this.arr.length-1]!='mp4'"/>
-                            <video id="video" :src="prev_uri" controls="controls" v-if="this.prev_uri!=''&&this.arr[this.arr.length-1]=='mp4'" />
+                            <img :src="prev_uri" v-if="this.prev_uri!=''&&this.arr[this.arr.length-1]!='mp4'&&this.arr[this.arr.length-1]!='MP4'"/>
+                            <video id="video" :src="prev_uri" controls="controls" v-if="(this.prev_uri!=''&&this.arr[this.arr.length-1]=='mp4')||(this.prev_uri!=''&&this.arr[this.arr.length-1]=='MP4')" />
                         </div>
                     </div>
                     <div class="AddIMG_content_right">
@@ -480,6 +480,10 @@
                     this.sjSize=res.size;
                     this.attach = res.attach;
                     this.type=res.type;
+                    this.arr=res.prev_uri.split('.')
+                    if(this.arr[this.arr.length-1]=='mp4'||this.arr[this.arr.length-1]=='MP4'){
+                            this.getSize()
+                        }
                     this.is_bind_mid=res.is_bind_mid==1?true:false;
                     this.is_bind_workid=res.is_bind_workid==0?true:false;
                     for(let i=0;i<res.bind_mid.length;i++){
