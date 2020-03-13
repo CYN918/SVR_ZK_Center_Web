@@ -731,7 +731,7 @@ let leftNav =
 //         },
 // ];
 
-// localStorage.setItem('letNav',JSON.stringify(leftNav));
+localStorage.setItem('letNav',JSON.stringify(leftNav));
 
 router.beforeEach((to, from, next) => {
 	/*登录过期*/
