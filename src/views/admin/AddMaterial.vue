@@ -7,12 +7,28 @@
                 </div>
                 <div class="AddIMG_content">
                     <div class="AddIMG_content_left">
-                        <div>
+                        <div v-if='this.types!="f_laidian_show"'>
+                            <div>
+                                <span>素材预览图</span>
+                            </div>
+                            <div class="AddIMG_box">
+                                <div v-for="item in hqUrl" style="display: inline-block">
+                                    <!--<img :src="item"  />-->
+                                    <img :src="item" v-if="(item.split('.'))[(item.split('.')).length-1]!='mp4'"/>
+                                    <video :src="item" controls="controls" v-if="(item.split('.'))[(item.split('.')).length-1]=='mp4'" />
+                                </div>
+
+                            </div>
+                                <div class="AddIMG_box_txt">
+                                    <span v-for="item in bindMid">{{item}}</span>
+                                </div>
+                        </div>
+                        <!-- <div>
                             <span>素材预览图</span>
                         </div>
                         <div class="AddIMG_box">
                             <div v-for="item in hqUrl" style="display: inline-block">
-                                <!--<img :src="item"  />-->
+                                
                                 <img :src="item" v-if="(item.split('.'))[(item.split('.')).length-1]!='mp4'"/>
                                 <video :src="item" controls="controls" v-if="(item.split('.'))[(item.split('.')).length-1]=='mp4'" />
                             </div>
@@ -20,7 +36,7 @@
                         </div>
                         <div class="AddIMG_box_txt">
                             <span v-for="item in bindMid">{{item}}</span>
-                        </div>
+                        </div> -->
                         <div>
                             <span>上传预览图</span>
                         </div>
@@ -32,7 +48,7 @@
                     <div class="AddIMG_content_right">
                         <div class="AddIMG_input">
                             <span class="tit" style="vertical-align: top">附件:</span>
-                            <div class="AddIMG_input_box" v-if="this.types!='f_sls_lockscreen'">
+                            <div class="AddIMG_input_box" v-if="this.types!='f_sls_lockscreen'&&this.types!='f_sls_picture'">
                                 <el-upload
                                         class="upload-demo"
                                         :limit="1"
@@ -48,11 +64,12 @@
                                     <span  class="text" style="overflow: hidden;width: 200px;height: 20px;line-height: 28px">{{this.attach.name}}</span>
                                 </el-tooltip>
                             </div>
-                            <div class="AddIMG_input_box" v-if="this.types=='f_sls_lockscreen'">
+                            <div class="AddIMG_input_box" v-if="this.types=='f_sls_lockscreen'||this.types=='f_sls_picture'">
                                 <el-upload
                                         class="upload-demo"
                                         :http-request="uploadZip"
                                         action="111"
+                                        :before-upload="beforeAvatarUploads"
                                 >
                                     <el-button size="small" type="primary" >上传</el-button>
                                 </el-upload>
@@ -66,13 +83,13 @@
                                 <div class="strip" :style="{width:aaa+'%'}" style="background: blue;height: 5px"></div>
                                 <div style="text-align: center;font-size: 10px">当前附件上传{{aaa}}%</div>
                             </div>
-                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="chenck" v-if="this.types!='f_sls_lockscreen'" @click="checkSelect()"/><span v-if="this.types!='f_sls_lockscreen'" style="vertical-align: top">仅图片</span>
+                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="chenck" v-if="this.types!='f_sls_lockscreen'&&this.types!='f_laidian_show'" @click="checkSelect()"/><span v-if="this.types!='f_sls_lockscreen'&&this.types!='f_laidian_show'" style="vertical-align: top">仅图片</span>
                             <span class="content_xz" @click="dels()" v-if="attach.name!=undefined">删除</span>
-                            <div class="upChenck" v-if="this.types!='f_sls_lockscreen'">
+                            <div class="upChenck" v-if="this.types!='f_sls_lockscreen'&&this.types!='f_laidian_show'">
                                 <p>勾选后可直接上传图片、且无需再次上传预览图</p>
                             </div>
                         </div>
-                        <div class="AddIMG_sc">
+                        <div class="AddIMG_sc" v-if='this.types!="f_laidian_show"'>
                             <span class="tit">绑定素材:</span>
                             <!-- <input type="text" placeholder="请输入素材ID" v-model="bind_mid" :disabled="(this.message.mfid!=undefined)" @change="IDchange"/> -->
                             <input type="text" placeholder="请输入素材ID" v-model="bind_mid" @change="IDchange"/>
@@ -160,11 +177,22 @@
                         <div class="box_sel" v-if="this.types=='f_sls_lockscreen'">
                             <span class="tit">资源类型:</span>
                             <select v-model="model">
-                                <option value="脚本" >脚本</option>
-                                <option value="图片" >图片</option>
+                                <option value="脚本" selected>脚本</option>
                             </select>
                         </div>
-                         <div class="box_sel" v-if="this.types=='f_sls_lockscreen'">
+                         <div class="box_sel" v-if="this.types=='f_sls_picture'">
+                            <span class="tit">资源类型:</span>
+                            <select v-model="model">
+                                <option value="图片" selected>图片</option>
+                            </select>
+                        </div>
+                         <div class="box_sel" v-if="this.types=='f_laidian_show'">
+                            <span class="tit">资源类型:</span>
+                            <select v-model="model">
+                                <option value="视频" selected>视频</option>
+                            </select>
+                        </div>
+                         <div class="box_sel" v-if="this.types=='f_sls_picture'">
                             <span class="tit">来源:</span>
                             <input class="AddIMG_yl_size"  v-model='resource' placeholder="请输入来源(最多6字)" maxlength="6"  >
                         </div>
@@ -265,8 +293,10 @@
                 arr:[],
                 sizeList:[],
                 resource:'',
+                is_zip:""
             }
         },
+
         mounted(){
             this.getTagsList();
             if(this.message.mfid!=undefined){
@@ -276,6 +306,9 @@
             }
             if(this.types=='f_sls_lockscreen'){
                 this.model='脚本'
+            }
+            if(this.types=='f_sls_picture'){
+                this.model='图片'
             }
         },
         methods:{
@@ -297,11 +330,13 @@
                 if(this.message.mfid!=undefined){
                     return
                 }
-                // if(this.is_bind_mid==true){
-                //     return
-                // }else{
+               
+                    // this.$parent.XSset();
+                if(this.bind_mid!=''){
+                    this.$emit('listID',this.bind_mid);
+                }else{
                     this.$parent.XSset();
-                // }
+                }    
             },
             time(){
                 var _this=this;
@@ -325,19 +360,20 @@
                 this.time();
                  this.attach={};
                 this.initiate=true;
+                if(this.types=='f_sls_picture'){
+                    this.is_zip='0'
+                }
+                if(this.types=='f_sls_lockscreen'){
+                    this.is_zip='1'
+                }
                 let formData =new FormData;
                 formData.append('file',file.file);
+                formData.append('is_zip',this.is_zip)
                 this.api.file_zip_upload(formData).then((res)=>{
                     this.aaa=100;
                     this.initiate=false;
-                    // this.attach.md5=res.md5;
-                    // this.attach.name = res.name;
-                    // this.attach.size = res.size;
-                    // this.attach.ext = res.ext;
-                    // this.attach.url = res.url;
-                    // this.attach.check_md5 = res.check_md5;
-                    // this.attach.checksum_md5 = res.checksum_md5;
-                    this.attach=res
+                    this.attach=res;
+                    console.log(this.attach)
                     if(res.wpid==''){
                         this.$message.error('您上传的非壁纸压缩包，请重新上传')
                         return
@@ -411,14 +447,18 @@
                 this.$message.warning(`当前限制选择1个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
             },
             beforeAvatarUploads(file) {
-                this.file = file;
-                console.log(this.file)
-                const isXzip = file.type === 'application/x-zip-compressed';
-                const iszip = file.type === 'application/zip';
-                if (!(isXzip||iszip)) {
-                    this.$message.error('只支持ZIP格式!');
+                if(this.types=='f_sls_picture'){
+                    return
+                }else{
+                     this.file = file;
+                    const isXzip = file.type === 'application/x-zip-compressed';
+                    const iszip = file.type === 'application/zip';
+                    if (!(isXzip||iszip)) {
+                        this.$message.error('只支持ZIP格式!');
+                    }
+                    return isXzip||iszip;
                 }
-                return isXzip||iszip;
+               
             },
             handleRemove(file, fileList) {
                 this.file = '';
@@ -567,7 +607,8 @@
                         this.$message('广告位数数量不能为空');
                         return
                     }
-                    if(!this.resource&&this.type=='f_sls_lockscreen'){
+                    
+                    if(!this.resource&&this.type=='f_sls_picture'){
                         this.$message('来源不能为空');
                         return
                     }
@@ -615,6 +656,7 @@
                         formData.append('tags',this.preinstall);
                         formData.append('self_tags',this.bardian);
                         formData.append('bind_mid',this.bind_mid);
+                        formData.append('resource',this.resource);
                         formData.append('model',this.model);
                         formData.append('size',this.size);
                         formData.append('link',this.link);
@@ -661,6 +703,9 @@
                     this.is_bind_mid=res.is_special==1?true:false;
                     this.link = res.link;
                     this.model = res.model;
+                    if(this.types=='f_sls_picture'){
+                        this.resource=res.resource;
+                    }
                     var a = [];
                     var b = [];
                     for(let i=0;i<res.bind_mid.length;i++){
@@ -707,28 +752,85 @@
                 this.bind_mid = newVal.join(';')
             },
             'is_bind_mid':function(newVal){
+               
                 if(newVal==true){
-                    // this.bind_mid='';
-                    // this.bindMid='';
-                    // this.hqUrl='';
-                    // this.$emit('dataId');
                     if(window.location.host=='ts-centerweb.idatachain.cn'){
-                        if(this.bindMid.indexOf('ADP_178') <= -1){
-                            this.bind_mid = this.bind_mid + ';' + 'ADP_178';
+                        if(this.bindMid.indexOf('ADP_178') == -1){
+                            if(this.bind_mid==''){
+                                this.bind_mid = this.bind_mid  + 'ADP_178' +';';
+                            }else{
+                                this.bind_mid = this.bind_mid + ';' + 'ADP_178';
+                            }
                             this.bindMid.push('ADP_178');
-                        }
+                        }    
                     }
                     if(window.location.host=='c2.zookingsoft.com'){
-                        if(this.bindMid.indexOf('ADP_1') <= -1){
-                            this.bind_mid = this.bind_mid + ';' + 'ADP_1';
+                        if(this.bindMid.indexOf('ADP_1') == -1){
+                            if(this.bind_mid==''){
+                                this.bind_mid = this.bind_mid + 'ADP_1' + ';';
+                            }else{
+                                this.bind_mid = this.bind_mid + ';' + 'ADP_1';
+                            }
+                            
                             this.bindMid.push('ADP_1');
                         }
                     }
                     if(window.location.host=='localhost:8080'){
-                        if(this.bindMid.indexOf('ADP_178') <= -1){
-                            this.bind_mid = this.bind_mid + ';' + 'ADP_178';
+                        if(this.bindMid.indexOf('ADP_178') == -1){
+                            if(this.bind_mid==''){
+                                this.bind_mid = this.bind_mid  + 'ADP_178' +';';
+                            }else{
+                                this.bind_mid = this.bind_mid + ';' + 'ADP_178';
+                            }
                             this.bindMid.push('ADP_178');
                         } 
+                    }
+                }
+                 if(newVal==false){
+                     if(window.location.host=='ts-centerweb.idatachain.cn'){
+                        if(this.bindMid.indexOf('ADP_178') != -1){
+                            var arr=this.bind_mid.split(';');
+                            for(var s=0;s<arr.length;s++){
+                                if(arr[s]=='ADP_178'){
+                                    this.bind_mid=arr.splice(s,1).join(';')
+                                }
+                            }
+                            for(var i=0;i<this.bindMid.length;i++){
+                                if(this.bindMid[i]=='ADP_178'){
+                                    this.bindMid.splice(i,1)
+                                }
+                            }
+                        }    
+                    }
+                    if(window.location.host=='c2.zookingsoft.com'){
+                        if(this.bindMid.indexOf('ADP_1') != -1){
+                            var arr=this.bind_mid.split(';');
+                            for(var s=0;s<arr.length;s++){
+                                if(arr[s]=='ADP_1'){
+                                    this.bind_mid=arr.splice(s,1).join(';')
+                                }
+                            }
+                            for(var i=0;i<this.bindMid.length;i++){
+                                if(this.bindMid[i]=='ADP_1'){
+                                    this.bindMid.splice(i,1)
+                                }
+                            }
+                        }    
+                    }
+                    if(window.location.host=='localhost:8080'){
+                        if(this.bindMid.indexOf('ADP_178') != -1){
+                            var arr=this.bind_mid.split(';');
+                            for(var s=0;s<arr.length;s++){
+                                if(arr[s]=='ADP_178'){
+                                    this.bind_mid=arr.splice(s,1).join(';')
+                                }
+                            }
+                            for(var i=0;i<this.bindMid.length;i++){
+                                if(this.bindMid[i]=='ADP_178'){
+                                    this.bindMid.splice(i,1)
+                                }
+                            }
+                        }    
                     }
                 }
             },

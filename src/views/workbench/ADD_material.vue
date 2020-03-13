@@ -74,6 +74,7 @@
                             <span class="tit">绑定素材:</span>
                             <input type="text" placeholder="请输入素材ID" v-model="bind_mid"  @change="IDchange"/>
                             <span class="AddIMG_sc_btn" @click="XSset" >从素材库选择</span>
+                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="is_bind_mid"/><span >绑定特殊素材</span>
                             <p>上传物料前，请务必保证素材库内有对应素材！多个素材用英文半角;隔开</p>
                         </div>
                         <div class="AddIMG_select">
@@ -128,7 +129,7 @@
                                 <div style="text-align: center;font-size: 10px">当前附件上传{{bbb}}%</div>
                             </div>
                         </div>
-                          <div class="box_sel" v-if="this.type=='f_sls_lockscreen'">
+                          <div class="box_sel" v-if="this.type=='f_sls_picture'">
                             <span class="tit">来源:</span>
                             <input class="AddIMG_yl_size" v-model="resource" placeholder="请输入来源(最多6字)"  >
                         </div>
@@ -237,7 +238,8 @@
                 sizeList:[],
                 arr:[],
                 clickNmu:0,
-                resource:''
+                resource:'',
+                is_bind_mid:false,
             }
         },
         mounted(){
@@ -255,7 +257,11 @@
                 this.$parent.ShowHint()
             },
             XSset(){
-                this.$parent.XSset()
+                if(this.bind_mid!=''){
+                    this.$emit('listID',this.bind_mid);
+                }else{
+                    this.$parent.XSset();
+                }   
             },
             time(){
                 var _this=this;
@@ -500,7 +506,7 @@
                         this.$message('壁纸标识不能为空');
                          return
                     }
-                     if(this.type=='f_sls_lockscreen'&&!this.resource){
+                     if(this.type=='f_sls_picture'&&!this.resource){
                         this.$message('来源不能为空');
                          return
                     }
@@ -576,9 +582,91 @@
 
             },
         },
-        watch: {
+         watch: {
             'bindMid': function(newVal){
                 this.bind_mid = newVal.join(';')
+            },
+            'is_bind_mid':function(newVal){
+                if(newVal==true){
+                    if(window.location.host=='ts-centerweb.idatachain.cn'){
+                        if(this.bindMid.indexOf('ADP_178') == -1){
+                            if(this.bind_mid==''){
+                                this.bind_mid = this.bind_mid  + 'ADP_178' +';';
+                            }else{
+                                this.bind_mid = this.bind_mid + ';' + 'ADP_178';
+                            }
+                            this.bindMid.push('ADP_178');
+                        }    
+                    }
+                    if(window.location.host=='c2.zookingsoft.com'){
+                        if(this.bindMid.indexOf('ADP_1') == -1){
+                            if(this.bind_mid==''){
+                                this.bind_mid = this.bind_mid + 'ADP_1' + ';';
+                            }else{
+                                this.bind_mid = this.bind_mid + ';' + 'ADP_1';
+                            }
+                            
+                            this.bindMid.push('ADP_1');
+                        }
+                    }
+                    if(window.location.host=='localhost:8080'){
+                        if(this.bindMid.indexOf('ADP_178') == -1){
+                            if(this.bind_mid==''){
+                                this.bind_mid = this.bind_mid  + 'ADP_178' +';';
+                            }else{
+                                this.bind_mid = this.bind_mid + ';' + 'ADP_178';
+                            }
+                            this.bindMid.push('ADP_178');
+                        } 
+                    }
+                }
+                  if(newVal==false){
+                     if(window.location.host=='ts-centerweb.idatachain.cn'){
+                        if(this.bindMid.indexOf('ADP_178') != -1){
+                            var arr=this.bind_mid.split(';');
+                            for(var s=0;s<arr.length;s++){
+                                if(arr[s]=='ADP_178'){
+                                    this.bind_mid=arr.splice(s,1).join(';')
+                                }
+                            }
+                            for(var i=0;i<this.bindMid.length;i++){
+                                if(this.bindMid[i]=='ADP_178'){
+                                    this.bindMid.splice(i,1)
+                                }
+                            }
+                        }    
+                    }
+                    if(window.location.host=='c2.zookingsoft.com'){
+                        if(this.bindMid.indexOf('ADP_1') != -1){
+                            var arr=this.bind_mid.split(';');
+                            for(var s=0;s<arr.length;s++){
+                                if(arr[s]=='ADP_1'){
+                                    this.bind_mid=arr.splice(s,1).join(';')
+                                }
+                            }
+                            for(var i=0;i<this.bindMid.length;i++){
+                                if(this.bindMid[i]=='ADP_1'){
+                                    this.bindMid.splice(i,1)
+                                }
+                            }
+                        }    
+                    }
+                    if(window.location.host=='localhost:8080'){
+                        if(this.bindMid.indexOf('ADP_178') != -1){
+                            var arr=this.bind_mid.split(';');
+                            for(var s=0;s<arr.length;s++){
+                                if(arr[s]=='ADP_178'){
+                                    this.bind_mid=arr.splice(s,1).join(';')
+                                }
+                            }
+                            for(var i=0;i<this.bindMid.length;i++){
+                                if(this.bindMid[i]=='ADP_178'){
+                                    this.bindMid.splice(i,1)
+                                }
+                            }
+                        }    
+                    }
+                }
             },
         },
     }

@@ -112,7 +112,7 @@
                                 prop="creator"
                                 label="操作人员">
                                   <template slot-scope="scope">
-                                      <span>{{tableData[scope.$index].creator==''?'--':tableData[scope.$index].creator}}</span>
+                                      <span>{{tableData[scope.$index].updator==''?'--':tableData[scope.$index].updator}}</span>
                                 </template>
                         </el-table-column>
                         <el-table-column
