@@ -77,7 +77,7 @@
                             </div>
                         </div>
                     </div>
-                    <div style="margin-top:20px">
+                    <div style="margin-top:20px" v-if='item.type!="1"'>
                         <div style="margin-bottom:15px">
                             <span class='tits'>标题:</span>
                             <span @click='tit(index)' class='cons' v-if="bt">{{item.title}}</span>
@@ -148,11 +148,11 @@
         },
         methods:{
             fh(){
-                // this.$router.go(-1);
-                let routeData = this.$router.resolve({
+                this.$router.push({
                     path:'./theme',
-                });
-                window.open(routeData.href, '_blank');
+                })
+                
+               
             },
 
 

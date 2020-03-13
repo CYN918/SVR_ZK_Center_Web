@@ -99,7 +99,7 @@
                             <input type="text" placeholder="请输入素材ID" v-model="bind_mid" @change="IDchange"/>
                             <span class="AddIMG_sc_btn" @click="XSset" :class="{AddIMG_sc_btn_jy:(this.message.mfid!=undefined)}">从素材库选择</span>
                             <!-- <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="is_bind_mid" :disabled="(this.message.mid!=undefined)"/><span style="vertical-align: top">绑定特殊素材</span> -->
-                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="is_bind_mid"/><span style="vertical-align: top">绑定特殊素材</span>
+                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="is_bind_mid" v-if="this.message.mfid==undefined"/><span style="vertical-align: top" v-if="this.message.mfid==undefined">绑定特殊素材</span>
                             <el-popover
                                 placement="top-start"
                                 width="200"
@@ -577,7 +577,7 @@
                 }else{
                     this.size=this.sjSize
                 }
-                let formData = new FormData;
+                let formData = new FormData;v v    vb
                   formData.append('name',this.name);
                 // formData.append('video_type',this.showType);
                 // formData.append('duration',this.audioDuration);
@@ -588,6 +588,7 @@
                 formData.append('attach',JSON.stringify(this.attach));
                 formData.append('tags',this.preinstall);
                 formData.append('self_tags',this.bardian);
+                formData.append('resource',this.resource);
                 formData.append('size',this.size);
                 formData.append('model',this.model);
                 formData.append('ad_pic',this.ad_pic);
@@ -749,16 +750,13 @@
                         this.attach.wpid=res.wpid
                     }
                     this.ad_num=res.ad_num;
-                    
-                    if(res.resource!=undefined){
-                        this.resource=res.resource
-                    }
+                    this.resource=res.resource;
                     this.sjSize=res.size;
                     if(this.arr[this.arr.length-1]=='mp4'||this.arr[this.arr.length-1]=='MP4'){
                         this.getSize()
                     }
                     this.type=res.type;
-                    this.is_bind_mid=res.is_special==1?true:false;
+                    this.is_bind_mid=res.is_bind_mid==1?true:false;
                     this.link = res.link;
                     this.model = res.model;
                     this.arr=res.prev_uri.split('.');
