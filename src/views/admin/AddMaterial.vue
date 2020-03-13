@@ -577,7 +577,7 @@
                 }else{
                     this.size=this.sjSize
                 }
-                let formData = new FormData;v v    vb
+                let formData = new FormData;
                   formData.append('name',this.name);
                 // formData.append('video_type',this.showType);
                 // formData.append('duration',this.audioDuration);
