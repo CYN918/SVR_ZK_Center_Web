@@ -218,7 +218,13 @@
                     path:'/userinfo/message'
                 })
             },
-        }
+            getPath(){
+                this.getMessage();
+            }
+        },
+        watch:{
+            '$route':'getPath'
+        },
     }
 </script>
 
