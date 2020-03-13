@@ -2,43 +2,44 @@
   <div>
         <div>
             <div class="top_name">
-                <span class="top_txt">广告内容审核&nbsp;/&nbsp;图片审核</span>
+                <span class="top_txt gesture" @click='fh'>广告内容审核&nbsp;/&nbsp;图片审核</span>
                 <div class="title_left">
                     <span>图片审核</span>
                 </div>
+                <span  class='tits'>项目：</span>
+                <select v-model="pid">
+                    <option value="">全部</option>
+                    <option value="1" >魅族开屏</option>
+                    <option value="2" >魅族信息流</option>
+                    <option value="3" >金立开屏</option>
+                </select>
+                <span class='tits'>三方广告源ID：</span>
+                <select v-model="sdk_id" @change="ganged()">
+                    <option value="">全部</option>
+                    <option :value="item.sdk_id" v-for='(item,index) in adAPI'>{{item.sdk_id}}</option>
+                </select>
+                <span class='tits'>三方广告位ID：</span>
+                <select v-model="id_adsrc">
+                    <option value="">全部</option>
+                    <option :value="item" v-if='sdk_id!=""' v-for='item in adAPI[index].id_adsrc'>{{item}}</option>
+                </select>
+                <span class='tits'>页码：</span>
+                <input type="number" placeholder="输入页码" v-model="page"/>
+                <div class='sel'>
+                    <span @click='getData()'>查询</span>
+                    <span class='yjqr' @click='tc()'>一键确认</span>
+                </div>
             </div>
         </div>
-        <div class="centNavBox">
-            <span class='tits'>三方广告源ID：</span>
-            <select v-model="sdk_id" @change="ganged()">
-                <option value="">全部</option>
-                <option :value="item.sdk_id" v-for='(item,index) in adAPI'>{{item.sdk_id}}</option>
-            </select>
-             <span class='tits'>三方广告位ID：</span>
-            <select v-model="id_adsrc">
-                <option value="">全部</option>
-                <option :value="item" v-if='sdk_id!=""' v-for='item in adAPI[index].id_adsrc'>{{item}}</option>
-            </select>
-            <div class='sel'>
-                <span @click='getData()'>查询</span>
-                <!-- <span>换一批</span> -->
-                <span class='yjqr' @click='tc()'>一键确认</span>
-            </div>
-        </div>
+       
           <div class="content_right">
             <div class="titel_table">
                 <span class="circle"></span>
                 <span>共</span>
                 <span class="all">{{total}}</span>
                 <span>项&nbsp&nbsp</span>
-                <span>已处理</span>
-                <span >{{process}}</span>
-                <span>项&nbsp&nbsp</span>
-                <span>剩余</span>
-                <span class="red">{{}}</span>
-                <span>项&nbsp&nbsp</span>
             </div>
-            <div>
+            <div class='tableBox'>
                 <template>
                     <el-table
                             :data="tableData"
@@ -74,7 +75,14 @@
                                 prop=""
                                 label="分类">
                                  <template slot-scope="scope">
-                                    <span class='tagsName'  v-for='(da,num) in tags' :class='{act: JSON.stringify(advers).indexOf(JSON.stringify(list))!=-1}'  style="margin-right:15px" @click='sgtData(da,tableData[scope.$index].mid,num,scope.$index)'>{{da.tags_name}}</span>
+
+                                    <span class='tagsName'  
+                                    v-for='(da,num) in tableData[scope.$index].tags' 
+                                    :class="{'act': da.isShow}"  
+                                    style="margin-right:15px" 
+                                    @click='sgtData(da,tableData[scope.$index].mid,num,scope.$index)'
+                                    >{{da.tags_name}}</span>
+
                                 </template>
                         </el-table-column>
                         <el-table-column
@@ -91,7 +99,7 @@
             </div>
           
         </div>
-        <div class='tcvBox' v-if='show'>
+        <div class='tcvBox' v-if='this.show'>
             <div class='box'>
                 <div class='box_tit'>
                     <span>
@@ -127,15 +135,20 @@ export default {
                 tags:[],
                 advers:[],
                 show:false,
-                list:{},
+                list:[],
+                tagsList:[],
+                pid:""
             }
         },
         
         mounted(){
             this.getData()
         },
-        
+       
         methods:{
+            fh(){
+                this.$router.go(-1)
+            },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
                     return 'background:rgb(246, 245, 245,1);color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:blod;font-family:PingFang-SC-Regular;'
@@ -147,13 +160,17 @@ export default {
                 return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
             getData(){
-                let params={sdk_id:this.sdk_id,id_adsrc:this.id_adsrc,p:this.p,page:this.page}
+                var res=/^\+?[1-9]\d*$/;
+                if(!res.test(this.page)){
+                    this.$message.error('页码只能为大于零的正整数');
+                    return
+                }
+                let params={sdk_id:this.sdk_id,id_adsrc:this.id_adsrc,p:this.p,page:this.page,pid:this.pid}
                 this.api.adver_tags_pending({params}).then((res=>{
-                    this.tableData=res.data;
                     this.total=res.total;
                     this.updata();
                     this. getAPI();
-                    this.getTags()
+                    this.getTags(res.data)
                 }))
             },
             getAPI(){
@@ -171,86 +188,108 @@ export default {
                     }
                 }
             },
-            getTags(){
+            getTags(data){
                 this.api.adver_tags_config_opstags().then((res)=>{
-                    this.tags=res;
+                    res.forEach(item => {
+                        item.isShow = false
+                    })
+                    this.tagsList = res
+                    data.forEach((item, index) =>{
+                        item.tags = JSON.parse(JSON.stringify(res))
+                    })
+                    this.tableData =data
+                    this.updata();
                 })
             },
-            sgtData(name,id){
-                if(this.advers.length==0){
-                        var obj={
-                            mid:'',
-                            tags:[]
-                        };
-                        obj.mid=id;
-                        (obj.tags).push(name);
-                        this.advers.push(obj);
-                      this.list.mid=id;
-                      this.list.tags=[name];
-                        return
-                }
-                if(this.advers.length>0){
-                    for(var i=0;i<this.advers.length;i++){
-                        if(this.advers[i].mid!=id){
-                             var obj={
+             sgtData(name,id,indexs, idxs){
+                    this.tableData[idxs].tags[indexs].isShow = !this.tableData[idxs].tags[indexs].isShow
+                    if(this.advers.length==0){
+                            var obj={
                                 mid:'',
                                 tags:[]
                             };
                             obj.mid=id;
                             (obj.tags).push(name);
-                            this.advers.push(obj);
-                           
+                            this.advers.push(obj); 
+                            console.log(this.advers)                   
                             return
-                        }
-                        if(this.advers[i].mid==id&&(this.advers[i].tags).indexOf(name)==-1){
-                            (this.advers[i].tags).push(name);
-                            
-                            return
-                        }
-                        if(this.advers[i].mid==id&&(this.advers[i].tags).indexOf(name)!=-1&&this.advers[i].tags.length>2){
-                            for(var k=0;k<this.advers[i].tags.length;k++){
-                                if(this.advers[i].tags[k].tags_id==name.tags_id){
-                                    (this.advers[i].tags).splice(k,1);
-                                   
+                    }
+                    if(this.advers.length>0){
+                        var bFind = false;
+                        var sFind = false;
+                        for(var i=0;i<this.advers.length;i++){
+                            if(this.advers[i].mid!=id){             
+                                continue;
+                            } 
+							bFind =true;
+                            if(this.advers[i].mid==id){
+                                for(var s=0;s<this.advers[i].tags.length;s++){
+                                    if(this.advers[i].tags[s].tags_id!=name.tags_id){
+                                        continue;
+                                    }
+                                    sFind=true;
+                                }
+                                if(!sFind){
+                                     (this.advers[i].tags).push(name);
+                                    console.log(this.advers) 
                                     return
                                 }
-                            
+                                // (this.advers[i].tags).push(name);
+                                // console.log(this.advers) 
+                                // return
+                            }
+                            if(this.advers[i].mid==id&&this.advers[i].tags.length>1){
+                                for(var k=0;k<this.advers[i].tags.length;k++){
+                                    if(this.advers[i].tags[k].tags_id==name.tags_id){
+                                        (this.advers[i].tags).splice(k,1);
+                                        console.log(this.advers) 
+                                        return
+                                    }
+                                
+                                }
+                            }
+                            if(this.advers[i].mid==id&&(this.advers[i].tags).indexOf(name)!=-1&&this.advers[i].tags.length<2){
+                                this.advers.splice(i,1); 
+                                console.log(this.advers)                           
+
                             }
                         }
-                        if(this.advers[i].mid==id&&(this.advers[i].tags).indexOf(name)!=-1&&this.advers[i].tags.length<2){
-                             this.advers.splice(i,1);
-                            //  for(var m=0;m<this.WCindex.length;m++){
-                            //      if(this.WCindex[m]==wcIndex){
-                            //          this.WCindex.splice(m,1);
-                            //      }
-                            //  }
-                            //  for(var j=0;j<this.nums.length;j++){
-                            //              if(this.nums[j]==index){
-                            //                  this.nums.splice(j,1)
-                            //              }
-                            //          }
-                        }
-                    }  
-                }
+						if(!bFind)
+						{
+							var obj = {
+							    mid:'',
+							    tags:[]
+							};
+							
+							obj.mid=id;
+							(obj.tags).push(name);
+							this.advers.push(obj); 
+							console.log(this.advers) 
+							return
+						}
+                    }
                 
-            },
+                },
+
             tc(){
+                 if(this.advers.length==0){
+                    this.$message.error('请最少配置一个分类');
+                    return
+                    
+                }
                 this.show=true;
             },
             heid(){
                 this.show=false;
             },
             add(){
-                if(this.advers.length==0){
-                    this.$message.error('请最少配置一个分类');
-                    return
-                    
-                }
                 let formData = new FormData;
                 formData.append('advers',JSON.stringify(this.advers));
                 this.api.adver_tags_audit(formData).then((res)=>{
                     if(res!=false){
+                        this.advers=[];
                         this.getData();
+                        this.heid();
                     }
                 })
             },
@@ -260,21 +299,11 @@ export default {
 </script>
 
 <style scoped>
-    .top_name{height: 112px}
+    .top_name{height: 130px}
     .top_txt,.title_left span{
         margin-left: 24px;
     }
-    .centNavBox{
-        background:rgba(255,255,255,1);
-        box-shadow:0px 1px 3px 0px rgba(0, 0, 0, 0.06);
-        height: 100px;
-        font-size:14px;
-        line-height:60px ;
-        color:rgba(0,0,0,1) !important;
-        margin-top: 195px;
-        border-radius: 5px;
-        line-height: 100px;
-    }
+    
     .tit_name,.tits{
         display: inline-block;
         font-size: 14px;
@@ -290,10 +319,16 @@ export default {
         border-radius: 4px;
         border: 1px solid rgba(211,219,235,1);
     }
+    input{
+        width: 80px;
+        height: 30px!important;
+        padding-left: 3px!important;
+        border: 1px solid rgba(211,219,235,1)!important;
+    }
     .sel{
         display: inline-block;
         float: right;
-        margin-right: 24px;
+        margin-right: 20%;
     }
     .sel span{
         display: inline-block;
@@ -322,7 +357,7 @@ export default {
         -webkit-box-sizing: border-box;
         box-sizing: border-box;
         background: #fff;
-        margin-top: 40px
+        margin-top: 217px
     }
     .titel_table{
         width: 100%;
@@ -526,6 +561,9 @@ export default {
         border:1px solid #000;
         border-radius: 3px;
         cursor: pointer;
+        display: inline-block;
+        height: 30px;
+        line-height: 30px
     }
     .tagsName:hover{
         border: 0!important;
@@ -608,6 +646,9 @@ export default {
     background: #3377ff;
     color: #fff!important;
     margin-right: 24px!important;
+    cursor: pointer;
+}
+.gesture{
     cursor: pointer;
 }
 </style>

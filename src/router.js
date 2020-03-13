@@ -47,6 +47,10 @@ import AdminAD from './views/admin/AD_templates.vue'
 mode['library_resources'] = AdminAD
 import lockScreen from './views/admin/lockScreen.vue'
 mode['lockScreen'] = lockScreen
+import Ordinary_wallpaper from './views/admin/Ordinary_wallpaper'
+mode['Ordinary_wallpaper']=Ordinary_wallpaper
+import callShow from './views/admin/callShow'
+mode['callShow'] = callShow
 import AdminRole from './views/admin/level/role.vue'
 mode['roles'] = AdminRole
 import AdminInside from './views/admin/level/inside.vue'
@@ -252,6 +256,8 @@ import External_details from './views/workbench/External_details'
 mode['External_details']=External_details
 import Advertising_content_review from './views/workbench/Advertising_content_review'
 mode['Advertising_content_review']=Advertising_content_review
+import Advertising_review from './views/workbench/Advertising_review'
+mode['Advertising_review']=Advertising_review
 
 import axios from 'axios'
 import api from './api/index'
@@ -397,7 +403,9 @@ let nb = [
             // {path:'/admin/journal_Administrator',name:'杂志锁屏推送管理删除',component: mode['journal_Administrator'],},
             // {path:'/admin/wb_Journal',name:'外部杂志锁屏推送管理删除',component: mode['wb_Journal'],},
 			{path:'/admin/WLtemplate',name:'广告模版',component: mode['WLtemplate']},
-			{path:'/admin/lockScreen',name:'场景锁屏',component: mode['lockScreen']},
+            {path:'/admin/lockScreen',name:'广告壁纸',component: mode['lockScreen']},
+            {path:'/admin/Ordinary_wallpaper',name:'普通壁纸',component: mode['Ordinary_wallpaper']},
+            {path:'/admin/callShow',name:'广告壁纸',component: mode['callShow']},
 			{path:'/admin/add_library',name:'添加投放库',component: mode['add_library']},
 			{path:'/admin/details_library',name:'详情库',component: mode['details_library']},
 			{path:'/admin/tags_details',name:'标签管理',component: mode['tags_details']},
@@ -453,6 +461,8 @@ let nb = [
             {path:'/workbench/External_pre_trial',name:'外部杂志锁屏推送管理',component: mode['External_pre_trial'],},
             {path:'/workbench/External_details',name:'外部杂志锁屏推送管理详情',component: mode['External_details'],},
             {path:'/workbench/Advertising_content_review',name:'广告内容审核',component: mode['Advertising_content_review'],},
+            {path:'/workbench/Advertising_review',name:'广告内容审核首页',component: mode['Advertising_review'],},
+            
             
            
 	]},
@@ -577,7 +587,7 @@ let leftNav =
 // 			{title:'广告图',url:'/admin/advertising'},
 // 			{title:'广告模板',url:'/admin/AD_templates'}],
 // 			children:[
-// 			{title:'场景锁屏',url:'1-3',list:[
+// 			{title:'杂志锁屏',url:'1-3',list:[
 //                  {title:'动效',url:'/admin/dynamic'},
 //                  {title:'壁纸',url:'/admin/wallpaper'},
 //                     ]},
@@ -586,8 +596,14 @@ let leftNav =
 // 		{title:'物料库',url:'3',img:'&#xe617;',list:[
 // 			{title:'广告图',url:'/admin/MaterialResource'},
 // 			{title:'广告模版',url:'/admin/WLtemplate'},
-// 			{title:'场景锁屏',url:'/admin/lockScreen'},
-// 		]},
+//             {title:'来电秀',url:'/admin/callShow'}
+//         ],
+//             children:[
+//                 {title:'杂志锁屏',url:'3-3',list:[
+//                      {title:'广告壁纸',url:'/admin/lockScreen'},
+//                      {title:'普通壁纸',url:'/admin/Ordinary_wallpaper'},
+//                         ]},
+//                 ]},
 // 		{title:'配制管理',url:'4',img:'&#xe60e;',list:[
 // 			{title:'设计规范库',url:'/admin/standard'},
 // 			{title:'标签管理',url:'/admin/settags'},
@@ -619,7 +635,7 @@ let leftNav =
 //                     {title:'线下资源替换',url:'/workbench/Offline_resources'},
 //                     {title:'线上审核资源替换',url:'/workbench/channel_resource'},
 //                     {title:'杂志锁屏物料预审',url:'/workbench/External_pre_trial'},
-//                     {title:'广告内容审核',url:'/workbench/Advertising_content_review'},
+//                     {title:'广告内容审核',url:'/workbench/Advertising_review'},
                     
 //                 ],},
 
@@ -715,7 +731,7 @@ let leftNav =
 //         },
 // ];
 
-// localStorage.setItem('letNav',JSON.stringify(leftNav));
+localStorage.setItem('letNav',JSON.stringify(leftNav));
 
 router.beforeEach((to, from, next) => {
 	/*登录过期*/
@@ -849,19 +865,17 @@ router.beforeEach((to, from, next) => {
                 next({ path: '/admin/wb_Journal'});
                 return;
             }
-            // if(msg.data.data.user.status=='0'){
-            //     // alert("没有权限，请联系管理员添加角色或启用账号");
-            //     next({ path: '/erro'});
-            //     return;
-            // }
-            api.account_apply_status().then((datas)=>{
-                // console.log(datas)					
-                if(datas.status != '3'){
+            if(msg.data.data.user.status=='0'){
+                // alert("没有权限，请联系管理员添加角色或启用账号");
+                next({ path: '/erro'});
+                return;
+            }
+            api.account_apply_status().then((datas)=>{					
+                if(datas.status != 3){
                     next({ path: '/erro'});
                     return
-                }else{
-                    next({ path: '/index'});
                 }
+                next({ path: '/index'});
             })
 
 		}).catch(()=>{

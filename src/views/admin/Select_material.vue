@@ -92,7 +92,7 @@
 <script>
     export default {
         name: "select_material",
-        props:['material','typeSC'],
+        props:['material','typeSC','ids'],
         data(){
             return {
                 checked:[],
@@ -122,7 +122,7 @@
         },
         mounted() {
             this.getList();
-
+            this.checked=this.checked.concat(this.ids.split(';'));
         },
         methods:{
             getID(index){
@@ -152,7 +152,7 @@
                             }
                         }
                     }
-                    this.$emit('listenToChildEvent', this.mid_list,this.url_list,true);
+                    this.$emit('listenToChildEvent',this.mid_list,this.url_list,true);
                     this.$parent.getCon();
                     this.$parent.YCset();
             }

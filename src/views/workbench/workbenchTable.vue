@@ -1,7 +1,7 @@
 <template>
     <div>
-        <ADD v-if="ADD" :id="id" :num="num" :ind="index" :hqUrl="hqUrl" :bindMid="bindMid" :material="0" :types="types" :typeName="typeName" :limit_size="limit_size" :limit_model="limit_model"></ADD>
-        <set v-if="sets"   @listenToChildEvent="listen" :material="0"></set>
+        <ADD v-if="ADD" :id="id" :num="num" :ind="index" :hqUrl="hqUrl" :bindMid="bindMid" :material="0" :types="types" :typeName="typeName" :limit_size="limit_size" :limit_model="limit_model" @listID='listID'></ADD>
+        <set v-if="sets"   @listenToChildEvent="listen" :material="0" :ids='ids'></set>
         <uplodWl v-if='up'  :id="id"  :status="status" @upDataLists="upDataLists"></uplodWl>
         <BDadd v-if="BD"  :index="index" :id="id" :status="status"></BDadd>
         <AddWL v-if="wl"  :id="id" @dataType="datatype" :types="types" :typeName="typeName" :limit_type="limit_type" :limit_size="limit_size"></AddWL>
@@ -352,6 +352,7 @@
                 skID:'',
                 skType:"",
                 status:'',
+                ids:"",
                 processor:[],
                 getRowKeys(row) {
                     return row.did;
@@ -485,6 +486,10 @@
                 this.skID=id;
                 this.skType=type;
                 this.status=scope;
+            },
+            listID(data){
+                this.ids=data;
+                this.XSset();
             },
             ADDRemit(id,type,scope){
                 this.fkjs=true;
