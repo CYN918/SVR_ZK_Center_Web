@@ -827,7 +827,7 @@ router.beforeEach((to, from, next) => {
     }
 	
 	let cent = 'center',
-    urld = 'http://c.zookingsoft.com/api/login';
+    urld = 'https://c.zookingsoft.com/api/login';
 	if(window.location.host=='ts-centerweb.idatachain.cn'){
 		cent = 'center_dev';
         urld ='http://ts-i.idatachain.cn/api/login';
@@ -835,7 +835,7 @@ router.beforeEach((to, from, next) => {
 	}
     if(window.location.host=='c2.zookingsoft.com'){
         cent = 'center_dev2';
-        urld ='http://c2.zookingsoft.com/api/login';
+        urld ='https://c2.zookingsoft.com/api/login';
         
     }
 	if(window.location.host=='localhost:8080'){
