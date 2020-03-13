@@ -501,10 +501,13 @@
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
+                   
                     this.bbb=100;
                     this.initiate2=false;
                     this.prev_uri = res.url;
                     this.arr=this.prev_uri.split('.');
+                     console.log(this.arr)
+                    console.log(this.chenck)
                     if(this.arr[this.arr.length-1]=='mp4'){
                         this.getSize()
                     }
