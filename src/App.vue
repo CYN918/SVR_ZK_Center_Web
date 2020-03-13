@@ -382,7 +382,7 @@ a{
 }
 .boxImg{
   display: inline-block;
-  width:795px;
+  width:48.5%;
   height:353px;
   background:rgba(255,255,255,1);
   border-radius:4px;
