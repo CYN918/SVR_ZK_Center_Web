@@ -67,13 +67,14 @@
                         <div class="up_add" @click="show(index)">
                             <input type="text"/>
                         </div>
-                        <div v-for="(da,ind) in item.images" style="display: inline-block; margin-right: 50px;">
+                        <div v-for="(da,ind) in item.images" style="display: inline-block; margin-right: 50px;vertical-align: top ">
                             <div class="img_list">
                                 <img class="img_center" :src="da.url">
                                 <img class="del" src="../../../public/img/del.png" style="width: 16px;opacity: 0" />
                             </div>
                             <div style="margin-top: 10px;text-align: center">
-                                <span >{{da.width}}*{{da.height}}</span>
+                                <span style="display:block">{{ind==0?'1.大图':ind==1?'2.小图':ind==2?'3.组图':ind==3?'4.组图':'5.组图'}}</span>
+                                <span v-if='da.url' >{{da.width}}*{{da.height}}</span>
                             </div>
                         </div>
                     </div>
@@ -247,9 +248,8 @@
                 };
             },
             ups(file){
-console.log(this.list[this.index].images.length+1)
-                let num = this.list[this.index].images.length+1
-                
+                let num =file.file.name.split('.');
+                let nums= num[num.length-2].split('_')[(num[num.length-2].split('_')).length-1]
                 let formData = new FormData;
                 formData.append('temple_name',this.list[this.index].temple_name);
                 formData.append('pkg_name',this.$route.query.pkg_name);
@@ -258,7 +258,7 @@ console.log(this.list[this.index].images.length+1)
                 formData.append('width',this.width);
                 formData.append('height',this.height);
                 formData.append('type',this.list[this.index].type)
-                formData.append('order',num)
+                formData.append('order',nums)
                 this.api.appad_add(formData).then((res)=>{
                     if(!res){
                         this.fileList.push(file.file);
@@ -315,6 +315,7 @@ console.log(this.list[this.index].images.length+1)
         left: 0;
         bottom: 0;
         z-index: 999;
+        
     }
 .top{
     width: 100%;
@@ -478,9 +479,10 @@ console.log(this.list[this.index].images.length+1)
         right: 0;
     }
     .img_center{
-       position: relative;
+       position: absolute;
         top:50%;
-        transform: translateY(-50%);
+        left: 50%;
+        transform: translate(-50%,-50%);
         max-width: 150px;
         max-height: 220px;
     }
