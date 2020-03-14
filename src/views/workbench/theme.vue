@@ -61,6 +61,10 @@
                                 prop="flow_status_name"
                                 label="信息流状态"
                         >
+                                 <template slot-scope="scope">
+                                    <span class="red" v-if="tableData[scope.$index].flow_status==0">{{tableData[scope.$index].flow_status_name}}</span>
+                                    <span  v-if="tableData[scope.$index].flow_status==1">{{tableData[scope.$index].flow_status_name}}</span>
+                                </template>
                         </el-table-column>
                         <el-table-column
 
