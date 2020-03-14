@@ -250,6 +250,11 @@
             ups(file){
                 let num =file.file.name.split('.');
                 let nums= num[num.length-2].split('_')[(num[num.length-2].split('_')).length-1]
+                if(isNaN(nums)){
+                    this.$message.error('图片名称有误')
+                    return
+                }
+
                 let formData = new FormData;
                 formData.append('temple_name',this.list[this.index].temple_name);
                 formData.append('pkg_name',this.$route.query.pkg_name);
