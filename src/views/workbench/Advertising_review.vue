@@ -224,8 +224,20 @@ export default {
                         pending:"",
                         audited:"",
                         all:"",
-                        pid:''
+                        pid:'',
+                        control:[],
+                        sx:false
                 }
+            },
+            created(){
+                 this.control=JSON.parse(localStorage.getItem('control'));
+                    for(var i= 0 ;i<this.control.length;i++){
+                        if(this.control[i].uri_key=='uri.tools.adver.project.edit'){
+                            this.sx=true
+                        }else{
+                            this.sx=false
+                        }
+                    }
             },
             methods:{
                 reset(){
