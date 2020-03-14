@@ -260,13 +260,17 @@
                 };
             },
             ups(file){
-                if(this.type=='2'){
-                     var num =file.file.name.split('.');
+                if(this.list[this.index].type==2){
+                    var num =file.file.name.split('.');
                     var nums= num[num.length-2].split('-')[(num[num.length-2].split('-')).length-1]
                     if(isNaN(nums)){
                         this.$message.error('图片名称有误')
                         return
                     }
+                }else{
+                    var nums = ''
+                }
+                   
                      var formData = new FormData;
                     formData.append('temple_name',this.list[this.index].temple_name);
                     formData.append('pkg_name',this.$route.query.pkg_name);
@@ -276,19 +280,7 @@
                     formData.append('height',this.height);
                     formData.append('type',this.list[this.index].type)
                     formData.append('order',nums)
-                }else{
-                     var formData = new FormData;
-                    formData.append('temple_name',this.list[this.index].temple_name);
-                    formData.append('pkg_name',this.$route.query.pkg_name);
-                    formData.append('route',this.list[this.index].route);
-                    formData.append('file',file.file);
-                    formData.append('width',this.width);
-                    formData.append('height',this.height);
-                    formData.append('type',this.list[this.index].type)
-                    
-                }
-               
-               
+
                 this.api.appad_add(formData).then((res)=>{
                     if(!res){
                         this.fileList.push(file.file);
