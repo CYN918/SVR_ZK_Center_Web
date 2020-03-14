@@ -7,15 +7,15 @@
                 </div>
                 <div class="AddIMG_content">
                     <div class="AddIMG_content_left">
-                        <div v-if='this.types!="f_laidian_show"'>
+                        <div v-if='types!="f_call_show"'>
                             <div>
                                 <span>素材预览图</span>
                             </div>
                             <div class="AddIMG_box">
                                 <div v-for="item in hqUrl" style="display: inline-block">
                                     <!--<img :src="item"  />-->
-                                    <img :src="item" v-if="(item.split('.'))[(item.split('.')).length-1]!='mp4'"/>
-                                    <video :src="item" controls="controls" v-if="(item.split('.'))[(item.split('.')).length-1]=='mp4'" />
+                                    <img :src="item" v-if="(item.split('.'))[(item.split('.')).length-1]!='mp4'&&(item.split('.'))[(item.split('.')).length-1]!='MP4'"/>
+                                    <video :src="item" controls="controls" v-if="(item.split('.'))[(item.split('.')).length-1]=='mp4'||(item.split('.'))[(item.split('.')).length-1]!='MP4'" />
                                 </div>
 
                             </div>
@@ -41,8 +41,8 @@
                             <span>上传预览图</span>
                         </div>
                         <div class="AddIMG_box_1">
-                            <img :src="chenck==false?prev_uri:attach.url" v-if="this.arr[this.arr.length-1]!='mp4'"/>
-                            <video  :src="chenck==false?prev_uri:attach.url" controls="controls" v-if="this.arr[this.arr.length-1]=='mp4'" />
+                            <img :src="chenck==false?prev_uri:attach.url" v-if="this.arr[this.arr.length-1]!='mp4'&&this.arr[this.arr.length-1]!='MP4'"/>
+                            <video  :src="chenck==false?prev_uri:attach.url" controls="controls" v-if="this.arr[this.arr.length-1]=='mp4'||this.arr[this.arr.length-1]=='MP4'" />
                         </div>
                     </div>
                     <div class="AddIMG_content_right">
@@ -83,19 +83,23 @@
                                 <div class="strip" :style="{width:aaa+'%'}" style="background: blue;height: 5px"></div>
                                 <div style="text-align: center;font-size: 10px">当前附件上传{{aaa}}%</div>
                             </div>
-                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="chenck" v-if="this.types!='f_sls_lockscreen'&&this.types!='f_laidian_show'" @click="checkSelect()"/><span v-if="this.types!='f_sls_lockscreen'&&this.types!='f_laidian_show'" style="vertical-align: top">仅图片</span>
+                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="chenck" v-if="this.types!='f_sls_lockscreen'&&this.types!='f_call_show'" @click="checkSelect()"/><span v-if="this.types!='f_sls_lockscreen'&&this.types!='f_call_show'" style="vertical-align: top">仅图片</span>
                             <span class="content_xz" @click="dels()" v-if="attach.name!=undefined">删除</span>
-                            <div class="upChenck" v-if="this.types!='f_sls_lockscreen'&&this.types!='f_laidian_show'">
+                            <div class="upChenck" v-if="this.types!='f_sls_lockscreen'&&this.types!='f_call_show'">
                                 <p>勾选后可直接上传图片、且无需再次上传预览图</p>
                             </div>
                         </div>
-                        <div class="AddIMG_sc" v-if='this.types!="f_laidian_show"'>
+                        <div class='AddIMG_sc' v-if="this.types=='f_call_show'">
+                            <span class="tit">名称:</span>
+                            <input type="text" v-model="name" placeholder="请输入" :disabled="(this.message.mfid!=undefined)">
+                        </div>
+                        <div class="AddIMG_sc" v-if='this.types!="f_call_show"'>
                             <span class="tit">绑定素材:</span>
                             <!-- <input type="text" placeholder="请输入素材ID" v-model="bind_mid" :disabled="(this.message.mfid!=undefined)" @change="IDchange"/> -->
                             <input type="text" placeholder="请输入素材ID" v-model="bind_mid" @change="IDchange"/>
                             <span class="AddIMG_sc_btn" @click="XSset" :class="{AddIMG_sc_btn_jy:(this.message.mfid!=undefined)}">从素材库选择</span>
                             <!-- <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="is_bind_mid" :disabled="(this.message.mid!=undefined)"/><span style="vertical-align: top">绑定特殊素材</span> -->
-                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="is_bind_mid"/><span style="vertical-align: top">绑定特殊素材</span>
+                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="is_bind_mid" v-if="this.message.mfid==undefined"/><span style="vertical-align: top" v-if="this.message.mfid==undefined">绑定特殊素材</span>
                             <el-popover
                                 placement="top-start"
                                 width="200"
@@ -124,11 +128,17 @@
 
                             </div>
                         </div>
+                        <div class='AddIMG_sc' v-if='this.types=="f_call_show"'>
+                            <span class="tit">绑定项目ID:</span>
+                            <input type='test' v-model="project_id" placeholder="请输入项目ID" :disabled="(this.message.mfid!=undefined)"/>
+                            <input type="checkbox" style="width:16px;height:16px;margin:0 15px" v-model="is_designer" :disabled="(this.message.mfid!=undefined)">
+                            <span>是否来自狮圈</span>
+                        </div>
                         <div class="AddIMG_yl">
                             <span class="tit">尺寸:</span>
-                            <input class="AddIMG_yl_size" v-model="sjSize" placeholder="上传预览图后自动获取"  disabled v-if="chenck==false&&this.arr[this.arr.length-1]!='mp4'">
-                            <input class="AddIMG_yl_size" v-model="cc" placeholder="上传预览图后自动获取"  disabled v-if="chenck==true&&this.arr[this.arr.length-1]!='mp4'">
-                            <select v-model="sjSize" v-if="chenck==false&&this.arr[this.arr.length-1]=='mp4'">
+                            <input class="AddIMG_yl_size" v-model="sjSize" placeholder="上传预览图后自动获取"  disabled v-if="chenck==false&&this.arr[this.arr.length-1]!='mp4'&&this.arr[this.arr.length-1]!='MP4'">
+                            <input class="AddIMG_yl_size" v-model="cc" placeholder="上传预览图后自动获取"  disabled v-if="chenck==true&&this.arr[this.arr.length-1]!='mp4'&&this.arr[this.arr.length-1]!='MP4'">
+                            <select v-model="sjSize" v-if="(chenck==false&&this.arr[this.arr.length-1]=='mp4')||(chenck==false&&this.arr[this.arr.length-1]=='MP4')" :disabled="(this.message.mfid!=undefined)&&this.types=='f_call_show'">
                                 <option :value="item.size" v-for="item in sizeList">{{item.size}}</option>
                             </select>
                             <div class="AddIMG_yl_upload" >
@@ -145,7 +155,7 @@
                                     <el-button size="small" type="primary" :class="{disbld:this.chenck==true}">上传预览图</el-button>
                                 </el-upload>
                             </div>
-                            <div class="AddIMG_switch" v-if="sw">
+                            <div class="AddIMG_switch" v-if="sw&&this.types!='f_call_show'">
                                 <span  class="tit">是否启用:</span>
                                 <el-switch
                                         @change="open"
@@ -161,7 +171,7 @@
                         </div>
                         <div class="box_sel" v-if="this.types=='f_ad_picture'">
                             <span class="tit">资源类型:</span>
-                            <select v-model="model">
+                            <select v-model="model" >
                                 <option value="无">无</option>
                                 <option value="H5">H5</option>
                                 <option value="脚本">脚本</option>
@@ -186,9 +196,9 @@
                                 <option value="图片" selected>图片</option>
                             </select>
                         </div>
-                         <div class="box_sel" v-if="this.types=='f_laidian_show'">
+                         <div class="box_sel" v-if="this.types=='f_call_show'">
                             <span class="tit">资源类型:</span>
-                            <select v-model="model">
+                            <select v-model="model" :disabled="(this.message.mfid!=undefined)">
                                 <option value="视频" selected>视频</option>
                             </select>
                         </div>
@@ -293,7 +303,12 @@
                 arr:[],
                 sizeList:[],
                 resource:'',
-                is_zip:""
+                is_zip:"",
+                name:"",
+                project_id:"",
+                // audioDuration:"",
+                is_designer:false,
+                // showType:''
             }
         },
 
@@ -309,6 +324,9 @@
             }
             if(this.types=='f_sls_picture'){
                 this.model='图片'
+            }
+             if(this.types=='f_call_show'){
+                this.model='视频'
             }
         },
         methods:{
@@ -398,12 +416,21 @@
                 this.api.file_upload(formData).then((res)=>{
                     this.aaa=100;
                     this.initiate=false;
-                    // this.attach.name = res.name;
-                    // this.attach.size = res.size;
-                    // this.attach.ext = res.ext;
-                    // this.attach.md5 = res.md5;
-                    // this.attach.url = res.url;
+                    // this.showType=file.fiel.type;
+                    if(this.types=='f_call_show'){
+                        var url = URL.createObjectURL(file.file);
+                        //经测试，发现audio也可获取视频的时长
+                        var audioElement = new Audio(url);
+                        audioElement.addEventListener("loadedmetadata", (_event) => {
+                            res.duration = parseInt(audioElement.duration);
+                             res.video_type=res.ext;
+                        });
+                    }
+                    // res.duration=this.audioDuration;
+                    // res.video_type=res.ext;
                     this.attach=res
+                    // this.showType=res.ext;
+                    console.log(this.attach)
                     var image = new Image();
                     var _this=this;
                     image.onload=function(){
@@ -474,11 +501,14 @@
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
+                   
                     this.bbb=100;
                     this.initiate2=false;
                     this.prev_uri = res.url;
                     this.arr=this.prev_uri.split('.');
-                    if(this.arr[this.arr.length-1]=='mp4'){
+                     console.log(this.arr)
+                    console.log(this.chenck)
+                    if(this.arr[this.arr.length-1]=='mp4'||this.arr[this.arr.length-1]=='MP4'){
                         this.getSize()
                     }
                     var image = new Image();
@@ -529,7 +559,7 @@
                     this.$message('实现方式不能为空');
                     return
                 }
-                if(!this.ad_pic){
+                if(!this.ad_pic&&this.type=='f_sls_lockscreen'){
                     this.$message('有无打底广告图不能为空')
                     return
                 }
@@ -541,25 +571,33 @@
                     this.$message('广告位数必须为正整数');
                     return
                 }
+                
                 if(this.chenck==true){
                    this.size=this.cc
                 }else{
                     this.size=this.sjSize
                 }
                 let formData = new FormData;
+                  formData.append('name',this.name);
+                // formData.append('video_type',this.showType);
+                // formData.append('duration',this.audioDuration);
+                 formData.append('is_designer',this.is_designer==true?'1':'0');
                 formData.append('mfid',this.message.mfid);
                 formData.append('type',this.type);
                 formData.append('prev_uri',this.prev_uri);
                 formData.append('attach',JSON.stringify(this.attach));
                 formData.append('tags',this.preinstall);
                 formData.append('self_tags',this.bardian);
+                formData.append('resource',this.resource);
                 formData.append('size',this.size);
                 formData.append('model',this.model);
                 formData.append('ad_pic',this.ad_pic);
                 formData.append('ad_num',this.ad_num);
                 this.api.mfinal_edit(formData).then((res)=>{
-                    if(res.data!=''){
+                    if(res!=false){
                         this.$parent.heidSc();
+                        this.$parent.getWl();
+			            this.$parent.getData()
                     }
                 })
             },
@@ -569,6 +607,12 @@
                     if(!this.type){
                         this.$message('类型不能为空')
                         return
+                    }
+                    if(!this.name&&this.types=='f_call_show'){
+                        this.$message.error('名字不能为空')
+                    }
+                    if(!this.project_id&&this.types=='f_call_show'){
+                        this.$message.error('项目ID不能为空')
                     }
                     if(!this.prev_uri&&this.chenck!=true){
                         this.$message('未上传预览图')
@@ -591,7 +635,7 @@
                         this.$message('实现方式不能为空')
                         return
                     }
-                    if(!this.bind_mid&&this.is_bind_mid!=true){
+                    if(!this.bind_mid&&this.is_bind_mid!=true&&this.types!='f_call_show'){
                         this.$message('未绑定素材ID');
                         return
                     }
@@ -648,8 +692,13 @@
                         }else{
                             this.size=this.sjSize
                         }
+                       
                         let formData = new FormData;
                         formData.append('type',this.type);
+                        formData.append('name',this.name);
+                        // formData.append('video_type',this.showType);
+                        // formData.append('duration',this.audioDuration);
+                        formData.append('is_designer',this.is_designer==true?'1':'0');
                         formData.append('ispic',(this.chenck==true?1:0));
                         formData.append('prev_uri',this.prev_uri);
                         formData.append('attach',JSON.stringify(this.attach));
@@ -663,7 +712,7 @@
                         formData.append('ad_pic',this.ad_pic);
                         formData.append('ad_num',this.ad_num);
                         this.api.mfinal_add(formData).then((res)=>{
-                            if(res.data!=''){
+                            if(res!=false){
                                 this.$parent.heidSc();
                             }
                         }).catch(this.$message(message))
@@ -689,20 +738,28 @@
                             this.bardian=res.self_tags.splice(e);
                         }
                     }
+                    if(this.types=='f_call_show'){
+                        this.name=res.name;
+                        this.project_id=res.project_id;
+                        // this.audioDuration=res.duration;
+                        this.is_designer=res.is_designer=='1'?true:false;
+                        // this.showType=res.video_type
+                    }
                     this.attach = res.attach;
                     if(res.attach.wpid==undefined){
                         this.attach.wpid=res.wpid
                     }
                     this.ad_num=res.ad_num;
-                    console.log(this.attach)
-                    if(res.resource!=undefined){
-                        this.resource=res.resource
-                    }
+                    this.resource=res.resource;
                     this.sjSize=res.size;
+                    if(this.arr[this.arr.length-1]=='mp4'||this.arr[this.arr.length-1]=='MP4'){
+                        this.getSize()
+                    }
                     this.type=res.type;
-                    this.is_bind_mid=res.is_special==1?true:false;
+                    this.is_bind_mid=res.is_bind_mid==1?true:false;
                     this.link = res.link;
                     this.model = res.model;
+                    this.arr=res.prev_uri.split('.');
                     if(this.types=='f_sls_picture'){
                         this.resource=res.resource;
                     }

@@ -37,7 +37,13 @@
             <div class="line_border"></div>
             <div>
                 <span class="list_tit">物料列表</span>
-                <span class="up_btn" @click="create()">新增</span>
+                <span class="up_btn" @mouseover="shows()" @mouseout="heid()">
+                    新增
+                    <div v-if="showed">
+                        <div @click="create('1')">开屏</div>
+                        <div @click="create('2')">信息流</div>
+                    </div>
+                    </span>
                 <div class="up_btn_box" v-for="(item,index) in list">
                     <div class="up_btn_box_tit">
                         <span class="name">物料ID:</span>
@@ -50,6 +56,8 @@
                         <span class="off_line" @click="oFFline(index,1)" v-if="item.status==0">上线</span>
                     </div>
                     <div class="up_btn_box_tit">
+                        <span class="name">场景类型:</span>
+                        <span class="con">{{item.type=='2'?'信息流':'开屏'}}</span>
                         <span class="name">状态:</span>
                         <span  class="con">{{item.status_name}}</span>
                         <span class="name">操作人员:</span>
@@ -59,44 +67,34 @@
                         <div class="up_add" @click="show(index)">
                             <input type="text"/>
                         </div>
-                        <div v-for="(da,ind) in item.images" style="display: inline-block; margin-right: 50px;">
+                        <div v-for="(da,ind) in item.images" style="display: inline-block; margin-right: 50px;vertical-align: top ">
                             <div class="img_list">
                                 <img class="img_center" :src="da.url">
                                 <img class="del" src="../../../public/img/del.png" style="width: 16px;opacity: 0" />
                             </div>
                             <div style="margin-top: 10px;text-align: center">
-                                <span >{{da.width}}*{{da.height}}</span>
+                                <span style="display:block">{{ind==0?'大图(序号1)':ind==1?'小图(序号2)':ind==2?'组图1(序号3)':ind==3?'组图2(序号4)':'组图3(序号5)'}}</span>
+                                <span v-if='da.url' >{{da.width}}*{{da.height}}</span>
                             </div>
+                        </div>
+                    </div>
+                    <div style="margin-top:20px" v-if='item.type!="1"'>
+                        <div style="margin-bottom:15px">
+                            <span class='tits'>标题:</span>
+                            <span @click='tit(index)' class='cons' v-if="index+1!=inds">{{item.ad_title}}</span>
+                            <input type='text' class='inputs'  v-if="index+1==inds" v-model="ad_title"  @blur="btqd(index)"        />
+                        </div>
+                        <div>
+                            <span class='tits'>摘要(选填):</span>
+                            <span class='cons' v-if='item.temple_name!=id' @click='xt(index,item.temple_name)'>{{item.ad_desc}}</span>
+                            <input type='text' class='inputs'  v-if="item.temple_name==id"  v-model="ad_desc" @blur="btqd(index)"/>
                         </div>
                     </div>
                 </div>
             </div>
+           
         </div>
-        <!--<div class="bg" v-if="up">-->
-            <!--<div class="load_up">-->
-                <!--<div class="load_tit">-->
-                    <!--<span>新增文件</span>-->
-                <!--</div>-->
-                <!--<div>-->
-                    <!--<el-upload-->
-                            <!--class="upload-demo"-->
-                            <!--action="aaaa"-->
-                            <!--multiple-->
-                            <!--:limit="1"-->
-                            <!--:on-exceed="handleExceed"-->
-                            <!--:on-remove="handleRemove"-->
-                            <!--:http-request="beforupload"-->
-                            <!--:before-upload="beforeAvatarUpload"-->
-                    <!--&gt;-->
-                        <!--<el-button size="small" type="primary">选择</el-button>-->
-                    <!--</el-upload>-->
-                <!--</div>-->
-                <!--<div class="btns">-->
-                    <!--&lt;!&ndash;<span class="tj">添加</span>&ndash;&gt;-->
-                    <!--<span @click="heidTH()">取消</span>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
+       
         <div class="bg" v-if="uploadImg">
             <div class="load_up">
                 <div class="load_tit">
@@ -118,23 +116,10 @@
                         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
 
                     </el-upload>
-                    <!--<el-upload-->
-                            <!--class="upload-demo"-->
-                            <!--action="aaaa"-->
-                            <!--multiple-->
-                            <!--:limit="5"-->
-                            <!--:on-exceed="handleExceeds"-->
-                            <!--:on-remove="handleRemove"-->
-                            <!--:http-request="ADDimg"-->
-                            <!--:before-upload="beforeAvatarUpload"-->
-                            <!--:file-list="fileList"-->
-                    <!--&gt;-->
-                        <!--<el-button size="small" type="primary">选择</el-button>-->
-                    <!--</el-upload>-->
                 </div>
                 <div class="btns">
-                    <span class="tj" @click="heidADD()">确定</span>
-                    <span @click="heidADD()">取消</span>
+                    <!-- <span class="tj" @click="heidADD()">确定</span> -->
+                    <span @click="heidADD()">关闭</span>
                 </div>
             </div>
         </div>
@@ -152,21 +137,33 @@
                 uploadImg:false,
                 index:'',
                 fileList:[],
+                showed:false,
+                type:"",
+                bt:true,
+                zy:true,
+                ad_desc:"",
+                ad_title:"",
+                inds:"",
+                id:""
             }
         },
         mounted(){
-            this.getListData()
+            this.getListData();
+           
         },
         methods:{
             fh(){
-                // this.$router.go(-1);
-                let routeData = this.$router.resolve({
+                this.$router.push({
                     path:'./theme',
-                });
-                window.open(routeData.href, '_blank');
+                })
             },
-
-
+            
+            // changfouce(index){
+            //         this.$nextTick((x)=>{   //正确写法
+            //         this.$refs.inputs[index].focus();
+            //         })
+                   
+            // },
             show(index){
                 this.uploadImg = true;
                 this.index=index;
@@ -174,6 +171,36 @@
             heidADD(){
                 this.uploadImg = false;
                 this.fileList=[];
+            },
+            tit(index){
+                this.inds=index+1;
+                this.ad_title=this.list[index].ad_title;
+                // this.changfouce(index)
+               
+            },
+            btqd(index){
+                if(!this.ad_title){
+                    this.$message.error('标题不能为空');
+                    return
+
+                }
+                let formData = new FormData;
+                formData.append("temple_name",this.list[index].temple_name);
+                formData.append("pkg_name",this.list[index].pkg_name);
+                formData.append('type',this.list[index].type);
+                formData.append("ad_desc",this.ad_desc);
+                formData.append("ad_title",this.ad_title);
+                this.api.appad_edit(formData).then((res)=>{
+                    if(res!=false){
+                        this.inds='';
+                        this.id='';
+                        this. getListData();
+                    }
+                })
+            },
+            xt(index,data){this.id=data
+                        this.ad_desc=this.list[index].ad_desc;
+                        this.ad_title=this.list[index].ad_title;
             },
             getListData(){
                 let params = {pkg_name:this.$route.query.pkg_name};
@@ -204,9 +231,11 @@
             //         };
             //     };
             // },
-            create(){
+            create(index){
+                this.type=index;
                 let formData = new FormData;
                 formData.append('pkg_name',this.$route.query.pkg_name);
+                formData.append('type',this.type)
                 // formData.append('file',file.file);
                 // formData.append('width',this.width);
                 // formData.append('height',this.height);
@@ -231,20 +260,40 @@
                 };
             },
             ups(file){
-                console.log(file);
-                let formData = new FormData;
-                formData.append('temple_name',this.list[this.index].temple_name);
-                formData.append('pkg_name',this.$route.query.pkg_name);
-                formData.append('route',this.list[this.index].route);
-                formData.append('file',file.file);
-                formData.append('width',this.width);
-                formData.append('height',this.height);
+                if(this.list[this.index].type==2){
+                    var num =file.file.name.split('.');
+                    var nums= num[num.length-2].split('-')[(num[num.length-2].split('-')).length-1]
+                    if(isNaN(nums)){
+                        this.$message.error('图片名称有误')
+                        return
+                    }
+                }else{
+                    var nums = ''
+                }
+                   
+                     var formData = new FormData;
+                    formData.append('temple_name',this.list[this.index].temple_name);
+                    formData.append('pkg_name',this.$route.query.pkg_name);
+                    formData.append('route',this.list[this.index].route);
+                    formData.append('file',file.file);
+                    formData.append('width',this.width);
+                    formData.append('height',this.height);
+                    formData.append('type',this.list[this.index].type)
+                    formData.append('order',nums)
+
                 this.api.appad_add(formData).then((res)=>{
                     if(!res){
-                        this.fileList.push(file.file)
+                        this.fileList.push(file.file);
+                        this.getListData();
                     }
-                    this.getListData();
+                    
                 })
+            },
+            shows(){
+                this.showed=true
+            },
+            heid(){
+                this.showed=false
             },
             oFFline(index,num){
                 let formData = new FormData;
@@ -288,6 +337,7 @@
         left: 0;
         bottom: 0;
         z-index: 999;
+        
     }
 .top{
     width: 100%;
@@ -352,6 +402,21 @@
         float: right;
         margin-top: 15px!important;
         margin-right: 40px;
+        position: relative;
+    }
+    .up_btn>div{
+        background: #fff;
+        z-index: 99;
+        box-shadow: 0px 0px 5px rgb(143, 142, 142);
+        position: absolute;
+        width: 100%;
+        top:-72px;
+        color: #000!important;
+        border-radius: 3px;
+
+    }
+    .up_btn>div>div:hover{
+        background: #ddd
     }
     .up_btn_box{
         border: 1px solid #ddd;
@@ -436,9 +501,10 @@
         right: 0;
     }
     .img_center{
-       position: relative;
+       position: absolute;
         top:50%;
-        transform: translateY(-50%);
+        left: 50%;
+        transform: translate(-50%,-50%);
         max-width: 150px;
         max-height: 220px;
     }
@@ -510,5 +576,22 @@
     }
     .upload-demo .el-upload{
         width: 80px!important;
+    }
+    .tits{
+        display: inline-block;
+        width: 90px;
+        font-size: 14px;
+    }
+    .cons{
+         font-size: 14px;
+         display: inline-block;
+         min-width: 120px;
+        border:1px solid #ddd;
+         cursor: pointer;
+         height:30px;
+         line-height: 30px;
+    }
+    .inputs{
+        height: 30px;
     }
 </style>

@@ -86,7 +86,13 @@
                                     label="图片"
                                     width="150">
                                     <template slot-scope="scope">
-                                        <img :src='tableData[scope.$index].image_url' style="max-width:80px;max-height: 80px;cursor: pointer"  preview="0" />
+                                        <!-- <img :src='tableData[scope.$index].image_url' style="max-width:80px;max-height: 80px;cursor: pointer"  preview="0" /> -->
+                                        <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
+                                            <div slot="content">
+                                                <img :src='tableData[scope.$index].image_url' style="width:60%;height: 60%;cursor: pointer"  />
+                                            </div>
+                                            <img :src='tableData[scope.$index].image_url' style="max-width:80px;max-height: 80px;cursor: pointer"  preview="0" />                               
+                                         </el-tooltip>
                                     </template>
                             </el-table-column>
                         

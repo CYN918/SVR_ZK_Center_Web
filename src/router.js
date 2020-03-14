@@ -579,7 +579,7 @@ router.addRoutes(nb);
 /*动态生成左边菜单*/
 
 let leftNav =
- localStorage.getItem('letNav');
+  localStorage.getItem('letNav');
 // 	[
 // 	{title:'素材中心',default:'/admin',defaultopen:['1'],
 // 	children:[
@@ -731,7 +731,7 @@ let leftNav =
 //         },
 // ];
 
-// localStorage.setItem('letNav',JSON.stringify(leftNav));
+//localStorage.setItem('letNav',JSON.stringify(leftNav));
 
 router.beforeEach((to, from, next) => {
 	/*登录过期*/
