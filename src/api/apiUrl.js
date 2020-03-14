@@ -1522,15 +1522,13 @@ export default {
 	//编辑信息流信息
 	appad_edit:{
 		url:"appad/edit",method:"post",isType:{suktip:1},
+	},
 	//获取项目列表
 	adver_project_search:{
 		url:"adver/project/search",method:"get"
 	},
 	//新增/编辑项目信息
 	adver_project_edit:{
-		url:"adver/project/edit",method:"post",isType:{suktip:1}
+		url:"adver/project/edit",method:"post",isType:{suktip:1},
 	},
 }
-
-
-
