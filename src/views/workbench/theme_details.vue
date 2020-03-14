@@ -73,7 +73,7 @@
                                 <img class="del" src="../../../public/img/del.png" style="width: 16px;opacity: 0" />
                             </div>
                             <div style="margin-top: 10px;text-align: center">
-                                <span style="display:block">{{ind==0?'1.大图':ind==1?'2.小图':ind==2?'3.组图':ind==3?'4.组图':'5.组图'}}</span>
+                                <span style="display:block">{{ind==0?'大图(序号1)':ind==1?'小图(序号2)':ind==2?'组图1(序号3)':ind==3?'组图2(序号4)':'组图3(序号5)'}}</span>
                                 <span v-if='da.url' >{{da.width}}*{{da.height}}</span>
                             </div>
                         </div>
@@ -81,17 +81,18 @@
                     <div style="margin-top:20px" v-if='item.type!="1"'>
                         <div style="margin-bottom:15px">
                             <span class='tits'>标题:</span>
-                            <span @click='tit(index)' class='cons' v-if="bt">{{item.title}}</span>
-                            <input type='text' class='inputs' v-if="!bt" v-model="title" @blur="btqd(index)"/>
+                            <span @click='tit(index)' class='cons' v-if="index+1!=inds">{{item.title}}</span>
+                            <input type='text' class='inputs'  v-if="index+1==inds" v-model="title" v-focus @blur="btqd(index)"        />
                         </div>
                         <div>
                             <span class='tits'>摘要(选填):</span>
-                            <span class='cons' v-if='zy' @click='xt(index)'>{{item.desc}}</span>
-                            <input type='text' class='inputs' v-if="!zy" v-model="desc" @blur="btqd(index)"/>
+                            <span class='cons' v-if='item.temple_name!=id' @click='xt(index,item.temple_name)'>{{item.desc}}</span>
+                            <input type='text' class='inputs'  v-if="item.temple_name==id"  v-model="desc" @blur="btqd(index)"/>
                         </div>
                     </div>
                 </div>
             </div>
+           
         </div>
        
         <div class="bg" v-if="uploadImg">
@@ -141,22 +142,28 @@
                 bt:true,
                 zy:true,
                 desc:"",
-                title:""
+                title:"",
+                inds:"",
+                id:""
             }
         },
         mounted(){
-            this.getListData()
+            this.getListData();
+           
         },
         methods:{
             fh(){
                 this.$router.push({
                     path:'./theme',
                 })
-                
-               
             },
-
-
+            
+            // changfouce(index){
+            //         this.$nextTick((x)=>{   //正确写法
+            //         this.$refs.inputs[index].focus();
+            //         })
+                   
+            // },
             show(index){
                 this.uploadImg = true;
                 this.index=index;
@@ -166,8 +173,10 @@
                 this.fileList=[];
             },
             tit(index){
-                this.bt=false;
+                this.inds=index+1;
                 this.title=this.list[index].title;
+                // this.changfouce(index)
+               
             },
             btqd(index){
                 if(!this.title){
@@ -181,13 +190,13 @@
                 formData.append("title",this.title);
                 this.api.appad_edit(formData).then((res)=>{
                     if(res!=false){
-                        this.bt=true;
-                        this.zy=true;
+                        this.inds='';
+                        this.id='';
                         this. getListData();
                     }
                 })
             },
-            xt(index){this.zy=false
+            xt(index,data){this.id=data
                         this.desc=this.list[index].desc
             },
             getListData(){
