@@ -308,13 +308,13 @@ export default {
                         formData.append("pid",this.pid);
                         formData.append('name',this.name);
                         formData.append('spaceids',this.spaceids)
-                        formData.append('forms',JSON.stringify(this.froms))
+                        formData.append('froms',JSON.stringify(this.froms))
                         formData.append('mode',this.mode)
                         formData.append('tags',JSON.stringify(taList))
                     }else{
                          var formData=new FormData;
                         formData.append('name',this.name)
-                        formData.append('forms',JSON.stringify(this.froms))
+                        formData.append('froms',JSON.stringify(this.froms))
                         formData.append('mode',this.mode);
                          formData.append('spaceids',this.spaceids)
                         formData.append('tags',JSON.stringify(taList))
