@@ -81,13 +81,13 @@
                     <div style="margin-top:20px" v-if='item.type!="1"'>
                         <div style="margin-bottom:15px">
                             <span class='tits'>标题:</span>
-                            <span @click='tit(index)' class='cons' v-if="index+1!=inds">{{item.title}}</span>
-                            <input type='text' class='inputs'  v-if="index+1==inds" v-model="title" v-focus @blur="btqd(index)"        />
+                            <span @click='tit(index)' class='cons' v-if="index+1!=inds">{{item.ad_title}}</span>
+                            <input type='text' class='inputs'  v-if="index+1==inds" v-model="ad_title"  @blur="btqd(index)"        />
                         </div>
                         <div>
                             <span class='tits'>摘要(选填):</span>
-                            <span class='cons' v-if='item.temple_name!=id' @click='xt(index,item.temple_name)'>{{item.desc}}</span>
-                            <input type='text' class='inputs'  v-if="item.temple_name==id"  v-model="desc" @blur="btqd(index)"/>
+                            <span class='cons' v-if='item.temple_name!=id' @click='xt(index,item.temple_name)'>{{item.ad_desc}}</span>
+                            <input type='text' class='inputs'  v-if="item.temple_name==id"  v-model="ad_desc" @blur="btqd(index)"/>
                         </div>
                     </div>
                 </div>
@@ -141,8 +141,8 @@
                 type:"",
                 bt:true,
                 zy:true,
-                desc:"",
-                title:"",
+                ad_desc:"",
+                ad_title:"",
                 inds:"",
                 id:""
             }
@@ -174,20 +174,22 @@
             },
             tit(index){
                 this.inds=index+1;
-                this.title=this.list[index].title;
+                this.ad_title=this.list[index].ad_title;
                 // this.changfouce(index)
                
             },
             btqd(index){
-                if(!this.title){
-                    this.$message.error('标题不能为空')
+                if(!this.ad_title){
+                    this.$message.error('标题不能为空');
+                    return
+
                 }
                 let formData = new FormData;
                 formData.append("temple_name",this.list[index].temple_name);
                 formData.append("pkg_name",this.list[index].pkg_name);
                 formData.append('type',this.list[index].type);
-                formData.append("desc",this.desc);
-                formData.append("title",this.title);
+                formData.append("ad_desc",this.ad_desc);
+                formData.append("ad_title",this.ad_title);
                 this.api.appad_edit(formData).then((res)=>{
                     if(res!=false){
                         this.inds='';
@@ -197,7 +199,8 @@
                 })
             },
             xt(index,data){this.id=data
-                        this.desc=this.list[index].desc
+                        this.ad_desc=this.list[index].ad_desc;
+                        this.ad_title=this.list[index].ad_title;
             },
             getListData(){
                 let params = {pkg_name:this.$route.query.pkg_name};
@@ -257,22 +260,35 @@
                 };
             },
             ups(file){
-                let num =file.file.name.split('.');
-                let nums= num[num.length-2].split('-')[(num[num.length-2].split('-')).length-1]
-                if(isNaN(nums)){
-                    this.$message.error('图片名称有误')
-                    return
+                if(this.type=='2'){
+                     var num =file.file.name.split('.');
+                    var nums= num[num.length-2].split('-')[(num[num.length-2].split('-')).length-1]
+                    if(isNaN(nums)){
+                        this.$message.error('图片名称有误')
+                        return
+                    }
+                     var formData = new FormData;
+                    formData.append('temple_name',this.list[this.index].temple_name);
+                    formData.append('pkg_name',this.$route.query.pkg_name);
+                    formData.append('route',this.list[this.index].route);
+                    formData.append('file',file.file);
+                    formData.append('width',this.width);
+                    formData.append('height',this.height);
+                    formData.append('type',this.list[this.index].type)
+                    formData.append('order',nums)
+                }else{
+                     var formData = new FormData;
+                    formData.append('temple_name',this.list[this.index].temple_name);
+                    formData.append('pkg_name',this.$route.query.pkg_name);
+                    formData.append('route',this.list[this.index].route);
+                    formData.append('file',file.file);
+                    formData.append('width',this.width);
+                    formData.append('height',this.height);
+                    formData.append('type',this.list[this.index].type)
+                    
                 }
-
-                let formData = new FormData;
-                formData.append('temple_name',this.list[this.index].temple_name);
-                formData.append('pkg_name',this.$route.query.pkg_name);
-                formData.append('route',this.list[this.index].route);
-                formData.append('file',file.file);
-                formData.append('width',this.width);
-                formData.append('height',this.height);
-                formData.append('type',this.list[this.index].type)
-                formData.append('order',nums)
+               
+               
                 this.api.appad_add(formData).then((res)=>{
                     if(!res){
                         this.fileList.push(file.file);
