@@ -1515,6 +1515,14 @@ export default {
 	adver_tags_count:{
 		url:"adver/tags/count",method:"get"
 	},
+	//获取项目列表
+	adver_project_search:{
+		url:"adver/project/search",method:"get"
+	},
+	//新增/编辑项目信息
+	adver_project_edit:{
+		url:"adver/project/edit",method:"post",isType:{suktip:1}
+	},
 }
 
 
