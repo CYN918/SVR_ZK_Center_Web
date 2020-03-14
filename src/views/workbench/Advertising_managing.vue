@@ -2,7 +2,7 @@
         <div>
             <div>
                 <div class="top_name">
-                    <span class="top_txt gesture" @click='fh'>广告内容审核&nbsp;/&nbsp;项目管理</span>
+                    <span class="top_txt" @click='fh'>广告内容审核&nbsp;/&nbsp;项目管理</span>
                     <div class="title_left">
                         <span>项目管理</span>
                     </div>
@@ -37,7 +37,7 @@
                                     prop="spaceids"
                                     label="媒体广告位">
                                      <template slot-scope="scope">
-                                        <span v-for='val in tableData[scope.$index].spaceids'>{{val}},</span>
+                                        <span v-for='val in tableData[scope.$index].spaceids'>{{val+';'}}</span>
                                     </template>
                             </el-table-column>
                              <el-table-column
@@ -174,12 +174,14 @@ export default {
                 tags:[],
                 froms:[],
                 pis:"",
-                list:[{value:1,label:"填充"},{value:2,label:"曝光"},{value:3,label:"云广告"}]
+                list:[{value:1,label:"填充"},{value:2,label:"曝光"},{value:3,label:"云广告"}],
+               
             }
         },
         mounted(){
             this.getDATA();
-            this.tagsData()
+            this.tagsData();
+           
         },
         methods:{
              getRowClass({row, column, rowIndex, columnIndex}) {
@@ -193,7 +195,7 @@ export default {
                         return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
                 },
                 fh(){
-                    this.$route.go(-1)
+                    this.$router.go(-1)
                 },
                  handleSizeChange1(p) { // 每页条数切换
                     this.p = p;
@@ -225,7 +227,6 @@ export default {
                     
                 },
                 bj(index){
-                   
                     this.tit='编辑',
                     this.index=index;
                     this.AD=true;
@@ -235,13 +236,16 @@ export default {
                     this.spaceids=this.tableData[index].spaceids.join(';');
                     this.mode=this.tableData[index].mode;
                      this.froms=this.tableData[index].froms;
-                    for(var i=0;this.tagsList.length;i++){
-                        for(var y=0;y<this.tags.length;y++){
-                            if(this.tagsList[i].tags_id==this.tags[y].tags_id){
-                                this.key.push(i)
+                     if(this.tags.length>0){
+                         for(var i=0;this.tagsList.length;i++){
+                            for(var y=0;y<this.tags.length;y++){
+                                if(this.tagsList[i].tags_id==this.tags[y].tags_id){
+                                    this.key.push(i)
+                                }
                             }
                         }
-                    }
+                     }
+                    
                 },
                 qx(){
                     this.AD=false;
@@ -336,7 +340,9 @@ export default {
     .top_txt,.title_left span{
         margin-left: 24px;
     }
-    
+    .top_txt{
+        cursor: pointer;
+    }
     .tit_name{
         display: inline-block;
         font-size: 14px;
