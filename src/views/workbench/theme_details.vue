@@ -249,7 +249,7 @@
             },
             ups(file){
                 let num =file.file.name.split('.');
-                let nums= num[num.length-2].split('_')[(num[num.length-2].split('_')).length-1]
+                let nums= num[num.length-2].split('-')[(num[num.length-2].split('-')).length-1]
                 if(isNaN(nums)){
                     this.$message.error('图片名称有误')
                     return
