@@ -48,7 +48,7 @@
                                     </template>
                             </el-table-column>
                             <el-table-column
-                                    prop="forms"
+                                    prop="froms"
                                     label="物料来源">
                                     <template slot-scope="scope">
                                         <span v-for='val in tableData[scope.$index].froms'>{{val==1?'填充':val==2?'曝光':'广告云'}},</span>
@@ -116,7 +116,7 @@
                         </div>
                          <div>
                             <span class='titles'>媒体广告位:</span>
-                            <input type="text" v-model="spaceids" placeholder="不同广告位用;分开" maxlength="10">
+                            <input type="text" v-model="spaceids" placeholder="不同广告位用;分开" >
                         </div>
                          <div>
                             <span class='titles'>投审方式:</span>
@@ -178,7 +178,8 @@ export default {
             }
         },
         mounted(){
-            this.getDATA()
+            this.getDATA();
+            this.tagsData()
         },
         methods:{
              getRowClass({row, column, rowIndex, columnIndex}) {
@@ -196,9 +197,11 @@ export default {
                 },
                  handleSizeChange1(p) { // 每页条数切换
                     this.p = p;
+                    this.getDATA()
                 },
                 handleCurrentChange1(Page) {//页码切换
                     this.page = Page;
+                    this.getDATA()
                 },
                 getDATA(){
                     
@@ -218,34 +221,36 @@ export default {
                 },
                 tc(){
                     this.AD=true;
-                    this.tit='新建项目',
-                    this.tagsData()
+                    this.tit='新建项目'
+                    
                 },
                 bj(index){
-                    this.tagsData()
+                   
+                    this.tit='编辑',
                     this.index=index;
                     this.AD=true;
+                    this.pid=this.tableData[index].pid;
                     this.name=this.tableData[index].name;
                     this.tags=this.tableData[index].tags;
-                    for(var i=1;this.tagsList.length;i++){
-                        for(y=0;y<this.tags.length;i++){
-                            if(this.tagsList[i]==this.tags[y]){
+                    this.spaceids=this.tableData[index].spaceids.join(';');
+                    this.mode=this.tableData[index].mode;
+                     this.froms=this.tableData[index].froms;
+                    for(var i=0;this.tagsList.length;i++){
+                        for(var y=0;y<this.tags.length;y++){
+                            if(this.tagsList[i].tags_id==this.tags[y].tags_id){
                                 this.key.push(i)
                             }
                         }
                     }
-                    this.forms=this.tableData[index].froms;
-                    this.mode=this.tableData[index].mode;
                 },
                 qx(){
                     this.AD=false;
-                    if(this.tit=='新建项目'){
                         this.name='';
                         this.tags=[];
                         this.key=[];
-                        this.forms=[];
+                        this.froms=[];
                         this.mode=[];
-                    }
+                        this.spaceids=''
                 },
                 tagsData(){
                      this.api.adver_tags_config_opstags().then((res)=>{
@@ -268,10 +273,41 @@ export default {
                     for(var i=0;i<this.key.length;i++){
                         taList.push(this.tagsList[this.key[i]])
                     }
+                    if(!this.name){
+                        this.$message.error('项目名称不能为空');
+                        return
+                        
+                    }
+                    if(this.forms==[]){
+                        this.$message.error('物料来源不能为空');
+                        return
+                        
+                    }
+                    if(this.key==[]){
+                        this.$message.error('禁用分类不能为空');
+                        return
+                        
+                    }
+                    if(!this.mode){
+                        this.$message.error('投审方式不能为空');
+                        return
+                        
+                    }
+                    if(!this.spaceids){
+                        this.$message.error('媒体广告位不能为空');
+                        return
+                        
+                    }
+                    if(!this.pid&&this.tit=='编辑'){
+                        this.$message.error('pid不能为空');
+                        return
+                        
+                    }
                     if(this.tit=='编辑'){
                         var formData=new FormData;
-                        formData.append("pid",this.tableData[index].pid);
-                        formData.append('name',this.name)
+                        formData.append("pid",this.pid);
+                        formData.append('name',this.name);
+                        formData.append('spaceids',this.spaceids)
                         formData.append('forms',JSON.stringify(this.froms))
                         formData.append('mode',this.mode)
                         formData.append('tags',JSON.stringify(taList))
@@ -279,7 +315,8 @@ export default {
                          var formData=new FormData;
                         formData.append('name',this.name)
                         formData.append('forms',JSON.stringify(this.froms))
-                        formData.append('mode',this.mode)
+                        formData.append('mode',this.mode);
+                         formData.append('spaceids',this.spaceids)
                         formData.append('tags',JSON.stringify(taList))
                     }
                     this.api.adver_project_edit(formData).then((res)=>{
