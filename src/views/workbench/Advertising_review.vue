@@ -5,7 +5,7 @@
                     <div class="title_left">
                         <span>广告内容审核</span>
                         <span class='sh' @click='jump()'>图片审核</span>
-                        <span class='gl' @click='managing()'>项目管理</span>
+                        <span class='gl' v-if='sx' @click='managing()'>项目管理</span>
                     </div>
                    
                     <div style="margin:24px 0">
