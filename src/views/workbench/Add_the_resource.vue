@@ -28,7 +28,7 @@
                                 <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
                                 <span class="content_title_span" @click="getBD(index)">本地上传</span>
                                 <img class="content_title_img" src="../../../public/img/ADD_bule.png" v-if="item.bind!=undefined"/>
-                                <span class="content_title_span" @click="upImg(index)" v-if="item.bind!=undefined">上传附件</span>
+                                <span class="content_title_span" @click="upImg(index)" >上传附件</span>
                             </div>
                             <div class="btn_img">
                                 <img style="margin-right: 34px" src="../../../public/img/delet.png" @click="delLine(index)"/>
