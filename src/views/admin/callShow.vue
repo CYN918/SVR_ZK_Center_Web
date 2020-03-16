@@ -71,7 +71,7 @@
 						</div>
                          <div>
 							<span class="boxImg_text">文件时长|格式:</span>
-							<span class="boxImg_content">{{DL.model}}</span>
+							<span class="boxImg_content">{{DL.attach.duration}} | {{DL.attach.video_type}}</span>
 						</div>
 						<div>
 							<span class="boxImg_text boxImg_bq">标签:</span>
