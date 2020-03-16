@@ -203,10 +203,10 @@
             :close-on-click-modal='false'
             :before-close="handleClose">
             <el-form label-width="90px">
-                <el-form-item label="标题:">
+                <el-form-item label="标题:" v-if="click_action != '-1'">
                     <el-input type="text" maxlength="12" show-word-limit v-model="title"></el-input>
                 </el-form-item>
-                <el-form-item label="内容描述:">
+                <el-form-item label="内容描述:" v-if="click_action != '-1'">
                     <el-input type="textarea" maxlength="70" show-word-limit  v-model="content"></el-input>
                 </el-form-item>
                 <el-form-item label="标识:">
@@ -517,6 +517,10 @@ methods: {
            },
            savePage(){
             //    var reg = /(http|https):\/\/([\w.]+\/?)\S*/;
+                if(this.click_action==-1){
+                    this.$message.warning('标识不能为空');
+                    return
+                }
                if(!this.title){
                    this.$message.warning('标题必填')
                    return false
@@ -525,12 +529,7 @@ methods: {
                    this.$message.warning('内容描述必填')
                    return false
                }
-            //    if(this.url){
-            //        if(reg.test(this.url) == false){
-            //         this.$message.warning('落地页地址非法')
-            //         return false
-            //     }
-            //    }
+           
                if(this.click_action == 0){
                    var click_action_title = '点击查看'
                    if(!this.url){
