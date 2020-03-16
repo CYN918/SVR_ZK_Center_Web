@@ -106,7 +106,7 @@
                                     </template>
                             </el-table-column>
                              <el-table-column
-                                    prop="a"
+                                    prop="pv"
                                     width='90'
                                     label="PV">
                                     
@@ -668,7 +668,8 @@ export default {
         cursor: pointer;
         display: inline-block;
         height: 30px;
-        line-height: 30px
+        line-height: 30px;
+        margin-bottom: 10px
     }
     .tagsName:hover{
         border: 0!important;
