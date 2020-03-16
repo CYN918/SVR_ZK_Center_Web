@@ -51,8 +51,7 @@
                             <div class="AddIMG_input_box" v-if="this.types!='f_sls_lockscreen'&&this.types!='f_sls_picture'">
                                 <el-upload
                                         class="upload-demo"
-                                        :limit="1"
-                                        :on-exceed="handleExceed"
+                                        :before-upload="beforeAvatarUpload"
                                         :on-remove="handleRemove"
                                         :http-request="uploadF"
                                         action="111"
@@ -131,7 +130,7 @@
                         <div class='AddIMG_sc' v-if='this.types=="f_call_show"'>
                             <span class="tit">绑定设计师ID:</span>
                             <input type='test' v-model="account_id" placeholder="请输入狮圈设计师ID" :disabled="(this.message.mfid!=undefined)"/>
-                            <input type="checkbox" style="width:16px;height:16px;margin:0 15px" v-model="is_designer" :disabled="(this.message.mfid!=undefined)">
+                            <input type="checkbox" style="width:16px;height:16px;margin:0 15px" v-model="is_designer" :disabled="(this.message.mfid!=undefined)" @change="tagge()">
                             <span>与狮圈无关</span>
                         </div>
                         <div class="AddIMG_yl">
@@ -144,16 +143,20 @@
                             <div class="AddIMG_yl_upload" >
                                 <el-upload
                                         :disabled="this.chenck==true"
-                                        :limit="1"
-                                        :on-exceed="handleExceed"
+                                        
                                         :http-request="uploadFile"
                                         :on-remove="Remove"
                                         class="upload-demo"
                                         action="111"
                                         :before-upload="beforeAvatarUpload"
-                                        :file-list="fileList">
+                                        >
                                     <el-button size="small" type="primary" :class="{disbld:this.chenck==true}">上传预览图</el-button>
                                 </el-upload>
+                                 <el-tooltip placement="top" class="tit_txt_2 logs tit_txts" v-if="this.ylt.name!=undefined">
+                                    <div slot="content" class="text">{{this.ylt.name}}</div>
+                                    <span  class="text" style="overflow: hidden;width: 200px;height: 20px;line-height: 28px;color:#000" >{{this.ylt.name}}</span>
+                                </el-tooltip>
+                                <span class="content_xz" @click="delRemove()" v-if="this.ylt.name!=undefined">删除</span>
                             </div>
                             <div class="AddIMG_switch" v-if="sw&&this.types!='f_call_show'">
                                 <span  class="tit">是否启用:</span>
@@ -309,6 +312,7 @@
                 // audioDuration:"",
                 is_designer:false,
                 // showType:''
+                ylt:{},
             }
         },
 
@@ -355,6 +359,11 @@
                 }else{
                     this.$parent.XSset();
                 }    
+            },
+            tagge(){
+                if(this.is_designer==true){
+                    this.account_id=''
+                }
             },
             time(){
                 var _this=this;
@@ -430,7 +439,6 @@
                     // res.video_type=res.ext;
                     this.attach=res
                     // this.showType=res.ext;
-                    console.log(this.attach)
                     var image = new Image();
                     var _this=this;
                     image.onload=function(){
@@ -495,19 +503,19 @@
                 this.file = '';
                 this.initiate2=false;
             },
+            delRemove(){this.ylt={}},
             uploadFile(file){
                 this.time1();
                 this.initiate2=true;
+                this.ylt=file.file
                 let formData = new FormData;
-                formData.append('file',file.file);
+                formData.append('file',this.ylt);
                 this.api.file_upload(formData).then((res)=>{
                    
                     this.bbb=100;
                     this.initiate2=false;
                     this.prev_uri = res.url;
                     this.arr=this.prev_uri.split('.');
-                     console.log(this.arr)
-                    console.log(this.chenck)
                     if(this.arr[this.arr.length-1]=='mp4'||this.arr[this.arr.length-1]=='MP4'){
                         this.getSize()
                     }
@@ -1152,7 +1160,6 @@
         /*opacity: 0;*/
     /*}*/
     .AddIMG_yl_upload{
-        width: 150px;
         display: inline-block;
         font-size:14px;
         font-family:PingFangSC-Regular;
@@ -1168,7 +1175,7 @@
         font-family:PingFang-SC-Regular;
         font-weight:400;
         color:rgba(19,159,248,1);
-        line-height: 50px;
+        /* line-height: 50px; */
     }
     .AddIMG_bq_box{
         display: inline-block;
