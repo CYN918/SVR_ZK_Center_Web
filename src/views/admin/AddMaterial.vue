@@ -132,7 +132,7 @@
                             <span class="tit">绑定设计师ID:</span>
                             <input type='test' v-model="account_id" placeholder="请输入狮圈设计师ID" :disabled="(this.message.mfid!=undefined)"/>
                             <input type="checkbox" style="width:16px;height:16px;margin:0 15px" v-model="is_designer" :disabled="(this.message.mfid!=undefined)">
-                            <span>是否来自狮圈</span>
+                            <span>与狮圈无关</span>
                         </div>
                         <div class="AddIMG_yl">
                             <span class="tit">尺寸:</span>
@@ -1056,7 +1056,7 @@
     }
     .tit{
         display: inline-block;
-        width:80px;
+        width:90px;
         margin-right: 16px;
         vertical-align: top;
         text-align: right;
