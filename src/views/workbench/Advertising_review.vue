@@ -112,17 +112,17 @@
                                     
                             </el-table-column>
                              <el-table-column
-                                    prop="a"
+                                    prop="pv_ratio"
                                     width='90'
                                     label="PV占比">
                                     
                             </el-table-column>
-                             <el-table-column
+                             <!-- <el-table-column
                                     prop="a"
                                     width='120'
                                     label="头部PV占比">
                                     
-                            </el-table-column>
+                            </el-table-column> -->
                             <el-table-column
                                     prop=""
                                     label="AI标签">
