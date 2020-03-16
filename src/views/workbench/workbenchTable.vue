@@ -84,7 +84,7 @@
                             </el-button>
                         </template>
                     </el-table-column>
-                    <el-table-column label="操作">
+                    <el-table-column label="操作"> 
                         <template slot-scope="props">
                             <el-button v-if="(tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算')&&tableData[props.$index].isfinish!=2&&tableData[props.$index].emails.indexOf(email)!=-1" @click="getCKz(tableData[props.$index].id,tableData[props.$index].demand_type,tableData[props.$index].status,tableData[props.$index].processor)">查看详情</el-button>
                             <el-button v-if="(tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算')&&tableData[props.$index].isfinish==2" @click="CKbh(tableData[props.$index].id,tableData[props.$index].status)">查看作废原因</el-button>
