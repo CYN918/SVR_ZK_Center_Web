@@ -569,7 +569,8 @@ export default {
         cursor: pointer;
         display: inline-block;
         height: 30px;
-        line-height: 30px
+        line-height: 30px;
+        margin-bottom: 10px
     }
     .tagsName:hover{
         border: 0!important;
