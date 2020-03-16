@@ -620,7 +620,7 @@
                     if(!this.name&&this.types=='f_call_show'){
                         this.$message.error('名字不能为空')
                     }
-                    if(!this.account_id&&this.types=='f_call_show'){
+                    if(!this.account_id&&this.types=='f_call_show'&&this.is_designer==false){
                         this.$message.error('账号不能为空')
                     }
                     if(!this.prev_uri&&this.chenck!=true){
