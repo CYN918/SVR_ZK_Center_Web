@@ -91,7 +91,7 @@
                         </div>
                         <div class='AddIMG_sc' v-if="this.types=='f_call_show'">
                             <span class="tit">名称:</span>
-                            <input type="text" v-model="name" placeholder="请输入(最多16字)" maxlength="16" :disabled="(this.message.mfid!=undefined)">
+                            <input type="text" v-model="name" placeholder="请输入(最多15字)" maxlength="15" :disabled="(this.message.mfid!=undefined)">
                         </div>
                         <div class="AddIMG_sc" v-if='this.types!="f_call_show"'>
                             <span class="tit">绑定素材:</span>
@@ -129,8 +129,8 @@
                             </div>
                         </div>
                         <div class='AddIMG_sc' v-if='this.types=="f_call_show"'>
-                            <span class="tit">绑定账号:</span>
-                            <input type='test' v-model="account_id" placeholder="请输入狮圈有效账号" :disabled="(this.message.mfid!=undefined)"/>
+                            <span class="tit">绑定设计师ID:</span>
+                            <input type='test' v-model="account_id" placeholder="请输入狮圈设计师ID" :disabled="(this.message.mfid!=undefined)"/>
                             <input type="checkbox" style="width:16px;height:16px;margin:0 15px" v-model="is_designer" :disabled="(this.message.mfid!=undefined)">
                             <span>是否来自狮圈</span>
                         </div>
