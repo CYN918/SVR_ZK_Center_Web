@@ -91,7 +91,7 @@
                         </div>
                         <div class='AddIMG_sc' v-if="this.types=='f_call_show'">
                             <span class="tit">名称:</span>
-                            <input type="text" v-model="name" placeholder="请输入" :disabled="(this.message.mfid!=undefined)">
+                            <input type="text" v-model="name" placeholder="请输入(最多16字)" maxlength="16" :disabled="(this.message.mfid!=undefined)">
                         </div>
                         <div class="AddIMG_sc" v-if='this.types!="f_call_show"'>
                             <span class="tit">绑定素材:</span>
@@ -129,8 +129,8 @@
                             </div>
                         </div>
                         <div class='AddIMG_sc' v-if='this.types=="f_call_show"'>
-                            <span class="tit">绑定项目ID:</span>
-                            <input type='test' v-model="project_id" placeholder="请输入项目ID" :disabled="(this.message.mfid!=undefined)"/>
+                            <span class="tit">绑定账号:</span>
+                            <input type='test' v-model="account_id" placeholder="请输入狮圈有效账号" :disabled="(this.message.mfid!=undefined)"/>
                             <input type="checkbox" style="width:16px;height:16px;margin:0 15px" v-model="is_designer" :disabled="(this.message.mfid!=undefined)">
                             <span>是否来自狮圈</span>
                         </div>
@@ -305,7 +305,7 @@
                 resource:'',
                 is_zip:"",
                 name:"",
-                project_id:"",
+                account_id:"",
                 // audioDuration:"",
                 is_designer:false,
                 // showType:''
@@ -593,6 +593,7 @@
                 formData.append('model',this.model);
                 formData.append('ad_pic',this.ad_pic);
                 formData.append('ad_num',this.ad_num);
+                formData.append('account_id',this.account_id)
                 this.api.mfinal_edit(formData).then((res)=>{
                     if(res!=false){
                         this.$parent.heidSc();
@@ -611,8 +612,8 @@
                     if(!this.name&&this.types=='f_call_show'){
                         this.$message.error('名字不能为空')
                     }
-                    if(!this.project_id&&this.types=='f_call_show'){
-                        this.$message.error('项目ID不能为空')
+                    if(!this.account_id&&this.types=='f_call_show'){
+                        this.$message.error('账号不能为空')
                     }
                     if(!this.prev_uri&&this.chenck!=true){
                         this.$message('未上传预览图')
@@ -696,6 +697,7 @@
                         let formData = new FormData;
                         formData.append('type',this.type);
                         formData.append('name',this.name);
+                        formData.append('account_id',this.account_id)
                         // formData.append('video_type',this.showType);
                         // formData.append('duration',this.audioDuration);
                         formData.append('is_designer',this.is_designer==true?'1':'0');
@@ -740,7 +742,7 @@
                     }
                     if(this.types=='f_call_show'){
                         this.name=res.name;
-                        this.project_id=res.project_id;
+                        this.account_id=res.account_id;
                         // this.audioDuration=res.duration;
                         this.is_designer=res.is_designer=='1'?true:false;
                         // this.showType=res.video_type
