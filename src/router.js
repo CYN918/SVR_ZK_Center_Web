@@ -258,6 +258,8 @@ import Advertising_content_review from './views/workbench/Advertising_content_re
 mode['Advertising_content_review']=Advertising_content_review
 import Advertising_review from './views/workbench/Advertising_review'
 mode['Advertising_review']=Advertising_review
+import Advertising_managing from './views/workbench/Advertising_managing'
+mode['Advertising_managing']=Advertising_managing
 
 import axios from 'axios'
 import api from './api/index'
@@ -462,6 +464,8 @@ let nb = [
             {path:'/workbench/External_details',name:'外部杂志锁屏推送管理详情',component: mode['External_details'],},
             {path:'/workbench/Advertising_content_review',name:'广告内容审核',component: mode['Advertising_content_review'],},
             {path:'/workbench/Advertising_review',name:'广告内容审核首页',component: mode['Advertising_review'],},
+            {path:'/workbench/Advertising_managing',name:'广告内容审核管理',component: mode['Advertising_managing'],},
+            
             
             
            
