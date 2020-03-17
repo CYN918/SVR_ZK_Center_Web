@@ -752,7 +752,7 @@
                             if(res!=false){
                                 this.$parent.heidSc();
                             }
-                        }).catch(this.$message(this.message))
+                        }).catch()
                     }
                 }else{
                     this.setMatter();
