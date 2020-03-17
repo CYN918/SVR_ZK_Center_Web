@@ -57,6 +57,7 @@
 			<router-link  to="/admin"  v-if='top1'><li> <span>素材中心</span></li></router-link>
 			<router-link  to="/ThemeCenter" v-if='top5'><li><span>主题中心</span></li></router-link>
 
+
 		</ul>
 		<ul class="navd" v-if="config.showL!=-1&&this.type==1">
 			<router-link  to="/workbench"><li><span>工作台</span></li></router-link>
