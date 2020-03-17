@@ -129,7 +129,7 @@
                         </div>
                         <div class='AddIMG_sc' v-if='this.types=="f_call_show"'>
                             <span class="tit">绑定设计师ID:</span>
-                            <input type='test' v-model="account_id" placeholder="请输入狮圈设计师ID" :disabled="(this.message.mfid!=undefined)"/>
+                            <input type='test' v-model="account_id" placeholder="请输入狮圈设计师ID" :disabled="(this.message.mfid!=undefined)||this.is_designer==true"/>
                             <input type="checkbox" style="width:16px;height:16px;margin:0 15px" v-model="is_designer" :disabled="(this.message.mfid!=undefined)" @change="tagge()">
                             <span>与狮圈无关</span>
                         </div>
@@ -143,12 +143,11 @@
                             <div class="AddIMG_yl_upload" >
                                 <el-upload
                                         :disabled="this.chenck==true"
-                                        
                                         :http-request="uploadFile"
                                         :on-remove="Remove"
                                         class="upload-demo"
                                         action="111"
-                                        :before-upload="beforeAvatarUpload"
+                                        :before-upload="beforeUpload"
                                         >
                                     <el-button size="small" type="primary" :class="{disbld:this.chenck==true}">上传预览图</el-button>
                                 </el-upload>
@@ -466,17 +465,41 @@
                 })
             },
             beforeAvatarUpload(file) {
-                const isJPG = file.type === 'image/jpeg';
-                const isPNG = file.type === 'image/png';
-                const isPSD = file.type === 'image/psd';
-                const isBMP = file.type === 'image/bmp';
-                const isGIF = file.type === 'image/gif';
-                const isTIF = file.type === 'image/tif';
-                const isVideo = file.type ==='video/mp4';
-                if (!isJPG&&!isPNG&&!isPSD&&!isBMP&&!isGIF&&!isTIF&&!isVideo) {
-                    this.$message.error('只支持JPG、PNG、psd、bmp、gif、tif、mp4格式!');
+                if(this.types!='f_call_show'){
+                        const isJPG = file.type === 'image/jpeg';
+                        const isPNG = file.type === 'image/png';
+                        const isPSD = file.type === 'image/psd';
+                        const isBMP = file.type === 'image/bmp';
+                        const isGIF = file.type === 'image/gif';
+                        const isTIF = file.type === 'image/tif';
+                        const isVideo = file.type ==='video/mp4';
+                        if (!isJPG&&!isPNG&&!isPSD&&!isBMP&&!isGIF&&!isTIF&&!isVideo) {
+                            this.$message.error('只支持JPG、PNG、psd、bmp、gif、tif、mp4格式!');
+                        }
+                        return isPNG || isJPG ||isPSD||isBMP||isGIF||isTIF||isVideo;
                 }
-                return isPNG || isJPG ||isPSD||isBMP||isGIF||isTIF||isVideo;
+                if(this.types=='f_call_show'){
+                         const isVideo = file.type ==='video/mp4';
+                        if (!isVideo) {
+                            this.$message.error('只支持mp4格式!');
+                        }
+                        return isVideo;
+                }
+              
+               
+            },
+            beforeUpload(file){
+                        const isJPG = file.type === 'image/jpeg';
+                        const isPNG = file.type === 'image/png';
+                        const isPSD = file.type === 'image/psd';
+                        const isBMP = file.type === 'image/bmp';
+                        const isGIF = file.type === 'image/gif';
+                        const isTIF = file.type === 'image/tif';
+                        const isVideo = file.type ==='video/mp4';
+                        if (!isJPG&&!isPNG&&!isPSD&&!isBMP&&!isGIF&&!isTIF&&!isVideo) {
+                            this.$message.error('只支持JPG、PNG、psd、bmp、gif、tif、mp4格式!');
+                        }
+                        return isPNG || isJPG ||isPSD||isBMP||isGIF||isTIF||isVideo;
             },
             handleExceed(files, fileList) {
                 this.$message.warning(`当前限制选择1个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
@@ -589,7 +612,7 @@
                   formData.append('name',this.name);
                 // formData.append('video_type',this.showType);
                 // formData.append('duration',this.audioDuration);
-                 formData.append('is_designer',this.is_designer==true?'1':'0');
+                 formData.append('is_designer',this.is_designer==true?'0':'1');
                 formData.append('mfid',this.message.mfid);
                 formData.append('type',this.type);
                 formData.append('prev_uri',this.prev_uri);
@@ -708,7 +731,7 @@
                         formData.append('account_id',this.account_id)
                         // formData.append('video_type',this.showType);
                         // formData.append('duration',this.audioDuration);
-                        formData.append('is_designer',this.is_designer==true?'1':'0');
+                        formData.append('is_designer',this.is_designer==true?'0':'1');
                         formData.append('ispic',(this.chenck==true?1:0));
                         formData.append('prev_uri',this.prev_uri);
                         formData.append('attach',JSON.stringify(this.attach));
@@ -752,7 +775,7 @@
                         this.name=res.name;
                         this.account_id=res.account_id;
                         // this.audioDuration=res.duration;
-                        this.is_designer=res.is_designer=='1'?true:false;
+                        this.is_designer=res.is_designer=='1'?false:true;
                         // this.showType=res.video_type
                     }
                     this.attach = res.attach;
