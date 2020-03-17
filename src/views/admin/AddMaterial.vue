@@ -659,6 +659,10 @@
                         this.$message('未上传文件')
                         return
                     }
+                     if(!this.sjSize&&this.types=='f_call_show'){
+                        this.$message('预览图尺寸不能为空')
+                        return
+                    }
                     if(this.preinstall.length<=0){
                         this.$message('预置标签不能为空')
                         return
