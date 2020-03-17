@@ -73,7 +73,7 @@
                                 <img class="del" src="../../../public/img/del.png" style="width: 16px;opacity: 0" />
                             </div>
                             <div style="margin-top: 10px;text-align: center">
-                                <span style="display:block">{{ind==0?'大图(序号1)':ind==1?'小图(序号2)':ind==2?'组图1(序号3)':ind==3?'组图2(序号4)':'组图3(序号5)'}}</span>
+                                <span v-if='item.type=="2"' style="display:block">{{ind==0?'大图(序号1)':ind==1?'小图(序号2)':ind==2?'组图1(序号3)':ind==3?'组图2(序号4)':'组图3(序号5)'}}</span>
                                 <span v-if='da.url' >{{da.width}}*{{da.height}}</span>
                             </div>
                         </div>
