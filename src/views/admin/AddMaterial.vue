@@ -748,7 +748,7 @@
                             if(res!=false){
                                 this.$parent.heidSc();
                             }
-                        }).catch(this.$message(message))
+                        }).catch(this.$message(this.message))
                     }
                 }else{
                     this.setMatter();
