@@ -27,7 +27,7 @@
                                 <span class="content_title_span" @click="handleClick(index)" >素材库选择</span>
                                 <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
                                 <span class="content_title_span" @click="getBD(index)">本地上传</span>
-                                <img class="content_title_img" src="../../../public/img/ADD_bule.png" v-if="item.bind!=undefined"/>
+                                <img class="content_title_img" src="../../../public/img/ADD_bule.png" />
                                 <span class="content_title_span" @click="upImg(index)" >上传附件</span>
                             </div>
                             <div class="btn_img">
