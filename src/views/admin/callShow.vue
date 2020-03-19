@@ -46,64 +46,44 @@
 		<div class="box">
 			<div class="boxImg" v-for="(DL,index) in IMGList">
 				<div class="img_box">
-					<img :src="DL.prev_uri" v-if="(DL.prev_uri.split('.'))[(DL.prev_uri.split('.')).length-1]!='mp4'"/>
-					<video :src="DL.prev_uri" controls="controls" v-if="(DL.prev_uri.split('.'))[(DL.prev_uri.split('.').length-1)]=='mp4'"></video>
+					<img :src="DL.prev_uri" v-if="(DL.prev_uri.split('.'))[(DL.prev_uri.split('.')).length-1]!='mp4'&&(DL.prev_uri.split('.'))[(DL.prev_uri.split('.').length-1)]!='MP4'"/>
+					<video :src="DL.prev_uri" controls="controls" v-if="(DL.prev_uri.split('.'))[(DL.prev_uri.split('.').length-1)]=='mp4'||(DL.prev_uri.split('.'))[(DL.prev_uri.split('.').length-1)]=='MP4'"></video>
 				</div>
 				<div class="boxImg_right" >
 					<div class="boxImg_right_1">
+                        <div>
+							<span class="boxImg_text">名称:</span>
+							<span class="boxImg_content">{{DL.name}}</span>
+						</div>
 						<div>
 							<span class="boxImg_text">物料ID:</span>
 							<span class="boxImg_content">{{DL.mfid}}</span>
 						</div>
-						<div>
-							<span class="boxImg_text boxImg_bq">标签:</span>
-							<div class="boxImg_xz">
-								<div class="boxImg_xz_yz">
-									<span class="box_box"  v-for="(tag,index2) in DL.tags" v-if="tag!=''">{{tag}}</span>
-									<span class="box_box"  v-for="(ta,index3) in DL.self_tags" v-if="ta!=''">{{ta}}</span>
-								</div>
-								<span class="img"  @click="XStag(index)">+ 标签</span>
-							</div>
-						</div>
-						<div>
-							<div class="zt">
-								<span class="boxImg_text">物料状态:</span>
-								<span class="boxImg_content">{{DL.status}}</span>
-							</div>
-							<div class="cc">
-								<span class="boxImg_text">预览图尺寸:</span>
-								<span class="boxImg_content">{{DL.size}}</span>
-							</div>
-						</div>
-						<div>
-							<div class="xgsc">
-								<span class="boxImg_text">相关素材:</span>
-								<span class="ck" @click="getRel(index)">查看详情</span>
-							</div>
-							<div class="dx">
-								<span class="boxImg_text">预览图大小:</span>
-								<span class="boxImg_content" v-if="(DL.attach.size/1024).toFixed(0)<1">1kb</span>
-								<span class="boxImg_content" v-if="DL.attach.size>1024&&DL.attach.size<1024*1024">{{(DL.attach.size/1024).toFixed(0)}}kb</span>
-								<span class="boxImg_content" v-if="DL.attach.size>1024*1024&&DL.attach.size<1024*1024*1024">{{(DL.attach.size/1024/1024).toFixed(1)}}MB</span>
-								<span class="boxImg_content" v-if="DL.attach.size>1024*1024*1024">{{(DL.attach.size/1024/1024/1024).toFixed(2)}}GB</span>
-							</div>
-						</div>
-
-						<div class="xgsc">
-							<span class="boxImg_text">物料使用记录:</span>
-							<span class="ck">查看详情</span>
-						</div>
-						<div class='zt'>
+                        <div>
 							<span class="boxImg_text">资源类型:</span>
 							<span class="boxImg_content">{{DL.model}}</span>
 						</div>
-						<div class="xgsc">
-								<span class="boxImg_text">来源:</span>
-								<span class="boxImg_content" style="width:100px">{{DL.resource}}</span>
+                        <div>
+								<span class="boxImg_text">物料状态:</span>
+								<span class="boxImg_content">{{DL.status}}</span>
+                                <span class="ck" style="margin-left:15px">查看详情</span>
+                                
+						</div>
+                         <div>
+							<span class="boxImg_text">文件时长|格式:</span>
+							<span class="boxImg_content">{{DL.attach.duration+"s"}} | {{DL.attach.video_type}}</span>
 						</div>
 						<div>
-							<span class="boxImg_text">更新时间:</span>
-							<span class="boxImg_content">{{DL.updated_at}}</span>
+							<span class="boxImg_text boxImg_bq">标签:</span>
+							<div class="boxImg_xz">
+								<span class="img"  @click="XStag(index)">+ 标签</span>
+                                 <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                                    <div slot="content">
+                                        <span class='tagsBOX' v-for='data in (DL.tags).concat(DL.self_tags)'>{{data}}</span>
+                                    </div>
+                                    <span class='fk'>...</span>
+                                </el-tooltip>
+							</div>
 						</div>
 						<div>
 							<span class="boxImg_text">附件:</span>
@@ -152,7 +132,7 @@
                 pageSize: 4,
                 total: 0,
                 currentPage: 1,
-                type:'f_laidian_show',
+                type:'f_call_show',
 				lx:'来电秀',
                 message:{},
                 preset_tags:[],
@@ -253,6 +233,7 @@
             heidRel(){
                 this.getRe=false;
                 this.move();
+            
             },
             YCtag(){
                 this.tags = false
@@ -470,5 +451,27 @@
 <style scoped>
 	.active{
 		color: #1583e2!important;}
-
+        .fk{
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border:1px solid #ddd;
+            border-radius: 50%;
+            line-height: 15px;
+            text-align: center;
+            cursor: pointer;
+            vertical-align: top;
+            margin-left: 15px
+        }
+        .tagsBOX{
+            display: inline-block;
+            padding:2px 3px ;
+            background: #ddd;
+            color: #000;
+            margin-right: 10px;
+            border-radius: 2px;
+        }
+        .boxImg_right_1 div{
+            height:45px!important
+        }
 </style>

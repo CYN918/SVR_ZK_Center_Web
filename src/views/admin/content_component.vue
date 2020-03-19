@@ -12,8 +12,8 @@
                         </div>
                         <div class="AddIMG_box">
                             <!--<img :src="hqUrl" v-if="hqUrl!=''"/>-->
-                            <img :src="hqUrl" v-if="hqUrl!=''&&(hqUrl.split('.'))[(hqUrl.split('.')).length-1]!='mp4'"/>
-                            <video :src="hqUrl" controls="controls" v-if="hqUrl!=''&&(hqUrl.split('.'))[(hqUrl.split('.')).length-1]=='mp4'" />
+                            <img :src="hqUrl" v-if="hqUrl!=''&&(hqUrl.split('.'))[(hqUrl.split('.')).length-1]!='mp4'&&(hqUrl.split('.'))[(hqUrl.split('.')).length-1]!='MP4'"/>
+                            <video :src="hqUrl" controls="controls" v-if="(hqUrl!=''&&(hqUrl.split('.'))[(hqUrl.split('.')).length-1]=='mp4')||(hqUrl!=''&&(hqUrl.split('.'))[(hqUrl.split('.')).length-1]=='MP4')"/>
                         </div>
                         <div class="AddIMG_box_txt">
                             <span>{{bindMid}}</span>
@@ -22,8 +22,8 @@
                             <span>上传素材预览图</span>
                         </div>
                         <div class="AddIMG_box">
-                            <img :src="prev_uri" v-if="this.prev_uri!=''&&this.arr[this.arr.length-1]!='mp4'"/>
-                            <video id="video" :src="prev_uri" controls="controls" v-if="this.prev_uri!=''&&this.arr[this.arr.length-1]=='mp4'" />
+                            <img :src="prev_uri" v-if="this.prev_uri!=''&&this.arr[this.arr.length-1]!='mp4'&&this.arr[this.arr.length-1]!='MP4'"/>
+                            <video id="video" :src="prev_uri" controls="controls" v-if="(this.prev_uri!=''&&this.arr[this.arr.length-1]=='mp4')||(this.prev_uri!=''&&this.arr[this.arr.length-1]=='MP4')" />
                         </div>
                     </div>
                     <div class="AddIMG_content_right">
@@ -86,8 +86,8 @@
                         </div>
                         <div class="AddIMG_yl">
                             <span class="tit">尺寸:</span>
-                            <input class="AddIMG_yl_size" v-model="sjSize" placeholder="上传预览图后自动获取" disabled v-if="this.arr[this.arr.length-1]!='mp4'">
-                            <select v-model="sjSize" v-if="this.arr[this.arr.length-1]=='mp4'">
+                            <input class="AddIMG_yl_size" v-model="sjSize" placeholder="上传预览图后自动获取" disabled v-if="this.arr[this.arr.length-1]!='mp4'&&this.arr[this.arr.length-1]!='MP4'">
+                            <select v-model="sjSize" v-if="this.arr[this.arr.length-1]=='mp4'||this.arr[this.arr.length-1]=='MP4'">
                                 <option :value="item.size" v-for="item in sizeList">{{item.size}}</option>
                             </select>
                             <div class="AddIMG_yl_upload">
@@ -347,7 +347,8 @@
                         this.initiate2=false;
                         this.prev_uri = res.url;
                         this.arr=this.prev_uri.split('.');
-                        if(this.arr[this.arr.length-1]=='mp4'){
+                         
+                        if(this.arr[this.arr.length-1]=='mp4'||this.arr[this.arr.length-1]=='MP4'){
                             this.getSize()
                         }
                         var image = new Image();
@@ -479,6 +480,10 @@
                     this.sjSize=res.size;
                     this.attach = res.attach;
                     this.type=res.type;
+                    this.arr=res.prev_uri.split('.')
+                    if(this.arr[this.arr.length-1]=='mp4'||this.arr[this.arr.length-1]=='MP4'){
+                            this.getSize()
+                        }
                     this.is_bind_mid=res.is_bind_mid==1?true:false;
                     this.is_bind_workid=res.is_bind_workid==0?true:false;
                     for(let i=0;i<res.bind_mid.length;i++){

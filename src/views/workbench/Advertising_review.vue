@@ -5,6 +5,7 @@
                     <div class="title_left">
                         <span>广告内容审核</span>
                         <span class='sh' @click='jump()'>图片审核</span>
+                        <span class='gl' v-if='sx' @click='managing()'>项目管理</span>
                     </div>
                    
                     <div style="margin:24px 0">
@@ -86,7 +87,13 @@
                                     label="图片"
                                     width="150">
                                     <template slot-scope="scope">
-                                        <img :src='tableData[scope.$index].image_url' style="max-width:80px;max-height: 80px;cursor: pointer"  preview="0" />
+                                        <!-- <img :src='tableData[scope.$index].image_url' style="max-width:80px;max-height: 80px;cursor: pointer"  preview="0" /> -->
+                                        <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
+                                            <div slot="content">
+                                                <img :src='tableData[scope.$index].image_url' style="max-width:261px;max-height: 464px;cursor: pointer"  />
+                                            </div>
+                                            <img :src='tableData[scope.$index].image_url' style="max-width:80px;max-height: 80px;cursor: pointer"  preview="0" />                               
+                                         </el-tooltip>
                                     </template>
                             </el-table-column>
                         
@@ -98,6 +105,24 @@
                                         <a :href='tableData[scope.$index].preview_url' target="_blank" style="color:#3377ff;cursor: pointer">点击查看</a>
                                     </template>
                             </el-table-column>
+                             <el-table-column
+                                    prop="pv"
+                                    width='90'
+                                    label="PV">
+                                    
+                            </el-table-column>
+                             <el-table-column
+                                    prop="pv_ratio"
+                                    width='90'
+                                    label="PV占比">
+                                    
+                            </el-table-column>
+                             <!-- <el-table-column
+                                    prop="a"
+                                    width='120'
+                                    label="头部PV占比">
+                                    
+                            </el-table-column> -->
                             <el-table-column
                                     prop=""
                                     label="AI标签">
@@ -199,8 +224,20 @@ export default {
                         pending:"",
                         audited:"",
                         all:"",
-                        pid:''
+                        pid:'',
+                        control:[],
+                        sx:false
                 }
+            },
+            created(){
+                 this.control=JSON.parse(localStorage.getItem('control'));
+                    for(var i= 0 ;i<this.control.length;i++){
+                        if(this.control[i].uri_key=='uri.tools.adver.project.edit'){
+                            this.sx=true
+                        }else{
+                            this.sx=false
+                        }
+                    }
             },
             methods:{
                 reset(){
@@ -229,6 +266,11 @@ export default {
                 jump(){
                      this.$router.push({
                         path:"./Advertising_content_review"
+                    })
+                },
+                managing(){
+                    this.$router.push({
+                        path:"./Advertising_managing"
                     })
                 },
                  getTag(){
@@ -467,12 +509,15 @@ export default {
         display: inline-block;
         margin-left: 24px
     }
-    .sel,.sh{
+    .sel,.sh,.gl{
         display: inline-block;
         float: right;
         margin-right: 20%;
     }
-    .sel span,.sh{
+    .gl{
+        margin-right:0px!important 
+    }
+    .sel span,.sh,.gl{
         display: inline-block;
         height: 36px;
         line-height: 36px;
@@ -482,7 +527,7 @@ export default {
         background: #3377ff;
         border: 0;
         text-align: center;
-        margin-left: 15px;
+        margin-left: 15px!important;
         width:90px ;
         font-size: 14px;
         font-family: PingFangSC-Regular;
@@ -623,7 +668,8 @@ export default {
         cursor: pointer;
         display: inline-block;
         height: 30px;
-        line-height: 30px
+        line-height: 30px;
+        margin-bottom: 10px
     }
     .tagsName:hover{
         border: 0!important;

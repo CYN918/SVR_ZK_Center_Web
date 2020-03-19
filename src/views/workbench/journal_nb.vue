@@ -203,19 +203,20 @@
             :close-on-click-modal='false'
             :before-close="handleClose">
             <el-form label-width="90px">
-                <el-form-item label="标题:">
-                    <el-input type="text" maxlength="12" show-word-limit v-model="title"></el-input>
-                </el-form-item>
-                <el-form-item label="内容描述:">
-                    <el-input type="textarea" maxlength="70" show-word-limit  v-model="content"></el-input>
-                </el-form-item>
                 <el-form-item label="标识:">
                     <select v-model="click_action">
                         <option value="-1">请选择</option>
+                        <option value="3">无文字链内容</option>
                         <option value="0">点击查看</option>
                         <option value="1">打开应用</option>
                         <option value="2">下载应用</option>
                     </select>
+                </el-form-item>
+                <el-form-item label="标题:" v-if="click_action != '-1'&&click_action != '3'">
+                    <el-input type="text" maxlength="12" show-word-limit v-model="title"></el-input>
+                </el-form-item>
+                <el-form-item label="内容描述:" v-if="click_action != '-1'&&click_action != '3'">
+                    <el-input type="textarea" maxlength="70" show-word-limit  v-model="content"></el-input>
                 </el-form-item>
                 <el-form-item label="跳转链接:" v-if="click_action == '0'">
                     <el-input v-model="url"></el-input>
@@ -517,20 +518,19 @@ methods: {
            },
            savePage(){
             //    var reg = /(http|https):\/\/([\w.]+\/?)\S*/;
-               if(!this.title){
+                if(this.click_action==-1){
+                    this.$message.warning('标识不能为空');
+                    return
+                }
+               if(!this.title&&this.click_action != '3'){
                    this.$message.warning('标题必填')
                    return false
                }
-               if(!this.content){
+               if(!this.content&&this.click_action != '3'){
                    this.$message.warning('内容描述必填')
                    return false
                }
-            //    if(this.url){
-            //        if(reg.test(this.url) == false){
-            //         this.$message.warning('落地页地址非法')
-            //         return false
-            //     }
-            //    }
+           
                if(this.click_action == 0){
                    var click_action_title = '点击查看'
                    if(!this.url){
@@ -562,6 +562,8 @@ methods: {
 
                }else if(this.click_action == -1){
                    var click_action_title = ''
+               }else if(this.click_action == 3){
+                   var click_action_title ='无文字链内容'
                }
                 let formData =new FormData;
                 formData.append('plid',this.plid);
