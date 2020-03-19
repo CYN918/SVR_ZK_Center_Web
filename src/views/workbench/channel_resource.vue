@@ -269,10 +269,10 @@
                     this.$message.error('日期不能为空');
                     return
                 }
-                if(!this.channel){
-                    this.$message.error('渠道不能为空');
-                    return
-                }
+                // if(!this.channel){
+                //     this.$message.error('渠道不能为空');
+                //     return
+                // }
                 let formData=new FormData;
                 formData.append('is_preview','2');
                 formData.append('tdate',this.value1);
