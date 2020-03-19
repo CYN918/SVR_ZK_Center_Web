@@ -13,7 +13,7 @@
         <scxq v-if="sc" :SCid="SCid"></scxq>
         <CK v-if='ck' :id="CkID"></CK>
         <WLp v-if="WLp" :id="wlID"></WLp>
-        <BU v-if="BU" :id="id" :ind="index"></BU>
+        <BU v-if="BU" :id="id" :ind="index" :is_special='is_special'></BU>
         <ATR v-if="ADD_material" :id="id" :num="num" :ind="index" :typeList="typeList" :types='types' :status="status" @upDataLists="upDataLists" :typeName='typeName'></ATR>
         <ADDsc v-if="addSC" :index="index" :id="id"></ADDsc>
         <scREQ v-if="scR"  :id="id" :num="num" :status="status" @upDataLists="upDataLists"></scREQ>
@@ -357,6 +357,7 @@
                 skType:"",
                 status:'',
                 ids:"",
+                is_special:"",
                 processor:[],
                 getRowKeys(row) {
                     return row.did;
@@ -521,10 +522,11 @@
                 this.status=this.tableData[index].status;
                 this.stop()
             },
-            getBU(index){
+            getBU(index,data){
                 if(index!=undefined){
                     this.index = index;
                 }
+                this.is_special=data;
                 this.BU=true;
                 this.stop()
             },

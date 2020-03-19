@@ -70,7 +70,7 @@
 
 <script>
     export default {
-        props:['id','ind'],
+        props:['id','ind','is_special'],
         name: "batch_upload",
         data(){
             return{
@@ -144,6 +144,7 @@
                 let formData = new FormData;
                 formData.append('id',this.id);
                 formData.append('line_num',this.ind);
+                formData.append('is_special',this.is_special);
                 formData.append('middleware',JSON.stringify(this.middleware));
                 this.api.demand_business_bind_middleware(formData).then((res)=>{
                     this.$parent.heidBU();
