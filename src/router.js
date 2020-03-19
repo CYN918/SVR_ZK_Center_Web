@@ -258,6 +258,10 @@ import Advertising_content_review from './views/workbench/Advertising_content_re
 mode['Advertising_content_review']=Advertising_content_review
 import Advertising_review from './views/workbench/Advertising_review'
 mode['Advertising_review']=Advertising_review
+import theme_screenshots from './views/workbench/theme_screenshots'
+mode['theme_screenshots']=theme_screenshots
+import theme_screenshots_xq from './views/workbench/theme_screenshots_xq'
+mode['theme_screenshots_xq']=theme_screenshots_xq
 
 import axios from 'axios'
 import api from './api/index'
@@ -462,6 +466,10 @@ let nb = [
             {path:'/workbench/External_details',name:'外部杂志锁屏推送管理详情',component: mode['External_details'],},
             {path:'/workbench/Advertising_content_review',name:'广告内容审核',component: mode['Advertising_content_review'],},
             {path:'/workbench/Advertising_review',name:'广告内容审核首页',component: mode['Advertising_review'],},
+            {path:'/workbench/theme_screenshots',name:'截图物料审核',component: mode['theme_screenshots'],},
+            {path:'/workbench/theme_screenshots_xq',name:'截图物料审核详情',component: mode['theme_screenshots_xq'],},
+
+            
             
             
            
