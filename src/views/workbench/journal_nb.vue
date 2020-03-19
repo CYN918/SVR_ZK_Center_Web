@@ -198,11 +198,11 @@
         <el-dialog
             title="管理文字链"
             :visible.sync="textVisible"
-            width="30%"
+            width="40%"
             :showClose="showClo"
             :close-on-click-modal='false'
             :before-close="handleClose">
-            <el-form label-width="90px">
+            <el-form label-width="120px">
                 <el-form-item label="标识:">
                     <select v-model="click_action">
                         <option value="-1">请选择</option>
@@ -212,10 +212,16 @@
                         <option value="2">下载应用</option>
                     </select>
                 </el-form-item>
-                <el-form-item label="标题:" v-if="click_action != '-1'">
+                <el-form-item label="标题:" v-if="click_action != '-1'&&click_action != '3'">
                     <el-input type="text" maxlength="12" show-word-limit v-model="title"></el-input>
                 </el-form-item>
-                <el-form-item label="内容描述:" v-if="click_action != '-1'">
+                <el-form-item label="内容描述:" v-if="click_action != '-1'&&click_action != '3'">
+                    <el-input type="textarea" maxlength="70" show-word-limit  v-model="content"></el-input>
+                </el-form-item>
+                 <el-form-item label="标题(选填):" v-if="click_action == '3'">
+                    <el-input type="text" maxlength="12" show-word-limit v-model="title"></el-input>
+                </el-form-item>
+                <el-form-item label="内容描述(选填):" v-if="click_action == '3'">
                     <el-input type="textarea" maxlength="70" show-word-limit  v-model="content"></el-input>
                 </el-form-item>
                 <el-form-item label="跳转链接:" v-if="click_action == '0'">
