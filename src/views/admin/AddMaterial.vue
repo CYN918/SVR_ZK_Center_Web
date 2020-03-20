@@ -51,8 +51,7 @@
                             <div class="AddIMG_input_box" v-if="this.types!='f_sls_lockscreen'&&this.types!='f_sls_picture'">
                                 <el-upload
                                         class="upload-demo"
-                                        :limit="1"
-                                        :on-exceed="handleExceed"
+                                        :before-upload="beforeAvatarUpload"
                                         :on-remove="handleRemove"
                                         :http-request="uploadF"
                                         action="111"
@@ -130,8 +129,8 @@
                         </div>
                         <div class='AddIMG_sc' v-if='this.types=="f_call_show"'>
                             <span class="tit">绑定设计师ID:</span>
-                            <input type='test' v-model="account_id" placeholder="请输入狮圈设计师ID" :disabled="(this.message.mfid!=undefined)"/>
-                            <input type="checkbox" style="width:16px;height:16px;margin:0 15px" v-model="is_designer" :disabled="(this.message.mfid!=undefined)">
+                            <input type='test' v-model="account_id" placeholder="请输入狮圈设计师ID" :disabled="(this.message.mfid!=undefined)||this.is_designer==true"/>
+                            <input type="checkbox" style="width:16px;height:16px;margin:0 15px" v-model="is_designer" :disabled="(this.message.mfid!=undefined)" @change="tagge()">
                             <span>与狮圈无关</span>
                         </div>
                         <div class="AddIMG_yl">
@@ -144,16 +143,19 @@
                             <div class="AddIMG_yl_upload" >
                                 <el-upload
                                         :disabled="this.chenck==true"
-                                        :limit="1"
-                                        :on-exceed="handleExceed"
                                         :http-request="uploadFile"
                                         :on-remove="Remove"
                                         class="upload-demo"
                                         action="111"
-                                        :before-upload="beforeAvatarUpload"
-                                        :file-list="fileList">
+                                        :before-upload="beforeUpload"
+                                        >
                                     <el-button size="small" type="primary" :class="{disbld:this.chenck==true}">上传预览图</el-button>
                                 </el-upload>
+                                 <el-tooltip placement="top" class="tit_txt_2 logs tit_txts" v-if="this.ylt.name!=undefined">
+                                    <div slot="content" class="text">{{this.ylt.name}}</div>
+                                    <span  class="text" style="overflow: hidden;width: 200px;height: 20px;line-height: 28px;color:#000" >{{this.ylt.name}}</span>
+                                </el-tooltip>
+                                <span class="content_xz" @click="delRemove()" v-if="this.ylt.name!=undefined">删除</span>
                             </div>
                             <div class="AddIMG_switch" v-if="sw&&this.types!='f_call_show'">
                                 <span  class="tit">是否启用:</span>
@@ -309,6 +311,7 @@
                 // audioDuration:"",
                 is_designer:false,
                 // showType:''
+                ylt:{},
             }
         },
 
@@ -355,6 +358,11 @@
                 }else{
                     this.$parent.XSset();
                 }    
+            },
+            tagge(){
+                if(this.is_designer==true){
+                    this.account_id=''
+                }
             },
             time(){
                 var _this=this;
@@ -430,7 +438,6 @@
                     // res.video_type=res.ext;
                     this.attach=res
                     // this.showType=res.ext;
-                    console.log(this.attach)
                     var image = new Image();
                     var _this=this;
                     image.onload=function(){
@@ -458,17 +465,41 @@
                 })
             },
             beforeAvatarUpload(file) {
-                const isJPG = file.type === 'image/jpeg';
-                const isPNG = file.type === 'image/png';
-                const isPSD = file.type === 'image/psd';
-                const isBMP = file.type === 'image/bmp';
-                const isGIF = file.type === 'image/gif';
-                const isTIF = file.type === 'image/tif';
-                const isVideo = file.type ==='video/mp4';
-                if (!isJPG&&!isPNG&&!isPSD&&!isBMP&&!isGIF&&!isTIF&&!isVideo) {
-                    this.$message.error('只支持JPG、PNG、psd、bmp、gif、tif、mp4格式!');
+                if(this.types!='f_call_show'){
+                        const isJPG = file.type === 'image/jpeg';
+                        const isPNG = file.type === 'image/png';
+                        const isPSD = file.type === 'image/psd';
+                        const isBMP = file.type === 'image/bmp';
+                        const isGIF = file.type === 'image/gif';
+                        const isTIF = file.type === 'image/tif';
+                        const isVideo = file.type ==='video/mp4';
+                        if (!isJPG&&!isPNG&&!isPSD&&!isBMP&&!isGIF&&!isTIF&&!isVideo) {
+                            this.$message.error('只支持JPG、PNG、psd、bmp、gif、tif、mp4格式!');
+                        }
+                        return isPNG || isJPG ||isPSD||isBMP||isGIF||isTIF||isVideo;
                 }
-                return isPNG || isJPG ||isPSD||isBMP||isGIF||isTIF||isVideo;
+                if(this.types=='f_call_show'){
+                         const isVideo = file.type ==='video/mp4';
+                        if (!isVideo) {
+                            this.$message.error('只支持mp4格式!');
+                        }
+                        return isVideo;
+                }
+              
+               
+            },
+            beforeUpload(file){
+                        const isJPG = file.type === 'image/jpeg';
+                        const isPNG = file.type === 'image/png';
+                        const isPSD = file.type === 'image/psd';
+                        const isBMP = file.type === 'image/bmp';
+                        const isGIF = file.type === 'image/gif';
+                        const isTIF = file.type === 'image/tif';
+                        const isVideo = file.type ==='video/mp4';
+                        if (!isJPG&&!isPNG&&!isPSD&&!isBMP&&!isGIF&&!isTIF&&!isVideo) {
+                            this.$message.error('只支持JPG、PNG、psd、bmp、gif、tif、mp4格式!');
+                        }
+                        return isPNG || isJPG ||isPSD||isBMP||isGIF||isTIF||isVideo;
             },
             handleExceed(files, fileList) {
                 this.$message.warning(`当前限制选择1个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
@@ -495,19 +526,19 @@
                 this.file = '';
                 this.initiate2=false;
             },
+            delRemove(){this.ylt={}},
             uploadFile(file){
                 this.time1();
                 this.initiate2=true;
+                this.ylt=file.file
                 let formData = new FormData;
-                formData.append('file',file.file);
+                formData.append('file',this.ylt);
                 this.api.file_upload(formData).then((res)=>{
                    
                     this.bbb=100;
                     this.initiate2=false;
                     this.prev_uri = res.url;
                     this.arr=this.prev_uri.split('.');
-                     console.log(this.arr)
-                    console.log(this.chenck)
                     if(this.arr[this.arr.length-1]=='mp4'||this.arr[this.arr.length-1]=='MP4'){
                         this.getSize()
                     }
@@ -581,7 +612,7 @@
                   formData.append('name',this.name);
                 // formData.append('video_type',this.showType);
                 // formData.append('duration',this.audioDuration);
-                 formData.append('is_designer',this.is_designer==true?'1':'0');
+                 formData.append('is_designer',this.is_designer==true?'0':'1');
                 formData.append('mfid',this.message.mfid);
                 formData.append('type',this.type);
                 formData.append('prev_uri',this.prev_uri);
@@ -612,7 +643,7 @@
                     if(!this.name&&this.types=='f_call_show'){
                         this.$message.error('名字不能为空')
                     }
-                    if(!this.account_id&&this.types=='f_call_show'){
+                    if(!this.account_id&&this.types=='f_call_show'&&this.is_designer==false){
                         this.$message.error('账号不能为空')
                     }
                     if(!this.prev_uri&&this.chenck!=true){
@@ -626,6 +657,10 @@
 
                     if(!this.attach.name){
                         this.$message('未上传文件')
+                        return
+                    }
+                     if(!this.sjSize&&this.types=='f_call_show'){
+                        this.$message('预览图尺寸不能为空')
                         return
                     }
                     if(this.preinstall.length<=0){
@@ -700,7 +735,7 @@
                         formData.append('account_id',this.account_id)
                         // formData.append('video_type',this.showType);
                         // formData.append('duration',this.audioDuration);
-                        formData.append('is_designer',this.is_designer==true?'1':'0');
+                        formData.append('is_designer',this.is_designer==true?'0':'1');
                         formData.append('ispic',(this.chenck==true?1:0));
                         formData.append('prev_uri',this.prev_uri);
                         formData.append('attach',JSON.stringify(this.attach));
@@ -717,7 +752,7 @@
                             if(res!=false){
                                 this.$parent.heidSc();
                             }
-                        }).catch(this.$message(message))
+                        }).catch()
                     }
                 }else{
                     this.setMatter();
@@ -744,7 +779,7 @@
                         this.name=res.name;
                         this.account_id=res.account_id;
                         // this.audioDuration=res.duration;
-                        this.is_designer=res.is_designer=='1'?true:false;
+                        this.is_designer=res.is_designer=='1'?false:true;
                         // this.showType=res.video_type
                     }
                     this.attach = res.attach;
@@ -1152,7 +1187,6 @@
         /*opacity: 0;*/
     /*}*/
     .AddIMG_yl_upload{
-        width: 150px;
         display: inline-block;
         font-size:14px;
         font-family:PingFangSC-Regular;
@@ -1168,7 +1202,7 @@
         font-family:PingFang-SC-Regular;
         font-weight:400;
         color:rgba(19,159,248,1);
-        line-height: 50px;
+        /* line-height: 50px; */
     }
     .AddIMG_bq_box{
         display: inline-block;
