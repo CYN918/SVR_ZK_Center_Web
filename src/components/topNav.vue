@@ -43,8 +43,6 @@
 						<span v-if="mData.length!=0" @click="getNotice('read')" :class="{'active_1':active_3}" style="position: absolute;bottom: 0px;width: 100%;text-align: center;height: 30px;">全部标为已读</span>
 						
 					</div>
-					
-				
 					<!-- <div @click="goMssg(1)" class="messgeH3_3 pend">查看全部</div> -->
 				</div>
 				
