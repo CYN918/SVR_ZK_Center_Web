@@ -26,9 +26,11 @@
                                 <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
                                 <span class="content_title_span" @click="handleClick(index)" >素材库选择</span>
                                 <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
+                                <span class="content_title_span" @click="ts(index)">添加特殊素材</span>
+                                <img class="content_title_img" src="../../../public/img/ADD_bule.png"/>
                                 <span class="content_title_span" @click="getBD(index)">本地上传</span>
-                                <img class="content_title_img" src="../../../public/img/ADD_bule.png" v-if="item.bind!=undefined"/>
-                                <span class="content_title_span" @click="upImg(index)" v-if="item.bind!=undefined">上传附件</span>
+                                <img class="content_title_img" src="../../../public/img/ADD_bule.png" />
+                                <span class="content_title_span" @click="upImg(index)" >上传附件</span>
                             </div>
                             <div class="btn_img">
                                 <img style="margin-right: 34px" src="../../../public/img/delet.png" @click="delLine(index)"/>
@@ -115,6 +117,7 @@
                 line:[],
                 numWL:"",
                 numSC:"",
+                bidID:[],
             }
         },
         mounted(){
@@ -251,13 +254,41 @@
                 this.$parent.getBD(this.line_num);
                 this.$parent.heidAddMaterial();
             },
-            upImg(index){
+            ts(index){
+                 
                 this.line_num = this.listSC[index].line_num;
                 if(this.line_num==undefined){
                     this.line_num=0;
                 }
-                this.$parent.getBU(this.line_num);
-                this.$parent.heidAddMaterial();
+                
+                if(window.location.host=='ts-centerweb.idatachain.cn'||window.location.host=='localhost:8080'){
+                    this.bidID=['ADP_178']
+                }
+                if(window.location.host=='c2.zookingsoft.com'){
+                    this.bidID=['ADP_1']
+                }
+                 let formData = new FormData;
+                        formData.append('id',this.id);
+                        formData.append('material',1);
+                        formData.append('line_num',this.line_num);
+                        formData.append('mid',JSON.stringify(this.bidID));
+                        this.api.demand_business_bind(formData).then((res)=>{
+                            if(res!=false){
+                                this.getDataList();
+                            }
+                        })
+            },
+            upImg(index){
+                this.line_num = this.listSC[index].line_num;
+                if(this.line_num==undefined){
+                    this.line_num=0;
+                    this.$parent.getBU(this.line_num,1);
+                    this.$parent.heidAddMaterial();
+                }else{
+                    this.$parent.getBU(this.line_num);
+                    this.$parent.heidAddMaterial();
+                }
+               
             },
             getWl(index){
                 if(this.listWL[index].bind!=undefined){

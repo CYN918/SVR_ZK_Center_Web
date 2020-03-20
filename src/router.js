@@ -258,10 +258,15 @@ import Advertising_content_review from './views/workbench/Advertising_content_re
 mode['Advertising_content_review']=Advertising_content_review
 import Advertising_review from './views/workbench/Advertising_review'
 mode['Advertising_review']=Advertising_review
+
 import theme_screenshots from './views/workbench/theme_screenshots'
 mode['theme_screenshots']=theme_screenshots
 import theme_screenshots_xq from './views/workbench/theme_screenshots_xq'
 mode['theme_screenshots_xq']=theme_screenshots_xq
+
+import Advertising_managing from './views/workbench/Advertising_managing'
+mode['Advertising_managing']=Advertising_managing
+
 
 import axios from 'axios'
 import api from './api/index'
@@ -466,9 +471,13 @@ let nb = [
             {path:'/workbench/External_details',name:'外部杂志锁屏推送管理详情',component: mode['External_details'],},
             {path:'/workbench/Advertising_content_review',name:'广告内容审核',component: mode['Advertising_content_review'],},
             {path:'/workbench/Advertising_review',name:'广告内容审核首页',component: mode['Advertising_review'],},
+<<<<<<< HEAD
             {path:'/workbench/theme_screenshots',name:'截图物料审核',component: mode['theme_screenshots'],},
             {path:'/workbench/theme_screenshots_xq',name:'截图物料审核详情',component: mode['theme_screenshots_xq'],},
 
+=======
+            {path:'/workbench/Advertising_managing',name:'广告内容审核管理',component: mode['Advertising_managing'],},
+>>>>>>> workbench
             
             
             
@@ -835,7 +844,7 @@ router.beforeEach((to, from, next) => {
     }
 	
 	let cent = 'center',
-    urld = 'http://c.zookingsoft.com/api/login';
+    urld = 'https://c.zookingsoft.com/api/login';
 	if(window.location.host=='ts-centerweb.idatachain.cn'){
 		cent = 'center_dev';
         urld ='http://ts-i.idatachain.cn/api/login';
@@ -843,7 +852,7 @@ router.beforeEach((to, from, next) => {
 	}
     if(window.location.host=='c2.zookingsoft.com'){
         cent = 'center_dev2';
-        urld ='http://c2.zookingsoft.com/api/login';
+        urld ='https://c2.zookingsoft.com/api/login';
         
     }
 	if(window.location.host=='localhost:8080'){

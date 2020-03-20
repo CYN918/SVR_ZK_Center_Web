@@ -17,10 +17,10 @@ const toMethod = (options) => {
 const createApiInstance = (config = {}) => {
 	let basrurl = 'http://ts-i.idatachain.cn/api/';
 	if(window.location.host=='c.zookingsoft.com'){
-		basrurl = 'http://c.zookingsoft.com/api';
+		basrurl = 'https://c.zookingsoft.com/api';
 	}
     if(window.location.host=='c2.zookingsoft.com'){
-        basrurl = 'http://c2.zookingsoft.com/api';
+        basrurl = 'https://c2.zookingsoft.com/api';
     }
 	const _config = {
 		withCredentials: true, // 跨域

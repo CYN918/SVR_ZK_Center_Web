@@ -56,7 +56,6 @@
 			<router-link  to="/income"   v-if='top4'><li><span>收益中心</span></li></router-link>
 			<router-link  to="/admin"   v-if='top1'><li> <span>素材中心</span></li></router-link>
 			<router-link  to="/ThemeCenter"  v-if='top5'><li><span>主题中心</span></li></router-link>
-
 		</ul>
 		<ul class="navd" v-if="config.showL!=-1&&this.type==1">
 			<router-link  to="/workbench"><li><span>工作台</span></li></router-link>
@@ -308,11 +307,11 @@ export default {
 		loginout(){
 			let urld = 'http://ts-i.idatachain.cn';
 			if(window.location.host=='c.zookingsoft.com'){
-				urld = 'http://c.zookingsoft.com';
+				urld = 'https://c.zookingsoft.com';
 				
 			}
             if(window.location.host=='c2.zookingsoft.com'){
-				urld = 'http://c2.zookingsoft.com';
+				urld = 'https://c2.zookingsoft.com';
 			}
 			this.$ajax({
 				method: 'get',

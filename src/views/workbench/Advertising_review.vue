@@ -5,6 +5,7 @@
                     <div class="title_left">
                         <span>广告内容审核</span>
                         <span class='sh' @click='jump()'>图片审核</span>
+                        <span class='gl' v-if='sx' @click='managing()'>项目管理</span>
                     </div>
                    
                     <div style="margin:24px 0">
@@ -17,6 +18,13 @@
                                 value-format="yyyy-MM-dd">
                             </el-date-picker>
                         </div>
+                        <span  class='tits'>项目：</span>
+                        <select v-model="pid">
+                            <option value="">全部</option>
+                            <option value="1" >魅族开屏</option>
+                            <option value="2" >魅族信息流</option>
+                            <option value="3" >金立开屏</option>
+                        </select>
                         <span class='tits'>三方广告源ID：</span>
                         <select v-model="sdk_id" @change="ganged()">
                             <option value="">全部</option>
@@ -82,7 +90,7 @@
                                         <!-- <img :src='tableData[scope.$index].image_url' style="max-width:80px;max-height: 80px;cursor: pointer"  preview="0" /> -->
                                         <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
                                             <div slot="content">
-                                                <img :src='tableData[scope.$index].image_url' style="width:60%;height: 60%;cursor: pointer"  />
+                                                <img :src='tableData[scope.$index].image_url' style="max-width:261px;max-height: 464px"  />
                                             </div>
                                             <img :src='tableData[scope.$index].image_url' style="max-width:80px;max-height: 80px;cursor: pointer"  preview="0" />                               
                                          </el-tooltip>
@@ -97,6 +105,24 @@
                                         <a :href='tableData[scope.$index].preview_url' target="_blank" style="color:#3377ff;cursor: pointer">点击查看</a>
                                     </template>
                             </el-table-column>
+                             <el-table-column
+                                    prop="pv"
+                                    width='90'
+                                    label="PV">
+                                    
+                            </el-table-column>
+                             <el-table-column
+                                    prop="pv_ratio"
+                                    width='90'
+                                    label="PV占比">
+                                    
+                            </el-table-column>
+                             <!-- <el-table-column
+                                    prop="a"
+                                    width='120'
+                                    label="头部PV占比">
+                                    
+                            </el-table-column> -->
                             <el-table-column
                                     prop=""
                                     label="AI标签">
@@ -197,8 +223,21 @@ export default {
                         class:false,
                         pending:"",
                         audited:"",
-                        all:""
+                        all:"",
+                        pid:'',
+                        control:[],
+                        sx:false
                 }
+            },
+            created(){
+                 this.control=JSON.parse(localStorage.getItem('control'));
+                    for(var i= 0 ;i<this.control.length;i++){
+                        if(this.control[i].uri_key=='uri.tools.adver.project.edit'){
+                            this.sx=true
+                        }else{
+                            this.sx=false
+                        }
+                    }
             },
             methods:{
                 reset(){
@@ -227,6 +266,11 @@ export default {
                 jump(){
                      this.$router.push({
                         path:"./Advertising_content_review"
+                    })
+                },
+                managing(){
+                    this.$router.push({
+                        path:"./Advertising_managing"
                     })
                 },
                  getTag(){
@@ -286,7 +330,7 @@ export default {
                     this.getData()
                 },
                  getData(){
-                     let params={status:this.status,sdk_id:this.sdk_id,tdate:this.date,id_adsrc:this.id_adsrc,tags_name:this.ListTags.join(','),p:this.p,page:this.page}
+                     let params={status:this.status,sdk_id:this.sdk_id,tdate:this.date,id_adsrc:this.id_adsrc,tags_name:this.ListTags.join(','),p:this.p,page:this.page,pid:this.pid}
                      this.api.adver_tags_search({params}).then((res)=>{
                          this.total=res.total
                         this.getAPI() ;
@@ -317,7 +361,7 @@ export default {
                     this.show=false;
                 },
                 getMessage(){
-                     let params={status:this.status,sdk_id:this.sdk_id,tdate:this.date,id_adsrc:this.id_adsrc,tags_name:this.ListTags.join(',')}
+                     let params={status:this.status,sdk_id:this.sdk_id,tdate:this.date,id_adsrc:this.id_adsrc,tags_name:this.ListTags.join(','),pid:this.pid}
                     this.api.adver_tags_count({params}).then((res)=>{
                         this.pending=res.pending;
                         this.audited=res.audited;
@@ -465,12 +509,15 @@ export default {
         display: inline-block;
         margin-left: 24px
     }
-    .sel,.sh{
+    .sel,.sh,.gl{
         display: inline-block;
         float: right;
         margin-right: 20%;
     }
-    .sel span,.sh{
+    .gl{
+        margin-right:0px!important 
+    }
+    .sel span,.sh,.gl{
         display: inline-block;
         height: 36px;
         line-height: 36px;
@@ -480,7 +527,7 @@ export default {
         background: #3377ff;
         border: 0;
         text-align: center;
-        margin-left: 15px;
+        margin-left: 15px!important;
         width:90px ;
         font-size: 14px;
         font-family: PingFangSC-Regular;
@@ -621,7 +668,8 @@ export default {
         cursor: pointer;
         display: inline-block;
         height: 30px;
-        line-height: 30px
+        line-height: 30px;
+        margin-bottom: 10px
     }
     .tagsName:hover{
         border: 0!important;

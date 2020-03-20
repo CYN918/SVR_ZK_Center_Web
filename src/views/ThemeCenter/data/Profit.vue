@@ -363,7 +363,7 @@
     }
     .tabs{
         width: 100%;
-        height:776px;
+        height:100%;
         background:rgba(255,255,255,1);
         border-radius:4px;
         margin-top: 145px;

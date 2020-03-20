@@ -201,10 +201,10 @@
             getMessage(){
                 let basrurl = 'http://ts-i.idatachain.cn/api/';
                 if(window.location.host=='c.zookingsoft.com'){
-                    basrurl = 'http://c.zookingsoft.com/api/';
+                    basrurl = 'https://c.zookingsoft.com/api/';
                 }
                 if(window.location.host=='c2.zookingsoft.com'){
-                    basrurl = 'http://c2.zookingsoft.com/api/';
+                    basrurl = 'https://c2.zookingsoft.com/api/';
                 }
                 axios.get(basrurl + 'news/' + this.$route.query.id + '/detail').then((res)=>{
                     this.messageData=res.data.data;
@@ -218,7 +218,13 @@
                     path:'/userinfo/message'
                 })
             },
-        }
+            getPath(){
+                this.getMessage();
+            }
+        },
+        watch:{
+            '$route':'getPath'
+        },
     }
 </script>
 
