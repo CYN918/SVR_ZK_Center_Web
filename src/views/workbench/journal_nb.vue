@@ -213,16 +213,16 @@
                     </select>
                 </el-form-item>
                 <el-form-item label="标题:" v-if="click_action != '-1'&&click_action != '3'">
-                    <el-input type="text" maxlength="12" show-word-limit v-model="title"></el-input>
+                    <el-input type="text" maxlength="13"  placeholder="最多13字" show-word-limit v-model="title"></el-input>
                 </el-form-item>
                 <el-form-item label="内容描述:" v-if="click_action != '-1'&&click_action != '3'">
-                    <el-input type="textarea" maxlength="70" show-word-limit  v-model="content"></el-input>
+                    <el-input type="textarea" maxlength="44"  placeholder="最多44字" show-word-limit  v-model="content"></el-input>
                 </el-form-item>
                  <el-form-item label="标题(选填):" v-if="click_action == '3'">
-                    <el-input type="text" maxlength="12" show-word-limit v-model="title"></el-input>
+                    <el-input type="text" maxlength="13"  placeholder="最多13字" show-word-limit v-model="title"></el-input>
                 </el-form-item>
                 <el-form-item label="内容描述(选填):" v-if="click_action == '3'">
-                    <el-input type="textarea" maxlength="70" show-word-limit  v-model="content"></el-input>
+                    <el-input type="textarea" maxlength="44"  placeholder="最多44字" show-word-limit  v-model="content"></el-input>
                 </el-form-item>
                 <el-form-item label="跳转链接:" v-if="click_action == '0'">
                     <el-input v-model="url"></el-input>
