@@ -90,6 +90,7 @@
                                         <!-- <img :src='tableData[scope.$index].image_url' style="max-width:80px;max-height: 80px;cursor: pointer"  preview="0" /> -->
                                         <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
                                             <div slot="content">
+
                                                 <img :src='tableData[scope.$index].image_url' style="max-width:261px;max-height: 464px"  />
                                             </div>
                                             <img :src='tableData[scope.$index].image_url' style="max-width:80px;max-height: 80px;cursor: pointer"  preview="0" />                               
