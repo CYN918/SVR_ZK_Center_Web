@@ -471,13 +471,11 @@ let nb = [
             {path:'/workbench/External_details',name:'外部杂志锁屏推送管理详情',component: mode['External_details'],},
             {path:'/workbench/Advertising_content_review',name:'广告内容审核',component: mode['Advertising_content_review'],},
             {path:'/workbench/Advertising_review',name:'广告内容审核首页',component: mode['Advertising_review'],},
-<<<<<<< HEAD
             {path:'/workbench/theme_screenshots',name:'截图物料审核',component: mode['theme_screenshots'],},
             {path:'/workbench/theme_screenshots_xq',name:'截图物料审核详情',component: mode['theme_screenshots_xq'],},
 
-=======
             {path:'/workbench/Advertising_managing',name:'广告内容审核管理',component: mode['Advertising_managing'],},
->>>>>>> workbench
+
             
             
             
