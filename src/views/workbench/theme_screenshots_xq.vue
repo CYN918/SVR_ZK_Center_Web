@@ -31,9 +31,9 @@
                             <span style="display:block;margin-bottom:10px">小图</span>
                             <span>尺寸:</span>
                         </div>
-                        <div class='boxs'>
-                            <div>
-                                <img src="" alt="">
+                        <div class='boxs' :style="previewStyle2">
+                            <div :style="previews.div" class="preview">
+                                <img :src="previews.url" :style="previews.img" alt="">
                             </div>
                             <span style="display:block;margin-bottom:10px">组图1</span>
                             <span>尺寸:</span>
@@ -75,10 +75,31 @@
                     </div>
                 </div>
                  <hr style="margin:0 24px;color:#ddd">
-                <div>
+                <div style="margin:40px 0 0 24px">
                     <div class='titleName'>
                         <span>效果调整</span>
                     </div>
+                    
+
+                        <vueCropper style="height: 500px;width:360px;"
+                        ref="cropper"
+                        :img="option.img"     
+                        :outputSize="option.size"    
+                        :outputType="option.outputType"   
+                        :info="true"	    
+                        :canScale="true"    
+                        :full="true"	
+                        :canMove="false"	
+                        :canMoveBox="true"   
+                        :fixedBox="true"
+                          :autoCropWidth="option.autoCropWidth"
+                        :autoCropHeight="option.autoCropHeight"
+                        :autoCrop="true"	
+                        :original="false"
+                        @realTime="realTime"	    
+                        ></vueCropper>
+                        
+                        <button @click='qd()'>确定</button>
                 </div>
         </div>
     </div>
@@ -86,7 +107,52 @@
 
 <script>
 export default {
+            data(){
+                return{
+                    dialogVisible: false,
+                    // 裁剪组件的基础配置option
+                    option: {
+                        img: 'https://oimagea4.ydstatic.com/image?product=adpublish&url=https%3A%2F%2Fimg1.360buyimg.com%2Fpop%2Fjfs%2Ft1%2F96011%2F18%2F15064%2F79434%2F5e6e5c96E63d3e1da%2F4c0c352bf22e5db6.jpg&sc=0&rm=0&w=640&h=960', 
+                       size:0.5,
+                       outputType:'jpeg',
+                       autoCropWidth:360,
+                       autoCropHeight:180,
 
+                    },
+                    picsList: [],  //页面显示的数组
+                    // 防止重复提交
+                    loading: false,
+                    previewStyle2:{},
+                    previews:{},
+                }
+            },
+            methods:{
+                realTime(data){
+                   this.previews = data;				
+                    this.previewStyle2 = {
+                        width: this.previews.w + "px",
+                        height: this.previews.h + "px",
+                        overflow: "hidden",
+                        margin: "0",
+                        // zoom: 220 / this.previews.w
+                        zoom: 100 / this.previews.h
+                    };
+                    console.log(this.previews);
+                    console.log(this.previewStyle2);
+                },
+                 qd(){
+                    this.$refs.cropper.getCropBlob((data) => {
+                        console.log(data)
+                        let files = new window.File([data], this.file.name, {type: data.type})
+                        console.log(this.file)
+                        Upload(files, this.file.name, (res) => {
+                            let url = `http://pv4kob423.bkt.clouddn.com/${res.key}`
+                            console.log(res)
+                            that.update(url) // 拿到url后去修改用户头像
+                        })
+                    })
+                 },
+            },
 }
 </script>
 
@@ -132,10 +198,21 @@ export default {
         height: 220px;
         border:1px solid #ddd;
         margin-bottom: 10px;
+        vertical-align: top;
+        position: relative;
+        overflow: "hidden",
     }
-    .boxs>div>span{
+    .boxs>span{
         font-size: 14px;
     }
+    /* .boxs>div>img{
+        max-height:220px;
+        max-width: 155px;
+        position: absolute;
+        left: 50%;
+        top:50%;
+        transform: translate(-50%,-50%) 
+    } */
     .set,.int{
         text-align: left!important;
         margin-bottom:30px
@@ -168,4 +245,7 @@ export default {
         padding-left: 10px;
         height: 36px;
     }
+    .pre-item {
+	padding-right: 20px;
+}
 </style>

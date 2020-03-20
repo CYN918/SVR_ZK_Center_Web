@@ -4,6 +4,8 @@ import router from './router'
 import axios from 'axios'
 import api from './api/index'
 import VueClipboard from 'vue-clipboard2'
+import VueCropper from 'vue-cropper'
+Vue.use(VueCropper)
 
 Vue.use(VueClipboard)
 Vue.prototype.$ajax = axios;
