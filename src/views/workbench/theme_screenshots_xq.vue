@@ -38,16 +38,16 @@
                             <span style="display:block;margin-bottom:10px">组图1</span>
                             <span>尺寸:</span>
                         </div>
-                        <div class='boxs'>
-                            <div>
-                                <img src="" alt="">
+                        <div class='boxs' :style="previewStyle3">
+                            <div  :style="previews2.div" class="preview">
+                                <img :src="previews2.url" :style="previews2.img" alt="">
                             </div>
                             <span style="display:block;margin-bottom:10px">组图2</span>
                             <span>尺寸:</span>
                         </div>
-                        <div class='boxs'>
-                            <div>
-                                <img src="" alt="">
+                        <div class='boxs' :style="previewStyle4">
+                            <div :style="previews3.div" class="preview">
+                                <img :src="previews3.url" :style="previews3.img" alt="">
                             </div>
                             <span style="display:block;margin-bottom:10px">组图3</span>
                             <span>尺寸:</span>
@@ -63,13 +63,13 @@
                         <div class='int'>
                             <div >
                                 <span class="names">标题：</span>
-                                <span></span>
-                                <input type="text" placeholder="最少6字最多24字" minlength="6" maxlength="24">
+                                <span class='con' v-if="show==false" @click='clic()'>ssss</span>
+                                <input type="text" v-if="show" placeholder="最少6字最多24字" @blur="bt()" minlength="6" maxlength="24">
                             </div>
                             <div>
                                 <span class="names">摘要(选填)：</span>
-                                <span></span>
-                                <input type="text" placeholder="最少6字最多24字" minlength="6" maxlength="24">
+                                <span class='con' @click='clic1()' v-if="show1==false"></span>
+                                <input type="text" v-if="show1" @blur="zy()" placeholder="最少6字最多24字" minlength="6" maxlength="24">
                             </div>
                         </div>
                     </div>
@@ -79,9 +79,7 @@
                     <div class='titleName'>
                         <span>效果调整</span>
                     </div>
-                    
-
-                        <vueCropper style="height: 500px;width:360px;"
+                        <vueCropper style="height: 500px;width:360px;display:inline-block;margin-right:30px"
                         ref="cropper"
                         :img="option.img"     
                         :outputSize="option.size"    
@@ -100,7 +98,46 @@
                         ></vueCropper>
                         
                         <button @click='qd()'>确定</button>
+                         <vueCropper style="height: 500px;width:360px;display:inline-block;margin-right:30px"
+                        ref="cropper1"
+                        :img="option.img"     
+                        :outputSize="option.size"    
+                        :outputType="option.outputType"   
+                        :info="true"	    
+                        :canScale="true"    
+                        :full="true"	
+                        :canMove="false"	
+                        :canMoveBox="true"   
+                        :fixedBox="true"
+                          :autoCropWidth="option.autoCropWidth"
+                        :autoCropHeight="option.autoCropHeight"
+                        :autoCrop="true"	
+                        :original="false"
+                        @realTime="realTime1"	    
+                        ></vueCropper>
+                        
+                        <button @click='qd()'>确定</button>
+                         <vueCropper style="height: 500px;width:360px;display:inline-block;"
+                        ref="cropper2"
+                        :img="option.img"     
+                        :outputSize="option.size"    
+                        :outputType="option.outputType"   
+                        :info="true"	    
+                        :canScale="true"    
+                        :full="true"	
+                        :canMove="false"	
+                        :canMoveBox="true"   
+                        :fixedBox="true"
+                          :autoCropWidth="option.autoCropWidth"
+                        :autoCropHeight="option.autoCropHeight"
+                        :autoCrop="true"	
+                        :original="false"
+                        @realTime="realTime2"	    
+                        ></vueCropper>
+                        
+                        <button @click='qd()'>确定</button>
                 </div>
+                
         </div>
     </div>
 </template>
@@ -124,6 +161,12 @@ export default {
                     loading: false,
                     previewStyle2:{},
                     previews:{},
+                     previewStyle3:{},
+                    previews2:{},
+                     previewStyle4:{},
+                    previews3:{},
+                    show:false,
+                    show1:false,
                 }
             },
             methods:{
@@ -134,11 +177,58 @@ export default {
                         height: this.previews.h + "px",
                         overflow: "hidden",
                         margin: "0",
-                        // zoom: 220 / this.previews.w
-                        zoom: 100 / this.previews.h
+                        zoom: 220 / this.previews.w,
+                        // zoom: 200 / this.previews.h
                     };
-                    console.log(this.previews);
-                    console.log(this.previewStyle2);
+                   
+                },
+                 realTime(data){
+                   this.previews = data;				
+                    this.previewStyle2 = {
+                        width: this.previews.w + "px",
+                        height: this.previews.h + "px",
+                        overflow: "hidden",
+                        margin: "0",
+                        zoom: 220 / this.previews.w,
+                        // zoom: 200 / this.previews.h
+                    };
+                   
+                },
+                 realTime1(data){
+                   this.previews2 = data;				
+                    this.previewStyle3 = {
+                        width: this.previews2.w + "px",
+                        height: this.previews2.h + "px",
+                        overflow: "hidden",
+                        margin: "0",
+                        zoom: 220 / this.previews2.w,
+                        // zoom: 200 / this.previews.h
+                    };
+                   
+                },
+                 realTime2(data){
+                   this.previews3 = data;				
+                    this.previewStyle4 = {
+                        width: this.previews3.w + "px",
+                        height: this.previews3.h + "px",
+                        overflow: "hidden",
+                        margin: "0",
+                        zoom: 220 / this.previews3.w,
+                        // zoom: 200 / this.previews.h
+                    };
+                   
+                },
+                clic(){
+                    this.show=true;
+                },
+                 clic1(){
+                    this.show1=true;
+                },
+                bt(){
+                    this.show=false
+                },
+                zy(){
+                    this.show1=false
                 },
                  qd(){
                     this.$refs.cropper.getCropBlob((data) => {
@@ -192,6 +282,8 @@ export default {
     .boxs{
         display: inline-block;
         margin:0 30px 30px 0 ;
+        width:auto!important;
+        height: auto!important;
     }
     .boxs>div{
         width: 155px;
@@ -200,7 +292,14 @@ export default {
         margin-bottom: 10px;
         vertical-align: top;
         position: relative;
-        overflow: "hidden",
+        overflow: hidden!important
+    }
+    .con{
+        display: inline-block;
+        min-width: 300px;
+        height: 40px;
+        background: #ddd;
+        line-height: 40px;
     }
     .boxs>span{
         font-size: 14px;
