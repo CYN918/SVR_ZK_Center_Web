@@ -18,7 +18,7 @@
                     <div class='titleName'>
                         <span>效果调整</span>
                     </div>
-                        <vueCropper style="height:370px;width:220px;display:inline-block;margin-right:30px"
+                        <vueCropper style="height:360px;width:240px;display:inline-block;margin-right:30px"
                         ref="cropper"
                         :img="option.img"     
                         :outputSize="option.size"    
@@ -37,7 +37,7 @@
                         ></vueCropper>
                         
                         
-                         <vueCropper style="height:370px;width:220px;display:inline-block;margin-right:30px"
+                         <vueCropper style="height:360px;width:240px;display:inline-block;margin-right:30px"
                         ref="cropper1"
                         :img="option1.img"     
                         :outputSize="option1.size"    
@@ -56,7 +56,7 @@
                         ></vueCropper>
                         
                         
-                         <vueCropper style="height:370px;width:220px;display:inline-block;"
+                         <vueCropper style="height:360px;width:240px;display:inline-block;"
                         ref="cropper2"
                         :img="option2.img"     
                         :outputSize="option2.size"    
@@ -79,7 +79,7 @@
                 <div class='rightBox'>
                     <div  class='titleName2'>
                         <span >最终效果图</span>
-                        <span class='addBtn' @click="file()">提交物料</span>
+                        <span class='addBtn' @click="ADDdata()">提交物料</span>
                     </div>
                     <div class='border_box'>
                         <div>
@@ -166,7 +166,9 @@
 </template>
 
 <script>
+
 export default {
+
             data(){
                 return{
                     dialogVisible: false,
@@ -213,6 +215,8 @@ export default {
                     width1:"",
                     height1:"",
                     images:[],
+                    temple_name:"",
+                    route:"",
                 }
             },
             mounted(){
@@ -231,6 +235,7 @@ export default {
                             this.option.img=this.dataList.images[0]
                             this.option1.img=this.dataList.images[1]
                             this.option2.img=this.dataList.images[2]
+                           
                     })
                 },
                 ADDdata(){
@@ -244,63 +249,88 @@ export default {
                     formData.append('ad_desc',this.ad_desc);
                     formData.append('type','2');
                     formData.append('from','2');
-                    formData.append('images',JSON.stringify(this.images));
+                    
                     this.api.appad_pkg_audit(formData).then((res)=>{
                         if(res!=false){
-                            this.$router.go(-1);
+                            this.temple_name=res.temple_name;
+                            this.route=res.route;
+                            this.file();
                         }
                     })
                 },
                 file(){
-                    this.$refs.cropper.getCropData(data => {
-                        this.dataURLtoBlob(data,1);
+                    this.$refs.cropper.getCropBlob(data => {
+                        this.ADDimg(data,3);
                     })
-                     this.$refs.cropper1.getCropData(data => {
-                        this.dataURLtoBlob(data,2);
+                     this.$refs.cropper1.getCropBlob(data => {
+                        this.ADDimg(data,4);
                     })
-                     this.$refs.cropper2.getCropData(data => {
-                        this.dataURLtoBlob(data,3);
+                     this.$refs.cropper2.getCropBlob(data => {
+                        this.ADDimg(data,5);
                     })
+                    if(this.image==1){
+                         this.$refs.cropper.getCropBlob(data => {
+                            this.ADDimg(data,2);
+                        })
+                    }
+                    if(this.image==2){
+                          this.$refs.cropper1.getCropBlob(data => {
+                            this.ADDimg(data,2);
+                        })
+                    }
+                    if(this.image==3){
+                          this.$refs.cropper2.getCropBlob(data => {
+                                this.ADDimg(data,2);
+                            })
+                    }
+                    
                                     
                 },
-                 dataURLtoBlob(dataurl,num) {
-                    var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-                        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-                    while (n--) {
-                        u8arr[n] = bstr.charCodeAt(n);
-                    }
-                    this.ADDimg(new Blob([u8arr], { type: mime }),num)
-                    return new Blob([u8arr], { type: mime });
+                //  dataURLtoBlob(dataurl,num) {
+                //     var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+                //         bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+                //     while (n--) {
+                //         u8arr[n] = bstr.charCodeAt(n);
+                //     }
+                //     this.ADDimg(new Blob([u8arr], { type: mime }),num)
+                //     return new Blob([u8arr], { type: mime });
                     
-                 },
+                //  },
 
 
                 ADDimg(file,num){
-                    var obj={}
-                var reader = new FileReader();
-                var _this=this;
-                reader.readAsDataURL(file);
-                reader.onload=function(theFile){
-                    var image=new Image();
-                    image.src=theFile.target.result;
-                    image.onload = function() {
-                        _this.width1 = image.width;
-                        _this.height1 = image.height;
-                        obj.width=_this.width1;
-                        obj.height=_this.height1;
-                        obj.file=file;
-                        obj.order=num;
-                         _this.images.push(obj);
-                        console.log(_this.images)
-                        if(_this.images.length==3){
-                            _this.ADDdata()
-                        }
+                    var reader = new FileReader();
+                    var _this=this;
+                    reader.readAsDataURL(file);
+                    reader.onload=function(theFile){
+                        var image=new Image();
+                        image.src=theFile.target.result;
+                        image.onload = function() {
+                            _this.width1 = image.width;
+                            _this.height1 = image.height;
+                            _this.ups(file,num)
+                        
+                        };
                     };
-                };
                
+                },
+                ups(file,nums){
+                     var formData = new FormData;
+                    formData.append('temple_name',this.temple_name);
+                    formData.append('pkg_name',this.$route.query.pkg_name);
+                    formData.append('file',file);
+                    formData.append('route',this.route);
+                    formData.append('width',this.width1);
+                    formData.append('height',this.height1);
+                    formData.append('type','2')
+                    formData.append('order',nums)
+                this.api.appad_add(formData).then((res)=>{
+                    
+                })
             },
                 realTime(data){
-                   this.previews = data;				
+                   this.previews = data;
+                   console.log(this.previews)				
                     this.previewStyle2 = {
                         width: this.previews.w + "px",
                         height: this.previews.h + "px",
