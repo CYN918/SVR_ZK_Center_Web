@@ -286,16 +286,16 @@ export default {
                     
                                     
                 },
-                //  dataURLtoBlob(dataurl,num) {
-                //     var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-                //         bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-                //     while (n--) {
-                //         u8arr[n] = bstr.charCodeAt(n);
-                //     }
-                //     this.ADDimg(new Blob([u8arr], { type: mime }),num)
-                //     return new Blob([u8arr], { type: mime });
+                 dataURLtoBlob(dataurl,num) {
+                    var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+                        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+                    while (n--) {
+                        u8arr[n] = bstr.charCodeAt(n);
+                    }
+                    this.ups(new Blob([u8arr], { type: mime }),num)
+                    return new Blob([u8arr], { type: mime });
                     
-                //  },
+                 },
 
 
                 ADDimg(file,num){
@@ -314,6 +314,8 @@ export default {
                         
                     //     };
                     // };
+
+                    var _this=this;
                     var reader = new FileReader();
                     reader.readAsDataURL(file);
                     reader.onload=function(theFile){
@@ -324,11 +326,13 @@ export default {
                             let canvas = document.createElement('canvas')
                             const ctx = canvas.getContext('2d')
                             let dataURL = ''
-                            canvas.height = this.height*1.5
-                            canvas.width = this.width*1.5
-                            ctx.drawImage(this, 0, 0)
+                            canvas.height = 240;
+                            canvas.width = 360;
+                            _this.width1=canvas.width;
+                            _this.height1=canvas.height;
+                            ctx.drawImage(this, 0, 0,360,240)
                             dataURL = canvas.toDataURL();
-                            console.log(dataURL)
+                            _this.dataURLtoBlob(dataURL,num)
                         }
                     }    
                         
