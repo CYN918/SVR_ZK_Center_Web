@@ -63,7 +63,7 @@
                         :outputType="option2.outputType"   
                         :info="true"	    
                         :canScale="true"    
-                        :full="false"	
+                        :full="true"	
                         :canMove="false"	
                         :canMoveBox="true"   
                         :fixedBox="true"
@@ -176,7 +176,7 @@ export default {
                     option: {
                         img: '', 
                        size:0.5,
-                       outputType:'jpeg',
+                       outputType:'png',
                        autoCropWidth:240,
                        autoCropHeight:160,
 
@@ -184,7 +184,7 @@ export default {
                      option1: {
                         img: '', 
                        size:0.5,
-                       outputType:'jpeg',
+                       outputType:'png',
                        autoCropWidth:240,
                        autoCropHeight:160,
 
@@ -192,7 +192,7 @@ export default {
                      option2: {
                         img: '', 
                        size:0.5,
-                       outputType:'jpeg',
+                       outputType:'png',
                        autoCropWidth:240,
                        autoCropHeight:160,
 
@@ -299,20 +299,39 @@ export default {
 
 
                 ADDimg(file,num){
+                    // var reader = new FileReader();
+                    // var _this=this;
+                    // reader.readAsDataURL(file);
+                    // reader.onload=function(theFile){
+                    //     var image=new Image();
+                    //     image.src=theFile.target.result;
+                    //     image.onload = function() {
+                    //         _this.width1 = image.width;
+                    //         _this.height1 = image.height;
+                    //         //  _this.width1 = 360;
+                    //         // _this.height1 = 240;
+                    //         _this.ups(file,num)
+                        
+                    //     };
+                    // };
                     var reader = new FileReader();
-                    var _this=this;
                     reader.readAsDataURL(file);
                     reader.onload=function(theFile){
-                        var image=new Image();
-                        image.src=theFile.target.result;
-                        image.onload = function() {
-                            _this.width1 = image.width;
-                            _this.height1 = image.height;
-                            _this.ups(file,num)
+                        const img = new Image()
+                        img.src=theFile.target.result;
+                        img.crossOrigin = 'Anonymous' // canvas 不能处理跨域图片，如果要处理，除了服务端要开启跨域外，执行canvas操作前也要开启跨域
+                        img.onload = function() {
+                            let canvas = document.createElement('canvas')
+                            const ctx = canvas.getContext('2d')
+                            let dataURL = ''
+                            canvas.height = this.height*1.5
+                            canvas.width = this.width*1.5
+                            ctx.drawImage(this, 0, 0)
+                            dataURL = canvas.toDataURL();
+                            console.log(dataURL)
+                        }
+                    }    
                         
-                        };
-                    };
-               
                 },
                 ups(file,nums){
                      var formData = new FormData;
