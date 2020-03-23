@@ -1534,4 +1534,16 @@ export default {
 
 		url:"adver/project/edit",method:"post",isType:{suktip:1},
 	},
+	//审核列表
+	appad_pkg_check_list:{
+		url:'appad/pkg/check_list',method:"get"
+	},
+	//根据包名获取图片列表h和標題摘要
+	appad_pkg_check_info:{
+		url:'appad/pkg/check_info',method:"get"
+	},
+	//官方物料库审核
+	appad_pkg_audit:{
+		url:'appad/pkg/audit',method:"post",isType:{suktip:1},
+	},
 }

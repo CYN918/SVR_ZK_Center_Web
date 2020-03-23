@@ -245,7 +245,6 @@
                 })
             },
             ADDimg(file){
-                console.log(file);
                 var reader = new FileReader();
                 var _this=this;
                 reader.readAsDataURL(file.file);

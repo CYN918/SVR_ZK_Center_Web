@@ -15,7 +15,7 @@
                     <input type="text" placeholder="请输入包名" v-model="pkg_name"/>
                     <span class="tit_name">状态</span>
                     <select v-model="status">
-                        <option value="2">全部</option>
+                        <option value="">全部</option>
                         <option value="0">未处理</option>
                         <option value="1">已处理</option>
                     </select>
@@ -36,7 +36,7 @@
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="req"
+                                prop="req_pv"
                                 label="请求量"
                                 sortable
                         >
@@ -57,7 +57,7 @@
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="updator"
+                                prop="operator"
                                 label="操作人员"
                         >
                         </el-table-column>
@@ -90,7 +90,7 @@ export default {
     data(){
         return{
             pkg_name:"",
-            status:"2",
+            status:"",
             tableData:[],
             p:10,
             page:1,
@@ -118,14 +118,19 @@ export default {
             },
             getList(){
                 let params = {pkg_name:this.pkg_name,status:this.status,p:this.p,page:this.page};
-                this.api.appad_pkg_search({params}).then((res)=>{
+                this.api.appad_pkg_check_list({params}).then((res)=>{
                     this.tableData=res.data;
                     this.total=res.total;
                 })
             },
             jump(index){
                 this.$router.push({
-                    path:"theme_screenshots_xq"
+                    path:"theme_screenshots_xq",
+                    query:{
+                        pkg_name:this.tableData[index].pkg_name,
+
+                    }
+
                 })
             },
     },
