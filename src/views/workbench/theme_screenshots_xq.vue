@@ -25,7 +25,7 @@
                         :outputType="option.outputType"   
                         :info="true"	    
                         :canScale="true"    
-                        :full="true"	
+                        :full="false"	
                         :canMove="false"	
                         :canMoveBox="true"   
                         :fixedBox="true"
@@ -44,7 +44,7 @@
                         :outputType="option1.outputType"   
                         :info="true"	    
                         :canScale="true"    
-                        :full="true"	
+                        :full="false"	
                         :canMove="false"	
                         :canMoveBox="true"   
                         :fixedBox="true"
@@ -63,7 +63,7 @@
                         :outputType="option2.outputType"   
                         :info="true"	    
                         :canScale="true"    
-                        :full="true"	
+                        :full="false"	
                         :canMove="false"	
                         :canMoveBox="true"   
                         :fixedBox="true"
@@ -177,24 +177,24 @@ export default {
                         img: '', 
                        size:0.5,
                        outputType:'jpeg',
-                       autoCropWidth:360,
-                       autoCropHeight:180,
+                       autoCropWidth:240,
+                       autoCropHeight:160,
 
                     },
                      option1: {
                         img: '', 
                        size:0.5,
                        outputType:'jpeg',
-                       autoCropWidth:360,
-                       autoCropHeight:180,
+                       autoCropWidth:240,
+                       autoCropHeight:160,
 
                     },
                      option2: {
                         img: '', 
                        size:0.5,
                        outputType:'jpeg',
-                       autoCropWidth:360,
-                       autoCropHeight:180,
+                       autoCropWidth:240,
+                       autoCropHeight:160,
 
                     },
                     picsList: [],  //页面显示的数组

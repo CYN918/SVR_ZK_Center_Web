@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import axios from 'axios'
 import api from './api/index'
-// import html2canvas from 'html2canvas'
+import html2canvas from 'html2canvas'
 import VueClipboard from 'vue-clipboard2'
 import VueCropper from 'vue-cropper'
 Vue.use(VueCropper)
