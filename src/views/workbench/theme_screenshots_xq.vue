@@ -88,7 +88,8 @@
                                     <span style="display:block;margin-bottom:10px">大图</span>
                                     <span>尺寸:</span>
                                 </div>
-                                <div class='big'>
+								<img class="real_pic" :src="dataURL" style="display: none;"/>
+								<div class='big' ref="imageWrapper">
                                     <img src="img/back.jpg" alt="" class='bgm'>
                                     <img :src="option.img" alt="" class='bgm1'>
                                     <img :src="option1.img" alt="" class='bgm2'>
@@ -167,6 +168,8 @@
 
 <script>
 
+import html2canvas from 'html2canvas';
+
 export default {
 
             data(){
@@ -217,12 +220,21 @@ export default {
                     images:[],
                     temple_name:"",
                     route:"",
+					dataURL:"",
                 }
             },
             mounted(){
                 this.getData()
             },
             methods:{
+				toImage() {
+					html2canvas(this.$refs.imageWrapper,{
+						backgroundColor: null
+					}).then((canvas) => {
+						let dataURL = canvas.toDataURL("image/png");
+						this.dataURL = dataURL;
+					});
+				},
                 fh(index){
                     this.$router.go(index)
                 },
@@ -232,10 +244,10 @@ export default {
                             this.dataList=res;
                             this.ad_title=this.dataList.ad_title;
                             this.ad_desc=this.dataList.ad_desc;
-                            this.option.img=this.dataList.images[0]
-                            this.option1.img=this.dataList.images[1]
-                            this.option2.img=this.dataList.images[2]
-                           
+                            this.option.img=this.dataList.images[0];
+                            this.option1.img=this.dataList.images[1];
+                            this.option2.img=this.dataList.images[2];
+							this.toImage();
                     })
                 },
                 ADDdata(){
@@ -347,8 +359,8 @@ export default {
                     formData.append('height',this.height1);
                     formData.append('type','2')
                     formData.append('order',nums)
-                this.api.appad_add(formData).then((res)=>{
-                    
+					this.api.appad_add(formData).then((res)=>{
+						console.log(res)	
                 })
             },
                 realTime(data){
