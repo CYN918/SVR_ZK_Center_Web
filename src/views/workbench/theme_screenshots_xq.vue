@@ -88,8 +88,8 @@
                                     <span style="display:block;margin-bottom:10px">大图</span>
                                     <span>尺寸:</span>
                                 </div>
-								<img class="real_pic" :src="dataURL" style="display: none;"/>
-								<div class='big' ref="imageWrapper">
+								<img class="real_pic" :src="dataURL" />
+								<div class='big' ref="imageWrapper" @click = "toImage()">
                                     <img src="img/back.jpg" alt="" class='bgm'>
                                     <img :src="option.img" alt="" class='bgm1'>
                                     <img :src="option1.img" alt="" class='bgm2'>
@@ -229,7 +229,9 @@ export default {
             methods:{
 				toImage() {
 					html2canvas(this.$refs.imageWrapper,{
-						backgroundColor: null
+						backgroundColor: null,
+						allowTaint:false,
+						useCORS:true,
 					}).then((canvas) => {
 						let dataURL = canvas.toDataURL("image/png");
 						this.dataURL = dataURL;
