@@ -50,12 +50,10 @@
 			<router-link  to="/login" class="right1"><li @click="loginout()"><span>退出登录</span></li></router-link>
 			<router-link  to="/userinfo" class="right0"><li><img :src="img" class="imgs_user"/>{{name}}</li></router-link>
 			<router-link  to="/workbench"  v-if='top2'><li><span>工作台</span></li></router-link>
-
 			<router-link  to="/data"   v-if='top3'><li><span>数据中心</span></li></router-link>
 			<router-link  to="/income"   v-if='top4'><li><span>收益中心</span></li></router-link>
 			<router-link  to="/admin"   v-if='top1'><li> <span>素材中心</span></li></router-link>
 			<router-link  to="/ThemeCenter"  v-if='top5'><li><span>主题中心</span></li></router-link>
-
 		</ul>
 		<ul class="navd" v-if="config.showL!=-1&&this.type==1">
 			<router-link  to="/workbench"><li><span>工作台</span></li></router-link>
