@@ -88,15 +88,16 @@
                                     <span style="display:block;margin-bottom:10px">大图</span>
                                     <span>尺寸:</span>
                                 </div>
-								<img class="real_pic" :src="dataURL" />
-								<div class='big' ref="imageWrapper" @click = "toImage()">
-                                    <img src="img/back.jpg" alt="" class='bgm'>
-                                    <img :src="option.img" alt="" class='bgm1'>
-                                    <img :src="option1.img" alt="" class='bgm2'>
-                                    <img :src="option2.img" alt="" class='bgm3'>
-                                     <img src="img/ico.png" alt="" class='bgm4'>
-                                </div>
-                               
+								<img v-show="realpic" class="real_pic" :src="dataURL" />
+								<div v-show="hideimg" class="hideimg" ref="hideimg">
+									<div class='big' ref="imageWrapper">
+										<img src="img/back.jpg" alt="" ref='bgm' class='bgm'>
+										<img :src="option.img" alt="" ref='bgm1' class='bgm1'>
+										<img :src="option1.img" alt="" ref='bgm2' class='bgm2'>
+										<img :src="option2.img" alt="" ref='bgm3' class='bgm3'>
+										<img src="img/ico.png" alt="" ref='bgm4' class='bgm4'>
+									</div>
+								</div>
                             </div>
                             <div class='boxs2' :style="this.image==1?previewStyle2:this.image==2?previewStyle3:previewStyle4">
                                 <div style="display:inline-block">
@@ -104,7 +105,8 @@
                                     <span>尺寸:</span>
                                 </div>
                                 <div :style="this.image==1?previews.div:this.image==2?previews2.div:previews3.div" class="preview">
-                                    <img :src="this.image==1?previews.url:this.image==2?previews2.url:previews3.url" :style="this.image==1?previews.img:this.image==2?previews2.img:previews3.img" alt="">
+                                    <img :src="this.image==1?previews.url:this.image==2?previews2.url:previews3.url" 
+											:style="this.image==1?previews.img:this.image==2?previews2.img:previews3.img" alt="">
                                 </div>
                                
                             </div>
@@ -221,6 +223,8 @@ export default {
                     temple_name:"",
                     route:"",
 					dataURL:"",
+					realpic:false,
+					hideimg:true,
                 }
             },
             mounted(){
@@ -232,11 +236,33 @@ export default {
 						backgroundColor: null,
 						allowTaint:false,
 						useCORS:true,
+						width:720,
+						height:307,
 					}).then((canvas) => {
 						let dataURL = canvas.toDataURL("image/png");
 						this.dataURL = dataURL;
+						this.realpic = true;
+						this.hideimg = false;
+						this.loading = false;
 					});
 				},
+				
+				imgLoad(bgm,bgm1,bgm2, bgm3, bgm4, callback) {
+					this.loading = true;
+					var timer = setInterval(function() {
+						if(bgm.complete 
+						&& bgm1.complete
+						&& bgm2.complete
+						&& bgm3.complete
+						&& bgm4.complete
+						) {
+							console.log("imgload");	
+							callback();
+							clearInterval(timer);
+						}
+					}, 50);
+				},
+			
                 fh(index){
                     this.$router.go(index)
                 },
@@ -249,7 +275,12 @@ export default {
                             this.option.img=this.dataList.images[0];
                             this.option1.img=this.dataList.images[1];
                             this.option2.img=this.dataList.images[2];
-							this.toImage();
+							this.imgLoad(this.$refs.bgm, 
+										this.$refs.bgm1,
+										this.$refs.bgm2, 
+										this.$refs.bgm3, 
+										this.$refs.bgm4, 
+										this.toImage);
                     })
                 },
                 ADDdata(){
@@ -273,6 +304,11 @@ export default {
                     })
                 },
                 file(){
+					if(this.dataURL){
+						this.width1 = 720;
+						this.height1 = 307; 
+						this.updateFile(this.dataURL, 1);
+					}
                     this.$refs.cropper.getCropBlob(data => {
                         this.ADDimg(data,3);
                     })
@@ -297,38 +333,22 @@ export default {
                                 this.ADDimg(data,2);
                             })
                     }
-                    
-                                    
                 },
-                 dataURLtoBlob(dataurl,num) {
+				
+				updateFile(dataUrl, num){
+					this.ups(this.dataURLtoBlob(dataUrl), num);
+				},
+				
+				dataURLtoBlob(dataurl) {
                     var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
                         bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
                     while (n--) {
                         u8arr[n] = bstr.charCodeAt(n);
                     }
-                    this.ups(new Blob([u8arr], { type: mime }),num)
                     return new Blob([u8arr], { type: mime });
-                    
                  },
 
-
                 ADDimg(file,num){
-                    // var reader = new FileReader();
-                    // var _this=this;
-                    // reader.readAsDataURL(file);
-                    // reader.onload=function(theFile){
-                    //     var image=new Image();
-                    //     image.src=theFile.target.result;
-                    //     image.onload = function() {
-                    //         _this.width1 = image.width;
-                    //         _this.height1 = image.height;
-                    //         //  _this.width1 = 360;
-                    //         // _this.height1 = 240;
-                    //         _this.ups(file,num)
-                        
-                    //     };
-                    // };
-
                     var _this=this;
                     var reader = new FileReader();
                     reader.readAsDataURL(file);
@@ -346,12 +366,12 @@ export default {
                             _this.height1=canvas.height;
                             ctx.drawImage(this, 0, 0,360,240)
                             dataURL = canvas.toDataURL();
-                            _this.dataURLtoBlob(dataURL,num)
+                            _this.updateFile(dataURL,num);
                         }
-                    }    
-                        
+                    }
                 },
-                ups(file,nums){
+                
+				ups(file,nums){
                      var formData = new FormData;
                     formData.append('temple_name',this.temple_name);
                     formData.append('pkg_name',this.$route.query.pkg_name);
@@ -363,8 +383,8 @@ export default {
                     formData.append('order',nums)
 					this.api.appad_add(formData).then((res)=>{
 						console.log(res)	
-                })
-            },
+					})
+				},
                 realTime(data){
                    this.previews = data;
                    console.log(this.previews)				
@@ -375,8 +395,7 @@ export default {
                         margin: "0",
                         zoom:100 / this.previews.w,
                         // zoom: 200 / this.previews.h
-                    };
-                   
+					};
                 },
                  realTime1(data){
                    this.previews2 = data;				
@@ -534,8 +553,8 @@ export default {
         height: 36px;
     }
     .pre-item {
-	padding-right: 20px;
-}
+		padding-right: 20px;
+	}
     .lefBox{
         display: inline-block;
         margin:0 2% 0 0;
@@ -552,12 +571,19 @@ export default {
         min-height: 700px;
         vertical-align: top;
     }
+	.real_pic{
+		max-width: 350px;
+		border-radius: 5px;
+		display: inline-block;
+		position: relative
+	}
+		
     .big{
-        max-width: 350px;
+        width: 720px;
+        height: 307px;
         border-radius: 5px;
         display: inline-block;
         position: relative
-
     }
     .bgm{
         width: 100%;
