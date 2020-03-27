@@ -1531,7 +1531,6 @@ export default {
 	},
 	//新增/编辑项目信息
 	adver_project_edit:{
-
 		url:"adver/project/edit",method:"post",isType:{suktip:1},
 	},
 	//审核列表
@@ -1545,5 +1544,6 @@ export default {
 	//官方物料库审核
 	appad_pkg_audit:{
 		url:'appad/pkg/audit',method:"post",isType:{suktip:1},
+
 	},
 }
