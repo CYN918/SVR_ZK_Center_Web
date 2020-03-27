@@ -243,7 +243,8 @@ export default {
 						this.dataURL = dataURL;
 						this.realpic = true;
 						this.hideimg = false;
-						this.loading = false;
+                        this.loading = false;
+                        console.log(this.dataURL)
 					});
 				},
 				
@@ -305,9 +306,10 @@ export default {
                 },
                 file(){
 					if(this.dataURL){
-						this.width1 = 720;
-						this.height1 = 307; 
-						this.updateFile(this.dataURL, 1);
+						// this.width1 = 720;
+						// this.height1 = 307; 
+                        // this.updateFile(this.dataURL, 1);
+                        this.ADDimg(this.dataURLtoBlob(this.dataURL),1)
 					}
                     this.$refs.cropper.getCropBlob(data => {
                         this.ADDimg(data,3);
@@ -360,11 +362,21 @@ export default {
                             let canvas = document.createElement('canvas')
                             const ctx = canvas.getContext('2d')
                             let dataURL = ''
-                            canvas.height = 240;
-                            canvas.width = 360;
-                            _this.width1=canvas.width;
-                            _this.height1=canvas.height;
-                            ctx.drawImage(this, 0, 0,360,240)
+                            if(num!=1){
+                                 canvas.height = 240;
+                                canvas.width = 360;
+                                _this.width1=canvas.width;
+                                _this.height1=canvas.height;
+                                ctx.drawImage(this, 0, 0,360,240)
+                            }
+                            if(num==1){
+                                canvas.height = 307;
+                                canvas.width = 720;
+                                _this.width1=canvas.width;
+                                _this.height1=canvas.height;
+                                ctx.drawImage(this, 0, 0,720,307)
+                            }
+                           
                             dataURL = canvas.toDataURL();
                             _this.updateFile(dataURL,num);
                         }
@@ -612,5 +624,8 @@ export default {
         left: 25%;
         bottom: 3%;
         z-index: 99;
+    }
+    .zt{
+        overflow: hidden!important
     }
 </style>
