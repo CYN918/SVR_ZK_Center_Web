@@ -96,6 +96,11 @@
                             <el-button v-if="tableData[props.$index].status_name=='资源准备'&&tableData[props.$index].reject=='0'&&tableData[props.$index].isfinish!=2" @click="getYW(tableData[props.$index].bdid)">查看需求</el-button>
                             <el-button v-if="tableData[props.$index].status_name=='上传物料'&&tableData[props.$index].reject=='0'&&tableData[props.$index].isfinish!=2" @click="getYWSC(tableData[props.$index].bdid)">查看资源</el-button>
                             <el-button v-if="(tableData[props.$index].status_name=='发布审核'&&tableData[props.$index].reject=='0')||(tableData[props.$index].status_name=='活动发布'&&tableData[props.$index].reject=='0')" @click="getSC(tableData[props.$index].mdid)">查看需求</el-button>
+
+                            <el-button v-if="(tableData[props.$index].status_name=='活动发布'&&tableData[props.$index].reject=='0')" @click='look(tableData[props.$index].did)'>查看项目</el-button>
+
+
+
                             <el-button @click='check(tableData[props.$index].demand_type,tableData[props.$index].did,tableData[props.$index].status-1)' v-if="(tableData[props.$index].status_name=='物料审核'&&tableData[props.$index].reject=='0'&&tableData[props.$index].isfinish!=2)||(tableData[props.$index].status_name=='测试验收'&&tableData[props.$index].reject=='0'&&tableData[props.$index].isfinish!=2)">查看物料</el-button>
                             <el-button @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,tableData[props.$index].status+1,tableData[props.$index].reject)" v-if="tableData[props.$index].reject=='1'&&tableData[props.$index].isfinish!=2">查看驳回原因</el-button>
                             <el-button @click="educe(tableData[props.$index].did,tableData[props.$index].check_status,tableData[props.$index].status)" v-if="(tableData[props.$index].status_name=='签字审核'&&tableData[props.$index].status==2)||(tableData[props.$index].status_name=='补充签字'&&tableData[props.$index].status==4)&&tableData[props.$index].emails.indexOf(email)!=-1">导出表格</el-button>
@@ -224,7 +229,7 @@
             </div>
         </div>
 
-            <div class="bg" v-if="reject_details">
+        <div class="bg" v-if="reject_details">
                 <div class="content" >
                     <div class="tit">
                         <span>查看驳回原因</span>
@@ -260,8 +265,9 @@
                         <span  @click="heidRejDET()">取消</span>
                     </div>
                 </div>
-            </div>
+        </div>
     </div>
+        
 </template>
 
 <script>
@@ -947,6 +953,14 @@
             heidCK(){
                 this.ck=false;
                 this.move();
+            },
+            look(id){
+                this.$router.push({
+                    path:"./projectList",
+                    query:{
+                        did:id
+                    }
+                })
             }
         },
         watch:{
@@ -1193,4 +1207,5 @@
     word-break:break-all;
     overflow:hidden;
 }
+
 </style>

@@ -1533,4 +1533,8 @@ export default {
 		url:"adver/project/edit",method:"post",isType:{suktip:1},
 
 	},
+	//获取需求的设计师站项目
+	demand_design_project:{
+		url:"demand/design/project",method:"get"
+	},
 }
