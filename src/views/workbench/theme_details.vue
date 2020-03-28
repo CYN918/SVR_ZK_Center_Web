@@ -174,8 +174,7 @@
             },
             tit(index){
                 this.inds=index+1;
-                this.ad_title=this.list[index].ad_title;
-                // this.changfouce(index)
+                this.ad_title=this.list[index].ad_title;    
                
             },
             btqd(index){
@@ -183,6 +182,9 @@
                     this.$message.error('标题不能为空');
                     return
 
+                }
+                if(!this.ad_desc){
+                     this.ad_desc=this.list[index].ad_desc;
                 }
                 let formData = new FormData;
                 formData.append("temple_name",this.list[index].temple_name);
