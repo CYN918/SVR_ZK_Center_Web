@@ -262,6 +262,8 @@ import Advertising_managing from './views/workbench/Advertising_managing'
 mode['Advertising_managing']=Advertising_managing
 import projectList from './views/workbench/projectList'
 mode['projectList']=projectList
+import projectStorage from './views/workbench/projectStorage'
+mode['projectStorage']=projectStorage
 
 import axios from 'axios'
 import api from './api/index'
@@ -468,6 +470,8 @@ let nb = [
             {path:'/workbench/Advertising_review',name:'广告内容审核首页',component: mode['Advertising_review'],},
             {path:'/workbench/Advertising_managing',name:'广告内容审核管理',component: mode['Advertising_managing'],},
             {path:'/workbench/projectList',name:'查看项目',component: mode['projectList'],},
+            {path:'/workbench/projectStorage',name:'查看项目',component: mode['projectStorage'],},
+            
             
             
            

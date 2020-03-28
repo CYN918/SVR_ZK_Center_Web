@@ -19,15 +19,15 @@
                             :cell-style="cell"
                             >
                         <el-table-column
-                                prop="pro_id"
+                                prop="sdk_id"
                                 label="项目ID">
                         </el-table-column>
                         <el-table-column
-                                prop="pro_name"
+                                prop="pv"
                                 label="项目名称">
                         </el-table-column>
                         <el-table-column
-                                prop="put_type"
+                                prop="ratio"
                                 label="项目类型">
                         </el-table-column>
                         <el-table-column
@@ -35,14 +35,15 @@
                             <template slot-scope="scope">
                                         <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
                                             <div slot="content">
-                                                <img :src='tableData[scope.$index].banner' style="max-width:261px;max-height: 464px"  />
+                                                <img src='' style="max-width:261px;max-height: 464px"  />
+
                                             </div>
-                                            <img :src='tableData[scope.$index].banner' style="max-width:80px;max-height: 80px;cursor: pointer"  preview="0" />                               
+                                            <img src='' style="max-width:80px;max-height: 80px;cursor: pointer"  preview="0" />                               
                                          </el-tooltip>
-                            </template>
+                                    </template>
                         </el-table-column>
                         <el-table-column
-                                prop="time"
+                                prop="created_at"
                                 sortable
                                 label="操作时间">
                         </el-table-column>
@@ -62,7 +63,7 @@
                     </div>
                     <div class='tsBox_btn'>
                         <span @click='heid()'>取消</span>
-                        <span class='tsBox_btn_qd' @click='sh()'>确定</span>
+                        <span class='tsBox_btn_qd'>确定</span>
                     </div>
             </div>
         </div>
@@ -110,16 +111,6 @@
            },
            heid(){
                this.show=false;
-           },
-           sh(){
-                let formData = new FormData;
-                    formData.append('id',this.$route.query.did);
-                    formData.append('status',this.$route.query.status);
-                    this.api.demand_audit(formData).then((res)=>{
-                        if(res!=false){
-                            this.fh(-1);
-                        }
-                    })
            },
         },
     }
