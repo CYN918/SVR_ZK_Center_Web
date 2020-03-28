@@ -2,10 +2,10 @@
     <div>
         <div>
             <div class="top_name">
-                <span class="top_txt" >待处理&nbsp;/&nbsp;查看项目</span>
+                <span class="top_txt" >待处理&nbsp;/&nbsp;入库确认</span>
                 <div class="title_left">
                     <img src="img/fh.png" alt=""  @click='fh(-1)'>
-                    <span @click='fh(-1)'>查看项目</span>
+                    <span @click='fh(-1)'>入库确认</span>
                 </div>
             </div>
         </div>
@@ -20,34 +20,26 @@
                             >
                         <el-table-column
                                 prop="sdk_id"
-                                label="项目ID">
+                                label="文件名">
                         </el-table-column>
                         <el-table-column
                                 prop="pv"
-                                label="项目名称">
+                                label="入库类型">
                         </el-table-column>
                         <el-table-column
                                 prop="ratio"
-                                label="项目类型">
-                        </el-table-column>
-                        <el-table-column
-                                label="项目封面">
-                            <template slot-scope="scope">
-                                        <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
-                                            <div slot="content">
-                                                <img src='' style="max-width:261px;max-height: 464px"  />
-
-                                            </div>
-                                            <img src='' style="max-width:80px;max-height: 80px;cursor: pointer"  preview="0" />                               
-                                         </el-tooltip>
-                                    </template>
+                                label="状态">
                         </el-table-column>
                         <el-table-column
                                 prop="created_at"
                                 sortable
                                 label="操作时间">
                         </el-table-column>
-                       
+                        <el-table-column
+                                prop="created_at"
+                                label="操作">
+                                <span>查看详情</span>
+                        </el-table-column>
                     </el-table>
                 </template>
 
