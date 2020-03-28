@@ -40,6 +40,7 @@
                             <option value="-1">全部</option>
                             <option value="0">待处理</option>
                             <option value="1">已处理</option>
+                            <option value="2">待复审</option>
                         </select>
                         <div class='sel'>
                             <span @click='getData()'>查询</span>
@@ -175,10 +176,12 @@
                             @size-change="handleSizeChange1"
                             @current-change="handleCurrentChange1"
                             :current-page.sync="page"
+                            :page-sizes="[10, 50, 100, 200,500]"
                             :page-size="p"
-                            layout="prev, pager, next,total, jumper"
+                            layout="total, sizes, prev, pager, next, jumper"
                             :total="total">
                     </el-pagination>
+    
 		        </div>
             </div>    
             <div class='tcvBox' v-if='this.show'>
