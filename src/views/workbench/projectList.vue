@@ -27,7 +27,7 @@
                                 label="项目名称">
                         </el-table-column>
                         <el-table-column
-                                prop="put_type"
+                                prop="type"
                                 label="项目类型">
                         </el-table-column>
                         <el-table-column
@@ -42,7 +42,7 @@
                             </template>
                         </el-table-column>
                         <el-table-column
-                                prop="time"
+                                prop="audior_time"
                                 sortable
                                 label="操作时间">
                         </el-table-column>

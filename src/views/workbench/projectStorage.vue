@@ -2,7 +2,7 @@
     <div>
         <div>
             <div class="top_name">
-                <span class="top_txt" >待处理&nbsp;/&nbsp;入库确认</span>
+                <span class="top_txt" @click='jump()'>待处理&nbsp;/&nbsp;入库确认</span>
                 <div class="title_left">
                     <img src="img/fh.png" alt=""  @click='fh(-1)'>
                     <span @click='fh(-1)'>入库确认</span>
@@ -19,26 +19,26 @@
                             :cell-style="cell"
                             >
                         <el-table-column
-                                prop="sdk_id"
+                                prop="file_name"
                                 label="文件名">
                         </el-table-column>
                         <el-table-column
-                                prop="pv"
+                                prop="type"
                                 label="入库类型">
                         </el-table-column>
                         <el-table-column
-                                prop="ratio"
+                                prop="status"
                                 label="状态">
                         </el-table-column>
                         <el-table-column
-                                prop="created_at"
+                                prop="audior_time"
                                 sortable
                                 label="操作时间">
                         </el-table-column>
                         <el-table-column
-                                prop="created_at"
+                                prop=""
                                 label="操作">
-                                <span>查看详情</span>
+                                <span @click='jump()'>查看详情</span>
                         </el-table-column>
                     </el-table>
                 </template>
@@ -90,6 +90,7 @@
                 return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
              getData(){
+               
                 let params={did:this.$route.query.did}
                 this.api.demand_design_project({params}).then((res)=>{
                     this.tableData=res;
@@ -103,6 +104,11 @@
            },
            heid(){
                this.show=false;
+           },
+           jump(){
+               this.$router.push({
+                   path:"./projectStorage_xq"
+               })
            },
         },
     }

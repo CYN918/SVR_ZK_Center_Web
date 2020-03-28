@@ -1537,4 +1537,5 @@ export default {
 	demand_design_project:{
 		url:"demand/design/project",method:"get"
 	},
+	
 }
