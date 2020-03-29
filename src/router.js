@@ -266,6 +266,12 @@ mode['theme_screenshots_xq']=theme_screenshots_xq
 
 import Advertising_managing from './views/workbench/Advertising_managing'
 mode['Advertising_managing']=Advertising_managing
+import projectList from './views/workbench/projectList'
+mode['projectList']=projectList
+import projectStorage from './views/workbench/projectStorage'
+mode['projectStorage']=projectStorage
+import projectStorage_xq from './views/workbench/projectStorage_xq'
+mode['projectStorage_xq']=projectStorage_xq
 
 
 import axios from 'axios'
@@ -473,8 +479,11 @@ let nb = [
             {path:'/workbench/Advertising_review',name:'广告内容审核首页',component: mode['Advertising_review'],},
             {path:'/workbench/theme_screenshots',name:'截图物料审核',component: mode['theme_screenshots'],},
             {path:'/workbench/theme_screenshots_xq',name:'截图物料审核详情',component: mode['theme_screenshots_xq'],},
-
             {path:'/workbench/Advertising_managing',name:'广告内容审核管理',component: mode['Advertising_managing'],},
+            {path:'/workbench/projectList',name:'查看项目',component: mode['projectList'],},
+            {path:'/workbench/projectStorage',name:'上传确认',component: mode['projectStorage'],},
+            {path:'/workbench/projectStorage_xq',name:'上传确认详情',component: mode['projectStorage_xq'],},
+            
 
             
             

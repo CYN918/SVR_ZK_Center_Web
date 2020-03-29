@@ -957,4 +957,18 @@ select{
 .top_tit{
     z-index: 8 !important;
 }
+.porject_up .el-upload--picture-card{
+  width: 128px!important;
+  height: 192px!important;
+  margin-left:16px;
+}
+.porject_up .el-upload--picture-card i{
+  margin-top:25px!important
+}
+.porject_up .el-upload-list--picture-card .el-upload-list__item{
+  width: 128px!important;
+  height: 192px!important;
+  margin-right:0px!important;
+   margin-left:16px;
+}
 </style>

@@ -130,8 +130,7 @@
                                     <div class="AddIMG_bq_box_top_bq AddIMG_bq_box_top_zdy">
                                         <span class="CJ" v-if="tagsName!=''" @click="ADDtags()">创建“{{tagsName}}”标签</span>
                                         <template>
-                                            <el-checkbox-group
-                                                    v-model="bardian">
+                                            <el-checkbox-group v-model="bardian">
                                                 <el-checkbox v-for="(item,index) in self_tags" :label="item.name">{{item.name}}</el-checkbox>
                                             </el-checkbox-group>
                                         </template>

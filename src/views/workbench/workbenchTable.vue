@@ -96,13 +96,18 @@
                             <el-button v-if="tableData[props.$index].status_name=='资源准备'&&tableData[props.$index].reject=='0'&&tableData[props.$index].isfinish!=2" @click="getYW(tableData[props.$index].bdid)">查看需求</el-button>
                             <el-button v-if="tableData[props.$index].status_name=='上传物料'&&tableData[props.$index].reject=='0'&&tableData[props.$index].isfinish!=2" @click="getYWSC(tableData[props.$index].bdid)">查看资源</el-button>
                             <el-button v-if="(tableData[props.$index].status_name=='发布审核'&&tableData[props.$index].reject=='0')||(tableData[props.$index].status_name=='活动发布'&&tableData[props.$index].reject=='0')" @click="getSC(tableData[props.$index].mdid)">查看需求</el-button>
+
+                            <el-button v-if="(tableData[props.$index].status_name=='活动发布'&&tableData[props.$index].reject=='0')" @click='look(tableData[props.$index].did,tableData[props.$index].status)'>查看项目</el-button>
+
+
+
                             <el-button @click='check(tableData[props.$index].demand_type,tableData[props.$index].did,tableData[props.$index].status-1)' v-if="(tableData[props.$index].status_name=='物料审核'&&tableData[props.$index].reject=='0'&&tableData[props.$index].isfinish!=2)||(tableData[props.$index].status_name=='测试验收'&&tableData[props.$index].reject=='0'&&tableData[props.$index].isfinish!=2)">查看物料</el-button>
                             <el-button @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,tableData[props.$index].status+1,tableData[props.$index].reject)" v-if="tableData[props.$index].reject=='1'&&tableData[props.$index].isfinish!=2">查看驳回原因</el-button>
                             <el-button @click="educe(tableData[props.$index].did,tableData[props.$index].check_status,tableData[props.$index].status)" v-if="(tableData[props.$index].status_name=='签字审核'&&tableData[props.$index].status==2)||(tableData[props.$index].status_name=='补充签字'&&tableData[props.$index].status==4)&&tableData[props.$index].emails.indexOf(email)!=-1">导出表格</el-button>
                             <el-button @click="uploadData(tableData[props.$index].did,tableData[props.$index].status)"  v-if="(tableData[props.$index].status_name=='签字审核'&&tableData[props.$index].status==2)||(tableData[props.$index].status_name=='补充签字'&&tableData[props.$index].status==4)&&tableData[props.$index].emails.indexOf(email)!=-1">上传文件</el-button>
                             <el-button @click="release(tableData[props.$index].did,tableData[props.$index].demand_type,tableData[props.$index].status)" v-if="tableData[props.$index].status_name=='需求发布'&&tableData[props.$index].emails.indexOf(email)!=-1&&tableData[props.$index].isfinish!=2">发布需求</el-button>
-                            <el-button v-if="tableData[props.$index].status_name=='素材审核'&&tableData[props.$index].isfinish!=2">
-                                <a :href="url+(tableData[props.$index].activity_id!=undefined?'detailed?id='+tableData[props.$index].activity_id:'activity')" target="_Blank" class="dj">查看活动</a>
+                            <el-button @click='push(tableData[props.$index].did,tableData[props.$index].status)' v-if="tableData[props.$index].status_name=='素材审核'&&tableData[props.$index].isfinish!=2" >
+                                入库确认
                             </el-button>
                             <el-button @click='check(tableData[props.$index].demand_type,tableData[props.$index].did,tableData[props.$index].status-1)' v-if="tableData[props.$index].status_name=='素材入库'">查看素材</el-button>
                             <el-button  @click="AddMaterial(props.$index)" v-if="tableData[props.$index].status_name=='资源准备'&&tableData[props.$index].status==2&&tableData[props.$index].emails.indexOf(email)!=-1&&tableData[props.$index].isfinish!=2">添加素材</el-button>
@@ -183,7 +188,7 @@
                                         <span class="dj" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,tableData[props.$index].status,item.reject)"  v-if="item.reject=='1'&&tableData[props.$index].status==item.status">查看驳回原因</span>
                                         <span class="dj" v-if="(tableData[props.$index].demand_type=='素材需求'&&item.status=='4'&&item.key==0&&item.reject!='1'||tableData[props.$index].demand_type=='素材需求'&&item.status=='2'&&item.key==0&&item.reject!='1'&&item.isfinish!=2)">审核通过</span>
                                         <span class="dj" v-if="tableData[props.$index].demand_type=='业务需求'&&item.status=='5'&&item.key==0&&item.reject!='1'&&item.isfinish!=2">测试通过</span>
-                                        <a :href="url+(tableData[props.$index].activity_id!=undefined?'detailed?id='+tableData[props.$index].activity_id:'activity')" target="_Blank" class="dj" v-if="tableData[props.$index].demand_type=='素材需求'&&item.status=='3'&&item.key==0&&item.reject!='1'&&item.isfinish!=2">查看活动</a>
+                                        <span  class="dj" v-if="tableData[props.$index].demand_type=='素材需求'&&item.status=='3'&&item.key==0&&item.reject!='1'&&item.isfinish!=2" @click='look(tableData[props.$index].did,tableData[props.$index].status)'>查看项目</span>
                                         <span class="dj" v-if="tableData[props.$index].demand_type=='素材需求'&&item.status=='5'&&item.isfinish==1" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status)">查看素材</span>
                                     </div>
                                 </div>
@@ -224,7 +229,7 @@
             </div>
         </div>
 
-            <div class="bg" v-if="reject_details">
+        <div class="bg" v-if="reject_details">
                 <div class="content" >
                     <div class="tit">
                         <span>查看驳回原因</span>
@@ -260,8 +265,9 @@
                         <span  @click="heidRejDET()">取消</span>
                     </div>
                 </div>
-            </div>
+        </div>
     </div>
+        
 </template>
 
 <script>
@@ -947,7 +953,25 @@
             heidCK(){
                 this.ck=false;
                 this.move();
-            }
+            },
+            look(id,status){
+                this.$router.push({
+                    path:"./projectList",
+                    query:{
+                        did:id,
+                        status:status
+                    }
+                })
+            },
+            push(id,status){
+                this.$router.push({
+                    path:"./projectStorage",
+                      query:{
+                        did:id,
+                        status:status
+                    }
+                })
+            },
         },
         watch:{
             scMessage:function (oldval) {
@@ -1193,4 +1217,5 @@
     word-break:break-all;
     overflow:hidden;
 }
+
 </style>
