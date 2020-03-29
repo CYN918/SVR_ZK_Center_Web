@@ -1537,5 +1537,9 @@ export default {
 	demand_design_project:{
 		url:"demand/design/project",method:"get"
 	},
+	//查看入库详情
+	demand_design_project_detail:{
+		url:"demand/design/project/detail",method:"get"
+	},
 	
 }

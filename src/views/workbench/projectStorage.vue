@@ -5,7 +5,7 @@
                 <span class="top_txt" @click='jump()'>待处理&nbsp;/&nbsp;入库确认</span>
                 <div class="title_left">
                     <img src="img/fh.png" alt=""  @click='fh(-1)'>
-                    <span @click='fh(-1)'>入库确认</span>
+                    <span>入库确认</span>
                 </div>
             </div>
         </div>
@@ -23,7 +23,7 @@
                                 label="文件名">
                         </el-table-column>
                         <el-table-column
-                                prop="type"
+                                prop="put_type"
                                 label="入库类型">
                         </el-table-column>
                         <el-table-column
@@ -38,7 +38,9 @@
                         <el-table-column
                                 prop=""
                                 label="操作">
-                                <span @click='jump()'>查看详情</span>
+                                <template slot-scope="scope">
+                                        <span @click='jump(tableData[scope.$index].did)' style="color: #3377ff;font-size:14px;cursor: pointer;">查看详情</span>
+                                </template>
                         </el-table-column>
                     </el-table>
                 </template>
@@ -91,9 +93,9 @@
             },
              getData(){
                
-                let params={did:this.$route.query.did}
+                let params={did:this.$route.query.did,is_put:'1'}
                 this.api.demand_design_project({params}).then((res)=>{
-                    this.tableData=res;
+                    this.tableData=res.project;
                 })
            },
            fh(){
@@ -105,9 +107,12 @@
            heid(){
                this.show=false;
            },
-           jump(){
+           jump(id){
                this.$router.push({
-                   path:"./projectStorage_xq"
+                   path:"./projectStorage_xq",
+                   query:{
+                       id:id
+                   }
                })
            },
         },

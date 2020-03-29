@@ -97,9 +97,9 @@
                 return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
              getData(){
-                let params={did:this.$route.query.did}
+                let params={did:this.$route.query.did, is_put:'0'}
                 this.api.demand_design_project({params}).then((res)=>{
-                    this.tableData=res;
+                    this.tableData=res.project;
                 })
            },
            fh(){
