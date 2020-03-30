@@ -59,7 +59,7 @@
                         <img :src="this.listData.file_url" alt="">
                         <span>{{this.listData.file_name}}</span>
                         <a class='xz' :href="this.listData.file_url">
-                            <img  src="img/btn.png" alt="">
+                            <img  src="img/xz.png" alt="">
                         </a>
                          
                    </div>
@@ -68,17 +68,12 @@
                     <div class="titN">
                        <span>添加入库素材</span>
                    </div>
-                   <div class='porject_up'>
-                         <el-upload class='up'
-                            action="5"
-                            list-type="picture-card"
-                            :on-preview="handlePictureCardPreview"
-                            :on-remove="handleRemove">
-                            <i class="el-icon-download"></i>
-                            </el-upload>
-                            <el-dialog :visible.sync="dialogVisible">
-                            <img width="100%" :src="dialogImageUrl" alt="">
-                        </el-dialog>   
+                   <div class='porject_up' @click="adds()">
+                        <img src="img/sc.png" alt="" class='icon'>
+                   </div>
+                   <div class='porject_up' v-for='(item,index) in this.materials'>
+                       <img src="img/remove.png" alt="" class='del' @click="dels(index)">
+                       <img :src="item.prev_uri" alt="" class='imgs'>
                    </div>
                </div>
                <div class='uploads_2'>
@@ -104,7 +99,7 @@
                    </div>
                </div>
                <div class='foot'>
-                    <span @click='adds()'>添加入库</span>
+                    <span @click='storage()'>添加入库</span>
                     <span class='NEXT' @click='fh(-1)'>返回</span>
                </div>
         </div>
@@ -136,7 +131,7 @@
                             </div>
                             <div>
                                 <span class='bg_name'>绑定项目ID：</span>
-                                <input type="text" style="width:266px">    
+                                <input type="text" style="width:266px" v-model="porject_id" disabled>    
                             </div>
                             <div>
                                 <span class='bg_name'>素材类型：</span>
@@ -146,7 +141,7 @@
                             </div>
                             <div>
                                 <span class='bg_name'>名称：</span>
-                                <input type="text" >    
+                                <input type="text" v-model="name">    
                             </div>
                             <div>
                                 <span class='bg_name' style="vertical-align: top">尺寸：</span>
@@ -198,7 +193,7 @@
                             </div>
                              <div>
                                 <span class='bg_name'>备注描叙：</span>
-                                <input type="text" >    
+                                <input type="text" v-model="note">    
                             </div>
                             <div>
                                 <span class='bg_name'>内容标签：</span>
@@ -210,12 +205,27 @@
                                 </div>   
                             </div>
                             <div class='add_btn'>
-                                <span class='sc'>上传</span>
+                                <span class='sc' @click='scADD()'>上传</span>
                                 <span @click='unShow()'>取消</span>
                             </div>
                         </div>
                     </div>
                 </div>
+        </div>
+         <div class='bg' v-if='rk'>
+            <div class='tsBox'>
+                    <div class='tsBox_tit'>
+                        <span v-if="this.materials.length==this.listData.num">确认需求已绑定所有项目？</span>
+                        <span class='tsBox_tit2' v-if="this.materials.length!=this.listData.num">入库异常说明</span>
+                        <div>
+                            <textarea name="" id="" v-if="this.materials.length!=this.listData.num"  v-model='exception_note' placeholder="请输入驳回原因(最多20字)" maxlength="20"></textarea>
+                        </div>
+                    </div>
+                    <div class='tsBox_btn'>
+                        <span @click='heid()'>取消</span>
+                        <span class='tsBox_btn_qd' @click='sh()'>确定</span>
+                    </div>
+            </div>
         </div>  
     </div>
 </template>
@@ -243,7 +253,13 @@ export default {
                         self_tags:[],
                         bardian:[],
                         tagsName:"",
-                        preset:[0,1]
+                        preset:[0,1],
+                        porject_id:"",
+                        name:"",
+                        note:"",
+                        materials:[],
+                        rk:false,
+                        exception_note:""
                     }
                 },
                 mounted(){
@@ -275,9 +291,21 @@ export default {
                         },
                         unShow(){
                             this.show=false;
+                            this.name='';
+                            this.attach={};
+                            this.sjSize='';
+                            this.prev_uri='';
+                            this.type='';
+                            this.preinstall=[];
+                            this.bardian=[];
+                            this.model='';
+                            this.note='';
                         },
                         fh(index){
                             this.$router.go(index)
+                        },
+                        heid(){
+                            this.rk=false;
                         },
                         getData(){
                             let params={id:this.$route.query.id}
@@ -341,6 +369,38 @@ export default {
                                 this. getTagsList();
                             })
                         },
+                        sh(){
+                            let formData =new FormData;
+                            formData.append('proejct_id',this.listData.pro_id);
+                            formData.append('put_type',this.listData.put_type);
+                            formData.append('exception_note',this.exception_note);
+                            formData.append('materials',JSON.stringify(this.materials))
+                            this.api.material_project_add(formData).then((res)=>{
+                                if(res!=false){
+                                    this.fh(-1);
+                                }
+                            })
+                        },
+                        scADD(){
+                            let list={}
+                            list.name=this.name;
+                            list.attach=this.attach;
+                            list.size=this.sjSize;
+                            list.prev_uri=this.prev_uri;
+                            list.type=this.type;
+                            list.preinstall=this.preinstall;
+                            list.bardian=this.bardian;
+                            list.model=this.model;
+                            list.note=this.note;
+                            this.materials.push(list);
+                            this.unShow()
+                        },
+                        dels(index){
+                            this.materials.splice(index,1);
+                        },
+                        storage(){
+                            this.rk=true
+                        }
                 }
 }
 </script>
@@ -417,7 +477,11 @@ export default {
     }
     .xz{
         float: right;
-        width:38px!important
+        width:16px!important
+    }
+    .xz img{
+       width:16px!important;
+       height:16px!important  
     }
     .uploads,.uploads_2{
         height:284px;
@@ -660,5 +724,98 @@ export default {
         font-size: 12px;
         border-radius: 5px;
         margin-bottom: 10px!important;
+    }
+    .porject_up{
+        display: inline-block;
+        width:128px;
+        height:192px;
+        background:#F4F5F7;
+        border-radius:4px;
+        position: relative;
+        margin:20px 0 24px 24px;
+        cursor: pointer;
+    }
+    .icon{
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        position: absolute;
+        top:50%;
+        left:50%;
+        transform: translate(-50%,-50%);
+    }
+    .imgs{
+        display: inline-block;
+        max-width: 100%;
+        max-height: 100%;
+        position: absolute;
+        top:50%;
+        left:50%;
+        transform: translate(-50%,-50%);
+        z-index: 3
+    }
+    .del{
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        position: absolute;
+        top:-10px;
+        right:-5px;
+        z-index: 4;
+        cursor: pointer;
+        
+    }
+    .tsBox_tit2{
+        font-weight: bold
+    }
+     .tsBox{
+        min-width:416px;
+        min-height:134px;
+        background:rgba(255,255,255,1);
+        box-shadow:0px 4px 12px 0px rgba(0,0,0,0.2);
+        border-radius:4px;
+        position: absolute;
+        left:50%;
+        top:50%;
+        transform: translate(-50%,-50%)
+    }
+    .tsBox_tit{
+        margin: 30px 0 32px 0;
+    }
+    .tsBox_tit span{
+        font-size:16px;
+        font-family:PingFangSC-Medium,PingFang SC;
+        font-weight:500;
+        color:rgba(50,50,51,1);
+        margin-left: 60px
+    }
+    .tsBox_btn{
+        text-align: right;
+    }
+    .tsBox_btn span{
+        text-align: center;
+        border-radius: 3px;
+        display: inline-block;
+        width:60px;
+        height:32px;
+        border:1px solid rgba(165,173,186,1);
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:400;
+        color:rgba(107,119,140,1);
+        line-height:32px;
+        margin-right: 16px;
+        margin-bottom: 20px;
+        cursor: pointer;
+    }
+    .tsBox_btn_qd{
+        background:rgba(0,82,204,1)!important;
+        color: #fff!important;
+        border: 0!important;
+    }
+    textarea{
+        margin: 16px 60px 0 60px;
+        min-width: 260px;
+        padding:10px;
     }
 </style>
