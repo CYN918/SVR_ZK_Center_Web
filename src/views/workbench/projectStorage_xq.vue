@@ -28,7 +28,7 @@
                    </div>
                     <div>
                        <span class='tits'>入库类型</span>
-                       <span class='cons'>{{this.listData.put_type}}</span>
+                       <span class='cons'>{{this.listData.put_type=='0'?'整理入库':"直接入库"}}</span>
                        <span  class='tits_2'>相关需求</span>
                        <span>{{this.listData.demand_id}}</span>
                    </div>
@@ -42,13 +42,13 @@
                        <span class='tits'>审批时间</span>
                        <span class='cons'>{{this.listData.audior_time}}</span>
                        <span  class='tits_2'>需求发起人</span>
-                       <span>{{}}</span>
+                       <span>{{this.listData.demand.creator}}</span>
                    </div>
                     <div>
                        <span class='tits'>备注</span>
-                       <span class='cons'>{{this.listData.excpetion_note}}</span>
+                       <span class='cons'>{{this.listData.demand.note}}</span>
                        <span  class='tits_2'>需求发起时间</span>
-                       <span>{{this.listData.time}}</span>
+                       <span>{{this.listData.demand.created_at}}</span>
                    </div>
                </div>
                <div class='fj'>
@@ -64,7 +64,83 @@
                          
                    </div>
                </div>
-               <div class='uploads'>
+               <div class='uploads3' v-if='this.$route.query.type=="1"'>
+                    <div class='but'>
+                        <div class='but_left'>
+                            <img :src="this.prev_uri" alt="">
+                        </div>
+                        <div class='but_right'>
+                            <div>
+                                <span class='bg_name'>绑定项目ID：</span>
+                                <input type="text" style="width:266px" v-model="porject_id" disabled>    
+                            </div>
+                            <div>
+                                <span class='bg_name'>素材类型：</span>
+                                <select v-model="type">
+                                    <option :value="item.type" v-for='item in scType'>{{item.name}}</option>
+                                </select>   
+                            </div>
+                            <div v-if='this.listData.type=="th_lock_screen"||this.listData.type=="th_icon"||this.listData.type=="th_second_page"'>
+                                <span class='bg_name'>名称：</span>
+                                <input type="text" v-model="name">    
+                            </div>
+                            <div>
+                                <span class='bg_name' style="vertical-align: top">尺寸：</span>
+                                <input type="text" v-model="sjSize" disabled>  
+                            </div> 
+                            <div v-if='this.listData.type!="th_lock_screen"&&this.listData.type!="th_icon"&&this.listData.type!="th_second_page"'>
+                                <span class='bg_name' style="vertical-align: top">选择标签：</span>
+                                <div class='ta'>
+                                    <span class='ta_name'>预置标签</span>
+                                    <div class="AddIMG_bq_box_top_bq">
+                                        <template>
+                                            <el-checkbox-group
+                                                    v-model="preinstall">
+                                                <el-checkbox v-for="(item,index) in preset_tags" :label="item.name" >{{item.name}}</el-checkbox>
+                                            </el-checkbox-group>
+                                        </template>
+                                    </div>
+                                    <span class='ta_name'>个性标签</span>
+                                    <div style="margin-bottom: 18px">
+                                        <input type="text" placeholder="创建或搜索个性标签" v-model="tagsName" maxlength="6" @input="getTagsList()">
+                                    </div>
+                                    <div class="AddIMG_bq_box_top_bq AddIMG_bq_box_top_zdy">
+                                        <span class="CJ" v-if="tagsName!=''" @click="ADDtags()">创建“{{tagsName}}”标签</span>
+                                        <template>
+                                            <el-checkbox-group v-model="bardian">
+                                                <el-checkbox v-for="(item,index) in self_tags" :label="item.name">{{item.name}}</el-checkbox>
+                                            </el-checkbox-group>
+                                        </template>
+                                    </div>
+                                </div>   
+                            </div>
+                            <div v-if='this.listData.type=="th_lock_screen"||this.listData.type=="th_icon"||this.listData.type=="th_second_page"'>
+                                <span class='bg_name'>使用范围：</span>
+                                <select v-model="model">
+                                    <option :value="da.range" v-for='da in fw'>{{da.range}}</option>
+                                </select> 
+                            </div>
+                             <div v-if='this.listData.type=="th_lock_screen"||this.listData.type=="th_icon"||this.listData.type=="th_second_page"'>
+                                <span class='bg_name'>备注描叙：</span>
+                                <input type="text" v-model="note">    
+                            </div>
+                            <div v-if='this.listData.type=="th_lock_screen"||this.listData.type=="th_icon"||this.listData.type=="th_second_page"'>
+                                <span class='bg_name'>内容标签：</span>
+                                <div class='ta'>
+                                    <input type="text" placeholder="创建或搜索个性标签">
+                                    <div>
+                                        <span></span>
+                                    </div>
+                                </div>   
+                            </div>
+                            <div class='add_btn'>
+                                <span class='sc' @click='scADD()'>上传</span>
+                                <span @click='unShow()'>取消</span>
+                            </div>
+                        </div>
+                    </div>
+               </div>
+               <div class='uploads' v-if='this.$route.query.put_type=="0"&&this.$route.query.type=="0"'>
                     <div class="titN">
                        <span>添加入库素材</span>
                    </div>
@@ -76,7 +152,7 @@
                        <img :src="item.prev_uri" alt="" class='imgs'>
                    </div>
                </div>
-               <div class='uploads_2'>
+               <div class='uploads_2'  v-if='this.$route.query.type=="1"'>
                      <div class="titN">
                        <span>入库信息</span>
                    </div>
@@ -88,7 +164,7 @@
                    </div>
                    <div>
                        <span class='Name'>入库数量</span>
-                       <span class='Name_left'>{{this.listData.num}}</span>
+                       <span class='Name_left'>{{this.listData.local_num}}</span>
                        <span class='Name'>入库数量异常说明</span>
                        <span class='Name_right'>{{this.listData.excpetion_note}}</span>
                    </div>
@@ -99,8 +175,8 @@
                    </div>
                </div>
                <div class='foot'>
-                    <span @click='storage()'>添加入库</span>
-                    <span class='NEXT' @click='fh(-1)'>返回</span>
+                    <span @click='storage()' v-if='this.$route.query.type=="0"'>添加入库</span>
+                    <span class='NEXT' @click='fh(-1)' v-if='this.$route.query.type=="1"'>返回</span>
                </div>
         </div>
         <div class='bg' v-if='show'>
@@ -135,7 +211,7 @@
                             </div>
                             <div>
                                 <span class='bg_name'>素材类型：</span>
-                                <select v-model="type">
+                                <select v-model="type" disabled>
                                     <option :value="item.type" v-for='item in scType'>{{item.name}}</option>
                                 </select>   
                             </div>
@@ -146,18 +222,6 @@
                             <div>
                                 <span class='bg_name' style="vertical-align: top">尺寸：</span>
                                 <input type="text" v-model="sjSize" disabled>  
-                                <el-upload
-                                    class="upload-demo"
-                                    action="1"
-                                    :on-preview="handlePreview"
-                                    :on-remove="handleRemove1"
-                                    :before-remove="beforeRemove"
-                                    :http-request="uploadFile"
-                                     multiple
-                                    :limit="1"
-                                    :file-list="fileList">
-                                    <el-button size="small" type="primary">上传预览图</el-button>
-                                </el-upload>  
                             </div> 
                             <div>
                                 <span class='bg_name' style="vertical-align: top">选择标签：</span>
@@ -287,7 +351,10 @@ export default {
                             return this.$confirm(`确定移除 ${ file.name }？`);
                         },
                         adds(){
-                            this.show=true;
+                            if(this.materials.length<this.listData.num){
+                                this.show=true;
+                            }
+                            
                         },
                         unShow(){
                             this.show=false;
@@ -312,6 +379,14 @@ export default {
                             this.api.demand_design_project_detail({params}).then((res)=>{
                                 this.listData=res;
                                 this.type=this.listData.type;
+                                this.porject_id=res.pro_id;
+                                if(this.$route.query.put_type=='1'){
+                                    this.sjSize='';
+                                    this.prev_uri=res.file_url;
+                                    this.preinstall=res.materials.preinstall;
+                                    this.bardian=res.materials.bardian;
+                                }
+                               
                                 this.getType();
                                 this.syfw()
                             })
@@ -370,6 +445,10 @@ export default {
                             })
                         },
                         sh(){
+                            if(this.materials.length!=this.listData.num&&this.exception_note==''){
+                                  this.$message.error('入库异常说明不能为空');
+                                  return
+                            }
                             let formData =new FormData;
                             formData.append('proejct_id',this.listData.pro_id);
                             formData.append('put_type',this.listData.put_type);
@@ -442,9 +521,8 @@ export default {
     }
     .cons{
         display: inline-block;
-        width: 316px;
-        font-size:14px;
-        font-family:PingFangSC-Regular,PingFang SC;
+        width: 25%;
+        font-size:10px;
         font-weight:400;
         color:rgba(23,43,77,1);
         overflow: hidden;
@@ -483,7 +561,7 @@ export default {
        width:16px!important;
        height:16px!important  
     }
-    .uploads,.uploads_2{
+    .uploads,.uploads_2,.uploads3{
         height:284px;
         width: 100%;
         margin-top:16px;
@@ -493,6 +571,9 @@ export default {
     }
     .uploads_2{
         height: 380px!important;
+    }
+    .uploads3{
+        min-height: 700px
     }
     .foot{
          width: 100%;

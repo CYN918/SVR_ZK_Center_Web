@@ -25,10 +25,16 @@
                         <el-table-column
                                 prop="put_type"
                                 label="入库类型">
+                                <template slot-scope="scope">
+                                        <span>{{tableData[scope.$index].put_type==0?'整理后入库':"可直接入库"}}</span>
+                                </template>
                         </el-table-column>
                         <el-table-column
-                                prop="status"
+                                prop="local_status"
                                 label="状态">
+                                <template slot-scope="scope">
+                                        <span>{{tableData[scope.$index].local_status==0?'待处理':"已处理"}}</span>
+                                </template>
                         </el-table-column>
                         <el-table-column
                                 prop="audior_time"
@@ -39,7 +45,7 @@
                                 prop=""
                                 label="操作">
                                 <template slot-scope="scope">
-                                        <span @click='jump(tableData[scope.$index].did)' style="color: #3377ff;font-size:14px;cursor: pointer;">查看详情</span>
+                                        <span @click='jump(tableData[scope.$index].pro_id,tableData[scope.$index].local_status,tableData[scope.$index].put_type)' style="color: #3377ff;font-size:14px;cursor: pointer;">查看详情</span>
                                 </template>
                         </el-table-column>
                     </el-table>
@@ -53,11 +59,15 @@
         <div class='bg' v-if='show'>
             <div class='tsBox'>
                     <div class='tsBox_tit'>
-                        <span>确认需求已绑定所有项目？</span>
+                        <span v-if='this.yc==false'>确认需求已绑定所有项目？</span>
+                         <span class='tsBox_tit2' v-if="this.yc">入库异常说明</span>
+                        <div>
+                            <textarea name="" id="" v-if="this.yc"  v-model='note' placeholder="请输入驳回原因(最多20字)" maxlength="20"></textarea>
+                        </div>
                     </div>
                     <div class='tsBox_btn'>
                         <span @click='heid()'>取消</span>
-                        <span class='tsBox_btn_qd'>确定</span>
+                        <span class='tsBox_btn_qd' @click='sh()'>确定</span>
                     </div>
             </div>
         </div>
@@ -72,7 +82,9 @@
         data(){
             return{
                tableData:[],
-               show:false
+               show:false,
+               note:"",
+               yc:false
             }
         },
         mounted(){
@@ -92,7 +104,6 @@
                 return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
              getData(){
-               
                 let params={did:this.$route.query.did,is_put:'1'}
                 this.api.demand_design_project({params}).then((res)=>{
                     this.tableData=res.project;
@@ -107,11 +118,35 @@
            heid(){
                this.show=false;
            },
-           jump(id){
+            sh(){
+                for(var i=0;i<this.tableData.length;i++){
+                    if(this.tableData[i].local_status=='0'){
+                        this.yc=true;
+                    }
+                }
+                if(this.yc==false&&this.note==''){
+                    this.$message.error('入库异常说明不能为空');
+                    return
+                    
+                }
+                let formData = new FormData;
+                    formData.append('id',this.$route.query.did);
+                    formData.append('status',this.$route.query.status);
+                    formData.append('note',this.note)
+                    this.api.demand_audit(formData).then((res)=>{
+                        if(res!=false){
+                            this.fh(-1);
+                        }
+                    })
+           },
+           jump(id,type,put_type){
                this.$router.push({
                    path:"./projectStorage_xq",
                    query:{
-                       id:id
+                       id:id,
+                       type:type,
+                       put_type:put_type
+
                    }
                })
            },
@@ -359,5 +394,13 @@
         background:rgba(0,82,204,1)!important;
         color: #fff!important;
         border: 0!important;
+    }
+    .tsBox_tit2{
+        font-weight: bold
+    }
+    textarea{
+        margin: 16px 60px 0 60px;
+        min-width: 260px;
+        padding:10px;
     }
 </style>
