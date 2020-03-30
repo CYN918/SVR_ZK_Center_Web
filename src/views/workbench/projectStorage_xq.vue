@@ -351,7 +351,7 @@ export default {
                             })
                         },
                         getTagsList(){
-                            let params = {preset:this.preset,material:'1',type:'ad_picture',search:this.tagsName,p:50,page:1};
+                            let params = {preset:this.preset,material:'1',type:this.type,search:this.tagsName,p:50,page:1};
                             this.api.tags_search({params}).then((da)=>{
                                 this.preset_tags = da.data.tags;
                                 this.self_tags = da.data.self_tags;
