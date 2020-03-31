@@ -366,7 +366,7 @@ export default {
         -webkit-box-sizing: border-box;
         box-sizing: border-box;
         background: #fff;
-        margin-top: 217px
+        margin-top: 80px
     }
     .titel_table{
         width: 100%;
