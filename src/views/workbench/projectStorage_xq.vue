@@ -518,7 +518,7 @@ export default {
                                   return
                             }
                             let formData =new FormData;
-                            formData.append('proejct_id',this.listData.pro_id);
+                            formData.append('project_id',this.listData.pro_id);
                             formData.append('put_type',this.listData.put_type);
                             formData.append('exception_note',this.exception_note);
                             formData.append('materials',JSON.stringify(this.materials))
