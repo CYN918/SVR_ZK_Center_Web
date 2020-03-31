@@ -1,6 +1,9 @@
 <template>
   <div>
         <div>
+            <div>
+                <img src="" alt="">
+            </div>
             <div class="top_name">
                 <span class="top_txt gesture" @click='fh'>广告内容审核&nbsp;/&nbsp;AI标签复审</span>
                 <div class="title_left">
