@@ -260,6 +260,8 @@ import Advertising_review from './views/workbench/Advertising_review'
 mode['Advertising_review']=Advertising_review
 import Advertising_managing from './views/workbench/Advertising_managing'
 mode['Advertising_managing']=Advertising_managing
+import Advertising_review_fs from './views/workbench/Advertising_review_fs'
+mode['Advertising_review_fs']=Advertising_review_fs
 
 import axios from 'axios'
 import api from './api/index'
@@ -465,6 +467,8 @@ let nb = [
             {path:'/workbench/Advertising_content_review',name:'广告内容审核',component: mode['Advertising_content_review'],},
             {path:'/workbench/Advertising_review',name:'广告内容审核首页',component: mode['Advertising_review'],},
             {path:'/workbench/Advertising_managing',name:'广告内容审核管理',component: mode['Advertising_managing'],},
+            {path:'/workbench/Advertising_review_fs',name:'AI标签复审',component: mode['Advertising_review_fs'],},
+           
             
             
             
