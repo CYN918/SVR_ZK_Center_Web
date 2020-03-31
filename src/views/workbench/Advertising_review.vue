@@ -84,7 +84,6 @@
                                 :header-cell-style="getRowClass"
                                 :cell-style="cell"
                                 >
-                        
                             <el-table-column
                                     label="图片"
                                     width="150">
