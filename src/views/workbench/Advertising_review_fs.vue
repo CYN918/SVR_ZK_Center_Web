@@ -49,7 +49,7 @@
                         <!-- <img :src="key.image_url" alt=""> -->
                         <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
                                             <div slot="content">
-                                                <img :src="key.image_url" alt="">
+                                                <img :src="key.image_url" alt="" style="max-width:261px;max-height: 464px">
                                             </div>
                                             <img :src="key.image_url" alt="" preview="1">                        
                         </el-tooltip>
