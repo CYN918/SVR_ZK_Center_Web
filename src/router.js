@@ -266,6 +266,7 @@ mode['theme_screenshots_xq']=theme_screenshots_xq
 
 import Advertising_managing from './views/workbench/Advertising_managing'
 mode['Advertising_managing']=Advertising_managing
+<<<<<<< HEAD
 import projectList from './views/workbench/projectList'
 mode['projectList']=projectList
 import projectStorage from './views/workbench/projectStorage'
@@ -273,6 +274,10 @@ mode['projectStorage']=projectStorage
 import projectStorage_xq from './views/workbench/projectStorage_xq'
 mode['projectStorage_xq']=projectStorage_xq
 
+=======
+import Advertising_review_fs from './views/workbench/Advertising_review_fs'
+mode['Advertising_review_fs']=Advertising_review_fs
+>>>>>>> lockScreen
 
 import axios from 'axios'
 import api from './api/index'
@@ -483,7 +488,7 @@ let nb = [
             {path:'/workbench/projectList',name:'查看项目',component: mode['projectList'],},
             {path:'/workbench/projectStorage',name:'上传确认',component: mode['projectStorage'],},
             {path:'/workbench/projectStorage_xq',name:'上传确认详情',component: mode['projectStorage_xq'],},
-            
+            {path:'/workbench/Advertising_review_fs',name:'AI标签复审',component: mode['Advertising_review_fs'],},
 
             
             

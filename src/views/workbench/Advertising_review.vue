@@ -4,7 +4,8 @@
                 <div class="top_name">
                     <div class="title_left">
                         <span>广告内容审核</span>
-                        <span class='sh' @click='jump()'>图片审核</span>
+                        <span class='sh' @click='fs()'>AI结果复审</span>
+                        <span class='sh' style="margin-right:0px" @click='jump()'>图片审核</span>
                         <span class='gl' v-if='sx' @click='managing()'>项目管理</span>
                     </div>
                    
@@ -271,6 +272,11 @@ export default {
                      this.$router.push({
                         path:"./Advertising_content_review"
                     })
+                },
+                fs(){
+                    this.$router.push({
+                        path:"./Advertising_review_fs"
+                    }) 
                 },
                 managing(){
                     this.$router.push({
