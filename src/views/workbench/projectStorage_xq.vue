@@ -236,12 +236,11 @@
                                 <div class="AddIMG_yl_upload">
                                     <el-upload
                                             :limit="1"
-                                            :on-exceed="handleExceed"
                                             :http-request="uploadFile"
-                                            :on-remove="Remove"
                                             class="upload-demo"
                                             action="111"
-                                            :before-upload="beforeAvatarUpload"
+                                            :before-remove="beforeRemove"
+                                            :on-remove="handleRemove1"
                                             :file-list="fileList">
                                         <el-button size="small" type="primary">上传预览图</el-button>
                                     </el-upload>
