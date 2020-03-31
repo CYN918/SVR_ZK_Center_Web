@@ -7,6 +7,10 @@
                     <img src="img/fh.png" alt=""  @click='fh(-1)'>
                     <span>入库确认</span>
                 </div>
+                <div class='right_btn'>
+                    <span class='tj' @click='pops()'>提交</span>
+                    <span @click='fh(-1)'>返回</span>
+                </div>
             </div>
         </div>
         <div class="content_right">
@@ -53,8 +57,17 @@
 
         </div>
         <div class='btns'>
-            <span class='tj' @click='pops()'>提交</span>
-            <span @click='fh(-1)'>返回</span>
+            
+             <div class="block">
+                    <el-pagination
+                            @size-change="handleSizeChange"
+                            @current-change="handleCurrentChange"
+                            :current-page.sync="page"
+                            :page-size="p"
+                            layout="prev, pager, next,total, jumper"
+                            :total="total">
+                    </el-pagination>
+            </div>
         </div>
         <div class='bg' v-if='show'>
             <div class='tsBox'>
@@ -84,7 +97,10 @@
                tableData:[],
                show:false,
                note:"",
-               yc:false
+               yc:false,
+               p:10,
+               page:1,
+               total:0
             }
         },
         mounted(){
@@ -104,9 +120,10 @@
                 return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
              getData(){
-                let params={did:this.$route.query.did,is_put:'1'}
+                let params={did:this.$route.query.did,is_put:'1',p:this.p,page:this.page}
                 this.api.demand_design_project({params}).then((res)=>{
-                    this.tableData=res.project;
+                    this.tableData=res.project.data;
+                    this.total=res.project.total
                 })
            },
            fh(){
@@ -118,6 +135,14 @@
            heid(){
                this.show=false;
            },
+            handleSizeChange(p) { // 每页条数切换
+                this.p = p;
+                this.getData()
+            },
+            handleCurrentChange(page) {//页码切换
+                this.page = page;
+                this.getData()
+            },
             sh(){
                 for(var i=0;i<this.tableData.length;i++){
                     if(this.tableData[i].local_status=='0'){
@@ -140,6 +165,9 @@
                     })
            },
            jump(id,type,put_type){
+               if(!id){
+                   return
+               }
                this.$router.push({
                    path:"./projectStorage_xq",
                    query:{
@@ -280,10 +308,13 @@
     .load_upload ,.load_tit{
         margin:15px 24px 0 24px
     }
-    .btns{
-        margin-top: 30px;
+    .right_btn{
+        display: inline-block;
+        float: right;
+        margin-right: 20%;
+        margin-top:-30px
     }
-    .btns span{
+    .right_btn span{
         display: inline-block;
         border-radius: 8px;
         width: 80px!important;
@@ -295,7 +326,7 @@
         margin-right: 30px;
         margin-left: 24px;
         text-align: center;
-        margin-bottom: 24px;
+        
     }
     .table_load{
         padding: 24px;

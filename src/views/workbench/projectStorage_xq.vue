@@ -36,7 +36,7 @@
                        <span class='tits'>审批人</span>
                        <span class='cons'>{{this.listData.audior}}</span>
                        <span  class='tits_2'>素材类型</span>
-                       <span>{{this.listData.type}}</span>
+                       <span>{{this.listData.demand.type=='ad_picture'?'广告图':this.listData.demand.type=='ad_template'?"广告模板":this.listData.demand.type=='sls_dynamic'?"杂志锁屏动效":this.listData.demand.type=='sls_picture'?"杂志锁屏壁纸":this.listData.demand.type=='th_lock_screen'?"锁屏主题素材":this.listData.demand.type=='th_icon'?"图标主题素材":"二级界面主题素材"}}</span>
                    </div>
                     <div>
                        <span class='tits'>审批时间</span>
@@ -64,9 +64,9 @@
                          
                    </div>
                </div>
-               <div class='uploads3' v-if='this.$route.query.type=="1"'>
+               <div class='uploads3' v-if='this.$route.query.put_type=="1"'>
                     <div class='but'>
-                        <div class='but_left'>
+                        <div class='but_left' style="margin-right:20px">
                             <img :src="this.prev_uri" alt="">
                         </div>
                         <div class='but_right'>
@@ -80,7 +80,7 @@
                                     <option :value="item.type" v-for='item in scType'>{{item.name}}</option>
                                 </select>   
                             </div>
-                            <div v-if='this.listData.type=="th_lock_screen"||this.listData.type=="th_icon"||this.listData.type=="th_second_page"'>
+                            <div v-if='this.listData.demand.type=="th_lock_screen"||this.listData.demand.type=="th_icon"||this.listData.demand.type=="th_second_page"'>
                                 <span class='bg_name'>名称：</span>
                                 <input type="text" v-model="name">    
                             </div>
@@ -88,9 +88,9 @@
                                 <span class='bg_name' style="vertical-align: top">尺寸：</span>
                                 <input type="text" v-model="sjSize" disabled>  
                             </div> 
-                            <div v-if='this.listData.type!="th_lock_screen"&&this.listData.type!="th_icon"&&this.listData.type!="th_second_page"'>
+                            <div v-if='this.listData.demand.type!="th_lock_screen"&&this.listData.demand.type!="th_icon"&&this.listData.demand.type!="th_second_page"'>
                                 <span class='bg_name' style="vertical-align: top">选择标签：</span>
-                                <div class='ta'>
+                               <div class='ta'>
                                     <span class='ta_name'>预置标签</span>
                                     <div class="AddIMG_bq_box_top_bq">
                                         <template>
@@ -114,28 +114,39 @@
                                     </div>
                                 </div>   
                             </div>
-                            <div v-if='this.listData.type=="th_lock_screen"||this.listData.type=="th_icon"||this.listData.type=="th_second_page"'>
+                            <div v-if='this.listData.demand.type=="th_lock_screen"||this.listData.demand.type=="th_icon"||this.listData.demand.type=="th_second_page"'>
                                 <span class='bg_name'>使用范围：</span>
                                 <select v-model="model">
                                     <option :value="da.range" v-for='da in fw'>{{da.range}}</option>
                                 </select> 
                             </div>
-                             <div v-if='this.listData.type=="th_lock_screen"||this.listData.type=="th_icon"||this.listData.type=="th_second_page"'>
+                             <div v-if='this.listData.demand.type=="th_lock_screen"||this.listData.demand.type=="th_icon"||this.listData.demand.type=="th_second_page"'>
                                 <span class='bg_name'>备注描叙：</span>
                                 <input type="text" v-model="note">    
                             </div>
-                            <div v-if='this.listData.type=="th_lock_screen"||this.listData.type=="th_icon"||this.listData.type=="th_second_page"'>
+                            <div v-if='this.listData.demand.type=="th_lock_screen"||this.listData.demand.type=="th_icon"||this.listData.demand.type=="th_second_page"'>
                                 <span class='bg_name'>内容标签：</span>
                                 <div class='ta'>
-                                    <input type="text" placeholder="创建或搜索个性标签">
-                                    <div>
-                                        <span></span>
+                                    <div class="tag_box">
+                                        <input  type="text" placeholder="创建或搜索个性标签" v-model="tagsName" maxlength="32" @input="tagsTheme()"/>
+                                        <div class="tags_box">
+                                            <span class="CJ" v-if="tagsName!=''" @click="ADDtagTheme()" >创建“{{tagsName}}”标签</span>
+                                            <div class='AddIMG_bq_box_top_zdy'>
+                                                <template>
+                                                    <el-checkbox-group
+                                                            v-model="tags">
+                                                        <el-checkbox v-for="(item,index) in tag" :label="item.name">{{item.name}}</el-checkbox>
+                                                    </el-checkbox-group>
+                                                </template>
+
+                                            </div>
+
+                                        </div>
                                     </div>
                                 </div>   
                             </div>
                             <div class='add_btn'>
-                                <span class='sc' @click='scADD()'>上传</span>
-                                <span @click='unShow()'>取消</span>
+                                <span class='sc' @click='scADD("a")'>上传</span>
                             </div>
                         </div>
                     </div>
@@ -211,19 +222,32 @@
                             </div>
                             <div>
                                 <span class='bg_name'>素材类型：</span>
-                                <select v-model="type" disabled>
+                                <select v-model="type">
                                     <option :value="item.type" v-for='item in scType'>{{item.name}}</option>
                                 </select>   
                             </div>
-                            <div>
+                            <div v-if='this.listData.demand.type=="th_lock_screen"||this.listData.demand.type=="th_icon"||this.listData.demand.type=="th_second_page"'>
                                 <span class='bg_name'>名称：</span>
                                 <input type="text" v-model="name">    
                             </div>
                             <div>
                                 <span class='bg_name' style="vertical-align: top">尺寸：</span>
-                                <input type="text" v-model="sjSize" disabled>  
+                                <input type="text" v-model="sjSize" disabled placeholder="上传附件后自动获取"> 
+                                <div class="AddIMG_yl_upload">
+                                    <el-upload
+                                            :limit="1"
+                                            :on-exceed="handleExceed"
+                                            :http-request="uploadFile"
+                                            :on-remove="Remove"
+                                            class="upload-demo"
+                                            action="111"
+                                            :before-upload="beforeAvatarUpload"
+                                            :file-list="fileList">
+                                        <el-button size="small" type="primary">上传预览图</el-button>
+                                    </el-upload>
+                                </div> 
                             </div> 
-                            <div>
+                            <div v-if='this.listData.demand.type!="th_lock_screen"&&this.listData.demand.type!="th_icon"&&this.listData.demand.type!="th_second_page"'>
                                 <span class='bg_name' style="vertical-align: top">选择标签：</span>
                                 <div class='ta'>
                                     <span class='ta_name'>预置标签</span>
@@ -249,22 +273,34 @@
                                     </div>
                                 </div>   
                             </div>
-                            <div>
+                            <div v-if='this.listData.demand.type=="th_lock_screen"||this.listData.demand.type=="th_icon"||this.listData.demand.type=="th_second_page"'>
                                 <span class='bg_name'>使用范围：</span>
                                 <select v-model="model">
                                     <option :value="da.range" v-for='da in fw'>{{da.range}}</option>
                                 </select> 
                             </div>
-                             <div>
+                             <div v-if='this.listData.demand.type=="th_lock_screen"||this.listData.demand.type=="th_icon"||this.listData.demand.type=="th_second_page"'>
                                 <span class='bg_name'>备注描叙：</span>
                                 <input type="text" v-model="note">    
                             </div>
-                            <div>
-                                <span class='bg_name'>内容标签：</span>
+                            <div v-if='this.listData.demand.type=="th_lock_screen"||this.listData.demand.type=="th_icon"||this.listData.demand.type=="th_second_page"'>
+                                <span class='bg_name' style="vertical-align: top">内容标签：</span>
                                 <div class='ta'>
-                                    <input type="text" placeholder="创建或搜索个性标签">
-                                    <div>
-                                        <span></span>
+                                    <div class="tag_box">
+                                        <input  type="text" placeholder="创建或搜索个性标签" v-model="tagsName" maxlength="32" @input="tagsTheme()"/>
+                                        <div class="tags_box">
+                                            <span class="CJ" v-if="tagsName!=''" @click="ADDtagTheme()" >创建“{{tagsName}}”标签</span>
+                                            <div class='AddIMG_bq_box_top_zdy'>
+                                                <template>
+                                                    <el-checkbox-group
+                                                            v-model="tags">
+                                                        <el-checkbox v-for="(item,index) in tag" :label="item.name">{{item.name}}</el-checkbox>
+                                                    </el-checkbox-group>
+                                                </template>
+
+                                            </div>
+
+                                        </div>
                                     </div>
                                 </div>   
                             </div>
@@ -323,7 +359,8 @@ export default {
                         note:"",
                         materials:[],
                         rk:false,
-                        exception_note:""
+                        exception_note:"",
+                        tags:[],
                     }
                 },
                 mounted(){
@@ -378,7 +415,7 @@ export default {
                             let params={id:this.$route.query.id}
                             this.api.demand_design_project_detail({params}).then((res)=>{
                                 this.listData=res;
-                                this.type=this.listData.type;
+                                this.type=this.listData.demand.type;
                                 this.porject_id=res.pro_id;
                                 if(this.$route.query.put_type=='1'){
                                     this.sjSize='';
@@ -386,9 +423,13 @@ export default {
                                     this.preinstall=res.materials.preinstall;
                                     this.bardian=res.materials.bardian;
                                 }
-                               
+
                                 this.getType();
-                                this.syfw()
+                                this.syfw();
+                                if(this.$route.query.type=='1'){
+                                    this.size();
+                                }
+                                this.tagsTheme()
                             })
                         },                   
                         uploadF(file){
@@ -397,6 +438,16 @@ export default {
                                 this.api.file_upload(formData).then((res)=>{
                                     this.attach=res;
                                 })
+                        },
+                        size(){
+                             var image = new Image();
+                                    var _this=this;
+                                    image.onload=function(){
+                                        var width = image.width;
+                                        var height = image.height;
+                                        _this.sjSize = (width+"*"+height)
+                                    };
+                                    image.src=this.prev_uri;
                         },
                         uploadFile(file){   
                                 let formData = new FormData;
@@ -432,6 +483,12 @@ export default {
                                 this.self_tags = da.data.self_tags;
                             })
                         },
+                        tagsTheme(){
+                                let params = {material:'2',type:'theme',search:this.tagsName,p:500,page:1};
+                                this.api.tags_search({params}).then((da)=>{
+                                    this.tag=da.data.self_tags;
+                                })
+                        },
                         ADDtags(){
                             this.bardian.push(this.tagsName);
                             let formData = new FormData;
@@ -442,6 +499,17 @@ export default {
                             this.api.tags_add(formData).then((res)=>{
                                 this.tagsName='';
                                 this. getTagsList();
+                            })
+                        },
+                        ADDtagTheme(){
+                            let formData =new FormData;
+                            formData.append('name',this.tagsName);
+                            formData.append('preset',"0");
+                            formData.append('material','2');
+                            formData.append('type','theme');
+                            this.api.tags_add(formData).then((res)=>{
+                                this.tagsName='';
+                                this.tagsTheme();
                             })
                         },
                         sh(){
@@ -460,7 +528,7 @@ export default {
                                 }
                             })
                         },
-                        scADD(){
+                        scADD(da){
                             let list={}
                             list.name=this.name;
                             list.attach=this.attach;
@@ -472,8 +540,12 @@ export default {
                             list.model=this.model;
                             list.note=this.note;
                             this.materials.push(list);
-                            this.unShow()
+                            if(!da){
+                                this.unShow()
+                            }
+                            
                         },
+                       
                         dels(index){
                             this.materials.splice(index,1);
                         },
@@ -898,5 +970,23 @@ export default {
         margin: 16px 60px 0 60px;
         min-width: 260px;
         padding:10px;
+    }
+    .AddIMG_yl_upload{
+        display: inline-block;
+        margin-left: 16px;
+    }
+    .tags_box{
+        margin:14px;
+    }
+    .CJ{
+        display: inline-block;
+        line-height: 26px;
+        text-align: center;
+        cursor: pointer;
+        padding: 3px 5px ;
+        background: #d7d7d7;
+        font-size: 12px;
+        border-radius: 5px;
+        margin-bottom: 10px!important;
     }
 </style>
