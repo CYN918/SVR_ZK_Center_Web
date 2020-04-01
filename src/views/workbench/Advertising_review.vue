@@ -44,7 +44,7 @@
                             <option value="2">待复审</option>
                         </select>
                         <div class='sel'>
-                            <span @click='getData("a")'>查询</span>
+                            <span @click='getData()'>查询</span>
                             <span class='yjqr' @click='reset()' >重置</span>
                             <span class='yjqr' @click='tc()'>一键确认</span>
                         </div>
@@ -303,7 +303,6 @@ export default {
                             item.tags = JSON.parse(JSON.stringify(res))
                         })
                         this.tableData =data
-
                         for(var i=0;i<dataList.length;i++){
                             if(dataList[i].ops_tags.length!=0){
                                  var obj={
@@ -313,7 +312,6 @@ export default {
                                 obj.mid=dataList[i].mid;
                                 obj.tags=dataList[i].ops_tags;
                                 this.advers.push(obj);
-                                console.log(this.advers)
                                 for(var s=0;s<dataList[i].ops_tags.length;s++){
                                     for(var j=0;j< this.tableData.length;j++){
                                         if(this.tableData[j].mid==dataList[i].mid){
@@ -333,26 +331,23 @@ export default {
                  },
                   handleSizeChange1(p) { // 每页条数切换
                     this.p = p;
-                   
                     this.getData()
                 },
                 handleCurrentChange1(Page) {//页码切换
-                    console.log(Page);
                     this.page = Page;
                     this.getData()
                 },
-                 getData(a){
+                 getData(){
                       this.load=true
                      let params={status:this.status,sdk_id:this.sdk_id,tdate:this.date,id_adsrc:this.id_adsrc,tags_name:this.ListTags.join(','),p:this.p,page:this.page,pid:this.pid}
                      this.api.adver_tags_search({params}).then((res)=>{
                          this.total=res.total;
-                         this.load=false
-                         if(!a){
+                         this.load=false;
+                         this. getMessage();
                             this.getAPI() ;
                             this.updata();
-                            this. getMessage();
                             this.getTags(res.data)
-                         }
+                     
                        
                      })
                  },

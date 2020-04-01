@@ -29,7 +29,7 @@
                 <span class='tits'>页码：</span>
                 <input type="page" placeholder="输入页码" v-model="page"/>
                 <div class='sel'>
-                    <span @click='getData("a")'>查询</span>
+                    <span @click='getData()'>查询</span>
                     <span class='yjqr' @click='cz()'>重置</span>
                     <span class='yjqr' @click='tc()'>一键确认</span>
                 </div>
@@ -175,7 +175,7 @@ export default {
                 this.page = page;
                 this.getData()
             }, 
-            getData(a){
+            getData(){
                 var res=/^\+?[1-9]\d*$/;
                 if(!res.test(this.page)){
                     this.$message.error('页码只能为大于零的正整数');
@@ -186,11 +186,10 @@ export default {
                      this.api.adver_tags_pending({params}).then((res)=>{
                          this.total=res.total;
                          this.load=false;
-                         if(!a){
                             this.getAPI() ;
                             this.updata();
                             this.getTags(res.data)
-                         }
+
                        
                      })
             },
