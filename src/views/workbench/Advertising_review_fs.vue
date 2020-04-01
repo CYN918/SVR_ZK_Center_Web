@@ -185,7 +185,7 @@ export default {
                  let params={sdk_id:this.sdk_id,id_adsrc:this.id_adsrc,p:this.p,page:this.page,pid:this.pid,status:2}
                      this.api.adver_tags_pending({params}).then((res)=>{
                          this.total=res.total;
-                         this.load=false
+                         this.load=false;
                          if(!a){
                             this.getAPI() ;
                             this.updata();
@@ -209,19 +209,51 @@ export default {
                     }
                 }
             },
-            getTags(data){
-                this.api.adver_tags_config_opstags().then((res)=>{
-                    res.forEach(item => {
-                        item.isShow = false
+             getTags(data){
+                    let dataList=data;
+                    this.advers=[];
+                    this.api.adver_tags_config_opstags().then((res)=>{
+                        res.forEach(item => {
+                            item.isShow = false
+                        })
+                        this.tagsList = res
+                        data.forEach((item, index) =>{
+                            item.tags = JSON.parse(JSON.stringify(res))
+                        })
+                        this.tableData =data
+
+                        for(var i=0;i<dataList.length;i++){
+                            if(dataList[i].ops_tags.length!=0){
+                                 var obj={
+                                mid:'',
+                                tags:[]
+                            };
+                                obj.mid=dataList[i].mid;
+                                obj.tags=dataList[i].ops_tags;
+                                this.advers.push(obj);
+                                console.log(this.advers)
+                                for(var s=0;s<dataList[i].ops_tags.length;s++){
+                                    for(var j=0;j< this.tableData.length;j++){
+                                        if(this.tableData[j].mid==dataList[i].mid){
+                                            for(var k=0;k<this.tableData[j].tags.length;k++){
+                                                if(this.tableData[j].tags[k].tags_name==dataList[i].ops_tags[s].tags_name){
+                                                    this.tableData[j].tags[k].isShow=true;
+                                                }
+                                            }
+                                        }
+                                    } 
+                                }
+                             
+                            }
+                        }
+                        this.updata();
                     })
-                    this.tagsList = res
-                    data.forEach((item, index) =>{
-                        item.tags = JSON.parse(JSON.stringify(res))
-                    })
-                    this.tableData =data
-                    this.updata();
-                })
-            },
+                 },
+                  handleSizeChange1(p) { // 每页条数切换
+                    this.p = p;
+                   
+                    this.getData()
+                },
              sgtData(name,id,indexs, idxs){
                     this.tableData[idxs].tags[indexs].isShow = !this.tableData[idxs].tags[indexs].isShow
                     if(this.advers.length==0){
@@ -231,8 +263,7 @@ export default {
                             };
                             obj.mid=id;
                             (obj.tags).push(name);
-                            this.advers.push(obj); 
-                            console.log(this.advers)                   
+                            this.advers.push(obj);                  
                             return
                     }
                     if(this.advers.length>0){
@@ -255,9 +286,6 @@ export default {
                                     console.log(this.advers) 
                                     return
                                 }
-                                // (this.advers[i].tags).push(name);
-                                // console.log(this.advers) 
-                                // return
                             }
                             if(this.advers[i].mid==id&&this.advers[i].tags.length>1){
                                 for(var k=0;k<this.advers[i].tags.length;k++){
