@@ -195,20 +195,19 @@
                         <span>确认更新当前分类数据？</span>
                     </div>
                     <div class='btn'>
+                    
                         <span class='qx' @click='heid()'>取消</span>
                         <span class='yes' @click='add()'>确认</span>
                     </div>
- 
+                    
                 </div>
             </div>
-            <load v-if='load'></load>
+
         </div>
 </template>
 
 <script>
-import loding from '../../components/loading'
 export default {
-    components:{loding},
             data(){
                 return{
                         adAPI:[],
@@ -231,8 +230,7 @@ export default {
                         all:"",
                         pid:'',
                         control:[],
-                        sx:false,
-                        load:true
+                        sx:false
                 }
             },
             created(){
@@ -343,7 +341,6 @@ export default {
                  getData(){
                      let params={status:this.status,sdk_id:this.sdk_id,tdate:this.date,id_adsrc:this.id_adsrc,tags_name:this.ListTags.join(','),p:this.p,page:this.page,pid:this.pid}
                      this.api.adver_tags_search({params}).then((res)=>{
-                         this.load=false
                          this.total=res.total
                         this.getAPI() ;
                         this.updata();
