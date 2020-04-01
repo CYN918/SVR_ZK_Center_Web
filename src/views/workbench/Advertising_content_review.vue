@@ -182,9 +182,7 @@ export default {
                     this.load=false;
                         this.updata();
                         this. getAPI();
-                        this.getTags(res.data)
-
-                   
+                        this.getTags(res.data)       
                 }))
             },
             getAPI(){

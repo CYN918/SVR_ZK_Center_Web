@@ -347,8 +347,6 @@ export default {
                             this.getAPI() ;
                             this.updata();
                             this.getTags(res.data)
-                     
-                       
                      })
                  },
                 ganged(){
