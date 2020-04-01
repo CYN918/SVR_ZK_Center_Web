@@ -21,10 +21,10 @@
                     <option value="">全部</option>
                     <option :value="item.sdk_id" v-for='(item,index) in adAPI'>{{item.sdk_id}}</option>
                 </select>
-                <span class='tits'>三方广告位ID：</span>
-                <select v-model="id_adsrc">
+                <span class='tits' v-if='sdk_id!=""'>三方广告位ID：</span>
+                <select v-model="id_adsrc" v-if='sdk_id!=""'>
                     <option value="">全部</option>
-                    <option :value="item" v-if='sdk_id!=""' v-for='item in adAPI[index].id_adsrc'>{{item}}</option>
+                    <option :value="item"  v-for='item in adAPI[index].id_adsrc'>{{item}}</option>
                 </select>
                 <span class='tits'>页码：</span>
                 <input type="page" placeholder="输入页码" v-model="page"/>
@@ -113,11 +113,14 @@
                 </div>
             </div>
         </div>
+         <loading v-if='load'></loading>
   </div>
 </template>
 
 <script>
+import loading from '../../components/loading'
 export default {
+    components:{loading},
         data(){
             return{
                 tableData:[],
@@ -134,7 +137,8 @@ export default {
                 show:false,
                 list:[],
                 tagsList:[],
-                pid:""
+                pid:"",
+                load:true
             }
         },
         
@@ -177,9 +181,11 @@ export default {
                     this.$message.error('页码只能为大于零的正整数');
                     return
                 }
+                 this.load=true
                 let params={status:'2',sdk_id:this.sdk_id,id_adsrc:this.id_adsrc,p:this.p,page:this.page,pid:this.pid}
                      this.api.adver_tags_search({params}).then((res)=>{
-                         this.total=res.total
+                         this.total=res.total;
+                         this.load=false
                         this.getAPI() ;
                         this.updata();
                         this.getTags(res.data)

@@ -31,10 +31,10 @@
                             <option value="">全部</option>
                             <option :value="item.sdk_id" v-for='(item,index) in adAPI'>{{item.sdk_id}}</option>
                         </select>
-                        <span class='tits'>三方广告位ID：</span>
-                        <select v-model="id_adsrc">
+                        <span class='tits'  v-if='this.sdk_id!=""'>三方广告位ID：</span>
+                        <select v-model="id_adsrc"  v-if='this.sdk_id!=""'>
                             <option value="">全部</option>
-                            <option :value="item" v-if='sdk_id!=""' v-for='item in adAPI[index].id_adsrc'>{{item}}</option>
+                            <option :value="item" v-for='item in adAPI[index].id_adsrc'>{{item}}</option>
                         </select>
                         <span class='tits'>状态</span>
                         <select v-model="status">
@@ -202,12 +202,14 @@
                     
                 </div>
             </div>
-
+            <loading v-if='load'></loading>
         </div>
 </template>
 
 <script>
+import loading from '../../components/loading'
 export default {
+    components:{loading},
             data(){
                 return{
                         adAPI:[],
@@ -230,7 +232,8 @@ export default {
                         all:"",
                         pid:'',
                         control:[],
-                        sx:false
+                        sx:false,
+                        load:true
                 }
             },
             created(){
@@ -339,9 +342,11 @@ export default {
                     this.getData()
                 },
                  getData(){
+                      this.load=true
                      let params={status:this.status,sdk_id:this.sdk_id,tdate:this.date,id_adsrc:this.id_adsrc,tags_name:this.ListTags.join(','),p:this.p,page:this.page,pid:this.pid}
                      this.api.adver_tags_search({params}).then((res)=>{
-                         this.total=res.total
+                         this.total=res.total;
+                         this.load=false
                         this.getAPI() ;
                         this.updata();
                         this. getMessage();
