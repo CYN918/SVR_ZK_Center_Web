@@ -1546,4 +1546,17 @@ export default {
 		url:'appad/pkg/audit',method:"post",isType:{suktip:1},
 
 	},
+	//获取需求的设计师站项目
+	demand_design_project:{
+		url:"demand/design/project",method:"get"
+	},
+	//查看入库详情
+	demand_design_project_detail:{
+		url:"demand/design/project/detail",method:"get"
+	},
+	//入库上传
+	material_project_add:{
+		url:"material/project/add",method:"post",isType:{suktip:1},
+	},
+	
 }

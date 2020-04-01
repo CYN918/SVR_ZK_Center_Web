@@ -4,7 +4,8 @@
                 <div class="top_name">
                     <div class="title_left">
                         <span>广告内容审核</span>
-                        <span class='sh' @click='jump()'>图片审核</span>
+                        <span class='sh' @click='fs()'>AI结果复审</span>
+                        <span class='sh' style="margin-right:0px" @click='jump()'>图片审核</span>
                         <span class='gl' v-if='sx' @click='managing()'>项目管理</span>
                     </div>
                    
@@ -30,10 +31,10 @@
                             <option value="">全部</option>
                             <option :value="item.sdk_id" v-for='(item,index) in adAPI'>{{item.sdk_id}}</option>
                         </select>
-                        <span class='tits'>三方广告位ID：</span>
-                        <select v-model="id_adsrc">
+                        <span class='tits'  v-if='this.sdk_id!=""'>三方广告位ID：</span>
+                        <select v-model="id_adsrc"  v-if='this.sdk_id!=""'>
                             <option value="">全部</option>
-                            <option :value="item" v-if='sdk_id!=""' v-for='item in adAPI[index].id_adsrc'>{{item}}</option>
+                            <option :value="item" v-for='item in adAPI[index].id_adsrc'>{{item}}</option>
                         </select>
                         <span class='tits'>状态</span>
                         <select v-model="status">
@@ -43,7 +44,7 @@
                             <option value="2">待复审</option>
                         </select>
                         <div class='sel'>
-                            <span @click='getData()'>查询</span>
+                            <span @click='getData("a")'>查询</span>
                             <span class='yjqr' @click='reset()' >重置</span>
                             <span class='yjqr' @click='tc()'>一键确认</span>
                         </div>
@@ -83,7 +84,6 @@
                                 :header-cell-style="getRowClass"
                                 :cell-style="cell"
                                 >
-                        
                             <el-table-column
                                     label="图片"
                                     width="150">
@@ -91,8 +91,8 @@
                                         <!-- <img :src='tableData[scope.$index].image_url' style="max-width:80px;max-height: 80px;cursor: pointer"  preview="0" /> -->
                                         <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
                                             <div slot="content">
+                                               <img :src='tableData[scope.$index].image_url' style="max-width:261px;max-height: 464px"  />
 
-                                                <img :src='tableData[scope.$index].image_url' style="max-width:261px;max-height: 464px"  />
                                             </div>
                                             <img :src='tableData[scope.$index].image_url' style="max-width:80px;max-height: 80px;cursor: pointer"  preview="0" />                               
                                          </el-tooltip>
@@ -202,12 +202,14 @@
                     
                 </div>
             </div>
-
+            <loading v-if='load'></loading>
         </div>
 </template>
 
 <script>
+import loading from '../../components/loading'
 export default {
+    components:{loading},
             data(){
                 return{
                         adAPI:[],
@@ -230,7 +232,8 @@ export default {
                         all:"",
                         pid:'',
                         control:[],
-                        sx:false
+                        sx:false,
+                        load:true
                 }
             },
             created(){
@@ -271,6 +274,11 @@ export default {
                      this.$router.push({
                         path:"./Advertising_content_review"
                     })
+                },
+                fs(){
+                    this.$router.push({
+                        path:"./Advertising_review_fs"
+                    }) 
                 },
                 managing(){
                     this.$router.push({
@@ -333,14 +341,19 @@ export default {
                     this.page = Page;
                     this.getData()
                 },
-                 getData(){
+                 getData(a){
+                      this.load=true
                      let params={status:this.status,sdk_id:this.sdk_id,tdate:this.date,id_adsrc:this.id_adsrc,tags_name:this.ListTags.join(','),p:this.p,page:this.page,pid:this.pid}
                      this.api.adver_tags_search({params}).then((res)=>{
-                         this.total=res.total
-                        this.getAPI() ;
-                        this.updata();
-                        this. getMessage();
-                        this.getTags(res.data)
+                         this.total=res.total;
+                         this.load=false
+                         if(!a){
+                            this.getAPI() ;
+                            this.updata();
+                            this. getMessage();
+                            this.getTags(res.data)
+                         }
+                       
                      })
                  },
                 ganged(){

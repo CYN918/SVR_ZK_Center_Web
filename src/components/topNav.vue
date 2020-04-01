@@ -43,8 +43,6 @@
 						<span v-if="mData.length!=0" @click="getNotice('read')" :class="{'active_1':active_3}" style="position: absolute;bottom: 0px;width: 100%;text-align: center;height: 30px;">全部标为已读</span>
 						
 					</div>
-					
-				
 					<!-- <div @click="goMssg(1)" class="messgeH3_3 pend">查看全部</div> -->
 				</div>
 				
@@ -52,7 +50,6 @@
 			<router-link  to="/login" class="right1"><li @click="loginout()"><span>退出登录</span></li></router-link>
 			<router-link  to="/userinfo" class="right0"><li><img :src="img" class="imgs_user"/>{{name}}</li></router-link>
 			<router-link  to="/workbench"  v-if='top2'><li><span>工作台</span></li></router-link>
-
 			<router-link  to="/data"   v-if='top3'><li><span>数据中心</span></li></router-link>
 			<router-link  to="/income"   v-if='top4'><li><span>收益中心</span></li></router-link>
 			<router-link  to="/admin"   v-if='top1'><li> <span>素材中心</span></li></router-link>

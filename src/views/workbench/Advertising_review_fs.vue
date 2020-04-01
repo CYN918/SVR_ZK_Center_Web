@@ -1,10 +1,13 @@
 <template>
   <div>
         <div>
+            <div>
+                <img src="" alt="">
+            </div>
             <div class="top_name">
-                <span class="top_txt gesture" @click='fh'>广告内容审核&nbsp;/&nbsp;图片审核</span>
+                <span class="top_txt gesture" @click='fh'>广告内容审核&nbsp;/&nbsp;AI标签复审</span>
                 <div class="title_left">
-                    <span>图片审核</span>
+                    <span>AI标签复审</span>
                 </div>
                 <span  class='tits'>项目：</span>
                 <select v-model="pid">
@@ -24,9 +27,10 @@
                     <option :value="item"  v-for='item in adAPI[index].id_adsrc'>{{item}}</option>
                 </select>
                 <span class='tits'>页码：</span>
-                <input type="number" placeholder="输入页码" v-model="page"/>
+                <input type="page" placeholder="输入页码" v-model="page"/>
                 <div class='sel'>
                     <span @click='getData("a")'>查询</span>
+                    <span class='yjqr' @click='cz()'>重置</span>
                     <span class='yjqr' @click='tc()'>一键确认</span>
                 </div>
             </div>
@@ -40,70 +44,57 @@
                 <span>项&nbsp&nbsp</span>
             </div>
             <div class='tableBox'>
-                <template>
-                    <el-table
-                            :data="tableData"
-                            style="width: 100%"
-                            :header-cell-style="getRowClass"
-                            :cell-style="cell"
-                            >
-                       
-                        <el-table-column
-                                label="图片"
-                                width="150">
-                                <template slot-scope="scope">
-                                    <!-- <img :src='tableData[scope.$index].image_url' style="max-width:80px;max-height: 80px;cursor: pointer"  preview="0" /> -->
-                                    <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
-                                        <div slot="content">
-                                            <img :src='tableData[scope.$index].image_url' style="max-width:261px;max-height: 464px;"/>
-                                        </div>
-                                        <img :src='tableData[scope.$index].image_url' style="max-width:80px;max-height: 80px;cursor: pointer"  preview="0" />
-                                    </el-tooltip>
-                                </template>
-                        </el-table-column>
-                       
-                        <el-table-column
-                                prop="a"
-                                width='90'
-                                label="落地页">
-                                 <template slot-scope="scope">
-                                    <a :href='tableData[scope.$index].preview_url' target="_blank" style="color:#3377ff;cursor: pointer">点击查看</a>
-                                </template>
-                        </el-table-column>
-                        <el-table-column
-                                prop=""
-                                label="AI标签">
-                                 <template slot-scope="scope">
-                                 <span v-for='val in tableData[scope.$index].ai_tags'>{{val.tags_name+"("+val.confidence+"%)"}},</span>
-                                </template>
-                        </el-table-column>
-                        <el-table-column
-                                prop=""
-                                label="分类">
-                                 <template slot-scope="scope">
-
-                                    <span class='tagsName'  
-                                    v-for='(da,num) in tableData[scope.$index].tags' 
+                <div class='AIbox' v-for='(key,index) in this.tableData'>
+                    <div class='box_left'>
+                        <!-- <img :src="key.image_url" alt=""> -->
+                        <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
+                                            <div slot="content">
+                                                <img :src="key.image_url" alt="" style="max-width:261px;max-height: 464px">
+                                            </div>
+                                            <img :src="key.image_url" alt="" preview="1">                        
+                        </el-tooltip>
+                    </div>
+                    <div class='box_right'>
+                        <div >
+                            <span>落地页：</span>
+                            <a style="color:#3377ff" :href="key.preview_url" target="_block">点击查看</a>
+                        </div>
+                        <div style="overflow: hidden;height:16px">
+                            <span>AI标签：</span>
+                            <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
+                                            <div slot="content">
+                                                <span v-for='da in key.ai_tags'>{{da.tags_name+'('+da.confidence+'%)、'}}</span>
+                                            </div>
+                                            <span v-for='da in key.ai_tags' preview="0">{{da.tags_name+'('+da.confidence+'%)、'}}</span>                           
+                            </el-tooltip>
+                            
+                        </div>
+                        <div>
+                            <span class='tagsName'  
+                                    v-for='(da,num) in key.tags' 
                                     :class="{'act': da.isShow}"  
                                     style="margin-right:15px" 
-                                    @click='sgtData(da,tableData[scope.$index].mid,num,scope.$index)'
-                                    >{{da.tags_name}}</span>
+                                    @click='sgtData(da,key.mid,num,index)'
+                                    >{{da.tags_name}}
+                            </span>
+                        </div>
+                    </div>
+                    <div>
 
-                                </template>
-                        </el-table-column>
-                        <el-table-column
-                                prop=""
-                                width='90'
-                                label="确认状态">
-                                 <template slot-scope="scope">
-                                    <span>{{tableData[scope.$index].status_name}}</span>
-                                </template>
-                        </el-table-column>
-                       
-                    </el-table>
-                </template>
+                    </div>
+                </div>
             </div>
-          
+             <div class="block">
+                   <el-pagination
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page="page"
+                        :page-sizes="[9, 30, 150, 300]"
+                        :page-size="p"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="total">
+                    </el-pagination>
+            </div>    
         </div>
         <div class='tcvBox' v-if='this.show'>
             <div class='box'>
@@ -132,10 +123,10 @@ export default {
     components:{loading},
         data(){
             return{
-                tableData:[{a:'1'}],
+                tableData:[],
                 sdk_id:"",
                 id_adsrc:"",
-                p:10,
+                p:9,
                 page:1,
                 total:"",
                 process:"",
@@ -159,6 +150,13 @@ export default {
             fh(){
                 this.$router.go(-1)
             },
+            cz(){
+                this.page=1;
+                this.pid='';
+                this.sdk_id='';
+                this.id_adsrc=''
+                this.getData()
+            },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
                     return 'background:rgb(246, 245, 245,1);color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:blod;font-family:PingFang-SC-Regular;'
@@ -169,6 +167,14 @@ export default {
              cell({row, column, rowIndex, columnIndex}){
                 return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
+             handleSizeChange(p) { // 每页条数切换
+             this.p = p;
+             this.getData()
+            },
+            handleCurrentChange(page) {//页码切换
+                this.page = page;
+                this.getData()
+            }, 
             getData(a){
                 var res=/^\+?[1-9]\d*$/;
                 if(!res.test(this.page)){
@@ -176,17 +182,17 @@ export default {
                     return
                 }
                  this.load=true
-                let params={sdk_id:this.sdk_id,id_adsrc:this.id_adsrc,p:this.p,page:this.page,pid:this.pid,status:0}
-                this.api.adver_tags_pending({params}).then((res=>{
-                    this.total=res.total;
-                    this.load=false;
-                    if(!a){
-                        this.updata();
-                        this. getAPI();
-                        this.getTags(res.data)
-                    }
-                   
-                }))
+                 let params={sdk_id:this.sdk_id,id_adsrc:this.id_adsrc,p:this.p,page:this.page,pid:this.pid,status:2}
+                     this.api.adver_tags_pending({params}).then((res)=>{
+                         this.total=res.total;
+                         this.load=false
+                         if(!a){
+                            this.getAPI() ;
+                            this.updata();
+                            this.getTags(res.data)
+                         }
+                       
+                     })
             },
             getAPI(){
                 this.api.adver_tags_config_sdkid().then((res=>{
@@ -314,7 +320,7 @@ export default {
 </script>
 
 <style scoped>
-    .top_name{height: 130px}
+     .top_name{height: 130px}
     .top_txt,.title_left span{
         margin-left: 24px;
     }
@@ -372,7 +378,7 @@ export default {
         -webkit-box-sizing: border-box;
         box-sizing: border-box;
         background: #fff;
-        margin-top: 217px
+        margin-top: 80px
     }
     .titel_table{
         width: 100%;
@@ -666,5 +672,40 @@ export default {
 }
 .gesture{
     cursor: pointer;
+}
+.AIbox {
+    display: inline-block;
+    width: 30%;
+    height: 300px;
+    border:1px solid #ddd;
+    margin-right:3% ;
+    margin-bottom: 24px;
+}
+.AIbox>div{
+    display: inline-block;
+}
+.box_left{
+    margin: 24px;
+    width: 30%;
+    height: 252px;
+    position: relative;
+    background: #ddd;
+}
+.box_left img{
+    max-width: 100%;
+    max-height: 100%;
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+}
+.box_right{
+    height: 100%;
+    width: 55%;
+    vertical-align: top;
+    margin-top:24px
+}
+.box_right>div{
+    margin-bottom: 18px;
 }
 </style>
