@@ -167,10 +167,7 @@
                                         <div class='clr' v-if="item.did==undefined&&item.reject!='1'&&tableData[props.$index].status==item.status&&tableData[props.$index].status_name!='提现完成'">
                                             <span  v-for="da in tableData[props.$index].processor">{{da}};</span>
                                         </div>
-                                        
-                                        
-                                       
-                                        
+
                                     </div>
                                     <div class="step_contnet" v-if="(item.creator!=''||tableData[props.$index].status==item.status)&&((tableData[props.$index].demand_type=='收款结算'&&item.status!=6)||(tableData[props.$index].demand_type=='付款结算'&&item.status!=6)||(tableData[props.$index].demand_type=='业务需求')||(tableData[props.$index].demand_type=='素材需求')||(tableData[props.$index].demand_type=='设计师结算'))">
                                         <span class="step_txt" v-if="index=='0'">需求内容</span>
@@ -186,7 +183,7 @@
                                         <span class="dj" v-if="(tableData[props.$index].demand_type=='业务需求'&&item.status=='4'&&item.key==0&&item.reject!='1'&&item.isfinish!=2)">审核通过</span>
                                         <span class="dj" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,tableData[props.$index].status+1,item.reject)"  v-if="item.reject=='1'&&tableData[props.$index].status!=item.status">查看驳回原因</span>
                                         <span class="dj" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,tableData[props.$index].status,item.reject)"  v-if="item.reject=='1'&&tableData[props.$index].status==item.status">查看驳回原因</span>
-                                        <span class="dj" v-if="(tableData[props.$index].demand_type=='素材需求'&&item.status=='4'&&item.key==0&&item.reject!='1'||tableData[props.$index].demand_type=='素材需求'&&item.status=='2'&&item.key==0&&item.reject!='1'&&item.isfinish!=2)">审核通过</span>
+                                        <span class="dj" v-if="(tableData[props.$index].demand_type=='素材需求'&&item.status=='4'&&item.key==0&&item.reject!='1'||tableData[props.$index].demand_type=='素材需求'&&item.status=='2'&&item.key==0&&item.reject!='1'&&item.isfinish!=2)" @click="push(tableData[props.$index].did,tableData[props.$index].status)">查看入库</span>
                                         <span class="dj" v-if="tableData[props.$index].demand_type=='业务需求'&&item.status=='5'&&item.key==0&&item.reject!='1'&&item.isfinish!=2">测试通过</span>
                                         <span  class="dj" v-if="tableData[props.$index].demand_type=='素材需求'&&item.status=='3'&&item.key==0&&item.reject!='1'&&item.isfinish!=2" @click='look(tableData[props.$index].did,tableData[props.$index].status)'>查看项目</span>
                                         <span class="dj" v-if="tableData[props.$index].demand_type=='素材需求'&&item.status=='5'&&item.isfinish==1" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status)">查看素材</span>

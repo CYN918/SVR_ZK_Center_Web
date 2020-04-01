@@ -52,7 +52,7 @@
 
         </div>
         <div class='btns'>
-            <span class='tj' @click='pops()'>提交</span>
+            <span class='tj' v-if='this.$route.query.status==3' @click='pops()'>提交</span>
             <span @click='fh(-1)'>返回</span>
         </div>
         <div class='bg' v-if='show'>

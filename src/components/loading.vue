@@ -2,6 +2,7 @@
 <template>
 <div class="loading">
     <img src="img/loading.gif" alt="">
+
 </div>
 </template>
 
@@ -22,6 +23,7 @@ export default {
   height: 100%;
   z-index: 100;
   background: rgba(0,0,0,0.2);
+
 
 }
 img{

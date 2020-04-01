@@ -314,7 +314,7 @@
          <div class='bg' v-if='rk'>
             <div class='tsBox'>
                     <div class='tsBox_tit'>
-                        <span v-if="this.materials.length==this.listData.num">确认需求已绑定所有项目？</span>
+                        <span v-if="this.materials.length==this.listData.num">确认素材信息无误并提交入库</span>
                         <span class='tsBox_tit2' v-if="this.materials.length!=this.listData.num">入库异常说明</span>
                         <div>
                             <textarea name="" id="" v-if="this.materials.length!=this.listData.num"  v-model='exception_note' placeholder="请输入驳回原因(最多20字)" maxlength="20"></textarea>
@@ -514,6 +514,10 @@ export default {
                         sh(){
                             if(this.materials.length!=this.listData.num&&this.exception_note==''){
                                   this.$message.error('入库异常说明不能为空');
+                                  return
+                            }
+                             if(this.materials==[]){
+                                  this.$message.error('素材不能为空');
                                   return
                             }
                             let formData =new FormData;
