@@ -8,7 +8,7 @@
                     <span>入库确认</span>
                 </div>
                 <div class='right_btn'>
-                    <span class='tj' @click='pops()'>提交</span>
+                    <span class='tj' @click='pops()' v-if='this.$route.query.status==4'>提交</span>
                     <span @click='fh(-1)'>返回</span>
                 </div>
             </div>
