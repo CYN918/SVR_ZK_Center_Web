@@ -26,7 +26,7 @@
                 <span class='tits'>页码：</span>
                 <input type="number" placeholder="输入页码" v-model="page"/>
                 <div class='sel'>
-                    <span @click='getData("a")'>查询</span>
+                    <span @click='getData()'>查询</span>
                     <span class='yjqr' @click='tc()'>一键确认</span>
                 </div>
             </div>
@@ -180,11 +180,9 @@ export default {
                 this.api.adver_tags_pending({params}).then((res=>{
                     this.total=res.total;
                     this.load=false;
-                    if(!a){
                         this.updata();
                         this. getAPI();
                         this.getTags(res.data)
-                    }
                    
                 }))
             },
