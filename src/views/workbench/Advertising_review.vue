@@ -44,7 +44,7 @@
                             <option value="2">待复审</option>
                         </select>
                         <div class='sel'>
-                            <span @click='getData()'>查询</span>
+                            <span @click='getData("a")'>查询</span>
                             <span class='yjqr' @click='reset()' >重置</span>
                             <span class='yjqr' @click='tc()'>一键确认</span>
                         </div>
@@ -341,16 +341,19 @@ export default {
                     this.page = Page;
                     this.getData()
                 },
-                 getData(){
+                 getData(a){
                       this.load=true
                      let params={status:this.status,sdk_id:this.sdk_id,tdate:this.date,id_adsrc:this.id_adsrc,tags_name:this.ListTags.join(','),p:this.p,page:this.page,pid:this.pid}
                      this.api.adver_tags_search({params}).then((res)=>{
                          this.total=res.total;
                          this.load=false
-                        this.getAPI() ;
-                        this.updata();
-                        this. getMessage();
-                        this.getTags(res.data)
+                         if(!a){
+                            this.getAPI() ;
+                            this.updata();
+                            this. getMessage();
+                            this.getTags(res.data)
+                         }
+                       
                      })
                  },
                 ganged(){

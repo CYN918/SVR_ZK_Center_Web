@@ -26,7 +26,7 @@
                 <span class='tits'>页码：</span>
                 <input type="number" placeholder="输入页码" v-model="page"/>
                 <div class='sel'>
-                    <span @click='getData()'>查询</span>
+                    <span @click='getData("a")'>查询</span>
                     <span class='yjqr' @click='tc()'>一键确认</span>
                 </div>
             </div>
@@ -169,19 +169,23 @@ export default {
              cell({row, column, rowIndex, columnIndex}){
                 return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
-            getData(){
+            getData(a){
                 var res=/^\+?[1-9]\d*$/;
                 if(!res.test(this.page)){
                     this.$message.error('页码只能为大于零的正整数');
                     return
                 }
+                 this.load=true
                 let params={sdk_id:this.sdk_id,id_adsrc:this.id_adsrc,p:this.p,page:this.page,pid:this.pid,status:0}
                 this.api.adver_tags_pending({params}).then((res=>{
                     this.total=res.total;
                     this.load=false;
-                    this.updata();
-                    this. getAPI();
-                    this.getTags(res.data)
+                    if(!a){
+                        this.updata();
+                        this. getAPI();
+                        this.getTags(res.data)
+                    }
+                   
                 }))
             },
             getAPI(){
