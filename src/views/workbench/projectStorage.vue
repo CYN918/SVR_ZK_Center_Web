@@ -2,14 +2,13 @@
     <div>
         <div>
             <div class="top_name">
-                <span class="top_txt" @click='jump()'>待处理&nbsp;/&nbsp;入库确认</span>
+                <span class="top_txt" @click='fh(-1)'>待处理&nbsp;/&nbsp;入库确认</span>
                 <div class="title_left">
                     <img src="img/fh.png" alt=""  @click='fh(-1)'>
                     <span>入库确认</span>
                 </div>
                 <div class='right_btn'>
                     <span class='tj' @click='pops()' v-if='this.$route.query.status==4'>提交</span>
-                    <span @click='fh(-1)'>返回</span>
                 </div>
             </div>
         </div>
@@ -30,7 +29,7 @@
                                 prop="put_type"
                                 label="入库类型">
                                 <template slot-scope="scope">
-                                        <span>{{tableData[scope.$index].put_type==0?'整理后入库':"可直接入库"}}</span>
+                                        <span>{{tableData[scope.$index].put_type==0?'需整理后入库':"可直接入库"}}</span>
                                 </template>
                         </el-table-column>
                         <el-table-column
@@ -45,8 +44,8 @@
                                 sortable
                                 label="操作时间">
                                  <template slot-scope="scope">
-                                    <span v-if='this.time>4'>{{tableData[scope.$index].audior_time}}</span>
-                                    <span v-if='this.time==4'>{{tableData[scope.$index].handler_at}}</span>
+                                    <span>{{tableData[scope.$index].audior_time}}</span>
+                                    <!-- <span v-if='this.time==4'>{{tableData[scope.$index].handler_at}}</span> -->
                                 </template>
                         </el-table-column>
                         <el-table-column
@@ -83,8 +82,8 @@
                         </div>
                     </div>
                     <div class='tsBox_btn'>
-                        <span @click='heid()'>取消</span>
                         <span class='tsBox_btn_qd' @click='sh()'>确定</span>
+                        <span @click='heid()'>取消</span>
                     </div>
             </div>
         </div>

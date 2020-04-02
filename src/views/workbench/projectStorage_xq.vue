@@ -28,7 +28,7 @@
                    </div>
                     <div>
                        <span class='tits'>入库类型</span>
-                       <span class='cons' v-if='this.listData.demand'>{{this.listData.put_type=='0'?'整理入库':"直接入库"}}</span>
+                       <span class='cons' v-if='this.listData.demand'>{{this.listData.put_type=='0'?'需整理入库':"直接入库"}}</span>
                        <span  class='tits_2'>相关需求</span>
                        <span>{{this.listData.did}}</span>
                    </div>
@@ -76,7 +76,7 @@
                             </div>
                             <div>
                                 <span class='bg_name'>素材类型：</span>
-                                <select v-model="type">
+                                <select v-model="type" disabled>
                                     <option :value="item.type" v-for='item in scType'>{{item.name}}</option>
                                 </select>   
                             </div>
@@ -92,7 +92,7 @@
                                 <span class='bg_name' style="vertical-align: top">选择标签：</span>
                                <div class='ta'>
                                     <span class='ta_name'>预置标签</span>
-                                    <div class="AddIMG_bq_box_top_bq">
+                                    <div class="AddIMG_bq_box_top_bq" style=" margin-bottom: 15px;">
                                         <template>
                                             <el-checkbox-group
                                                     v-model="preinstall">
@@ -121,7 +121,7 @@
                                 </select> 
                             </div>
                              <div v-if='this.listData.demand.type=="th_lock_screen"||this.listData.demand.type=="th_icon"||this.listData.demand.type=="th_second_page"'>
-                                <span class='bg_name'>备注描叙：</span>
+                                <span class='bg_name'>备注描述：</span>
                                 <input type="text" v-model="note">    
                             </div>
                             <div v-if='this.listData.demand.type=="th_lock_screen"||this.listData.demand.type=="th_icon"||this.listData.demand.type=="th_second_page"'>
@@ -145,9 +145,9 @@
                                     </div>
                                 </div>   
                             </div>
-                            <div class='add_btn'>
+                            <!-- <div class='add_btn'>
                                 <span class='sc' @click='scADD2()'>上传</span>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                </div>
@@ -222,11 +222,12 @@
                             </div>
                             <div>
                                 <span class='bg_name'>素材类型：</span>
-                                <select v-model="type" :disabled='this.listData.demand.type=="th_lock_screen"||this.listData.demand.type=="th_icon"||this.listData.demand.type=="th_second_page"'>
-                                    <option :value="item.type" v-for='item in scType'>{{item.name}}</option>
-                                </select>   
+                                <select v-model="type" @change="getTag()">
+                                    <option :value="item.type" v-for='item in scType' >{{item.name}}</option>
+                                </select>
+                                  
                             </div>
-                            <div v-if='this.listData.demand.type=="th_lock_screen"||this.listData.demand.type=="th_icon"||this.listData.demand.type=="th_second_page"'>
+                            <div v-if='this.type=="th_lock_screen"||this.type=="th_icon"||this.type=="th_second_page"'>
                                 <span class='bg_name'>名称：</span>
                                 <input type="text" v-model="name">    
                             </div>
@@ -246,11 +247,11 @@
                                     </el-upload>
                                 </div> 
                             </div> 
-                            <div v-if='this.listData.demand.type!="th_lock_screen"&&this.listData.demand.type!="th_icon"&&this.listData.demand.type!="th_second_page"'>
+                            <div v-if='this.type!="th_lock_screen"&&this.type!="th_icon"&&this.type!="th_second_page"'>
                                 <span class='bg_name' style="vertical-align: top">选择标签：</span>
                                 <div class='ta'>
                                     <span class='ta_name'>预置标签</span>
-                                    <div class="AddIMG_bq_box_top_bq">
+                                    <div class="AddIMG_bq_box_top_bq" style=" margin-bottom: 15px;">
                                         <template>
                                             <el-checkbox-group
                                                     v-model="preinstall">
@@ -272,17 +273,18 @@
                                     </div>
                                 </div>   
                             </div>
-                            <div v-if='this.listData.demand.type=="th_lock_screen"||this.listData.demand.type=="th_icon"||this.listData.demand.type=="th_second_page"'>
+                            <div v-if='this.type=="th_lock_screen"||this.type=="th_icon"||this.type=="th_second_page"'>
                                 <span class='bg_name'>使用范围：</span>
                                 <select v-model="model">
+                                    <option value="">不限</option>
                                     <option :value="da.range" v-for='da in fw'>{{da.range}}</option>
                                 </select> 
                             </div>
-                             <div v-if='this.listData.demand.type=="th_lock_screen"||this.listData.demand.type=="th_icon"||this.listData.demand.type=="th_second_page"'>
-                                <span class='bg_name'>备注描叙：</span>
+                             <div v-if='this.type=="th_lock_screen"||this.ltype=="th_icon"||this.type=="th_second_page"'>
+                                <span class='bg_name'>备注描述：</span>
                                 <input type="text" v-model="note">    
                             </div>
-                            <div v-if='this.listData.demand.type=="th_lock_screen"||this.listData.demand.type=="th_icon"||this.listData.demand.type=="th_second_page"'>
+                            <div v-if='this.type=="th_lock_screen"||this.type=="th_icon"||this.type=="th_second_page"'>
                                 <span class='bg_name' style="vertical-align: top">内容标签：</span>
                                 <div class='ta'>
                                     <div class="tag_box">
@@ -291,8 +293,7 @@
                                             <span class="CJ" v-if="tagsName!=''" @click="ADDtagTheme()" >创建“{{tagsName}}”标签</span>
                                             <div class='AddIMG_bq_box_top_zdy'>
                                                 <template>
-                                                    <el-checkbox-group
-                                                            v-model="tags">
+                                                    <el-checkbox-group v-model="tags">
                                                         <el-checkbox v-for="(item,index) in tag" :label="item.name">{{item.name}}</el-checkbox>
                                                     </el-checkbox-group>
                                                 </template>
@@ -321,8 +322,9 @@
                         </div>
                     </div>
                     <div class='tsBox_btn'>
-                        <span @click='heid()'>取消</span>
                         <span class='tsBox_btn_qd' @click='sh()'>确定</span>
+                        <span @click='heid()'>取消</span>
+
                     </div>
             </div>
         </div>  
@@ -360,6 +362,7 @@ export default {
                         rk:false,
                         exception_note:"",
                         tags:[],
+                        tag:[]
                     }
                 },
                 mounted(){
@@ -398,11 +401,32 @@ export default {
                             this.attach={};
                             this.sjSize='';
                             this.prev_uri='';
-                            this.type='';
                             this.preinstall=[];
                             this.bardian=[];
                             this.model='';
                             this.note='';
+                             this.type=this.listData.demand.type;
+                                if(this.type=='广告图'){
+                                    this.type='ad_picture'
+                                }
+                                 if(this.type=='广告模板'){
+                                    this.type='ad_template'
+                                }
+                                 if(this.type=='杂志锁屏动效'){
+                                    this.type='sls_dynamic'
+                                }
+                                 if(this.type=='杂志锁屏壁纸'){
+                                    this.type='sls_picture'
+                                }
+                                 if(this.type=='锁屏主题素材'){
+                                    this.type='th_lock_screen'
+                                }
+                                 if(this.type=='图标主题素材'){
+                                    this.type='th_icon'
+                                }
+                                 if(this.type=='二级界面主题素材'){
+                                    this.type='th_second_page'
+                                }
                         },
                         fh(index){
                             this.$router.go(index)
@@ -415,6 +439,27 @@ export default {
                             this.api.demand_design_project_detail({params}).then((res)=>{
                                 this.listData=res;
                                 this.type=this.listData.demand.type;
+                                if(this.type=='广告图'){
+                                    this.type='ad_picture'
+                                }
+                                 if(this.type=='广告模板'){
+                                    this.type='ad_template'
+                                }
+                                 if(this.type=='杂志锁屏动效'){
+                                    this.type='sls_dynamic'
+                                }
+                                 if(this.type=='杂志锁屏壁纸'){
+                                    this.type='sls_picture'
+                                }
+                                 if(this.type=='锁屏主题素材'){
+                                    this.type='th_lock_screen'
+                                }
+                                 if(this.type=='图标主题素材'){
+                                    this.type='th_icon'
+                                }
+                                 if(this.type=='二级界面主题素材'){
+                                    this.type='th_second_page'
+                                }
                                 this.porject_id=res.pro_id;
                                 if(this.$route.query.put_type=='1'){
                                     this.sjSize='';
@@ -427,6 +472,7 @@ export default {
                                 if(this.$route.query.put_type=='1'){
                                     this.size();
                                 }
+                                this.getTagsList()
                                 this.tagsTheme()
                             })
                         },                   
@@ -471,7 +517,6 @@ export default {
                         syfw(){
                             this.api.themes_config_account().then((res)=>{
                                 this.fw=res;
-                                this.getTagsList()
                             })
                         },
                         getTagsList(){
@@ -486,6 +531,13 @@ export default {
                                 this.api.tags_search({params}).then((da)=>{
                                     this.tag=da.data.self_tags;
                                 })
+                        },
+                        getTag(){
+                            if(this.type=="th_lock_screen"||this.ltype=="th_icon"||this.type=="th_second_page"){
+                                this.tagsTheme();
+                            }else{
+                                this. getTagsList()
+                            }
                         },
                         ADDtags(){
                             this.bardian.push(this.tagsName);
@@ -545,11 +597,6 @@ export default {
                             list.model=this.model;
                             list.note=this.note;
                             this.materials.push(list);
-                            if(this.materials.length>0){
-                                this.$message.success('添加素材成功');
-                                console.log(this.materials)
-                            }
-                           
                             
                         },
                         scADD(){
@@ -573,6 +620,9 @@ export default {
                             this.materials.splice(index,1);
                         },
                         storage(){
+                            if(this.$route.query.put_type=='1'){
+                                this.scADD2()
+                            }
                             this.rk=true
                         }
                 }
@@ -638,7 +688,8 @@ export default {
         margin-top:16px
     }
     .imgName{
-        margin:16px 23px 0 24px
+        margin:16px 23px 0 24px;
+        
     }
     .imgName img{
         display: inline-block;
@@ -668,7 +719,7 @@ export default {
         height: 380px!important;
     }
     .uploads3{
-        min-height: 500px
+        min-height: 600px
     }
     .foot{
          width: 100%;
@@ -826,8 +877,7 @@ export default {
         color:rgba(50,50,51,1);
         opacity:1;
         margin-right: 6px;
-        text-align: right
-    }
+        text-align: right;vertical-align: top;    }
     input{
         width:176px;
         height:32px;
@@ -999,7 +1049,7 @@ export default {
         margin-left: 16px;
     }
     .tags_box{
-        margin:14px;
+        margin:14px 14px 14px 0;
     }
     .CJ{
         display: inline-block;
