@@ -971,4 +971,7 @@ select{
   margin-right:0px!important;
    margin-left:16px;
 }
+.times .el-input__inner{
+         width:200px!important
+    }
 </style>
