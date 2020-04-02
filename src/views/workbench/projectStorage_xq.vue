@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class='content_right'>
-               <div class='top'>
+               <div class='top' > 
                    <div class="titN">
                        <span>素材信息</span>
                    </div>
@@ -28,27 +28,27 @@
                    </div>
                     <div>
                        <span class='tits'>入库类型</span>
-                       <span class='cons'>{{this.listData.put_type=='0'?'整理入库':"直接入库"}}</span>
+                       <span class='cons' v-if='this.listData.demand'>{{this.listData.put_type=='0'?'整理入库':"直接入库"}}</span>
                        <span  class='tits_2'>相关需求</span>
-                       <span>{{this.listData.demand_id}}</span>
+                       <span>{{this.listData.did}}</span>
                    </div>
                     <div>
                        <span class='tits'>审批人</span>
                        <span class='cons'>{{this.listData.audior}}</span>
                        <span  class='tits_2'>素材类型</span>
-                       <span>{{this.listData.demand.type=='ad_picture'?'广告图':this.listData.demand.type=='ad_template'?"广告模板":this.listData.demand.type=='sls_dynamic'?"杂志锁屏动效":this.listData.demand.type=='sls_picture'?"杂志锁屏壁纸":this.listData.demand.type=='th_lock_screen'?"锁屏主题素材":this.listData.demand.type=='th_icon'?"图标主题素材":"二级界面主题素材"}}</span>
+                       <span v-if='this.listData.demand'>{{this.listData.demand.type=='ad_picture'?'广告图':this.listData.demand.type=='ad_template'?"广告模板":this.listData.demand.type=='sls_dynamic'?"杂志锁屏动效":this.listData.demand.type=='sls_picture'?"杂志锁屏壁纸":this.listData.demand.type=='th_lock_screen'?"锁屏主题素材":this.listData.demand.type=='th_icon'?"图标主题素材":"二级界面主题素材"}}</span>
                    </div>
                     <div>
                        <span class='tits'>审批时间</span>
                        <span class='cons'>{{this.listData.audior_time}}</span>
                        <span  class='tits_2'>需求发起人</span>
-                       <span>{{this.listData.demand.creator}}</span>
+                       <span v-if='this.listData.demand'>{{this.listData.demand.creator}}</span>
                    </div>
                     <div>
                        <span class='tits'>备注</span>
-                       <span class='cons'>{{this.listData.demand.note}}</span>
+                       <span class='cons' v-if='this.listData.demand'>{{this.listData.demand.note}}</span>
                        <span  class='tits_2'>需求发起时间</span>
-                       <span>{{this.listData.demand.created_at}}</span>
+                       <span v-if='this.listData.demand'>{{this.listData.demand.created_at}}</span>
                    </div>
                </div>
                <div class='fj'>
@@ -56,7 +56,7 @@
                        <span>附件</span>
                    </div>
                    <div class='imgName'>
-                        <img :src="this.listData.file_url" alt="">
+                        <img :src="this.listData.preview_pic" alt="">
                         <span>{{this.listData.file_name}}</span>
                         <a class='xz' :href="this.listData.file_url">
                             <img  src="img/xz.png" alt="">
@@ -146,7 +146,7 @@
                                 </div>   
                             </div>
                             <div class='add_btn'>
-                                <span class='sc' @click='scADD("a")'>上传</span>
+                                <span class='sc' @click='scADD2()'>上传</span>
                             </div>
                         </div>
                     </div>
@@ -222,7 +222,7 @@
                             </div>
                             <div>
                                 <span class='bg_name'>素材类型：</span>
-                                <select v-model="type">
+                                <select v-model="type" :disabled='this.listData.demand.type=="th_lock_screen"||this.listData.demand.type=="th_icon"||this.listData.demand.type=="th_second_page"'>
                                     <option :value="item.type" v-for='item in scType'>{{item.name}}</option>
                                 </select>   
                             </div>
@@ -418,14 +418,13 @@ export default {
                                 this.porject_id=res.pro_id;
                                 if(this.$route.query.put_type=='1'){
                                     this.sjSize='';
-                                    this.prev_uri=res.file_url;
-                                    this.preinstall=res.materials.preinstall;
-                                    this.bardian=res.materials.bardian;
+                                    this.prev_uri=res.preview_pic;
+                                   
                                 }
 
                                 this.getType();
                                 this.syfw();
-                                if(this.$route.query.type=='1'){
+                                if(this.$route.query.put_type=='1'){
                                     this.size();
                                 }
                                 this.tagsTheme()
@@ -516,7 +515,7 @@ export default {
                                   this.$message.error('入库异常说明不能为空');
                                   return
                             }
-                             if(this.materials==[]){
+                             if(this.materials.length==0){
                                   this.$message.error('素材不能为空');
                                   return
                             }
@@ -531,7 +530,29 @@ export default {
                                 }
                             })
                         },
-                        scADD(da){
+                         scADD2(){
+                            this.materials=[];
+                            let list={
+                                attach:{url:""}
+                            }
+                            list.name=this.name;
+                            list.attach.url=this.listData.file_url;
+                            list.size=this.sjSize;
+                            list.prev_uri=this.prev_uri;
+                            list.type=this.type;
+                            list.preinstall=this.preinstall;
+                            list.bardian=this.bardian;
+                            list.model=this.model;
+                            list.note=this.note;
+                            this.materials.push(list);
+                            if(this.materials.length>0){
+                                this.$message.success('添加素材成功');
+                                console.log(this.materials)
+                            }
+                           
+                            
+                        },
+                        scADD(){
                             let list={}
                             list.name=this.name;
                             list.attach=this.attach;
@@ -543,9 +564,8 @@ export default {
                             list.model=this.model;
                             list.note=this.note;
                             this.materials.push(list);
-                            if(!da){
-                                this.unShow()
-                            }
+                            this.unShow()
+                         
                             
                         },
                        
@@ -648,7 +668,7 @@ export default {
         height: 380px!important;
     }
     .uploads3{
-        min-height: 700px
+        min-height: 500px
     }
     .foot{
          width: 100%;

@@ -1558,5 +1558,8 @@ export default {
 	material_project_add:{
 		url:"material/project/add",method:"post",isType:{suktip:1},
 	},
-	
+	//解决跨域下载视频
+	tools_url_download:{
+		url:"tools/url/download",method:"get"
+	},
 }
