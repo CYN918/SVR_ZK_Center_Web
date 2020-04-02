@@ -91,7 +91,7 @@
 							<span class="boxImg_content" v-if="DL.attach.size>1024&&DL.attach.size<1024*1024">{{(DL.attach.size/1024).toFixed(0)}}kb</span>
 							<span class="boxImg_content" v-if="DL.attach.size>1024*1024&&DL.attach.size<1024*1024*1024">{{(DL.attach.size/1024/1024).toFixed(1)}}MB</span>
 							<span class="boxImg_content" v-if="DL.attach.size>1024*1024*1024">{{(DL.attach.size/1024/1024/1024).toFixed(2)}}GB</span>
-							<a class="dowload"  @click='down(DL.attach.url)'>下载</a>
+							<a class="dowload" target="_block" :href='"http://ts-i.idatachain.cn/api/tools/url/download?url="+DL.attach.url'>下载</a>
 						</div>
 					</div>
 				</div>
@@ -182,12 +182,6 @@
                     this.userData = datas;
 
                 });
-            },
-            down(da){
-                let params={url:da}
-                this.api.tools_url_download({params}).then((res)=>{
-
-                })
             },
             onCopy() {
                 this.$message.success('复制成功')
