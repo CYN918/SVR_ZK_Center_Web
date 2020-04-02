@@ -280,7 +280,7 @@
                                     <option :value="da.range" v-for='da in fw'>{{da.range}}</option>
                                 </select> 
                             </div>
-                             <div v-if='this.type=="th_lock_screen"||this.ltype=="th_icon"||this.type=="th_second_page"'>
+                             <div v-if='this.type=="th_lock_screen"||this.type=="th_icon"||this.type=="th_second_page"'>
                                 <span class='bg_name'>备注描述：</span>
                                 <input type="text" v-model="note">    
                             </div>
@@ -533,7 +533,7 @@ export default {
                                 })
                         },
                         getTag(){
-                            if(this.type=="th_lock_screen"||this.ltype=="th_icon"||this.type=="th_second_page"){
+                            if(this.type=="th_lock_screen"||this.type=="th_icon"||this.type=="th_second_page"){
                                 this.tagsTheme();
                             }else{
                                 this. getTagsList()
