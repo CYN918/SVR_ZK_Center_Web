@@ -44,6 +44,10 @@
                                 prop="audior_time"
                                 sortable
                                 label="操作时间">
+                                 <template slot-scope="scope">
+                                    <span v-if='this.time>4'>{{tableData[scope.$index].audior_time}}</span>
+                                    <span v-if='this.time==4'>{{tableData[scope.$index].handler_at}}</span>
+                                </template>
                         </el-table-column>
                         <el-table-column
                                 prop=""

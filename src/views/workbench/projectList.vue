@@ -39,21 +39,16 @@
                             <template slot-scope="scope">
                                         <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
                                             <div slot="content">
-                                                <img :src='tableData[scope.$index].banner' style="max-width:261px;max-height: 464px"  />
+                                                <img :src='tableData[scope.$index].banner' style="max-width:261px;max-height: 464px"/>
                                             </div>
                                             <img :src='tableData[scope.$index].banner' style="max-width:80px;max-height: 80px;cursor: pointer"  preview="0" />                               
                                          </el-tooltip>
                             </template>
                         </el-table-column>
                         <el-table-column
-                                prop="audior_time"
+                                prop="time"
                                 sortable
                                 label="操作时间">
-                                <template slot-scope="scope">
-                                    <span v-if='this.time>3'>{{tableData[scope.$index].audior_time}}</span>
-                                    <span v-if='this.time==3'>{{tableData[scope.$index].handler_at}}</span>
-                                </template>
-
                         </el-table-column>
                        
                     </el-table>
