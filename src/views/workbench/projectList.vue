@@ -9,7 +9,6 @@
                 </div>
                 <div class='right_btn'>
                     <span class='tj' v-if='this.time==3' @click='pops()'>提交</span>
-                    <span @click='fh(-1)' class="retuer">返回</span>
                 </div>
             </div>
         </div>
@@ -73,8 +72,9 @@
                         <span>确认需求已绑定所有项目？</span>
                     </div>
                     <div class='tsBox_btn'>
-                        <span @click='heid()'>取消</span>
                         <span class='tsBox_btn_qd' @click='sh()'>确定</span>
+                        <span @click='heid()'>取消</span>
+
                     </div>
             </div>
         </div>

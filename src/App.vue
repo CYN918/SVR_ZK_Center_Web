@@ -405,7 +405,7 @@ a{
   text-align: center;
 }
 .boxImg img,.boxImg video{
-  width:218px;
+  max-width:218px;
   max-height:326px;
   position: relative;
   top:50%;
