@@ -7,6 +7,10 @@
                     <img src="img/fh.png" alt=""  @click='fh(-1)'>
                     <span @click='fh(-1)'>查看项目</span>
                 </div>
+                <div class='right_btn'>
+                    <span class='tj' v-if='this.time==3' @click='pops()'>提交</span>
+                    <span @click='fh(-1)' class="retuer">返回</span>
+                </div>
             </div>
         </div>
         <div class="content_right">
@@ -45,6 +49,11 @@
                                 prop="audior_time"
                                 sortable
                                 label="操作时间">
+                                <template slot-scope="scope">
+                                    <span v-if='this.time>3'>{{tableData[scope.$index].audior_time}}</span>
+                                    <span v-if='this.time==3'>{{tableData[scope.$index].handler_at}}</span>
+                                </template>
+
                         </el-table-column>
                        
                     </el-table>
@@ -52,8 +61,16 @@
 
         </div>
         <div class='btns'>
-            <span class='tj' v-if='this.$route.query.status==3' @click='pops()'>提交</span>
-            <span @click='fh(-1)'>返回</span>
+             <div class="block">
+                    <el-pagination
+                            @size-change="handleSizeChange"
+                            @current-change="handleCurrentChange"
+                            :current-page.sync="page"
+                            :page-size="p"
+                            layout="prev, pager, next,total, jumper"
+                            :total="total">
+                    </el-pagination>
+            </div>
         </div>
         <div class='bg' v-if='show'>
             <div class='tsBox'>
@@ -77,11 +94,16 @@
         data(){
             return{
                tableData:[],
-               show:false
+               show:false,
+               p:10,
+               page:1,
+               total:0,
+               time:null
             }
         },
         mounted(){
-                this.getData()
+                this.getData();
+               this.time=this.$route.query.status;
         },
 
         methods:{
@@ -97,11 +119,20 @@
                 return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
              getData(){
-                let params={did:this.$route.query.did, is_put:'0'}
+                let params={did:this.$route.query.did, is_put:'0',P:this.p,page:this.page}
                 this.api.demand_design_project({params}).then((res)=>{
-                    this.tableData=res.project;
+                    this.total=res.project.total;
+                    this.tableData=res.project.data;
                 })
            },
+             handleSizeChange(p) { // 每页条数切换
+                this.p = p;
+                this.getData()
+            },
+            handleCurrentChange(page) {//页码切换
+                this.page = page;
+                this.getData()
+            },
            fh(){
                this.$router.go(-1)
            },
@@ -193,6 +224,12 @@
         text-align: center;
         margin:20px 0 20px 24px ;
     }
+    .right_btn{
+        display: inline-block;
+        float: right;
+        margin-right: 20%;
+        margin-top:-30px
+    }
     .batch_upload{
         display: inline-block;
         height: 36px;
@@ -254,7 +291,7 @@
     .btns{
         margin-top: 30px;
     }
-    .btns span{
+    .retuer,.tj{
         display: inline-block;
         border-radius: 8px;
         width: 80px!important;

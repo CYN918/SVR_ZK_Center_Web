@@ -478,6 +478,10 @@
             border-radius: 2px;
         }
         .boxImg_right_1 div{
-            height:45px!important
+            height:45px!important;
+            
+        }
+        a{
+            cursor: pointer;
         }
 </style>
