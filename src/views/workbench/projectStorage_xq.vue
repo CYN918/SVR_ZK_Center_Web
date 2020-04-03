@@ -181,7 +181,7 @@
                        <span class='Name_right'>{{this.listData.exception_note}}</span>
                    </div>
                    <div style="margin:24px 0 0 8px">
-                       <div class='box_img' v-for='(item,index) in this.listData.materials' v-if='type!="th_lock_screen"&&type=="th_icon"&&type!="th_second_page"'>
+                       <div class='box_img' v-for='(item,index) in this.listData.materials' v-if='type!="th_lock_screen"&&type!="th_icon"&&type!="th_second_page"'>
                            <img :src="item.prev_uri" >
                        </div>
                         <div class='box_img' v-for='(item,index) in this.listData.materials' v-if='type=="th_lock_screen"||type=="th_icon"||type=="th_second_page"'>
