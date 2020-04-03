@@ -590,7 +590,8 @@ export default {
                            
                             this.api.material_project_add(formData).then((res)=>{
                                 if(res!=false){
-                                    this.getData()
+                                    this.heid();
+                                    this.getData();
                                 }
                             })
                         },
