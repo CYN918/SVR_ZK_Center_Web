@@ -42,7 +42,7 @@
                     <div v-if="item.status!=6&&item.status!=100" style="width: 120px;height: 2px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
                     
                 </div>
-                <div class="banner" v-if="ban" :style="{left:this.left+'px'}">
+                <div class="banner" v-if="ban" :style="{left:this.left+'px',top:this.top+'px'}">
                     <span class="tit">负责人</span>
                     <div>
                         <input  type="text" v-model="search" @change="getAccountList()"/>
@@ -99,7 +99,7 @@
                     </div>
                     <div v-if="item.status!=5&&item.status!=100" style="width: 120px;height: 2px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
                 </div>
-                <div class="banner" v-if="ban1" :style="{left:this.left+'px'}">
+                <div class="banner" v-if="ban1" :style="{left:this.left+'px',top:this.top+'px'}">
                     <span class="tit">负责人</span>
                     <div>
                         <input  type="text" v-model="search" @change=" getAccountList()"/>
@@ -146,7 +146,7 @@
                     </div>
                     <div v-if="item.status!=5&&item.status!=100" style="width: 120px;height: 2px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
                 </div>
-                <div class="banner bannerTop" v-if="ban2" :style="{left:this.left+'px'}">
+                <div class="banner bannerTop" v-if="ban2" :style="{left:this.left+'px',top:this.top+'px'}">
                     <span class="tit">负责人</span>
                     <div>
                         <input  type="text" v-model="search" @change="getAccountList()"/>
@@ -192,7 +192,7 @@
                     </div>
                     <div v-if="item.status<6" style="width: 120px;height: 2px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
                 </div>
-                <div class="banner bannerTop" v-if="ban3" :style="{left:this.left+'px'}">
+                <div class="banner bannerTop" v-if="ban3" :style="{left:this.left+'px',top:this.top+'px'}">
                     <span class="tit">负责人</span>
                     <div>
                         <input  type="text" v-model="search" @change="getAccountList()"/>
@@ -238,7 +238,7 @@
                     </div>
                     <div v-if="item.status<6" style="width: 120px;height: 2px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
                 </div>
-                <div class="banner bannerTop" v-if="ban4" :style="{left:this.left+'px'}">
+                <div class="banner bannerTop" v-if="ban4" :style="{left:this.left+'px',top:this.top+'px'}">
                     <span class="tit">负责人</span>
                     <div>
                         <input  type="text" v-model="search" @change="getAccountList()"/>
@@ -315,6 +315,7 @@
                 num4:null,
                 nums4:null,
                 left:'',
+                top:'',
                 project_id:"",
                 indexs:""
             }
@@ -434,6 +435,11 @@
                 if(index!=99){
                     this.left=this.index*276;
                 }
+                if(index==99){
+                    this.top=-10;
+                }else{
+                    this.top=-200
+                }
                 
                 this.ban2=false;
                 this.ban1=false;
@@ -445,6 +451,11 @@
                 this.index=index;
                 if(index!=99){
                     this.left=this.index*276;
+                }
+                 if(index==99){
+                    this.top=-10;
+                }else{
+                    this.top=-200
                 }
                 this.ban=false;
                 this.ban2=false;
@@ -458,6 +469,11 @@
                 if(index!=99){
                     this.left=this.index*276;
                 }
+                 if(index==99){
+                    this.top=-10;
+                }else{
+                    this.top=-200
+                }
                 this.ban1=false;
                 this.ban3=false;
                 this.ban4=false;
@@ -469,6 +485,11 @@
                 this.index=index;
                 if(index!=99){
                     this.left=this.index*276;
+                }
+                 if(index==99){
+                    this.top=-10;
+                }else{
+                    this.top=-200
                 }
                 this.ban1=false;
                 this.ban2=false;
@@ -482,6 +503,11 @@
                 if(index!=99){
                     this.left=this.index*276;
                 }
+                 if(index==99){
+                    this.top=-10;
+                }else{
+                    this.top=-200
+                }
                 this.ban1=false;
                 this.ban2=false;
                 this.ban3=false;
@@ -494,7 +520,7 @@
                 this.ban2=false;
                  this.ban3=false;
                 this.ban4=false;
-                this.left=''
+                this.left='';
                 this.search=''
                 this.tableData=[];
             },
