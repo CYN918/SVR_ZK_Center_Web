@@ -711,7 +711,10 @@ export default {
     demand_material_bind_list:{
 		url:'demand/material/bind/list',method:'get'
 	},
-	//
+	//获取素材流程入库相关素材
+	demand_material_list:{
+		url:"demand/material/list",method:"get"
+	},
     demand_material_bind_del:{
 		url:'demand/material/bind/del',method:'post',isType:{suktip:1}
 	},

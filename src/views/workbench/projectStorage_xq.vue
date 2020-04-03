@@ -322,7 +322,7 @@
                         <span v-if="this.materials.length==this.listData.num">确认素材信息无误并提交入库</span>
                         <span class='tsBox_tit2' v-if="this.materials.length!=this.listData.num">入库异常说明</span>
                         <div>
-                            <textarea name="" id="" v-if="this.materials.length!=this.listData.num"  v-model='exception_note' placeholder="请输入驳回原因(最多20字)" maxlength="20"></textarea>
+                            <textarea name="" id="" v-if="this.materials.length!=this.listData.num"  v-model='exception_note' placeholder="请输入入库异常原因(最多20字)" maxlength="20"></textarea>
                         </div>
                     </div>
                     <div class='tsBox_btn'>
@@ -592,7 +592,6 @@ export default {
                             
                         },
                         scADD(){
-                            console.log(this.attach)
                             if(!this.attach.name){
                                 this.$message.error('附件不能为空');
                                 return
@@ -641,7 +640,7 @@ export default {
                             this.materials.splice(index,1);
                         },
                         storage(){
-                            if(this.$route.query.put_type=='1'){
+                            if(this.put_type=='1'){
                                 this.scADD2()
                             }
                             this.rk=true
