@@ -2,14 +2,13 @@
     <div>
         <div>
             <div class="top_name">
-                <span class="top_txt" @click='jump()'>待处理&nbsp;/&nbsp;入库确认</span>
+                <span class="top_txt" @click='fh(-1)'>待处理&nbsp;/&nbsp;入库确认</span>
                 <div class="title_left">
                     <img src="img/fh.png" alt=""  @click='fh(-1)'>
                     <span>入库确认</span>
                 </div>
                 <div class='right_btn'>
-                    <span class='tj' @click='pops()'>提交</span>
-                    <span @click='fh(-1)'>返回</span>
+                    <span class='tj' @click='pops()' v-if='this.$route.query.status==4'>提交</span>
                 </div>
             </div>
         </div>
@@ -30,7 +29,7 @@
                                 prop="put_type"
                                 label="入库类型">
                                 <template slot-scope="scope">
-                                        <span>{{tableData[scope.$index].put_type==0?'整理后入库':"可直接入库"}}</span>
+                                        <span>{{tableData[scope.$index].put_type==0?'需整理后入库':"可直接入库"}}</span>
                                 </template>
                         </el-table-column>
                         <el-table-column
@@ -44,12 +43,16 @@
                                 prop="audior_time"
                                 sortable
                                 label="操作时间">
+                                 <template slot-scope="scope">
+                                    <span>{{tableData[scope.$index].audior_time}}</span>
+                                    <!-- <span v-if='this.time==4'>{{tableData[scope.$index].handler_at}}</span> -->
+                                </template>
                         </el-table-column>
                         <el-table-column
                                 prop=""
                                 label="操作">
                                 <template slot-scope="scope">
-                                        <span @click='jump(tableData[scope.$index].pro_id,tableData[scope.$index].local_status,tableData[scope.$index].put_type)' style="color: #3377ff;font-size:14px;cursor: pointer;">查看详情</span>
+                                        <span @click='jump(tableData[scope.$index].pro_id)' style="color: #3377ff;font-size:14px;cursor: pointer;">查看详情</span>
                                 </template>
                         </el-table-column>
                     </el-table>
@@ -72,15 +75,15 @@
         <div class='bg' v-if='show'>
             <div class='tsBox'>
                     <div class='tsBox_tit'>
-                        <span v-if='this.yc==false'>确认需求已绑定所有项目？</span>
+                        <span v-if='this.yc==false'>是否确认提交？</span>
                          <span class='tsBox_tit2' v-if="this.yc">入库异常说明</span>
                         <div>
-                            <textarea name="" id="" v-if="this.yc"  v-model='note' placeholder="请输入驳回原因(最多20字)" maxlength="20"></textarea>
+                            <textarea name="" id="" v-if="this.yc"  v-model='note' placeholder="请输入入库异常原因(最多20字)" maxlength="20"></textarea>
                         </div>
                     </div>
                     <div class='tsBox_btn'>
-                        <span @click='heid()'>取消</span>
                         <span class='tsBox_btn_qd' @click='sh()'>确定</span>
+                        <span @click='heid()'>取消</span>
                     </div>
             </div>
         </div>
@@ -131,6 +134,11 @@
            },
            pops(){
                this.show=true;
+                for(var i=0;i<this.tableData.length;i++){
+                    if(this.tableData[i].local_status=='0'){
+                        this.yc=true;
+                    }
+                }
            },
            heid(){
                this.show=false;
@@ -144,12 +152,7 @@
                 this.getData()
             },
             sh(){
-                for(var i=0;i<this.tableData.length;i++){
-                    if(this.tableData[i].local_status=='0'){
-                        this.yc=true;
-                    }
-                }
-                if(this.yc==false&&this.note==''){
+                if(this.yc==true&&this.note==''){
                     this.$message.error('入库异常说明不能为空');
                     return
                     
@@ -164,7 +167,7 @@
                         }
                     })
            },
-           jump(id,type,put_type){
+           jump(id){
                if(!id){
                    return
                }
@@ -172,8 +175,6 @@
                    path:"./projectStorage_xq",
                    query:{
                        id:id,
-                       type:type,
-                       put_type:put_type
 
                    }
                })
@@ -384,7 +385,7 @@
     }
     .tsBox{
         width:416px;
-        height:134px;
+        min-height:134px;
         background:rgba(255,255,255,1);
         box-shadow:0px 4px 12px 0px rgba(0,0,0,0.2);
         border-radius:4px;
@@ -430,7 +431,7 @@
         font-weight: bold
     }
     textarea{
-        margin: 16px 60px 0 60px;
+        margin: 28px 0px 0 60px;
         min-width: 260px;
         padding:10px;
     }

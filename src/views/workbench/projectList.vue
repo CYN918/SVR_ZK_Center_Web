@@ -7,6 +7,9 @@
                     <img src="img/fh.png" alt=""  @click='fh(-1)'>
                     <span @click='fh(-1)'>查看项目</span>
                 </div>
+                <div class='right_btn'>
+                    <span class='tj' v-if='this.time==3' @click='pops()'>提交</span>
+                </div>
             </div>
         </div>
         <div class="content_right">
@@ -35,14 +38,14 @@
                             <template slot-scope="scope">
                                         <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
                                             <div slot="content">
-                                                <img :src='tableData[scope.$index].banner' style="max-width:261px;max-height: 464px"  />
+                                                <img :src='tableData[scope.$index].banner' style="max-width:261px;max-height: 464px"/>
                                             </div>
                                             <img :src='tableData[scope.$index].banner' style="max-width:80px;max-height: 80px;cursor: pointer"  preview="0" />                               
                                          </el-tooltip>
                             </template>
                         </el-table-column>
                         <el-table-column
-                                prop="audior_time"
+                                prop="time"
                                 sortable
                                 label="操作时间">
                         </el-table-column>
@@ -52,8 +55,16 @@
 
         </div>
         <div class='btns'>
-            <span class='tj' @click='pops()'>提交</span>
-            <span @click='fh(-1)'>返回</span>
+             <div class="block">
+                    <el-pagination
+                            @size-change="handleSizeChange"
+                            @current-change="handleCurrentChange"
+                            :current-page.sync="page"
+                            :page-size="p"
+                            layout="prev, pager, next,total, jumper"
+                            :total="total">
+                    </el-pagination>
+            </div>
         </div>
         <div class='bg' v-if='show'>
             <div class='tsBox'>
@@ -61,8 +72,9 @@
                         <span>确认需求已绑定所有项目？</span>
                     </div>
                     <div class='tsBox_btn'>
-                        <span @click='heid()'>取消</span>
                         <span class='tsBox_btn_qd' @click='sh()'>确定</span>
+                        <span @click='heid()'>取消</span>
+
                     </div>
             </div>
         </div>
@@ -77,11 +89,16 @@
         data(){
             return{
                tableData:[],
-               show:false
+               show:false,
+               p:10,
+               page:1,
+               total:0,
+               time:null
             }
         },
         mounted(){
-                this.getData()
+                this.getData();
+               this.time=this.$route.query.status;
         },
 
         methods:{
@@ -97,11 +114,20 @@
                 return 'text-align:center;color:#000;font-size:16px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
              getData(){
-                let params={did:this.$route.query.did, is_put:'0'}
+                let params={did:this.$route.query.did, is_put:'0',P:this.p,page:this.page}
                 this.api.demand_design_project({params}).then((res)=>{
-                    this.tableData=res.project;
+                    this.total=res.project.total;
+                    this.tableData=res.project.data;
                 })
            },
+             handleSizeChange(p) { // 每页条数切换
+                this.p = p;
+                this.getData()
+            },
+            handleCurrentChange(page) {//页码切换
+                this.page = page;
+                this.getData()
+            },
            fh(){
                this.$router.go(-1)
            },
@@ -193,6 +219,12 @@
         text-align: center;
         margin:20px 0 20px 24px ;
     }
+    .right_btn{
+        display: inline-block;
+        float: right;
+        margin-right: 20%;
+        margin-top:-30px
+    }
     .batch_upload{
         display: inline-block;
         height: 36px;
@@ -254,7 +286,7 @@
     .btns{
         margin-top: 30px;
     }
-    .btns span{
+    .retuer,.tj{
         display: inline-block;
         border-radius: 8px;
         width: 80px!important;

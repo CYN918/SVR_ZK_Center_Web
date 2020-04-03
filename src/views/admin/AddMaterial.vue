@@ -781,6 +781,15 @@
                         // this.audioDuration=res.duration;
                         this.is_designer=res.is_designer=='1'?false:true;
                         // this.showType=res.video_type
+                         this.ylt.name=res.prev_uri;
+                          var image = new Image();
+                            var _this=this;
+                            image.onload=function(){
+                                var width = image.width;
+                                var height = image.height;
+                                _this.sjSize = (width+"*"+height)
+                            };
+                            image.src= res.prev_uri;
                     }
                     this.attach = res.attach;
                     if(res.attach.wpid==undefined){

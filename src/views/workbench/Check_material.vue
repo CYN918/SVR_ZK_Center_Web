@@ -16,16 +16,27 @@
                         <el-checkbox-group v-model="checkList">
                             <el-checkbox :label="index"></el-checkbox>
                         </el-checkbox-group>
-                        <span style="display: inline-block;margin: 0 26px 0 18px">{{item.line_num}}</span>
-                        <span class="table_material_tit_sc">素材</span>
+                        <span style="display: inline-block;margin: 0 26px 0 18px" v-if='type==""'>{{item.line_num}}</span>
+                        <span class="table_material_tit_sc" v-if='type==""'>素材</span>
+                         <span class="table_material_tit_sc" style="margin-left:16px" v-if='type!=""'>素材</span>
                         <a class="download"  :href="item.attach.url" >下载</a>
                     </div>
                     <div class="img_box">
-                        <div  class="ADD_img">
+                        <div  class="ADD_img" v-if='type==""'>
                             <img :src="item.prev_uri" class="ADD_img_img"  preview='0' v-if="(item.prev_uri.split('.'))[(item.prev_uri.split('.')).length-1]!='mp4'"/>
-                            <video  :src="item.prev_uri" controls="controls" class="ADD_img_img" v-if="(item.prev_uri.split('.'))[(item.prev_uri.split('.')).length-1]=='mp4'" />
+                            <video  :src="item.prev_uri" controls="controls" class="ADD_img_img" v-if="(item.prev_uri.split('.'))[(item.prev_uri.split('.')).length-1]=='mp4'" /> 
                             <span>{{item.mid}}</span>
                         </div>
+                         <div  class="ADD_img" v-if='type!=""'>
+                            <img :src="item.main_preview" class="ADD_img_img"  preview='0'  v-if='item.type=="th_lock_screen"||item.type=="th_icon"||item.type=="th_second_page"'/>
+                            <span v-if='item.type=="th_lock_screen"||item.type=="th_icon"||item.type=="th_second_page"'>{{item.thmid}}</span>
+                            <img :src="item.prev_uri" class="ADD_img_img"  preview='0' v-if='item.type!="th_lock_screen"&&item.type!="th_icon"&&item.type!="th_second_page"'/>
+                            <span v-if='item.type!="th_lock_screen"&&item.type!="th_icon"&&item.type!="th_second_page"&&item.type!=""'>{{item.mid}}</span>
+                        </div>
+                         <!-- <div  class="ADD_img" v-if='type!="th_lock_screen"&&type!="th_icon"&&type!="th_second_page"&&type!=""'>
+                            <img :src="item.prev_uri" class="ADD_img_img"  preview='0'/>
+                            <span>{{item.mid}}</span>
+                        </div> -->
                     </div>
                     <div>
                     </div>
@@ -57,7 +68,7 @@
 
 <script>
     export default {
-        props:['id'],
+        props:['id','status_num'],
         name: "a-d-d_material",
         data(){
             return{
@@ -70,11 +81,18 @@
                 total:0,
                 numAll:0,
                 imgList:[],
+                type:''
 
             }
         },
         mounted(){
-            this.getDataList();
+            
+            if(this.status_num){
+                 this.dataList()
+            }else{
+                this.getDataList();
+            }
+           
         },
         methods:{
             heid(){
@@ -85,10 +103,16 @@
                 this.api.demand_material_bind_list({params}).then((res)=>{
                     this.listSC = res.data;
                     this.total = res.total;
-                    console.log(res.data[0].mid)
                 })
             },
-
+            dataList(){
+                let params = {id:this.id,p:this.p,page:this.page};
+                this.api.demand_material_list({params}).then((res)=>{
+                    this.listSC = res.data;
+                    this.total = res.total;
+                    this.type=this.listSC[0].type;
+                })
+            },
             handleSizeChange(p){
                 this.p = p;
                 this.getDataList();
@@ -116,7 +140,6 @@
                 this.imgList.forEach(item =>{
                         fetch(item).then(res => res.blob().then(blob => {
                             const a = document.createElement('a');
-                            console.log(res)
                             document.body.appendChild(a)
                             a.style.display = 'none'
                             // 使用获取到的blob对象创建的url
@@ -300,8 +323,8 @@
     }
 
     .ADD_img span{
-        display:inline-block;
-        width: 80px;
+        display:block;
+        width:100%;
         overflow: hidden;
     }
     .block{

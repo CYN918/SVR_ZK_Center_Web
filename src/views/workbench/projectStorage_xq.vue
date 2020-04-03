@@ -2,7 +2,7 @@
     <div>
         <div>
              <div class="top_name">
-                <span class="top_txt" >待处理&nbsp;/&nbsp;入库确认&nbsp;/&nbsp;查看详情</span>
+                <span class="top_txt" @click='fh(-1)'>待处理&nbsp;/&nbsp;入库确认&nbsp;/&nbsp;查看详情</span>
                 <div class="title_left">
                     <img src="img/fh.png" alt=""  @click='fh(-1)'>
                     <span @click='fh(-1)'>查看详情</span>
@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class='content_right'>
-               <div class='top'>
+               <div class='top' > 
                    <div class="titN">
                        <span>素材信息</span>
                    </div>
@@ -28,27 +28,27 @@
                    </div>
                     <div>
                        <span class='tits'>入库类型</span>
-                       <span class='cons'>{{this.listData.put_type=='0'?'整理入库':"直接入库"}}</span>
+                       <span class='cons' v-if='this.listData.demand'>{{this.listData.put_type=='0'?'需整理入库':"直接入库"}}</span>
                        <span  class='tits_2'>相关需求</span>
-                       <span>{{this.listData.demand_id}}</span>
+                       <span>{{this.listData.did}}</span>
                    </div>
                     <div>
                        <span class='tits'>审批人</span>
                        <span class='cons'>{{this.listData.audior}}</span>
                        <span  class='tits_2'>素材类型</span>
-                       <span>{{this.listData.demand.type=='ad_picture'?'广告图':this.listData.demand.type=='ad_template'?"广告模板":this.listData.demand.type=='sls_dynamic'?"杂志锁屏动效":this.listData.demand.type=='sls_picture'?"杂志锁屏壁纸":this.listData.demand.type=='th_lock_screen'?"锁屏主题素材":this.listData.demand.type=='th_icon'?"图标主题素材":"二级界面主题素材"}}</span>
+                       <span v-if='this.listData.demand'>{{this.listData.demand.type=='ad_picture'?'广告图':this.listData.demand.type=='ad_template'?"广告模板":this.listData.demand.type=='sls_dynamic'?"杂志锁屏动效":this.listData.demand.type=='sls_picture'?"杂志锁屏壁纸":this.listData.demand.type=='th_lock_screen'?"锁屏主题素材":this.listData.demand.type=='th_icon'?"图标主题素材":"二级界面主题素材"}}</span>
                    </div>
                     <div>
                        <span class='tits'>审批时间</span>
                        <span class='cons'>{{this.listData.audior_time}}</span>
                        <span  class='tits_2'>需求发起人</span>
-                       <span>{{this.listData.demand.creator}}</span>
+                       <span v-if='this.listData.demand'>{{this.listData.demand.creator}}</span>
                    </div>
                     <div>
                        <span class='tits'>备注</span>
-                       <span class='cons'>{{this.listData.demand.note}}</span>
+                       <span class='cons' v-if='this.listData.demand'>{{this.listData.demand.note}}</span>
                        <span  class='tits_2'>需求发起时间</span>
-                       <span>{{this.listData.demand.created_at}}</span>
+                       <span v-if='this.listData.demand'>{{this.listData.demand.created_at}}</span>
                    </div>
                </div>
                <div class='fj'>
@@ -56,7 +56,7 @@
                        <span>附件</span>
                    </div>
                    <div class='imgName'>
-                        <img :src="this.listData.file_url" alt="">
+                        <img :src="this.listData.preview_pic" alt="">
                         <span>{{this.listData.file_name}}</span>
                         <a class='xz' :href="this.listData.file_url">
                             <img  src="img/xz.png" alt="">
@@ -64,7 +64,7 @@
                          
                    </div>
                </div>
-               <div class='uploads3' v-if='this.$route.query.put_type=="1"'>
+               <div class='uploads3' v-if='this.put_type=="1"&&this.status_type=="0"'>
                     <div class='but'>
                         <div class='but_left' style="margin-right:20px">
                             <img :src="this.prev_uri" alt="">
@@ -72,11 +72,11 @@
                         <div class='but_right'>
                             <div>
                                 <span class='bg_name'>绑定项目ID：</span>
-                                <input type="text" style="width:266px" v-model="porject_id" disabled>    
+                                <input type="text" style="width:166px" v-model="porject_id" disabled>    
                             </div>
                             <div>
                                 <span class='bg_name'>素材类型：</span>
-                                <select v-model="type">
+                                <select v-model="type" disabled>
                                     <option :value="item.type" v-for='item in scType'>{{item.name}}</option>
                                 </select>   
                             </div>
@@ -92,7 +92,7 @@
                                 <span class='bg_name' style="vertical-align: top">选择标签：</span>
                                <div class='ta'>
                                     <span class='ta_name'>预置标签</span>
-                                    <div class="AddIMG_bq_box_top_bq">
+                                    <div class="AddIMG_bq_box_top_bq" style=" margin-bottom: 15px;">
                                         <template>
                                             <el-checkbox-group
                                                     v-model="preinstall">
@@ -117,11 +117,12 @@
                             <div v-if='this.listData.demand.type=="th_lock_screen"||this.listData.demand.type=="th_icon"||this.listData.demand.type=="th_second_page"'>
                                 <span class='bg_name'>使用范围：</span>
                                 <select v-model="model">
+                                    <option value="">不限</option>
                                     <option :value="da.range" v-for='da in fw'>{{da.range}}</option>
                                 </select> 
                             </div>
                              <div v-if='this.listData.demand.type=="th_lock_screen"||this.listData.demand.type=="th_icon"||this.listData.demand.type=="th_second_page"'>
-                                <span class='bg_name'>备注描叙：</span>
+                                <span class='bg_name'>备注描述：</span>
                                 <input type="text" v-model="note">    
                             </div>
                             <div v-if='this.listData.demand.type=="th_lock_screen"||this.listData.demand.type=="th_icon"||this.listData.demand.type=="th_second_page"'>
@@ -145,13 +146,13 @@
                                     </div>
                                 </div>   
                             </div>
-                            <div class='add_btn'>
-                                <span class='sc' @click='scADD("a")'>上传</span>
-                            </div>
+                            <!-- <div class='add_btn'>
+                                <span class='sc' @click='scADD2()'>上传</span>
+                            </div> -->
                         </div>
                     </div>
                </div>
-               <div class='uploads' v-if='this.$route.query.put_type=="0"&&this.$route.query.type=="0"'>
+               <div class='uploads' v-if='this.put_type=="0"&&this.status_type=="0"'>
                     <div class="titN">
                        <span>添加入库素材</span>
                    </div>
@@ -163,7 +164,7 @@
                        <img :src="item.prev_uri" alt="" class='imgs'>
                    </div>
                </div>
-               <div class='uploads_2'  v-if='this.$route.query.type=="1"'>
+               <div class='uploads_2'  v-if='this.status_type=="1"'>
                      <div class="titN">
                        <span>入库信息</span>
                    </div>
@@ -177,17 +178,18 @@
                        <span class='Name'>入库数量</span>
                        <span class='Name_left'>{{this.listData.local_num}}</span>
                        <span class='Name'>入库数量异常说明</span>
-                       <span class='Name_right'>{{this.listData.excpetion_note}}</span>
+                       <span class='Name_right'>{{this.listData.exception_note}}</span>
                    </div>
                    <div style="margin:24px 0 0 8px">
                        <div class='box_img' v-for='(item,index) in this.listData.materials'>
-                           <img :src="item" >
+                           <img :src="item.prev_uri" v-if='item.type!="th_lock_screen"&&item.type!="th_icon"&&item.type!="th_second_page"' >
+                            <img :src="item.main_preview" v-if='item.type=="th_lock_screen"||item.type=="th_icon"||item.type=="th_second_page"' >
                        </div>
                    </div>
                </div>
                <div class='foot'>
-                    <span @click='storage()' v-if='this.$route.query.type=="0"'>添加入库</span>
-                    <span class='NEXT' @click='fh(-1)' v-if='this.$route.query.type=="1"'>返回</span>
+                    <span @click='storage()' v-if='this.status_type=="0"'>添加入库</span>
+                    <span class='NEXT' @click='fh(-1)' v-if='this.status_type=="1"'>返回</span>
                </div>
         </div>
         <div class='bg' v-if='show'>
@@ -222,11 +224,12 @@
                             </div>
                             <div>
                                 <span class='bg_name'>素材类型：</span>
-                                <select v-model="type">
-                                    <option :value="item.type" v-for='item in scType'>{{item.name}}</option>
-                                </select>   
+                                <select v-model="type" @change="getTag()">
+                                    <option :value="item.type" v-for='item in scType' >{{item.name}}</option>
+                                </select>
+                                  
                             </div>
-                            <div v-if='this.listData.demand.type=="th_lock_screen"||this.listData.demand.type=="th_icon"||this.listData.demand.type=="th_second_page"'>
+                            <div v-if='this.type=="th_lock_screen"||this.type=="th_icon"||this.type=="th_second_page"'>
                                 <span class='bg_name'>名称：</span>
                                 <input type="text" v-model="name">    
                             </div>
@@ -246,11 +249,11 @@
                                     </el-upload>
                                 </div> 
                             </div> 
-                            <div v-if='this.listData.demand.type!="th_lock_screen"&&this.listData.demand.type!="th_icon"&&this.listData.demand.type!="th_second_page"'>
+                            <div v-if='this.type!="th_lock_screen"&&this.type!="th_icon"&&this.type!="th_second_page"'>
                                 <span class='bg_name' style="vertical-align: top">选择标签：</span>
                                 <div class='ta'>
                                     <span class='ta_name'>预置标签</span>
-                                    <div class="AddIMG_bq_box_top_bq">
+                                    <div class="AddIMG_bq_box_top_bq" style=" margin-bottom: 15px;">
                                         <template>
                                             <el-checkbox-group
                                                     v-model="preinstall">
@@ -272,17 +275,18 @@
                                     </div>
                                 </div>   
                             </div>
-                            <div v-if='this.listData.demand.type=="th_lock_screen"||this.listData.demand.type=="th_icon"||this.listData.demand.type=="th_second_page"'>
+                            <div v-if='this.type=="th_lock_screen"||this.type=="th_icon"||this.type=="th_second_page"'>
                                 <span class='bg_name'>使用范围：</span>
                                 <select v-model="model">
+                                    <option value="">不限</option>
                                     <option :value="da.range" v-for='da in fw'>{{da.range}}</option>
                                 </select> 
                             </div>
-                             <div v-if='this.listData.demand.type=="th_lock_screen"||this.listData.demand.type=="th_icon"||this.listData.demand.type=="th_second_page"'>
-                                <span class='bg_name'>备注描叙：</span>
+                             <div v-if='this.type=="th_lock_screen"||this.type=="th_icon"||this.type=="th_second_page"'>
+                                <span class='bg_name'>备注描述：</span>
                                 <input type="text" v-model="note">    
                             </div>
-                            <div v-if='this.listData.demand.type=="th_lock_screen"||this.listData.demand.type=="th_icon"||this.listData.demand.type=="th_second_page"'>
+                            <div v-if='this.type=="th_lock_screen"||this.type=="th_icon"||this.type=="th_second_page"'>
                                 <span class='bg_name' style="vertical-align: top">内容标签：</span>
                                 <div class='ta'>
                                     <div class="tag_box">
@@ -291,8 +295,7 @@
                                             <span class="CJ" v-if="tagsName!=''" @click="ADDtagTheme()" >创建“{{tagsName}}”标签</span>
                                             <div class='AddIMG_bq_box_top_zdy'>
                                                 <template>
-                                                    <el-checkbox-group
-                                                            v-model="tags">
+                                                    <el-checkbox-group v-model="tags">
                                                         <el-checkbox v-for="(item,index) in tag" :label="item.name">{{item.name}}</el-checkbox>
                                                     </el-checkbox-group>
                                                 </template>
@@ -314,15 +317,16 @@
          <div class='bg' v-if='rk'>
             <div class='tsBox'>
                     <div class='tsBox_tit'>
-                        <span v-if="this.materials.length==this.listData.num">确认需求已绑定所有项目？</span>
+                        <span v-if="this.materials.length==this.listData.num">确认素材信息无误并提交入库</span>
                         <span class='tsBox_tit2' v-if="this.materials.length!=this.listData.num">入库异常说明</span>
                         <div>
-                            <textarea name="" id="" v-if="this.materials.length!=this.listData.num"  v-model='exception_note' placeholder="请输入驳回原因(最多20字)" maxlength="20"></textarea>
+                            <textarea name="" id="" v-if="this.materials.length!=this.listData.num"  v-model='exception_note' placeholder="请输入入库异常原因(最多20字)" maxlength="20"></textarea>
                         </div>
                     </div>
                     <div class='tsBox_btn'>
-                        <span @click='heid()'>取消</span>
                         <span class='tsBox_btn_qd' @click='sh()'>确定</span>
+                        <span @click='heid()'>取消</span>
+
                     </div>
             </div>
         </div>  
@@ -360,6 +364,9 @@ export default {
                         rk:false,
                         exception_note:"",
                         tags:[],
+                        tag:[],
+                        put_type:'',
+                        status_type:"",
                     }
                 },
                 mounted(){
@@ -368,7 +375,6 @@ export default {
                 methods: {
                         handleRemove(file, fileList) {
                             this.attach={};
-                            console.log(this.attach);
                         },
                         handleRemove1(){
                             this.prev_uri='',
@@ -392,42 +398,49 @@ export default {
                             }
                             
                         },
+                        sss(da){
+                            console.log(da)
+                        },
                         unShow(){
                             this.show=false;
                             this.name='';
                             this.attach={};
                             this.sjSize='';
                             this.prev_uri='';
-                            this.type='';
                             this.preinstall=[];
                             this.bardian=[];
                             this.model='';
                             this.note='';
+                             this.type=this.listData.demand.type;
+                               
                         },
                         fh(index){
                             this.$router.go(index)
                         },
                         heid(){
                             this.rk=false;
+                            if(this.put_type=='1'){
+                                this.materials=[]
+                            }
                         },
                         getData(){
                             let params={id:this.$route.query.id}
                             this.api.demand_design_project_detail({params}).then((res)=>{
                                 this.listData=res;
-                                this.type=this.listData.demand.type;
+                                this.type=res.demand.type;        
+                                this.put_type=res.put_type;
+                                this.status_type=res.local_status;
                                 this.porject_id=res.pro_id;
-                                if(this.$route.query.put_type=='1'){
-                                    this.sjSize='';
-                                    this.prev_uri=res.file_url;
-                                    this.preinstall=res.materials.preinstall;
-                                    this.bardian=res.materials.bardian;
-                                }
-
+                                if(this.put_type=='1'){
+                                    this.prev_uri=res.preview_pic;
+                                   
+                                }                              
                                 this.getType();
                                 this.syfw();
-                                if(this.$route.query.type=='1'){
+                                if(this.put_type=='1'){
                                     this.size();
                                 }
+                                this.getTagsList()
                                 this.tagsTheme()
                             })
                         },                   
@@ -472,7 +485,6 @@ export default {
                         syfw(){
                             this.api.themes_config_account().then((res)=>{
                                 this.fw=res;
-                                this.getTagsList()
                             })
                         },
                         getTagsList(){
@@ -487,6 +499,13 @@ export default {
                                 this.api.tags_search({params}).then((da)=>{
                                     this.tag=da.data.self_tags;
                                 })
+                        },
+                        getTag(){
+                            if(this.type=="th_lock_screen"||this.type=="th_icon"||this.type=="th_second_page"){
+                                this.tagsTheme();
+                            }else{
+                                this. getTagsList()
+                            }
                         },
                         ADDtags(){
                             this.bardian.push(this.tagsName);
@@ -516,32 +535,108 @@ export default {
                                   this.$message.error('入库异常说明不能为空');
                                   return
                             }
-                            let formData =new FormData;
-                            formData.append('project_id',this.listData.pro_id);
-                            formData.append('put_type',this.listData.put_type);
-                            formData.append('exception_note',this.exception_note);
-                            formData.append('materials',JSON.stringify(this.materials))
+                             if(this.materials.length==0){
+                                  this.$message.error('素材不能为空');
+                                  return
+                            }
+                            if(this.type=="th_lock_screen"||this.type=="th_icon"||this.type=="th_second_page"){
+                                 var formData =new FormData;
+                                formData.append('project_id',this.listData.pro_id);
+                                formData.append('put_type',this.listData.put_type);
+                                formData.append('exception_note',this.exception_note);
+                                formData.append('materials',JSON.stringify(this.materials))
+                            }else{
+                                formData =new FormData;
+                                formData.append('project_id',this.listData.pro_id);
+                                formData.append('put_type',this.listData.put_type);
+                                formData.append('exception_note',this.exception_note);
+                                formData.append('materials',JSON.stringify(this.materials))
+                            }
+                           
                             this.api.material_project_add(formData).then((res)=>{
                                 if(res!=false){
-                                    this.fh(-1);
+                                    this.heid();
+                                    this.getData();
                                 }
                             })
                         },
-                        scADD(da){
-                            let list={}
-                            list.name=this.name;
-                            list.attach=this.attach;
-                            list.size=this.sjSize;
-                            list.prev_uri=this.prev_uri;
-                            list.type=this.type;
-                            list.preinstall=this.preinstall;
-                            list.bardian=this.bardian;
-                            list.model=this.model;
-                            list.note=this.note;
-                            this.materials.push(list);
-                            if(!da){
-                                this.unShow()
+                         scADD2(){
+                             if(this.type=="th_lock_screen"||this.type=="th_icon"||this.type=="th_second_page"){
+                                 let list={
+                                    attach:{url:""},
+                                    previews:[],
+                                   
+                                }
+                                list.name=this.name;
+                                list.attach.url=this.listData.file_url;
+                                list.previews.push(this.prev_uri);
+                                list.main_preview=this.prev_uri;
+                                list.size=this.sjSize;
+                                list.type=this.type;
+                                list.tags=this.tags;
+                                list.model=this.model;
+                                list.note=this.note;
+                                this.materials.push(list);
+                                console.log(list.main_preview)
+                             }else{
+                                this.materials=[];
+                                let list={
+                                    attach:{url:""}
+                                }
+                                list.name=this.name;
+                                list.attach.url=this.listData.file_url;
+                                list.size=this.sjSize;
+                                list.prev_uri=this.prev_uri;
+                                list.type=this.type;
+                                list.preinstall=this.preinstall;
+                                list.bardian=this.bardian;
+                                this.materials.push(list);
+                             }
+                           
+                            
+                        },
+                        scADD(){
+                            if(!this.attach.name){
+                                this.$message.error('附件不能为空');
+                                return
                             }
+                             if(!this.prev_uri){
+                                this.$message.error('预览图不能为空');
+                                return
+                            }
+                             if(this.type=="th_lock_screen"||this.type=="th_icon"||this.type=="th_second_page"){
+                                    let list={
+                                        attach:{url:""},
+                                        previews:[],
+                                    
+
+                                    }
+                                    list.name=this.name;
+                                    list.attach=this.attach;
+                                    list.size=this.sjSize;
+                                    list.type=this.type;
+                                    list.previews.push(this.prev_uri);
+                                    list.main_preview=(this.prev_uri);
+                                    list.prev_uri=this.prev_uri;
+                                    list.tags=this.tags;
+                                    list.model=this.model;
+                                    list.note=this.note;
+                                    list.model=this.model;
+                                    list.note=this.note;
+                                    this.materials.push(list)
+                             }else{
+                                    let list={}
+                                    list.attach=this.attach;
+                                    list.size=this.sjSize;
+                                    list.prev_uri=this.prev_uri;
+                                    list.type=this.type;
+                                    list.preinstall=this.preinstall;
+                                    list.bardian=this.bardian;
+                                    this.materials.push(list);
+                             }
+                           
+                            this.unShow()
+                         
                             
                         },
                        
@@ -549,6 +644,10 @@ export default {
                             this.materials.splice(index,1);
                         },
                         storage(){
+                            if(this.put_type=='1'){
+                                this.scADD2()
+                            }
+                            console.log(this.materials)
                             this.rk=true
                         }
                 }
@@ -614,7 +713,8 @@ export default {
         margin-top:16px
     }
     .imgName{
-        margin:16px 23px 0 24px
+        margin:16px 23px 0 24px;
+        
     }
     .imgName img{
         display: inline-block;
@@ -644,7 +744,7 @@ export default {
         height: 380px!important;
     }
     .uploads3{
-        min-height: 700px
+        min-height: 600px
     }
     .foot{
          width: 100%;
@@ -713,9 +813,10 @@ export default {
     }
     .box_img img{
         max-width: 128px;
+        max-height: 100%;
         position: absolute;
         left:50%;
-        top:50px;
+        top:50%;
         transform: translate(-50%,-50%)
     }
     .up{
@@ -802,8 +903,7 @@ export default {
         color:rgba(50,50,51,1);
         opacity:1;
         margin-right: 6px;
-        text-align: right
-    }
+        text-align: right;vertical-align: top;    }
     input{
         width:176px;
         height:32px;
@@ -825,7 +925,7 @@ export default {
     }
     .ta{
         display: inline-block;
-        max-width: 450px
+        max-width: 300px
     }
     .ta_name{
         display: block;
@@ -966,7 +1066,7 @@ export default {
         border: 0!important;
     }
     textarea{
-        margin: 16px 60px 0 60px;
+        margin: 28px 0px 0 60px;
         min-width: 260px;
         padding:10px;
     }
@@ -975,7 +1075,7 @@ export default {
         margin-left: 16px;
     }
     .tags_box{
-        margin:14px;
+        margin:14px 14px 14px 0;
     }
     .CJ{
         display: inline-block;

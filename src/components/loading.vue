@@ -1,7 +1,11 @@
 
 <template>
 <div class="loading">
+<<<<<<< HEAD
     <img src="img/loading.gif" alt="">
+=======
+    <img src='img/loding.gif'>
+>>>>>>> workbench
 </div>
 </template>
 
@@ -22,6 +26,7 @@ export default {
   height: 100%;
   z-index: 100;
   background: rgba(0,0,0,0.2);
+
 
 }
 img{
