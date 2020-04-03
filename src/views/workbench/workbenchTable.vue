@@ -109,7 +109,7 @@
                             <el-button @click='push(tableData[props.$index].did,tableData[props.$index].status)' v-if="tableData[props.$index].status_name=='素材审核'&&tableData[props.$index].isfinish!=2&&tableData[props.$index].is_put!=0" >
                                 入库确认
                             </el-button>
-                            <el-button @click='check(tableData[props.$index].demand_type,tableData[props.$index].did,tableData[props.$index].status-1)' v-if="tableData[props.$index].status_name=='素材入库'">查看素材</el-button>
+                            <el-button @click='check(tableData[props.$index].demand_type,tableData[props.$index].did,tableData[props.$index].status)' v-if="tableData[props.$index].status_name=='素材入库'">查看素材</el-button>
                             <el-button  @click="AddMaterial(props.$index)" v-if="tableData[props.$index].status_name=='资源准备'&&tableData[props.$index].status==2&&tableData[props.$index].emails.indexOf(email)!=-1&&tableData[props.$index].isfinish!=2">添加素材</el-button>
                             <!-- <el-button  @click="getscR(props.$index)" v-if="tableData[props.$index].status_name=='素材审核'&&tableData[props.$index].status==4&&tableData[props.$index].emails.indexOf(email)!=-1&&tableData[props.$index].isfinish!=2">添加素材</el-button> -->
                             <el-button  @click="getscR(props.$index)" v-if="tableData[props.$index].demand_type=='素材需求'&&tableData[props.$index].status==5&&tableData[props.$index].isfinish==0&&tableData[props.$index].emails.indexOf(email)!=-1&&tableData[props.$index].isfinish!=2">添加素材</el-button>
