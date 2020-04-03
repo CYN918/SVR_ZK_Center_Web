@@ -2,7 +2,7 @@
     <div>
         <div>
              <div class="top_name">
-                <span class="top_txt" >待处理&nbsp;/&nbsp;入库确认&nbsp;/&nbsp;查看详情</span>
+                <span class="top_txt" @click='fh(-1)'>待处理&nbsp;/&nbsp;入库确认&nbsp;/&nbsp;查看详情</span>
                 <div class="title_left">
                     <img src="img/fh.png" alt=""  @click='fh(-1)'>
                     <span @click='fh(-1)'>查看详情</span>
@@ -117,6 +117,7 @@
                             <div v-if='this.listData.demand.type=="th_lock_screen"||this.listData.demand.type=="th_icon"||this.listData.demand.type=="th_second_page"'>
                                 <span class='bg_name'>使用范围：</span>
                                 <select v-model="model">
+                                    <option value="">不限</option>
                                     <option :value="da.range" v-for='da in fw'>{{da.range}}</option>
                                 </select> 
                             </div>
