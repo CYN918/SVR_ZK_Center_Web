@@ -52,7 +52,7 @@
                                 prop=""
                                 label="操作">
                                 <template slot-scope="scope">
-                                        <span @click='jump(tableData[scope.$index].pro_id,tableData[scope.$index].local_status,tableData[scope.$index].put_type)' style="color: #3377ff;font-size:14px;cursor: pointer;">查看详情</span>
+                                        <span @click='jump(tableData[scope.$index].pro_id)' style="color: #3377ff;font-size:14px;cursor: pointer;">查看详情</span>
                                 </template>
                         </el-table-column>
                     </el-table>
@@ -167,7 +167,7 @@
                         }
                     })
            },
-           jump(id,type,put_type){
+           jump(id){
                if(!id){
                    return
                }
@@ -175,8 +175,6 @@
                    path:"./projectStorage_xq",
                    query:{
                        id:id,
-                       type:type,
-                       put_type:put_type
 
                    }
                })

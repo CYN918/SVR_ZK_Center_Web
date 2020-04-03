@@ -64,7 +64,7 @@
                          
                    </div>
                </div>
-               <div class='uploads3' v-if='this.$route.query.put_type=="1"&&this.$route.query.type=="0"'>
+               <div class='uploads3' v-if='this.put_type=="1"&&this.status_type=="0"'>
                     <div class='but'>
                         <div class='but_left' style="margin-right:20px">
                             <img :src="this.prev_uri" alt="">
@@ -152,7 +152,7 @@
                         </div>
                     </div>
                </div>
-               <div class='uploads' v-if='this.$route.query.put_type=="0"&&this.$route.query.type=="0"'>
+               <div class='uploads' v-if='this.put_type=="0"&&this.status_type=="0"'>
                     <div class="titN">
                        <span>添加入库素材</span>
                    </div>
@@ -164,7 +164,7 @@
                        <img :src="item.prev_uri" alt="" class='imgs'>
                    </div>
                </div>
-               <div class='uploads_2'  v-if='this.$route.query.type=="1"'>
+               <div class='uploads_2'  v-if='this.status_type=="1"'>
                      <div class="titN">
                        <span>入库信息</span>
                    </div>
@@ -190,8 +190,8 @@
                    </div>
                </div>
                <div class='foot'>
-                    <span @click='storage()' v-if='this.$route.query.type=="0"'>添加入库</span>
-                    <span class='NEXT' @click='fh(-1)' v-if='this.$route.query.type=="1"'>返回</span>
+                    <span @click='storage()' v-if='this.status_type=="0"'>添加入库</span>
+                    <span class='NEXT' @click='fh(-1)' v-if='this.status_type=="1"'>返回</span>
                </div>
         </div>
         <div class='bg' v-if='show'>
@@ -367,6 +367,8 @@ export default {
                         exception_note:"",
                         tags:[],
                         tag:[],
+                        put_type:'',
+                        status_type:"",
                     }
                 },
                 mounted(){
@@ -409,27 +411,7 @@ export default {
                             this.model='';
                             this.note='';
                              this.type=this.listData.demand.type;
-                                // if(this.type=='广告图'){
-                                //     this.type='ad_picture'
-                                // }
-                                //  if(this.type=='广告模板'){
-                                //     this.type='ad_template'
-                                // }
-                                //  if(this.type=='杂志锁屏动效'){
-                                //     this.type='sls_dynamic'
-                                // }
-                                //  if(this.type=='杂志锁屏壁纸'){
-                                //     this.type='sls_picture'
-                                // }
-                                //  if(this.type=='锁屏主题素材'){
-                                //     this.type='th_lock_screen'
-                                // }
-                                //  if(this.type=='图标主题素材'){
-                                //     this.type='th_icon'
-                                // }
-                                //  if(this.type=='二级界面主题素材'){
-                                //     this.type='th_second_page'
-                                // }
+                               
                         },
                         fh(index){
                             this.$router.go(index)
@@ -441,38 +423,17 @@ export default {
                             let params={id:this.$route.query.id}
                             this.api.demand_design_project_detail({params}).then((res)=>{
                                 this.listData=res;
-                                this.type=this.listData.demand.type;
-                                // if(this.type=='广告图'){
-                                //     this.type='ad_picture'
-                                // }
-                                //  if(this.type=='广告模板'){
-                                //     this.type='ad_template'
-                                // }
-                                //  if(this.type=='杂志锁屏动效'){
-                                //     this.type='sls_dynamic'
-                                // }
-                                //  if(this.type=='杂志锁屏壁纸'){
-                                //     this.type='sls_picture'
-                                // }
-                                //  if(this.type=='锁屏主题素材'){
-                                //     this.type='th_lock_screen'
-                                // }
-                                //  if(this.type=='图标主题素材'){
-                                //     this.type='th_icon'
-                                // }
-                                //  if(this.type=='二级界面主题素材'){
-                                //     this.type='th_second_page'
-                                // }
+                                this.type=res.demand.type;            
+                                this.put_type=res.put_type;
+                                this.status_type=res.local_status;
                                 this.porject_id=res.pro_id;
-                                if(this.$route.query.put_type=='1'){
+                                if(this.put_type=='1'){
                                     this.prev_uri=res.preview_pic;
                                    
-                                }
-                               
-
+                                }                              
                                 this.getType();
                                 this.syfw();
-                                if(this.$route.query.put_type=='1'){
+                                if(this.put_type=='1'){
                                     this.size();
                                 }
                                 this.getTagsList()
@@ -602,9 +563,9 @@ export default {
                                     previews:[],
                                    
                                 }
-                                 list.name=this.name;
-                                 list.attach.url=this.listData.file_url;
-                                 list.previews.push(this.prev_uri);
+                                list.name=this.name;
+                                list.attach.url=this.listData.file_url;
+                                list.previews.push(this.prev_uri);
                                 list.main_preview=this.prev_uri;
                                 list.size=this.sjSize;
                                 list.type=this.type;
@@ -631,26 +592,35 @@ export default {
                             
                         },
                         scADD(){
+                            console.log(this.attach)
+                            if(!this.attach.name){
+                                this.$message.error('附件不能为空');
+                                return
+                            }
+                             if(!this.prev_uri){
+                                this.$message.error('预览图不能为空');
+                                return
+                            }
                              if(this.type=="th_lock_screen"||this.type=="th_icon"||this.type=="th_second_page"){
-                                 let list={
-                                    attach:{url:""},
-                                    previews:[],
-                                   
+                                    let list={
+                                        attach:{url:""},
+                                        previews:[],
+                                    
 
-                                }
-                                 list.name=this.name;
-                                 list.attach=this.attach;
-                                 list.size=this.sjSize;
-                                 list.type=this.type;
-                                 list.previews.push(this.prev_uri);
-                                 list.main_preview=(this.prev_uri);
-                                 list.prev_uri=this.prev_uri;
-                                 list.tags=this.tags;
-                                list.model=this.model;
-                                list.note=this.note;
-                                 list.model=this.model;
-                                list.note=this.note;
-                                this.materials.push(list)
+                                    }
+                                    list.name=this.name;
+                                    list.attach=this.attach;
+                                    list.size=this.sjSize;
+                                    list.type=this.type;
+                                    list.previews.push(this.prev_uri);
+                                    list.main_preview=(this.prev_uri);
+                                    list.prev_uri=this.prev_uri;
+                                    list.tags=this.tags;
+                                    list.model=this.model;
+                                    list.note=this.note;
+                                    list.model=this.model;
+                                    list.note=this.note;
+                                    this.materials.push(list)
                              }else{
                                     let list={}
                                     list.attach=this.attach;
