@@ -72,7 +72,7 @@
                         <div class='but_right'>
                             <div>
                                 <span class='bg_name'>绑定项目ID：</span>
-                                <input type="text" style="width:266px" v-model="porject_id" disabled>    
+                                <input type="text" style="width:166px" v-model="porject_id" disabled>    
                             </div>
                             <div>
                                 <span class='bg_name'>素材类型：</span>
@@ -419,6 +419,9 @@ export default {
                         },
                         heid(){
                             this.rk=false;
+                            if(this.put_type=='1'){
+                                this.materials=[]
+                            }
                         },
                         getData(){
                             let params={id:this.$route.query.id}
@@ -644,6 +647,7 @@ export default {
                             if(this.put_type=='1'){
                                 this.scADD2()
                             }
+                            console.log(this.materials)
                             this.rk=true
                         }
                 }
@@ -921,7 +925,7 @@ export default {
     }
     .ta{
         display: inline-block;
-        max-width: 450px
+        max-width: 300px
     }
     .ta_name{
         display: block;
