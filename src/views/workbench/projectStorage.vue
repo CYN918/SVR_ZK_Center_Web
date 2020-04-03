@@ -75,10 +75,10 @@
         <div class='bg' v-if='show'>
             <div class='tsBox'>
                     <div class='tsBox_tit'>
-                        <span v-if='this.yc==false'>确认需求已绑定所有项目？</span>
+                        <span v-if='this.yc==false'>是否确认提交？</span>
                          <span class='tsBox_tit2' v-if="this.yc">入库异常说明</span>
                         <div>
-                            <textarea name="" id="" v-if="this.yc"  v-model='note' placeholder="请输入驳回原因(最多20字)" maxlength="20"></textarea>
+                            <textarea name="" id="" v-if="this.yc"  v-model='note' placeholder="请输入入库异常原因(最多20字)" maxlength="20"></textarea>
                         </div>
                     </div>
                     <div class='tsBox_btn'>
