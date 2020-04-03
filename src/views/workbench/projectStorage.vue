@@ -134,6 +134,11 @@
            },
            pops(){
                this.show=true;
+                for(var i=0;i<this.tableData.length;i++){
+                    if(this.tableData[i].local_status=='0'){
+                        this.yc=true;
+                    }
+                }
            },
            heid(){
                this.show=false;
@@ -147,12 +152,7 @@
                 this.getData()
             },
             sh(){
-                for(var i=0;i<this.tableData.length;i++){
-                    if(this.tableData[i].local_status=='0'){
-                        this.yc=true;
-                    }
-                }
-                if(this.yc==false&&this.note==''){
+                if(this.yc==true&&this.note==''){
                     this.$message.error('入库异常说明不能为空');
                     return
                     
@@ -387,7 +387,7 @@
     }
     .tsBox{
         width:416px;
-        height:134px;
+        min-height:134px;
         background:rgba(255,255,255,1);
         box-shadow:0px 4px 12px 0px rgba(0,0,0,0.2);
         border-radius:4px;
@@ -433,7 +433,7 @@
         font-weight: bold
     }
     textarea{
-        margin: 16px 60px 0 60px;
+        margin: 28px 0px 0 60px;
         min-width: 260px;
         padding:10px;
     }
