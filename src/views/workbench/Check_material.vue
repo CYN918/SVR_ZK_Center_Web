@@ -75,6 +75,7 @@
         },
         mounted(){
             this.getDataList();
+            this.dataList()
         },
         methods:{
             heid(){
@@ -88,7 +89,12 @@
                     console.log(res.data[0].mid)
                 })
             },
-
+            dataList(){
+                let params = {id:this.id,p:this.p,page:this.page};
+                this.api.demand_material_list({params}).then((res)=>{
+                    console.log(res)
+                })
+            },
             handleSizeChange(p){
                 this.p = p;
                 this.getDataList();

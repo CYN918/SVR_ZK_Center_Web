@@ -17,7 +17,7 @@
         <ATR v-if="ADD_material" :id="id" :num="num" :ind="index" :typeList="typeList" :types='types' :status="status" @upDataLists="upDataLists" :typeName='typeName'></ATR>
         <ADDsc v-if="addSC" :index="index" :id="id"></ADDsc>
         <scREQ v-if="scR"  :id="id" :num="num" :status="status" @upDataLists="upDataLists"></scREQ>
-        <Cm v-if="Cm" :id="id" ></Cm>
+        <Cm v-if="Cm" :id="id" :status_num='status_num'></Cm>
         <sett v-if="sett" :skID="skID" :skType="skType" :processor='processor'></sett>
         <sett2 v-if="sett2" :skID="skID" :skType="skType" :processor='processor'></sett2>
         <sett3 v-if="sett3" :skID="skID" :skType="skType"></sett3>
@@ -363,6 +363,7 @@
                 ids:"",
                 is_special:"",
                 processor:[],
+                status_num:"",
                 getRowKeys(row) {
                     return row.did;
                 },
@@ -563,9 +564,10 @@
                 this.val=false;
                 this.move()
             },
-            getCm(id){
+            getCm(id,num){
                 this.Cm=true;
                 this.id = id;
+                this.status_num=num;
                 this.stop();
             },
             heidCm(){
@@ -916,7 +918,7 @@
                         if(reject==1){
                             this.getRejDET(id,status)
                         }else{
-                            this.getCm(id)
+                            this.getCm(id,5)
                         }
                     }
                 }
