@@ -64,7 +64,7 @@
                          
                    </div>
                </div>
-               <div class='uploads3' v-if='this.$route.query.put_type=="1"'>
+               <div class='uploads3' v-if='this.$route.query.put_type=="1"&&this.$route.query.type=="0"'>
                     <div class='but'>
                         <div class='but_left' style="margin-right:20px">
                             <img :src="this.prev_uri" alt="">
@@ -178,11 +178,14 @@
                        <span class='Name'>入库数量</span>
                        <span class='Name_left'>{{this.listData.local_num}}</span>
                        <span class='Name'>入库数量异常说明</span>
-                       <span class='Name_right'>{{this.listData.excpetion_note}}</span>
+                       <span class='Name_right'>{{this.listData.exception_note}}</span>
                    </div>
                    <div style="margin:24px 0 0 8px">
-                       <div class='box_img' v-for='(item,index) in this.listData.materials'>
-                           <img :src="item" >
+                       <div class='box_img' v-for='(item,index) in this.listData.materials' v-if='type!="th_lock_screen"&&type=="th_icon"&&type!="th_second_page"'>
+                           <img :src="item.prev_uri" >
+                       </div>
+                        <div class='box_img' v-for='(item,index) in this.listData.materials' v-if='type=="th_lock_screen"||type=="th_icon"||type=="th_second_page"'>
+                           <img :src="item.main_preview" >
                        </div>
                    </div>
                </div>
@@ -363,7 +366,7 @@ export default {
                         rk:false,
                         exception_note:"",
                         tags:[],
-                        tag:[]
+                        tag:[],
                     }
                 },
                 mounted(){
@@ -372,7 +375,6 @@ export default {
                 methods: {
                         handleRemove(file, fileList) {
                             this.attach={};
-                            console.log(this.attach);
                         },
                         handleRemove1(){
                             this.prev_uri='',
@@ -407,27 +409,27 @@ export default {
                             this.model='';
                             this.note='';
                              this.type=this.listData.demand.type;
-                                if(this.type=='广告图'){
-                                    this.type='ad_picture'
-                                }
-                                 if(this.type=='广告模板'){
-                                    this.type='ad_template'
-                                }
-                                 if(this.type=='杂志锁屏动效'){
-                                    this.type='sls_dynamic'
-                                }
-                                 if(this.type=='杂志锁屏壁纸'){
-                                    this.type='sls_picture'
-                                }
-                                 if(this.type=='锁屏主题素材'){
-                                    this.type='th_lock_screen'
-                                }
-                                 if(this.type=='图标主题素材'){
-                                    this.type='th_icon'
-                                }
-                                 if(this.type=='二级界面主题素材'){
-                                    this.type='th_second_page'
-                                }
+                                // if(this.type=='广告图'){
+                                //     this.type='ad_picture'
+                                // }
+                                //  if(this.type=='广告模板'){
+                                //     this.type='ad_template'
+                                // }
+                                //  if(this.type=='杂志锁屏动效'){
+                                //     this.type='sls_dynamic'
+                                // }
+                                //  if(this.type=='杂志锁屏壁纸'){
+                                //     this.type='sls_picture'
+                                // }
+                                //  if(this.type=='锁屏主题素材'){
+                                //     this.type='th_lock_screen'
+                                // }
+                                //  if(this.type=='图标主题素材'){
+                                //     this.type='th_icon'
+                                // }
+                                //  if(this.type=='二级界面主题素材'){
+                                //     this.type='th_second_page'
+                                // }
                         },
                         fh(index){
                             this.$router.go(index)
@@ -440,33 +442,33 @@ export default {
                             this.api.demand_design_project_detail({params}).then((res)=>{
                                 this.listData=res;
                                 this.type=this.listData.demand.type;
-                                if(this.type=='广告图'){
-                                    this.type='ad_picture'
-                                }
-                                 if(this.type=='广告模板'){
-                                    this.type='ad_template'
-                                }
-                                 if(this.type=='杂志锁屏动效'){
-                                    this.type='sls_dynamic'
-                                }
-                                 if(this.type=='杂志锁屏壁纸'){
-                                    this.type='sls_picture'
-                                }
-                                 if(this.type=='锁屏主题素材'){
-                                    this.type='th_lock_screen'
-                                }
-                                 if(this.type=='图标主题素材'){
-                                    this.type='th_icon'
-                                }
-                                 if(this.type=='二级界面主题素材'){
-                                    this.type='th_second_page'
-                                }
+                                // if(this.type=='广告图'){
+                                //     this.type='ad_picture'
+                                // }
+                                //  if(this.type=='广告模板'){
+                                //     this.type='ad_template'
+                                // }
+                                //  if(this.type=='杂志锁屏动效'){
+                                //     this.type='sls_dynamic'
+                                // }
+                                //  if(this.type=='杂志锁屏壁纸'){
+                                //     this.type='sls_picture'
+                                // }
+                                //  if(this.type=='锁屏主题素材'){
+                                //     this.type='th_lock_screen'
+                                // }
+                                //  if(this.type=='图标主题素材'){
+                                //     this.type='th_icon'
+                                // }
+                                //  if(this.type=='二级界面主题素材'){
+                                //     this.type='th_second_page'
+                                // }
                                 this.porject_id=res.pro_id;
                                 if(this.$route.query.put_type=='1'){
-                                    this.sjSize='';
                                     this.prev_uri=res.preview_pic;
                                    
                                 }
+                               
 
                                 this.getType();
                                 this.syfw();
@@ -572,46 +574,93 @@ export default {
                                   this.$message.error('素材不能为空');
                                   return
                             }
-                            let formData =new FormData;
-                            formData.append('project_id',this.listData.pro_id);
-                            formData.append('put_type',this.listData.put_type);
-                            formData.append('exception_note',this.exception_note);
-                            formData.append('materials',JSON.stringify(this.materials))
+                            if(this.type=="th_lock_screen"||this.type=="th_icon"||this.type=="th_second_page"){
+                                 var formData =new FormData;
+                                formData.append('project_id',this.listData.pro_id);
+                                formData.append('put_type',this.listData.put_type);
+                                formData.append('exception_note',this.exception_note);
+                                formData.append('materials',JSON.stringify(this.materials))
+                            }else{
+                                formData =new FormData;
+                                formData.append('project_id',this.listData.pro_id);
+                                formData.append('put_type',this.listData.put_type);
+                                formData.append('exception_note',this.exception_note);
+                                formData.append('materials',JSON.stringify(this.materials))
+                            }
+                           
                             this.api.material_project_add(formData).then((res)=>{
                                 if(res!=false){
-                                    this.fh(-1);
+                                    this.getData()
                                 }
                             })
                         },
                          scADD2(){
-                            this.materials=[];
-                            let list={
-                                attach:{url:""}
-                            }
-                            list.name=this.name;
-                            list.attach.url=this.listData.file_url;
-                            list.size=this.sjSize;
-                            list.prev_uri=this.prev_uri;
-                            list.type=this.type;
-                            list.preinstall=this.preinstall;
-                            list.bardian=this.bardian;
-                            list.model=this.model;
-                            list.note=this.note;
-                            this.materials.push(list);
+                             if(this.type=="th_lock_screen"||this.type=="th_icon"||this.type=="th_second_page"){
+                                 let list={
+                                    attach:{url:""},
+                                    previews:[],
+                                   
+                                }
+                                 list.name=this.name;
+                                 list.attach.url=this.listData.file_url;
+                                 list.previews.push(this.prev_uri);
+                                list.main_preview=this.prev_uri;
+                                list.size=this.sjSize;
+                                list.type=this.type;
+                                list.tags=this.tags;
+                                list.model=this.model;
+                                list.note=this.note;
+                                this.materials.push(list);
+                                console.log(list.main_preview)
+                             }else{
+                                this.materials=[];
+                                let list={
+                                    attach:{url:""}
+                                }
+                                list.name=this.name;
+                                list.attach.url=this.listData.file_url;
+                                list.size=this.sjSize;
+                                list.prev_uri=this.prev_uri;
+                                list.type=this.type;
+                                list.preinstall=this.preinstall;
+                                list.bardian=this.bardian;
+                                this.materials.push(list);
+                             }
+                           
                             
                         },
                         scADD(){
-                            let list={}
-                            list.name=this.name;
-                            list.attach=this.attach;
-                            list.size=this.sjSize;
-                            list.prev_uri=this.prev_uri;
-                            list.type=this.type;
-                            list.preinstall=this.preinstall;
-                            list.bardian=this.bardian;
-                            list.model=this.model;
-                            list.note=this.note;
-                            this.materials.push(list);
+                             if(this.type=="th_lock_screen"||this.type=="th_icon"||this.type=="th_second_page"){
+                                 let list={
+                                    attach:{url:""},
+                                    previews:[],
+                                   
+
+                                }
+                                 list.name=this.name;
+                                 list.attach=this.attach;
+                                 list.size=this.sjSize;
+                                 list.type=this.type;
+                                 list.previews.push(this.prev_uri);
+                                 list.main_preview=(this.prev_uri);
+                                 list.prev_uri=this.prev_uri;
+                                 list.tags=this.tags;
+                                list.model=this.model;
+                                list.note=this.note;
+                                 list.model=this.model;
+                                list.note=this.note;
+                                this.materials.push(list)
+                             }else{
+                                    let list={}
+                                    list.attach=this.attach;
+                                    list.size=this.sjSize;
+                                    list.prev_uri=this.prev_uri;
+                                    list.type=this.type;
+                                    list.preinstall=this.preinstall;
+                                    list.bardian=this.bardian;
+                                    this.materials.push(list);
+                             }
+                           
                             this.unShow()
                          
                             
@@ -789,9 +838,10 @@ export default {
     }
     .box_img img{
         max-width: 128px;
+        max-height: 100%;
         position: absolute;
         left:50%;
-        top:50px;
+        top:50%;
         transform: translate(-50%,-50%)
     }
     .up{
@@ -1041,7 +1091,7 @@ export default {
         border: 0!important;
     }
     textarea{
-        margin: 16px 60px 0 60px;
+        margin: 28px 0px 0 60px;
         min-width: 260px;
         padding:10px;
     }

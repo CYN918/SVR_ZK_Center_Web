@@ -838,8 +838,6 @@
                 }
             },
             check(type,id,status,reject){
-                console.log(type)
-                console.log(status)
                 if(type=='业务需求'){
                     if(status ==1){
                         if(reject==1){
