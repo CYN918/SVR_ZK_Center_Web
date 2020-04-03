@@ -19,7 +19,7 @@
             </div>
             <div class="steplist">
                 <div class="step " v-for="(item,index) in list">
-                    <div style="display: inline-block">
+                    <div style="display: inline-block" v-if='item.status!=100'>
                         <span class="step_box">{{item.status}}</span>
                         <span class="step_text">{{item.status_name}}</span>
                         <div class="step_name">
@@ -39,9 +39,10 @@
                     </div>
 
                     </div>
-                    <div v-if="item.status!=6" style="width: 120px;height: 2px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
+                    <div v-if="item.status!=6&&item.status!=100" style="width: 120px;height: 2px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
+                    
                 </div>
-                <div class="banner" v-if="ban" :style="{left:this.left+'px'}">
+                <div class="banner" v-if="ban" :style="{left:this.left+'px',top:this.top+'px'}">
                     <span class="tit">负责人</span>
                     <div>
                         <input  type="text" v-model="search" @change="getAccountList()"/>
@@ -55,7 +56,13 @@
                     </div>
 
                 </div>
-
+                <div class='all'> 
+                    <span style="margin-right:16px">全部内容可见人员：</span>
+                    <span class='user_name' v-for='(key,index) in list[list.length-1].user'  @mouseenter="delName(list[list.length-1].id,index)" @mouseleave="leaves()">{{key.user_name}}
+                            <img src="../../../public/img/del.png" style="width: 16px;opacity:0" :class="{getImg:(project_id==list[list.length-1].id&&indexs==index)}" @click="del(key.user_id,list[list.length-1].id)"/>
+                    </span>
+                     <span class="step_add" @click='getBan(99)'><img src="../../../public/img/add_msg.png" style="width: 12px;margin-top: 12px"></span>
+                </div>
             </div>
         </div>
 
@@ -71,7 +78,7 @@
             </div>
             <div class="steplist">
                 <div class="step " v-for="(item,index) in YClist">
-                    <div style="display: inline-block">
+                    <div style="display: inline-block" v-if='item.status!=100'>
                         <span class="step_box">{{item.status}}</span>
                         <span class="step_text">{{item.status_name}}</span>
                         <div class="step_name">
@@ -90,9 +97,9 @@
                             <span :class="{active1:SCaudit_type==1}" @click="SCtagTwo(item.id)">会签</span>
                         </div>
                     </div>
-                    <div v-if="item.status!=5" style="width: 120px;height: 2px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
+                    <div v-if="item.status!=5&&item.status!=100" style="width: 120px;height: 2px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
                 </div>
-                <div class="banner" v-if="ban1" :style="{left:this.left+'px'}">
+                <div class="banner" v-if="ban1" :style="{left:this.left+'px',top:this.top+'px'}">
                     <span class="tit">负责人</span>
                     <div>
                         <input  type="text" v-model="search" @change=" getAccountList()"/>
@@ -105,9 +112,14 @@
                         <span class="qd" @click="ADDuserName('demand_material',WLtype)">确定</span>
                         <span @click="heidBan()">取消</span>
                     </div>
-
                 </div>
-
+                 <div class='all'> 
+                        <span style="margin-right:16px">全部内容可见人员：</span>
+                         <span class='user_name' v-for='(key,index) in YClist[YClist.length-1].user'  @mouseenter="delName(YClist[YClist.length-1].id,index)" @mouseleave="leaves()">{{key.user_name}}
+                            <img src="../../../public/img/del.png" style="width: 16px;opacity:0" :class="{getImg:(project_id==YClist[YClist.length-1].id&&indexs==index)}" @click="del(key.user_id,YClist[YClist.length-1].id)"/>
+                    </span>
+                        <span class="step_add" @click='getBan1(99)'><img src="../../../public/img/add_msg.png" style="width: 12px;margin-top: 12px"></span>
+                </div>
             </div>
         </div>
 
@@ -117,7 +129,7 @@
             </div>
             <div class="steplist">
                 <div class="step" v-for="(item,index) in TXlist">
-                    <div style="display: inline-block">
+                    <div style="display: inline-block" v-if='item.status!=100'>
                         <span class="step_box">{{item.status}}</span>
                         <span class="step_text">{{item.status_name}}</span>
                         <div class="step_name">
@@ -132,9 +144,9 @@
                             </div>
                         </div>
                     </div>
-                    <div v-if="item.status!=5" style="width: 120px;height: 2px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
+                    <div v-if="item.status!=5&&item.status!=100" style="width: 120px;height: 2px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
                 </div>
-                <div class="banner bannerTop" v-if="ban2" :style="{left:this.left+'px'}">
+                <div class="banner bannerTop" v-if="ban2" :style="{left:this.left+'px',top:this.top+'px'}">
                     <span class="tit">负责人</span>
                     <div>
                         <input  type="text" v-model="search" @change="getAccountList()"/>
@@ -147,9 +159,14 @@
                         <span class="qd" @click="ADDuserName('demand_apply')">确定</span>
                         <span @click="heidBan()">取消</span>
                     </div>
-
                 </div>
-
+                 <div class='all'> 
+                        <span style="margin-right:16px">全部内容可见人员：</span>
+                        <span class='user_name' v-for='(key,index) in TXlist[TXlist.length-1].user'  @mouseenter="delName(TXlist[TXlist.length-1].id,index)" @mouseleave="leaves()">{{key.user_name}}
+                            <img src="../../../public/img/del.png" style="width: 16px;opacity:0" :class="{getImg:(project_id==TXlist[TXlist.length-1].id&&indexs==index)}" @click="del(key.user_id,TXlist[TXlist.length-1].id)"/>
+                        </span>
+                        <span class="step_add" @click='getBan2(99)'><img src="../../../public/img/add_msg.png" style="width: 12px;margin-top: 12px"></span>
+                </div>
             </div>
         </div>
         <div class="centNavBox_4">
@@ -158,7 +175,7 @@
             </div>
             <div class="steplist">
                 <div class="step" v-for="(item,index) in SKlist">
-                    <div style="display: inline-block">
+                    <div style="display: inline-block" v-if='item.status!=100'>
                         <span class="step_box">{{item.status}}</span>
                         <span class="step_text">{{item.status_name}}</span>
                         <div class="step_name">
@@ -175,7 +192,7 @@
                     </div>
                     <div v-if="item.status<6" style="width: 120px;height: 2px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
                 </div>
-                <div class="banner bannerTop" v-if="ban3" :style="{left:this.left+'px'}">
+                <div class="banner bannerTop" v-if="ban3" :style="{left:this.left+'px',top:this.top+'px'}">
                     <span class="tit">负责人</span>
                     <div>
                         <input  type="text" v-model="search" @change="getAccountList()"/>
@@ -188,9 +205,14 @@
                         <span class="qd" @click="ADDuserName('demand_settle_receive')">确定</span>
                         <span @click="heidBan()">取消</span>
                     </div>
-
                 </div>
-
+                 <div class='all'> 
+                        <span style="margin-right:16px">全部内容可见人员：</span>
+                         <span class='user_name' v-for='(key,index) in SKlist[SKlist.length-1].user'  @mouseenter="delName(SKlist[SKlist.length-1].id,index)" @mouseleave="leaves()">{{key.user_name}}
+                            <img src="../../../public/img/del.png" style="width: 16px;opacity:0" :class="{getImg:(project_id==SKlist[SKlist.length-1].id&&indexs==index)}" @click="del(key.user_id,SKlist[SKlist.length-1].id)"/>
+                        </span>
+                        <span class="step_add" @click='getBan3(99)'><img src="../../../public/img/add_msg.png" style="width: 12px;margin-top: 12px"></span>
+                </div>
             </div>
         </div>
         <div class="centNavBox_5">
@@ -199,7 +221,7 @@
             </div>
             <div class="steplist">
                     <div class="step" v-for="(item,index) in FKlist">
-                    <div style="display: inline-block">
+                    <div style="display: inline-block" v-if='item.status!=100'>
                         <span class="step_box">{{item.status}}</span>
                         <span class="step_text">{{item.status_name}}</span>
                         <div class="step_name">
@@ -216,7 +238,7 @@
                     </div>
                     <div v-if="item.status<6" style="width: 120px;height: 2px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
                 </div>
-                <div class="banner bannerTop" v-if="ban4" :style="{left:this.left+'px'}">
+                <div class="banner bannerTop" v-if="ban4" :style="{left:this.left+'px',top:this.top+'px'}">
                     <span class="tit">负责人</span>
                     <div>
                         <input  type="text" v-model="search" @change="getAccountList()"/>
@@ -229,9 +251,14 @@
                         <span class="qd" @click="ADDuserName('demand_settle_paying')">确定</span>
                         <span @click="heidBan()">取消</span>
                     </div>
-
                 </div>
-
+                 <div class='all'> 
+                        <span style="margin-right:16px">全部内容可见人员：</span>
+                         <span class='user_name' v-for='(key,index) in FKlist[FKlist.length-1].user'  @mouseenter="delName(FKlist[FKlist.length-1].id,index)" @mouseleave="leaves()">{{key.user_name}}
+                            <img src="../../../public/img/del.png" style="width: 16px;opacity:0" :class="{getImg:(project_id==FKlist[FKlist.length-1].id&&indexs==index)}" @click="del(key.user_id,FKlist[FKlist.length-1].id)"/>
+                        </span>
+                        <span class="step_add" @click='getBan4(99)'><img src="../../../public/img/add_msg.png" style="width: 12px;margin-top: 12px"></span>
+                </div>
             </div>
         </div>
         <div class="bg" v-if="title">
@@ -288,6 +315,9 @@
                 num4:null,
                 nums4:null,
                 left:'',
+                top:'',
+                project_id:"",
+                indexs:""
             }
         },
         mounted(){
@@ -312,6 +342,7 @@
                     this.paymentList();
                 })
             },
+            
             getConductorList(){
                 let params= {demand_type:'demand_business',type:this.type};
                 this.api.process_list({params}).then((res)=>{
@@ -401,7 +432,15 @@
             getBan(index){
                 this.ban=true;
                 this.index=index;
-                this.left=this.index*276;
+                if(index!=99){
+                    this.left=this.index*276;
+                }
+                if(index==99){
+                    this.top=-10;
+                }else{
+                    this.top=-200
+                }
+                
                 this.ban2=false;
                 this.ban1=false;
                 this.ban3=false;
@@ -410,7 +449,14 @@
             getBan1(index){
                 this.ban1=true;
                 this.index=index;
-                this.left=this.index*276;
+                if(index!=99){
+                    this.left=this.index*276;
+                }
+                 if(index==99){
+                    this.top=-10;
+                }else{
+                    this.top=-200
+                }
                 this.ban=false;
                 this.ban2=false;
                 this.ban3=false;
@@ -420,7 +466,14 @@
             getBan2(index){
                 this.ban2=true;
                 this.index=index;
-                this.left=this.index*276;
+                if(index!=99){
+                    this.left=this.index*276;
+                }
+                 if(index==99){
+                    this.top=-10;
+                }else{
+                    this.top=-200
+                }
                 this.ban1=false;
                 this.ban3=false;
                 this.ban4=false;
@@ -430,7 +483,14 @@
             getBan3(index){
                 this.ban3=true;
                 this.index=index;
-                this.left=this.index*276;
+                if(index!=99){
+                    this.left=this.index*276;
+                }
+                 if(index==99){
+                    this.top=-10;
+                }else{
+                    this.top=-200
+                }
                 this.ban1=false;
                 this.ban2=false;
                 this.ban4=false;
@@ -440,7 +500,14 @@
             getBan4(index){
                 this.ban4=true;
                 this.index=index;
-                this.left=this.index*276;
+                if(index!=99){
+                    this.left=this.index*276;
+                }
+                 if(index==99){
+                    this.top=-10;
+                }else{
+                    this.top=-200
+                }
                 this.ban1=false;
                 this.ban2=false;
                 this.ban3=false;
@@ -453,14 +520,14 @@
                 this.ban2=false;
                  this.ban3=false;
                 this.ban4=false;
-                this.left=''
+                this.left='';
                 this.search=''
                 this.tableData=[];
             },
             getListUser(){
                 let params = {search:this.search}
                 this.api.get_accounts({params}).then((res)=>{
-                    console.log(res)
+                    
                 })
             },
             tag(id){
@@ -516,6 +583,30 @@
                     this.ReceivablesList();
                     this.paymentList();
                 })
+            },
+            delName(id,index){
+                this.project_id=id;
+                this.indexs=index;
+            },
+              delName2(id,index){
+                this.project_id=id;
+                this.indexs=index;
+            },
+              delName3(id,index){
+                this.project_id=id;
+                this.indexs=index;
+            },
+              delName4(id,index){
+                this.project_id=id;
+                this.indexs=index;
+            },
+              delName5(id,index){
+                this.project_id=id;
+                this.indexs=index;
+            },
+            leaves(){
+                this.project_id='';
+                this.indexs='';
             },
             delXS(da,index){
                 this.nums =da ;
@@ -854,5 +945,18 @@
         color:rgba(61,73,102,1);
         margin-left: 24px;
         margin-bottom: 20px;
+    }
+    .all{
+        margin-left:24px;
+    }
+    .all span{
+        margin-bottom: 30px;
+    }
+    .user_name{
+        display: inline-block;
+        border:1px solid #ddd;
+        padding:3px 5px;
+        border-radius: 3px;
+        margin-right: 10px;
     }
 </style>
