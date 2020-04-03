@@ -27,14 +27,16 @@
                             <video  :src="item.prev_uri" controls="controls" class="ADD_img_img" v-if="(item.prev_uri.split('.'))[(item.prev_uri.split('.')).length-1]=='mp4'" /> 
                             <span>{{item.mid}}</span>
                         </div>
-                         <div  class="ADD_img" v-if='type=="th_lock_screen"||type=="th_icon"||type=="th_second_page"'>
-                            <img :src="item.main_preview" class="ADD_img_img"  preview='0' />
-                            <span>{{item.thmid}}</span>
+                         <div  class="ADD_img" v-if='type!=""'>
+                            <img :src="item.main_preview" class="ADD_img_img"  preview='0'  v-if='item.type=="th_lock_screen"||item.type=="th_icon"||item.type=="th_second_page"'/>
+                            <span v-if='item.type=="th_lock_screen"||item.type=="th_icon"||item.type=="th_second_page"'>{{item.thmid}}</span>
+                            <img :src="item.prev_uri" class="ADD_img_img"  preview='0' v-if='item.type!="th_lock_screen"&&item.type!="th_icon"&&item.type!="th_second_page"'/>
+                            <span v-if='item.type!="th_lock_screen"&&item.type!="th_icon"&&item.type!="th_second_page"&&item.type!=""'>{{item.mid}}</span>
                         </div>
-                         <div  class="ADD_img" v-if='type!="th_lock_screen"&&type!="th_icon"&&type!="th_second_page"&&type!=""'>
+                         <!-- <div  class="ADD_img" v-if='type!="th_lock_screen"&&type!="th_icon"&&type!="th_second_page"&&type!=""'>
                             <img :src="item.prev_uri" class="ADD_img_img"  preview='0'/>
                             <span>{{item.mid}}</span>
-                        </div>
+                        </div> -->
                     </div>
                     <div>
                     </div>
