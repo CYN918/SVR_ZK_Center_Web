@@ -181,11 +181,9 @@
                        <span class='Name_right'>{{this.listData.exception_note}}</span>
                    </div>
                    <div style="margin:24px 0 0 8px">
-                       <div class='box_img' v-for='(item,index) in this.listData.materials' v-if='type!="th_lock_screen"&&type!="th_icon"&&type!="th_second_page"'>
-                           <img :src="item.prev_uri" >
-                       </div>
-                        <div class='box_img' v-for='(item,index) in this.listData.materials' v-if='type=="th_lock_screen"||type=="th_icon"||type=="th_second_page"'>
-                           <img :src="item.main_preview" >
+                       <div class='box_img' v-for='(item,index) in this.listData.materials'>
+                           <img :src="item.prev_uri" v-if='item.type!="th_lock_screen"&&item.type!="th_icon"&&item.type!="th_second_page"' >
+                            <img :src="item.main_preview" v-if='item.type=="th_lock_screen"||item.type=="th_icon"||item.type=="th_second_page"' >
                        </div>
                    </div>
                </div>
@@ -400,6 +398,9 @@ export default {
                             }
                             
                         },
+                        sss(da){
+                            console.log(da)
+                        },
                         unShow(){
                             this.show=false;
                             this.name='';
@@ -423,7 +424,7 @@ export default {
                             let params={id:this.$route.query.id}
                             this.api.demand_design_project_detail({params}).then((res)=>{
                                 this.listData=res;
-                                this.type=res.demand.type;            
+                                this.type=res.demand.type;        
                                 this.put_type=res.put_type;
                                 this.status_type=res.local_status;
                                 this.porject_id=res.pro_id;
