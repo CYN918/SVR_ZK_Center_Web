@@ -1,30 +1,25 @@
 <template>
    <div>
         <div class="top_name">
-             <span class="top_txt">主题付款 / 分成管理</span>
+             <span class="top_txt">主题付款  /   </span>
+             <span class="top_txt">分成管理   /   </span>
+              <span class="top_txt">分成详情</span>
             <div class="title_left">
-                <span>分成管理</span>
+                <span>分成详情</span>
             </div>
         </div>
         <div class='content'>
             <div>
-                 <div class='times'>
-                    <el-date-picker
-                    class='time_length'
-                        v-model="value1"
-                        type="date"
-                        range-separator="至"
-                       >
-                    </el-date-picker>
-                </div>
-                <span class='fc_statuc'>状态</span>
+                <span class='fc_statuc'>设计师ID</span>
+                <input type="text" placeholder="请输入">
+                <span class='fc_statuc'>结算放</span>
                 <select>
                     <option value=""></option>
                 </select>
                 <div class="btn_right">
                     <span class='cx'>查询</span>
                     <span>重置</span>
-                    <span @click='dr()'>导入数据</span>
+                    <span>确认金额</span>
                 </div>      
             </div>
            <div>
@@ -36,15 +31,15 @@
                             :cell-style="cell"
                             style="width: 100%;color:#000">
                         <el-table-column
-                                label="结算周期" prop="time"
+                                label="设计师ID" prop="time"
                                >
                         </el-table-column>
                         <el-table-column
-                                label="分成金额" prop=""
+                                label="结算金额" prop=""
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="状态" prop=""
+                                label="收益加成" prop=""
                                 >
                             <template slot-scope="scope">
                                 <span></span>
@@ -52,17 +47,27 @@
                         </el-table-column>
                         <el-table-column
                                 sortable
-                                label="变更时间" prop=""
+                                label="加成金额" prop=""
                                 >
                         </el-table-column>
                          <el-table-column
                                 sortable
-                                label="处理人" prop=""
+                                label="抵消预约金" prop=""
+                                >
+                        </el-table-column>
+                          <el-table-column
+                                sortable
+                                label="付款金额" prop=""
+                                >
+                        </el-table-column>
+                          <el-table-column
+                                sortable
+                                label="确认时间" prop=""
                                 >
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="props">
-                                <el-button type="text" @click='details()'>查看详情</el-button>
+                                <el-button type="text" >查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -118,14 +123,10 @@ export default {
                         path:"./exports"
                     })
                 },
-                details(){
-                    this.$router.push({
-                        path:"./Divided_details"
-                    })
-                },
             },
 }
 </script>
+
 
 <style scoped>
     .top_name{
@@ -170,7 +171,8 @@ export default {
         border-radius: 3px;
         line-height: 36px;
         text-align: center;
-        margin-left: 24px;
+        margin:0 0 24px 24px;
+
             
     }
     .cx{
@@ -180,12 +182,17 @@ export default {
     }
     .fc_statuc{
         display: inline-block;
-        margin-right: 15px;
+        margin:24px  15px 24px 24px;
 
     }
     select{
         width: 200px;
         height: 36px;
 
+    }
+    input{
+        width: 190px;
+        height: 30px;
+        padding-left: 10px;
     }
 </style>

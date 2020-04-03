@@ -181,6 +181,8 @@ import Divided from './views/income/content/Divided'
 mode['Divided']=Divided
 import exports from './views/income/content/exports'
 mode['exports']=exports
+import Divided_details from './views/income/content/Divided_details'
+mode['Divided_details']=Divided_details
 
 
 //工作台
@@ -555,6 +557,8 @@ let nb = [
             {path:'/income/content/theme_payment',name:'主题付款',component:mode['theme_payment']},
             {path:'/income/content/Divided',name:'分成管理',component:mode['Divided']},
             {path:'/income/content/exports',name:'导入数据',component:mode['exports']},
+            {path:'/income/content/Divided_details',name:'分成详情',component:mode['Divided_details']},
+
             
 
 
