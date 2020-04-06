@@ -1,31 +1,27 @@
 <template>
    <div>
         <div class="top_name">
-             <span class="top_txt">主题付款  /   分成管理   /   数据导入</span>
+             <span class="top_txt">主题付款  /   </span>
+             <span class="top_txt">分成管理   /   </span>
+             <span class="top_txt">分成详情   /   </span>
+              <span class="top_txt">分成金额详情</span>
             <div class="title_left">
-                <span>数据导入</span>
+                <span>分成金额详情</span>
             </div>
         </div>
         <div class='content'>
             <div>
-                 <div class='times'>
-                    <el-date-picker
-                    class='time_length'
-                        v-model="value1"
-                        type="date"
-                        range-separator="至"
-                       >
-                    </el-date-picker>
-                </div>
-                <span class='fc_statuc'>操作人员</span>
+                <span class='fc_statuc'>项目ID</span>
                 <input type="text" placeholder="请输入">
-                <span class='fc_statuc'>文件类型</span>
-                <select>
+                <span class='fc_statuc'>素材名称</span>
+                <input type="text" placeholder="请输入">
+                <span class='fc_statuc'>渠道</span>
+                <select name="" id="">
                     <option value=""></option>
                 </select>
                 <div class="btn_right">
                     <span class='cx'>查询</span>
-                    <span @click='drText()'>导入</span>
+                    <span>重置</span>
                 </div>      
             </div>
            <div>
@@ -37,15 +33,15 @@
                             :cell-style="cell"
                             style="width: 100%;color:#000">
                         <el-table-column
-                                label="变更时间" prop="time"
+                                label="项目ID" prop="time"
                                >
                         </el-table-column>
                         <el-table-column
-                                label="导入文件" prop=""
+                                label="素材名称" prop=""
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="文件类型" prop=""
+                                label="渠道" prop=""
                                 >
                             <template slot-scope="scope">
                                 <span></span>
@@ -53,18 +49,23 @@
                         </el-table-column>
                         <el-table-column
                                 sortable
-                                label="处理人" prop=""
+                                label="主题名称" prop=""
                                 >
                         </el-table-column>
                          <el-table-column
                                 sortable
-                                label="数据修改条数" prop=""
+                                label="主题收益" prop=""
                                 >
                         </el-table-column>
-                        <el-table-column label="操作">
-                            <template slot-scope="props">
-                                <a >下载</a>
-                            </template>
+                          <el-table-column
+                                sortable
+                                label="分成比例" prop=""
+                                >
+                        </el-table-column>
+                          <el-table-column
+                                sortable
+                                label="结算金额" prop=""
+                                >
                         </el-table-column>
                     </el-table>
                 </template>
@@ -81,33 +82,6 @@
                  </div>
            </div>
         </div>
-        <div class='bg' v-if='exe'>
-            <div class='dr'>
-                  <div class='dr_tit'>
-                      <span>导入</span>
-                  </div>  
-                  <div>
-                      <span class='fj'>附件</span>
-                      <el-upload
-                        class="upload-demo"
-                        action="1"
-                        :on-preview="handlePreview"
-                        :on-remove="handleRemove"
-                        :before-remove="beforeRemove"
-                        :http-request="uploadFile"
-                        multiple
-                        :limit="1"
-                        :file-list="fileList">
-                        <el-button size="small" type="primary">选择</el-button>
-                        </el-upload> 
-                        <a href="">下载模板</a> 
-                  </div>
-                  <div class='btns'>
-                        <span class='qr'>确认</span>
-                        <span @click='heid()'>取消</span>
-                </div>
-            </div>
-        </div>
    </div>
 </template>
 
@@ -120,8 +94,7 @@ export default {
                     page:1,
                     total:0,
                     tableData:[{time:2020}],
-                    fileList:[],
-                    exe:false,
+                    show:false,
                 }
             },
             methods:{
@@ -145,61 +118,22 @@ export default {
                 },
                 dr(){
                     this.$router.push({
-                        path:"./export"
+                        path:"./exports"
                     })
                 },
-                handleRemove(file, fileList) {
-                            this.attach={};
-                            console.log(this.attach);
-                },
-                handleRemove1(){
-                            this.prev_uri='',
-                            this.sjSize=''
-                },
-                handlePictureCardPreview(file) {
-                            this.dialogImageUrl = file.url;
-                            this.dialogVisible = true;
-                },
-                       
-                handlePreview(file) {
-                            console.log(file);
-                },
-                       
-                beforeRemove(file, fileList) {
-                            return this.$confirm(`确定移除 ${ file.name }？`);
-                },
-                uploadFile(){},
-                drText(){
-                    this.exe=true
+                jeqr(){
+                    this.show=true;
+
                 },
                 heid(){
-                    this.exe=false
-                },
+                    this.show=false
+                }
             },
 }
 </script>
 
+
 <style scoped>
- .bg{
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.3);
-        position: fixed;
-        z-index: 9;
-        bottom: 0;
-        right: 0;
-    }
-    .dr{
-        width: 450px;
-        height: 200px;
-        position: absolute;
-        top:50%;
-        left:50%;
-        transform: translate(-50%,-50%);
-        border-radius: 3px;
-        background: #fff;
-        text-align: center
-    }
     .top_name{
          height:112px!important;
         background:rgba(255,255,255,1);
@@ -242,7 +176,8 @@ export default {
         border-radius: 3px;
         line-height: 36px;
         text-align: center;
-        margin-left: 24px;
+        margin:0 0 24px 24px;
+
             
     }
     .cx{
@@ -252,64 +187,18 @@ export default {
     }
     .fc_statuc{
         display: inline-block;
-        margin-right: 15px;
+        margin:24px  15px 24px 24px;
 
     }
     select{
         width: 200px;
-        height: 34px;
+        height: 36px;
 
     }
     input{
         width: 190px;
-        height: 36px;
-        padding-left:10px;
-        border-radius: 3px;
-        margin-right: 24px;
+        height: 30px;
+        padding-left: 10px;
     }
-    .dr_tit{
-        width:100%;
-        height: 60px;
-        text-align: center
-    }
-    .dr_tit span{
-        display: inline-block;
-        line-height:60px;
-        font-size: 14px;
-        font-weight: bold;
-        
-    }
-    .upload-demo{
-        display: inline-block;
-    }
-    .fj{
-        font-size: 14px;
-        margin-right: 16px;    
-    }
-    a{
-        color:#3377ff;
-        font-size: 14px;
-        margin-left: 16px; 
-    }
-     .btns{
-        margin-top: 40px;
-        text-align: center
-    }
-    .btns span{
-            width: 90px;
-            height: 36px;
-            display: inline-block;
-            border:1px solid #ddd;
-            text-align: center;
-            line-height: 36px;
-            border-radius: 3px;
-            margin-right: 24px;
-            cursor: pointer;
-    }
-    .qr{
-        background: #3377ff;
-        border:0px!important;
-        color:#fff;
-
-    }
+    
 </style>

@@ -19,7 +19,7 @@
                 <div class="btn_right">
                     <span class='cx'>查询</span>
                     <span>重置</span>
-                    <span>确认金额</span>
+                    <span @click='jeqr()'>确认金额</span>
                 </div>      
             </div>
            <div>
@@ -67,7 +67,7 @@
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="props">
-                                <el-button type="text" >查看详情</el-button>
+                                <el-button type="text" @click="ck()" >查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -85,6 +85,20 @@
                  </div>
            </div>
         </div>
+        <div class='bg' v-if='show'>
+            <div class='qrbox'>
+                    <div class='tit_name'>
+                        <span>确认金额</span>
+                    </div>
+                    <div class='lr'>
+                        <span>提交后，将根据该结算金额给狮圈儿用户账户内，是否确认？</span>
+                    </div>
+                    <div class='btns'>
+                        <span class='qr'>确认</span>
+                        <span @click='heid()'>取消</span>
+                    </div>
+            </div>
+        </div>
    </div>
 </template>
 
@@ -96,7 +110,8 @@ export default {
                     p:10,
                     page:1,
                     total:0,
-                    tableData:[{time:2020}]
+                    tableData:[{time:2020}],
+                    show:false,
                 }
             },
             methods:{
@@ -121,6 +136,18 @@ export default {
                 dr(){
                     this.$router.push({
                         path:"./exports"
+                    })
+                },
+                jeqr(){
+                    this.show=true;
+
+                },
+                heid(){
+                    this.show=false
+                },
+                ck(){
+                    this.$router.push({
+                        path:"./Divided_details_money"
                     })
                 },
             },
@@ -194,5 +221,63 @@ export default {
         width: 190px;
         height: 30px;
         padding-left: 10px;
+    }
+    .bg{
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.3);
+        position: fixed;
+        z-index: 9;
+        bottom: 0;
+        right: 0;
+    }
+    .qrbox{
+        width: 450px;
+        height: 200px;
+        position: absolute;
+        top:50%;
+        left:50%;
+        transform: translate(-50%,-50%);
+        border-radius: 3px;
+        background: #fff;
+    }
+    .tit_name{
+        width: 100%;
+        height: 40px;
+        border:1px solid #ddd;
+    }
+    .tit_name span{
+        display: inline-block;
+        margin-left: 24px;
+        line-height: 40px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+    .lr{
+        margin: 30px 24px 30px 24px;
+    }
+    .lr span{
+        margin-left: 24px;
+        font-size: 14px;
+    }
+    .btns{
+        float:right;
+    }
+    .btns span{
+            width: 90px;
+            height: 36px;
+            display: inline-block;
+            border:1px solid #ddd;
+            text-align: center;
+            line-height: 36px;
+            border-radius: 3px;
+            margin-right: 24px;
+            cursor: pointer;
+    }
+    .qr{
+        background: #3377ff;
+        border:0px!important;
+        color:#fff;
+
     }
 </style>

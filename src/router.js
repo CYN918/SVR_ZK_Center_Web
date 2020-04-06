@@ -183,6 +183,12 @@ import exports from './views/income/content/exports'
 mode['exports']=exports
 import Divided_details from './views/income/content/Divided_details'
 mode['Divided_details']=Divided_details
+import Divided_details_money from './views/income/content/Divided_details_money'
+mode['Divided_details_money']=Divided_details_money
+import theme_fk from './views/income/content/theme'
+mode['theme_fk']=theme_fk
+import call_show from './views/income/content/call_show'
+mode['call_show']=call_show
 
 
 //工作台
@@ -554,10 +560,15 @@ let nb = [
             {path:'/income/SpecialFunds/Record',name:'特殊款变更列表',component:mode['Record2']},
             {path:'/income/SpecialFunds/RecordDetailed',name:'特殊款变更列表详情',component:mode['RecordDetailed']},
 
+            
+            {path:'/income/content/theme_fk',name:'主题付款',component:mode['theme_fk']},
+            {path:'/income/content/call_show',name:'来电秀付款',component:mode['call_show']},
             {path:'/income/content/theme_payment',name:'主题付款',component:mode['theme_payment']},
             {path:'/income/content/Divided',name:'分成管理',component:mode['Divided']},
             {path:'/income/content/exports',name:'导入数据',component:mode['exports']},
             {path:'/income/content/Divided_details',name:'分成详情',component:mode['Divided_details']},
+            {path:'/income/content/Divided_details_money',name:'分成金额详情',component:mode['Divided_details_money']},
+           
 
             
 
@@ -732,7 +743,8 @@ let leftNav =
                     {title:'特殊款管理',url:'/income/SpecialFunds/SpecialFunds_Administration'},
                 ]},
                 {title:"内容业务",url:"3-2",list:[
-                    {title:'主题付款',url:'/income/content/theme_payment'},
+                    {title:'主题付款',url:'/income/content/theme_fk'},
+                    {title:'来电秀付款',url:'/income/content/call_show'},
                    
                 ]}
             ]

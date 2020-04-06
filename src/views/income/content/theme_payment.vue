@@ -2,23 +2,23 @@
    <div>
         <div class="top_name">
             <div class="title_left">
-                <span>主题付款</span>
+                <span>{{this.type=='0'?'主题付款':'来电秀付款'}}</span>
             </div>
         </div>
         <div class='content'>
             <div>
                  <div class='times'>
                     <el-date-picker
-                    class='time_length'
+                        class='time_length'
                         v-model="value1"
-                        type="daterange"
+                        type="monthrange"
                         range-separator="至"
-                        start-placeholder="开始日期"
-                        end-placeholder="结束日期">
+                        start-placeholder="开始月份"
+                        end-placeholder="结束月份">
                     </el-date-picker>
                 </div>
                 <div class="btn_right">
-                    <span class='cx'>查询</span>
+                    <span class='cx' @click='listData()'>查询</span>
                     <span>重置</span>
                     <span @click='jump()'>分成管理</span>
                 </div>      
@@ -52,7 +52,7 @@
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="props">
-                                <el-button type="text" >查看详情</el-button>
+                                <el-button type="text" @click='xq()'>查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -75,14 +75,18 @@
 
 <script>
 export default {
+    props:['type'],
             data(){
                 return{
-                    value1:"",
+                    value1: '',
                     p:10,
                     page:1,
                     total:0,
                     tableData:[{time:2020}]
                 }
+            },
+            mounted(){
+                this.listData()
             },
             methods:{
                 getRowClass({row, column, rowIndex}) {
@@ -97,17 +101,29 @@ export default {
                 },
                 handleSizeChange(p) { // 每页条数切换
                     this.p = p;
-                    this.getDataList()
+                    this.listData()
                 },
                 handleCurrentChange(page) {//页码切换
                     this.page = page;
-                    this.getDataList()
+                    this.listData()
                 },
                 jump(){
                     this.$router.push({
                         path:"./Divided"
                     })
                 },
+                listData(){
+                    let params={type:this.type}
+                    this.api.sharing_data_income_period({params}).then((res)=>{
+                         this.total=res.total;
+                         this.tableData=res.data;   
+                    })
+                },
+                xq(){
+                    this.$router.push({
+                        path:"./Divided_details"
+                    })
+                }
             },
 }
 </script>

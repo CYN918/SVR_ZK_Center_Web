@@ -1558,5 +1558,12 @@ export default {
 	material_project_add:{
 		url:"material/project/add",method:"post",isType:{suktip:1},
 	},
-	
+	//分成收益数据导入
+	sharing_data_import:{
+		url:'sharing/data/import',method:"post",isType:{suktip:1},
+	},
+	//获取周期收益数据总览
+	sharing_data_income_period:{
+		url:"sharing/data/income/period",method:'get'
+	},
 }
