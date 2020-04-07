@@ -53,12 +53,12 @@
                         </el-table-column>
                          <el-table-column
                                 sortable
-                                label="抵消预约金" prop="total_income"
+                                label="抵消预约金" prop="advance_payment_income"
                                 >
                         </el-table-column>
                           <el-table-column
                                 sortable
-                                label="付款金额" prop=""
+                                label="付款金额" prop="payment_income"
                                 >
                         </el-table-column>
                           <el-table-column
