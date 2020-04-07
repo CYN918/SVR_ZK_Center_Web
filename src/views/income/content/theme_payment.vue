@@ -2,7 +2,7 @@
    <div>
         <div class="top_name">
             <div class="title_left">
-                <span>{{this.type=='0'?'主题付款':'来电秀付款'}}</span>
+                <span>{{this.type=='1'?'主题付款':'来电秀付款'}}</span>
             </div>
         </div>
         <div class='content'>
@@ -10,7 +10,7 @@
                  <div class='times'>
                     <el-date-picker
                         class='time_length'
-                        v-model="value1"
+                        v-model="tdate"
                         type="monthrange"
                         range-separator="至"
                         start-placeholder="开始月份"
@@ -19,7 +19,7 @@
                 </div>
                 <div class="btn_right">
                     <span class='cx' @click='listData()'>查询</span>
-                    <span>重置</span>
+                    <span @click='cz()'>重置</span>
                     <span @click='jump()'>分成管理</span>
                 </div>      
             </div>
@@ -32,27 +32,24 @@
                             :cell-style="cell"
                             style="width: 100%;color:#000">
                         <el-table-column
-                                label="结算周期" prop="time"
+                                label="结算周期" prop="tdate"
                                >
                         </el-table-column>
                         <el-table-column
-                                label="总金额" prop=""
+                                label="总金额" prop="total_income"
                                 >
                         </el-table-column>
                         <el-table-column
                                 label="买断金额" prop=""
                                 >
-                            <template slot-scope="scope">
-                                <span></span>
-                            </template>
                         </el-table-column>
                         <el-table-column
-                                label="分成金额" prop="cash_money"
+                                label="分成金额" prop="final_income"
                                 >
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="props">
-                                <el-button type="text" @click='xq()'>查看详情</el-button>
+                                <el-button type="text" @click='xq(tableData[props.$index].tdate)'>查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -78,7 +75,7 @@ export default {
     props:['type'],
             data(){
                 return{
-                    value1: '',
+                    tdate: '',
                     p:10,
                     page:1,
                     total:0,
@@ -89,6 +86,9 @@ export default {
                 this.listData()
             },
             methods:{
+                cz(){
+                    this.tdate=''
+                },
                 getRowClass({row, column, rowIndex}) {
                     if (rowIndex === 0) {
                         return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;padding:20px 0px 20px 14px'
@@ -109,19 +109,23 @@ export default {
                 },
                 jump(){
                     this.$router.push({
-                        path:"./Divided"
+                        path:"./Divided",
+                         query:{type:this.type}
                     })
                 },
                 listData(){
-                    let params={type:this.type}
+                    let params={type:this.type,p:this.p,page:this.page,tdate:this.tdate}
                     this.api.sharing_data_income_period({params}).then((res)=>{
                          this.total=res.total;
                          this.tableData=res.data;   
                     })
                 },
-                xq(){
+                xq(tdate){
                     this.$router.push({
-                        path:"./Divided_details"
+                        path:"./datas_details",
+                        query:{type:this.type,
+                                tdate:tdate
+                        }
                     })
                 }
             },

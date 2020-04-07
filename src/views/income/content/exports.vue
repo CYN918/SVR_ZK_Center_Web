@@ -1,7 +1,9 @@
 <template>
    <div>
         <div class="top_name">
-             <span class="top_txt">主题付款  /   分成管理   /   数据导入</span>
+             <span class="top_txt" @click="fh(-2)">{{this.$route.query.type=='1'?'主题付款':'来电秀付款'}}&nbsp;/&nbsp;</span>
+              <span class="top_txt" @click="fh(-1)">分成管理&nbsp;/&nbsp;</span>
+               <span class="top_txt">数据导入</span>
             <div class="title_left">
                 <span>数据导入</span>
             </div>
@@ -11,20 +13,16 @@
                  <div class='times'>
                     <el-date-picker
                     class='time_length'
-                        v-model="value1"
+                        v-model="tdate"
                         type="date"
                         range-separator="至"
                        >
                     </el-date-picker>
                 </div>
                 <span class='fc_statuc'>操作人员</span>
-                <input type="text" placeholder="请输入">
-                <span class='fc_statuc'>文件类型</span>
-                <select>
-                    <option value=""></option>
-                </select>
+                <input type="text" placeholder="请输入" v-model='updator'>
                 <div class="btn_right">
-                    <span class='cx'>查询</span>
+                    <span class='cx' @click='getDataList()'>查询</span>
                     <span @click='drText()'>导入</span>
                 </div>      
             </div>
@@ -37,33 +35,23 @@
                             :cell-style="cell"
                             style="width: 100%;color:#000">
                         <el-table-column
-                                label="变更时间" prop="time"
+                                label="变更时间" prop="date"
                                >
                         </el-table-column>
                         <el-table-column
-                                label="导入文件" prop=""
+                                label="导入文件" prop="name"
                                 >
                         </el-table-column>
-                        <el-table-column
-                                label="文件类型" prop=""
-                                >
-                            <template slot-scope="scope">
-                                <span></span>
-                            </template>
-                        </el-table-column>
+                        
                         <el-table-column
                                 sortable
-                                label="处理人" prop=""
+                                label="处理人" prop="updator"
                                 >
                         </el-table-column>
-                         <el-table-column
-                                sortable
-                                label="数据修改条数" prop=""
-                                >
-                        </el-table-column>
+                       
                         <el-table-column label="操作">
                             <template slot-scope="props">
-                                <a >下载</a>
+                                <a :href='tableData[props.$index].url'>下载</a>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -86,26 +74,135 @@
                   <div class='dr_tit'>
                       <span>导入</span>
                   </div>  
-                  <div>
-                      <span class='fj'>附件</span>
+                  <div class='file_ADD'>
+                      <span class='fj'>附件：</span>
                       <el-upload
                         class="upload-demo"
                         action="1"
                         :on-preview="handlePreview"
-                        :on-remove="handleRemove"
-                        :before-remove="beforeRemove"
                         :http-request="uploadFile"
                         multiple
-                        :limit="1"
                         :file-list="fileList">
                         <el-button size="small" type="primary">选择</el-button>
                         </el-upload> 
-                        <a href="">下载模板</a> 
+                        <a href="text/主题收益数据导入模板.xlsx" v-if='this.$route.query.type=="1"'>下载模板</a> 
+                        <a href="text/来电秀收益数据导入模板.xlsx" v-if='this.$route.query.type=="2"'>下载模板</a> 
+                  </div>
+                  <div style="margin-top:16px">
+                      <span class='fj'>附件名称：</span>
+                      <span>{{this.file.name}}</span>
+                      <img src="img/yc.png" alt="" class='del' v-if='this.file.name' @click='del()'>
                   </div>
                   <div class='btns'>
-                        <span class='qr'>确认</span>
+                        <span class='qr' @click='drData()'>确认</span>
                         <span @click='heid()'>取消</span>
                 </div>
+            </div>
+        </div>
+        <div class='bg' v-if='list'>
+            <div class='table'>
+                <div style="border-bottom:1px solid #ddd;margin-bottom:30px">
+                    <span class='tit_name'>数据确认</span>
+                    <span>表格共条数据，本次新增条数据，覆盖修改条数据</span>
+                </div>
+                <div>
+                
+                    <span class='fc_statuc' style="margin-left:24px">渠道</span>
+                      <select v-model='channel'>
+                        <option value="">全部</option>
+                        <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
+                     </select>
+                    <span class='fc_statuc' style="margin:24px">主题名</span>
+                    <input type="text" placeholder="请输入" v-model='theme_name'>
+                    <span class='fc_statuc' >状态</span>
+                    <select name="" id="" v-model="statu_msg">
+                        <option value="1">新增</option>
+                        <option value="2">无变化</option>
+                        <option value="3">可覆盖</option>
+                        <option value="4">与锁定数据有冲突</option>
+                        <option value="5">数据异常</option>
+
+                    </select>
+                     <div class="btn_right">
+                                <span class='cx' >查询</span>
+                                <span >重置</span>
+                    </div> 
+                </div>
+                <div>
+                        <template>
+                            <el-table
+                                    :data="ListData"
+                                    header-align="center"
+                                    :header-cell-style="getRowClass"
+                                    :cell-style="cell"
+                                    style="width: 100%;color:#000">
+                                <el-table-column
+                                        label="结算周期" prop="tdate"
+                                    >
+                                </el-table-column>
+                                <el-table-column
+                                        label="素材名称" prop="material_name"
+                                        >
+                                </el-table-column>
+                                
+                                <el-table-column
+                                        sortable
+                                        label="户名" prop="updator"
+                                        >
+                                </el-table-column>
+                            
+                                <el-table-column label="渠道"
+                                prop="channel"
+                                >
+                               
+                                </el-table-column>
+                                 <el-table-column
+                                        sortable
+                                        label="主题名称" prop="theme_name"
+                                        >
+                                </el-table-column>
+                                 <el-table-column
+                                        sortable
+                                        label="收益" prop="final_income"
+                                        >
+                                </el-table-column>
+                                 <el-table-column
+                                        sortable
+                                        label="分成比例" prop="sharing_rate"
+                                        >
+                                </el-table-column>
+                                <el-table-column
+                                        sortable
+                                        label="结算金额" prop="updator"
+                                        >
+                                </el-table-column>
+                                <el-table-column
+                                        sortable
+                                        label="状态" prop="status_msg"
+                                        >
+                                </el-table-column>
+                            </el-table>
+                        </template>
+                          <div class="btn_right" style="float:left;">
+                                <span class='cx' @click='up()'>确定</span>
+                                <span @click='qx()'>取消</span>
+                            </div>   
+                </div>
+            </div>
+        </div>
+        <div class='bg' v-if='tj'>
+            <div class='con'>
+                <div class='ts'>
+                    <span>提示</span>
+                </div>
+                <div>
+                    <span style="margin:0 24px" v-if='ct'>存在与结算数据冲突的数据，提交后存在冲突的数据不会更新</span>
+                    <span style="margin:0 24px" v-if='ct==false'>提交后，将根据该数据更新对应的收益数据，是否确认？</span>
+                </div>
+                 <div class="btn_right" style="float:left;">
+                                <span class='cx' @click='ADD()'>确定</span>
+                                <span @click='gb()'>取消</span>
+                </div>   
             </div>
         </div>
    </div>
@@ -115,16 +212,33 @@
 export default {
             data(){
                 return{
-                    value1:"",
+                    tdate:"",
                     p:10,
                     page:1,
                     total:0,
-                    tableData:[{time:2020}],
+                    tableData:[],
                     fileList:[],
                     exe:false,
+                    updator:"",
+                    file_id:"",
+                    channels:[],
+                    channel:"",
+                    list:false,
+                    ListData:[],
+                    file:{},
+                    statu_msg:"",
+                    theme_name:"",
+                    tj:false,
+                    ct:false
                 }
             },
+            mounted(){
+                this.getDataList()
+            },
             methods:{
+                fh(index){
+                        this.$router.go(index)
+                },
                 getRowClass({row, column, rowIndex}) {
                     if (rowIndex === 0) {
                         return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;padding:20px 0px 20px 14px'
@@ -148,13 +262,16 @@ export default {
                         path:"./export"
                     })
                 },
-                handleRemove(file, fileList) {
-                            this.attach={};
-                            console.log(this.attach);
+                up(){
+                    this.tj=true;
+                    for(var i =0; i<this.ListData.length;i++){
+                        if(this.ListData[i].status=='4'||this.ListData[i].status=='5')
+                        this.ct=true;
+                    }
                 },
-                handleRemove1(){
-                            this.prev_uri='',
-                            this.sjSize=''
+                gb(){
+                    this.tj=false;
+
                 },
                 handlePictureCardPreview(file) {
                             this.dialogImageUrl = file.url;
@@ -165,15 +282,64 @@ export default {
                             console.log(file);
                 },
                        
-                beforeRemove(file, fileList) {
-                            return this.$confirm(`确定移除 ${ file.name }？`);
+               del(){
+                   this.file={}
+               },
+                uploadFile(file){
+                    this.file=file.file;
+                    console.log(this.file);
                 },
-                uploadFile(){},
                 drText(){
                     this.exe=true
                 },
                 heid(){
-                    this.exe=false
+                    this.exe=false;
+                    this.file={}
+                },
+                getDataList(){
+                    let params={type:this.$route.query.type,tdate:this.tdate,updator:this.updator,p:this.p,page:this.page}
+                    this.api.sharing_data_file_list({params}).then((res)=>{
+                        this.total=res.total;
+                        this.tableData=res.data;
+                    })
+                },
+                drData(){
+                    let formData=new FormData;
+                    formData.append('file',this.file);
+                    formData.append('type',this.$route.query.type)
+                    this.api.sharing_data_import(formData).then((res)=>{
+                        if(res!=false){
+                            this.file_id=res.file_id;
+                            this. heid();
+                            this.list=true;
+                            this.getData()
+                        }
+                    })
+                   
+                },
+                qx(){
+                    this.list=false;
+                     this. heid();
+                },
+                qd(){
+                    this.api.themes_config_channel().then((res)=>{
+                        this.channels=res;
+                    })
+                },
+                getData(){
+                    let params={file_id:this.file_id,channel:this.channel,theme_name:this.theme_name,statu_msg:this.statu_msg}
+                    this.api.sharing_data_list({params}).then((res)=>{
+                        this.ListData=res.data;
+                        this.qd();
+                    })
+                },
+                ADD(){
+                    let params={file_id:this.file_id,type:this.$route.query.type}
+                    this.api.sharing_data_confirm({params}).then((res)=>{
+                        if(res!=false){
+                            this.gb()
+                        }
+                    })
                 },
             },
 }
@@ -188,6 +354,7 @@ export default {
         z-index: 9;
         bottom: 0;
         right: 0;
+       
     }
     .dr{
         width: 450px;
@@ -216,6 +383,7 @@ export default {
     .top_txt{
         display: inline-block;
         margin-left: 24px;
+        cursor: pointer;
     }
     .content{
         margin-top: 199px;
@@ -292,7 +460,7 @@ export default {
         margin-left: 16px; 
     }
      .btns{
-        margin-top: 40px;
+        margin-top: 24px;
         text-align: center
     }
     .btns span{
@@ -311,5 +479,52 @@ export default {
         border:0px!important;
         color:#fff;
 
+    }
+    .table{
+        width:85%;
+        position: absolute;
+        left: 50%;
+        top:50%;
+        transform: translate(-50%,-50%);
+        height: 90%;
+        overflow-y: auto;
+        background: #fff;
+    }
+    .tit_name{
+        display: inline-block;
+        line-height: 40px;
+        margin: 0 24px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+    .con{
+        position: absolute;
+        top:50%;
+        left:50%;
+        width:500px;
+        height: 200px;
+        background: #fff;
+        transform: translate(-50%,-50%);
+        border-radius: 5px;
+    }
+    .ts{
+        width: 100%;
+        height: 50px;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 20px;
+    }
+    .ts span{
+        font-size: 14px;
+        font-weight: bold;
+        margin-left: 24px;
+        display: inline-block;
+        line-height: 50px;
+
+    }
+    .del{
+        width: 16px;
+        cursor: pointer;
+        vertical-align: bottom;
+        margin-left: 10px;
     }
 </style>

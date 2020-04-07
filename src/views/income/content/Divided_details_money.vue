@@ -1,27 +1,31 @@
 <template>
    <div>
         <div class="top_name">
-             <span class="top_txt">主题付款  /   </span>
-             <span class="top_txt">分成管理   /   </span>
-             <span class="top_txt">分成详情   /   </span>
+             <span class="top_txt" @click='fh(-3)'>{{this.$route.query.type=='1'?'主题付款':'来电秀付款'}}&nbsp;/&nbsp;</span>
+             <span class="top_txt" @click='fh(-2)'>分成管理&nbsp;/&nbsp;</span>
+             <span class="top_txt" @click='fh(-1)'>分成详情&nbsp;/&nbsp;</span>
               <span class="top_txt">分成金额详情</span>
             <div class="title_left">
                 <span>分成金额详情</span>
+                <span class='time'>{{this.$route.query.tdate}}</span>
+                <span class='time'>{{this.$route.query.open_id}}</span>
+                <span class='time'>{{this.$route.query.tdate}}</span>
             </div>
         </div>
         <div class='content'>
             <div>
                 <span class='fc_statuc'>项目ID</span>
-                <input type="text" placeholder="请输入">
-                <span class='fc_statuc'>素材名称</span>
-                <input type="text" placeholder="请输入">
+                <input type="text" placeholder="请输入" v-model="project_id">
+                <span class='fc_statuc' >素材名称</span>
+                <input type="text" placeholder="请输入" v-model="material_name">
                 <span class='fc_statuc'>渠道</span>
-                <select name="" id="">
-                    <option value=""></option>
+                <select v-model='channel'>
+                    <option value="">全部</option>
+                    <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
                 </select>
                 <div class="btn_right">
-                    <span class='cx'>查询</span>
-                    <span>重置</span>
+                    <span class='cx' @click='getDataList()'>查询</span>
+                    <span @click='cz()'>重置</span>
                 </div>      
             </div>
            <div>
@@ -33,38 +37,35 @@
                             :cell-style="cell"
                             style="width: 100%;color:#000">
                         <el-table-column
-                                label="项目ID" prop="time"
+                                label="项目ID" prop="project_id"
                                >
                         </el-table-column>
                         <el-table-column
-                                label="素材名称" prop=""
+                                label="素材名称" prop="material_name"
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="渠道" prop=""
+                                label="渠道" prop="account_name"
                                 >
-                            <template slot-scope="scope">
-                                <span></span>
-                            </template>
                         </el-table-column>
                         <el-table-column
                                 sortable
-                                label="主题名称" prop=""
+                                label="主题名称" prop="theme_name"
                                 >
                         </el-table-column>
                          <el-table-column
                                 sortable
-                                label="主题收益" prop=""
+                                label="主题收益" prop="income"
                                 >
                         </el-table-column>
                           <el-table-column
                                 sortable
-                                label="分成比例" prop=""
+                                label="分成比例" prop="sharing_rate"
                                 >
                         </el-table-column>
                           <el-table-column
                                 sortable
-                                label="结算金额" prop=""
+                                label="结算金额" prop="total_income"
                                 >
                         </el-table-column>
                     </el-table>
@@ -95,9 +96,19 @@ export default {
                     total:0,
                     tableData:[{time:2020}],
                     show:false,
+                    project_id:'',
+                    material_name:'',
+                    channels:[],
+                    channel:''
                 }
             },
+            mounted(){
+                this.getDataList()
+            },
             methods:{
+                fh(index){
+                    this.$router.go(index)
+                },
                 getRowClass({row, column, rowIndex}) {
                     if (rowIndex === 0) {
                         return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;padding:20px 0px 20px 14px'
@@ -127,7 +138,25 @@ export default {
                 },
                 heid(){
                     this.show=false
-                }
+                },
+                cz(){
+                    this.project_id='';
+                    this.material_name='';
+                    this.channel=''
+                },
+                getDataList(){
+                    let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.$route.query.open_id,project_id:this.project_id,p:this.p,page:this.page}
+                    this.api.sharing_data_income_detail({params}).then((res)=>{
+                        this.total=res.total;
+                        this.tableData=res.data;
+                        this. qd();
+                    })
+                },
+                 qd(){
+                    this.api.themes_config_channel().then((res)=>{
+                        this.channels=res;
+                    })
+                },
             },
 }
 </script>
@@ -150,6 +179,7 @@ export default {
     .top_txt{
         display: inline-block;
         margin-left: 24px;
+        cursor: pointer;
     }
     .content{
         margin-top: 199px;
@@ -200,5 +230,14 @@ export default {
         height: 30px;
         padding-left: 10px;
     }
-    
+    .time{
+        display: inline-block;
+        padding: 3px 5px;
+        background: #ddd;
+        border-radius: 3px;
+        margin: 0 16px;
+        font-size: 14px!important;
+        font-weight: 400!important;
+        
+    }
 </style>

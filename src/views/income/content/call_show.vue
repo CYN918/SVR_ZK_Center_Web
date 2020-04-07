@@ -8,7 +8,7 @@ export default {
     components:{home},
     data(){
         return{
-            type:1
+            type:2
         }
     },
 }

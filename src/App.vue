@@ -974,4 +974,7 @@ select{
 .times .el-input__inner{
          width:200px!important
     }
+  .file_ADD .el-upload-list__item-name{
+    display: none;
+  }  
 </style>

@@ -1,7 +1,7 @@
 <template>
    <div>
         <div class="top_name">
-             <span class="top_txt">主题付款 / 分成管理</span>
+             <span class="top_txt" @click='fh(-1)'>{{this.$route.query.type=='1'?'主题付款':'来电秀付款'}}&nbsp;/&nbsp;分成管理</span>
             <div class="title_left">
                 <span>分成管理</span>
             </div>
@@ -11,19 +11,21 @@
                  <div class='times'>
                     <el-date-picker
                     class='time_length'
-                        v-model="value1"
-                        type="date"
+                        v-model="tdate"
+                        type="month"
                         range-separator="至"
                        >
                     </el-date-picker>
                 </div>
                 <span class='fc_statuc'>状态</span>
-                <select>
-                    <option value=""></option>
+                <select v-model="is_confirmed">
+                    <option value="">全部</option>
+                    <option value="0">未确认</option>
+                    <option value="1">已确认</option>
                 </select>
                 <div class="btn_right">
-                    <span class='cx'>查询</span>
-                    <span>重置</span>
+                    <span class='cx' @click='getDataList()'>查询</span>
+                    <span @click='cz()'>重置</span>
                     <span @click='dr()'>导入数据</span>
                 </div>      
             </div>
@@ -36,33 +38,33 @@
                             :cell-style="cell"
                             style="width: 100%;color:#000">
                         <el-table-column
-                                label="结算周期" prop="time"
+                                label="结算周期" prop="tdate"
                                >
                         </el-table-column>
                         <el-table-column
-                                label="分成金额" prop=""
+                                label="分成金额" prop="final_income"
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="状态" prop=""
+                                label="状态" prop="is_confirmed"
                                 >
                             <template slot-scope="scope">
-                                <span></span>
+                                <span>{{tableData[scope.$index].is_confirmed==0?'未确认':'已确认'}}</span>
                             </template>
                         </el-table-column>
                         <el-table-column
                                 sortable
-                                label="变更时间" prop=""
+                                label="变更时间" prop="updated_at"
                                 >
                         </el-table-column>
                          <el-table-column
                                 sortable
-                                label="处理人" prop=""
+                                label="处理人" prop="updator"
                                 >
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="props">
-                                <el-button type="text" @click='details()'>查看详情</el-button>
+                                <el-button type="text" @click='details(tableData[props.$index].tdate,tableData[props.$index].is_confirmed)'>查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -87,14 +89,25 @@
 export default {
             data(){
                 return{
-                    value1:"",
+                    tdate:"",
                     p:10,
                     page:1,
                     total:0,
-                    tableData:[{time:2020}]
+                    tableData:[{time:2020}],
+                    is_confirmed:"",
                 }
             },
+            mounted(){
+                this.getDataList()
+            },
             methods:{
+                 fh(index){
+                    this.$router.go(index)
+                },
+                cz(){
+                    this.tdate='';
+                    this.is_confirmed='';
+                },
                 getRowClass({row, column, rowIndex}) {
                     if (rowIndex === 0) {
                         return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;padding:20px 0px 20px 14px'
@@ -115,12 +128,28 @@ export default {
                 },
                 dr(){
                     this.$router.push({
-                        path:"./exports"
+                        path:"./exports",
+                        query:{
+                             
+                              type:this.$route.query.type,
+                        }
                     })
                 },
-                details(){
+                details(tdate,status){
                     this.$router.push({
-                        path:"./Divided_details"
+                        path:"./Divided_details",
+                        query:{
+                              tdate:tdate,
+                              type:this.$route.query.type,
+                              status:status
+                        }
+                    })
+                },
+                getDataList(){
+                    let params={type:this.$route.query.type,p:this.p,page:this.page,is_confirmed:this.is_confirmed,tdate:this.tdate}
+                    this.api.sharing_data_income_period({params}).then((res)=>{
+                        this.total=res.total;
+                        this.tableData=res.data; 
                     })
                 },
             },
