@@ -8,8 +8,8 @@
             <div class="title_left">
                 <span>分成金额详情</span>
                 <span class='time'>{{this.$route.query.tdate}}</span>
-                <span class='time'>{{this.$route.query.open_id}}</span>
-                <span class='time'>{{this.$route.query.tdate}}</span>
+                <span class='time'>设计师ID：{{this.$route.query.open_id}}</span>
+                <span class='time'>开户名：{{this.$route.query.account_name}}</span>
             </div>
         </div>
         <div class='content'>

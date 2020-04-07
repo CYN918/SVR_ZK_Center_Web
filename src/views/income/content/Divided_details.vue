@@ -68,7 +68,7 @@
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="props">
-                                <el-button type="text" @click="ck(tableData[props.$index].open_id)" >查看详情</el-button>
+                                <el-button type="text" @click="ck(tableData[props.$index].open_id,tableData[props.$index].account_name)" >查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -155,13 +155,14 @@ export default {
                 heid(){
                     this.show=false
                 },
-                ck(id){
+                ck(id,account_name){
                     this.$router.push({
                         path:"./Divided_details_money",
                         query:{
                             type:this.$route.query.type,
                             open_id:id,
-                            tdate:this.$route.query.tdate
+                            tdate:this.$route.query.tdate,
+                            account_name:account_name
                         }
                     })
                 },
