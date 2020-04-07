@@ -1565,4 +1565,38 @@ export default {
 	tools_url_download:{
 		url:"tools/url/download",method:"get"
 	},
+
+	//上传收益数据文件
+	sharing_data_import:{
+		url:'sharing/data/import',method:"post",isType:{suktip:1},
+	},
+	//获取周期收益数据总览
+	sharing_data_income_period:{
+		url:"sharing/data/income/period",method:'get'
+	},
+	//分成管理详情
+	sharing_data_income_designer:{
+		url:"sharing/data/income/designer",method:"get"
+	},
+	//确认收益
+	sharing_data_income_confirm:{
+		url:'sharing/data/income/confirm',method:"post",isType:{suktip:1},
+	},
+	//分成金额详情
+	sharing_data_income_detail:{
+		url:'sharing/data/income/detail',method:'get'
+	},
+	//获取上传文件列表
+	sharing_data_file_list:{
+		url:"sharing/data/file/list",method:"get"
+	},
+	//导入数据确认
+	sharing_data_confirm:{
+		url:"sharing/data/confirm",method:'post',isType:{suktip:1},
+	},
+	//获取导入数据
+	sharing_data_list:{
+		url:"sharing/data/list",method:'get'
+
+	},
 }

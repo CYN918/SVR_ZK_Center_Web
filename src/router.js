@@ -175,6 +175,22 @@ import YYAdministration from './views/income/Payment_operation/Administration'
 mode['YYAdministration']=YYAdministration
 import detailYY from './views/income/Payment_operation/details'
 mode['detailYY']=detailYY
+import theme_payment from './views/income/content/theme_payment'
+mode['theme_payment']=theme_payment
+import Divided from './views/income/content/Divided'
+mode['Divided']=Divided
+import exports from './views/income/content/exports'
+mode['exports']=exports
+import Divided_details from './views/income/content/Divided_details'
+mode['Divided_details']=Divided_details
+import Divided_details_money from './views/income/content/Divided_details_money'
+mode['Divided_details_money']=Divided_details_money
+import theme_fk from './views/income/content/theme'
+mode['theme_fk']=theme_fk
+import call_show from './views/income/content/call_show'
+mode['call_show']=call_show
+import datas_details from './views/income/content/data_details'
+mode['datas_details']=datas_details
 
 
 //工作台
@@ -546,6 +562,19 @@ let nb = [
             {path:'/income/SpecialFunds/Record',name:'特殊款变更列表',component:mode['Record2']},
             {path:'/income/SpecialFunds/RecordDetailed',name:'特殊款变更列表详情',component:mode['RecordDetailed']},
 
+            
+            {path:'/income/content/theme_fk',name:'主题付款',component:mode['theme_fk']},
+            {path:'/income/content/call_show',name:'来电秀付款',component:mode['call_show']},
+            {path:'/income/content/theme_payment',name:'主题付款',component:mode['theme_payment']},
+            {path:'/income/content/Divided',name:'分成管理',component:mode['Divided']},
+            {path:'/income/content/exports',name:'导入数据',component:mode['exports']},
+            {path:'/income/content/Divided_details',name:'分成详情',component:mode['Divided_details']},
+            {path:'/income/content/Divided_details_money',name:'分成金额详情',component:mode['Divided_details_money']},
+            {path:'/income/content/datas_details',name:'金额详情',component:mode['datas_details']},
+           
+
+            
+
 
         ]},
     {path:'/userinfo',name:'个人中心',component:mode['info'],
@@ -662,8 +691,8 @@ let leftNav =
 //                     {title:'线上审核资源替换',url:'/workbench/channel_resource'},
 //                     {title:'杂志锁屏物料预审',url:'/workbench/External_pre_trial'},
 //                     {title:'广告内容审核',url:'/workbench/Advertising_review'},
-                    
-//                 ],},
+//                     ],
+//             },
 
 //         ]
 // 	},
@@ -705,15 +734,26 @@ let leftNav =
 //             {title:'收益管理',url:'2',img:'&#xe611;',list:[
 //                     {title:'设计师成本管理',url:'/income/cost_management'}
 //                 ]},
-//             {title:'结算管理',url:'3',img:'&#xe60d;',list:[
-//                    {title:'设计师结算管理',url:'/income/settlement'},
+//             {title:'结算管理',url:'3',img:'&#xe60d;',list:[      
+//                 ],
+//             children:[
+//                 {title:"广告业务",url:"3-1",list:[
+//                     {title:'设计师结算管理',url:'/income/settlement'},
 // 					{title:'收款结算',url:'/income/Receivables/Administration'},
 //                     {title:'付款结算',url:'/income/payment/Administration'},
 //                     {title:'广告业务付款结算',url:'/income/Payment_operation/Administration'},
 //                     {title:'预付款管理',url:'/income/AdvanceCharge/Administration'},
 //                     {title:'特殊款管理',url:'/income/SpecialFunds/SpecialFunds_Administration'},
-//                 ]
-// 			},
+//                 ]},
+//                 {title:"内容业务",url:"3-2",list:[
+//                     {title:'主题付款',url:'/income/content/theme_fk'},
+//                     {title:'来电秀付款',url:'/income/content/call_show'},
+                   
+//                 ]}
+//             ]
+//         },
+
+
 //         ]
 //         },
 
@@ -757,7 +797,7 @@ let leftNav =
 //         },
 // ];
 
-//localStorage.setItem('letNav',JSON.stringify(leftNav));
+// localStorage.setItem('letNav',JSON.stringify(leftNav));
 
 router.beforeEach((to, from, next) => {
 	/*登录过期*/

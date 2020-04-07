@@ -161,9 +161,11 @@
             },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
+                 this.getDataList()
             },
             handleCurrentChange(page) {//页码切换
                 this.page = page;
+                 this.getDataList()
             },
             getDataList(){
                 if(this.time.length>0){
