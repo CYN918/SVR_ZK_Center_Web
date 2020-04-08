@@ -5,7 +5,7 @@
               <span class="top_txt">查看详情</span>
             <div class="title_left">
                 <span>查看详情</span>
-                <span class='time'>项目ID:{{this.$route.query.tdate}}</span>
+                <span class='time'>项目ID:{{this.$route.query.project_id}}</span>
                 <span class='time'>设计师ID：{{this.$route.query.open_id}}</span>
                 <span class='time'>开户名：{{this.$route.query.account_name}}</span>
             </div>
@@ -94,36 +94,15 @@ export default {
                     this.page = page;
                     this.getDataList()
                 },
-                dr(){
-                    this.$router.push({
-                        path:"./exports"
-                    })
-                },
-                jeqr(){
-                    this.show=true;
-
-                },
-                heid(){
-                    this.show=false
-                },
-                cz(){
-                    this.project_id='';
-                    this.material_name='';
-                    this.channel=''
-                },
+               
                 getDataList(){
-                    let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.$route.query.open_id,project_id:this.project_id,p:this.p,page:this.page}
-                    this.api.sharing_data_income_detail({params}).then((res)=>{
+                    let params={open_id:this.$route.query.open_id,porject_id:this.$route.query.porject,account_name:this.$route.query.account_name,p:this.p,page:this.page}
+                    this.api.ds_advance_payment_detail({params}).then((res)=>{
                         this.total=res.total;
                         this.tableData=res.data;
-                        this. qd();
                     })
                 },
-                 qd(){
-                    this.api.themes_config_channel().then((res)=>{
-                        this.channels=res;
-                    })
-                },
+                
             },
 }
 </script>

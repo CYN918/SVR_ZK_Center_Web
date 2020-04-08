@@ -8,9 +8,9 @@
         <div class='content'>
             <div>
                 <span class='fc_statuc'>项目ID：</span>
-                <input type="text">
+                <input type="text" v-model="porject_id">
                 <span class='fc_statuc' >设计师ID：</span>
-                <input type="text">
+                <input type="text" v-model="open_id">
                 <span class='fc_statuc' >结算方</span>
                 <select v-model="account_name">
                     <option v-for="item in list" :value="item.name">{{item.name}}</option>
@@ -29,12 +29,12 @@
                             :cell-style="cell"
                             style="width: 100%;color:#000">
                         <el-table-column
-                                label="项目ID" prop=""
+                                label="项目ID" prop="project_id"
                                 :show-overflow-tooltip="true"
                                >
                         </el-table-column>
                         <el-table-column
-                                label="设计师ID" prop=""
+                                label="设计师ID" prop="open_id"
                                 :show-overflow-tooltip="true"
                                 >
                         </el-table-column>
@@ -47,12 +47,12 @@
                                  :show-overflow-tooltip="true"
                                 >
                         </el-table-column>
-                        <el-table-column label="更新时间" prop="">
+                        <el-table-column label="更新时间" prop="updated_at">
                             
                         </el-table-column>
                          <el-table-column label="操作" prop="">
                              <template slot-scope="props">
-                                <el-button type="text"  @click='jump()'>查看详情</el-button>
+                                <el-button type="text"  @click='jump(tableData[props.$index].project_id,tableData[props.$index].open_id,tableData[props.$index].account_name)'>查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -84,7 +84,9 @@ export default {
                     total:0,
                     tableData:[{time:2020}],
                     list:[],
-                    account_name:""
+                    account_name:"",
+                    porject_id:"",
+                    open_id:"",
                 }
             },
             mounted(){
@@ -92,7 +94,9 @@ export default {
             },
             methods:{
                 cz(){
-                    this.tdate=''
+                    this.account_name="";
+                    this.porject_id="";
+                    this.open_id=""
                 },
                 getRowClass({row, column, rowIndex}) {
                     if (rowIndex === 0) {
@@ -114,17 +118,28 @@ export default {
                 },
                
                 listData(){
-                    this.getData()
+                    let params={open_id:this.open_id,porject_id:this.porject,account_name:this.account_name,p:this.p,page:this.page};
+                    this.api.ds_advance_payment_list({params}).then((res)=>{
+                        this.tableData=res.data;
+                        this.total=res.total;
+                         this.getData()
+                    })
                 },
-                getData(){
+                 getData(){
                     let params={is_receiver:1};
                     this.api.settle_settlement({params}).then((res)=>{
                         this.list=res;
                     })
                 },
-                jump(){
+               
+                jump(porject_id,open_id,data){
                     this.$router.push({
-                        path:"./Advance_details"
+                        path:"./Advance_details",
+                        query:{
+                            porject_id:porject_id,
+                            open_id:open_id,
+                            account_name:data
+                        }
                     })
                 },
             },

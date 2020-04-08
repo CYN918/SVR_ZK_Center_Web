@@ -11,14 +11,14 @@
                     <el-date-picker
                         class='time_length'
                         v-model="tdate"
-                        type="monthrange"
+                        type="daterange"
                         range-separator="至"
-                        start-placeholder="开始月份"
-                        end-placeholder="结束月份">
+                        start-placeholder="开始日期"
+                        end-placeholder="结束日期">
                     </el-date-picker>
                 </div>
                 <span style="margin:24px 16px 24px 24px ">设计师ID：</span>
-                <input type="text">
+                <input type="text" v-model="open_id">
                 <span style="margin:24px 16px 24px 24px ">结算方</span>
                 <select v-model="account_name">
                     <option v-for="item in list" :value="item.name">{{item.name}}</option>
@@ -37,23 +37,23 @@
                             :cell-style="cell"
                             style="width: 100%;color:#000">
                         <el-table-column
-                                label="付款时间" prop=""
+                                label="付款时间" prop="tdate"
                                >
                         </el-table-column>
                         <el-table-column
-                                label="设计师ID" prop=""
+                                label="设计师ID" prop="open_id"
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="付款金额" prop=""
+                                label="付款金额" prop="income"
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="原因说明" prop=""
+                                label="原因说明" prop="reason"
                                  :show-overflow-tooltip="true"
                                 >
                         </el-table-column>
-                        <el-table-column label="项目ID" prop="">
+                        <el-table-column label="项目ID" prop="project_id">
                             
                         </el-table-column>
                     </el-table>
@@ -85,7 +85,8 @@ export default {
                     total:0,
                     tableData:[{time:2020}],
                     list:[],
-                    account_name:""
+                    account_name:"",
+                    open_id:""
                 }
             },
             mounted(){
@@ -93,7 +94,9 @@ export default {
             },
             methods:{
                 cz(){
-                    this.tdate=''
+                    this.tdate='';
+                    this.open_id='';
+                    this.account_name='';
                 },
                 getRowClass({row, column, rowIndex}) {
                     if (rowIndex === 0) {
@@ -115,7 +118,13 @@ export default {
                 },
                
                 listData(){
-                    this.getData()
+                    let params={tdate:this.tdate,account_name:this.account_name,open_id:this.open_id,p:this.p,page:this.page}
+                    this.api.ds_other_income_detail({params}).then((res)=>{
+                            this.total=res.total;
+                            this.tableData=res.data;
+                            this.getData()
+                    })
+                    
                 },
                 getData(){
                     let params={is_receiver:1};
