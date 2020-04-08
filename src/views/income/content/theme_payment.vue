@@ -40,11 +40,11 @@
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="买断金额" prop=""
+                                label="买断金额" prop="buyout_income"
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="分成金额" prop="final_income"
+                                label="分成金额" prop="sharing_income"
                                 >
                         </el-table-column>
                         <el-table-column label="操作">
@@ -115,7 +115,7 @@ export default {
                 },
                 listData(){
                     let params={type:this.type,p:this.p,page:this.page,tdate:this.tdate}
-                    this.api.sharing_data_income_period({params}).then((res)=>{
+                    this.api.sharing_data_income_summary({params}).then((res)=>{
                          this.total=res.total;
                          this.tableData=res.data;   
                     })

@@ -1590,4 +1590,8 @@ export default {
 	sharing_data_list:{
 		url:"sharing/data/list",method:'get'
 	},
+	//获取收益数据总览
+	sharing_data_income_summary:{
+		url:'sharing/data/income/summary',method:'get'
+	},
 }
