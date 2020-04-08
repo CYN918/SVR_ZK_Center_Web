@@ -88,9 +88,9 @@ export default {
 		topNav,
 	},
 	mounted: function () {	
-	this.get_logs();
+	// this.get_logs();
 	// this.handle_stat();
-	this.get_menulog();
+	// this.get_menulog();
 	}, 
 	methods: {
 		// handle_stat(){
