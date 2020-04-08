@@ -26,8 +26,8 @@
                     <span class="sf">结算进度查看</span>
                     <span class='fk'>... 
                         <ul>
-                            <li>项目管理</li>
-                            <li>结算方管理</li>
+                            <li @click='porjectGL()'>项目管理</li>
+                            <li @click="jump()" :class="{Jurisdiction:this.controlBtn}">结算方管理</li>
                             <li>合作公司管理</li>
                             <li>合同概览</li>
                         </ul>
@@ -257,6 +257,11 @@
             },
             heidAbolish(){
                 this.ab=false;
+            },
+            porjectGL(){
+                this.$router.push({
+                    path:"./PM"
+                })
             }
         },
     }
@@ -332,10 +337,12 @@
     .fk{
         background: #fff!important;
         border:1px solid rgb(197, 197, 197);
-        color: #ddd!important;
+        color:#000;
         position: relative;
     }
-    
+    .fk:hover ul{
+        display: block;
+    }    
     .clear{
         width:96px!important;
     }
@@ -354,14 +361,19 @@
     }
     ul{
         position: absolute;
-        top:40px;
+        top:35px;
         left: -25px;
         width: 120px;
-        background: rgb(236, 235, 235);
+        box-shadow: 3px 3px 5px #ddd;
+        background: #fff;
         border-radius: 5px;
         display: none;
     }
     li{
         color: #000;
+    }
+    li:hover{
+        background: #3377ff;
+        color: #fff;
     }
 </style>

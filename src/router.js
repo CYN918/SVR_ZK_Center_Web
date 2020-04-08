@@ -175,6 +175,9 @@ import YYAdministration from './views/income/Payment_operation/Administration'
 mode['YYAdministration']=YYAdministration
 import detailYY from './views/income/Payment_operation/details'
 mode['detailYY']=detailYY
+import PM from './views/income/Receivables/PM'
+mode['PM']=PM
+
 
 
 //工作台
@@ -521,6 +524,7 @@ let nb = [
             {path:'/income/AdvanceCharge/YFdetails',name:'预付款详情',component:mode['YFdetails']},
             {path:'/income/AdvanceCharge/change',name:'预付款变更详情',component:mode['change']},
             {path:'/income/AdvanceCharge/ADD',name:'添加记录',component:mode['ADD']},
+            {path:'/income/Receivables/PM',name:'项目管理 ',component:mode['PM']},
             
             {path:'/income/projection',name:'预计结算数据',component:mode['projection']},
 
@@ -545,6 +549,7 @@ let nb = [
             {path:'/income/SpecialFunds/AddEdit',name:'添加特殊款',component:mode['AddEdit']},
             {path:'/income/SpecialFunds/Record',name:'特殊款变更列表',component:mode['Record2']},
             {path:'/income/SpecialFunds/RecordDetailed',name:'特殊款变更列表详情',component:mode['RecordDetailed']},
+
 
 
         ]},
