@@ -1606,5 +1606,9 @@ export default {
 	ds_other_income_detail:{
 		url:'ds/other/income/detail',method:"get"
 	},
+	//买断数据
+	ds_buyout_income_detail:{
+		url:"ds/buyout/income/detail",method:"get"
+	},
 	
 }
