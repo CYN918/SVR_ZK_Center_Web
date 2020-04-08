@@ -58,7 +58,6 @@
                                 >
                         </el-table-column>
                          <el-table-column
-                                sortable
                                 label="处理人" prop="updator"
                                 >
                         </el-table-column>

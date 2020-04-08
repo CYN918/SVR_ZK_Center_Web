@@ -30,10 +30,12 @@
                             style="width: 100%;color:#000">
                         <el-table-column
                                 label="项目ID" prop=""
+                                :show-overflow-tooltip="true"
                                >
                         </el-table-column>
                         <el-table-column
                                 label="设计师ID" prop=""
+                                :show-overflow-tooltip="true"
                                 >
                         </el-table-column>
                         <el-table-column

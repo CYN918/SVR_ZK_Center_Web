@@ -27,7 +27,7 @@
                 </div>      
             </div>
            <div>
-                  <template>
+                  <template v-if="num==2">
                     <el-table
                             :data="tableData"
                             header-align="center"
@@ -63,13 +63,50 @@
                         </el-table-column>
                           <el-table-column
                                 sortable
-                                label="确认时间" prop="updated_at"
+                                label="付款时间" prop="updated_at"
                                 >
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="props">
                                 <el-button type="text" @click="ck(tableData[props.$index].open_id)" >查看详情</el-button>
                             </template>
+                        </el-table-column>
+                    </el-table>
+                </template>
+                  <template v-if="num==1">
+                    <el-table
+                            :data="tableData"
+                            header-align="center"
+                            :header-cell-style="getRowClass"
+                            :cell-style="cell"
+                            style="width: 100%;color:#000">
+                         <el-table-column
+                                label="项目ID" prop="open_id"
+                                :show-overflow-tooltip="true"
+                               >
+                        </el-table-column>    
+                        <el-table-column
+                                label="设计师ID" prop="open_id"
+                                :show-overflow-tooltip="true"
+                               >
+                        </el-table-column>
+                        <el-table-column
+                                label="结算金额" prop="total_income"
+                                >
+                        </el-table-column>
+                        <el-table-column
+                                sortable
+                                label="加成金额" prop="gain_share_income"
+                                >
+                        </el-table-column>
+                         
+                        <el-table-column 
+                                label="总金额" prop=''>
+                            
+                        </el-table-column>
+                        <el-table-column 
+                                label="付款时间" prop='updated_at'>
+                            
                         </el-table-column>
                     </el-table>
                 </template>

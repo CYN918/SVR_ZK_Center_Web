@@ -146,8 +146,8 @@
                                 </el-table-column>
                                 
                                 <el-table-column
-                                        sortable
-                                        label="户名" prop="updator"
+                                       
+                                        label="用户名" prop="updator"
                                         >
                                 </el-table-column>
                             
@@ -157,8 +157,9 @@
                                
                                 </el-table-column>
                                  <el-table-column
-                                        sortable
+                                       
                                         label="主题名称" prop="theme_name"
+                                        :show-overflow-tooltip="true"
                                         >
                                 </el-table-column>
                                  <el-table-column
@@ -177,7 +178,6 @@
                                         >
                                 </el-table-column>
                                 <el-table-column
-                                        sortable
                                         label="状态" prop="status_msg"
                                         >
                                 </el-table-column>

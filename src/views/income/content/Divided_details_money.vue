@@ -38,10 +38,12 @@
                             style="width: 100%;color:#000">
                         <el-table-column
                                 label="项目ID" prop="project_id"
+                                :show-overflow-tooltip="true"
                                >
                         </el-table-column>
                         <el-table-column
                                 label="素材名称" prop="material_name"
+                                :show-overflow-tooltip="true"
                                 >
                         </el-table-column>
                         <el-table-column
@@ -51,6 +53,7 @@
                         <el-table-column
                                 sortable
                                 label="主题名称" prop="theme_name"
+                                :show-overflow-tooltip="true"
                                 >
                         </el-table-column>
                          <el-table-column
