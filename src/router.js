@@ -945,7 +945,8 @@ router.beforeEach((to, from, next) => {
             })
 
 		}).catch(()=>{
-            alert("账户异常，请联系管理员添加角色或启用账号");
+            // alert("账户异常，请联系管理员添加角色或启用账号");
+            window.location.href="http://account.zookingsoft.com/login?from="+cent;
 		});
 			
 	}else{

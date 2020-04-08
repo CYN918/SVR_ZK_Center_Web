@@ -2,7 +2,6 @@
 <template>
 <div class="loading">
     <img src="img/loading.gif" alt="">
-
 </div>
 </template>
 
