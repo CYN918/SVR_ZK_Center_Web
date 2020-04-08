@@ -191,6 +191,13 @@ import call_show from './views/income/content/call_show'
 mode['call_show']=call_show
 import datas_details from './views/income/content/data_details'
 mode['datas_details']=datas_details
+import Other_payment from './views/income/content/Other_payment'
+mode['Other_payment']=Other_payment
+import Advance_management from './views/income/content/Advance_management'
+mode["Advance_management"]=Advance_management
+import Advance_details from './views/income/content/Advance_details'
+mode['Advance_details']=Advance_details
+
 
 
 //工作台
@@ -571,9 +578,9 @@ let nb = [
             {path:'/income/content/Divided_details',name:'分成详情',component:mode['Divided_details']},
             {path:'/income/content/Divided_details_money',name:'分成金额详情',component:mode['Divided_details_money']},
             {path:'/income/content/datas_details',name:'金额详情',component:mode['datas_details']},
-           
-
-            
+            {path:'/income/content/Other_payment',name:'其他付款',component:mode['Other_payment']},
+            {path:'/income/content/Advance_management',name:'预付金管理',component:mode['Advance_management']},
+            {path:'/income/content/Advance_details',name:'预付金管理详情',component:mode['Advance_details']},
 
 
         ]},
@@ -746,8 +753,10 @@ let leftNav =
 //                     {title:'特殊款管理',url:'/income/SpecialFunds/SpecialFunds_Administration'},
 //                 ]},
 //                 {title:"内容业务",url:"3-2",list:[
+//                     {title:'预付金管理',url:'/income/content/Advance_management'},
 //                     {title:'主题付款',url:'/income/content/theme_fk'},
 //                     {title:'来电秀付款',url:'/income/content/call_show'},
+//                     {title:'其他付款',url:'/income/content/Other_payment'},
                    
 //                 ]}
 //             ]

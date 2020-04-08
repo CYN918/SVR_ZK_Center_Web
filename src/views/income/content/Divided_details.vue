@@ -36,6 +36,7 @@
                             style="width: 100%;color:#000">
                         <el-table-column
                                 label="设计师ID" prop="open_id"
+                                :show-overflow-tooltip="true"
                                >
                         </el-table-column>
                         <el-table-column

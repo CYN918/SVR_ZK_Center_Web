@@ -1,33 +1,18 @@
 <template>
    <div>
         <div class="top_name">
-             <span class="top_txt" @click='fh(-1)'>{{this.$route.query.type=='1'?'主题付款':'来电秀付款'}}&nbsp;/&nbsp;分成管理</span>
+             <span class="top_txt" @click='fh(-1)'>预付金管理&nbsp;/&nbsp;</span>
+              <span class="top_txt">查看详情</span>
             <div class="title_left">
-                <span>分成管理</span>
+                <span>查看详情</span>
+                <span class='time'>项目ID:{{this.$route.query.project_id}}</span>
+                <span class='time'>设计师ID：{{this.$route.query.open_id}}</span>
+                <span class='time'>开户名：{{this.$route.query.account_name}}</span>
             </div>
         </div>
         <div class='content'>
             <div>
-                 <div class='times'>
-                    <el-date-picker
-                    class='time_length'
-                        v-model="tdate"
-                        type="month"
-                        range-separator="至"
-                       >
-                    </el-date-picker>
-                </div>
-                <span class='fc_statuc'>状态</span>
-                <select v-model="is_confirmed">
-                    <option value="">全部</option>
-                    <option value="0">未确认</option>
-                    <option value="1">已确认</option>
-                </select>
-                <div class="btn_right">
-                    <span class='cx' @click='getDataList()'>查询</span>
-                    <span @click='cz()'>重置</span>
-                    <span @click='dr()'>导入数据</span>
-                </div>      
+                <span class='tit_name'>初始预约金：</span>
             </div>
            <div>
                  <template>
@@ -38,34 +23,23 @@
                             :cell-style="cell"
                             style="width: 100%;color:#000">
                         <el-table-column
-                                label="结算周期" prop="tdate"
+                                label="消耗预约金" prop="project_id"
                                >
                         </el-table-column>
                         <el-table-column
-                                label="分成金额" prop="final_income"
+                                label="预约金余额" prop="material_name"
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="状态" prop="is_confirmed"
+                                label="消耗原因" prop="account_name"
                                 >
-                            <template slot-scope="scope">
-                                <span>{{tableData[scope.$index].is_confirmed==0?'未确认':'已确认'}}</span>
-                            </template>
                         </el-table-column>
                         <el-table-column
                                 sortable
-                                label="变更时间" prop="updated_at"
+                                label="更新时间" prop="theme_name"
                                 >
                         </el-table-column>
-                         <el-table-column
-                                label="处理人" prop="updator"
-                                >
-                        </el-table-column>
-                        <el-table-column label="操作">
-                            <template slot-scope="props">
-                                <el-button type="text" @click='details(tableData[props.$index].tdate,tableData[props.$index].is_confirmed)'>查看详情</el-button>
-                            </template>
-                        </el-table-column>
+                        
                     </el-table>
                 </template>
                 <div class="block">
@@ -88,24 +62,19 @@
 export default {
             data(){
                 return{
-                    tdate:"",
                     p:10,
                     page:1,
                     total:0,
                     tableData:[{time:2020}],
-                    is_confirmed:"",
+                   
                 }
             },
             mounted(){
                 this.getDataList()
             },
             methods:{
-                 fh(index){
+                fh(index){
                     this.$router.go(index)
-                },
-                cz(){
-                    this.tdate='';
-                    this.is_confirmed='';
                 },
                 getRowClass({row, column, rowIndex}) {
                     if (rowIndex === 0) {
@@ -125,35 +94,19 @@ export default {
                     this.page = page;
                     this.getDataList()
                 },
-                dr(){
-                    this.$router.push({
-                        path:"./exports",
-                        query:{
-                             
-                              type:this.$route.query.type,
-                        }
-                    })
-                },
-                details(tdate,status){
-                    this.$router.push({
-                        path:"./Divided_details",
-                        query:{
-                              tdate:tdate,
-                              type:this.$route.query.type,
-                              status:status
-                        }
-                    })
-                },
+               
                 getDataList(){
-                    let params={type:this.$route.query.type,p:this.p,page:this.page,is_confirmed:this.is_confirmed,tdate:this.tdate}
-                    this.api.sharing_data_income_period({params}).then((res)=>{
+                    let params={open_id:this.$route.query.open_id,porject_id:this.$route.query.porject,account_name:this.$route.query.account_name,p:this.p,page:this.page}
+                    this.api.ds_advance_payment_detail({params}).then((res)=>{
                         this.total=res.total;
-                        this.tableData=res.data; 
+                        this.tableData=res.data;
                     })
                 },
+                
             },
 }
 </script>
+
 
 <style scoped>
     .top_name{
@@ -172,6 +125,7 @@ export default {
     .top_txt{
         display: inline-block;
         margin-left: 24px;
+        cursor: pointer;
     }
     .content{
         margin-top: 199px;
@@ -198,7 +152,8 @@ export default {
         border-radius: 3px;
         line-height: 36px;
         text-align: center;
-        margin-left: 24px;
+        margin:0 0 24px 24px;
+
             
     }
     .cx{
@@ -206,14 +161,30 @@ export default {
         border:0!important;
         background: #3377ff!important;
     }
-    .fc_statuc{
+    .tit_name{
         display: inline-block;
-        margin-right: 15px;
-
+        font-size: 14px;
+        font-weight: bold;
+        margin: 24px;
     }
     select{
         width: 200px;
         height: 36px;
 
+    }
+    input{
+        width: 190px;
+        height: 30px;
+        padding-left: 10px;
+    }
+    .time{
+        display: inline-block;
+        padding: 3px 5px;
+        background: #ddd;
+        border-radius: 3px;
+        margin: 0 16px;
+        font-size: 14px!important;
+        font-weight: 400!important;
+        
     }
 </style>

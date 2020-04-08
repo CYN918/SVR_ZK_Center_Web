@@ -40,16 +40,16 @@
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="买断金额" prop=""
+                                label="买断金额" prop="buyout_income"
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="分成金额" prop="final_income"
+                                label="分成金额" prop="sharing_income"
                                 >
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="props">
-                                <el-button type="text" @click='xq(tableData[props.$index].tdate)'>查看详情</el-button>
+                                <el-button type="text" @click='xq(tableData[props.$index].tdate,"1")'>查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -114,17 +114,18 @@ export default {
                     })
                 },
                 listData(){
-                    let params={type:this.type,p:this.p,page:this.page,tdate:this.tdate}
-                    this.api.sharing_data_income_period({params}).then((res)=>{
+                    let params={type:this.type,p:this.p,page:this.page,tdate:this.tdate,is_confirmed:'1'}
+                    this.api.sharing_data_income_summary({params}).then((res)=>{
                          this.total=res.total;
                          this.tableData=res.data;   
                     })
                 },
-                xq(tdate){
+                xq(tdate,num){
                     this.$router.push({
                         path:"./datas_details",
                         query:{type:this.type,
-                                tdate:tdate
+                                tdate:tdate,
+                                num:num
                         }
                     })
                 }

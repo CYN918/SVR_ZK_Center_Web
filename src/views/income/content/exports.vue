@@ -45,7 +45,7 @@
                         
                         <el-table-column
                                 sortable
-                                label="处理人" prop="updator"
+                                label="处理人" prop="creator"
                                 >
                         </el-table-column>
                        
@@ -146,8 +146,8 @@
                                 </el-table-column>
                                 
                                 <el-table-column
-                                        sortable
-                                        label="户名" prop="updator"
+                                       
+                                        label="用户名" prop="updator"
                                         >
                                 </el-table-column>
                             
@@ -157,8 +157,9 @@
                                
                                 </el-table-column>
                                  <el-table-column
-                                        sortable
+                                       
                                         label="主题名称" prop="theme_name"
+                                        :show-overflow-tooltip="true"
                                         >
                                 </el-table-column>
                                  <el-table-column
@@ -177,9 +178,11 @@
                                         >
                                 </el-table-column>
                                 <el-table-column
-                                        sortable
                                         label="状态" prop="status_msg"
                                         >
+                                         <template slot-scope="props">
+                                            <span :class="{red:ListData[props.$index].status=='4'||ListData[props.$index].status=='5'}">{{ListData[props.$index].status_msg}}</span>
+                                        </template>
                                 </el-table-column>
                             </el-table>
                         </template>
@@ -287,7 +290,6 @@ export default {
                },
                 uploadFile(file){
                     this.file=file.file;
-                    console.log(this.file);
                 },
                 drText(){
                     this.exe=true
@@ -309,7 +311,7 @@ export default {
                     formData.append('type',this.$route.query.type)
                     this.api.sharing_data_import(formData).then((res)=>{
                         if(res!=false){
-                            this.file_id=res.file_id;
+                            this.file_id=res;
                             this. heid();
                             this.list=true;
                             this.getData()
@@ -526,5 +528,8 @@ export default {
         cursor: pointer;
         vertical-align: bottom;
         margin-left: 10px;
+    }
+    .red{
+        color:red!important
     }
 </style>

@@ -1599,4 +1599,25 @@ export default {
 		url:"sharing/data/list",method:'get'
 
 	},
+	//获取收益数据总览
+	sharing_data_income_summary:{
+		url:'sharing/data/income/summary',method:'get'
+	},
+	//获取项目预约金使用记录
+	ds_advance_payment_detail:{
+		url:'ds/advance_payment/detail',method:"get"
+	},
+	//获取项目预约金列表
+	ds_advance_payment_list:{
+		url:'ds/advance_payment/list',method:'get'
+	},
+	//获取其他收益数据
+	ds_other_income_detail:{
+		url:'ds/other/income/detail',method:"get"
+	},
+	//买断数据
+	ds_buyout_income_detail:{
+		url:"ds/buyout/income/detail",method:"get"
+	},
+	
 }

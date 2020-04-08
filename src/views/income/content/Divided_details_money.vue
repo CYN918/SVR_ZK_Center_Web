@@ -38,10 +38,12 @@
                             style="width: 100%;color:#000">
                         <el-table-column
                                 label="项目ID" prop="project_id"
+                                :show-overflow-tooltip="true"
                                >
                         </el-table-column>
                         <el-table-column
                                 label="素材名称" prop="material_name"
+                                :show-overflow-tooltip="true"
                                 >
                         </el-table-column>
                         <el-table-column
@@ -51,6 +53,7 @@
                         <el-table-column
                                 sortable
                                 label="主题名称" prop="theme_name"
+                                :show-overflow-tooltip="true"
                                 >
                         </el-table-column>
                          <el-table-column
@@ -145,7 +148,13 @@ export default {
                     this.channel=''
                 },
                 getDataList(){
-                    let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.$route.query.open_id,project_id:this.project_id,p:this.p,page:this.page}
+                    var params={}
+                    if(this.$route.query.num){
+                         params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.$route.query.open_id,project_id:this.project_id,p:this.p,page:this.page,is_confirmed:'1'}   
+                    }else{
+                        params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.$route.query.open_id,project_id:this.project_id,p:this.p,page:this.page}   
+                    }
+                   
                     this.api.sharing_data_income_detail({params}).then((res)=>{
                         this.total=res.total;
                         this.tableData=res.data;

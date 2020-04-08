@@ -14,7 +14,7 @@
         <div class='content'>
             <div>
                 <span class='fc_statuc' style="margin:24px 16px 24px 24px " v-if='num==1'>项目ID</span>
-                <input type="text" v-if='num==1'>
+                <input type="text" v-if='num==1' v-model="project_id">
                 <span class='fc_statuc' style="margin:24px 16px 24px 24px ">设计师ID</span>
                 <input type="text" v-model="open_id">
                 <span class='fc_statuc' style="margin:24px 16px 24px 24px ">结算方</span>
@@ -27,7 +27,7 @@
                 </div>      
             </div>
            <div>
-                  <template>
+                  <template v-if="num==2">
                     <el-table
                             :data="tableData"
                             header-align="center"
@@ -63,13 +63,50 @@
                         </el-table-column>
                           <el-table-column
                                 sortable
-                                label="确认时间" prop="updated_at"
+                                label="付款时间" prop="updated_at"
                                 >
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="props">
                                 <el-button type="text" @click="ck(tableData[props.$index].open_id)" >查看详情</el-button>
                             </template>
+                        </el-table-column>
+                    </el-table>
+                </template>
+                  <template v-if="num==1">
+                    <el-table
+                            :data="tableData"
+                            header-align="center"
+                            :header-cell-style="getRowClass"
+                            :cell-style="cell"
+                            style="width: 100%;color:#000">
+                         <el-table-column
+                                label="项目ID" prop="open_id"
+                                :show-overflow-tooltip="true"
+                               >
+                        </el-table-column>    
+                        <el-table-column
+                                label="设计师ID" prop="open_id"
+                                :show-overflow-tooltip="true"
+                               >
+                        </el-table-column>
+                        <el-table-column
+                                label="结算金额" prop="total_income"
+                                >
+                        </el-table-column>
+                        <el-table-column
+                                sortable
+                                label="加成金额" prop="gain_share_income"
+                                >
+                        </el-table-column>
+                         
+                        <el-table-column 
+                                label="总金额" prop='total_income'>
+                            
+                        </el-table-column>
+                        <el-table-column 
+                                label="付款时间" prop='updated_at'>
+                            
                         </el-table-column>
                     </el-table>
                 </template>
@@ -101,6 +138,7 @@ export default {
                     num:2,
                     account_name:"",
                     open_id:"",
+                    project_id:"",
 
                 }
             },
@@ -143,17 +181,29 @@ export default {
                         query:{
                             type:this.$route.query.type,
                             open_id:id,
-                            tdate:this.$route.query.tdate
+                            tdate:this.$route.query.tdate,
+                            num:this.$route.query.num
                         }
                     })
                 },
                 getDataList(){
-                    let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.open_id,account_name:this.account_name,p:this.p,page:this.page}
-                    this.api.sharing_data_income_designer({params}).then((res)=>{
-                        this.total=res.total;
-                        this.tableData=res.data;
-                        this.getData();
-                    })
+                    if(this.num==1){
+                        let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.open_id,account_name:this.account_name,project_id:this.project_id,p:this.p,page:this.page,is_confirmed:'1'} 
+                        this.api.ds_buyout_income_detail({params}).then((res)=>{
+                            this.total=res.total;
+                            this.tableData=res.data;
+                            this.getData();
+                       })
+                    }
+                    if(this.num==2){
+                        let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.open_id,account_name:this.account_name,p:this.p,page:this.page,is_confirmed:'1'}
+                        this.api.sharing_data_income_designer({params}).then((res)=>{
+                            this.total=res.total;
+                            this.tableData=res.data;
+                            this.getData();
+                        })
+                    }
+                    
                 },
                 getData(){
                     let params={is_receiver:1};

@@ -1,32 +1,31 @@
 <template>
    <div>
         <div class="top_name">
-             <span class="top_txt" @click='fh(-1)'>{{this.$route.query.type=='1'?'主题付款':'来电秀付款'}}&nbsp;/&nbsp;分成管理</span>
             <div class="title_left">
-                <span>分成管理</span>
+                <span>其他付款</span>
             </div>
         </div>
         <div class='content'>
             <div>
                  <div class='times'>
                     <el-date-picker
-                    class='time_length'
+                        class='time_length'
                         v-model="tdate"
-                        type="month"
+                        type="daterange"
                         range-separator="至"
-                       >
+                        start-placeholder="开始日期"
+                        end-placeholder="结束日期">
                     </el-date-picker>
                 </div>
-                <span class='fc_statuc'>状态</span>
-                <select v-model="is_confirmed">
-                    <option value="">全部</option>
-                    <option value="0">未确认</option>
-                    <option value="1">已确认</option>
+                <span style="margin:24px 16px 24px 24px ">设计师ID：</span>
+                <input type="text" v-model="open_id">
+                <span style="margin:24px 16px 24px 24px ">结算方</span>
+                <select v-model="account_name">
+                    <option v-for="item in list" :value="item.name">{{item.name}}</option>
                 </select>
                 <div class="btn_right">
-                    <span class='cx' @click='getDataList()'>查询</span>
+                    <span class='cx' @click='listData()'>查询</span>
                     <span @click='cz()'>重置</span>
-                    <span @click='dr()'>导入数据</span>
                 </div>      
             </div>
            <div>
@@ -38,33 +37,24 @@
                             :cell-style="cell"
                             style="width: 100%;color:#000">
                         <el-table-column
-                                label="结算周期" prop="tdate"
+                                label="付款时间" prop="tdate"
                                >
                         </el-table-column>
                         <el-table-column
-                                label="分成金额" prop="final_income"
+                                label="设计师ID" prop="open_id"
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="状态" prop="is_confirmed"
+                                label="付款金额" prop="income"
                                 >
-                            <template slot-scope="scope">
-                                <span>{{tableData[scope.$index].is_confirmed==0?'未确认':'已确认'}}</span>
-                            </template>
                         </el-table-column>
                         <el-table-column
-                                sortable
-                                label="变更时间" prop="updated_at"
+                                label="原因说明" prop="reason"
+                                 :show-overflow-tooltip="true"
                                 >
                         </el-table-column>
-                         <el-table-column
-                                label="处理人" prop="updator"
-                                >
-                        </el-table-column>
-                        <el-table-column label="操作">
-                            <template slot-scope="props">
-                                <el-button type="text" @click='details(tableData[props.$index].tdate,tableData[props.$index].is_confirmed)'>查看详情</el-button>
-                            </template>
+                        <el-table-column label="项目ID" prop="project_id">
+                            
                         </el-table-column>
                     </el-table>
                 </template>
@@ -86,26 +76,27 @@
 
 <script>
 export default {
+    props:['type'],
             data(){
                 return{
-                    tdate:"",
+                    tdate: '',
                     p:10,
                     page:1,
                     total:0,
                     tableData:[{time:2020}],
-                    is_confirmed:"",
+                    list:[],
+                    account_name:"",
+                    open_id:""
                 }
             },
             mounted(){
-                this.getDataList()
+                this.listData()
             },
             methods:{
-                 fh(index){
-                    this.$router.go(index)
-                },
                 cz(){
                     this.tdate='';
-                    this.is_confirmed='';
+                    this.open_id='';
+                    this.account_name='';
                 },
                 getRowClass({row, column, rowIndex}) {
                     if (rowIndex === 0) {
@@ -119,36 +110,26 @@ export default {
                 },
                 handleSizeChange(p) { // 每页条数切换
                     this.p = p;
-                    this.getDataList()
+                    this.listData()
                 },
                 handleCurrentChange(page) {//页码切换
                     this.page = page;
-                    this.getDataList()
+                    this.listData()
                 },
-                dr(){
-                    this.$router.push({
-                        path:"./exports",
-                        query:{
-                             
-                              type:this.$route.query.type,
-                        }
+               
+                listData(){
+                    let params={tdate:this.tdate,account_name:this.account_name,open_id:this.open_id,p:this.p,page:this.page}
+                    this.api.ds_other_income_detail({params}).then((res)=>{
+                            this.total=res.total;
+                            this.tableData=res.data;
+                            this.getData()
                     })
+                    
                 },
-                details(tdate,status){
-                    this.$router.push({
-                        path:"./Divided_details",
-                        query:{
-                              tdate:tdate,
-                              type:this.$route.query.type,
-                              status:status
-                        }
-                    })
-                },
-                getDataList(){
-                    let params={type:this.$route.query.type,p:this.p,page:this.page,is_confirmed:this.is_confirmed,tdate:this.tdate}
-                    this.api.sharing_data_income_period({params}).then((res)=>{
-                        this.total=res.total;
-                        this.tableData=res.data; 
+                getData(){
+                    let params={is_receiver:1};
+                    this.api.settle_settlement({params}).then((res)=>{
+                        this.list=res;
                     })
                 },
             },
@@ -156,10 +137,10 @@ export default {
 </script>
 
 <style scoped>
-    .top_name{
-         height:112px!important;
+      .top_name{
+        height:90px!important;
         background:rgba(255,255,255,1);
-    }
+    } 
     .title_left span{
         display: inline-block;
         font-size:20px;
@@ -168,22 +149,18 @@ export default {
         color:rgba(50,50,50,1);
         margin-left: 24px;
         text-align: right;
-    }
-    .top_txt{
-        display: inline-block;
-        margin-left: 24px;
+        margin-top:30px
     }
     .content{
-        margin-top: 199px;
+        margin-top: 173px;
     }  
     .times{
         display: inline-block;
         margin: 24px;
     }
-    .times .el-date-editor.el-input, .el-date-editor.el-input__inner{
-        width:200px!important
+    .times .el-input__inner{
+        width:300px!important
     }
-    
     .btn_right{
         display: inline-block;
         float:right;
@@ -206,14 +183,15 @@ export default {
         border:0!important;
         background: #3377ff!important;
     }
-    .fc_statuc{
-        display: inline-block;
-        margin-right: 15px;
-
-    }
-    select{
+     select{
         width: 200px;
         height: 36px;
 
     }
+    input{
+        width: 190px;
+        height: 30px;
+        padding-left: 10px;
+    }
+   
 </style>
