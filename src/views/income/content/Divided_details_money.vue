@@ -145,7 +145,13 @@ export default {
                     this.channel=''
                 },
                 getDataList(){
-                    let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.$route.query.open_id,project_id:this.project_id,p:this.p,page:this.page}
+                    var params={}
+                    if(this.$route.query.num){
+                         params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.$route.query.open_id,project_id:this.project_id,p:this.p,page:this.page,is_confirmed:'1'}   
+                    }else{
+                        params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.$route.query.open_id,project_id:this.project_id,p:this.p,page:this.page}   
+                    }
+                   
                     this.api.sharing_data_income_detail({params}).then((res)=>{
                         this.total=res.total;
                         this.tableData=res.data;

@@ -49,7 +49,7 @@
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="props">
-                                <el-button type="text" @click='xq(tableData[props.$index].tdate)'>查看详情</el-button>
+                                <el-button type="text" @click='xq(tableData[props.$index].tdate,"1")'>查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -114,17 +114,18 @@ export default {
                     })
                 },
                 listData(){
-                    let params={type:this.type,p:this.p,page:this.page,tdate:this.tdate}
+                    let params={type:this.type,p:this.p,page:this.page,tdate:this.tdate,is_confirmed:'1'}
                     this.api.sharing_data_income_summary({params}).then((res)=>{
                          this.total=res.total;
                          this.tableData=res.data;   
                     })
                 },
-                xq(tdate){
+                xq(tdate,num){
                     this.$router.push({
                         path:"./datas_details",
                         query:{type:this.type,
-                                tdate:tdate
+                                tdate:tdate,
+                                num:num
                         }
                     })
                 }

@@ -143,12 +143,13 @@ export default {
                         query:{
                             type:this.$route.query.type,
                             open_id:id,
-                            tdate:this.$route.query.tdate
+                            tdate:this.$route.query.tdate,
+                            num:this.$route.query.num
                         }
                     })
                 },
                 getDataList(){
-                    let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.open_id,account_name:this.account_name,p:this.p,page:this.page}
+                    let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.open_id,account_name:this.account_name,p:this.p,page:this.page,is_confirmed:'1'}
                     this.api.sharing_data_income_designer({params}).then((res)=>{
                         this.total=res.total;
                         this.tableData=res.data;
