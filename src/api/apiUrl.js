@@ -711,7 +711,10 @@ export default {
     demand_material_bind_list:{
 		url:'demand/material/bind/list',method:'get'
 	},
-	//
+	//获取素材流程入库相关素材
+	demand_material_list:{
+		url:"demand/material/list",method:"get"
+	},
     demand_material_bind_del:{
 		url:'demand/material/bind/del',method:'post',isType:{suktip:1}
 	},
@@ -1558,6 +1561,7 @@ export default {
 	material_project_add:{
 		url:"material/project/add",method:"post",isType:{suktip:1},
 	},
+
 	//上传收益数据文件
 	sharing_data_import:{
 		url:'sharing/data/import',method:"post",isType:{suktip:1},
@@ -1611,4 +1615,9 @@ export default {
 		url:"ds/buyout/income/detail",method:"get"
 	},
 	
+
+	//解决跨域下载视频
+	tools_url_download:{
+		url:"tools/url/download",method:"get"
+	},
 }

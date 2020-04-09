@@ -382,7 +382,7 @@ a{
 }
 .boxImg{
   display: inline-block;
-  width:48.5%;
+  width:48%;
   height:353px;
   background:rgba(255,255,255,1);
   border-radius:4px;
@@ -394,7 +394,7 @@ a{
 .boxImg:nth-child(2n){
   margin-right: 0!important;
 }
-.boxImg_right_1 div{height: 36px}
+
 .boxImg .img_box{
   display: inline-block;
   width:252px;
@@ -405,7 +405,7 @@ a{
   text-align: center;
 }
 .boxImg img,.boxImg video{
-  width:218px;
+  max-width:218px;
   max-height:326px;
   position: relative;
   top:50%;

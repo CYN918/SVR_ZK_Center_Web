@@ -822,7 +822,9 @@ router.beforeEach((to, from, next) => {
 	// 			}
 	// 		}
 	// 	}
-	// }
+    // }
+    
+    console.log('window:' + window);
 	if(+localStorage.getItem('logintime')+(24*60*60*1000)<=Date.parse(new Date())){
 		localStorage.setItem("token","");
 		tonek=false;
@@ -902,21 +904,23 @@ router.beforeEach((to, from, next) => {
     }
 	
 	let cent = 'center',
-    urld = 'https://c.zookingsoft.com/api/login';
+    urld = 'https://c.zookingsoft.com/api/login',
+    accountUrl = "http://account.zookingsoft.com/login?from=";
+
 	if(window.location.host=='ts-centerweb.idatachain.cn'){
 		cent = 'center_dev';
         urld ='http://ts-i.idatachain.cn/api/login';
-
+        accountUrl = "http://ts-account.idatachain.cn/login?from=";
 	}
     if(window.location.host=='c2.zookingsoft.com'){
         cent = 'center_dev2';
         urld ='https://c2.zookingsoft.com/api/login';
-        
+        accountUrl = "http://account.zookingsoft.com/login?from=";
     }
 	if(window.location.host=='localhost:8080'){
 		cent = 'center_local';
 		urld ='http://ts-i.idatachain.cn/api/login';
-        
+        accountUrl = "http://ts-account.idatachain.cn/login?from=";
     }
 	if(to.query.ticket){	
 		axios({
@@ -955,10 +959,11 @@ router.beforeEach((to, from, next) => {
 
 		}).catch(()=>{
             alert("账户异常，请联系管理员添加角色或启用账号");
+            // window.location.href=accountUrl + cent;
 		});
 			
 	}else{
-		window.location.href="http://account.zookingsoft.com/login?from="+cent;
+		window.location.href= accountUrl + cent;
 	}
 })
 export default router

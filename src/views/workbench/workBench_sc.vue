@@ -30,13 +30,13 @@
                         <span class="tit_txt">需求数量</span>
                         <input type="number" v-model="num" class="number" placeholder="请输入需求数量"  maxlength="2"/>
                     </div>
-                    <div>
+                    <!-- <div>
                         <span class="tit_txt">设计规范</span>
                         <select class="sj_sel" v-model="design_standard">
                             <option value="" disabled selected>请选择</option>
                             <option v-for="(item,index) in sj" :value="item.id">{{item.name}}</option>
                         </select>
-                    </div>
+                    </div> -->
                     <div class="time">
                         <span class="tit_txt">截止时间</span>
                         <el-date-picker
@@ -148,7 +148,7 @@
                    this.num=res.num;
                    this.endtime=res.endtime;
                     this.requirement=res.require;
-                    this.design_standard=res.design_standard.id;
+                    // this.design_standard=res.design_standard.id;
                     this.attach=res.attach;
                     this.ref_url=res.ref_url;
                 })
@@ -179,10 +179,10 @@
                         this.$message.error('需求数量为大于零的正整数');
                         return
                     }
-                    if(!this.design_standard){
-                        this.$message.error('设计规范不能为空')
-                        return
-                    }
+                    // if(!this.design_standard){
+                    //     this.$message.error('设计规范不能为空')
+                    //     return
+                    // }
                     if(!this.requirement){
                         this.$message.error('设计要求不能为空')
                         return
@@ -205,7 +205,7 @@
                     formData.append('is_attach',this.is_attach);
                     formData.append('is_ref',this.is_ref);
                     formData.append('ref_url',this.ref_url);
-                    formData.append('design_standard',this.design_standard);
+                    // formData.append('design_standard',this.design_standard);
                     formData.append('requirement',this.requirement);
                     formData.append('demand_name',this.demand_name);
                     this.api.demand_material_add(formData).then((res)=>{
@@ -234,10 +234,10 @@
                         this.$message.error('需求数量为大于零的正整数');
                         return
                     }
-                    if(!this.design_standard){
-                        this.$message.error('设计规范不能为空')
-                        return
-                    }
+                    // if(!this.design_standard){
+                    //     this.$message.error('设计规范不能为空')
+                    //     return
+                    // }
                     if(!this.requirement){
                         this.$message.error('设计要求不能为空')
                         return
@@ -265,7 +265,7 @@
                     formData.append('is_attach',this.is_attach);
                     formData.append('is_ref',this.is_ref);
                     formData.append('ref_url',this.ref_url);
-                    formData.append('design_standard',this.design_standard);
+                    // formData.append('design_standard',this.design_standard);
                     formData.append('requirement',this.requirement);
                     formData.append('demand_name',this.demand_name);
                     this.api.demand_material_edit(formData).then((res)=>{
