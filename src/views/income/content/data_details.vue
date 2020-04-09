@@ -18,9 +18,14 @@
                 <span class='fc_statuc' style="margin:24px 16px 24px 24px ">设计师ID</span>
                 <input type="text" v-model="open_id">
                 <span class='fc_statuc' style="margin:24px 16px 24px 24px ">结算方</span>
-                <select v-model="account_name">
-                    <option v-for="item in list" :value="item.name">{{item.name}}</option>
-                </select>
+                <el-autocomplete
+                    class="inline-input"
+                    v-model="state1"
+                    :fetch-suggestions="querySearch"
+                    placeholder="请输入内容"
+                    @select="handleSelect"
+                    >
+                </el-autocomplete>
                 <div class="btn_right">
                     <span class='cx' @click='getDataList()'>查询</span>
                     <span @click='cz()'>重置</span>
@@ -105,7 +110,7 @@
                             
                         </el-table-column>
                         <el-table-column 
-                                label="付款时间" prop='updated_at'>
+                                label="付款时间" prop='created_at'>
                             
                         </el-table-column>
                     </el-table>
@@ -139,6 +144,8 @@ export default {
                     account_name:"",
                     open_id:"",
                     project_id:"",
+                    restaurants: [],
+                    state1:""
 
                 }
             },
@@ -147,7 +154,10 @@ export default {
             },
             methods:{
                 cz(){
-                   
+                   this.project_id='';
+                   this.open_id='';
+                   this.state1='';
+                   this.account_name=''
                 },
                  fh(index){
                     this.$router.go(index)
@@ -206,16 +216,44 @@ export default {
                     
                 },
                 getData(){
-                    let params={is_receiver:1};
-                    this.api.settle_settlement({params}).then((res)=>{
-                        this.list=res;
+                    this.api.designer_settlement_list().then((res)=>{
+                        this.restaurants=res;
+
+
                     })
                 },
                 data(index){
                     this.num=index;
                     this.getDataList()
+                },
+                querySearch(queryString, cb) {
+                    for(var i =0;i<this.restaurants.length;i++){
+                        if(this.restaurants[i].contribute_type==1){
+                            this.restaurants[i].value=this.restaurants[i].name+this.restaurants[i].id_card
+                        }
+                        if(this.restaurants[i].contribute_type==2){
+                            this.restaurants[i].value=this.restaurants[i].company_name+this.restaurants[i].code
+                        }
+                    }
+                    var results = queryString ? this.restaurants.filter(this.createFilter(queryString)) : this.restaurants;
+                    cb(results);
+                },
+                createFilter(queryString) {
+                    return (restaurant) => {
+                    return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+                    };
+                },
+                handleSelect(item) {
+                    this.account_name=item.open_id
                 }
             },
+            watch:{
+                state1:function(val,oldVal){
+                    if(val==''){
+                        this.account_name=''
+                    }
+                }
+            }
 }
 </script>
 

@@ -1620,4 +1620,8 @@ export default {
 	tools_url_download:{
 		url:"tools/url/download",method:"get"
 	},
+	//获取结算方列表
+	designer_settlement_list:{
+		url:"designer/settlement/list",method:'get'
+	},
 }

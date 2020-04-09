@@ -103,7 +103,7 @@
             <div class='table'>
                 <div style="border-bottom:1px solid #ddd;margin-bottom:30px">
                     <span class='tit_name'>数据确认</span>
-                    <span>表格共{{allTotal}}条数据，本次新增条数据，覆盖修改条数据</span>
+                    <span>表格共{{allTotal}}条数据，本次新增{{Create}}条数据，覆盖修改{{update_num}}条数据</span>
                 </div>
                 <div>
                 
@@ -234,6 +234,9 @@ export default {
                     tj:false,
                     ct:false,
                     allTotal:"",
+                    update_num:"",
+                    Create:"",
+
                 }
             },
             mounted(){
@@ -334,7 +337,8 @@ export default {
                     this.api.sharing_data_list({params}).then((res)=>{
                         this.ListData=res.data.data;
                         this.allTotal=res.total;
-                        this.Create=res.data.count
+                        this.Create=res.data.count.add_num;
+                        this.update_num=res.data.count.update_num
                         this.qd();
                     })
                 },
