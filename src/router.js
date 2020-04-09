@@ -961,9 +961,9 @@ router.beforeEach((to, from, next) => {
                     next({ path: '/erro'});
                     return
                 }
-                next({ path: '/home'});
+                next({ path: '/workbench'});
             })
-            next({ path: '/home'});
+            next({ path: '/workbench'});
 		}).catch(()=>{
             alert("账户异常，请联系管理员添加角色或启用账号");
             // window.location.href=accountUrl + cent;
