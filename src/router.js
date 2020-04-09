@@ -913,8 +913,10 @@ router.beforeEach((to, from, next) => {
                     next({ path: '/erro'});
                     return
                 }
-                next({ path: '/index'});
+                    // next({ path: '/index'});
+                window.location.href= 'home';
             })
+            window.location.href= 'home';
 
 		}).catch(()=>{
             alert("账户异常，请联系管理员添加角色或启用账号");
