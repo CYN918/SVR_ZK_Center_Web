@@ -1561,10 +1561,7 @@ export default {
 	material_project_add:{
 		url:"material/project/add",method:"post",isType:{suktip:1},
 	},
-	//解决跨域下载视频
-	tools_url_download:{
-		url:"tools/url/download",method:"get"
-	},
+
 
 	//上传收益数据文件
 	sharing_data_import:{
@@ -1620,4 +1617,13 @@ export default {
 		url:"ds/buyout/income/detail",method:"get"
 	},
 	
+
+	//解决跨域下载视频
+	tools_url_download:{
+		url:"tools/url/download",method:"get"
+	},
+	//获取结算方列表
+	designer_settlement_list:{
+		url:"designer/settlement/list",method:'get'
+	},
 }

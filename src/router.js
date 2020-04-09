@@ -806,10 +806,8 @@ let leftNav =
 //         },
 // ];
 
-// localStorage.setItem('letNav',JSON.stringify(leftNav));
 //localStorage.setItem('letNav',JSON.stringify(leftNav));
 import utils from './api/Utils';
-
 router.beforeEach((to, from, next) => {
 	/*登录过期*/
 	// console.log(window.location.href.split('#').slice(1));

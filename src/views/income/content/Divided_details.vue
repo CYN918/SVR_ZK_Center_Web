@@ -15,10 +15,14 @@
                 <span class='fc_statuc'>设计师ID</span>
                 <input type="text" v-model="open_id" placeholder="请输入">
                 <span class='fc_statuc'>结算方</span>
-                <select v-model="account_name">
-                    <option value="">全部</option>
-                    <option v-for="item in list" :value="item.name">{{item.name}}</option>
-                </select>
+                 <el-autocomplete
+                    class="inline-input"
+                    v-model="state1"
+                    :fetch-suggestions="querySearch"
+                    placeholder="请输入内容"
+                    @select="handleSelect"
+                    >
+                </el-autocomplete>
                 <div class="btn_right">
                     <span class='cx' @click='getDataList()'>查询</span>
                     <span class='cz
@@ -117,6 +121,7 @@ export default {
                     list:[],
                     account_name:'',
                     open_id:"",
+                    state1:"",
                 }
             },
             mounted(){
@@ -176,9 +181,9 @@ export default {
                     })
                 },
                 getData(){
-                    let params={is_receiver:1};
-                    this.api.settle_settlement({params}).then((res)=>{
-                        this.list=res;
+                    this.api.designer_settlement_list().then((res)=>{
+                        this.restaurants=res;
+
                     })
                 },
                 cz(){
@@ -195,7 +200,34 @@ export default {
                         }
                     })
                 },
+                querySearch(queryString, cb) {
+                    for(var i =0;i<this.restaurants.length;i++){
+                        if(this.restaurants[i].contribute_type==1){
+                            this.restaurants[i].value=this.restaurants[i].name+this.restaurants[i].id_card
+                        }
+                        if(this.restaurants[i].contribute_type==2){
+                            this.restaurants[i].value=this.restaurants[i].company_name+this.restaurants[i].code
+                        }
+                    }
+                    var results = queryString ? this.restaurants.filter(this.createFilter(queryString)) : this.restaurants;
+                    cb(results);
+                },
+                createFilter(queryString) {
+                    return (restaurant) => {
+                    return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+                    };
+                },
+                handleSelect(item) {
+                    this.account_name=item.open_id
+                }
             },
+             watch:{
+                state1:function(val,oldVal){
+                    if(val==''){
+                        this.account_name=''
+                    }
+                }
+            }
 }
 </script>
 
