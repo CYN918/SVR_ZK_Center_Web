@@ -39,11 +39,11 @@
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="初始预约金" prop=""
+                                label="初始预约金" prop="advance_payment"
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="预约金余额" prop=""
+                                label="预约金余额" prop="advance_payment_left"
                                  :show-overflow-tooltip="true"
                                 >
                         </el-table-column>
@@ -52,7 +52,7 @@
                         </el-table-column>
                          <el-table-column label="操作" prop="">
                              <template slot-scope="props">
-                                <el-button type="text"  @click='jump(tableData[props.$index].project_id,tableData[props.$index].open_id,tableData[props.$index].account_name)'>查看详情</el-button>
+                                <el-button type="text"  @click='jump(tableData[props.$index].project_id,tableData[props.$index].open_id,tableData[props.$index].account_name,tableData[props.$index].advance_payment,tableData[props.$index].advance_payment_left)'>查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -132,13 +132,15 @@ export default {
                     })
                 },
                
-                jump(porject_id,open_id,data){
+                jump(porject_id,open_id,data,money,ye){
                     this.$router.push({
                         path:"./Advance_details",
                         query:{
                             porject_id:porject_id,
                             open_id:open_id,
-                            account_name:data
+                            account_name:data,
+                            money:money,
+                            ye:ye
                         }
                     })
                 },

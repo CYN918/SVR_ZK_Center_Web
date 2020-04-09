@@ -12,7 +12,8 @@
         </div>
         <div class='content'>
             <div>
-                <span class='tit_name'>初始预约金：</span>
+                <span class='tit_name'>初始预约金：{{this.$route.query.money}}</span>
+                <span class='tit_name' style="margin-left:24px">当前预约金余额：{{this.$route.query.ye}}</span>
             </div>
            <div>
                  <template>
@@ -23,17 +24,17 @@
                             :cell-style="cell"
                             style="width: 100%;color:#000">
                         <el-table-column
-                                label="消耗预约金" prop="project_id"
+                                label="消耗预约金" prop="advance_payment_income"
                                >
                         </el-table-column>
-                        <el-table-column
+                        <!-- <el-table-column
                                 label="预约金余额" prop="material_name"
                                 >
                         </el-table-column>
                         <el-table-column
                                 label="消耗原因" prop="account_name"
                                 >
-                        </el-table-column>
+                        </el-table-column> -->
                         <el-table-column
                                 sortable
                                 label="更新时间" prop="theme_name"
