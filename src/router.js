@@ -770,6 +770,7 @@ let leftNav =
 // ];
 
 //localStorage.setItem('letNav',JSON.stringify(leftNav));
+import utils from './api/Utils';
 
 router.beforeEach((to, from, next) => {
 	/*登录过期*/
@@ -787,7 +788,6 @@ router.beforeEach((to, from, next) => {
 	// 	}
     // }
     
-    console.log('window:' + window);
 	if(+localStorage.getItem('logintime')+(24*60*60*1000)<=Date.parse(new Date())){
 		localStorage.setItem("token","");
 		tonek=false;
@@ -885,12 +885,20 @@ router.beforeEach((to, from, next) => {
 		urld ='http://ts-i.idatachain.cn/api/login';
         accountUrl = "http://ts-account.idatachain.cn/login?from=";
     }
+
+    let suuid  = utils.uuid(16, 32);
 	if(to.query.ticket){	
+        if(!localStorage.getItem('uuid')){
+            localStorage.setItem('uuid', suuid);
+            window.location.href= accountUrl + cent;
+            return;
+        }
+        
 		axios({
 			method: 'post',
 			timeout: 10000,
 			url: urld,
-			data:{ticket:to.query.ticket}
+			data:{ticket:to.query.ticket, uuid:suuid}
 		}).then((msg)=>{
             console.log(msg);
             localStorage.setItem('token',msg.data.data.token);
@@ -917,15 +925,17 @@ router.beforeEach((to, from, next) => {
                     next({ path: '/erro'});
                     return
                 }
-                next({ path: '/index'});
+                    // next({ path: '/index'});
+                window.location.href= window.location.host;
             })
-
+            window.location.href= window.location.host;
 		}).catch(()=>{
             alert("账户异常，请联系管理员添加角色或启用账号");
             // window.location.href=accountUrl + cent;
 		});
 			
 	}else{
+        localStorage.setItem('uuid', suuid);
 		window.location.href= accountUrl + cent;
 	}
 })
