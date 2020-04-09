@@ -1,25 +1,18 @@
 <template>
     <div>
         <div class="top_name">
-            <span class="top_txt">广告收款结算 /  项目管理</span>
+            <span class="top_txt">广告收款结算 /  合作公司管理</span>
             <div class="title_left">
-                <span>项目管理</span>
+                <span>合作公司管理</span>
             </div>
         </div>
         <div class="content">
             <div class="sum">
                 <input type="text" placeholder="搜索关键词">
-                <span>状态</span>
-                <select>
-                    <option value="">全部</option>
-                    <option value="0">信息正常</option>
-                    <option value="1">信息异常</option>
-                    <option value="-1">信息待补充</option>
-                </select>
                 <div class='btn_box'>
                     <span class="cx" @click="getDataList()">查询</span>
                     <span>重置</span>
-                    <!-- <span>监控邮箱</span> -->
+                    <span>新建</span>
                 </div>
             </div>
             <div>
@@ -31,31 +24,25 @@
                             :cell-style="cell"
                             style="width: 100%;color:#000">
                         <el-table-column
-                                label="项目ID" prop="open_id"
+                                label="ID" prop="open_id"
                                >
                         </el-table-column>
                         <el-table-column
-                                label="项目名称" prop="account_name"
+                                label="合作公司名称" prop="account_name"
                                 >
                         </el-table-column>
-                        <el-table-column
-                                label="内容状态" prop="contributor_type"
-                                >
-                            <template slot-scope="scope">
-                                <span>{{tableData[scope.$index].contributor_type==1?'个人':'公司'}}</span>
-                            </template>
-                        </el-table-column>
+                       
                         <el-table-column
                                 label="更新时间" prop="cash_money"
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="操作人员" prop="toax_mney"
+                                label="操作人员" prop="tax_money"
                                 >
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="props">
-                                <el-button type="text" @click='ck()'>查看</el-button>
+                                <el-button type="text" >编辑</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -81,7 +68,7 @@
         name: "settlement",
         data(){
             return{
-                tableData:[{toax_mney:1000}],
+                tableData:[],
                 total:0,
                 page:1,
                 p:10,
@@ -117,12 +104,7 @@
                     },
                     path:"/income/money_details"
                 })
-            },
-            ck(){
-                this.$router.push({
-                    path:"./PM_details"
-                })
-            },
+            }
         }
     }
 </script>

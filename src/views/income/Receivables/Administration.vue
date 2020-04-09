@@ -28,7 +28,7 @@
                         <ul>
                             <li @click='porjectGL()'>项目管理</li>
                             <li @click="jump()" :class="{Jurisdiction:this.controlBtn}">结算方管理</li>
-                            <li>合作公司管理</li>
+                            <li @click='old()'>合作公司管理</li>
                             <li>合同概览</li>
                         </ul>
                     </span>
@@ -262,7 +262,12 @@
                 this.$router.push({
                     path:"./PM"
                 })
-            }
+            },
+            old(){
+                this.$router.push({
+                    path:"./cooperator"
+                })
+            },
         },
     }
 </script>
