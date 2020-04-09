@@ -822,7 +822,9 @@ router.beforeEach((to, from, next) => {
 	// 			}
 	// 		}
 	// 	}
-	// }
+    // }
+    
+    console.log('window:' + window);
 	if(+localStorage.getItem('logintime')+(24*60*60*1000)<=Date.parse(new Date())){
 		localStorage.setItem("token","");
 		tonek=false;
