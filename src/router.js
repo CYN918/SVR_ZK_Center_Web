@@ -914,10 +914,9 @@ router.beforeEach((to, from, next) => {
                     return
                 }
                     // next({ path: '/index'});
-                window.location.href= 'home';
+                window.location.href= window.location.host;
             })
-            window.location.href= 'home';
-
+            window.location.href= window.location.host;
 		}).catch(()=>{
             alert("账户异常，请联系管理员添加角色或启用账号");
             // window.location.href=accountUrl + cent;
