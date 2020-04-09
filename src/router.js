@@ -908,7 +908,7 @@ router.beforeEach((to, from, next) => {
 	if(window.location.host=='ts-centerweb.idatachain.cn'){
 		cent = 'center_dev';
         urld ='http://ts-i.idatachain.cn/api/login';
-        accountUrl = "http://account.zookingsoft.com/login?from=";
+        accountUrl = "http://ts-account.idatachain.cn/login?from=";
 	}
     if(window.location.host=='c2.zookingsoft.com'){
         cent = 'center_dev2';
@@ -918,7 +918,7 @@ router.beforeEach((to, from, next) => {
 	if(window.location.host=='localhost:8080'){
 		cent = 'center_local';
 		urld ='http://ts-i.idatachain.cn/api/login';
-        accountUrl = "http://ts-account.zookingsoft.com/login?from=";
+        accountUrl = "http://ts-account.idatachain.cn/login?from=";
     }
 	if(to.query.ticket){	
 		axios({
