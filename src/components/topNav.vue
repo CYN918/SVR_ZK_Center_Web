@@ -304,13 +304,15 @@ export default {
         //     window.location.href= '#/userinfo/user_info';
         // },
 		loginout(){
-			let urld = 'http://ts-i.idatachain.cn';
+			let urld = 'http://ts-i.idatachain.cn',
+			accountUrl = "http://ts-account.idatachain.cn/auth/logout?from=";
 			if(window.location.host=='c.zookingsoft.com'){
 				urld = 'https://c.zookingsoft.com';
-				
+				accountUrl = "http://account.zookingsoft.com/auth/logout?from=";
 			}
             if(window.location.host=='c2.zookingsoft.com'){
 				urld = 'https://c2.zookingsoft.com';
+				accountUrl = "http://account.zookingsoft.com/auth/logout?from=";
 			}
 			this.$ajax({
 				method: 'get',
@@ -331,7 +333,7 @@ export default {
                         cent = 'center_dev2';
 					}
 					
-					window.location.href="http://account.zookingsoft.com/auth/logout?from="+cent;
+					window.location.href= accountUrl + cent;
 				}	
 			})						
 			// }).catch(()=>{
