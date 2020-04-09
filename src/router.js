@@ -408,8 +408,7 @@ mode['recordDetails']=recordDetails
 
 
 Vue.use(Router)
-const router = new Router({routes: []})
-let tonek = localStorage.getItem('token');
+const router = new Router({routes: []});
 let wb = [
 	{
 		path:'/indexs',name:'indexs',component:mode['indexs'],
@@ -824,6 +823,7 @@ router.beforeEach((to, from, next) => {
 	// 	}
     // }
     
+    let tonek = localStorage.getItem('token');
 	if(+localStorage.getItem('logintime')+(24*60*60*1000)<=Date.parse(new Date())){
 		localStorage.setItem("token","");
 		tonek=false;
@@ -961,9 +961,9 @@ router.beforeEach((to, from, next) => {
                     next({ path: '/erro'});
                     return
                 }
-                next({ path: '/workbench'});
+                next({ path: '/index'});
             })
-            next({ path: '/workbench'});
+            next({ path: '/index'});
 		}).catch(()=>{
             alert("账户异常，请联系管理员添加角色或启用账号");
             // window.location.href=accountUrl + cent;
