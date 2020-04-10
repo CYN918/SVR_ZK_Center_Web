@@ -1,18 +1,18 @@
 <template>
     <div>
         <div class="top_name">
-            <span class="top_txt">广告收款结算 /  合作公司管理</span>
+            <span class="top_txt" @click='fh(-1)'>广告收款结算 /  合作公司管理</span>
             <div class="title_left">
                 <span>合作公司管理</span>
             </div>
         </div>
         <div class="content">
             <div class="sum">
-                <input type="text" placeholder="搜索关键词">
+                <input type="text" placeholder="搜索关键词" v-model="search">
                 <div class='btn_box'>
                     <span class="cx" @click="getDataList()">查询</span>
-                    <span>重置</span>
-                    <span>新建</span>
+                    <span @click='cz()'>重置</span>
+                    <span @click='add("1")'>新建</span>
                 </div>
             </div>
             <div>
@@ -24,25 +24,25 @@
                             :cell-style="cell"
                             style="width: 100%;color:#000">
                         <el-table-column
-                                label="ID" prop="open_id"
+                                label="ID" prop="company_id"
                                >
                         </el-table-column>
                         <el-table-column
-                                label="合作公司名称" prop="account_name"
+                                label="合作公司名称" prop="name"
                                 >
                         </el-table-column>
                        
                         <el-table-column
-                                label="更新时间" prop="cash_money"
+                                label="更新时间" prop="updated_at"
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="操作人员" prop="tax_money"
+                                label="操作人员" prop="updator"
                                 >
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="props">
-                                <el-button type="text" >编辑</el-button>
+                                <el-button type="text"  @click='add("2",tableData[props.$index].name,tableData[props.$index].company_id)'>编辑</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -60,6 +60,23 @@
                 </el-pagination>
             </div>
         </div>
+        <div class='bg' v-if='show'>
+            <div class='contents_box'>
+                 <div class='tit_name'>
+                    <span v-if="this.index==1">新建合作公司</span>
+                    <span  v-if="this.index==2">编辑合作公司</span>
+                </div>
+                <div class='oldName'>
+                    <span>名称：</span>
+                    <input type="text" v-model="company_name">
+                </div>
+                <div class='btns'>
+                    <span class='qd' @click='addOrEitd()'>确定</span>
+                    <span @click='heid()'>取消</span>
+                </div>
+            </div>
+           
+        </div>
     </div>
 </template>
 
@@ -72,12 +89,66 @@
                 total:0,
                 page:1,
                 p:10,
+                show:false,
+                index:'',
+                company_name:"",
+                search:"",
+                company_id:"",
             }
         },
         mounted(){
             this.getDataList()
         },
         methods:{
+            cz(){
+                this.search=''
+            },
+            add(index,data,company_id){
+                this.show=true;
+                this.index=index;
+                if(data){
+                    this.company_name=data;
+                    this.company_id=company_id
+                }
+            },
+            heid(){
+                this.show=false;
+                this.index='';
+                this.company_name=''
+                this.company_id=''
+                
+            },
+            fh(index){
+                this.$router.go(index)
+            },
+            addOrEitd(){
+                if(!this.company_name){
+                    this.$message.error('名称不能为空');
+                    return
+                }
+                if(this.index==1){
+                     let formData=new FormData;
+                    formData.append('company_name',this.company_name)
+                    this.api.adproject_adcompany_add(formData).then((res)=>{
+                        if(res!=false){
+                            this.heid()
+                            this.getDataList()
+                        }
+                    })
+                }else{
+                     let formData=new FormData;
+                    formData.append('company_name',this.company_name);
+                    formData.append('company_id',this.company_id)
+                    this.api.adproject_adcompany_edit(formData).then((res)=>{
+                         if(res!=false){
+                            this.heid()
+                            this.getDataList()
+                        }
+                    })
+                }
+                
+                
+            },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
                     return 'background:rgba(247,249,252,1);color:rgba(31,46,77,1);text-align:center;font-size:14px;font-weight:blod;font-family:PingFang-SC-Medium;height:56px'
@@ -90,12 +161,18 @@
             },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
+                this.getDataList
             },
             handleCurrentChange(page) {//页码切换
                 this.page = page;
+                this.getDataList
             },
             getDataList(){
-              
+                let params={p:this.p,page:this.page,search:this.search}
+                this.api.adproject_adcompany_listpage({params}).then((res)=>{
+                       this.total=res.total;
+                       this.tableData=res.data; 
+                })
             },
             jump(data){
                 this.$router.push({
@@ -110,6 +187,65 @@
 </script>
 
 <style scoped>
+    .bg{
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.3);
+        position: fixed;
+        z-index: 9;
+        bottom: 0;
+        right: 0;
+    }
+    .contents_box{
+        width: 400px;
+        height: 200px;
+        position: absolute;
+        top:30%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        background: #fff;
+        border-radius: 5px;
+    }
+    .tit_name{
+        width: 100%;
+        height: 50px;
+        border-bottom: 1px solid #ddd;
+    }
+    .tit_name span{
+        font-size: 14px;
+        font-weight: bold;
+        display: inline-block;
+        margin-left: 24px;
+        line-height: 50px;
+    }
+    .oldName span{
+        display: inline-block;
+        margin-left: 24px;
+    }
+    .oldName input{
+        width: 190px;
+        height: 36px;
+        padding-left: 10px;
+        margin-top: 30px;
+    }
+    .btns span{
+        display: inline-block;
+        width: 90px;
+        height: 36px;
+        line-height: 36px;
+        text-align: center;
+        border:1px solid #ddd;
+        margin-top: 24px;
+        cursor: pointer;
+        border-radius: 3px;
+        margin-left: 24px;
+
+    }
+    .qd{
+        background: #3377ff;
+        border:0!important;
+        color:#fff!important
+    }
     .top_name{
         height:112px!important;
         background:rgba(255,255,255,1);
@@ -126,6 +262,7 @@
     .top_txt{
         display: inline-block;
         margin-left: 24px;
+        cursor: pointer;
     }
     .content{
         margin-top: 199px!important;

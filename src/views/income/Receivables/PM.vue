@@ -1,24 +1,24 @@
 <template>
     <div>
         <div class="top_name">
-            <span class="top_txt">广告收款结算 /  项目管理</span>
+            <span class="top_txt" @click='fh(-1)'>广告收款结算 /  项目管理</span>
             <div class="title_left">
                 <span>项目管理</span>
             </div>
         </div>
         <div class="content">
             <div class="sum">
-                <input type="text" placeholder="搜索关键词">
+                <input type="text" placeholder="搜索关键词" v-model='search '>
                 <span>状态</span>
-                <select>
+                <select v-model="status">
                     <option value="">全部</option>
-                    <option value="0">信息正常</option>
-                    <option value="1">信息异常</option>
-                    <option value="-1">信息待补充</option>
+                    <option value="2">信息正常</option>
+                    <option value="0">信息异常</option>
+                    <option value="1">信息待补充</option>
                 </select>
                 <div class='btn_box'>
                     <span class="cx" @click="getDataList()">查询</span>
-                    <span>重置</span>
+                    <span @click='cz()'>重置</span>
                     <!-- <span>监控邮箱</span> -->
                 </div>
             </div>
@@ -31,31 +31,31 @@
                             :cell-style="cell"
                             style="width: 100%;color:#000">
                         <el-table-column
-                                label="项目ID" prop="open_id"
+                                label="项目ID" prop="project_id"
                                >
                         </el-table-column>
                         <el-table-column
-                                label="项目名称" prop="account_name"
+                                label="项目名称" prop="project_name"
                                 >
                         </el-table-column>
                         <el-table-column
                                 label="内容状态" prop="contributor_type"
                                 >
                             <template slot-scope="scope">
-                                <span>{{tableData[scope.$index].contributor_type==1?'个人':'公司'}}</span>
+                                <span :class="{red:tableData[scope.$index].status!=2}">{{tableData[scope.$index].status==0?'错误信息':tableData[scope.$index].status==1?"数据待补充":"数据正常"}}</span>
                             </template>
                         </el-table-column>
                         <el-table-column
-                                label="更新时间" prop="cash_money"
+                                label="更新时间" prop="updated_at"
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="操作人员" prop="toax_mney"
+                                label="操作人员" prop="updator"
                                 >
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="props">
-                                <el-button type="text" @click='ck()'>查看</el-button>
+                                <el-button type="text" @click='ck(tableData[props.$index].project_id)'>查看</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -85,6 +85,8 @@
                 total:0,
                 page:1,
                 p:10,
+                status:'',
+                search:""
             }
         },
         mounted(){
@@ -101,6 +103,13 @@
             cell({row, column, rowIndex, columnIndex}){
                 return 'text-align:center;color:rgba(61,73,102,1);font-size:14px;font-weight:400;font-family:PingFangSC-Regula;'
             },
+            fh(index){
+                this.$router.go(index);
+            },
+            cz(){
+                this.search=''
+                this.status=''
+            },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
                 this.getDataList()
@@ -110,7 +119,7 @@
                 this.getDataList()
             },
             getDataList(){
-                let params={p:this.p,page:this.page}
+                let params={p:this.p,page:this.page,search:this.search,status:this.status}
                 this.api.adproject_listpage({params}).then((res)=>{
                     this.total=res.total;
                     this.tableData=res.data
@@ -124,9 +133,12 @@
                     path:"/income/money_details"
                 })
             },
-            ck(){
+            ck(id){
                 this.$router.push({
-                    path:"./PM_details"
+                    path:"./PM_details",
+                    query:{
+                        project_id:id
+                    }
                 })
             },
             
@@ -151,7 +163,9 @@
     .top_txt{
         display: inline-block;
         margin-left: 24px;
+        cursor: pointer;
     }
+    .red{color:red}
     .content{
         margin-top: 199px!important;
     }

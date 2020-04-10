@@ -303,11 +303,14 @@
                 this.fj=false
             },
             heidHT(){
-                this.ht=false;
-                this.contract.push((this.list[0]).archive_id);
-                this.contracts.push(this.list);
-                this.contract_id='';
-                this.list=[];
+                
+                     this.ht=false;
+                    this.contract.push((this.list[0]).archive_id);
+                    this.contracts.push(this.list);
+                    this.contract_id='';
+                    this.list=[];
+               
+               
             },
             heidHTs(){
                 this.ht=false;

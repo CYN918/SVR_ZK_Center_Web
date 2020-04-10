@@ -1569,4 +1569,32 @@ export default {
 	adproject_listpage:{
 		url:'adproject/listpage',method:"get"
 	},
+	//公司列表(分页)
+	adproject_adcompany_listpage:{
+		url:"adproject/adcompany/listpage",method:"get"
+	},
+	//公司列表
+	adproject_adcompany_list:{
+		url:"adproject/adcompany/list",method:"get"
+	},
+	//添加公司
+	adproject_adcompany_add:{
+		url:"adproject/adcompany/add",method:'post',isType:{suktip:1}
+	},
+	//编辑公司
+	adproject_adcompany_edit:{
+		url:'adproject/adcompany/edit',method:"post",isType:{suktip:1}
+	},
+	//获取广告类型
+	adproject_adtype:{
+		url:"adproject/adtype",method:"get",
+	},
+	//获取项目详情
+	adproject_detail:{
+		url:'adproject/detail',method:"get"
+	},
+	//结算主题搜索
+	settle_settlement_searchall:{
+		URL:"/settle/settlement/searchall",method:'get'
+	},
 }
