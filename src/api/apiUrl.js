@@ -1595,6 +1595,10 @@ export default {
 	},
 	//结算主题搜索
 	settle_settlement_searchall:{
-		URL:"/settle/settlement/searchall",method:'get'
+		url:"settle/settlement/searchall",method:'get'
 	},
+	//编辑项目
+	adproject_edit:{
+		url:"adproject/edit",method:"post",isType:{suktip:1}
+	}
 }

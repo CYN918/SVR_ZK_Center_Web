@@ -6,7 +6,7 @@
             <span class="top_txt">项目详情</span>
             <div class="title_left">
                 <span>项目详情</span>
-                <span class='bj'>编辑</span>
+                <span class='bj' @click='bg()'>编辑</span>
             </div>
         </div>
         <div class='select_box'>
@@ -47,6 +47,7 @@
                     v-model="online_time"
                     class='datetime'
                     type="datetime"
+                    value-format='yyyy-MM-dd-HH-mm-ss'
                     placeholder="选择日期时间">
                 </el-date-picker>
                 <span class='select_left' v-if='one'>二级分类</span>
@@ -71,43 +72,48 @@
                             header-align="center"
                             :header-cell-style="getRowClass"
                             :cell-style="cell"
-                            style="width: 100%;color:#000">
+                            style="margin-right:24px;color:#000">
                         <el-table-column
-                                label="生效时间" prop="open_id"
+                                label="生效时间" prop="tarttime"
                                >
                         </el-table-column>
                         <el-table-column
-                                label="失效时间" prop="account_name"
+                                label="失效时间" prop="endtime"
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="计费方式" prop="contributor_type"
-                                >
-                            <template slot-scope="scope">
-                                <span>{{tableData[scope.$index].contributor_type==1?'个人':'公司'}}</span>
-                            </template>
+                                label="计费方式" prop="cost_type">
+                        
                         </el-table-column>
                         <el-table-column
-                                label="分成模式(ZK)" prop="cash_money"
+                                label="分成模式(ZK)" prop="profit_share_ratio"
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="结算模式" prop="toax_mney"
+                                label="结算模式" prop="balance_type"
                                 >
                         </el-table-column>
                          <el-table-column
-                                label="固价价格" prop="toax_mney"
+                                label="固价价格" prop="fix_price"
                                 >
                         </el-table-column>
                          <el-table-column
-                                label="修改时间" prop="toax_mney"
+                                label="修改时间" prop=""
                                 >
                         </el-table-column>
-                        <el-table-column label="操作人员" prop="toax_mney">
+                        <el-table-column label="操作人员" prop="">
                             
+                        </el-table-column>
+                         <el-table-column label="操作" >
+                            <template slot-scope="scope">
+                                <el-button type="text" @click='swADD(1,scope.$index)'>编辑</el-button>
+                            </template>
                         </el-table-column>
                     </el-table>
                 </template>
+                <div class='SWADD'  v-if='type==2'>
+                    <span @click='swADD(1)'>+添加</span>
+                </div>
            </div>
 
         </div>
@@ -115,7 +121,7 @@
             <div  class='select_tit'>
                 <span style="margin-left:24px">相关合同 <span class="err">(待补充)</span></span>
             </div>
-            <div><span class="ADDs" @click="ADDht()">添加合同</span></div>
+            <div  v-if='type==2'><span class="ADDs" @click="ADDht()">添加合同</span></div>
              <div  class="contract">
                     <template>
                         <el-table
@@ -231,16 +237,23 @@
                 <span>附件：</span>
             </div>
             <div>
-                <el-upload
-                    class="upload-demo"
-                    action="1"
-                    multiple
-                    >
-                    <el-button size="small" type="primary">上传</el-button>
-                </el-upload>
-                <span></span>
-                <span class='color'>查看</span>
-                <span class='color'>下载</span>
+                <div class="upFJ" v-if='type==2'>
+                    <el-upload
+                            class="upload-demo"
+                            :on-remove="handleRemove"
+                            :http-request="uploadFile"
+                            multiple
+                            action="111">
+                        <el-button size="small" type="primary">上传</el-button>
+                    </el-upload>
+                    <el-progress :percentage="this.times" v-if="up"></el-progress>
+                </div>
+                <div style="margin: 14px 0 14px 0px" v-for="(item,index) in attachs">
+                            <div style="display: inline-block;max-width: 200px;height: 20px;overflow:hidden;font-size:14px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(31,46,77,1);">{{item.name}}</div>
+                            <!--<span class="content_ck">查看</span>-->
+                            <a class="content_xz" :href="item.url" target="_blank">下载</a>
+                    <span class="content_xz" @click="dels(index)">删除</span>
+                </div>
             </div>
         </div>
         <div class='btns'>
@@ -285,6 +298,64 @@
                 </div>
             </div>
         </div>
+        <div class='bg' v-if='sw'>
+            <div class='swBox'>
+                <div class="content_tit">
+                    <span>{{this.num==1?'添加':'编辑'}}</span>
+                </div>
+                <div>
+                    <span>生效时间：</span>
+                    <el-date-picker
+                        v-model="tarttime"
+                        class='datetime'
+                        type="datetime"
+                        value-format='yyyy-MM-dd-HH-mm-ss'
+                        placeholder="选择日期时间">
+                    </el-date-picker>
+                </div>
+                <div>
+                    <span>失效时间：</span>
+                    <el-date-picker
+                        v-model="endtime"
+                        class='datetime'
+                        value-format='yyyy-MM-dd-HH-mm-ss'
+                        type="datetime"
+                        placeholder="选择日期时间">
+                    </el-date-picker>
+                </div>
+                <div>
+                    <span>计费方式：</span>
+                    <select v-model="cost_type" class='datetime'>
+                        <option value="未知">未知</option>
+                        <option value="CPM">CPM</option>
+                        <option value="CPC">CPC</option>
+                        <option value="CPD">CPD</option>
+                        <option value="CPA">CPA</option>
+                        <option value="CPS">CPS</option>
+                    </select>
+                </div>
+                <div>
+                    <span>分成模式：</span>
+                    <input type="text" placeholder="请输入" class='datetime' v-model="profit_share_ratio">
+                </div>
+                <div>
+                    <span>结算模式：</span>
+                    <select name="" id="" class='datetime' v-model="balance_type">
+                        <option value="未知">未知</option>
+                        <option value="固价">固价</option>
+                        <option value="以广告主反馈数据为准（包括后台）">以广告主反馈数据为准（包括后台）</option>
+                    </select>
+                </div>
+                <div>
+                    <span>固定价格：</span>
+                    <input type='number' placeholder="请输入" class='datetime' v-model="fix_price">
+                </div>
+                <div class='btns' style="box-shadow:0 0 0 #fff">
+                    <span class='bc' style="margin-left:95px" @click='push()'>确定</span>
+                    <span @click="swHeid()">取消</span>
+                </div>
+            </div>
+        </div>
   </div>
 </template>
 
@@ -293,6 +364,7 @@ export default {
             data(){
                 return{
                     ht:false,
+                    sw:false,
                        level:"",
                        list:[],
                        list2:[],
@@ -326,6 +398,20 @@ export default {
                        contract_id:'',
                        listS:[],
                        state1:"",
+                       JSlist:[],
+                       balance:"",
+                       endtime:"",
+                       tarttime:"",
+                       cost_type:"",
+                       profit_share_ratio:"",
+                       balance_type:"",
+                       fix_price:"",
+                       index:'',
+                       num:"",
+                       times:"",
+                        up:false,
+                        attachs:[],
+                        type:"1"
 
                 }
             },
@@ -333,6 +419,9 @@ export default {
                 this.getDataList()
             },
             methods:{
+                bg(){
+                    this.type=2;
+                },
                 getRowClass({row, column, rowIndex, columnIndex}) {
                     if (rowIndex === 0) {
                         return 'background:rgba(247,249,252,1);color:rgba(31,46,77,1);text-align:center;font-size:14px;font-weight:blod;font-family:PingFang-SC-Medium;height:56px'
@@ -346,9 +435,26 @@ export default {
                 getDataList(){
                     let params={project_id:this.$route.query.project_id}
                     this.api.adproject_detail({params}).then((res)=>{
-                        this.listData=res
+                        this.bussiness_types=res.bussiness_types;
+                        this.attachs=res.attachs;
+                        this.contracts=res.contracts;
+                        this.project_name=res.project_name;
+                        this.company_id=res.company_id;
+                        this.balance=res.balance;
+                        this.online_time=res.online_time;
+                        this.ad_type=res.ad_type;
+                        this.report_media=res.report_media;
+                        this.report_space_id=res.report_space_id;
+                        this.report_ad_id=res.report_ad_id;
+                        this.report_link=res.report_link;
+                        this.report_link_auto_update=res.report_link_auto_update;
+                        this.ad_req_pv=res.ad_req_pv;
+                        this.ad_show_pv=res.ad_show_pv;
+                        this.ad_click_pv=res.ad_click_pv;
+                        this.ad_download_pv=res.ad_download_pv;
+                        this.note=res.note;
                         this.getType();
-                        this.getJS()
+                        this.getJS();
                     })
                 },
                 getType(){
@@ -375,7 +481,9 @@ export default {
                 },
                 ADDht(){
                      this.ht=true;
-                     console.log(this.ht)
+                },
+                 handleRemove(file, fileList) {
+                    
                 },
                 focuson(){
                     let params={search:this.company_name}
@@ -424,19 +532,22 @@ export default {
                  del(index){
                     this.contracts.splice(index,1);
                 },
+                 dels(index){
+                    this.attachs.splice(index,1)
+                },
                 getJS(){
-                    console.log('aaa')
-                    this.JSlist=[];
-                    let params={search:this.state1}
-                    this.api.settle_settlement_searchall({params}).then((res)=>{
+                    this.api.settle_settlement_searchall({}).then((res)=>{
                         this.JSlist=res
                     })
                 },
                  handleSelect(item) {
-                    console.log(item);
+                    this.balance=item.id;
                 },
                 querySearch(queryString, cb) {
-                    var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
+                    for(var i =0;i<this.JSlist.length;i++){
+                        this.JSlist[i].value=this.JSlist[i].name
+                    }
+                    var results = queryString ? this.JSlist.filter(this.createFilter(queryString)) : this.JSlist;
                     // 调用 callback 返回建议列表的数据
                     cb(results);
                 },
@@ -444,6 +555,114 @@ export default {
                     return (restaurant) => {
                     return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
                     };
+                },
+                swADD(num,index){
+                    this.sw=true;
+                    this.num=num;
+                    this.index=index;
+                    if(num==2){
+                         this.endtime=this.bussiness_types[this.index].endtime;
+                        this.tarttime=this.bussiness_types[this.index].tarttime;
+                        this.cost_type=this.bussiness_types[this.index].cost_type;
+                        this.profit_share_ratio=this.bussiness_types[this.index].profit_share_ratio;
+                        this.balance_type=this.bussiness_types[this.index].balance_type;
+                        this.fix_price=this.bussiness_types[this.index].fix_price;
+                    }
+                },
+                swHeid(){
+                    this.sw=false;
+                    this.endtime="";
+                    this.tarttime="";
+                    this.cost_type="";
+                    this.profit_share_ratio="";
+                    this.balance_type="";
+                    this.fix_price="";
+                    this.num='';
+                    this.index=''
+                },
+                push(){
+                     if(!this.tarttime){
+                        this.$message.error('生效时间不能为空')
+                        return
+                    }
+                     if(!this.cost_type){
+                        this.$message.error('计费方式不能为空')
+                        return
+                    }
+                     if(!this.profit_share_ratio){
+                        this.$message.error('分成模式不能为空')
+                        return
+                    }
+                     if(!this.balance_type){
+                        this.$message.error('结算模式不能为空')
+                        return
+                    }
+                     if(!this.fix_price){
+                        this.$message.error('固价价格不能为空')
+                        return
+                    }
+                    var obj={};
+                    obj.endtime=this.endtime;
+                    obj.tarttime=this.tarttime;
+                    obj.cost_type=this.cost_type;
+                    obj.profit_share_ratio=this.profit_share_ratio;
+                    obj.balance_type=this.balance_type;
+                    obj.fix_price=this.fix_price;
+                    if(this.num==1){
+                        this.bussiness_types.push(obj)
+                    }
+                    if(this.num==2){
+                        this.bussiness_types[this.index]=obj;
+                    }
+                    this.swHeid()
+                },
+                 time(){
+                    var _this=this;
+                    _this.times=0;
+                    var timer = setInterval(function () {
+                        if(_this.times<99){
+                            _this.times++
+                        }
+                    },100);
+                },
+                 uploadFile(file){
+                    this.up=true;
+                    this.times=0
+                    this.time();
+                    let formData = new FormData;
+                    formData.append('file',file.file);
+                    this.api.file_private_upload(formData).then((res)=>{
+                        this.attachs.push(res);
+                        this.times=100;
+                    })
+                    this.up=false;
+                },
+                projectBj(){
+                    let formData =new FormData;
+                    formData.append('bussiness_types',JSON.stringify(this.bussiness_types));
+                    formData.append('attachs',JSON.stringify(this.attachs))
+                    formData.append('contracts',JSON.stringify(this.contracts))
+                    formData.append("project_id",this.$route.query.project_id)
+                    formData.append('project_name',this.project_name)
+                    formData.append('company_id',this.company_id)
+                    formData.append("balance",this.balance)
+                    formData.append('online_time',this.online_time)
+                    formData.append('ad_type',this.ad_type)
+                    formData.append('report_media',this.report_media)
+                    formData.append('report_space_id',this.report_space_id)
+                    formData.append('report_ad_id',this.report_ad_id)
+                    formData.append('report_link',this.report_link)
+                    formData.append('report_link_auto_update',this.report_link_auto_update)
+                    formData.append('ad_req_pv',this.ad_req_pv)
+                    formData.append('ad_show_pv',this.ad_show_pv)
+                    formData.append('ad_click_pv',this.ad_click_pv)
+                    formData.append('ad_download_pv',this.ad_download_pv)
+                    formData.append('note',this.note)
+                    this.api.adproject_edit(formData).then((res)=>{
+                        if(res!=false){
+
+                        }
+                    })
                 },
             },
 }
@@ -562,9 +781,11 @@ export default {
         color:rgba(50,50,51,1);
         margin: 24px 0 8px 0;
     }
-   
+    .inline-input{
+        width:100%;
+    }
     .select_box>div,.fj>div{
-        margin-left: 24px;
+        margin:0 24px;
     }
     .select_box>div input,.fj>div input{
         width:263px;
@@ -699,13 +920,18 @@ export default {
         box-shadow:0px 1px 6px 0px rgba(0,0,0,0.06);
         border-radius:4px;
     }
+    .content_tit{
+        border-bottom: 1px solid #ddd;
+        height: 40px;
+    }
     .content_tit span{
         display: inline-block;
-        font-size:14px;
+        font-size:16px;
         font-family:PingFangSC-Medium,PingFangSC;
         font-weight:500;
         color:rgba(31,46,77,1);
-        margin: 21px 0 24px 20px;
+        margin: 0px 0 24px 0px;
+        line-height: 40px;
     }
     .content_btn{
         position: absolute;
@@ -762,5 +988,34 @@ export default {
         color:rgba(51,119,255,1);
         margin-left: 10px;
         cursor: pointer;
+    }
+    .SWADD{
+        width: 100%;
+        height: 36px;
+        border:1px dotted #3377ff;
+        text-align: center;
+    }
+    .SWADD span{
+        display: inline-block;
+        line-height: 36px;
+        color: #3377ff;
+        cursor: pointer;
+    }
+    .swBox{
+        position: absolute;
+        left:50%;
+        top:50%;
+        width: 580px;
+        height: 504px;
+        transform: translate(-50%,-50%);
+        background: #fff;
+        border-radius: 5px;
+    }
+    .swBox>div{
+        margin-bottom: 24px;
+    }
+    .swBox>div>span{
+        display: inline-block;
+        margin: 0 10px 0 24px;
     }
 </style>
