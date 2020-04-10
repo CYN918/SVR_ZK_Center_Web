@@ -103,12 +103,18 @@
             },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
+                this.getDataList()
             },
             handleCurrentChange(page) {//页码切换
                 this.page = page;
+                this.getDataList()
             },
             getDataList(){
-              
+                let params={p:this.p,page:this.page}
+                this.api.adproject_listpage({params}).then((res)=>{
+                    this.total=res.total;
+                    this.tableData=res.data
+                })
             },
             jump(data){
                 this.$router.push({
@@ -123,6 +129,7 @@
                     path:"./PM_details"
                 })
             },
+            
         }
     }
 </script>

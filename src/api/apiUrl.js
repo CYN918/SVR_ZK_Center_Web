@@ -1565,4 +1565,8 @@ export default {
 	tools_url_download:{
 		url:"tools/url/download",method:"get"
 	},
+	//项目列表(分页)
+	adproject_listpage:{
+		url:'adproject/listpage',method:"get"
+	},
 }
