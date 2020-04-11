@@ -1,40 +1,42 @@
 <template>
   <div>
        <div class="top_name">
-            <span class="top_txt">广告收款结算 /</span>
-            <span class="top_txt">项目管理/</span>
+            <span class="top_txt"  @click='fh(-2)'>广告收款结算 /</span>
+            <span class="top_txt" @click='fh(-1)'>项目管理/</span>
             <span class="top_txt">项目详情</span>
             <div class="title_left">
                 <span>项目详情</span>
-                <span class='bj' @click='bg()'>编辑</span>
+                <span class='bj' @click='bg()' v-if='this.type==1'>编辑</span>
             </div>
         </div>
         <div class='select_box'>
             <div class='select_tit'>
-                <span>必要信息</span>
+                <span style="margin-left:24px">必要信息</span>
             </div>
             <div class='select_bh'>
                 <span>企业微信审批编号:</span>
-                <span></span>
+                <span>{{this.approve_id}}</span>
             </div>
             <div class='select_box_1'>
-                <span class='select_left'>项目名称：<span class="err">(存在项目重名，数据无效)</span></span>
-                 <input type="text" class='input_left' v-model='project_name'>
-                <span class='select_left'>合作公司：<span class="err">(合作公司不存在，数据无效)</span></span>
-                <input type="text" class='input_left' @focus='focuson()' @blur="blur()" v-model='company_name' @input='focuson()'>
+                <span class='select_left'>项目名称：<span class="err" v-if="name_valid==0">(存在项目重名，数据无效)</span></span>
+                 <input type="text" class='input_left' :class='{examine:this.type==1}' :disabled="type==1" v-model='project_name' >
+                <span class='select_left'>合作公司：<span class="err" v-if='!this.company_id'>(合作公司不存在，数据无效)</span></span>
+                <input type="text" class='input_left' @focus='focuson()'  v-model='company_name' @input='focuson()' :class='{examine:this.type==1}' :disabled="type==1">
                 <ul v-if='old'>
                     <li style="background:red" @click='oldADD(company_name)' v-if="company_name">新增"{{company_name}}"为合作公司</li>
                     <li v-for='(item,index) in company' @click='select_check(index)'>{{item.name}}</li>
                  </ul>
-                <span class='select_left' style="width:100%">广告类型：一级分类 <span class="err">(数据异常，数据无效)</span></span>
-                <select v-model='one' class='input_left' @change='getType()'>
+                <span class='select_left' style="width:100%">广告类型：一级分类 </span>
+                <select v-model='ad_type' class='input_left' @change='getType()' :class='{examine:this.type==1}' :disabled="type==1">
                     <option :value="item" v-for="item in list">{{item}}</option>
                 </select>   
 
             </div>
             <div class='select_box_2'>
-                <span class='select_left'>结算主体：<span class="err">(结算主体不存在，数据无效)</span></span>
+                <span class='select_left'>结算主体：<span class="err" v-if='state1&&balance_id==""'>(结算主体不存在，数据无效)</span></span>
                  <el-autocomplete
+                        :class='{examine:this.type==1}' 
+                        :disabled="type==1"
                         class="inline-input"
                         v-model="state1"
                         :fetch-suggestions="querySearch"
@@ -44,26 +46,27 @@
                     </el-autocomplete>
                  <span class='select_left'>上线时间：</span>
                   <el-date-picker
+                    v-if='type==2'
                     v-model="online_time"
-                    class='datetime'
+                    class='datetimes'
                     type="datetime"
                     value-format='yyyy-MM-dd-HH-mm-ss'
                     placeholder="选择日期时间">
                 </el-date-picker>
-                <span class='select_left' v-if='one'>二级分类</span>
-                 <select name="" id="" class='input_left' v-model='two'  v-if='one' @change='getType()'>
+                <input type="text" v-model="online_time" class='input_left examine' v-if='type==1' disabled >
+                <span class='select_left' v-if='ad_type'>二级分类</span>
+                 <select name="" id="" class='input_left' v-model='ad_type2'  v-if='ad_type' @change='getType()' :class='{examine:this.type==1}' :disabled="type==1">
                     <option :value="item" v-for="item in list2">{{item}}</option>
                 </select>
             </div>
             <div class='select_box_3'>
-                <span class='select_left'  v-if='two'>三级分类</span>
-                 <select name="" id="" class='input_left' v-model="three"  v-if='two'>
+                <span class='select_left'  v-if='ad_type2'>三级分类</span>
+                 <select name="" id="" class='input_left' v-model="ad_type3"  v-if='ad_type2' :class='{examine:this.type==1}' :disabled="type==1">
                      <option :value="item" v-for="item in list3">{{item}}</option>
                 </select>
             </div>
            <div>
-               <span class='sw'>商务模式</span>
-               <span class="err">(数据异常，数据无效)</span>
+               <span class='sw' style="margin-left:24px">商务模式</span>
            </div>
            <div>
                <template>
@@ -74,12 +77,16 @@
                             :cell-style="cell"
                             style="margin-right:24px;color:#000">
                         <el-table-column
-                                label="生效时间" prop="tarttime"
+                                label="生效时间" prop="starttime"
                                >
                         </el-table-column>
                         <el-table-column
                                 label="失效时间" prop="endtime"
                                 >
+                                 <template slot-scope="scope">
+                                    <span v-if='bussiness_types[scope.$index].endtime'>{{bussiness_types[scope.$index].endtime}}</span>
+                                    <span v-if='bussiness_types[scope.$index].endtime==""'>-</span>
+                                </template>
                         </el-table-column>
                         <el-table-column
                                 label="计费方式" prop="cost_type">
@@ -135,9 +142,9 @@
                                     show-overflow-tooltip
                             >
                                 <template slot-scope="scope">
-                                    <div v-for="(item,key) in (contracts[scope.$index])">
+                                    <div>
                                         <span class="titTableName">文件归档号:</span>
-                                        <span class="titTableCon">{{item.archive_id}}</span>
+                                        <span class="titTableCon">{{contracts[scope.$index].archive_id}}</span>
                                     </div>
                                 </template>
                             </el-table-column>
@@ -146,9 +153,9 @@
                                     show-overflow-tooltip
                             >
                                 <template slot-scope="scope">
-                                    <div v-for="(item,key) in (contracts[scope.$index])">
+                                    <div>
                                         <span class="titTableName">合同编号:</span>
-                                        <span class="titTableCon">{{item.contract_id}}</span>
+                                        <span class="titTableCon">{{contracts[scope.$index].contract_id}}</span>
                                     </div>
                                 </template>
                             </el-table-column>
@@ -157,11 +164,11 @@
                                     width="100"
                             >
                                 <template slot-scope="scope">
-                                    <div v-for="(item,key) in (contracts[scope.$index])">
-                                        <span v-if="item.status=='1'" style="color:#39BD65">{{item.status_text}}</span>
-                                        <span v-if="item.status=='0'" style="color:#FFA033">{{item.status_text}}</span>
-                                        <span v-if="item.status=='2'" style="color:#F05656">{{item.status_text}}</span>
-                                        <span v-if="item.status=='3'" style="color:#1F2E4D">{{item.status_text}}</span>
+                                    <div>
+                                        <span v-if="contracts[scope.$index].status=='1'" style="color:#39BD65">{{contracts[scope.$index].status_text}}</span>
+                                        <span v-if="contracts[scope.$index].status=='0'" style="color:#FFA033">{{contracts[scope.$index].status_text}}</span>
+                                        <span v-if="contracts[scope.$index].status=='2'" style="color:#F05656">{{contracts[scope.$index].status_text}}</span>
+                                        <span v-if="contracts[scope.$index].status=='3'" style="color:#1F2E4D">{{contracts[scope.$index].status_text}}</span>
                                     </div>
                                 </template>
                             </el-table-column>
@@ -175,8 +182,8 @@
                             </el-table-column>
                             <el-table-column type="expand">
                                 <template slot-scope="scope">
-                                    <div v-for="(data,key) in (contracts[scope.$index])">
-                                        <div v-for="da in data.contract_files">
+                                    <div>
+                                        <div v-for="da in contracts[scope.$index].contract_files">
                                             <span style="display: inline-block;width: 50%">{{da.name}}</span>
                                             <a :href="da.url" target="_blank" style="display: inline-block;width: 50%;text-align: right">下载</a>
                                         </div>
@@ -189,18 +196,18 @@
         </div>
         <div class='fj'>
             <div   class='select_tit'>
-                <span>附加信息</span>
+                <span style="margin-left:24px">附加信息</span>
             </div>
              <div class='select_bh'>
                 <span>报备信息</span>
             </div>
             <div class='select_box_1'>
                 <span class='select_left'>报备媒体：</span>
-                 <input type="text" class='input_left' v-model="report_media">
+                 <input type="text" class='input_left' v-model="report_media" :class='{examine:this.type==1}' :disabled="type==1">
                 <span class='select_left'>广告主id：</span>
-                <input type="text" class='input_left' v-model="report_ad_id">
+                <input type="text" class='input_left' v-model="report_ad_id" :class='{examine:this.type==1}' :disabled="type==1">
                 <span class='select_left' style="width:100%">直客链接是否自动更新版本：</span>
-                <select name="" id="" class='input_left' v-model="report_link_auto_update">
+                <select name="" id="" class='input_left' v-model="report_link_auto_update" :class='{examine:this.type==1}' :disabled="type==1">
                     <option value="0">否</option>
                     <option value="1">是</option>
                 </select>   
@@ -208,35 +215,35 @@
             </div>
              <div class='select_box_2'>
                 <span class='select_left'>报备广告位：</span>
-                 <input type="text" class='input_left' v-model="report_space_id">
+                 <input type="text" class='input_left' v-model="report_space_id" :class='{examine:this.type==1}' :disabled="type==1">
                 <span class='select_left'>直客链接：</span>
-                <input type="text" class='input_left' v-model="report_link">
+                <input type="text" class='input_left' v-model="report_link" :class='{examine:this.type==1}' :disabled="type==1">
             </div>
              <div class='select_bh'>
                 <span>需求量级</span>
             </div>
             <div class='select_box_1'>
                 <span class='select_left'>请求量：</span>
-                 <input type="text" class='input_left' v-model="ad_req_pv">
+                 <input type="text" class='input_left' v-model="ad_req_pv" :class='{examine:this.type==1}' :disabled="type==1">
                 <span class='select_left'>点击量：</span>
-                <input type="text" class='input_left' v-model="ad_click_pv">
+                <input type="text" class='input_left' v-model="ad_click_pv" :class='{examine:this.type==1}' :disabled="type==1">
             </div>
              <div class='select_box_2'>
                 <span class='select_left'>展示量：</span>
-                 <input type="text" class='input_left' v-model="ad_show_pv">
+                 <input type="text" class='input_left' v-model="ad_show_pv" :class='{examine:this.type==1}' :disabled="type==1">
                 <span class='select_left'>下载量：</span>
-                <input type="text" class='input_left' v-model="ad_download_pv">
+                <input type="text" class='input_left' v-model="ad_download_pv" :class='{examine:this.type==1}' :disabled="type==1">
             </div>
              <div class='select_bh'>
                 <span>备注</span>
             </div>
             <div>
-                <textarea v-model="note"></textarea>
+                <textarea v-model="note" :class='{examine:this.type==1}' :disabled="type==1"></textarea>
             </div>
              <div class='select_bh'>
                 <span>附件：</span>
             </div>
-            <div>
+            <div style=" min-height: 60px;">
                 <div class="upFJ" v-if='type==2'>
                     <el-upload
                             class="upload-demo"
@@ -248,7 +255,7 @@
                     </el-upload>
                     <el-progress :percentage="this.times" v-if="up"></el-progress>
                 </div>
-                <div style="margin: 14px 0 14px 0px" v-for="(item,index) in attachs">
+                <div style="margin: 14px 0 14px 0px" v-for="(item,index) in attachements">
                             <div style="display: inline-block;max-width: 200px;height: 20px;overflow:hidden;font-size:14px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(31,46,77,1);">{{item.name}}</div>
                             <!--<span class="content_ck">查看</span>-->
                             <a class="content_xz" :href="item.url" target="_blank">下载</a>
@@ -256,16 +263,16 @@
                 </div>
             </div>
         </div>
-        <div class='btns'>
-                <span class='bc'>保存</span>
-                <span>返回</span>
+        <div class='btns' v-if="type==2">
+                <span class='bc' @click="projectBj()">保存</span>
+                <span @click='setType()'>返回</span>
         </div>
          <div class="bg" v-if="ht">
             <div class="content">
                 <div class="content_tit">
-                    <span>添加合同</span>
+                    <span style="margin-left:24px">添加合同</span>
                 </div>
-                <div>
+                <div style="margin-top:24px">
                     <input type="text" class="content_input" placeholder="搜索文件归档号" v-model="contract_id"/>
                     <span class="content_seach" @click="getHT()">查询</span>
                 </div>
@@ -306,10 +313,10 @@
                 <div>
                     <span>生效时间：</span>
                     <el-date-picker
-                        v-model="tarttime"
-                        class='datetime'
-                        type="datetime"
-                        value-format='yyyy-MM-dd-HH-mm-ss'
+                        v-model="starttime"
+                        class='datetimes'
+                        type="date"
+                        value-format='yyyy-MM-dd'
                         placeholder="选择日期时间">
                     </el-date-picker>
                 </div>
@@ -317,9 +324,9 @@
                     <span>失效时间：</span>
                     <el-date-picker
                         v-model="endtime"
-                        class='datetime'
-                        value-format='yyyy-MM-dd-HH-mm-ss'
-                        type="datetime"
+                        class='datetimes'
+                        value-format='yyyy-MM-dd'
+                        type="date"
                         placeholder="选择日期时间">
                     </el-date-picker>
                 </div>
@@ -381,6 +388,8 @@ export default {
                        project_name:"",
                        company_id:"",
                        ad_type:"",
+                       ad_type2:"",
+                       ad_type3:"",
                        bussiness_types:[],
                        attachements:[],
                        contracts:[],
@@ -398,10 +407,10 @@ export default {
                        contract_id:'',
                        listS:[],
                        state1:"",
+                       balance_id:'',
                        JSlist:[],
-                       balance:"",
                        endtime:"",
-                       tarttime:"",
+                       starttime:"",
                        cost_type:"",
                        profit_share_ratio:"",
                        balance_type:"",
@@ -410,8 +419,9 @@ export default {
                        num:"",
                        times:"",
                         up:false,
-                        attachs:[],
-                        type:"1"
+                        type:"1",
+                        approve_id:"",
+                        name_valid:"",
 
                 }
             },
@@ -421,6 +431,9 @@ export default {
             methods:{
                 bg(){
                     this.type=2;
+                },
+                fh(index){
+                    this.$route.go(index)
                 },
                 getRowClass({row, column, rowIndex, columnIndex}) {
                     if (rowIndex === 0) {
@@ -435,14 +448,20 @@ export default {
                 getDataList(){
                     let params={project_id:this.$route.query.project_id}
                     this.api.adproject_detail({params}).then((res)=>{
+                        this.approve_id=res.approve_id;
                         this.bussiness_types=res.bussiness_types;
-                        this.attachs=res.attachs;
+                        this.attachements=res.attachements;
                         this.contracts=res.contracts;
                         this.project_name=res.project_name;
-                        this.company_id=res.company_id;
-                        this.balance=res.balance;
+                        this.company_id=res.company.company_id;
+                        this.company_name=res.company.name;
+                        this.balance_id=res.balance_id;
+                        this.state1=res.balance_name;
                         this.online_time=res.online_time;
                         this.ad_type=res.ad_type;
+                        this.ad_type=res.ad_type;
+                        this.ad_type2=res.ad_type2;
+                        this.ad_type3=res.ad_type3;
                         this.report_media=res.report_media;
                         this.report_space_id=res.report_space_id;
                         this.report_ad_id=res.report_ad_id;
@@ -453,31 +472,31 @@ export default {
                         this.ad_click_pv=res.ad_click_pv;
                         this.ad_download_pv=res.ad_download_pv;
                         this.note=res.note;
+                        this.name_valid=res.name_valid;
                         this.getType();
                         this.getJS();
                     })
                 },
                 getType(){
-                    if(this.one!=''&&this.three==''){
+                     this.api.adproject_adtype().then((res)=>{
+                         this.list=res;
+                    })
+
+                    if(this.ad_type){
                         this.level=2
-                        let params={level:this.level,levelname:this.one}
+                        let params={level:this.level,levelname:this.ad_type}
                         this.api.adproject_adtype({params}).then((res)=>{
                             this.list2=res
                         })
                     }
-                    if(this.one!=''&&this.two!=''){
+                    if(this.ad_type2){
                         this.level=3
-                        let params={level:this.level,levelname:this.one,level2name:this.two}
+                        let params={level:this.level,levelname:this.ad_type,level2name:this.ad_type2}
                         this.api.adproject_adtype({params}).then((res)=>{
                             this.list3=res
                         })
                     }
-                    if(this.one==''){
-                         this.api.adproject_adtype().then((res)=>{
-                            this.list=res
-                        })
-                    }
-                   
+
                 },
                 ADDht(){
                      this.ht=true;
@@ -496,7 +515,7 @@ export default {
 
                 select_check(index){
                     this.company_name=this.company[index].name;
-                    this.company_id=this.company[index].company_id
+                    this.company_id=this.company[index].company_id;
                     this.old=false
                 },
                 oldADD(company_name){
@@ -518,7 +537,7 @@ export default {
                    
                         this.ht=false;
                         this.contract.push((this.listS[0]).archive_id);
-                        this.contracts.push(this.listS);
+                        this.contracts=this.contracts.concat(this.listS);
                         this.contract_id='';
                         this.listS=[];
                     
@@ -541,7 +560,7 @@ export default {
                     })
                 },
                  handleSelect(item) {
-                    this.balance=item.id;
+                    this.balance_id=item.id;
                 },
                 querySearch(queryString, cb) {
                     for(var i =0;i<this.JSlist.length;i++){
@@ -562,7 +581,7 @@ export default {
                     this.index=index;
                     if(num==2){
                          this.endtime=this.bussiness_types[this.index].endtime;
-                        this.tarttime=this.bussiness_types[this.index].tarttime;
+                        this.starttime=this.bussiness_types[this.index].starttime;
                         this.cost_type=this.bussiness_types[this.index].cost_type;
                         this.profit_share_ratio=this.bussiness_types[this.index].profit_share_ratio;
                         this.balance_type=this.bussiness_types[this.index].balance_type;
@@ -572,7 +591,7 @@ export default {
                 swHeid(){
                     this.sw=false;
                     this.endtime="";
-                    this.tarttime="";
+                    this.starttime="";
                     this.cost_type="";
                     this.profit_share_ratio="";
                     this.balance_type="";
@@ -581,7 +600,7 @@ export default {
                     this.index=''
                 },
                 push(){
-                     if(!this.tarttime){
+                     if(!this.starttime){
                         this.$message.error('生效时间不能为空')
                         return
                     }
@@ -603,7 +622,7 @@ export default {
                     }
                     var obj={};
                     obj.endtime=this.endtime;
-                    obj.tarttime=this.tarttime;
+                    obj.starttime=this.starttime;
                     obj.cost_type=this.cost_type;
                     obj.profit_share_ratio=this.profit_share_ratio;
                     obj.balance_type=this.balance_type;
@@ -632,22 +651,102 @@ export default {
                     let formData = new FormData;
                     formData.append('file',file.file);
                     this.api.file_private_upload(formData).then((res)=>{
-                        this.attachs.push(res);
+                        this.attachements.push(res);
                         this.times=100;
                     })
                     this.up=false;
                 },
+                setType(){
+                    this.type=1;
+                    this.getDataList()
+                },
                 projectBj(){
+                    console.log(this.bussiness_types)
+                    console.log(JSON.stringify(this.bussiness_types))
+                    if(this.bussiness_types.length==''){
+                        this.$message.error('商务模式不能为空')
+                        return
+                    }
+                     if(this.attachements.length==''){
+                        this.$message.error('附件不能为空')
+                        return
+                    }
+                     if(this.contracts.length==''){
+                        this.$message.error('合同不能为空')
+                        return
+                    }
+                     if(!this.project_name){
+                        this.$message.error('项目名称不能为空')
+                        return
+                    }
+                     if(!this.company_id){
+                        this.$message.error('合作公司不能为空')
+                        return
+                    }
+                     if(!this.balance){
+                        this.$message.error('结算主体不能为空')
+                        return
+                    }
+                     if(!this.online_time){
+                        this.$message.error('上线时间不能为空')
+                        return
+                    }
+                     if(!this.ad_type){
+                        this.$message.error('广告类型不能为空')
+                        return
+                    }
+                     if(!this.report_media){
+                        this.$message.error('报备媒体不能为空')
+                        return
+                    }
+                     if(!this.report_space_id){
+                        this.$message.error('报备广告位不能为空')
+                        return
+                    }
+                     if(!this.report_ad_id){
+                        this.$message.error('广告主id不能为空')
+                        return
+                    }
+                     if(!this.report_link){
+                        this.$message.error('直客链接不能为空')
+                        return
+                    }
+                     if(!this.report_link_auto_update){
+                        this.$message.error('直客链接是否自动更新版本不能为空')
+                        return
+                    }
+                     if(!this.ad_req_pv){
+                        this.$message.error('请求量不能为空')
+                        return
+                    }
+                     if(!this.ad_show_pv){
+                        this.$message.error('展示量不能为空')
+                        return
+                    }
+                     if(!this.ad_click_pv){
+                        this.$message.error('点击量不能为空')
+                        return
+                    }
+                     if(!this.ad_download_pv){
+                        this.$message.error('下载量不能为空')
+                        return
+                    }
+                     if(!this.note){
+                        this.$message.error('备注不能为空')
+                        return
+                    }
                     let formData =new FormData;
                     formData.append('bussiness_types',JSON.stringify(this.bussiness_types));
-                    formData.append('attachs',JSON.stringify(this.attachs))
+                    formData.append('attachements',JSON.stringify(this.attachements))
                     formData.append('contracts',JSON.stringify(this.contracts))
                     formData.append("project_id",this.$route.query.project_id)
                     formData.append('project_name',this.project_name)
                     formData.append('company_id',this.company_id)
-                    formData.append("balance",this.balance)
+                    formData.append("balance_id",this.balance_id)
                     formData.append('online_time',this.online_time)
                     formData.append('ad_type',this.ad_type)
+                    formData.append('ad_type2',this.ad_type2)
+                    formData.append('ad_type3',this.ad_type3)
                     formData.append('report_media',this.report_media)
                     formData.append('report_space_id',this.report_space_id)
                     formData.append('report_ad_id',this.report_ad_id)
@@ -660,7 +759,8 @@ export default {
                     formData.append('note',this.note)
                     this.api.adproject_edit(formData).then((res)=>{
                         if(res!=false){
-
+                            this.type=1;
+                            this.getDataList()
                         }
                     })
                 },
@@ -711,6 +811,7 @@ export default {
         width: 100%;
         height: 48px;
         border-bottom: 1px solid #ddd;
+        margin-left:0!important ;
     }
     .select_tit span{
         display: inline-block;
@@ -722,7 +823,7 @@ export default {
         line-height: 48px;
     }
     .select_bh{
-        margin-top: 24px;
+        margin-top: 24px!important;
 
     }
     .select_bh span{
@@ -796,7 +897,7 @@ export default {
         border-radius:2px;
         padding-left:5px ;
     }
-     .select_box>div select,.datetime ,.fj>div select{
+     .select_box>div select,.datetime,.datetimes,.fj>div select{
          width:268px;
         height:32px;
         background:rgba(255,255,255,1);
@@ -804,6 +905,9 @@ export default {
         opacity:1;
         border-radius:2px;
      }
+    .datetimes{
+        border:0!important
+    }
      .input_left{
          
          display: block;
@@ -1017,5 +1121,9 @@ export default {
     .swBox>div>span{
         display: inline-block;
         margin: 0 10px 0 24px;
+    }
+    .examine{
+        border:0!important;
+        background: #ddd!important;
     }
 </style>
