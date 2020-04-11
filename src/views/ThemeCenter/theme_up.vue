@@ -62,8 +62,8 @@
                       <select v-model="type" @change="getCon()" v-if='this.$route.query.thid!=undefined' disabled>
                         <option :value="item.id" v-for="item in themeType">{{item.type}}</option>
                     </select>
-                    <span>内容分类</span>
-                    <select v-model="content"  v-if='this.$route.query.thid==undefined'>
+                    <span v-if='type'>内容分类</span>
+                    <select v-model="content"  v-if='this.$route.query.thid==undefined&&type'>
                         <option :value="item.id" v-for="item in con">{{item.class}}</option>
                     </select>
                      <select v-model="content"  v-if='this.$route.query.thid!=undefined' disabled>
@@ -612,6 +612,11 @@
                 this.$message.error(`当前限制选择10个文件`);
             },
             getCon(){
+                for(var i =0;i<this.themeType.length;i++){
+                    if(this.type==this.themeType[i].id){
+                        this.type_name=this.themeType[i].type
+                    }
+                }
                 let params={type:this.type_name};
                 this.api.themes_config_theme_class({params}).then((res)=>{
                     this.con=res;
