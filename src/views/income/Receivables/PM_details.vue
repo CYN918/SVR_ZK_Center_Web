@@ -433,7 +433,7 @@ export default {
                     this.type=2;
                 },
                 fh(index){
-                    this.$route.go(index)
+                    this.$router.go(index)
                 },
                 getRowClass({row, column, rowIndex, columnIndex}) {
                     if (rowIndex === 0) {
@@ -790,6 +790,7 @@ export default {
     .top_txt{
         display: inline-block;
         margin-left: 24px;
+        cursor: pointer;
     }
     .bj{
         display: inline-block;
