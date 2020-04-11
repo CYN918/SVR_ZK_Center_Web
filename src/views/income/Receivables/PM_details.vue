@@ -105,10 +105,10 @@
                                 >
                         </el-table-column>
                          <el-table-column
-                                label="修改时间" prop=""
+                                label="修改时间" prop="updated_at"
                                 >
                         </el-table-column>
-                        <el-table-column label="操作人员" prop="">
+                        <el-table-column label="操作人员" prop="updator">
                             
                         </el-table-column>
                          <el-table-column label="操作" >
@@ -643,7 +643,9 @@ export default {
                         this.bussiness_types.push(obj)
                     }
                     if(this.num==2){
-                        this.bussiness_types[this.index]=obj;
+                        this.bussiness_types.splice(this.index,1,obj)
+                        // this.bussiness_types[this.index]=obj;
+                        // console.log(this.bussiness_types)
                     }
                     this.swHeid()
                 },
