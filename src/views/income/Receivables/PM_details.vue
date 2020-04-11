@@ -671,10 +671,7 @@ export default {
                         this.$message.error('附件不能为空')
                         return
                     }
-                     if(this.contracts.length==''){
-                        this.$message.error('合同不能为空')
-                        return
-                    }
+                    
                      if(!this.project_name){
                         this.$message.error('项目名称不能为空')
                         return
