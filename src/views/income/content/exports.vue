@@ -310,6 +310,10 @@ export default {
                     })
                 },
                 drData(){
+                    if(!this.file.name){
+                        this.$message.error('附件不能为空')
+                        return
+                    }
                     let formData=new FormData;
                     formData.append('file',this.file);
                     formData.append('type',this.$route.query.type)
