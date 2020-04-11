@@ -115,7 +115,7 @@
 
 
 
-                            <el-button  @click="getscR(props.$index)" v-if="tableData[props.$index].status_name=='确认入库'&&tableData[props.$index].status==4&&tableData[props.$index].emails.indexOf(email)!=-1&&tableData[props.$index].isfinish!=2">添加素材</el-button>
+                            <!-- <el-button  @click="getscR(props.$index)" v-if="tableData[props.$index].status_name=='确认入库'&&tableData[props.$index].status==4&&tableData[props.$index].emails.indexOf(email)!=-1&&tableData[props.$index].isfinish!=2">添加素材</el-button> -->
 
                             <el-button  @click="getscR(props.$index)" v-if="tableData[props.$index].demand_type=='素材需求'&&tableData[props.$index].status==5&&tableData[props.$index].isfinish==0&&tableData[props.$index].emails.indexOf(email)!=-1&&tableData[props.$index].isfinish!=2">添加素材</el-button>
                             <el-button   @click="AddWl(props.$index)" v-if="tableData[props.$index].status_name=='上传物料'&&tableData[props.$index].emails.indexOf(email)!=-1&&tableData[props.$index].isfinish!=2">上传物料</el-button>
