@@ -912,7 +912,7 @@ select{
     .aaa .el-button{
       background: #3377ff!important
     }
-    .aaa .el-upload-list__item-name,.ext .el-upload-list__item-name,.upyc,.qdTh .el-upload-list__item .el-upload-list__item-name,.AddIMG_yl_upload .el-upload-list__item-name{
+    .aaa .el-upload-list__item-name,.ext .el-upload-list__item-name,.upyc,.qdTh .el-upload-list__item .el-upload-list__item-name,.AddIMG_yl_upload .el-upload-list__item-name,.upFJ .el-upload-list__item-name{
       display: none;
     }
      .bb .el-checkbox__input{
@@ -971,10 +971,16 @@ select{
   margin-right:0px!important;
    margin-left:16px;
 }
+
 .times .el-input__inner{
          width:200px!important
     }
   .file_ADD .el-upload-list__item-name{
     display: none;
   }  
+
+.top_name .el-icon-time{
+  line-height: 3!important;
+}
+
 </style>

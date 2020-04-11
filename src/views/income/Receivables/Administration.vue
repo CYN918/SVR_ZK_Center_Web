@@ -23,7 +23,16 @@
                 <span class="cx" @click="getDataList()">查询</span>
                 <div style="display: inline-block;float: right;margin-right: 15%">
                     <span class="clear" @click="establish" :class="{Jurisdiction:this.controlBtns}">新建结算</span>
-                    <span class="sf" @click="jump()" :class="{Jurisdiction:this.controlBtn}">收款结算方管理</span>
+                    <span class="sf">结算进度查看</span>
+                    <span class='fk'>... 
+                        <ul>
+                            <li @click='porjectGL()'>项目管理</li>
+                            <li @click="jump()" :class="{Jurisdiction:this.controlBtn}">结算方管理</li>
+                            <li @click='old()'>合作公司管理</li>
+                            <li>合同概览</li>
+                        </ul>
+                    </span>
+                    <!-- <span class="sf" @click="jump()" :class="{Jurisdiction:this.controlBtn}">收款结算方管理</span> -->
                 </div>
 
             </div>
@@ -248,7 +257,17 @@
             },
             heidAbolish(){
                 this.ab=false;
-            }
+            },
+            porjectGL(){
+                this.$router.push({
+                    path:"./PM"
+                })
+            },
+            old(){
+                this.$router.push({
+                    path:"./cooperator"
+                })
+            },
         },
     }
 </script>
@@ -305,7 +324,7 @@
         padding-left: 30px;
         border:1px solid rgba(211,219,235,1);
     }
-    .cx,.clear,.sf{
+    .cx,.clear,.sf,.fk{
         display: inline-block;
         line-height: 36px;
         text-align: center;
@@ -320,6 +339,15 @@
         color:rgba(255,255,255,1);
         margin-right: 24px;
     }
+    .fk{
+        background: #fff!important;
+        border:1px solid rgb(197, 197, 197);
+        color:#000;
+        position: relative;
+    }
+    .fk:hover ul{
+        display: block;
+    }    
     .clear{
         width:96px!important;
     }
@@ -335,5 +363,22 @@
     }
     .red{
         color: red;
+    }
+    ul{
+        position: absolute;
+        top:35px;
+        left: -25px;
+        width: 120px;
+        box-shadow: 3px 3px 5px #ddd;
+        background: #fff;
+        border-radius: 5px;
+        display: none;
+    }
+    li{
+        color: #000;
+    }
+    li:hover{
+        background: #3377ff;
+        color: #fff;
     }
 </style>
