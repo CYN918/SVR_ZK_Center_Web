@@ -27,7 +27,7 @@
                     <li v-for='(item,index) in company' @click='select_check(index)'>{{item.name}}</li>
                  </ul>
                 <span class='select_left' style="width:100%">广告类型：一级分类 </span>
-                <select v-model='ad_type' class='input_left' @change='getType()' :class='{examine:this.type==1}' :disabled="type==1">
+                <select v-model='ad_type' class='input_left' @change='getType(1)' :class='{examine:this.type==1}' :disabled="type==1">
                     <option :value="item" v-for="item in list">{{item}}</option>
                 </select>   
 
@@ -54,14 +54,14 @@
                     placeholder="选择日期时间">
                 </el-date-picker>
                 <input type="text" v-model="online_time" class='input_left examine' v-if='type==1' disabled >
-                <span class='select_left' v-if='ad_type'>二级分类</span>
-                 <select name="" id="" class='input_left' v-model='ad_type2'  v-if='ad_type' @change='getType()' :class='{examine:this.type==1}' :disabled="type==1">
+                <span class='select_left' v-if='ad_type&&this.list2.length>0'>二级分类</span>
+                 <select name="" id="" class='input_left' v-model='ad_type2'  v-if='ad_type&&this.list2.length>0' @change='getType(2)' :class='{examine:this.type==1}' :disabled="type==1">
                     <option :value="item" v-for="item in list2">{{item}}</option>
                 </select>
             </div>
             <div class='select_box_3'>
-                <span class='select_left'  v-if='ad_type2'>三级分类</span>
-                 <select name="" id="" class='input_left' v-model="ad_type3"  v-if='ad_type2' :class='{examine:this.type==1}' :disabled="type==1">
+                <span class='select_left'  v-if='ad_type2&&this.list3.length>0'>三级分类</span>
+                 <select name="" id="" class='input_left' v-model="ad_type3"  v-if='ad_type2&&this.list3.length>0' :class='{examine:this.type==1}' :disabled="type==1">
                      <option :value="item" v-for="item in list3">{{item}}</option>
                 </select>
             </div>
@@ -480,7 +480,15 @@ export default {
                         this.getJS();
                     })
                 },
-                getType(){
+                getType(index){
+                   if(index==1){
+                        this.list2=[];
+                        this.ad_type2=''
+                        this.list3=[];
+                    }
+                    if(index==2){
+                        this.list3=[];
+                    }
                      this.api.adproject_adtype().then((res)=>{
                          this.list=res;
                     })
@@ -499,6 +507,7 @@ export default {
                             this.list3=res
                         })
                     }
+                    
 
                 },
                 ADDht(){
@@ -670,11 +679,7 @@ export default {
                         this.$message.error('商务模式不能为空')
                         return
                     }
-                     if(this.attachements.length==''){
-                        this.$message.error('附件不能为空')
-                        return
-                    }
-                    
+                   
                      if(!this.project_name){
                         this.$message.error('项目名称不能为空')
                         return
