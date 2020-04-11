@@ -20,7 +20,7 @@
             <div class='select_box_1'>
                 <span class='select_left'>项目名称：<span class="err" v-if="name_valid==0">(存在项目重名，数据无效)</span></span>
                  <input type="text" class='input_left' :class='{examine:this.type==1}' :disabled="type==1" v-model='project_name' >
-                <span class='select_left'>合作公司：<span class="err" v-if='!this.company_id'>(合作公司不存在，数据无效)</span></span>
+                <span class='select_left'>合作公司：<span class="err" v-if='!this.company_id&&this.company_name!=""'>(合作公司不存在，数据无效)</span></span>
                 <input type="text" class='input_left' @focus='focuson()'  v-model='company_name' @input='focuson()' :class='{examine:this.type==1}' :disabled="type==1">
                 <ul v-if='old'>
                     <li style="background:red" @click='oldADD(company_name)' v-if="company_name">新增"{{company_name}}"为合作公司</li>
@@ -453,8 +453,11 @@ export default {
                         this.attachements=res.attachements;
                         this.contracts=res.contracts;
                         this.project_name=res.project_name;
-                        this.company_id=res.company.company_id;
-                        this.company_name=res.company.name;
+                        this.company_id=res.company_id;
+                        if(res.company){
+                             this.company_name=res.company.name;
+                        }
+                       
                         this.balance_id=res.balance_id;
                         this.state1=res.balance_name;
                         this.online_time=res.online_time;
