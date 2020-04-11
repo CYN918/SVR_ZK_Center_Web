@@ -113,7 +113,7 @@
                         </el-table-column>
                          <el-table-column label="操作" >
                             <template slot-scope="scope">
-                                <el-button type="text" @click='swADD(1,scope.$index)'>编辑</el-button>
+                                <el-button type="text" @click='swADD(2,scope.$index)'>编辑</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -688,7 +688,7 @@ export default {
                         this.$message.error('合作公司不能为空')
                         return
                     }
-                     if(!this.balance){
+                     if(!this.balance_id){
                         this.$message.error('结算主体不能为空')
                         return
                     }
