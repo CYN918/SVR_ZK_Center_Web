@@ -185,7 +185,7 @@
                     </div>
                     <div class="imgCanvas" v-for="item in pic">
                         <img class="dels" src="../../../public/img/del.png" style="width: 16px" v-if="item!=main_preview" @click="Delete(item)">
-                        <img src="../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;left:96px;top:0px;z-index: 99" v-if="item==main_preview">
+                        <img src="../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;left:96px;top:0px;z-index: 7" v-if="item==main_preview">
                         <img :src="item" class="sc">
                         <div class="sz" @click="fm(item)">
                             <span>设置为封面</span>
@@ -684,7 +684,7 @@
         position: fixed;
         left: 256px;
         top: 64px;
-        z-index: 99;
+        z-index: 8;
     }
     .new_url{color: rgba(61,73,102,1)!important;}
     .themeUp{
