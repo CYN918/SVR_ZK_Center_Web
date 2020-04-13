@@ -147,7 +147,7 @@
                                 
                                 <el-table-column
                                        
-                                        label="用户名" prop="updator"
+                                        label="用户名" prop="account_name"
                                         >
                                 </el-table-column>
                             
@@ -174,7 +174,7 @@
                                 </el-table-column>
                                 <el-table-column
                                         sortable
-                                        label="结算金额" prop="updator"
+                                        label="结算金额" prop="income"
                                         >
                                 </el-table-column>
                                 <el-table-column
