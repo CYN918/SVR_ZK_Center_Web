@@ -616,6 +616,7 @@ export default {
                     this.index=''
                 },
                 push(){
+                    var patt= new RegExp(/^(100|[1-9]?\d(\.\d\d?\d?)?)%$|0$/);
                      if(!this.starttime){
                         this.$message.error('生效时间不能为空')
                         return
@@ -626,6 +627,10 @@ export default {
                     }
                      if(!this.profit_share_ratio){
                         this.$message.error('分成模式不能为空')
+                        return
+                    }
+                    if(!(patt.test(this.profit_share_ratio))){
+                        this.$message.error('分成模式必须为百分比例：50%')
                         return
                     }
                      if(!this.balance_type){
