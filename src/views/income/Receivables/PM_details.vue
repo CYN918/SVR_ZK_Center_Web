@@ -23,7 +23,7 @@
                 <span class='select_left'>合作公司：<span class="err" v-if='!this.company_id&&this.company_name!=""'>(合作公司不存在，数据无效)</span></span>
                 <input type="text" class='input_left' @focus='focuson()'  v-model='company_name' @input='focuson()' :class='{examine:this.type==1}' :disabled="type==1">
                 <ul v-if='old'>
-                    <li style="background:red" @click='oldADD(company_name)' v-if="company_name">新增"{{company_name}}"为合作公司</li>
+                    <li @click='oldADD(company_name)' v-if="company_name">新增"{{company_name}}"为合作公司</li>
                     <li v-for='(item,index) in company' @click='select_check(index)'>{{item.name}}</li>
                  </ul>
                 <span class='select_left' style="width:100%">广告类型：一级分类 </span>
@@ -870,7 +870,7 @@ export default {
         height: 36px;
         font-size: 14px;
         text-align: center;
-        background: #ddd;
+        background: rgba(247,248,250,1);
         border-bottom: 1px solid #fff;
         line-height: 36px;
         cursor: pointer;
@@ -1139,6 +1139,6 @@ export default {
     }
     .examine{
         border:0!important;
-        background: #ddd!important;
+        background: rgba(247,248,250,1)!important;
     }
 </style>
