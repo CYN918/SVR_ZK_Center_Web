@@ -403,7 +403,7 @@ export default {
                        ad_show_pv:"",
                        ad_download_pv:"",
                        note:"",
-                       report_link_auto_update:'',
+                       report_link_auto_update:'0',
                        contract_id:'',
                        listS:[],
                        state1:"",
