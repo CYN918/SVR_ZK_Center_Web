@@ -459,7 +459,12 @@ export default {
                              this.company_name=res.company_name;
                         }
                         this.balance_id=res.balance_id;
-                        this.state1=res.balance_name;
+                        if(this.balance_id){
+                            this.state1=res.balance.name
+                        }else{
+                            this.state1=res.balance_name;
+                        }
+                        
                         this.online_time=res.online_time;
                         this.ad_type=res.ad_type;
                         this.ad_type=res.ad_type;
