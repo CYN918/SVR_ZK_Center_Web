@@ -342,7 +342,7 @@
                 </div>
                 <div>
                     <span>分成模式：</span>
-                    <input type="text" placeholder="请输入" class='datetime' v-model="profit_share_ratio">
+                    <input type="text" placeholder="请输入百分比，例如30%" class='datetime' v-model="profit_share_ratio">
                 </div>
                 <div>
                     <span>结算模式：</span>
@@ -635,7 +635,7 @@ export default {
                         return
                     }
                     if(!(patt.test(this.profit_share_ratio))){
-                        this.$message.error('分成模式必须为百分比例：50%')
+                        this.$message.error('分成模式内容异常，请输入百分比，例如30%')
                         return
                     }
                      if(!this.balance_type){
