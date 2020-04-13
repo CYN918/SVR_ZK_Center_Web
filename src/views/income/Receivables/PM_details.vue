@@ -6,7 +6,7 @@
             <span class="top_txt">项目详情</span>
             <div class="title_left">
                 <span>项目详情</span>
-                <span class='bj' @click='bg()' v-if='this.type==1'>编辑</span>
+                <span class='bj' @click='bg()' v-if='type==1'>编辑</span>
             </div>
         </div>
         <div class='select_box'>
@@ -111,7 +111,7 @@
                         <el-table-column label="操作人员" prop="updator">
                             
                         </el-table-column>
-                         <el-table-column label="操作" >
+                         <el-table-column label="操作" v-if='this.type==2'>
                             <template slot-scope="scope">
                                 <el-button type="text" @click='swADD(2,scope.$index)'>编辑</el-button>
                             </template>
@@ -176,7 +176,7 @@
                                     prop="address"
                                     width="50"
                             >
-                                <template slot-scope="scope" >
+                                <template slot-scope="scope" v-if='this.type==2'>
                                     <img src="../../../../public/img/dels.png" style="cursor: pointer" @click="del(scope.$index)"/>
                                 </template>
                             </el-table-column>
@@ -257,15 +257,14 @@
                 </div>
                 <div style="margin: 14px 0 14px 0px" v-for="(item,index) in attachements">
                             <div style="display: inline-block;max-width: 200px;height: 20px;overflow:hidden;font-size:14px;font-family:PingFangSC-Regular,PingFangSC;font-weight:400;color:rgba(31,46,77,1);">{{item.name}}</div>
-                            <!--<span class="content_ck">查看</span>-->
                             <a class="content_xz" :href="item.url" target="_blank">下载</a>
-                    <span class="content_xz" @click="dels(index)">删除</span>
+                    <span class="content_xz" @click="dels(index)" v-if="type==2">删除</span>
                 </div>
             </div>
         </div>
         <div class='btns' v-if="type==2">
                 <span class='bc' @click="projectBj()">保存</span>
-                <span @click='setType()'>返回</span>
+                <span @click='setType()'>取消</span>
         </div>
          <div class="bg" v-if="ht">
             <div class="content">
@@ -353,7 +352,7 @@
                         <option value="以广告主反馈数据为准（包括后台）">以广告主反馈数据为准（包括后台）</option>
                     </select>
                 </div>
-                <div>
+                <div v-if="balance_type=='固价'">
                     <span>固定价格：</span>
                     <input type='number' placeholder="请输入" class='datetime' v-model="fix_price">
                 </div>
@@ -418,10 +417,10 @@ export default {
                        index:'',
                        num:"",
                        times:"",
-                        up:false,
-                        type:"1",
-                        approve_id:"",
-                        name_valid:"",
+                       up:false,
+                       type:"1",
+                       approve_id:"",
+                       name_valid:"",
 
                 }
             },
@@ -454,10 +453,11 @@ export default {
                         this.contracts=res.contracts;
                         this.project_name=res.project_name;
                         this.company_id=res.company_id;
-                        if(res.company){
+                        if(res.company_id){
                              this.company_name=res.company.name;
+                        }else{
+                             this.company_name=res.company_name;
                         }
-                       
                         this.balance_id=res.balance_id;
                         this.state1=res.balance_name;
                         this.online_time=res.online_time;
@@ -628,7 +628,7 @@ export default {
                         this.$message.error('结算模式不能为空')
                         return
                     }
-                     if(!this.fix_price){
+                     if(this.balance_type=='固价'&&!this.fix_price){
                         this.$message.error('固价价格不能为空')
                         return
                     }
@@ -698,7 +698,15 @@ export default {
                         return
                     }
                      if(!this.ad_type){
-                        this.$message.error('广告类型不能为空')
+                        this.$message.error('广告类型一级分类不能为空')
+                        return
+                    }
+                     if(this.list2.length>0&&!this.ad_type2){
+                        this.$message.error('广告类型二级分类不能为空')
+                        return
+                    }
+                     if(this.list3.length>0&&!this.ad_type3){
+                        this.$message.error('广告类型三级分类不能为空')
                         return
                     }
                      if(!this.report_media){
