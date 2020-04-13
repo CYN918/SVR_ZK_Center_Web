@@ -64,10 +64,11 @@
                        
                         <el-table-column
                                 prop="a"
-                                width='90'
+                                width="180"
                                 label="落地页">
                                  <template slot-scope="scope">
                                     <a :href='tableData[scope.$index].preview_url' target="_blank" style="color:#3377ff;cursor: pointer">点击查看</a>
+                                    <a :href='tableData[scope.$index].assist_url' v-if="tableData[scope.$index].assist_url" target="_blank" style="color:#3377ff;cursor: pointer;margin-left:10px">辅助查看</a>
                                 </template>
                         </el-table-column>
                         <el-table-column
