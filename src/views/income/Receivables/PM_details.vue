@@ -650,6 +650,9 @@ export default {
                         this.$message.error('固价价格不能为空')
                         return
                     }
+                    if(this.endtime==null){
+                        this.endtime="";
+                    }
                     var obj={};
                     obj.endtime=this.endtime;
                     obj.starttime=this.starttime;
@@ -693,7 +696,7 @@ export default {
                     this.getDataList()
                 },
                 projectBj(){
-                    
+                     console.log(this.bussiness_types)
                     if(this.bussiness_types.length==''){
                         this.$message.error('商务模式不能为空')
                         return
