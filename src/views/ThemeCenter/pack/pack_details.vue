@@ -228,7 +228,7 @@
         position: fixed;
         left: 256px;
         top: 64px;
-        z-index: 99;
+        z-index: 8;
         box-shadow: 0 5px 5px #dfdfdf;
     }
 
