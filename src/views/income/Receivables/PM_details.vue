@@ -114,6 +114,7 @@
                          <el-table-column label="操作" v-if='this.type==2'>
                             <template slot-scope="scope">
                                 <el-button type="text" @click='swADD(2,scope.$index)'>编辑</el-button>
+                                <el-button type="text" @click='sc(scope.$index)'>删除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -430,6 +431,9 @@ export default {
             methods:{
                 bg(){
                     this.type=2;
+                },
+                sc(index){
+                    this.bussiness_types.splice(index,1);
                 },
                 fh(index){
                     this.$router.go(index)
