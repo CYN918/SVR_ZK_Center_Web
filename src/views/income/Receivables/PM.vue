@@ -42,7 +42,7 @@
                                 label="内容状态" prop="contributor_type"
                                 >
                             <template slot-scope="scope">
-                                <span :class="{red:tableData[scope.$index].status!=2}">{{tableData[scope.$index].status==0?'错误信息':tableData[scope.$index].status==1?"数据待补充":"数据正常"}}</span>
+                                <span :class="{red:tableData[scope.$index].status!=2}">{{tableData[scope.$index].status==0?'信息异常':tableData[scope.$index].status==1?"信息待补充":"信息正常"}}</span>
                             </template>
                         </el-table-column>
                         <el-table-column
