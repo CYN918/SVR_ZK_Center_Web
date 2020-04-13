@@ -347,8 +347,11 @@ export default {
                     })
                 },
                 ADD(){
-                    let params={file_id:this.file_id,type:this.$route.query.type}
-                    this.api.sharing_data_confirm({params}).then((res)=>{
+                    // let params={file_id:this.file_id,type:this.$route.query.type}
+                    let formData=new FormData;
+                    formData.append('file_id',this.file_id);
+                    formData.append('type',this.$route.query.type)
+                    this.api.sharing_data_confirm(formData).then((res)=>{
                         if(res!=false){
                             this.gb()
                         }
