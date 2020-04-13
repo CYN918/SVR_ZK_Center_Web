@@ -353,7 +353,8 @@ export default {
                     formData.append('type',this.$route.query.type)
                     this.api.sharing_data_confirm(formData).then((res)=>{
                         if(res!=false){
-                            this.gb()
+                            this.gb();
+                            this.qx()
                         }
                     })
                 },
