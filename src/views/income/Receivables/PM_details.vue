@@ -713,14 +713,14 @@ export default {
                         this.$message.error('广告主id不能为空')
                         return
                     }
-                     if(!this.report_link){
-                        this.$message.error('直客链接不能为空')
-                        return
-                    }
-                     if(!this.report_link_auto_update){
-                        this.$message.error('直客链接是否自动更新版本不能为空')
-                        return
-                    }
+                    //  if(!this.report_link){
+                    //     this.$message.error('直客链接不能为空')
+                    //     return
+                    // }
+                    //  if(!this.report_link_auto_update){
+                    //     this.$message.error('直客链接是否自动更新版本不能为空')
+                    //     return
+                    // }
                      if(!this.ad_req_pv){
                         this.$message.error('请求量不能为空')
                         return
@@ -737,10 +737,10 @@ export default {
                         this.$message.error('下载量不能为空')
                         return
                     }
-                     if(!this.note){
-                        this.$message.error('备注不能为空')
-                        return
-                    }
+                    //  if(!this.note){
+                    //     this.$message.error('备注不能为空')
+                    //     return
+                    // }
                     let formData =new FormData;
                     formData.append('bussiness_types',JSON.stringify(this.bussiness_types));
                     formData.append('attachements',JSON.stringify(this.attachements))
