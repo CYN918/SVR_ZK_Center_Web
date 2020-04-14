@@ -321,6 +321,7 @@
                 // showType:''
                 ylt:{},
                 restaurants:[],
+                state1:"",
             }
         },
 
@@ -569,13 +570,13 @@
             getTagsList(){
                 let params = {preset:this.preset,material:this.material,type:this.types,search:this.tagsName,p:50,page:1};
                 this.api.tags_search({params}).then((da)=>{
-                    console.log(da);
                     this.preset_tags = da.data.tags;
                     this.self_tags = da.data.self_tags;
                     if(this.message.mfid!=undefined){
                         this.getMatterDetails();
                     }
                     this. getType();
+                    this.getData()
                 })
             },
             ADDtags(){
@@ -882,7 +883,7 @@
                     };
                 },
                 handleSelect(item) {
-                    this.account_name=item.open_id
+                    this.account_id=item.open_id
                 }
         },
         watch: {
