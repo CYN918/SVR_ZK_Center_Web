@@ -23,7 +23,7 @@
                 <span class='select_left'>合作公司：<span class="err" v-if='!this.company_id&&this.company_name!=""'>(合作公司不存在，数据无效)</span></span>
                 <input type="text" class='input_left' @focus='focuson()'  v-model='company_name' @input='focuson()' :class='{examine:this.type==1}' :disabled="type==1">
                 <ul v-if='old'>
-                    <li @click='oldADD(company_name)' v-if="company_name&&this.OLDname==false">新增"{{company_name}}"为合作公司</li>
+                    <li @click='oldADD(company_name)' v-if="company_name && OLDname==false">新增"{{company_name}}"为合作公司</li>
                     <li v-for='(item,index) in company' @click='select_check(index)'>{{item.name}}</li>
                  </ul>
                 <span class='select_left' style="width:100%">广告类型：一级分类 </span>
@@ -532,9 +532,14 @@ export default {
                     let params={search:this.company_name}
                     this.api.adproject_adcompany_list({params}).then((res)=>{
                         this.company=res;
-                        for(var i=0 ;i<this.company.length;i++){
-                            this.OLDname=(this.company[i].name==this.company_name);
+                        if(this.company.length>0){
+                             for(var i=0 ;i<this.company.length;i++){
+                                this.OLDname=(this.company[i].name==this.company_name);
+                            }
+                        }else{
+                            this.this.OLDname=false
                         }
+                       
                         
                     })
                    this.old=true;
