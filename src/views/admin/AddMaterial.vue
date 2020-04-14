@@ -129,7 +129,15 @@
                         </div>
                         <div class='AddIMG_sc' v-if='this.types=="f_call_show"'>
                             <span class="tit">绑定设计师ID:</span>
-                            <input type='test' v-model="account_id" placeholder="请输入狮圈设计师ID" :disabled="(this.message.mfid!=undefined)||this.is_designer==true"/>
+                            <!-- <input type='test' v-model="account_id" placeholder="请输入狮圈设计师ID" :disabled="(this.message.mfid!=undefined)||this.is_designer==true"/> -->
+                            <el-autocomplete
+                                class="inline-input"
+                                v-model="state1"
+                                :fetch-suggestions="querySearch"
+                                placeholder="请输入内容"
+                                @select="handleSelect"
+                                >
+                            </el-autocomplete>
                             <input type="checkbox" style="width:16px;height:16px;margin:0 15px" v-model="is_designer" :disabled="(this.message.mfid!=undefined)" @change="tagge()">
                             <span>与狮圈无关</span>
                         </div>
@@ -312,6 +320,7 @@
                 is_designer:false,
                 // showType:''
                 ylt:{},
+                restaurants:[],
             }
         },
 
@@ -849,6 +858,32 @@
                 }
 
             },
+            getData(){
+                    this.api.designer_settlement_list().then((res)=>{
+                        this.restaurants=res;
+
+                    })
+                },
+             querySearch(queryString, cb) {
+                    for(var i =0;i<this.restaurants.length;i++){
+                        if(this.restaurants[i].contribute_type==1){
+                            this.restaurants[i].value=this.restaurants[i].name+this.restaurants[i].id_card
+                        }
+                        if(this.restaurants[i].contribute_type==2){
+                            this.restaurants[i].value=this.restaurants[i].company_name+this.restaurants[i].code
+                        }
+                    }
+                    var results = queryString ? this.restaurants.filter(this.createFilter(queryString)) : this.restaurants;
+                    cb(results);
+                },
+                createFilter(queryString) {
+                    return (restaurant) => {
+                    return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+                    };
+                },
+                handleSelect(item) {
+                    this.account_name=item.open_id
+                }
         },
         watch: {
             'bindMid': function(newVal){
