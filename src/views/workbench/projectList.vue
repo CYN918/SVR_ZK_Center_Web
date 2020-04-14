@@ -8,7 +8,7 @@
                     <span @click='fh(-1)'>查看项目</span>
                 </div>
                 <div class='right_btn'>
-                    <span class='tj' v-if='this.time==3' @click='pops()'>提交</span>
+                    <span class='tj' v-if='this.time==3&&this.tableData.length>0' @click='pops()'>提交</span>
                 </div>
             </div>
         </div>

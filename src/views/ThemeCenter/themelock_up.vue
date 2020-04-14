@@ -670,7 +670,7 @@
         position: fixed;
         left: 256px;
         top: 64px;
-        z-index: 99;
+        z-index: 8;
     }
     .new_url{color: rgba(61,73,102,1)!important;}
     .themeUp{

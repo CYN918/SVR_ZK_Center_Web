@@ -523,7 +523,7 @@
         position: fixed;
         left: 256px;
         top: 64px;
-        z-index: 99;
+        z-index: 8;
         box-shadow: 0 5px 5px #dfdfdf;
     }
     .tit_top_url{padding-left: 0!important;}
