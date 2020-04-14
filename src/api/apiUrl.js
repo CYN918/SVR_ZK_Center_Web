@@ -1600,5 +1600,9 @@ export default {
 	//编辑项目
 	adproject_edit:{
 		url:"adproject/edit",method:"post",isType:{suktip:1}
-	}
+	},
+	//获取结算方列表
+	designer_settlement_list:{
+		url:"designer/settlement/list",method:'get'
+	},
 }

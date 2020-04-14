@@ -788,7 +788,23 @@
                     if(this.types=='f_call_show'){
                         this.name=res.name;
                         this.account_id=res.account_id;
-                        // this.audioDuration=res.duration;
+                        if(this.account_id){
+                            let formData= new FormData;
+                            formData.append('account_id',this.account_id)
+                             this.api.designer_settlement_list(formData).then((res)=>{
+                                 if(res!=false){
+                                     if(res.contribute_type==1){
+                                         this.state1 =res.name+res.id_card
+                                     }
+                                     if(res.contribute_type==2){
+                                         this.state1 =res.company_name+res.code
+                                     }
+                                 }
+                                
+
+                            })
+                        }
+                       
                         this.is_designer=res.is_designer=='1'?false:true;
                         // this.showType=res.video_type
                          this.ylt.name=res.prev_uri;
