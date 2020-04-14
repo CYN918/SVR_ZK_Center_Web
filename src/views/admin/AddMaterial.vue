@@ -132,6 +132,8 @@
                             <!-- <input type='test' v-model="account_id" placeholder="请输入狮圈设计师ID" :disabled="(this.message.mfid!=undefined)||this.is_designer==true"/> -->
                             <el-autocomplete
                                 class="inline-input"
+                                v-if='is_designer==false'
+                                :disabled="(this.message.mfid!=undefined)"
                                 v-model="state1"
                                 :fetch-suggestions="querySearch"
                                 placeholder="请输入内容"
@@ -140,6 +142,21 @@
                             </el-autocomplete>
                             <input type="checkbox" style="width:16px;height:16px;margin:0 15px" v-model="is_designer" :disabled="(this.message.mfid!=undefined)" @change="tagge()">
                             <span>与狮圈无关</span>
+                        </div>
+                        <div class='AddIMG_select' v-if='this.types=="f_call_show"&&is_designer==false'>
+                            <span class="tit">结算类型:</span>
+                            <select name="" id="" :disabled="(this.message.mfid!=undefined)">
+                                <option value="0">买断结算</option>
+                                <option value="1">分成结算</option>
+                            </select>
+                            <span class="tit">买断价格:</span>
+                            <input type="number" placeholder="请输入" style="width: 100px;height: 30px;border-radius: 5px">
+                            <span class="tit">分成比列:</span>
+                            <input type="text" placeholder="请输入" style="width: 100px;height: 30px;border-radius: 5px">
+                        </div>
+                        <div class='AddIMG_sc' v-if='this.types=="f_call_show"&&is_designer==false'>
+                            <span class="tit">合同归档号:</span>
+                            <input type="text" :disabled="(this.message.mfid!=undefined)">
                         </div>
                         <div class="AddIMG_yl">
                             <span class="tit">尺寸:</span>
