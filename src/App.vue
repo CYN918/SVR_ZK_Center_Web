@@ -974,4 +974,8 @@ select{
 .top_name .el-icon-time{
   line-height: 3!important;
 }
+ .examine .el-input__inner{
+       border:0!important;
+        background: rgba(247,248,250,1)!important;
+   }
 </style>

@@ -27,7 +27,8 @@
                     <li v-for='(item,index) in company' @click='select_check(index)'>{{item.name}}</li>
                  </ul>
                 <span class='select_left' style="width:100%">广告类型：一级分类 </span>
-                <select v-model='ad_type' class='input_left' @change='getType(1)' :class='{examine:this.type==1}' :disabled="type==1">
+                <input type="text" class='input_left examine' v-model='ad_type' v-if='type==1' disabled>
+                <select v-model='ad_type' class='input_left' @change='getType(1)' :class='{examine:this.type==1}' v-if="type==2">
                     <option :value="item" v-for="item in list">{{item}}</option>
                 </select>   
 
@@ -55,18 +56,20 @@
                 </el-date-picker>
                 <input type="text" v-model="online_time" class='input_left examine' v-if='type==1' disabled >
                 <span class='select_left' v-if='ad_type&&this.list2.length>0'>二级分类</span>
-                 <select name="" id="" class='input_left' v-model='ad_type2'  v-if='ad_type&&this.list2.length>0' @change='getType(2)' :class='{examine:this.type==1}' :disabled="type==1">
+                 <input type="text" class='input_left examine' v-model='ad_type2' v-if='ad_type2&&type==1' disabled>
+                 <select name="" id="" class='input_left' v-model='ad_type2'  v-if='ad_type&&this.list2.length>0&&this.type==2' @change='getType(2)' >
                     <option :value="item" v-for="item in list2">{{item}}</option>
                 </select>
             </div>
             <div class='select_box_3'>
                 <span class='select_left'  v-if='ad_type2&&this.list3.length>0'>三级分类</span>
-                 <select name="" id="" class='input_left' v-model="ad_type3"  v-if='ad_type2&&this.list3.length>0' :class='{examine:this.type==1}' :disabled="type==1">
+                 <input type="text" class='input_left examine' v-model='ad_type3' v-if='ad_type3&&type==1' disabled>
+                 <select name="" id="" class='input_left' v-model="ad_type3"  v-if='ad_type2&&this.list3.length>0&&this.type==2' >
                      <option :value="item" v-for="item in list3">{{item}}</option>
                 </select>
             </div>
            <div>
-               <span class='sw' style="margin-left:24px">商务模式</span>
+               <span class='sw' >商务模式</span>
            </div>
            <div>
                <template>
@@ -696,7 +699,6 @@ export default {
                     this.getDataList()
                 },
                 projectBj(){
-                     console.log(this.bussiness_types)
                     if(this.bussiness_types.length==''){
                         this.$message.error('商务模式不能为空')
                         return
@@ -1162,4 +1164,5 @@ export default {
         border:0!important;
         background: rgba(247,248,250,1)!important;
     }
+  
 </style>
