@@ -58,7 +58,7 @@
                         <div >
                             <span>落地页：</span>
                             <a style="color:#3377ff" :href="key.preview_url" target="_block">点击查看</a>
-                            <a :href='key.assist_url' v-if="tableData[scope.$index].assist_url" target="_blank" style="color:#3377ff;cursor: pointer;margin-left:10px">辅助查看</a>
+                            <a :href='key.assist_url' v-if="tableData[index].assist_url" target="_blank" style="color:#3377ff;cursor: pointer;margin-left:10px">辅助查看</a>
                         </div>
                         <div style="overflow: hidden;height:16px">
                             <span>AI标签：</span>
