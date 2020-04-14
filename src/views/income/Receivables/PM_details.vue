@@ -712,10 +712,10 @@ export default {
                         this.$message.error('合作公司不能为空')
                         return
                     }
-                     if(!this.balance_id){
-                        this.$message.error('结算主体不能为空')
-                        return
-                    }
+                    //  if(!this.balance_id){
+                    //     this.$message.error('结算主体不能为空')
+                    //     return
+                    // }
                      if(!this.online_time){
                         this.$message.error('上线时间不能为空')
                         return
