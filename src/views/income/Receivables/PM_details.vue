@@ -537,7 +537,7 @@ export default {
                                 this.OLDname=(this.company[i].name==this.company_name);
                             }
                         }else{
-                            this.this.OLDname=false
+                            this.OLDname=false
                         }
                        
                         
