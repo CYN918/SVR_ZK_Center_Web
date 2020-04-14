@@ -44,16 +44,23 @@
                                >
                         </el-table-column>
                         <el-table-column
-                                label="结算金额" prop="total_income"
+                                label="分成金额" prop="final_income"
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="收益加成" prop="gain_share_rate"
+                                label="加成比例" prop="gain_share_rate"
                                 >
+                                <template slot-scope="scope">
+                                    <span>{{tableData[scope.$index].gain_share_rate+'%'}}</span>
+                                </template>
                         </el-table-column>
                         <el-table-column
                                 sortable
                                 label="加成金额" prop="gain_share_income"
+                                >
+                        </el-table-column>
+                         <el-table-column
+                                label="结算金额" prop="total_income"
                                 >
                         </el-table-column>
                          <el-table-column
@@ -68,7 +75,7 @@
                         </el-table-column>
                           <el-table-column
                                 sortable
-                                label="确认时间" prop="updated_at"
+                                label="付款时间" prop="updated_at"
                                 >
                         </el-table-column>
                         <el-table-column label="操作">
