@@ -325,6 +325,10 @@
 
             YCset(){this.$parent.heidThm()},
             messageID(){
+                    if(!this.ch_thids){
+                        this.$message.error('请至少选择一个主题')
+                        return
+                    }
                     this.$emit('listData',this.ind,this.ch_thids,this.qdList,this.main_preview,this.name,this.channelName,this.ADDchannel,this.ADDui);
                     this. YCset()
             },
