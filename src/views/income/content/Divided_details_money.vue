@@ -47,28 +47,31 @@
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="渠道" prop="account_name"
+                                label="渠道" prop="channel"
                                 >
                         </el-table-column>
                         <el-table-column
-                                sortable
+                               
                                 label="主题名称" prop="theme_name"
                                 :show-overflow-tooltip="true"
                                 >
                         </el-table-column>
                          <el-table-column
-                                sortable
+                               
                                 label="主题收益" prop="income"
                                 >
                         </el-table-column>
                           <el-table-column
-                                sortable
+                                
                                 label="分成比例" prop="sharing_rate"
                                 >
+                                <template slot-scope="scope">
+                                    <span>{{tableData[scope.$index].sharing_rate+'%'}}</span>
+                                </template>
                         </el-table-column>
                           <el-table-column
-                                sortable
-                                label="结算金额" prop="total_income"
+                                
+                                label="分成金额" prop="total_income"
                                 >
                         </el-table-column>
                     </el-table>

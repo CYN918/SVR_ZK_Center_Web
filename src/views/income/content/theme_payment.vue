@@ -36,15 +36,15 @@
                                >
                         </el-table-column>
                         <el-table-column
-                                label="总金额" prop="total_income"
+                                label="总结算金额" prop="total_income"
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="买断金额" prop="buyout_income"
+                                label="买断结算金额" prop="buyout_income"
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="分成金额" prop="sharing_income"
+                                label="分成结算金额" prop="sharing_income"
                                 >
                         </el-table-column>
                         <el-table-column label="操作">
