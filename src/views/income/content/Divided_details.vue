@@ -74,6 +74,7 @@
                                 >
                         </el-table-column>
                           <el-table-column
+                                v-if='this.$route.query.status!=0'
                                 sortable
                                 label="付款时间" prop="updated_at"
                                 >

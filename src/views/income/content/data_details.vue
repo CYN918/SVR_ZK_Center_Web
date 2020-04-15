@@ -1,9 +1,9 @@
 <template>
    <div>
         <div class="top_name">
-             <span class="top_txt" @click='fh(-1)'>{{this.$route.query.type=='1'?'主题付款':'来电秀付款'}}&nbsp;/&nbsp;金额详情</span>
+             <span class="top_txt" @click='fh(-1)'>{{this.$route.query.type=='1'?'主题付款':'来电秀付款'}}&nbsp;/&nbsp;结算金额详情</span>
             <div class="title_left">
-                <span>金额详情</span>
+                <span>结算金额详情</span>
                 <span class='time'>{{this.$route.query.tdate}}</span>
                 <div>
                     <span class='md' :class="{clicks:this.num==1}" @click='data("1")'>买断数据</span>
@@ -93,7 +93,7 @@
                             :cell-style="cell"
                             style="width: 100%;color:#000">
                          <el-table-column
-                                label="项目ID" prop="open_id"
+                                label="项目ID" prop="project_id"
                                 :show-overflow-tooltip="true"
                                >
                         </el-table-column>    
@@ -155,7 +155,7 @@ export default {
                     total:0,
                     tableData:[{time:2020}],
                     list:[],
-                    num:2,
+                    num:1,
                     account_name:"",
                     open_id:"",
                     project_id:"",
