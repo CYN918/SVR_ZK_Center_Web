@@ -23,7 +23,7 @@
                 <span class='select_left'>合作公司：<span class="err" v-if='!this.company_id&&this.company_name!=""'>(合作公司不存在，数据无效)</span></span>
                 <input type="text" class='input_left' @focus='focuson()'  v-model='company_name' @input='focuson()' :class='{examine:this.type==1}' :disabled="type==1">
                 <ul v-if='old'>
-                    <li @click='oldADD(company_name)' v-if="company_name&&this.OLDname==false">新增"{{company_name}}"为合作公司</li>
+                    <li @click='oldADD(company_name)' v-if="company_name && OLDname==false">新增"{{company_name}}"为合作公司</li>
                     <li v-for='(item,index) in company' @click='select_check(index)'>{{item.name}}</li>
                  </ul>
                 <span class='select_left' style="width:100%">广告类型：一级分类 </span>
@@ -62,6 +62,13 @@
                 </select>
             </div>
             <div class='select_box_3'>
+                <!-- <span class='select_left'  v-if='ad_type2&&this.list3.length>0'>投放形式</span>
+                 <input type="text" class='input_left examine' v-model='ad_type3' v-if='type==1' disabled>
+                 <select name="" id="" class='input_left' v-model="ad_type3"  v-if='this.type==2' >
+                     <option value="" >请选择</option>
+                     <option value="" >常规业务</option>
+                     <option value="" >试玩业务</option>
+                </select> -->
                 <span class='select_left'  v-if='ad_type2&&this.list3.length>0'>三级分类</span>
                  <input type="text" class='input_left examine' v-model='ad_type3' v-if='ad_type3&&type==1' disabled>
                  <select name="" id="" class='input_left' v-model="ad_type3"  v-if='ad_type2&&this.list3.length>0&&this.type==2' >
@@ -352,11 +359,11 @@
                     <span>结算模式：</span>
                     <select name="" id="" class='datetime' v-model="balance_type">
                         <option value="未知">未知</option>
-                        <option value="固价">固价</option>
+                        <option value="以zk数据为准">以zk数据为准</option>
                         <option value="以广告主反馈数据为准（包括后台）">以广告主反馈数据为准（包括后台）</option>
                     </select>
                 </div>
-                <div v-if="balance_type=='固价'">
+                <div>
                     <span>固定价格：</span>
                     <input type='number' placeholder="请输入" class='datetime' v-model="fix_price">
                 </div>
@@ -532,9 +539,14 @@ export default {
                     let params={search:this.company_name}
                     this.api.adproject_adcompany_list({params}).then((res)=>{
                         this.company=res;
-                        for(var i=0 ;i<this.company.length;i++){
-                            this.OLDname=(this.company[i].name==this.company_name);
+                        if(this.company.length>0){
+                             for(var i=0 ;i<this.company.length;i++){
+                                this.OLDname=(this.company[i].name==this.company_name);
+                            }
+                        }else{
+                            this.OLDname=false
                         }
+                       
                         
                     })
                    this.old=true;
@@ -649,7 +661,7 @@ export default {
                         this.$message.error('结算模式不能为空')
                         return
                     }
-                     if(this.balance_type=='固价'&&!this.fix_price){
+                     if(this.balance_type=='固价'){
                         this.$message.error('固价价格不能为空')
                         return
                     }
@@ -712,10 +724,10 @@ export default {
                         this.$message.error('合作公司不能为空')
                         return
                     }
-                     if(!this.balance_id){
-                        this.$message.error('结算主体不能为空')
-                        return
-                    }
+                    //  if(!this.balance_id){
+                    //     this.$message.error('结算主体不能为空')
+                    //     return
+                    // }
                      if(!this.online_time){
                         this.$message.error('上线时间不能为空')
                         return

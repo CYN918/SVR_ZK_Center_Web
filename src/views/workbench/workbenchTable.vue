@@ -97,7 +97,7 @@
                             <el-button v-if="tableData[props.$index].status_name=='上传物料'&&tableData[props.$index].reject=='0'&&tableData[props.$index].isfinish!=2" @click="getYWSC(tableData[props.$index].bdid)">查看资源</el-button>
                             <el-button v-if="(tableData[props.$index].status_name=='发布审核'&&tableData[props.$index].reject=='0')||(tableData[props.$index].status_name=='项目发布'&&tableData[props.$index].reject=='0')" @click="getSC(tableData[props.$index].mdid)">查看需求</el-button>
 
-                            <el-button v-if="(tableData[props.$index].status_name=='项目发布'&&tableData[props.$index].reject=='0')" @click='look(tableData[props.$index].did,tableData[props.$index].status)'>查看项目</el-button>
+                            <el-button v-if="(tableData[props.$index].status_name=='项目发布'&&tableData[props.$index].reject=='0'&&tableData[props.$index].is_project==1)" @click='look(tableData[props.$index].did,tableData[props.$index].status)'>查看项目</el-button>
 
 
 
@@ -194,7 +194,7 @@
                                         <span class="dj" v-if="(tableData[props.$index].demand_type=='素材需求'&&item.status=='2'&&item.key==0&&item.reject!='1'&&item.isfinish!=2)" >审核通过</span>
                                         <span class="dj" v-if="(tableData[props.$index].demand_type=='素材需求'&&item.status=='4'&&item.key==0&&item.reject!='1'&&item.isfinish!=2)" @click="push(tableData[props.$index].did,tableData[props.$index].status)">查看入库</span>
                                         <span class="dj" v-if="tableData[props.$index].demand_type=='业务需求'&&item.status=='5'&&item.key==0&&item.reject!='1'&&item.isfinish!=2">测试通过</span>
-                                        <span  class="dj" v-if="tableData[props.$index].demand_type=='素材需求'&&item.status=='3'&&item.key==0&&item.reject!='1'&&item.isfinish!=2" @click='look(tableData[props.$index].did,tableData[props.$index].status)'>查看项目</span>
+                                        <span  class="dj" v-if="tableData[props.$index].demand_type=='素材需求'&&item.status=='3'&&item.key==0&&item.reject!='1'&&item.isfinish!=2&&tableData[props.$index].is_project==1" @click='look(tableData[props.$index].did,tableData[props.$index].status)'>查看项目</span>
                                         <span class="dj" v-if="tableData[props.$index].demand_type=='素材需求'&&item.status=='5'&&item.isfinish==1" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status)">查看素材</span>
                                     </div>
                                 </div>
