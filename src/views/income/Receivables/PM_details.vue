@@ -364,8 +364,8 @@
                     </select>
                 </div>
                 <div>
-                    <span>固定价格：</span>
-                    <input type='number' placeholder="请输入" class='datetime' v-model="fix_price">
+                    <span v-if='balance_type!="未知"'>固定价格：</span>
+                    <input type='number' placeholder="请输入" class='datetime' v-model="fix_price" v-if='balance_type!="未知"'>
                 </div>
                 <div class='btns' style="box-shadow:0 0 0 #fff">
                     <span class='bc' style="margin-left:95px" @click='push()'>确定</span>
@@ -661,8 +661,12 @@ export default {
                         this.$message.error('结算模式不能为空')
                         return
                     }
-                     if(this.balance_type=='固价'){
+                     if(this.balance_type!="未知"&&!this.fix_price){
                         this.$message.error('固价价格不能为空')
+                        return
+                    }
+                     if(this.fix_price<='0'){
+                        this.$message.error('固价价格不能小于0')
                         return
                     }
                     if(this.endtime==null){
