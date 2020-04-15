@@ -8,7 +8,7 @@
                     <span>入库确认</span>
                 </div>
                 <div class='right_btn'>
-                    <span class='tj' @click='pops()' v-if='this.$route.query.status==4'>提交</span>
+                    <span class='tj' @click='pops()' v-if='this.$route.query.status==4&&status'>提交</span>
                 </div>
             </div>
         </div>
@@ -103,7 +103,8 @@
                yc:false,
                p:10,
                page:1,
-               total:0
+               total:0,
+               status:false
             }
         },
         mounted(){
@@ -126,7 +127,12 @@
                 let params={did:this.$route.query.did,is_put:'1',p:this.p,page:this.page}
                 this.api.demand_design_project({params}).then((res)=>{
                     this.tableData=res.project.data;
-                    this.total=res.project.total
+                    this.total=res.project.total;
+                    for(var i=0;i<this.tableData.length;i++){
+                        if(this.tableData[i].local_status==1){
+                            this.status=true
+                        }
+                    }
                 })
            },
            fh(){

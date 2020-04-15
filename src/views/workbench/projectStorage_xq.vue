@@ -238,7 +238,6 @@
                                 <input type="text" v-model="sjSize" disabled placeholder="上传附件后自动获取"> 
                                 <div class="AddIMG_yl_upload">
                                     <el-upload
-                                            :limit="1"
                                             :http-request="uploadFile"
                                             class="upload-demo"
                                             action="111"
@@ -277,8 +276,9 @@
                             </div>
                             <div v-if='this.type=="th_lock_screen"||this.type=="th_icon"||this.type=="th_second_page"'>
                                 <span class='bg_name'>使用范围：</span>
-                                <select v-model="model">
-                                    <option value="">不限</option>
+                                <select v-model="range">
+                                    <option value="">请选择</option>
+                                    <option value="all">不限</option>
                                     <option :value="da.range" v-for='da in fw'>{{da.range}}</option>
                                 </select> 
                             </div>
@@ -350,7 +350,7 @@ export default {
                         scType:[],
                         type:"",
                         fw:{},
-                        model:"",
+                        range:"",
                         preset_tags:[],
                         preinstall:[],
                         self_tags:[],
@@ -409,7 +409,7 @@ export default {
                             this.prev_uri='';
                             this.preinstall=[];
                             this.bardian=[];
-                            this.model='';
+                            this.range='';
                             this.note='';
                              this.type=this.listData.demand.type;
                                
@@ -573,11 +573,10 @@ export default {
                                 list.main_preview=this.prev_uri;
                                 list.size=this.sjSize;
                                 list.type=this.type;
-                                list.tags=this.tags;
-                                list.model=this.model;
+                                list.tags=this.tags.join(',');
+                                list.range=this.range;
                                 list.note=this.note;
                                 this.materials.push(list);
-                                console.log(list.main_preview)
                              }else{
                                 this.materials=[];
                                 let list={
@@ -618,10 +617,10 @@ export default {
                                     list.previews.push(this.prev_uri);
                                     list.main_preview=(this.prev_uri);
                                     list.prev_uri=this.prev_uri;
-                                    list.tags=this.tags;
-                                    list.model=this.model;
+                                    list.tags=this.tags.join(',')
+                                    list.range=this.range;
                                     list.note=this.note;
-                                    list.model=this.model;
+                                    // list.model=this.model;
                                     list.note=this.note;
                                     this.materials.push(list)
                              }else{
