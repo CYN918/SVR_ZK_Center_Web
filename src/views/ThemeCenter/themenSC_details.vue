@@ -40,7 +40,7 @@
             <div class="switcher">
                 <a href="#tab0" :class="{click:isType==0}" @click="changeover('0')">预览图</a>
                 <a href="#tab1" :class="{click:isType==1}" @click="changeover('1')">相关主题</a>
-                <a href="#tab2" :class="{click:isType==2}" @click="changeover('2')" v-if="this.$route.query.name!='宣传图'">相关项目</a>
+                <a href="#tab2" :class="{click:isType==2}" @click="changeover('2')" v-if="this.$route.query.name!='宣传图'">结算信息</a>
                 <a href="#tab3" :class="{click:isType==3}" @click="changeover('3')" v-if="this.$route.query.name!='宣传图'">相关打包件</a>
                 <a href="#tab4" :class="{click:isType==4}" @click="changeover('4')" v-if="this.$route.query.name!='宣传图'">相关主题素材</a>
                 <a href="#tab5" :class="{click:isType==5}" @click="changeover('5')" v-if="this.$route.query.name!='宣传图'">相关合同</a>
@@ -84,17 +84,25 @@
             <div class="preview"  id="tab2" v-if="this.$route.query.name!='宣传图'">
                <div class='line' style="height:24px;width:100%;background:rgba(239,244,248,1)"></div>
                 <div class="titID">
-                    <span class="nameID">相关项目</span>
+                    <span class="nameID">结算信息</span>
                 </div>
                 <div style="margin: 24px 0 0 24px">
                     <div class="preview_tet">
-                        <span>项目ID：</span>
-                        <span v-if="xm.length!=''">{{xm[0].work_id}}</span>
+                        <span>绑定设计师：</span>
+                        <span></span>
                     </div>
-                    <span>结算方式</span>
-                    <span v-if="xm.length!=''">{{xm[0].hire_type}}</span>
-                    <span>分成比例</span>
-                    <span v-if="xm.length!=''">{{xm[0].price}}</span>
+                    <div class="preview_tet">
+                        <span>结算信息：</span>
+                        <span></span>
+                    </div>
+                    <div class="preview_tet">
+                        <span>项目ID：</span>
+                        <span ></span>
+                    </div>
+                    <div class="preview_tet">
+                        <span>买断价格：</span>
+                        <span ></span>
+                    </div>
                 </div>
             </div>
             <div  class="preview" id="tab3" v-if="this.$route.query.name!='宣传图'">
@@ -598,9 +606,11 @@
     .preview_tet>span{
         display: inline-block;
         font-size:16px;
-        font-family:PingFang-SC-Bold,PingFang-SC;
-        font-weight:bold;
-        color:rgba(31,46,77,1);
+        font-family:PingFang SC;
+        font-weight:400;
+        line-height:22px;
+        color:rgba(46,60,89,1);
+        margin-bottom: 24px;
     }
     .Contract_name{
         display: inline-block;

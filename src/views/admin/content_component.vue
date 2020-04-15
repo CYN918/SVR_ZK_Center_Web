@@ -63,11 +63,35 @@
                             <p>若由素材库内文件处理后上传，必须填写对应的素材ID，仅可填写一个</p>
                         </div>
                         <div class="AddIMG_zp">
-                            <span class="tit">绑定设计师作品:</span>
-                            <input type="text" class="AddIMG_zp_text" v-model="bind_workid" :disabled="(this.message.mid!=undefined)"/>
+                            <span class="tit">绑定设计ID:</span>
+                            <el-autocomplete
+                                class="inline-input"
+                                :disabled="(this.message.mfid!=undefined)"
+                                v-model="state1"
+                                :fetch-suggestions="querySearch"
+                                placeholder="请输入内容"
+                                @select="handleSelect"
+                                >
+                            </el-autocomplete>
+                            <!-- <input type="text" class="AddIMG_zp_text" v-model="bind_workid" :disabled="(this.message.mid!=undefined)"/> -->
                             <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="is_bind_workid" :disabled="(this.message.mid!=undefined)"/>
-                            <span>与设计师无关</span>
-                            <p>由设计师站获得的素材，必须填写对应的作品ID</p>
+                            <span>与狮圈无关</span>
+                            <!-- <p>由设计师站获得的素材，必须填写对应的作品ID</p> -->
+                        </div>
+                        <div class='AddIMG_select' >
+                            <span class="tit">结算类型:</span>
+                            <select v-model="settle_type" :disabled="(this.message.mfid!=undefined)">
+                                <option value="1">买断结算</option>
+                                <option value="2">分成结算</option>
+                            </select>
+                            <span class="tit" v-if='settle_type==1'>买断价格:</span>
+                            <input type="number" v-if='settle_type==1' placeholder="请输入" v-model="settle_value" style="width: 100px;height: 30px;border-radius: 5px">
+                            <span class="tit" v-if='settle_type==2'>分成比列:</span>
+                            <input type="text" v-if='settle_type==2' placeholder="请输入" v-model="settle_value" style="width: 100px;height: 30px;border-radius: 5px">
+                        </div>
+                        <div class='AddIMG_sc' >
+                            <span class="tit">合同归档号:</span>
+                            <input type="text" :disabled="(this.message.mfid!=undefined)">
                         </div>
                         <div class="AddIMG_select">
                             <span class="tit">素材类型:</span>
@@ -188,6 +212,11 @@
                 status:'',
                 arr:[],
                 sizeList:[],
+                restaurants:[],
+                state1:"",
+                account_id:"",
+                settle_type:"",
+                settle_value:""
             }
         },
         mounted(){
@@ -376,6 +405,7 @@
                         this.getMatterDetails();
                     }
                     this. getType();
+                    this.getData();
                 })
             },
             ADDtags(){
@@ -497,6 +527,34 @@
                     this.status = res.status;
                 })
             },
+
+             getData(){
+                    this.api.designer_settlement_list().then((res)=>{
+                        this.restaurants=res;
+
+                    })
+                },
+             querySearch(queryString, cb) {
+                    for(var i =0;i<this.restaurants.length;i++){
+                        if(this.restaurants[i].contribute_type==1){
+                            this.restaurants[i].value=this.restaurants[i].name+this.restaurants[i].id_card
+                        }
+                        if(this.restaurants[i].contribute_type==2){
+                            this.restaurants[i].value=this.restaurants[i].company_name+this.restaurants[i].code
+                        }
+                    }
+                    var results = queryString ? this.restaurants.filter(this.createFilter(queryString)) : this.restaurants;
+                    cb(results);
+                },
+                createFilter(queryString) {
+                    return (restaurant) => {
+                    return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+                    };
+                },
+                handleSelect(item) {
+                    this.account_id=item.open_id
+                }
+
         },
         watch: {
             'bindMid': function(newVal){
