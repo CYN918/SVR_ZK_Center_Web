@@ -42,7 +42,7 @@
                                >
                         </el-table-column>
                         <el-table-column
-                                label="分成金额" prop="final_income"
+                                label="分成结算金额" prop="total_income"
                                 >
                         </el-table-column>
                         <el-table-column
