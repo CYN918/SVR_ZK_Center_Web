@@ -14,6 +14,7 @@
                         type="monthrange"
                         range-separator="至"
                         start-placeholder="开始月份"
+                        value-format="yyyy-MM"
                         end-placeholder="结束月份">
                     </el-date-picker>
                 </div>

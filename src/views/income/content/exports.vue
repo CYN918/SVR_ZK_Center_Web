@@ -15,6 +15,7 @@
                     class='time_length'
                         v-model="tdate"
                         type="date"
+                        value-format="yyyy-MM-dd"
                         range-separator="至"
                        >
                     </el-date-picker>
