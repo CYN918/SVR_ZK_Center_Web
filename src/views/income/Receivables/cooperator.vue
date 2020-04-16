@@ -49,7 +49,7 @@
                 </template>
             </div>
              <div class="block">
-                <el-pagination
+                 <el-pagination
                         @size-change="handleSizeChange"
                         @current-change="handleCurrentChange"
                         :current-page="page"
@@ -159,13 +159,13 @@
             cell({row, column, rowIndex, columnIndex}){
                 return 'text-align:center;color:rgba(61,73,102,1);font-size:14px;font-weight:400;font-family:PingFangSC-Regula;'
             },
-            handleSizeChange(p) { // 每页条数切换
+             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
-                this.getDataList
+                this.getDataList()
             },
             handleCurrentChange(page) {//页码切换
                 this.page = page;
-                this.getDataList
+                this.getDataList()
             },
             getDataList(){
                 let params={p:this.p,page:this.page,search:this.search}
