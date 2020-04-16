@@ -1,9 +1,9 @@
 <template>
    <div>
         <div class="top_name">
-             <span class="top_txt" @click='fh(-1)'>{{this.$route.query.type=='1'?'主题付款':'来电秀付款'}}&nbsp;/&nbsp;结算金额详情</span>
+             <span class="top_txt" @click='fh(-1)'>{{this.$route.query.type=='1'?'主题付款':'来电秀付款'}}&nbsp;/&nbsp;付款金额详情</span>
             <div class="title_left">
-                <span>结算金额详情</span>
+                <span>付款金额详情</span>
                 <span class='time'>{{this.$route.query.tdate}}</span>
                 <div>
                     <span class='md' :class="{clicks:this.num==1}" @click='data("1")'>买断数据</span>
