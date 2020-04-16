@@ -117,7 +117,8 @@
                             <div v-if='this.listData.demand.type=="th_lock_screen"||this.listData.demand.type=="th_icon"||this.listData.demand.type=="th_second_page"'>
                                 <span class='bg_name'>使用范围：</span>
                                 <select v-model="range">
-                                    <option value="">不限</option>
+                                    <option value="">请选择</option>
+                                    <option value="all">不限</option>
                                     <option :value="da.range" v-for='da in fw'>{{da.range}}</option>
                                 </select> 
                             </div>
