@@ -62,13 +62,13 @@
                 </select>
             </div>
             <div class='select_box_3'>
-                <!-- <span class='select_left'  v-if='ad_type2&&this.list3.length>0'>投放形式</span>
-                 <input type="text" class='input_left examine' v-model='ad_type3' v-if='type==1' disabled>
-                 <select name="" id="" class='input_left' v-model="ad_type3"  v-if='this.type==2' >
+                <span class='select_left'>投放形式</span>
+                 <input type="text" class='input_left examine' v-model='put_type' v-if='type==1' disabled>
+                 <select class='input_left' v-model="put_type"  v-if='this.type==2' >
                      <option value="" >请选择</option>
-                     <option value="" >常规业务</option>
-                     <option value="" >试玩业务</option>
-                </select> -->
+                     <option value="常规业务" >常规业务</option>
+                     <option value="试玩业务" >试玩业务</option>
+                </select>
                 <span class='select_left'  v-if='ad_type2&&this.list3.length>0'>三级分类</span>
                  <input type="text" class='input_left examine' v-model='ad_type3' v-if='ad_type3&&type==1' disabled>
                  <select name="" id="" class='input_left' v-model="ad_type3"  v-if='ad_type2&&this.list3.length>0&&this.type==2' >
@@ -432,7 +432,8 @@ export default {
                        type:"1",
                        approve_id:"",
                        name_valid:"",
-                       OLDname:true
+                       OLDname:true,
+                       put_type:"",
                 }
             },
             mounted(){
@@ -495,6 +496,7 @@ export default {
                         this.ad_download_pv=res.ad_download_pv;
                         this.note=res.note;
                         this.name_valid=res.name_valid;
+                        this.put_type=res.put_type;
                         this.getType();
                         this.getJS();
                     })
@@ -719,7 +721,10 @@ export default {
                         this.$message.error('商务模式不能为空')
                         return
                     }
-                   
+                   if(!this.put_type){
+                        this.$message.error('投放形式不能为空')
+                        return
+                    }
                      if(!this.project_name){
                         this.$message.error('项目名称不能为空')
                         return
@@ -792,6 +797,7 @@ export default {
                     formData.append('bussiness_types',JSON.stringify(this.bussiness_types));
                     formData.append('attachements',JSON.stringify(this.attachements))
                     formData.append('contracts',JSON.stringify(this.contracts))
+                    formData.append('put_type',this.put_type)
                     formData.append("project_id",this.$route.query.project_id)
                     formData.append('project_name',this.project_name)
                     formData.append('company_id',this.company_id)
