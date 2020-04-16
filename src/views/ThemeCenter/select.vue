@@ -198,18 +198,37 @@
         },
         methods:{
             setID(){
-                if(!this.ADDchannel){
-                        this.$message.error('渠道不能为空');
-                        return
+                    if(this.$route.query.type=='th_advertise'){
+                        
+                        if(!this.ADDchannel){
+                            this.$message.error('渠道不能为空');
+                            return
+                        }
+                        if(this.ADDchannel!='local'){
+                             if(!this.ADDui){
+                                this.$message.error('厂商UI版本不能为空');
+                                return
+                            }
+                            if(!this.bb){
+                                this.$message.error('资源版本不能为空');
+                                return
+                            }
+                        }
+                    }else{
+                         if(!this.ADDchannel){
+                            this.$message.error('渠道不能为空');
+                                return
+                        }
+                        if(!this.ADDui){
+                            this.$message.error('厂商UI版本不能为空');
+                            return
+                        }
+                        if(!this.bb){
+                            this.$message.error('资源版本不能为空');
+                            return
+                        }
                     }
-                    if(!this.ADDui){
-                        this.$message.error('厂商UI版本不能为空');
-                        return
-                    }
-                     if(!this.bb){
-                        this.$message.error('资源版本不能为空');
-                        return
-                    }
+
                 this.ch_thids='';
                 this.qdList=[];
                 for(var i=0 ;i<this.TCchannel.length;i++){
