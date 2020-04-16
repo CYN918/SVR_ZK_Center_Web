@@ -2,11 +2,11 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-            <span class="log_url" @click="fh()"> {{this.$route.query.name+'主题素材'}}&nbsp;/</span>
-            <span class="new_url">{{this.$route.query.name+'主题素材详情'}}&nbsp;</span>
+            <span class="log_url" @click="fh()"> 主题素材&nbsp;/</span>
+            <span class="new_url">主题素材详情&nbsp;</span>
         </div>
             <div class="name">
-                <span>{{this.$route.query.name+'主题素材名称'}}:</span>
+                <span>主题素材名称:</span>
                 <span>{{tableData.name}}</span>
                 <div>
                     <span @click="bj()">编辑</span>
@@ -69,7 +69,7 @@
                 </div>
                 <div class="imgID" v-for="item in themeList" v-if="themeList.length!=0">
                     <img :src="item.main_preview">
-                    <div class="See" @click="seeTheme(item.thid,item.channel,item.ch_thid)">
+                    <div class="See" @click="seeTheme(item.thid,item.channel,item.ch_thid,item.local)">
                         查看详情
                     </div>
                 </div>
@@ -221,19 +221,24 @@
                 })
                 window.open(Logistics.href, '_blank','toolbar=yes');
             },
-            seeTheme(id,name,qdid){
-                if(name=='local'){
-                    var path='./themeDetails'
+            seeTheme(id,name,qdid,local){
+                if(local){
+                    var path='./themeDetails';
+                    var query={
+                        thid:id,
+                        channel:"local",
+                    }
                 }else{
-                    path='./themeDetailsQd'
+                    path='./themeDetailsQd';
+                    query={
+                         thid:id,
+                        channel:name,
+                        ch_thid:qdid,
+                    }
                 }
                 let Logistics= this.$router.resolve({
                     path:path,
-                    query:{
-                        thid:id,
-                        channel:name,
-                        ch_thid:qdid,
-                    },
+                    query:query
                 })
                 window.open(Logistics.href);
             },
