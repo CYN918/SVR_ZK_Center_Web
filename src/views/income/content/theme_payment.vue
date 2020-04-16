@@ -76,7 +76,7 @@ export default {
     props:['type'],
             data(){
                 return{
-                    tdate: '',
+                    tdate:[],
                     p:10,
                     page:1,
                     total:0,
@@ -88,7 +88,7 @@ export default {
             },
             methods:{
                 cz(){
-                    this.tdate=''
+                    this.tdate=[]
                 },
                 getRowClass({row, column, rowIndex}) {
                     if (rowIndex === 0) {
@@ -115,7 +115,7 @@ export default {
                     })
                 },
                 listData(){
-                    let params={type:this.type,p:this.p,page:this.page,tdate:this.tdate,is_confirmed:'1'}
+                    let params={type:this.type,p:this.p,page:this.page,tdate_start:this.tdate[0],tdate_end:this.tdate[1],is_confirmed:'1'}
                     this.api.sharing_data_income_summary({params}).then((res)=>{
                          this.total=res.total;
                          this.tableData=res.data;   

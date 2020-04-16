@@ -21,15 +21,15 @@
                 <span style="margin:24px 16px 24px 24px " v-if='state1==""'>设计师ID：</span>
                 <input type="text" v-model="id" v-if='state1==""' @change="sJsID()">
                 <span style="margin:24px 16px 24px 24px " v-if='id==""'>结算方</span>
-                 <el-autocomplete
-                 v-if='id==""'
-                        class="inline-input"
-                        v-model="state1"
-                        :fetch-suggestions="querySearch"
-                        placeholder="请输入内容"
-                        @select="handleSelect"
-                        >
-                    </el-autocomplete>
+                <el-autocomplete
+                v-if='id==""'
+                    class="inline-input"
+                    v-model="state1"
+                    :fetch-suggestions="querySearch"
+                    placeholder="请输入内容"
+                    @select="handleSelect"
+                    >
+                </el-autocomplete>
                 <div class="btn_right">
                     <span class='cx' @click='listData()'>查询</span>
                     <span @click='cz()'>重置</span>
@@ -86,16 +86,17 @@ export default {
     props:['type'],
             data(){
                 return{
-                    tdate:"",
+                    tdate: [],
                     p:10,
                     page:1,
                     total:0,
                     tableData:[{time:2020}],
                     list:[],
-                    state1:"",
-                    restaurants: [],
-                    id:"",
+                    account_name:"",
                     open_id:"",
+                    id:"",
+                    restaurants:[],
+                    state1:"",
                 }
             },
             mounted(){
@@ -103,10 +104,10 @@ export default {
             },
             methods:{
                 cz(){
-                    this.tdate='';
+                    this.tdate=[];
                     this.open_id='';
-                    this.id='';
-                    this.state1=''
+                    this.state1='',
+                    this.id="";
                 },
                 getRowClass({row, column, rowIndex}) {
                     if (rowIndex === 0) {
@@ -128,12 +129,12 @@ export default {
                 },
                
                 listData(){
-                    let params={tdate:this.tdate,account_name:this.account_name,open_id:this.open_id,p:this.p,page:this.page}
+                    let params={tdate_start:this.tdate[0],tdate_end:this.tdate[1],account_name:this.account_name,open_id:this.open_id,p:this.p,page:this.page}
                     this.api.ds_other_income_detail({params}).then((res)=>{
                             this.total=res.total;
                             this.tableData=res.data;
                             this.getData();
-                            this.getDlist();
+                            this.getDlist()
                     })
                     
                 },
@@ -143,7 +144,7 @@ export default {
                         this.list=res;
                     })
                 },
-                 getDlist(){
+                getDlist(){
                     this.api.designer_settlement_list().then((res)=>{
                         this.restaurants=res;
 
@@ -170,10 +171,9 @@ export default {
                 handleSelect(item) {
                     this.open_id=item.open_id
                 },
-                sJsID(){
+                 sJsID(){
                     this.open_id=this.id;
                 },
-               
             },
 }
 </script>

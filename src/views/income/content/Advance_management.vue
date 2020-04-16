@@ -13,7 +13,7 @@
                 <input type="text" v-model="id" v-if='state1==""'  @change="sJsID()">
                 <span class='fc_statuc'  v-if='id==""'>结算方</span>
                     <el-autocomplete
-                    v-if='id==""'
+                        v-if='id==""'
                         class="inline-input"
                         v-model="state1"
                         :fetch-suggestions="querySearch"
@@ -84,7 +84,7 @@ export default {
     props:['type'],
             data(){
                 return{
-                    tdate: '',
+                    
                     p:10,
                     page:1,
                     total:0,
