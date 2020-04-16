@@ -37,7 +37,7 @@
                         </el-table-column> -->
                         <el-table-column
                                 sortable
-                                label="更新时间" prop="theme_name"
+                                label="更新时间" prop="updated_at"
                                 >
                         </el-table-column>
                         
@@ -97,7 +97,7 @@ export default {
                 },
                
                 getDataList(){
-                    let params={open_id:this.$route.query.open_id,porject_id:this.$route.query.porject_id,account_name:this.$route.query.account_name,p:this.p,page:this.page}
+                    let params={open_id:this.$route.query.open_id,project_id:this.$route.query.porject_id,account_name:this.$route.query.account_name,p:this.p,page:this.page}
                     this.api.ds_advance_payment_detail({params}).then((res)=>{
                         this.total=res.total;
                         this.tableData=res.data;

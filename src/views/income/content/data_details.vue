@@ -15,10 +15,11 @@
             <div>
                 <span class='fc_statuc' style="margin:24px 16px 24px 24px " v-if='num==1'>项目ID</span>
                 <input type="text" v-if='num==1' v-model="project_id">
-                <span class='fc_statuc' style="margin:24px 16px 24px 24px ">设计师ID</span>
-                <input type="text" v-model="open_id">
-                <span class='fc_statuc' style="margin:24px 16px 24px 24px ">结算方</span>
+                <span class='fc_statuc' style="margin:24px 16px 24px 24px " v-if='state1==""'>设计师ID</span>
+                <input type="text" v-model="id" v-if='state1==""'  @change="sJsID()">
+                <span class='fc_statuc' style="margin:24px 16px 24px 24px " v-if='id==""'>结算方</span>
                 <el-autocomplete
+                v-if='id==""'
                     class="inline-input"
                     v-model="state1"
                     :fetch-suggestions="querySearch"
@@ -160,7 +161,8 @@ export default {
                     open_id:"",
                     project_id:"",
                     restaurants: [],
-                    state1:""
+                    state1:"",
+                    id:"",
 
                 }
             },
@@ -172,7 +174,7 @@ export default {
                    this.project_id='';
                    this.open_id='';
                    this.state1='';
-                   this.account_name=''
+                   this.id=''
                 },
                  fh(index){
                     this.$router.go(index)
@@ -259,13 +261,16 @@ export default {
                     };
                 },
                 handleSelect(item) {
-                    this.account_name=item.open_id
-                }
+                    this.open_id=item.open_id
+                },
+                 sJsID(){
+                    this.open_id=this.id;
+                },
             },
             watch:{
                 state1:function(val,oldVal){
                     if(val==''){
-                        this.account_name=''
+                        this.open_id=''
                     }
                 }
             }
