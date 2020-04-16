@@ -1561,10 +1561,66 @@ export default {
 	material_project_add:{
 		url:"material/project/add",method:"post",isType:{suktip:1},
 	},
+
+	//上传收益数据文件
+	sharing_data_import:{
+		url:'sharing/data/import',method:"post",isType:{suktip:1},
+	},
+	//获取周期收益数据总览
+	sharing_data_income_period:{
+		url:"sharing/data/income/period",method:'get'
+	},
+	//分成管理详情
+	sharing_data_income_designer:{
+		url:"sharing/data/income/designer",method:"get"
+	},
+	//确认收益
+	sharing_data_income_confirm:{
+		url:'sharing/data/income/confirm',method:"post",isType:{suktip:1},
+	},
+	//分成金额详情
+	sharing_data_income_detail:{
+		url:'sharing/data/income/detail',method:'get'
+	},
+	//获取上传文件列表
+	sharing_data_file_list:{
+		url:"sharing/data/file/list",method:"get"
+	},
+	//导入数据确认
+	sharing_data_confirm:{
+		url:"sharing/data/confirm",method:'post',isType:{suktip:1},
+	},
+	//获取导入数据
+	sharing_data_list:{
+		url:"sharing/data/list",method:'get'
+	},
+	//获取收益数据总览
+	sharing_data_income_summary:{
+		url:'sharing/data/income/summary',method:'get'
+	},
+	//获取项目预约金使用记录
+	ds_advance_payment_detail:{
+		url:'ds/advance_payment/detail',method:"get"
+	},
+	//获取项目预约金列表
+	ds_advance_payment_list:{
+		url:'ds/advance_payment/list',method:'get'
+	},
+	//获取其他收益数据
+	ds_other_income_detail:{
+		url:'ds/other/income/detail',method:"get"
+	},
+	//买断数据
+	ds_buyout_income_detail:{
+		url:"ds/buyout/income/detail",method:"get"
+	},
+	
+
 	//解决跨域下载视频
 	tools_url_download:{
 		url:"tools/url/download",method:"get"
 	},
+
 	//项目列表(分页)
 	adproject_listpage:{
 		url:'adproject/listpage',method:"get"
@@ -1600,5 +1656,11 @@ export default {
 	//编辑项目
 	adproject_edit:{
 		url:"adproject/edit",method:"post",isType:{suktip:1}
-	}
+	},
+
+	//获取结算方列表
+	designer_settlement_list:{
+		url:"designer/settlement/list",method:'get'
+	},
+
 }

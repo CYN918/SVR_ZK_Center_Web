@@ -971,6 +971,7 @@ select{
   margin-right:0px!important;
    margin-left:16px;
 }
+
 .top_name .el-icon-time{
   line-height: 3!important;
 }
@@ -978,4 +979,12 @@ select{
        border:0!important;
         background: rgba(247,248,250,1)!important;
    }
+
+.times .el-input__inner{
+         width:200px!important
+    }
+  .file_ADD .el-upload-list__item-name{
+    display: none;
+  }  
+
 </style>
