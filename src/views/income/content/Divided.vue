@@ -172,6 +172,7 @@ export default {
     .top_txt{
         display: inline-block;
         margin-left: 24px;
+        cursor: pointer;
     }
     .content{
         margin-top: 199px;

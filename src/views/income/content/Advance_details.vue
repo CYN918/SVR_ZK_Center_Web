@@ -5,7 +5,7 @@
               <span class="top_txt">查看详情</span>
             <div class="title_left">
                 <span>查看详情</span>
-                <span class='time'>项目ID:{{this.$route.query.project_id}}</span>
+                <span class='time'>项目ID:{{this.$route.query.porject_id}}</span>
                 <span class='time'>设计师ID：{{this.$route.query.open_id}}</span>
                 <span class='time'>开户名：{{this.$route.query.account_name}}</span>
             </div>
@@ -97,7 +97,7 @@ export default {
                 },
                
                 getDataList(){
-                    let params={open_id:this.$route.query.open_id,porject_id:this.$route.query.porject,account_name:this.$route.query.account_name,p:this.p,page:this.page}
+                    let params={open_id:this.$route.query.open_id,porject_id:this.$route.query.porject_id,account_name:this.$route.query.account_name,p:this.p,page:this.page}
                     this.api.ds_advance_payment_detail({params}).then((res)=>{
                         this.total=res.total;
                         this.tableData=res.data;
