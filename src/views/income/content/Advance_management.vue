@@ -9,12 +9,18 @@
             <div>
                 <span class='fc_statuc'>项目ID：</span>
                 <input type="text" v-model="porject_id">
-                <span class='fc_statuc' >设计师ID：</span>
-                <input type="text" v-model="open_id">
-                <span class='fc_statuc' >结算方</span>
-                <select v-model="account_name">
-                    <option v-for="item in list" :value="item.name">{{item.name}}</option>
-                </select>
+                <span class='fc_statuc' v-if='state1==""'>设计师ID：</span>
+                <input type="text" v-model="id" v-if='state1==""'  @change="sJsID()">
+                <span class='fc_statuc'  v-if='id==""'>结算方</span>
+                    <el-autocomplete
+                        v-if='id==""'
+                        class="inline-input"
+                        v-model="state1"
+                        :fetch-suggestions="querySearch"
+                        placeholder="请输入内容"
+                        @select="handleSelect"
+                        >
+                    </el-autocomplete>
                 <div class="btn_right">
                     <span class='cx' @click='listData()'>查询</span>
                     <span @click='cz()'>重置</span>
@@ -78,15 +84,17 @@ export default {
     props:['type'],
             data(){
                 return{
-                    tdate: '',
+                    
                     p:10,
                     page:1,
                     total:0,
                     tableData:[{time:2020}],
                     list:[],
-                    account_name:"",
                     porject_id:"",
                     open_id:"",
+                    state1:"",
+                    restaurants: [],
+                    id:"",
                 }
             },
             mounted(){
@@ -94,9 +102,10 @@ export default {
             },
             methods:{
                 cz(){
-                    this.account_name="";
+                    this.id="";
                     this.porject_id="";
-                    this.open_id=""
+                    this.open_id="";
+                    this.state1='';
                 },
                 getRowClass({row, column, rowIndex}) {
                     if (rowIndex === 0) {
@@ -122,7 +131,8 @@ export default {
                     this.api.ds_advance_payment_list({params}).then((res)=>{
                         this.tableData=res.data;
                         this.total=res.total;
-                         this.getData()
+                         this.getData();
+                         this.getDlist();
                     })
                 },
                  getData(){
@@ -131,7 +141,36 @@ export default {
                         this.list=res;
                     })
                 },
-               
+                 getDlist(){
+                    this.api.designer_settlement_list().then((res)=>{
+                        this.restaurants=res;
+
+
+                    })
+                },
+                 querySearch(queryString, cb) {
+                    for(var i =0;i<this.restaurants.length;i++){
+                        if(this.restaurants[i].contribute_type==1){
+                            this.restaurants[i].value=this.restaurants[i].name+this.restaurants[i].id_card
+                        }
+                        if(this.restaurants[i].contribute_type==2){
+                            this.restaurants[i].value=this.restaurants[i].company_name+this.restaurants[i].code
+                        }
+                    }
+                    var results = queryString ? this.restaurants.filter(this.createFilter(queryString)) : this.restaurants;
+                    cb(results);
+                },
+                createFilter(queryString) {
+                    return (restaurant) => {
+                    return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+                    };
+                },
+                handleSelect(item) {
+                    this.open_id=item.open_id
+                },
+                 sJsID(){
+                    this.open_id=this.id;
+                },
                 jump(porject_id,open_id,data,money,ye){
                     this.$router.push({
                         path:"./Advance_details",
