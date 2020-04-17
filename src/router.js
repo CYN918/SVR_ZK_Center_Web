@@ -64,6 +64,8 @@ import add_library from './views/admin/add_library'
 mode['add_library'] = add_library
 import details_library from './views/admin/details_library'
 mode['details_library'] = details_library
+import Other_details from './views/admin/Other_details'
+mode['Other_details']=Other_details
 
 
 
@@ -457,7 +459,9 @@ let nb = [
 			{path:'/admin/add_library',name:'添加投放库',component: mode['add_library']},
 			{path:'/admin/details_library',name:'详情库',component: mode['details_library']},
 			{path:'/admin/tags_details',name:'标签管理',component: mode['tags_details']},
-			{path:'/admin/mangement',name:'投放库管理',component:mode['mangement']},
+            {path:'/admin/mangement',name:'投放库管理',component:mode['mangement']},
+            {path:'/admin/Other_details',name:'详情',component:mode['Other_details']},
+            
 
 
 		]

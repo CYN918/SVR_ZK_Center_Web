@@ -63,10 +63,14 @@
 							<span class="boxImg_text">资源类型:</span>
 							<span class="boxImg_content">{{DL.model}}</span>
 						</div>
+                         <div>
+                            <span class="boxImg_text">其他信息:</span>
+                            <span class="ck" @click="ckDetails(DL.mfid)">查看详情</span>
+                        </div>
                         <div>
-								<span class="boxImg_text">物料状态:</span>
-								<span class="boxImg_content">{{DL.status}}</span>
-                                <span class="ck" style="margin-left:15px">查看详情</span>
+							<span class="boxImg_text">物料状态:</span>
+							<span class="boxImg_content">{{DL.status}}</span>
+                            <span class="ck" style="margin-left:15px">查看详情</span>
                                 
 						</div>
                          <div>
@@ -174,6 +178,16 @@
 			this.getData()
         },
         methods: {
+            ckDetails(id){
+                this.$router.push({
+                    path:"Other_details",
+                    query:{
+                        type:this.type,
+                        mfid:id,
+                        material:this.material
+                    }
+                })
+            },
             getData(){
                 let params = {
                     email:localStorage.getItem('userAd'),

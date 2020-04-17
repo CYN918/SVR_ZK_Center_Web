@@ -63,11 +63,38 @@
                             <p>若由素材库内文件处理后上传，必须填写对应的素材ID，仅可填写一个</p>
                         </div>
                         <div class="AddIMG_zp">
-                            <span class="tit">绑定设计师作品:</span>
-                            <input type="text" class="AddIMG_zp_text" v-model="bind_workid" :disabled="(this.message.mid!=undefined)"/>
-                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="is_bind_workid" :disabled="(this.message.mid!=undefined)"/>
-                            <span>与设计师无关</span>
-                            <p>由设计师站获得的素材，必须填写对应的作品ID</p>
+                            <span class="tit">绑定设计ID:</span>
+                            <el-autocomplete
+                                v-if='is_internal==false'
+                                class="inline-input"
+                                :disabled="(this.message.mfid!=undefined)"
+                                v-model="state1"
+                                :fetch-suggestions="querySearch"
+                                placeholder="请输入内容"
+                                @select="handleSelect"
+                                >
+                            </el-autocomplete>
+                            <!-- <input type="text" class="AddIMG_zp_text" v-model="bind_workid" :disabled="(this.message.mid!=undefined)"/> -->
+                            <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="is_internal" :disabled="(this.message.mid!=undefined)"  @change="tagge()"/>
+                            <span>与狮圈无关</span>
+                            <!-- <p>由设计师站获得的素材，必须填写对应的作品ID</p> -->
+                        </div>
+                        <div class='AddIMG_select' v-if='is_internal==false'>
+                            <span class="tit">结算类型:</span>
+                            <select v-model="settle_type" :disabled="(this.message.mfid!=undefined)">
+                                <option value="1">买断结算</option>
+                                <option value="2">分成结算</option>
+                            </select>
+                            <span class="tit" v-if='settle_type==1'>买断价格:</span>
+                            <input type="number" v-if='settle_type==1' placeholder="请输入" v-model="settle_value" style="width: 100px;height: 30px;border-radius: 5px">
+                            <span class="tit" v-if='settle_type==2'>分成比列:</span>
+                            <input type="text" v-if='settle_type==2' placeholder="请输入" v-model="settle_value" style="width: 100px;height: 30px;border-radius: 5px">
+                        </div>
+                        <div class='AddIMG_sc'  v-if='is_internal==false'>
+                            <span class="tit">合同归档号:</span>
+                            <input type="text" :disabled="(this.message.mfid!=undefined)" @blur='getHT()' v-model="contract_id">
+                            <img :src="error" alt="" style="width:16px;margin:0 10px" v-if='contract_id'>
+                            <span style="color:red" v-if='this.error=="/img/err.png"'>数据异常</span>
                         </div>
                         <div class="AddIMG_select">
                             <span class="tit">素材类型:</span>
@@ -179,7 +206,7 @@
                 scType:'',
                 tagsName:'',
                 is_bind_mid:false,
-                is_bind_workid:false,
+                // is_bind_workid:false,
                 file:{},
                 aaa:0,
                 bbb:0,
@@ -187,7 +214,16 @@
                 initiate2:false,
                 status:'',
                 arr:[],
+                is_internal:false,
                 sizeList:[],
+                restaurants:[],
+                state1:"",
+                open_id:"",
+                settle_type:"",
+                settle_value:"",
+                error:'',
+                contract_id:'',
+                contracts:[],
             }
         },
         mounted(){
@@ -204,15 +240,36 @@
         },
         methods:{
             dels(){
-                // this.attach.name = "";
-                // this.attach.size ='';
-                // this.attach.ext ='';
-                // this.attach.md5 ='';
-                // this.attach.url ='';
                 this.attach={}
             },
             heidSc(){
                 this.$parent.heidSc()
+            },
+            tagge(){
+                if(this.is_internal==true){
+                    this.state1="";
+                    this.open_id="";
+                    this.settle_type="";
+                    this.settle_value='';
+                    this.error='';
+                    this.contract_id='';
+                    this.contracts=[]
+                }
+            },
+            getHT(){
+                    if(this.contract_id==''){
+                        this.error='';
+                        return
+                    }
+                    let params={contract_id:this.contract_id};
+                    this.api.common_contract({params}).then((res)=>{
+                        if(res.length>0){
+                            this.error='/img/yes.png'
+                            this.contracts.phsu(this.contract_id);
+                        }else{
+                            this.error='/img/err.png'
+                        }
+                    })
             },
             showHint(){
                 this.$parent.ShowHint()
@@ -376,6 +433,7 @@
                         this.getMatterDetails();
                     }
                     this. getType();
+                    this.getData();
                 })
             },
             ADDtags(){
@@ -403,6 +461,12 @@
                 formData.append('tags',this.preinstall);
                 formData.append('self_tags',this.bardian);
                 formData.append('size',this.sjSize);
+                formData.append('is_bind_mid',this.is_bind_mid==true?1:0);
+                formData.append('is_internal',this.is_internal==true?0:1);
+                formData.append('bind_mid',this.bind_mid);
+                formData.append('contracts',JSON.stringify(this.contracts));
+                formData.append('settle_type',this.settle_type);
+                formData.append('settle_value',this.settle_value);
                 this.api.material_edit(formData).then((res)=>{
                     this.getTagsList();
                     this.$emit('dataUpdating',0,true);
@@ -413,28 +477,40 @@
                 if(this.message.mid==undefined){
 
                     if(!this.type){
-                        this.$message('类型不能为空')
+                        this.$message.error('类型不能为空')
                         return
                     }
                     if(!this.prev_uri){
-                        this.$message('未上传预览图')
+                        this.$message.error('未上传预览图')
                         return
                     }
                     if(!this.attach.name){
-                        this.$message('未上传文件')
+                        this.$message.error('未上传文件')
                         return
                     }
                     if(this.preinstall.length<=0){
-                        this.$message('预置标签不能为空')
+                        this.$message.error('预置标签不能为空')
                         return
                     }
 
                     if(!this.bind_mid&&this.is_bind_mid!=true){
-                        this.$message('未绑定素材ID')
+                        this.$message.error('未绑定素材ID')
                         return
                     }
-                    if(!this.bind_workid&&this.is_bind_workid!=true){
-                        this.$message('未绑定作品ID')
+                    if(!this.open_id&&this.is_internal==false){
+                        this.$message.error('绑定设计师ID不能为空')
+                        return
+                    }
+                     if(!this.settle_value&&this.is_internal==false){
+                        this.$message.error('买断价格或分成比例不能为空')
+                        return
+                    }
+                     if(!this.settle_type&&this.is_internal==false){
+                        this.$message.error('结算类型不能为空')
+                        return
+                    }
+                     if(this.contracts.length=='0'&&this.is_internal==false){
+                        this.$message.error('绑定合同不能为空')
                         return
                     }
                     let formData = new FormData;
@@ -445,10 +521,13 @@
                     formData.append('tags',this.preinstall);
                     formData.append('self_tags',this.bardian);
                     formData.append('bind_mid',this.bind_mid);
-                    formData.append('bind_workid',this.bind_workid);
+                    formData.append('open_id',this.open_id);
                     formData.append('size',this.sjSize);
                     formData.append('is_bind_mid',this.is_bind_mid==true?1:0);
-                    formData.append('is_bind_workid',this.is_bind_workid==true?0:1);
+                    formData.append('is_internal',this.is_internal==true?0:1);
+                    formData.append('contracts',JSON.stringify(this.contracts));
+                    formData.append('settle_type',this.settle_type);
+                    formData.append('settle_value',this.settle_value);
                     this.api.material_add(formData).then((res)=>{
                         this.getTagsList();
                       if(res.data!=''){
@@ -484,7 +563,30 @@
                             this.getSize()
                         }
                     this.is_bind_mid=res.is_bind_mid==1?true:false;
-                    this.is_bind_workid=res.is_bind_workid==0?true:false;
+                    this.is_internal=res.is_internal==1?true:false;
+                    if(this.is_internal==false){
+                        this.contracts=res.contracts;
+                        if(this.contracts.length>0){
+                            this.contract_id=this.contracts[0]
+                        }
+                        this.settle_type=res.settle_type;
+                        this.settle_value=res.settle_value;
+                        this.open_id=res.open_id;
+                        if(this.open_id){
+                            this.api.designer_settlement_list({open_id:this.open_id}).then((res)=>{
+                                 if(res.length>0){
+                                     if(res.contribute_type==1){
+                                         this.state1 =res.name+res.id_card
+                                     }
+                                     if(res.contribute_type==2){
+                                         this.state1 =res.company_name+res.code
+                                     }
+                                 }
+                                
+
+                            })
+                        }
+                    }
                     for(let i=0;i<res.bind_mid.length;i++){
                         this.bind_mid=res.bind_mid[i].mid;
                         this.hqUrl = res.bind_mid[i].prev_uri;
@@ -497,6 +599,34 @@
                     this.status = res.status;
                 })
             },
+
+             getData(){
+                    this.api.designer_settlement_list().then((res)=>{
+                        this.restaurants=res;
+
+                    })
+                },
+             querySearch(queryString, cb) {
+                    for(var i =0;i<this.restaurants.length;i++){
+                        if(this.restaurants[i].contribute_type==1){
+                            this.restaurants[i].value=this.restaurants[i].name+this.restaurants[i].id_card
+                        }
+                        if(this.restaurants[i].contribute_type==2){
+                            this.restaurants[i].value=this.restaurants[i].company_name+this.restaurants[i].code
+                        }
+                    }
+                    var results = queryString ? this.restaurants.filter(this.createFilter(queryString)) : this.restaurants;
+                    cb(results);
+                },
+                createFilter(queryString) {
+                    return (restaurant) => {
+                    return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+                    };
+                },
+                handleSelect(item) {
+                    this.account_id=item.open_id
+                }
+
         },
         watch: {
             'bindMid': function(newVal){

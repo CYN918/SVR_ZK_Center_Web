@@ -988,4 +988,8 @@ select{
         background: rgba(247,248,250,1)!important;
    }
 
+
+  .htTC .el-input__inner{
+    width: 400px!important;
+  }
 </style>
