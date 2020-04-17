@@ -2,7 +2,7 @@
     <div>
          <div class='titTop'>
              <div>
-                 <span class='topName_left'>/</span>
+                 <span class='topName_left'>{{this.$route.query.type=='sls_dynamic'?'场景锁屏动效':this.$route.query.type=='f_call_show'?'来电秀':this.$route.query.type=='sls_picture'?'杂志锁屏壁纸':this.$route.query.type=='ad_picture'?'广告图':"广告模板"}}/</span>
                  <span class='topName_right'>查看详情</span>
              </div>
              <div>
@@ -30,7 +30,7 @@
                  <span class='message_tit_content'></span>
              </div>
          </div>
-         <div class='ht'>
+         <div class='ht' v-if='this.$route.query.type=="f_call_show"'>
             <div class='message_tit'>
                 <span>上架记录</span>
             </div>
@@ -40,7 +40,7 @@
             <div  class="contract">
                     <template>
                         <el-table
-                                :data="contracts"
+                                :data="channel_themes"
                                 style="width: 100%"
                                 :header-cell-style="getRowClass"
                                 :cell-style="cell"
@@ -51,8 +51,8 @@
                             >
                                 <template slot-scope="scope">
                                     <div>
-                                        <span class="titTableName">文件归档号:</span>
-                                        <span class="titTableCon">{{contracts[scope.$index].archive_id}}</span>
+                                        <span class="titTableName">渠道:</span>
+                                        <span class="titTableCon">{{channel_themes[scope.$index].channel}}</span>
                                     </div>
                                 </template>
                             </el-table-column>
@@ -62,47 +62,39 @@
                             >
                                 <template slot-scope="scope">
                                     <div>
-                                        <span class="titTableName">合同编号:</span>
-                                        <span class="titTableCon">{{contracts[scope.$index].contract_id}}</span>
+                                        <span class="titTableName">上架名称:</span>
+                                        <span class="titTableCon">{{channel_themes[scope.$index].name}}</span>
                                     </div>
                                 </template>
                             </el-table-column>
-                            <el-table-column
-                                    prop="address"
-                                    width="100"
+                             <el-table-column
+                                    prop="name"
+                                    show-overflow-tooltip
                             >
                                 <template slot-scope="scope">
                                     <div>
-                                        <span v-if="contracts[scope.$index].status=='1'" style="color:#39BD65">{{contracts[scope.$index].status_text}}</span>
-                                        <span v-if="contracts[scope.$index].status=='0'" style="color:#FFA033">{{contracts[scope.$index].status_text}}</span>
-                                        <span v-if="contracts[scope.$index].status=='2'" style="color:#F05656">{{contracts[scope.$index].status_text}}</span>
-                                        <span v-if="contracts[scope.$index].status=='3'" style="color:#1F2E4D">{{contracts[scope.$index].status_text}}</span>
+                                        <span class="titTableName">上架时间:</span>
+                                        <span class="titTableCon">{{channel_themes[scope.$index].tdate}}</span>
                                     </div>
                                 </template>
                             </el-table-column>
-                            <el-table-column
-                                    prop="address"
-                                    width="50"
-                            >
-                                <template slot-scope="scope" v-if='this.type==2'>
-                                    <img src="../../../public/img/dels.png" style="cursor: pointer" @click="del(scope.$index)"/>
-                                </template>
-                            </el-table-column>
+                            
                             <el-table-column type="expand">
                                 <template slot-scope="scope">
-                                    <div>
-                                        <div v-for="da in contracts[scope.$index].contract_files">
-                                            <span style="display: inline-block;width: 50%">{{da.name}}</span>
-                                            <a :href="da.url" target="_blank" style="display: inline-block;width: 50%;text-align: right">下载</a>
+                                    
+                                        <div v-if='channel_themes[scope.$index].price'>
+                                            <span>上架单价：</span>
+                                            <span style="display: inline-block;width: 50%">{{channel_themes[scope.$index].price}}</span>
+                                            <a :href="channel_themes[scope.$index].attach_url" target="_blank" style="display: inline-block;width: 50%;text-align: right">下载</a>
                                         </div>
-                                    </div>
+                                   
                                 </template>
                             </el-table-column>
                         </el-table>
                     </template>
             </div>
          </div>
-         <div class='ht'>
+         <div class='ht'  v-if='this.$route.query.type=="f_call_show"'>
             <div class='message_tit'>
                 <span>相关合同</span>
             </div>
@@ -179,29 +171,29 @@
                  <span >相关素材</span>
              </div>
              <div class='img_boxs'>
-                 <div class='imgBOX'>
+                 <div class='imgBOX' v-for='item in dataLIST'>
                       <div class='imgs'>
-                          <img src="" alt="">
+                          <img :src="item.prev_uri" alt="">
                       </div>
-                      <span class='img_id'></span>
+                      <span class='img_id'>{{item.mid}}</span>
                  </div>
              </div>
          </div>
-         <div class='xgSC'>
-             <div class='message_tit'>
+         <div class='xgSC' v-if='this.$route.query.type=="f_call_show"'>
+             <div class='message_tit' >
                  <span >相关物料</span>
              </div>
              <div class='img_boxs'>
-                 <div class='imgBOX'>
+                 <div class='imgBOX' v-for='(item,index) in Materials'>
                       <div class='imgs'>
-                          <img src="" alt="">
+                          <img :src="item.prev_uri" alt="">
                       </div>
-                      <span class='img_id'></span>
+                      <span class='img_id'>{{item.mid}}</span>
                  </div>
              </div>
          </div>
-         <div class='ht'>
-            <div class='message_tit'>
+         <div class='ht'  v-if='this.$route.query.type!="f_call_show"'>
+            <div class='message_tit' >
                 <span >相关合同</span>
             </div>
             <div class='ADDht'>
@@ -348,7 +340,7 @@
 
                 </div>
                 <div class="content_btn">
-                    <span class="btn_tj" @click="heidHT()">添加</span>
+                    <span class="btn_tj" @click="setContract()">添加</span>
                     <span @click="heidHTs()">取消</span>
                 </div>
             </div>
@@ -366,7 +358,13 @@ export default {
                 ht:false,
                 listS:[],
                 contract_id:"",
+                channel_themes:[],
+                Materials:[],
+                dataLIST:"",
             }
+        },
+        mounted(){
+            this.getContract;
         },
         methods:{
              getRowClass({row, column, rowIndex, columnIndex}) {
@@ -398,15 +396,70 @@ export default {
                         this.listS=res;
                     })
                 },
-            heidHT(){
+            // heidHT(){
                    
-                    this.ht=false;
-                    this.contract.push((this.listS[0]).archive_id);
-                    this.contracts=this.contracts.concat(this.listS);
-                    this.contract_id='';
-                    this.listS=[];
+            //         this.ht=false;
+            //         this.contract.push((this.listS[0]).archive_id);
+            //         this.contracts=this.contracts.concat(this.listS);
+            //         this.contract_id='';
+            //         this.listS=[];
                     
-                },    
+            // },
+            getRecord(){
+                let params={mfid:this.$route.query.mfid}
+                this.api.mfinal_call_show_records({params}).then((res)=>{
+                    this.channel_themes=res.channel_themes
+                })
+            }, 
+            getContract(){
+                if(this.$route.query.material==1){
+                    var params={rid:this.$route.query.mid,type:this.$route.query.type}
+                }else{
+                    params={rid:this.$route.query.mfid,type:this.$route.query.type}
+                }
+                this.api.contracts_list({params}).then((res)=>{
+                   this.contracts=res.data  
+                   this. this.getLIST();
+                })
+            },
+            setContract(){
+                 var formData=new FormData;
+                 if(this.$route.query.material==1){
+                    formData.append('rid',this.$route.query.mid)
+                 }else{
+                      formData.append('rid',this.$route.query.mfid)
+                 }
+                formData.append('type',this.$route.query.type)
+                formData.append('contracts',this.contract_id)
+                this.api.contracts_add(FormData).then((res)=>{
+                    if(res!=false){
+                        this.heidHTs();
+                        this.getContract();
+
+                    }
+                })
+            },
+            getMaterials(){
+                let params={mid:this.$route.query.mfid}
+                this.api.material_mfinals({params}).then((res)=>{
+                    this.Materials=res.data
+                })
+            },
+            getLIST(){
+                if(this.$route.query.material==1){
+                    let params = {'mid':this.$route.query.mid}
+                    this.api.material_bind_get({params}).then((res)=>{
+                        this.dataLIST = res;
+                    })
+                }else{
+                    let params={"mfid":this.this.$route.query.mfid};
+                        this.api.mfinal_bind_get({params}).then((res)=>{
+                            this.dataLIST = res
+                            this.getRecord();
+                            this.getMaterials();
+                        })
+                    }
+            },
         },
 }
 </script>

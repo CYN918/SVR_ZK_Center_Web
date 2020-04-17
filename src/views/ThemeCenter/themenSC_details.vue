@@ -86,23 +86,31 @@
                 <div class="titID">
                     <span class="nameID">结算信息</span>
                 </div>
-                <div style="margin: 24px 0 0 24px">
+                <div style="margin: 24px 0 0 24px" v-if="this.tableData.settlement_info">
                     <div class="preview_tet">
                         <span>绑定设计师：</span>
-                        <span></span>
+                        <span>{{this.tableData.settlement_info.open_id}}</span>
                     </div>
                     <div class="preview_tet">
-                        <span>结算信息：</span>
-                        <span></span>
+                        <span>结算类型：</span>
+                        <span>{{this.tableData.settlement_info.settle_type}}</span>
                     </div>
                     <div class="preview_tet">
                         <span>项目ID：</span>
-                        <span ></span>
+                        <span >{{this.tableData.settlement_info.project_id}}</span>
                     </div>
                     <div class="preview_tet">
                         <span>买断价格：</span>
-                        <span ></span>
+                        <span >{{this.tableData.settlement_info.settle_value}}</span>
                     </div>
+                
+                </div>
+                <div style="width: 100%;text-align: center" v-if="!(this.tableData.settlement_info)">
+                        <img src="../../../public/img/null.png" style="width:48px;margin-top: 70px">
+                        <div>
+                            <span>暂无数据</span>
+                        </div>
+
                 </div>
             </div>
             <div  class="preview" id="tab3" v-if="this.$route.query.name!='宣传图'">
@@ -146,8 +154,8 @@
                     <span class="nameID">相关合同</span>
                     <span class="derivation">汇总</span>
                 </div>
-                <div style="border-bottom: 1px solid #E6E9F0" v-for="item in Contract" v-if="Contract.length!=0">
-                    <div>
+                <div style="border-bottom: 1px solid #E6E9F0"  v-if="this.tableData.contracts">
+                    <!-- <div>
                         <span class="Contract_name">合同名称({{item.contract_id}})</span>
                         <div style="display: inline-block;width: 10px;height: 10px;border-radius: 50%;background: #39BD65" v-if="new Date(item.contract_end_time)>new Date()"></div>
                         <span class="Contract_status"  v-if="new Date(item.contract_end_time)>new Date()">生效中</span>
@@ -175,8 +183,72 @@
                         <span class="Contract_tit">描述</span>
                         <span class="Contract_con">{{item.note}}</span>
                     </div>
-                </div>
-                <div style="width: 100%;text-align: center" v-if="Contract.length==0">
+                </div> -->
+
+                  <template>
+                        <el-table
+                                :data="this.tableData.contracts"
+                                style="width: 100%"
+                                :header-cell-style="getRowClass"
+                                :cell-style="cell"
+                        >
+                            <el-table-column
+                                    prop="date"
+                                    show-overflow-tooltip
+                            >
+                                <template slot-scope="scope">
+                                    <div>
+                                        <span class="titTableName">文件归档号:</span>
+                                        <span class="titTableCon">{{this.tableData.contracts[scope.$index].archive_id}}</span>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                            <el-table-column
+                                    prop="name"
+                                    show-overflow-tooltip
+                            >
+                                <template slot-scope="scope">
+                                    <div>
+                                        <span class="titTableName">合同编号:</span>
+                                        <span class="titTableCon">{{this.tableData.contracts[scope.$index].contract_id}}</span>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                            <el-table-column
+                                    prop="address"
+                                    width="100"
+                            >
+                                <template slot-scope="scope">
+                                    <div>
+                                        <span v-if="this.tableData.contracts[scope.$index].status=='1'" style="color:#39BD65">{{this.tableData.contracts[scope.$index].status_text}}</span>
+                                        <span v-if="this.tableData.contracts[scope.$index].status=='0'" style="color:#FFA033">{{this.tableData.contracts[scope.$index].status_text}}</span>
+                                        <span v-if="this.tableData.contracts[scope.$index].status=='2'" style="color:#F05656">{{this.tableData.contracts[scope.$index].status_text}}</span>
+                                        <span v-if="this.tableData.contracts[scope.$index].status=='3'" style="color:#1F2E4D">{{this.tableData.contracts[scope.$index].status_text}}</span>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                            <el-table-column
+                                    prop="address"
+                                    width="50"
+                            >
+                                <!-- <template slot-scope="scope" v-if='this.type==2'>
+                                    <img src="../../../public/img/dels.png" style="cursor: pointer" @click="del(scope.$index)"/>
+                                </template> -->
+                            </el-table-column>
+                            <el-table-column type="expand">
+                                <template slot-scope="scope">
+                                    <div>
+                                        <div v-for="da in this.tableData.contracts[scope.$index].contract_files">
+                                            <span style="display: inline-block;width: 50%">{{da.name}}</span>
+                                            <a :href="da.url" target="_blank" style="display: inline-block;width: 50%;text-align: right">下载</a>
+                                        </div>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </template>
+                </div>    
+                <div style="width: 100%;text-align: center" v-if="!(this.tableData.contracts)">
                     <img src="../../../public/img/null.png" style="width:48px;margin-top: 150px">
                     <div>
                         <span>暂无数据</span>
@@ -202,7 +274,6 @@
                 type:'',
                 pack:[],
                 xm:[],
-                Contract:[],
                 tags:[],
             }
         },
@@ -210,6 +281,16 @@
             this.getData()
         },
         methods:{
+            getRowClass({row, column, rowIndex, columnIndex}) {
+                    if (rowIndex === 0) {
+                        return 'background:rgba(247,249,252,1);color:rgba(31,46,77,1);text-align:center;font-size:14px;font-weight:blod;font-family:PingFang-SC-Medium;height:56px'
+                    } else {
+                        return ''
+                    }
+            },
+            cell({row, column, rowIndex, columnIndex}){
+                    return 'text-align:center;color:rgba(61,73,102,1);font-size:14px;font-weight:400;font-family:PingFangSC-Regula;'
+            },
             bj(){
                 this.$router.push({
                     path:'./themelock_up',
@@ -257,12 +338,12 @@
                     this.xm=res;
                 })
             },
-            getContract(){
-                let params={thmid:this.$route.query.thmid};
-                this.api.themes_material_contracts({params}).then((res)=>{
-                    this.Contract=res;
-                })
-            },
+            // getContract(){
+            //     let params={thmid:this.$route.query.thmid};
+            //     this.api.themes_material_contracts({params}).then((res)=>{
+            //         this.Contract=res;
+            //     })
+            // },
 
             histogram(data){
                 this.isUPload=data;
@@ -280,7 +361,7 @@
                     this.getsc();
                     this.getPack();
                     this.getXM();
-                    this.getContract();
+                    // this.getContract();
                 })
             },
             getTheme(){
@@ -612,7 +693,7 @@
         color:rgba(46,60,89,1);
         margin-bottom: 24px;
     }
-    .Contract_name{
+    /* .Contract_name{
         display: inline-block;
         font-size:14px;
         font-family:PingFangSC-Medium,PingFang SC;
@@ -645,7 +726,7 @@
         font-size:14px;
         font-family:HelveticaNeue;
         color:rgba(31,46,77,0.65);
-    }
+    } */
     .See{
         width: 100%;
         height:45px;

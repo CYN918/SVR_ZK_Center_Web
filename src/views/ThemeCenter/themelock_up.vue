@@ -108,6 +108,9 @@
                         <option value="1">买断结算</option>
                         <option value="2">分成比例</option>
                     </select>
+                    <span v-if="settle_type">{{settle_type==1?'买断价格':'分成比例'}}</span>
+                    <input type="number" v-if="settle_type==1" v-model="settle_value ">
+                    <input type="text" v-if="settle_type==2" v-model="settle_value ">
                 </div>   
                 <div>
                     <span style="vertical-align: top">备注描述</span>
@@ -397,7 +400,8 @@
                 listS:[],
                 contract_id:"",
                 open_id:"",
-                is_internal:false
+                is_internal:false,
+                settle_value:""
             }
         },
         mounted(){
@@ -434,16 +438,36 @@
                     }
                   this.tags=arr;
                   if(res.is_internal==0){
-                      this.is_internal=true
-                  }else {
                       this.is_internal=false
+                      this.open_id=res.open_id;
+                      this.settle_type=res.settle_type;
+                      this.settle_value=res.settle_value
+                      this.contracts=res.contracts;
+                      if(this.contracts.length>0){
+                          for(var s=0;s<this.contracts.length;s++){
+                                this.contract.push(this.contracts[s].archive_id);
+                          }
+                      }
+                      if(this.open_id){
+                        this.api.designer_settlement_list({open_id:this.open_id}).then((res)=>{
+                            if(res.contribute_type==1){
+                                this.state1=this.restaurants[i].name+this.restaurants[i].id_card
+                            }
+                            if(res.contribute_type==2){
+                                this.state1=this.restaurants[i].company_name+this.restaurants[i].code
+                            }   
+                    })
+                      }
+                  }else {
+                      this.is_internal=true
                   }
                     if(res.is_material==0){
                         this.is_material=true
                     }else {
                         this.is_material=false
                     }
-                    this.works=res.works;
+                    // this.works=res.works;
+                    
                     this.main_preview=res.main_preview;
                     this.pic= res.previews;
                 })
@@ -682,6 +706,22 @@
                         this.$message.error('封面图不能为空')
                         return
                     }
+                    if(!this.open_id&&this.is_internal==false){
+                        this.$message.error('绑定设计师不能为空')
+                        return
+                    }
+                    if(!this.settle_type&&this.is_internal==false){
+                        this.$message.error('结算类型不能为空')
+                        return
+                    }
+                     if(this.contract.length=="0"&&this.is_internal==false){
+                        this.$message.error('合同不能为空')
+                        return
+                    }
+                    if(!this.settle_value&&this.is_internal==false){
+                        this.$message.error('结算类型价格、比列不能为空')
+                        return
+                    }
                     if(this.is_internal==false){
                         this.is_internal=1
                     }else{
@@ -692,7 +732,7 @@
                     }else{
                         this.is_material=0
                     }
-                    var formData =new FormData;
+                    formData =new FormData;
                     formData.append('type',this.type);
                     formData.append('thmid',this.$route.query.thmid);
                     formData.append('name',this.name);
@@ -700,7 +740,11 @@
                     formData.append('range',this.range);
                     formData.append('tags',this.tags.join(','));
                     formData.append('is_internal',this.is_internal);
-                    formData.append('works',JSON.stringify(this.works));
+                    formData.append('contracts',JSON.stringify(this.contract));
+                    formData.append('settle_type',this.settle_type);
+                    formData.append('iopen_id',this.open_id);
+                    formData.append('settle_value',this.settle_value)
+                    // formData.append('works',JSON.stringify(this.works));
                     formData.append('materials',JSON.stringify(this.scID));
                     formData.append('is_material',this.is_material);
                     formData.append('previews',JSON.stringify(this.pic));
@@ -775,6 +819,10 @@
                         this.$message.error('合同不能为空')
                         return
                     }
+                     if(!this.settle_value&&this.is_internal==false){
+                        this.$message.error('结算类型价格、比列不能为空')
+                        return
+                    }
                     if(!this.note){
                         this.$message.error('备注不能为空')
                         return
@@ -805,7 +853,11 @@
                     formData.append('range',this.range);
                     formData.append('tags',this.tags.join(','));
                     formData.append('is_internal',this.is_internal);
-                    formData.append('works',JSON.stringify(this.works));
+                    formData.append('contracts',JSON.stringify(this.contract));
+                    formData.append('settle_type',this.settle_type);
+                    formData.append('iopen_id',this.open_id);
+                    formData.append('settle_value',this.settle_value)
+                    // formData.append('works',JSON.stringify(this.works));
                     formData.append('materials',JSON.stringify(this.scID));
                     formData.append('is_material',this.is_material);
                     formData.append('previews',JSON.stringify(this.pic));
@@ -854,13 +906,15 @@
                     this.listS=[];
                 },
                  heidHT(){
-                   
                         this.ht=false;
+                        if(this.listS.length=="0"){
+                            this.$$message.error('文件归档号不正确')
+                            return
+                        }
                         this.contract.push((this.listS[0]).archive_id);
                         this.contracts=this.contracts.concat(this.listS);
                         this.contract_id='';
-                        this.listS=[];
-                    
+                        this.listS=[];  
                 },
                 getHT(){
                     let params={contract_id:this.contract_id};

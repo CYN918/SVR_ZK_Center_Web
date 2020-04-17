@@ -79,7 +79,7 @@
 						</div> -->
                         <div>
                             <span class="boxImg_text">其他信息:</span>
-                            <span class="ck" @click="ckDetails()">查看详情</span>
+                            <span class="ck" @click="ckDetails(DL.mid)">查看详情</span>
                         </div>
 						<div>
 							<span class="boxImg_text">素材使用记录:</span>
@@ -299,11 +299,13 @@
                 document.body.style.position='initial';
                 document.body.style.height='1006px';
             },
-            ckDetails(){
+            ckDetails(id){
                 this.$router.push({
                     path:"Other_details",
                     query:{
-                        type:this.type
+                        type:this.type,
+                        mid:id,
+                        material:this.material
                     }
                 })
             },

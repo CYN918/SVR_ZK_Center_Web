@@ -1605,4 +1605,20 @@ export default {
 	designer_settlement_list:{
 		url:"designer/settlement/list",method:'get'
 	},
+	//获取上架记录
+	mfinal_call_show_records:{
+		url:"mfinal/call_show/records",method:"get"
+	},
+	//合同列表
+	contracts_list:{
+		url:'contracts/list',method:"get"
+	},
+	//绑定合同
+	contracts_add:{
+		url:"contracts/add",method:"post",isType:{suktip:1}
+	},
+	//获取素材相关物料
+	material_mfinals:{
+		url:"material/mfinals",method:"get"
+	},
 }
