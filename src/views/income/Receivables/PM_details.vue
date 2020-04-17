@@ -55,7 +55,7 @@
                     placeholder="选择日期时间">
                 </el-date-picker>
                 <input type="text" v-model="online_time" class='input_left examine' v-if='type==1' disabled >
-                <span class='select_left' v-if='(ad_type&&this.list2.length>0)||(ad_type2&&type==1)'>二级分类</span>
+                <span class='select_left' v-if='ad_type&&this.list2.length>0'>二级分类</span>
                  <input type="text" class='input_left examine' v-model='ad_type2' v-if='ad_type2&&type==1' disabled>
                  <select name="" id="" class='input_left' v-model='ad_type2'  v-if='ad_type&&this.list2.length>0&&this.type==2' @change='getType(2)' >
                     <option :value="item" v-for="item in list2">{{item}}</option>
