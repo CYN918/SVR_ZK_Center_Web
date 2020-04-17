@@ -87,6 +87,7 @@
                 <div  v-if="this.type!='th_advertise'">
                         <span>绑定设计师</span>
                          <el-autocomplete
+                         v-if='is_internal==false'
                                 class="inline-input"
                                 :disabled="thmid!=undefined"
                                 v-model="state1"
@@ -97,12 +98,12 @@
                             </el-autocomplete>
                        
                         <template>
-                            <el-checkbox v-model="is_work" style="margin: 0 10px" :disabled='thmid!=undefined'></el-checkbox>
+                            <el-checkbox v-model="is_internal" style="margin: 0 10px" :disabled='thmid!=undefined'></el-checkbox>
                         </template>
                         <span class="sm">与狮圈无关</span>
                 </div>
-                <div v-if="this.type!='th_advertise'">
-                    <span>绑定设计师</span>
+                <div v-if="this.type!='th_advertise'&&is_internal==false">
+                    <span>结算类型</span>
                     <select v-model="settle_type">
                         <option value="1">买断结算</option>
                         <option value="2">分成比例</option>
@@ -112,11 +113,11 @@
                     <span style="vertical-align: top">备注描述</span>
                     <textarea  placeholder="写个自我介绍，50字内" v-model="note" maxlength="50"></textarea>
                 </div>
-                <div  v-if="this.type!='th_advertise'">
+                <div  v-if="this.type!='th_advertise'&&is_internal==false">
                     <span>相关合同</span>
                     <span class="ADDs"  @click="ADDht()">添加合同</span>
                 </div>
-                <div v-if="this.type!='th_advertise'">
+                <div v-if="this.type!='th_advertise'&&is_internal==false">
                      <template>
                         <el-table
                                 :data="contracts"
@@ -364,7 +365,7 @@
                 materials:[],
                 is_material:false,
                 works:[],
-                is_work:false,
+                // is_work:false,
                 tags:[],
                 tag:[],
                 tagsName:"",
@@ -391,10 +392,12 @@
                 restaurants:[],
                 settle_type:"",
                 contracts:[],
+                contract:[],
                 ht:false,
                 listS:[],
                 contract_id:"",
-                open_id:""
+                open_id:"",
+                is_internal:false
             }
         },
         mounted(){
@@ -430,10 +433,10 @@
                         }
                     }
                   this.tags=arr;
-                  if(res.is_work==0){
-                      this.is_work=true
+                  if(res.is_internal==0){
+                      this.is_internal=true
                   }else {
-                      this.is_work=false
+                      this.is_internal=false
                   }
                     if(res.is_material==0){
                         this.is_material=true
@@ -679,10 +682,10 @@
                         this.$message.error('封面图不能为空')
                         return
                     }
-                    if(this.is_work==false){
-                        this.is_work=1
+                    if(this.is_internal==false){
+                        this.is_internal=1
                     }else{
-                        this.is_work=0
+                        this.is_internal=0
                     }
                     if(this.is_material==false){
                         this.is_material=1
@@ -696,7 +699,7 @@
                     formData.append('note',this.note);
                     formData.append('range',this.range);
                     formData.append('tags',this.tags.join(','));
-                    formData.append('is_work',this.is_work);
+                    formData.append('is_internal',this.is_internal);
                     formData.append('works',JSON.stringify(this.works));
                     formData.append('materials',JSON.stringify(this.scID));
                     formData.append('is_material',this.is_material);
@@ -760,6 +763,18 @@
                         this.$message.error('使用范围不能为空')
                         return
                     }
+                    if(!this.open_id&&this.is_internal==false){
+                        this.$message.error('绑定设计师不能为空')
+                        return
+                    }
+                    if(!this.settle_type&&this.is_internal==false){
+                        this.$message.error('结算类型不能为空')
+                        return
+                    }
+                     if(this.contract.length=="0"&&this.is_internal==false){
+                        this.$message.error('合同不能为空')
+                        return
+                    }
                     if(!this.note){
                         this.$message.error('备注不能为空')
                         return
@@ -773,23 +788,23 @@
                         return
                     }
 
-                    if(this.is_work==false){
-                        this.is_work=1
+                    if(this.is_internal==false){
+                        this.is_internal=1
                     }else{
-                        this.is_work=0
+                        this.is_internal=0
                     }
                     if(this.is_material==false){
                         this.is_material=1
                     }else{
                         this.is_material=0
                     }
-                    var formData =new FormData;
+                    formData =new FormData;
                     formData.append('type',this.type);
                     formData.append('name',this.name);
                     formData.append('note',this.note);
                     formData.append('range',this.range);
                     formData.append('tags',this.tags.join(','));
-                    formData.append('is_work',this.is_work);
+                    formData.append('is_internal',this.is_internal);
                     formData.append('works',JSON.stringify(this.works));
                     formData.append('materials',JSON.stringify(this.scID));
                     formData.append('is_material',this.is_material);
@@ -1351,5 +1366,8 @@
         color:rgba(51,119,255,1);
         margin-left: 10px;
         cursor: pointer;
+    }
+    .inline-input{
+        width: 404px;
     }
 </style>
