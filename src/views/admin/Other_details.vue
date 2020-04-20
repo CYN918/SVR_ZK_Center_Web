@@ -15,19 +15,19 @@
              </div>
              <div>
                  <span class='message_tit_name'>绑定设计师：</span>
-                 <span class='message_tit_content'></span>
+                 <span class='message_tit_content'>{{listData.open_id}}</span>
              </div>
              <div>
                  <span class='message_tit_name'>项目ID：</span>
-                 <span class='message_tit_content'></span>
+                 <span class='message_tit_content'>{{listData.project_id}}</span>
              </div>
              <div>
                  <span class='message_tit_name'>结算方式：</span>
-                 <span class='message_tit_content'></span>
+                 <span class='message_tit_content'>{{listData.settle_type}}</span>
              </div>
              <div>
                  <span class='message_tit_name'>买断价格：</span>
-                 <span class='message_tit_content'></span>
+                 <span class='message_tit_content'>{{listData.settle_value}}</span>
              </div>
          </div>
          <div class='ht' v-if='this.$route.query.type=="f_call_show"'>
@@ -63,7 +63,7 @@
                                 <template slot-scope="scope">
                                     <div>
                                         <span class="titTableName">上架名称:</span>
-                                        <span class="titTableCon">{{channel_themes[scope.$index].name}}</span>
+                                        <span class="titTableCon">{{channel_themes[scope.$index].channel_call_show_name}}</span>
                                     </div>
                                 </template>
                             </el-table-column>
@@ -148,8 +148,8 @@
                                     prop="address"
                                     width="50"
                             >
-                                <template slot-scope="scope" v-if='this.type==2'>
-                                    <img src="../../../public/img/dels.png" style="cursor: pointer" @click="del(scope.$index)"/>
+                                <template slot-scope="scope">
+                                    <img src="../../../public/img/dels.png" style="cursor: pointer" @click="DelContract(contracts[scope.$index].archive_id)"/>
                                 </template>
                             </el-table-column>
                             <el-table-column type="expand">
@@ -246,8 +246,8 @@
                                     prop="address"
                                     width="50"
                             >
-                                <template slot-scope="scope" v-if='this.type==2'>
-                                    <img src="../../../public/img/dels.png" style="cursor: pointer" @click="del(scope.$index)"/>
+                                <template slot-scope="scope">
+                                    <img src="../../../public/img/dels.png" style="cursor: pointer" @click="DelContract(contracts[scope.$index].archive_id)"/>
                                 </template>
                             </el-table-column>
                             <el-table-column type="expand">
@@ -274,8 +274,8 @@
                      <el-upload
                             class="demo_sc"
                             action="a"
-                            :on-exceed="handleExceed"
-                            :file-list="fileList">
+                            :http-request="fj"
+                            >
                             <el-button size="small" type="primary">选择附件</el-button>
                     </el-upload>   
                  </div>
@@ -284,25 +284,27 @@
                       <el-date-picker
                         v-model="time"
                         type="datetime"
+                        value-format='yyyy-MM-dd-HH-ss'
                         placeholder="选择日期时间">
                     </el-date-picker>
                  </div>
                  <div>
                      <span class='htTC_name'>渠道：</span>
-                     <select name="" id="">
-
-                     </select>
+                      <select style="margin-right: 44px" v-model="channel">
+                            <option value="">全部</option>
+                            <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
+                    </select>
                  </div>
                  <div>
                      <span class='htTC_name'>上架名称：</span>
-                     <input type="text">
+                     <input type="text" v-model='channel_call_show_name '>
                  </div>
                   <div>
                      <span class='htTC_name'>上架单价：</span>
-                     <input type="number">
+                     <input type="number" v-model="price">
                  </div>
                  <div class='btns'>
-                     <span class='qd'>确定</span>
+                     <span class='qd' @click='setRecord()'>确定</span>
                      <span @click='qx()'>取消</span>
                  </div>
              </div>
@@ -361,10 +363,16 @@ export default {
                 channel_themes:[],
                 Materials:[],
                 dataLIST:"",
+                channels:[],
+                channel:'',
+                channel_call_show_name:"",
+                price:"",
+                attach:{},
+                listData:{}
             }
         },
         mounted(){
-            this.getContract;
+            this.getContract();
         },
         methods:{
              getRowClass({row, column, rowIndex, columnIndex}) {
@@ -381,7 +389,12 @@ export default {
                 this.record=true
             },
             qx(){
-                this.record=false
+                this.record=false;
+                this.channel='';
+                this.time='';
+                this.channel_call_show_name='';
+                this.price='';
+                this.attach={}
             },
             ADDht(){
                 this.ht=true
@@ -396,19 +409,60 @@ export default {
                         this.listS=res;
                     })
                 },
-            // heidHT(){
-                   
-            //         this.ht=false;
-            //         this.contract.push((this.listS[0]).archive_id);
-            //         this.contracts=this.contracts.concat(this.listS);
-            //         this.contract_id='';
-            //         this.listS=[];
-                    
-            // },
+             fj(file){
+                let formData = new FormData;
+                formData.append('file',file.file);
+                this.api.file_upload(formData).then((res)=>{
+                    this.attach=res;
+                })
+            },    
+            
+             qd(){
+                this.api.themes_config_channel().then((res)=>{
+                    this.channels=res;
+                })
+            },
             getRecord(){
                 let params={mfid:this.$route.query.mfid}
                 this.api.mfinal_call_show_records({params}).then((res)=>{
-                    this.channel_themes=res.channel_themes
+                    this.channel_themes=res
+                })
+            },
+            setRecord(){
+                if(!this.attach.name){
+                    this.$message.error('附件不能为空');
+                    return
+                }
+                 if(!this.channel){
+                    this.$message.error('渠道不能为空');
+                    return
+                }
+                 if(!this.channel_call_show_name){
+                    this.$message.error('上架名称不能为空');
+                    return
+                }
+                 if(!this.price){
+                    this.$message.error('上架价格不能为空');
+                    return
+                }
+                 if(this.price<=0){
+                    this.$message.error('上架价格不能小于零');
+                    return
+                }
+                 if(!this.time){
+                    this.$message.error('上架时间不能为空');
+                    return
+                }
+                let formData =new FormData;
+                formData.append('mfid',this.$route.query.mfid)
+                formData.append('attach',JSON.stringify(this.attach))
+                formData.append('channel',this.channel)
+                formData.append('channel_call_show_name',this.channel_call_show_name)
+                formData.append('price',this.price)
+                formData.append('tdate',this.time)
+                this.api.mfinal_call_show_records_add(formData).then((res)=>{
+                    this.getRecord();
+                    this.qx()
                 })
             }, 
             getContract(){
@@ -418,20 +472,52 @@ export default {
                     params={rid:this.$route.query.mfid,type:this.$route.query.type}
                 }
                 this.api.contracts_list({params}).then((res)=>{
-                   this.contracts=res.data  
-                   this. this.getLIST();
+                   this.contracts=res
+                   this.getLIST();
+                })
+            },
+            getDetails(){
+                 if(this.$route.query.material==1){
+                   let params={mid:this.$route.query.mid}
+                   this.api.material_detail({params}).then((res)=>{
+                       this.listData=res
+                   })
+                }else{
+                   let params={mfid:this.$route.query.mfid}
+                   this.api. mfinal_detail({params}).then((res)=>{
+                        this.listData=res
+                   })
+                }
+            },
+            DelContract(id){
+                 if(this.$route.query.material==1){
+                    var formData =new FormData
+                    formData.append('rid',this.$route.query.mid)
+                    formData.append('type',this.$route.query.type)
+                    formData.append('contract_id',id)
+                }else{
+                    formData =new FormData
+                    formData.append('rid',this.$route.query.mfid)
+                    formData.append('type',this.$route.query.type)
+                    formData.append('contract_id',id)
+                }
+                this.api.contracts_del(formData).then((res)=>{
+                    this.getContract()
                 })
             },
             setContract(){
-                 var formData=new FormData;
                  if(this.$route.query.material==1){
+                     var formData=new FormData;
                     formData.append('rid',this.$route.query.mid)
+                    formData.append('type',this.$route.query.type)
+                    formData.append('contract_id',this.contract_id)
                  }else{
-                      formData.append('rid',this.$route.query.mfid)
+                    formData=new FormData;
+                    formData.append('rid',this.$route.query.mfid)
+                    formData.append('type',this.$route.query.type)
+                    formData.append('contract_id',this.contract_id)
                  }
-                formData.append('type',this.$route.query.type)
-                formData.append('contracts',this.contract_id)
-                this.api.contracts_add(FormData).then((res)=>{
+                this.api.contracts_add(formData).then((res)=>{
                     if(res!=false){
                         this.heidHTs();
                         this.getContract();
@@ -452,11 +538,12 @@ export default {
                         this.dataLIST = res;
                     })
                 }else{
-                    let params={"mfid":this.this.$route.query.mfid};
+                    let params={"mfid":this.$route.query.mfid};
                         this.api.mfinal_bind_get({params}).then((res)=>{
                             this.dataLIST = res
                             this.getRecord();
                             this.getMaterials();
+                            this.qd()
                         })
                     }
             },

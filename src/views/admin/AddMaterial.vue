@@ -383,9 +383,10 @@
                     this.api.common_contract({params}).then((res)=>{
                         if(res.length>0){
                             this.error='/img/yes.png'
-                            this.contracts.phsu(this.contract_id);
+                            // this.contracts.push(this.contract_id);
                         }else{
                             this.error='/img/err.png'
+                            this.contract_id=''
                         }
                     })
             },
@@ -647,7 +648,7 @@
                         this.$message.error('绑定设计师不能为空')
                         return
                     }
-                    if(this.contracts.length=="0"&&this.types=='f_call_show'&&this.is_internal==false){
+                    if(!this.contract_id&&this.types=='f_call_show'&&this.is_internal==false){
                         this.$message.error('绑定合同不能为空')
                         return
                     }
@@ -715,7 +716,7 @@
                 formData.append('open_id',this.open_id)
                 formData.append('settle_type',this.settle_type);
                 formData.append('settle_value',this.settle_value);
-                formData.append('contracts',JSON.stringify(this.contracts));
+                formData.append('contract_id',this.contract_id);
                  formData.append('is_internal',this.is_internal==true?'1':'0');
                 formData.append('mfid',this.message.mfid);
                 formData.append('type',this.type);
@@ -752,7 +753,7 @@
                         this.$message.error('绑定设计师不能为空')
                         return
                     }
-                    if(this.contracts.length=="0"&&this.types=='f_call_show'&&this.is_internal==false){
+                    if(!this.contract_id&&this.types=='f_call_show'&&this.is_internal==false){
                         this.$message.error('绑定合同不能为空')
                         return
                     }
@@ -849,7 +850,7 @@
                         formData.append('open_id',this.open_id)
                         formData.append('settle_type',this.settle_type);
                         formData.append('settle_value',this.settle_value);
-                        formData.append('contracts',JSON.stringify(this.contracts));
+                        formData.append('contract_id',this.contract_id);
                         formData.append('is_internal',this.is_internal==true?'1':'0');
                         formData.append('ispic',(this.chenck==true?1:0));
                         formData.append('prev_uri',this.prev_uri);
@@ -895,11 +896,7 @@
                         this.open_id=res.open_id;
                         this.settle_type=res.settle_type;
                         this.settle_value=res.settle_value;
-                        this.contracts=res.contracts;
-                        if(this.contracts.length>0){
-                            this.contract_id=this.contracts[0]
-                        }
-                        
+                        this.contract_id=this.contract_id
                         if(this.open_id){
                             
                              this.api.designer_settlement_list({open_id:this.open_id}).then((res)=>{

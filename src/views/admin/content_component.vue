@@ -223,7 +223,7 @@
                 settle_value:"",
                 error:'',
                 contract_id:'',
-                contracts:[],
+               
             }
         },
         mounted(){
@@ -253,7 +253,7 @@
                     this.settle_value='';
                     this.error='';
                     this.contract_id='';
-                    this.contracts=[]
+                   
                 }
             },
             getHT(){
@@ -265,9 +265,10 @@
                     this.api.common_contract({params}).then((res)=>{
                         if(res.length>0){
                             this.error='/img/yes.png'
-                            this.contracts.phsu(this.contract_id);
+                           
                         }else{
                             this.error='/img/err.png'
+                            this.contract_id=''
                         }
                     })
             },
@@ -464,7 +465,7 @@
                 formData.append('is_bind_mid',this.is_bind_mid==true?1:0);
                 formData.append('is_internal',this.is_internal==true?0:1);
                 formData.append('bind_mid',this.bind_mid);
-                formData.append('contracts',JSON.stringify(this.contracts));
+                formData.append('contract_id',this.contract_id);
                 formData.append('settle_type',this.settle_type);
                 formData.append('settle_value',this.settle_value);
                 this.api.material_edit(formData).then((res)=>{
@@ -509,7 +510,7 @@
                         this.$message.error('结算类型不能为空')
                         return
                     }
-                     if(this.contracts.length=='0'&&this.is_internal==false){
+                     if(!this.contract_id&&this.is_internal==false){
                         this.$message.error('绑定合同不能为空')
                         return
                     }
@@ -525,7 +526,7 @@
                     formData.append('size',this.sjSize);
                     formData.append('is_bind_mid',this.is_bind_mid==true?1:0);
                     formData.append('is_internal',this.is_internal==true?0:1);
-                    formData.append('contracts',JSON.stringify(this.contracts));
+                    formData.append('contract_id',this.contract_id);
                     formData.append('settle_type',this.settle_type);
                     formData.append('settle_value',this.settle_value);
                     this.api.material_add(formData).then((res)=>{
@@ -565,10 +566,7 @@
                     this.is_bind_mid=res.is_bind_mid==1?true:false;
                     this.is_internal=res.is_internal==1?true:false;
                     if(this.is_internal==false){
-                        this.contracts=res.contracts;
-                        if(this.contracts.length>0){
-                            this.contract_id=this.contracts[0]
-                        }
+                        this.contract_id=res.contract_id;
                         this.settle_type=res.settle_type;
                         this.settle_value=res.settle_value;
                         this.open_id=res.open_id;
@@ -624,7 +622,7 @@
                     };
                 },
                 handleSelect(item) {
-                    this.account_id=item.open_id
+                    this.open_id=item.open_id
                 }
 
         },
@@ -749,7 +747,7 @@
         background:rgba(0,153,255,.1);
     }
     .AddIMG_input,.AddIMG_sc,.AddIMG_zp,.AddIMG_select,.AddIMG_yl{
-        margin-bottom: 20px;
+        margin-bottom: 15px;
     }
     .AddIMG_switch{
         display: inline-block;
