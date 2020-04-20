@@ -896,21 +896,29 @@
                         this.open_id=res.settlement_info.open_id;
                         this.settle_type=res.settlement_info.settle_type;
                         this.settle_value=res.settlement_info.settle_value;
-                        this.contract_id=res.settlement_info.contracts[0]
-                        if(this.open_id){
-                             this.api.designer_settlement_list({open_id:this.open_id}).then((res)=>{
-                                 if(res.length>0){
-                                     if(res.contribute_type==1){
-                                         this.state1 =res.name+res.id_card
-                                     }
-                                     if(res.contribute_type==2){
-                                         this.state1 =res.company_name+res.code
-                                     }
-                                 }
+                        if(res.contract){
+                            this.contract_id=res.contract[0].archive_id;
+                        }
+                        if(res.settlement_info.id_card){
+                             this.state1=res.settlement_info.name+res.settlement_info.id_card
+                        }
+                        if(res.settlement_info.code){
+                            this.state1=res.settlement_info.name+res.settlement_info.code
+                        }
+                        // if(this.open_id){
+                        //      this.api.designer_settlement_list({open_id:this.open_id}).then((res)=>{
+                        //          if(res.length>0){
+                        //              if(res.contribute_type==1){
+                        //                  this.state1 =res.name+res.id_card
+                        //              }
+                        //              if(res.contribute_type==2){
+                        //                  this.state1 =res.company_name+res.code
+                        //              }
+                        //          }
                                 
 
-                            })
-                        }
+                        //     })
+                        // }
                        
                         this.is_designer=res.is_designer=='0'?true:false;
                         // this.showType=res.video_type
