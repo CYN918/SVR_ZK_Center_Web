@@ -132,7 +132,7 @@
                             <!-- <input type='test' v-model="account_id" placeholder="请输入狮圈设计师ID" :disabled="(this.message.mfid!=undefined)||this.is_designer==true"/> -->
                             <el-autocomplete
                                 class="inline-input"
-                                v-if='is_internal==false'
+                                v-if='is_designer==false'
                                 :disabled="(this.message.mfid!=undefined)"
                                 v-model="state1"
                                 :fetch-suggestions="querySearch"
@@ -140,10 +140,10 @@
                                 @select="handleSelect"
                                 >
                             </el-autocomplete>
-                            <input type="checkbox" style="width:16px;height:16px;margin:0 15px" v-model="is_internal" :disabled="(this.message.mfid!=undefined)" @change="tagge()">
+                            <input type="checkbox" style="width:16px;height:16px;margin:0 15px" v-model="is_designer" :disabled="(this.message.mfid!=undefined)" @change="tagge()">
                             <span>与狮圈无关</span>
                         </div>
-                        <div class='AddIMG_select' v-if='this.types=="f_call_show"&&is_internal==false'>
+                        <div class='AddIMG_select' v-if='this.types=="f_call_show"&&is_designer==false'>
                             <span class="tit">结算类型:</span>
                             <select v-model="settle_type" :disabled="(this.message.mfid!=undefined)">
                                 <option value="1">买断结算</option>
@@ -154,7 +154,7 @@
                             <span class="tit" v-if='settle_type==2'>分成比列:</span>
                             <input type="text" v-if='settle_type==2' placeholder="请输入" v-model="settle_value" style="width: 100px;height: 30px;border-radius: 5px">
                         </div>
-                        <div class='AddIMG_sc' v-if='this.types=="f_call_show"&&is_internal==false'>
+                        <div class='AddIMG_sc' v-if='this.types=="f_call_show"&&is_designer==false'>
                             <span class="tit">合同归档号:</span>
                             <input type="text" :disabled="(this.message.mfid!=undefined)" @blur='getHT()' v-model="contract_id">
                             <img :src="error" alt="" style="width:16px;margin:0 10px" v-if='contract_id'>
@@ -338,7 +338,7 @@
                 // audioDuration:"",
                 // is_designer:false,
                 // showType:''
-                is_internal:false,
+                is_designer:false,
                 ylt:{},
                 restaurants:[],
                 state1:"",
@@ -383,9 +383,10 @@
                     this.api.common_contract({params}).then((res)=>{
                         if(res.length>0){
                             this.error='/img/yes.png'
-                            this.contracts.phsu(this.contract_id);
+                            // this.contracts.push(this.contract_id);
                         }else{
                             this.error='/img/err.png'
+                            this.contract_id=''
                         }
                     })
             },
@@ -411,7 +412,7 @@
                 }    
             },
             tagge(){
-                if(this.is_internal==true){
+                if(this.is_designer==true){
                     this.state1="";
                     this.open_id="";
                     this.settle_type="";
@@ -643,19 +644,19 @@
                         this.$message.error('名字不能为空')
                         return
                     }
-                    if(!this.open_id&&this.types=='f_call_show'&&this.is_internal==false){
+                    if(!this.open_id&&this.types=='f_call_show'&&this.is_designer==false){
                         this.$message.error('绑定设计师不能为空')
                         return
                     }
-                    if(this.contracts.length=="0"&&this.types=='f_call_show'&&this.is_internal==false){
+                    if(!this.contract_id&&this.types=='f_call_show'&&this.is_designer==false){
                         this.$message.error('绑定合同不能为空')
                         return
                     }
-                    if(!this.settle_type&&this.types=='f_call_show'&&this.is_internal==false){
+                    if(!this.settle_type&&this.types=='f_call_show'&&this.is_designer==false){
                         this.$message.error('结算类型不能为空')
                         return
                     }
-                    if(!this.settle_value&&this.types=='f_call_show'&&this.is_internal==false){
+                    if(!this.settle_value&&this.types=='f_call_show'&&this.is_designer==false){
                         this.$message.error('买断价格或分成比例不能为空')
                         return
                     }
@@ -715,8 +716,8 @@
                 formData.append('open_id',this.open_id)
                 formData.append('settle_type',this.settle_type);
                 formData.append('settle_value',this.settle_value);
-                formData.append('contracts',JSON.stringify(this.contracts));
-                 formData.append('is_internal',this.is_internal==true?'1':'0');
+                formData.append('contract_id',this.contract_id);
+                 formData.append('is_designer',this.is_designer==true?'0':'1');
                 formData.append('mfid',this.message.mfid);
                 formData.append('type',this.type);
                 formData.append('prev_uri',this.prev_uri);
@@ -748,19 +749,19 @@
                         this.$message.error('名字不能为空')
                         return
                     }
-                    if(!this.open_id&&this.types=='f_call_show'&&this.is_internal==false){
+                    if(!this.open_id&&this.types=='f_call_show'&&this.is_designer==false){
                         this.$message.error('绑定设计师不能为空')
                         return
                     }
-                    if(this.contracts.length=="0"&&this.types=='f_call_show'&&this.is_internal==false){
+                    if(!this.contract_id&&this.types=='f_call_show'&&this.is_designer==false){
                         this.$message.error('绑定合同不能为空')
                         return
                     }
-                    if(!this.settle_type&&this.types=='f_call_show'&&this.is_internal==false){
+                    if(!this.settle_type&&this.types=='f_call_show'&&this.is_designer==false){
                         this.$message.error('结算类型不能为空')
                         return
                     }
-                    if(!this.settle_value&&this.types=='f_call_show'&&this.is_internal==false){
+                    if(!this.settle_value&&this.types=='f_call_show'&&this.is_designer==false){
                         this.$message.error('买断价格或分成比例不能为空')
                         return
                     }
@@ -832,7 +833,7 @@
                         formData.append('ad_pic',this.ad_pic);
                         formData.append('ad_num',this.ad_num);
                         this.api.mfinal_add(formData).then((res)=>{
-                            if(res.data!=''){
+                            if(res!=false){
                                 this.$parent.heidSc();
                             }
                         }).catch()
@@ -849,8 +850,8 @@
                         formData.append('open_id',this.open_id)
                         formData.append('settle_type',this.settle_type);
                         formData.append('settle_value',this.settle_value);
-                        formData.append('contracts',JSON.stringify(this.contracts));
-                        formData.append('is_internal',this.is_internal==true?'1':'0');
+                        formData.append('contract_id',this.contract_id);
+                        formData.append('is_designer',this.is_designer==true?'0':'1');
                         formData.append('ispic',(this.chenck==true?1:0));
                         formData.append('prev_uri',this.prev_uri);
                         formData.append('attach',JSON.stringify(this.attach));
@@ -895,11 +896,7 @@
                         this.open_id=res.open_id;
                         this.settle_type=res.settle_type;
                         this.settle_value=res.settle_value;
-                        this.contracts=res.contracts;
-                        if(this.contracts.length>0){
-                            this.contract_id=this.contracts[0]
-                        }
-                        
+                        this.contract_id=this.contract_id
                         if(this.open_id){
                             
                              this.api.designer_settlement_list({open_id:this.open_id}).then((res)=>{
@@ -916,7 +913,7 @@
                             })
                         }
                        
-                        this.is_internal=res.is_internal=='0'?false:true;
+                        this.is_designer=res.is_designer=='0'?true:false;
                         // this.showType=res.video_type
                          this.ylt.name=res.prev_uri;
                           var image = new Image();

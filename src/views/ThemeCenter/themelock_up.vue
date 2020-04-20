@@ -104,13 +104,13 @@
                 </div>
                 <div v-if="this.type!='th_advertise'&&is_internal==false">
                     <span>结算类型</span>
-                    <select v-model="settle_type">
+                    <select v-model="settle_type" style="margin-right:35px">
                         <option value="1">买断结算</option>
                         <option value="2">分成比例</option>
                     </select>
-                    <span v-if="settle_type">{{settle_type==1?'买断价格':'分成比例'}}</span>
-                    <input type="number" v-if="settle_type==1" v-model="settle_value ">
-                    <input type="text" v-if="settle_type==2" v-model="settle_value ">
+                    <span v-if="settle_type" style="width:auto">{{settle_type==1?'买断价格':'分成比例'}}</span>
+                    <input type="number" v-if="settle_type==1" v-model="settle_value " style="width:100px">
+                    <input type="text" v-if="settle_type==2" v-model="settle_value " style="width:100px">
                 </div>   
                 <div>
                     <span style="vertical-align: top">备注描述</span>
@@ -276,7 +276,7 @@
                                 :on-preview="handlePreview"
                                 :on-remove="handleRemove"
                                 :http-request="upYl"
-                                 multiple
+                                 multiple 
                                 :limit="10"
                                 :on-exceed="handleExceed"
                                 >
@@ -742,7 +742,7 @@
                     formData.append('is_internal',this.is_internal);
                     formData.append('contracts',JSON.stringify(this.contract));
                     formData.append('settle_type',this.settle_type);
-                    formData.append('iopen_id',this.open_id);
+                    formData.append('open_id',this.open_id);
                     formData.append('settle_value',this.settle_value)
                     // formData.append('works',JSON.stringify(this.works));
                     formData.append('materials',JSON.stringify(this.scID));
@@ -855,7 +855,7 @@
                     formData.append('is_internal',this.is_internal);
                     formData.append('contracts',JSON.stringify(this.contract));
                     formData.append('settle_type',this.settle_type);
-                    formData.append('iopen_id',this.open_id);
+                    formData.append('open_id',this.open_id);
                     formData.append('settle_value',this.settle_value)
                     // formData.append('works',JSON.stringify(this.works));
                     formData.append('materials',JSON.stringify(this.scID));

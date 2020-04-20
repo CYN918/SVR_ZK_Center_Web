@@ -1685,4 +1685,13 @@ export default {
 		url:"material/mfinals",method:"get"
 	},
 
+	//新增上架记录
+	mfinal_call_show_records_add:{
+		url:"mfinal/call_show/records/add",method:"post",isType:{suktip:1}
+	},
+	//删除合同
+	contracts_del:{
+		url:"contracts/del",method:"post",isType:{suktip:1}
+	},
+
 }
