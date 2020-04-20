@@ -276,7 +276,7 @@
                                 :on-preview="handlePreview"
                                 :on-remove="handleRemove"
                                 :http-request="upYl"
-                                 multiple
+                                 multiple 
                                 :limit="10"
                                 :on-exceed="handleExceed"
                                 >
@@ -742,7 +742,7 @@
                     formData.append('is_internal',this.is_internal);
                     formData.append('contracts',JSON.stringify(this.contract));
                     formData.append('settle_type',this.settle_type);
-                    formData.append('iopen_id',this.open_id);
+                    formData.append('open_id',this.open_id);
                     formData.append('settle_value',this.settle_value)
                     // formData.append('works',JSON.stringify(this.works));
                     formData.append('materials',JSON.stringify(this.scID));
@@ -855,7 +855,7 @@
                     formData.append('is_internal',this.is_internal);
                     formData.append('contracts',JSON.stringify(this.contract));
                     formData.append('settle_type',this.settle_type);
-                    formData.append('iopen_id',this.open_id);
+                    formData.append('open_id',this.open_id);
                     formData.append('settle_value',this.settle_value)
                     // formData.append('works',JSON.stringify(this.works));
                     formData.append('materials',JSON.stringify(this.scID));
