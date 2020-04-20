@@ -480,12 +480,12 @@ export default {
                  if(this.$route.query.material==1){
                    let params={mid:this.$route.query.mid}
                    this.api.material_detail({params}).then((res)=>{
-                       this.listData=res
+                       this.listData=res.settlement_info
                    })
                 }else{
                    let params={mfid:this.$route.query.mfid}
                    this.api. mfinal_detail({params}).then((res)=>{
-                        this.listData=res
+                        this.listData=res.settlement_info
                    })
                 }
             },
@@ -536,12 +536,14 @@ export default {
                     let params = {'mid':this.$route.query.mid}
                     this.api.material_bind_get({params}).then((res)=>{
                         this.dataLIST = res;
+                        this.getDetails();
                     })
                 }else{
                     let params={"mfid":this.$route.query.mfid};
                         this.api.mfinal_bind_get({params}).then((res)=>{
                             this.dataLIST = res
                             this.getRecord();
+                            this.getDetails();
                             this.getMaterials();
                             this.qd()
                         })

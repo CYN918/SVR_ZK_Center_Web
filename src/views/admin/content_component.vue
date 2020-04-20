@@ -67,7 +67,7 @@
                             <el-autocomplete
                                 v-if='is_internal==false'
                                 class="inline-input"
-                                :disabled="(this.message.mfid!=undefined)"
+                                :disabled="(this.message.mid!=undefined)"
                                 v-model="state1"
                                 :fetch-suggestions="querySearch"
                                 placeholder="请输入内容"
@@ -81,7 +81,7 @@
                         </div>
                         <div class='AddIMG_select' v-if='is_internal==false'>
                             <span class="tit">结算类型:</span>
-                            <select v-model="settle_type" :disabled="(this.message.mfid!=undefined)">
+                            <select v-model="settle_type" :disabled="(this.message.mid!=undefined)">
                                 <option value="1">买断结算</option>
                                 <option value="2">分成结算</option>
                             </select>
@@ -92,7 +92,7 @@
                         </div>
                         <div class='AddIMG_sc'  v-if='is_internal==false'>
                             <span class="tit">合同归档号:</span>
-                            <input type="text" :disabled="(this.message.mfid!=undefined)" @blur='getHT()' v-model="contract_id">
+                            <input type="text" :disabled="(this.message.mid!=undefined)" @blur='getHT()' v-model="contract_id">
                             <img :src="error" alt="" style="width:16px;margin:0 10px" v-if='contract_id'>
                             <span style="color:red" v-if='this.error=="/img/err.png"'>数据异常</span>
                         </div>
@@ -469,9 +469,12 @@
                 formData.append('settle_type',this.settle_type);
                 formData.append('settle_value',this.settle_value);
                 this.api.material_edit(formData).then((res)=>{
-                    this.getTagsList();
-                    this.$emit('dataUpdating',0,true);
-                    this. heidSc();
+                    if(res!=false){
+                         this.getTagsList();
+                        this.$emit('dataUpdating',0,true);
+                        this. heidSc();
+                    }
+                   
                 })
             },
             AddMatter(){
@@ -531,7 +534,7 @@
                     formData.append('settle_value',this.settle_value);
                     this.api.material_add(formData).then((res)=>{
                         this.getTagsList();
-                      if(res.data!=''){
+                      if(res!=false){
                           this.$emit('dataUpdating',0,true);
                           this.heidSc();
                       }
