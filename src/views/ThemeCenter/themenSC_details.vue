@@ -92,12 +92,12 @@
                         <span>{{this.tableData.settlement_info.open_id}}</span>
                     </div>
                     <div class="preview_tet">
-                        <span>结算类型：</span>
-                        <span>{{this.tableData.settlement_info.settle_type}}</span>
-                    </div>
-                    <div class="preview_tet">
                         <span>项目ID：</span>
                         <span >{{this.tableData.settlement_info.project_id}}</span>
+                    </div>
+                    <div class="preview_tet">
+                        <span>结算类型：</span>
+                        <span>{{this.tableData.settlement_info.settle_type==0?'买断结算':'分成比例'}}</span>
                     </div>
                     <div class="preview_tet">
                         <span>买断价格：</span>

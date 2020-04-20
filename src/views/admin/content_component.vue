@@ -34,8 +34,7 @@
                             <div class="AddIMG_input_box">
                                 <el-upload
                                         class="upload-demo"
-                                        :limit="1"
-                                        :on-exceed="handleExceed"
+                                        
                                         :on-remove="handleRemove"
                                         :http-request="uploadF"
                                         action="111"
@@ -119,8 +118,7 @@
                             </select>
                             <div class="AddIMG_yl_upload">
                                 <el-upload
-                                        :limit="1"
-                                        :on-exceed="handleExceed"
+                                        
                                         :http-request="uploadFile"
                                         :on-remove="Remove"
                                         class="upload-demo"
@@ -569,24 +567,35 @@
                     this.is_bind_mid=res.is_bind_mid==1?true:false;
                     this.is_internal=res.is_internal==1?true:false;
                     if(this.is_internal==false){
-                        this.contract_id=res.settlement_info.contracts[0];
+                        if(res.contract){
+                            this.contract_id=res.contract[0].archive_id;
+                        }
+                        
                         this.settle_type=res.settlement_info.settle_type;
                         this.settle_value=res.settlement_info.settle_value;
                         this.open_id=res.settlement_info.open_id;
-                        if(this.open_id){
-                            this.api.designer_settlement_list({open_id:this.open_id}).then((res)=>{
-                                 if(res.length>0){
-                                     if(res.contribute_type==1){
-                                         this.state1 =res.name+res.id_card
-                                     }
-                                     if(res.contribute_type==2){
-                                         this.state1 =res.company_name+res.code
-                                     }
-                                 }
+                        if(res.settlement_info.id_card){
+                             this.state1=res.settlement_info.name+res.settlement_info.id_card
+                        }
+                        if(res.settlement_info.code){
+                            this.state1=res.settlement_info.name+res.settlement_info.code
+                        }
+                       
+                        // if(this.open_id){
+                        //     this.api.designer_settlement_list({open_id:this.open_id}).then((res)=>{
+                        //         alert(this.open_id)
+                        //          if(res.length>0){
+                        //              if(res.contribute_type==1){
+                        //                  this.state1 =res.name+res.id_card
+                        //              }
+                        //              if(res.contribute_type==2){
+                        //                  this.state1 =res.company_name+res.code
+                        //              }
+                        //          }
                                 
 
-                            })
-                        }
+                        //     })
+                        // }
                     }
                     for(let i=0;i<res.bind_mid.length;i++){
                         this.bind_mid=res.bind_mid[i].mid;
