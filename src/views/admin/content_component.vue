@@ -465,7 +465,7 @@
                 formData.append('is_bind_mid',this.is_bind_mid==true?1:0);
                 formData.append('is_internal',this.is_internal==true?0:1);
                 formData.append('bind_mid',this.bind_mid);
-                formData.append('contract_id',this.contract_id);
+                formData.append('contracts',JSON.stringify([this.contract_id]));
                 formData.append('settle_type',this.settle_type);
                 formData.append('settle_value',this.settle_value);
                 this.api.material_edit(formData).then((res)=>{
@@ -529,7 +529,7 @@
                     formData.append('size',this.sjSize);
                     formData.append('is_bind_mid',this.is_bind_mid==true?1:0);
                     formData.append('is_internal',this.is_internal==true?1:0);
-                    formData.append('contract_id',this.contract_id);
+                    formData.append('contracts',JSON.stringify([this.contract_id]));
                     formData.append('settle_type',this.settle_type);
                     formData.append('settle_value',this.settle_value);
                     this.api.material_add(formData).then((res)=>{
@@ -569,10 +569,10 @@
                     this.is_bind_mid=res.is_bind_mid==1?true:false;
                     this.is_internal=res.is_internal==1?true:false;
                     if(this.is_internal==false){
-                        this.contract_id=res.contract_id;
-                        this.settle_type=res.settle_type;
-                        this.settle_value=res.settle_value;
-                        this.open_id=res.open_id;
+                        this.contract_id=res.settlement_info.contracts[0];
+                        this.settle_type=res.settlement_info.settle_type;
+                        this.settle_value=res.settlement_info.settle_value;
+                        this.open_id=res.settlement_info.open_id;
                         if(this.open_id){
                             this.api.designer_settlement_list({open_id:this.open_id}).then((res)=>{
                                  if(res.length>0){

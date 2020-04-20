@@ -716,7 +716,7 @@
                 formData.append('open_id',this.open_id)
                 formData.append('settle_type',this.settle_type);
                 formData.append('settle_value',this.settle_value);
-                formData.append('contract_id',this.contract_id);
+                formData.append('contracts',JSON.stringify([this.contract_id]));
                  formData.append('is_designer',this.is_designer==true?'0':'1');
                 formData.append('mfid',this.message.mfid);
                 formData.append('type',this.type);
@@ -850,7 +850,7 @@
                         formData.append('open_id',this.open_id)
                         formData.append('settle_type',this.settle_type);
                         formData.append('settle_value',this.settle_value);
-                        formData.append('contract_id',this.contract_id);
+                        formData.append('contracts',JSON.stringify([this.contract_id]));
                         formData.append('is_designer',this.is_designer==true?'0':'1');
                         formData.append('ispic',(this.chenck==true?1:0));
                         formData.append('prev_uri',this.prev_uri);
@@ -893,12 +893,11 @@
                     }
                     if(this.types=='f_call_show'){
                         this.name=res.name;
-                        this.open_id=res.open_id;
-                        this.settle_type=res.settle_type;
-                        this.settle_value=res.settle_value;
-                        this.contract_id=this.contract_id
+                        this.open_id=res.settlement_info.open_id;
+                        this.settle_type=res.settlement_info.settle_type;
+                        this.settle_value=res.settlement_info.settle_value;
+                        this.contract_id=res.settlement_info.contracts[0]
                         if(this.open_id){
-                            
                              this.api.designer_settlement_list({open_id:this.open_id}).then((res)=>{
                                  if(res.length>0){
                                      if(res.contribute_type==1){
