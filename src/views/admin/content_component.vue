@@ -528,7 +528,7 @@
                     formData.append('open_id',this.open_id);
                     formData.append('size',this.sjSize);
                     formData.append('is_bind_mid',this.is_bind_mid==true?1:0);
-                    formData.append('is_internal',this.is_internal==true?0:1);
+                    formData.append('is_internal',this.is_internal==true?1:0);
                     formData.append('contract_id',this.contract_id);
                     formData.append('settle_type',this.settle_type);
                     formData.append('settle_value',this.settle_value);
