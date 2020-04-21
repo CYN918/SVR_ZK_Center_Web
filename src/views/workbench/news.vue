@@ -5,20 +5,23 @@
         </div>  
         <div class='screen'>
             <span>模板ID：</span>
-            <input type="text">
+            <input type="text" v-model="tid">
             <span>模板名称：</span>
-            <input type="text">
+            <input type="text" v-model="name">
             <span>尺寸：</span>
-            <select name="" id="">
+            <select v-model="size" @change="sizeBig()">
                 <option value="">全部</option>
+                <option :value="index" v-for='(item,index) in sizeList'>{{item.size}}</option>
             </select>
             <span>状态：</span>
-            <select name="" id="">
+            <select name="" id="" v-model="status">
                 <option value="">全部</option>
+                <option value="0">禁用</option>
+                <option value="1">启用</option>
             </select>
             <div class='btnsName'>
-                <span class='cx'>查询</span>
-                <span>重置</span>
+                <span class='cx' @click='getDate()'>查询</span>
+                <span @click='cz()'>重置</span>
                 <span @click='addNews("1")'>新增模板</span>
             </div>
         </div>
@@ -32,34 +35,40 @@
                             :cell-style="cell"
                             >
                          <el-table-column
-                                prop="count"
+                                prop="tid"
                                 label="模板ID">
                         </el-table-column>
                          <el-table-column
-                                prop="count"
+                                prop="name"
                                 label="模板名称">
                         </el-table-column>
                         <el-table-column
                                 prop="count"    
                                 label="尺寸">
+                                <template slot-scope="scope">
+                                    <span v-if='tableData[scope.$index].width'>{{tableData[scope.$index].width+'*'+tableData[scope.$index].height}}</span>
+                                </template>
                         </el-table-column>
                          <el-table-column
                                 prop="status"
                                 label="状态">
+                                  <template slot-scope="scope">
+                                    <span >{{tableData[scope.$index].status==1?'启用':'禁用'}}</span>
+                                </template>
                         </el-table-column>
                          <el-table-column
-                                prop="status"
+                                prop="updated_at"
                                 label="更新时间">
                         </el-table-column>
                          <el-table-column
-                                prop="status"
+                                prop="updator"
                                 label="操作人员">
                         </el-table-column>
                          <el-table-column
                                 prop="status"
                                 label="操作">
                                 <template slot-scope="scope">
-                                        <el-button type=text>查看详情</el-button>
+                                        <el-button type='text' @click='addNews("0",tableData[scope.$index].tid)'>查看详情</el-button>
                                 </template>
                         </el-table-column>
                     </el-table>
@@ -87,9 +96,40 @@
             p:10,
             total:0,
             tableData:[{status:'还行'}],
+            tid:"",
+            name:'',
+            status:"",
+            sizeList:[],
+            size:'',
+            width:"",
+            height:""
      }
    },
+   mounted(){
+       this.getDate()
+   },
    methods:{
+       getDate(){
+           let params={p:this.p,page:this.page,tid:this.tid,name:this.name,status:this.tatus,width:this.width,height:this.height}
+           this.api.template_search({params}).then((res)=>{
+               this.total=res.total;
+               this.tableData=res.data
+               this.getSize()
+           })
+       },
+       cz(){
+           this.tid=""
+           this.status=''
+           this.name='',
+           this.size='',
+           this.width=''
+           this.height=''
+       },
+       sizeBig(){
+           this.width=this.sizeList[this.size].width;
+           this.height=this.sizeList[this.size].height;
+           console.log(this.width)
+       },
         getRowClass({row, column, rowIndex}) {
             if (rowIndex === 0) {
                 return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;padding:20px 0px 20px 14px'
@@ -101,19 +141,25 @@
         cell({row, column, rowIndex, columnIndex}){
                 return 'padding:15px 14px;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
         },
+        getSize(){
+            this.api.template_config_size().then((res)=>{
+                this.sizeList=res
+            })
+        },
         handleSizeChange(p) { // 每页条数切换
              this.p = p;
-                
+             this.getDate()   
         },
         handleCurrentChange(page) {//页码切换
             this.page = page;
-                
+            this.getDate()      
         }, 
-        addNews(index){
+        addNews(index,tid){
             this.$router.push({
                 path:"./news_add",
                 query:{
-                    num:index
+                    num:index,
+                    tid:tid
                 }
             })
         }

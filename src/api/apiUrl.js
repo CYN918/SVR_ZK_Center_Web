@@ -1662,5 +1662,28 @@ export default {
 	designer_settlement_list:{
 		url:"designer/settlement/list",method:'get'
 	},
-
+	//获取新闻图片模板列表
+	template_search:{
+		url:"template/search",method:'get'
+	},
+	//获取新闻模板size
+	template_config_size:{
+		url:"template/config/size",method:'get'
+	},
+	//修改新闻模板状态
+	template_edit_status:{
+		url:"template/edit/status",method:"post",isType:{suktip:1}
+	},
+	//编辑新闻模板
+	template_edit:{
+		url:"template/edit",method:"post",isType:{suktip:1}
+	},
+	//新增新闻模板
+	template_add:{
+		url:"template/add",method:"post",isType:{suktip:1}
+	},
+	//新闻模板详情
+	template_detail:{
+		url:"template/detail",method:'get'
+	},
 }
