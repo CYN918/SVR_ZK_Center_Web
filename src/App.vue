@@ -972,12 +972,14 @@ select{
    margin-left:16px;
 }
 
+
 .times .el-input__inner{
          width:200px!important
     }
   .file_ADD .el-upload-list__item-name{
     display: none;
   }  
+
 
 .top_name .el-icon-time{
   line-height: 3!important;
@@ -989,7 +991,16 @@ select{
    }
 
 
+
   .htTC .el-input__inner{
     width: 400px!important;
   }
+
+.times .el-input__inner{
+         width:200px!important
+    }
+  .file_ADD .el-upload-list__item-name,.box_right .el-upload-list__item{
+    display: none;
+  }  
+
 </style>

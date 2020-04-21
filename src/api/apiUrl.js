@@ -1623,10 +1623,12 @@ export default {
 		url:"tools/url/download",method:"get"
 	},
 
+
 	//获取结算方列表
 	designer_settlement_list:{
 		url:"designer/settlement/list",method:'get'
 	},
+
 
 	//项目列表(分页)
 	adproject_listpage:{
@@ -1664,6 +1666,7 @@ export default {
 	adproject_edit:{
 		url:"adproject/edit",method:"post",isType:{suktip:1}
 	},
+
 	//获取结算方列表
 	// designer_settlement_list:{
 	// 	url:"designer/settlement/list",method:'get'
@@ -1692,6 +1695,36 @@ export default {
 	//删除合同
 	contracts_del:{
 		url:"contracts/del",method:"post",isType:{suktip:1}
+	},
+
+
+	//获取结算方列表
+	// designer_settlement_list:{
+	// 	url:"designer/settlement/list",method:'get'
+	// },
+	//获取新闻图片模板列表
+	template_search:{
+		url:"template/search",method:'get'
+	},
+	//获取新闻模板size
+	template_config_size:{
+		url:"template/config/size",method:'get'
+	},
+	//修改新闻模板状态
+	template_edit_status:{
+		url:"template/edit/status",method:"post",isType:{suktip:1}
+	},
+	//编辑新闻模板
+	template_edit:{
+		url:"template/edit",method:"post",isType:{suktip:1}
+	},
+	//新增新闻模板
+	template_add:{
+		url:"template/add",method:"post",isType:{suktip:1}
+	},
+	//新闻模板详情
+	template_detail:{
+		url:"template/detail",method:'get'
 	},
 
 }

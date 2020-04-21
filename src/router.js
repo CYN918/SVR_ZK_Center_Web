@@ -178,6 +178,15 @@ mode['YYAdministration']=YYAdministration
 import detailYY from './views/income/Payment_operation/details'
 mode['detailYY']=detailYY
 
+
+import PM from './views/income/Receivables/PM'
+mode['PM']=PM
+import cooperator from './views/income/Receivables/cooperator'
+mode['cooperator']=cooperator
+import PM_details from './views/income/Receivables/PM_details'
+mode['PM_details']=PM_details
+
+
 import theme_payment from './views/income/content/theme_payment'
 mode['theme_payment']=theme_payment
 import Divided from './views/income/content/Divided'
@@ -200,13 +209,6 @@ import Advance_management from './views/income/content/Advance_management'
 mode["Advance_management"]=Advance_management
 import Advance_details from './views/income/content/Advance_details'
 mode['Advance_details']=Advance_details
-
-import PM from './views/income/Receivables/PM'
-mode['PM']=PM
-import cooperator from './views/income/Receivables/cooperator'
-mode['cooperator']=cooperator
-import PM_details from './views/income/Receivables/PM_details'
-mode['PM_details']=PM_details
 
 
 
@@ -308,6 +310,10 @@ import projectStorage_xq from './views/workbench/projectStorage_xq'
 mode['projectStorage_xq']=projectStorage_xq
 import Advertising_review_fs from './views/workbench/Advertising_review_fs'
 mode['Advertising_review_fs']=Advertising_review_fs
+import news from './views/workbench/news'
+mode['news']=news
+import news_add from './views/workbench/news_add'
+mode['news_add']=news_add
 
 
 import axios from 'axios'
@@ -521,6 +527,8 @@ let nb = [
             {path:'/workbench/projectStorage',name:'上传确认',component: mode['projectStorage'],},
             {path:'/workbench/projectStorage_xq',name:'上传确认详情',component: mode['projectStorage_xq'],},
             {path:'/workbench/Advertising_review_fs',name:'AI标签复审',component: mode['Advertising_review_fs'],},
+            {path:'/workbench/news',name:'新闻模板',component: mode['news'],},
+            {path:'/workbench/news_add',name:'新增新闻模板',component: mode['news_add'],},
 
             
             
@@ -715,6 +723,7 @@ let leftNav =
 //                     {title:'线上审核资源替换',url:'/workbench/channel_resource'},
 //                     {title:'杂志锁屏物料预审',url:'/workbench/External_pre_trial'},
 //                     {title:'广告内容审核',url:'/workbench/Advertising_review'},
+//                     {title:'TX新闻模板管理',url:'/workbench/news'},
 //                     ],
 //             },
 
@@ -823,7 +832,7 @@ let leftNav =
 //         },
 // ];
 
-//localStorage.setItem('letNav',JSON.stringify(leftNav));
+// localStorage.setItem('letNav',JSON.stringify(leftNav));
 import utils from './api/Utils';
 router.beforeEach((to, from, next) => {
 	/*登录过期*/
