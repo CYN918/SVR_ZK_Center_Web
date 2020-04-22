@@ -110,7 +110,7 @@
    },
    methods:{
        getDate(){
-           let params={p:this.p,page:this.page,tid:this.tid,name:this.name,status:this.tatus,width:this.width,height:this.height}
+           let params={p:this.p,page:this.page,tid:this.tid,name:this.name,status:this.status,width:this.width,height:this.height}
            this.api.template_search({params}).then((res)=>{
                this.total=res.total;
                this.tableData=res.data
