@@ -167,7 +167,7 @@
                 this.g=res.g,
                 this.x=res.x,
                 this.y=res.y,
-                this.max_length=res.max_lenth,
+                this.max_length=res.max_length,
                 this.color=res.color;
                 this.resetfill()
            })
@@ -192,7 +192,7 @@
                 this.g=this.dataList.g,
                 this.x=this.dataList.x,
                 this.y=this.dataList.y,
-                this.max_length=this.dataList.max_lenth,
+                this.max_length=this.dataList.max_length,
                 this.color=this.dataList.color
                 this.status=0
            }
@@ -269,7 +269,7 @@
                 formData.append('width',this.width.split('*')[0]);
                 formData.append('height',this.width.split('*')[1]);
                 formData.append('image_url',this.image_url);
-                formData.append('max_lenght',this.max_length);
+                formData.append('max_length',this.max_length);
                 formData.append('size',this.size);
                 formData.append('color',this.color);
                 formData.append('g',this.g);
@@ -288,7 +288,7 @@
                 formData.append('width',this.width.split('*')[0]);
                 formData.append('height',this.width.split('*')[1]);
                 formData.append('image_url',this.image_url);
-                formData.append('max_lenght',this.max_length);
+                formData.append('max_length',this.max_length);
                 formData.append('size',this.size);
                 formData.append('color',this.color);
                 formData.append('g',this.g);
