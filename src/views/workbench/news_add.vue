@@ -265,7 +265,7 @@
                 formData.append('name',this.name);
                 formData.append('width',this.width.split('*')[0]);
                 formData.append('height',this.width.split('*')[1]);
-                formData.append('image_url',this.fill);
+                formData.append('image_url',this.image_url);
                 formData.append('max_lenght',this.max_length);
                 formData.append('size',this.size);
                 formData.append('color',this.color);
@@ -284,7 +284,7 @@
                 formData.append('name',this.name);
                 formData.append('width',this.width.split('*')[0]);
                 formData.append('height',this.width.split('*')[1]);
-                formData.append('image_url',this.fill);
+                formData.append('image_url',this.image_url);
                 formData.append('max_lenght',this.max_length);
                 formData.append('size',this.size);
                 formData.append('color',this.color);
