@@ -91,7 +91,7 @@
                         <input type="number" v-model="max_length" :disabled="this.$route.query.num==0&&this.status==0"  :class="{none:this.$route.query.num==0&&this.status==0}" @change="resetfill()">
                     </div>
                     <div class='btn_buttom' v-if="this.$route.query.num==1||this.status==1">
-                        <span class='tj' @click='add()'>保存</span>
+                        <span class='tj' @click='add()'>{{this.$route.query.num==1?'提交':"保存"}}}</span>
                         <span @click='back()'>取消</span>
                     </div>
                 </div>
@@ -192,7 +192,7 @@
                 this.g=this.dataList.g,
                 this.x=this.dataList.x,
                 this.y=this.dataList.y,
-                this.max_length=this.dataList.max_lenth,
+                this.max_length=this.dataList.max_length,
                 this.color=this.dataList.color
                 this.status=0
            }
@@ -269,7 +269,7 @@
                 formData.append('width',this.width.split('*')[0]);
                 formData.append('height',this.width.split('*')[1]);
                 formData.append('image_url',this.image_url);
-                formData.append('max_lenght',this.max_length);
+                formData.append('max_length',this.max_length);
                 formData.append('size',this.size);
                 formData.append('color',this.color);
                 formData.append('g',this.g);
@@ -288,7 +288,7 @@
                 formData.append('width',this.width.split('*')[0]);
                 formData.append('height',this.width.split('*')[1]);
                 formData.append('image_url',this.image_url);
-                formData.append('max_lenght',this.max_length);
+                formData.append('max_length',this.max_length);
                 formData.append('size',this.size);
                 formData.append('color',this.color);
                 formData.append('g',this.g);
