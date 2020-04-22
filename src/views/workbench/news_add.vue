@@ -133,7 +133,7 @@
         fill:'',
         show:false,
         status:'0',
-        arr:[720*404,720*1600,720*406],
+        arr:['720*404','720*1600','720*406'],
         image_url:"",
         type:'d3F5LXplbmhlaQ',
 
@@ -143,6 +143,7 @@
       if(this.$route.query.num==0){
           this.getDetails()
       }
+      
        
    },
    methods:{
@@ -328,15 +329,20 @@
                         var width = image.width;
                         var height = image.height;
                         _this.width = (width+"*"+height)
+                        if(_this.arr.indexOf(_this.width)==-1){
+                              _this.$message.error('图片尺寸不对请重传');
+                                _this.image_url = '';
+                                _this.filename='';
+                                _this.fill=''
+                                _this.width=''
+                                return
+                        }else{
+                             _this.resetfill();
+                        }
+                       
                     };
                     image.src= res.url;
-                    if(this.arr.indexOf(this.width)==-1){
-                        this.$message.error('图片尺寸不对请重传');
-                        this.image_url = '';
-                        this.filename='';
-                        return
-                    }
-                    this.resetfill();
+                    
                 })
         },
          beforeUpload(file) {
@@ -359,9 +365,10 @@
             if(this.$route.query.num==0&&this.status==0){
                 return
                 }else{
-                    this.name=''
+                    this.filename=''
                     this.width=''
                     this.fill=''
+                    this.image_url=''
                 }
             
         },
