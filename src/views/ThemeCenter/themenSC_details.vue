@@ -158,40 +158,10 @@
                     <span class="nameID">相关合同</span>
                     <span class="derivation">汇总</span>
                 </div>
-                <div style="border-bottom: 1px solid #E6E9F0"  v-if="this.tableData.contracts">
-                    <!-- <div>
-                        <span class="Contract_name">合同名称({{item.contract_id}})</span>
-                        <div style="display: inline-block;width: 10px;height: 10px;border-radius: 50%;background: #39BD65" v-if="new Date(item.contract_end_time)>new Date()"></div>
-                        <span class="Contract_status"  v-if="new Date(item.contract_end_time)>new Date()">生效中</span>
-                        <div style="display: inline-block;width: 10px;height: 10px;border-radius: 50%;background: #F05656"  v-if="new Date(item.contract_end_time)<new Date()"></div>
-                        <span class="Contract_status"  v-if="new Date(item.contract_end_time)<new Date()">已过期</span>
-                    </div>
-                    <div >
-                        <span class="Contract_tit">甲方：</span>
-                        <span class="Contract_con">{{((item.signatories).split(','))[0]}}</span>
-                        <span class="Contract_tit">生效时间：</span>
-                        <span class="Contract_con">{{item.contract_start_time}}</span>
-                        <span class="Contract_tit">合同文件：</span>
-                        <div style="display: inline-block" v-for="da in item.contract_files">
-                            <span class="Contract_con">{{da.name}}</span>
-                            <a style="font-size:14px;font-family:PingFangSC-Regular,PingFang SC;font-weight:400;color:rgba(51,119,255,1);" :href="da.url">下载</a>
-                        </div>
-                    </div>
-                    <div>
-                        <span class="Contract_tit">乙方：</span>
-                        <span class="Contract_con">{{((item.signatories).split(','))[1]}}</span>
-                        <span class="Contract_tit">失效时间：</span>
-                        <span class="Contract_con">{{item.contract_end_time}}</span>
-                    </div>
-                    <div>
-                        <span class="Contract_tit">描述</span>
-                        <span class="Contract_con">{{item.note}}</span>
-                    </div>
-                </div> -->
-
+                <div style="border-bottom: 1px solid #E6E9F0"  v-if="tableData.contract.length>0">
                   <template>
                         <el-table
-                                :data="this.tableData.contracts"
+                                :data="tableData.contract"
                                 style="width: 100%"
                                 :header-cell-style="getRowClass"
                                 :cell-style="cell"
@@ -203,7 +173,7 @@
                                 <template slot-scope="scope">
                                     <div>
                                         <span class="titTableName">文件归档号:</span>
-                                        <span class="titTableCon">{{this.tableData.contracts[scope.$index].archive_id}}</span>
+                                        <span class="titTableCon">{{tableData.contract[scope.$index].archive_id}}</span>
                                     </div>
                                 </template>
                             </el-table-column>
@@ -214,7 +184,7 @@
                                 <template slot-scope="scope">
                                     <div>
                                         <span class="titTableName">合同编号:</span>
-                                        <span class="titTableCon">{{this.tableData.contracts[scope.$index].contract_id}}</span>
+                                        <span class="titTableCon">{{tableData.contract[scope.$index].contract_id}}</span>
                                     </div>
                                 </template>
                             </el-table-column>
@@ -224,10 +194,10 @@
                             >
                                 <template slot-scope="scope">
                                     <div>
-                                        <span v-if="this.tableData.contracts[scope.$index].status=='1'" style="color:#39BD65">{{this.tableData.contracts[scope.$index].status_text}}</span>
-                                        <span v-if="this.tableData.contracts[scope.$index].status=='0'" style="color:#FFA033">{{this.tableData.contracts[scope.$index].status_text}}</span>
-                                        <span v-if="this.tableData.contracts[scope.$index].status=='2'" style="color:#F05656">{{this.tableData.contracts[scope.$index].status_text}}</span>
-                                        <span v-if="this.tableData.contracts[scope.$index].status=='3'" style="color:#1F2E4D">{{this.tableData.contracts[scope.$index].status_text}}</span>
+                                        <span v-if="tableData.contract[scope.$index].status=='1'" style="color:#39BD65">{{tableData.contract[scope.$index].status_text}}</span>
+                                        <span v-if="tableData.contract[scope.$index].status=='0'" style="color:#FFA033">{{tableData.contract[scope.$index].status_text}}</span>
+                                        <span v-if="tableData.contract[scope.$index].status=='2'" style="color:#F05656">{{tableData.contract[scope.$index].status_text}}</span>
+                                        <span v-if="tableData.contract[scope.$index].status=='3'" style="color:#1F2E4D">{{tableData.contract[scope.$index].status_text}}</span>
                                     </div>
                                 </template>
                             </el-table-column>
@@ -235,14 +205,11 @@
                                     prop="address"
                                     width="50"
                             >
-                                <!-- <template slot-scope="scope" v-if='this.type==2'>
-                                    <img src="../../../public/img/dels.png" style="cursor: pointer" @click="del(scope.$index)"/>
-                                </template> -->
                             </el-table-column>
                             <el-table-column type="expand">
                                 <template slot-scope="scope">
                                     <div>
-                                        <div v-for="da in this.tableData.contracts[scope.$index].contract_files">
+                                        <div v-for="da in tableData.contract[scope.$index].contract_files">
                                             <span style="display: inline-block;width: 50%">{{da.name}}</span>
                                             <a :href="da.url" target="_blank" style="display: inline-block;width: 50%;text-align: right">下载</a>
                                         </div>
@@ -252,7 +219,7 @@
                         </el-table>
                     </template>
                 </div>    
-                <div style="width: 100%;text-align: center" v-if="!(this.tableData.contracts)">
+                <div style="width: 100%;text-align: center" v-if="(tableData.contract.length==0)">
                     <img src="../../../public/img/null.png" style="width:48px;margin-top: 150px">
                     <div>
                         <span>暂无数据</span>
@@ -272,7 +239,7 @@
                 isType:0,
                 isUPload:1,
                 time:[],
-                tableData:{name:'',attach:{url:''}},
+                tableData:{},
                 themeList:[],
                 sc:[],
                 type:'',
@@ -359,6 +326,7 @@
                 let params={thmid:this.$route.query.thmid};
                 this.api.themes_material_details({params}).then((res)=>{
                     this.tableData=res;
+                    console.log(this.tableData.contract)
                     this.tags=(this.tableData.tags).split(',');
                     this.type=res.type;
                     this. getTheme();
