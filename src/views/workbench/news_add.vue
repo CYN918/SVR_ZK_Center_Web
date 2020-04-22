@@ -301,9 +301,9 @@
            },
            
         resetfill(){
-           let TEXT= '测试文本效果预览，一般都会这么长，但是如果真的有特别特别长的文字，那也不是不可以。只要你需要，没有什么不可以的，直接联系管理员吧';
-           let strText = '5rWL6K%2BV';//encodeURI(btoa(TEXT.slice(0,this.max_length)));
-           
+           const Base64 = require('js-base64').Base64
+           let TEXT= '测试文本效果预览，一般都会这么长，但是如果真的有特别特别长的文字，那也不是不可以。只要你需要，没有什么不可以的，直接联系管理员吧';     
+           let strText = Base64.encode(TEXT.slice(0,this.max_length)).split('+').join('-').split('/').join('_');
            this.fill = this.image_url + '?x-oss-process=image/watermark,type_'+ this.type + ',size_'
                         + this.size + ',text_'+ strText+ ',color_'+ this.color+',g_'+this.g + ',x_' + this.x +',y_'+this.y + ',fill_0';
        },
