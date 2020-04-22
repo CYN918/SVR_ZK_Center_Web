@@ -91,7 +91,7 @@
                         <input type="number" v-model="max_length" :disabled="this.$route.query.num==0&&this.status==0"  :class="{none:this.$route.query.num==0&&this.status==0}" @change="resetfill()">
                     </div>
                     <div class='btn_buttom' v-if="this.$route.query.num==1||this.status==1">
-                        <span class='tj' @click='add()'>保存</span>
+                        <span class='tj' @click='add()'>{{this.$route.query.num==1?'提交':"保存"}}}</span>
                         <span @click='back()'>取消</span>
                     </div>
                 </div>
@@ -167,7 +167,7 @@
                 this.g=res.g,
                 this.x=res.x,
                 this.y=res.y,
-                this.max_length=res.max_length,
+                this.max_length=res.max_lenth,
                 this.color=res.color;
                 this.resetfill()
            })
