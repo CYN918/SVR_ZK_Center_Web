@@ -6,7 +6,7 @@
                 <div class="title_left">
                     <span>{{this.$route.query.num==1?"新增模板":"编辑模板"}}</span>
                 </div>
-                <div class='right' v-if="this.$route.query.num==0">
+                <div class='right' v-if="this.$route.query.num==0&&this.status==0">
                     <span @click='open()'>{{this.dataList.status==1?'禁用':'启用'}}</span>
                     <span @click='bj()' >编辑</span>
 
@@ -48,7 +48,7 @@
                     </div>
                      <div>
                         <span class='box_tit_name' style="margin-bottom: 24px">模板名称</span>
-                        <input type="text" placeholder="请输入" maxlength="10" v-model="name"> 
+                        <input type="text" placeholder="请输入" maxlength="10" v-model="name" :disabled="this.$route.query.num==0&&this.status==0" :class="{none:this.$route.query.num==0&&this.status==0}" @change='resetfill()'> 
                     </div>
                     <div>
                         <span class='box_tit_name' style="vertical-align: top;margin-top:0">位置</span>
@@ -90,7 +90,7 @@
                         <span class='box_tit_name'>最大长度</span>
                         <input type="number" v-model="max_length" :disabled="this.$route.query.num==0&&this.status==0"  :class="{none:this.$route.query.num==0&&this.status==0}" @change="resetfill()">
                     </div>
-                    <div class='btn_buttom'>
+                    <div class='btn_buttom' v-if="this.$route.query.num==1||this.status==1">
                         <span class='tj' @click='add()'>保存</span>
                         <span @click='back()'>取消</span>
                     </div>
@@ -162,6 +162,7 @@
                 this.name=res.name
                 this.width=res.width+"*"+res.height
                 this.image_url=res.image_url,
+                this.filename=res.image_url
                 this.size=res.size,
                 this.g=res.g,
                 this.x=res.x,
@@ -272,7 +273,7 @@
                 formData.append('y',this.y);
                 this.api.template_add(formData).then((res)=>{
                     if(res!=false){
-                        this.getDetails()
+                        this.$router.go(-1)
                     }
                 })
            }
@@ -408,13 +409,13 @@
  .box_left{
      width: 60%;
      margin-right: 1%;
-     min-height: 680px;
+     min-height: 728px;
      position: relative;
      text-align: center;
  }
  .box_right{
      width: 39%;
-     min-height: 680px;
+     min-height: 728px;
      vertical-align: top;
  }
  .box-img{
@@ -481,6 +482,7 @@
      color: #fff;
      border:0!important;
      margin-left: 45px!important;
+     margin-bottom: 30px;
  }
  .chenk{
      color: #fff!important;
