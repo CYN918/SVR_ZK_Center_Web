@@ -89,19 +89,23 @@
                 <div style="margin: 24px 0 0 24px" v-if="this.tableData.settlement_info">
                     <div class="preview_tet">
                         <span>绑定设计师：</span>
-                        <span>{{this.tableData.settlement_info.open_id}}</span>
+                        <span v-if='this.tableData.is_internal==0'>{{this.tableData.settlement_info.open_id}}</span>
+                        <span v-if='this.tableData.is_internal==1'>无</span>
                     </div>
                     <div class="preview_tet">
                         <span>项目ID：</span>
-                        <span >{{this.tableData.settlement_info.project_id}}</span>
+                        <span  v-if='this.tableData.is_internal==0'>{{this.tableData.settlement_info.project_id}}</span>
+                        <span v-if='this.tableData.is_internal==1'>无</span>
                     </div>
                     <div class="preview_tet">
                         <span>结算类型：</span>
-                        <span>{{this.tableData.settlement_info.settle_type==0?'买断结算':'分成比例'}}</span>
+                        <span  v-if='this.tableData.is_internal==0'>{{this.tableData.settlement_info.settle_type==1?'买断结算':this.tableData.settlement_info.settle_type==2?'分成比例':''}}</span>
+                        <span v-if='this.tableData.is_internal==1'>无</span>
                     </div>
                     <div class="preview_tet">
                         <span>买断价格：</span>
-                        <span >{{this.tableData.settlement_info.settle_value}}</span>
+                        <span  v-if='this.tableData.is_internal==0'>{{this.tableData.settlement_info.settle_value}}</span>
+                        <span v-if='this.tableData.is_internal==1'>无</span>
                     </div>
                 
                 </div>

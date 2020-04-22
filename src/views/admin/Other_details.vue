@@ -2,7 +2,7 @@
     <div>
          <div class='titTop'>
              <div>
-                 <span class='topName_left'>{{this.$route.query.type=='sls_dynamic'?'场景锁屏动效':this.$route.query.type=='f_call_show'?'来电秀':this.$route.query.type=='sls_picture'?'杂志锁屏壁纸':this.$route.query.type=='ad_picture'?'广告图':"广告模板"}}/</span>
+                 <span class='topName_left' @click="fh(-1)">{{this.$route.query.type=='sls_dynamic'?'场景锁屏动效':this.$route.query.type=='f_call_show'?'来电秀':this.$route.query.type=='sls_picture'?'杂志锁屏壁纸':this.$route.query.type=='ad_picture'?'广告图':"广告模板"}}/</span>
                  <span class='topName_right'>查看详情</span>
              </div>
              <div>
@@ -15,7 +15,8 @@
              </div>
              <div>
                  <span class='message_tit_name'>绑定设计师：</span>
-                 <span class='message_tit_content'>{{listData.open_id}}</span>
+                 <span class='message_tit_content' v-if='listData.id_card'>{{listData.name+""+listData.id_card}}</span>
+                 <span class='message_tit_content' v-if='listData.code'>{{listData.name+""+listData.code}}</span>
              </div>
              <div>
                  <span class='message_tit_name'>项目ID：</span>
@@ -23,11 +24,11 @@
              </div>
              <div>
                  <span class='message_tit_name'>结算方式：</span>
-                 <span class='message_tit_content'>{{listData.settle_type}}</span>
+                 <span class='message_tit_content'>{{listData.settle_type==1?"买断结算":listData.settle_type==2?"分成结算":""}}</span>
              </div>
              <div>
-                 <span class='message_tit_name'>买断价格：</span>
-                 <span class='message_tit_content'>{{listData.settle_value}}</span>
+                 <span class='message_tit_name'>{{listData.settle_type==1?"买断价格":listData.settle_type==2?"分成比例":""}}：</span>
+                 <span class='message_tit_content'>{{listData.settle_type==1?'￥'+listData.settle_value:listData.settle_type==2?listData.settle_value+'%':""}}</span>
              </div>
          </div>
          <div class='ht' v-if='this.$route.query.type=="f_call_show"'>
@@ -385,6 +386,9 @@ export default {
             cell({row, column, rowIndex, columnIndex}){
                     return 'text-align:center;color:rgba(61,73,102,1);font-size:14px;font-weight:400;font-family:PingFangSC-Regula;'
             },
+            fh(index){
+                this.$router.go(index)
+            },
             ADDrecord(){
                 this.record=true
             },
@@ -574,6 +578,7 @@ export default {
     color:rgba(73,85,110,1);
     opacity:0.48;
     margin: 19px 0 19px 19px;
+    cursor: pointer;
 }
 .topName_right{
     font-size:14px;
@@ -585,14 +590,13 @@ export default {
 }
 .text_name{
     display: inline-block;
-    font-size:14px;
+    font-size:16px;
     font-family:PingFang SC;
-    font-weight:400;
+    font-weight:bold;
     line-height:20px;
     color:rgba(73,85,110,1);
     opacity:1;
     margin: 0 0 0 19px;
-    cursor: pointer;
     }
     .message_text{
         width: 100%;
