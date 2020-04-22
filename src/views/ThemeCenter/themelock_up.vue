@@ -724,9 +724,9 @@
                         return
                     }
                     if(this.is_internal==false){
-                        this.is_internal=1
-                    }else{
                         this.is_internal=0
+                    }else{
+                        this.is_internal=1
                     }
                     if(this.is_material==false){
                         this.is_material=1
@@ -838,9 +838,9 @@
                     }
 
                     if(this.is_internal==false){
-                        this.is_internal=1
-                    }else{
                         this.is_internal=0
+                    }else{
+                        this.is_internal=1
                     }
                     if(this.is_material==false){
                         this.is_material=1

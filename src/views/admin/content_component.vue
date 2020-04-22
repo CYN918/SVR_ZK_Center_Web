@@ -34,7 +34,7 @@
                             <div class="AddIMG_input_box">
                                 <el-upload
                                         class="upload-demo"
-                                        
+                                        :before-upload="beforeAvatarUploads"
                                         :on-remove="handleRemove"
                                         :http-request="uploadF"
                                         action="111"
@@ -296,6 +296,19 @@
                     this.$message.error('只支持JPG、PNG、psd、bmp、gif、tif、mp4格式!');
                 }
                 return isPNG || isJPG ||isPSD||isBMP||isGIF||isTIF||isVideo;
+            },
+             beforeAvatarUploads(file) {
+                console.log(file);
+                const isJPG = file.type === 'image/jpeg';
+                const isPNG = file.type === 'image/png';
+                const isGIF = file.type === 'image/gif';
+                const isXzip = file.type === 'application/x-zip-compressed';
+                const iszip = file.type === 'application/zip';
+               
+                if (!isJPG&&!isPNG&&!isGIF&&isXzip&&iszip) {
+                    this.$message.error('只支持JPG、PNG、psd、bmp、gif、tif、zip格式!');
+                }
+                return isPNG || isJPG ||isGIF||iszip||isXzip;
             },
             // setTags(){
             //     let formData = new FormData;
