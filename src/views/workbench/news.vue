@@ -82,7 +82,7 @@
                             layout="prev, pager, next,total, jumper"
                             :total="total">
                     </el-pagination>
-    </div>
+            </div>
         </div>
     </div>
 
