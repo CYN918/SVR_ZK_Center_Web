@@ -288,7 +288,7 @@
            }
            if(this.$route.query.num=='0'){
                 let formData=new FormData
-                formData.append('thid');
+                formData.append('tid',this.dataList.tid);
                 formData.append('name',this.name);
                 formData.append('width',this.width.split('*')[0]);
                 formData.append('height',this.width.split('*')[1]);
@@ -301,7 +301,8 @@
                 formData.append('y',this.y);
                 this.api.template_edit(formData).then((res)=>{
                      if(res!=false){
-                        this.getDetails()
+                        this.getDetails();
+                        this.status='0'
                     }
                 })
            }
