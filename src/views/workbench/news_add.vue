@@ -29,6 +29,7 @@
                         <div style="display:inline-block">
                             <el-upload
                                 :disabled="this.$route.query.num==0&&this.status==0"
+                                v-if="!(this.$route.query.num==0&&this.status==0)"
                                 :http-request="uploadFile"
                                 class="upload-demo"
                                 action="111"
@@ -36,10 +37,10 @@
                                 >
                                 <el-button size="small" type="primary" >上传</el-button>
                             </el-upload>
-                            <div>
+                            <div >
                                  <el-tooltip placement="top" class="tit_txt_2 logs tit_txts" v-if="filename!=''">
                                         <div slot="content" class="text">{{this.filename}}</div>
-                                        <span  class="text" style="display:inline-block;overflow: hidden;max-width: 200px;height: 20px;line-height: 28px;color:#000" >{{this.filename}}</span>
+                                        <span  class="text" style="display:inline-block;overflow: hidden;max-width: 200px;height: 20px;line-height: 28px;color:#000" :class="{up:this.$route.query.num==0&&this.status==0}" >{{this.filename}}</span>
                                 </el-tooltip>
                                 <span class="content_xz" @click="delRemove()" v-if="(filename!=''&&this.status==1)||(filename!=''&&this.$route.query.num==1)">删除</span>
                             </div>
@@ -584,6 +585,9 @@
   }
   .none{
       border:0!important
+  }
+  .up{
+      margin-top: 24px;
   }
 </style>
 
