@@ -2,9 +2,14 @@
  <div>
          <div>
             <div class="top_name">
-                <span class="top_txt" @click='fh(-1)'>TX新闻模板管理&nbsp;/&nbsp;{{this.$route.query.num==1?"新增模板":"编辑模板"}}</span>
+                <span class="top_txt" @click='fh(-1)'>TX新闻模板管理&nbsp;/&nbsp;</span>
+                <span  class="top_txt" style="margin-left:0" v-if='this.$route.query.num==1'>新增模板</span>
+                <span  class="top_txt" style="margin-left:0" v-if='this.$route.query.num==0&&this.status==0'>查看详情</span>
+                <span  class="top_txt" style="margin-left:0" v-if='this.$route.query.num==0&&this.status==1'>编辑模板</span>
                 <div class="title_left">
-                    <span>{{this.$route.query.num==1?"新增模板":"编辑模板"}}</span>
+                    <span   v-if='this.$route.query.num==1'>新增模板</span>
+                    <span  v-if='this.$route.query.num==0&&this.status==0'>查看详情</span>
+                    <span  v-if='this.$route.query.num==0&&this.status==1'>编辑模板</span>
                 </div>
                 <div class='right' v-if="this.$route.query.num==0&&this.status==0">
                     <span @click='open()'>{{this.dataList.status==1?'禁用':'启用'}}</span>
@@ -91,7 +96,7 @@
                         <input type="number" v-model="max_length" :disabled="this.$route.query.num==0&&this.status==0"  :class="{none:this.$route.query.num==0&&this.status==0}" @change="resetfill()">
                     </div>
                     <div class='btn_buttom' v-if="this.$route.query.num==1||this.status==1">
-                        <span class='tj' @click='add()'>{{this.$route.query.num==1?'提交':"保存"}}}</span>
+                        <span class='tj' @click='add()'>{{this.$route.query.num==1?'提交':"保存"}}</span>
                         <span @click='back()'>取消</span>
                     </div>
                 </div>
@@ -192,7 +197,7 @@
                 this.g=this.dataList.g,
                 this.x=this.dataList.x,
                 this.y=this.dataList.y,
-                this.max_length=this.dataList.max_length,
+                this.max_length=this.dataList.max_lenth,
                 this.color=this.dataList.color
                 this.status=0
            }
