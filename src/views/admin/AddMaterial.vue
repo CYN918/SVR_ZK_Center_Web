@@ -900,10 +900,10 @@
                             this.contract_id=res.contract[0].archive_id;
                         }
                         if(res.settlement_info.id_card){
-                             this.state1=res.settlement_info.name+res.settlement_info.id_card
+                             this.state1=res.settlement_info.name+' '+res.settlement_info.id_card
                         }
                         if(res.settlement_info.code){
-                            this.state1=res.settlement_info.name+res.settlement_info.code
+                            this.state1=res.settlement_info.name+' '+res.settlement_info.code
                         }
                         // if(this.open_id){
                         //      this.api.designer_settlement_list({open_id:this.open_id}).then((res)=>{
@@ -999,10 +999,10 @@
              querySearch(queryString, cb) {
                     for(var i =0;i<this.restaurants.length;i++){
                         if(this.restaurants[i].contribute_type==1){
-                            this.restaurants[i].value=this.restaurants[i].name+this.restaurants[i].id_card
+                            this.restaurants[i].value=this.restaurants[i].name+' '+this.restaurants[i].id_card
                         }
                         if(this.restaurants[i].contribute_type==2){
-                            this.restaurants[i].value=this.restaurants[i].company_name+this.restaurants[i].code
+                            this.restaurants[i].value=this.restaurants[i].company_name+' '+this.restaurants[i].code
                         }
                     }
                     var results = queryString ? this.restaurants.filter(this.createFilter(queryString)) : this.restaurants;
@@ -1462,5 +1462,9 @@
         color:rgba(51,119,255,1)!important;
         margin-left: 10px;
         cursor: pointer;
+    }
+    .inline-input{
+        width:266px!important;
+        margin-right: 10px;
     }
 </style>
