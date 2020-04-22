@@ -36,7 +36,7 @@
                                         <div slot="content" class="text">{{this.filename}}</div>
                                         <span  class="text" style="display:inline-block;overflow: hidden;max-width: 200px;height: 20px;line-height: 28px;color:#000" >{{this.filename}}</span>
                                 </el-tooltip>
-                                <span class="content_xz" @click="delRemove()" v-if="filename!=''">删除</span>
+                                <span class="content_xz" @click="delRemove()" v-if="(filename!=''&&this.status==1)||(filename!=''&&this.$route.query.num==1)">删除</span>
                             </div>
                            
                         </div>
@@ -212,6 +212,10 @@
                 }
                 if(!this.max_length){
                     this.$message.error('最大长度不能为空');
+                        return
+                }
+                if(this.max_length<=0){
+                    this.$message.error('最大长度必须大于0');
                         return
                 }
                 if(!this.size){
