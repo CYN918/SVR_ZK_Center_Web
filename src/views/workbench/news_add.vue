@@ -98,7 +98,8 @@
                     </div>
                     <div class='btn_buttom' v-if="this.$route.query.num==1||this.status==1">
                         <span class='tj' @click='add()'>{{this.$route.query.num==1?'提交':"保存"}}</span>
-                        <span @click='back()'>取消</span>
+                        <span v-if='this.$route.query.num==0' @click='back()'>取消</span>
+                        <span v-if='this.$route.query.num==1' @click='fh(-1)'>取消</span>
                     </div>
                 </div>
             </div>
