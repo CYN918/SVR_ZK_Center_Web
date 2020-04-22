@@ -62,7 +62,7 @@
                             <p>若由素材库内文件处理后上传，必须填写对应的素材ID，仅可填写一个</p>
                         </div>
                         <div class="AddIMG_zp">
-                            <span class="tit">绑定设计ID:</span>
+                            <span class="tit">绑定设计:</span>
                             <el-autocomplete
                                 v-if='is_internal==false'
                                 class="inline-input"
@@ -75,7 +75,7 @@
                             </el-autocomplete>
                             <!-- <input type="text" class="AddIMG_zp_text" v-model="bind_workid" :disabled="(this.message.mid!=undefined)"/> -->
                             <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="is_internal" :disabled="(this.message.mid!=undefined)"  @change="tagge()"/>
-                            <span>与狮圈无关</span>
+                            <span>与狮圈儿无关</span>
                             <!-- <p>由设计师站获得的素材，必须填写对应的作品ID</p> -->
                         </div>
                         <div class='AddIMG_select' v-if='is_internal==false'>
@@ -86,7 +86,7 @@
                             </select>
                             <span class="tit" v-if='settle_type==1'>买断价格:</span>
                             <input type="number" v-if='settle_type==1' placeholder="请输入" v-model="settle_value" style="width: 100px;height: 30px;border-radius: 5px">
-                            <span class="tit" v-if='settle_type==2'>分成比列:</span>
+                            <span class="tit" v-if='settle_type==2' style="width:120px">分成比例:<span style="color:#ddd">(合作方)</span></span>
                             <input type="number" v-if='settle_type==2' placeholder="请输入" v-model="settle_value" style="width: 100px;height: 30px;border-radius: 5px">
                         </div>
                         <div class='AddIMG_sc'  v-if='is_internal==false'>
@@ -266,7 +266,7 @@
                            
                         }else{
                             this.error='/img/err.png'
-                            this.contract_id=''
+                            
                         }
                     })
             },
@@ -505,6 +505,18 @@
                     }
                      if(!this.settle_value&&this.is_internal==false){
                         this.$message.error('买断价格或分成比例不能为空')
+                        return
+                    }
+                     if(this.settle_value<=0&&this.is_internal==false&&this.settle_type==1){
+                        this.$message.error('买断价格必须大于零')
+                        return
+                    }
+                     if(this.settle_value<=0&&this.is_internal==false&&this.settle_type==2){
+                        this.$message.error('分成比例必须大于零')
+                        return
+                    }
+                    if(this.settle_value>100&&this.is_internal==false&&this.settle_type==2){
+                        this.$message.error('分成比例必须小于100')
                         return
                     }
                      if(!this.settle_type&&this.is_internal==false){

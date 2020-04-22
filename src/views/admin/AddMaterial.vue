@@ -128,7 +128,7 @@
                             </div>
                         </div>
                         <div class='AddIMG_sc' v-if='this.types=="f_call_show"'>
-                            <span class="tit">绑定设计师ID:</span>
+                            <span class="tit">绑定设计师:</span>
                             <!-- <input type='test' v-model="account_id" placeholder="请输入狮圈设计师ID" :disabled="(this.message.mfid!=undefined)||this.is_designer==true"/> -->
                             <el-autocomplete
                                 class="inline-input"
@@ -141,7 +141,7 @@
                                 >
                             </el-autocomplete>
                             <input type="checkbox" style="width:16px;height:16px;margin:0 15px" v-model="is_designer" :disabled="(this.message.mfid!=undefined)" @change="tagge()">
-                            <span>与狮圈无关</span>
+                            <span>与狮圈儿无关</span>
                         </div>
                         <div class='AddIMG_select' v-if='this.types=="f_call_show"&&is_designer==false'>
                             <span class="tit">结算类型:</span>
@@ -151,7 +151,7 @@
                             </select>
                             <span class="tit" v-if='settle_type==1'>买断价格:</span>
                             <input type="number" v-if='settle_type==1' placeholder="请输入" v-model="settle_value" style="width: 100px;height: 30px;border-radius: 5px">
-                            <span class="tit" v-if='settle_type==2'>分成比列:</span>
+                            <span class="tit" v-if='settle_type==2' style="width:120px">分成比例:<span style="color:#ddd">(合作方)</span></span>
                             <input type="number" v-if='settle_type==2' placeholder="请输入" v-model="settle_value" style="width: 100px;height: 30px;border-radius: 5px">
                         </div>
                         <div class='AddIMG_sc' v-if='this.types=="f_call_show"&&is_designer==false'>
@@ -386,7 +386,6 @@
                             // this.contracts.push(this.contract_id);
                         }else{
                             this.error='/img/err.png'
-                            this.contract_id=''
                         }
                     })
             },
@@ -763,6 +762,18 @@
                     }
                     if(!this.settle_value&&this.types=='f_call_show'&&this.is_designer==false){
                         this.$message.error('买断价格或分成比例不能为空')
+                        return
+                    }
+                    if(this.settle_value<=0&&this.types=='f_call_show'&&this.is_designer==false&&this.settle_type==1){
+                        this.$message.error('买断价格必须大于零')
+                        return
+                    }
+                    if(this.settle_value<=0&&this.types=='f_call_show'&&this.is_designer==false&&this.settle_type==2){
+                        this.$message.error('分成比例必须大于零')
+                        return
+                    }
+                    if(this.settle_value>100&&this.types=='f_call_show'&&this.is_designer==false&&this.settle_type==2){
+                        this.$message.error('分成比例必须小于100')
                         return
                     }
                     if(!this.prev_uri&&this.chenck!=true){
