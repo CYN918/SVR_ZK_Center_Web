@@ -54,19 +54,19 @@
                         <span class='box_tit_name' style="vertical-align: top;margin-top:0">位置</span>
                         <div class='location'>
                                 <div>
-                                    <span  :class='{chenk:num==1}' @click='rideo("1","nw")' >左上</span>
-                                    <span  :class='{chenk:num==2}' @click='rideo("2","north")'>中上</span>
-                                    <span  :class='{chenk:num==3}' @click='rideo("3","ne")'>右上</span>
+                                    <span  :class='{chenk:g=="nw"}' @click='rideo("nw")' >左上</span>
+                                    <span  :class='{chenk:g=="north"}' @click='rideo("north")'>中上</span>
+                                    <span  :class='{chenk:g=="ne"}' @click='rideo("ne")'>右上</span>
                                 </div>
                                 <div>
-                                    <span  :class='{chenk:num==4}' @click='rideo("4","west")'>左中</span>
-                                    <span  :class='{chenk:num==5}' @click='rideo("5","center")'>中心</span>
-                                    <span  :class='{chenk:num==6}' @click='rideo("6","east")'>右中</span>
+                                    <span  :class='{chenk:g=="west"}' @click='rideo("west")'>左中</span>
+                                    <span  :class='{chenk:g=="center"}' @click='rideo("center")'>中心</span>
+                                    <span  :class='{chenk:g=="east"}' @click='rideo("east")'>右中</span>
                                 </div>
                                 <div>
-                                    <span  :class='{chenk:num==7}' @click='rideo("7","sw")'>左下</span>
-                                    <span  :class='{chenk:num==8}' @click='rideo("8","south")'>中下</span>
-                                    <span  :class='{chenk:num==9}' @click='rideo("9","se")'>右下</span>
+                                    <span  :class='{chenk:g=="sw"}' @click='rideo("sw")'>左下</span>
+                                    <span  :class='{chenk:g=="south"}' @click='rideo("south")'>中下</span>
+                                    <span  :class='{chenk:g=="se"}' @click='rideo("se")'>右下</span>
                                 </div>
                         </div>
                     </div>
@@ -84,7 +84,7 @@
                     </div>
                     <div>
                         <span class='box_tit_name'>颜色</span>
-                        <input type="number" v-model="color" :disabled="this.$route.query.num==0&&this.status==0" maxlength="6" :class="{none:this.$route.query.num==0&&this.status==0}" @change="resetfill()">
+                        <input type="text" v-model="color" :disabled="this.$route.query.num==0&&this.status==0" maxlength="6" :class="{none:this.$route.query.num==0&&this.status==0}" @change="resetfill()">
                     </div>
                     <div>
                         <span class='box_tit_name'>最大长度</span>
@@ -121,7 +121,6 @@
      return {
          dataList:{},
         tid:this.$route.query.tid, 
-        num:1,
         size:40,
         width:"",
         name:"",
@@ -137,7 +136,6 @@
         arr:[720*404,720*1660,720*406],
         image_url:"",
         type:'d3F5LXplbmhlaQ',
-        // style:{left:x+'%'}
 
      }
    },
@@ -148,11 +146,10 @@
        
    },
    methods:{
-       rideo(index,wz){
+       rideo(wz){
            if(this.$route.query.num==0&&this.status==0){
                return
            }else{
-                this.num=index;
                 this.g=wz;
                 this.resetfill();
            }
@@ -368,8 +365,8 @@
         },
         shut(){
             let formData=new FormData
-            formData.append('tid',this.data.tid)
-            formData.append('status',this.data.status==1?"0":"1")
+            formData.append('tid',this.dataList.tid)
+            formData.append('status',this.dataList.status==1?"0":"1")
             this.api.template_edit_status(formData).then((res)=>{
                 if(res!=false){
                     this.getDetails()
