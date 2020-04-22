@@ -133,7 +133,7 @@
         fill:'',
         show:false,
         status:'0',
-        arr:[720*404,720*1660,720*406],
+        arr:[720*404,720*1600,720*406],
         image_url:"",
         type:'d3F5LXplbmhlaQ',
 
@@ -331,9 +331,11 @@
                     };
                     image.src= res.url;
                     if(this.arr.indexOf(this.width)==-1){
-                        this.$message.error('图片尺寸不对请重传')
+                        this.$message.error('图片尺寸不对请重传');
+                        this.image_url = '';
+                        this.filename='';
+                        return
                     }
-
                     this.resetfill();
                 })
         },
@@ -410,16 +412,16 @@
  }
  .box-img{
      position: absolute;
-     max-width:306px;
-     max-height: 554px;
+     max-width:225px;
+     max-height: 500px;
      top:50%;
      left: 50%;
      transform: translate(-50%,-50%);
      background: #ddd;
  }
  img{
-     width: 100%;
-     height: 100%;
+    max-width:225px;
+    max-height: 500px;
  }
  .a{
      color:#fff;
