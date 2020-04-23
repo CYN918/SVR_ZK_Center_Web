@@ -352,7 +352,7 @@
         },
 
         mounted(){
-            this.getTagsList();
+             this. getType();
             if(this.message.mfid!=undefined){
                 this.title='编辑物料'
             }else{
@@ -519,6 +519,8 @@
                 let params={material:this.material}
                 this.api.config_material_type({params}).then((res)=>{
                     this.scType=res;
+                    this.getData()
+                    this.getTagsList();
                 })
             },
             beforeAvatarUpload(file) {
@@ -622,8 +624,6 @@
                     if(this.message.mfid!=undefined){
                         this.getMatterDetails();
                     }
-                    this. getType();
-                    this.getData()
                 })
             },
             ADDtags(){

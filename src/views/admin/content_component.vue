@@ -225,7 +225,7 @@
             }
         },
         mounted(){
-            this.getTagsList();
+            this. getType();
             if(this.message.mid!=undefined){
                 this.title='编辑素材'
             }else{
@@ -305,7 +305,7 @@
                 const isXzip = file.type === 'application/x-zip-compressed';
                 const iszip = file.type === 'application/zip';
                
-                if (!isJPG&&!isPNG&&!isGIF&&isXzip&&iszip) {
+                if (!isJPG&&!isPNG&&!isGIF&&!isXzip&&!iszip) {
                     this.$message.error('只支持JPG、PNG、psd、bmp、gif、tif、zip格式!');
                 }
                 return isPNG || isJPG ||isGIF||iszip||isXzip;
@@ -389,6 +389,8 @@
                 let params={material:this.material};
                 this.api.config_material_type({params}).then((res)=>{
                     this.scType=res;
+                    this.getTagsList();
+                    this.getData();
                 })
             },
             handleExceed(files, fileList) {
@@ -444,8 +446,7 @@
                     if(this.message.mid!=undefined){
                         this.getMatterDetails();
                     }
-                    this. getType();
-                    this.getData();
+                   
                 })
             },
             ADDtags(){
