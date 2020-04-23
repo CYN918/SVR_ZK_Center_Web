@@ -262,6 +262,9 @@
         background: #fff;
         padding: 24px;
     }
+    .title_left span{
+        font-weight: bold;
+    }
     .right_btn{
         float:right;
         margin-right: 20%;

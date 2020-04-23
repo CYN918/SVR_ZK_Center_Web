@@ -17,7 +17,7 @@
                             :cell-style="cell"
                             >
                          <el-table-column
-                                prop="tid"
+                                prop="plid"
                                 label="推送库ID">
                         </el-table-column>
                          <el-table-column
@@ -25,29 +25,30 @@
                                 label="推送库名称">
                         </el-table-column>
                         <el-table-column
-                                prop="count"    
+                                prop="channel.channel"
+                                :show-overflow-tooltip="true"    
                                 label="渠道">
-                                <template slot-scope="scope">
-                                    <span ></span>
-                                </template>
                         </el-table-column>
                          <el-table-column
                                 prop="status"
                                 label="功能">
                                   <template slot-scope="scope">
-                                    <span ></span>
+                                     <span v-if="tableData[scope.$index].channel">
+                                         {{backfn(tableData[scope.$index].channel)}}
+                                    </span>
                                 </template>
                         </el-table-column>
                          <el-table-column
-                                prop="updated_at"
+                                prop="channel.channel_secret"
+                                :show-overflow-tooltip="true"
                                 label="渠道授权码">
                         </el-table-column>
                          <el-table-column
-                                prop="updator"
+                                prop="num"
                                 label="今日上线数">
                         </el-table-column>
                          <el-table-column
-                                prop="updator"
+                                prop="updated_at"
                                 label="最后上线时间">
                         </el-table-column>
                          <el-table-column
@@ -55,7 +56,7 @@
                                 label="操作">
                                 <template slot-scope="scope">
                                     <el-button type='text' @click='popup("1")'>编辑</el-button>
-                                    <el-button type='text' >查看详情</el-button>
+                                    <el-button type='text' @click="ck()">查看详情</el-button>
                                 </template>
                         </el-table-column>
                     </el-table>
@@ -102,14 +103,17 @@
             </div>
         </div>
     </div>
+    <!-- <loading v-if='load'></loading> -->
  </div>
 </template>
 
 <script>
+// import loading from '../../components/loading'
  export default {
+//   components:{loading},
    data () {
      return {
-            tableData:[{updator:"2020-04-23"}],
+            tableData:[],
             p:10,
             page:1,
             total:0,
@@ -118,11 +122,30 @@
             qdLists:[],
             audit_type:"",
             channel:"",
-            name:""
+            name:"",
+            load:true
      }
    },
+   mounted(){
+       this.getData()
+   },
    methods:{
-        getDate(){},
+         backfn(n){
+            if(!n){return '--'}
+            if(n.audit_type ==1){return '外部杂志锁屏审核'}
+            if(n.audit_type ==2){return '外部投放内容审核'}
+            if(n.audit_type ==3){return '内部杂志锁屏管理'}
+        
+         },
+         getData(){
+             this.load=true
+             let params = {p:this.p,page:this.page}
+             this.api.pushlib_search({params}).then((res)=>{
+                 this.tableData=res.data;
+                 this.total=res.total;
+                 this.load=false
+             })
+         },
         getRowClass({row, column, rowIndex}) {
             if (rowIndex === 0) {
                 return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;padding:20px 0px 20px 14px'
@@ -191,6 +214,11 @@
                      this.heidPopup();
                      this.getData();
                  }
+             })
+         },
+         ck(){
+             this.$router.push({
+                 path:"./Audio_configuration_management"
              })
          },
    },
