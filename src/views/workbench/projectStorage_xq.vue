@@ -595,7 +595,7 @@ export default {
                            
                             
                         },
-                        scADD(){
+                         scADD(){
                             if(!this.attach.name){
                                 this.$message.error('附件不能为空');
                                 return
@@ -608,9 +608,22 @@ export default {
                                     let list={
                                         attach:{url:""},
                                         previews:[],
-                                    
-
-                                    }
+                                        }
+                                if(!this.name){
+                                    this.$message.error('名字不能为空');
+                                    return
+                                }
+                                if(this.tags.length==0){
+                                    this.$message.error('标签不能为空');
+                                    return
+                                }
+                                 if(!this.range){
+                                    this.$message.error('使用范围不能为空');
+                                    return
+                                } if(!this.note){
+                                    this.$message.error('备注不能为空');
+                                    return
+                                }
                                     list.name=this.name;
                                     list.attach=this.attach;
                                     list.size=this.sjSize;
@@ -618,14 +631,16 @@ export default {
                                     list.previews.push(this.prev_uri);
                                     list.main_preview=(this.prev_uri);
                                     list.prev_uri=this.prev_uri;
-                                    list.tags=this.tags;
-                                    list.model=this.model;
-                                    list.note=this.note;
-                                    list.model=this.model;
+                                    list.tags=this.tags.join(',')
+                                    list.range=this.range;
                                     list.note=this.note;
                                     this.materials.push(list)
                              }else{
-                                    let list={}
+                                let list={}
+                                if(this.preinstall.length==0){
+                                    this.$message.error('预置标签不能为空');
+                                    return
+                                }
                                     list.attach=this.attach;
                                     list.size=this.sjSize;
                                     list.prev_uri=this.prev_uri;
