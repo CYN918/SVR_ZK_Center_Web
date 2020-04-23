@@ -85,8 +85,10 @@
                                     
                                         <div v-if='channel_themes[scope.$index].price'>
                                             <span>上架单价：</span>
-                                            <span style="display: inline-block;width: 50%">{{channel_themes[scope.$index].price}}</span>
-                                            <a :href="channel_themes[scope.$index].attach_url" target="_blank" style="display: inline-block;width: 50%;text-align: right">下载</a>
+                                            <span style="display: inline-block">{{channel_themes[scope.$index].price}}</span>
+                                            <span>资源文件：</span>
+                                            <span style="display: inline-block">{{channel_themes[scope.$index].price}}</span>
+                                            <a :href="channel_themes[scope.$index].attach_url" target="_blank" style="display: inline-block;text-align: right">下载</a>
                                         </div>
                                    
                                 </template>

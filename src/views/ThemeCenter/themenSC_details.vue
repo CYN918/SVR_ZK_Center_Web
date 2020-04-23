@@ -90,7 +90,6 @@
                 <div style="margin: 24px 0 0 24px" v-if="this.tableData.settlement_info">
                     <div class="preview_tet">
                         <span>绑定设计师：</span>
-                        <span v-if='this.tableData.is_internal==0'>{{this.tableData.settlement_info.open_id}}</span>
                          <span class='message_tit_content' v-if='tableData.is_internal==0&&tableData.settlement_info.id_card'>{{tableData.settlement_info.open_id+''+tableData.settlement_info.name+""+tableData.settlement_info.id_card}}</span>
                          <span class='message_tit_content' v-if='tableData.is_internal==0&&tableData.settlement_info.code'>{{tableData.settlement_info.open_id+''+tableData.settlement_info.name+""+tableData.settlement_info.code}}</span>
                         <span v-if='this.tableData.is_internal==1'>无</span>
