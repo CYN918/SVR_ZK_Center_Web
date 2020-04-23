@@ -15,8 +15,8 @@
              </div>
              <div>
                  <span class='message_tit_name'>绑定设计师：</span>
-                 <span class='message_tit_content' v-if='listData.id_card'>{{listData.name+""+listData.id_card}}</span>
-                 <span class='message_tit_content' v-if='listData.code'>{{listData.name+""+listData.code}}</span>
+                 <span class='message_tit_content' v-if='listData.id_card'>{{listData.open_id+''+listData.name+""+listData.id_card}}</span>
+                 <span class='message_tit_content' v-if='listData.code'>{{listData.open_id+''+listData.name+""+listData.code}}</span>
              </div>
              <div>
                  <span class='message_tit_name'>项目ID：</span>
@@ -180,7 +180,7 @@
                  </div>
              </div>
          </div>
-         <div class='xgSC' v-if='this.$route.query.type=="f_call_show"'>
+         <div class='xgSC' v-if='this.$route.query.type!="f_call_show"'>
              <div class='message_tit' >
                  <span >相关物料</span>
              </div>
@@ -348,11 +348,14 @@
                 </div>
             </div>
         </div>
+         <loading v-if='load'></loading>
     </div>
 </template>
 
 <script>
+import loading from '../../components/loading'
 export default {
+    components:{loading},
         data(){
             return{
                 contracts:[],
@@ -369,7 +372,8 @@ export default {
                 channel_call_show_name:"",
                 price:"",
                 attach:{},
-                listData:{}
+                listData:{},
+                load:true
             }
         },
         mounted(){
@@ -470,6 +474,7 @@ export default {
                 })
             }, 
             getContract(){
+                this.load=true
                 if(this.$route.query.material==1){
                     var params={rid:this.$route.query.mid,type:this.$route.query.type}
                 }else{
@@ -478,6 +483,7 @@ export default {
                 this.api.contracts_list({params}).then((res)=>{
                    this.contracts=res
                    this.getLIST();
+                   this.load=false
                 })
             },
             getDetails(){
@@ -530,7 +536,7 @@ export default {
                 })
             },
             getMaterials(){
-                let params={mid:this.$route.query.mfid}
+                let params={mid:this.$route.query.mid}
                 this.api.material_mfinals({params}).then((res)=>{
                     this.Materials=res.data
                 })
@@ -541,6 +547,7 @@ export default {
                     this.api.material_bind_get({params}).then((res)=>{
                         this.dataLIST = res;
                         this.getDetails();
+                        this.getMaterials();
                     })
                 }else{
                     let params={"mfid":this.$route.query.mfid};
@@ -548,7 +555,6 @@ export default {
                             this.dataLIST = res
                             this.getRecord();
                             this.getDetails();
-                            this.getMaterials();
                             this.qd()
                         })
                     }

@@ -69,7 +69,11 @@
                 </div>
                 <div class="imgID" v-for="item in themeList" v-if="themeList.length!=0">
                     <img :src="item.main_preview">
+<<<<<<< HEAD
                     <div class="See" @click="seeTheme(item.thid,item.channel,item.ch_thid,item.local)">
+=======
+                    <div class="See" @click="seeTheme(item.thid,item.channel,item.ch_thid,item.channel_name)">
+>>>>>>> proceeds
                         查看详情
                     </div>
                 </div>
@@ -90,6 +94,8 @@
                     <div class="preview_tet">
                         <span>绑定设计师：</span>
                         <span v-if='this.tableData.is_internal==0'>{{this.tableData.settlement_info.open_id}}</span>
+                         <span class='message_tit_content' v-if='tableData.is_internal==0&&tableData.settlement_info.id_card'>{{tableData.settlement_info.open_id+''+tableData.settlement_info.name+""+tableData.settlement_info.id_card}}</span>
+                         <span class='message_tit_content' v-if='tableData.is_internal==0&&tableData.settlement_info.code'>{{tableData.settlement_info.open_id+''+tableData.settlement_info.name+""+tableData.settlement_info.code}}</span>
                         <span v-if='this.tableData.is_internal==1'>无</span>
                     </div>
                     <div class="preview_tet">
@@ -281,19 +287,18 @@
                 })
                 window.open(Logistics.href, '_blank','toolbar=yes');
             },
-            seeTheme(id,name,qdid,local){
-                if(local){
-                    var path='./themeDetails';
-                    var query={
-                        thid:id,
-                        channel:"local",
-                    }
+
+             seeTheme(id,name,qdid,channel_name){
+                if(name=='local'){
+                    var path='./themeDetails'
+
                 }else{
                     path='./themeDetailsQd';
-                    query={
+                    var query={
                          thid:id,
                         channel:name,
                         ch_thid:qdid,
+                        channel_name:channel_name
                     }
                 }
                 let Logistics= this.$router.resolve({

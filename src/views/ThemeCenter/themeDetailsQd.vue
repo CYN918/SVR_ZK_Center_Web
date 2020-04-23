@@ -142,7 +142,7 @@
             <div class="preview" id="tabs0">
                 <div class="titID">
                     <span class="nameID">预览图</span>
-                    <span class="derivation">{{this.$route.query.channel}}</span>
+                    <span class="derivation">{{this.$route.query.channel_name}}</span>
                 </div>
                 <div class="imgID" v-for="item in tableData.previews" v-if="tableData.previews!=[]">
                     <img :src="item">
@@ -158,7 +158,7 @@
             <div  class="preview" id="tabs1">
                 <div class="titID">
                     <span class="nameID">相关主题素材</span>
-                    <span class="derivation">{{this.$route.query.channel}}</span>
+                    <span class="derivation">{{this.$route.query.channel_name}}</span>
                 </div>
                 <div class="imgID" v-for="item in sc" v-if="sc!=[]">
                     <img :src="item.main_preview">
@@ -177,7 +177,7 @@
             <div class="preview" id="tabs2">
                 <div class="titID">
                     <span class="nameID">收益数据</span>
-                    <span class="derivation">{{this.$route.query.channel}}</span>
+                    <span class="derivation">{{this.$route.query.channel_name}}</span>
                     <div class="right">
                         <div class="block">
                             <el-date-picker
@@ -227,7 +227,7 @@
             <div  class="preview" id="tabs3">
                 <div class="titID">
                     <span class="nameID">相关打包件</span>
-                    <span class="derivation">{{this.$route.query.channel}}</span>
+                    <span class="derivation">{{this.$route.query.channel_name}}</span>
                 </div>
                 <div class="imgID" v-for="item in pack"   v-if="pack!=[]">
                     <img :src="item.main_preview">
@@ -246,7 +246,7 @@
             <div  class="preview" id="tabs4">
                 <div class="titID">
                     <span class="nameID">相关合同</span>
-                    <span class="derivation">{{this.$route.query.channel}}</span>
+                    <span class="derivation">{{this.$route.query.channel_name}}</span>
                 </div>
                 <div style="border-bottom: 1px solid #E6E9F0" v-for="item in Contract" v-if="Contract!=[]">
                     <div>
