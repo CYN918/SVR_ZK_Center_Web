@@ -84,10 +84,11 @@
             </div>
             <div>
                 <span class='name'>渠道：</span>
-                 <select v-model='channel' :disabled='this.num==1'>
+                 <!-- <select v-model='channel' :disabled='this.num==1'>
                     <option value="">全部</option>
                     <option :value="item.channel" v-for='item in qdLists'>{{item.channel}}</option>
-                </select>
+                </select> -->
+                <input type="text" v-model="channel">
             </div>
             <div>
                 <span class='name'>功能：</span>
@@ -189,10 +190,10 @@
             })
         },
          ADDlist(){
-            //  if(this.channel.match(/^[\u4e00-\u9fa5]+$/)){
-            //       this.$message.error('渠道不能为中文')
-            //      return
-            //  }
+             if(this.channel.match(/^[\u4e00-\u9fa5]+$/)){
+                  this.$message.error('渠道不能为中文')
+                 return
+             }
               if(!this.name){
                   this.$message.error('名称不能为空')
                  return
