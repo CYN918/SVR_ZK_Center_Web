@@ -84,11 +84,11 @@
                                 <template slot-scope="scope">
                                     
                                         <div v-if='channel_themes[scope.$index].price'>
-                                            <span>上架单价：</span>
-                                            <span style="display: inline-block">{{channel_themes[scope.$index].price}}</span>
+                                            <span style="margin-left:45px">上架单价：</span>
+                                            <span style="display: inline-block;width:30%">{{channel_themes[scope.$index].price}}</span>
                                             <span>资源文件：</span>
                                             <span style="display: inline-block">{{channel_themes[scope.$index].attach.name}}</span>
-                                            <a :href="channel_themes[scope.$index].attach_url" target="_blank" style="display: inline-block;text-align: right">下载</a>
+                                            <a :href="channel_themes[scope.$index].attach.url" target="_blank" style="display: inline-block;text-align: right;cursor: pointer;">下载</a>
                                         </div>
                                    
                                 </template>
@@ -160,7 +160,7 @@
                                     <div>
                                         <div v-for="da in contracts[scope.$index].contract_files">
                                             <span style="display: inline-block;width: 50%">{{da.name}}</span>
-                                            <a :href="da.url" target="_blank" style="display: inline-block;width: 50%;text-align: right">下载</a>
+                                            <a :href="da.url" target="_blank" style="display: inline-block;width: 50%;text-align: right;cursor: pointer;">下载</a>
                                         </div>
                                     </div>
                                 </template>
@@ -258,7 +258,7 @@
                                     <div>
                                         <div v-for="da in contracts[scope.$index].contract_files">
                                             <span style="display: inline-block;width: 50%">{{da.name}}</span>
-                                            <a :href="da.url" target="_blank" style="display: inline-block;width: 50%;text-align: right">下载</a>
+                                            <a :href="da.url" target="_blank" style="display: inline-block;width: 50%;text-align: right;cursor: pointer;">下载</a>
                                         </div>
                                     </div>
                                 </template>
