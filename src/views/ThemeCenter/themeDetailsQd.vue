@@ -25,7 +25,7 @@
         <div style="margin-top: 245px;background: #fff;min-height:223px;padding:0 24px">
             <div class="name">
                 <span>主题名称:</span>
-                <span>{{tableData.name}}</span>
+                <span>{{tableData.channel_theme_name}}</span>
                 <div>
                     <span @click="bj()">编辑</span>
                     <a :href="this.tableData.attach.url" class="dowload">下载</a>
