@@ -79,22 +79,25 @@
             </div>
             <div>
                 <span class='name'>推送库名称：</span>
-                <input type="text">
+                <input type="text" v-model='name'>
             </div>
             <div>
                 <span class='name'>渠道：</span>
-                <select >
+                 <select v-model='channel' :disabled='this.num==1'>
                     <option value="">全部</option>
+                    <option :value="item.channel" v-for='item in qdLists'>{{item.channel}}</option>
                 </select>
             </div>
             <div>
                 <span class='name'>功能：</span>
-                <select >
-                    <option value="">全部</option>
-                </select>
+                 <select v-model="audit_type" :disabled='this.num==1'>
+                        <option value="1">外部杂志锁屏审核</option>
+                        <option value="2">外部投放内容审核</option>
+                        <option value="3">内部杂志锁屏管理</option>
+                    </select>
             </div>
             <div class='btn_anme'>
-                <span>确认</span>
+                <span @click='ADDlist()'>确认</span>
                 <span @click='heidPopup()'>取消</span>
             </div>
         </div>
@@ -106,12 +109,16 @@
  export default {
    data () {
      return {
-            tableData:[],
+            tableData:[{updator:"2020-04-23"}],
             p:10,
             page:1,
             total:0,
             num:"",
-            show:false
+            show:false,
+            qdLists:[],
+            audit_type:"",
+            channel:"",
+            name:""
      }
    },
    methods:{
@@ -129,7 +136,8 @@
         },
         popup(index){
             this.show=true;
-            this.num=index
+            this.num=index;
+            this.getChannel()
         },
         heidPopup(){
             this.show=false
@@ -146,12 +154,45 @@
         handleCurrentChange(page) {//页码切换
             this.page = page;
             this.getDate()      
+        },
+        getChannel(){
+                this.api.pushlib_configs_channel().then((res)=>{
+                    this.qdLists=res;
+                })
         }, 
         jump(){
             this.$router.push({
                 path:"./Push_account"
             })
         },
+         ADDlist(){
+            //  if(this.channel.match(/^[\u4e00-\u9fa5]+$/)){
+            //       this.$message.error('渠道不能为中文')
+            //      return
+            //  }
+              if(!this.name){
+                  this.$message.error('名称不能为空')
+                 return
+             }
+             if(!this.channel){
+                  this.$message.error('渠道不能为空')
+                 return
+             }
+             if(!this.audit_type){
+                 this.$message.error('请选择功能')
+                 return
+             }
+             let formData=new FormData;
+             formData.append('audit_type',this.audit_type);
+              formData.append('name',this.name);
+             formData.append('channel',this.channel)
+             this.api.pushlib_channel_add(formData).then((res)=>{
+                 if(res!=false){
+                     this.heidPopup();
+                     this.getData();
+                 }
+             })
+         },
    },
    components: {
 
