@@ -69,11 +69,8 @@
                 </div>
                 <div class="imgID" v-for="item in themeList" v-if="themeList.length!=0">
                     <img :src="item.main_preview">
-<<<<<<< HEAD
-                    <div class="See" @click="seeTheme(item.thid,item.channel,item.ch_thid,item.local)">
-=======
                     <div class="See" @click="seeTheme(item.thid,item.channel,item.ch_thid,item.channel_name)">
->>>>>>> proceeds
+
                         查看详情
                     </div>
                 </div>
