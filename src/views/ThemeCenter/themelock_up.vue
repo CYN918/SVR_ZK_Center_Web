@@ -4,11 +4,11 @@
         <sel-theme v-if="themeSelect" @listData="listData"></sel-theme>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh()">{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='th_icon'?'图标主题素材':this.type=='theme_two'?'二级页主题素材':'宣传图'}}&nbsp;/</span>
-                <span class="new_url">&nbsp;上传{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='th_icon'?'图标主题素材':this.type=='theme_two'?'二级页主题素材':'宣传图'}}</span>
+                <span class="log_url" @click="fh()">{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='th_icon'?'图标主题素材':this.type=='th_second_page'?'二级页主题素材':'宣传图'}}&nbsp;/</span>
+                <span class="new_url">&nbsp;上传{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='th_icon'?'图标主题素材':this.type=='th_second_page'?'二级页主题素材':'宣传图'}}</span>
             </div>
             <div class="tit_top_con">
-                <span class="tit_name">上传{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='th_icon'?'图标主题素材':this.type=='theme_two'?'二级页主题素材':'宣传图'}}</span>
+                <span class="tit_name">上传{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='th_icon'?'图标主题素材':this.type=='th_second_page'?'二级页主题素材':'宣传图'}}</span>
             </div>
         </div>
         <div class="themeUp">
