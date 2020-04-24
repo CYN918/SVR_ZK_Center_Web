@@ -7,7 +7,7 @@
             <div class="title_left">
                 <span>分成详情</span>
                 <span class='time'>{{this.$route.query.tdate}}</span>
-                <span class='zt' :class='{red:this.$route.query.status==0}'>({{this.$route.query.status==0?"未确认":"已确认"}})</span>
+                <span class='zt' :class='{red:this.status==0}'>({{this.status==0?"未确认":"已确认"}})</span>
             </div>
         </div>
         <div class='content'>
@@ -27,7 +27,7 @@
                     <span class='cx' @click='getDataList()'>查询</span>
                     <span class='cz
                     ' @click='cz()'>重置</span>
-                    <span @click='jeqr()' v-if='this.$route.query.status==0'>确认金额</span>
+                    <span @click='jeqr()' v-if='this.status==0'>确认金额</span>
                 </div>      
             </div>
            <div>
@@ -130,6 +130,7 @@ export default {
                     account_name:'',
                     open_id:"",
                     state1:"",
+                    status:''
                 }
             },
             mounted(){
@@ -138,6 +139,12 @@ export default {
             methods:{
                 fh(index){
                     this.$router.go(index)
+                },
+                getDetails(){
+                    let params={type:this.$route.query.type,tdate:this.$route.query.tdate}
+                    this.api.sharing_data_income_is_confirm({params}).then((res)=>{
+                        this.status=res.is_confirmed;
+                    })
                 },
                 getRowClass({row, column, rowIndex}) {
                     if (rowIndex === 0) {
@@ -186,6 +193,7 @@ export default {
                         this.total=res.total;
                         this.tableData=res.data;
                         this.getData();
+                        this.getDetails()
                     })
                 },
                 getData(){
@@ -204,6 +212,7 @@ export default {
                     formData.append('tdate',this.$route.query.tdate);
                     this.api.sharing_data_income_confirm(formData).then((res)=>{
                         if(res!=false){
+                            this.getDetails()
                             this.heid()
                         }
                     })

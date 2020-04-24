@@ -1615,7 +1615,6 @@ export default {
 		url:"ds/buyout/income/detail",method:"get"
 	},
 	
-
 	//解决跨域下载视频
 	tools_url_download:{
 		url:"tools/url/download",method:"get"
@@ -1663,6 +1662,7 @@ export default {
 		url:"designer/settlement/list",method:'get'
 	},
 
+
 	//获取新闻图片模板列表
 	template_search:{
 		url:"template/search",method:'get'
@@ -1709,7 +1709,11 @@ export default {
 	},
 	//删除合同
 	contracts_del:{
-		url:"contracts/del",method:"post",isType:{suktip:1}
+		url:"contracts/del",method:"post",isType:{suktip:1},
+
+	//获取状态详情
+	sharing_data_income_is_confirm:{
+		url:'sharing/data/income/is_confirm',method:'get'
 
 	},
 }
