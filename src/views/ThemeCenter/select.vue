@@ -445,7 +445,7 @@
                         }
                     }
                 }
-                if(his.$route.query.type!='th_advertise'){
+                if(this.$route.query.type!='th_advertise'){
                     this.getData()
                 }else{
                     this.getList();
