@@ -440,24 +440,20 @@
                   this.tags=arr;
                   if(res.is_internal==0){
                       this.is_internal=false
-                      this.open_id=res.open_id;
-                      this.settle_type=res.settle_type;
-                      this.settle_value=res.settle_value
+                      this.open_id=res.settlement_info.open_id;
+                      this.settle_type=res.settlement_info.settle_type;
+                      this.settle_value=res.settlement_info.settle_value
                       this.contracts=res.contracts;
-                      if(this.contracts.length>0){
-                          for(var s=0;s<this.contracts.length;s++){
-                                this.contract.push(this.contracts[s].archive_id);
+                      if(this.contract.length>0){
+                          for(var s=0;s<this.contract.length;s++){
+                                this.contract.push(this.contract[s].archive_id);
                           }
                       }
-                      if(this.open_id){
-                        this.api.designer_settlement_list({open_id:this.open_id}).then((res)=>{
-                            if(res.contribute_type==1){
-                                this.state1=this.restaurants[i].name+this.restaurants[i].id_card
-                            }
-                            if(res.contribute_type==2){
-                                this.state1=this.restaurants[i].company_name+this.restaurants[i].code
-                            }   
-                    })
+                      if(res.settlement_info.id_card){
+                            this.state1=res.settlement_info.name+res.settlement_info.id_card
+                      }
+                      if(res.settlement_info.code){
+                           this.state1=res.settlement_info.name+res.settlement_info.code
                       }
                   }else {
                       this.is_internal=true

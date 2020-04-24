@@ -15,8 +15,8 @@
              </div>
              <div>
                  <span class='message_tit_name'>绑定设计师：</span>
-                 <span class='message_tit_content' v-if='listData.id_card'>{{listData.open_id+''+listData.name+""+listData.id_card}}</span>
-                 <span class='message_tit_content' v-if='listData.code'>{{listData.open_id+''+listData.name+""+listData.code}}</span>
+                 <span class='message_tit_content' v-if='listData.id_card'>{{listData.open_id+''+"("+listData.name+""+listData.id_card+")"}}</span>
+                 <span class='message_tit_content' v-if='listData.code'>{{listData.open_id+''+"("+listData.name+""+listData.code+")"}}</span>
              </div>
              <div>
                  <span class='message_tit_name'>项目ID：</span>

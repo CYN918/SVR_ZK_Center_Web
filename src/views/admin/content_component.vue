@@ -88,6 +88,7 @@
                             <input type="number" v-if='settle_type==1' placeholder="请输入" v-model="settle_value" style="width: 100px;height: 30px;border-radius: 5px">
                             <span class="tit" v-if='settle_type==2' style="width:120px">分成比例:<span style="color:#ddd">(合作方)</span></span>
                             <input type="number" v-if='settle_type==2' placeholder="请输入" v-model="settle_value" style="width: 100px;height: 30px;border-radius: 5px">
+                            <span v-if='settle_type==2'>%</span>
                         </div>
                         <div class='AddIMG_sc'  v-if='is_internal==false'>
                             <span class="tit">合同归档号:</span>
