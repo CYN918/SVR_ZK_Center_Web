@@ -142,7 +142,13 @@
                                     >
                                 </el-table-column>
                                 <el-table-column
+                                        v-if='this.$route.query.type==1'
                                         label="素材名称" prop="material_name"
+                                        >
+                                </el-table-column>
+                                <el-table-column
+                                        v-if='this.$route.query.type==2'
+                                        label="素材名称" prop="fname"
                                         >
                                 </el-table-column>
                                 
@@ -158,8 +164,14 @@
                                
                                 </el-table-column>
                                  <el-table-column
-                                       
+                                       v-if='this.$route.query.type==1'
                                         label="主题名称" prop="theme_name"
+                                        :show-overflow-tooltip="true"
+                                        >
+                                </el-table-column>
+                                <el-table-column
+                                       v-if='this.$route.query.type==2'
+                                        label="主题名称" prop="call_show_name"
                                         :show-overflow-tooltip="true"
                                         >
                                 </el-table-column>
