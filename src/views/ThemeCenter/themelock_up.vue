@@ -177,7 +177,7 @@
                                     <div>
                                         <div v-for="da in contracts[scope.$index].contract_files">
                                             <span style="display: inline-block;width: 50%">{{da.name}}</span>
-                                            <a :href="da.url" target="_blank" style="display: inline-block;width: 50%;text-align: right">下载</a>
+                                            <a :href="da.url" target="_blank"  style="display: inline-block;width: 50%;text-align: right">下载</a>
                                         </div>
                                     </div>
                                 </template>
@@ -1039,11 +1039,11 @@
     }
     a{
         display: inline-block;
-        width:152px;
+        /* width:152px;
         height:36px;
         background:rgba(242,246,252,1);
         border-radius:4px;
-        border:1px solid rgba(51,119,255,1);
+        border:1px solid rgba(51,119,255,1); */
         font-size:14px;
         font-family:PingFangSC;
         font-weight:400;
