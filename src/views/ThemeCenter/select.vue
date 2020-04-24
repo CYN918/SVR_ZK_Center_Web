@@ -70,13 +70,8 @@
                     <div class="box">
                         <div class="box_img"  v-for="(item,index) in IMGList" @click="clicks(index)">
                             <div class="box_top">
-<<<<<<< HEAD
-                                <img src="../../../public/img/select2.png" style="width: 48px;height: 48px; position: absolute;right: 0;z-index: 99" v-if="ind.indexOf(IMGList[index].thid)==-1">
-                                <img src="../../../public/img/select.png" style="width: 48px;height: 48px; position: absolute;right: 0;z-index: 99" v-if="ind.indexOf(IMGList[index].thid)!=-1">
-=======
                                 <img src="../../../public/img/select2.png" style="width: 48px;height: 48px;position: absolute;right: 0px;z-index: 99" v-if="ind.indexOf(IMGList[index].thid)==-1">
                                 <img src="../../../public/img/select.png" style="width: 48px;height: 48px;position:  absolute;right: 0px;z-index: 99" v-if="ind.indexOf(IMGList[index].thid)!=-1">
->>>>>>> proceeds
                                 <img :src="picture[index]" class="box_top_img" >
                     
                         </div>
