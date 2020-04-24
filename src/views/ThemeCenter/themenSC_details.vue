@@ -283,38 +283,20 @@
                 window.open(Logistics.href, '_blank','toolbar=yes');
             },
 
-            seeTheme(id,name,qdid,local){
-                if(local){
-                    var path='./themeDetails';
-                    var query={
-                        thid:id,
-                        channel:"local",
-                    }
-
-            // seeTheme(id,name,qdid,channel_name){
-            //     if(name=='local'){
-            //         var path='./themeDetails'
-
+           seeTheme(id,name,qdid,channel_name){
+                if(name=='local'){
+                    var path='./themeDetails'
                 }else{
-                    path='./themeDetailsQd';
-                    query={
-                         thid:id,
-                        channel:name,
-                        ch_thid:qdid,
-                    }
+                    path='./themeDetailsQd'
                 }
                 let Logistics= this.$router.resolve({
                     path:path,
-
-                    query:query
-
-                    // query:{
-                    //     thid:id,
-                    //     channel:name,
-                    //     ch_thid:qdid,
-                    //     channel_name:channel_name
-                    // },
-
+                    query:{
+                        thid:id,
+                        channel:name,
+                        ch_thid:qdid,
+                        channel_name:channel_name
+                    },
                 })
                 window.open(Logistics.href);
             },
