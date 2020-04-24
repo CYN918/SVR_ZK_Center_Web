@@ -351,17 +351,11 @@
 
             YCset(){this.$parent.heidThm()},
             messageID(){
-<<<<<<< HEAD
-                    if(!this.qdList){
-                        this.$message.error('请选择一个主题')
-                        return
-                    }
-=======
+
                 if(!this.qdList){
                     this.$message.error('请选择一个主题')
                     return
                 }
->>>>>>> proceeds
                     this.$emit('listData',this.ind,this.ch_thids,this.qdList,this.main_preview,this.name,this.channelName,this.ADDchannel,this.ADDui);
                     this. YCset()
             },
