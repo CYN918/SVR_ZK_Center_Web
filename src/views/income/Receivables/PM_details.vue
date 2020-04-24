@@ -667,7 +667,7 @@ export default {
                         this.$message.error('固价价格不能为空')
                         return
                     }
-                     if(this.fix_price<='0'){
+                     if(this.balance_type!="未知"&&this.fix_price<='0'){
                         this.$message.error('固价价格不能小于0')
                         return
                     }
