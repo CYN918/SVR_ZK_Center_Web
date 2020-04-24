@@ -62,7 +62,7 @@
                             <p>若由素材库内文件处理后上传，必须填写对应的素材ID，仅可填写一个</p>
                         </div>
                         <div class="AddIMG_zp">
-                            <span class="tit">绑定设计:</span>
+                            <span class="tit">绑定设计师:</span>
                             <el-autocomplete
                                 v-if='is_internal==false'
                                 class="inline-input"
