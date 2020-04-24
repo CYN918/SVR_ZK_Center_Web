@@ -108,13 +108,13 @@
                             <option :value="item.channel" v-for="(item,index) in channelDataList">{{item.channel_name}}</option>
                         </select>
                     </div>
-                    <div>
+                    <div v-if='ADDchannel!="local"'>
                         <span>厂商UI版本</span>
                         <select v-model="ADDui" @change="Ver()">
                             <option v-for="item in channelData" :value="item" >{{item}}</option>
                         </select>
                     </div>
-                    <div>
+                    <div v-if='ADDchannel!="local"'>
                         <span>资源版本</span>
                         <select v-model="bb">
                             <option v-for="item in uiLIST" :value="item.version">{{item.version}}</option>
