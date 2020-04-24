@@ -30,6 +30,12 @@
                                 prop="channel.channel"
                                 :show-overflow-tooltip="true"
                                 label="渠道">
+                                 <template slot-scope="scope">
+                                     <span v-if='tableData[scope.$index].channel'>
+                                         {{tableData[scope.$index].channel.channel}}
+                                    </span>
+                                    <span v-else>--</span>
+                                </template>
                         </el-table-column>
                         <el-table-column
                                 prop="audit_type"
@@ -38,20 +44,37 @@
                                      <span v-if="tableData[scope.$index].channel">
                                          {{backfn(tableData[scope.$index].channel)}}
                                     </span>
+                                     <span v-else>--</span>
                                 </template>
                         </el-table-column>
                          <el-table-column
                                 prop="channel.channel_secret"
                                 :show-overflow-tooltip="true"
                                 label="渠道授权码">
+                                <template slot-scope="scope">
+                                     <span v-if='tableData[scope.$index].channel'>
+                                         {{tableData[scope.$index].channel.channel_secret!=""?tableData[scope.$index].channel.channel_secret:"--"}}
+                                    </span>
+                                    <span v-else>--</span>
+                                </template>
                         </el-table-column>
                          <el-table-column
                                 prop="num"
                                 label="今日推送数">
+                                <template slot-scope="scope">
+                                    <span>
+                                            {{tableData[scope.$index].num!=""?tableData[scope.$index].num:"--"}}
+                                    </span>
+                                </template>    
                         </el-table-column>
                          <el-table-column
                                 prop="updated_at"
                                 label="最后推送时间">
+                                <template slot-scope="scope">
+                                    <span>
+                                            {{tableData[scope.$index].updated_at!=""?tableData[scope.$index].updated_at:"--"}}
+                                    </span>
+                                </template>    
                         </el-table-column>
                         <el-table-column
                                 label="操作"
@@ -97,6 +120,7 @@
                         <option value="1">外部杂志锁屏审核</option>
                         <option value="2">外部投放内容审核</option>
                         <option value="3">内部杂志锁屏管理</option>
+                        <option value="4">内部音频配置管理</option>
                     </select>
                 </div>
                 <div class='sel_btn'>
@@ -105,15 +129,15 @@
                 </div>
             </div>
     </div>
+     <loading v-if='load'></loading>
 </div>
 </template>
 
 <script>
 
-
+import loading from '../../components/loading'
 export default {
-
-components: {},
+ components:{loading},
 data() {
     return {
             p:10,
@@ -124,7 +148,8 @@ data() {
             channel:"",
             qdLists:[],
             name:"",
-            audit_type:""
+            audit_type:"",
+            load:true
     };
 },
 
@@ -134,6 +159,7 @@ methods: {
         if(n.audit_type ==1){return '外部杂志锁屏审核'}
         if(n.audit_type ==2){return '外部投放内容审核'}
         if(n.audit_type ==3){return '内部杂志锁屏管理'}
+        if(n.audit_type ==4){return '内部音频配置管理'}
         
     },
          getRowClass({row, column, rowIndex}) {
@@ -174,6 +200,7 @@ methods: {
              this.api.pushlib_search({params}).then((res)=>{
                  this.tableData=res.data;
                  this.total=res.total;
+                 this.load=false
              })
          },
          ADDlist(){
@@ -212,7 +239,8 @@ methods: {
                         channel:this.tableData[index].channel.channel
                     },
                 })
-             }else if(this.tableData[index].channel.audit_type==3){
+             }
+             if(this.tableData[index].channel.audit_type==3){
                 this.$router.push({
                     path:"./journal_nb",
                     query:{
@@ -220,13 +248,23 @@ methods: {
                         plid:row.plid,
                     },
                 })
-             }else{
-                   this.$router.push({
-                 path:"./Jounrnal_ys",
-                 query:{
-                    channel:this.tableData[index].channel.channel
-                 },
-             })
+             }
+             if(this.tableData[index].channel.audit_type==2){
+                this.$router.push({
+                    path:"./Jounrnal_ys",
+                    query:{
+                        channel:this.tableData[index].channel.channel
+                    },
+                })
+             }
+              if(this.tableData[index].channel.audit_type==4){
+                this.$router.push({
+                     path:"./Audio_configuration_management",
+                    query:{
+                        channel:this.tableData[index].channel.channel,
+                        plid:row.plid,
+                    },
+                })
              }
             
          },

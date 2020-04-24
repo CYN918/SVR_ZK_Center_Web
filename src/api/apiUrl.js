@@ -1690,4 +1690,8 @@ export default {
 	pushlib_slssong_search:{
 		url:"pushlib/slssong/search",method:"get"
 	},
+	//新增推送库壁纸音乐
+	pushlib_slssong_add:{
+		url:"pushlib/slssong/add",method:"post",isType:{suktip:1}
+	},
 }

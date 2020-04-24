@@ -11,7 +11,8 @@
                     <span class="Search_select_tit">物料类型：</span>
                     <select v-model="type" @change="getList()">
                         <!-- <option value="">全部</option> -->
-                        <option v-for="item in scType" :value="item.type" v-if='item.type=="f_sls_lockscreen"||item.type=="f_sls_picture"'>{{item.name}}</option>
+                        <option v-for="item in scType" :value="item.type" v-if='video==undefined&&(item.type=="f_sls_lockscreen"||item.type=="f_sls_picture")'>{{item.name}}</option>
+                        <option v-for="item in scType" :value="item.type" v-if='video!=undefined&&item.type=="f_sls_lockscreen"'>{{item.name}}</option>
                     </select>
                 </div>
             </div>
@@ -86,7 +87,7 @@
 <script>
     export default {
         name: "select_material",
-        props:['material','typeSC',"date",'channel'],
+        props:['material','typeSC',"date",'channel','video'],
         data(){
             return {
                 checked:[],

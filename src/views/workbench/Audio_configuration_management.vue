@@ -1,18 +1,18 @@
 <template>
  <div>
-        <wl v-if='material'></wl>
+        
         <div class="top_name">
             <span class="top_txt" @click='fh(-1)'>杂志锁屏推送审核管理&nbsp;/&nbsp; 内部音频配置管理</span>
             <div class="title_left">
                 <span>内部音频配置管理</span>
-                <span class='lk'>aaaaaaa</span>
+                <span class='lk'>{{this.$route.query.channel}}</span>
                 <span class='open_status'>启用状态：</span>
                 <span class='open_status' style="margin-left:0">aaaa</span>
             </div>
             <div class='right_btn'>
                 <span>启用</span>
                 <span>一键确认</span>
-                <span @click='tcaMterial()'>添加物料</span>
+                <span @click='getWl()'>添加物料</span>
             </div>
             
         </div>
@@ -161,12 +161,15 @@
                     </el-pagination>
             </div>
         </div>
+        <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :video='video'></ADDWL>
+        <loading v-if='load'></loading>
  </div>
 </template>
 <script>
- import wl from './wuliao'
+ import ADDWL from './Jounrnal_select'
+ import loading from '../../components/loading'
  export default {
-    components:{wl},
+    components:{ADDWL,loading},
    data () {
      return {
             img:"/img/xs.png",
@@ -187,26 +190,31 @@
             search_tags:"",
             search_self_tags:"",
             op_tags:"",
-            material:false
+            ADDwl:false,
+            video:'video',
+            load:true
             }
    },
    mounted(){
        this.getData()
    },
    methods:{
+       fh(index){this.$router.go(index)},
        getData(){
+
            let params={wpid:this.wpid,mfid:this.mfid,song_id:this.song_id,status:this.status,is_valid:this.is_valid,search_tags:this.search_tags,search_self_tags:this.search_self_tags,op_tags:this.op_tags,p:this.p,page:this.page,plid:this.$route.query.plid}
            this.api.pushlib_slssong_search({params}).then((res)=>{
                this.list=res.data;
                this.total=res.total
+               this.load=false
            })
        },
-       tcaMterial(){
-           this.material=true
-       },
-       heidSCwl(){
-           this.material=false
-       },
+       getWl(){
+                this.ADDwl = true;
+        },
+        heidWL(){
+               this.ADDwl = false;
+        },
        unwind(){
             if(this.unfold==false){
                     this.unfold=true;
@@ -259,6 +267,18 @@
         handleCurrentChange(page) {//页码切换
                 this.page = page;
                 this.getData()
+        },
+        listenToChildEvent(id){
+                let formData =new FormData;
+                formData.append('plid',this.$route.query.plid);
+                formData.append('bind_mfid',JSON.stringify(id));
+                this.api.pushlib_slssong_add(formData).then((res)=>{
+                    if(res!=false){
+                        this.heidWL();
+                        this.getData()
+                    }
+                    
+                })
         },
    },
   
