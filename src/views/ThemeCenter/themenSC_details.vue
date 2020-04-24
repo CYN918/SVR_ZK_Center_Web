@@ -96,7 +96,7 @@
                     </div>
                     <div class="preview_tet">
                         <span>项目ID：</span>
-                        <span  v-if='this.tableData.is_internal==0'>{{this.tableData.settlement_info.project_id}}</span>
+                        <span  v-if='this.tableData.is_internal==0'>{{this.tableData.project_id}}</span>
                         <span v-if='this.tableData.is_internal==1'>无</span>
                     </div>
                     <div class="preview_tet">
