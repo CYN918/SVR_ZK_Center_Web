@@ -306,8 +306,7 @@
     .block{margin-bottom: 30px}
     .labelName{
         display: inline-block;
-        width:78px;
-        height:38px;
+        padding:5px 10px;
         border-radius:5px;
         font-size:14px;
         font-family:PingFang-SC-Medium;
@@ -315,7 +314,6 @@
         color:rgba(31,46,77,1);
         margin-right: 18px;
         text-align: center;
-        line-height: 38px;
         cursor: pointer;
     }
     .label_txt{
