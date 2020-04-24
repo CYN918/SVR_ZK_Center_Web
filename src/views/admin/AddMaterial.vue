@@ -128,10 +128,37 @@
                             </div>
                         </div>
                         <div class='AddIMG_sc' v-if='this.types=="f_call_show"'>
-                            <span class="tit">绑定设计师ID:</span>
-                            <input type='test' v-model="account_id" placeholder="请输入狮圈设计师ID" :disabled="(this.message.mfid!=undefined)||this.is_designer==true"/>
+                            <span class="tit">绑定设计师:</span>
+                            <!-- <input type='test' v-model="account_id" placeholder="请输入狮圈设计师ID" :disabled="(this.message.mfid!=undefined)||this.is_designer==true"/> -->
+                            <el-autocomplete
+                                class="inline-input"
+                                v-if='is_designer==false'
+                                :disabled="(this.message.mfid!=undefined)"
+                                v-model="state1"
+                                :fetch-suggestions="querySearch"
+                                placeholder="请输入内容"
+                                @select="handleSelect"
+                                >
+                            </el-autocomplete>
                             <input type="checkbox" style="width:16px;height:16px;margin:0 15px" v-model="is_designer" :disabled="(this.message.mfid!=undefined)" @change="tagge()">
-                            <span>与狮圈无关</span>
+                            <span>与狮圈儿无关</span>
+                        </div>
+                        <div class='AddIMG_select' v-if='this.types=="f_call_show"&&is_designer==false'>
+                            <span class="tit">结算类型:</span>
+                            <select v-model="settle_type" :disabled="(this.message.mfid!=undefined)">
+                                <option value="1">买断结算</option>
+                                <option value="2">分成结算</option>
+                            </select>
+                            <span class="tit" v-if='settle_type==1'>买断价格:</span>
+                            <input type="number" v-if='settle_type==1' placeholder="请输入" v-model="settle_value" style="width: 100px;height: 30px;border-radius: 5px">
+                            <span class="tit" v-if='settle_type==2' style="width:120px">分成比例:<span style="color:#ddd">(合作方)</span></span>
+                            <input type="number" v-if='settle_type==2' placeholder="请输入" v-model="settle_value" style="width: 100px;height: 30px;border-radius: 5px">
+                        </div>
+                        <div class='AddIMG_sc' v-if='this.types=="f_call_show"&&is_designer==false'>
+                            <span class="tit">合同归档号:</span>
+                            <input type="text" :disabled="(this.message.mfid!=undefined)" @blur='getHT()' v-model="contract_id">
+                            <img :src="error" alt="" style="width:16px;margin:0 10px" v-if='contract_id'>
+                            <span style="color:red" v-if='this.error=="/img/err.png"'>数据异常</span>
                         </div>
                         <div class="AddIMG_yl">
                             <span class="tit">尺寸:</span>
@@ -307,16 +334,25 @@
                 resource:'',
                 is_zip:"",
                 name:"",
-                account_id:"",
+                // account_id:"",
                 // audioDuration:"",
-                is_designer:false,
+                // is_designer:false,
                 // showType:''
+                is_designer:false,
                 ylt:{},
+                restaurants:[],
+                state1:"",
+                open_id:"",
+                settle_type:"",
+                settle_value:'',
+                error:'',
+                contract_id:'',
+                contracts:[],
             }
         },
 
         mounted(){
-            this.getTagsList();
+             this. getType();
             if(this.message.mfid!=undefined){
                 this.title='编辑物料'
             }else{
@@ -337,6 +373,21 @@
                 if(this.chenck==false&&this.types=='f_ad_picture'){
                     this.model='无'
                 }
+            },
+            getHT(){
+                    if(this.contract_id==''){
+                        this.error='';
+                        return
+                    }
+                    let params={contract_id:this.contract_id};
+                    this.api.common_contract({params}).then((res)=>{
+                        if(res.length>0){
+                            this.error='/img/yes.png'
+                            // this.contracts.push(this.contract_id);
+                        }else{
+                            this.error='/img/err.png'
+                        }
+                    })
             },
              dels(){
                 this.attach={}
@@ -361,7 +412,13 @@
             },
             tagge(){
                 if(this.is_designer==true){
-                    this.account_id=''
+                    this.state1="";
+                    this.open_id="";
+                    this.settle_type="";
+                    this.settle_value='';
+                    this.error='';
+                    this.contract_id='';
+                    this.contracts=[]
                 }
             },
             time(){
@@ -462,6 +519,8 @@
                 let params={material:this.material}
                 this.api.config_material_type({params}).then((res)=>{
                     this.scType=res;
+                    this.getData()
+                    this.getTagsList();
                 })
             },
             beforeAvatarUpload(file) {
@@ -560,13 +619,11 @@
             getTagsList(){
                 let params = {preset:this.preset,material:this.material,type:this.types,search:this.tagsName,p:50,page:1};
                 this.api.tags_search({params}).then((da)=>{
-                    console.log(da);
                     this.preset_tags = da.data.tags;
                     this.self_tags = da.data.self_tags;
                     if(this.message.mfid!=undefined){
                         this.getMatterDetails();
                     }
-                    this. getType();
                 })
             },
             ADDtags(){
@@ -582,36 +639,83 @@
                 })
             },
             setMatter(){
-                if(this.preinstall.length<=0){
-                    this.$message('预置标签不能为空');
-                    return
-                }
-                if(!this.model){
-                    this.$message('实现方式不能为空');
-                    return
-                }
-                if(!this.ad_pic&&this.type=='f_sls_lockscreen'){
-                    this.$message('有无打底广告图不能为空')
-                    return
-                }
-                if(!this.ad_num&&this.type=='f_sls_lockscreen'){
-                    this.$message('广告位数数量不能为空');
-                    return
-                }
-                if(this.ad_num<=0&&this.type=='f_sls_lockscreen'){
-                    this.$message('广告位数必须为正整数');
-                    return
-                }
-                
+               if(!this.name&&this.types=='f_call_show'){
+                        this.$message.error('名字不能为空')
+                        return
+                    }
+                    if(!this.open_id&&this.types=='f_call_show'&&this.is_designer==false){
+                        this.$message.error('绑定设计师不能为空')
+                        return
+                    }
+                    if(!this.contract_id&&this.types=='f_call_show'&&this.is_designer==false){
+                        this.$message.error('绑定合同不能为空')
+                        return
+                    }
+                    if(!this.settle_type&&this.types=='f_call_show'&&this.is_designer==false){
+                        this.$message.error('结算类型不能为空')
+                        return
+                    }
+                    if(!this.settle_value&&this.types=='f_call_show'&&this.is_designer==false){
+                        this.$message.error('买断价格或分成比例不能为空')
+                        return
+                    }
+                    if(!this.prev_uri&&this.chenck!=true){
+                        this.$message.error('未上传预览图')
+                        return
+                    }
+                    // if(!this.ad_pic){
+                    //     this.$message.error('有无打底广告图不能为空')
+                    //     return
+                    // }
+
+                    if(!this.attach.name){
+                        this.$message.error('未上传文件')
+                        return
+                    }
+                     if(!this.sjSize&&this.types=='f_call_show'){
+                        this.$message.error('预览图尺寸不能为空')
+                        return
+                    }
+                    if(this.preinstall.length<=0){
+                        this.$message.error('预置标签不能为空')
+                        return
+                    }
+                    if(!this.model){
+                        this.$message.error('实现方式不能为空')
+                        return
+                    }
+                    if(!this.bind_mid&&this.is_bind_mid!=true&&this.types!='f_call_show'){
+                        this.$message.error('未绑定素材ID');
+                        return
+                    }
+                    if(!this.ad_pic&&this.type=='f_sls_lockscreen'){
+                        this.$message.error('未选择是否有打底广告');
+                        return
+                    }
+                    if(!this.ad_num&&this.type=='f_sls_lockscreen'){
+                        this.$message.error('广告位数数量不能为空');
+                        return
+                    }
+                    
+                    if(!this.resource&&this.type=='f_sls_picture'){
+                        this.$message.error('来源不能为空');
+                        return
+                    }
+                    if(this.types=='f_sls_lockscreen'&&!this.attach.wpid){
+                        this.$message.error('壁纸标识不能为空');
+                        return
+                    }
                 if(this.chenck==true){
                    this.size=this.cc
                 }else{
                     this.size=this.sjSize
                 }
                 let formData = new FormData;
-                  formData.append('name',this.name);
-                // formData.append('video_type',this.showType);
-                // formData.append('duration',this.audioDuration);
+                formData.append('name',this.name);
+                formData.append('open_id',this.open_id)
+                formData.append('settle_type',this.settle_type);
+                formData.append('settle_value',this.settle_value);
+                formData.append('contracts',JSON.stringify([this.contract_id]));
                  formData.append('is_designer',this.is_designer==true?'0':'1');
                 formData.append('mfid',this.message.mfid);
                 formData.append('type',this.type);
@@ -637,63 +741,85 @@
                 if(this.message.mfid==undefined){
 
                     if(!this.type){
-                        this.$message('类型不能为空')
+                        this.$message.error('类型不能为空')
                         return
                     }
                     if(!this.name&&this.types=='f_call_show'){
                         this.$message.error('名字不能为空')
+                        return
                     }
-                    if(!this.account_id&&this.types=='f_call_show'&&this.is_designer==false){
-                        this.$message.error('账号不能为空')
+                    if(!this.open_id&&this.types=='f_call_show'&&this.is_designer==false){
+                        this.$message.error('绑定设计师不能为空')
+                        return
+                    }
+                    if(!this.contract_id&&this.types=='f_call_show'&&this.is_designer==false){
+                        this.$message.error('绑定合同不能为空')
+                        return
+                    }
+                    if(!this.settle_type&&this.types=='f_call_show'&&this.is_designer==false){
+                        this.$message.error('结算类型不能为空')
+                        return
+                    }
+                    if(!this.settle_value&&this.types=='f_call_show'&&this.is_designer==false){
+                        this.$message.error('买断价格或分成比例不能为空')
+                        return
+                    }
+                    if(this.settle_value<=0&&this.types=='f_call_show'&&this.is_designer==false&&this.settle_type==1){
+                        this.$message.error('买断价格必须大于零')
+                        return
+                    }
+                    if(this.settle_value<=0&&this.types=='f_call_show'&&this.is_designer==false&&this.settle_type==2){
+                        this.$message.error('分成比例必须大于零')
+                        return
+                    }
+                    if(this.settle_value>100&&this.types=='f_call_show'&&this.is_designer==false&&this.settle_type==2){
+                        this.$message.error('分成比例必须小于100')
+                        return
                     }
                     if(!this.prev_uri&&this.chenck!=true){
-                        this.$message('未上传预览图')
+                        this.$message.error('未上传预览图')
                         return
                     }
-                    if(!this.ad_pic){
-                        this.$message('有无打底广告图不能为空')
-                        return
-                    }
+                    // if(!this.ad_pic){
+                    //     this.$message.error('有无打底广告图不能为空')
+                    //     return
+                    // }
 
                     if(!this.attach.name){
-                        this.$message('未上传文件')
+                        this.$message.error('未上传文件')
                         return
                     }
                      if(!this.sjSize&&this.types=='f_call_show'){
-                        this.$message('预览图尺寸不能为空')
+                        this.$message.error('预览图尺寸不能为空')
                         return
                     }
                     if(this.preinstall.length<=0){
-                        this.$message('预置标签不能为空')
+                        this.$message.error('预置标签不能为空')
                         return
                     }
                     if(!this.model){
-                        this.$message('实现方式不能为空')
+                        this.$message.error('实现方式不能为空')
                         return
                     }
                     if(!this.bind_mid&&this.is_bind_mid!=true&&this.types!='f_call_show'){
-                        this.$message('未绑定素材ID');
+                        this.$message.error('未绑定素材ID');
                         return
                     }
                     if(!this.ad_pic&&this.type=='f_sls_lockscreen'){
-                        this.$message('未选择是否有打底广告');
-                        return
-                    }
-                     if(!this.ad_pic&&this.type=='f_sls_lockscreen'){
-                        this.$message('未选择是否有打底广告');
+                        this.$message.error('未选择是否有打底广告');
                         return
                     }
                     if(!this.ad_num&&this.type=='f_sls_lockscreen'){
-                        this.$message('广告位数数量不能为空');
+                        this.$message.error('广告位数数量不能为空');
                         return
                     }
                     
                     if(!this.resource&&this.type=='f_sls_picture'){
-                        this.$message('来源不能为空');
+                        this.$message.error('来源不能为空');
                         return
                     }
                     if(this.types=='f_sls_lockscreen'&&!this.attach.wpid){
-                        this.$message('壁纸标识不能为空');
+                        this.$message.error('壁纸标识不能为空');
                         return
                     }
                     if(this.type=='f_sls_lockscreen'){
@@ -718,7 +844,7 @@
                         formData.append('ad_pic',this.ad_pic);
                         formData.append('ad_num',this.ad_num);
                         this.api.mfinal_add(formData).then((res)=>{
-                            if(res.data!=''){
+                            if(res!=false){
                                 this.$parent.heidSc();
                             }
                         }).catch()
@@ -732,9 +858,10 @@
                         let formData = new FormData;
                         formData.append('type',this.type);
                         formData.append('name',this.name);
-                        formData.append('account_id',this.account_id)
-                        // formData.append('video_type',this.showType);
-                        // formData.append('duration',this.audioDuration);
+                        formData.append('open_id',this.open_id)
+                        formData.append('settle_type',this.settle_type);
+                        formData.append('settle_value',this.settle_value);
+                        formData.append('contracts',JSON.stringify([this.contract_id]));
                         formData.append('is_designer',this.is_designer==true?'0':'1');
                         formData.append('ispic',(this.chenck==true?1:0));
                         formData.append('prev_uri',this.prev_uri);
@@ -777,9 +904,34 @@
                     }
                     if(this.types=='f_call_show'){
                         this.name=res.name;
-                        this.account_id=res.account_id;
-                        // this.audioDuration=res.duration;
-                        this.is_designer=res.is_designer=='1'?false:true;
+                        this.open_id=res.settlement_info.open_id;
+                        this.settle_type=res.settlement_info.settle_type;
+                        this.settle_value=res.settlement_info.settle_value;
+                        if(res.contract){
+                            this.contract_id=res.contract[0].archive_id;
+                        }
+                        if(res.settlement_info.id_card){
+                             this.state1=res.settlement_info.name+' '+res.settlement_info.id_card
+                        }
+                        if(res.settlement_info.code){
+                            this.state1=res.settlement_info.name+' '+res.settlement_info.code
+                        }
+                        // if(this.open_id){
+                        //      this.api.designer_settlement_list({open_id:this.open_id}).then((res)=>{
+                        //          if(res.length>0){
+                        //              if(res.contribute_type==1){
+                        //                  this.state1 =res.name+res.id_card
+                        //              }
+                        //              if(res.contribute_type==2){
+                        //                  this.state1 =res.company_name+res.code
+                        //              }
+                        //          }
+                                
+
+                        //     })
+                        // }
+                       
+                        this.is_designer=res.is_designer=='0'?true:false;
                         // this.showType=res.video_type
                          this.ylt.name=res.prev_uri;
                           var image = new Image();
@@ -849,6 +1001,32 @@
                 }
 
             },
+            getData(){
+                    this.api.designer_settlement_list().then((res)=>{
+                        this.restaurants=res;
+
+                    })
+                },
+             querySearch(queryString, cb) {
+                    for(var i =0;i<this.restaurants.length;i++){
+                        if(this.restaurants[i].contribute_type==1){
+                            this.restaurants[i].value=this.restaurants[i].name+' '+this.restaurants[i].id_card
+                        }
+                        if(this.restaurants[i].contribute_type==2){
+                            this.restaurants[i].value=this.restaurants[i].company_name+' '+this.restaurants[i].code
+                        }
+                    }
+                    var results = queryString ? this.restaurants.filter(this.createFilter(queryString)) : this.restaurants;
+                    cb(results);
+                },
+                createFilter(queryString) {
+                    return (restaurant) => {
+                    return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+                    };
+                },
+                handleSelect(item) {
+                    this.open_id=item.open_id
+                }
         },
         watch: {
             'bindMid': function(newVal){
@@ -1295,5 +1473,9 @@
         color:rgba(51,119,255,1)!important;
         margin-left: 10px;
         cursor: pointer;
+    }
+    .inline-input{
+        width:266px!important;
+        margin-right: 10px;
     }
 </style>

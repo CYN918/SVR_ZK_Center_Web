@@ -216,7 +216,7 @@
                                     prop="channel"
                                    >
                                 <template slot-scope="scope">
-                                    <span>渠道:{{upList[scope.$index].channel}}</span>
+                                    <span>渠道:{{upList[scope.$index].channel_name}}</span>
                                 </template>
                             </el-table-column>
                             <el-table-column
@@ -350,6 +350,7 @@
                         thid:this.upList[index].thid,
                         channel:this.upList[index].channel,
                         ch_thid:this.upList[index].ch_thid,
+                        channel_name:this.upList[index].channel_name,
                     }
                 })
             },

@@ -70,8 +70,13 @@
                     <div class="box">
                         <div class="box_img"  v-for="(item,index) in IMGList" @click="clicks(index)">
                             <div class="box_top">
+<<<<<<< HEAD
                                 <img src="../../../public/img/select2.png" style="width: 48px;height: 48px; position: absolute;right: 0;z-index: 99" v-if="ind.indexOf(IMGList[index].thid)==-1">
                                 <img src="../../../public/img/select.png" style="width: 48px;height: 48px; position: absolute;right: 0;z-index: 99" v-if="ind.indexOf(IMGList[index].thid)!=-1">
+=======
+                                <img src="../../../public/img/select2.png" style="width: 48px;height: 48px;position: absolute;right: 0px;z-index: 99" v-if="ind.indexOf(IMGList[index].thid)==-1">
+                                <img src="../../../public/img/select.png" style="width: 48px;height: 48px;position:  absolute;right: 0px;z-index: 99" v-if="ind.indexOf(IMGList[index].thid)!=-1">
+>>>>>>> proceeds
                                 <img :src="picture[index]" class="box_top_img" >
                     
                         </div>
@@ -199,8 +204,8 @@
         },
         methods:{
             setID(){
-                    if(this.$route.query.type=='th_advertise'){
-                        
+                 if(this.$route.query.type=='th_advertise'){
+
                         if(!this.ADDchannel){
                             this.$message.error('渠道不能为空');
                             return
@@ -232,6 +237,7 @@
 
                 this.ch_thids='';
                 this.qdList=[];
+                
                 for(var i=0 ;i<this.TCchannel.length;i++){
                     if(this.TCchannel[i].channel==this.ADDchannel){
                         this.ch_thids=this.TCchannel[i].ch_thid;
@@ -294,6 +300,7 @@
                     this.index=index;
                     this.ADDqd=true;
                     this.TCchannel=this.IMGList[index].channel_themes;
+                    
                     var channel_number=[];
                     for(var i=0;i<this.TCchannel.length;i++){
                         if(channel_number.indexOf(this.TCchannel[i].channel)==-1){
@@ -303,7 +310,6 @@
                     }
                     this.name=this.IMGList[index].name;
                     this.ind=this.IMGList[index].thid;
-
                 }
 
             },
@@ -345,10 +351,17 @@
 
             YCset(){this.$parent.heidThm()},
             messageID(){
+<<<<<<< HEAD
                     if(!this.qdList){
                         this.$message.error('请选择一个主题')
                         return
                     }
+=======
+                if(!this.qdList){
+                    this.$message.error('请选择一个主题')
+                    return
+                }
+>>>>>>> proceeds
                     this.$emit('listData',this.ind,this.ch_thids,this.qdList,this.main_preview,this.name,this.channelName,this.ADDchannel,this.ADDui);
                     this. YCset()
             },

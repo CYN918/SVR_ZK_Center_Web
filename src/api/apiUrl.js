@@ -1662,6 +1662,7 @@ export default {
 	designer_settlement_list:{
 		url:"designer/settlement/list",method:'get'
 	},
+
 	//获取新闻图片模板列表
 	template_search:{
 		url:"template/search",method:'get'
@@ -1684,6 +1685,31 @@ export default {
 	},
 	//新闻模板详情
 	template_detail:{
-		url:"template/detail",method:'get'
+		url:"template/detail",method:'get'},
+		
+	//获取上架记录
+	mfinal_call_show_records:{
+		url:"mfinal/call_show/records",method:"get"
+	},
+	//合同列表
+	contracts_list:{
+		url:'contracts/list',method:"get"
+	},
+	//绑定合同
+	contracts_add:{
+		url:"contracts/add",method:"post",isType:{suktip:1}
+	},
+	//获取素材相关物料
+	material_mfinals:{
+		url:"material/mfinals",method:"get"
+	},
+	//新增上架记录
+	mfinal_call_show_records_add:{
+		url:"mfinal/call_show/records/add",method:"post",isType:{suktip:1}
+	},
+	//删除合同
+	contracts_del:{
+		url:"contracts/del",method:"post",isType:{suktip:1}
+
 	},
 }

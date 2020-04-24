@@ -4,11 +4,11 @@
         <sel-theme v-if="themeSelect" @listData="listData"></sel-theme>
         <div class="top">
             <div class="tit_top_url">
-                <span class="log_url" @click="fh()">{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='th_icon'?'图标主题素材':this.type=='theme_two'?'二级页主题素材':'宣传图'}}&nbsp;/</span>
-                <span class="new_url">&nbsp;上传{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='th_icon'?'图标主题素材':this.type=='theme_two'?'二级页主题素材':'宣传图'}}</span>
+                <span class="log_url" @click="fh()">{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='th_icon'?'图标主题素材':this.type=='th_second_page'?'二级页主题素材':'宣传图'}}&nbsp;/</span>
+                <span class="new_url">&nbsp;上传{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='th_icon'?'图标主题素材':this.type=='th_second_page'?'二级页主题素材':'宣传图'}}</span>
             </div>
             <div class="tit_top_con">
-                <span class="tit_name">上传{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='th_icon'?'图标主题素材':this.type=='theme_two'?'二级页主题素材':'宣传图'}}</span>
+                <span class="tit_name">上传{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='th_icon'?'图标主题素材':this.type=='th_second_page'?'二级页主题素材':'宣传图'}}</span>
             </div>
         </div>
         <div class="themeUp">
@@ -84,10 +84,106 @@
                         <option v-for="item in AcctounsList" :value="item.range">{{item.range}}</option>
                     </select>
                 </div>
-
+                <div  v-if="this.type!='th_advertise'">
+                        <span>绑定设计师</span>
+                         <el-autocomplete
+                         v-if='is_internal==false'
+                                class="inline-input"
+                                :disabled="thmid!=undefined"
+                                v-model="state1"
+                                :fetch-suggestions="querySearch"
+                                placeholder="请输入内容"
+                                @select="handleSelect"
+                                >
+                            </el-autocomplete>
+                       
+                        <template>
+                            <el-checkbox v-model="is_internal" style="margin: 0 10px" :disabled='thmid!=undefined'></el-checkbox>
+                        </template>
+                        <span class="sm">与狮圈无关</span>
+                </div>
+                <div v-if="this.type!='th_advertise'&&is_internal==false">
+                    <span>结算类型</span>
+                    <select v-model="settle_type" style="margin-right:35px" :disabled="thmid!=undefined">
+                        <option value="1">买断结算</option>
+                        <option value="2">分成比例</option>
+                    </select>
+                    <span v-if="settle_type" style="width:auto">{{settle_type==1?'买断价格':'分成比例'}}</span>
+                    <input type="number" v-if="settle_type==1" v-model="settle_value " style="width:100px" :disabled="thmid!=undefined">
+                    <input type="text" v-if="settle_type==2" v-model="settle_value " style="width:100px" :disabled="thmid!=undefined">
+                </div>   
                 <div>
                     <span style="vertical-align: top">备注描述</span>
                     <textarea  placeholder="写个自我介绍，50字内" v-model="note" maxlength="50"></textarea>
+                </div>
+                <div  v-if="this.type!='th_advertise'&&is_internal==false">
+                    <span>相关合同</span>
+                    <span class="ADDs"  @click="ADDht()" v-if='thmid==undefined'>添加合同</span>
+                     <span class="ADDs"  @click="ADDht()" v-if='thmid!=undefined' disabled>添加合同</span>
+                </div>
+                <div v-if="this.type!='th_advertise'&&is_internal==false">
+                     <template>
+                        <el-table
+                                :data="contracts"
+                                style="width: 100%"
+                                :header-cell-style="getRowClass"
+                                :cell-style="cell"
+                        >
+                            <el-table-column
+                                    prop="date"
+                                    show-overflow-tooltip
+                            >
+                                <template slot-scope="scope">
+                                    <div>
+                                        <span class="titTableName">文件归档号:</span>
+                                        <span class="titTableCon">{{contracts[scope.$index].archive_id}}</span>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                            <el-table-column
+                                    prop="name"
+                                    show-overflow-tooltip
+                            >
+                                <template slot-scope="scope">
+                                    <div>
+                                        <span class="titTableName">合同编号:</span>
+                                        <span class="titTableCon">{{contracts[scope.$index].contract_id}}</span>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                            <el-table-column
+                                    prop="address"
+                                    width="100"
+                            >
+                                <template slot-scope="scope">
+                                    <div>
+                                        <span v-if="contracts[scope.$index].status=='1'" style="color:#39BD65">{{contracts[scope.$index].status_text}}</span>
+                                        <span v-if="contracts[scope.$index].status=='0'" style="color:#FFA033">{{contracts[scope.$index].status_text}}</span>
+                                        <span v-if="contracts[scope.$index].status=='2'" style="color:#F05656">{{contracts[scope.$index].status_text}}</span>
+                                        <span v-if="contracts[scope.$index].status=='3'" style="color:#1F2E4D">{{contracts[scope.$index].status_text}}</span>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                            <el-table-column
+                                    prop="address"
+                                    width="50"
+                            >
+                                <template slot-scope="scope" v-if='this.type==2'>
+                                    <img src="../../../public/img/dels.png" style="cursor: pointer"  @click="del(scope.$index)" v-if='thmid==undefined'/>
+                                </template>
+                            </el-table-column>
+                            <el-table-column type="expand">
+                                <template slot-scope="scope">
+                                    <div>
+                                        <div v-for="da in contracts[scope.$index].contract_files">
+                                            <span style="display: inline-block;width: 50%">{{da.name}}</span>
+                                            <a :href="da.url" target="_blank" style="display: inline-block;width: 50%;text-align: right">下载</a>
+                                        </div>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </template>
                 </div>
                 <div>
                     <span style="vertical-align: top">内容标签</span>
@@ -107,10 +203,10 @@
                     </div>
                 </div>
 
-                    <div  v-if="thmid!=undefined&&this.type!='th_advertise'">
+                    <!-- <div  v-if="thmid!=undefined&&this.type!='th_advertise'">
                         <span>绑定设计师素材</span>
                         <input class="xmID" type="text" v-model="previews" placeholder="请输入项目ID" disabled="disabled">
-                        <!--<input type="checkbox" class="check" v-model="is_work" disabled="disabled"/>-->
+                       
                         <template>
                             <el-checkbox v-model="is_work" style="margin: 0 10px" disabled></el-checkbox>
                         </template>
@@ -120,21 +216,20 @@
                     <div v-if="thmid==undefined&&this.type!='th_advertise'">
                         <span>绑定设计师素材</span>
                         <input class="xmID" type="text" v-model="previews" placeholder="请输入项目ID">
-                        <!--<input type="checkbox" class="check" v-model="is_work" />-->
+                       
                         <template>
                             <el-checkbox v-model="is_work" style="margin: 0 10px"></el-checkbox>
                         </template>
                         <span class="sm">与作品无关</span>
                         <span class="sm2">绑定制作{{this.type=='th_lock_screen'?'锁屏':this.type=='th_icon'?'图标':this.type=='th_second_page'?'二级界面':'宣传图'}}的相关作品，千万不要填错了</span>
 
-                    </div>
+                    </div> -->
 
 
                 <div v-if="this.type!='th_advertise'">
                     <span>绑定主题素材</span>
                     <a @click="jump()" v-if="thmid==undefined">从主题素材库选择</a>
                     <a v-if="thmid!=undefined" class='disab'>从主题素材选择</a>
-                    <!--<input type="checkbox" class="check" v-model="is_material"/>-->
                     <template>
                         <el-checkbox v-model="is_material" style="margin: 0 10px" :disabled="thmid!=undefined"></el-checkbox>
                     </template>
@@ -182,7 +277,7 @@
                                 :on-preview="handlePreview"
                                 :on-remove="handleRemove"
                                 :http-request="upYl"
-                                 multiple
+                                 multiple 
                                 :limit="10"
                                 :on-exceed="handleExceed"
                                 >
@@ -219,6 +314,44 @@
                 </div>
             </div>
         </div>
+         <div class="bg" v-if="ht">
+            <div class="content">
+                <div class="content_tit">
+                    <span style="margin-left:24px">添加合同</span>
+                </div>
+                <div style="margin-top:24px">
+                    <input type="text" class="content_input" placeholder="搜索文件归档号" v-model="contract_id"/>
+                    <span class="content_seach" @click="getHT()">查询</span>
+                </div>
+                <div style="margin: 14px 20px" v-for="item in listS">
+                    <div>
+                        <span class="ContractID">合同编号：</span>
+                        <span style="display: inline-block;width: 200px;height: 20px" class="ContractID">{{item.contract_id}}</span>
+                        <span v-if="item.status=='1'" class="statusColor" style="color:#39BD65;float: right">{{item.status_text}}</span>
+                        <span v-if="item.status=='0'" class="statusColor" style="color:#FFA033;float: right">{{item.status_text}}</span>
+                        <span v-if="item.status=='2'" class="statusColor" style="color:#F05656;float: right">{{item.status_text}}</span>
+                        <span v-if="item.status=='3'" class="statusColor" style="color:#1F2E4D;float: right">{{item.status_text}}</span>
+                        <div>
+                            <span  class="ContractID">归档文件：</span>
+                            <div v-for="da in item.contract_files" style="display: inline-block">
+                                <div>
+                                    <span class="imgName">{{da.name}}</span>
+                                    <a class="content_xz" target="_blank" :href="da.url" >下载</a>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="content_btn">
+                    <span class="btn_tj" @click="heidHT()">添加</span>
+                    <span @click="heidHTs()">取消</span>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -236,7 +369,7 @@
                 materials:[],
                 is_material:false,
                 works:[],
-                is_work:false,
+                // is_work:false,
                 tags:[],
                 tag:[],
                 tagsName:"",
@@ -259,6 +392,17 @@
                 listThms:"",
                 listThm:[],
                 thmid:this.$route.query.thmid,
+                state1:"",
+                restaurants:[],
+                settle_type:"",
+                contracts:[],
+                contract:[],
+                ht:false,
+                listS:[],
+                contract_id:"",
+                open_id:"",
+                is_internal:false,
+                settle_value:""
             }
         },
         mounted(){
@@ -266,6 +410,16 @@
             this.Acctouns();
         },
         methods:{
+             getRowClass({row, column, rowIndex, columnIndex}) {
+                    if (rowIndex === 0) {
+                        return 'background:rgba(247,249,252,1);color:rgba(31,46,77,1);text-align:center;font-size:14px;font-weight:blod;font-family:PingFang-SC-Medium;height:56px'
+                    } else {
+                        return ''
+                    }
+            },
+            cell({row, column, rowIndex, columnIndex}){
+                    return 'text-align:center;color:rgba(61,73,102,1);font-size:14px;font-weight:400;font-family:PingFangSC-Regula;'
+            },
             jumpTheme(){this.themeSelect=true},
             heidThm(){this.themeSelect=false},
             setData(){
@@ -284,17 +438,37 @@
                         }
                     }
                   this.tags=arr;
-                  if(res.is_work==0){
-                      this.is_work=true
+                  if(res.is_internal==0){
+                      this.is_internal=false
+                      this.open_id=res.open_id;
+                      this.settle_type=res.settle_type;
+                      this.settle_value=res.settle_value
+                      this.contracts=res.contracts;
+                      if(this.contracts.length>0){
+                          for(var s=0;s<this.contracts.length;s++){
+                                this.contract.push(this.contracts[s].archive_id);
+                          }
+                      }
+                      if(this.open_id){
+                        this.api.designer_settlement_list({open_id:this.open_id}).then((res)=>{
+                            if(res.contribute_type==1){
+                                this.state1=this.restaurants[i].name+this.restaurants[i].id_card
+                            }
+                            if(res.contribute_type==2){
+                                this.state1=this.restaurants[i].company_name+this.restaurants[i].code
+                            }   
+                    })
+                      }
                   }else {
-                      this.is_work=false
+                      this.is_internal=true
                   }
                     if(res.is_material==0){
                         this.is_material=true
                     }else {
                         this.is_material=false
                     }
-                    this.works=res.works;
+                    // this.works=res.works;
+                    
                     this.main_preview=res.main_preview;
                     this.pic= res.previews;
                 })
@@ -460,6 +634,7 @@
             Acctouns(){
                 this.api.themes_config_account().then((res)=>{
                    this.AcctounsList=res;
+                   this.getData();
                 })
             },
             tj(){
@@ -532,25 +707,45 @@
                         this.$message.error('封面图不能为空')
                         return
                     }
-                    if(this.is_work==false){
-                        this.is_work=1
+                    if(!this.open_id&&this.is_internal==false){
+                        this.$message.error('绑定设计师不能为空')
+                        return
+                    }
+                    if(!this.settle_type&&this.is_internal==false){
+                        this.$message.error('结算类型不能为空')
+                        return
+                    }
+                     if(this.contract.length=="0"&&this.is_internal==false){
+                        this.$message.error('合同不能为空')
+                        return
+                    }
+                    if(!this.settle_value&&this.is_internal==false){
+                        this.$message.error('结算类型价格、比列不能为空')
+                        return
+                    }
+                    if(this.is_internal==false){
+                        this.is_internal=0
                     }else{
-                        this.is_work=0
+                        this.is_internal=1
                     }
                     if(this.is_material==false){
                         this.is_material=1
                     }else{
                         this.is_material=0
                     }
-                    var formData =new FormData;
+                    formData =new FormData;
                     formData.append('type',this.type);
                     formData.append('thmid',this.$route.query.thmid);
                     formData.append('name',this.name);
                     formData.append('note',this.note);
                     formData.append('range',this.range);
                     formData.append('tags',this.tags.join(','));
-                    formData.append('is_work',this.is_work);
-                    formData.append('works',JSON.stringify(this.works));
+                    formData.append('is_internal',this.is_internal);
+                    formData.append('contracts',JSON.stringify(this.contract));
+                    formData.append('settle_type',this.settle_type);
+                    formData.append('open_id',this.open_id);
+                    formData.append('settle_value',this.settle_value)
+                    // formData.append('works',JSON.stringify(this.works));
                     formData.append('materials',JSON.stringify(this.scID));
                     formData.append('is_material',this.is_material);
                     formData.append('previews',JSON.stringify(this.pic));
@@ -613,6 +808,22 @@
                         this.$message.error('使用范围不能为空')
                         return
                     }
+                    if(!this.open_id&&this.is_internal==false){
+                        this.$message.error('绑定设计师不能为空')
+                        return
+                    }
+                    if(!this.settle_type&&this.is_internal==false){
+                        this.$message.error('结算类型不能为空')
+                        return
+                    }
+                     if(this.contract.length=="0"&&this.is_internal==false){
+                        this.$message.error('合同不能为空')
+                        return
+                    }
+                     if(!this.settle_value&&this.is_internal==false){
+                        this.$message.error('结算类型价格、比列不能为空')
+                        return
+                    }
                     if(!this.note){
                         this.$message.error('备注不能为空')
                         return
@@ -626,24 +837,28 @@
                         return
                     }
 
-                    if(this.is_work==false){
-                        this.is_work=1
+                    if(this.is_internal==false){
+                        this.is_internal=0
                     }else{
-                        this.is_work=0
+                        this.is_internal=1
                     }
                     if(this.is_material==false){
                         this.is_material=1
                     }else{
                         this.is_material=0
                     }
-                    var formData =new FormData;
+                    formData =new FormData;
                     formData.append('type',this.type);
                     formData.append('name',this.name);
                     formData.append('note',this.note);
                     formData.append('range',this.range);
                     formData.append('tags',this.tags.join(','));
-                    formData.append('is_work',this.is_work);
-                    formData.append('works',JSON.stringify(this.works));
+                    formData.append('is_internal',this.is_internal);
+                    formData.append('contracts',JSON.stringify(this.contract));
+                    formData.append('settle_type',this.settle_type);
+                    formData.append('open_id',this.open_id);
+                    formData.append('settle_value',this.settle_value)
+                    // formData.append('works',JSON.stringify(this.works));
                     formData.append('materials',JSON.stringify(this.scID));
                     formData.append('is_material',this.is_material);
                     formData.append('previews',JSON.stringify(this.pic));
@@ -657,6 +872,60 @@
                     }
                 })
             },
+             getData(){
+                    this.api.designer_settlement_list().then((res)=>{
+                        this.restaurants=res;
+
+                    })
+                },
+             querySearch(queryString, cb) {
+                    for(var i =0;i<this.restaurants.length;i++){
+                        if(this.restaurants[i].contribute_type==1){
+                            this.restaurants[i].value=this.restaurants[i].name+this.restaurants[i].id_card
+                        }
+                        if(this.restaurants[i].contribute_type==2){
+                            this.restaurants[i].value=this.restaurants[i].company_name+this.restaurants[i].code
+                        }
+                    }
+                    var results = queryString ? this.restaurants.filter(this.createFilter(queryString)) : this.restaurants;
+                    cb(results);
+                },
+                createFilter(queryString) {
+                    return (restaurant) => {
+                    return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+                    };
+                },
+                handleSelect(item) {
+                    this.open_id=item.open_id
+                },
+                 ADDht(){
+                     this.ht=true;
+                },
+                 heidHTs(){
+                    this.ht=false;
+                    this.contract_id='';
+                    this.listS=[];
+                },
+                 heidHT(){
+                        this.ht=false;
+                        if(this.listS.length=="0"){
+                            this.$$message.error('文件归档号不正确')
+                            return
+                        }
+                        this.contract.push((this.listS[0]).archive_id);
+                        this.contracts=this.contracts.concat(this.listS);
+                        this.contract_id='';
+                        this.listS=[];  
+                },
+                getHT(){
+                    let params={contract_id:this.contract_id};
+                    this.api.common_contract({params}).then((res)=>{
+                        this.listS=res;
+                    })
+                },
+                 del(index){
+                    this.contracts.splice(index,1);
+                },
         },
     }
 </script>
@@ -1056,5 +1325,104 @@
     .disab{
         border: 1px solid #e6e9f0;
         color:#e6e9f0
+    }
+     .ADDs{
+        display: inline-block;
+        text-align: center!important;
+        line-height: 36px;
+        cursor: pointer;
+        width:96px;
+        height:36px;
+        background:#3377ff;
+        border-radius:4px;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:#fff!important;
+    }
+
+
+    .content{
+        position: relative;
+        left: 50%;
+        top: 30%;
+        transform: translate(-50%,-50%);
+        width:460px;
+        height:312px;
+        background:rgba(255,255,255,1);
+        box-shadow:0px 1px 6px 0px rgba(0,0,0,0.06);
+        border-radius:4px;
+    }
+    .content_tit{
+        border-bottom: 1px solid #ddd;
+        height: 40px;
+    }
+    .content_tit span{
+        display: inline-block;
+        font-size:16px;
+        font-family:PingFangSC-Medium,PingFangSC;
+        font-weight:500;
+        color:rgba(31,46,77,1);
+        margin: 0px 0 24px 0px;
+        line-height: 40px;
+    }
+    .content_btn{
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        margin-bottom: 24px;
+        text-align: right;
+    }
+.content_btn span{
+    display: inline-block;
+    text-align: center;
+    line-height: 36px;
+    cursor: pointer;
+    width:80px;
+    height:36px;
+    background:rgba(255,255,255,1);
+    border-radius:4px;
+    border:1px solid rgba(211,219,235,1);
+    margin-right: 20px;
+}
+ .btn_tj{
+        color: #fff!important;
+        background: #3377ff!important;
+        border: none!important;
+    }
+     .content_input{
+        width:190px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        padding-left: 10px;
+        margin:0  24px 0 20px;
+    }
+    .content_seach{
+        display: inline-block;
+        text-align: center;
+        line-height: 36px;
+        cursor: pointer;
+        width:68px;
+        height:36px;
+        background:rgba(51,119,255,1);
+        border-radius:4px;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(255,255,255,1);
+    }
+    .content_ck, .content_xz{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(51,119,255,1);
+        margin-left: 10px;
+        cursor: pointer;
+    }
+    .inline-input{
+        width: 404px;
     }
 </style>

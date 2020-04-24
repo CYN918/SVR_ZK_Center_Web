@@ -69,14 +69,18 @@
 							<span class="boxImg_text">尺寸:</span>
 							<span class="boxImg_content">{{DL.size}}</span>
 						</div>
-						<div>
+						<!-- <div>
 							<span class="boxImg_text">相关素材:</span>
 							<span class="ck" @click="getRel(index)">查看详情</span>
 						</div>
 						<div>
 							<span class="boxImg_text">相关物料:</span>
 							<span class="ck">查看详情</span>
-						</div>
+						</div> -->
+                        <div>
+                            <span class="boxImg_text">其他信息:</span>
+                            <span class="ck" @click="ckDetails(DL.mid)">查看详情</span>
+                        </div>
 						<div>
 							<span class="boxImg_text">素材使用记录:</span>
 							<span class="ck" >查看详情</span>
@@ -294,6 +298,16 @@
                 document.body.style.overflow='';//出现滚动条
                 document.body.style.position='initial';
                 document.body.style.height='1006px';
+            },
+            ckDetails(id){
+                this.$router.push({
+                    path:"Other_details",
+                    query:{
+                        type:this.type,
+                        mid:id,
+                        material:this.material
+                    }
+                })
             },
             getLt(a){
                 if(this.userData.roles[0].role_name=='admin'){
