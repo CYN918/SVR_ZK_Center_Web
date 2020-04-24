@@ -143,7 +143,7 @@ export default {
                 getDetails(){
                     let params={type:this.$route.query.type,tdate:this.$route.query.tdate}
                     this.api.sharing_data_income_is_confirm({params}).then((res)=>{
-                        this.tatus=res;
+                        this.status=res;
                     })
                 },
                 getRowClass({row, column, rowIndex}) {
