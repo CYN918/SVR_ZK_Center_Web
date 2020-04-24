@@ -85,7 +85,7 @@
                             </template>
                         </el-table-column>
                     </el-table>
-                </template>
+            </template>
                  <div class="block">
                     <el-pagination
                             @size-change="handleSizeChange"
