@@ -345,8 +345,8 @@
 
             YCset(){this.$parent.heidThm()},
             messageID(){
-                    if(!this.ch_thids){
-                        this.$message.error('请至少选择一个主题')
+                    if(!this.qdList){
+                        this.$message.error('请选择一个主题')
                         return
                     }
                     this.$emit('listData',this.ind,this.ch_thids,this.qdList,this.main_preview,this.name,this.channelName,this.ADDchannel,this.ADDui);
@@ -422,7 +422,7 @@
                         }
                     }
                 }
-                if(his.$route.query.type!='th_advertise'){
+                if(this.$route.query.type!='th_advertise'){
                     this.getData()
                 }else{
                     this.getList();
