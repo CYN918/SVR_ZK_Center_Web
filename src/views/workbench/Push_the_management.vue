@@ -56,7 +56,7 @@
                                 label="操作">
                                 <template slot-scope="scope">
                                     <el-button type='text' @click='popup("1")'>编辑</el-button>
-                                    <el-button type='text' @click="ck()">查看详情</el-button>
+                                    <el-button type='text' @click="ck(tableData[scope.$index].plid)">查看详情</el-button>
                                 </template>
                         </el-table-column>
                     </el-table>
@@ -104,14 +104,14 @@
             </div>
         </div>
     </div>
-    <!-- <loading v-if='load'></loading> -->
+    <loading v-if='load'></loading>
  </div>
 </template>
 
 <script>
-// import loading from '../../components/loading'
+import loading from '../../components/loading'
  export default {
-//   components:{loading},
+  components:{loading},
    data () {
      return {
             tableData:[],
@@ -217,15 +217,16 @@
                  }
              })
          },
-         ck(){
+         ck(id){
              this.$router.push({
-                 path:"./Audio_configuration_management"
+                 path:"./Audio_configuration_management",
+                 query:{
+                     plid:id
+                 }
              })
          },
    },
-   components: {
-
-   }
+  
  }
 </script>
 

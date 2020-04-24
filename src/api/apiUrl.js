@@ -1686,4 +1686,8 @@ export default {
 	template_detail:{
 		url:"template/detail",method:'get'
 	},
+	//获取推送库音乐列表
+	pushlib_slssong_search:{
+		url:"pushlib/slssong/search",method:"get"
+	},
 }

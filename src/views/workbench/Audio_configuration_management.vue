@@ -1,5 +1,6 @@
 <template>
  <div>
+        <wl v-if='material'></wl>
         <div class="top_name">
             <span class="top_txt" @click='fh(-1)'>杂志锁屏推送审核管理&nbsp;/&nbsp; 内部音频配置管理</span>
             <div class="title_left">
@@ -11,30 +12,30 @@
             <div class='right_btn'>
                 <span>启用</span>
                 <span>一键确认</span>
-                <span>添加物料</span>
+                <span @click='tcaMterial()'>添加物料</span>
             </div>
             
         </div>
         <div style="position: relative;">
             <div class='condition'>
                 <span class='tit_name'>物料ID</span>
-                <input type="text">
+                <input type="text" v-model='mfid'>
                 <span class='tit_name'>壁纸标识</span>
-                <input type="text">
+                <input type="text" v-model='wpid'>
                 <span class='tit_name'>音频ID</span>
-                <input type="text">
+                <input type="text" v-model='song_id'>
                 <span class='tit_name'>是否启用</span>
-                <select>
+                <select v-model='is_valid'>
                     <option value="">全部</option>
                     <option value="0">否</option>
                     <option value="1">是</option>
                 </select>
                 <span class='tit_name'>状态</span>
-                <select>
+                <select v-model='status'>
                     <option value="">全部</option>
-                    <option value="0">已确认</option>
+                    <option value="1">已确认</option>
                     <option value="0">待确认</option>
-                    <option value="1">信息缺失</option>
+                    <option value="-1">信息缺失</option>
                 </select>
                 <span class='cx'>查询</span>
                 <span class='cz'>重置</span>
@@ -162,9 +163,10 @@
         </div>
  </div>
 </template>
-
 <script>
+ import wl from './wuliao'
  export default {
+    components:{wl},
    data () {
      return {
             img:"/img/xs.png",
@@ -176,11 +178,35 @@
             list:[{num:'2'}],
             p:10,
             page:1,
-            total:0
-     }
+            total:0,
+            wpid:"",
+            mfid:"",
+            song_id:"",
+            status:"",
+            is_valid:"",
+            search_tags:"",
+            search_self_tags:"",
+            op_tags:"",
+            material:false
+            }
+   },
+   mounted(){
+       this.getData()
    },
    methods:{
-       getData(){},
+       getData(){
+           let params={wpid:this.wpid,mfid:this.mfid,song_id:this.song_id,status:this.status,is_valid:this.is_valid,search_tags:this.search_tags,search_self_tags:this.search_self_tags,op_tags:this.op_tags,p:this.p,page:this.page,plid:this.$route.query.plid}
+           this.api.pushlib_slssong_search({params}).then((res)=>{
+               this.list=res.data;
+               this.total=res.total
+           })
+       },
+       tcaMterial(){
+           this.material=true
+       },
+       heidSCwl(){
+           this.material=false
+       },
        unwind(){
             if(this.unfold==false){
                     this.unfold=true;
@@ -235,9 +261,7 @@
                 this.getData()
         },
    },
-   components: {
-
-   }
+  
  }
 </script>
 
