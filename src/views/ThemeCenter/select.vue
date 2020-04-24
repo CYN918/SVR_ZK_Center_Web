@@ -344,7 +344,7 @@
 
             YCset(){this.$parent.heidThm()},
             messageID(){
-                if(!this.channel_name){
+                if(!this.qdList){
                     this.$message.error('请选择一个主题')
                     return
                 }
