@@ -20,7 +20,7 @@
              </div>
              <div>
                  <span class='message_tit_name'>项目ID：</span>
-                 <span class='message_tit_content'>{{listData.project_id}}</span>
+                 <span class='message_tit_content'>{{project_id}}</span>
              </div>
              <div>
                  <span class='message_tit_name'>结算方式：</span>
@@ -85,7 +85,7 @@
                                     
                                         <div v-if='channel_themes[scope.$index].price'>
                                             <span style="margin-left:45px">上架单价：</span>
-                                            <span style="display: inline-block;width:30%">{{channel_themes[scope.$index].price}}</span>
+                                            <span style="display: inline-block;width:30%">{{'￥'+channel_themes[scope.$index].price}}</span>
                                             <span>资源文件：</span>
                                             <span style="display: inline-block">{{channel_themes[scope.$index].attach.name}}</span>
                                             <a :href="channel_themes[scope.$index].attach.url" target="_blank" style="display: inline-block;text-align: right;cursor: pointer;">下载</a>
@@ -375,7 +375,8 @@ export default {
                 price:"",
                 attach:{},
                 listData:{},
-                load:true
+                load:true,
+                project_id:"",
             }
         },
         mounted(){
@@ -492,12 +493,14 @@ export default {
                  if(this.$route.query.material==1){
                    let params={mid:this.$route.query.mid}
                    this.api.material_detail({params}).then((res)=>{
-                       this.listData=res.settlement_info
+                       this.listData=res.settlement_info;
+                       this.project_id=res.project_id
                    })
                 }else{
                    let params={mfid:this.$route.query.mfid}
                    this.api. mfinal_detail({params}).then((res)=>{
                         this.listData=res.settlement_info
+                        this.project_id=res.project_id
                    })
                 }
             },
