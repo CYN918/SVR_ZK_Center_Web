@@ -1725,10 +1725,38 @@ export default {
 		url:"template/detail",method:'get'
 	},
 
-
 	//获取状态详情
 	sharing_data_income_is_confirm:{
 		url:'sharing/data/income/is_confirm',method:'get'
+	},
+
+	//获取推送库音乐列表
+	pushlib_slssong_search:{
+		url:"pushlib/slssong/search",method:"get"
+	},
+	//新增推送库壁纸音乐
+	pushlib_slssong_add:{
+		url:"pushlib/slssong/add",method:"post",isType:{suktip:1}
+	},
+	//编辑推送库壁纸音乐配置
+	pushlib_slssong_edit_setting:{
+		url:"pushlib/slssong/edit/setting",method:"post",isType:{suktip:1}
+	},
+	//更新推送库壁纸音乐状态
+	pushlib_slssong_update_status:{
+		url:'pushlib/slssong/update/status',method:"post",isType:{suktip:1}
+	},
+	//更新推送库壁纸音乐启用状态
+	pushlib_slssong_update_isvalid:{
+		url:"pushlib/slssong/update/isvalid",method:"post",isType:{suktip:1}
+	},
+	//投放库详情
+	pushlib_details:{
+		url:"pushlib/details",method:"get"
+	},
+	//投放库启用状态
+	pushlib_edit_isvalid:{
+		url:'pushlib/edit/isvalid',method:"post",isType:{suktip:1}
 	},
 
 }
