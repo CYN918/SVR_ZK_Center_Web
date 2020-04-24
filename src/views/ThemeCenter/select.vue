@@ -198,8 +198,7 @@
         },
         methods:{
             setID(){
-                    if(this.$route.query.type=='th_advertise'){
-                        
+                 if(this.$route.query.type=='th_advertise'){
                         if(!this.ADDchannel){
                             this.$message.error('渠道不能为空');
                             return
@@ -714,7 +713,7 @@
         max-width: 100%;
         max-height: 100%;
         position: relative;
-        top: 33%;
+        top: 50%;
         left: 50%;
         transform: translate(-50%,-50%);
     }
