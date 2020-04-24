@@ -329,6 +329,7 @@
     .active{
         background:rgba(255,255,255,1);
         border:1px solid rgba(19,159,248,1);
+        padding:5px 10px!important;
     }
 
     .box_select input{

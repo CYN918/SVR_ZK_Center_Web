@@ -228,8 +228,8 @@
 
                 <div v-if="this.type!='th_advertise'">
                     <span>绑定主题素材</span>
-                    <a @click="jump()" v-if="thmid==undefined">从主题素材库选择</a>
-                    <a v-if="thmid!=undefined" class='disab'>从主题素材选择</a>
+                    <a @click="jump()" v-if="thmid==undefined" style="width:120px;height:36px;line-height:36px;background:#3377ff;color:#fff;">从主题素材库选择</a>
+                    <a v-if="thmid!=undefined" class='disab' style="width:120px;height:36px;line-height:36px;background:#3377ff;color:#fff">从主题素材选择</a>
                     <template>
                         <el-checkbox v-model="is_material" style="margin: 0 10px" :disabled="thmid!=undefined"></el-checkbox>
                     </template>
@@ -244,8 +244,8 @@
                 </div>
                 <div v-if="this.type=='th_advertise'">
                     <span>绑定主题</span>
-                    <a @click="jumpTheme()" v-if="thmid==undefined">从主题库选择</a>
-                    <a v-if="thmid!=undefined" class='disab'>从主题选择</a>
+                    <a @click="jumpTheme()" v-if="thmid==undefined" style="width:120px;height:36px;line-height:36px;background:#3377ff;color:#fff">从主题库选择</a>
+                    <a v-if="thmid!=undefined" class='disab' style="width:120px;height:36px;line-height:36px;background:#3377ff;color:#fff">从主题选择</a>
                     <div class="img_box" v-if="listThms!=''">
                         <div class="img_box1">
                             <img class="img_box1_img" :src="listThms">
@@ -1044,6 +1044,7 @@
         background:rgba(242,246,252,1);
         border-radius:4px;
         border:1px solid rgba(51,119,255,1); */
+        border-radius:4px;
         font-size:14px;
         font-family:PingFangSC;
         font-weight:400;
