@@ -230,6 +230,7 @@
                     }
                 this.ch_thids='';
                 this.qdList=[];
+                
                 for(var i=0 ;i<this.TCchannel.length;i++){
                     if(this.TCchannel[i].channel==this.ADDchannel){
                         this.ch_thids=this.TCchannel[i].ch_thid;
@@ -292,6 +293,7 @@
                     this.index=index;
                     this.ADDqd=true;
                     this.TCchannel=this.IMGList[index].channel_themes;
+                    
                     var channel_number=[];
                     for(var i=0;i<this.TCchannel.length;i++){
                         if(channel_number.indexOf(this.TCchannel[i].channel)==-1){
@@ -301,7 +303,6 @@
                     }
                     this.name=this.IMGList[index].name;
                     this.ind=this.IMGList[index].thid;
-
                 }
 
             },
@@ -343,6 +344,10 @@
 
             YCset(){this.$parent.heidThm()},
             messageID(){
+                if(!this.channel_name){
+                    this.$message.error('请选择一个主题')
+                    return
+                }
                     this.$emit('listData',this.ind,this.ch_thids,this.qdList,this.main_preview,this.name,this.channelName,this.ADDchannel,this.ADDui);
                     this. YCset()
             },
