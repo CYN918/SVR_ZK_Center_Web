@@ -70,8 +70,8 @@
                     <div class="box">
                         <div class="box_img"  v-for="(item,index) in IMGList" @click="clicks(index)">
                             <div class="box_top">
-                                <img src="../../../public/img/select2.png" style="width: 48px;height: 48px;position: relative;right: -141px;z-index: 99" v-if="ind.indexOf(IMGList[index].thid)==-1">
-                                <img src="../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;right: -141px;z-index: 99" v-if="ind.indexOf(IMGList[index].thid)!=-1">
+                                <img src="../../../public/img/select2.png" style="width: 48px;height: 48px; position: absolute;right: 0;z-index: 99" v-if="ind.indexOf(IMGList[index].thid)==-1">
+                                <img src="../../../public/img/select.png" style="width: 48px;height: 48px; position: absolute;right: 0;z-index: 99" v-if="ind.indexOf(IMGList[index].thid)!=-1">
                                 <img :src="picture[index]" class="box_top_img" >
                     
                         </div>
@@ -195,6 +195,7 @@
                 this.getList();
             }
             this.getChannel()
+            
         },
         methods:{
             setID(){
@@ -714,7 +715,7 @@
         max-width: 100%;
         max-height: 100%;
         position: relative;
-        top: 33%;
+        top: 50%;
         left: 50%;
         transform: translate(-50%,-50%);
     }
