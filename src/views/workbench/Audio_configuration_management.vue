@@ -7,10 +7,10 @@
                 <span>内部音频配置管理</span>
                 <span class='lk'>{{this.$route.query.channel}}</span>
                 <span class='open_status'>启用状态：</span>
-                <span class='open_status' style="margin-left:0">aaaa</span>
+                <span class='open_status' style="margin-left:0" :class='{red:this.open==0}'>{{this.open==0?"待确认":'已确认'}}</span>
             </div>
             <div class='right_btn'>
-                <span @click='open()'>{{list.status==1?'禁用':'启用'}}功能</span>
+                <span @click='opens()'>{{this.open==1?'禁用':'启用'}}功能</span>
                 <!-- <span>一键确认</span> -->
                 <span @click='getWl()'>添加物料</span>
             </div>
@@ -267,8 +267,8 @@
                     <span>{{list.status==1?'禁用':'启用'}}功能</span>
                 </div>
                 <div>
-                    <span style="margin:0 24px" v-if='list.status==1'>禁用后，该功能失效，终端将按照默认策略执行是否确认？</span>
-                    <span style="margin:0 24px" v-if='list.status==0'>启用后，终端将按照配置生效的策略执行，是否确认？</span>
+                    <span style="margin:0 24px" v-if='open==1'>禁用后，该功能失效，终端将按照默认策略执行是否确认？</span>
+                    <span style="margin:0 24px" v-if='open==0'>启用后，终端将按照配置生效的策略执行，是否确认？</span>
                 </div>
                  <div class="btn_right" style="float:left;">
                                 <span class='cx' @click='ADD()'>确定</span>
@@ -408,6 +408,7 @@
             ruleList:[],
             change:false,
             details:false,
+            open:''
             
             }
    },
@@ -416,18 +417,19 @@
    },
    methods:{
        fh(index){this.$router.go(index)},
-    //    getDetails(){
-    //        let params={}
-    //        this.api.pushlib_details().then((res)=>{
-
-    //        })
-    //    },
+       getDetails(){
+           let params={plid:this.$route.query.plid}
+           this.api.pushlib_details({params}).then((res)=>{
+                this.open=res.is_valid
+           })
+       },
        getData(){
            let params={wpid:this.wpid,mfid:this.mfid,song_id:this.song_id,status:this.status,is_valid:this.is_valid,search_tags:this.search_tags,search_self_tags:this.search_self_tags,op_tags:this.op_tags,p:this.p,page:this.page,plid:this.$route.query.plid}
            this.api.pushlib_slssong_search({params}).then((res)=>{
                this.list=res.data;
                this.total=res.total
                this.load=false
+               this.getDetails()
            })
        },
        changes(index){
@@ -486,7 +488,7 @@
        HeidChange(){
            this.change=false
        },
-       open(){
+       opens(){
            this.tj=true
        },
        gb(){
@@ -497,6 +499,17 @@
         },
         heidWL(){
                this.ADDwl = false;
+        },
+        ADD(){
+            let formData=new FormData
+            formData.append('plid',this.$route.query.plid)
+            formData.append('is_valid',this.open==1?'0':"1")
+            this.api.pushlib_edit_isvalid(formData).then((res)=>{
+                if(res!=false){
+                    this.gb();
+                    this.getDetails()
+                }
+            })
         },
        unwind(){
             if(this.unfold==false){
@@ -813,5 +826,8 @@
         border:1px solid #ddd;
         border-radius: 2px;
         margin-right: 10px;
+    }
+    .red{
+        color:red
     }
 </style>
