@@ -282,7 +282,7 @@
                 })
                 window.open(Logistics.href, '_blank','toolbar=yes');
             },
-<<<<<<< HEAD
+
             seeTheme(id,name,qdid,local){
                 if(local){
                     var path='./themeDetails';
@@ -290,11 +290,11 @@
                         thid:id,
                         channel:"local",
                     }
-=======
-            seeTheme(id,name,qdid,channel_name){
-                if(name=='local'){
-                    var path='./themeDetails'
->>>>>>> proceeds
+
+            // seeTheme(id,name,qdid,channel_name){
+            //     if(name=='local'){
+            //         var path='./themeDetails'
+
                 }else{
                     path='./themeDetailsQd';
                     query={
@@ -305,16 +305,16 @@
                 }
                 let Logistics= this.$router.resolve({
                     path:path,
-<<<<<<< HEAD
+
                     query:query
-=======
-                    query:{
-                        thid:id,
-                        channel:name,
-                        ch_thid:qdid,
-                        channel_name:channel_name
-                    },
->>>>>>> proceeds
+
+                    // query:{
+                    //     thid:id,
+                    //     channel:name,
+                    //     ch_thid:qdid,
+                    //     channel_name:channel_name
+                    // },
+
                 })
                 window.open(Logistics.href);
             },
