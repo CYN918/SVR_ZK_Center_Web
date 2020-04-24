@@ -1706,4 +1706,12 @@ export default {
 	pushlib_slssong_update_isvalid:{
 		url:"pushlib/slssong/update/isvalid",method:"post",isType:{suktip:1}
 	},
+	//投放库详情
+	pushlib_details:{
+		url:"pushlib/details",method:"get"
+	},
+	//投放库启用状态
+	pushlib_edit_isvalid:{
+		url:'pushlib/edit/isvalid',method:"post",isType:{suktip:1}
+	},
 }

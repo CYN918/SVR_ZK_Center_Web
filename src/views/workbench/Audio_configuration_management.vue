@@ -416,6 +416,12 @@
    },
    methods:{
        fh(index){this.$router.go(index)},
+    //    getDetails(){
+    //        let params={}
+    //        this.api.pushlib_details().then((res)=>{
+
+    //        })
+    //    },
        getData(){
            let params={wpid:this.wpid,mfid:this.mfid,song_id:this.song_id,status:this.status,is_valid:this.is_valid,search_tags:this.search_tags,search_self_tags:this.search_self_tags,op_tags:this.op_tags,p:this.p,page:this.page,plid:this.$route.query.plid}
            this.api.pushlib_slssong_search({params}).then((res)=>{
