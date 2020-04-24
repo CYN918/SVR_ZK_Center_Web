@@ -1615,7 +1615,6 @@ export default {
 		url:"ds/buyout/income/detail",method:"get"
 	},
 	
-
 	//解决跨域下载视频
 	tools_url_download:{
 		url:"tools/url/download",method:"get"
@@ -1623,5 +1622,9 @@ export default {
 	//获取结算方列表
 	designer_settlement_list:{
 		url:"designer/settlement/list",method:'get'
+	},
+	//获取状态详情
+	sharing_data_income_is_confirm:{
+		url:'sharing/data/income/is_confirm',method:'get'
 	},
 }
