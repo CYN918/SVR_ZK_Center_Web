@@ -443,7 +443,7 @@
                       this.open_id=res.settlement_info.open_id;
                       this.settle_type=res.settlement_info.settle_type;
                       this.settle_value=res.settlement_info.settle_value
-                      this.contracts=res.contracts;
+                      this.contracts=res.contract;
                       if(this.contract.length>0){
                           for(var s=0;s<this.contract.length;s++){
                                 this.contract.push(this.contract[s].archive_id);
