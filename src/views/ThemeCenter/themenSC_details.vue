@@ -10,7 +10,7 @@
                 <span>{{tableData.name}}</span>
                 <div>
                     <span @click="bj()">编辑</span>
-                    <a :href="tableData.attach.url" class="dowload">下载</a>
+                    <a :href="getAttachUrl()" class="dowload">下载</a>
                 </div>
             </div>
             <div>
@@ -240,7 +240,7 @@
                 isType:0,
                 isUPload:1,
                 time:[],
-                tableData:{},
+                tableData:{contract:[],attach:{}},
                 themeList:[],
                 sc:[],
                 type:'',
@@ -313,6 +313,12 @@
                 this.api.themes_material_hireworks({params}).then((res)=>{
                     this.xm=res;
                 })
+            },
+            getAttachUrl(){
+                if(this.tableData.attach == undefined){
+                    return '';
+                }
+                return this.tableData.attach.url;
             },
             // getContract(){
             //     let params={thmid:this.$route.query.thmid};

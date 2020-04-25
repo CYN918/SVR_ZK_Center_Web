@@ -1003,4 +1003,8 @@ select{
     display: none;
   }  
 
+
+  .htTC .el-input__inner{
+    width: 400px!important;
+  }
 </style>

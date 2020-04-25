@@ -626,7 +626,7 @@ export default {
                            
                             
                         },
-                        scADD(){
+                         scADD(){
                             if(!this.attach.name){
                                 this.$message.error('附件不能为空');
                                 return
@@ -669,6 +669,7 @@ export default {
                              }else{
                                 let list={}
                                 if(this.preinstall.length==0){
+
                                     this.$message.error('预置标签不能为空');
                                     return
                                 }

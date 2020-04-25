@@ -195,10 +195,12 @@
                 this.getList();
             }
             this.getChannel()
+            
         },
         methods:{
             setID(){
                  if(this.$route.query.type=='th_advertise'){
+
                         if(!this.ADDchannel){
                             this.$message.error('渠道不能为空');
                             return
@@ -422,7 +424,7 @@
                         }
                     }
                 }
-                if(his.$route.query.type!='th_advertise'){
+                if(this.$route.query.type!='th_advertise'){
                     this.getData()
                 }else{
                     this.getList();
