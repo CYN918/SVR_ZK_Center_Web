@@ -91,7 +91,7 @@
                             prop="user.email"
                             label="详细信息">
                             <template slot-scope="scope">
-                                        <a style="color:#3377ff;cursor: pointer" @click='CkDetails()'>点击查看</a>
+                                        <a style="color:#3377ff;cursor: pointer" @click='CkDetails(scope.$index)'>点击查看</a>
                                     </template>
                     </el-table-column>
                     <el-table-column
@@ -319,8 +319,8 @@
                         <div>
                             <span  class='titName'>最大自动播放次数：</span>
                             <input type="number" style="width:212px" v-model='item.count'>
-                            <input type="checkbox" style="width:16px;vertical-align: middle;">
-                            <span>次数不限</span>
+                            <!--<input type="checkbox" style="width:16px;vertical-align: middle;">
+                            <span>次数不限</span>-->
                         </div>
                         <div>
                             <span  class='titName'>自动播放音量：</span>
@@ -338,35 +338,37 @@
             </div>
         </div>
         <div class='bg' v-if='details'>
-            <div class='details'>
+            <div class='details' v-if="mfinal">
                  <div class='ts'>
                     <span>查看详情</span>
                     <img style="float:right;margin-right:24px;cursor: pointer;width:16px;margin-top:20px" src='img/gb.png' @click='delDetails()'>
                 </div>
                 <div>
                     <span class='titNames'>物料ID</span>
-                    <span></span>
+                    <span>{{mfinal.mfid}}</span>
                 </div>
                  <div>
                     <span class='titNames'>壁纸标识</span>
-                    <span></span>
+                    <span>{{mfinal.wpid}}</span>
                 </div>
                  <div>
                     <span class='titNames'>音频ID</span>
-                    <span></span>
+                    <span>{{mfinal.mfid}}</span>
                 </div>
                  <div>
                     <span class='titNames'>内容标签</span>
-                    <span class="tag"></span>
+                    <div class="tag">
+                        <span v-for="item in mfinal.tags" class="tagName" v-if="item!=''">{{item}}</span>
+                    </div>
+                    
                 </div>
                  <div>
                     <span class='titNames'>尺寸</span>
-                    <span></span>
+                    <span>{{mfinal.size}}</span>
                 </div>
                  <div>
                     <span class='titNames'>文件</span>
-                    <span></span>
-                    <a href="" style="color:#3377ff;cursor: pointe;margin-left:10px">下载</a>
+                    <a v-if="mfinal.attach" href="mfinal.attach.attach_url" style="color:#3377ff;cursor: pointe;margin-left:10px">下载</a>
                 </div>
             </div>
         </div>
@@ -407,7 +409,8 @@
             change:false,
             details:false,
             open:'',
-            editData:{mfid:''}
+            editData:{mfid:''},
+            mfinal:null
             }
    },
    mounted(){
@@ -455,8 +458,9 @@
             this.status=""
             this.is_valid=""
        },
-       CkDetails(){
-           this.details=true
+       CkDetails(index){
+           this.details=true;
+           this.mfinal = this.list[index].mfinal;
        }, 
        delDetails(){
            this.details=false
