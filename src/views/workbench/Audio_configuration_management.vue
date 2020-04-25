@@ -7,7 +7,7 @@
                 <span>内部音频配置管理</span>
                 <span class='lk'>{{this.$route.query.channel}}</span>
                 <span class='open_status'>启用状态：</span>
-                <span class='open_status' style="margin-left:0" :class='{red:this.open==0}'>{{this.open==0?"待确认":'已确认'}}</span>
+                <span class='open_status' style="margin-left:0" :class='{red:this.open==0}'>{{this.open==0?"禁用":'启用'}}</span>
             </div>
             <div class='right_btn'>
                 <span @click='opens()'>{{this.open==1?'禁用':'启用'}}功能</span>
@@ -25,17 +25,17 @@
                 <span class='tit_name'>音频ID</span>
                 <input type="text" v-model='song_id'>
                 <span class='tit_name'>是否启用</span>
-                <select v-model='is_valid'>
+                <select v-model='status'>
                     <option value="">全部</option>
                     <option value="0">否</option>
                     <option value="1">是</option>
                 </select>
-                <span class='tit_name'>状态</span>
+                <!--<span class='tit_name'>状态</span>
                 <select v-model='status'>
                     <option value="">全部</option>
                     <option value="1">已确认</option>
                     <option value="0">待确认</option>
-                </select>
+                </select>-->
                 <span class='cx' @click="getData()">查询</span>
                 <span class='cz' @click='reset()'>重置</span>
                 <span class='gd' @click='unwind()'>更多筛选项</span>
@@ -222,13 +222,13 @@
                                     
                             </template>
                     </el-table-column>
-                     <el-table-column
+                    <!-- <el-table-column
                             prop="channel.channel"
                             label="状态">
                              <template slot-scope="scope">
                                 <span>{{list[scope.$index].is_valid==1?'已确认':'待确认'}}</span>
                             </template>
-                    </el-table-column>
+                    </el-table-column> -->
                      <el-table-column
                             prop="updated_at"
                             :show-overflow-tooltip="true"
