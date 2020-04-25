@@ -444,9 +444,9 @@
                       this.settle_type=res.settlement_info.settle_type;
                       this.settle_value=res.settlement_info.settle_value
                       this.contracts=res.contract;
-                      if(this.contract.length>0){
-                          for(var s=0;s<this.contract.length;s++){
-                                this.contract.push(this.contract[s].archive_id);
+                      if(this.contracts.length>0){
+                          for(var s=0;s<this.contracts.length;s++){
+                                this.contract.push(this.contracts[s].archive_id);
                           }
                       }
                       if(res.settlement_info.id_card){
@@ -712,8 +712,8 @@
                         return
                     }
                      if(this.contract.length=="0"&&this.is_internal==false){
-                        this.$message.error('合同不能为空')
-                        return
+                        // this.$message.error('合同不能为空')
+                        // return
                     }
                     if(!this.settle_value&&this.is_internal==false){
                         this.$message.error('结算类型价格、比列不能为空')
