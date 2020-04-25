@@ -103,7 +103,7 @@
                                         :inactive-value="0"
                                         active-color="#3377ff"
                                         inactive-color="#e6e9f0"
-                                        v-model="scope.row.is_valid"
+                                        v-model="scope.row.status"
                                         @change='changes(scope.$index)'>
                                 </el-switch>
                             </template>
@@ -226,7 +226,7 @@
                             prop="channel.channel"
                             label="状态">
                              <template slot-scope="scope">
-                                <span>{{list[scope.$index].status==1?'已确认':'待确认'}}</span>
+                                <span>{{list[scope.$index].is_valid==1?'已确认':'待确认'}}</span>
                             </template>
                     </el-table-column>
                      <el-table-column
@@ -436,8 +436,8 @@
            let formData = new FormData
            formData.append('plid',this.$route.query.plid)
            formData.append('mfid',this.list[index].mfid)
-           formData.append('is_valid',this.list[index].is_valid)
-           this.api.pushlib_slssong_update_isvalid(formData).then((res)=>{
+           formData.append('status',this.list[index].status)
+           this.api.pushlib_slssong_update_status(formData).then((res)=>{
                if(res!=false){
                    this.getData()
                }
