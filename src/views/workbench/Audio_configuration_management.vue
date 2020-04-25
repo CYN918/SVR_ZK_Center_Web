@@ -24,7 +24,7 @@
                 <input type="text" v-model='wpid'>
                 <span class='tit_name'>音频ID</span>
                 <input type="text" v-model='song_id'>
-                <span class='tit_name'>是否启用</span>
+                <span class='tit_name'>是否生效</span>
                 <select v-model='status'>
                     <option value="">全部</option>
                     <option value="0">否</option>
