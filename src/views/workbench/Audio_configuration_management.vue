@@ -79,7 +79,7 @@
                             prop="num"
                             label="杂志锁屏">
                             <template slot-scope="scope">
-                                        <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
+                                        <el-tooltip  v-if="list[scope.$index].mfinal" placement="right" class="tit_txt_2 logs tit_txts">
                                             <div slot="content">
                                                <img :src='list[scope.$index].mfinal.prev_uri' style="max-width:261px;max-height: 464px"  />
                                             </div>
@@ -108,13 +108,13 @@
                                 </el-switch>
                             </template>
                     </el-table-column>
-                     <el-table-column
+                     <el-table-column 
                             prop="channel.channel"
                             label="生效时段">
-                            <template slot-scope="scope">
+                            <template slot-scope="scope" >
                                     <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
                                             <div slot="content" style="min-width:500px">
-                                                <template>
+                                                <template v-if="list[scope.$index].song_setting">
                                                         <el-table
                                                                 ref="tab"
                                                                 :data="list[scope.$index].song_setting"
@@ -146,13 +146,13 @@
                                     
                             </template>
                     </el-table-column>
-                     <el-table-column
+                    <!-- <el-table-column
                             prop="num"
                             label="循环播放次数">
                             <template slot-scope="scope">
-                                    <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
-                                            <div slot="content" style="min-width:500px">
-                                                <template>
+                                    <el-tooltip v-if="list[scope.$index]" placement="right" class="tit_txt_2 logs tit_txts">
+                                            <div  slot="content" style="min-width:500px">
+                                                <template >
                                                         <el-table
                                                                 ref="tab"
                                                                 :data="list[scope.$index].song_setting"
@@ -184,12 +184,11 @@
                                     
                             </template>
                     </el-table-column>
-                     <el-table-column
                             prop="channel.channel"
                             label="音量">
                            <template slot-scope="scope">
                                     <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
-                                            <div slot="content" style="min-width:500px">
+                                            <div v-if="list[scope.$index]" slot="content" style="min-width:500px">
                                                 <template>
                                                         <el-table
                                                                 ref="tab"
@@ -219,9 +218,8 @@
                                             </div>
                                             <span  style="cursor: pointer">多个规则</span>                               
                                          </el-tooltip>
-                                    
                             </template>
-                    </el-table-column>
+                    </el-table-column>-->
                     <!-- <el-table-column
                             prop="channel.channel"
                             label="状态">
@@ -408,28 +406,35 @@
             ruleList:[],
             change:false,
             details:false,
-            open:''
-            
+            open:'',
+            editData:{mfid:''}
             }
    },
    mounted(){
+       this.getDetails()
        this.getData()
    },
    methods:{
-       fh(index){this.$router.go(index)},
+       fh(index){
+           this.$router.go(index)
+       },
        getDetails(){
            let params={plid:this.$route.query.plid}
            this.api.pushlib_details({params}).then((res)=>{
                 this.open=res.is_valid
            })
        },
+       setData(res){
+            this.list=res.data;
+            this.total=res.total;
+            this.load=false;
+       },
        getData(){
            let params={wpid:this.wpid,mfid:this.mfid,song_id:this.song_id,status:this.status,is_valid:this.is_valid,search_tags:this.search_tags,search_self_tags:this.search_self_tags,op_tags:this.op_tags,p:this.p,page:this.page,plid:this.$route.query.plid}
            this.api.pushlib_slssong_search({params}).then((res)=>{
-               this.list=res.data;
-               this.total=res.total
-               this.load=false
-               this.getDetails()
+               console.log('test');
+               this.setData(res)
+            //    this.getDetails()
            })
        },
        changes(index){
@@ -461,16 +466,17 @@
            this.ruleList.push(obj)
        },
        bj(data){
-           let formData =new FormData
-           formData.append('plid',this.$route.query.plid);
-           formData.append('mfid',this.mfid)
-           formData.append('song_setting',JSON.stringify(this.ruleList))
-          this.api.pushlib_slssong_edit_setting(formData).then((res)=>{
+            let formData =new FormData
+            formData.append('plid',this.$route.query.plid);
+            formData.append('mfid',this.editData.mfid)
+            formData.append('song_setting',JSON.stringify(this.ruleList))
+            this.api.pushlib_slssong_edit_setting(formData).then((res)=>{
+                console.log('test2')
                 if(res!=false&&data==undefined){
                     this.HeidChange()
                     this.getData()
                 }
-          })
+            })
        },
        removeRule(index){
            if(this.ruleList[index].id){
@@ -481,9 +487,9 @@
            
        },
        getShow(index){
-           this.change=true;
-           this.ruleList=this.list[index].song_setting
-           this.mfid=this.list[index].mfid
+           this.change = true;
+           this.ruleList = this.list[index].song_setting
+           this.editData.mfid = this.list[index].mfid
        },
        HeidChange(){
            this.change=false
