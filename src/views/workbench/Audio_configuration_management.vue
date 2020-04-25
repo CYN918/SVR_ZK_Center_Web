@@ -22,8 +22,8 @@
                 <input type="text" v-model='mfid'>
                 <span class='tit_name'>壁纸标识</span>
                 <input type="text" v-model='wpid'>
-                <span class='tit_name'>音频ID</span>
-                <input type="text" v-model='song_id'>
+                <!--<span class='tit_name'>音频ID</span>
+                <input type="text" v-model='song_id'>-->
                 <span class='tit_name'>是否生效</span>
                 <select v-model='status'>
                     <option value="">全部</option>
@@ -38,8 +38,8 @@
                 </select>-->
                 <span class='cx' @click="getData()">查询</span>
                 <span class='cz' @click='reset()'>重置</span>
-                <span class='gd' @click='unwind()'>更多筛选项</span>
-                <img :src="img" alt="" style="width:10px;margin-left:10px"/>
+                <!--<span class='gd' @click='unwind()'>更多筛选项</span>
+                <img :src="img" alt="" style="width:10px;margin-left:10px"/>-->
             </div>
             <div class='more' v-if='unfold'>
                  <div class="polling_tag">
@@ -274,7 +274,7 @@
                 </div>   
             </div>
         </div>
-        <div class='bg' v-if="change">
+        <div class='bg' style="overflow:scroll;" v-if="change">
             <div class='compile'>
                 <div class='ts'>
                     <span>编辑</span>
@@ -482,13 +482,23 @@
                 }
             })
        },
+       delReule(id, index){
+            let formData = new FormData
+            formData.append('plid',this.$route.query.plid);
+            formData.append('mfid',this.editData.mfid)
+            formData.append('sid',id)
+            this.api.pushlib_slssong_del_setting(formData).then((res)=>{
+                if(res != false){
+                    this.ruleList.splice(index,1);
+                }
+            })
+       },
        removeRule(index){
            if(this.ruleList[index].id){
-               this.bj('del')
+               this.delReule(this.ruleList[index].id, index);
            }else{
-               this.ruleList.splice(index,1)
+                this.ruleList.splice(index,1);
            }
-           
        },
        getShow(index){
            this.change = true;
