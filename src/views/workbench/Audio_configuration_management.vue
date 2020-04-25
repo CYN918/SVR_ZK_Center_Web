@@ -6,7 +6,7 @@
             <div class="title_left">
                 <span>内部音频配置管理</span>
                 <span class='lk'>{{this.$route.query.channel}}</span>
-                <span class='open_status'>启用状态：</span>
+                <span class='open_status'>功能状态：</span>
                 <span class='open_status' style="margin-left:0" :class='{red:this.open==0}'>{{this.open==0?"禁用":'启用'}}</span>
             </div>
             <div class='right_btn'>
@@ -353,7 +353,7 @@
                 </div>
                  <div>
                     <span class='titNames'>音频ID</span>
-                    <span>{{mfinal.mfid}}</span>
+                    <span></span>
                 </div>
                  <div>
                     <span class='titNames'>内容标签</span>
