@@ -406,16 +406,17 @@
             ruleList:[],
             change:false,
             details:false,
-            open:''
-            
+            open:'',
+            editData:{mfid:''}
             }
    },
    mounted(){
-       this.getData()
        this.getDetails()
+       this.getData()
    },
    methods:{
-       fh(index){this.$router.go(index)
+       fh(index){
+           this.$router.go(index)
        },
        getDetails(){
            let params={plid:this.$route.query.plid}
@@ -432,7 +433,7 @@
            let params={wpid:this.wpid,mfid:this.mfid,song_id:this.song_id,status:this.status,is_valid:this.is_valid,search_tags:this.search_tags,search_self_tags:this.search_self_tags,op_tags:this.op_tags,p:this.p,page:this.page,plid:this.$route.query.plid}
            this.api.pushlib_slssong_search({params}).then((res)=>{
                console.log('test');
-               setData(res)
+               this.setData(res)
             //    this.getDetails()
            })
        },
@@ -465,16 +466,17 @@
            this.ruleList.push(obj)
        },
        bj(data){
-           let formData =new FormData
-           formData.append('plid',this.$route.query.plid);
-           formData.append('mfid',this.mfid)
-           formData.append('song_setting',JSON.stringify(this.ruleList))
-          this.api.pushlib_slssong_edit_setting(formData).then((res)=>{
+            let formData =new FormData
+            formData.append('plid',this.$route.query.plid);
+            formData.append('mfid',this.editData.mfid)
+            formData.append('song_setting',JSON.stringify(this.ruleList))
+            this.api.pushlib_slssong_edit_setting(formData).then((res)=>{
+                console.log('test2')
                 if(res!=false&&data==undefined){
                     this.HeidChange()
                     this.getData()
                 }
-          })
+            })
        },
        removeRule(index){
            if(this.ruleList[index].id){
@@ -485,9 +487,9 @@
            
        },
        getShow(index){
-           this.change=true;
-           this.ruleList=this.list[index].song_setting
-           this.mfid=this.list[index].mfid
+           this.change = true;
+           this.ruleList = this.list[index].song_setting
+           this.editData.mfid = this.list[index].mfid
        },
        HeidChange(){
            this.change=false
