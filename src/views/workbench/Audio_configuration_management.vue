@@ -108,13 +108,13 @@
                                 </el-switch>
                             </template>
                     </el-table-column>
-                     <el-table-column
+                     <el-table-column 
                             prop="channel.channel"
                             label="生效时段">
-                            <template slot-scope="scope">
+                            <template slot-scope="scope" >
                                     <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
                                             <div slot="content" style="min-width:500px">
-                                                <template v-if="list[scope.$index]">
+                                                <template v-if="list[scope.$index].song_setting">
                                                         <el-table
                                                                 ref="tab"
                                                                 :data="list[scope.$index].song_setting"
@@ -146,13 +146,13 @@
                                     
                             </template>
                     </el-table-column>
-                     <el-table-column
+                    <!-- <el-table-column
                             prop="num"
                             label="循环播放次数">
                             <template slot-scope="scope">
-                                    <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
+                                    <el-tooltip v-if="list[scope.$index]" placement="right" class="tit_txt_2 logs tit_txts">
                                             <div  slot="content" style="min-width:500px">
-                                                <template v-if="list[scope.$index]">
+                                                <template >
                                                         <el-table
                                                                 ref="tab"
                                                                 :data="list[scope.$index].song_setting"
@@ -184,7 +184,6 @@
                                     
                             </template>
                     </el-table-column>
-                     <el-table-column
                             prop="channel.channel"
                             label="音量">
                            <template slot-scope="scope">
@@ -220,7 +219,7 @@
                                             <span  style="cursor: pointer">多个规则</span>                               
                                          </el-tooltip>
                             </template>
-                    </el-table-column>
+                    </el-table-column>-->
                     <!-- <el-table-column
                             prop="channel.channel"
                             label="状态">
@@ -413,22 +412,28 @@
    },
    mounted(){
        this.getData()
+       this.getDetails()
    },
    methods:{
-       fh(index){this.$router.go(index)},
+       fh(index){this.$router.go(index)
+       },
        getDetails(){
            let params={plid:this.$route.query.plid}
            this.api.pushlib_details({params}).then((res)=>{
                 this.open=res.is_valid
            })
        },
+       setData(res){
+            this.list=res.data;
+            this.total=res.total;
+            this.load=false;
+       },
        getData(){
            let params={wpid:this.wpid,mfid:this.mfid,song_id:this.song_id,status:this.status,is_valid:this.is_valid,search_tags:this.search_tags,search_self_tags:this.search_self_tags,op_tags:this.op_tags,p:this.p,page:this.page,plid:this.$route.query.plid}
            this.api.pushlib_slssong_search({params}).then((res)=>{
-               this.list=res.data;
-               this.total=res.total
-               this.load=false
-               this.getDetails()
+               console.log('test');
+               setData(res)
+            //    this.getDetails()
            })
        },
        changes(index){
