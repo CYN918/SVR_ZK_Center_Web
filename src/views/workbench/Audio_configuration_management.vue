@@ -79,7 +79,7 @@
                             prop="num"
                             label="杂志锁屏">
                             <template slot-scope="scope">
-                                        <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
+                                        <el-tooltip  v-if="list[scope.$index].mfinal" placement="right" class="tit_txt_2 logs tit_txts">
                                             <div slot="content">
                                                <img :src='list[scope.$index].mfinal.prev_uri' style="max-width:261px;max-height: 464px"  />
                                             </div>
@@ -114,7 +114,7 @@
                             <template slot-scope="scope">
                                     <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
                                             <div slot="content" style="min-width:500px">
-                                                <template>
+                                                <template v-if="list[scope.$index]">
                                                         <el-table
                                                                 ref="tab"
                                                                 :data="list[scope.$index].song_setting"
@@ -151,8 +151,8 @@
                             label="循环播放次数">
                             <template slot-scope="scope">
                                     <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
-                                            <div slot="content" style="min-width:500px">
-                                                <template>
+                                            <div  slot="content" style="min-width:500px">
+                                                <template v-if="list[scope.$index]">
                                                         <el-table
                                                                 ref="tab"
                                                                 :data="list[scope.$index].song_setting"
@@ -189,7 +189,7 @@
                             label="音量">
                            <template slot-scope="scope">
                                     <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
-                                            <div slot="content" style="min-width:500px">
+                                            <div v-if="list[scope.$index]" slot="content" style="min-width:500px">
                                                 <template>
                                                         <el-table
                                                                 ref="tab"
@@ -219,7 +219,6 @@
                                             </div>
                                             <span  style="cursor: pointer">多个规则</span>                               
                                          </el-tooltip>
-                                    
                             </template>
                     </el-table-column>
                     <!-- <el-table-column
