@@ -274,7 +274,7 @@
                 </div>   
             </div>
         </div>
-        <div class='bg' style="overflow:scroll;" v-if="change">
+        <div class='bg' v-if="change">
             <div class='compile'>
                 <div class='ts'>
                     <span>编辑</span>
@@ -756,8 +756,10 @@
         position: absolute;
         top:50%;
         left:50%;
-        width:500px;
+        width:550px;
         min-height: 200px;
+        max-height: 800px;
+        overflow-y: auto;
         background: #fff;
         transform: translate(-50%,-50%);
         border-radius: 5px;
