@@ -1742,6 +1742,10 @@ export default {
 	pushlib_slssong_edit_setting:{
 		url:"pushlib/slssong/edit/setting",method:"post",isType:{suktip:1}
 	},
+	//删除推送库壁纸音乐配置
+	pushlib_slssong_del_setting:{
+		url:"pushlib/slssong/del/setting",method:"post",isType:{suktip:1}
+	},
 	//更新推送库壁纸音乐状态
 	pushlib_slssong_update_status:{
 		url:'pushlib/slssong/update/status',method:"post",isType:{suktip:1}
