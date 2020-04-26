@@ -219,7 +219,7 @@ export default {
                         sdk_id:'',
                         id_adsrc:"",
                         page:1,
-                        date:(new Date()).toLocaleDateString().split('/').join('-'),
+                        date:'',
                         total:0,
                         tableData:[],
                         tagsList:[],
@@ -249,6 +249,7 @@ export default {
                             this.sx=false
                         }
                     }
+                  this.timeDate(new Date());
             },
             methods:{
                 reset(){
@@ -259,6 +260,14 @@ export default {
                     this.status=-1;
                     this.page=1;
                 },
+                timeDate(date){  
+                    var y = date.getFullYear();  
+                    var m = date.getMonth() + 1;  
+                    m = m < 10 ? '0' + m : m;  
+                    var d = date.getDate();  
+                    d = d < 10 ? ('0' + d) : d;  
+                    return this.date=y + '-' + m + '-' + d;  
+                },    
                 getRowClass({row, column, rowIndex, columnIndex}) {
                     if (rowIndex === 0) {
                         return 'background:rgb(246, 245, 245,1);color:rgba(30,30,30,1);text-align:center;font-size:16px;font-weight:blod;font-family:PingFang-SC-Regular;'

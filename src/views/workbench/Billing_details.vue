@@ -131,8 +131,8 @@
                     :total="total">
             </el-pagination>
         </div>
-        <BH v-if="bh"  :id="this.$route.query.id" :open_id="openIDList"></BH>
-        <QD v-if="sh" :id="this.$route.query.id" :open_id="shOpenId"></QD>
+        <BH v-if="bh"  :id="this.$route.query.id" :open_id="openIDList" :status='this.$route.query.status'></BH>
+        <QD v-if="sh" :id="this.$route.query.id" :open_id="shOpenId"  :status='this.$route.query.status'></QD>
     </div>
 </template>
 <script>
