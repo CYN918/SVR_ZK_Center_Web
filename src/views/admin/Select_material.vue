@@ -122,15 +122,17 @@
         },
         mounted() {
             this.getList();
-            this.checked=this.checked.concat(this.ids.split(';'));
+            if(this.ids.length>0){
+                this.checked=this.checked.concat(this.ids.split(';'));
+            }
+            
         },
         methods:{
             getID(index){
-                console.log(this.checked)
                 if(this.material==1){
                 this.scMid=this.IMGList[index].mid;
                 this.scUrl=this.IMGList[index].prev_uri;
-                console.log(this.checked)
+               
                 }
             },
             YCset(){this.$parent.YCset()},

@@ -15,7 +15,7 @@
                                 <div v-for="item in hqUrl" style="display: inline-block">
                                     <!--<img :src="item"  />-->
                                     <img :src="item" v-if="(item.split('.'))[(item.split('.')).length-1]!='mp4'&&(item.split('.'))[(item.split('.')).length-1]!='MP4'"/>
-                                    <video :src="item" controls="controls" v-if="(item.split('.'))[(item.split('.')).length-1]=='mp4'||(item.split('.'))[(item.split('.')).length-1]!='MP4'" />
+                                    <video :src="item" controls="controls" v-if="(item.split('.'))[(item.split('.')).length-1]=='mp4'||(item.split('.'))[(item.split('.')).length-1]=='MP4'" />
                                 </div>
 
                             </div>
