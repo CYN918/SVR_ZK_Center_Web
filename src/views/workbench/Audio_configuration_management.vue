@@ -6,8 +6,8 @@
             <div class="title_left">
                 <span>内部音频配置管理</span>
                 <span class='lk'>{{this.$route.query.channel}}</span>
-                <span class='open_status'>启用状态：</span>
-                <span class='open_status' style="margin-left:0" :class='{red:this.open==0}'>{{this.open==0?"待确认":'已确认'}}</span>
+                <span class='open_status'>功能状态：</span>
+                <span class='open_status' style="margin-left:0" :class='{red:this.open==0}'>{{this.open==0?"禁用":'启用'}}</span>
             </div>
             <div class='right_btn'>
                 <span @click='opens()'>{{this.open==1?'禁用':'启用'}}功能</span>
@@ -22,24 +22,24 @@
                 <input type="text" v-model='mfid'>
                 <span class='tit_name'>壁纸标识</span>
                 <input type="text" v-model='wpid'>
-                <span class='tit_name'>音频ID</span>
-                <input type="text" v-model='song_id'>
-                <span class='tit_name'>是否启用</span>
-                <select v-model='is_valid'>
+                <!--<span class='tit_name'>音频ID</span>
+                <input type="text" v-model='song_id'>-->
+                <span class='tit_name'>是否生效</span>
+                <select v-model='status'>
                     <option value="">全部</option>
                     <option value="0">否</option>
                     <option value="1">是</option>
                 </select>
-                <span class='tit_name'>状态</span>
+                <!--<span class='tit_name'>状态</span>
                 <select v-model='status'>
                     <option value="">全部</option>
                     <option value="1">已确认</option>
                     <option value="0">待确认</option>
-                </select>
+                </select>-->
                 <span class='cx' @click="getData()">查询</span>
                 <span class='cz' @click='reset()'>重置</span>
-                <span class='gd' @click='unwind()'>更多筛选项</span>
-                <img :src="img" alt="" style="width:10px;margin-left:10px"/>
+                <!--<span class='gd' @click='unwind()'>更多筛选项</span>
+                <img :src="img" alt="" style="width:10px;margin-left:10px"/>-->
             </div>
             <div class='more' v-if='unfold'>
                  <div class="polling_tag">
@@ -91,7 +91,7 @@
                             prop="user.email"
                             label="详细信息">
                             <template slot-scope="scope">
-                                        <a style="color:#3377ff;cursor: pointer" @click='CkDetails()'>点击查看</a>
+                                        <a style="color:#3377ff;cursor: pointer" @click='CkDetails(scope.$index)'>点击查看</a>
                                     </template>
                     </el-table-column>
                     <el-table-column
@@ -103,18 +103,18 @@
                                         :inactive-value="0"
                                         active-color="#3377ff"
                                         inactive-color="#e6e9f0"
-                                        v-model="scope.row.is_valid"
+                                        v-model="scope.row.status"
                                         @change='changes(scope.$index)'>
                                 </el-switch>
                             </template>
                     </el-table-column>
-                     <el-table-column
+                     <el-table-column 
                             prop="channel.channel"
                             label="生效时段">
-                            <template slot-scope="scope">
+                            <template slot-scope="scope" >
                                     <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
                                             <div slot="content" style="min-width:500px">
-                                                <template>
+                                                <template v-if="list[scope.$index].song_setting">
                                                         <el-table
                                                                 ref="tab"
                                                                 :data="list[scope.$index].song_setting"
@@ -146,13 +146,13 @@
                                     
                             </template>
                     </el-table-column>
-                     <el-table-column
+                    <!-- <el-table-column
                             prop="num"
                             label="循环播放次数">
                             <template slot-scope="scope">
-                                    <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
-                                            <div slot="content" style="min-width:500px">
-                                                <template>
+                                    <el-tooltip v-if="list[scope.$index]" placement="right" class="tit_txt_2 logs tit_txts">
+                                            <div  slot="content" style="min-width:500px">
+                                                <template >
                                                         <el-table
                                                                 ref="tab"
                                                                 :data="list[scope.$index].song_setting"
@@ -184,12 +184,11 @@
                                     
                             </template>
                     </el-table-column>
-                     <el-table-column
                             prop="channel.channel"
                             label="音量">
                            <template slot-scope="scope">
                                     <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
-                                            <div slot="content" style="min-width:500px">
+                                            <div v-if="list[scope.$index]" slot="content" style="min-width:500px">
                                                 <template>
                                                         <el-table
                                                                 ref="tab"
@@ -219,16 +218,15 @@
                                             </div>
                                             <span  style="cursor: pointer">多个规则</span>                               
                                          </el-tooltip>
-                                    
                             </template>
-                    </el-table-column>
-                     <el-table-column
+                    </el-table-column>-->
+                    <!-- <el-table-column
                             prop="channel.channel"
                             label="状态">
                              <template slot-scope="scope">
-                                <span>{{list[scope.$index].status==1?'已确认':'待确认'}}</span>
+                                <span>{{list[scope.$index].is_valid==1?'已确认':'待确认'}}</span>
                             </template>
-                    </el-table-column>
+                    </el-table-column> -->
                      <el-table-column
                             prop="updated_at"
                             :show-overflow-tooltip="true"
@@ -321,8 +319,8 @@
                         <div>
                             <span  class='titName'>最大自动播放次数：</span>
                             <input type="number" style="width:212px" v-model='item.count'>
-                            <input type="checkbox" style="width:16px;vertical-align: middle;">
-                            <span>次数不限</span>
+                            <!--<input type="checkbox" style="width:16px;vertical-align: middle;">
+                            <span>次数不限</span>-->
                         </div>
                         <div>
                             <span  class='titName'>自动播放音量：</span>
@@ -340,18 +338,18 @@
             </div>
         </div>
         <div class='bg' v-if='details'>
-            <div class='details'>
+            <div class='details' v-if="mfinal">
                  <div class='ts'>
                     <span>查看详情</span>
                     <img style="float:right;margin-right:24px;cursor: pointer;width:16px;margin-top:20px" src='img/gb.png' @click='delDetails()'>
                 </div>
                 <div>
                     <span class='titNames'>物料ID</span>
-                    <span></span>
+                    <span>{{mfinal.mfid}}</span>
                 </div>
                  <div>
                     <span class='titNames'>壁纸标识</span>
-                    <span></span>
+                    <span>{{mfinal.wpid}}</span>
                 </div>
                  <div>
                     <span class='titNames'>音频ID</span>
@@ -359,16 +357,18 @@
                 </div>
                  <div>
                     <span class='titNames'>内容标签</span>
-                    <span class="tag"></span>
+                    <div class="tag">
+                        <span v-for="item in mfinal.tags" class="tagName" v-if="item!=''">{{item}}</span>
+                    </div>
+                    
                 </div>
                  <div>
                     <span class='titNames'>尺寸</span>
-                    <span></span>
+                    <span>{{mfinal.size}}</span>
                 </div>
                  <div>
                     <span class='titNames'>文件</span>
-                    <span></span>
-                    <a href="" style="color:#3377ff;cursor: pointe;margin-left:10px">下载</a>
+                    <a v-if="mfinal.attach" href="mfinal.attach.attach_url" style="color:#3377ff;cursor: pointe;margin-left:10px">下载</a>
                 </div>
             </div>
         </div>
@@ -408,36 +408,44 @@
             ruleList:[],
             change:false,
             details:false,
-            open:''
-            
+            open:'',
+            editData:{mfid:''},
+            mfinal:null
             }
    },
    mounted(){
+       this.getDetails()
        this.getData()
    },
    methods:{
-       fh(index){this.$router.go(index)},
+       fh(index){
+           this.$router.go(index)
+       },
        getDetails(){
            let params={plid:this.$route.query.plid}
            this.api.pushlib_details({params}).then((res)=>{
                 this.open=res.is_valid
            })
        },
+       setData(res){
+            this.list=res.data;
+            this.total=res.total;
+            this.load=false;
+       },
        getData(){
            let params={wpid:this.wpid,mfid:this.mfid,song_id:this.song_id,status:this.status,is_valid:this.is_valid,search_tags:this.search_tags,search_self_tags:this.search_self_tags,op_tags:this.op_tags,p:this.p,page:this.page,plid:this.$route.query.plid}
            this.api.pushlib_slssong_search({params}).then((res)=>{
-               this.list=res.data;
-               this.total=res.total
-               this.load=false
-               this.getDetails()
+               console.log('test');
+               this.setData(res)
+            //    this.getDetails()
            })
        },
        changes(index){
            let formData = new FormData
            formData.append('plid',this.$route.query.plid)
            formData.append('mfid',this.list[index].mfid)
-           formData.append('is_valid',this.list[index].is_valid)
-           this.api.pushlib_slssong_update_isvalid(formData).then((res)=>{
+           formData.append('status',this.list[index].status)
+           this.api.pushlib_slssong_update_status(formData).then((res)=>{
                if(res!=false){
                    this.getData()
                }
@@ -450,8 +458,9 @@
             this.status=""
             this.is_valid=""
        },
-       CkDetails(){
-           this.details=true
+       CkDetails(index){
+           this.details=true;
+           this.mfinal = this.list[index].mfinal;
        }, 
        delDetails(){
            this.details=false
@@ -461,29 +470,40 @@
            this.ruleList.push(obj)
        },
        bj(data){
-           let formData =new FormData
-           formData.append('plid',this.$route.query.plid);
-           formData.append('mfid',this.mfid)
-           formData.append('song_setting',JSON.stringify(this.ruleList))
-          this.api.pushlib_slssong_edit_setting(formData).then((res)=>{
+            let formData =new FormData
+            formData.append('plid',this.$route.query.plid);
+            formData.append('mfid',this.editData.mfid)
+            formData.append('song_setting',JSON.stringify(this.ruleList))
+            this.api.pushlib_slssong_edit_setting(formData).then((res)=>{
+                console.log('test2')
                 if(res!=false&&data==undefined){
                     this.HeidChange()
                     this.getData()
                 }
-          })
+            })
+       },
+       delReule(id, index){
+            let formData = new FormData
+            formData.append('plid',this.$route.query.plid);
+            formData.append('mfid',this.editData.mfid)
+            formData.append('sid',id)
+            this.api.pushlib_slssong_del_setting(formData).then((res)=>{
+                if(res != false){
+                    this.ruleList.splice(index,1);
+                }
+            })
        },
        removeRule(index){
            if(this.ruleList[index].id){
-               this.bj('del')
+               this.delReule(this.ruleList[index].id, index);
            }else{
-               this.ruleList.splice(index,1)
+                this.ruleList.splice(index,1);
            }
-           
        },
        getShow(index){
-           this.change=true;
-           this.ruleList=this.list[index].song_setting
-           this.mfid=this.list[index].mfid
+           this.change = true;
+           this.ruleList = this.list[index].song_setting
+           this.editData.mfid = this.list[index].mfid
        },
        HeidChange(){
            this.change=false
@@ -736,8 +756,10 @@
         position: absolute;
         top:50%;
         left:50%;
-        width:500px;
+        width:550px;
         min-height: 200px;
+        max-height: 800px;
+        overflow-y: auto;
         background: #fff;
         transform: translate(-50%,-50%);
         border-radius: 5px;
