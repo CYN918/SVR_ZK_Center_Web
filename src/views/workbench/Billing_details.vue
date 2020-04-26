@@ -2,8 +2,8 @@
     <div>
         <div class="top_name">
             <span class="top_txt">设计师结算 / 查看用户提现明细</span>
-            <div class="title_left" @click="fh">
-                <img src="../../../public/img/fh.png"  @click="fh">
+            <div class="title_left" @click="fh()">
+                <img src="../../../public/img/fh.png">
                 <span>返回</span>
             </div>
         </div>
@@ -39,10 +39,11 @@
                     <span class="zt">状态</span>
                     <select>
                         <option value="" selected>全部</option>
-                        <option value="1">个人</option>
-                        <option value="2">公司</option>
+                        <option value="0">待审核</option>
+                        <option value="1">审核通过</option>
+                        <option value="2">审核不通过</option>
                     </select>
-                    <span class="btn">查询</span>
+                    <span class="btn" @click='getData()'>查询</span>
                 </div>
                 <div>
                     <span class="bh" @click="getBH()">批量驳回（{{this.openIDList.length}}）</span>
