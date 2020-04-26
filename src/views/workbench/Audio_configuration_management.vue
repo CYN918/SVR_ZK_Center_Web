@@ -78,7 +78,7 @@
                     <el-table-column
                             prop="num"
                             label="杂志锁屏">
-                            <template slot-scope="scope">
+                            <template slot-scope="scope" v-if='list[scope.$index].mfinal'>
                                         <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
                                             <div slot="content">
                                                <img :src='list[scope.$index].mfinal.prev_uri' style="max-width:261px;max-height: 464px"  />
