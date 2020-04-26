@@ -277,6 +277,7 @@
                                 :on-preview="handlePreview"
                                 :on-remove="handleRemove"
                                 :http-request="upYl"
+                                 :before-upload=" beforeUpload"
                                  multiple 
                                 :limit="10"
                                 :on-exceed="handleExceed"
@@ -287,7 +288,9 @@
                     <div class="imgCanvas" v-for="item in pic">
                         <img class="dels" src="../../../public/img/del.png" style="width: 16px" v-if="item!=main_preview" @click="Delete(item)">
                         <img src="../../../public/img/select.png" style="width: 48px;height: 48px;position: relative;left:96px;top:0px;z-index: 1" v-if="item==main_preview">
-                        <img :src="item" class="sc">
+                        <!-- <img :src="item" class="sc"> -->
+                        <img   class="sc" :src="item" v-if="(item.split('.'))[(item.split('.')).length-1]!='mp4'&&(item.split('.'))[(item.split('.').length-1)]!='MP4'"/>
+					    <video  class="sc" :src="item" controls="controls" v-if="(item.split('.'))[(item.split('.').length-1)]=='mp4'||(item.split('.'))[(item.split('.').length-1)]=='MP4'"></video>
                         <div class="sz" @click="fm(item)">
                             <span>设置为封面</span>
                         </div>
@@ -501,6 +504,16 @@
                     this.$message.error('只支持ZIP格式!');
                 }
                 return isXzip||iszip;
+            },
+             beforeUpload(file){
+                        const isJPG = file.type === 'image/jpeg';
+                        const isPNG = file.type === 'image/png';
+                        const isGIF = file.type === 'image/gif';
+                        const isVideo = file.type ==='video/mp4';
+                        if (!isJPG&&!isPNG&&!isGIF&&!isVideo) {
+                            this.$message.error('只支持JPG、PNG、gif、mp4格式!');
+                        }
+                        return isPNG || isJPG ||isGIF||isVideo;
             },
             getList(){
                 let params ={page:1,p:100000,type:'',search:'',tags:'',status:''};

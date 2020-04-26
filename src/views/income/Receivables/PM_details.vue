@@ -61,7 +61,7 @@
                     <option :value="item" v-for="item in list2">{{item}}</option>
                 </select>
             </div>
-            <div class='select_box_3'>
+            <div class='select_box_3' :class="{top:ad_type2&&this.list3.length==0}">
                 <span class='select_left'>投放形式</span>
                  <input type="text" class='input_left examine' v-model='put_type' v-if='type==1' disabled>
                  <select class='input_left' v-model="put_type"  v-if='this.type==2' >
@@ -1187,5 +1187,8 @@ export default {
         border:0!important;
         background: rgba(247,248,250,1)!important;
     }
-  
+    .top{
+        position:relative;
+        top:-84px
+    }
 </style>
