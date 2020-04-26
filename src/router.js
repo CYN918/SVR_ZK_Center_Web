@@ -64,6 +64,8 @@ import add_library from './views/admin/add_library'
 mode['add_library'] = add_library
 import details_library from './views/admin/details_library'
 mode['details_library'] = details_library
+import Other_details from './views/admin/Other_details'
+mode['Other_details']=Other_details
 
 
 
@@ -310,6 +312,12 @@ import news from './views/workbench/news'
 mode['news']=news
 import news_add from './views/workbench/news_add'
 mode['news_add']=news_add
+// import Push_the_management from './views/workbench/Push_the_management'
+// mode['Push_the_management']=Push_the_management
+// import Push_account from './views/workbench/Push_account'
+// mode['Push_account']=Push_account
+import Audio_configuration_management from './views/workbench/Audio_configuration_management'
+mode['Audio_configuration_management']=Audio_configuration_management
 
 
 import axios from 'axios'
@@ -461,7 +469,9 @@ let nb = [
 			{path:'/admin/add_library',name:'添加投放库',component: mode['add_library']},
 			{path:'/admin/details_library',name:'详情库',component: mode['details_library']},
 			{path:'/admin/tags_details',name:'标签管理',component: mode['tags_details']},
-			{path:'/admin/mangement',name:'投放库管理',component:mode['mangement']},
+            {path:'/admin/mangement',name:'投放库管理',component:mode['mangement']},
+            {path:'/admin/Other_details',name:'详情',component:mode['Other_details']},
+            
 
 
 		]
@@ -523,8 +533,9 @@ let nb = [
             {path:'/workbench/Advertising_review_fs',name:'AI标签复审',component: mode['Advertising_review_fs'],},
             {path:'/workbench/news',name:'新闻模板',component: mode['news'],},
             {path:'/workbench/news_add',name:'新增新闻模板',component: mode['news_add'],},
-
-            
+            // {path:'/workbench/Push_the_management',name:'杂志锁屏推送管理',component: mode['Push_the_management'],},
+            // {path:'/workbench/Push_account',name:'账号管理',component: mode['Push_account'],},
+            {path:'/workbench/Audio_configuration_management',name:'内部音频配置管理',component: mode['Audio_configuration_management'],},
             
             
            
@@ -660,7 +671,7 @@ router.addRoutes(nb);
 /*动态生成左边菜单*/
 
 let leftNav =
-  localStorage.getItem('letNav');
+localStorage.getItem('letNav');
 // 	[
 // 	{title:'素材中心',default:'/admin',defaultopen:['1'],
 // 	children:[

@@ -157,13 +157,16 @@
                     <div class="titN">
                        <span>添加入库素材</span>
                    </div>
-                   <div class='porject_up' @click="adds()">
-                        <img src="img/sc.png" alt="" class='icon'>
+                   <div style="max-height:200px;width:100%;overflow-x:auto; overflow-y: hidden;">
+                        <div class='porject_up' @click="adds()">
+                                <img src="img/sc.png" alt="" class='icon'>
+                        </div>
+                        <div class='porject_up' v-for='(item,index) in this.materials'>
+                            <img src="img/remove.png" alt="" class='del' @click="dels(index)">
+                            <img :src="item.prev_uri" alt="" class='imgs'>
+                        </div>
                    </div>
-                   <div class='porject_up' v-for='(item,index) in this.materials'>
-                       <img src="img/remove.png" alt="" class='del' @click="dels(index)">
-                       <img :src="item.prev_uri" alt="" class='imgs'>
-                   </div>
+                  
                </div>
                <div class='uploads_2'  v-if='this.status_type=="1"'>
                      <div class="titN">
@@ -623,7 +626,7 @@ export default {
                            
                             
                         },
-                        scADD(){
+                         scADD(){
                             if(!this.attach.name){
                                 this.$message.error('附件不能为空');
                                 return
@@ -636,9 +639,8 @@ export default {
                                     let list={
                                         attach:{url:""},
                                         previews:[],
-                                    
-
                                     }
+
                                 if(!this.name){
                                     this.$message.error('名字不能为空');
                                     return
@@ -666,8 +668,9 @@ export default {
                                     list.note=this.note;
                                     this.materials.push(list)
                              }else{
-                                    let list={}
-                                if(this.this.preinstall==0){
+                                let list={}
+                                if(this.preinstall.length==0){
+
                                     this.$message.error('预置标签不能为空');
                                     return
                                 }
@@ -821,7 +824,7 @@ export default {
         height:32px!important;
         border:1px solid rgba(165,173,186,1)!important;
         color:rgba(107,119,140,1)!important;
-        background:transparent!important
+        background:transparent!important;
     }
     .Name{
         display: inline-block;

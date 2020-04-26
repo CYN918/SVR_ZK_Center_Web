@@ -1562,6 +1562,7 @@ export default {
 		url:"material/project/add",method:"post",isType:{suktip:1},
 	},
 
+
 	//上传收益数据文件
 	sharing_data_import:{
 		url:'sharing/data/import',method:"post",isType:{suktip:1},
@@ -1593,6 +1594,7 @@ export default {
 	//获取导入数据
 	sharing_data_list:{
 		url:"sharing/data/list",method:'get'
+
 	},
 	//获取收益数据总览
 	sharing_data_income_summary:{
@@ -1615,10 +1617,15 @@ export default {
 		url:"ds/buyout/income/detail",method:"get"
 	},
 	
-
 	//解决跨域下载视频
 	tools_url_download:{
 		url:"tools/url/download",method:"get"
+	},
+
+
+	//获取结算方列表
+	designer_settlement_list:{
+		url:"designer/settlement/list",method:'get'
 	},
 
 	//项目列表(分页)
@@ -1659,9 +1666,40 @@ export default {
 	},
 
 	//获取结算方列表
-	designer_settlement_list:{
-		url:"designer/settlement/list",method:'get'
+	// designer_settlement_list:{
+	// 	url:"designer/settlement/list",method:'get'
+	// },
+	//获取上架记录
+	mfinal_call_show_records:{
+		url:"mfinal/call_show/records",method:"get"
 	},
+	//合同列表
+	contracts_list:{
+		url:'contracts/list',method:"get"
+	},
+	//绑定合同
+	contracts_add:{
+		url:"contracts/add",method:"post",isType:{suktip:1}
+	},
+	//获取素材相关物料
+	material_mfinals:{
+		url:"material/mfinals",method:"get"
+	},
+
+	//新增上架记录
+	mfinal_call_show_records_add:{
+		url:"mfinal/call_show/records/add",method:"post",isType:{suktip:1}
+	},
+	//删除合同
+	contracts_del:{
+		url:"contracts/del",method:"post",isType:{suktip:1}
+	},
+
+
+	//获取结算方列表
+	// designer_settlement_list:{
+	// 	url:"designer/settlement/list",method:'get'
+	// },
 	//获取新闻图片模板列表
 	template_search:{
 		url:"template/search",method:'get'
@@ -1686,4 +1724,43 @@ export default {
 	template_detail:{
 		url:"template/detail",method:'get'
 	},
+
+	//获取状态详情
+	sharing_data_income_is_confirm:{
+		url:'sharing/data/income/is_confirm',method:'get'
+	},
+
+	//获取推送库音乐列表
+	pushlib_slssong_search:{
+		url:"pushlib/slssong/search",method:"get"
+	},
+	//新增推送库壁纸音乐
+	pushlib_slssong_add:{
+		url:"pushlib/slssong/add",method:"post",isType:{suktip:1}
+	},
+	//编辑推送库壁纸音乐配置
+	pushlib_slssong_edit_setting:{
+		url:"pushlib/slssong/edit/setting",method:"post",isType:{suktip:1}
+	},
+	//删除推送库壁纸音乐配置
+	pushlib_slssong_del_setting:{
+		url:"pushlib/slssong/del/setting",method:"post",isType:{suktip:1}
+	},
+	//更新推送库壁纸音乐状态
+	pushlib_slssong_update_status:{
+		url:'pushlib/slssong/update/status',method:"post",isType:{suktip:1}
+	},
+	//更新推送库壁纸音乐启用状态
+	pushlib_slssong_update_isvalid:{
+		url:"pushlib/slssong/update/isvalid",method:"post",isType:{suktip:1}
+	},
+	//投放库详情
+	pushlib_details:{
+		url:"pushlib/details",method:"get"
+	},
+	//投放库启用状态
+	pushlib_edit_isvalid:{
+		url:'pushlib/edit/isvalid',method:"post",isType:{suktip:1}
+	},
+
 }

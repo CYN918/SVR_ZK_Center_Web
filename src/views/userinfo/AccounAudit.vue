@@ -52,7 +52,7 @@
                                     active-color="#3377ff"
                                     inactive-color="#e6e9f0"
                                     v-model="scope.row.status"
-                                    @change=change(scope.$index,scope.row.status)>
+                                    @change='change(scope.$index,scope.row.status)'>
                             </el-switch>
                         </template>
                     </el-table-column>

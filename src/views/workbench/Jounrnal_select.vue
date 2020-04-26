@@ -11,7 +11,8 @@
                     <span class="Search_select_tit">物料类型：</span>
                     <select v-model="type" @change="getList()">
                         <!-- <option value="">全部</option> -->
-                        <option v-for="item in scType" :value="item.type" v-if='item.type=="f_sls_lockscreen"||item.type=="f_sls_picture"'>{{item.name}}</option>
+                        <option v-for="item in scType" :value="item.type" v-if='video==undefined&&(item.type=="f_sls_lockscreen"||item.type=="f_sls_picture")'>{{item.name}}</option>
+                        <option v-for="item in scType" :value="item.type" v-if='video!=undefined&&item.type=="f_sls_lockscreen"'>{{item.name}}</option>
                     </select>
                 </div>
             </div>
@@ -86,7 +87,7 @@
 <script>
     export default {
         name: "select_material",
-        props:['material','typeSC',"date",'channel'],
+        props:['material','typeSC',"date",'channel','video'],
         data(){
             return {
                 checked:[],
@@ -306,8 +307,7 @@
     .block{margin-bottom: 30px}
     .labelName{
         display: inline-block;
-        width:78px;
-        height:38px;
+        padding:5px 10px;
         border-radius:5px;
         font-size:14px;
         font-family:PingFang-SC-Medium;
@@ -315,7 +315,6 @@
         color:rgba(31,46,77,1);
         margin-right: 18px;
         text-align: center;
-        line-height: 38px;
         cursor: pointer;
     }
     .label_txt{
@@ -331,6 +330,7 @@
     .active{
         background:rgba(255,255,255,1);
         border:1px solid rgba(19,159,248,1);
+        padding:5px 10px!important;
     }
 
     .box_select input{

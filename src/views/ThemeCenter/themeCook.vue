@@ -154,7 +154,7 @@
             <div style="margin-right: -42px">
                 <div class="phone" v-for="(item,index) in this.dataList">
                     <div style="width:100%;height:315px;background:#e3e7eb">
-                        <img :src="main_preview[index]" style="max-height: 100%;max-width: 100%;position: relative;top:50%;left:50%;transform: translate(-50%,-50%)" @click="xq(themeChannel[index].channel,item.thid,index)">
+                        <img :src="main_preview[index]" style="max-height: 100%;max-width: 100%;position: relative;top:50%;left:50%;transform: translate(-50%,-50%)" @click="xq(themeChannel[index].channel,item.thid,index,themeChannel[index].channel_name)">
                         <div class="select_type">
                             <!--<span v-if="item.channel_themes.length==0">本地</span>-->
                             <span>{{themeChannel[index].channel_name}}</span>
@@ -458,11 +458,12 @@
                     path:'./themeUp'
                 })
             },
-            xq(channel,id,index){
+            xq(channel,id,index,name){
                 var query = {
                     thid:id,
                     channel: channel,
                     ch_thid:this.radio[index],
+                    channel_name:name
                 };
                 if(channel=='local'){
                     this.$router.push({

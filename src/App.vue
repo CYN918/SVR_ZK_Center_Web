@@ -980,6 +980,7 @@ select{
         background: rgba(247,248,250,1)!important;
    }
 
+
 .times .el-input__inner{
          width:200px!important
     }
@@ -987,4 +988,8 @@ select{
     display: none;
   }  
 
+
+  .htTC .el-input__inner{
+    width: 400px!important;
+  }
 </style>

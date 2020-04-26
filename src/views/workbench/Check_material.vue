@@ -19,7 +19,7 @@
                         <span style="display: inline-block;margin: 0 26px 0 18px" v-if='type==""'>{{item.line_num}}</span>
                         <span class="table_material_tit_sc" v-if='type==""'>素材</span>
                          <span class="table_material_tit_sc" style="margin-left:16px" v-if='type!=""'>素材</span>
-                        <a class="download"  :href="item.attach.url" >下载</a>
+                        <a class="download" v-if='item.attach' :href="item.attach.url" >下载</a>
                     </div>
                     <div class="img_box">
                         <div  class="ADD_img" v-if='type==""'>
