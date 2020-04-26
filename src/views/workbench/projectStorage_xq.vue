@@ -609,7 +609,7 @@ export default {
                                     this.$message.error('预览图不能为空');
                                     return
                                 }
-                                if(this.this.preinstall==0){
+                                if(this.preinstall==0){
                                     this.$message.error('预置标签不能为空');
                                     return
                                 }
@@ -639,8 +639,7 @@ export default {
                                     let list={
                                         attach:{url:""},
                                         previews:[],
-                                    }
-
+                                        }
                                 if(!this.name){
                                     this.$message.error('名字不能为空');
                                     return

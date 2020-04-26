@@ -908,7 +908,7 @@
                         this.open_id=res.settlement_info.open_id;
                         this.settle_type=res.settlement_info.settle_type;
                         this.settle_value=res.settlement_info.settle_value;
-                        if(res.contract){
+                        if(res.contract.length>0){
                             this.contract_id=res.contract[0].archive_id;
                         }
                         if(res.settlement_info.id_card){

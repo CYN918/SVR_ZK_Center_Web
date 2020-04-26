@@ -612,12 +612,12 @@
                 this.$message.error(`当前限制选择10个文件`);
             },
             getCon(){
-
-                for(var i =0;i<this.themeType.length;i++){
-                    if(this.type==this.themeType[i].id){
-                        this.type_name=this.themeType[i].type
+                for(var i =0 ;i<this.themeType.length;i++){
+                        if(this.type==this.themeType[i].id){
+                            this.type_name=this.themeType[i].type
                     }
                 }
+               
 
                 let params={type:this.type_name};
                 this.api.themes_config_theme_class({params}).then((res)=>{

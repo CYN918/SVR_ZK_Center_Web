@@ -594,7 +594,7 @@
                     this.is_bind_mid=res.is_bind_mid==1?true:false;
                     this.is_internal=res.is_internal==1?true:false;
                     if(this.is_internal==false){
-                        if(res.contract){
+                        if(res.contract.length>0){
                             this.contract_id=res.contract[0].archive_id;
                         }
                         

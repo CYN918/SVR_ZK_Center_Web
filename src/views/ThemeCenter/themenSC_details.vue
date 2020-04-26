@@ -70,6 +70,7 @@
                 <div class="imgID" v-for="item in themeList" v-if="themeList.length!=0">
                     <img :src="item.main_preview">
                     <div class="See" @click="seeTheme(item.thid,item.channel,item.ch_thid,item.channel_name)">
+
                         查看详情
                     </div>
                 </div>
@@ -282,20 +283,22 @@
                 window.open(Logistics.href, '_blank','toolbar=yes');
             },
 
-           seeTheme(id,name,qdid,channel_name){
+             seeTheme(id,name,qdid,channel_name){
                 if(name=='local'){
                     var path='./themeDetails'
+
                 }else{
-                    path='./themeDetailsQd'
-                }
-                let Logistics= this.$router.resolve({
-                    path:path,
-                    query:{
-                        thid:id,
+                    path='./themeDetailsQd';
+                    var query={
+                         thid:id,
                         channel:name,
                         ch_thid:qdid,
                         channel_name:channel_name
-                    },
+                    }
+                }
+                let Logistics= this.$router.resolve({
+                    path:path,
+                    query:query
                 })
                 window.open(Logistics.href);
             },

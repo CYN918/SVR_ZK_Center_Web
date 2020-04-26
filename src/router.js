@@ -178,12 +178,14 @@ mode['YYAdministration']=YYAdministration
 import detailYY from './views/income/Payment_operation/details'
 mode['detailYY']=detailYY
 
+
 import PM from './views/income/Receivables/PM'
 mode['PM']=PM
 import cooperator from './views/income/Receivables/cooperator'
 mode['cooperator']=cooperator
 import PM_details from './views/income/Receivables/PM_details'
 mode['PM_details']=PM_details
+
 
 import theme_payment from './views/income/content/theme_payment'
 mode['theme_payment']=theme_payment
