@@ -150,9 +150,9 @@
                                 <option value="2">分成结算</option>
                             </select>
                             <span class="tit" v-if='settle_type==1'>买断价格:</span>
-                            <input type="number" v-if='settle_type==1' placeholder="请输入" v-model="settle_value" style="width: 100px;height: 30px;border-radius: 5px">
+                            <input type="number" v-if='settle_type==1' placeholder="请输入" v-model="settle_value" style="width: 100px;height: 30px;border-radius: 5px" :disabled="(this.message.mfid!=undefined)">
                             <span class="tit" v-if='settle_type==2' style="width:120px">分成比例:<span style="color:#ddd">(合作方)</span></span>
-                            <input type="number" v-if='settle_type==2' placeholder="请输入" v-model="settle_value" style="width: 100px;height: 30px;border-radius: 5px">
+                            <input type="number" v-if='settle_type==2' placeholder="请输入" v-model="settle_value" style="width: 100px;height: 30px;border-radius: 5px" :disabled="(this.message.mfid!=undefined)">
                             <span v-if='settle_type==2'>%</span>
                         </div>
                         <div class='AddIMG_sc' v-if='this.types=="f_call_show"&&is_designer==false'>
@@ -729,7 +729,7 @@
                 formData.append('model',this.model);
                 formData.append('ad_pic',this.ad_pic);
                 formData.append('ad_num',this.ad_num);
-                formData.append('account_id',this.account_id)
+                formData.append('account_id',this.open_id)
                 this.api.mfinal_edit(formData).then((res)=>{
                     if(res!=false){
                         this.$parent.heidSc();

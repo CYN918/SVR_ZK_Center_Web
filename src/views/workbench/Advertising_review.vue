@@ -43,6 +43,8 @@
                             <option value="1">已处理</option>
                             <option value="2">待复审</option>
                         </select>
+                        <span class='tits'>操作人员</span>
+                        <input type='text' v-model='updator'/>
                         <div class='sel'>
                             <span @click='getData()'>查询</span>
                             <span class='yjqr' @click='reset()' >重置</span>
@@ -234,7 +236,8 @@ export default {
                         pid:'',
                         control:[],
                         sx:false,
-                        load:true
+                        load:true,
+                        updator:"",
                 }
             },
             created(){
@@ -340,7 +343,7 @@ export default {
                 },
                  getData(){
                       this.load=true
-                     let params={status:this.status,sdk_id:this.sdk_id,tdate:this.date,id_adsrc:this.id_adsrc,tags_name:this.ListTags.join(','),p:this.p,page:this.page,pid:this.pid}
+                     let params={status:this.status,sdk_id:this.sdk_id,tdate:this.date,id_adsrc:this.id_adsrc,tags_name:this.ListTags.join(','),p:this.p,page:this.page,pid:this.pid,updator:this.updator}
                      this.api.adver_tags_search({params}).then((res)=>{
                          this.total=res.total;
                          this.load=false;
@@ -691,5 +694,10 @@ export default {
          border: 0!important;
         background: #3377ff;
         color: #fff!important
+    }
+    input{
+        width:150px;
+        border-radius:3px;
+        
     }
 </style>

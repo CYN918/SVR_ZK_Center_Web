@@ -56,9 +56,9 @@
                     </div>
 
                 </div>
-                <div class='all'> 
+                <div class='all' > 
                     <span style="margin-right:16px">全部内容可见人员：</span>
-                    <span class='user_name' v-for='(key,index) in list[list.length-1].user'  @mouseenter="delName(list[list.length-1].id,index)" @mouseleave="leaves()">{{key.user_name}}
+                    <span class='user_name' v-for='(key,index) in list[list.length-1].user'   @mouseenter="delName(list[list.length-1].id,index)" @mouseleave="leaves()">{{key.user_name}}
                             <img src="../../../public/img/del.png" style="width: 16px;opacity:0" :class="{getImg:(project_id==list[list.length-1].id&&indexs==index)}" @click="del(key.user_id,list[list.length-1].id)"/>
                     </span>
                      <span class="step_add" @click='getBan(99)'><img src="../../../public/img/add_msg.png" style="width: 12px;margin-top: 12px"></span>
@@ -115,9 +115,9 @@
                 </div>
                  <div class='all'> 
                         <span style="margin-right:16px">全部内容可见人员：</span>
-                         <span class='user_name' v-for='(key,index) in YClist[YClist.length-1].user'  @mouseenter="delName(YClist[YClist.length-1].id,index)" @mouseleave="leaves()">{{key.user_name}}
+                         <span class='user_name' v-for='(key,index) in YClist[YClist.length-1].user' @mouseenter="delName(YClist[YClist.length-1].id,index)" @mouseleave="leaves()">{{key.user_name}}
                             <img src="../../../public/img/del.png" style="width: 16px;opacity:0" :class="{getImg:(project_id==YClist[YClist.length-1].id&&indexs==index)}" @click="del(key.user_id,YClist[YClist.length-1].id)"/>
-                    </span>
+                        </span>
                         <span class="step_add" @click='getBan1(99)'><img src="../../../public/img/add_msg.png" style="width: 12px;margin-top: 12px"></span>
                 </div>
             </div>
@@ -254,7 +254,7 @@
                 </div>
                  <div class='all'> 
                         <span style="margin-right:16px">全部内容可见人员：</span>
-                         <span class='user_name' v-for='(key,index) in FKlist[FKlist.length-1].user'  @mouseenter="delName(FKlist[FKlist.length-1].id,index)" @mouseleave="leaves()">{{key.user_name}}
+                         <span class='user_name'  v-for='(key,index) in FKlist[FKlist.length-1].user'   @mouseenter="delName(FKlist[FKlist.length-1].id,index)" @mouseleave="leaves()">{{key.user_name}}
                             <img src="../../../public/img/del.png" style="width: 16px;opacity:0" :class="{getImg:(project_id==FKlist[FKlist.length-1].id&&indexs==index)}" @click="del(key.user_id,FKlist[FKlist.length-1].id)"/>
                         </span>
                         <span class="step_add" @click='getBan4(99)'><img src="../../../public/img/add_msg.png" style="width: 12px;margin-top: 12px"></span>

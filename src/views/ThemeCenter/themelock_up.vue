@@ -463,8 +463,6 @@
                     }else {
                         this.is_material=false
                     }
-                    // this.works=res.works;
-                    
                     this.main_preview=res.main_preview;
                     this.pic= res.previews;
                 })
