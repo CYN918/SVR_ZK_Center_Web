@@ -37,7 +37,7 @@
                         <option value="2">公司</option>
                     </select>
                     <span class="zt">状态</span>
-                    <select>
+                    <select >
                         <option value="" selected>全部</option>
                         <option value="0">待审核</option>
                         <option value="1">审核通过</option>
@@ -61,6 +61,7 @@
                             style="width: 100%;color:#000">
                         <el-table-column
                                 type="selection"
+                               
                         >
                         </el-table-column>
                         <el-table-column
@@ -170,6 +171,7 @@
             fh(){
                 this.$router.go(-1)
             },
+           
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
                     return 'background:#f7f9fc;color:#8F9BB3;text-align:center;font-size:14px;font-weight:Medium;height:48px;font-family:PingFang-SC-Regular;'
