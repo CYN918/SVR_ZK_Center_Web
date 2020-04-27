@@ -16,7 +16,7 @@
             <div class="tit_top_url">
                 <span class="log_url" @click="fh()">主题库&nbsp;/</span>
                 <span class="log_url" @click="fhs()">&nbsp;主题库详情&nbsp;/</span>
-                <span class="new_url"> &nbsp添加上架记录</span>
+                <span class="new_url"> &nbsp;添加上架记录</span>
             </div>
             <div class="tit_top_con">
                 <span class="tit_name">添加上架记录</span>
@@ -640,8 +640,8 @@
                 }
                 var arrType=[];
                 var strRange= '';
-                 if(this.SC.length<3){
-                    this.$message.error('相关素材必须有锁屏/图标/二级页3种素材类型');
+                 if(this.SC.length<2){
+                    this.$message.error('相关素材必须有锁屏/图标2种素材类型');
                     return
                 }
             
@@ -664,17 +664,17 @@
                 }
 
                 if(arrType.indexOf('th_icon')==-1){
-                    this.$message.error('相关素材必须有锁屏/图标/二级页3种素材类型');
+                    this.$message.error('相关素材必须有锁屏/图标2种素材类型');
                     return
                 }
                 if(arrType.indexOf('th_lock_screen')==-1){
-                    this.$message.error('相关素材必须有锁屏/图标/二级页3种素材类型');
+                    this.$message.error('相关素材必须有锁屏/图标2种素材类型');
                     return
                 }
-                if(arrType.indexOf('th_second_page')==-1){
-                    this.$message.error('相关素材必须有锁屏/图标/二级页3种素材类型');
-                    return
-                }
+                // if(arrType.indexOf('th_second_page')==-1){
+                //     this.$message.error('相关素材必须有锁屏/图标/二级页3种素材类型');
+                //     return
+                // }
                 if(!this.channel){
                     this.$message.error('渠道不能为空')
                     return

@@ -597,7 +597,8 @@ export default {
                     this.attachs.splice(index,1)
                 },
                 getJS(){
-                    this.api.settle_settlement_searchall({}).then((res)=>{
+                    let params={is_receiver:'1'}
+                    this.api.settle_settlement_searchall({params}).then((res)=>{
                         this.JSlist=res
                     })
                 },
