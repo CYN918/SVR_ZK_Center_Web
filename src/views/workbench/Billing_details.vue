@@ -47,7 +47,7 @@
                 </div>
                 <div>
                     <span class="bh" @click="getBH()">批量驳回（{{this.openIDList.length}}）</span>
-                    <span class="tg" @click="verified()">通过所有非驳回申请</span>
+                    <span class="tg" @click="verified()">一键通过待审核内容</span>
                 </div>
             </div>
             <div>
@@ -61,7 +61,7 @@
                             style="width: 100%;color:#000">
                         <el-table-column
                                 type="selection"
-                               
+                               :selectable='checkSelect'
                         >
                         </el-table-column>
                         <el-table-column
@@ -151,7 +151,7 @@
                 total:0,
                 time:[],
                 bh:false,
-                sh:false,
+                sh:false, 
                 open_id:'',
                 openIDList:[],
                 shOpenId:[],
@@ -171,7 +171,14 @@
             fh(){
                 this.$router.go(-1)
             },
-           
+           checkSelect(row){
+               if(row.check_status==0){
+                   return true
+               }else{
+                   return false
+               }
+              
+           },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
                     return 'background:#f7f9fc;color:#8F9BB3;text-align:center;font-size:14px;font-weight:Medium;height:48px;font-family:PingFang-SC-Regular;'
@@ -227,12 +234,14 @@
             },
             verified(){
                 for(var i =0;i<this.tableData.length;i++){
-                    if(this.tableData[i].check_status!=-1){
-                        this.shOpenId.push(this.tableData[i].open_id)
+                    if(this.tableData[i].check_status==0){
+                        this.shOpenId.push(this.tableData[i].open_id);
+                         this.sh=true;
+                    }else{
+                        this.$message.error('没有待审核数据')
                     }
                 }
-                console.log(this.shOpenId);
-                this.sh=true;
+               
             },
             getSH(data){
                 this.sh=true;
