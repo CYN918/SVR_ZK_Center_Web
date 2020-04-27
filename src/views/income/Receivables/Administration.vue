@@ -23,13 +23,13 @@
                 <span class="cx" @click="getDataList()">查询</span>
                 <div style="display: inline-block;float: right;margin-right: 15%">
                     <span class="clear" @click="establish" :class="{Jurisdiction:this.controlBtns}">新建结算</span>
-                    <span class="sf">结算进度查看</span>
+                    <span class="sf" @click='jd()'>结算进度查看</span>
                     <span class='fk'>... 
                         <ul>
                             <li @click='porjectGL()'>项目管理</li>
                             <li @click="jump()" :class="{Jurisdiction:this.controlBtn}">结算方管理</li>
                             <li @click='old()'>合作公司管理</li>
-                            <li>合同概览</li>
+                            <li @click='overview()'>合同概览</li>
                         </ul>
                     </span>
                     <!-- <span class="sf" @click="jump()" :class="{Jurisdiction:this.controlBtn}">收款结算方管理</span> -->
@@ -208,6 +208,16 @@
                     query:{
                         id:id
                     },
+                })
+            },
+            jd(){
+                this.$router.push({
+                    path:"./scheduling"
+                })
+            },
+            overview(){
+                this.$router.push({
+                    path:"./Overview_of_the_contract"
                 })
             },
             myformatter(date){

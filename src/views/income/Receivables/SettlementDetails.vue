@@ -53,73 +53,6 @@
                 <span class="tableBox_Obtain">{{list.note}}</span>
             </div>
             <div>
-                <span class="tableBox_name" style="vertical-align: top">相关合同</span>
-                <div style="display: inline-block">
-                    <div style="width: 714px;" class="contract">
-                        <template>
-                            <el-table
-                                    :data="contracts"
-                                    style="width: 100%"
-                                    :header-cell-style="getRowClass"
-                                    :cell-style="cell"
-                            >
-                                <el-table-column
-                                        prop="date"
-                                        show-overflow-tooltip
-                                >
-                                    <template slot-scope="scope">
-                                        <div v-for="(item,key) in (contracts[scope.$index])">
-                                            <span class="titTableName">文件归档号:</span>
-                                            <span class="titTableCon">{{item.archive_id}}</span>
-                                        </div>
-                                    </template>
-                                </el-table-column>
-                                <el-table-column
-                                        prop="name"
-                                        show-overflow-tooltip
-                                >
-                                    <template slot-scope="scope">
-                                        <div v-for="(item,key) in (contracts[scope.$index])">
-                                            <span class="titTableName">合同编号:</span>
-                                            <span class="titTableCon">{{item.contract_id}}</span>
-                                        </div>
-                                    </template>
-                                </el-table-column>
-                                <el-table-column
-                                        prop="address"
-                                        width="100"
-                                >
-                                    <template slot-scope="scope">
-                                        <div v-for="(item,key) in (contracts[scope.$index])">
-                                            <span v-if="item.status=='1'" style="color:#39BD65">{{item.status_text}}</span>
-                                            <span v-if="item.status=='0'" style="color:#FFA033">{{item.status_text}}</span>
-                                            <span v-if="item.status=='2'" style="color:#F05656">{{item.status_text}}</span>
-                                            <span v-if="item.status=='3'" style="color:#1F2E4D">{{item.status_text}}</span>
-                                        </div>
-                                    </template>
-                                </el-table-column>
-                                <el-table-column type="expand">
-                                    <template slot-scope="scope">
-                                        <div v-for="(data,key) in (contracts[scope.$index])">
-                                            <div v-for="da in data.contract_files">
-                                                <span style="display: inline-block;width: 50%">{{da.name}}</span>
-                                                <a :href="da.url" target="_blank" style="display: inline-block;width: 50%;text-align: right">下载</a>
-                                            </div>
-                                        </div>
-                                    </template>
-                                </el-table-column>
-                            </el-table>
-                        </template>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <span class="tableBox_name">已绑定数据来源主体</span>
-                <div style="display: inline-block" v-for='(value,key) in list.advertisers'>
-                    <span class="textName">{{value}}</span>
-                </div>
-            </div>
-            <div>
                 <span class="tableBox_name">附件</span>
                 <div style="display: inline-block">
                     <div v-for="item in list.attachs">
@@ -128,6 +61,10 @@
                             <a class="xz" :href="item.url">下载</a>
                     </div>
                 </div>
+            </div>
+             <div>
+                <span class="tableBox_name" style="vertical-align: top">相关合同</span>
+               
             </div>
         </div>
     </div>
