@@ -6,6 +6,13 @@
                 <span>合同概览</span>
             </div>
             <div>
+                <span style="margin:0 10px 0 24px">合同归档号</span>
+                <input type="text" placeholder="搜索关键词" v-model="search">
+                <span>结算方</span>
+                <input type="text" placeholder="搜索关键词" v-model="search">
+                <span>项目名称</span>
+                <input type="text" placeholder="搜索关键词" v-model="search">
+                <span>结算主体</span>
                 <input type="text" placeholder="搜索关键词" v-model="search">
                 <span>状态：</span>
                 <select v-model="status">
@@ -16,7 +23,7 @@
                     <option value="">即将过期</option>
                 </select>
                 <div class='btn_box'>
-                    <span class="cx">查询</span>
+                    <span class="cx" @click='getDate()'>查询</span>
                     <span @click='cz()'>重置</span>
                 </div>
             </div>
@@ -31,8 +38,16 @@
                             :cell-style="cell"
                             style="width: 100%;color:#000">
                         <el-table-column
+                                label="合同归档号" prop="project_id"
+                               >
+                        </el-table-column>
+                        <el-table-column
                                 label="合同编号" prop="project_id"
                                >
+                        </el-table-column>
+                        <el-table-column
+                                label="项目名称" prop="project_name"
+                                >
                         </el-table-column>
                         <el-table-column
                                 label="结算主体" prop="project_name"
@@ -139,18 +154,28 @@
             details:false
      }
    },
+   mounted(){
+       this.getDate()
+   },
    methods:{
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
-               
+               this.getDate()
             },
             handleCurrentChange(page) {//页码切换
                 this.page = page;
-                
+                this.getDate()
             },
             cz(){
                 this.status="",
                 this.search=""
+            },
+            getDate(){
+                let params={is_receiver:1,p:this.p,page:this.page,status:this.status,search:this.search}
+                this.api.settle_data_project_contracts({params}).then((res)=>{
+                    this.total=res.total;
+                    this.tableData=res.data
+                })
             },
             fh(index){
                 this.$router.go(index)
@@ -197,7 +222,7 @@
     }
     input{
         margin: 24px;
-        width:220px;
+        width:180px;
         padding-left: 5px;
         border-radius: 3px;
         height: 32px;
@@ -210,7 +235,7 @@
     .btn_box{
         display: inline-block;
         float:right;
-        margin-right: 20%;
+        margin-right:15%;
     }
     .btn_box span{
         width: 90px!important;

@@ -63,8 +63,52 @@
                 </div>
             </div>
              <div>
-                <span class="tableBox_name" style="vertical-align: top">相关合同</span>
-               
+                <span class="tableBox_name" style="vertical-align: top">项目合同信息及绑定数据来源</span>
+                <div style="padding:0 24px">
+                    <template>
+                    <el-table
+                            :data="tableData"
+                            header-align="center"
+                            :header-cell-style="getRowClass"
+                            :cell-style="cell"
+                            style="width: 100%;color:#000">
+                        <el-table-column
+                                label="合同编号" prop="project_id"
+                               >
+                        </el-table-column>
+                        <el-table-column
+                                label="结算主体" prop="project_name"
+                                >
+                        </el-table-column>
+                        <el-table-column
+                                label="合作公司" prop="contributor_type"
+                                >
+                        </el-table-column>
+                        <el-table-column
+                                label="广告类型" prop="updated_at"
+                                >
+                        </el-table-column>
+                        <el-table-column
+                                label="商务模式" prop="updator"
+                                >
+                        </el-table-column>
+                        <el-table-column
+                                label="状态" prop="updator"
+                                >
+                        </el-table-column>
+                        <el-table-column
+                                label="合同截止日期" prop="updator"
+                                >
+                        </el-table-column>
+                        <el-table-column label="合同信息">
+                            <template slot-scope="props">
+                                <el-button type="text"  >查看</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </template>
+                </div>
+                 
             </div>
         </div>
     </div>
@@ -78,8 +122,9 @@ import Loading from '@/components/loading'
         data(){
             return{
                 list:{},
-                contracts:[],
-                isLoading: true
+                // contracts:[],
+                isLoading: true,
+                tableData:[]
             }
         },
         mounted(){
@@ -103,13 +148,20 @@ import Loading from '@/components/loading'
                 let params={name:this.$route.query.name,is_receiver:1};
                 this.api.settle_settlement_detail({params}).then((res)=>{
                     this.list=res;
-                    this.contracts=res.contracts;
+                    // this.contracts=res.contracts;
                     this.isLoading = false;
+                    this.getContract()
+                })
+            },
+             getContract(){
+                let params={is_receiver:1,search:this.list.name}
+                this.api.settle_data_project_contracts({params}).then((res)=>{
+                    this.tableData=res.data
                 })
             },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
-                    return ';color:rgba(31,46,77,1);text-align:center;font-size:14px;font-weight:500;font-family:PingFang-SC-Medium;height:0px;padding:0px'
+                    return 'background:rgba(247,249,252,1);color:rgba(31,46,77,1);text-align:center;font-size:14px;font-weight:blod;font-family:PingFang-SC-Medium;height:56px'
                 } else {
                     return ''
                 }
@@ -117,6 +169,7 @@ import Loading from '@/components/loading'
             cell({row, column, rowIndex, columnIndex}){
                 return 'text-align:center;color:rgba(61,73,102,1);font-size:14px;font-weight:400;font-family:PingFangSC-Regula;'
             },
+            
         },
     }
 </script>
@@ -153,7 +206,7 @@ import Loading from '@/components/loading'
     }
     .tableBox_name{
         display: inline-block;
-        width:126px;
+        width:185px;
         height:20px;
         font-size:14px;
         font-family:PingFang-SC-Medium,PingFang-SC;

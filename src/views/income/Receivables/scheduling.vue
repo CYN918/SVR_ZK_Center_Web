@@ -15,19 +15,19 @@
                     placeholder="选择月">
                 </el-date-picker>
                 <span  class='tit' style="margin-left:24px">结算方</span>
-                <input type="text">
+                <input type="text" v-model='name'>
                 <span  class='tit'>项目</span>
-                <input type="text">
+                <input type="text" v-model='project_name'>
                 <span class='tit'>状态：</span>
                 <select v-model="status">
                     <option value="">全部</option>
-                    <option value="">待处理</option>
-                    <option value="">生效中</option>
-                    <option value="">已过期</option>
-                    <option value="">即将过期</option>
+                    <option value="0">待处理</option>
+                    <option value="1">生效中</option>
+                    <option value="2">已过期</option>
+                    <option value="3">即将过期</option>
                 </select>
                 <div class='btn_box'>
-                    <span class="cx">查询</span>
+                    <span class="cx" @click='getDate()'>查询</span>
                     <span @click='cz()'>重置</span>
                 </div>
             </div>
@@ -97,20 +97,38 @@
             p:10,
             page:1,
             total:0,
-            tableData:[]
+            tableData:[],
+            name:'',
+            project_name:"",
+
      }
    },
+   mounted(){
+       this.getDate()
+   },
    methods:{
-            cz(){},
+            cz(){
+                this.name=''
+                this.project_name=''
+                this.tdate=''
+                this.status=''
+            },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
+                this.getDate()
                
             },
             handleCurrentChange(page) {//页码切换
                 this.page = page;
-                
+                this.getDate()
             },
-            
+            getDate(){
+                let params={is_receiver:1,name:this.name,project_name:this.project_name,status:this.status,p:this.p,page:this.page,tdate:this.tdate}
+                this.api.settle_data_process({params}).then((res)=>{
+                    this.total=res.total;
+                    this.tableData=res.data
+                })
+            },
             fh(index){
                 this.$router.go(index)
             },
