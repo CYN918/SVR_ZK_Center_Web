@@ -47,6 +47,19 @@
                         <span class="click" @click="massgae()">查看结算方信息</span>
                     </div>
                 </div>
+                 <div>
+                    <span class="fillName">项目</span>
+                    <div style="display: inline-block;width: 593px;text-align: left">
+                        <el-autocomplete
+                            class="input"
+                            v-model="state1"
+                            :fetch-suggestions="querySearch"
+                            placeholder="请输入内容"
+                            @select="handleSelect"
+                            >
+                        </el-autocomplete>
+                    </div>
+                </div>
                 <div>
                     <span class="fillName">结算时间段</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
@@ -152,6 +165,9 @@
                 step:this.$route.query.step,
                 budget:false,
                 fj:{},
+                JSlist:[],
+                state1:'',
+                projects:""
             }
         },
         mounted(){
@@ -225,6 +241,10 @@
                     this.$message.error('结算单名称不能为空');
                     return
                 }
+                if(!this.projects){
+                    this.$message.error('项目不能为空');
+                    return
+                }
                 if(this.time.length==0){
                     this.$message.error('结算时间段不能为空');
                     return
@@ -261,6 +281,7 @@
                 let formData = new FormData;
                 formData.append('name',this.name);
                 formData.append('statement',this.statement);
+                formData.append('projects',this.projects);
                 formData.append('is_receiver',this.is_receiver);
                 formData.append('tstart',this.time[0]);
                 formData.append('tend',this.time[1]);
@@ -284,6 +305,7 @@
                 let params={is_receiver:1};
                 this.api.settle_settlement({params}).then((res)=>{
                     this.list=res;
+                    this.getObject();
                 })
             },
             getList(){
@@ -293,6 +315,7 @@
                     this.statement=res.check.check1.statement;
                     this.name=res.check.check1.name;
                     this.time=[res.check.check1.tstart,res.check.check1.tend];
+                    this.projects=res.check.check1.projects;
                     }
                    
                     if(res.check.check2){
@@ -326,6 +349,10 @@
                 }
                 if(!this.name){
                     this.$message.error('结算方不能为空');
+                    return
+                }
+                if(!this.projects){
+                    this.$message.error('项目不能为空');
                     return
                 }
                 if(!this.statement){
@@ -366,6 +393,7 @@
                 let formData = new FormData;
                 formData.append('name',this.name);
                 formData.append('statement',this.statement);
+                formData.append('projects',this.projects);
                 formData.append('is_receiver',this.is_receiver);
                 formData.append('tstart',this.time[0]);
                 formData.append('id',this.$route.query.id);
@@ -381,6 +409,28 @@
                     }
                     
                 })
+            },
+            getObject(){
+                let params={p:500,page:1}
+                this.api.adproject_listpage({params}).then((res)=>{
+                    this.JSlist=res.data
+                })
+            },
+             querySearch(queryString, cb) {
+                    for(var i =0;i<this.JSlist.length;i++){
+                        this.JSlist[i].value=this.JSlist[i].project_name
+                    }
+                    var results = queryString ? this.JSlist.filter(this.createFilter(queryString)) : this.JSlist;
+                    // 调用 callback 返回建议列表的数据
+                    cb(results);
+            },
+            createFilter(queryString) {
+                    return (restaurant) => {
+                    return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+                    };
+            },
+            handleSelect(item) {
+                this.projects=item. project_id
             },
         }
     }
@@ -520,7 +570,7 @@
         font-weight:500;
         color:rgba(51,119,255,1);
     }
-    select{
+    select,.el-autocomplete{
         width:467px;
         height:36px;
         background:rgba(255,255,255,1);

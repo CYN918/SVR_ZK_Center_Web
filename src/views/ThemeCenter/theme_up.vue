@@ -479,8 +479,8 @@
                 }
                 var arrType=[];
                 var strRange= '';
-                if(this.listSC.length<3){
-                    this.$message.error('相关素材必须有锁屏/图标/二级页3种素材类型');
+                if(this.listSC.length<2){
+                    this.$message.error('相关素材必须有锁屏/图标2种素材类型');
                     return
                 }
             
@@ -503,17 +503,17 @@
                 }
 
                 if(arrType.indexOf('th_icon')==-1){
-                    this.$message.error('相关素材必须有锁屏/图标/二级页3种素材类型');
+                    this.$message.error('相关素材必须有锁屏/图标2种素材类型');
                     return
                 }
                 if(arrType.indexOf('th_lock_screen')==-1){
-                    this.$message.error('相关素材必须有锁屏/图标/二级页3种素材类型');
+                    this.$message.error('相关素材必须有锁屏/图标2种素材类型');
                     return
                 }
-                if(arrType.indexOf('th_second_page')==-1){
-                    this.$message.error('相关素材必须有锁屏/图标/二级页3种素材类型');
-                    return
-                }
+                // if(arrType.indexOf('th_second_page')==-1){
+                //     this.$message.error('相关素材必须有锁屏/图标/二级页3种素材类型');
+                //     return
+                // }
                 if(!this.name){
                     this.$message.error('主题名不能为空');
                     return
