@@ -1,11 +1,7 @@
 <template>
     <div>
         <DS v-if="msg" :name="list.check.check1.name"></DS>
-<<<<<<< HEAD
         <pro v-if='budget' :name='list.check.check1.name' :tstart='list.check.check1.tstart' :tend='list.check.check1.tend'  :is_receiver='0' :fj='fj'></pro>
-=======
-        <pro v-if='budget' :name='list.check.check1.name' :tstart='list.check.check1.tstart' :tend='list.check.check1.tend'   :is_receiver='0' :fj='fj'></pro>
->>>>>>> origin/develop
         <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="jump()">付款结算&nbsp;/</span>
@@ -48,6 +44,13 @@
                     <div style="display: inline-block;width: 300px;text-align: left">
                         <span  class="text">{{list.check.check1.name}}</span>
                         <span class="click" @click="massgae()">查看结算方信息</span>
+                    </div>
+
+                </div>
+                 <div>
+                    <span class="fillName">渠道</span>
+                    <div style="display: inline-block;width: 300px;text-align: left">
+                        <span  class="text">{{list.check.check1.controls}}</span>
                     </div>
 
                 </div>

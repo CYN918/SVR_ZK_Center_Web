@@ -48,6 +48,14 @@
                     </div>
                 </div>
                 <div>
+                    <span class="fillName">渠道</span>
+                    <div style="display: inline-block;width: 593px;text-align: left">
+                        <select v-model="channels">
+                            <option v-for="item in channelData" :value="item.channel">{{item.channel}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
                     <span class="fillName">结算时间段</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
                         <div class="fillTime">
@@ -152,6 +160,8 @@
                 step:this.$route.query.step,
                 budget:false,
                 fj:{},
+                channelData:[],
+                channels:'',
             }
         },
         mounted(){
@@ -166,7 +176,11 @@
                     path:"./Administration"
                 })
             },
-
+            getqd(){
+                this.api.settle_data_ssp_channel().then((res)=>{
+                    this.channelData=res;
+                })
+            },
             fh(num){
                 this.$router.go(num)
             },
@@ -234,6 +248,10 @@
                     this.$message.error('结算单名称不能为空');
                     return
                 }
+                if(!this.channels){
+                     this.$message.error('渠道不能为空');
+                    return
+                }
                 if(this.time.length==0){
                     this.$message.error('结算时间段不能为空');
                     return
@@ -266,6 +284,7 @@
                 formData.append('name',this.name);
                 formData.append('statement',this.statement);
                 formData.append('is_receiver',this.is_receiver);
+                formData.append('channels',this.channels);
                 formData.append('tstart',this.time[0]);
                 formData.append('tend',this.time[1]);
                 formData.append('expect_amount',this.expect_amount);
@@ -288,6 +307,7 @@
                 let params={is_receiver:0};
                 this.api.settle_settlement({params}).then((res)=>{
                     this.list=res;
+                    this.getqd()
                 })
             },
             getList(){
@@ -297,6 +317,7 @@
                     this.statement=res.check.check1.statement;
                     this.name=res.check.check1.name;
                     this.time=[res.check.check1.tstart,res.check.check1.tend];
+                    this.channels=res.check.check1.channels;
                     }
                    
                     if(res.check.check2){
@@ -323,6 +344,10 @@
                 }
                 if(!this.statement){
                     this.$message.error('结算单名称不能为空');
+                    return
+                }
+                 if(!this.channels){
+                     this.$message.error('渠道不能为空');
                     return
                 }
                 if(this.time.length==0){
@@ -359,6 +384,7 @@
                 formData.append('id',this.$route.query.id);
                 formData.append('statement',this.statement);
                 formData.append('is_receiver',this.is_receiver);
+                formData.append('channels',this.channels);
                 formData.append('tstart',this.time[0]);
                 formData.append('tend',this.time[1]);
                 formData.append('expect_amount',this.expect_amount);
