@@ -41,10 +41,26 @@
                 <div>
                     <span class="fillName">结算方</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
-                        <select v-model="name">
+                        <select v-model="name" @change='getObject()'>
                             <option v-for="item in list" :value="item.name">{{item.name}}</option>
                         </select>
                         <span class="click" @click="massgae()">查看结算方信息</span>
+                    </div>
+                </div>
+                 <div>
+                    <span class="fillName">项目</span>
+                    <div style="display: inline-block;width: 593px;text-align: left">
+                        <div class="input">
+                             <el-select v-model="projects" multiple placeholder="请选择" class="elSelect" >
+                                <el-option
+                                        v-for="item in JSlist"
+                                        :key="item.project_name"
+                                        :label="item.project_name"
+                                        :value="item.project_id">
+                                </el-option>
+                            </el-select>
+                        </div>
+                       
                     </div>
                 </div>
                 <div>
@@ -152,6 +168,8 @@
                 step:this.$route.query.step,
                 budget:false,
                 fj:{},
+                JSlist:[],
+                projects:[]
             }
         },
         mounted(){
@@ -225,6 +243,10 @@
                     this.$message.error('结算单名称不能为空');
                     return
                 }
+                if(this.projects.length==0){
+                    this.$message.error('项目不能为空');
+                    return
+                }
                 if(this.time.length==0){
                     this.$message.error('结算时间段不能为空');
                     return
@@ -261,6 +283,7 @@
                 let formData = new FormData;
                 formData.append('name',this.name);
                 formData.append('statement',this.statement);
+                 formData.append('projects',JSON.stringify(this.projects));
                 formData.append('is_receiver',this.is_receiver);
                 formData.append('tstart',this.time[0]);
                 formData.append('tend',this.time[1]);
@@ -293,6 +316,7 @@
                     this.statement=res.check.check1.statement;
                     this.name=res.check.check1.name;
                     this.time=[res.check.check1.tstart,res.check.check1.tend];
+                    this.projects=res.check.check1.projects;
                     }
                    
                     if(res.check.check2){
@@ -306,6 +330,7 @@
 					}
                    
                     this.getsettle();
+                    this.getObject()
                 })
             },
              getsettle(){
@@ -326,6 +351,10 @@
                 }
                 if(!this.name){
                     this.$message.error('结算方不能为空');
+                    return
+                }
+                if(this.projects.length==0){
+                    this.$message.error('项目不能为空');
                     return
                 }
                 if(!this.statement){
@@ -366,6 +395,7 @@
                 let formData = new FormData;
                 formData.append('name',this.name);
                 formData.append('statement',this.statement);
+                formData.append('projects',JSON.stringify(this.projects));
                 formData.append('is_receiver',this.is_receiver);
                 formData.append('tstart',this.time[0]);
                 formData.append('id',this.$route.query.id);
@@ -382,6 +412,17 @@
                     
                 })
             },
+            getObject(){
+                if(!this.name){
+                    this.$message.error('结算方不能为空')
+                    return
+                }
+                let params={name:this.name}
+                this.api.adproject_listpage({params}).then((res)=>{
+                    this.JSlist=res.data
+                })
+            },
+           
         }
     }
 </script>
@@ -520,7 +561,7 @@
         font-weight:500;
         color:rgba(51,119,255,1);
     }
-    select{
+    select,.el-select{
         width:467px;
         height:36px;
         background:rgba(255,255,255,1);

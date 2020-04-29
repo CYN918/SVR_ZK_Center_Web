@@ -69,7 +69,7 @@
                 </div>
                 <div>
                     <span>资源版本号</span>
-                    <input type="text" v-model="version" placeholder="请输入上资源版本号" :disabled="this.cons==undefined">
+                    <input type="text" v-model="version" placeholder="请输入上架资源版本号" :disabled="this.cons==undefined">
                 </div>
                 <div>
                     <span>上架账号</span>
@@ -527,9 +527,6 @@
             },
             fm(url){
                 this.main_preview=url;
-            },
-            fh(){
-                this.$router.go(-1)
             },
             jump(){
                 this.sel=true;

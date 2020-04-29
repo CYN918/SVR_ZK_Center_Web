@@ -158,7 +158,14 @@
                             :show-overflow-tooltip="true"
                         >
                         </el-table-column>
-                     
+                         <el-table-column
+                                prop="click"
+                                label="下载">
+                        </el-table-column> 
+                         <el-table-column
+                                prop="click"
+                                label="反馈下载">
+                        </el-table-column>
                         <el-table-column
                                 prop="income"
                                 label="成本"
