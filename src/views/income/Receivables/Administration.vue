@@ -57,6 +57,11 @@
                                 <span>{{tableData[scope.$index].demand_name}}</span>
                             </template>
                         </el-table-column>
+                         <el-table-column
+                                prop="blind_projects_name"
+                                label="相关项目">
+
+                        </el-table-column>
                         <el-table-column
                                 prop="status_name"
                                 label="状态">

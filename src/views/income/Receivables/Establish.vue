@@ -330,6 +330,7 @@
 					}
                    
                     this.getsettle();
+                    this.getObject()
                 })
             },
              getsettle(){

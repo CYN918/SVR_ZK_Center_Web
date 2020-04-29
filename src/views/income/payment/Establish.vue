@@ -41,7 +41,7 @@
                 <div>
                     <span class="fillName">结算方</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
-                        <select v-model="name">
+                        <select v-model="name" @change='getqd()'>
                             <option v-for="item in list" :value="item.name">{{item.name}}</option>
                         </select>
                         <span class="click" @click="massgae()">查看结算方信息</span>
@@ -50,9 +50,14 @@
                 <div>
                     <span class="fillName">渠道</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
-                        <select v-model="channels">
-                            <option v-for="item in channelData" :value="item.channel">{{item.channel}}</option>
-                        </select>
+                        <el-select v-model="channels" multiple placeholder="请选择" class="elSelect" >
+                                <el-option
+                                        v-for="item in channelData"
+                                        :key="item.channel"
+                                        :label="item.channel"
+                                        :value="item.channel">
+                                </el-option>
+                            </el-select>
                     </div>
                 </div>
                 <div>
@@ -161,7 +166,7 @@
                 budget:false,
                 fj:{},
                 channelData:[],
-                channels:'',
+                channels:[],
             }
         },
         mounted(){
@@ -177,7 +182,12 @@
                 })
             },
             getqd(){
-                this.api.settle_data_ssp_channel().then((res)=>{
+                 if(!this.name){
+                    this.$message.error('结算方不能为空')
+                    return
+                }
+                let params={settlement_name:this.name}
+                this.api.settle_data_ssp_channel({params}).then((res)=>{
                     this.channelData=res;
                 })
             },
@@ -248,7 +258,7 @@
                     this.$message.error('结算单名称不能为空');
                     return
                 }
-                if(!this.channels){
+                if(this.channels.length==0){
                      this.$message.error('渠道不能为空');
                     return
                 }
@@ -284,7 +294,7 @@
                 formData.append('name',this.name);
                 formData.append('statement',this.statement);
                 formData.append('is_receiver',this.is_receiver);
-                formData.append('channels',this.channels);
+                formData.append('channels',JSON.stringify(this.channels));
                 formData.append('tstart',this.time[0]);
                 formData.append('tend',this.time[1]);
                 formData.append('expect_amount',this.expect_amount);
@@ -330,6 +340,7 @@
                     this.attachs=res.check.check3.attachs;
                    }
                     this.getsettle();
+                    this.getqd();
                 })
             },
             setData(){
@@ -346,7 +357,7 @@
                     this.$message.error('结算单名称不能为空');
                     return
                 }
-                 if(!this.channels){
+                 if(this.channels.length==0){
                      this.$message.error('渠道不能为空');
                     return
                 }
@@ -384,7 +395,7 @@
                 formData.append('id',this.$route.query.id);
                 formData.append('statement',this.statement);
                 formData.append('is_receiver',this.is_receiver);
-                formData.append('channels',this.channels);
+                formData.append('channels',JSON.stringify(this.channels));
                 formData.append('tstart',this.time[0]);
                 formData.append('tend',this.time[1]);
                 formData.append('expect_amount',this.expect_amount);
@@ -537,7 +548,7 @@
         font-weight:500;
         color:rgba(51,119,255,1);
     }
-    select{
+    select,.el-select{
         width:467px;
         height:36px;
         background:rgba(255,255,255,1);

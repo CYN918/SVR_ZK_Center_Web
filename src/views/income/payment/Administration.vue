@@ -48,6 +48,11 @@
                                 <span>{{tableData[scope.$index].demand_name}}</span>
                             </template>
                         </el-table-column>
+                         <el-table-column
+                                prop="nimd_channel_name"
+                                label="相关渠道">
+
+                        </el-table-column>
                         <el-table-column
                                 prop="status_name"
                                 label="状态">
