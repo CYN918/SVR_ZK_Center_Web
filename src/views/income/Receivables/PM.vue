@@ -8,9 +8,9 @@
         </div>
         <div class="content">
             <div class="sum">
-                <input type="text" placeholder="搜索关键词" v-model='search '>
+                <input type="text" placeholder="搜索关键词" v-model='search '  @click="setPage()">
                 <span>状态</span>
-                <select v-model="status">
+                <select v-model="status" @click="setPage()">
                     <option value="">全部</option>
                     <option value="2">信息正常</option>
                     <option value="0">信息异常</option>
@@ -102,6 +102,9 @@
             },
             cell({row, column, rowIndex, columnIndex}){
                 return 'text-align:center;color:rgba(61,73,102,1);font-size:14px;font-weight:400;font-family:PingFangSC-Regula;'
+            },
+            setPage(){
+                this.page=1
             },
             fh(index){
                 this.$router.go(index);
