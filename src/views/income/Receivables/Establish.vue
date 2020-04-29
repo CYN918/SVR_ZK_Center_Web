@@ -417,7 +417,7 @@
                     this.$message.error('结算方不能为空')
                     return
                 }
-                let params={settlement_name:this.name}
+                let params={name:this.name}
                 this.api.adproject_listpage({params}).then((res)=>{
                     this.JSlist=res.data
                 })

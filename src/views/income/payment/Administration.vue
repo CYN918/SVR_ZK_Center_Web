@@ -111,13 +111,15 @@
             </el-pagination>
         </div>
         <abs v-if="ab" :skID="skID" :status="status"></abs>
+        <loading v-if='load'></loading>
     </div>
 </template>
 
 <script>
     import abs from './ABolish'
+    import loading from '../../../components/loading'
     export default {
-        components:{abs},
+        components:{abs,loading},
         name: "administration",
         data(){
             return{
@@ -133,6 +135,7 @@
                 skID:"",
                 status:"",
                 ab:false,
+                load:true,
             }
         },
         created(){
@@ -240,6 +243,7 @@
                     this.tableData=res.data;
                     console.log(res);
                     this.total=res.total;
+                    this.load=false
                 })
             },
             zfXQ(id,status){

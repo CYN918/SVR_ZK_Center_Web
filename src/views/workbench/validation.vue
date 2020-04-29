@@ -38,6 +38,34 @@
                         <span class="click" @click="massgae()">查看结算方信息</span>
                     </div>
                 </div>
+                <div v-if="is_receiver==1">
+                    <span class="fillName">项目</span>
+                    <div style="display: inline-block;width: 593px;text-align: left">
+                        <el-select v-model="projects" multiple placeholder="请选择" class="elSelect" >
+                                <el-option
+                                        disabled="disabled"
+                                        v-for="(item,index) in JSlist"
+                                        :key="item.project_id"
+                                        :label="item.project_name"
+                                        :value="item.project_id">
+                                </el-option>
+                            </el-select>
+                    </div>
+                </div>
+                 <div v-if="is_receiver==0">
+                    <span class="fillName">渠道</span>
+                    <div style="display: inline-block;width: 593px;text-align: left">
+                       <el-select v-model="channels" multiple placeholder="请选择" class="elSelect" >
+                                <el-option
+                                        disabled="disabled"
+                                        v-for="(item,index) in channelData"
+                                        :key="item.channel"
+                                        :label="item.channel"
+                                        :value="item.channel">
+                                </el-option>
+                            </el-select>
+                    </div>
+                </div>
                 <div>
                     <span class="fillName">结算时间段</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
@@ -176,7 +204,6 @@ import pro from '../income/projection'
                 fcounter:0,
                 up:false,
                 upList:false,
-                msg:false,
                 type:'',
                 budget:false,
                 a:0,
@@ -185,25 +212,31 @@ import pro from '../income/projection'
                 purview:[],
                 userNames:true,
                 isShow: false,
+                JSlist:[],
+                projects:[],
+                channelData:[],
+                channels:[],
             }
         },
-       
         mounted(){
             this.purview=JSON.parse(localStorage.getItem('letNav'));
-            for(var i=0;i<this.purview.length;i++){
+            for(var i=0;i<(this.purview).length;i++){
                 if(this.purview[i].title=='收益中心'){
                     var alt1 = this.purview[i].children;
-                    for(var k=0;k<alt1.length;k++){
-                        if(alt1[k].title=='结算管理'){
-                            var alt2=alt1[k].list;   
-                            for(var t=0;t<alt2.length;t++){
-                                if(alt2[t].url=='/income/Payment_operation/Administration'){      
-                                    this.userNames=false;
-                                    this.isShow = true;
+                    if(alt1){
+                         for(var k=0;k<alt1.length;k++){
+                            if(alt1[k].title=='结算管理'){
+                                var alt2=alt1[k].children; 
+                                for(var t=0;t<alt2.length;t++){
+                                    if(alt2[t].url=='/income/Payment_operation/Administration'){      
+                                        this.userNames=false;
+                                        this.isShow = true;
+                                    }
                                 }
                             }
                         }
                     }
+                   
                 }
             }
             this.id=this.skID;
@@ -211,7 +244,7 @@ import pro from '../income/projection'
                     this.is_receiver=1
                 }else{
                     this.is_receiver=0
-                };
+                }
             this.type=this.skType
             this.getData();
             this.getList();
@@ -306,8 +339,15 @@ import pro from '../income/projection'
                     this.statement=res.check.check1.statement;
                     this.name=res.check.check1.name;
                     this.fj=res.check.check2;
+                    this.projects=res.check.check1.projects
                     this.time=[res.check.check1.tstart,res.check.check1.tend];
                     this.getsettle();
+                    if(this.is_receiver==1){
+                        this. getObject();
+                    }else{
+                        this.getqd()
+                    }
+                    
                     // if(this.status>1){
                     //      this.expect_amount=res.check.check2.expect_amount;
                     // }
@@ -380,8 +420,8 @@ import pro from '../income/projection'
                     this.$message.error('审核状态异常');
                     return;
                 }
-
-                if(this.expect_amount <=0 || this.expect_amount == '--'){
+                
+                if(this.expect_amount <=0 || this.expect_amount != '--'){
                     this.$message.error('预计结算金额不能为空');
                     return;
                 }
@@ -401,7 +441,7 @@ import pro from '../income/projection'
                     formData.append('attachs',JSON.stringify(this.attach))
                     formData.append('status',this.status);
                 }else{
-                      var formData = new FormData;
+                      formData = new FormData;
                     formData.append('id',this.skID);
                     formData.append('expect_amount',this.expect_amount);
                     formData.append('status',this.status);
@@ -411,6 +451,26 @@ import pro from '../income/projection'
                         this.upList=false;
                         this.fh();
                     }
+                })
+            },
+             getObject(){
+                if(!this.name){
+                    this.$message.error('结算方不能为空')
+                    return
+                }
+                let params={settlement_name:this.name}
+                this.api.adproject_listpage({params}).then((res)=>{
+                    this.JSlist=res.data
+                })
+            },
+            getqd(){
+                 if(!this.name){
+                    this.$message.error('结算方不能为空')
+                    return
+                }
+                let params={settlement_name:this.name}
+                this.api.settle_data_ssp_channel({params}).then((res)=>{
+                    this.channelData=res;
                 })
             },
         }
@@ -570,7 +630,7 @@ import pro from '../income/projection'
         margin-left: 10px;
         cursor: pointer;
     }
-     select{
+     select,.el-select{
         width:467px;
         height:36px;
         background:rgba(255,255,255,1);

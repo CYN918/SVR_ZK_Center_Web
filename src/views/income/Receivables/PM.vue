@@ -73,11 +73,14 @@
                 </el-pagination>
             </div>
         </div>
+         <loading v-if='load'></loading>
     </div>
 </template>
 
 <script>
+import loading from '../../../components/loading'
     export default {
+        components:{loading},
         name: "settlement",
         data(){
             return{
@@ -86,7 +89,8 @@
                 page:1,
                 p:10,
                 status:'',
-                search:""
+                search:"",
+                load:true,
             }
         },
         mounted(){
@@ -122,7 +126,8 @@
                 let params={p:this.p,page:this.page,search:this.search,status:this.status}
                 this.api.adproject_listpage({params}).then((res)=>{
                     this.total=res.total;
-                    this.tableData=res.data
+                    this.tableData=res.data;
+                    this.load=false
                 })
             },
             jump(data){

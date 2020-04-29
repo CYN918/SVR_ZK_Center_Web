@@ -186,7 +186,7 @@
                     this.$message.error('结算方不能为空')
                     return
                 }
-                let params={settlement_name:this.name}
+                let params={settlement:this.name}
                 this.api.settle_data_ssp_channel({params}).then((res)=>{
                     this.channelData=res;
                 })
@@ -317,7 +317,6 @@
                 let params={is_receiver:0};
                 this.api.settle_settlement({params}).then((res)=>{
                     this.list=res;
-                    this.getqd()
                 })
             },
             getList(){

@@ -37,6 +37,20 @@
                     </div>
 
                 </div>
+                <div v-if="is_receiver==1">
+                    <span class="fillName">项目</span>
+                    <div style="display: inline-block;width: 300px;text-align: left">
+                        <span  class="text">{{list.check.check1.bind_projects_name}}</span>
+                    </div>
+
+                </div>
+                 <div v-if="is_receiver==0">
+                    <span class="fillName">渠道</span>
+                    <div style="display: inline-block;width: 300px;text-align: left">
+                        <span  class="text">{{list.check.check1.bind_channel_name}}</span>
+                    </div>
+
+                </div>
                 <div>
                     <span class="fillName">结算时间段</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
@@ -122,7 +136,7 @@
                     var alt1 = this.purview[i].children;
                     for(var k=0;k<alt1.length;k++){
                         if(alt1[k].title=='结算管理'){
-                            var alt2=alt1[k].list;   
+                            var alt2=alt1[k].children;   
                             for(var t=0;t<alt2.length;t++){
                                 if(alt2[t].url=='/income/Payment_operation/Administration'){      
                                     this.userNames=false;
@@ -140,7 +154,7 @@
                     this.is_receiver=1
                 }else{
                     this.is_receiver=0
-                }
+            }
         },
         methods:{
              detail(){

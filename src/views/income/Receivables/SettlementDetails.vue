@@ -65,7 +65,7 @@
              <div>
                 <span class="tableBox_name" style="vertical-align: top">项目合同信息及绑定数据来源</span>
                 <div style="padding:0 24px">
-                    <template>
+                  <template>
                     <el-table
                             :data="tableData"
                             header-align="center"
@@ -73,36 +73,53 @@
                             :cell-style="cell"
                             style="width: 100%;color:#000">
                         <el-table-column
-                                label="合同编号" prop="project_id"
+                                label="合同归档号" prop="archive_id"
                                >
                         </el-table-column>
                         <el-table-column
-                                label="结算主体" prop="project_name"
+                                label="合同编号" prop="contract_id"
+                                show-overflow-tooltip
+                               >
+                        </el-table-column>
+                        <el-table-column
+                                label="项目名称" prop="project_name"
+                                show-overflow-tooltip
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="合作公司" prop="contributor_type"
+                                label="结算主体" prop="balance_name"
+                                show-overflow-tooltip
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="广告类型" prop="updated_at"
+                                label="合作公司" prop="company_name"
+                                show-overflow-tooltip
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="商务模式" prop="updator"
+                                label="广告类型" prop="ad_type"
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="状态" prop="updator"
+                                label="商务模式" prop="balance_type"
+                                show-overflow-tooltip
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="合同截止日期" prop="updator"
+                                label="状态" prop="status_text"
                                 >
+                              
+                        </el-table-column>
+                        <el-table-column
+                                label="合同截止日期" prop="contract_end_time"
+                                >
+                                <template slot-scope="props">
+                                    <el-button type="text" >{{setTime(tableData[props.$index].contract_end_time)}}</el-button>
+                                </template>
                         </el-table-column>
                         <el-table-column label="合同信息">
                             <template slot-scope="props">
-                                <el-button type="text"  >查看</el-button>
+                                <el-button type="text"  @click='CK(tableData[props.$index].archive_id)'>查看</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -111,6 +128,39 @@
                  
             </div>
         </div>
+
+        <div class="bg" v-if="ht">
+            <div class="content">
+                <div class="content_tit">
+                    <span>添加合同</span>
+                    <img src="img/gb.png" alt="" class='imgGB' @click='heidCK()'>
+                </div>
+                <div style="margin: 14px 20px" v-for="item in listData">
+                    <div>
+                        <span class="ContractID">合同编号：</span>
+                        <span style="display: inline-block;width: 200px;height: 20px" class="ContractID">{{item.contract_id}}</span>
+                        <span v-if="item.status=='1'" class="statusColor" style="color:#39BD65;float: right">{{item.status_text}}</span>
+                        <span v-if="item.status=='0'" class="statusColor" style="color:#FFA033;float: right">{{item.status_text}}</span>
+                        <span v-if="item.status=='2'" class="statusColor" style="color:#F05656;float: right">{{item.status_text}}</span>
+                        <span v-if="item.status=='3'" class="statusColor" style="color:#1F2E4D;float: right">{{item.status_text}}</span>
+                        <div>
+                            <span  class="ContractID">归档文件：</span>
+                            <div v-for="da in item.contract_files" style="display: inline-block">
+                                <div>
+                                    <span class="imgName">{{da.name}}</span>
+                                    <a class="content_xz" target="_blank" :href="da.url" >下载</a>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
     </div>
 </template>
 
@@ -124,7 +174,9 @@ import Loading from '@/components/loading'
                 list:{},
                 // contracts:[],
                 isLoading: true,
-                tableData:[]
+                tableData:[],
+                ht:false,
+                listData:[]
             }
         },
         mounted(){
@@ -144,6 +196,22 @@ import Loading from '@/components/loading'
             fh(num){
                 this.$router.go(num)
             },
+             setTime(value){
+                if (!value||value==0) {
+                    return '';
+                }else{
+                     let date = new Date(value*1000);
+                    let y = date.getFullYear();// 年
+                    let MM = date.getMonth() + 1;// 月
+                    MM = MM < 10 ? ('0' + MM) : MM;
+                    let d = date.getDate();// 日
+                    d = d < 10 ? ('0' + d) : d;
+                    let h = date.getHours();// 时
+                    h = h < 10 ? ('0' + h) : h;
+                    return y + '-' + MM + '-' + d ;
+                } 
+                
+            },
             getData(){
                 let params={name:this.$route.query.name,is_receiver:1};
                 this.api.settle_settlement_detail({params}).then((res)=>{
@@ -154,7 +222,7 @@ import Loading from '@/components/loading'
                 })
             },
              getContract(){
-                let params={is_receiver:1,search:this.list.name}
+                let params={is_receiver:1,balance_name:this.list.name}
                 this.api.settle_data_project_contracts({params}).then((res)=>{
                     this.tableData=res.data
                 })
@@ -168,6 +236,19 @@ import Loading from '@/components/loading'
             },
             cell({row, column, rowIndex, columnIndex}){
                 return 'text-align:center;color:rgba(61,73,102,1);font-size:14px;font-weight:400;font-family:PingFangSC-Regula;'
+            },
+            CK(id){
+                this.ht=true;
+                this.getHT(id)
+            },
+            heidCK(){
+                this.ht=false
+            },
+            getHT(id){
+                let params={contract_id:id};
+                this.api.common_contract({params}).then((res)=>{
+                    this.listData=res;
+                })
             },
             
         },
@@ -253,5 +334,71 @@ import Loading from '@/components/loading'
     .contract{
         max-height: 368px;
         overflow-y:auto;
+    }
+    .bg{
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.3);
+        position: fixed;
+        z-index: 9;
+        bottom: 0;
+        right: 0
+    }
+    .content{
+        position: relative;
+        left: 50%;
+        top: 30%;
+        transform: translate(-50%,-50%);
+        width:460px;
+        height:312px;
+        background:rgba(255,255,255,1);
+        box-shadow:0px 1px 6px 0px rgba(0,0,0,0.06);
+        border-radius:4px;
+    }
+     .ContractID{
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:400;
+        color:rgba(31,46,77,1);
+        vertical-align: top;
+    }
+     .statusColor{
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:400;
+
+    }
+     .imgName{
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:400;
+        color:rgba(31,46,77,0.65);
+    }
+    .content_xz{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(51,119,255,1);
+        margin-left: 10px;
+        cursor: pointer;
+    }
+    .content_tit{
+        border-bottom: 1px solid #ddd;
+    }
+     .content_tit span{
+        display: inline-block;
+        font-size:14px;
+        font-family:PingFangSC-Medium,PingFangSC;
+        font-weight:500;
+        color:rgba(31,46,77,1);
+        margin: 21px 0 24px 20px;
+    }
+    .imgGB{
+        width: 16PX;
+        float:right;
+        margin-right: 24px;
+        cursor: pointer;
+        margin-top:24px
     }
 </style>

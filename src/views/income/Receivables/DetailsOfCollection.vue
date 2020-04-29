@@ -50,7 +50,7 @@
                 <div>
                     <span class="fillName">项目</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
-                        <span  class="text">{{list.check.check1.projects_name}}</span>
+                        <span  class="text">{{list.check.check1.bind_projects_name}}</span>
                     </div>
 
                 </div>

@@ -23,7 +23,7 @@
                 <span class="cx" @click="getDataList()">查询</span>
                 <div style="display: inline-block;float: right;margin-right: 15%">
                     <span class="clear" @click="establish" :class="{Jurisdiction:this.controlBtns}">新建结算</span>
-                    <span class="sf" @click='jd()'>结算进度查看</span>
+                    <!-- <span class="sf" @click='jd()'>结算进度查看</span> -->
                     <span class='fk'>... 
                         <ul>
                             <li @click='porjectGL()'>项目管理</li>
@@ -58,9 +58,12 @@
                             </template>
                         </el-table-column>
                          <el-table-column
-                                prop="blind_projects_name"
+                                prop="bind_projects_name"
+                                 :show-overflow-tooltip="true"
                                 label="相关项目">
-
+                                <template slot-scope="scope">
+                                    <span>{{tableData[scope.$index].check.check1.bind_projects_name}}</span>
+                                </template>
                         </el-table-column>
                         <el-table-column
                                 prop="status_name"
@@ -120,13 +123,15 @@
             </el-pagination>
         </div>
         <abs v-if="ab" :skID="skID" :status="status"></abs>
+        <loading v-if='load'></loading>
     </div>
 </template>
 
 <script>
     import abs from './ABolish'
+    import loading from '../../../components/loading'
     export default {
-        components:{abs},
+        components:{abs,loading},
         name: "administration",
         data(){
             return{
@@ -142,6 +147,7 @@
                 skID:"",
                 status:"",
                 ab:false,
+                load:true,
             }
         },
         created(){
@@ -258,6 +264,7 @@
                 this.api.settlemanage_search({params}).then((res)=>{
                     this.tableData=res.data;
                     this.total=res.total;
+                    this.load=false
                 })
             },
             zfXQ(id,status){

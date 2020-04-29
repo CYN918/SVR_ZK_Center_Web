@@ -50,7 +50,7 @@
                  <div>
                     <span class="fillName">渠道</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
-                        <span  class="text">{{list.check.check1.controls}}</span>
+                        <span  class="text">{{list.check.check1.bind_channel_name}}</span>
                     </div>
 
                 </div>
