@@ -271,6 +271,10 @@
         },
         methods:{
             change(value){
+                this.name=''
+                this.channel=''
+                this.project=''
+                this.search=''
                 this.getDataList();
             },
             getObject(){
