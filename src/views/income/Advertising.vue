@@ -27,14 +27,22 @@
                 </select>
                  <span  class="ad" v-if="is_receiver==0">渠道</span>
                 <select v-model="channel"  v-if="is_receiver==0">
+                    <option value="">全部</option>
                     <option :value="item.channel" v-for="item in channelData">{{item.channel}}</option>
                 </select>
                 <div style=" display: inline-block;position: relative;">
                     <span class="ad">结算方</span>
-                    <input type="text" placeholder="请输入结算方" v-model="name" @input="getName"/>
+                    <input type="text" placeholder="请输入结算方" v-model="name" @input="getName" @change="getObject()"/>
                     <div class='names' v-if="show">
                         <span v-for="da in JSname" @click='setName(da.name)'>{{da.name}}</span>
                     </div>
+                </div>
+                <div style=" display: inline-block;position: relative;" v-if='is_receiver==1'> 
+                    <span class="ad">项目</span>
+                    <select v-model="project">
+                        <option value="">全部</option>
+                        <option :value="item.project_name" v-for='item in JSlist'>{{item.project_name}}</option>
+                    </select>
                 </div>
                
                 
@@ -192,7 +200,6 @@
                 <span>—</span>
                 <span>—</span>
                 <span  v-if="!this.$route.query.type">—</span>
-                <span  v-if="!this.$route.query.type">—</span>
                 <span>—</span>
                 <span>{{exhibition1}}</span>
                 <span>{{exhibition2}}</span>
@@ -237,7 +244,9 @@
                 channel:"",
                 channelData:[],
                 JSname:[],
-                show:false
+                show:false,
+                project:"",
+                JSlist:[],
             }
         },
         mounted(){
@@ -263,6 +272,16 @@
         methods:{
             change(value){
                 this.getDataList();
+            },
+            getObject(){
+                if(!this.name){
+                    this.$message.error('结算方不能为空')
+                    return
+                }
+                let params={balance_name:this.name}
+                this.api.adproject_listpage({params}).then((res)=>{
+                    this.JSlist=res.data
+                })
             },
             getRowClass({row, column, rowIndex}) {
                 if (rowIndex === 0) {
@@ -316,9 +335,10 @@
             getDataList(num){
                 if(num!=undefined){
                     this.page=num;
-                   var params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:num,search:this.search,is_receiver:this.is_receiver,name:this.name,channel:this.channel} 
+                         var params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:num,search:this.search,is_receiver:this.is_receiver,name:this.name,channel:this.channel,project:this.project} 
                 }else{
-                     params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,search:this.search,is_receiver:this.is_receiver,name:this.name,channel:this.channel}
+                        params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,search:this.search,is_receiver:this.is_receiver,name:this.name,channel:this.channel,project:this.project}
+
                 }
                 
                 this.api.settle_data_search({params}).then((res)=>{
@@ -476,7 +496,7 @@
         font-weight:bold;
         line-height:48px;
         font-family:PingFang-SC-Regular;
-        width: 9%;
+        width: 10.1%;
        padding-left: 16px;
 
     }
@@ -488,9 +508,10 @@
         top:65px;
         right: 0;
         height: 200px;
+        width: 50%;
         overflow-y:auto;
         background: #fff;
-        z-index: 999999;
+        z-index: 100;
         border: 1px solid #ddd;
     }
     .names span{

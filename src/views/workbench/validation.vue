@@ -219,7 +219,7 @@ import pro from '../income/projection'
                 channelData:[],
                 channels:[],
                 bind_projects_name:"",
-                bind_channel_name:""
+                bind_channel_name:"",
             }
         },
         mounted(){
@@ -317,7 +317,12 @@ import pro from '../income/projection'
                 })
             },
            getsettle(){
-               let params={is_receiver:this.is_receiver,name:this.name,tstart:this.time[0],tend:this.time[1]};
+               if(this.is_receiver==1){
+                   var params={is_receiver:this.is_receiver,name:this.name,tstart:this.time[0],tend:this.time[1],project:this.projects.splice('').join(',')};
+               }
+               if(this.is_receiver==0){
+                    params={is_receiver:this.is_receiver,name:this.name,tstart:this.time[0],tend:this.time[1],channels:this.bind_channel_name};
+               }
                this.api.settle_data_estimate_amount({params}).then((res)=>{
                    if(res.amount==0){
                         this.expect_amount='--'
@@ -345,6 +350,10 @@ import pro from '../income/projection'
                     this.fj=res.check.check2;
                     if(this.is_receiver==1){
                         this.bind_projects_name=res.check.check1.bind_projects_name
+                        this.projects=[];
+                        for(var i=0;i<res.check.check1.projects.length;i++){
+                            this.projects.push((res.check.check1.projects)[i].project_id)
+                        }
                     }
                     if(this.is_receiver==0){
                          this.bind_channel_name=res.check.check1.bind_channel_name

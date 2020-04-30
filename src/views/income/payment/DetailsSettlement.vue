@@ -45,7 +45,7 @@
             <div v-if='type=="付款结算"'>
                 <span class="Name" style="vertical-align: top">相关合同</span>
                 <div style="display: inline-block">
-                    <div style="width: 714px;mxa-height:216px;overflow-y:auto;border: 1px solid #D9D9D9 " class="contract">
+                    <div style="width: 714px;mxa-height:216px;overflow-y:auto;border: 1px solid #D9D9D9;margin-left:185px" class="contract">
                         <template>
                             <el-table
                                     :data="contracts"
