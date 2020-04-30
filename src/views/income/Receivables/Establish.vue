@@ -51,15 +51,15 @@
                     <span class="fillName">项目</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
                         <div class="input">
-                             <el-select v-model="projects" multiple placeholder="请选择" class="elSelect" >
+                             <el-select v-model="projects" multiple placeholder="请选择" class="elSelect" v-if='id==undefined'>
                                 <el-option
-                                       :disabled='id!=undefined'
                                         v-for="item in JSlist"
                                         :key="item.project_name"
                                         :label="item.project_name"
                                         :value="item.project_id">
                                 </el-option>
                             </el-select>
+                            <input type="text" v-model="bind_projects_name" disabled v-if='id!=undefined'>
                         </div>
                        
                     </div>
@@ -172,7 +172,8 @@
                 fj:{},
                 JSlist:[],
                 projects:[],
-                id:this.$route.query.id
+                id:this.$route.query.id,
+                bind_projects_name:""
             }
         },
         mounted(){
@@ -319,6 +320,7 @@
                     this.statement=res.check.check1.statement;
                     this.name=res.check.check1.name;
                     this.time=[res.check.check1.tstart,res.check.check1.tend];
+                    this.bind_projects_name=res.check.check1.bind_projects_name
                         for(var i =0;i<res.check.check1.projects.length;i++){
                             this.projects.push((res.check.check1.projects)[i].project_id)
                         }
@@ -339,7 +341,7 @@
                 })
             },
              getsettle(){
-               let params={is_receiver:1,name:this.name,tstart:this.time[0],tend:this.time[1]};
+               let params={is_receiver:1,name:this.name,tstart:this.time[0],tend:this.time[1],projects:this.projects.splice("").join(',')};
                this.api.settle_data_estimate_amount({params}).then((res)=>{
                     if(res.amount==0){
                        this.expect_amount='--'

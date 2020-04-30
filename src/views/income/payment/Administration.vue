@@ -49,9 +49,12 @@
                             </template>
                         </el-table-column>
                          <el-table-column
-                                prop="nimd_channel_name"
+                                prop="bind_channel_name"
+                                 :show-overflow-tooltip="true"
                                 label="相关渠道">
-
+                                <template slot-scope="scope">
+                                    <span>{{tableData[scope.$index].check.check1. bind_channel_name}}</span>
+                                </template>
                         </el-table-column>
                         <el-table-column
                                 prop="status_name"

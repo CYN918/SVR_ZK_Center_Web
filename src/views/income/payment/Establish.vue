@@ -50,15 +50,15 @@
                 <div>
                     <span class="fillName">渠道</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
-                        <el-select v-model="channels" multiple placeholder="请选择" class="elSelect" >
+                        <el-select v-model="channels" multiple placeholder="请选择" class="elSelect" v-if='id==undefined'>
                                 <el-option
-                                        :disabled='id!=undefined'
                                         v-for="item in channelData"
                                         :key="item.channel"
                                         :label="item.channel"
                                         :value="item.channel">
                                 </el-option>
-                            </el-select>
+                        </el-select>
+                        <input type="text" v-model="bind_channel_name" disabled v-if='id!=undefined'>
                     </div>
                 </div>
                 <div>
@@ -169,7 +169,8 @@
                 fj:{},
                 channelData:[],
                 channels:[],
-                id:this.$route.query.id
+                id:this.$route.query.id,
+                bind_channel_name:'',
             }
         },
         mounted(){
@@ -208,7 +209,7 @@
                 this.initiate2 = false
             },
              getsettle(){
-               let params={is_receiver:0,name:this.name,tstart:this.time[0],tend:this.time[1]};
+               let params={is_receiver:0,name:this.name,tstart:this.time[0],tend:this.time[1],channels:this.channels.splice('').join(',')};
                this.api.settle_data_estimate_amount({params}).then((res)=>{
                     if(res.amount==0){
                        this.expect_amount='--'
@@ -330,6 +331,7 @@
                     this.name=res.check.check1.name;
                     this.time=[res.check.check1.tstart,res.check.check1.tend];
                     this.channels=res.check.check1.channels;
+                    this.bind_channel_name=res.check.check1.bind_channel_name
                     }
                    
                     if(res.check.check2){
