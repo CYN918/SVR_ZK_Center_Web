@@ -230,12 +230,14 @@
                 this.attachs.splice(index,1)
             },
             ADD(){
+                  console.log(this.projects)
                 if(this.fcounter != 0)
                 {
                     this.$message.error('文件上传中');
                     return
                 }
                 if(this.$route.query.id!=undefined){
+                    console.log(this.projects)
                     this.setData();
                     return
                 }
@@ -335,13 +337,12 @@
 						this.note=res.check.check3.note;
 						this.attachs=res.check.check3.attachs;
 					}
-                   
                     this.getsettle();
                     this.getObject()
                 })
             },
              getsettle(){
-               let params={is_receiver:1,name:this.name,tstart:this.time[0],tend:this.time[1],projects:this.projects.splice("").join(',')};
+               let params={is_receiver:1,name:this.name,tstart:this.time[0],tend:this.time[1],projects:this.projects.slice().join(',')};
                this.api.settle_data_estimate_amount({params}).then((res)=>{
                     if(res.amount==0){
                        this.expect_amount='--'

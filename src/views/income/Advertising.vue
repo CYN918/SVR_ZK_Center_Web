@@ -326,7 +326,6 @@
                 })
                 }
                
-                console.log(this.name)
             },
             setName(da){
                 this.name=da;
@@ -378,7 +377,6 @@
                     this.click_ratio = sratio.toString() +'%';
                     this.exhibition4 = parseFloat(a4 / 100 ).toFixed(2);
                     this.total = res.total;
-                    console.log(this.tableData)
                 })
             },
            

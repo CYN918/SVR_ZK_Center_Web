@@ -209,7 +209,7 @@
                 this.initiate2 = false
             },
              getsettle(){
-               let params={is_receiver:0,name:this.name,tstart:this.time[0],tend:this.time[1],channels:this.channels.splice('').join(',')};
+               let params={is_receiver:0,name:this.name,tstart:this.time[0],tend:this.time[1],channels:this.channels.slice().join(',')};
                this.api.settle_data_estimate_amount({params}).then((res)=>{
                     if(res.amount==0){
                        this.expect_amount='--'
