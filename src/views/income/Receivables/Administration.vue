@@ -50,12 +50,12 @@
                                 label="结算单ID">
                         </el-table-column>
                         <el-table-column
-                                prop="creator"
+                                prop="demand_name"
                                 :show-overflow-tooltip="true"
                                 label="结算单名称">
-                            <template slot-scope="scope">
-                                <span>{{tableData[scope.$index].demand_name}}</span>
-                            </template>
+                                <template slot-scope="scope">
+                                    <span>{{tableData[scope.$index].check.check1.statement}}</span>
+                                </template>
                         </el-table-column>
                          <el-table-column
                                 prop="bind_projects_name"

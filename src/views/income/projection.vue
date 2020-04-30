@@ -112,9 +112,7 @@ data() {
     mounted(){
         this.getData();
         this.authority=JSON.parse(localStorage.getItem('control'));
-        console.log( this.authority.length)
         for(var i=0;i<this.authority.length;i++){
-            
             if(this.authority[i].uri=='demandsettle/opt/audit/add'){
                 this.edit=true;
                 return
