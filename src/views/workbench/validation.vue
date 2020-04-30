@@ -424,8 +424,7 @@ import pro from '../income/projection'
                     this.$message.error('审核状态异常');
                     return;
                 }
-                
-                if(this.expect_amount <=0 || this.expect_amount != '--'){
+                if(this.expect_amount<=0&&this.expect_amount!= '--'){
                     this.$message.error('预计结算金额不能为空');
                     return;
                 }
