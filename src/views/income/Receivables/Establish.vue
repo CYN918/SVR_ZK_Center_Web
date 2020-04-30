@@ -1,7 +1,7 @@
 <template>
     <div>
         <DS v-if="msg" :name="name"></DS>
-        <pro v-if='budget'  :is_receiver='1' :fj='fj'></pro>
+        <pro v-if='budget'  :is_receiver='1' :fj='fj' :projects='bind_projects_name'></pro>
         <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="jump">收款结算&nbsp;/</span>

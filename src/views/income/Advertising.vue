@@ -508,7 +508,7 @@
         top:65px;
         right: 0;
         height: 200px;
-        width: 50%;
+        width: 100%;
         overflow-y:auto;
         background: #fff;
         z-index: 100;
