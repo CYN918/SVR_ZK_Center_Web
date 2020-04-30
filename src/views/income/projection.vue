@@ -86,7 +86,7 @@
 </template>
 <script>
 export default {
-props:['name','tstart','tend','is_receiver','id','a','fj','type'],
+props:['name','tstart','tend','is_receiver','id','a','fj','type','channels','projects'],
 components: {},
 data() {
     return {
@@ -250,9 +250,9 @@ data() {
             },
         getData(){
             if(this.a==undefined){
-                var params={id:this.$route.query.id,is_receiver:this.is_receiver}
+                var params={id:this.$route.query.id,is_receiver:this.is_receiver,projects:this.projects,channels:this.channels}
             }else{
-                 var params={id:this.id,is_receiver:this.is_receiver}
+                 params={id:this.id,is_receiver:this.is_receiver,projects:this.projects,channels:this.channels}
             }
            
             this.api.settle_data_estimate_list({params}).then((res)=>{

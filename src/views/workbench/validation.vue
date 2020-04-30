@@ -1,7 +1,7 @@
 <template>
     <div class="bg">
         <DS v-if="msg" :name="name" :type="type"></DS>
-        <pro v-if='budget' :name='name' :tstart='time[0]' :tend='time[1]' :id='id' :is_receiver='this.is_receiver' :a='a' :fj='fj'></pro>
+        <pro v-if='budget' :name='name' :tstart='time[0]' :tend='time[1]' :id='id' :is_receiver='this.is_receiver' :a='a' :fj='fj' :projects='bind_projects_name' :channels='bind_channel_name'></pro>
         <div class="tableBox">
             <div style="text-align: center;margin-bottom: 40px;max-width: 893px;border-bottom: 1px solid #ddd;position: relative;left: 50%;transform: translateX(-50%)">
                 <div style="margin-right: 350px;text-align: center;display: inline-block;border-bottom: 1px solid #3377ff" v-if="userNames">
