@@ -41,7 +41,7 @@
                 <div>
                     <span class="fillName">结算方</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
-                        <select v-model="name" @change='getqd()'>
+                        <select v-model="name" @change='getqd()' :disabled='id!=undefined'>
                             <option v-for="item in list" :value="item.name">{{item.name}}</option>
                         </select>
                         <span class="click" @click="massgae()">查看结算方信息</span>
@@ -52,6 +52,7 @@
                     <div style="display: inline-block;width: 593px;text-align: left">
                         <el-select v-model="channels" multiple placeholder="请选择" class="elSelect" >
                                 <el-option
+                                        :disabled='id!=undefined'
                                         v-for="item in channelData"
                                         :key="item.channel"
                                         :label="item.channel"
@@ -66,6 +67,7 @@
                         <div class="fillTime">
                             <el-date-picker
                                     v-model="time"
+                                    :disabled='id!=undefined'
                                     type="daterange"
                                     range-separator="至"
                                     start-placeholder="开始日期"
@@ -167,6 +169,7 @@
                 fj:{},
                 channelData:[],
                 channels:[],
+                id:this.$route.query.id
             }
         },
         mounted(){

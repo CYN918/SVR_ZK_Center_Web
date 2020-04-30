@@ -33,15 +33,15 @@
                 <div>
                     <span class="fillName">结算单名称</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
-                        <input type="text" class="input" v-model="statement" disabled v-if='this.step==undefined'>
-                        <input type="text" class="input" v-model="statement" v-if='this.step!=undefined'>
+                        <!-- <input type="text" class="input" v-model="statement" disabled v-if='this.step==undefined'> -->
+                        <input type="text" class="input" v-model="statement">
                     </div>
 
                 </div>
                 <div>
                     <span class="fillName">结算方</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
-                        <select v-model="name" @change='getObject()'>
+                        <select v-model="name" @change='getObject()' :disabled='id!=undefined'>
                             <option v-for="item in list" :value="item.name">{{item.name}}</option>
                         </select>
                         <span class="click" @click="massgae()">查看结算方信息</span>
@@ -53,6 +53,7 @@
                         <div class="input">
                              <el-select v-model="projects" multiple placeholder="请选择" class="elSelect" >
                                 <el-option
+                                       :disabled='id!=undefined'
                                         v-for="item in JSlist"
                                         :key="item.project_name"
                                         :label="item.project_name"
@@ -68,6 +69,7 @@
                     <div style="display: inline-block;width: 593px;text-align: left">
                         <div class="fillTime">
                             <el-date-picker
+                                   :disabled='id!=undefined'
                                     v-model="time"
                                     type="daterange"
                                     range-separator="至"
@@ -169,7 +171,8 @@
                 budget:false,
                 fj:{},
                 JSlist:[],
-                projects:[]
+                projects:[],
+                id:this.$route.query.id
             }
         },
         mounted(){
@@ -336,7 +339,7 @@
                 })
             },
              getsettle(){
-               let params={is_receiver:0,name:this.name,tstart:this.time[0],tend:this.time[1]};
+               let params={is_receiver:1,name:this.name,tstart:this.time[0],tend:this.time[1]};
                this.api.settle_data_estimate_amount({params}).then((res)=>{
                     if(res.amount==0){
                        this.expect_amount='--'
@@ -419,7 +422,7 @@
                     this.$message.error('结算方不能为空')
                     return
                 }
-                let params={name:this.name}
+                let params={balance_name:this.name}
                 this.api.adproject_listpage({params}).then((res)=>{
                     this.JSlist=res.data
                 })
