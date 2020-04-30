@@ -20,7 +20,7 @@
                     <option value="0">待处理</option>
                     <option value="1">生效中</option>
                     <option value="2">已过期</option>
-                    <option value="3">即将过期</option>
+                    <option value="4">即将过期</option>
                 </select>
                 <div class='btn_box'>
                     <span class="cx" @click='getDate()'>查询</span>
@@ -73,7 +73,9 @@
                         <el-table-column
                                 label="状态" prop="status_text"
                                 >
-                              
+                                <template slot-scope="props">
+                                    <el-button type="text" :class='{red:tableData[props.$index].status==2||tableData[props.$index].status==4}' >{{tableData[props.$index].status_text}}</el-button>
+                                </template>
                         </el-table-column>
                         <el-table-column
                                 label="合同截止日期" prop="contract_end_time"
@@ -354,5 +356,8 @@
         margin-right: 10px;
         margin-bottom: 16px;
         margin-left: 24px;
+    }
+    .red{
+        color: red;
     }
 </style>

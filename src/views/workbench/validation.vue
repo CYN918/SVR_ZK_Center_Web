@@ -41,7 +41,7 @@
                 <div v-if="is_receiver==1">
                     <span class="fillName">项目</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
-                        <el-select v-model="projects" multiple placeholder="请选择" class="elSelect" >
+                        <!-- <el-select v-model="projects" multiple placeholder="请选择" class="elSelect" >
                                 <el-option
                                         disabled="disabled"
                                         v-for="(item,index) in JSlist"
@@ -49,13 +49,14 @@
                                         :label="item.project_name"
                                         :value="item.project_id">
                                 </el-option>
-                            </el-select>
+                            </el-select> -->
+                            <input type="text" class="input" v-model="bind_projects_name" disabled>
                     </div>
                 </div>
                  <div v-if="is_receiver==0">
                     <span class="fillName">渠道</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
-                       <el-select v-model="channels" multiple placeholder="请选择" class="elSelect" >
+                       <!-- <el-select v-model="channels" multiple placeholder="请选择" class="elSelect" >
                                 <el-option
                                         disabled="disabled"
                                         v-for="(item,index) in channelData"
@@ -63,7 +64,8 @@
                                         :label="item.channel"
                                         :value="item.channel">
                                 </el-option>
-                            </el-select>
+                            </el-select> -->
+                            <input type="text" class="input" v-model="bind_channel_name" disabled>
                     </div>
                 </div>
                 <div>
@@ -216,6 +218,8 @@ import pro from '../income/projection'
                 projects:[],
                 channelData:[],
                 channels:[],
+                bind_projects_name:"",
+                bind_channel_name:""
             }
         },
         mounted(){
@@ -339,14 +343,14 @@ import pro from '../income/projection'
                     this.statement=res.check.check1.statement;
                     this.name=res.check.check1.name;
                     this.fj=res.check.check2;
-                    this.projects=res.check.check1.projects
+                    if(this.is_receiver==1){
+                        this.bind_projects_name=res.check.check1.bind_projects_name
+                    }
+                    if(this.is_receiver==0){
+                         this.bind_channel_name=res.check.check1.bind_channel_name
+                    }
                     this.time=[res.check.check1.tstart,res.check.check1.tend];
                     this.getsettle();
-                    if(this.is_receiver==1){
-                        this. getObject();
-                    }else{
-                        this.getqd()
-                    }
                     
                     // if(this.status>1){
                     //      this.expect_amount=res.check.check2.expect_amount;
@@ -453,26 +457,7 @@ import pro from '../income/projection'
                     }
                 })
             },
-             getObject(){
-                if(!this.name){
-                    this.$message.error('结算方不能为空')
-                    return
-                }
-                let params={settlement_name:this.name}
-                this.api.adproject_listpage({params}).then((res)=>{
-                    this.JSlist=res.data
-                })
-            },
-            getqd(){
-                 if(!this.name){
-                    this.$message.error('结算方不能为空')
-                    return
-                }
-                let params={settlement_name:this.name}
-                this.api.settle_data_ssp_channel({params}).then((res)=>{
-                    this.channelData=res;
-                })
-            },
+            
         }
     }
 </script>
