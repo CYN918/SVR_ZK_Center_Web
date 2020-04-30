@@ -105,8 +105,8 @@
             </div>
             <div  v-if='type=="付款结算"'>
                 <span class="Name">已绑定数据来源主体</span>
-                <div style="display: inline-block" v-for='(value,key) in data.advertisers'>
-                    <span class="text">{{value}}</span>
+                <div style="display: inline-block">
+                    <span class="text">{{data.blid_channel_name}}</span>
                 </div>
             </div>
             <div>

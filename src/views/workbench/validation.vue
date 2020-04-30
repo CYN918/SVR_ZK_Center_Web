@@ -29,7 +29,7 @@
                     </div>
 
                 </div>
-                <div v-if="userNames">
+                <div v-if="userNames&&heid">
                     <span class="fillName">结算方</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
                         <select v-model="name" disabled>
@@ -220,6 +220,8 @@ import pro from '../income/projection'
                 channels:[],
                 bind_projects_name:"",
                 bind_channel_name:"",
+                functionality:[],
+                heid:true
             }
         },
         mounted(){
@@ -241,6 +243,12 @@ import pro from '../income/projection'
                         }
                     }
                    
+                }
+            }
+            this.functionality=JSON.parse(localStorage.getItem('control'));
+            for(var j=0;j<this.functionality.length;j++){
+                if(this.functionality[j].uri_key=='uri.settlement.opt.audit.add'){
+                    this.heid=false
                 }
             }
             this.id=this.skID;
@@ -318,7 +326,7 @@ import pro from '../income/projection'
             },
            getsettle(){
                if(this.is_receiver==1){
-                   var params={is_receiver:this.is_receiver,name:this.name,tstart:this.time[0],tend:this.time[1],project:this.projects.slice().join(',')};
+                   var params={is_receiver:this.is_receiver,name:this.name,tstart:this.time[0],tend:this.time[1],projects:this.projects.slice().join(',')};
                }
                if(this.is_receiver==0){
                     params={is_receiver:this.is_receiver,name:this.name,tstart:this.time[0],tend:this.time[1],channels:this.bind_channel_name};

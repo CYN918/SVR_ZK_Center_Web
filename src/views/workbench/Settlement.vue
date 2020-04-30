@@ -4,18 +4,18 @@
         <pro v-if='budget' :name='list.check.check1.name' :tstart='list.check.check1.tstart' :id="id" :tend='list.check.check1.tend' :is_receiver='this.is_receiver' :a='a' :fj='fj' :projects='list.check.check1.bind_projects_name' :channels='ist.check.check1.bind_channel_name'></pro>
         <div class="tableBox">
             <div style="text-align: center;margin-bottom: 40px;max-width: 893px;border-bottom: 1px solid #ddd;position: relative;left: 50%;transform: translateX(-50%)">
-                <div style="margin-right: 350px;text-align: center;border-bottom: 1px solid #3377ff;display: inline-block" v-if="userNames">
+                <div style="margin-right: 350px;text-align: center;border-bottom: 1px solid #3377ff;display: inline-block" v-if="userNames&&heid">
                     <div class="box boxs">1</div>
                     <span class="boxName">对账确认</span>
                 </div>
-                <div style="margin: 0 auto;text-align: center;display: inline-block;border-bottom: 1px solid #3377ff" v-if="isShow">
+                <div style="margin: 0 auto;text-align: center;display: inline-block;border-bottom: 1px solid #3377ff" v-if="!heid">
                     <span class="boxName">对账确认</span>
                 </div>
-                <div style="margin-right: 350px;text-align: center;display: inline-block" v-if="userNames">
+                <div style="margin-right: 350px;text-align: center;display: inline-block" v-if="userNames&&heid">
                     <div class="box" :class="{boxs:list.status>3}" @click="scope()">2</div>
                     <span class="boxName" @click="scope()">票据凭证</span>
                 </div>
-                <div style="text-align: center;display: inline-block" v-if="userNames">
+                <div style="text-align: center;display: inline-block" v-if="userNames&&heid">
                     <div class="box" :class="{boxs:list.status>4}"  @click="scope2()">3</div>
                     <span class="boxName" @click="scope2()">结算汇款</span>
                 </div>
@@ -29,7 +29,7 @@
                     </div>
 
                 </div>
-                <div v-if="userNames">
+                <div v-if="userNames&&heid">
                     <span class="fillName">结算方</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
                         <span  class="text">{{list.check.check1.name}}</span>
@@ -66,21 +66,21 @@
                     </div>
 
                 </div>
-                <div v-if="list.status>2 && userNames">
+                <div v-if="list.status>2 && userNames&&heid">
                     <span class="fillName">实际结算金额</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
                         <span  class="text">{{list.check.check3.real_amount}}</span>
                     </div>
 
                 </div>
-                <div v-if="list.status>2 && userNames">
+                <div v-if="list.status>2 && userNames&&heid">
                     <span class="fillName">备注说明</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
                         <span  class="text">{{list.check.check3.note}}</span>
                     </div>
 
                 </div>
-                <div v-if="list.status>2 && userNames">
+                <div v-if="list.status>2 && userNames&&heid">
                     <div style="display: inline-block;width: 84px;margin-right: 20px;text-align: right">
                         <span class="fj">附件</span>
                     </div>
@@ -127,6 +127,8 @@
                 purview:[],
                 userNames:true,
                 isShow: false,
+                functionality:[],
+                heid:true
             }
         },
         mounted(){
@@ -145,6 +147,12 @@
                             }
                         }
                     }
+                }
+            }
+            this.functionality=JSON.parse(localStorage.getItem('control'));
+            for(var j=0;j<this.functionality.length;j++){
+                if(this.functionality[j].uri_key=='uri.settlement.opt.audit.add'){
+                    this.heid=false
                 }
             }
             this.id=this.skID,
