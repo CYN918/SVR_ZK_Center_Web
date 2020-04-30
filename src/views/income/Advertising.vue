@@ -89,6 +89,14 @@
                             :show-overflow-tooltip="true"
                         >
                         </el-table-column>
+                         <el-table-column
+                                prop="download"
+                                label="下载">
+                        </el-table-column> 
+                         <el-table-column
+                                prop="download_feedback"
+                                label="反馈下载">
+                        </el-table-column>
                         <el-table-column
                                 prop="income"
                                 label="收益"
@@ -158,14 +166,6 @@
                             :show-overflow-tooltip="true"
                         >
                         </el-table-column>
-                         <el-table-column
-                                prop="click"
-                                label="下载">
-                        </el-table-column> 
-                         <el-table-column
-                                prop="click"
-                                label="反馈下载">
-                        </el-table-column>
                         <el-table-column
                                 prop="income"
                                 label="成本"
@@ -183,6 +183,8 @@
                 <span>{{exhibition1}}</span>
                 <span>{{exhibition2}}</span>
                 <span>{{click_ratio}}</span>
+                <span>{{exhibition5}}</span>
+                <span>{{exhibition6}}</span>
                 <span>{{exhibition4}}</span>
             </div>
             <div v-if="tableData.length>0&&is_receiver==0" class='summary2' :class='{big:this.$route.query.type!=undefined}'>
@@ -229,6 +231,8 @@
                 exhibition2:'',
                 click_ratio:'',
                 exhibition4:'',
+                exhibition5:'',
+                exhibition6:'',
                 name:'',
                 channel:"",
                 channelData:[],
@@ -331,10 +335,14 @@
                     var a1= 0;
                     var a2= 0;
                     var a4= 0;
+                    var a3 =0;
+                    var a5= 0;
                     for(var i=0;i<this.tableData.length;i++){
                         a1 += parseInt(res.data[i].pv);
                         a2 += parseInt(res.data[i].click);
+                        a3 += parseInt(res.data[i].download);
                         a4 += parseFloat(res.data[i].income);
+                        a5 += parseInt(res.data[i].download_feedback)
                         this.tableData[i].income = parseFloat(this.tableData[i].income / 100).toFixed(2);
                     }
                     this.exhibition1 = parseInt(a1);
@@ -345,6 +353,8 @@
                         sratio =  parseFloat(this.exhibition2 / this.exhibition1 * 100).toFixed(2);
 
                     }
+                    this.exhibition5=a3;
+                    this.exhibition6=a5;
                     this.click_ratio = sratio.toString() +'%';
                     this.exhibition4 = parseFloat(a4 / 100 ).toFixed(2);
                     this.total = res.total;
@@ -455,7 +465,7 @@
         font-weight:bold;
         line-height:48px;
         font-family:PingFang-SC-Regular;
-        width: 11%;
+        width: 8.5%;
         padding-left: 24px;
     }
     .summary2 span{

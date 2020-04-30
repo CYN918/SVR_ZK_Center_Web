@@ -316,7 +316,9 @@
                     this.statement=res.check.check1.statement;
                     this.name=res.check.check1.name;
                     this.time=[res.check.check1.tstart,res.check.check1.tend];
-                    this.projects=res.check.check1.projects;
+                        for(var i =0;i<res.check.check1.projects.length;i++){
+                            this.projects.push((res.check.check1.projects)[i].project_id)
+                        }
                     }
                    
                     if(res.check.check2){
