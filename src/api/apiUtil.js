@@ -34,6 +34,7 @@ const sendApiInstance = (method, url, params, config = {},isType={}) => {
 	if(!url){return}		
 	let instance = createApiInstance(config);
 	instance.interceptors.response.use(response => {
+		console.log('test');
 		let {status, message, data, code} = response.data;
 		if(status==true){
 			if(isType.suktip){
@@ -64,6 +65,7 @@ const sendApiInstance = (method, url, params, config = {},isType={}) => {
 	}
 	return instance[method](url, params, config)
 }
+
 
 export default {
 	generateApiMap

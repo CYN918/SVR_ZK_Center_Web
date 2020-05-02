@@ -1,4 +1,5 @@
-import echarts from 'echarts'
+import echarts from 'echarts';
+import axios from 'axios'
 export default {
     downloadImg(url){
         var cent = 'center',
@@ -200,4 +201,39 @@ export default {
         };
         flowChart.setOption(option)
     },//多折现图
+
+    loginout(){//登出
+        window.localStorage.clear();
+        let urld = 'http://ts-i.idatachain.cn',
+        accountUrl = "http://ts-account.idatachain.cn/auth/logout?from=";
+        if(window.location.host=='c.zookingsoft.com'){
+            urld = 'https://c.zookingsoft.com';
+            accountUrl = "http://account.zookingsoft.com/auth/logout?from=";
+        }
+        if(window.location.host=='c2.zookingsoft.com'){
+            urld = 'https://c2.zookingsoft.com';
+            accountUrl = "http://account.zookingsoft.com/auth/logout?from=";
+        }
+        axios({
+            method: 'get',
+            timeout: 10000,
+            url: urld+'/api/logout',			     
+        }).then((msg)=>{	
+                if(msg.data.code==0){
+                    localStorage.setItem('token','');
+                    let cent = 'center';
+                    if(window.location.host=='ts-centerweb.idatachain.cn'){
+                        cent = 'center_dev';
+                    }else
+                    if(window.location.host=='localhost:8080'){
+                        cent = 'center_local';
+                    }else if(window.location.host=='c2.zookingsoft.com'){
+                        cent = 'center_dev2';
+                    }
+                    window.location.href=accountUrl + cent;
+                }						
+        }).catch(()=>{
+        
+        })			
+    },
 }

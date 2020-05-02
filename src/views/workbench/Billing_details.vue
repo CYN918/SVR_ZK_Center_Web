@@ -111,10 +111,10 @@
                         <el-table-column label="操作">
                             <template slot-scope="props">
                                 <el-button type="text" @click="xq(tableData[props.$index].open_id)">查看详情</el-button>
-                                <el-button type="text" v-if="tableData[props.$index].check_status=='0'" @click="getSH(tableData[props.$index].open_id)">审核通过</el-button>
-                                <el-button type="text" v-if="tableData[props.$index].check_status=='0'" @click="getBH(tableData[props.$index].open_id)">驳回</el-button>
-                                <el-button type="text" v-if="status==3&&tableData[props.$index].check_status!='0'&&tableData[props.$index].check_status!='3'" @click="getSH(tableData[props.$index].open_id)">更新为已汇款</el-button>
-                                <el-button type="text" v-if="status==3&&tableData[props.$index].check_status!='0'&&tableData[props.$index].check_status!='3'" @click="getBH(tableData[props.$index].open_id)">驳回</el-button>
+                                <el-button type="text" v-if="getCheckStatus(props.$index)=='audit'" @click="getSH(tableData[props.$index].open_id)">审核通过</el-button>
+                                <el-button type="text" v-if="getCheckStatus(props.$index)=='audit'" @click="getBH(tableData[props.$index].open_id)">驳回</el-button>
+                                <el-button type="text" v-if="getCheckStatus(props.$index)=='audited'" @click="getSH(tableData[props.$index].open_id)">更新为已汇款</el-button>
+                                <el-button type="text" v-if="getCheckStatus(props.$index)=='audited'" @click="getBH(tableData[props.$index].open_id)">驳回</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -168,6 +168,27 @@
 
         },
         methods:{
+            getCheckStatus(index){
+                let check_status = this.tableData[index].check_status;
+                let status = this.tableData[index].status;
+                if(check_status == 0){
+                    return  'audit';//待审核
+                }
+                
+                if(check_status == 0){
+                    return  'audit';//待审核
+                }
+                if(status==3
+                    &&check_status != 0
+                    &&check_status != '3'//已结算
+                    &&check_status != '-1'//审核驳回
+                    &&check_status != '-2'//撤回
+                    &&check_status != '-3'){//结算驳回
+                    return 'audited';
+                }
+                return '';
+            },
+
             fh(){
                 this.$router.go(-1)
             },

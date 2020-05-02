@@ -104,13 +104,14 @@
 				<el-menu-item index="3">素材中心</el-menu-item>
 				<el-menu-item index="4">主题中心</el-menu-item>
 				<!--<el-menu-item index="4">产品中心</el-menu-item>-->
-				<el-menu-item @click="loginout" index="5">退出</el-menu-item>
+				<el-menu-item @click="loginout()" index="5">退出</el-menu-item>
 			</el-submenu>
 		</el-menu>
 	</div> 
 </template>
 
 <script>
+import commonality from '../api/commonality';
 export default { 
     name: 'topNav', 
 	props:['config'],
@@ -302,56 +303,10 @@ export default {
 		},
         // gouser(){
         //     window.location.href= '#/userinfo/user_info';
-        // },
+		// },
 		loginout(){
-			let urld = 'http://ts-i.idatachain.cn',
-			accountUrl = "http://ts-account.idatachain.cn/auth/logout?from=";
-			if(window.location.host=='c.zookingsoft.com'){
-				urld = 'https://c.zookingsoft.com';
-				accountUrl = "http://account.zookingsoft.com/auth/logout?from=";
-			}
-            if(window.location.host=='c2.zookingsoft.com'){
-				urld = 'https://c2.zookingsoft.com';
-				accountUrl = "http://account.zookingsoft.com/auth/logout?from=";
-			}
-			this.$ajax({
-				method: 'get',
-				timeout: 10000,
-				url:urld+'/api/logout',			     
-			}).then((msg)=>{
-				console.log(msg)
-				if(msg.data.code==0){
-					localStorage.setItem('token','');
-                    localStorage.removeItem('letNav');
-					let cent = 'center';
-					if(window.location.host=='ts-centerweb.idatachain.cn'){
-						cent = 'center_dev';
-					}else
-					if(window.location.host=='localhost:8080'){
-						cent = 'center_local';
-					}else if(window.location.host=='c2.zookingsoft.com'){
-                        cent = 'center_dev2';
-					}
-					
-					window.location.href= accountUrl + cent;
-				}	
-			})						
-			// }).catch(()=>{
-			// 	localStorage.setItem('token','');
-            //     let cent = 'center';
-            //     if(window.location.host=='ts-centerweb.idatachain.cn'){
-            //         cent = 'center_dev';
-            //     }else
-            //     if(window.location.host=='localhost:8080'){
-            //         cent = 'center_local';
-            //     }else if(window.location.host=='c2.zookingsoft.com'){
-            //         cent = 'center_dev2';
-			// 	}
-			// 	return
-            //     window.location.href="http://account.zookingsoft.com/auth/logout?from="+cent;
-			// })
-		},
-
+			commonality.loginout();
+		}
 	}
 }    
 </script>
