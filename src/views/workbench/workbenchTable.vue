@@ -99,17 +99,12 @@
 
                             <el-button v-if="(tableData[props.$index].status_name=='项目发布'&&tableData[props.$index].reject=='0'&&tableData[props.$index].is_project==1)" @click='look(tableData[props.$index].did,tableData[props.$index].status)'>查看项目</el-button>
 
-
-
                             <el-button @click='check(tableData[props.$index].demand_type,tableData[props.$index].did,tableData[props.$index].status-1)' v-if="(tableData[props.$index].status_name=='物料审核'&&tableData[props.$index].reject=='0'&&tableData[props.$index].isfinish!=2)||(tableData[props.$index].status_name=='测试验收'&&tableData[props.$index].reject=='0'&&tableData[props.$index].isfinish!=2)">查看物料</el-button>
                             <el-button @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,tableData[props.$index].status+1,tableData[props.$index].reject)" v-if="tableData[props.$index].reject=='1'&&tableData[props.$index].isfinish!=2">查看驳回原因</el-button>
                             <el-button @click="educe(tableData[props.$index].did,tableData[props.$index].check_status,tableData[props.$index].status)" v-if="(tableData[props.$index].status_name=='签字审核'&&tableData[props.$index].status==2)||(tableData[props.$index].status_name=='补充签字'&&tableData[props.$index].status==4)&&tableData[props.$index].emails.indexOf(email)!=-1">导出表格</el-button>
                             <el-button @click="uploadData(tableData[props.$index].did,tableData[props.$index].status)"  v-if="(tableData[props.$index].status_name=='签字审核'&&tableData[props.$index].status==2)||(tableData[props.$index].status_name=='补充签字'&&tableData[props.$index].status==4)&&tableData[props.$index].emails.indexOf(email)!=-1">上传文件</el-button>
                             <el-button @click="release(tableData[props.$index].did,tableData[props.$index].demand_type,tableData[props.$index].status)" v-if="tableData[props.$index].status_name=='需求发布'&&tableData[props.$index].emails.indexOf(email)!=-1&&tableData[props.$index].isfinish!=2">发布需求</el-button>
-                            <el-button @click='push(tableData[props.$index].did,tableData[props.$index].status)' v-if="tableData[props.$index].status_name=='确认入库'&&tableData[props.$index].isfinish!=2&&tableData[props.$index].is_put!=0" >
-
-                                入库确认
-                            </el-button>
+                            <el-button @click='push(tableData[props.$index].did,tableData[props.$index].status)' v-if="tableData[props.$index].status_name=='确认入库'&&tableData[props.$index].isfinish!=2&&tableData[props.$index].is_put!=0" >入库确认</el-button>
                             <el-button @click='check(tableData[props.$index].demand_type,tableData[props.$index].did,tableData[props.$index].status)' v-if="tableData[props.$index].status_name=='素材入库'">查看素材</el-button>
                             <el-button  @click="AddMaterial(props.$index)" v-if="tableData[props.$index].status_name=='资源准备'&&tableData[props.$index].status==2&&tableData[props.$index].emails.indexOf(email)!=-1&&tableData[props.$index].isfinish!=2">添加素材</el-button>
 
@@ -747,7 +742,6 @@
                 this.move()
             },
             withdraw(id,status){
-               
                 this.$router.push({
                     query:{
                         id:id,
@@ -813,7 +807,10 @@
                 formData.append('id',this.shID);
                 formData.append('status',this.status);
                 this.api.demand_audit(formData).then((res)=>{
-
+                    if(res!=false){
+                        this.heidUP();
+                        this.$parent.getDataList();
+                    }
                 })
             },
             upDataLists(){
