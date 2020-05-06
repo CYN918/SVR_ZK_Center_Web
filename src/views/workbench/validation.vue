@@ -395,6 +395,10 @@ import pro from '../income/projection'
                         this.$message.error('实际结算金额不能为空');
                         return
                     }
+                    if(this.real_amount<0&&isNaN(this.real_amount)){
+                        this.$message.error('实际结算金额为大于零的数字');
+                        return
+                    }
                     if(this.real_amount>999999999.99){
                         this.$message.error('实际结算金额大于999999999.99');
                         return
