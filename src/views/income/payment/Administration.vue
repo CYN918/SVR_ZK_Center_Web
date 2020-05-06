@@ -45,8 +45,16 @@
                                 :show-overflow-tooltip="true"
                                 label="结算单名称">
                             <template slot-scope="scope">
-                                <span>{{tableData[scope.$index].demand_name}}</span>
+                                <span>{{tableData[scope.$index].check.check1.statement}}</span>
                             </template>
+                        </el-table-column>
+                         <el-table-column
+                                prop="bind_channel_name"
+                                 :show-overflow-tooltip="true"
+                                label="相关渠道">
+                                <template slot-scope="scope">
+                                    <span>{{tableData[scope.$index].check.check1. bind_channel_name}}</span>
+                                </template>
                         </el-table-column>
                         <el-table-column
                                 prop="status_name"
@@ -106,13 +114,15 @@
             </el-pagination>
         </div>
         <abs v-if="ab" :skID="skID" :status="status"></abs>
+        <loading v-if='load'></loading>
     </div>
 </template>
 
 <script>
     import abs from './ABolish'
+    import loading from '../../../components/loading'
     export default {
-        components:{abs},
+        components:{abs,loading},
         name: "administration",
         data(){
             return{
@@ -128,6 +138,7 @@
                 skID:"",
                 status:"",
                 ab:false,
+                load:true,
             }
         },
         created(){
@@ -235,6 +246,7 @@
                     this.tableData=res.data;
                     console.log(res);
                     this.total=res.total;
+                    this.load=false
                 })
             },
             zfXQ(id,status){

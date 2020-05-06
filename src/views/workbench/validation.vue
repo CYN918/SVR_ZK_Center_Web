@@ -1,7 +1,7 @@
 <template>
     <div class="bg">
         <DS v-if="msg" :name="name" :type="type"></DS>
-        <pro v-if='budget' :name='name' :tstart='time[0]' :tend='time[1]' :id='id' :is_receiver='this.is_receiver' :a='a' :fj='fj'></pro>
+        <pro v-if='budget' :name='name' :tstart='time[0]' :tend='time[1]' :id='id' :is_receiver='this.is_receiver' :a='a' :fj='fj' :projects='bind_projects_name' :channels='bind_channel_name'></pro>
         <div class="tableBox">
             <div style="text-align: center;margin-bottom: 40px;max-width: 893px;border-bottom: 1px solid #ddd;position: relative;left: 50%;transform: translateX(-50%)">
                 <div style="margin-right: 350px;text-align: center;display: inline-block;border-bottom: 1px solid #3377ff" v-if="userNames">
@@ -29,13 +29,43 @@
                     </div>
 
                 </div>
-                <div v-if="userNames">
+                <div v-if="userNames&&heid">
                     <span class="fillName">结算方</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
                         <select v-model="name" disabled>
                             <option v-for="item in list" :value="item.name">{{item.name}}</option>
                         </select>
                         <span class="click" @click="massgae()">查看结算方信息</span>
+                    </div>
+                </div>
+                <div v-if="is_receiver==1">
+                    <span class="fillName">项目</span>
+                    <div style="display: inline-block;width: 593px;text-align: left">
+                        <!-- <el-select v-model="projects" multiple placeholder="请选择" class="elSelect" >
+                                <el-option
+                                        disabled="disabled"
+                                        v-for="(item,index) in JSlist"
+                                        :key="item.project_id"
+                                        :label="item.project_name"
+                                        :value="item.project_id">
+                                </el-option>
+                            </el-select> -->
+                            <input type="text" class="input" v-model="bind_projects_name" disabled>
+                    </div>
+                </div>
+                 <div v-if="is_receiver==0">
+                    <span class="fillName">渠道</span>
+                    <div style="display: inline-block;width: 593px;text-align: left">
+                       <!-- <el-select v-model="channels" multiple placeholder="请选择" class="elSelect" >
+                                <el-option
+                                        disabled="disabled"
+                                        v-for="(item,index) in channelData"
+                                        :key="item.channel"
+                                        :label="item.channel"
+                                        :value="item.channel">
+                                </el-option>
+                            </el-select> -->
+                            <input type="text" class="input" v-model="bind_channel_name" disabled>
                     </div>
                 </div>
                 <div>
@@ -176,7 +206,6 @@ import pro from '../income/projection'
                 fcounter:0,
                 up:false,
                 upList:false,
-                msg:false,
                 type:'',
                 budget:false,
                 a:0,
@@ -185,25 +214,41 @@ import pro from '../income/projection'
                 purview:[],
                 userNames:true,
                 isShow: false,
+                JSlist:[],
+                projects:[],
+                channelData:[],
+                channels:[],
+                bind_projects_name:"",
+                bind_channel_name:"",
+                functionality:[],
+                heid:true
             }
         },
-       
         mounted(){
             this.purview=JSON.parse(localStorage.getItem('letNav'));
-            for(var i=0;i<this.purview.length;i++){
+            for(var i=0;i<(this.purview).length;i++){
                 if(this.purview[i].title=='收益中心'){
                     var alt1 = this.purview[i].children;
-                    for(var k=0;k<alt1.length;k++){
-                        if(alt1[k].title=='结算管理'){
-                            var alt2=alt1[k].list;   
-                            for(var t=0;t<alt2.length;t++){
-                                if(alt2[t].url=='/income/Payment_operation/Administration'){      
-                                    this.userNames=false;
-                                    this.isShow = true;
+                    if(alt1){
+                         for(var k=0;k<alt1.length;k++){
+                            if(alt1[k].title=='结算管理'){
+                                var alt2=alt1[k].children; 
+                                for(var t=0;t<alt2.length;t++){
+                                    if(alt2[t].url=='/income/Payment_operation/Administration'){      
+                                        this.userNames=false;
+                                        this.isShow = true;
+                                    }
                                 }
                             }
                         }
                     }
+                   
+                }
+            }
+            this.functionality=JSON.parse(localStorage.getItem('control'));
+            for(var j=0;j<this.functionality.length;j++){
+                if(this.functionality[j].uri_key=='uri.settlement.opt.audit.add'){
+                    this.heid=false
                 }
             }
             this.id=this.skID;
@@ -211,7 +256,7 @@ import pro from '../income/projection'
                     this.is_receiver=1
                 }else{
                     this.is_receiver=0
-                };
+                }
             this.type=this.skType
             this.getData();
             this.getList();
@@ -280,7 +325,12 @@ import pro from '../income/projection'
                 })
             },
            getsettle(){
-               let params={is_receiver:this.is_receiver,name:this.name,tstart:this.time[0],tend:this.time[1]};
+               if(this.is_receiver==1){
+                   var params={is_receiver:this.is_receiver,name:this.name,tstart:this.time[0],tend:this.time[1],projects:this.projects.slice().join(',')};
+               }
+               if(this.is_receiver==0){
+                    params={is_receiver:this.is_receiver,name:this.name,tstart:this.time[0],tend:this.time[1],channels:this.bind_channel_name};
+               }
                this.api.settle_data_estimate_amount({params}).then((res)=>{
                    if(res.amount==0){
                         this.expect_amount='--'
@@ -306,8 +356,19 @@ import pro from '../income/projection'
                     this.statement=res.check.check1.statement;
                     this.name=res.check.check1.name;
                     this.fj=res.check.check2;
+                    if(this.is_receiver==1){
+                        this.bind_projects_name=res.check.check1.bind_projects_name
+                        this.projects=[];
+                        for(var i=0;i<res.check.check1.projects.length;i++){
+                            this.projects.push((res.check.check1.projects)[i].project_id)
+                        }
+                    }
+                    if(this.is_receiver==0){
+                         this.bind_channel_name=res.check.check1.bind_channel_name
+                    }
                     this.time=[res.check.check1.tstart,res.check.check1.tend];
                     this.getsettle();
+                    
                     // if(this.status>1){
                     //      this.expect_amount=res.check.check2.expect_amount;
                     // }
@@ -380,8 +441,7 @@ import pro from '../income/projection'
                     this.$message.error('审核状态异常');
                     return;
                 }
-
-                if(this.expect_amount <=0 || this.expect_amount == '--'){
+                if(this.expect_amount<=0&&this.expect_amount!= '--'){
                     this.$message.error('预计结算金额不能为空');
                     return;
                 }
@@ -401,7 +461,7 @@ import pro from '../income/projection'
                     formData.append('attachs',JSON.stringify(this.attach))
                     formData.append('status',this.status);
                 }else{
-                      var formData = new FormData;
+                      formData = new FormData;
                     formData.append('id',this.skID);
                     formData.append('expect_amount',this.expect_amount);
                     formData.append('status',this.status);
@@ -413,6 +473,7 @@ import pro from '../income/projection'
                     }
                 })
             },
+            
         }
     }
 </script>
@@ -570,7 +631,7 @@ import pro from '../income/projection'
         margin-left: 10px;
         cursor: pointer;
     }
-     select{
+     select,.el-select{
         width:467px;
         height:36px;
         background:rgba(255,255,255,1);

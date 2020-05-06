@@ -185,7 +185,7 @@
         display: inline-block;
         font-size:14px;
         font-family:PingFang-SC-Medium,PingFang-SC;
-        font-weight:500;
+        font-weight:bold;
         color:rgba(31,46,77,1);
         margin-left: 24px;
         margin-top: 15px;

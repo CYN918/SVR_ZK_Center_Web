@@ -27,14 +27,22 @@
                 </select>
                  <span  class="ad" v-if="is_receiver==0">渠道</span>
                 <select v-model="channel"  v-if="is_receiver==0">
+                    <option value="">全部</option>
                     <option :value="item.channel" v-for="item in channelData">{{item.channel}}</option>
                 </select>
                 <div style=" display: inline-block;position: relative;">
                     <span class="ad">结算方</span>
-                    <input type="text" placeholder="请输入结算方" v-model="name" @input="getName"/>
+                    <input type="text" placeholder="请输入结算方" v-model="name" @input="getName" @change="getObject()"/>
                     <div class='names' v-if="show">
                         <span v-for="da in JSname" @click='setName(da.name)'>{{da.name}}</span>
                     </div>
+                </div>
+                <div style=" display: inline-block;position: relative;" v-if='is_receiver==1'> 
+                    <span class="ad">项目</span>
+                    <select v-model="project">
+                        <option value="">全部</option>
+                        <option :value="item.project_name" v-for='item in JSlist'>{{item.project_name}}</option>
+                    </select>
                 </div>
                
                 
@@ -88,6 +96,14 @@
                             label="点击率"
                             :show-overflow-tooltip="true"
                         >
+                        </el-table-column>
+                         <el-table-column
+                                prop="download"
+                                label="下载">
+                        </el-table-column> 
+                         <el-table-column
+                                prop="download_feedback"
+                                label="反馈下载">
                         </el-table-column>
                         <el-table-column
                                 prop="income"
@@ -158,7 +174,6 @@
                             :show-overflow-tooltip="true"
                         >
                         </el-table-column>
-                     
                         <el-table-column
                                 prop="income"
                                 label="成本"
@@ -176,13 +191,14 @@
                 <span>{{exhibition1}}</span>
                 <span>{{exhibition2}}</span>
                 <span>{{click_ratio}}</span>
+                <span>{{exhibition5}}</span>
+                <span>{{exhibition6}}</span>
                 <span>{{exhibition4}}</span>
             </div>
             <div v-if="tableData.length>0&&is_receiver==0" class='summary2' :class='{big:this.$route.query.type!=undefined}'>
                 <span>汇总</span>
                 <span>—</span>
                 <span>—</span>
-                <span  v-if="!this.$route.query.type">—</span>
                 <span  v-if="!this.$route.query.type">—</span>
                 <span>—</span>
                 <span>{{exhibition1}}</span>
@@ -222,11 +238,15 @@
                 exhibition2:'',
                 click_ratio:'',
                 exhibition4:'',
+                exhibition5:'',
+                exhibition6:'',
                 name:'',
                 channel:"",
                 channelData:[],
                 JSname:[],
-                show:false
+                show:false,
+                project:"",
+                JSlist:[],
             }
         },
         mounted(){
@@ -251,7 +271,21 @@
         },
         methods:{
             change(value){
+                this.name=''
+                this.channel=''
+                this.project=''
+                this.search=''
                 this.getDataList();
+            },
+            getObject(){
+                if(!this.name){
+                    this.$message.error('结算方不能为空')
+                    return
+                }
+                let params={balance_name:this.name}
+                this.api.adproject_listpage({params}).then((res)=>{
+                    this.JSlist=res.data
+                })
             },
             getRowClass({row, column, rowIndex}) {
                 if (rowIndex === 0) {
@@ -296,7 +330,6 @@
                 })
                 }
                
-                console.log(this.name)
             },
             setName(da){
                 this.name=da;
@@ -305,9 +338,10 @@
             getDataList(num){
                 if(num!=undefined){
                     this.page=num;
-                   var params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:num,search:this.search,is_receiver:this.is_receiver,name:this.name,channel:this.channel} 
+                         var params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:num,search:this.search,is_receiver:this.is_receiver,name:this.name,channel:this.channel,project:this.project} 
                 }else{
-                     params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,search:this.search,is_receiver:this.is_receiver,name:this.name,channel:this.channel}
+                        params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,search:this.search,is_receiver:this.is_receiver,name:this.name,channel:this.channel,project:this.project}
+
                 }
                 
                 this.api.settle_data_search({params}).then((res)=>{
@@ -324,10 +358,14 @@
                     var a1= 0;
                     var a2= 0;
                     var a4= 0;
+                    var a3 =0;
+                    var a5= 0;
                     for(var i=0;i<this.tableData.length;i++){
                         a1 += parseInt(res.data[i].pv);
                         a2 += parseInt(res.data[i].click);
+                        a3 += parseInt(res.data[i].download);
                         a4 += parseFloat(res.data[i].income);
+                        a5 += parseInt(res.data[i].download_feedback)
                         this.tableData[i].income = parseFloat(this.tableData[i].income / 100).toFixed(2);
                     }
                     this.exhibition1 = parseInt(a1);
@@ -338,10 +376,11 @@
                         sratio =  parseFloat(this.exhibition2 / this.exhibition1 * 100).toFixed(2);
 
                     }
+                    this.exhibition5=a3;
+                    this.exhibition6=a5;
                     this.click_ratio = sratio.toString() +'%';
                     this.exhibition4 = parseFloat(a4 / 100 ).toFixed(2);
                     this.total = res.total;
-                    console.log(this.tableData)
                 })
             },
            
@@ -448,7 +487,7 @@
         font-weight:bold;
         line-height:48px;
         font-family:PingFang-SC-Regular;
-        width: 11%;
+        width: 8.5%;
         padding-left: 24px;
     }
     .summary2 span{
@@ -459,7 +498,7 @@
         font-weight:bold;
         line-height:48px;
         font-family:PingFang-SC-Regular;
-        width: 9%;
+        width: 10.1%;
        padding-left: 16px;
 
     }
@@ -471,9 +510,10 @@
         top:65px;
         right: 0;
         height: 200px;
+        width: 100%;
         overflow-y:auto;
         background: #fff;
-        z-index: 999999;
+        z-index: 100;
         border: 1px solid #ddd;
     }
     .names span{

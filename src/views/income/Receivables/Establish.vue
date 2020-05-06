@@ -1,7 +1,7 @@
 <template>
     <div>
         <DS v-if="msg" :name="name"></DS>
-        <pro v-if='budget'  :is_receiver='1' :fj='fj'></pro>
+        <pro v-if='budget'  :is_receiver='1' :fj='fj' :projects='bind_projects_name'></pro>
         <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="jump">收款结算&nbsp;/</span>
@@ -33,18 +33,35 @@
                 <div>
                     <span class="fillName">结算单名称</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
-                        <input type="text" class="input" v-model="statement" disabled v-if='this.step==undefined'>
-                        <input type="text" class="input" v-model="statement" v-if='this.step!=undefined'>
+                        <!-- <input type="text" class="input" v-model="statement" disabled v-if='this.step==undefined'> -->
+                        <input type="text" class="input" v-model="statement">
                     </div>
 
                 </div>
                 <div>
                     <span class="fillName">结算方</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
-                        <select v-model="name">
+                        <select v-model="name" @change='getObject()' :disabled='id!=undefined'>
                             <option v-for="item in list" :value="item.name">{{item.name}}</option>
                         </select>
                         <span class="click" @click="massgae()">查看结算方信息</span>
+                    </div>
+                </div>
+                 <div>
+                    <span class="fillName">项目</span>
+                    <div style="display: inline-block;width: 593px;text-align: left">
+                        <div class="input">
+                             <el-select v-model="projects" multiple placeholder="请选择" class="elSelect" v-if='id==undefined'>
+                                <el-option
+                                        v-for="item in JSlist"
+                                        :key="item.project_name"
+                                        :label="item.project_name"
+                                        :value="item.project_id">
+                                </el-option>
+                            </el-select>
+                            <input type="text" v-model="bind_projects_name" disabled v-if='id!=undefined'>
+                        </div>
+                       
                     </div>
                 </div>
                 <div>
@@ -52,6 +69,7 @@
                     <div style="display: inline-block;width: 593px;text-align: left">
                         <div class="fillTime">
                             <el-date-picker
+                                   :disabled='id!=undefined'
                                     v-model="time"
                                     type="daterange"
                                     range-separator="至"
@@ -152,6 +170,10 @@
                 step:this.$route.query.step,
                 budget:false,
                 fj:{},
+                JSlist:[],
+                projects:[],
+                id:this.$route.query.id,
+                bind_projects_name:""
             }
         },
         mounted(){
@@ -208,12 +230,14 @@
                 this.attachs.splice(index,1)
             },
             ADD(){
+                  console.log(this.projects)
                 if(this.fcounter != 0)
                 {
                     this.$message.error('文件上传中');
                     return
                 }
                 if(this.$route.query.id!=undefined){
+                    console.log(this.projects)
                     this.setData();
                     return
                 }
@@ -223,6 +247,10 @@
                 }
                 if(!this.statement){
                     this.$message.error('结算单名称不能为空');
+                    return
+                }
+                if(this.projects.length==0){
+                    this.$message.error('项目不能为空');
                     return
                 }
                 if(this.time.length==0){
@@ -261,6 +289,7 @@
                 let formData = new FormData;
                 formData.append('name',this.name);
                 formData.append('statement',this.statement);
+                 formData.append('projects',JSON.stringify(this.projects));
                 formData.append('is_receiver',this.is_receiver);
                 formData.append('tstart',this.time[0]);
                 formData.append('tend',this.time[1]);
@@ -293,6 +322,10 @@
                     this.statement=res.check.check1.statement;
                     this.name=res.check.check1.name;
                     this.time=[res.check.check1.tstart,res.check.check1.tend];
+                    this.bind_projects_name=res.check.check1.bind_projects_name
+                        for(var i =0;i<res.check.check1.projects.length;i++){
+                            this.projects.push((res.check.check1.projects)[i].project_id)
+                        }
                     }
                    
                     if(res.check.check2){
@@ -304,12 +337,12 @@
 						this.note=res.check.check3.note;
 						this.attachs=res.check.check3.attachs;
 					}
-                   
                     this.getsettle();
+                    this.getObject()
                 })
             },
              getsettle(){
-               let params={is_receiver:0,name:this.name,tstart:this.time[0],tend:this.time[1]};
+               let params={is_receiver:1,name:this.name,tstart:this.time[0],tend:this.time[1],projects:this.projects.slice().join(',')};
                this.api.settle_data_estimate_amount({params}).then((res)=>{
                     if(res.amount==0){
                        this.expect_amount='--'
@@ -326,6 +359,10 @@
                 }
                 if(!this.name){
                     this.$message.error('结算方不能为空');
+                    return
+                }
+                if(this.projects.length==0){
+                    this.$message.error('项目不能为空');
                     return
                 }
                 if(!this.statement){
@@ -366,6 +403,7 @@
                 let formData = new FormData;
                 formData.append('name',this.name);
                 formData.append('statement',this.statement);
+                formData.append('projects',JSON.stringify(this.projects));
                 formData.append('is_receiver',this.is_receiver);
                 formData.append('tstart',this.time[0]);
                 formData.append('id',this.$route.query.id);
@@ -382,6 +420,17 @@
                     
                 })
             },
+            getObject(){
+                if(!this.name){
+                    this.$message.error('结算方不能为空')
+                    return
+                }
+                let params={balance_name:this.name}
+                this.api.adproject_listpage({params}).then((res)=>{
+                    this.JSlist=res.data
+                })
+            },
+           
         }
     }
 </script>
@@ -520,7 +569,7 @@
         font-weight:500;
         color:rgba(51,119,255,1);
     }
-    select{
+    select,.el-select{
         width:467px;
         height:36px;
         background:rgba(255,255,255,1);

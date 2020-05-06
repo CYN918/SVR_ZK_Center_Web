@@ -42,10 +42,10 @@
                 <span class="Name">备注</span>
                 <span class="text">{{data.note}}</span>
             </div>
-            <div>
+            <div v-if='type=="付款结算"'>
                 <span class="Name" style="vertical-align: top">相关合同</span>
                 <div style="display: inline-block">
-                    <div style="width: 714px;mxa-height:216px;overflow-y:auto;border: 1px solid #D9D9D9 " class="contract">
+                    <div style="width: 714px;mxa-height:216px;overflow-y:auto;border: 1px solid #D9D9D9;margin-left:185px" class="contract">
                         <template>
                             <el-table
                                     :data="contracts"
@@ -103,10 +103,10 @@
                     </div>
                 </div>
             </div>
-            <div>
+            <div  v-if='type=="付款结算"'>
                 <span class="Name">已绑定数据来源主体</span>
-                <div style="display: inline-block" v-for='(value,key) in data.advertisers'>
-                    <span class="text">{{value}}</span>
+                <div style="display: inline-block">
+                    <span class="text">{{data.blid_channel_name}}</span>
                 </div>
             </div>
             <div>
@@ -118,6 +118,72 @@
                         <a class="click" :href="item.url">下载</a>
                     </div>
                 </div>
+            </div>
+             <div   v-if='type=="收款结算"'>
+                <span class="Name" style="vertical-align: top">项目合同信息及绑定数据来源</span>
+                <div style="padding:0 24px">
+                     <template>
+                    <el-table
+                            :data="tableData"
+                            header-align="center"
+                            :header-cell-style="getRowClass"
+                            :cell-style="cell"
+                            style="width: 100%;color:#000">
+                        <el-table-column
+                                label="合同归档号" prop="archive_id"
+                               >
+                        </el-table-column>
+                        <el-table-column
+                                label="合同编号" prop="contract_id"
+                                show-overflow-tooltip
+                               >
+                        </el-table-column>
+                        <el-table-column
+                                label="项目名称" prop="project_name"
+                                show-overflow-tooltip
+                                >
+                        </el-table-column>
+                        <el-table-column
+                                label="结算主体" prop="balance_name"
+                                show-overflow-tooltip
+                                >
+                        </el-table-column>
+                        <el-table-column
+                                label="合作公司" prop="company_name"
+                                show-overflow-tooltip
+                                >
+                        </el-table-column>
+                        <el-table-column
+                                label="广告类型" prop="ad_type"
+                                show-overflow-tooltip
+                                >
+                        </el-table-column>
+                        <el-table-column
+                                label="商务模式" prop="balance_type"
+                                show-overflow-tooltip
+                                >
+                        </el-table-column>
+                        <el-table-column
+                                label="状态" prop="status_text"
+                                >
+                              
+                        </el-table-column>
+                        <el-table-column
+                                label="合同截止日期" prop="contract_end_time"
+                                >
+                                <template slot-scope="props">
+                                    <el-button type="text" >{{setTime(tableData[props.$index].contract_end_time)}}</el-button>
+                                </template>
+                        </el-table-column>
+                        <!-- <el-table-column label="合同信息">
+                            <template slot-scope="props">
+                                <el-button type="text" >查看</el-button>
+                            </template>
+                        </el-table-column> -->
+                    </el-table>
+                </template>
+                </div>
+                 
             </div>
         </div>
     </div>
@@ -131,6 +197,7 @@
             return{
                 data:{},
                 contracts:[],
+                tableData:[],
             }
         },
         mounted(){this.getData()},
@@ -138,9 +205,9 @@
             heidMassage(){
                 this.$parent.heidMassage()
             },
-            getRowClass({row, column, rowIndex, columnIndex}) {
+             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
-                    return ';color:rgba(31,46,77,1);text-align:center;font-size:14px;font-weight:500;font-family:PingFang-SC-Medium;height:0px;padding:0px'
+                    return 'background:rgba(247,249,252,1);color:rgba(31,46,77,1);text-align:center;font-size:14px;font-weight:blod;font-family:PingFang-SC-Medium;height:56px'
                 } else {
                     return ''
                 }
@@ -158,8 +225,37 @@
                 this.api.settle_settlement_detail({params}).then((res)=>{
                     this.data=res;
                     this.contracts=res.contracts;
+                    if(this.type=='收款结算'){
+                        this.getContract()
+                    }
                 })
-            }
+            },
+             getContract(){
+                 if(!this.data.name){
+                     this.$message.error('结算方名称不能为空');
+                     return
+                 }
+                let params={is_receiver:this.type=='收款结算'?'1':'0',balance_name:this.data.name}
+                this.api.settle_data_project_contracts({params}).then((res)=>{
+                    this.tableData=res.data
+                })
+            },
+            setTime(value){
+                if (!value||value==0) {
+                    return '';
+                }else{
+                     let date = new Date(value*1000);
+                    let y = date.getFullYear();// 年
+                    let MM = date.getMonth() + 1;// 月
+                    MM = MM < 10 ? ('0' + MM) : MM;
+                    let d = date.getDate();// 日
+                    d = d < 10 ? ('0' + d) : d;
+                    let h = date.getHours();// 时
+                    h = h < 10 ? ('0' + h) : h;
+                    return y + '-' + MM + '-' + d ;
+                } 
+                
+            },
         }
 
     }
@@ -204,7 +300,7 @@
     }
     .Name{
         display: inline-block;
-        width:130px ;
+        width:185px!important;
         margin:0  22px 0 47px;
         font-size:14px;
         font-family:PingFang-SC-Medium,PingFang-SC;

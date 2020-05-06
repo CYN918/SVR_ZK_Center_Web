@@ -1,21 +1,21 @@
 <template>
     <div class="bg">
         <DS v-if="msg" :name="list.check.check1.name" :type="type"></DS>
-        <pro v-if='budget' :name='list.check.check1.name' :tstart='list.check.check1.tstart' :id="id" :tend='list.check.check1.tend' :is_receiver='this.is_receiver' :a='a' :fj='fj'></pro>
+        <pro v-if='budget' :name='list.check.check1.name' :tstart='list.check.check1.tstart' :id="id" :tend='list.check.check1.tend' :is_receiver='this.is_receiver' :a='a' :fj='fj' :projects='list.check.check1.bind_projects_name' :channels='ist.check.check1.bind_channel_name'></pro>
         <div class="tableBox">
             <div style="text-align: center;margin-bottom: 40px;max-width: 893px;border-bottom: 1px solid #ddd;position: relative;left: 50%;transform: translateX(-50%)">
-                <div style="margin-right: 350px;text-align: center;border-bottom: 1px solid #3377ff;display: inline-block" v-if="userNames">
+                <div style="margin-right: 350px;text-align: center;border-bottom: 1px solid #3377ff;display: inline-block" v-if="userNames&&heid">
                     <div class="box boxs">1</div>
                     <span class="boxName">对账确认</span>
                 </div>
-                <div style="margin: 0 auto;text-align: center;display: inline-block;border-bottom: 1px solid #3377ff" v-if="isShow">
+                <div style="margin: 0 auto;text-align: center;display: inline-block;border-bottom: 1px solid #3377ff" v-if="!heid">
                     <span class="boxName">对账确认</span>
                 </div>
-                <div style="margin-right: 350px;text-align: center;display: inline-block" v-if="userNames">
+                <div style="margin-right: 350px;text-align: center;display: inline-block" v-if="userNames&&heid">
                     <div class="box" :class="{boxs:list.status>3}" @click="scope()">2</div>
                     <span class="boxName" @click="scope()">票据凭证</span>
                 </div>
-                <div style="text-align: center;display: inline-block" v-if="userNames">
+                <div style="text-align: center;display: inline-block" v-if="userNames&&heid">
                     <div class="box" :class="{boxs:list.status>4}"  @click="scope2()">3</div>
                     <span class="boxName" @click="scope2()">结算汇款</span>
                 </div>
@@ -29,11 +29,25 @@
                     </div>
 
                 </div>
-                <div v-if="userNames">
+                <div v-if="userNames&&heid">
                     <span class="fillName">结算方</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
                         <span  class="text">{{list.check.check1.name}}</span>
                         <span class="click" @click="massgae()">查看结算方信息</span>
+                    </div>
+
+                </div>
+                <div v-if="is_receiver==1">
+                    <span class="fillName">项目</span>
+                    <div style="display: inline-block;width: 300px;text-align: left">
+                        <span  class="text">{{list.check.check1.bind_projects_name}}</span>
+                    </div>
+
+                </div>
+                 <div v-if="is_receiver==0">
+                    <span class="fillName">渠道</span>
+                    <div style="display: inline-block;width: 300px;text-align: left">
+                        <span  class="text">{{list.check.check1.bind_channel_name}}</span>
                     </div>
 
                 </div>
@@ -52,21 +66,21 @@
                     </div>
 
                 </div>
-                <div v-if="list.status>2 && userNames">
+                <div v-if="list.status>2 && userNames&&heid">
                     <span class="fillName">实际结算金额</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
                         <span  class="text">{{list.check.check3.real_amount}}</span>
                     </div>
 
                 </div>
-                <div v-if="list.status>2 && userNames">
+                <div v-if="list.status>2 && userNames&&heid">
                     <span class="fillName">备注说明</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
                         <span  class="text">{{list.check.check3.note}}</span>
                     </div>
 
                 </div>
-                <div v-if="list.status>2 && userNames">
+                <div v-if="list.status>2 && userNames&&heid">
                     <div style="display: inline-block;width: 84px;margin-right: 20px;text-align: right">
                         <span class="fj">附件</span>
                     </div>
@@ -113,6 +127,8 @@
                 purview:[],
                 userNames:true,
                 isShow: false,
+                functionality:[],
+                heid:true
             }
         },
         mounted(){
@@ -122,7 +138,7 @@
                     var alt1 = this.purview[i].children;
                     for(var k=0;k<alt1.length;k++){
                         if(alt1[k].title=='结算管理'){
-                            var alt2=alt1[k].list;   
+                            var alt2=alt1[k].children;   
                             for(var t=0;t<alt2.length;t++){
                                 if(alt2[t].url=='/income/Payment_operation/Administration'){      
                                     this.userNames=false;
@@ -133,6 +149,12 @@
                     }
                 }
             }
+            this.functionality=JSON.parse(localStorage.getItem('control'));
+            for(var j=0;j<this.functionality.length;j++){
+                if(this.functionality[j].uri_key=='uri.settlement.opt.audit.add'){
+                    this.heid=false
+                }
+            }
             this.id=this.skID,
             this.getData();
             this.type=this.skType;
@@ -140,7 +162,7 @@
                     this.is_receiver=1
                 }else{
                     this.is_receiver=0
-                }
+            }
         },
         methods:{
              detail(){

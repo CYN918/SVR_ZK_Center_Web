@@ -1622,7 +1622,6 @@ export default {
 		url:"tools/url/download",method:"get"
 	},
 
-
 	//获取结算方列表
 	designer_settlement_list:{
 		url:"designer/settlement/list",method:'get'
@@ -1762,5 +1761,12 @@ export default {
 	pushlib_edit_isvalid:{
 		url:'pushlib/edit/isvalid',method:"post",isType:{suktip:1}
 	},
-
+	// 结算进度
+	settle_data_process:{
+		url:'settle/data/process',method:"get"
+	},
+	//合同概览
+	settle_data_project_contracts:{
+		url:'settle/data/project/contracts',method:"get"
+	},
 }

@@ -2,39 +2,53 @@
     <div class="bg">
         <div class="tableBox">
             <div style="text-align: center;margin-bottom: 40px;max-width: 893px;border-bottom: 1px solid #ddd;position: relative;left: 50%;transform: translateX(-50%)">
-                <div style="margin-right: 350px;text-align: center;display: inline-block" v-if="userNames">
+                <div style="margin-right: 350px;text-align: center;display: inline-block" v-if="heid">
                     <div class="box boxs" @click="scope()">1</div>
                     <span class="boxName"  @click="scope()">对账确认</span>
                 </div>
-                <div style="margin: 0 auto;text-align: center;display: inline-block;border-bottom: 1px solid #3377ff" v-if="isShow">
+                <div style="margin: 0 auto;text-align: center;display: inline-block;border-bottom: 1px solid #3377ff" v-if="!heid">
                     <span class="boxName">对账确认</span>
                 </div>
-                <div style="margin-right: 350px;text-align: center;display: inline-block;border-bottom: 1px solid #3377ff" v-if="userNames">
+                <div style="margin-right: 350px;text-align: center;display: inline-block;border-bottom: 1px solid #3377ff" v-if="heid">
                     <div class="box  boxs">2</div>
                     <span class="boxName">票据凭证</span>
                 </div>
-                <div style="text-align: center;display: inline-block" v-if="userNames">
+                <div style="text-align: center;display: inline-block" v-if="heid">
                     <div class="box" :class="{boxs:list.status>4}"  @click="scope2()">3</div>
                     <span class="boxName"  @click="scope2()">结算汇款</span>
                 </div>
 
             </div>
             <div style="text-align: center" class="fill">
-                <div>
+                <div  v-if="!heid">
                     <span class="fillName">结算单名称</span>
-                    <div style="display: inline-block;width: 300px;text-align: left">
+                    <div style="display: inline-block;width: 300px;text-align: left" v-if='list.check.check1'>
                         <span class="text">{{list.check.check1.statement}}</span>
                     </div>
 
                 </div>
-                <div>
-                    <span class="fillName">结算时间段</span>
+                <div v-if="is_receiver==0&&!heid">
+                    <span class="fillName">渠道</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
+                        <span  class="text">{{list.check.check1.bind_channel_name}}</span>
+                    </div>
+
+                </div>
+                <div v-if="is_receiver==1&&!heid">
+                    <span class="fillName">项目</span>
+                    <div style="display: inline-block;width: 300px;text-align: left">
+                        <span  class="text">{{list.check.check1.bind_projects_name}}</span>
+                    </div>
+
+                </div>
+                <div  v-if="!heid">
+                    <span class="fillName">结算时间段</span>
+                    <div style="display: inline-block;width: 300px;text-align: left" v-if='list.check.check1'>
                         <span  class="text">{{list.check.check1.tstart}}-{{list.check.check1.tend}}</span>
                     </div>
 
                 </div>
-                <div v-if="list.status>=2">
+                <div v-if="list.status>=2&&!heid">
                     <span class="fillName">预计结算金额</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
                         <span  class="text">{{list.check.check2.expect_amount}}</span>
@@ -42,21 +56,21 @@
                     </div>
 
                 </div>
-                <div v-if="userNames">
+                <div v-if="heid">
                     <span class="fillName">物流单号<span style="color: #acadb0" v-if="this.skType=='付款结算'">(选填)</span></span>
                     <div style="display: inline-block;width: 300px;text-align: left">
                         <span class="text">{{list.invoice.express_id}}</span>
                     </div>
 
                 </div>
-                <div v-if="userNames">
+                <div v-if="heid">
                     <span class="fillName">备注说明</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
                         <span  class="text">{{list.invoice.note}}</span>
                     </div>
 
                 </div>
-                <div v-if="userNames">
+                <div v-if="heid">
                     <div style="display: inline-block;width: 100px;margin-right: 20px;text-align: right">
                         <span class="fj">票据凭证
                             <!--<span style="color: #acadb0">(选填)</span>-->
@@ -97,24 +111,32 @@
                 type:'',
                 userNames:true,
                 isShow: false,
+                functionality:[],
+                heid:true
             }
         },
         mounted(){
-            this.purview=JSON.parse(localStorage.getItem('letNav'));
-            for(var i=0;i<this.purview.length;i++){
-                if(this.purview[i].title=='收益中心'){
-                    var alt1 = this.purview[i].children;
-                    for(var k=0;k<alt1.length;k++){
-                        if(alt1[k].title=='结算管理'){
-                            var alt2=alt1[k].list;   
-                            for(var t=0;t<alt2.length;t++){
-                                if(alt2[t].url=='/income/Payment_operation/Administration'){      
-                                    this.userNames=false;
-                                    this.isShow = true;
-                                }
-                            }
-                        }
-                    }
+            // this.purview=JSON.parse(localStorage.getItem('letNav'));
+            // for(var i=0;i<this.purview.length;i++){
+            //     if(this.purview[i].title=='收益中心'){
+            //         var alt1 = this.purview[i].children;
+            //         for(var k=0;k<alt1.length;k++){
+            //             if(alt1[k].title=='结算管理'){
+            //                 var alt2=alt1[k].children;   
+            //                 for(var t=0;t<alt2.length;t++){
+            //                     if(alt2[t].url=='/income/Payment_operation/Administration'){      
+            //                         this.userNames=false;
+            //                         this.isShow = true;
+            //                     }
+            //                 }
+            //             }
+            //         }
+            //     }
+            // }
+             this.functionality=JSON.parse(localStorage.getItem('control'));
+            for(var j=0;j<this.functionality.length;j++){
+                if(this.functionality[j].uri_key=='uri.settlement.opt.audit.add'){
+                    this.heid=false
                 }
             }
             this.getData()
@@ -163,7 +185,6 @@
                 let params={is_receiver:this.is_receiver,id:this.skID};
                 this.api.settlemanage_detail({params}).then((res)=>{
                     this.list=res;
-                    console.log(this.list.invoice.attachs)
                 })
             },
 
