@@ -326,7 +326,7 @@ import pro from '../income/projection'
             },
            getsettle(){
                if(this.is_receiver==1){
-                   var params={is_receiver:this.is_receiver,name:this.name,tstart:this.time[0],tend:this.time[1],projects:this.projects.slice().join(',')};
+                   var params={is_receiver:this.is_receiver,name:this.name,tstart:this.time[0],tend:this.time[1],projects:this.bind_projects_name};
                }
                if(this.is_receiver==0){
                     params={is_receiver:this.is_receiver,name:this.name,tstart:this.time[0],tend:this.time[1],channels:this.bind_channel_name};
