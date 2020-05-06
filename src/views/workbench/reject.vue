@@ -6,7 +6,15 @@
                 <img src="../../../public/img/gb.png" @click="heid"/>
             </div>
             <div class="tishi">
-                <textarea placeholder="请输入驳回原因" v-model="note" maxlength="20"></textarea>
+                <textarea placeholder="请输入驳回原因" v-model="note" maxlength="20" v-if='open_id==undefined'></textarea>
+                 <el-checkbox-group v-model="checkList" v-if='open_id!=undefined' @change="aaa()">
+                    <el-checkbox label="银行类型不支持，请更换后重新发起申请（建议更换为中国银行）"></el-checkbox>
+                    <el-checkbox label="开户名错误，请核对修改后重新发起申请"></el-checkbox>
+                    <el-checkbox label="银行卡号异常，请核对修改后重新发起申请"></el-checkbox>
+                    <el-checkbox label="未满18岁，可以考虑更换为监护人相关信息后，重新发起提现申请" ></el-checkbox>
+                    <el-checkbox label="其他"></el-checkbox>
+                    <textarea style="height:60px" v-model="yy"></textarea>
+                </el-checkbox-group>
             </div>
             <div class="btn">
                 <span class="btn_qd" @click="tj">确定</span>
@@ -23,6 +31,8 @@
         data(){
             return{
                 note:'',
+                checkList:[],
+                yy:""
             }   
         },
         mounted(){
@@ -33,8 +43,17 @@
             heid(){
                 this.$parent.heidBH();
             },
+            aaa(){
+                console.log(this.checkList)
+            },
            tj(){
                 if(this.id!=undefined){
+                    for(var i=0;i<this.checkList.length;i++){
+                        if(this.checkList[i]=='其他'){
+                            this.checkList[i]=this.yy
+                        }
+                    }
+                    this.note=this.checkList.join(',');
                     if(!this.note){
                         this.$message.error("驳回原因不能为空");
                         return
@@ -88,7 +107,8 @@
         top:30%;
         transform: translate(-50%,-50%);
         width:588px;
-        height:380px;
+        min-height:380px;
+        max-height: 450px;
         background:rgba(255,255,255,1);
         border-radius:4px;
 
@@ -161,5 +181,9 @@
         border: 0!important;
         color:rgba(255,255,255,1)!important;
         margin-right: 14px!important;
+    }
+    .el-checkbox{
+        margin: 24px 0 0px 24px;
+        display: block;
     }
 </style>

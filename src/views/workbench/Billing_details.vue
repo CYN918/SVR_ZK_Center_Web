@@ -23,7 +23,7 @@
                     <input type="text" placeholder="输入用户ID"/>
                     <span>用户昵称</span>
                     <input type="text" placeholder="输入用户昵称"/>
-                    <span class="dc" @click="derive()">导出</span>
+                    <span class="dc" @click="derive()" v-if='emails.indexOf(user)!=-1'>导出</span>
                 </div>
                 <div class="seach">
                     <span>提现金额</span>
@@ -41,13 +41,13 @@
                         <option value="" selected>全部</option>
                         <option value="0">待审核</option>
                         <option value="1">审核通过</option>
-                        <option value="2">审核不通过</option>
+                        <option value="2">审核驳回</option>
                     </select>
                     <span class="btn" @click='getData()'>查询</span>
                 </div>
                 <div>
-                    <span class="bh" @click="getBH()">批量驳回（{{this.openIDList.length}}）</span>
-                    <span class="tg" @click="verified()">一键通过待审核内容</span>
+                    <span class="bh" @click="getBH()" v-if='emails.indexOf(user)!=-1'>批量驳回（{{this.openIDList.length}}）</span>
+                    <span class="tg" @click="verified()" v-if='emails.indexOf(user)!=-1&&status==1'>一键通过待审核内容</span>
                 </div>
             </div>
             <div>
@@ -111,10 +111,10 @@
                         <el-table-column label="操作">
                             <template slot-scope="props">
                                 <el-button type="text" @click="xq(tableData[props.$index].open_id)">查看详情</el-button>
-                                <el-button type="text" v-if="tableData[props.$index].check_status=='0'&&status==1" @click="getSH(tableData[props.$index].open_id)">审核通过</el-button>
-                                <el-button type="text" v-if="tableData[props.$index].check_status=='0'&&status==1" @click="getBH(tableData[props.$index].open_id)">驳回</el-button>
-                                <el-button type="text" v-if="status==3&&tableData[props.$index].check_status!='0'&&tableData[props.$index].check_status!='-3'" @click="getSH(tableData[props.$index].open_id)">更新为已汇款</el-button>
-                                <el-button type="text" v-if="status==3&&tableData[props.$index].check_status!='0'&&tableData[props.$index].check_status!='-3'" @click="getBH(tableData[props.$index].open_id)">驳回</el-button>
+                                <el-button type="text" v-if="tableData[props.$index].check_status=='0'&&status==1&&emails.indexOf(user)!=-1" @click="getSH(tableData[props.$index].open_id)">审核通过</el-button>
+                                <el-button type="text" v-if="tableData[props.$index].check_status=='0'&&status==1&&emails.indexOf(user)!=-1" @click="getBH(tableData[props.$index].open_id)">驳回</el-button>
+                                <el-button type="text" v-if="status==3&&tableData[props.$index].check_status!='0'&&tableData[props.$index].check_status!='-3'&&emails.indexOf(user)!=-1" @click="getSH(tableData[props.$index].open_id)">更新为已汇款</el-button>
+                                <el-button type="text" v-if="status==3&&tableData[props.$index].check_status!='0'&&tableData[props.$index].check_status!='-3'&&emails.indexOf(user)!=-1" @click="getBH(tableData[props.$index].open_id)">驳回</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -157,11 +157,16 @@
                 shOpenId:[],
                 status:'',
                 check_status:'',
+                emails:[],
+                user:''
+
 
             }
         },
         created(){
             this.status=this.$route.query.status;
+            this.emails=this.$route.query.emails;
+            this.user=localStorage.getItem('userAd');
         },
         mounted(){
             this.getData();
@@ -202,7 +207,6 @@
                         }
                     }
                     this.total = res.total;
-                    console.log(res);
                 })
             },
             handleSizeChange(p) { // 每页条数切换
@@ -225,7 +229,10 @@
                     var Arr = [];
                     Arr.push(data);
                     this.openIDList= Arr;
-                    console.log(this.openIDList)
+                }
+                if(this.openIDList.length==0){
+                    this.$message.error('请选择至少一个数据');
+                    return
                 }
                 this.bh = true;
                 },
@@ -319,7 +326,7 @@
         margin-right: 24px;
     }
     .seach{
-        margin-left: 24px;
+        margin:0 0 16px  24px;
     }
 
     .el-range-editor.el-input__inner{

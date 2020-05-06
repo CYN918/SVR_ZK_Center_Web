@@ -117,10 +117,10 @@
                             <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name=='测试验收'&&tableData[props.$index].emails.indexOf(email)!=-1&&tableData[props.$index].isfinish!=2">测试通过</el-button>
                             <el-button  @click="getSH(props.$index)" v-if="(tableData[props.$index].status_name=='物料审核'||tableData[props.$index].status_name=='发布审核')&&tableData[props.$index].emails.indexOf(email)!=-1&&tableData[props.$index].isfinish!=2">审核通过</el-button>
                             <el-button  v-if="tableData[props.$index].status_name=='完成入库'">查看投放结果</el-button>
-                            <el-button  @click="getBH(props.$index)" v-if="tableData[props.$index].status_name!='完成投放'&&tableData[props.$index].status_name!='需求发布'&&tableData[props.$index].status_name!='提现审核'&&tableData[props.$index].status_name!='签字审核'&&tableData[props.$index].status_name!='结算汇款'&&tableData[props.$index].status_name!='补充签字'&&tableData[props.$index].status_name!='素材入库'&&tableData[props.$index].status_name!='确认入库'&&tableData[props.$index].status_name!='提现完成'&&tableData[props.$index].status!=1&&tableData[props.$index].emails.indexOf(email)!=-1&&tableData[props.$index].demand_type!='收款结算'&&tableData[props.$index].demand_type!='付款结算'&&tableData[props.$index].isfinish!=2">驳回</el-button>
+                            <el-button  @click="getBH(props.$index)" v-if="tableData[props.$index].status_name!='完成投放'&&tableData[props.$index].status_name!='需求发布'&&tableData[props.$index].status_name!='提现审核'&&tableData[props.$index].status_name!='签字审核'&&tableData[props.$index].status_name!='结算汇款'&&tableData[props.$index].status_name!='补充签字'&&tableData[props.$index].status_name!='结算完成'&&tableData[props.$index].status_name!='素材入库'&&tableData[props.$index].status_name!='确认入库'&&tableData[props.$index].status_name!='提现完成'&&tableData[props.$index].status!=1&&tableData[props.$index].emails.indexOf(email)!=-1&&tableData[props.$index].demand_type!='收款结算'&&tableData[props.$index].demand_type!='付款结算'&&tableData[props.$index].isfinish!=2">驳回</el-button>
 
                             <el-button   v-if="tableData[props.$index].status_name=='完成入库'">查看投放结果</el-button>
-                            <el-button  @click="withdraw(tableData[props.$index].did,tableData[props.$index].status)" v-if="((tableData[props.$index].status_name=='提现审核'||tableData[props.$index].status_name=='结算汇款')&&tableData[props.$index].reject=='0'&&tableData[props.$index].demand_type=='设计师结算')&&(tableData[props.$index].emails.indexOf(email)!=-1)">查看详情</el-button>
+                            <el-button  @click="withdraw(tableData[props.$index].did,tableData[props.$index].status,tableData[props.$index].emails)" v-if="((tableData[props.$index].status_name=='提现审核'||tableData[props.$index].status_name=='结算汇款')&&tableData[props.$index].reject=='0'&&tableData[props.$index].demand_type=='设计师结算')&&(tableData[props.$index].emails.indexOf(email)!=-1)">查看详情</el-button>
                             <el-button v-if="(tableData[props.$index].demand_type=='业务需求'||tableData[props.$index].demand_type=='素材需求')&&tableData[props.$index].isfinish!=1&&tableData[props.$index].isfinish!=2&&tableData[props.$index].emails.indexOf(email)!=-1" @click="Abolish(tableData[props.$index].did,tableData[props.$index].status)">作废</el-button>
 
                         </template>
@@ -173,14 +173,14 @@
                                     <div class="step_contnet" v-if="(item.creator!=''||tableData[props.$index].status==item.status)&&((tableData[props.$index].demand_type=='收款结算'&&item.status!=6)||(tableData[props.$index].demand_type=='付款结算'&&item.status!=6)||(tableData[props.$index].demand_type=='业务需求')||(tableData[props.$index].demand_type=='素材需求')||(tableData[props.$index].demand_type=='设计师结算'))">
                                         <span class="step_txt" v-if="index=='0'">需求内容</span>
                                         <span class="step_txt" v-if="index!='0'">处理结果</span>
-                                        <span class="dj" v-if="tableData[props.$index].demand_type=='设计师结算'&&item.status=='5'">已完成</span>
+                                        <span class="dj" v-if="(tableData[props.$index].demand_type=='设计师结算'&&item.status=='5')||(tableData[props.$index].demand_type=='设计师结算'&&item.status=='2'&&item.reject==0)||(tableData[props.$index].demand_type=='设计师结算'&&item.status=='4'&&item.reject==0)">已完成</span>
 
-                                        <span class="dj" v-if="item.key==0&&item.status_name!='结算汇款'&&item.status_name!='确认入库'&&item.status_name!='物料审核'&&item.status_name!='测试验收'&&item.status_name!='发布审核'&&item.status_name!='项目发布'&&item.status_name!='素材入库'&&item.status_name!='提现完成'&&item.status_name!='素材入库'&&tableData[props.$index].demand_type!='收款结算'&&tableData[props.$index].demand_type!='付款结算'&&item.reject!='1'&&item.isfinish!=2" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status,item.reject)">查看详情</span>
+                                        <span class="dj" v-if="item.key==0&&tableData[props.$index].demand_type!='设计师结算'&&item.status_name!='确认入库'&&item.status_name!='物料审核'&&item.status_name!='测试验收'&&item.status_name!='发布审核'&&item.status_name!='项目发布'&&item.status_name!='素材入库'&&item.status_name!='提现完成'&&item.status_name!='素材入库'&&tableData[props.$index].demand_type!='收款结算'&&tableData[props.$index].demand_type!='付款结算'&&item.reject!='1'&&item.isfinish!=2" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status,item.reject)">查看详情</span>
                                         <!-- <span v-if="item.did==undefined&&tableData[props.$index].status==item.status&&item.isfinish!=1&&item.status_name!='结算汇款'&&item.status!=1&&tableData[props.$index].demand_type!='付款结算'&&tableData[props.$index].demand_type!='收款结算'">待处理</span> -->
 
                                         <span v-if="tableData[props.$index].status==item.status&&item.key!=0&&((tableData[props.$index].demand_type=='收款结算'&&item.status!=6)||(tableData[props.$index].demand_type=='付款结算'&&item.status!=6))&&item.isfinish!=2">待处理</span>
-                                        <span class="dj" v-if="item.isfinish==1&&item.status_name!='提现完成'&&item.status_name!='素材入库'&&item.isfinish!=2" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status)">查看详情</span>
-                                        <span class="dj" v-if="item.status_name=='结算汇款'&&tableData[props.$index].demand_type=='设计师结算'" @click="withdraw(tableData[props.$index].did,item.status)">查看详情</span>
+                                        <span class="dj" v-if="item.isfinish==1&&item.status_name!='提现完成'&&item.status_name!='素材入库'&&item.isfinish!=2&&tableData[props.$index].demand_type!='设计师结算'" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status)">查看详情</span>
+                                        <span class="dj" v-if="(item.status_name=='结算汇款'&&tableData[props.$index].demand_type=='设计师结算')||(item.status_name=='提现审核'&&tableData[props.$index].demand_type=='设计师结算')" @click="withdraw(tableData[props.$index].did,tableData[props.$index].status,tableData[props.$index].emails)">查看详情</span>
                                         <span class="dj" v-if="item.key=='0'&&(tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算')&&item.isfinish!=2" @click="getCK(tableData[props.$index].id,tableData[props.$index].demand_type,item.status,tableData[props.$index].processor)">查看详情</span>
                                         <span class="dj" v-if="(tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算')&&item.isfinish==2" @click="CKbh(tableData[props.$index].did,item.status)">查看作废原因</span>
                                         <span class="dj" v-if="(tableData[props.$index].demand_type=='业务需求'&&item.status=='4'&&item.key==0&&item.reject!='1'&&item.isfinish!=2)">审核通过</span>
@@ -695,11 +695,11 @@
                 this.hqUrl='';
                 this.move();
             },
-            getBH(index){
-                this.bh = true;
-                this.status=this.tableData[index].status;
-                this.stop()
-            },
+            // getBH(index){
+            //     this.bh = true;
+            //     this.status=this.tableData[index].status;
+            //     this.stop()
+            // },
             heidBH(){
                 this.bh = false;
                 this.move()
@@ -737,15 +737,16 @@
                 this.hqUrl=ddd;
                 console.log(this.bindMid,this.hqUrl);
             },
-            heidBH(){
-                this.bh = false;
-                this.move()
-            },
-            withdraw(id,status){
+            // heidBH(){
+            //     this.bh = false;
+            //     this.move()
+            // },
+            withdraw(id,status,emails){
                 this.$router.push({
                     query:{
                         id:id,
                         status:status,
+                        emails:emails
                     },
                     path:'/workbench/Billing_details'
                 })
@@ -927,26 +928,26 @@
                         }
                     }
                 }
-                if(type=='设计师结算'){
-                    if(status ==1){
-                        this.$router.push({
-                            query:{
-                                id:id,
-                                status:1,
-                            },
-                            path:'/workbench/Billing_details'
-                        })
-                    }
-                    if(status ==3){
-                        this.$router.push({
-                            query:{
-                                id:id,
-                                status:3,
-                            },
-                            path:'/workbench/Billing_details'
-                        })
-                    }
-                }
+                // if(type=='设计师结算'){
+                //     if(status ==1){
+                //         this.$router.push({
+                //             query:{
+                //                 id:id,
+                //                 status:1,
+                //             },
+                //             path:'/workbench/Billing_details'
+                //         })
+                //     }
+                //     if(status ==3){
+                //         this.$router.push({
+                //             query:{
+                //                 id:id,
+                //                 status:3,
+                //             },
+                //             path:'/workbench/Billing_details'
+                //         })
+                //     }
+                // }
 
             },
             getYWSC(id){
