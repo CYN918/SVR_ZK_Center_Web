@@ -37,7 +37,7 @@
                         <option value="2">公司</option>
                     </select>
                     <span class="zt">状态</span>
-                    <select v-model="status2">
+                    <select v-model="check_status">
                         <option value="" >全部</option>
                         <option value="0">待审核</option>
                         <option value="1">审核通过</option>
@@ -199,7 +199,6 @@
                 min_cash_money:"",
                 max_cash_money:"",
                 contributor_type:"",
-                status2:'',
                 start_time:"",
                 end_time:""
             }
@@ -256,10 +255,10 @@
                 }
                 let params = {id:this.$route.query.id,p:this.p,page:this.page,all:this.$route.query.status==1?1:0,
                 open_id:this.open_id,account_name:this.account_name,min_cash_money:this.min_cash_money,
-                max_cash_money:this.max_cash_money,contributor_type:this.contributor_type,status:this.status2,start_time:this.start_time,end_time:this.end_time};
+                max_cash_money:this.max_cash_money,contributor_type:this.contributor_type,check_status:this.check_status,start_time:this.start_time,end_time:this.end_time};
                 this.api.demand_apply_detail({params}).then((res)=>{
                     this.tableData = res.data;
-                    this.check_status = res.data.check_status
+                    // this.check_status = res.data.check_status
                     for(var i = 0;i<this.tableData.length;i++){
                         if(this.tableData[i].contributor_type==1){
                             this.tableData[i].contributor_type='个人'
