@@ -17,13 +17,13 @@
                             start-placeholder="开始日期"
                             end-placeholder="结束日期"
                             format="yyyy 年 MM 月 dd 日"
-                            value-format="yyyy-MM-dd ">
+                            value-format="yyyy-MM-dd">
                     </el-date-picker>
                     <span>用户ID</span>
                     <input type="text" placeholder="输入用户ID"/>
                     <span>用户昵称</span>
                     <input type="text" placeholder="输入用户昵称"/>
-                    <span class="dc" @click="derive()">导出</span>
+                    <span class="dc" @click="derive()" v-if='emails.indexOf(user)!=-1'>导出</span>
                 </div>
                 <div class="seach">
                     <span>提现金额</span>
@@ -37,17 +37,17 @@
                         <option value="2">公司</option>
                     </select>
                     <span class="zt">状态</span>
-                    <select >
-                        <option value="" selected>全部</option>
+                    <select v-model="status">
+                        <option value="" >全部</option>
                         <option value="0">待审核</option>
                         <option value="1">审核通过</option>
-                        <option value="2">审核不通过</option>
+                        <option value="2">审核驳回</option>
                     </select>
                     <span class="btn" @click='getData()'>查询</span>
                 </div>
                 <div>
-                    <span class="bh" @click="getBH()">批量驳回（{{this.openIDList.length}}）</span>
-                    <span class="tg" @click="verified()">一键通过待审核内容</span>
+                    <span class="bh" @click="getBH()" v-if='emails.indexOf(user)!=-1'>批量驳回（{{this.openIDList.length}}）</span>
+                    <span class="tg" @click="verified()" v-if='emails.indexOf(user)!=-1&&status==1'>一键通过待审核内容</span>
                 </div>
             </div>
             <div>
@@ -111,10 +111,11 @@
                         <el-table-column label="操作">
                             <template slot-scope="props">
                                 <el-button type="text" @click="xq(tableData[props.$index].open_id)">查看详情</el-button>
-                                <el-button type="text" v-if="tableData[props.$index].check_status=='0'" @click="getSH(tableData[props.$index].open_id)">审核通过</el-button>
-                                <el-button type="text" v-if="tableData[props.$index].check_status=='0'" @click="getBH(tableData[props.$index].open_id)">驳回</el-button>
-                                <el-button type="text" v-if="status==3&&tableData[props.$index].check_status!='0'&&tableData[props.$index].check_status!='3'" @click="getSH(tableData[props.$index].open_id)">更新为已汇款</el-button>
-                                <el-button type="text" v-if="status==3&&tableData[props.$index].check_status!='0'&&tableData[props.$index].check_status!='3'" @click="getBH(tableData[props.$index].open_id)">驳回</el-button>
+                                <el-button type="text" v-if="tableData[props.$index].check_status=='0'&&status==1&&emails.indexOf(user)!=-1" @click="getSH(tableData[props.$index].open_id)">审核通过</el-button>
+                                <el-button type="text" v-if="tableData[props.$index].check_status=='0'&&status==1&&emails.indexOf(user)!=-1" @click="getBH(tableData[props.$index].open_id)">驳回</el-button>
+                                <el-button type="text" v-if="tableData[props.$index].check_status=='-1'&&status==1" @click="DismissTheReason(tableData[props.$index])">查看驳回原因</el-button>
+                                <el-button type="text" v-if="status==3&&tableData[props.$index].check_status!='0'&&tableData[props.$index].check_status!='-3'&&emails.indexOf(user)!=-1" @click="getSH(tableData[props.$index].open_id)">更新为已汇款</el-button>
+                                <el-button type="text" v-if="status==3&&tableData[props.$index].check_status!='0'&&tableData[props.$index].check_status!='-3'&&emails.indexOf(user)!=-1" @click="getBH(tableData[props.$index].open_id)">驳回</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -131,6 +132,39 @@
                     layout="total, sizes, prev, pager, next, jumper"
                     :total="total">
             </el-pagination>
+        </div>
+        <div class='bg' v-if='yy'>
+            <div class='down'>
+                <div class="tit">
+                    <span>驳回</span>
+                    <img src="../../../public/img/gb.png" @click='heidYy()'/>
+                </div>
+                <div v-for='item in reject'> 
+                    <div class='tabs'> 
+                        <span class='tits'>处理人</span>
+                        <span class='cons'>
+                             {{item.creator}}   
+                        </span>
+                    </div>
+                    <div class='tabs'>
+                        <span  class='tits'>
+                            处理时间
+                        </span>
+                        <span class='cons'>
+                            {{item.updated_at}}
+                        </span>
+                    </div>
+                    <div class='tabs'>
+                        <span  class='tits'>
+                            驳回原因
+                        </span>
+                        <span class='cons'>
+                            {{item.note}}
+                        </span>
+                    </div>
+                </div>
+                
+            </div>
         </div>
         <BH v-if="bh"  :id="this.$route.query.id" :open_id="openIDList" :status='this.$route.query.status'></BH>
         <QD v-if="sh" :id="this.$route.query.id" :open_id="shOpenId"  :status='this.$route.query.status'></QD>
@@ -157,11 +191,18 @@
                 shOpenId:[],
                 status:'',
                 check_status:'',
+                emails:[],
+                user:'',
+                reject:[],
+                yy:false,
+
 
             }
         },
         created(){
             this.status=this.$route.query.status;
+            this.emails=this.$route.query.emails;
+            this.user=localStorage.getItem('userAd');
         },
         mounted(){
             this.getData();
@@ -178,6 +219,22 @@
                    return false
                }
               
+           },
+           DismissTheReason(data){
+               var arr=[];
+               for(var i=0;i<data.audit_logs.length;i++){
+                   if(data.audit_logs[i].check_status==-1){
+                       arr.push(data.audit_logs[i])
+                   }
+               }
+               this.reject=arr
+
+               console.log(this.reject)
+               this.yy=true;
+           },
+           heidYy(){
+               this.yy=false
+               this.reject=[]
            },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
@@ -202,7 +259,6 @@
                         }
                     }
                     this.total = res.total;
-                    console.log(res);
                 })
             },
             handleSizeChange(p) { // 每页条数切换
@@ -225,7 +281,10 @@
                     var Arr = [];
                     Arr.push(data);
                     this.openIDList= Arr;
-                    console.log(this.openIDList)
+                }
+                if(this.openIDList.length==0){
+                    this.$message.error('请选择至少一个数据');
+                    return
                 }
                 this.bh = true;
                 },
@@ -319,7 +378,7 @@
         margin-right: 24px;
     }
     .seach{
-        margin-left: 24px;
+        margin:0 0 16px  24px;
     }
 
     .el-range-editor.el-input__inner{
@@ -402,4 +461,63 @@
     .tg{
         width:166px!important;
     }
+    .bg{
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.3);
+    position: fixed;
+    z-index: 9;
+    bottom: 0;
+    right: 0;
+}
+    .down{
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+        width: 500px;
+        min-height: 300px;
+        background: #fff;
+        border-radius: 5px;
+    }
+    .tit{
+    height: 56px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 24px;
+}
+.tit>span{
+    display: inline-block;
+    line-height: 56px;
+    font-size:18px;
+    font-family:PingFangSC-Regular;
+    font-weight:400;
+    color:rgba(61,73,102,1);
+    margin-left: 24px;
+}
+.tit>img{
+    display: inline-block;
+    margin-top: 20px;
+    width:16px;
+    height:16px;
+    float: right;
+    margin-right: 24px;
+    cursor: pointer;
+}
+.tabs{
+    border:1px solid #ddd;
+    margin: 0 24px;
+    padding: 0 15px;
+    height: 50px;
+}
+.tabs span{
+    display: inline-block;
+}
+.tits{
+    width: 30%;
+    line-height: 50px;
+    border-right: 1px solid #ddd;
+}
+.cons{
+    width: 68%;
+}
 </style>
