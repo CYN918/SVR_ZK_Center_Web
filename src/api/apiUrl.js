@@ -1770,15 +1770,15 @@ export default {
 		url:'settle/data/project/contracts',method:"get"
 	},
 	//狮圈提现记录
-	record_applay_demand:{
-		url:"record/applay/demand",method:"get"
+	record_apply_demand:{
+		url:"record/apply/demand",method:"get"
 	},
 	//狮圈提现申请详情
-	record_applay_details:{
-		url:"record/applay/details",method:"get"
+	record_apply_details:{
+		url:"record/apply/details",method:"get"
 	},
 	//狮圈设计师提现申请详情
-	record_applay_designer_details:{
-		url:"record/applay/designer/details",method:'get'
+	record_apply_designer_details:{
+		url:"record/apply/designer/details",method:'get'
 	},
 }

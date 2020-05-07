@@ -21,20 +21,20 @@
                             :cell-style="cell"
                             style="width: 100%;color:#000">
                         <el-table-column
-                                label="提现单ID" prop="tdate"
+                                label="提现单ID" prop="apply_id"
                                >
                         </el-table-column>
                         <el-table-column
-                                label="提现金额" prop="total_income"
+                                label="提现金额" prop="cash_money"
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="申请提现时间" prop="buyout_income"
+                                label="申请提现时间" prop="apply_time"
                                 >
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="props">
-                                <el-button type="text"  @click='CK()'>查看详情</el-button>
+                                <el-button type="text"  @click='CK(tableData[props.$index])'>查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -62,51 +62,51 @@
             <div style="margin:24px">
                 <div>
                      <span class='titName'>提现单ID</span>
-                     <span></span>
+                     <span>{{dataList.apply_id}}</span>
                 </div>
                 <div>
                      <span class='titName'>提现用户ID</span>
-                     <span></span>
+                     <span>{{dataList.open_id}}</span>
                 </div>
                  <div>
                      <span class='titName'>用户昵称</span>
-                     <span></span>
+                     <span>{{dataList.account_name}}</span>
                 </div>
                  <div>
                      <span class='titName'>提现金额</span>
-                     <span></span>
+                     <span>{{dataList.cash_money}}</span>
                 </div>
                  <div>
                      <span class='titName'>用户类别</span>
-                     <span></span>
+                     <span>{{dataList.contributor_type==1?'个人':'企业'}}</span>
                 </div>
                  <div>
                      <span class='titName'>收款账户名</span>
-                     <span></span>
+                     <span>{{dataList.account_name}}</span>
                 </div>
-                 <div>
+                 <div v-if='dataList.code'>
                      <span class='titName'>信用代码</span>
-                     <span></span>
+                     <span>{{dataList.code}}</span>
                 </div>
                  <div>
                      <span class='titName'>银行账号</span>
-                     <span></span>
+                     <span>{{dataList.bank_card_id}}</span>
                 </div>
                  <div>
                      <span class='titName'>开户银行</span>
-                     <span></span>
+                     <span>{{dataList.bank_name}}</span>
                 </div>
                  <div>
                      <span class='titName'>开户支行</span>
-                     <span></span>
+                     <span>{{dataList.bank_subbranch}}</span>
                 </div>
                  <div>
                      <span class='titName'>银行预留手机号</span>
-                     <span></span>
+                     <span>{{dataList.reserve_phone}}</span>
                 </div>
                  <div>
                      <span class='titName'>状态</span>
-                     <span></span>
+                     <span>{{dataList.check_status_name}}</span>
                 </div>
                  <div>
                      <span class='titName'>驳回原因</span>
@@ -114,11 +114,11 @@
                 </div>
                  <div>
                      <span class='titName'>申请时间</span>
-                     <span></span>
+                     <span>{{dataList.apply_time}}</span>
                 </div>
                  <div>
                      <span class='titName'>处理时间</span>
-                     <span></span>
+                     <span>{{dataList.updated_at}}</span>
                 </div>
             </div>  
         </div>
@@ -135,6 +135,7 @@
             page:1,
             total:0,
             xq:false,
+            dataList:{}
      }
    },
    mounted(){
@@ -161,7 +162,7 @@
         },
         getData(){
             let params={id:this.$route.query.id,open_id:this.$route.query.open_id,p:this.p,page:this.page}
-            this.api.record_applay_designer_details({params}).then((res)=>{
+            this.api.record_apply_designer_details({params}).then((res)=>{
                 this.total=res.total
                 this.tableData=res.data
             })
@@ -169,8 +170,9 @@
         fh(index){
             this.$router.go(index)
         },
-        CK(){
+        CK(data){
             this.xq=true;
+            this.dataList=data
         },
         heid(){
             this.xq=false

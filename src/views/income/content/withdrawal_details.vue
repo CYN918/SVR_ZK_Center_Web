@@ -40,35 +40,38 @@
                             :cell-style="cell"
                             style="width: 100%;color:#000">
                         <el-table-column
-                                label="用户ID" prop="tdate"
+                                label="用户ID" prop="open_id"
                                >
                         </el-table-column>
                         <el-table-column
-                                label="用户昵称" prop="total_income"
+                                label="用户昵称" prop="account_name"
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="用户类别" prop="buyout_income"
+                                label="用户类别" prop="contributor_type"
                                 >
+                                <template slot-scope="scope">
+                                        <span>{{tableData[scope.$index].contributor_type==1?'个人':'企业'}}</span>
+                                </template>
                         </el-table-column>
                         <el-table-column
-                                label="提现次数" prop="sharing_income"
+                                label="提现次数" prop="apply_num"
                                 >
                         </el-table-column>
                          <el-table-column
-                                label="提现金额" prop="sharing_income"
+                                label="提现金额" prop="cash_money"
                                 >
                         </el-table-column>
                          <el-table-column
-                                label="纳税金额" prop="sharing_income"
+                                label="纳税金额" prop="tax_money"
                                 >
                         </el-table-column>
                          <el-table-column
-                                label="税后金额" prop="sharing_income"
+                                label="税后金额" prop="after_tax_money"
                                 >
                         </el-table-column>
                          <el-table-column
-                                label="状态" prop="sharing_income"
+                                label="状态" prop="check_status_name"
                                 >
                         </el-table-column>
                         <el-table-column label="操作">
@@ -133,7 +136,7 @@
         },
         getData(){
             let params={p:this.p,page:this.page,open_id:this.open_id,account_name:this.account_name,contributor_type:this.contributor_type,check_status:this.check_status,status:this.$route.query.status,id:this.$route.query.id}
-            this.api.record_applay_details({params}).then((res)=>{
+            this.api.record_apply_details({params}).then((res)=>{
                 this.total=res.total;
                 this.tableData=res.data;
             })

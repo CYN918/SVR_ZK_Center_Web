@@ -41,23 +41,26 @@
                             :cell-style="cell"
                             style="width: 100%;color:#000">
                         <el-table-column
-                                label="提现申请ID" prop="tdate"
+                                label="提现申请ID" prop="did"
                                >
                         </el-table-column>
                         <el-table-column
                                 label="提现周期" prop="total_income"
                                 >
+                                <template slot-scope="scope">
+                                    <span>{{tableData[scope.$index].starttime+'-'+tableData[scope.$index].endtime}}</span>
+                                </template>
                         </el-table-column>
                         <el-table-column
-                                label="提现金额" prop="buyout_income"
+                                label="提现金额" prop="apply_money"
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="汇款金额" prop="sharing_income"
+                                label="汇款金额" prop="payment_money"
                                 >
                         </el-table-column>
                          <el-table-column
-                                label="状态" prop="sharing_income"
+                                label="状态" prop="status_name"
                                 >
                         </el-table-column>
                         <el-table-column label="操作">
@@ -136,7 +139,7 @@
                 this.end_time=this.tdate[1]
             }
             let params={p:this.p,page:this.page,status:this.status,id:this.id,start_time:this.start_time,end_time:this.end_time}
-            this.api.record_applay_demand({params}).then((res)=>{
+            this.api.record_apply_demand({params}).then((res)=>{
                 this.total=res.total;
                 this.tableData=res.data
             })
@@ -153,7 +156,7 @@
             this.$router.push({
                 path:"./withdrawal_details",
                 query:{
-                    id:data.adid,
+                    id:data.did,
                     status:data.status
                 }
             })
