@@ -114,7 +114,7 @@
                                 <el-button type="text" v-if="tableData[props.$index].check_status=='0'&&status==1&&emails.indexOf(user)!=-1" @click="getSH(tableData[props.$index].open_id)">审核通过</el-button>
                                 <el-button type="text" v-if="tableData[props.$index].check_status=='0'&&status==1&&emails.indexOf(user)!=-1" @click="getBH(tableData[props.$index].open_id)">驳回</el-button>
                                 <el-button type="text" v-if="tableData[props.$index].check_status=='-1'&&status==1" @click="DismissTheReason(tableData[props.$index])">查看驳回原因</el-button>
-                                <el-button type="text" v-if="status==3&&tableData[props.$index].check_status!='0'&&tableData[props.$index].check_status!='-3'&&emails.indexOf(user)!=-1" @click="getSH(tableData[props.$index].open_id)">更新为已汇款</el-button>
+                                <el-button type="text" v-if="status==3&&tableData[props.$index].check_status!='0'&&tableData[props.$index].check_status!='-3'&&emails.indexOf(user)!=-1" @click="getSH(tableData[props.$index].open_id,tableData[props.$index].contributor_type)">更新为已汇款</el-button>
                                 <el-button type="text" v-if="status==3&&tableData[props.$index].check_status!='0'&&tableData[props.$index].check_status!='-3'&&emails.indexOf(user)!=-1" @click="getBH(tableData[props.$index].open_id)">驳回</el-button>
                             </template>
                         </el-table-column>
@@ -166,6 +166,36 @@
                 
             </div>
         </div>
+        <!-- <div class='bg'>
+            <div class='down2'>
+                <div class="tit">
+                    <span>更新为已汇款</span>
+                </div>
+                <div class='down2_set'>
+                    <select v-model="type">
+                        <option value="1">上传票据文件</option>
+                        <option value="2">填写票据编号</option>
+                    </select>
+                </div>
+                <div style="margin:0 0 24px 24px">
+                    <el-upload
+                        v-if='type==1'
+                        class="upload-demo"
+                        drag
+                        action="https://jsonplaceholder.typicode.com/posts/"
+                        multiple>
+                        <i class="el-icon-upload"></i>
+                        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                    </el-upload>
+                    <textarea  v-if='type==2'></textarea>   
+                </div>
+                <div class='btns'>
+                    <span class='qd'>确定</span>
+                    <span>取消</span>
+                </div>
+            </div>
+
+        </div> -->
         <BH v-if="bh"  :id="this.$route.query.id" :open_id="openIDList" :status='this.$route.query.status'></BH>
         <QD v-if="sh" :id="this.$route.query.id" :open_id="shOpenId"  :status='this.$route.query.status'></QD>
     </div>
@@ -200,7 +230,8 @@
                 max_cash_money:"",
                 contributor_type:"",
                 start_time:"",
-                end_time:""
+                end_time:"",
+                type:'1'
             }
         },
         created(){
@@ -488,6 +519,21 @@
         background: #fff;
         border-radius: 5px;
     }
+    /* .down2{
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+        width: 600px;
+        min-height: 400px;
+        background: #fff;
+        border-radius: 5px;
+    } */
+    textarea{
+        width: 550px;
+        height: 200px;
+        margin: 0 24px 0 0 ;
+    }
     .tit{
     height: 56px;
     border-bottom: 1px solid #ddd;
@@ -528,4 +574,31 @@
 .cons{
     width: 68%;
 }
+/* .down2_set{
+    margin:20px 0 24px 24px; 
+}
+.down2_set select{
+    width: 300px;
+    height: 36px;
+}
+.btns{
+    height: 50px;
+    margin-left: 24px;
+}
+.btns span{
+    display: inline-block;
+    margin-right: 40px;
+    border:1px solid #ddd;
+    border-radius: 3px;
+    width: 90px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    cursor: pointer;
+}
+.qd{
+    border:0!important;
+    background: #3377ff;
+    color: #fff;
+} */
 </style>
