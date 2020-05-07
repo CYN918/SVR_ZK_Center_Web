@@ -18,11 +18,11 @@
                     end-placeholder="结束日期">
                 </el-date-picker>
                 <span class='titNames' style="margin-left:24px">结算方:</span>
-                <input type="text">
+                <input type="text" v-model="settlement">
                 <span class='titNames' style="margin-left:24px">项目:</span>
-                <input type="text">
+                <input type="text" v-model="project">
                 <div class='btn_box'>
-                    <span class="cx">查询</span>
+                    <span class="cx" @click="getData()">查询</span>
                     <span @click='cz()'>重置</span>
                 </div>
             </div>
@@ -36,85 +36,88 @@
                             :cell-style="cell"
                             style="width: 100%;color:#000">
                         <el-table-column
-                                label="结算主体" prop="project_id"
+                                label="结算主体" prop="settlement"
                                 fixed
                                 width="150"
+                                
                                >
                         </el-table-column>
                         <el-table-column
-                                label="合作公司" prop="project_name"
+                                label="合作公司" prop="advertiser"
+                                 fixed
+                                width="150"
+                                :show-overflow-tooltip="true"
+                                >
+                        </el-table-column>
+                        <el-table-column
+                                label="广告类型" prop="ad_type"
                                  fixed
                                 width="150"
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="广告类型" prop="contributor_type"
+                                label="项目" prop="project"
                                  fixed
                                 width="150"
+                                :show-overflow-tooltip="true"
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="项目" prop="updated_at"
-                                 fixed
-                                width="150"
-                                >
-                        </el-table-column>
-                        <el-table-column
-                                label="请求量" prop="updator"
+                                label="请求量" prop="req"
                                 sortable
                                 width="150"
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="填充量" prop="updator"
+                                label="填充量" prop="fill"
                                 sortable
                                 width="150"
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="填充率" prop="updator"
+                                label="填充率" prop="fill_ratio"
                                 sortable
                                 width="150"
                                 >
                         </el-table-column>
                          <el-table-column
-                                label="占总展示比" prop="updator"
+                                label="占总展示比" prop="pv_ratio"
                                 sortable
                                 width="150"
                                 >
                         </el-table-column>
                          <el-table-column
-                                label="展示量" prop="updator"
+                                label="展示量" prop="pv"
                                 sortable
                                 width="150"
                                 >
                         </el-table-column>
                          <el-table-column
-                                label="点击量" prop="updator"
+                                label="点击量" prop="click"
                                 sortable
                                 width="150"
                                 >
                         </el-table-column>
                          <el-table-column
-                                label="点击率" prop="updator"
+                                label="点击率" prop="click_ratio"
                                 sortable
                                 width="150"
                                 >
                         </el-table-column>
                          <el-table-column
-                                label="已出流水" prop="updator"
+                                label="已出流水" prop="flow"
                                 sortable
                                 width="150"
                                 >
                         </el-table-column>
                          <el-table-column
-                                label="ecpm" prop="updator"
+                                label="ecpm" prop="ecpc"
                                 sortable
                                 width="150"
                                 >
                         </el-table-column>
                          <el-table-column
-                                label="ecpc" prop="updator"
+                                label="ecpc" prop="ecpc"
                                 sortable
                                 width="150"
                                 >
@@ -146,22 +149,41 @@
             p:10,
             page:1,
             total:0,
-            tdate:''
-
+            tdate:[],
+            settlement:"",
+            project:"",
+            tstart:"",
+            tend:""
      }
+   },
+   mounted(){
+        var qt = (new Date((new Date()).getTime() - 1*24*60*60*1000)).toLocaleDateString().split('/');
+                    if(Number(qt[1])<10){
+                        qt[1]=(0).toString()+qt[1]
+
+                    }
+                    var next = (new Date()).toLocaleDateString().split('/');
+                    if(Number(next[1])<10){
+                        next[1]=(0).toString()+next[1]
+                    }
+                    this.tdate=[qt.join('-'),next.join('-')];
+         this.getData();            
    },
   methods:{
              handleSizeChange(p) { // 每页条数切换
                 this.p = p;
-               
+               this.getData()
             },
             handleCurrentChange(page) {//页码切换
                 this.page = page;
-                
+                this.getData()
             },
             cz(){
-                this.status="",
-                this.search=""
+                this.settlement="",
+                this.project="",
+                this.tdate=[],
+                this.tstart='',
+                this.tend=''
             },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
@@ -172,6 +194,17 @@
             },
             cell({row, column, rowIndex, columnIndex}){
                 return 'text-align:center;color:rgba(61,73,102,1);font-size:14px;font-weight:400;font-family:PingFangSC-Regula;'
+            },
+            getData(){
+                if(this.tdate.length>0){
+                    this.tstart=this.tdate[0],
+                    this.tend=this.tdate[1]
+                }
+                let params={p:this.p,page:this.page,settlement:this.settlement,project:this.project,tstart:this.tstart,tend:this.tend}
+                this.api.settle_data_settle_summary({params}).then((res)=>{
+                    this.total=res.total;
+                    this.tableData=res.data;
+                })
             },
   },
  }

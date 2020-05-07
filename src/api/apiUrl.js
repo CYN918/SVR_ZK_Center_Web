@@ -1769,4 +1769,8 @@ export default {
 	settle_data_project_contracts:{
 		url:'settle/data/project/contracts',method:"get"
 	},
+	//项目收益报告
+	settle_data_settle_summary:{
+		url:"settle/data/settle/summary",method:"get"
+	},
 }
