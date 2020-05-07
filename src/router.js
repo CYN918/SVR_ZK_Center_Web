@@ -191,6 +191,8 @@ import cooperator from './views/income/Receivables/cooperator'
 mode['cooperator']=cooperator
 import PM_details from './views/income/Receivables/PM_details'
 mode['PM_details']=PM_details
+import Withdrawal_record from './views/income/content/Withdrawal_record'
+mode['Withdrawal_record']=Withdrawal_record
 
 
 import theme_payment from './views/income/content/theme_payment'
@@ -215,7 +217,10 @@ import Advance_management from './views/income/content/Advance_management'
 mode["Advance_management"]=Advance_management
 import Advance_details from './views/income/content/Advance_details'
 mode['Advance_details']=Advance_details
-
+import withdrawal_details from './views/income/content/withdrawal_details'
+mode['withdrawal_details']=withdrawal_details
+import userDetails from './views/income/content/user_details'
+mode['userDetails']=userDetails
 
 
 
@@ -621,7 +626,10 @@ let nb = [
             {path:'/income/content/Other_payment',name:'其他付款',component:mode['Other_payment']},
             {path:'/income/content/Advance_management',name:'预付金管理',component:mode['Advance_management']},
             {path:'/income/content/Advance_details',name:'预付金管理详情',component:mode['Advance_details']},
-
+            {path:'/income/content/Withdrawal_record',name:'狮圈提现记录',component:mode['Withdrawal_record']},
+            {path:'/income/content/withdrawal_details',name:'提现申请详情',component:mode['withdrawal_details']},
+            {path:'/income/content/userDetails',name:'用户申请详情',component:mode['userDetails']},
+            
 
 
         ]},
@@ -800,6 +808,7 @@ let leftNav =
                     {title:'主题付款',url:'/income/content/theme_fk'},
                     {title:'来电秀付款',url:'/income/content/call_show'},
                     {title:'其他付款',url:'/income/content/Other_payment'},
+                    {title:'狮圈儿提现记录',url:'/income/content/Withdrawal_record'},
                    
                 ]}
             ]
