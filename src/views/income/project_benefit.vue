@@ -109,6 +109,15 @@
                                 sortable
                                 width="150"
                                 >
+                                <template slot-scope="scope">
+                                    <span>{{'￥'+tableData[scope.$index].flow}}</span>
+                                     <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                                    <div slot="content">
+                                        <span class='tagsBOX' v-for='data in (tableData[scope.$index].noFlowDates)'>{{data+','}}</span>
+                                    </div>
+                                     <img src="img/msg.png" alt="" style="width:15px">
+                                </el-tooltip>
+                                </template>
                         </el-table-column>
                          <el-table-column
                                 label="ecpm" prop="ecpc"
@@ -137,12 +146,15 @@
                 </el-pagination>
             </div>
             </div>
-        </div>    
+        </div>   
+          <loading v-if='load'></loading> 
     </div>
 </template>
 
 <script>
+import loading from '../../components/loading'
  export default {
+      components:{loading},
    data () {
      return {
             tableData:[],
@@ -153,7 +165,8 @@
             settlement:"",
             project:"",
             tstart:"",
-            tend:""
+            tend:"",
+            load:true
      }
    },
    mounted(){
@@ -196,6 +209,7 @@
                 return 'text-align:center;color:rgba(61,73,102,1);font-size:14px;font-weight:400;font-family:PingFangSC-Regula;'
             },
             getData(){
+                this.load=true
                 if(this.tdate.length>0){
                     this.tstart=this.tdate[0],
                     this.tend=this.tdate[1]
@@ -204,6 +218,7 @@
                 this.api.settle_data_settle_summary({params}).then((res)=>{
                     this.total=res.total;
                     this.tableData=res.data;
+                    this.load=false
                 })
             },
   },
