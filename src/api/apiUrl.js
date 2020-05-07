@@ -1769,8 +1769,22 @@ export default {
 	settle_data_project_contracts:{
 		url:'settle/data/project/contracts',method:"get"
 	},
+
 	//项目收益报告
 	settle_data_settle_summary:{
 		url:"settle/data/settle/summary",method:"get"
+	},
+
+	//狮圈提现记录
+	record_apply_demand:{
+		url:"record/apply/demand",method:"get"
+	},
+	//狮圈提现申请详情
+	record_apply_details:{
+		url:"record/apply/details",method:"get"
+	},
+	//狮圈设计师提现申请详情
+	record_apply_designer_details:{
+		url:"record/apply/designer/details",method:'get'
 	},
 }
