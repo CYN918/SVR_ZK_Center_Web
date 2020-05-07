@@ -17,7 +17,7 @@
                             start-placeholder="开始日期"
                             end-placeholder="结束日期"
                             format="yyyy 年 MM 月 dd 日"
-                            value-format="yyyy-MM-dd ">
+                            value-format="yyyy-MM-dd">
                     </el-date-picker>
                     <span>用户ID</span>
                     <input type="text" placeholder="输入用户ID"/>
@@ -37,8 +37,8 @@
                         <option value="2">公司</option>
                     </select>
                     <span class="zt">状态</span>
-                    <select >
-                        <option value="" selected>全部</option>
+                    <select v-model="status">
+                        <option value="" >全部</option>
                         <option value="0">待审核</option>
                         <option value="1">审核通过</option>
                         <option value="2">审核驳回</option>
