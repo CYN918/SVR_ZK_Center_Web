@@ -20,24 +20,24 @@
                             value-format="yyyy-MM-dd">
                     </el-date-picker>
                     <span>用户ID</span>
-                    <input type="text" placeholder="输入用户ID"/>
+                    <input type="text" placeholder="输入用户ID" v-model="open_id"/>
                     <span>用户昵称</span>
-                    <input type="text" placeholder="输入用户昵称"/>
+                    <input type="text" placeholder="输入用户昵称" v-model="account_name"/>
                     <span class="dc" @click="derive()" v-if='emails.indexOf(user)!=-1'>导出</span>
                 </div>
                 <div class="seach">
                     <span>提现金额</span>
-                    <input type="text" placeholder="单位：元"/>
+                    <input type="text" placeholder="单位：元" v-model="min_cash_money"/>
                     <span class="or">至</span>
-                    <input type="text" placeholder="单位：元"/>
+                    <input type="text" placeholder="单位：元" v-model="max_cash_money"/>
                     <span class="mRight">账号主体</span>
-                    <select>
+                    <select v-model="contributor_type">
                         <option value="" selected>全部</option>
                         <option value="1">个人</option>
                         <option value="2">公司</option>
                     </select>
                     <span class="zt">状态</span>
-                    <select v-model="status">
+                    <select v-model="status2">
                         <option value="" >全部</option>
                         <option value="0">待审核</option>
                         <option value="1">审核通过</option>
@@ -195,8 +195,13 @@
                 user:'',
                 reject:[],
                 yy:false,
-
-
+                account_name:'',
+                min_cash_money:"",
+                max_cash_money:"",
+                contributor_type:"",
+                status2:'',
+                start_time:"",
+                end_time:""
             }
         },
         created(){
@@ -228,8 +233,6 @@
                    }
                }
                this.reject=arr
-
-               console.log(this.reject)
                this.yy=true;
            },
            heidYy(){
@@ -247,7 +250,13 @@
                 return 'text-align:center;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
             getData(){
-                let params = {id:this.$route.query.id,p:this.p,page:this.page,all:this.$route.query.status==1?1:0};
+                if(this.time.length>0){
+                    this.start_time=this.time[0],
+                    this.end_time=this.time[1]
+                }
+                let params = {id:this.$route.query.id,p:this.p,page:this.page,all:this.$route.query.status==1?1:0,
+                open_id:this.open_id,account_name:this.account_name,min_cash_money:this.min_cash_money,
+                max_cash_money:this.max_cash_money,contributor_type:this.contributor_type,status:this.status2,start_time:this.start_time,end_time:this.end_time};
                 this.api.demand_apply_detail({params}).then((res)=>{
                     this.tableData = res.data;
                     this.check_status = res.data.check_status
