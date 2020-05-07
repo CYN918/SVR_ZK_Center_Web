@@ -111,7 +111,7 @@
                                 >
                                 <template slot-scope="scope">
                                     <span>{{'￥'+tableData[scope.$index].flow}}</span>
-                                     <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                                     <el-tooltip placement="top" class="tit_txt_2 logs tit_txts" v-if="(tableData[scope.$index].noFlowDates).length>0">
                                     <div slot="content">
                                         <span class='tagsBOX' v-for='data in (tableData[scope.$index].noFlowDates)'>{{data+','}}</span>
                                     </div>
