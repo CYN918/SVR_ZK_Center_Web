@@ -230,14 +230,12 @@
                 this.attachs.splice(index,1)
             },
             ADD(){
-                  console.log(this.projects)
                 if(this.fcounter != 0)
                 {
                     this.$message.error('文件上传中');
                     return
                 }
                 if(this.$route.query.id!=undefined){
-                    console.log(this.projects)
                     this.setData();
                     return
                 }
@@ -262,30 +260,30 @@
                     this.$message.error('截止时间不能大于当前时间');
                     return
                 }
-                // if(!this.expect_amount){
-                //     this.$message.error('预计结算金额不能为空');
-                //     return
-                // }
-                // if(this.expect_amount>999999999.99){
-                //     this.$message.error('预计结算金额不能大于999999999.99');
-                //     return
-                // }
-                // if(!this.real_amount){
-                //     this.$message.error('实际结算金额不能为空');
-                //     return
-                // }
-                // if(this.real_amount>999999999.99){
-                //     this.$message.error('实际结算金额大于999999999.99');
-                //     return
-                // }
-                // if(!this.note){
-                //     this.$message.error('备注不能为空');
-                //     return
-                // }
-                // if(this.attachs.length==0){
-                //     this.$message.error('附件不能为空');
-                //     return
-                // }
+                 
+                if(this.step>2){
+                     if(!this.real_amount){
+                        this.$message.error('实际结算金额为大于零的数字');
+                        return
+                    }
+                    if(this.real_amount<0||isNaN(this.real_amount)){
+                        this.$message.error('实际结算金额为大于零的数字');
+                        return
+                    }
+                    if(this.real_amount>999999999.99){
+                        this.$message.error('实际结算金额不大于999999999.99');
+                        return
+                    }
+                    if(!this.note){
+                        this.$message.error('备注不能为空');
+                        return
+                    }
+
+                    if(this.attachs.length==0){
+                        this.$message.error('附件不能为空');
+                        return
+                    }
+                }
                 let formData = new FormData;
                 formData.append('name',this.name);
                 formData.append('statement',this.statement);
@@ -380,17 +378,17 @@
                     }
                    
                 }
-                if(this.step==3){
+                 if(this.step==3){
                      if(!this.real_amount){
-                        this.$message.error('实际结算金额不能为空');
+                        this.$message.error('实际结算金额为大于零的数字');
                         return
                     }
-                    if(this.real_amount<0&&isNaN(this.real_amount)){
+                    if(this.real_amount<0||isNaN(this.real_amount)){
                         this.$message.error('实际结算金额为大于零的数字');
                         return
                     }
                     if(this.real_amount>999999999.99){
-                        this.$message.error('实际结算金额大于999999999.99');
+                        this.$message.error('实际结算金额不大于999999999.99');
                         return
                     }
                     if(!this.note){
@@ -425,6 +423,7 @@
                 })
             },
             getObject(){
+                this.projects=[];
                 if(!this.name){
                     this.$message.error('结算方不能为空')
                     return
