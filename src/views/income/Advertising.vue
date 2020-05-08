@@ -253,6 +253,7 @@
                 if(this.$route.query.name){
                     this.value=[this.$route.query.tstart,this.$route.query.tend];
                     this.search=this.$route.query.name;
+                    this.name=this.$route.query.name;
                     this.is_receiver=this.$route.query.is_receiver;
                 }else{
                     var qt = (new Date((new Date()).getTime() - 1*24*60*60*1000)).toLocaleDateString().split('/');
