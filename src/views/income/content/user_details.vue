@@ -108,9 +108,14 @@
                      <span class='titName'>状态</span>
                      <span>{{dataList.check_status_name}}</span>
                 </div>
-                 <div>
+                 <div v-if='dataList.check_status==-1'>
                      <span class='titName'>驳回原因</span>
-                     <span></span>
+                    <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                                    <div slot="content">
+                                        <span>{{dataList.audit_logs[(dataList.audit_logs).length-1].note}}</span>
+                                    </div>
+                                    <span style="display:inline-block;width:500px;height:20px;overflow: hidden;">{{dataList.audit_logs[(dataList.audit_logs).length-1].note}}</span>
+                    </el-tooltip>
                 </div>
                  <div>
                      <span class='titName'>申请时间</span>
@@ -179,6 +184,7 @@ import loading from '../../../components/loading'
         CK(data){
             this.xq=true;
             this.dataList=data
+            console.log(this.dataList)
         },
         heid(){
             this.xq=false
@@ -225,6 +231,7 @@ import loading from '../../../components/loading'
         display: inline-block;
         margin-left: 24px;
         cursor: pointer;
+        
     }
     .content{
         margin-top: 200px;
