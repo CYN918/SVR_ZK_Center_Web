@@ -123,11 +123,14 @@
             </div>  
         </div>
     </div>
+    <loading v-if='load'></loading>
  </div>
 </template>
 
 <script>
+import loading from '../../../components/loading'
  export default {
+     components:{loading},
    data () {
      return {
             tableData:[{tdate:'aaaa'}],
@@ -135,7 +138,8 @@
             page:1,
             total:0,
             xq:false,
-            dataList:{}
+            dataList:{},
+            load:true
      }
    },
    mounted(){
@@ -161,10 +165,12 @@
             this.getData()
         },
         getData(){
+            this.load=true
             let params={id:this.$route.query.id,open_id:this.$route.query.open_id,p:this.p,page:this.page}
             this.api.record_apply_designer_details({params}).then((res)=>{
                 this.total=res.total
                 this.tableData=res.data
+                this.load=false
             })
         },
         fh(index){

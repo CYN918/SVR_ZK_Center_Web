@@ -27,8 +27,8 @@
                     <option value="1">完成审核</option>
                 </select>
                 <div class='btns_name'>
-                    <span class='cx'>查询</span>
-                    <span>重置</span>
+                    <span class='cx' @click='getData()'>查询</span>
+                    <span @click='cz()'>重置</span>
                 </div>
             </div>
             <div style="margin-top:24px">
@@ -95,11 +95,14 @@
             </div>
         </div>
     </div>
+    <loading v-if='load'></loading>
  </div>
 </template>
 
 <script>
+import loading from '../../../components/loading'
  export default {
+     components:{loading},
    data () {
      return {
             tableData:[{tdate:'aaaa'}],
@@ -110,6 +113,7 @@
             account_name:"",
             contributor_type:"",
             check_status:"",
+            load:true
      }
    },
    mounted(){
@@ -126,6 +130,12 @@
         cell({row, column, rowIndex, columnIndex}){
                     return 'padding:15px 14px;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
         },
+        cz(){
+            this.open_id=''
+            this.account_name=''
+            this.contributor_type=''
+            this.check_status=''
+        },
         handleSizeChange(p) { // 每页条数切换
             this.p = p;
             this.getData()
@@ -135,10 +145,12 @@
             this.getData()
         },
         getData(){
+            this.load=true
             let params={p:this.p,page:this.page,open_id:this.open_id,account_name:this.account_name,contributor_type:this.contributor_type,check_status:this.check_status,status:this.$route.query.status,id:this.$route.query.id}
             this.api.record_apply_details({params}).then((res)=>{
                 this.total=res.total;
                 this.tableData=res.data;
+                this.load=false
             })
         },
         CK(data){
