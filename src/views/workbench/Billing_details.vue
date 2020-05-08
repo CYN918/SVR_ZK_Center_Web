@@ -23,7 +23,7 @@
                     <input type="text" placeholder="输入用户ID" v-model="open_id"/>
                     <span>用户昵称</span>
                     <input type="text" placeholder="输入用户昵称" v-model="account_name"/>
-                    <span class="dc" @click="derive()" v-if='emails.indexOf(user)!=-1'>导出</span>
+                    <!-- <span class="dc" @click="derive()" v-if='emails.indexOf(user)!=-1'>导出</span> -->
                 </div>
                 <div class="seach">
                     <span>提现金额</span>
