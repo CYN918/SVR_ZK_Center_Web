@@ -1,21 +1,19 @@
 <template>
-   <div>
+    <div>
         <div class="top_name">
             <div class="title_left">
-                <span>{{this.type=='1'?'主题付款':'来电秀付款'}}</span>
+                <span>主题收款</span>
             </div>
         </div>
-        <div class='content'>
+         <div class='content'>
             <div>
                  <div class='times'>
-                    <el-date-picker
-                        class='time_length'
-                        v-model="tdate"
-                        type="monthrange"
-                        range-separator="至"
-                        start-placeholder="开始月份"
+                   <el-date-picker
+                        v-model="value2"
+                        type="month"
+                        format="yyyy-MM"
                         value-format="yyyy-MM"
-                        end-placeholder="结束月份">
+                        placeholder="选择月">
                     </el-date-picker>
                 </div>
                 <div class="btn_right">
@@ -67,75 +65,46 @@
                     </el-pagination>
                  </div>
            </div>
-        </div>
-   </div>
+        </div>  
+    </div>
 </template>
 
 <script>
-export default {
-    props:['type'],
-            data(){
-                return{
-                    tdate:[],
-                    p:10,
-                    page:1,
-                    total:0,
-                    tableData:[{time:2020}]
-                }
-            },
-            mounted(){
-                this.listData()
-            },
-            methods:{
-                cz(){
-                    this.tdate=[]
-                },
-                getRowClass({row, column, rowIndex}) {
+ export default {
+   data () {
+     return {
+         value2:"",
+         p:10,
+         page:1,
+         total:0
+
+     }
+   },
+   methods:{
+        getRowClass({row, column, rowIndex}) {
                     if (rowIndex === 0) {
                         return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;padding:20px 0px 20px 14px'
                     } else {
                         return ''
                     }
-                },
-                cell({row, column, rowIndex, columnIndex}){
+        },
+        cell({row, column, rowIndex, columnIndex}){
                     return 'padding:15px 14px;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
-                },
-                handleSizeChange(p) { // 每页条数切换
+        },
+        handleSizeChange(p) { // 每页条数切换
                     this.p = p;
-                    this.listData()
-                },
-                handleCurrentChange(page) {//页码切换
+                   
+        },
+        handleCurrentChange(page) {//页码切换
                     this.page = page;
-                    this.listData()
-                },
-                jump(){
-                    this.$router.push({
-                        path:"./Divided",
-                         query:{type:this.type}
-                    })
-                },
-                listData(){
-                    let params={type:this.type,p:this.p,page:this.page,tdate_start:this.tdate[0],tdate_end:this.tdate[1],is_confirmed:'1'}
-                    this.api.sharing_data_income_summary({params}).then((res)=>{
-                         this.total=res.total;
-                         this.tableData=res.data;   
-                    })
-                },
-                xq(tdate,num){
-                    this.$router.push({
-                        path:"./datas_details",
-                        query:{type:this.type,
-                                tdate:tdate,
-                                num:num
-                        }
-                    })
-                }
-            },
-}
+                    
+        },
+   },
+ }
 </script>
 
 <style scoped>
-      .top_name{
+    .top_name{
         height:90px!important;
         background:rgba(255,255,255,1);
     } 
@@ -147,12 +116,14 @@ export default {
         color:rgba(50,50,50,1);
         margin-left: 24px;
         text-align: right;
-        margin-top:30px
+        margin-top:30px;
+       
+        
     }
-    .content{
-        margin-top: 173px;
+     .content{
+        margin-top: 180px;
     }  
-    .times{
+     .times{
         display: inline-block;
         margin: 24px;
     }
@@ -181,5 +152,4 @@ export default {
         border:0!important;
         background: #3377ff!important;
     }
-   
 </style>

@@ -215,7 +215,8 @@ import Advance_management from './views/income/content/Advance_management'
 mode["Advance_management"]=Advance_management
 import Advance_details from './views/income/content/Advance_details'
 mode['Advance_details']=Advance_details
-
+import payee from './views/income/content/payee'
+mode['payee']=payee
 
 
 
@@ -621,6 +622,7 @@ let nb = [
             {path:'/income/content/Other_payment',name:'其他付款',component:mode['Other_payment']},
             {path:'/income/content/Advance_management',name:'预付金管理',component:mode['Advance_management']},
             {path:'/income/content/Advance_details',name:'预付金管理详情',component:mode['Advance_details']},
+            {path:'/income/content/payee',name:'收款',component:mode['payee']},
 
 
 
@@ -798,6 +800,7 @@ let leftNav =
                 {title:"内容业务",url:"3-2",list:[
                     {title:'预付金管理',url:'/income/content/Advance_management'},
                     {title:'主题付款',url:'/income/content/theme_fk'},
+                    {title:'主题收款',url:'/income/content/payee'},
                     {title:'来电秀付款',url:'/income/content/call_show'},
                     {title:'其他付款',url:'/income/content/Other_payment'},
                    
