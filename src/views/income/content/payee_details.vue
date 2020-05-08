@@ -1,48 +1,65 @@
 <template>
-    <div>
-        <div class="top_name">
+ <div>
+      <div class="top_name">
+             <span class="top_txt" @click='fh(-1)'>主题收款&nbsp;/&nbsp;数据详情</span>
             <div class="title_left">
-                <span>主题收款</span>
+                <span>数据详情</span>
+                <span class='time'>{{this.$route.query.tdate}}</span>
             </div>
         </div>
          <div class='content'>
             <div>
-                 <div class='times'>
-                   <el-date-picker
-                        v-model="value2"
-                        type="month"
-                        format="yyyy-MM"
-                        value-format="yyyy-MM"
-                        placeholder="选择月">
-                    </el-date-picker>
-                </div>
+                <span class='fc_statuc' style="margin:24px 16px 24px 24px " >渠道</span>
+                <!-- <el-autocomplete
+                v-if='id==""'
+                    class="inline-input"
+                    v-model="state1"
+                    :fetch-suggestions="querySearch"
+                    placeholder="请输入内容"
+                    @select="handleSelect"
+                    >
+                </el-autocomplete> -->
+                <select>
+                    <option value="">全部</option>
+                </select>
+                <span class='fc_statuc' style="margin:24px 16px 24px 24px ">主题名称</span>
+                <input type="text" >
+                 <span class='fc_statuc' style="margin:24px 16px 24px 24px ">来点秀名称</span>
+                <input type="text" >
                 <div class="btn_right">
-                    <span class='cx' @click='listData()'>查询</span>
+                    <span class='cx' @click='getDataList()'>查询</span>
                     <span @click='cz()'>重置</span>
-                    <span @click='jump()'>数据导入</span>
                 </div>      
             </div>
            <div>
-                 <template>
+                  <template >
                     <el-table
                             :data="tableData"
                             header-align="center"
                             :header-cell-style="getRowClass"
                             :cell-style="cell"
+                            fixed
                             style="width: 100%;color:#000">
+                         <el-table-column
+                                label="渠道" prop="project_id"
+                                :show-overflow-tooltip="true"
+                               >
+                        </el-table-column>    
                         <el-table-column
-                                label="结算周期" prop="tdate"
+                                label="主题名称" prop="open_id"
+                                :show-overflow-tooltip="true"
                                >
                         </el-table-column>
                         <el-table-column
-                                label="收益金额" prop="total_income"
+                                label="收益金额" prop="buyout_income"
                                 >
                         </el-table-column>
-                        <el-table-column label="操作"
-                            width="120"
-                        >
+                        <el-table-column 
+                                label="操作" prop='created_at'
+                                width="150"
+                                >
                             <template slot-scope="props">
-                                <el-button type="text" @click='xq()'>查看详情</el-button>
+                                <el-button type="text" >编辑</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -59,20 +76,18 @@
                     </el-pagination>
                  </div>
            </div>
-        </div>  
-    </div>
+        </div>
+ </div>
 </template>
 
 <script>
  export default {
    data () {
      return {
-         value2:"",
-         p:10,
-         page:1,
-         total:0,
-         tableData:[{tdate:2020-10}]
-
+        p:10,
+        page:1,
+        total:0,
+        tableData:[{tdate:2020-10}]   
      }
    },
    methods:{
@@ -94,20 +109,15 @@
                     this.page = page;
                     
         },
-        xq(){
-            this.$router.push({
-                path:"./payee_details"
-            })
-        },
    },
  }
 </script>
 
 <style scoped>
     .top_name{
-        height:90px!important;
+         height:112px!important;
         background:rgba(255,255,255,1);
-    } 
+    }
     .title_left span{
         display: inline-block;
         font-size:20px;
@@ -116,24 +126,39 @@
         color:rgba(50,50,50,1);
         margin-left: 24px;
         text-align: right;
-        margin-top:30px;
-       
+    }
+    .top_txt{
+        display: inline-block;
+        margin-left: 24px;
+        cursor: pointer;
+    }
+    .time{
+        display: inline-block;
+        padding: 3px 5px;
+        background: #ddd;
+        border-radius: 3px;
+        margin: 0 16px;
+        font-size: 14px!important;
+        font-weight: 400!important;
         
     }
-     .content{
-        margin-top: 180px;
-    }  
-     .times{
-        display: inline-block;
-        margin: 24px;
+    .content{
+        margin-top: 199px;
     }
-    .times .el-input__inner{
-        width:300px!important
+     select{
+        width: 200px;
+        height: 36px;
+
+    }
+    input{
+        width: 190px;
+        height: 30px;
+        padding-left: 10px;
     }
     .btn_right{
         display: inline-block;
         float:right;
-        margin: 24px 24px 0 0;
+        margin: 14px 24px 10px 0;
     }
     .btn_right span{
         display: inline-block;
@@ -151,5 +176,10 @@
         color: #fff!important;
         border:0!important;
         background: #3377ff!important;
+    }
+    .fc_statuc{
+        display: inline-block;
+        margin-right: 15px;
+
     }
 </style>

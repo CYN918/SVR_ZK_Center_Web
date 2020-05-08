@@ -217,6 +217,8 @@ import Advance_details from './views/income/content/Advance_details'
 mode['Advance_details']=Advance_details
 import payee from './views/income/content/payee'
 mode['payee']=payee
+import payee_details from './views/income/content/payee_details'
+mode['payee_details']=payee_details
 
 
 
@@ -623,6 +625,7 @@ let nb = [
             {path:'/income/content/Advance_management',name:'预付金管理',component:mode['Advance_management']},
             {path:'/income/content/Advance_details',name:'预付金管理详情',component:mode['Advance_details']},
             {path:'/income/content/payee',name:'收款',component:mode['payee']},
+            {path:'/income/content/payee_details',name:'收款详情',component:mode['payee_details']},
 
 
 
