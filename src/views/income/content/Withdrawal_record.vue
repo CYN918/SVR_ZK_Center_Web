@@ -84,11 +84,14 @@
             </div>
         </div>
     </div>
+    <loading v-if='load'></loading>
  </div>
 </template>
 
 <script>
+import loading from '../../../components/loading'
  export default {
+      components:{loading},
    data () {
      return {
             tdate:[],
@@ -99,7 +102,8 @@
             status:'',
             id:'',
             start_time:"",
-            end_time:""
+            end_time:"",
+            load:true
      }
    },
    mounted(){
@@ -134,14 +138,17 @@
             this.end_time=''
         },
         getData(){
+            
             if(this.tdate.length>0){
+                this.load=true
                 this.start_time=this.tdate[0]
                 this.end_time=this.tdate[1]
             }
             let params={p:this.p,page:this.page,status:this.status,id:this.id,start_time:this.start_time,end_time:this.end_time}
             this.api.record_apply_demand({params}).then((res)=>{
                 this.total=res.total;
-                this.tableData=res.data
+                this.tableData=res.data;
+                this.load=false
             })
         },
         handleSizeChange(p) { // 每页条数切换
