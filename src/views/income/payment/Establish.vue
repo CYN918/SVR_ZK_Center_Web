@@ -186,6 +186,7 @@
                 })
             },
             getqd(){
+                this.channels=[]
                  if(!this.name){
                     this.$message.error('结算方不能为空')
                     return
