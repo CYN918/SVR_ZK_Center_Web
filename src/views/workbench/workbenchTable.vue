@@ -700,15 +700,15 @@
                 this.hqUrl='';
                 this.move();
             },
-            getBH(index){
-                this.bh = true;
-                this.status=this.tableData[index].status;
-                this.stop()
-            },
-            heidBH(){
-                this.bh = false;
-                this.move()
-            },
+            // getBH(index){
+            //     this.bh = true;
+            //     this.status=this.tableData[index].status;
+            //     this.stop()
+            // },
+            // heidBH(){
+            //     this.bh = false;
+            //     this.move()
+            // },
             heidSH(){
                 this.sh=false;
                 this.move()
