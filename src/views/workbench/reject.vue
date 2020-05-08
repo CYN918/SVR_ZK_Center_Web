@@ -8,12 +8,12 @@
             <div class="tishi">
                 <textarea placeholder="请输入驳回原因" v-model="note" maxlength="20" v-if='open_id==undefined'></textarea>
                  <el-checkbox-group v-model="checkList" v-if='open_id!=undefined' @change="aaa()">
-                    <el-checkbox label="银行类型不支持，请更换后重新发起申请（建议更换为中国银行）"></el-checkbox>
-                    <el-checkbox label="开户名错误，请核对修改后重新发起申请"></el-checkbox>
-                    <el-checkbox label="银行卡号异常，请核对修改后重新发起申请"></el-checkbox>
-                    <el-checkbox label="未满18岁，可以考虑更换为监护人相关信息后，重新发起提现申请" ></el-checkbox>
+                    <el-checkbox label="支行信息错误"></el-checkbox>
+                    <el-checkbox label="银行卡类型不支持"></el-checkbox>
+                    <el-checkbox label="开户名错误"></el-checkbox>
+                    <el-checkbox label="银行卡号异常" ></el-checkbox>
                     <el-checkbox label="其他"></el-checkbox>
-                    <textarea style="height:60px" v-model="yy"></textarea>
+                    <textarea style="height:60px" v-model="yy" maxlength="20" placeholder="最多输入20字"></textarea>
                 </el-checkbox-group>
             </div>
             <div class="btn">
