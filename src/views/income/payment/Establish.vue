@@ -377,10 +377,10 @@
                 }
                 if(this.step==3){
                      if(!this.real_amount){
-                        this.$message.error('实际结算金额不能为空');
+                        this.$message.error('实际结算金额为大于零的数字');
                         return
                     }
-                     if(this.real_amount<0&&isNaN(this.real_amount)){
+                     if(this.real_amount<0||isNaN(this.real_amount)){
                         this.$message.error('实际结算金额为大于零的数字');
                         return
                     }
