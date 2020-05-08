@@ -50,16 +50,17 @@
                     :total="total">
             </el-pagination>
         </div>
+        <loading v-if='load'></loading>
     </div>
 </template>
 
 <script>
-
+    import loading from '../../components/loading'
     import tab from './workbenchTable'
     import sc from './workBench_sc'
     import yw from './workBench_yw'
     export default {
-        components:{tab,sc,yw},
+        components:{tab,sc,yw,loading},
         name: "workbench_padding",
         data(){
             return{
@@ -83,6 +84,7 @@
                 btns:[],
                 value:[],
                 demand_type:'',
+                load:true
             }
         },
         created(){
@@ -160,11 +162,13 @@
                 this.getList()
             },
             getList(){
+                this.load=true
                 let params ={p:this.p,page:this.page,search:this.search,start_time:this.value[0],end_time:this.value[1],demand_type:this.demand_type};
                 this.api.demand_audited({params}).then((res)=>{
                     this.tableData = res.data;
                     this.total = res.total;
                     this.tables = true;
+                    this.load=false
                     for (let i=0;i<this.tableData.length;i++){
                         if(this.tableData[i].demand_type=='demand_business'){
                             this.tableData[i].demand_type='业务需求'
