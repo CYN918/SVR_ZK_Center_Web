@@ -36,6 +36,7 @@
                     <span class='dc' v-if='pl==false'>导出</span>
                     <span class='cz'  v-if='pl' @click='updateStatus("aa")'>批量操作</span>
                     <span class='dc' @click='Qxplcz()' v-if='pl'>取消</span>
+                    <span class='dc' @click='Wx()' v-if='pl==false'>壁纸管理</span>
                 </div>
                
         </div>
@@ -92,7 +93,7 @@
                                 </template>
                         </el-table-column>
                          <el-table-column
-                                prop="update_at"
+                                prop="updated_at"
                                 label="更新时间">
                         </el-table-column>
                          <el-table-column
@@ -183,11 +184,22 @@ return {
         value:[],
         index:'',
         advers:[],
-        yy:""
+        yy:"",
+        wallpaper:1,
 };
 },
 
 methods: {
+    Wx(){
+        this.$router.push({
+            path:"./journal_nb",
+            query:{
+                channel:this.$route.query.channel,
+                type:this.wallpaper,
+            },
+        })
+
+    },
      pushLib(){
           if(this.index=='aa'){
                     let array={plid:"",adid:"",mfid:"",tags_id:""}

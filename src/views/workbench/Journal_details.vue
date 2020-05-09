@@ -9,6 +9,7 @@
             </div>
             <div class="tit_top_con">
                 <span class="tit_name">内容详情</span>
+                <span class='cx' @click='updateG()'>更新广告图</span>
             </div>
     </div>
     <div class='details'>
@@ -20,6 +21,10 @@
                 <img :src="adver.pict_url" alt="" v-if="adver.pict_url"/>
             </div>
             <div class='details_right'>
+                <div>
+                   <span>广告ID</span>
+                    <span v-if="adver.adid" style="color: #666;">{{adver.adid}}</span>
+               </div>
                <div>
                    <span>广告图URL</span>
                     <a :href="adver.pict_url" v-if="adver.pict_url">{{adver.pict_url}}</a>
@@ -27,6 +32,10 @@
                 <div>
                     <span>落地页URL</span>
                     <a :href="adver.click_url">{{adver.click_url}}</a>
+               </div>
+               <div>
+                    <span>应用包URL</span>
+                    <a :href="adver.package_url">{{adver.package_url}}</a>
                </div>
             </div>
         </div>
@@ -112,23 +121,150 @@
             <span @click='fh(-1)' class='qx'>返回</span>
         </div>
     </div>
+    <el-dialog
+        title="更新广告图"
+        :visible.sync="dialogVisible"
+        :showClose="showClo"
+        :before-close="handleClose"
+        width="30%">
+        <div class="AddIMG_content_right">
+            <div class="AddIMG_input">
+                <div class="AddIMG_input_box">
+                    <el-upload
+                            class="upload-demo"
+                            :before-upload="beforeAvatarUploads"
+                            :on-remove="handleRemove"
+                            :http-request="uploadF"
+                            action="111"
+                    >   
+                        <el-button size="small" type="primary">选择</el-button>
+                    </el-upload>
+                    <el-tooltip placement="top" class="tit_txt_2 logs tit_txts" v-if="attach.name!=undefined">
+                        <div slot="content" class="text">{{this.attach.name}}</div>
+                        <span  class="text" style="overflow: hidden;width: 200px;height: 20px;line-height: 28px;margin-top: 25px;">{{this.attach.name}}<span class="content_xz" @click="dels()" v-if="attach.name!=undefined">删除</span></span>
+                    </el-tooltip>
+
+                </div>
+                <!-- <img src="../../../public/img/msg.png" @click="showHint" style="vertical-align: top"/> -->
+                <div class="progress" style="width: 100px;height: 5px;opacity: 0.5;display: inline-block;margin-top: 25px;" v-if="initiate" >
+                    <div class="strip" :style="{width:aaa+'%'}" style="background: blue;height: 5px;"></div>
+                    <div style="text-align: center;font-size: 10px;">上传中{{aaa}}%</div>
+                </div>
+                
+            </div>
+        </div>
+        <span slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="surRemove">确 认</el-button>
+            <el-button @click="dialogVisible = false">取 消</el-button>
+        </span>
+    </el-dialog>
+    <hin v-if='hint' ></hin>
 </div>
 </template>
 
 <script>
-
+import hin from '../admin/hintMessage'
 export default {
 
-components: {},
+components:{hin},
 data() {        
     return {
         list:{},
         mfinal:{},
         adver:{},
+        dialogVisible: false,
+        showClo:false,
+        hint:false,
+        initiate:false,
+        attach:{},
+        aaa:0,
     };
 },
 
 methods: {
+    showHint(){
+        this.hint = true;
+        this.stop();
+    },
+    beforeAvatarUploads(file) {
+        console.log(file);
+        const isJPG = file.type === 'image/jpeg';
+        const isPNG = file.type === 'image/png';
+        // const isGIF = file.type === 'image/gif';
+        // const isXzip = file.type === 'application/x-zip-compressed';
+        // const iszip = file.type === 'application/zip';
+        
+        if (!isJPG&&!isPNG) {
+            this.$message.error('只支持JPG、PNG格式!');
+        }
+        return isPNG || isJPG;
+    },
+    handleRemove(file, fileList) {
+        this.file = '';
+        this.initiate=false;
+    },
+    time(){
+        var _this=this;
+        _this.aaa=0;
+        var timer = setInterval(function () {
+            if(_this.aaa<99){
+                _this.aaa++
+            }
+        },100);
+    },
+    dels(){
+        this.attach={}
+    },
+    uploadF(file){
+        if(this.status==1101){
+            return
+        }else{
+            this.initiate=true;
+            this.time();
+            let formData = new FormData;
+            formData.append('file',file.file);
+            this.api.file_upload(formData).then((res)=>{
+                this.aaa=100;
+                this.initiate=false;
+                // this.attach.name = res.name;
+                // this.attach.size = res.size;
+                // this.attach.ext = res.ext;
+                // this.attach.md5 = res.md5;
+                // this.attach.url = res.url;
+                this.attach=res;
+            })
+        }
+
+    },
+    handleClose(done) {
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+      },
+      stop(){
+            document.body.style.overflow='hidden';
+            document.body.style.position='fixed';
+            document.body.style.width='100%';
+        },
+    updateG(){
+        this.dialogVisible = true;
+    },
+    surRemove(){
+        let formData = new FormData;
+        formData.append('adid',this.$route.query.adid);
+        formData.append('mfid',this.$route.query.mfid);
+        formData.append('plid',this.$route.query.plid);
+        formData.append('tags_id',this.$route.query.tags_id);
+        formData.append('wpid',this.list.mfinal.wpid);
+        formData.append('ad_url',this.attach.url);
+        this.api.tools_pushlib_adver_url_edit(formData).then((res)=>{
+            this.getDetail();
+            this.dialogVisible = false;
+        })
+        
+    },
     fh(index){
         this.$router.go(index)
     },
@@ -153,8 +289,34 @@ mounted() {
 }
 </script>
 <style  scoped>
+.AddIMG_input_box .el-upload .el-button--small{
+    color: #FFF !important;
+    background-color: #409EFF !important;
+    border-color: #409EFF !important;
+}
+.content_xz{
+    margin-left: 20px;
+    cursor: pointer;
+}
 .top_name{
         height: 98px;
+    }
+    .cx{
+        display: inline-block;
+        height: 36px;
+        text-align: center;
+        line-height: 36px;
+        cursor: pointer;
+        border-radius: 4px;
+        border: 1px solid rgba(211,219,235,1);
+        width: 75px;
+        background: rgba(51,119,255,1);
+        font-size: 14px;
+        font-family: PingFangSC-Regular;
+        font-weight: 400;
+        color: rgba(255,255,255,1);
+        margin-right: 320px;
+        float: right;
     }
 .log_ur{
         font-size:12px;

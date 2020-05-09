@@ -61,6 +61,10 @@
                                     <span class="boxImg_text">素材状态:</span>
                                     <span class="boxImg_content">{{DL.status==1201?'禁用':'启用'}}</span>
                                 </div>
+                                <div>
+                                    <span class="boxImg_text">更新时间:</span>
+                                    <span class="boxImg_content">{{DL.updated_at}}</span>
+                                </div>
                             </div>
                         </div>
                     </div>

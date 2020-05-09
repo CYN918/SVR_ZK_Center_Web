@@ -26,6 +26,10 @@
                     <span>落地页URL</span>
                     <a :href="list.adver.click_url" v-if='list.adver'>{{list.adver.click_url}}</a>
                </div>
+               <div>
+                    <span>应用包URL</span>
+                    <a :href="list.adver.package_url" v-if='list.adver'>{{list.adver.package_url}}</a>
+               </div>
             </div>
         </div>
         <div v-if="list.mfinal">
@@ -54,21 +58,21 @@
                        <a class='xz' :href='list.mfinal.attach.url'>下载</a>
                    </div>
                </div>
-                <div>
-                   <!-- <div class='tab_box'>
+                <!-- <div>
+                   <div class='tab_box'>
                        <span  class='tab_box_name'>文件大小</span>
                        <span  class='tab_box_con'>{{list.mfinal.attach.size}}</span>
                        <a class='xz' :href='list.mfinal.attach.url'>下载</a>
-                   </div> -->
-                   <!-- <div class='tab_box'>
+                   </div>
+                   <div class='tab_box'>
                        <span  class='tab_box_name' style="margin-left:30px">埋点状态</span>
                        <span  class='tab_box_con' style="margin-left:30px">{{}}</span>
-                   </div> -->
+                   </div>
                    <div class='tab_box' style="border-right:0!important">
                        <span  class='tab_box_name' >上线状态</span>
                        <span  class='tab_box_con' >{{list.status_online==0?'待确定':list.status_online==1?'已上线':'未上线'}}</span>
                    </div>
-               </div>
+               </div> -->
             </div>
             <div v-if='list.adver_status!=0'>
                 <div class='tits'>
