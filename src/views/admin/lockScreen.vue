@@ -363,6 +363,7 @@
             },
             getLt(a){
                 if(this.userData.roles[0].role_name=='admin') {
+                    
                     let params = {
                         p: this.pageSize,
                         page: this.currentPage,

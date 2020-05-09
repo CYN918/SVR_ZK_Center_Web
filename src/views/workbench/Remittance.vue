@@ -145,9 +145,17 @@
                     return
                 }
                 if(!this.receive_amount){
-                    this.$message.error('实际到账金额不能为空');
-                    return
+                        this.$message.error('实际结算金额为大于零的数字');
+                        return
                 }
+                if(this.receive_amount<0||isNaN(this.receive_amount)){
+                        this.$message.error('实际结算金额为大于零的数字');
+                        return
+                }
+                if(this.receive_amount>999999999.99){
+                        this.$message.error('实际结算金额大于999999999.99');
+                        return
+                 }
                 if(!this.note){
                     this.$message.error('备注不能为空');
                     return
