@@ -101,7 +101,7 @@
                         >
                         </el-table-column>
                         <el-table-column
-                                label="身份证号码" prop="express_id"
+                                label="身份证号码" prop="id_card"
                         >
                         </el-table-column>
                         <el-table-column
