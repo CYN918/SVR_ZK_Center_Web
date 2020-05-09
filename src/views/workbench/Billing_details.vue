@@ -245,7 +245,6 @@
         },
         mounted(){
             this.getData();
-
         },
         methods:{
             fh(){
@@ -354,7 +353,6 @@
                 if(this.shOpenId.length==0){
                         this.$message.error('没有待审核数据');
                 }
-               
             },
             getSH(data){
                 this.sh=true;
