@@ -99,6 +99,7 @@
 </template>
 
 <script>
+import commonality from '../api/commonality';
 export default {
 	data(){
 		return {
@@ -136,23 +137,23 @@ export default {
 		sure(){
 			this.centerDialogVisible = false;
 			this.refusedVisible_pop = false;
-			this.loginout()
+			commonality.loginout()
 		},
 		sure1(){
 			this.dialogVisible = false;
-			this.loginout()
+			commonality.loginout()
 		},
 		sure2(){
 			this.refusedVisible_pop2 = false;
-			this.loginout()
+			commonality.loginout()
 		},
 		sure3(){
 			this.popupWindow = false;
-			this.loginout()
+			commonality.loginout()
 		},
 		sure4(){
 			this.refusedVisible = false;
-            this.loginout()
+            commonality.loginout()
 		},
 		handleClose(done) {
 			this.$confirm('确认关闭？')
@@ -182,41 +183,7 @@ export default {
 		},
 		resetForm() {
 			this.centerDialogVisible = false;
-			this.loginout()
-		},
-		loginout(){
-		    window.localStorage.clear();
-			let urld = 'http://ts-i.idatachain.cn',
-			accountUrl = "http://ts-account.idatachain.cn/auth/logout?from=";
-			if(window.location.host=='c.zookingsoft.com'){
-				urld = 'https://c.zookingsoft.com';
-				accountUrl = "http://account.zookingsoft.com/auth/logout?from=";
-			}
-            if(window.location.host=='c2.zookingsoft.com'){
-                urld = 'https://c2.zookingsoft.com';
-				accountUrl = "http://account.zookingsoft.com/auth/logout?from=";
-            }
-			this.$ajax({
-				method: 'get',
-				timeout: 10000,
-				url: urld+'/api/logout',			     
-			}).then((msg)=>{	
-					if(msg.data.code==0){
-						localStorage.setItem('token','');
-						let cent = 'center';
-						if(window.location.host=='ts-centerweb.idatachain.cn'){
-							cent = 'center_dev';
-						}else
-						if(window.location.host=='localhost:8080'){
-							cent = 'center_local';
-						}else if(window.location.host=='c2.zookingsoft.com'){
-                            cent = 'center_dev2';
-						}
-						window.location.href=accountUrl + cent;
-					}						
-			}).catch(()=>{
-			
-			})			
+			commonality.loginout()
 		},
 		account_apply_first_login(){
             this.api.account_apply_first_login().then((datas)=>{

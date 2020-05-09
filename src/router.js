@@ -860,6 +860,7 @@ localStorage.getItem('letNav');
 
 // localStorage.setItem('letNav',JSON.stringify(leftNav));
 import utils from './api/Utils';
+import commonality from './api/commonality';
 router.beforeEach((to, from, next) => {
 	/*登录过期*/
 	// console.log(window.location.href.split('#').slice(1));
@@ -1018,7 +1019,8 @@ router.beforeEach((to, from, next) => {
             })
             next({ path: '/index'});
 		}).catch(()=>{
-            alert("账户异常，请联系管理员添加角色或启用账号");
+            alert("账户异常，请退出账户重新登录");
+            commonality.loginout();
             // window.location.href=accountUrl + cent;
 		});
 			

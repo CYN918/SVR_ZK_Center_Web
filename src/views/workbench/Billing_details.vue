@@ -248,6 +248,27 @@
 
         },
         methods:{
+            getCheckStatus(index){
+                let check_status = this.tableData[index].check_status;
+                let status = this.tableData[index].status;
+                if(check_status == 0){
+                    return  'audit';//待审核
+                }
+                
+                if(check_status == 0){
+                    return  'audit';//待审核
+                }
+                if(status==3
+                    &&check_status != 0
+                    &&check_status != '3'//已结算
+                    &&check_status != '-1'//审核驳回
+                    &&check_status != '-2'//撤回
+                    &&check_status != '-3'){//结算驳回
+                    return 'audited';
+                }
+                return '';
+            },
+
             fh(){
                 this.$router.go(-1)
             },
