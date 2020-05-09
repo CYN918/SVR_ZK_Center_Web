@@ -49,8 +49,8 @@
                     <span class="btn" @click='getData()'>查询</span>
                 </div>
                 <div>
-                    <span class="bh" @click="getBH()" v-if='emails.indexOf(user)!=-1'>批量驳回（{{this.openIDList.length}}）</span>
-                    <span class="tg" @click="verified()" v-if='emails.indexOf(user)!=-1&&status==1'>一键通过待审核内容</span>
+                    <span class="bh" @click="getBH()" v-if='emails.indexOf(user)!=-1&&this.$route.query.lineStatus==undefined'>批量驳回（{{this.openIDList.length}}）</span>
+                    <span class="tg" @click="verified()" v-if='emails.indexOf(user)!=-1&&status==1&&this.$route.query.lineStatus==undefined'>一键通过待审核内容</span>
                 </div>
             </div>
             <div>
@@ -316,11 +316,16 @@
                     this.start_time=this.time[0],
                     this.end_time=this.time[1]
                 }
-
-                 let params = {id:this.$route.query.id,p:this.p,page:this.page,all:'0',status:this.status,
-                open_id:this.open_id,account_name:this.account_name,min_cash_money:this.min_cash_money,
-                max_cash_money:this.max_cash_money,contributor_type:this.contributor_type,check_status:this.check_status,start_time:this.start_time,end_time:this.end_time};
-
+                if(this.$route.query.lineStatus){
+                      var params = {id:this.$route.query.id,p:this.p,page:this.page,all:'1',
+                        open_id:this.open_id,account_name:this.account_name,min_cash_money:this.min_cash_money,
+                        max_cash_money:this.max_cash_money,contributor_type:this.contributor_type,check_status:this.check_status,start_time:this.start_time,end_time:this.end_time};
+                }
+                if(!this.$route.query.lineStatus){
+                        params = {id:this.$route.query.id,p:this.p,page:this.page,all:'0',status:this.status,
+                        open_id:this.open_id,account_name:this.account_name,min_cash_money:this.min_cash_money,
+                        max_cash_money:this.max_cash_money,contributor_type:this.contributor_type,check_status:this.check_status,start_time:this.start_time,end_time:this.end_time};
+                }
                 this.api.demand_apply_detail({params}).then((res)=>{
                     this.tableData = res.data;
                     // this.check_status = res.data.check_status

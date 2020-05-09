@@ -180,7 +180,7 @@
 
                                         <span v-if="tableData[props.$index].status==item.status&&item.key!=0&&((tableData[props.$index].demand_type=='收款结算'&&item.status!=6)||(tableData[props.$index].demand_type=='付款结算'&&item.status!=6))&&item.isfinish!=2">待处理</span>
                                         <span class="dj" v-if="item.isfinish==1&&item.status_name!='提现完成'&&item.status_name!='素材入库'&&item.isfinish!=2&&tableData[props.$index].demand_type!='设计师结算'" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status)">查看详情</span>
-                                        <span class="dj" v-if="(item.status_name=='结算汇款'&&tableData[props.$index].demand_type=='设计师结算')||(item.status_name=='提现审核'&&tableData[props.$index].demand_type=='设计师结算')" @click="withdraw(tableData[props.$index].did,item.status,tableData[props.$index].emails)">查看详情</span>
+                                        <span class="dj" v-if="(item.status_name=='结算汇款'&&tableData[props.$index].demand_type=='设计师结算')||(item.status_name=='提现审核'&&tableData[props.$index].demand_type=='设计师结算')" @click="withdraw(tableData[props.$index].did,item.status,tableData[props.$index].emails,tableData[props.$index],status)">查看详情</span>
                                         <span class="dj" v-if="item.key=='0'&&(tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算')&&item.isfinish!=2" @click="getCK(tableData[props.$index].id,tableData[props.$index].demand_type,item.status,tableData[props.$index].processor)">查看详情</span>
                                         <span class="dj" v-if="(tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算')&&item.isfinish==2" @click="CKbh(tableData[props.$index].did,item.status)">查看作废原因</span>
                                         <span class="dj" v-if="(tableData[props.$index].demand_type=='业务需求'&&item.status=='4'&&item.key==0&&item.reject!='1'&&item.isfinish!=2)">审核通过</span>
@@ -747,12 +747,13 @@
             //     this.bh = false;
             //     this.move()
             // },
-            withdraw(id,status,emails){
+            withdraw(id,status,emails,lineStatus){
                 this.$router.push({
                     query:{
                         id:id,
                         status:status,
                         emails:emails,
+                        lineStatus:lineStatus
                     },
                     path:'/workbench/Billing_details'
                 })
