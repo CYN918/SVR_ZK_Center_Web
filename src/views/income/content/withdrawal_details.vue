@@ -23,8 +23,11 @@
                  <span>状态：</span>
                 <select v-model="check_status">
                     <option value="">全部</option>
-                    <option value="0">审核中</option>
-                    <option value="1">完成审核</option>
+                    <option value="0">待审核</option>
+                    <option value="1">待汇款</option>
+                    <option value="2">已汇款</option>
+                    <option value="-1">审核驳回</option>
+                    <option value="-3">结算驳回</option>
                 </select>
                 <div class='btns_name'>
                     <span class='cx' @click='getData()'>查询</span>

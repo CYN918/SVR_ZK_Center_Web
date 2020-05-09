@@ -22,10 +22,10 @@
                 <span>提现申请ID：</span>
                 <input type="text" placeholder="请输入" v-model="id">
                 <span>状态：</span>
-                <select v-model="status">
-                    <option value="">全部</option>
-                    <option value="0">审核中</option>
-                    <option value="1">完成审核</option>
+                <select v-model="search_status">
+                    <option value="0">全部</option>
+                    <option value="1">审核中</option>
+                    <option value="2">完成审核</option>
                 </select>
                 <div class='btns_name'>
                     <span class='cx' @click='getData()'>查询</span>
@@ -99,7 +99,7 @@ import loading from '../../../components/loading'
             p:10,
             page:1,
             total:0,
-            status:'',
+            search_status:'0',
             id:'',
             start_time:"",
             end_time:"",
@@ -131,7 +131,7 @@ import loading from '../../../components/loading'
                     return 'padding:15px 14px;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
         },
         cz(){
-            this.status=''
+            this.search_status='0'
             this.id='',
             this.tdate=[];
             this.start_time='',
@@ -144,7 +144,7 @@ import loading from '../../../components/loading'
                 this.start_time=this.tdate[0]
                 this.end_time=this.tdate[1]
             }
-            let params={p:this.p,page:this.page,status:this.status,id:this.id,start_time:this.start_time,end_time:this.end_time}
+            let params={p:this.p,page:this.page,search_status:this.search_status,id:this.id,start_time:this.start_time,end_time:this.end_time}
             this.api.record_apply_demand({params}).then((res)=>{
                 this.total=res.total;
                 this.tableData=res.data;
