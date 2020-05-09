@@ -368,7 +368,7 @@
                 </div>
                  <div>
                     <span class='titNames'>文件</span>
-                    <a v-if="mfinal.attach" href="mfinal.attach.attach_url" style="color:#3377ff;cursor: pointe;margin-left:10px">下载</a>
+                    <a v-if="mfinal.attach" :href="mfinal.attach.attach_url" style="color:#3377ff;cursor: pointe;margin-left:10px">下载</a>
                 </div>
             </div>
         </div>
