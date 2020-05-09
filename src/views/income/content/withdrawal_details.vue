@@ -149,7 +149,7 @@ import loading from '../../../components/loading'
         },
         getData(){
             this.load=true
-            let params={p:this.p,page:this.page,open_id:this.open_id,account_name:this.account_name,contributor_type:this.contributor_type,check_status:this.check_status,status:this.$route.query.status,id:this.$route.query.id}
+            let params={p:this.p,page:this.page,open_id:this.open_id,account_name:this.account_name,contributor_type:this.contributor_type,check_status:this.check_status,id:this.$route.query.id,all:'1'}
             this.api.record_apply_details({params}).then((res)=>{
                 this.total=res.total;
                 this.tableData=res.data;
