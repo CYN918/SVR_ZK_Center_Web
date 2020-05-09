@@ -39,9 +39,12 @@
                     <span class="zt">状态</span>
                     <select v-model="check_status">
                         <option value="" >全部</option>
-                        <option value="0">待审核</option>
-                        <option value="1">审核通过</option>
-                        <option value="2">审核驳回</option>
+                        <option v-if='status==1' value="0">待审核</option>
+                        <option v-if='status==1' value="2">审核通过</option>
+                        <option v-if='status==1' value="-1">审核驳回</option>
+                        <option v-if='status==3' value="2">待汇款</option>
+                        <option v-if='status==3' value="3">已汇款</option>
+                        <option v-if='status==3' value="-3">汇款驳回</option>
                     </select>
                     <span class="btn" @click='getData()'>查询</span>
                 </div>
@@ -293,9 +296,11 @@
                     this.start_time=this.time[0],
                     this.end_time=this.time[1]
                 }
-                let params = {id:this.$route.query.id,p:this.p,page:this.page,all:this.$route.query.status==1?1:0,
+
+                 let params = {id:this.$route.query.id,p:this.p,page:this.page,all:'0',status:this.status,
                 open_id:this.open_id,account_name:this.account_name,min_cash_money:this.min_cash_money,
                 max_cash_money:this.max_cash_money,contributor_type:this.contributor_type,check_status:this.check_status,start_time:this.start_time,end_time:this.end_time};
+
                 this.api.demand_apply_detail({params}).then((res)=>{
                     this.tableData = res.data;
                     // this.check_status = res.data.check_status
