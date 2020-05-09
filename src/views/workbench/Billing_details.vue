@@ -344,9 +344,10 @@
                     if(this.tableData[i].check_status==0){
                         this.shOpenId.push(this.tableData[i].open_id);
                          this.sh=true;
-                    }else{
-                        this.$message.error('没有待审核数据')
                     }
+                }
+                if(this.shOpenId.length==0){
+                        this.$message.error('没有待审核数据');
                 }
                
             },
