@@ -219,7 +219,28 @@ import payee from './views/income/content/payee'
 mode['payee']=payee
 import payee_details from './views/income/content/payee_details'
 mode['payee_details']=payee_details
-
+import import_data from './views/income/content/import_data'
+mode['import_data']=import_data
+import  Material_payment from './views/income/content/Material_payment'
+mode['Material_payment']=Material_payment
+import money_detail from './views/income/content/money_details'
+mode['money_detail']=money_detail
+import money_details_divide from './views/income/content/money_details_divide'
+mode['money_details_divide']=money_details_divide
+import Divided_into_management from './views/income/content/Divided_into_management'
+mode['Divided_into_management']=Divided_into_management
+import Divided_into_management_details from './views/income/content/Divided_into_management_details'
+mode['Divided_into_management_details']=Divided_into_management_details
+import price from './views/income/content/price'
+mode['price']=price
+import AmendantRecord from './views/income/content/AmendantRecord'
+mode['AmendantRecord']=AmendantRecord
+import AmendantRecordDetails from './views/income/content/AmendantRecordDetails'
+mode['AmendantRecordDetails']=AmendantRecordDetails
+import data_manage from './views/income/content/data_manage'
+mode['data_manage']=data_manage
+import cz_record from './views/income/content/cz_record'
+mode['cz_record']=cz_record
 
 
 //工作台
@@ -626,6 +647,17 @@ let nb = [
             {path:'/income/content/Advance_details',name:'预付金管理详情',component:mode['Advance_details']},
             {path:'/income/content/payee',name:'收款',component:mode['payee']},
             {path:'/income/content/payee_details',name:'收款详情',component:mode['payee_details']},
+            {path:'/income/content/import_data',name:'收款导入',component:mode['import_data']},
+            {path:'/income/content/Material_payment',name:'素材付款',component:mode['Material_payment']},
+            {path:'/income/content/money_detail',name:'金额详情',component:mode['money_detail']},
+            {path:'/income/content/money_details_divide',name:'分成金额详情',component:mode['money_details_divide']},
+            {path:'/income/content/Divided_into_management',name:'分成管理',component:mode['Divided_into_management']},
+            {path:'/income/content/Divided_into_management_details',name:'分成详情',component:mode['Divided_into_management_details']},
+            {path:'/income/content/price',name:'价格管理',component:mode['price']},
+            {path:'/income/content/AmendantRecord',name:'修改记录',component:mode['AmendantRecord']},
+            {path:'/income/content/AmendantRecordDetails',name:'修改记录详情',component:mode['AmendantRecordDetails']},
+            {path:'/income/content/data_manage',name:'数据管理',component:mode['data_manage']},
+            {path:'/income/content/cz_record',name:'操作记录',component:mode['cz_record']},
 
 
 
@@ -806,7 +838,7 @@ let leftNav =
                     {title:'主题收款',url:'/income/content/payee'},
                     {title:'来电秀付款',url:'/income/content/call_show'},
                     {title:'其他付款',url:'/income/content/Other_payment'},
-                   
+                    {title:'素材付款',url:'/income/content/Material_payment'},                  
                 ]}
             ]
         },

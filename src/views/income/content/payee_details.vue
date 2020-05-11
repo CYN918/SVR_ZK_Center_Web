@@ -59,7 +59,7 @@
                                 width="150"
                                 >
                             <template slot-scope="props">
-                                <el-button type="text" >编辑</el-button>
+                                <el-button type="text" @click='BJ()'>编辑</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -77,6 +77,35 @@
                  </div>
            </div>
         </div>
+        <div class='bg' v-if="bj">
+                <div class='editors'>
+                    <div class='titName'>
+                        <span>编辑</span>
+                    </div>
+                    <div>
+                        <span class='tit_names'>结算周期</span>
+                        <span></span>
+                    </div>
+                    <div>
+                        <span class='tit_names'>渠道</span>
+                        <select name="" id="">
+                            <option value="">全部</option>
+                        </select>
+                    </div>
+                    <div>
+                        <span class='tit_names'>主题名称</span>
+                        <input type="text">
+                    </div>
+                     <div>
+                        <span class='tit_names'>收益金额</span>
+                        <input type="text">
+                    </div>
+                    <div class='btns'>
+                        <span class='qd'>确定</span>
+                        <span @click='heidBj()'>取消</span>
+                    </div>
+                </div>
+        </div>
  </div>
 </template>
 
@@ -87,7 +116,8 @@
         p:10,
         page:1,
         total:0,
-        tableData:[{tdate:2020-10}]   
+        tableData:[{tdate:2020-10}],
+        bj:false 
      }
    },
    methods:{
@@ -109,6 +139,12 @@
                     this.page = page;
                     
         },
+        heidBj(){
+            this.bj=false;
+        },
+        BJ(){
+            this.bj=true
+        }
    },
  }
 </script>
@@ -181,5 +217,61 @@
         display: inline-block;
         margin-right: 15px;
 
+    }
+    .bg{
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.3);
+        position: fixed;
+        z-index: 999;
+        bottom: 0;
+        right: 0;
+    }
+    .editors{
+        position: absolute;
+        width: 400px;
+        height: 350px;
+        transform: translate(-50%,-50%);
+        top:50%;
+        left:50%;
+        border-radius: 5px;
+        background: #fff;
+    }
+    .titName{
+        width: 100%;
+        height: 50px;
+        border-bottom: 1px solid #DDD;
+
+    }
+    .titName span{
+        display: inline-block;
+        font-size: 14px;
+        margin-left: 24px;
+        line-height: 50px;
+        font-weight: bold;
+    }
+    .tit_names{
+        display: inline-block;
+        width: 90px;
+        margin: 24px 15px 0 24px;
+    }
+    .btns{
+        margin: 24px 0 0 0;
+    }
+    .btns span{
+        display: inline-block;
+        width: 90px;
+        height: 36px;
+        border:1px solid #ddd;
+        text-align: center;
+        cursor: pointer;
+        line-height: 36px;
+        border-radius: 3px;
+        margin-left: 24px;
+    }
+    .qd{
+        background: #3377ff;
+        color:#fff;
+        border:0!important
     }
 </style>
