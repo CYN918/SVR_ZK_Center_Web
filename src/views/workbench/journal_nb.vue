@@ -273,7 +273,8 @@
                 <el-button @click="cancelTx">取消</el-button>
             </span>
         </el-dialog>
-        <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material"></ADDWL>
+        <ADDWL v-if="ADDwl && type=='meizu_first'" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :video="1"></ADDWL>
+        <ADDWL v-if="ADDwl && type!='meizu_first'" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material"></ADDWL>
         <loading v-if='load'></loading>
 </div>
 </template>
