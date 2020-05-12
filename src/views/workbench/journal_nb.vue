@@ -115,18 +115,18 @@
                                 label="配置状态"
                                 v-if="type == 'meizu_first'">
                                   <template slot-scope="scope">
-                                      <span v-if="tableData[scope.$index].status == 0" style="color:red;">待审核</span>
-                                      <span v-if="tableData[scope.$index].status == 1">审核通过</span>
-                                      <span v-if="tableData[scope.$index].status == 2">审核未通过</span>
+                                      <span v-if="tableData[scope.$index].status == 0">待确认</span>
+                                      <span v-if="tableData[scope.$index].status == 1">已确认</span>
+                                      <span v-if="tableData[scope.$index].status == 2" style="color:red;">已过期</span>
                                 </template>
                         </el-table-column>
                          <el-table-column
                                 label="审核状态"
                                 v-if="type == 'meizu_first'">
                                   <template slot-scope="scope">
-                                      <span v-if="tableData[scope.$index].audit_status == 0" style="color:red;">待审核</span>
+                                      <span v-if="tableData[scope.$index].audit_status == 0">待审核</span>
                                       <span v-if="tableData[scope.$index].audit_status == 1">审核通过</span>
-                                      <span v-if="tableData[scope.$index].audit_status == 2">审核未通过</span>
+                                      <span v-if="tableData[scope.$index].audit_status == 2" style="color:red;">审核未通过</span>
                                 </template>
                         </el-table-column>
                          <el-table-column

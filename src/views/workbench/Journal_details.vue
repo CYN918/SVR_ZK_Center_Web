@@ -17,8 +17,14 @@
             <div class='tits'>
                 <span>广告内容</span>
             </div>
-            <div class='details_left'>
-                <img :src="adver.pict_url" alt="" v-if="adver.pict_url"/>
+            <div class='details_left' v-if="adver.pict_url" >
+                <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
+                    <div slot="content">
+                        <img :src='adver.pict_url' style="max-width:261px;max-height: 464px" />
+
+                    </div>
+                    <img :src='adver.pict_url' style="cursor: pointer"  preview="0"/>                               
+                </el-tooltip>
             </div>
             <div class='details_right'>
                 <div>
@@ -44,7 +50,13 @@
                 <span>杂志锁屏</span>
             </div>
             <div class='details_left'>
-                <img :src="mfinal.prev_uri"  alt=""/>
+                <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
+                    <div slot="content">
+                        <img :src='mfinal.prev_uri' style="max-width:261px;max-height: 464px" />
+
+                    </div>
+                    <img :src='mfinal.prev_uri' style="cursor: pointer"  preview="0"/>                               
+                </el-tooltip>
             </div>
             <div class='details_right2'>
                <div>

@@ -33,7 +33,7 @@
                 <div class='btn_sx'>
                     <span class='cx' v-if='pl==false' @click='getData()'>查询</span>
                     <!-- <span class='cz' @click='plcz()' v-if='pl==false'>批量操作</span> -->
-                    <span class='dc' v-if='pl==false'>导出</span>
+                    <!-- <span class='dc' v-if='pl==false'>导出</span> -->
                     <span class='cz'  v-if='pl' @click='updateStatus("aa")'>批量操作</span>
                     <span class='dc' @click='Qxplcz()' v-if='pl'>取消</span>
                     <span class='dc' @click='Wx()' v-if='pl==false'>壁纸管理</span>
@@ -157,15 +157,16 @@
                 </div>
             </div>
         </div>
+        <loading v-if='load'></loading>
 </div>
 </template>
 
 <script>
-
+import loading from '../../components/loading'
 
 export default {
 
-components: {},
+components: {loading},
 data() {
 
 return {
@@ -185,6 +186,7 @@ return {
         index:'',
         advers:[],
         yy:"",
+        load:true
 };
 },
 
@@ -350,6 +352,7 @@ methods: {
                this.api.pushlib_adver_mfinal_list({params}).then((res)=>{
                    this.tableData=res.data;
                    this.total=res.total;
+                   this.load = false;
                 //    this.$previewRefresh()
                })
            },
