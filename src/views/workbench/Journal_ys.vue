@@ -36,7 +36,7 @@
                     <span class='dc' v-if='pl==false'>导出</span>
                     <span class='cz'  v-if='pl' @click='updateStatus("aa")'>批量操作</span>
                     <span class='dc' @click='Qxplcz()' v-if='pl'>取消</span>
-                    <span class='dc' @click='Wx()' v-if='pl==false'>壁纸管理</span>
+                    <!-- <span class='dc' @click='Wx()' v-if='pl==false'>壁纸管理</span> -->
                 </div>
                
         </div>

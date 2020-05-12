@@ -120,7 +120,13 @@
                     <span class="derivation">本地</span>
                 </div>
                 <div class="imgID" v-for="item in tableData.previews" v-if="tableData.previews!=[]">
-                    <img :src="item">
+                    <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
+                        <div slot="content">
+                            <img :src='item' style="max-width:261px;max-height: 464px"  />
+
+                        </div>
+                        <img :src='item' style="cursor: pointer"  preview="0" />                               
+                    </el-tooltip>
                 </div>
                 <div style="width: 100%;text-align: center" v-if="(tableData.previews)==[]">
                     <img src="../../../public/img/null.png" style="width:48px;margin-top: 150px">
@@ -787,4 +793,13 @@
         color:rgba(255,255,255,1);
         margin-right: 8px;
     }
+    .maskimg{
+		position: fixed;
+		top:0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0,0,0,0.5);
+		z-index: 2005;
+	}
 </style>
