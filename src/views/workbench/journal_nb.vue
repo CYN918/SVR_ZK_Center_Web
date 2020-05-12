@@ -2,10 +2,10 @@
 <template>
 <div class="template">
        <div class="top_name">
-                <span class="top_txt" @click='fh()' v-if="this.$route.query.type == 1">杂志锁屏推送审核管理  /  上线内容管理</span><div v-if="this.$route.query.type == 1" style="width:0;height:0;"><br/></div>
-                <span class="top_txts" style="width: 113px;display: inline-block;" v-if="this.$route.query.type == 1">上线内容管理</span>
-                <span class="top_txt" @click='fh()' v-if="this.$route.query.type == 2">杂志锁屏推送审核管理  /  壁纸管理</span><div v-if="this.$route.query.type == 2" style="width:0;height:0;"><br/></div>
-                <span class="top_txts" style="width: 113px;display: inline-block;" v-if="this.$route.query.type == 2">壁纸管理</span>
+                <span class="top_txt" @click='fh()' v-if="type == 'meizu_first'">杂志锁屏推送审核管理  /  壁纸管理</span><div v-if="type == 'meizu_first'" style="width:0;height:0;"><br/></div>
+                <span class="top_txts" style="width: 113px;display: inline-block;" v-if="type == 'meizu_first'">壁纸管理</span>
+                <span class="top_txt" @click='fh()' v-if="type != 'meizu_first'">杂志锁屏推送审核管理  /  上线内容管理</span><div v-if="type != 'meizu_first'" style="width:0;height:0;"><br/></div>
+                <span class="top_txts" style="width: 113px;display: inline-block;" v-if="type != 'meizu_first'">上线内容管理</span>
                
                
                 <!-- <span class='qdName'>渠道</span>
@@ -68,6 +68,7 @@
                         <el-table-column
                                 label="文字链标题"
                                 :show-overflow-tooltip="true"
+                                v-if="type != 'meizu_first'"
                                 >
                                 <template slot-scope="scope">
                                     <span v-if="tableData[scope.$index].title!=''">{{tableData[scope.$index].title}}</span>
@@ -77,6 +78,7 @@
                         <el-table-column
                                 label="文字链内容"
                                 :show-overflow-tooltip="true"
+                                v-if="type != 'meizu_first'"
                                 >
                                 <template slot-scope="scope">
                                     <span v-if="tableData[scope.$index].content!=''">{{tableData[scope.$index].content}}</span>
@@ -85,6 +87,7 @@
                         </el-table-column>
                         <el-table-column
                                 label="文字链标识"
+                                v-if="type != 'meizu_first'"
                                 >
                                 <template slot-scope="scope">
                                     <span v-if="tableData[scope.$index].click_action!=''">{{tableData[scope.$index].click_action}}</span>
@@ -93,17 +96,27 @@
                         </el-table-column>
                         <el-table-column
                                 label="落地页"
+                                v-if="type != 'meizu_first'"
                                 >
                                  <template slot-scope="scope">
                                     <a :href="tableData[scope.$index].url" target="_blank" style="text-decoration: none;color: #66b1ff" v-if="tableData[scope.$index].url!=''">点击查看</a>
                                     <a  v-if="tableData[scope.$index].url==''">-</a>
                                 </template>
                         </el-table-column>
-                         <el-table-column
+                        <el-table-column
                                 label="状态">
                                   <template slot-scope="scope">
                                       <span v-if="tableData[scope.$index].status_name == '信息缺失'" style="color:red;">{{tableData[scope.$index].status_name}}</span>
                                       <span v-else>{{tableData[scope.$index].status_name}}</span>
+                                </template>
+                        </el-table-column>
+                         <el-table-column
+                                label="审核状态"
+                                v-if="type == 'meizu_first'">
+                                  <template slot-scope="scope">
+                                      <span v-if="tableData[scope.$index].audit_status == 0" style="color:red;">待审核</span>
+                                      <span v-if="tableData[scope.$index].audit_status == 1">审核通过</span>
+                                      <span v-if="tableData[scope.$index].audit_status == 2">审核未通过</span>
                                 </template>
                         </el-table-column>
                          <el-table-column
@@ -125,7 +138,7 @@
                             <template slot-scope="scope">
                                  <!-- <el-button  type="text" size="small" v-if='tableData[scope.$index].status=="0"' @click='updateStatus(index)'>审核</el-button> -->
                                  <!-- <el-button v-if='tableData[scope.$index].status!="0"' type="text" size="small">修改结果</el-button> -->
-                                <el-button  type="text" size="small" @click="details(scope.row)">管理文字链</el-button>
+                                <el-button v-if="type != 'meizu_first'"  type="text" size="small" @click="details(scope.row)">管理文字链</el-button>
                                 <el-button  type="text" size="small" @click="deleteRow(scope.$index, scope.row)">移除</el-button>
                             </template>
                         </el-table-column>
@@ -266,6 +279,7 @@ return {
        qdLists:[], 
        plid:this.$route.query.plid,
        channel:this.$route.query.channel,
+       type:this.$route.query.type,
        material:3,
        date:(new Date()).toLocaleDateString().split('/').join('-'),
        status:'',
@@ -315,6 +329,9 @@ methods: {
         let formData =new FormData;
         formData.append('plid',this.plid);
         formData.append('tdate',this.date);
+        if(this.type == 'meizu_first'){
+            formData.append('type','meizu_first');
+        }
         this.api.pushlib_textlink_audit(formData).then((res)=>{
             this.confirmVisible = false;
             this.getData()
@@ -343,10 +360,15 @@ methods: {
         formData.append('plid',this.rouelForm.plid);
         formData.append('tdate',this.date);
         formData.append('mfid',this.rouelForm.mfid);
-        formData.append('title',this.rouelForm.title);
-        formData.append('content',this.rouelForm.content);
-        formData.append('url',this.rouelForm.url);
         formData.append('weight',this.theWeight);
+        if(this.type == 'meizu_first'){
+            formData.append('type','meizu_first');
+        }
+        if(this.type != 'meizu_first'){
+            formData.append('title',this.rouelForm.title);
+            formData.append('content',this.rouelForm.content);
+            formData.append('url',this.rouelForm.url);
+        }
         this.api.pushlib_textlink_edit_weight(formData).then((res)=>{
             document.getElementById('isShow'+index).style.display = 'block';
             document.getElementById('pro'+index).style.display = 'none';
@@ -364,6 +386,9 @@ methods: {
         formData.append('plid',this.$route.query.plid);
         formData.append('tdate',date);
         formData.append('bind_mfid',JSON.stringify(id));
+        if(this.type == 'meizu_first'){
+            formData.append('type','meizu_first');
+        }
         this.api.pushlib_textlink_add(formData).then((res)=>{
             this.heidWL();
             this.getData()
@@ -478,6 +503,9 @@ methods: {
                      array.tdate=this.date;
                    this.textlink.push(array); 
                    formData.append('textlink',JSON.stringify(this.textlink))
+                   if(this.type == 'meizu_first'){
+                        formData.append('type','meizu_first');
+                    }
                     this.api.pushlib_textlink_del(formData).then((res)=>{
                         this.dialogVisible = false;
                         this.getData();

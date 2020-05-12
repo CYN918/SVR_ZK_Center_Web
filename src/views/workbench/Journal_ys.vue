@@ -185,7 +185,6 @@ return {
         index:'',
         advers:[],
         yy:"",
-        wallpaper:2,
 };
 },
 
@@ -196,7 +195,7 @@ methods: {
             query:{
                 channel:this.$route.query.channel,
                 plid:this.$route.query.plid,
-                type:this.wallpaper,
+                type:'meizu_first',
             },
         })
 

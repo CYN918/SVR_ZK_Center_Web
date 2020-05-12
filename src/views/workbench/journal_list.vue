@@ -246,7 +246,6 @@ methods: {
                     query:{
                         channel:this.tableData[index].channel.channel,
                         plid:row.plid,
-                        type:1,
                     },
                 })
              }
