@@ -2,11 +2,11 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-            <span class="log_url" @click="fh()"> 主题素材&nbsp;/</span>
-            <span class="new_url">主题素材详情&nbsp;</span>
+            <span class="log_url" @click="fh()"> {{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='th_icon'?'图标主题素材':this.type=='th_second_page'?'二级页主题素材':'宣传图'}}&nbsp;/</span>
+            <span class="new_url">{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='th_icon'?'图标主题素材':this.type=='th_second_page'?'二级页主题素材':'宣传图'}}详情&nbsp;</span>
         </div>
             <div class="name">
-                <span>主题素材名称:</span>
+                <span>{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='th_icon'?'图标主题素材':this.type=='th_second_page'?'二级页主题素材':'宣传图'}}名称:</span>
                 <span>{{tableData.name}}</span>
                 <div>
                     <span @click="bj()">编辑</span>

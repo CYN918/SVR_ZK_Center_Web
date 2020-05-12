@@ -1769,6 +1769,7 @@ export default {
 	settle_data_project_contracts:{
 		url:'settle/data/project/contracts',method:"get"
 	},
+
 	//项目收益报告
 	settle_data_settle_summary:{
 		url:"settle/data/settle/summary",method:"get"
@@ -1776,5 +1777,18 @@ export default {
 	//更新广告图
 	tools_pushlib_adver_url_edit:{
 		url:'/tools/pushlib/adver/url/edit',method:'post'
-	}
+	},
+
+	//狮圈提现记录
+	record_apply_demand:{
+		url:"record/apply/demand",method:"get"
+	},
+	//狮圈提现申请详情
+	record_apply_details:{
+		url:"record/apply/details",method:"get"
+	},
+	//狮圈设计师提现申请详情
+	record_apply_designer_details:{
+		url:"record/apply/designer/details",method:'get'
+	},
 }
