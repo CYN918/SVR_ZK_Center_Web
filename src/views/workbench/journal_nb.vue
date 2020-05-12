@@ -2,7 +2,7 @@
 <template>
 <div class="template">
        <div class="top_name">
-                <span class="top_txt" @click='fh()' v-if="type == 'meizu_first'">杂志锁屏推送审核管理  /  壁纸管理</span><div v-if="type == 'meizu_first'" style="width:0;height:0;"><br/></div>
+                <span class="top_txt" @click='fh()' v-if="type == 'meizu_first'">杂志锁屏推送  /  推送审核内容管理  /  壁纸管理</span><div v-if="type == 'meizu_first'" style="width:0;height:0;"><br/></div>
                 <span class="top_txts" style="width: 113px;display: inline-block;" v-if="type == 'meizu_first'">壁纸管理</span>
                 <span class="top_txt" @click='fh()' v-if="type != 'meizu_first'">杂志锁屏推送审核管理  /  上线内容管理</span><div v-if="type != 'meizu_first'" style="width:0;height:0;"><br/></div>
                 <span class="top_txts" style="width: 113px;display: inline-block;" v-if="type != 'meizu_first'">上线内容管理</span>
@@ -104,10 +104,20 @@
                                 </template>
                         </el-table-column>
                         <el-table-column
-                                label="状态">
+                                label="状态"
+                                v-if="type != 'meizu_first'">
                                   <template slot-scope="scope">
                                       <span v-if="tableData[scope.$index].status_name == '信息缺失'" style="color:red;">{{tableData[scope.$index].status_name}}</span>
                                       <span v-else>{{tableData[scope.$index].status_name}}</span>
+                                </template>
+                        </el-table-column>
+                        <el-table-column
+                                label="配置状态"
+                                v-if="type == 'meizu_first'">
+                                  <template slot-scope="scope">
+                                      <span v-if="tableData[scope.$index].status == 0" style="color:red;">待审核</span>
+                                      <span v-if="tableData[scope.$index].status == 1">审核通过</span>
+                                      <span v-if="tableData[scope.$index].status == 2">审核未通过</span>
                                 </template>
                         </el-table-column>
                          <el-table-column
@@ -264,15 +274,16 @@
             </span>
         </el-dialog>
         <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material"></ADDWL>
+        <loading v-if='load'></loading>
 </div>
 </template>
 
 <script>
-
+import loading from '../../components/loading'
 import ADDWL from './Jounrnal_select'
 export default {
 
-components: {ADDWL},
+components: {ADDWL,loading},
 data() {
 
 return {
@@ -313,6 +324,7 @@ return {
         pkgname:'',
         deeplink:'',
         download_url:'',
+        load:true
 };
 },
 
@@ -633,6 +645,7 @@ methods: {
                this.api.pushlib_textlink_search({params}).then((res)=>{
                    this.tableData=res.data;
                    this.total=res.total;
+                   this.load = false;
                 //    this.$previewRefresh()
                })
            },
