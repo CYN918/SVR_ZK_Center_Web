@@ -40,6 +40,7 @@
                     >
                         <template slot-scope="scope">
                             <el-button  type="text"  @click="getShow(scope.$index)"  size="small">编辑</el-button>
+                            <el-button  type="text"  @click.native.prevent="deleteRow(scope.$index, list)"  size="small">删除</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -114,6 +115,9 @@
         },
         mounted(){this.getData()},
         methods:{
+            deleteRow(index, rows) {
+                rows.splice(index, 1);
+            },
             getRowClass({row, column, rowIndex}) {
                 if (rowIndex === 0) {
                     return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;padding:20px 0px 20px 14px'

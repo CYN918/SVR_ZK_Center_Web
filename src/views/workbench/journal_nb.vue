@@ -2,8 +2,10 @@
 <template>
 <div class="template">
        <div class="top_name">
-                <span class="top_txt" @click='fh()'>杂志锁屏推送审核管理  /  上线内容管理</span><br/>
-                <span class="top_txts" style="width: 113px;display: inline-block;">上线内容管理</span>
+                <span class="top_txt" @click='fh()' v-if="this.$route.query.type == 1">杂志锁屏推送审核管理  /  上线内容管理</span><div v-if="this.$route.query.type == 1" style="width:0;height:0;"><br/></div>
+                <span class="top_txts" style="width: 113px;display: inline-block;" v-if="this.$route.query.type == 1">上线内容管理</span>
+                <span class="top_txt" @click='fh()' v-if="this.$route.query.type == 2">杂志锁屏推送审核管理  /  壁纸管理</span><div v-if="this.$route.query.type == 2" style="width:0;height:0;"><br/></div>
+                <span class="top_txts" style="width: 113px;display: inline-block;" v-if="this.$route.query.type == 2">壁纸管理</span>
                
                
                 <!-- <span class='qdName'>渠道</span>
@@ -598,6 +600,7 @@ methods: {
                    page:this.page,
                    tdate:this.date,
                    plid:this.plid,
+                   type:this.$route.query.type,
                 }
                this.api.pushlib_textlink_search({params}).then((res)=>{
                    this.tableData=res.data;

@@ -246,6 +246,7 @@ methods: {
                     query:{
                         channel:this.tableData[index].channel.channel,
                         plid:row.plid,
+                        type:1,
                     },
                 })
              }
@@ -253,7 +254,8 @@ methods: {
                 this.$router.push({
                     path:"./Jounrnal_ys",
                     query:{
-                        channel:this.tableData[index].channel.channel
+                        channel:this.tableData[index].channel.channel,
+                        plid:row.plid,
                     },
                 })
              }
