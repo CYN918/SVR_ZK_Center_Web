@@ -218,6 +218,7 @@ methods: {
                         }  
                         
                         formData.append('advers',JSON.stringify(this.advers))
+                        console.log(this.checkList.join(',') + this.yy)
                         this.api.pushlib_adver_mfinal_audit(formData).then((res)=>{
                             if(res!=false){
                                 this.qx(); 
