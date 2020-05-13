@@ -1,14 +1,14 @@
 <template>
-    <div>
+   <div>
         <div class="top_name">
             <div class="title_left">
-                <span>{{this.type==1?'主题收款':'来电秀收款'}}</span>
+                <span>设计师线下结算</span>
             </div>
         </div>
-         <div class='content'>
+        <div class='content'>
             <div>
                  <div class='times'>
-                   <el-date-picker
+                    <el-date-picker
                         v-model="tdate"
                         type="month"
                         format="yyyy-MM"
@@ -17,9 +17,8 @@
                     </el-date-picker>
                 </div>
                 <div class="btn_right">
-                    <span class='cx' @click='getData()'>查询</span>
-                    <span @click='cz()'>重置</span>
-                    <span @click='jump()'>数据导入</span>
+                    <span @click='add()'>新建</span>
+                    <span @click='jump()'>操作记录</span>
                 </div>      
             </div>
            <div>
@@ -35,14 +34,24 @@
                                >
                         </el-table-column>
                         <el-table-column
-                                label="收益金额" prop="total_income"
+                                label="结算金额" prop="total_amount"
                                 >
                         </el-table-column>
-                        <el-table-column label="操作"
-                            width="120"
-                        >
-                            <template slot-scope="props">
-                                <el-button type="text" @click='xq(tableData[props.$index].tdate)'>查看详情</el-button>
+                        <el-table-column
+                                label="备注" prop="remark"
+                                >
+                        </el-table-column>
+                        <el-table-column
+                                label="更新时间" prop="updated_at"
+                                >
+                        </el-table-column>
+                         <el-table-column
+                                label="操作人员" prop="updated"
+                                >
+                        </el-table-column>
+                        <el-table-column label="操作" width="150">
+                            <template slot-scope="props" >
+                                <el-button type="text" @click='xq(tableData[props.$index])'>查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -59,78 +68,76 @@
                     </el-pagination>
                  </div>
            </div>
-        </div>  
-    </div>
+        </div>
+   </div>
 </template>
 
 <script>
- export default {
-     props:['type'],
-   data () {
-     return {
-         tdate:"",
-         p:10,
-         page:1,
-         total:0,
-         tableData:[{tdate:2020-10}]
-
-     }
-   },
-   mounted(){
-       this.getData()
-   },
-   methods:{
-        getRowClass({row, column, rowIndex}) {
+export default {
+    props:['type'],
+            data(){
+                return{
+                    tdate:'',
+                    p:10,
+                    page:1,
+                    total:0,
+                    tableData:[{time:2020}]
+                }
+            },
+            mounted(){
+               this.getData()
+            },
+            methods:{
+                add(){
+                    this.$router.push({
+                        path:"./Designer_ADD"
+                    })
+                },
+                getRowClass({row, column, rowIndex}) {
                     if (rowIndex === 0) {
                         return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;padding:20px 0px 20px 14px'
                     } else {
                         return ''
                     }
-        },
-        cell({row, column, rowIndex, columnIndex}){
+                },
+                cell({row, column, rowIndex, columnIndex}){
                     return 'padding:15px 14px;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
-        },
-        handleSizeChange(p) { // 每页条数切换
-                this.p = p;
-                this.getData()   
-        },
-        handleCurrentChange(page) {//页码切换
-                this.page = page;
-                this.getData()    
-        },
-        getData(){
-            let params={type:this.type,tdate:this.tdate,p:this.p,page:this.page}
-            this.api.ds_receive_income_summary({params}).then((res)=>{
-                this.total=res.total;
-                this.tableData=res.data
-            })
-        },
-        cz(){
-            this.tdate=''
-        },
-        xq(tdate){
-            this.$router.push({
-                path:"./payee_details",
-                query:{
-                    type:this.type,
-                    tdate:tdate
                 },
-            })
-        },
-        jump(){
-            this.$router.push({
-                path:"./import_data",
-                query:{
-                    type:this.type
+                handleSizeChange(p) { // 每页条数切换
+                    this.p = p;
+                    this.getData()
                 },
-            })
-        },
-   },
- }
+                handleCurrentChange(page) {//页码切换
+                    this.page = page;
+                    this.getData()
+                },
+                jump(){
+                    this.$router.push({
+                        path:"./Designer_record"
+                    })
+                },
+               
+                xq(data){
+                   this.$router.push({
+                       path:"./look_details",
+                       query:{
+                           data:data
+                       }
+                   })
+                },
+                getData(){
+                    let params={tdate:this.tdate,p:this.p,page:this.page}
+                    this.api.ds_offline_settlement_record_list({params}).then((res)=>{
+                        this.total=res.total;
+                        this.tableData=res.data;
+                    })
+                },
+            },
+}
 </script>
 
 <style scoped>
-    .top_name{
+      .top_name{
         height:90px!important;
         background:rgba(255,255,255,1);
     } 
@@ -142,15 +149,12 @@
         color:rgba(50,50,50,1);
         margin-left: 24px;
         text-align: right;
-        margin-top:30px;
-       
-        
+        margin-top:30px
     }
-    
-     .content{
-        margin-top: 180px;
+    .content{
+        margin-top: 173px;
     }  
-     .times{
+    .times{
         display: inline-block;
         margin: 24px;
     }
@@ -179,4 +183,5 @@
         border:0!important;
         background: #3377ff!important;
     }
+   
 </style>

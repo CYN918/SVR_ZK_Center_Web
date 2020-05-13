@@ -10,24 +10,16 @@
          <div class='content'>
             <div>
                 <span class='fc_statuc' style="margin:24px 16px 24px 24px " >渠道</span>
-                <!-- <el-autocomplete
-                v-if='id==""'
-                    class="inline-input"
-                    v-model="state1"
-                    :fetch-suggestions="querySearch"
-                    placeholder="请输入内容"
-                    @select="handleSelect"
-                    >
-                </el-autocomplete> -->
-                <select>
-                    <option value="">全部</option>
+                 <select v-model='channel'>
+                        <option value="">全部</option>
+                        <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
                 </select>
-                <span class='fc_statuc' style="margin:24px 16px 24px 24px ">主题名称</span>
-                <input type="text" >
-                 <span class='fc_statuc' style="margin:24px 16px 24px 24px ">来点秀名称</span>
-                <input type="text" >
+                <span class='fc_statuc' style="margin:24px 16px 24px 24px " v-if="this.$route.query.type==1">主题名称</span>
+                <input type="text" v-model="thene_name"  v-if="this.$route.query.type==1">
+                 <span class='fc_statuc' style="margin:24px 16px 24px 24px "  v-if="this.$route.query.type==2">来点秀名称</span>
+                <input type="text" v-model="call_show_name"  v-if="this.$route.query.type==2">
                 <div class="btn_right">
-                    <span class='cx' @click='getDataList()'>查询</span>
+                    <span class='cx' @click='getData()'>查询</span>
                     <span @click='cz()'>重置</span>
                 </div>      
             </div>
@@ -41,17 +33,24 @@
                             fixed
                             style="width: 100%;color:#000">
                          <el-table-column
-                                label="渠道" prop="project_id"
+                                label="渠道" prop="channel"
                                 :show-overflow-tooltip="true"
                                >
                         </el-table-column>    
                         <el-table-column
-                                label="主题名称" prop="open_id"
+                                 v-if="this.$route.query.type==1"
+                                label="主题名称" prop="theme_name"
+                                :show-overflow-tooltip="true"
+                               >
+                        </el-table-column>
+                         <el-table-column
+                                 v-if="this.$route.query.type==2"
+                                label="来电秀名称" prop="call_show_name"
                                 :show-overflow-tooltip="true"
                                >
                         </el-table-column>
                         <el-table-column
-                                label="收益金额" prop="buyout_income"
+                                label="收益金额" prop="income"
                                 >
                         </el-table-column>
                         <el-table-column 
@@ -59,7 +58,7 @@
                                 width="150"
                                 >
                             <template slot-scope="props">
-                                <el-button type="text" @click='BJ()'>编辑</el-button>
+                                <el-button type="text" @click='BJ(tableData[props.$index])'>编辑</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -84,24 +83,29 @@
                     </div>
                     <div>
                         <span class='tit_names'>结算周期</span>
-                        <span></span>
+                        <span>{{this.time}}</span>
                     </div>
                     <div>
                         <span class='tit_names'>渠道</span>
-                        <select name="" id="">
-                            <option value="">全部</option>
+                        <select v-model='channel_name' disabled>
+                                <option value="">全部</option>
+                                <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
                         </select>
                     </div>
-                    <div>
+                    <div v-if="this.$route.query.type==1">
                         <span class='tit_names'>主题名称</span>
-                        <input type="text">
+                        <input type="text" disabled v-model='theme_name_change'>
+                    </div>
+                     <div v-if="this.$route.query.type==2">
+                        <span class='tit_names'>来电秀名称</span>
+                        <input type="text" disabled v-model='theme_name_change'>
                     </div>
                      <div>
                         <span class='tit_names'>收益金额</span>
-                        <input type="text">
+                        <input type="number" v-model="cash">
                     </div>
                     <div class='btns'>
-                        <span class='qd'>确定</span>
+                        <span class='qd' @click='edit()'>确定</span>
                         <span @click='heidBj()'>取消</span>
                     </div>
                 </div>
@@ -117,8 +121,20 @@
         page:1,
         total:0,
         tableData:[{tdate:2020-10}],
-        bj:false 
+        bj:false,
+        channels:[],
+        channel:"",
+        thene_name:"",
+        call_show_name:"",
+        time:"",
+        channel_name:"",
+        theme_name_change:'',
+        cash:'',
+        id:""
      }
+   },
+   mounted(){
+       this.getData()
    },
    methods:{
         getRowClass({row, column, rowIndex}) {
@@ -133,18 +149,67 @@
         },
         handleSizeChange(p) { // 每页条数切换
                     this.p = p;
-                   
+                    this.getData()
         },
         handleCurrentChange(page) {//页码切换
                     this.page = page;
-                    
+                    this.getData()
+        },
+        fh(index){
+            this.$router.go(index)
+        },
+        cz(){
+            this
+        },
+         qd(){
+            this.api.themes_config_channel().then((res)=>{
+                    this.channels=res;
+            })
         },
         heidBj(){
             this.bj=false;
         },
-        BJ(){
+        BJ(data){
             this.bj=true
-        }
+            this.time=data.tdate
+            this.channel_name=data.channel
+            
+            if(this.$route.query.type==1){
+                this.theme_name_change=data.theme_name
+            }else{
+                this.theme_name_change=data.call_show_name
+            }
+            this.cash=data.income
+            this.id=data.id
+        },
+        getData(){
+            let params={tdate:this.$route.query.tdate,type:this.$route.query.type,p:this.p,page:this.page}
+            this.api.ds_receive_income_period({params}).then((res)=>{
+                this.total=res.total;
+                this.tableData=res.data;
+                this.qd()
+            })
+        },
+        edit(){
+            if(!this.cash){
+                this.$message.error('收益金额不能为空');
+                return
+            }
+            if(this.cash<0){
+                this.$message.error('收益金额不能小于零');
+                return
+            }
+            let formData=new FormData;
+            formData.append('type',this.$route.query.type);
+            formData.append('id',this.id);
+            formData.append('income',this.cash)
+            this.api.ds_receive_income_edit(formData).then((res)=>{
+                if(res!=false){
+                    this.heidBj();
+                    this.getData()
+                }
+            })
+        },
    },
  }
 </script>

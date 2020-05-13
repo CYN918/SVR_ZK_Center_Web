@@ -1769,4 +1769,34 @@ export default {
 	settle_data_project_contracts:{
 		url:'settle/data/project/contracts',method:"get"
 	},
+	//获取收益数据总览
+	ds_receive_income_summary:{
+		url:"ds/receive/income/summary",method:'get'
+	},
+	//编辑收益数据
+	ds_receive_income_edit:{
+		url:"ds/receive/income/edit",method:"post",isType:{suktip:1}
+	},
+	//编辑导入数据
+	sharing_data_import_edit:{
+		url:"sharing/data/import/edit",method:"post",isType:{suktip:1}
+	},
+	//获取数据详情
+	ds_receive_income_detail:{
+		url:'ds/receive/income/detail',method:'get'
+	},
+	//周期收益
+	ds_receive_income_period:{
+		url:'ds/receive/income/period',method:'get'
+	},
+	//设计师汇款记录
+	ds_offline_settlement_record_list:{
+		url:"ds/offline_settlement/record/list",method:'get'
+	},
+	//新建汇款记录
+	ds_offline_settlement_record_add:{
+		url:'ds/offline_settlement/record/add',method:"post",isType:{suktip:1}
+	},
+
+	
 }

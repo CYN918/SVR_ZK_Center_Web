@@ -241,6 +241,18 @@ import data_manage from './views/income/content/data_manage'
 mode['data_manage']=data_manage
 import cz_record from './views/income/content/cz_record'
 mode['cz_record']=cz_record
+import Designer_settlement from './views/income/content/Designer_settlement'
+mode['Designer_settlement']=Designer_settlement
+import Designer_ADD from './views/income/content/Designer_ADD'
+mode['Designer_ADD']=Designer_ADD
+import Designer_record from './views/income/content/Designer_record'
+mode['Designer_record']=Designer_record
+import look_details from './views/income/content/look_details'
+mode['look_details']=look_details
+import theme_payee from './views/income/content/theme_payee'
+mode['theme_payee']=theme_payee
+import callShow_payee from './views/income/content/callShow_payee'
+mode['callShow_payee']=callShow_payee
 
 
 //工作台
@@ -658,6 +670,13 @@ let nb = [
             {path:'/income/content/AmendantRecordDetails',name:'修改记录详情',component:mode['AmendantRecordDetails']},
             {path:'/income/content/data_manage',name:'数据管理',component:mode['data_manage']},
             {path:'/income/content/cz_record',name:'操作记录',component:mode['cz_record']},
+            {path:'/income/content/Designer_settlement',name:'设计师结算',component:mode['Designer_settlement']},
+            {path:'/income/content/Designer_ADD',name:'设计师结算',component:mode['Designer_ADD']},
+            {path:'/income/content/Designer_record',name:'操作记录',component:mode['Designer_record']},
+            {path:'/income/content/look_details',name:'查看详情',component:mode['look_details']},
+            {path:'/income/content/theme_payee',name:'主题收款',component:mode['theme_payee']},
+            {path:'/income/content/callShow_payee',name:'来电秀收款',component:mode['callShow_payee']},
+
 
 
 
@@ -835,10 +854,12 @@ let leftNav =
                 {title:"内容业务",url:"3-2",list:[
                     {title:'预付金管理',url:'/income/content/Advance_management'},
                     {title:'主题付款',url:'/income/content/theme_fk'},
-                    {title:'主题收款',url:'/income/content/payee'},
+                    {title:'主题收款',url:'/income/content/theme_payee'},
+                    {title:'来电秀收款',url:'/income/content/callShow_payee'},
                     {title:'来电秀付款',url:'/income/content/call_show'},
                     {title:'其他付款',url:'/income/content/Other_payment'},
-                    {title:'素材付款',url:'/income/content/Material_payment'},                  
+                    {title:'素材付款',url:'/income/content/Material_payment'},
+                    {title:'设计师结算',url:'/income/content/Designer_settlement'},                 
                 ]}
             ]
         },
