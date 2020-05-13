@@ -108,7 +108,7 @@
                                 
                         >
                             <template slot-scope="scope">
-                                 <el-button  type="text" size="small" v-if='tableData[scope.$index].adver_status=="0"' @click='updateStatus(index,scope.row)'>审核</el-button>
+                                 <el-button  type="text" size="small" v-if='tableData[scope.$index].adver_status=="0" && pl == false' @click='updateStatus(index,scope.row)'>审核</el-button>
                                  <!-- <el-button v-if='tableData[scope.$index].status!="0"' type="text" size="small">修改结果</el-button> -->
                                 <el-button  type="text" size="small" @click="details(scope.$index)">查看详情</el-button>
                             </template>
@@ -178,7 +178,7 @@ return {
         p:10,
         total:0,
         tc:false,
-        status2:"",
+        status2:1,
         checkList:[],
         pl:false,
         value:[],
@@ -312,7 +312,7 @@ methods: {
                     })
     },
     checkboxT(row, rowIndex){
-        if(row.status!=0){
+        if(row.adver_status!=0){
           return false;//禁用
         }else{
           return true;//不禁用
