@@ -270,10 +270,16 @@ methods: {
         formData.append('plid',this.$route.query.plid);
         formData.append('tags_id',this.$route.query.tags_id);
         formData.append('wpid',this.list.mfinal.wpid);
-        formData.append('ad_url',this.attach.url);
+        if(this.attach.url == undefined){
+            this.$message.error('请上传广告图!');
+            return false
+        }else{
+            formData.append('ad_url',this.attach.url);
+        }
         this.api.tools_pushlib_adver_url_edit(formData).then((res)=>{
             this.getDetail();
             this.dialogVisible = false;
+            this.attach = {};
         })
         
     },

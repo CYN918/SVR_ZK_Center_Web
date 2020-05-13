@@ -10,8 +10,8 @@
                 <textarea placeholder="请输入作废原因" v-model="note" maxlength="20" v-if="list.length==0"></textarea>
                 <div class="box" v-if="list.length!=0">
                     <ul>
-                        <li><label>处理人</label><div></div></li>
-                        <li><label>处理时间</label><div></div></li>
+                        <li><label>处理人</label><div>{{creator}}</div></li>
+                        <li><label>处理时间</label><div>{{updated_at}}</div></li>
                         <li>
                             <label>作废原因</label>
                             
@@ -42,6 +42,8 @@
         data(){
             return{
                 note:'',
+                creator:'',
+                updated_at:'',
                 list:[],
             }
         },
@@ -73,6 +75,8 @@
                     console.log(this.list)
                     if(res.length!=0){
                         this.note=res[0].note;
+                        this.creator = res[0].creator;
+                        this.updated_at = res[0].updated_at;
                     }
                     
                 })
