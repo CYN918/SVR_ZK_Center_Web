@@ -413,6 +413,7 @@
                 this.fc=true;
             },
             getCK(id,type,scope,processor){
+                console.log(id,type,scope,processor)
                     if(scope==1){
                         this.skID=id;
                         this.skType=type;
