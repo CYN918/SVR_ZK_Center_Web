@@ -140,7 +140,7 @@
                             <el-checkbox label="物料和落地页不匹配" class='aaa'></el-checkbox>
                             <el-checkbox label="物料内容差"  class='aaa'></el-checkbox>
                             <el-checkbox label="屏蔽竞品"  class='aaa'></el-checkbox>
-                            <el-checkbox label="物料与杂志锁屏不匹配"  class='aaa bb'>
+                            <el-checkbox label=""  class='aaa bb'>
                                 <template>
                                     <span style="margin-right:10px">其他</span>
                                     <textarea placeholder="最多20字" maxlength="20" v-model="yy"></textarea>
@@ -214,7 +214,7 @@ methods: {
                         if(!this.yy){
                           formData.append('note',this.checkList.join(',')); 
                         }else{
-                            formData.append('note',this.checkList.join(',') + ',' + this.yy);
+                            formData.append('note',this.checkList.join(',') + this.yy);
                         }  
                         
                         formData.append('advers',JSON.stringify(this.advers))
