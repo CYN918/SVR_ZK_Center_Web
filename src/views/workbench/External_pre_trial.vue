@@ -364,7 +364,7 @@ methods: {
            }, 
             qx(){
                this.tc=false;
-               this.status2='';
+            //    this.status2='';
                this.checkList=[];
                this.yy=''
            }, 
