@@ -2,7 +2,11 @@
 <template>
 <div class="template">
        <div class="top_name">
-                <span class="top_txt" @click='fh()' v-if="type == 'meizu_first'">杂志锁屏推送  /  推送审核内容管理  /  壁纸管理</span><div v-if="type == 'meizu_first'" style="width:0;height:0;"><br/></div>
+           <div class="tit_top_url" v-if="type == 'meizu_first'">
+                <span class="log_url" @click="fhs">杂志锁屏推送 &nbsp;/&nbsp;</span>
+                <span class="log_url" @click="fh">推送审核内容管理 &nbsp;/&nbsp;</span>
+                <span class="log_url">壁纸管理</span>
+           </div>
                 <span class="top_txts" style="width: 113px;display: inline-block;" v-if="type == 'meizu_first'">壁纸管理</span>
                 <span class="top_txt" @click='fh()' v-if="type != 'meizu_first'">杂志锁屏推送审核管理  /  上线内容管理</span><div v-if="type != 'meizu_first'" style="width:0;height:0;"><br/></div>
                 <span class="top_txts" style="width: 113px;display: inline-block;" v-if="type != 'meizu_first'">上线内容管理</span>
@@ -457,6 +461,15 @@ methods: {
         this.pl=true;
     },
     fh(){
+        this.$router.push({
+            path:"./Jounrnal_ys",
+            query:{
+                channel:this.$route.query.channel,
+                plid:this.$route.query.plid,
+            },
+        })
+    },
+    fhs(){
         this.$router.push({
             path:"./journal_list"
         })
