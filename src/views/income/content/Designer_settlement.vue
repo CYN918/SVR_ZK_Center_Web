@@ -18,7 +18,7 @@
                 </div>
                 <div class="btn_right">
                     <span @click='add()'>新建</span>
-                    <span @click='jump()'>操作记录</span>
+                    <!-- <span @click='jump()'>操作记录</span> -->
                 </div>      
             </div>
            <div>
@@ -111,11 +111,11 @@ export default {
                     this.page = page;
                     this.getData()
                 },
-                jump(){
-                    this.$router.push({
-                        path:"./Designer_record"
-                    })
-                },
+                // jump(){
+                //     this.$router.push({
+                //         path:"./Designer_record"
+                //     })
+                // },
                
                 xq(data){
                    this.$router.push({

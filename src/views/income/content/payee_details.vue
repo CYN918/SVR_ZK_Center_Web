@@ -63,6 +63,14 @@
                         </el-table-column>
                     </el-table>
                 </template>
+                <div class='cpt'>
+                    <ul>
+                        <li>-</li>
+                        <li>-</li>
+                        <li>{{all}}</li>
+                        <li style="width:5%">-</li>
+                    </ul>
+                </div>
                 <div class="block">
                     <el-pagination
                             @size-change="handleSizeChange"
@@ -130,7 +138,8 @@
         channel_name:"",
         theme_name_change:'',
         cash:'',
-        id:""
+        id:"",
+        all:""
      }
    },
    mounted(){
@@ -187,6 +196,9 @@
             this.api.ds_receive_income_period({params}).then((res)=>{
                 this.total=res.total;
                 this.tableData=res.data;
+                for(var i=0;i<this.tableData.length;i++){
+                    this.all+=this.tableData[i].income
+                }
                 this.qd()
             })
         },
@@ -338,5 +350,16 @@
         background: #3377ff;
         color:#fff;
         border:0!important
+    }
+    .cpt{
+        box-shadow: 3px 3px 5px #ddd;
+    }
+    li{display: inline-block;
+        width: 30.3%;
+        padding-left: 15px;
+        height: 50px;
+        line-height: 50px;
+        font-size: 14px;
+        font-weight: bold;
     }
 </style>

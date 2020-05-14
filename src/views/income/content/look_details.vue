@@ -5,7 +5,8 @@
             <span class="top_txt" style="margin-left:auto">查看详情</span>
             <div class="title_left">
                 <span>查看详情</span>
-                <span class='bj' @click='BJ()'>编辑</span>
+                <span  class='jl' @click='jump()'>操作记录</span>
+                <span class='bj' @click='BJ("a")'>编辑</span>
             </div>
         </div>
         <div class='boxText'>
@@ -31,16 +32,16 @@
             <div style="width:500px;margin-left:24px">
                  <template>
                     <el-table
-                            :data="tableData"
+                            :data="data.businesses"
                             header-align="center"
                             border
                             style="width: 100%;color:#000">
                         <el-table-column
-                                label="业务类型" prop="tdate"
+                                label="业务类型" prop="name"
                                >
                         </el-table-column>
                         <el-table-column
-                                label="结算金额" prop="total_income"
+                                label="结算金额" prop="amount"
                                 >
                         </el-table-column>
                        
@@ -63,11 +64,23 @@
        this.data=this.$route.query.data
    },
    methods:{
-       BJ(){
+       BJ(type){
            this.$router.push({
-               path:"./Designer_ADD"
+               path:"./Designer_ADD",
+                query:{
+                    type:type,
+                    data:this.$route.query.data
+                }
            })
        },
+       jump(){
+            this.$router.push({
+                path:"./Designer_record",
+                query:{
+                    record_id:this.$route.query.data.record_id
+                }
+            })
+        },
        fh(index){
            this.$router.go(index)
        },
@@ -98,7 +111,7 @@
         margin-top: 199px;
         background: #fff;
     }
-    .bj{
+    .bj,.jl{
         display: inline-block;
         width: 90px;
         height: 36px;
@@ -110,7 +123,10 @@
         line-height: 36px;
         text-align: center!important;
         float:right;
-        margin:0 20% 0 0;
+        margin-right: 16px;
+    }
+    .jl{
+        margin-right: 20%!important;
     }
     .boxText1{
         display: inline-block;

@@ -2,9 +2,11 @@
  <div>
       <div class="top_name">
             <span class="top_txt" @click='fh(-1)'>设计师线下结算&nbsp;/</span>
-            <span class="top_txt" style="margin-left:auto">新建</span>
+            <span class="top_txt" style="margin-left:auto" v-if="this.$route.query.type==undefined">新建</span>
+            <span class="top_txt" style="margin-left:auto" v-if="this.$route.query.type!=undefined">编辑</span>
             <div class="title_left">
-                <span>新建</span>
+                <span v-if="this.$route.query.type==undefined">新建</span>
+                <span v-if="this.$route.query.type!=undefined">编辑</span>
             </div>
         </div>
         <div class='New'>
@@ -15,13 +17,11 @@
             <div  class='tit2'>
                 <span >结算周期：</span>
                 <el-date-picker
-                    v-model="times"
-                    type="daterange"
-                    range-separator="至"
-                    start-placeholder="开始日期"
-                    format="yyyy-MM-dd"
-                    value-format="yyyy-MM-dd"
-                    end-placeholder="结束日期">
+                        v-model="tdate"
+                        type="month"
+                        format="yyyy-MM"
+                        value-format="yyyy-MM"
+                        placeholder="选择月">
                 </el-date-picker>
             </div>
             <div  class='tit3'>
@@ -69,7 +69,7 @@
                                 </template>
                         </el-table-column>
                         <el-table-column
-                                label="结算金额" prop="total_income"
+                                label="结算金额" prop="amount"
                                 >
                                 <template slot-scope="props" >
                                    <input type="number" v-model="tableData[props.$index].amount">
@@ -87,7 +87,7 @@
                 </div>
                 <div class='tit6'>
                     <span class='bc' @click="setDate()">保存</span>
-                    <span>取消</span>
+                    <span @click='qx()'>取消</span>
                 </div>
             </div>
         </div>
@@ -98,13 +98,23 @@
  export default {
    data () {
      return {
-         times:[],
+         tdate:'',
          tableData:[],
          total_amount:"",
          remark:"",
          attach:{},
+         businesses:[],
          
      }
+   },
+   mounted(){
+       if(this.$route.query.type!=undefined){
+           this.tdate=this.$route.query.data.tdate;
+           this.total_amount=this.$route.query.data.total_amount;
+           this.remark=this.$route.query.data.remark;
+           this.tableData=this.$route.query.data.businesses;
+           this.attach=this.$route.query.data.attach
+       }
    },
    methods:{
         getRowClass({row, column, rowIndex}) {
@@ -122,15 +132,39 @@
         },
         ADD(){
             this.tableData.push({amount:"",name:""});
-            console.log(this.tableData)
         },
-          fh(index){
+        fh(index){
            this.$router.go(index)
        },
+       qx(){
+           this.$router.go(-1)
+       },
        setDate(){
-           this.api.ds_offline_settlement_record_add().then((res)=>{
-               if(res=!false){
-
+           if(!this.tdate){
+               this.$message.error('结算周期不能为空')
+               return
+           }
+           if(!this.total_amount){
+               this.$message.error('总结算金额不能为空')
+               return
+           }
+           if(this.total_amount<0){
+               this.$message.error('总结算金额不能小于零')
+               return
+           }
+           if(this.tableData.length<=0){
+               this.$message.error('结算业务详情不能为空')
+               return
+           }
+           let formData = new FormData;
+           formData.append('tdate',this.tdate);
+           formData.append('total_amount',this.total_amount);
+           formData.append('remark',this.remark);
+           formData.append('attach_id',1);
+           formData.append('businesses',JSON.stringify(this.tableData))
+           this.api.ds_offline_settlement_record_add(formData).then((res)=>{
+               if(res!=false){
+                   this.qx()
                }
            })
        },
