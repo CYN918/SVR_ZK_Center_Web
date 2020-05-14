@@ -52,11 +52,6 @@
         </div>
         <div class="centNavBox">
             <tab v-if="tables" :tableData="tableData" @upDataList="upDataList()"></tab>
-
-
-
-
-            
             <sc v-if="sc" :SCid="id" :status="status" @upDataList="upDataList()"></sc>
             <yw v-if="yw" :YWid="id" :status="status" @upDataList="upDataList()"></yw>
 
