@@ -62,12 +62,14 @@
                         <el-table-column label="更新时间" prop="updated_at">
                             
                         </el-table-column>
-                        <el-table-column label="汇款凭证状态" prop="updated_at">
-                            
+                        <el-table-column label="汇款凭证状态" prop="remittance">
+                             <template slot-scope="props">
+                                <span :class='{red:tableData[props.$index].attach_id==0}'>{{tableData[props.$index].attach_id==0?'待补充':'已补充'}}</span>
+                            </template>
                         </el-table-column>
                          <el-table-column label="操作" prop="">
                              <template slot-scope="props">
-                                 <el-button type="text" @click='updata()'>上传凭证</el-button>
+                                 <el-button type="text" @click='updata(tableData[props.$index].project_id)'>上传凭证</el-button>
                                 <el-button type="text"  @click='jump(tableData[props.$index].project_id,tableData[props.$index].open_id,tableData[props.$index].account_name,tableData[props.$index].advance_payment,tableData[props.$index].advance_payment_left)'>查看详情</el-button>
                             </template>
                         </el-table-column>
@@ -102,7 +104,6 @@
                         >
                         <el-button size="small" type="primary">选择</el-button>
                         </el-upload> 
-                         <a href="text/主题收益数据导入模板.xlsx" >下载模板</a> 
                   </div>
                   <div style="margin-top:16px">
                       <span class='fj'>附件名称：</span>
@@ -136,7 +137,6 @@ export default {
                     id:"",
                     exe:false,
                     file:{},
-                    time:""
                 }
             },
             mounted(){
@@ -149,16 +149,31 @@ export default {
                     this.open_id="";
                     this.state1='';
                 },
-                updata(){
+                updata(data){
                     this.exe=true;
+                    this.porject_id=data
                 },
                  heid(){
                     this.exe=false;
                     this.file={};
-                    this.time=''
                 },
                  del(){
                    this.file={}
+                },
+                drData(){
+                    if(!this.file.name){
+                        this.$message.error('附件不能为空')
+                        return
+                    }
+                    let formData =new FormData;
+                    formData.append('porject_id',this.porject_id);
+                    formData.append('attach',JSON.stringify(this.file))
+                    this.api.ds_advance_payment_upload_remittance(formData).then((res)=>{
+                        if(res!=false){
+                            this.heid();
+                            this.listData()
+                        }
+                    })
                 },
                  handlePictureCardPreview(file) {
                         this.dialogImageUrl = file.url;
@@ -408,5 +423,8 @@ export default {
         cursor: pointer;
         vertical-align: bottom;
         margin-left: 10px;
+    }
+    .red{
+        color: red;
     }
 </style>

@@ -2,11 +2,11 @@
  <div>
       <div class="top_name">
             <span class="top_txt" @click='fh(-1)'>设计师线下结算&nbsp;/</span>
-            <span class="top_txt" style="margin-left:auto" v-if="this.$route.query.type==undefined">新建</span>
-            <span class="top_txt" style="margin-left:auto" v-if="this.$route.query.type!=undefined">编辑</span>
+            <span class="top_txt" style="margin-left:auto" v-if="this.$route.query.record_id==undefined">新建</span>
+            <span class="top_txt" style="margin-left:auto" v-if="this.$route.query.record_id!=undefined">编辑</span>
             <div class="title_left">
-                <span v-if="this.$route.query.type==undefined">新建</span>
-                <span v-if="this.$route.query.type!=undefined">编辑</span>
+                <span v-if="this.$route.query.record_id==undefined">新建</span>
+                <span v-if="this.$route.query.record_id!=undefined">编辑</span>
             </div>
         </div>
         <div class='New'>
@@ -140,6 +140,10 @@
            this.$router.go(-1)
        },
        setDate(){
+           if(this.$route.query.record_id!=undefined){
+               this.eitd()
+               return
+           }
            if(!this.tdate){
                this.$message.error('结算周期不能为空')
                return
@@ -160,10 +164,40 @@
            formData.append('tdate',this.tdate);
            formData.append('total_amount',this.total_amount);
            formData.append('remark',this.remark);
-           formData.append('attach_id',1);
+           formData.append('attach',JSON.stringify(this.attach));
            formData.append('businesses',JSON.stringify(this.tableData))
            this.api.ds_offline_settlement_record_add(formData).then((res)=>{
                if(res!=false){
+                   this.qx()
+               }
+           })
+       },
+       eitd(){
+            if(!this.tdate){
+               this.$message.error('结算周期不能为空')
+               return
+           }
+           if(!this.total_amount){
+               this.$message.error('总结算金额不能为空')
+               return
+           }
+           if(this.total_amount<0){
+               this.$message.error('总结算金额不能小于零')
+               return
+           }
+           if(this.tableData.length<=0){
+               this.$message.error('结算业务详情不能为空')
+               return
+           }
+           let formData = new FormData;
+           formData.append('record_id',this.$route.query.record_id)
+           formData.append('tdate',this.tdate);
+           formData.append('total_amount',this.total_amount);
+           formData.append('remark',this.remark);
+           formData.append('attach',JSON.stringify(this.attach));
+           formData.append('businesses',JSON.stringify(this.tableData))
+           this.api.ds_offline_settlement_record_edit().then((res)=>{
+                if(res!=false){
                    this.qx()
                }
            })

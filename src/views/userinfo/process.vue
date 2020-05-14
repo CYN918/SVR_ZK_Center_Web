@@ -261,6 +261,65 @@
                 </div>
             </div>
         </div>
+       <div class="centNavBox_5">
+            <div class="center">
+                <span>来电秀分成金额审核</span>
+            </div>
+            <div class="yw_select">
+                <span>来电秀分成金额审核</span>
+                <select v-model="SQtype" @change="getCallShow()">
+                   <option value="1">主题</option>
+                   <option value="2">来电秀</option>
+                   <option value="3">素材</option>
+                </select>
+            </div>
+            <div class="steplist">
+                <div class="step " v-for="(item,index) in SQlist">
+                    <div style="display: inline-block" v-if='item.status!=100'>
+                        <span class="step_box">{{item.status}}</span>
+                        <span class="step_text">{{item.status_name}}</span>
+                        <div class="step_name">
+                            <div class="step_img" v-for="(da,index2) in item.user">
+                                <span class="step_txt" @mouseenter="delXS1(index,index2)" @mouseleave="leave()">{{da.user_name}}
+                                    <img src="../../../public/img/del.png" style="width: 16px;opacity:0" :class="{getImg:(num1==index2&&nums1==index)}" @click="del(da.user_id,item.id)"/>
+                                </span>
+                            </div>
+                            <div class="add" @click="getBan5(index)">
+                                <span class="step_add"><img src="../../../public/img/add_msg.png" style="width: 12px;margin-top: 12px"></span>
+                                <span class="step_add_txt">添加</span>
+                            </div>
+                        </div>
+                        <!-- <div class="tag" v-if="item.status_name=='物料审核'">
+                            <span :class="{active:audit_type==2}" @click="tag(item.id)">或签</span>
+                            <span :class="{active:audit_type==1}" @click="tagTwo(item.id)">会签</span>
+                    </div> -->
+
+                    </div>
+                    <div v-if="item.status!=3&&item.status!=100" style="width: 120px;height: 2px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
+                    
+                </div>
+                <div class="banner" v-if="ban5" :style="{left:this.left+'px',top:this.top+'px'}">
+                    <span class="tit">负责人</span>
+                    <div>
+                        <input  type="text" v-model="search" @change="getAccountList()"/>
+                    </div>
+                    <div class="add_name">
+                        <p v-for="(item,index) in this.tableData" @click="userName(index)">{{item.user_name}}</p>
+                    </div>
+                    <div class="banner_btn">
+                        <span class="qd" @click="ADDuserName('demand_sharing_income',SQtype)">确定</span>
+                        <span @click="heidBan()">取消</span>
+                    </div>
+                </div>
+                <div class='all' > 
+                    <span style="margin-right:16px">全部内容可见人员：</span>
+                    <span class='user_name' v-for='(key,index) in SQlist[SQlist.length-1].user'   @mouseenter="delName(SQlist[SQlist.length-1].id,index)" @mouseleave="leaves()">{{key.user_name}}
+                            <img src="../../../public/img/del.png" style="width: 16px;opacity:0" :class="{getImg:(project_id==SQlist[SQlist.length-1].id&&indexs==index)}" @click="del(key.user_id,SQlist[SQlist.length-1].id)"/>
+                    </span>
+                     <span class="step_add" @click='getBan(99)'><img src="../../../public/img/add_msg.png" style="width: 12px;margin-top: 12px"></span>
+                </div>
+            </div>
+        </div>
         <div class="bg" v-if="title">
             <div class="content">
                 <div class="tit_sm">
@@ -286,6 +345,7 @@
                 SCtypeList:[],
                 type:'f_ad_picture',
                 WLtype:'ad_picture',
+                SQtype:'1',
                 list:[],
                 YClist:[],
                 ban:false,
@@ -301,9 +361,11 @@
                 ban2:false,
                 ban3:false,
                 ban4:false,
+                ban5:false,
                 TXlist:[],
                 SKlist:[],
                 FKlist:[],
+                SQlist:[],
                 num:null,
                 nums:null,
                 num1:null,
@@ -335,11 +397,12 @@
                 let params ={material:1};
                 this.api.config_material_type({params}).then((res)=>{
                     this.SCtypeList = res;
-                    this. getConductorList();
-                    this. wlConductorList();
+                    this.getConductorList();
+                    this.wlConductorList();
                     this.txConductorList();
                     this.ReceivablesList();
                     this.paymentList();
+                    this.getCallShow();
                 })
             },
             
@@ -348,6 +411,12 @@
                 this.api.process_list({params}).then((res)=>{
                     this.list = res;
                     this.audit_type=res[3].audit_type;
+                })
+            },
+            getCallShow(){
+                let params={demand_type:"demand_sharing_income",type:this.SQtype};
+                this.api.process_list({params}).then((res)=>{
+                    this.SQlist= res;
                 })
             },
             wlConductorList(){
@@ -386,16 +455,18 @@
                     this.api.process_add_auditor(formData).then((res)=>{
                         this.user_id='';
                         this.search='';
-                        this. getConductorList();
+                        this.getConductorList();
                         this.wlConductorList();
                         this.txConductorList();
                         this.ReceivablesList();
                         this.paymentList();
+                        this.getCallShow();
                         this.ban = false;
                         this.ban1 = false;
                         this.ban2 = false;
                         this.ban3 = false;
                         this.ban4 = false;
+                        this.ban5 = false;
                         this.left='';
                         this.search='';
                         this.tableData=[];
@@ -416,11 +487,13 @@
                         this.txConductorList();
                         this.ReceivablesList();
                         this.paymentList();
+                        this.getCallShow()
                         this.ban = false;
                         this.ban1 = false;
                         this.ban2 = false;
                         this.ban3 = false;
                         this.ban4 = false;
+                        this.ban5 = false
                         this.left=''
                         this.search='';
                         this.tableData=[];
@@ -445,6 +518,7 @@
                 this.ban1=false;
                 this.ban3=false;
                 this.ban4=false;
+                this.ban5 = false
             },
             getBan1(index){
                 this.ban1=true;
@@ -461,6 +535,7 @@
                 this.ban2=false;
                 this.ban3=false;
                 this.ban4=false;
+                this.ban5 = false
 
             },
             getBan2(index){
@@ -478,6 +553,7 @@
                 this.ban3=false;
                 this.ban4=false;
                 this.ban=false;
+                this.ban5 = false
 
             },
             getBan3(index){
@@ -495,6 +571,7 @@
                 this.ban2=false;
                 this.ban4=false;
                 this.ban=false;
+                this.ban5 = false
 
             },
             getBan4(index){
@@ -512,6 +589,25 @@
                 this.ban2=false;
                 this.ban3=false;
                 this.ban=false;
+                this.ban5 = false
+
+            },
+             getBan5(index){
+                this.ban5=true;
+                this.index=index;
+                if(index!=99){
+                    this.left=this.index*276;
+                }
+                 if(index==99){
+                    this.top=-10;
+                }else{
+                    this.top=-200
+                }
+                this.ban1=false;
+                this.ban2=false;
+                this.ban3=false;
+                this.ban=false;
+                this.ban4 = false
 
             },
             heidBan(){
@@ -520,6 +616,7 @@
                 this.ban2=false;
                  this.ban3=false;
                 this.ban4=false;
+                this.ban5 = false
                 this.left='';
                 this.search=''
                 this.tableData=[];

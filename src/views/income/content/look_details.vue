@@ -6,7 +6,7 @@
             <div class="title_left">
                 <span>查看详情</span>
                 <span  class='jl' @click='jump()'>操作记录</span>
-                <span class='bj' @click='BJ("a")'>编辑</span>
+                <span class='bj' @click='BJ()'>编辑</span>
             </div>
         </div>
         <div class='boxText'>
@@ -24,7 +24,8 @@
             </div>
              <div>
                <span  class='boxText1'>结算凭证：</span>
-               <span>{{}}</span>
+               <span v-if="data.attach_id">{{data.attach.name}}</span>
+               <a :href='data.attach.url'  v-if="data.attach_id" style="color:#3377ff;margin-left:15px">下载</a>
             </div>
             <div>
                 <span class='boxText1'>结算业务详情</span>
@@ -61,16 +62,21 @@
      }
    },
    mounted(){
-       this.data=this.$route.query.data
+       this.getData()
    },
    methods:{
-       BJ(type){
+       BJ(){
            this.$router.push({
                path:"./Designer_ADD",
                 query:{
-                    type:type,
-                    data:this.$route.query.data
+                    data:this.data
                 }
+           })
+       },
+       getData(){
+           let params={record_id:this.$route.query.record_id}
+           this.api.ds_offline_settlement_record_detail({params}).then((res)=>{
+               this.data=res
            })
        },
        jump(){

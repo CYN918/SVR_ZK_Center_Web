@@ -32,8 +32,8 @@
                 </div>
                 <div>
                     <span class='details_tit'>结算凭证:</span>
-                    <span>但是但是犯得上发</span>
-                    <a >下载</a>
+                    <span>{{listData.attach.name}}</span>
+                    <a :href='listData.attach.url'>下载</a>
                 </div>
                 <div>
                     <span class="yw">结算业务详情</span>
@@ -73,8 +73,8 @@
                 </div>
                 <div>
                     <span class='details_tit'>结算凭证:</span>
-                    <!-- <span>{{listData2.attch.name}}</span>
-                    <a :href="listData2.attch.url">下载</a> -->
+                    <span>{{listData2.attch.name}}</span>
+                    <a :href="listData2.attch.url">下载</a>
                 </div>
                 <div>
                     <span class='yw'>结算业务详情</span>

@@ -1797,6 +1797,14 @@ export default {
 	ds_offline_settlement_record_add:{
 		url:'ds/offline_settlement/record/add',method:"post",isType:{suktip:1}
 	},
+	//编辑汇款记录
+	ds_offline_settlement_record_edit:{
+		url:"ds/offline_settlement/record/edit",method:"post",isType:{suktip:1}
+	},
+	//汇款记录详情
+	ds_offline_settlement_record_detail:{
+		url:"ds/offline_settlement/record/detail",method:'get'
+	},
 	//设计师汇款记录操作记录
 	ds_offline_settlement_record_logs:{
 		url:"ds/offline_settlement/record/logs",method:'get'
@@ -1805,5 +1813,8 @@ export default {
 	ds_offline_settlement_record_log_detail:{
 		url:"ds/offline_settlement/record/log/detail",method:'get'
 	},
-	
+	//上传汇款凭证
+	ds_advance_payment_upload_remittance:{
+		url:'ds/advance_payment/upload_remittance',method:"post",isType:{suktip:1}
+	},
 }
