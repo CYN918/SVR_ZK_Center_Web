@@ -143,8 +143,8 @@
                             this.tableData[i].demand_type='收款结算'
                         }else if(this.tableData[i].demand_type=='demand_settle_paying'){
                             this.tableData[i].demand_type='付款结算'
-                        }else if(this.tableData[i].demand_type=='demand_sharing_income '){
-                             this.tableData[i].demand_type='来电秀分成金额审核'   
+                        }else if(this.tableData[i].demand_type=='demand_sharing_income'){
+                             this.tableData[i].demand_type='分成金额审核'   
                         }
                     }
                 })

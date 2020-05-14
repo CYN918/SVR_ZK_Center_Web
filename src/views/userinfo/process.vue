@@ -263,10 +263,10 @@
         </div>
        <div class="centNavBox_5">
             <div class="center">
-                <span>来电秀分成金额审核</span>
+                <span>分成金额审核</span>
             </div>
             <div class="yw_select">
-                <span>来电秀分成金额审核</span>
+                <span>分成金额审核</span>
                 <select v-model="SQtype" @change="getCallShow()">
                    <option value="1">主题</option>
                    <option value="2">来电秀</option>
@@ -298,7 +298,7 @@
                     <div v-if="item.status!=3&&item.status!=100" style="width: 120px;height: 2px;background:#E6E9F0;display: inline-block;vertical-align: top;margin-top: 20px"></div>
                     
                 </div>
-                <div class="banner" v-if="ban5" :style="{left:this.left+'px',top:this.top+'px'}">
+                <div class="banner bannerTop" v-if="ban5" :style="{left:this.left+'px',top:this.top+'px'}">
                     <span class="tit">负责人</span>
                     <div>
                         <input  type="text" v-model="search" @change="getAccountList()"/>
