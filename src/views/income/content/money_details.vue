@@ -1,10 +1,10 @@
 <template>
    <div>
         <div class="top_name">
-             <span class="top_txt" @click='fh(-1)'>{{this.$route.query.type=='1'?'主题付款':'来电秀付款'}}&nbsp;/&nbsp;付款金额详情</span>
+             <span class="top_txt" @click='fh(-1)'>素材付款&nbsp;/&nbsp;金额详情</span>
             <div class="title_left">
-                <span>付款金额详情</span>
-                <span class='time'>{{this.$route.query.tdate}}</span>
+                <span>金额详情</span>
+                <span class='time'></span>
                 <div>
                     <span class='md' :class="{clicks:this.num==1}" @click='data("1")'>买断数据</span>
                     <span class='fc' :class="{clicks:this.num==2}" @click='data("2")'>分成数据</span>
@@ -60,10 +60,10 @@
                                 label="加成金额" prop="gain_share_income"
                                 >
                         </el-table-column>
-                         <el-table-column
+                         <!-- <el-table-column
                                 label="结算金额" prop="total_income"
                                 >
-                        </el-table-column>
+                        </el-table-column> -->
                          <el-table-column
                                
                                 label="抵消预约金" prop="advance_payment_income"
@@ -81,7 +81,7 @@
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="props">
-                                <el-button type="text" @click="ck(tableData[props.$index].open_id)" >查看详情</el-button>
+                                <el-button type="text" @click="ck()" >查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -154,7 +154,7 @@ export default {
                     p:10,
                     page:1,
                     total:0,
-                    tableData:[{time:2020}],
+                    tableData:[{open_id:2020}],
                     list:[],
                     num:1,
                     account_name:"",
@@ -202,34 +202,31 @@ export default {
                         path:"./Divided_details"
                     })
                 },
-                 ck(id){
+                 ck(){
                     this.$router.push({
-                        path:"./Divided_details_money",
+                        path:"./money_details_divide",
                         query:{
-                            type:this.$route.query.type,
-                            open_id:id,
-                            tdate:this.$route.query.tdate,
-                            num:this.$route.query.num
+                          
                         }
                     })
                 },
                 getDataList(){
-                    if(this.num==1){
-                        let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.open_id,account_name:this.account_name,project_id:this.project_id,p:this.p,page:this.page,is_confirmed:'1'} 
-                        this.api.ds_buyout_income_detail({params}).then((res)=>{
-                            this.total=res.total;
-                            this.tableData=res.data;
-                            this.getData();
-                       })
-                    }
-                    if(this.num==2){
-                        let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.open_id,account_name:this.account_name,p:this.p,page:this.page,is_confirmed:'1'}
-                        this.api.sharing_data_income_designer({params}).then((res)=>{
-                            this.total=res.total;
-                            this.tableData=res.data;
-                            this.getData();
-                        })
-                    }
+                    // if(this.num==1){
+                    //     let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.open_id,account_name:this.account_name,project_id:this.project_id,p:this.p,page:this.page,is_confirmed:'1'} 
+                    //     this.api.ds_buyout_income_detail({params}).then((res)=>{
+                    //         this.total=res.total;
+                    //         this.tableData=res.data;
+                    //         this.getData();
+                    //    })
+                    // }
+                    // if(this.num==2){
+                    //     let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.open_id,account_name:this.account_name,p:this.p,page:this.page,is_confirmed:'1'}
+                    //     this.api.sharing_data_income_designer({params}).then((res)=>{
+                    //         this.total=res.total;
+                    //         this.tableData=res.data;
+                    //         this.getData();
+                    //     })
+                    // }
                     
                 },
                 getData(){
@@ -277,7 +274,7 @@ export default {
 
 <style scoped>
     .top_name{
-         height:112px!important;
+        height:112px!important;
         background:rgba(255,255,255,1);
     }
     .title_left span{
@@ -364,4 +361,4 @@ export default {
         font-weight: 400!important;
         
     }
-</style>
+</style>    

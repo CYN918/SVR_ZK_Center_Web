@@ -1,25 +1,21 @@
 <template>
    <div>
         <div class="top_name">
-             <span class="top_txt" @click='fh(-1)'>{{this.$route.query.type=='1'?'主题付款':'来电秀付款'}}&nbsp;/&nbsp;付款金额详情</span>
+             <span class="top_txt" @click='fh(-2)'>素材付款&nbsp;/&nbsp;</span>
+             <span class="top_txt" @click='fh(-1)'>分成管理&nbsp;/&nbsp;</span>
+              <span class="top_txt">分成详情</span>
             <div class="title_left">
-                <span>付款金额详情</span>
+                <span>分成详情</span>
                 <span class='time'>{{this.$route.query.tdate}}</span>
-                <div>
-                    <span class='md' :class="{clicks:this.num==1}" @click='data("1")'>买断数据</span>
-                    <span class='fc' :class="{clicks:this.num==2}" @click='data("2")'>分成数据</span>
-                </div>
+                <span class='zt' :class='{red:this.status==0}'>({{this.status==0?"未确认":"已确认"}})</span>
             </div>
         </div>
         <div class='content'>
             <div>
-                <span class='fc_statuc' style="margin:24px 16px 24px 24px " v-if='num==1'>项目ID</span>
-                <input type="text" v-if='num==1' v-model="project_id">
-                <span class='fc_statuc' style="margin:24px 16px 24px 24px " v-if='state1==""'>设计师ID</span>
-                <input type="text" v-model="id" v-if='state1==""'  @change="sJsID()">
-                <span class='fc_statuc' style="margin:24px 16px 24px 24px " v-if='id==""'>结算方</span>
-                <el-autocomplete
-                v-if='id==""'
+                <span class='fc_statuc'>设计师ID</span>
+                <input type="text" v-model="open_id" placeholder="请输入">
+                <span class='fc_statuc'>结算方</span>
+                 <el-autocomplete
                     class="inline-input"
                     v-model="state1"
                     :fetch-suggestions="querySearch"
@@ -29,11 +25,13 @@
                 </el-autocomplete>
                 <div class="btn_right">
                     <span class='cx' @click='getDataList()'>查询</span>
-                    <span @click='cz()'>重置</span>
+                    <span class='cz
+                    ' @click='cz()'>重置</span>
+                    <span @click='jeqr()' v-if='this.status==0'>确认金额</span>
                 </div>      
             </div>
            <div>
-                  <template v-if="num==2">
+                 <template>
                     <el-table
                             :data="tableData"
                             header-align="center"
@@ -42,13 +40,14 @@
                             style="width: 100%;color:#000">
                         <el-table-column
                                 label="设计师ID" prop="open_id"
+                                :show-overflow-tooltip="true"
                                >
                         </el-table-column>
-                         <el-table-column
+                        <el-table-column
                                 label="分成金额" prop="final_income"
                                 >
                         </el-table-column>
-                         <el-table-column
+                        <el-table-column
                                 label="加成比例" prop="gain_share_rate"
                                 >
                                 <template slot-scope="scope">
@@ -56,7 +55,7 @@
                                 </template>
                         </el-table-column>
                         <el-table-column
-                                
+                                sortable
                                 label="加成金额" prop="gain_share_income"
                                 >
                         </el-table-column>
@@ -65,69 +64,25 @@
                                 >
                         </el-table-column>
                          <el-table-column
-                               
+                                sortable
                                 label="抵消预约金" prop="advance_payment_income"
                                 >
                         </el-table-column>
                           <el-table-column
-                                
+                                sortable
                                 label="付款金额" prop="payment_income"
                                 >
                         </el-table-column>
                           <el-table-column
-                                
-                                label="付款时间" prop="updated_at"
+                                v-if='this.$route.query.status!=0'
+                                sortable
+                                label="确认时间" prop="updated_at"
                                 >
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="props">
-                                <el-button type="text" @click="ck(tableData[props.$index].open_id)" >查看详情</el-button>
+                                <el-button type="text" @click="ck()" >查看详情</el-button>
                             </template>
-                        </el-table-column>
-                    </el-table>
-                </template>
-                  <template v-if="num==1">
-                    <el-table
-                            :data="tableData"
-                            header-align="center"
-                            :header-cell-style="getRowClass"
-                            :cell-style="cell"
-                            style="width: 100%;color:#000">
-                         <el-table-column
-                                label="项目ID" prop="project_id"
-                                :show-overflow-tooltip="true"
-                               >
-                        </el-table-column>    
-                        <el-table-column
-                                label="设计师ID" prop="open_id"
-                                :show-overflow-tooltip="true"
-                               >
-                        </el-table-column>
-                        <el-table-column
-                                label="买断金额" prop="buyout_income"
-                                >
-                        </el-table-column>
-                         <el-table-column
-                                label="加成比例" prop="gain_share_rate"
-                                >
-                                <template slot-scope="scope">
-                                    <span>{{tableData[scope.$index].gain_share_rate+'%'}}</span>
-                                </template>
-                        </el-table-column>
-                       
-                        <el-table-column
-                                sortable
-                                label="加成金额" prop="gain_share_income"
-                                >
-                        </el-table-column>
-                         
-                        <el-table-column 
-                                label="付款金额" prop='total_income'>
-                            
-                        </el-table-column>
-                        <el-table-column 
-                                label="付款时间" prop='created_at'>
-                            
                         </el-table-column>
                     </el-table>
                 </template>
@@ -144,6 +99,20 @@
                  </div>
            </div>
         </div>
+        <div class='bg' v-if='show'>
+            <div class='qrbox'>
+                    <div class='tit_name'>
+                        <span>确认金额</span>
+                    </div>
+                    <div class='lr'>
+                        <span>提交后，将根据该结算金额给狮圈儿用户账户内，是否确认？</span>
+                    </div>
+                    <div class='btns'>
+                        <span class='qr' @click='qrMoney()'>确认</span>
+                        <span @click='heid()'>取消</span>
+                    </div>
+            </div>
+        </div>
    </div>
 </template>
 
@@ -151,33 +120,31 @@
 export default {
             data(){
                 return{
+                    value1:"",
                     p:10,
                     page:1,
                     total:0,
                     tableData:[{time:2020}],
+                    show:false,
                     list:[],
-                    num:1,
-                    account_name:"",
+                    account_name:'',
                     open_id:"",
-                    project_id:"",
-                    restaurants: [],
                     state1:"",
-                    id:"",
-
+                    status:''
                 }
             },
             mounted(){
                 this.getDataList()
             },
             methods:{
-                cz(){
-                   this.project_id='';
-                   this.open_id='';
-                   this.state1='';
-                   this.id=''
-                },
-                 fh(index){
+                fh(index){
                     this.$router.go(index)
+                },
+                getDetails(){
+                    let params={type:this.$route.query.type,tdate:this.$route.query.tdate}
+                    this.api.sharing_data_income_is_confirm({params}).then((res)=>{
+                        this.status=res.is_confirmed;
+                    })
                 },
                 getRowClass({row, column, rowIndex}) {
                     if (rowIndex === 0) {
@@ -197,49 +164,53 @@ export default {
                     this.page = page;
                     this.getDataList()
                 },
-                details(){
+                dr(){
                     this.$router.push({
-                        path:"./Divided_details"
+                        path:"./exports"
                     })
                 },
-                 ck(id){
+                jeqr(){
+                    this.show=true;
+
+                },
+                heid(){
+                    this.show=false
+                },
+                ck(){
                     this.$router.push({
-                        path:"./Divided_details_money",
-                        query:{
-                            type:this.$route.query.type,
-                            open_id:id,
-                            tdate:this.$route.query.tdate,
-                            num:this.$route.query.num
-                        }
+                        path:"./money_details_divide",
+                       
                     })
                 },
                 getDataList(){
-                    if(this.num==1){
-                        let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.open_id,account_name:this.account_name,project_id:this.project_id,p:this.p,page:this.page,is_confirmed:'1'} 
-                        this.api.ds_buyout_income_detail({params}).then((res)=>{
-                            this.total=res.total;
-                            this.tableData=res.data;
-                            this.getData();
-                       })
-                    }
-                    if(this.num==2){
-                        let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.open_id,account_name:this.account_name,p:this.p,page:this.page,is_confirmed:'1'}
-                        this.api.sharing_data_income_designer({params}).then((res)=>{
-                            this.total=res.total;
-                            this.tableData=res.data;
-                            this.getData();
-                        })
-                    }
-                    
+                    // let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.open_id,account_name:this.account_name,p:this.p,page:this.page}
+                    // this.api.sharing_data_income_designer({params}).then((res)=>{
+                    //     this.total=res.total;
+                    //     this.tableData=res.data;
+                    //     this.getData();
+                    //     this.getDetails()
+                    // })
                 },
                 getData(){
                     this.api.designer_settlement_list().then((res)=>{
                         this.restaurants=res;
+
                     })
                 },
-                data(index){
-                    this.num=index;
-                    this.getDataList()
+                cz(){
+                    this.account_name='';
+                    this.open_id=''
+                },
+                qrMoney(){
+                    let formData =new FormData;
+                    formData.append('type',this.$route.query.type);
+                    formData.append('tdate',this.$route.query.tdate);
+                    this.api.sharing_data_income_confirm(formData).then((res)=>{
+                        if(res!=false){
+                            this.getDetails()
+                            this.heid()
+                        }
+                    })
                 },
                 querySearch(queryString, cb) {
                     for(var i =0;i<this.restaurants.length;i++){
@@ -259,21 +230,19 @@ export default {
                     };
                 },
                 handleSelect(item) {
-                    this.open_id=item.open_id
-                },
-                 sJsID(){
-                    this.open_id=this.id;
-                },
+                    this.account_name=item.open_id
+                }
             },
-            watch:{
+             watch:{
                 state1:function(val,oldVal){
                     if(val==''){
-                        this.open_id=''
+                        this.account_name=''
                     }
                 }
             }
 }
 </script>
+
 
 <style scoped>
     .top_name{
@@ -284,7 +253,7 @@ export default {
         display: inline-block;
         font-size:20px;
         font-family:PingFang-SC-Medium;
-        font-weight:bold;
+        font-weight:500;
         color:rgba(50,50,50,1);
         margin-left: 24px;
         text-align: right;
@@ -319,7 +288,8 @@ export default {
         border-radius: 3px;
         line-height: 36px;
         text-align: center;
-        margin-left: 24px;
+        margin:0 0 24px 24px;
+
             
     }
     .cx{
@@ -329,7 +299,7 @@ export default {
     }
     .fc_statuc{
         display: inline-block;
-        margin-right: 15px;
+        margin:24px  15px 24px 24px;
 
     }
     select{
@@ -342,17 +312,63 @@ export default {
         height: 30px;
         padding-left: 10px;
     }
-    .md,.fc{
-        font-size: 14px!important;
-        font-weight: 400!important;
-        margin-right: 16px;
-        display: inline-block;
-        line-height: 36px;
-        cursor: pointer;
+    .bg{
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.3);
+        position: fixed;
+        z-index: 9;
+        bottom: 0;
+        right: 0;
     }
-    .clicks{
-        border-bottom: 1px solid #3377ff;
-        color:#3377ff!important
+    .qrbox{
+        width: 450px;
+        height: 200px;
+        position: absolute;
+        top:50%;
+        left:50%;
+        transform: translate(-50%,-50%);
+        border-radius: 3px;
+        background: #fff;
+    }
+    .tit_name{
+        width: 100%;
+        height: 40px;
+        border:1px solid #ddd;
+    }
+    .tit_name span{
+        display: inline-block;
+        margin-left: 24px;
+        line-height: 40px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+    .lr{
+        margin: 30px 24px 30px 24px;
+    }
+    .lr span{
+        margin-left: 24px;
+        font-size: 14px;
+    }
+    .btns{
+        float:right;
+    }
+    .btns span{
+            width: 90px;
+            height: 36px;
+            display: inline-block;
+            border:1px solid #ddd;
+            text-align: center;
+            line-height: 36px;
+            border-radius: 3px;
+            margin-right: 24px;
+            cursor: pointer;
+    }
+    .qr{
+        background: #3377ff;
+        border:0px!important;
+        color:#fff;
+
     }
     .time{
         display: inline-block;
@@ -363,5 +379,12 @@ export default {
         font-size: 14px!important;
         font-weight: 400!important;
         
+    }
+    .zt{
+       font-size: 14px!important;
+        font-weight: 400!important; 
+    }
+    .red{
+        color: red;
     }
 </style>

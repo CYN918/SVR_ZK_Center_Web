@@ -1,8 +1,12 @@
 <template>
    <div>
         <div class="top_name">
+            <span class="top_txt" @click='fh(-1)'>素材付款&nbsp;/</span>
+            <span class="top_txt" @click='fh(-1)'>&nbsp;分成管理&nbsp;/</span>
+            <span class="top_txt" @click='fh(-1)'>&nbsp;数据管理&nbsp;/</span>
+            <span class="top_txt" @click='fh(-1)'>操作记录</span>
             <div class="title_left">
-                <span>{{this.type=='1'?'主题付款':'来电秀付款'}}</span>
+                <span>操作记录</span>
             </div>
         </div>
         <div class='content'>
@@ -17,11 +21,16 @@
                         value-format="yyyy-MM"
                         end-placeholder="结束月份">
                     </el-date-picker>
+                    <span style="margin:0 16px 0 24px">渠道</span>
+                    <select name="" id="">
+                        <option value="">全部</option>
+                    </select>
+                    <span style="margin:0 16px 0 24px">处理人</span>
+                    <input type="text">
                 </div>
                 <div class="btn_right">
-                    <span class='cx' @click='listData()'>查询</span>
+                    <span class='cx' @click='getDataList()'>查询</span>
                     <span @click='cz()'>重置</span>
-                    <span @click='jump()'>分成管理</span>
                 </div>      
             </div>
            <div>
@@ -33,25 +42,34 @@
                             :cell-style="cell"
                             style="width: 100%;color:#000">
                         <el-table-column
-                                label="结算周期" prop="tdate"
+                                label="日期" prop="tdate"
                                >
                         </el-table-column>
+                     
                         <el-table-column
-                                label="总付款金额" prop="total_income"
+                                label="渠道" prop="is_confirmed"
                                 >
+                           
                         </el-table-column>
                         <el-table-column
-                                label="买断付款金额" prop="buyout_income"
+                                label="修改前数据有效率" prop="is_confirmed"
                                 >
+                           
                         </el-table-column>
                         <el-table-column
-                                label="分成付款金额" prop="sharing_income"
+                                label="修改后数据有效率" prop="is_confirmed"
                                 >
+                           
                         </el-table-column>
-                        <el-table-column label="操作">
-                            <template slot-scope="props">
-                                <el-button type="text" @click='xq(tableData[props.$index].tdate,"1")'>查看详情</el-button>
-                            </template>
+                         <el-table-column
+                                label="更新时间" prop="is_confirmed"
+                                >
+                           
+                        </el-table-column>
+                        <el-table-column
+                                label="处理人" prop="is_confirmed"
+                                >
+                           
                         </el-table-column>
                     </el-table>
                 </template>
@@ -68,27 +86,33 @@
                  </div>
            </div>
         </div>
+        
    </div>
 </template>
 
 <script>
 export default {
-    props:['type'],
             data(){
                 return{
                     tdate:[],
                     p:10,
                     page:1,
                     total:0,
-                    tableData:[{time:2020}]
+                    tableData:[{time:2020}],
+                    is_confirmed:"",
+                   
                 }
             },
             mounted(){
-                this.listData()
+                // this.getDataList()
             },
             methods:{
+                 fh(index){
+                    this.$router.go(index)
+                },
                 cz(){
-                    this.tdate=[]
+                    this.tdate='';
+                    this.is_confirmed='';
                 },
                 getRowClass({row, column, rowIndex}) {
                     if (rowIndex === 0) {
@@ -102,63 +126,55 @@ export default {
                 },
                 handleSizeChange(p) { // 每页条数切换
                     this.p = p;
-                    this.listData()
+                    this.getDataList()
                 },
                 handleCurrentChange(page) {//页码切换
                     this.page = page;
-                    this.listData()
+                    this.getDataList()
                 },
-                jump(){
-                    this.$router.push({
-                        path:"./Divided",
-                         query:{type:this.type}
-                    })
+              
+                getDataList(){
+                    // let params={type:this.$route.query.type,p:this.p,page:this.page,is_confirmed:this.is_confirmed,tdate:this.tdate}
+                    // this.api.sharing_data_income_period({params}).then((res)=>{
+                    //     this.total=res.total;
+                    //     this.tableData=res.data; 
+                    // })
                 },
-                listData(){
-                    let params={type:this.type,p:this.p,page:this.page,tdate_start:this.tdate[0],tdate_end:this.tdate[1],is_confirmed:'1'}
-                    this.api.sharing_data_income_summary({params}).then((res)=>{
-                         this.total=res.total;
-                         this.tableData=res.data;   
-                    })
-                },
-                xq(tdate,num){
-                    this.$router.push({
-                        path:"./datas_details",
-                        query:{type:this.type,
-                                tdate:tdate,
-                                num:num
-                        }
-                    })
-                }
+               
             },
 }
 </script>
 
 <style scoped>
-      .top_name{
-        height:90px!important;
+    .top_name{
+         height:112px!important;
         background:rgba(255,255,255,1);
-    } 
+    }
     .title_left span{
         display: inline-block;
         font-size:20px;
         font-family:PingFang-SC-Medium;
-        font-weight:bold;
+        font-weight:500;
         color:rgba(50,50,50,1);
         margin-left: 24px;
         text-align: right;
-        margin-top:30px
+    }
+    .top_txt{
+        display: inline-block;
+        margin-left: 24px;
+        cursor: pointer;
     }
     .content{
-        margin-top: 173px;
+        margin-top: 199px;
     }  
     .times{
         display: inline-block;
         margin: 24px;
     }
-    .times .el-input__inner{
-        width:300px!important
+    .times .el-date-editor.el-input, .el-date-editor.el-input__inner{
+        width:200px!important
     }
+    
     .btn_right{
         display: inline-block;
         float:right;
@@ -180,6 +196,21 @@ export default {
         color: #fff!important;
         border:0!important;
         background: #3377ff!important;
+    }
+    .fc_statuc{
+        display: inline-block;
+        margin-right: 15px;
+
+    }
+    select{
+        width: 200px;
+        height: 36px;
+
+    }
+    input{
+        width: 190px;
+        height: 32px;
+        padding-left:10px ;
     }
    
 </style>

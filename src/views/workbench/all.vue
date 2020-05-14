@@ -14,6 +14,7 @@
                         <option value="demand_apply">设计师结算</option>
                         <option value="demand_settle_receive">收款结算</option>
                         <option value="demand_settle_paying">付款结算</option>
+                        <option value="demand_sharing_income">狮圈儿提现</option>
                     </select>
                     <span>所处流程</span>
                     <select v-model="statuss">
@@ -203,6 +204,8 @@
                             this.tableData[i].demand_type='收款结算'
                         }else if(this.tableData[i].demand_type=='demand_settle_paying'){
                             this.tableData[i].demand_type='付款结算'
+                        }else if(this.tableData[i].demand_type=='demand_sharing_income '){
+                             this.tableData[i].demand_type='来电秀分成金额审核'   
                         }
                     }
                 })
