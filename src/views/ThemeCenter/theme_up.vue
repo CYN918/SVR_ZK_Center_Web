@@ -335,10 +335,11 @@
                 console.log(this.file)
                 const isXzip = file.type === 'application/x-zip-compressed';
                 const iszip = file.type === 'application/zip';
-                if (!(isXzip||iszip)) {
+                const isHzip = file.type === '';
+                if (!(isXzip||iszip||isHzip)) {
                     this.$message.error('只支持ZIP格式!');
                 }
-                return isXzip||iszip;
+                return isXzip||iszip||isHzip;
             },
             ADDtag(){
                 let formData =new FormData;
