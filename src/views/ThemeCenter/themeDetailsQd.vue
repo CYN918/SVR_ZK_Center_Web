@@ -145,7 +145,13 @@
                     <span class="derivation">{{this.$route.query.channel_name}}</span>
                 </div>
                 <div class="imgID" v-for="item in tableData.previews" v-if="tableData.previews!=[]">
-                    <img :src="item">
+                    <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
+                        <div slot="content">
+                            <img :src='item'/>
+
+                        </div>
+                        <img :src='item' style="cursor: pointer"  preview="0" />                               
+                    </el-tooltip>
                 </div>
                 <div style="width: 100%;text-align: center" v-if="(tableData.previews)==[]">
                     <img src="../../../public/img/null.png" style="width:48px;margin-top: 150px">

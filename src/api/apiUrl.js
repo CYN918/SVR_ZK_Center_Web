@@ -1206,6 +1206,10 @@ export default {
     themes_data_import:{
 		url:'themes/data/import',method:'post',isType:{suktip:1}
 	},
+	//项目管理数据导入
+    themes_adproject_import:{
+		url:'adproject/import/project',method:'post',isType:{suktip:1}
+	},
     //编辑标签
     tags_edit:{
 	    url:'tags/edit',method:"post",isType:{suktip:1}
@@ -1773,7 +1777,14 @@ export default {
 	//项目收益报告
 	settle_data_settle_summary:{
 		url:"settle/data/settle/summary",method:"get"
+
 	},	
+
+	//更新广告图
+	tools_pushlib_adver_url_edit:{
+		url:'/tools/pushlib/adver/url/edit',method:'post'
+	},
+
 	//狮圈提现记录
 	record_apply_demand:{
 		url:"record/apply/demand",method:"get"

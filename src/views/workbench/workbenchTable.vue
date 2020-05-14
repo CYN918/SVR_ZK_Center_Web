@@ -413,6 +413,7 @@
                 this.fc=true;
             },
             getCK(id,type,scope,processor){
+                console.log(id,type,scope,processor)
                     if(scope==1){
                         this.skID=id;
                         this.skType=type;
@@ -700,10 +701,17 @@
             //     this.status=this.tableData[index].status;
             //     this.stop()
             // },
+
             heidBH(){
                 this.bh = false;
                 this.move()
             },
+
+            // heidBH(){
+            //     this.bh = false;
+            //     this.move()
+            // },
+
 
             heidSH(){
                 this.sh=false;

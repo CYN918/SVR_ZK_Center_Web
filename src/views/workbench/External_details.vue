@@ -14,8 +14,14 @@
             <div class='tits'>
                 <span>广告内容</span>
             </div>
-            <div class='details_left'>
-                <img :src="list.adver.pict_url" v-if='list.adver' alt="" />
+            <div class='details_left' v-if='list.adver' >
+                <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
+                    <div slot="content">
+                        <img :src='list.adver.pict_url' style="max-width:261px;max-height: 464px" />
+
+                    </div>
+                    <img :src='list.adver.pict_url' style="cursor: pointer"  preview="0"/>                               
+                </el-tooltip>
             </div>
             <div class='details_right'>
                <div>
@@ -26,14 +32,24 @@
                     <span>落地页URL</span>
                     <a :href="list.adver.click_url" v-if='list.adver'>{{list.adver.click_url}}</a>
                </div>
+               <div>
+                    <span>应用包URL</span>
+                    <a :href="list.adver.package_url" v-if='list.adver'>{{list.adver.package_url}}</a>
+               </div>
             </div>
         </div>
         <div v-if="list.mfinal">
             <div class='tits'>
                 <span>杂志锁屏</span>
             </div>
-            <div class='details_left'>
-                <img :src="list.mfinal.prev_uri" v-if="list.mfinal" alt=""/>
+            <div class='details_left' v-if="list.mfinal">
+                <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
+                    <div slot="content">
+                        <img :src='list.mfinal.prev_uri' style="max-width:261px;max-height: 464px" />
+
+                    </div>
+                    <img :src='list.mfinal.prev_uri' style="cursor: pointer"  preview="0"/>                               
+                </el-tooltip>
             </div>
             <div class='details_right2'>
                <div>
@@ -54,21 +70,21 @@
                        <a class='xz' :href='list.mfinal.attach.url'>下载</a>
                    </div>
                </div>
-                <div>
-                   <!-- <div class='tab_box'>
+                <!-- <div>
+                   <div class='tab_box'>
                        <span  class='tab_box_name'>文件大小</span>
                        <span  class='tab_box_con'>{{list.mfinal.attach.size}}</span>
                        <a class='xz' :href='list.mfinal.attach.url'>下载</a>
-                   </div> -->
-                   <!-- <div class='tab_box'>
+                   </div>
+                   <div class='tab_box'>
                        <span  class='tab_box_name' style="margin-left:30px">埋点状态</span>
                        <span  class='tab_box_con' style="margin-left:30px">{{}}</span>
-                   </div> -->
+                   </div>
                    <div class='tab_box' style="border-right:0!important">
                        <span  class='tab_box_name' >上线状态</span>
                        <span  class='tab_box_con' >{{list.status_online==0?'待确定':list.status_online==1?'已上线':'未上线'}}</span>
                    </div>
-               </div>
+               </div> -->
             </div>
             <div v-if='list.adver_status!=0'>
                 <div class='tits'>
@@ -124,7 +140,7 @@
                             <el-checkbox label="物料和落地页不匹配" class='aaa'></el-checkbox>
                             <el-checkbox label="物料内容差"  class='aaa'></el-checkbox>
                             <el-checkbox label="屏蔽竞品"  class='aaa'></el-checkbox>
-                            <el-checkbox label="物料与杂志锁屏不匹配"  class='aaa bb'>
+                            <el-checkbox label=""  class='aaa bb'>
                                 <template>
                                     <span style="margin-right:10px">其他</span>
                                     <textarea placeholder="最多20字" maxlength="20" v-model="yy"></textarea>
@@ -165,7 +181,7 @@ methods: {
     },
      qx(){
                this.tc=false;
-               this.status2='';
+               this.status2=1;
                this.checkList=[];
                this.yy='';
            }, 
@@ -194,12 +210,15 @@ methods: {
                         }
                      let formData =new FormData;
                       formData.append('status',this.status2);
+                      
                         if(!this.yy){
-                          formData.append('note',this.checkList.join(',').substr(1) +this.yy); 
+                          formData.append('note',this.checkList.join(',')); 
                         }else{
-                            formData.append('note',this.checkList.join(',').substr(1) +this.yy);
+                            formData.append('note',this.checkList.join(',') + this.yy);
                         }  
+                        
                         formData.append('advers',JSON.stringify(this.advers))
+                        console.log(this.checkList.join(',') + this.yy)
                         this.api.pushlib_adver_mfinal_audit(formData).then((res)=>{
                             if(res!=false){
                                 this.qx(); 

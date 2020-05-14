@@ -281,8 +281,28 @@
                     <span style="color:#3377ff;float:right;margin-right:24px;cursor: pointer;" @click='addRule()'>添加规则</span>
                 </div>
                 <div>
-                    <div class='regulation' v-for='(item,index) in ruleList'>
+                    <div class='regulation'>
                         <div>
+                            <span  class='titName'>音频名称：</span>
+                            <input type="text" style="width:212px" v-model='audioName'>
+                        </div>
+                        <div>
+                            <span  class='titName'>上线时间: </span>
+                            <template>
+                                <el-date-picker
+                                    v-model="date"
+                                    type="date"
+                                    format="yyyy 年 MM 月 dd 日"
+                                    placeholder="选择日期"
+                                    value-format="yyyy-MM-dd"
+                                    >
+                            </el-date-picker>
+                            </template>
+                        </div>
+
+                    </div>
+                    <div class='regulation' v-for='(item,index) in ruleList'>
+                        <div style="margin-top: 15px;">
                             <span class='tit'>规则{{index+1}}</span>
                             <span style="color:#3377ff;float:right;cursor: pointer;" @click='removeRule(index)'>删除</span>
                         </div>
@@ -410,7 +430,9 @@
             details:false,
             open:'',
             editData:{mfid:''},
-            mfinal:null
+            mfinal:null,
+            audioName:'',
+            date:'',
             }
    },
    mounted(){
@@ -472,7 +494,9 @@
        bj(data){
             let formData =new FormData
             formData.append('plid',this.$route.query.plid);
-            formData.append('mfid',this.editData.mfid)
+            formData.append('mfid',this.editData.mfid);
+            formData.append('name',this.audioName);
+            formData.append('online_date',this.date);
             formData.append('song_setting',JSON.stringify(this.ruleList))
             this.api.pushlib_slssong_edit_setting(formData).then((res)=>{
                 console.log('test2')
@@ -502,8 +526,10 @@
        },
        getShow(index){
            this.change = true;
-           this.ruleList = this.list[index].song_setting
-           this.editData.mfid = this.list[index].mfid
+           this.ruleList = this.list[index].song_setting;
+           this.audioName = this.list[index].name;
+           this.date = this.list[index].online_date;
+           this.editData.mfid = this.list[index].mfid;
        },
        HeidChange(){
            this.change=false

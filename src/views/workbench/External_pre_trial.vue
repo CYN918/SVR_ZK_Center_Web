@@ -108,7 +108,7 @@
                                 
                         >
                             <template slot-scope="scope">
-                                 <el-button  type="text" size="small" v-if='tableData[scope.$index].adver_status=="0"' @click='updateStatus(index,scope.row)'>审核</el-button>
+                                 <el-button  type="text" size="small" v-if='tableData[scope.$index].adver_status=="0" && pl == false' @click='updateStatus(index,scope.row)'>审核</el-button>
                                  <!-- <el-button v-if='tableData[scope.$index].status!="0"' type="text" size="small">修改结果</el-button> -->
                                 <el-button  type="text" size="small" @click="details(scope.$index)">查看详情</el-button>
                             </template>
@@ -178,7 +178,7 @@ return {
         p:10,
         total:0,
         tc:false,
-        status2:"",
+        status2:1,
         checkList:[],
         pl:false,
         value:[],
@@ -231,9 +231,9 @@ methods: {
                         let formData =new FormData;
                         formData.append('status',this.status2);
                         if(!this.yy){
-                          formData.append('note',this.checkList.join(',').substr(1) +this.yy); 
+                          formData.append('note',this.checkList.join(',')); 
                         }else{
-                            formData.append('note',this.checkList.join(',').substr(1) +this.yy);
+                            formData.append('note',this.checkList.join(',') +this.yy);
                         } 
                         formData.append('advers',JSON.stringify(this.advers))
                         this.api.pushlib_adver_mfinal_audit(formData).then((res)=>{
@@ -271,9 +271,9 @@ methods: {
                      let formData =new FormData;
                       formData.append('status',this.status2);
                       if(!this.yy){
-                          formData.append('note',this.checkList.join(',').substr(1) +this.yy) 
+                          formData.append('note',this.checkList.join(',')) 
                       }else{
-                          formData.append('note',this.checkList.join(',').substr(1) +this.yy) 
+                          formData.append('note',this.checkList.join(',') +this.yy) 
                       }
                         formData.append('advers',JSON.stringify(this.advers))
                         
@@ -312,7 +312,7 @@ methods: {
                     })
     },
     checkboxT(row, rowIndex){
-        if(row.status!=0){
+        if(row.adver_status!=0){
           return false;//禁用
         }else{
           return true;//不禁用
@@ -364,7 +364,7 @@ methods: {
            }, 
             qx(){
                this.tc=false;
-               this.status2='';
+               this.status2=1;
                this.checkList=[];
                this.yy=''
            }, 
