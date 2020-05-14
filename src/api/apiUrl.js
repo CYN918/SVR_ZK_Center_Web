@@ -1206,6 +1206,10 @@ export default {
     themes_data_import:{
 		url:'themes/data/import',method:'post',isType:{suktip:1}
 	},
+	//项目管理数据导入
+    themes_adproject_import:{
+		url:'adproject/import/project',method:'post',isType:{suktip:1}
+	},
     //编辑标签
     tags_edit:{
 	    url:'tags/edit',method:"post",isType:{suktip:1}

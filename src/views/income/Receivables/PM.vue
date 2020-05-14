@@ -19,6 +19,7 @@
                 <div class='btn_box'>
                     <span class="cx" @click="getDataList()">查询</span>
                     <span @click='cz()'>重置</span>
+                    <span @click="guideR()" v-if="isShow">导入</span>
                     <!-- <span>监控邮箱</span> -->
                 </div>
             </div>
@@ -74,6 +75,32 @@
             </div>
         </div>
          <loading v-if='load'></loading>
+         <div class="bg" v-if="upTxt">
+            <div class="upText">
+                <div class="titName">
+                    <span>导入数据</span>
+                </div>
+                <div style="overflow-y:auto ">
+                    <el-upload
+                            class="uploadTxt"
+                            action="222"
+                            ref="upload"
+                            :http-request="upLoad"
+                             multiple
+                            :on-remove="handleRemove"
+                            :before-upload="beforeAvatarUploads"
+                            :auto-upload="false"
+                    >
+                        <el-button size="small" type="primary">点击上传</el-button>
+                    </el-upload>
+                    <!-- <a href="text/主题结算数据录入模板.xlsx" target="_blank" style="position: absolute;top:69px;left: 120px">下载模板</a> -->
+                </div>
+                <div class="upTxtBtn">
+                    <span @click="heidUP()">取消</span>
+                    <span @click="submitUpload" style="background: #3377ff;color: #fff;border: 0">确定</span>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -91,12 +118,64 @@ import loading from '../../../components/loading'
                 status:'',
                 search:"",
                 load:true,
+                upTxt:false,
+                userData:{},
+                isShow:true,
             }
         },
         mounted(){
-            this.getDataList()
+            this.getDataList();
+            this.getData();
         },
         methods:{
+            getData(){
+                let params = {
+                    email:localStorage.getItem('userAd'),
+                };
+                this.api.get_account({params}).then((datas)=>{
+                    this.userData = datas;
+
+                });
+            },
+            guideR(){
+                if(this.userData.roles[0].role_name=='admin'){
+                    this.upTxt=true;
+                }else{
+                    this.isShow = false;
+                }   
+            },
+            upLoad(file){
+                console.log(file)
+                let formData = new FormData;
+                formData.append('file',file.file);
+                this.api.themes_adproject_import(formData).then((res)=>{
+                    this.getDataList()
+                })
+            },
+            handleRemove(file) {
+               for(var i=0;i<this.fileList.length;i++){
+                   if(this.fileList[i]==file){
+                       this.fileList.splice(i,1);
+                   }
+
+               }
+               console.log(this.fileList);
+            },
+            beforeAvatarUploads(file) {
+                this.file = file;
+                const iszip = file.name.split('.')[(file.name.split('.')).length-1] === 'xlsx';
+                if (!(iszip)) {
+                    this.$message.error('只支持xlsx格式!');
+                }
+                return iszip;
+            },
+            submitUpload() {
+                this.$refs.upload.submit();
+                this.heidUP();
+            },
+            heidUP(){
+                this.upTxt=false;
+            },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
                     return 'background:rgba(247,249,252,1);color:rgba(31,46,77,1);text-align:center;font-size:14px;font-weight:blod;font-family:PingFang-SC-Medium;height:56px'
@@ -285,4 +364,62 @@ import loading from '../../../components/loading'
    .timesDate .el-input__inner{
        line-height:normal!important;
    }
+   .bg{
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.3);
+        position: fixed;
+        z-index: 9;
+        bottom: 0;
+        right: 0;
+    }
+    .upText{
+        width:460px;
+        height:312px;
+        background:rgba(255,255,255,1);
+        box-shadow:0px 1px 6px 0px rgba(0,0,0,0.06);
+        border-radius:4px;
+        -webkit-box-shadow: 0px 1px 6px 0px rgba(0,0,0,0.06);
+        position: relative;
+        left: 50%;
+        top: 50%;
+        -webkit-transform: translate(-50%,-50%);
+        transform: translate(-50%,-50%);
+    }
+    .titName span{
+        display: inline-block;
+        margin: 20px 20px 24px 20px;
+        font-size:14px;
+        font-family:PingFangSC-Medium,PingFangSC;
+        font-weight:500;
+        color:rgba(31,46,77,1);
+    }
+.uploadTxt{
+    margin-left:20px ;
+}
+.upTxtBtn{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+    .upTxtBtn span{
+        display: inline-block;
+        text-align: center;
+        line-height: 36px;
+        cursor: pointer;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(31,46,77,1);
+        width:80px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        float: right;
+        margin:0  24px 24px 0;
+    }
+    a{
+        color: #3377ff;
+    }
 </style>
