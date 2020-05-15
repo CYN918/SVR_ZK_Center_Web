@@ -16,6 +16,26 @@
                     <option value="0">信息异常</option>
                     <option value="1">信息待补充</option>
                 </select>
+                <div style=" display: inline-block;position: relative;margin-left:15px;"  @mouseleave='focuson()'>
+                    <span style="margin-right: 15px;">结算主体</span>
+                    <input type="text" placeholder="请输入结算主体" v-model="balance_name" @input="getName()" @focus='getName()'/>
+                    <div class='names' v-if="show">
+                        <span v-for="da in JSname" @click='setName(da)'>{{da.account_name}}</span>
+                    </div>
+                </div>
+                <div style=" display: inline-block;position: relative;margin-left:15px;margin-right:15px;" @mouseleave='oldblur()'>
+                    <span style="margin-right: 15px;">合作公司</span>
+                    <input type="text" placeholder="请输入合作公司" v-model="company_name" @input="oldADD()" />
+                    <div class='names' v-if="old">
+                        <span v-for="da in company" @click='select_check(da)'>{{da.name}}</span>
+                    </div>
+                </div>
+                <span class='select_left'>投放形式</span>
+                <select class='input_left' v-model="put_type">
+                     <option value="" >请选择</option>
+                     <option value="常规业务" >常规业务</option>
+                     <option value="试玩业务" >试玩业务</option>
+                </select>
                 <div class='btn_box'>
                     <span class="cx" @click="getDataList()">查询</span>
                     <span @click='cz()'>重置</span>
@@ -121,6 +141,15 @@ import loading from '../../../components/loading'
                 upTxt:false,
                 userData:{},
                 isShow:true,
+                JSname:[],
+                show:false,
+                balance_id:'',
+                put_type:'',
+                company:[],
+                company_name:'',
+                old:false,
+                company_id:'',
+                balance_name:'',
             }
         },
         mounted(){
@@ -128,13 +157,46 @@ import loading from '../../../components/loading'
             this.getData();
         },
         methods:{
+            getName(){ 
+                if(this.balance_name!=''){
+                    this.show=true;   
+                    let params={is_receiver:'1'}
+                    this.api.settle_settlement_searchall({params}).then((res)=>{
+                        this.JSname=res
+                    })
+                }     
+            },
+            focuson(){
+                this.show=false;
+            },
+            setName(da){
+                this.balance_id=da.id;
+                this.balance_name = da.account_name;
+                this.show=false;
+            },
+            oldADD(){
+                if(this.company_name!=''){
+                    let params={search:this.company_name}
+                    this.api.adproject_adcompany_list({params}).then((res)=>{
+                        this.company=res; 
+                    })
+                    this.old=true;
+                }
+            },
+            select_check(da){
+                this.company_name=da.name;
+                this.company_id = da.company_id;
+                this.old=false;
+            },
+            oldblur(){
+                this.old=false;
+            },
             getData(){
                 let params = {
                     email:localStorage.getItem('userAd'),
                 };
                 this.api.get_account({params}).then((datas)=>{
                     this.userData = datas;
-
                 });
             },
             guideR(){
@@ -157,7 +219,6 @@ import loading from '../../../components/loading'
                    if(this.fileList[i]==file){
                        this.fileList.splice(i,1);
                    }
-
                }
                console.log(this.fileList);
             },
@@ -205,7 +266,7 @@ import loading from '../../../components/loading'
                 this.getDataList()
             },
             getDataList(){
-                let params={p:this.p,page:this.page,search:this.search,status:this.status}
+                let params={p:this.p,page:this.page,search:this.search,status:this.status,company_id:this.company_id,put_type:this.put_type,balance_id:this.balance_id}
                 this.api.adproject_listpage({params}).then((res)=>{
                     this.total=res.total;
                     this.tableData=res.data;
@@ -320,7 +381,7 @@ import loading from '../../../components/loading'
         margin-top: 24px;
     }
     .sum input{
-        width:200px;
+        width:140px;
         height:36px;
         padding-left: 8px;
         background:rgba(255,255,255,1);
@@ -340,7 +401,7 @@ import loading from '../../../components/loading'
         text-align: right;
     }
     .sum select{
-        width:200px;
+        width:140px;
         height:36px;
         background:rgba(255,255,255,1);
         border-radius:4px;
@@ -421,5 +482,23 @@ import loading from '../../../components/loading'
     }
     a{
         color: #3377ff;
+    }
+    .names{
+        position: absolute;
+        top:65px;
+        right: 0;
+        height: 200px;
+        width: 100%;
+        overflow-y:auto;
+        background: #fff;
+        z-index: 100;
+        border: 1px solid #ddd;
+    }
+    .names span{
+        text-align: center;
+        display: block;
+        height: 36px;
+        line-height: 36px;
+        border-bottom:1px solid #eee 
     }
 </style>
