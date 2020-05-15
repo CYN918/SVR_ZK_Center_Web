@@ -16,14 +16,14 @@
                     <option value="0">信息异常</option>
                     <option value="1">信息待补充</option>
                 </select>
-                <div style=" display: inline-block;position: relative;margin-left:15px;"  @mouseleave='focuson()'>
+                <div style=" display: inline-block;position: relative;margin-left:15px;" @mouseleave="focuson()">
                     <span style="margin-right: 15px;">结算主体</span>
                     <input type="text" placeholder="请输入结算主体" v-model="balance_name" @input="getName()" @focus='getName()'/>
                     <div class='names' v-if="show">
                         <span v-for="da in JSname" @click='setName(da)'>{{da.account_name}}</span>
                     </div>
                 </div>
-                <div style=" display: inline-block;position: relative;margin-left:15px;margin-right:15px;" @mouseleave='oldblur()'>
+                <div style=" display: inline-block;position: relative;margin-left:15px;margin-right:15px;" @mouseleave="oldblur()">
                     <span style="margin-right: 15px;">合作公司</span>
                     <input type="text" placeholder="请输入合作公司" v-model="company_name" @input="oldADD()" />
                     <div class='names' v-if="old">
@@ -164,6 +164,8 @@ import loading from '../../../components/loading'
                     this.api.settle_settlement_searchall({params}).then((res)=>{
                         this.JSname=res
                     })
+                }else{
+                    this.show=false;
                 }     
             },
             focuson(){
@@ -181,6 +183,8 @@ import loading from '../../../components/loading'
                         this.company=res; 
                     })
                     this.old=true;
+                }else{
+                    this.old=false;
                 }
             },
             select_check(da){
@@ -270,7 +274,11 @@ import loading from '../../../components/loading'
                 this.api.adproject_listpage({params}).then((res)=>{
                     this.total=res.total;
                     this.tableData=res.data;
-                    this.load=false
+                    this.load=false;
+                    this.balance_name = '';
+                    this.company_name = '';
+                    this.company_id = '';
+                    this.balance_id = '';
                 })
             },
             jump(data){
