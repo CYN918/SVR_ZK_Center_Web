@@ -999,7 +999,7 @@ select{
 .times .el-input__inner{
          width:200px!important
     }
-  .file_ADD .el-upload-list__item-name,.box_right .el-upload-list__item{
+  .file_ADD .el-upload-list__item-name,.box_right .el-upload-list__item,.tit4 .el-upload-list__item-name{
     display: none;
   }  
 

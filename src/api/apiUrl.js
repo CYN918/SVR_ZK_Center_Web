@@ -1774,6 +1774,7 @@ export default {
 		url:'settle/data/project/contracts',method:"get"
 	},
 
+
 	//项目收益报告
 	settle_data_settle_summary:{
 		url:"settle/data/settle/summary",method:"get"
@@ -1794,5 +1795,53 @@ export default {
 	//狮圈设计师提现申请详情
 	record_apply_designer_details:{
 		url:"record/apply/designer/details",method:'get'
+	},
+	//获取收益数据总览
+	ds_receive_income_summary:{
+		url:"ds/receive/income/summary",method:'get'
+	},
+	//编辑收益数据
+	ds_receive_income_edit:{
+		url:"ds/receive/income/edit",method:"post",isType:{suktip:1}
+	},
+	//编辑导入数据
+	sharing_data_import_edit:{
+		url:"sharing/data/import/edit",method:"post",isType:{suktip:1}
+	},
+	//获取数据详情
+	ds_receive_income_detail:{
+		url:'ds/receive/income/detail',method:'get'
+	},
+	//周期收益
+	ds_receive_income_period:{
+		url:'ds/receive/income/period',method:'get'
+	},
+	//设计师汇款记录
+	ds_offline_settlement_record_list:{
+		url:"ds/offline_settlement/record/list",method:'get'
+	},
+	//新建汇款记录
+	ds_offline_settlement_record_add:{
+		url:'ds/offline_settlement/record/add',method:"post",isType:{suktip:1}
+	},
+	//编辑汇款记录
+	ds_offline_settlement_record_edit:{
+		url:"ds/offline_settlement/record/edit",method:"post",isType:{suktip:1}
+	},
+	//汇款记录详情
+	ds_offline_settlement_record_detail:{
+		url:"ds/offline_settlement/record/detail",method:'get'
+	},
+	//设计师汇款记录操作记录
+	ds_offline_settlement_record_logs:{
+		url:"ds/offline_settlement/record/logs",method:'get'
+	},
+	//汇款记录操作日志详情
+	ds_offline_settlement_record_log_detail:{
+		url:"ds/offline_settlement/record/log/detail",method:'get'
+	},
+	//上传汇款凭证
+	ds_advance_payment_upload_remittance:{
+		url:'ds/advance_payment/upload_remittance',method:"post",isType:{suktip:1}
 	},
 }

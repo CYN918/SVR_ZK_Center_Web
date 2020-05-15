@@ -2,7 +2,7 @@
    <div>
         <div class="top_name">
             <div class="title_left">
-                <span>{{this.type=='1'?'主题付款':'来电秀付款'}}</span>
+                <span>素材付款</span>
             </div>
         </div>
         <div class='content'>
@@ -50,7 +50,7 @@
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="props">
-                                <el-button type="text" @click='xq(tableData[props.$index].tdate,"1")'>查看详情</el-button>
+                                <el-button type="text" @click='xq()'>查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -84,7 +84,7 @@ export default {
                 }
             },
             mounted(){
-                this.listData()
+               
             },
             methods:{
                 cz(){
@@ -102,33 +102,22 @@ export default {
                 },
                 handleSizeChange(p) { // 每页条数切换
                     this.p = p;
-                    this.listData()
+                    
                 },
                 handleCurrentChange(page) {//页码切换
                     this.page = page;
-                    this.listData()
+                    
                 },
                 jump(){
                     this.$router.push({
-                        path:"./Divided",
-                         query:{type:this.type}
+                        path:"./Divided_into_management"
                     })
                 },
-                listData(){
-                    let params={type:this.type,p:this.p,page:this.page,tdate_start:this.tdate[0],tdate_end:this.tdate[1],is_confirmed:'1'}
-                    this.api.sharing_data_income_summary({params}).then((res)=>{
-                         this.total=res.total;
-                         this.tableData=res.data;   
-                    })
-                },
-                xq(tdate,num){
-                    this.$router.push({
-                        path:"./datas_details",
-                        query:{type:this.type,
-                                tdate:tdate,
-                                num:num
-                        }
-                    })
+               
+                xq(){
+                   this.$router.push({
+                       path:"./money_detail"
+                   })
                 }
             },
 }

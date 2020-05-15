@@ -1,8 +1,10 @@
 <template>
    <div>
         <div class="top_name">
+            <span class="top_txt" @click='fh(-1)'>设计师线下结算&nbsp;/</span>
+            <span class="top_txt" style="margin-left:auto">操作记录</span>
             <div class="title_left">
-                <span>{{this.type=='1'?'主题付款':'来电秀付款'}}</span>
+                <span>操作记录</span>
             </div>
         </div>
         <div class='content'>
@@ -17,11 +19,12 @@
                         value-format="yyyy-MM"
                         end-placeholder="结束月份">
                     </el-date-picker>
+                    <span style="margin:0 24px 0 16px ">操作人员</span>
+                    <input type="text" v-model="updator">
                 </div>
                 <div class="btn_right">
                     <span class='cx' @click='listData()'>查询</span>
                     <span @click='cz()'>重置</span>
-                    <span @click='jump()'>分成管理</span>
                 </div>      
             </div>
            <div>
@@ -33,24 +36,16 @@
                             :cell-style="cell"
                             style="width: 100%;color:#000">
                         <el-table-column
-                                label="结算周期" prop="tdate"
+                                label="变更时间" prop="tdate"
                                >
                         </el-table-column>
                         <el-table-column
-                                label="总付款金额" prop="total_income"
+                                label="处理人" prop="updator"
                                 >
                         </el-table-column>
-                        <el-table-column
-                                label="买断付款金额" prop="buyout_income"
-                                >
-                        </el-table-column>
-                        <el-table-column
-                                label="分成付款金额" prop="sharing_income"
-                                >
-                        </el-table-column>
-                        <el-table-column label="操作">
+                        <el-table-column label="操作" width="150">
                             <template slot-scope="props">
-                                <el-button type="text" @click='xq(tableData[props.$index].tdate,"1")'>查看详情</el-button>
+                                <el-button type="text" @click='xq(tableData[props.$index])'>查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -80,15 +75,24 @@ export default {
                     p:10,
                     page:1,
                     total:0,
-                    tableData:[{time:2020}]
+                    tableData:[{time:2020}],
+                    start_time:'',
+                    end_time:'',
+                    updator:"",
                 }
             },
             mounted(){
-                this.listData()
+               this.getData()
             },
             methods:{
                 cz(){
-                    this.tdate=[]
+                    this.tdate=[];
+                    this.start_time='',
+                    this.end_time='',
+                    this.updator=""
+                },
+                fh(index){
+                    this.$router.go(index)
                 },
                 getRowClass({row, column, rowIndex}) {
                     if (rowIndex === 0) {
@@ -102,33 +106,38 @@ export default {
                 },
                 handleSizeChange(p) { // 每页条数切换
                     this.p = p;
-                    this.listData()
+                    this.getData()
                 },
                 handleCurrentChange(page) {//页码切换
                     this.page = page;
-                    this.listData()
+                    this.getData()
+                    
+                },
+                getData(){
+                    if(this.tdate.length>0){
+                        this.start_time=this.tdate[0]
+                        this.end_time=this.tdate[1]
+                    }
+                    let params={record_id:this.$route.query.record_id,p:this.p,page:this.page,start_time:this.start_time,end_time:this.end_time,updator:this.updator}
+                    this.api.ds_offline_settlement_record_logs({params}).then((res)=>{
+                        this.total=res.total;
+                        this.tableData=res.data
+                    })
                 },
                 jump(){
                     this.$router.push({
-                        path:"./Divided",
-                         query:{type:this.type}
+                        path:"./Divided_into_management"
                     })
                 },
-                listData(){
-                    let params={type:this.type,p:this.p,page:this.page,tdate_start:this.tdate[0],tdate_end:this.tdate[1],is_confirmed:'1'}
-                    this.api.sharing_data_income_summary({params}).then((res)=>{
-                         this.total=res.total;
-                         this.tableData=res.data;   
-                    })
-                },
-                xq(tdate,num){
-                    this.$router.push({
-                        path:"./datas_details",
-                        query:{type:this.type,
-                                tdate:tdate,
-                                num:num
-                        }
-                    })
+               
+                xq(data){
+                   this.$router.push({
+                       path:"./Operation_details",
+                       query:{
+                           record_id:data.record_id,
+                           log_id:data.log_id
+                       }
+                   })
                 }
             },
 }
@@ -147,7 +156,11 @@ export default {
         color:rgba(50,50,50,1);
         margin-left: 24px;
         text-align: right;
-        margin-top:30px
+    }
+     .top_txt{
+        display: inline-block;
+        margin-left: 24px;
+        cursor: pointer;
     }
     .content{
         margin-top: 173px;
@@ -181,5 +194,10 @@ export default {
         border:0!important;
         background: #3377ff!important;
     }
-   
+   input{
+       width: 190px;
+       padding-left: 10px;
+       height: 32px;
+       border-radius: 3px;
+   }
 </style>
