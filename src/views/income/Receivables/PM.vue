@@ -18,14 +18,14 @@
                 </select>
                 <div style=" display: inline-block;position: relative;margin-left:15px;">
                     <span style="margin-right: 15px;">结算主体</span>
-                    <input type="text" placeholder="请输入结算主体" v-model="balance_name" @input="getName"/>
+                    <input type="text" placeholder="请输入结算主体" v-model="balance_name" @input="getName()" @blur='focuson()' @focus='getName()'/>
                     <div class='names' v-if="show">
                         <span v-for="da in JSname" @click='setName(da)'>{{da.account_name}}</span>
                     </div>
                 </div>
                 <div style=" display: inline-block;position: relative;margin-left:15px;margin-right:15px;">
                     <span style="margin-right: 15px;">合作公司</span>
-                    <input type="text" placeholder="请输入合作公司" v-model="company_name" @input="oldADD"/>
+                    <input type="text" placeholder="请输入合作公司" v-model="company_name" @input="oldADD()" @blur='oldblur()'/>
                     <div class='names' v-if="old">
                         <span v-for="da in company" @click='select_check(da)'>{{da.name}}</span>
                     </div>
@@ -157,12 +157,17 @@ import loading from '../../../components/loading'
             this.getData();
         },
         methods:{
-            getName(){  
-                this.show=true;   
-                let params={is_receiver:'1'}
-                this.api.settle_settlement_searchall({params}).then((res)=>{
-                    this.JSname=res
-                }) 
+            getName(){ 
+                if(this.balance_name!=''){
+                    this.show=true;   
+                    let params={is_receiver:'1'}
+                    this.api.settle_settlement_searchall({params}).then((res)=>{
+                        this.JSname=res
+                    })
+                }     
+            },
+            focuson(){
+                this.show=false;
             },
             setName(da){
                 this.balance_id=da.id;
@@ -170,16 +175,20 @@ import loading from '../../../components/loading'
                 this.show=false;
             },
             oldADD(){
-                let params={search:this.company_name}
-                this.api.adproject_adcompany_list({params}).then((res)=>{
-                    this.company=res; 
-                })
-                this.old=true;
-
+                if(this.company_name!=''){
+                    let params={search:this.company_name}
+                    this.api.adproject_adcompany_list({params}).then((res)=>{
+                        this.company=res; 
+                    })
+                    this.old=true;
+                }
             },
             select_check(da){
                 this.company_name=da.name;
-                this.company_id = da.id;
+                this.company_id = da.company_id;
+                this.old=false;
+            },
+            oldblur(){
                 this.old=false;
             },
             getData(){
@@ -188,7 +197,6 @@ import loading from '../../../components/loading'
                 };
                 this.api.get_account({params}).then((datas)=>{
                     this.userData = datas;
-
                 });
             },
             guideR(){
@@ -211,7 +219,6 @@ import loading from '../../../components/loading'
                    if(this.fileList[i]==file){
                        this.fileList.splice(i,1);
                    }
-
                }
                console.log(this.fileList);
             },
