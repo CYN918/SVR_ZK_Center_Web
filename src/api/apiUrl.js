@@ -1778,7 +1778,9 @@ export default {
 	//项目收益报告
 	settle_data_settle_summary:{
 		url:"settle/data/settle/summary",method:"get"
-	},
+
+	},	
+
 	//更新广告图
 	tools_pushlib_adver_url_edit:{
 		url:'/tools/pushlib/adver/url/edit',method:'post'
