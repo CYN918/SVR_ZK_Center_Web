@@ -124,7 +124,7 @@
                             <el-button   v-if="tableData[props.$index].status_name=='完成入库'">查看投放结果</el-button>
                             <el-button  @click="withdraw(tableData[props.$index].did,tableData[props.$index].status)" v-if="((tableData[props.$index].status_name=='提现审核'||tableData[props.$index].status_name=='结算汇款')&&tableData[props.$index].reject=='0'&&tableData[props.$index].demand_type=='设计师结算')&&(tableData[props.$index].emails.indexOf(email)!=-1)">查看详情</el-button>
                             <el-button v-if="(tableData[props.$index].demand_type=='业务需求'||tableData[props.$index].demand_type=='素材需求')&&tableData[props.$index].isfinish!=1&&tableData[props.$index].isfinish!=2&&tableData[props.$index].emails.indexOf(email)!=-1" @click="Abolish(tableData[props.$index].did,tableData[props.$index].status)">作废</el-button>
-                            <el-button v-if='tableData[props.$index].demand_type=="分成金额审核"&&tableData[props.$index].status==2' @click='CKdetails(tableData[props.$index])'>查看详情</el-button>
+                            <el-button v-if='tableData[props.$index].demand_type=="分成金额审核"&&tableData[props.$index].status==2&&tableData[props.$index].reject!=1' @click='CKdetails(tableData[props.$index])'>查看详情</el-button>
 
                         </template>
                     </el-table-column>
@@ -853,9 +853,6 @@
                 }
             },
             check(type,id,status,reject){
-                console.log(type)
-                 console.log(id)
-                 console.log(status)
                 if(type=='业务需求'){
                     if(status ==1){
                         if(reject==1){

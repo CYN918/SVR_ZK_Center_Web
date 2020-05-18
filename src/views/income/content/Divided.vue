@@ -59,7 +59,7 @@
                                 >
                         </el-table-column>
                          <el-table-column
-                                label="处理人" prop="updator"
+                                label="处理人" prop="creator"
                                 >
                         </el-table-column>
                         <el-table-column label="操作">
