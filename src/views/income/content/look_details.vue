@@ -69,7 +69,7 @@
            this.$router.push({
                path:"./Designer_ADD",
                 query:{
-                    data:this.data
+                   record_id:this.$route.query.record_id
                 }
            })
        },
@@ -83,7 +83,7 @@
             this.$router.push({
                 path:"./Designer_record",
                 query:{
-                    record_id:this.$route.query.data.record_id
+                    record_id:this.$route.query.record_id
                 }
             })
         },
