@@ -103,11 +103,14 @@
                  </div>
            </div>
         </div>
+        <load v-if="load"></load>
    </div>
 </template>
 
 <script>
+import load from '../../../components/loading'
 export default {
+    components:{load},
             data(){
                 return{
                     value1:"",
@@ -119,7 +122,8 @@ export default {
                     project_id:'',
                     material_name:'',
                     channels:[],
-                    channel:''
+                    channel:'',
+                    load:true,
                 }
             },
             mounted(){
@@ -165,6 +169,7 @@ export default {
                     this.channel=''
                 },
                 getDataList(){
+                    this.load=true
                     var params={}
                     if(this.$route.query.num){
                          params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.$route.query.open_id,project_id:this.project_id,p:this.p,page:this.page,is_confirmed:'1'}   
@@ -175,6 +180,7 @@ export default {
                     this.api.sharing_data_income_detail({params}).then((res)=>{
                         this.total=res.total;
                         this.tableData=res.data;
+                        this.load=false
                         this. qd();
                     })
                 },

@@ -118,11 +118,14 @@
                     </div>
                 </div>
         </div>
+        <load v-if="load"></load>
  </div>
 </template>
 
 <script>
+import load from '../../../components/loading'
  export default {
+     components:{load},
    data () {
      return {
         p:10,
@@ -139,7 +142,8 @@
         theme_name_change:'',
         cash:'',
         id:"",
-        all:""
+        all:"",
+        load:true
      }
    },
    mounted(){
@@ -192,11 +196,13 @@
             this.id=data.id
         },
         getData(){
+            this.load=true
             this.all='';
             let params={tdate:this.$route.query.tdate,type:this.$route.query.type,p:this.p,page:this.page}
             this.api.ds_receive_income_period({params}).then((res)=>{
                 this.total=res.total;
                 this.tableData=res.data;
+                this.load=false
                 for(var i=0;i<this.tableData.length;i++){
                    this.all= (this.all-0)+(this.tableData[i].income-0)
                 }

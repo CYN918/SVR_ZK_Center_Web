@@ -116,11 +116,14 @@
                 </div>
             </div>
         </div>
+        <load v-if="load"></load>
    </div>
 </template>
 
 <script>
+import load from '../../../components/loading'
 export default {
+    components:{load},
     props:['type'],
             data(){
                 return{
@@ -137,6 +140,7 @@ export default {
                     id:"",
                     exe:false,
                     file:{},
+                    load:true
                 }
             },
             mounted(){
@@ -167,7 +171,7 @@ export default {
                     }
                     let formData =new FormData;
                     formData.append('porject_id',this.porject_id);
-                    formData.append('attach',JSON.stringify(this.file))
+                    formData.append('attach',JSON.stringify(this.file));
                     this.api.ds_advance_payment_upload_remittance(formData).then((res)=>{
                         if(res!=false){
                             this.heid();
@@ -203,10 +207,12 @@ export default {
                 },
                
                 listData(){
+                    this.load=true
                     let params={open_id:this.open_id,porject_id:this.porject,account_name:this.account_name,p:this.p,page:this.page};
                     this.api.ds_advance_payment_list({params}).then((res)=>{
                         this.tableData=res.data;
                         this.total=res.total;
+                        this.load=false
                          this.getData();
                          this.getDlist();
                     })
@@ -248,7 +254,11 @@ export default {
                     this.open_id=this.id;
                 },
                  uploadFile(file){
-                    this.file=file.file;
+                     let formData=new FormData;
+                     formData.append('file',file.file)
+                     this.api.file_private_upload(formData).then((res)=>{
+                         this.file=res
+                     })
                 },
                 jump(porject_id,open_id,data,money,ye){
                     this.$router.push({

@@ -249,11 +249,14 @@
                 </div>   
             </div>
         </div>
+        <load v-if="load"></load>
    </div>
 </template>
 
 <script>
+import load from '../../../components/loading'
 export default {
+    components:{load},
             data(){
                 return{
                     tdate:"",
@@ -282,7 +285,8 @@ export default {
                     theme_name_change:"",
                     channel_change:"",
                     cash:"",
-                    id:''
+                    id:'',
+                    load:true
                 }
             },
             mounted(){
@@ -317,10 +321,12 @@ export default {
                     
                 },
                 getDataList(){
+                    this.load=true
                     let params={type:this.$route.query.type,tdate:this.tdate,updator:this.updator,p:this.p,page:this.page}
                     this.api.sharing_data_file_list({params}).then((res)=>{
                         this.total=res.total;
                         this.tableData=res.data;
+                        this.load=false
                     })
                 },
                  handlePictureCardPreview(file) {

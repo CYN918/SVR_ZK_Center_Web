@@ -129,11 +129,14 @@
             </div>
         </div>
     </div>
+    <load v-if="load"></load>
    </div>
 </template>
 
 <script>
+import load from '../../../components/loading'
 export default {
+    components:{load},
             data(){
                 return{
                     value1:"",
@@ -149,6 +152,7 @@ export default {
                     status:'',
                     bh:false,
                     note:"",
+                    load:true
                 }
             },
             mounted(){
@@ -213,10 +217,12 @@ export default {
                     })
                 },
                 getDataList(){
+                    this.load=true
                     let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.open_id,account_name:this.account_name,p:this.p,page:this.page}
                     this.api.sharing_data_income_designer({params}).then((res)=>{
                         this.total=res.total;
                         this.tableData=res.data;
+                        this.load=false
                         this.getData();
                         this.getDetails()
                     })

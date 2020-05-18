@@ -82,11 +82,14 @@
                  </div>
            </div>
         </div>
+        <load v-if="load"></load>
    </div>
 </template>
 
 <script>
+import load from '../../../components/loading'
 export default {
+    components:{load},
             data(){
                 return{
                     tdate:"",
@@ -95,6 +98,7 @@ export default {
                     total:0,
                     tableData:[{time:2020}],
                     is_confirmed:"",
+                    load:true
                 }
             },
             mounted(){
@@ -145,10 +149,12 @@ export default {
                     })
                 },
                 getDataList(){
+                    this.load=true
                     let params={type:this.$route.query.type,p:this.p,page:this.page,is_confirmed:this.is_confirmed,tdate:this.tdate}
                     this.api.sharing_data_income_period({params}).then((res)=>{
                         this.total=res.total;
                         this.tableData=res.data; 
+                        this.load=false
                     })
                 },
             },
