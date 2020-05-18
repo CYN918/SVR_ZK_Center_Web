@@ -46,7 +46,7 @@
                                 >
                         </el-table-column>
                          <el-table-column
-                                label="操作人员" prop="updated"
+                                label="操作人员" prop="updator"
                                 >
                         </el-table-column>
                         <el-table-column label="操作" width="150">
