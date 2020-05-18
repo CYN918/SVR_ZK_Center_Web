@@ -135,13 +135,12 @@ export default {
                         }
                     })
                 },
-                details(tdate,status){
+                details(tdate){
                     this.$router.push({
                         path:"./Divided_details",
                         query:{
                               tdate:tdate,
                               type:this.$route.query.type,
-                              status:status
                         }
                     })
                 },
