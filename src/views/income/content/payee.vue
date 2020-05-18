@@ -60,11 +60,14 @@
                  </div>
            </div>
         </div>  
+        <load v-if="load"></load>
     </div>
 </template>
 
 <script>
+import load from '../../../components/loading'
  export default {
+     components:{load},
      props:['type'],
    data () {
      return {
@@ -72,7 +75,8 @@
          p:10,
          page:1,
          total:0,
-         tableData:[{tdate:2020-10}]
+         tableData:[{tdate:2020-10}],
+         load:true
 
      }
    },
@@ -99,10 +103,12 @@
                 this.getData()    
         },
         getData(){
+            this.load=true
             let params={type:this.type,tdate:this.tdate,p:this.p,page:this.page}
             this.api.ds_receive_income_summary({params}).then((res)=>{
                 this.total=res.total;
                 this.tableData=res.data
+                this.load=false
             })
         },
         cz(){
