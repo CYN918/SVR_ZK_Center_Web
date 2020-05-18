@@ -413,7 +413,8 @@
                     query:{
                         type:data.type,
                         siid:data.siid,
-                        tdate:data.tdate
+                        tdate:data.tdate,
+                        status:data.status
                     }
                 })
             },
