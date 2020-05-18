@@ -1817,4 +1817,12 @@ export default {
 	ds_advance_payment_upload_remittance:{
 		url:'ds/advance_payment/upload_remittance',method:"post",isType:{suktip:1}
 	},
+	//获取周期审核状态
+	sharing_data_income_status:{
+		url:"sharing/data/income/status",method:'get'
+	},
+	//审核操作
+	sharing_data_income_demand_audit:{
+		url:"sharing/data/income/demand/audit",method:"post",isType:{suktip:1}
+	},
 }

@@ -1,13 +1,14 @@
 <template>
    <div>
         <div class="top_name">
-             <span class="top_txt" @click='fh(-2)'>{{this.$route.query.type=='1'?'主题付款':'来电秀付款'}}&nbsp;/&nbsp;</span>
-             <span class="top_txt" @click='fh(-1)'>分成管理&nbsp;/&nbsp;</span>
-              <span class="top_txt">分成详情</span>
+            <span class="top_txt" @click='fh(-2)' v-if='this.$route.query.siid==undefined'>{{this.$route.query.type=='1'?'主题付款':'来电秀付款'}}&nbsp;/&nbsp;</span>
+            <span class="top_txt" @click='fh(-1)'  v-if='this.$route.query.siid==undefined'>分成管理&nbsp;/&nbsp;</span>
+            <span class="top_txt" @click='fh(-1)'  v-if='this.$route.query.siid!=undefined'>待处理&nbsp;/&nbsp;</span>
+            <span class="top_txt">分成详情</span>
             <div class="title_left">
                 <span>分成详情</span>
                 <span class='time'>{{this.$route.query.tdate}}</span>
-                <span class='zt' :class='{red:this.status==0}'>({{this.status==0?"未确认":"已确认"}})</span>
+                <span class='zt' :class='{red:this.status==0}'>({{this.status==0?"待确认":this.status==1?'审核中':this.status==2?'已确认':this.status==-1?'驳回':''}})</span>
             </div>
         </div>
         <div class='content'>
@@ -28,6 +29,8 @@
                     <span class='cz
                     ' @click='cz()'>重置</span>
                     <span @click='jeqr()' v-if='this.status==0'>确认金额</span>
+                    <span v-if='this.status==1' @click='setData(1)'>审核通过</span>
+                    <span v-if='this.status==1' @click='setDataBH()'>审核不通过</span>
                 </div>      
             </div>
            <div>
@@ -113,6 +116,20 @@
                     </div>
             </div>
         </div>
+         <div class="bg" v-if='bh'>
+        <div class="cont">
+            <div class="tit">
+                <span>驳回</span>
+            </div>
+            <div class="tishi">
+                <textarea placeholder="请输入驳回原因" v-model="note" maxlength="20"></textarea>
+            </div>
+            <div class="btn">
+                <span class="btn_qd" @click="tj()">确定</span>
+                <span  @click="sq()">取消</span>
+            </div>
+        </div>
+    </div>
    </div>
 </template>
 
@@ -130,7 +147,9 @@ export default {
                     account_name:'',
                     open_id:"",
                     state1:"",
-                    status:''
+                    status:'',
+                    bh:false,
+                    note:"",
                 }
             },
             mounted(){
@@ -142,8 +161,8 @@ export default {
                 },
                 getDetails(){
                     let params={type:this.$route.query.type,tdate:this.$route.query.tdate}
-                    this.api.sharing_data_income_is_confirm({params}).then((res)=>{
-                        this.status=res.is_confirmed;
+                    this.api.sharing_data_income_status({params}).then((res)=>{
+                        this.status=res.status;
                     })
                 },
                 getRowClass({row, column, rowIndex}) {
@@ -171,10 +190,16 @@ export default {
                 },
                 jeqr(){
                     this.show=true;
-
                 },
                 heid(){
                     this.show=false
+                },
+                setDataBH(){
+                    this.bh=true
+                },
+                sq(){
+                    this.bh=false;
+                    this.note=''
                 },
                 ck(id,account_name){
                     this.$router.push({
@@ -236,7 +261,35 @@ export default {
                 },
                 handleSelect(item) {
                     this.account_name=item.open_id
-                }
+                },
+                setData(check_status){
+                    let formData =new FormData;
+                    formData.append('type',this.$route.query.type);
+                    formData.append('siid',this.$route.query.siid);
+                    formData.append('check_status',check_status);
+                    this.api.sharing_data_income_demand_audit(formData).then((res)=>{
+                        if(res!=false){
+                            this.getDataList();
+                        }
+                    })
+                },
+                tj(){
+                    if(!this.note){
+                        this.$message.error('驳回原因不能为空');
+                        return
+                    }
+                    let formData =new FormData;
+                    formData.append('type',this.$route.query.type);
+                    formData.append('siid',this.$route.query.siid);
+                    formData.append('check_status',2);
+                    formData.append('note',this.note);
+                    this.api.sharing_data_income_demand_audit(formData).then((res)=>{
+                        if(res!=false){
+                            this.getDataList();
+                            this.sq()
+                        }
+                    })
+                },
             },
              watch:{
                 state1:function(val,oldVal){
@@ -391,5 +444,86 @@ export default {
     }
     .red{
         color: red;
+    }
+
+
+      .bg{
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.3);
+        position: fixed;
+        z-index: 999;
+        bottom: 0;
+        right: 0;
+    }
+    .cont{
+        position: absolute;
+        left: 50%;
+        top:30%;
+        transform: translate(-50%,-50%);
+        width:588px;
+        height:380px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+
+    }
+    .tit{
+        height: 56px;
+        border-bottom: 1px solid #ddd;
+    }
+    .tit>span{
+        display: inline-block;
+        line-height: 56px;
+        font-size:18px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(61,73,102,1);
+        margin-left: 24px;
+    }
+    .tishi textarea{
+        width:520px;
+        height:180px;
+        padding: 10px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        resize: none;
+        margin: 23px 0 0 23px;
+    }
+    .tishi span{
+        display: inline-block;
+        font-size:18px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(61,73,102,1);
+        margin-top: 15px;
+        margin-left: 24px;
+    }
+    .btn{
+         margin-top: 50px;
+         text-align: right;
+        margin-bottom: 10px;
+     }
+    .btn span{
+        display: inline-block;
+        width:68px;
+        height:36px;
+        line-height: 36px;
+        text-align: center;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        font-size:14px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(61,73,102,1);
+        margin-right: 24px;
+        cursor: pointer;
+    }
+    .btn_qd{
+        background:rgba(51,119,255,1)!important;
+        border: 0!important;
+        color:rgba(255,255,255,1)!important;
+        margin-right: 14px!important;
     }
 </style>
