@@ -26,11 +26,10 @@
                 </el-autocomplete>
                 <div class="btn_right">
                     <span class='cx' @click='getDataList()'>查询</span>
-                    <span class='cz
-                    ' @click='cz()'>重置</span>
+                    <span class='cz' @click='cz()'>重置</span>
                     <span @click='jeqr()' v-if='this.status==0'>确认金额</span>
-                    <span v-if='this.status==1' @click='setData(1)'>审核通过</span>
-                    <span v-if='this.status==1' @click='setDataBH()'>审核不通过</span>
+                    <span v-if='this.status==1&&this.$route.query.siid!=undefined' @click='setData(1)'>审核通过</span>
+                    <span v-if='this.status==1&&this.$route.query.siid!=undefined' @click='setDataBH()'>审核不通过</span>
                 </div>      
             </div>
            <div>
