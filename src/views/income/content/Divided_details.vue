@@ -208,7 +208,8 @@ export default {
                             type:this.$route.query.type,
                             open_id:id,
                             tdate:this.$route.query.tdate,
-                            account_name:account_name
+                            account_name:account_name,
+                            siid:this.$route.query.siid
                         }
                     })
                 },
