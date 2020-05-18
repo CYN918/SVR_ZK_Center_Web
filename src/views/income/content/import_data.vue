@@ -404,11 +404,11 @@ export default {
                     this.changed=false
                 },
                 edit(){
-                    if(!this.tdate){
+                    if(!this.time_change){
                         this.$message.error('结算周期不能为空')
                         return
                     }
-                    if(!this.channel){
+                    if(!this.channel_change){
                         this.$message.error('渠道不能为空')
                         return
                     }
