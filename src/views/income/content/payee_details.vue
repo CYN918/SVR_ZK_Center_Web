@@ -192,12 +192,13 @@
             this.id=data.id
         },
         getData(){
+            this.all='';
             let params={tdate:this.$route.query.tdate,type:this.$route.query.type,p:this.p,page:this.page}
             this.api.ds_receive_income_period({params}).then((res)=>{
                 this.total=res.total;
                 this.tableData=res.data;
                 for(var i=0;i<this.tableData.length;i++){
-                    this.all+=this.tableData[i].income
+                   this.all= (this.all-0)+(this.tableData[i].income-0)
                 }
                 this.qd()
             })

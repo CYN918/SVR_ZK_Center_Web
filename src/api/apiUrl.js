@@ -1778,7 +1778,9 @@ export default {
 	//项目收益报告
 	settle_data_settle_summary:{
 		url:"settle/data/settle/summary",method:"get"
-	},
+
+	},	
+
 	//更新广告图
 	tools_pushlib_adver_url_edit:{
 		url:'/tools/pushlib/adver/url/edit',method:'post'
@@ -1843,5 +1845,13 @@ export default {
 	//上传汇款凭证
 	ds_advance_payment_upload_remittance:{
 		url:'ds/advance_payment/upload_remittance',method:"post",isType:{suktip:1}
+	},
+	//获取周期审核状态
+	sharing_data_income_status:{
+		url:"sharing/data/income/status",method:'get'
+	},
+	//审核操作
+	sharing_data_income_demand_audit:{
+		url:"sharing/data/income/demand/audit",method:"post",isType:{suktip:1}
 	},
 }
