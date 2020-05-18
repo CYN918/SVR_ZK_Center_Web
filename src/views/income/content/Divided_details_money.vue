@@ -1,8 +1,9 @@
 <template>
    <div>
         <div class="top_name">
-             <span class="top_txt" @click='fh(-3)'>{{this.$route.query.type=='1'?'主题付款':'来电秀付款'}}&nbsp;/&nbsp;</span>
-             <span class="top_txt" @click='fh(-2)'>分成管理&nbsp;/&nbsp;</span>
+             <span class="top_txt"  v-if='this.$route.query.siid==undefined' @click='fh(-3)'>{{this.$route.query.type=='1'?'主题付款':'来电秀付款'}}&nbsp;/&nbsp;</span>
+             <span class="top_txt"  v-if='this.$route.query.siid==undefined' @click='fh(-2)'>分成管理&nbsp;/&nbsp;</span>
+             <span class="top_txt" v-if='this.$route.query.siid!=undefined' @click='fh(-2)'>待处理&nbsp;/&nbsp;</span>
              <span class="top_txt" @click='fh(-1)'>分成详情&nbsp;/&nbsp;</span>
               <span class="top_txt">分成金额详情</span>
             <div class="title_left">
