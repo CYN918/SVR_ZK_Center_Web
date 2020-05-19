@@ -110,7 +110,7 @@
                 </div>
             </div>
             <div>
-                <span class="tableBox_name">已绑定数据来源主体</span>
+                <span class="tableBox_name">相关渠道</span>
                 <div style="display: inline-block" v-for='(value,key) in list.advertisers'>
                     <span class="textName">{{value}}</span>
                 </div>
