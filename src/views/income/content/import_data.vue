@@ -192,7 +192,7 @@
                             </el-table>
                         </template>
                           <div class="btn_right" style="float:left;">
-                                <span class='cx' @click='up()'>确定</span>
+                                <span class='cx' @click='upload()'>确定</span>
                                 <span @click='qx()'>取消</span>
                             </div>   
                 </div>
@@ -470,7 +470,7 @@ export default {
                         }
                     })
                 },
-                up(){
+                upload(){
                     this.tj=true;
                     for(var i =0; i<this.ListData.length;i++){
                         if(this.ListData[i].status=='4'||this.ListData[i].status=='5')
