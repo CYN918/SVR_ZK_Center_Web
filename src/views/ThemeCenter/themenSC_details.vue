@@ -285,7 +285,7 @@
                         thmid:id,
                     },
                 })
-                window.open(Logistics.href, '_blank','toolbar=yes');
+                window.open(Logistics.href);
             },
 
              seeTheme(id,name,qdid,channel_name,local){
@@ -347,7 +347,6 @@
                 let params={thmid:this.$route.query.thmid};
                 this.api.themes_material_details({params}).then((res)=>{
                     this.tableData=res;
-                    console.log(this.tableData.contract)
                     this.tags=(this.tableData.tags).split(',');
                     this.type=res.type;
                     this. getTheme();
