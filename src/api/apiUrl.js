@@ -1797,4 +1797,8 @@ export default {
 	record_apply_designer_details:{
 		url:"record/apply/designer/details",method:'get'
 	},
+	//广告源渠道场景列表
+	settle_data_ssp_channel_interaction:{
+		url:"settle/data/ssp/channel/interaction",method:'get'
+	},
 }

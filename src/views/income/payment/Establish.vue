@@ -50,14 +50,24 @@
                 <div>
                     <span class="fillName">渠道</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
-                        <el-select v-model="channels" multiple placeholder="请选择" class="elSelect" v-if='id==undefined'>
+                        <!-- <el-select v-model="channels" multiple placeholder="请选择" class="elSelect" v-if='id==undefined'>
                                 <el-option
                                         v-for="item in channelData"
                                         :key="item.channel"
                                         :label="item.channel"
                                         :value="item.channel">
                                 </el-option>
-                        </el-select>
+                        </el-select> -->
+                        
+                            <a-tree-select
+                                v-model="channels"
+                                style="width: 467px"
+                                :tree-data="channelData"
+                                tree-checkable
+                                :show-checked-strategy="SHOW_PARENT"
+                                search-placeholder="Please select"
+                            />
+                       
                         <input type="text" v-model="bind_channel_name" disabled v-if='id!=undefined'>
                     </div>
                 </div>
@@ -144,8 +154,12 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import Antd from 'ant-design-vue'
+import 'ant-design-vue/dist/antd.css'
     import DS from './DetailsSettlement'
     import pro from '../projection'
+    Vue.use(Antd)
     export default {
        components:{DS,pro},
         name: "establish",
@@ -171,6 +185,8 @@
                 channels:[],
                 id:this.$route.query.id,
                 bind_channel_name:'',
+                SHOW_PARENT:Antd.SHOW_ALL,
+
             }
         },
         mounted(){
@@ -186,13 +202,14 @@
                 })
             },
             getqd(){
-                this.channels=[]
+                this.channels=[],
+                this.channelData=[]
                  if(!this.name){
                     this.$message.error('结算方不能为空')
                     return
                 }
                 let params={settlement:this.name}
-                this.api.settle_data_ssp_channel({params}).then((res)=>{
+                this.api.settle_data_ssp_channel_interaction({params}).then((res)=>{
                     this.channelData=res;
                 })
             },
@@ -246,6 +263,7 @@
                 this.attachs.splice(index,1)
             },
             ADD(){
+                console.log(this.channels)
                 if(this.fcounter != 0)
                 {
                     this.$message.error('文件上传中');
@@ -573,4 +591,5 @@
         margin-left: 10px;
         cursor: pointer;
     }
+    
 </style>
