@@ -46,7 +46,7 @@
                                 >
                         </el-table-column>
                          <el-table-column
-                                label="操作人员" prop="updated"
+                                label="操作人员" prop="updator"
                                 >
                         </el-table-column>
                         <el-table-column label="操作" width="150">
@@ -69,11 +69,14 @@
                  </div>
            </div>
         </div>
+        <load v-if="load"></load>
    </div>
 </template>
 
 <script>
+import load from '../../../components/loading'
 export default {
+    components:{load},
     props:['type'],
             data(){
                 return{
@@ -81,7 +84,8 @@ export default {
                     p:10,
                     page:1,
                     total:0,
-                    tableData:[{time:2020}]
+                    tableData:[{time:2020}],
+                    load:true
                 }
             },
             mounted(){
@@ -126,10 +130,12 @@ export default {
                    })
                 },
                 getData(){
+                    this.load=true
                     let params={tdate:this.tdate,p:this.p,page:this.page}
                     this.api.ds_offline_settlement_record_list({params}).then((res)=>{
                         this.total=res.total;
                         this.tableData=res.data;
+                        this.load=false
                     })
                 },
             },

@@ -134,6 +134,7 @@
                         <option value="3">可覆盖</option>
                         <option value="4">与锁定数据有冲突</option>
                         <option value="5">数据异常</option>
+                        <option value="6">主题/来电秀渠道不存在</option>
 
                     </select>
                      <div class="btn_right">
@@ -166,7 +167,7 @@
                                 </el-table-column>
                                 <el-table-column
                                        v-if='this.$route.query.type==2'
-                                        label="主题名称" prop="call_show_name"
+                                        label="来电秀名称" prop="call_show_name"
                                         :show-overflow-tooltip="true"
                                         >
                                 </el-table-column>
@@ -179,7 +180,7 @@
                                         label="状态" prop="status_msg"
                                         >
                                          <template slot-scope="props">
-                                            <span :class="{red:ListData[props.$index].status=='4'||ListData[props.$index].status=='5'}">{{ListData[props.$index].status_msg}}</span>
+                                            <span :class="{red:ListData[props.$index].status=='4'||ListData[props.$index].status=='5'||ListData[props.$index].status=='6'}">{{ListData[props.$index].status_msg}}</span>
                                         </template>
                                 </el-table-column>
                                  <el-table-column
@@ -192,7 +193,7 @@
                             </el-table>
                         </template>
                           <div class="btn_right" style="float:left;">
-                                <span class='cx' @click='up()'>确定</span>
+                                <span class='cx' @click='upload()'>确定</span>
                                 <span @click='qx()'>取消</span>
                             </div>   
                 </div>
@@ -220,9 +221,13 @@
                         <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
                     </select>
                 </div>
-                <div  class='xg_tit'>
+                <div  class='xg_tit' v-if='this.$route.query.type==1'>call_show_name
                     <span>主题名称</span>
                     <input type="text" v-model="theme_name_change">
+                </div>
+                 <div  class='xg_tit' v-if='this.$route.query.type==2'>
+                    <span>来电秀名称</span>
+                    <input type="text" v-model="call_show_name">
                 </div>
                 <div  class='xg_tit'>
                     <span>收益金额</span>
@@ -249,11 +254,14 @@
                 </div>   
             </div>
         </div>
+        <load v-if="load"></load>
    </div>
 </template>
 
 <script>
+import load from '../../../components/loading'
 export default {
+    components:{load},
             data(){
                 return{
                     tdate:"",
@@ -282,7 +290,8 @@ export default {
                     theme_name_change:"",
                     channel_change:"",
                     cash:"",
-                    id:''
+                    id:'',
+                    load:true
                 }
             },
             mounted(){
@@ -317,10 +326,12 @@ export default {
                     
                 },
                 getDataList(){
+                    this.load=true
                     let params={type:this.$route.query.type,tdate:this.tdate,updator:this.updator,p:this.p,page:this.page}
                     this.api.sharing_data_file_list({params}).then((res)=>{
                         this.total=res.total;
                         this.tableData=res.data;
+                        this.load=false
                     })
                 },
                  handlePictureCardPreview(file) {
@@ -464,10 +475,10 @@ export default {
                         }
                     })
                 },
-                up(){
+                upload(){
                     this.tj=true;
                     for(var i =0; i<this.ListData.length;i++){
-                        if(this.ListData[i].status=='4'||this.ListData[i].status=='5')
+                        if(this.ListData[i].status=='4'||this.ListData[i].status=='5'||this.ListData[i].status=='6')
                         this.ct=true;
                     }
                 },

@@ -8,7 +8,7 @@
             <div class="title_left">
                 <span>分成详情</span>
                 <span class='time'>{{this.$route.query.tdate}}</span>
-                <span class='zt' :class='{red:this.status==0}'>({{this.status==0?"待确认":this.status==1?'审核中':this.status==2?'已确认':this.status==-1?'驳回':''}})</span>
+                <span class='zt' :class='{red:this.status==0||this.status==-1}'>({{this.status==0?"待确认":this.status==1?'审核中':this.status==2?'已确认':this.status==-1?'驳回':''}})</span>
             </div>
         </div>
         <div class='content'>
@@ -26,11 +26,10 @@
                 </el-autocomplete>
                 <div class="btn_right">
                     <span class='cx' @click='getDataList()'>查询</span>
-                    <span class='cz
-                    ' @click='cz()'>重置</span>
+                    <span class='cz' @click='cz()'>重置</span>
                     <span @click='jeqr()' v-if='this.status==0'>确认金额</span>
-                    <span v-if='this.status==1' @click='setData(1)'>审核通过</span>
-                    <span v-if='this.status==1' @click='setDataBH()'>审核不通过</span>
+                    <span v-if='this.status==1&&this.$route.query.siid!=undefined' @click='setData(1)'>审核通过</span>
+                    <span v-if='this.status==1&&this.$route.query.siid!=undefined' @click='setDataBH()'>审核不通过</span>
                 </div>      
             </div>
            <div>
@@ -130,11 +129,14 @@
             </div>
         </div>
     </div>
+    <load v-if="load"></load>
    </div>
 </template>
 
 <script>
+import load from '../../../components/loading'
 export default {
+    components:{load},
             data(){
                 return{
                     value1:"",
@@ -150,6 +152,7 @@ export default {
                     status:'',
                     bh:false,
                     note:"",
+                    load:true
                 }
             },
             mounted(){
@@ -214,10 +217,12 @@ export default {
                     })
                 },
                 getDataList(){
+                    this.load=true
                     let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.open_id,account_name:this.account_name,p:this.p,page:this.page}
                     this.api.sharing_data_income_designer({params}).then((res)=>{
                         this.total=res.total;
                         this.tableData=res.data;
+                        this.load=false
                         this.getData();
                         this.getDetails()
                     })
@@ -263,42 +268,69 @@ export default {
                 handleSelect(item) {
                     this.account_name=item.open_id
                 },
-                setData(check_status){
+                // setData(check_status){
+                //     let formData =new FormData;
+                //     formData.append('type',this.$route.query.type);
+                //     formData.append('siid',this.$route.query.siid);
+                //     formData.append('check_status',check_status);
+                //     this.api.sharing_data_income_demand_audit(formData).then((res)=>{
+                //         if(res!=false){
+                //             this.getDataList();
+                //         }
+                //     })
+                // },
+                setData(){
                     let formData =new FormData;
-                    formData.append('type',this.$route.query.type);
-                    formData.append('siid',this.$route.query.siid);
-                    formData.append('check_status',check_status);
-                    this.api.sharing_data_income_demand_audit(formData).then((res)=>{
-                        if(res!=false){
-                            this.getDataList();
+                    formData.append('id',this.$route.query.siid);
+                    formData.append('status',this.$route.query.status);
+                    this.api.demand_settle_audit(formData).then((res)=>{
+                             if(res!=false){
+                             this.getDataList();
                         }
                     })
                 },
                 tj(){
-                    if(!this.note){
-                        this.$message.error('驳回原因不能为空');
-                        return
-                    }
+                     if(!this.note){
+                         this.$message.error('驳回原因不能为空');
+                         return
+                     }
                     let formData =new FormData;
-                    formData.append('type',this.$route.query.type);
-                    formData.append('siid',this.$route.query.siid);
-                    formData.append('check_status',2);
+                    formData.append('id',this.$route.query.siid);
+                    formData.append('status',this.$route.query.status);
                     formData.append('note',this.note);
-                    this.api.sharing_data_income_demand_audit(formData).then((res)=>{
+                    this.api.demand_reject(formData).then((res)=>{
                         if(res!=false){
-                            this.getDataList();
-                            this.sq()
-                        }
-                    })
+                             this.getDataList();
+                             this.sq()
+                         }
+                    }) 
                 },
             },
+            //     tj(){
+            //         if(!this.note){
+            //             this.$message.error('驳回原因不能为空');
+            //             return
+            //         }
+            //         let formData =new FormData;
+            //         formData.append('type',this.$route.query.type);
+            //         formData.append('siid',this.$route.query.siid);
+            //         formData.append('check_status',2);
+            //         formData.append('note',this.note);
+            //         this.api.sharing_data_income_demand_audit(formData).then((res)=>{
+            //             if(res!=false){
+            //                 this.getDataList();
+            //                 this.sq()
+            //             }
+            //         })
+            //     },
+            // },
              watch:{
                 state1:function(val,oldVal){
                     if(val==''){
                         this.account_name=''
                     }
                 }
-            }
+            },
 }
 </script>
 
@@ -444,7 +476,7 @@ export default {
         font-weight: 400!important; 
     }
     .red{
-        color: red;
+        color: red!important;
     }
 
 
