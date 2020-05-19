@@ -134,6 +134,7 @@
                         <option value="3">可覆盖</option>
                         <option value="4">与锁定数据有冲突</option>
                         <option value="5">数据异常</option>
+                        <option value="6">主题/来电秀渠道不存在</option>
 
                     </select>
                      <div class="btn_right">
@@ -166,7 +167,7 @@
                                 </el-table-column>
                                 <el-table-column
                                        v-if='this.$route.query.type==2'
-                                        label="主题名称" prop="call_show_name"
+                                        label="来电秀名称" prop="call_show_name"
                                         :show-overflow-tooltip="true"
                                         >
                                 </el-table-column>
@@ -179,7 +180,7 @@
                                         label="状态" prop="status_msg"
                                         >
                                          <template slot-scope="props">
-                                            <span :class="{red:ListData[props.$index].status=='4'||ListData[props.$index].status=='5'}">{{ListData[props.$index].status_msg}}</span>
+                                            <span :class="{red:ListData[props.$index].status=='4'||ListData[props.$index].status=='5'||ListData[props.$index].status=='6'}">{{ListData[props.$index].status_msg}}</span>
                                         </template>
                                 </el-table-column>
                                  <el-table-column
@@ -220,9 +221,13 @@
                         <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
                     </select>
                 </div>
-                <div  class='xg_tit'>
+                <div  class='xg_tit' v-if='this.$route.query.type==1'>call_show_name
                     <span>主题名称</span>
                     <input type="text" v-model="theme_name_change">
+                </div>
+                 <div  class='xg_tit' v-if='this.$route.query.type==2'>
+                    <span>来电秀名称</span>
+                    <input type="text" v-model="call_show_name">
                 </div>
                 <div  class='xg_tit'>
                     <span>收益金额</span>
@@ -473,7 +478,7 @@ export default {
                 upload(){
                     this.tj=true;
                     for(var i =0; i<this.ListData.length;i++){
-                        if(this.ListData[i].status=='4'||this.ListData[i].status=='5')
+                        if(this.ListData[i].status=='4'||this.ListData[i].status=='5'||this.ListData[i].status=='6')
                         this.ct=true;
                     }
                 },
