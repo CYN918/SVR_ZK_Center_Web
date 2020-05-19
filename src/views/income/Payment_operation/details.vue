@@ -1,11 +1,7 @@
 <template>
     <div>
        
-<<<<<<< HEAD
-        <pro v-if='budget' :name='list.check.check1.name' :tstart='list.check.check1.tstart' :tend='list.check.check1.tend'  :is_receiver='0' :fj='fj' :type='type'></pro>
-=======
         <pro v-if='budget' :name='list.check.check1.name' :tstart='list.check.check1.tstart' :tend='list.check.check1.tend'   :is_receiver='0' :fj='fj' :type='type'></pro>
->>>>>>> origin/develop
         <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="jump()">付款结算&nbsp;/</span>
@@ -31,6 +27,13 @@
                     <span class="fillName">结算单名称</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
                         <span class="text">{{list.check.check1.statement}}</span>
+                    </div>
+
+                </div>
+                <div>
+                    <span class="fillName">渠道</span>
+                    <div style="display: inline-block;width: 300px;text-align: left">
+                        <span class="text">{{list.check.check1.bind_channel_name}}</span>
                     </div>
 
                 </div>
