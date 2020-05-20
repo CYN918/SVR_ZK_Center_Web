@@ -118,16 +118,15 @@
                                 label="投放公司">
                                
                         </el-table-column> -->
-                      
-                        <el-table-column
-                                prop="scene"
-                                label="场景"
-                                
-                        >
-                        </el-table-column>
                           <el-table-column
                                 prop="channel"
                                 label="渠道"
+                                
+                        >
+                        </el-table-column>
+                         <el-table-column
+                                prop="scene"
+                                label="场景"
                                 
                         >
                         </el-table-column>
@@ -383,7 +382,7 @@
         font-family:PingFang-SC-Medium;
         font-weight:500;
         color:rgba(31,46,77,1);
-        margin: 0 24px 0 44px;
+        margin: 0 14px 0 24px;
     }
     select{
         width:150px;
