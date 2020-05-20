@@ -125,8 +125,10 @@
                         <option value="">全部</option>
                         <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
                      </select>
-                    <span class='fc_statuc' style="margin:24px">主题名</span>
-                    <input type="text" placeholder="请输入" v-model='theme_name'>
+                    <span class='fc_statuc' style="margin:24px"  v-if='this.$route.query.type==1'>主题名</span>
+                    <input type="text" placeholder="请输入" v-model='theme_name'  v-if='this.$route.query.type==1'>
+                    <span class='fc_statuc' style="margin:24px"  v-if='this.$route.query.type==2'>来电秀名</span>
+                    <input type="text" placeholder="请输入" v-model='call_show_name'  v-if='this.$route.query.type==2'>
                     <span class='fc_statuc' style="margin-left:24px">状态</span>
                     <select name="" id="" v-model="statu_msg">
                         <option value="1">新增</option>
@@ -280,6 +282,7 @@ export default {
                     channel:'',
                     channels:[],
                     theme_name:"",
+                    call_show_name:"",
                     statu_msg:"",
                     ListData:[],
                     allTotal:"",
@@ -381,7 +384,12 @@ export default {
                    
                 },
                  getData(){
-                    let params={file_id:this.file_id,channel:this.channel,theme_name:this.theme_name,statu_msg:this.statu_msg}
+                     if(this.$route.query.type==1){
+                         var params={file_id:this.file_id,channel:this.channel,theme_name:this.theme_name,statu_msg:this.statu_msg}
+                     }else{
+                          params={file_id:this.file_id,channel:this.channel,call_show_name:this.call_show_name,statu_msg:this.statu_msg}
+                     }
+                    
                     this.api.sharing_data_list({params}).then((res)=>{
                         this.ListData=res.data.data;
                         this.allTotal=res.total;
@@ -406,7 +414,13 @@ export default {
                 change(data){
                     this.changed=true;
                     this.time_change=data.tdate
-                    this.theme_name_change=data.theme_name
+                   
+                    if(this.$route.query.type==1){
+                         this.theme_name_change=data.theme_name
+                    }
+                    if(this.$route.query.type==2){
+                        this.theme_name_change=data.call_show_name
+                    }
                     this.channel_change=data.channel
                     this.cash=data.income
                     this.id=data.id
@@ -478,8 +492,10 @@ export default {
                 upload(){
                     this.tj=true;
                     for(var i =0; i<this.ListData.length;i++){
-                        if(this.ListData[i].status=='4'||this.ListData[i].status=='5'||this.ListData[i].status=='6')
-                        this.ct=true;
+                        if(this.ListData[i].status=='4'||this.ListData[i].status=='5'||this.ListData[i].status=='6'){
+                            this.ct=true;
+                        }
+                        
                     }
                 },
               
