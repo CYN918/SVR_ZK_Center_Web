@@ -8,7 +8,7 @@
         <div class='content'>
             <div>
                 <span class='fc_statuc'>项目ID：</span>
-                <input type="text" v-model="porject_id">
+                <input type="text" v-model="project_id">
                 <span class='fc_statuc' v-if='state1==""'>设计师ID：</span>
                 <input type="text" v-model="id" v-if='state1==""'  @change="sJsID()">
                 <span class='fc_statuc'  v-if='id==""'>结算方</span>
@@ -133,7 +133,7 @@ export default {
                     total:0,
                     tableData:[{time:2020}],
                     list:[],
-                    porject_id:"",
+                    project_id:"",
                     open_id:"",
                     state1:"",
                     restaurants: [],
@@ -149,13 +149,13 @@ export default {
             methods:{
                 cz(){
                     this.id="";
-                    this.porject_id="";
+                    this.project_id="";
                     this.open_id="";
                     this.state1='';
                 },
                 updata(data){
                     this.exe=true;
-                    this.porject_id=data
+                    this.project_id=data
                 },
                  heid(){
                     this.exe=false;
@@ -170,7 +170,7 @@ export default {
                         return
                     }
                     let formData =new FormData;
-                    formData.append('porject_id',this.porject_id);
+                    formData.append('project_id',this.project_id);
                     formData.append('attach',JSON.stringify(this.file));
                     this.api.ds_advance_payment_upload_remittance(formData).then((res)=>{
                         if(res!=false){
@@ -208,7 +208,7 @@ export default {
                
                 listData(){
                     this.load=true
-                    let params={open_id:this.open_id,porject_id:this.porject,account_name:this.account_name,p:this.p,page:this.page};
+                    let params={open_id:this.open_id,project_id:this.project_id,account_name:this.account_name,p:this.p,page:this.page};
                     this.api.ds_advance_payment_list({params}).then((res)=>{
                         this.tableData=res.data;
                         this.total=res.total;
@@ -260,11 +260,11 @@ export default {
                          this.file=res
                      })
                 },
-                jump(porject_id,open_id,data,money,ye){
+                jump(project_id,open_id,data,money,ye){
                     this.$router.push({
                         path:"./Advance_details",
                         query:{
-                            porject_id:porject_id,
+                            project_id:project_id,
                             open_id:open_id,
                             account_name:data,
                             money:money,
