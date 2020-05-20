@@ -25,7 +25,15 @@
                     <option value="1">收款数据</option>
                     <option value="0">付款数据</option>
                 </select>
-                 <span  class="ad" v-if="is_receiver==0">渠道场景</span>
+                 
+                <div style=" display: inline-block;position: relative;">
+                    <span class="ad">结算方</span>
+                    <input type="text" placeholder="请输入结算方" v-model="name" @input="getName" />
+                    <div class='names' v-if="show">
+                        <span v-for="da in JSname" @click='setName(da.name)'>{{da.name}}</span>
+                    </div>
+                </div>
+                <span  class="ad" v-if="is_receiver==0">渠道场景</span>
                  <a-tree-select
                             v-if="is_receiver==0"
                                 v-model="channels"
@@ -35,21 +43,14 @@
                                 :show-checked-strategy="SHOW_PARENT"
                                 search-placeholder="Please select"
                             />
-                <div style=" display: inline-block;position: relative;">
-                    <span class="ad">结算方</span>
-                    <input type="text" placeholder="请输入结算方" v-model="name" @input="getName" @click='getName'/>
-                    <div class='names' v-if="show">
-                        <span v-for="da in JSname" @click='setName(da.name)'>{{da.name}}</span>
-                    </div>
-                </div>
                 <div style=" display: inline-block;position: relative;" v-if='is_receiver==1'> 
                     <span class="ad">项目</span>
                      <el-select v-model="projects" multiple placeholder="请选择" class="elSelect">
                                 <el-option
                                         v-for="item in JSlist"
-                                        :key="item.project_name"
+                                        :key="item.project_id"
                                         :label="item.project_name"
-                                        :value="item.project_id">
+                                        :value="item.project_name">
                                 </el-option>
                             </el-select>
                 </div>
@@ -66,7 +67,7 @@
                             :header-cell-style="getRowClass"
                             :cell-style="cell"
                             :data="tableData"
-                            height="450"
+                            max-height="450"
                             style="width: 100%">
                         <el-table-column
                                 prop="tdate"
@@ -129,7 +130,7 @@
                             :header-cell-style="getRowClass"
                             :cell-style="cell"
                             :data="tableData"
-                            height="450"
+                            max-height="450"
                             style="width: 100%">
                         <el-table-column
                                 prop="tdate"
@@ -250,8 +251,8 @@ import 'ant-design-vue/dist/antd.css'
                 channels:[],
                 channelData:[],
                 JSname:[],
+                projects:[],
                 show:false,
-                project:"",
                 JSlist:[],
                 SHOW_PARENT:Antd.SHOW_ALL,
                 disjunctions:[],
@@ -263,7 +264,13 @@ import 'ant-design-vue/dist/antd.css'
                     this.search=this.$route.query.name;
                     this.name=this.$route.query.name;
                     this.is_receiver=this.$route.query.is_receiver;
-                    this.channels=this.$route.query.channels.split(',')
+                    if(this.$route.query.is_receiver==1){
+                        this.projects=this.$route.query.projects.split(',')
+                    }else{
+                        this.channels=this.$route.query.channels.split(',');
+                    }
+                    
+                    
                 }else{
                     var qt = (new Date((new Date()).getTime() - 1*24*60*60*1000)).toLocaleDateString().split('/');
                     if(Number(qt[1])<10){
@@ -277,7 +284,13 @@ import 'ant-design-vue/dist/antd.css'
                     this.value=[qt.join('-'),next.join('-')];
                 }
                 this.getDataList();
-                this.getqd();
+                
+                if(this.$route.query.is_receiver==1){
+                    this.getObject()
+                }else{
+                    this.getqd();
+                }
+                
         },
         methods:{
             change(value){
@@ -288,10 +301,6 @@ import 'ant-design-vue/dist/antd.css'
                 this.getDataList();
             },
             getObject(){
-                if(!this.name){
-                    this.$message.error('结算方不能为空')
-                    return
-                }
                 let params={balance_name:this.name}
                 this.api.adproject_listpage({params}).then((res)=>{
                     this.JSlist=res.data
@@ -327,7 +336,6 @@ import 'ant-design-vue/dist/antd.css'
                 download.downloadImg(url);
             },
             getName(){     
-               
                     this.show=true;
                     this.JSname=[];
                      let params={is_receiver:this.is_receiver,search:this.name,p:100,page:1}
@@ -339,8 +347,6 @@ import 'ant-design-vue/dist/antd.css'
                             }
                             
                         })
-               
-               
             },
            
             setName(da){
@@ -358,9 +364,9 @@ import 'ant-design-vue/dist/antd.css'
                 }
                 if(num!=undefined){
                     this.page=num;
-                         var params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:num,search:this.search,is_receiver:this.is_receiver,name:this.name,disjunctions:JSON.stringify(this.disjunctions),project:this.project} 
+                         var params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:num,search:this.search,is_receiver:this.is_receiver,name:this.name,disjunctions:JSON.stringify(this.disjunctions),projects:this.projects.join(',')} 
                 }else{
-                        params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,search:this.search,is_receiver:this.is_receiver,name:this.name,disjunctions:JSON.stringify(this.disjunctions),project:this.project}
+                        params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,search:this.search,is_receiver:this.is_receiver,name:this.name,disjunctions:JSON.stringify(this.disjunctions),projects:this.projects.join(',')}
 
                 }
                 
@@ -508,7 +514,7 @@ import 'ant-design-vue/dist/antd.css'
         font-weight:bold;
         line-height:48px;
         font-family:PingFang-SC-Regular;
-        width: 8.5%;
+        width: 10%;
         padding-left: 24px;
     }
     .summary2 span{
