@@ -1798,6 +1798,7 @@ export default {
 	record_apply_designer_details:{
 		url:"record/apply/designer/details",method:'get'
 	},
+
 	//获取收益数据总览
 	ds_receive_income_summary:{
 		url:"ds/receive/income/summary",method:'get'
@@ -1853,5 +1854,10 @@ export default {
 	//审核操作
 	sharing_data_income_demand_audit:{
 		url:"sharing/data/income/demand/audit",method:"post",isType:{suktip:1}
+	},	
+	//广告源渠道场景列表
+	settle_data_ssp_channel_interaction:{
+		url:"settle/data/ssp/channel/interaction",method:'get'
+
 	},
 }

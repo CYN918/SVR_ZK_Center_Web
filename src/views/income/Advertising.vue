@@ -25,11 +25,16 @@
                     <option value="1">收款数据</option>
                     <option value="0">付款数据</option>
                 </select>
-                 <span  class="ad" v-if="is_receiver==0">渠道</span>
-                <select v-model="channel"  v-if="is_receiver==0">
-                    <option value="">全部</option>
-                    <option :value="item.channel" v-for="item in channelData">{{item.channel}}</option>
-                </select>
+                 <span  class="ad" v-if="is_receiver==0">渠道场景</span>
+                 <a-tree-select
+                            v-if="is_receiver==0"
+                                v-model="channels"
+                                style="width: 200px;height:36px;margin-top: 24px;"
+                                :tree-data="channelData"
+                                tree-checkable
+                                :show-checked-strategy="SHOW_PARENT"
+                                search-placeholder="Please select"
+                            />
                 <div style=" display: inline-block;position: relative;">
                     <span class="ad">结算方</span>
                     <input type="text" placeholder="请输入结算方" v-model="name" @input="getName"/>
@@ -152,12 +157,12 @@
                                 
                         >
                         </el-table-column>
-                        <el-table-column
+                        <!-- <el-table-column
                                 prop="adid"
                                 label="广告位ID"
                                 
                         >
-                        </el-table-column>
+                        </el-table-column> -->
                         <el-table-column
                                 prop="pv"
                                 label="展示"
@@ -200,7 +205,6 @@
                 <span>—</span>
                 <span>—</span>
                 <span  v-if="!this.$route.query.type">—</span>
-                <span>—</span>
                 <span>{{exhibition1}}</span>
                 <span>{{exhibition2}}</span>
                 <span>{{click_ratio}}</span>
@@ -222,7 +226,11 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import Antd from 'ant-design-vue'
+import 'ant-design-vue/dist/antd.css'
  import download from '../../api/commonality'
+  Vue.use(Antd)
     export default {
         name: "advertiser",
         data(){
@@ -241,12 +249,14 @@
                 exhibition5:'',
                 exhibition6:'',
                 name:'',
-                channel:"",
+                channels:[],
                 channelData:[],
                 JSname:[],
                 show:false,
                 project:"",
                 JSlist:[],
+                SHOW_PARENT:Antd.SHOW_ALL,
+                disjunctions:[],
             }
         },
         mounted(){
@@ -255,6 +265,7 @@
                     this.search=this.$route.query.name;
                     this.name=this.$route.query.name;
                     this.is_receiver=this.$route.query.is_receiver;
+                    this.channels=this.$route.query.channels.split(',')
                 }else{
                     var qt = (new Date((new Date()).getTime() - 1*24*60*60*1000)).toLocaleDateString().split('/');
                     if(Number(qt[1])<10){
@@ -307,7 +318,8 @@
                 this.getDataList()
             },
             getqd(){
-                this.api.settle_data_ssp_channel().then((res)=>{
+                let params={settlement:this.name}
+                this.api.settle_data_ssp_channel_interaction({params}).then((res)=>{
                     this.channelData=res;
                 })
             },
@@ -338,11 +350,17 @@
                 this.getObject()
             },
             getDataList(num){
+                for(var i=0;i<this.channels.length;i++){
+                    var arr={};
+                    arr.channel=this.channels[i].split('-')[0];
+                    arr.interaction=this.channels[i].split('-')[1];
+                    this.disjunctions.push(arr)
+                }
                 if(num!=undefined){
                     this.page=num;
-                         var params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:num,search:this.search,is_receiver:this.is_receiver,name:this.name,channel:this.channel,project:this.project} 
+                         var params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:num,search:this.search,is_receiver:this.is_receiver,name:this.name,disjunctions:JSON.stringify(this.disjunctions),project:this.project} 
                 }else{
-                        params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,search:this.search,is_receiver:this.is_receiver,name:this.name,channel:this.channel,project:this.project}
+                        params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,search:this.search,is_receiver:this.is_receiver,name:this.name,disjunctions:JSON.stringify(this.disjunctions),project:this.project}
 
                 }
                 
@@ -500,7 +518,7 @@
         font-weight:bold;
         line-height:48px;
         font-family:PingFang-SC-Regular;
-        width: 10.1%;
+        width: 12.5%;
        padding-left: 16px;
 
     }
@@ -525,4 +543,5 @@
         line-height: 36px;
         border-bottom:1px solid #eee 
     }
+    
 </style>

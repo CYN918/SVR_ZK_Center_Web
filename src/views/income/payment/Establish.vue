@@ -1,7 +1,7 @@
 <template>
     <div>
         <DS v-if="msg" :name="name"></DS>
-        <pro v-if='budget'  :is_receiver='0' :fj='fj' :channels='bind_channel_name'></pro>
+        <pro v-if='budget'  :is_receiver='0' :fj='fj' :channels='bind_channel_name' ></pro>
         <div class="top">
             <div class="tit_top_url">
                 <span class="log_url" @click="jump()">付款结算&nbsp;/</span>
@@ -48,16 +48,27 @@
                     </div>
                 </div>
                 <div>
-                    <span class="fillName">渠道</span>
-                    <div style="display: inline-block;width: 593px;text-align: left">
-                        <el-select v-model="channels" multiple placeholder="请选择" class="elSelect" v-if='id==undefined'>
+                    <span class="fillName">渠道场景</span>
+                    <div style="display: inline-block;width: 593px;text-align: left" >
+                        <!-- <el-select v-model="channels" multiple placeholder="请选择" class="elSelect" v-if='id==undefined'>
                                 <el-option
                                         v-for="item in channelData"
                                         :key="item.channel"
                                         :label="item.channel"
                                         :value="item.channel">
                                 </el-option>
-                        </el-select>
+                        </el-select> -->
+                        
+                            <a-tree-select
+                            v-if='id==undefined'
+                                v-model="channels"
+                                style="width: 467px"
+                                :tree-data="channelData"
+                                tree-checkable
+                                :show-checked-strategy="SHOW_PARENT"
+                                search-placeholder="Please select"
+                            />
+                       
                         <input type="text" v-model="bind_channel_name" disabled v-if='id!=undefined'>
                     </div>
                 </div>
@@ -144,8 +155,12 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import Antd from 'ant-design-vue'
+import 'ant-design-vue/dist/antd.css'
     import DS from './DetailsSettlement'
     import pro from '../projection'
+    Vue.use(Antd)
     export default {
        components:{DS,pro},
         name: "establish",
@@ -171,6 +186,8 @@
                 channels:[],
                 id:this.$route.query.id,
                 bind_channel_name:'',
+                SHOW_PARENT:Antd.SHOW_ALL,
+                disjunctions:[]
             }
         },
         mounted(){
@@ -186,13 +203,17 @@
                 })
             },
             getqd(){
-                this.channels=[]
-                 if(!this.name){
-                    this.$message.error('结算方不能为空')
-                    return
+                if(this.id==undefined){
+                    this.channels=[],
+                    this.channelData=[]
+                    if(!this.name){
+                        this.$message.error('结算方不能为空')
+                        return
+                    }
                 }
+                
                 let params={settlement:this.name}
-                this.api.settle_data_ssp_channel({params}).then((res)=>{
+                this.api.settle_data_ssp_channel_interaction({params}).then((res)=>{
                     this.channelData=res;
                 })
             },
@@ -252,6 +273,7 @@
                     return
                 }
                 if(this.$route.query.id!=undefined){
+                   
                     this.setData();
                     return
                 }
@@ -295,11 +317,17 @@
                 //     this.$message.error('附件不能为空');
                 //     return
                 // }
+                for(var i=0;i<this.channels.length;i++){
+                    var arr={};
+                    arr.channel=this.channels[i].split('-')[0];
+                    arr.interaction=this.channels[i].split('-')[1];
+                    this.disjunctions.push(arr)
+                }
                 let formData = new FormData;
                 formData.append('name',this.name);
                 formData.append('statement',this.statement);
                 formData.append('is_receiver',this.is_receiver);
-                formData.append('channels',JSON.stringify(this.channels));
+                formData.append('disjunctions',JSON.stringify(this.disjunctions));
                 formData.append('tstart',this.time[0]);
                 formData.append('tend',this.time[1]);
                 formData.append('expect_amount',this.expect_amount);
@@ -349,6 +377,7 @@
                 })
             },
             setData(){
+               
                if(this.fcounter != 0)
                 {
                     this.$message.error('文件上传中');
@@ -399,12 +428,18 @@
                         return
                     }
                 }
+                for(var i=0;i<this.channels.length;i++){
+                    var arr={};
+                    arr.channel=this.channels[i].split('-')[0];
+                    arr.interaction=this.channels[i].split('-')[1];
+                    this.disjunctions.push(arr)
+                }
                 let formData = new FormData;
                 formData.append('name',this.name);
                 formData.append('id',this.$route.query.id);
                 formData.append('statement',this.statement);
                 formData.append('is_receiver',this.is_receiver);
-                formData.append('channels',JSON.stringify(this.channels));
+                formData.append('disjunctions',JSON.stringify(this.disjunctions));
                 formData.append('tstart',this.time[0]);
                 formData.append('tend',this.time[1]);
                 formData.append('expect_amount',this.expect_amount);
@@ -573,4 +608,5 @@
         margin-left: 10px;
         cursor: pointer;
     }
+    
 </style>

@@ -1007,4 +1007,8 @@ select{
   .htTC .el-input__inner{
     width: 400px!important;
   }
+  .ant-select-dropdown{
+        max-height: 500px!important;
+        overflow-y:auto;
+    }
 </style>
