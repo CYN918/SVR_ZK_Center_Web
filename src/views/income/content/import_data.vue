@@ -130,7 +130,7 @@
                     <span class='fc_statuc' style="margin:24px"  v-if='this.$route.query.type==2'>来电秀名</span>
                     <input type="text" placeholder="请输入" v-model='call_show_name'  v-if='this.$route.query.type==2'>
                     <span class='fc_statuc' style="margin-left:24px">状态</span>
-                    <select name="" id="" v-model="statu_msg">
+                    <select name="" id="" v-model="status">
                         <option value="1">新增</option>
                         <option value="2">无变化</option>
                         <option value="3">可覆盖</option>
@@ -283,7 +283,7 @@ export default {
                     channels:[],
                     theme_name:"",
                     call_show_name:"",
-                    statu_msg:"",
+                    status:"",
                     ListData:[],
                     allTotal:"",
                     Create:"",
@@ -385,9 +385,9 @@ export default {
                 },
                  getData(){
                      if(this.$route.query.type==1){
-                         var params={file_id:this.file_id,channel:this.channel,theme_name:this.theme_name,statu_msg:this.statu_msg}
+                         var params={file_id:this.file_id,channel:this.channel,theme_name:this.theme_name,status:this.status}
                      }else{
-                          params={file_id:this.file_id,channel:this.channel,call_show_name:this.call_show_name,statu_msg:this.statu_msg}
+                          params={file_id:this.file_id,channel:this.channel,call_show_name:this.call_show_name,status:this.status}
                      }
                     
                     this.api.sharing_data_list({params}).then((res)=>{
