@@ -218,6 +218,7 @@ data() {
                         tend:this.tend,
                         is_receiver:this.is_receiver,
                         name:this.name,
+                        channels:this.channels
                         }
                     });
                      window.open(routeData.href, '_blank');

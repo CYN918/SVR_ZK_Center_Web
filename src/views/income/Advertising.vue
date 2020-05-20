@@ -29,7 +29,7 @@
                  <a-tree-select
                             v-if="is_receiver==0"
                                 v-model="channels"
-                                style="width: 200px;height:36px;margin-top: 24px;"
+                                style="width: 200px;height:36px;overflow: hidden;vertical-align: bottom;"
                                 :tree-data="channelData"
                                 tree-checkable
                                 :show-checked-strategy="SHOW_PARENT"
@@ -347,7 +347,8 @@ import 'ant-design-vue/dist/antd.css'
             setName(da){
                 this.name=da;
                 this.show=false;
-                this.getObject()
+                this.getObject();
+                this.getqd()
             },
             getDataList(num){
                 for(var i=0;i<this.channels.length;i++){
@@ -417,6 +418,7 @@ import 'ant-design-vue/dist/antd.css'
         left: 256px;
         top: 64px;
         z-index: 99;
+        
     }
     .content_table{
         margin-top:200px;
