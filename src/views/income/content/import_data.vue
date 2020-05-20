@@ -221,7 +221,7 @@
                         <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
                     </select>
                 </div>
-                <div  class='xg_tit' v-if='this.$route.query.type==1'>call_show_name
+                <div  class='xg_tit' v-if='this.$route.query.type==1'>
                     <span>主题名称</span>
                     <input type="text" v-model="theme_name_change">
                 </div>
