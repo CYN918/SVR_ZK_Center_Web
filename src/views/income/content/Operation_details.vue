@@ -30,7 +30,7 @@
                     <span class='details_tit'>备注:</span>
                     <span>{{listData.remark}}</span>
                 </div>
-                <div>
+                <div v-if='listData.attach!=[]'>
                     <span class='details_tit'>结算凭证:</span>
                     <span>{{listData.attach.name}}</span>
                     <a :href='listData.attach.url'>下载</a>
