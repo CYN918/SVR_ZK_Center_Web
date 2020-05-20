@@ -37,7 +37,7 @@
                             />
                 <div style=" display: inline-block;position: relative;">
                     <span class="ad">结算方</span>
-                    <input type="text" placeholder="请输入结算方" v-model="name" @input="getName"/>
+                    <input type="text" placeholder="请输入结算方" v-model="name" @input="getName" @click='getName'/>
                     <div class='names' v-if="show">
                         <span v-for="da in JSname" @click='setName(da.name)'>{{da.name}}</span>
                     </div>
@@ -51,8 +51,8 @@
                 </div>
                
                 
-                <span class="ad">搜索</span>
-                <input type="text" placeholder="请输入关键词" v-model="search"/>
+                <!-- <span class="ad">搜索</span>
+                <input type="text" placeholder="请输入关键词" v-model="search"/> -->
                 <span class="cx" @click="getDataList(1)">查询</span>
                 <span class="cx" @click="downloadImg()">导出</span>
             </div>
@@ -323,7 +323,7 @@ import 'ant-design-vue/dist/antd.css'
                 download.downloadImg(url);
             },
             getName(){     
-                if(this.name!=''){
+               
                     this.show=true;
                     this.JSname=[];
                      let params={is_receiver:this.is_receiver,search:this.name,p:100,page:1}
@@ -334,10 +334,11 @@ import 'ant-design-vue/dist/antd.css'
                                 this.JSname=res.data;
                             }
                             
-                })
-                }
+                        })
+               
                
             },
+           
             setName(da){
                 this.name=da;
                 this.show=false;
