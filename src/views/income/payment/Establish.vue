@@ -186,7 +186,7 @@ import 'ant-design-vue/dist/antd.css'
                 channels:[],
                 id:this.$route.query.id,
                 bind_channel_name:'',
-                SHOW_PARENT:Antd.SHOW_ALL,
+                SHOW_PARENT:Antd.SHOW_PARENT,
                 disjunctions:[]
             }
         },

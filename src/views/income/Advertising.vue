@@ -254,7 +254,7 @@ import 'ant-design-vue/dist/antd.css'
                 projects:[],
                 show:false,
                 JSlist:[],
-                SHOW_PARENT:Antd.SHOW_ALL,
+                SHOW_PARENT:Antd.SHOW_PARENT,
                 disjunctions:[],
             }
         },
