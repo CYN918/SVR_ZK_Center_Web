@@ -123,7 +123,7 @@
                     <span class='fc_statuc' style="margin-left:24px">渠道</span>
                       <select v-model='channel'>
                         <option value="">全部</option>
-                        <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
+                        <option :value="item.channel_name" v-for="item in channels">{{item.channel_name}}</option>
                      </select>
                     <span class='fc_statuc' style="margin:24px"  v-if='this.$route.query.type==1'>主题名</span>
                     <input type="text" placeholder="请输入" v-model='theme_name'  v-if='this.$route.query.type==1'>
@@ -157,7 +157,7 @@
                                     >
                                 </el-table-column>
                                 <el-table-column label="渠道"
-                                prop="channel"
+                                prop="channel_name"
                                 >
                                
                                 </el-table-column>
@@ -220,7 +220,7 @@
                     <span>渠道</span>
                     <select v-model="channel_change">
                         <option value="">全部</option>
-                        <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
+                        <option :value="item.channel_name" v-for="item in channels">{{item.channel_name}}</option>
                     </select>
                 </div>
                 <div  class='xg_tit' v-if='this.$route.query.type==1'>
@@ -421,7 +421,7 @@ export default {
                     if(this.$route.query.type==2){
                         this.theme_name_change=data.call_show_name
                     }
-                    this.channel_change=data.channel
+                    this.channel_change=data.channel_name
                     this.cash=data.income
                     this.id=data.id
                 },
