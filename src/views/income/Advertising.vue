@@ -44,10 +44,14 @@
                 </div>
                 <div style=" display: inline-block;position: relative;" v-if='is_receiver==1'> 
                     <span class="ad">项目</span>
-                    <select v-model="project">
-                        <option value="">全部</option>
-                        <option :value="item.project_name" v-for='item in JSlist'>{{item.project_name}}</option>
-                    </select>
+                     <el-select v-model="projects" multiple placeholder="请选择" class="elSelect">
+                                <el-option
+                                        v-for="item in JSlist"
+                                        :key="item.project_name"
+                                        :label="item.project_name"
+                                        :value="item.project_id">
+                                </el-option>
+                            </el-select>
                 </div>
                
                 
