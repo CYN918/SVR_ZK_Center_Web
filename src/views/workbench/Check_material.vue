@@ -115,11 +115,19 @@
             },
             handleSizeChange(p){
                 this.p = p;
-                this.getDataList();
+                if(this.status_num){
+                    this.dataList()
+                }else{
+                    this.getDataList();
+                }
             },
             handleCurrentChange(page){
                 this.page = page;
-                this.getDataList();
+                if(this.status_num){
+                    this.dataList()
+                }else{
+                    this.getDataList();
+                }
             },
             all(){
                 if(this.value==true){
