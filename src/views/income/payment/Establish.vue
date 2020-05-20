@@ -48,7 +48,7 @@
                     </div>
                 </div>
                 <div>
-                    <span class="fillName">渠道场景</span>
+                    <span class="fillName">结算渠道-场景</span>
                     <div style="display: inline-block;width: 593px;text-align: left" >
                         <!-- <el-select v-model="channels" multiple placeholder="请选择" class="elSelect" v-if='id==undefined'>
                                 <el-option
@@ -231,7 +231,13 @@ import 'ant-design-vue/dist/antd.css'
                 this.initiate2 = false
             },
              getsettle(){
-               let params={is_receiver:0,name:this.name,tstart:this.time[0],tend:this.time[1],channels:this.channels.slice().join(',')};
+                 for(var i=0;i<this.channels.length;i++){
+                    var arr={};
+                    arr.channel=this.channels[i].split('-')[0];
+                    arr.interaction=this.channels[i].split('-')[1];
+                    this.disjunctions.push(arr)
+                }
+               let params={is_receiver:0,name:this.name,tstart:this.time[0],tend:this.time[1],disjunctions:JSON.stringify(this.disjunctions)};
                this.api.settle_data_estimate_amount({params}).then((res)=>{
                     if(res.amount==0){
                        this.expect_amount='--'

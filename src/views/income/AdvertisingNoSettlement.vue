@@ -26,20 +26,15 @@
                     <option value="0">付款数据</option>
                 </select>
                  <span  class="ad" v-if="is_receiver==0">渠道</span>
-                <select v-model="channel"  v-if="is_receiver==0">
-                    <option :value="item.channel" v-for="item in channelData">{{item.channel}}</option>
-                </select>
-                <!-- <div style=" display: inline-block;position: relative;">
-                    <span class="ad">结算方</span>
-                    <input type="text" placeholder="请输入结算方" v-model="name" @input="getName"/>
-                    <div class='names' v-if="show">
-                        <span v-for="da in JSname" @click='setName(da.name)'>{{da.name}}</span>
-                    </div>
-                </div> -->
-               
-                
-                <span class="ad" v-if="is_receiver==1">搜索</span>
-                <input type="text" placeholder="请输入关键词" v-model="search" v-if="is_receiver==1"/>
+                <a-tree-select
+                            v-if="is_receiver==0"
+                                v-model="channels"
+                                style="width: 200px;height:36px;overflow: hidden;vertical-align: bottom;"
+                                :tree-data="channelData"
+                                tree-checkable
+                                :show-checked-strategy="SHOW_PARENT"
+                                search-placeholder="Please select"
+                            />
                 <span class="cx" @click="getDataList(1)">查询</span>
                 <span class="cx" @click="downloadImg()">导出</span>
             </div>
@@ -142,12 +137,12 @@
                                 
                         >
                         </el-table-column>
-                        <el-table-column
+                        <!-- <el-table-column
                                 prop="adid"
                                 label="广告位ID"
                                 
                         >
-                        </el-table-column>
+                        </el-table-column> -->
                         <el-table-column
                                 prop="pv"
                                 label="展示"
@@ -186,19 +181,10 @@
             </div>
             <div v-if="tableData.length>0&&is_receiver==0" class='summary2' :class='{big:this.$route.query.type!=undefined}'>
                 <span>汇总</span>
-<<<<<<< HEAD
-                <span></span>
-                <span></span>
-                <span  v-if="!this.$route.query.type"></span>
-                <span  v-if="!this.$route.query.type"></span>
-                <span></span>
-=======
                 <span>—</span>
                 <!-- <span>—</span> -->
                 <span  v-if="!this.$route.query.type">—</span>
-                <span  v-if="!this.$route.query.type">—</span>
                 <span>—</span>
->>>>>>> origin/develop
                 <span>{{exhibition1}}</span>
                 <span>{{exhibition2}}</span>
                 <span>{{click_ratio}}</span>
@@ -237,7 +223,7 @@
                 click_ratio:'',
                 exhibition4:'',
                 name:'',
-                channel:"",
+                channels:[],
                 channelData:[],
                 JSname:[],
                 show:false
@@ -293,7 +279,8 @@
                 this.getDataList()
             },
             getqd(){
-                this.api.settle_data_ssp_channel().then((res)=>{
+                let params={settlement:this.name}
+                this.api.settle_data_ssp_channel_interaction({params}).then((res)=>{
                     this.channelData=res;
                 })
             },
@@ -324,11 +311,17 @@
                 this.show=false;
             },
             getDataList(num){
+                  for(var i=0;i<this.channels.length;i++){
+                    var arr={};
+                    arr.channel=this.channels[i].split('-')[0];
+                    arr.interaction=this.channels[i].split('-')[1];
+                    this.disjunctions.push(arr)
+                }
                 if(num!=undefined){
                     this.page=num;
-                   var params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:num,search:this.search,is_receiver:this.is_receiver,name:this.name,channel:this.channel} 
+                   var params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:num,search:this.search,is_receiver:this.is_receiver,name:this.name,disjunctions:JSON.stringify(this.disjunctions)} 
                 }else{
-                     params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,search:this.search,is_receiver:this.is_receiver,name:this.name,channel:this.channel}
+                     params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,search:this.search,is_receiver:this.is_receiver,name:this.name,disjunctions:JSON.stringify(this.disjunctions)}
                 }
                 
                 this.api.settle_data_search({params}).then((res)=>{
@@ -480,7 +473,7 @@
         font-weight:bold;
         line-height:48px;
         font-family:PingFang-SC-Regular;
-        width: 10.02%;
+        width: 12.5%;
        padding-left: 15px;
 
     }

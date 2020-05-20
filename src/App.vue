@@ -1011,4 +1011,7 @@ select{
         max-height: 500px!important;
         overflow-y:auto;
     }
+    .el-date-editor .el-range-separator{
+      padding-right: 15px!important;
+    }
 </style>

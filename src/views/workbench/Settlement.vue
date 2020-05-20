@@ -45,7 +45,7 @@
 
                 </div>
                  <div v-if="is_receiver==0">
-                    <span class="fillName">渠道</span>
+                    <span class="fillName">结算渠道-场景</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
                         <span  class="text">{{list.check.check1.bind_channel_name}}</span>
                     </div>
