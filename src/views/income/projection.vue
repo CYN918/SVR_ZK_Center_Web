@@ -209,7 +209,6 @@ data() {
         //         this.getData()
         //     },
             getMsg(){
-                console.log(window.location.hash.split("?")[0])
                 let urld = window.location.hash.split("?")[0];
                 if(urld == '#/income/Payment_operation/details'){
                     let routeData = this.$router.resolve({
@@ -230,7 +229,8 @@ data() {
                             tend:this.tend,
                             is_receiver:this.is_receiver,
                             name:this.name,
-                            type:this.type
+                            type:this.type,
+                            channels:this.channels
                         }
                     });
                     window.open(routeData.href, '_blank');
@@ -242,7 +242,8 @@ data() {
                             tend:this.tend,
                             is_receiver:this.is_receiver,
                             name:this.name,
-                            type:this.type
+                            type:this.type,
+                            channels:this.channels
                         }
                     });
                     window.open(routeData.href, '_blank'); 
