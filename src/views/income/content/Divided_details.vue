@@ -107,7 +107,7 @@
                         <span>确认金额</span>
                     </div>
                     <div class='lr'>
-                        <span>提交后，将根据该结算金额给狮圈儿用户账户内，是否确认？</span>
+                        <span>以当前数据提交至工作台审核分成金额，是否确认？</span>
                     </div>
                     <div class='btns'>
                         <span class='qr' @click='qrMoney()'>确认</span>
