@@ -8,7 +8,22 @@
             </div>
             <div class="tishi">
                 <textarea placeholder="请输入作废原因" v-model="note" maxlength="20" v-if="list.length==0"></textarea>
-                <textarea placeholder="请输入作废原因" v-model="note" maxlength="20" v-if="list.length!=0" disabled></textarea>
+                <div class="box" v-if="list.length!=0">
+                    <ul>
+                        <li><label>处理人</label><div>{{creator}}</div></li>
+                        <li><label>处理时间</label><div>{{updated_at}}</div></li>
+                        <li>
+                            <label>作废原因</label>
+                            
+                            <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                                <div slot="content">
+                                    <div>{{note}}</div>
+                                </div>
+                                <div>{{note}}</div>            
+                            </el-tooltip>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class="btn">
                 <span class="btn_qd" @click="tj" v-if="list.length==0">确定</span>
@@ -25,6 +40,8 @@
         data(){
             return{
                 note:'',
+                creator:'',
+                updated_at:'',
                 list:[],
             }
         },
@@ -55,6 +72,8 @@
                     this.list=res;
                     if(this.list.length!=0){
                         this.note=res[0].note;
+                        this.creator = res[0].creator;
+                        this.updated_at = res[0].updated_at;
                     }
                     
                 })
@@ -152,5 +171,30 @@
         border: 0!important;
         color:rgba(255,255,255,1)!important;
         margin-right: 14px!important;
+    }
+    .box > ul > li{
+        width: 90%;
+        margin: 0 auto;
+        height: 39px;
+        line-height: 39px;
+    }
+    .box > ul > li > label{
+        width: 70px;
+        float: left;
+        font-size:14px;
+        font-family:PingFang-SC-Medium,PingFang-SC;
+        font-weight:500;
+        color:rgba(31,46,77,1);
+    }
+    .box > ul > li > div{
+        height: 39px;
+        float: left;
+        margin-left: 20px;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFang SC;
+        font-weight:400;
+        color:rgba(143,155,179,1);
+        max-width: 450px;
+        overflow: hidden;
     }
 </style>

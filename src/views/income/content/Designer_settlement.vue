@@ -2,26 +2,23 @@
    <div>
         <div class="top_name">
             <div class="title_left">
-                <span>{{this.type=='1'?'主题付款':'来电秀付款'}}</span>
+                <span>设计师线下结算</span>
             </div>
         </div>
         <div class='content'>
             <div>
                  <div class='times'>
                     <el-date-picker
-                        class='time_length'
                         v-model="tdate"
-                        type="monthrange"
-                        range-separator="至"
-                        start-placeholder="开始月份"
+                        type="month"
+                        format="yyyy-MM"
                         value-format="yyyy-MM"
-                        end-placeholder="结束月份">
+                        placeholder="选择月">
                     </el-date-picker>
                 </div>
                 <div class="btn_right">
-                    <span class='cx' @click='listData()'>查询</span>
-                    <span @click='cz()'>重置</span>
-                    <span @click='jump()'>分成管理</span>
+                    <span @click='add()'>新建</span>
+                    <!-- <span @click='jump()'>操作记录</span> -->
                 </div>      
             </div>
            <div>
@@ -37,20 +34,24 @@
                                >
                         </el-table-column>
                         <el-table-column
-                                label="总付款金额" prop="total_income"
+                                label="结算金额" prop="total_amount"
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="买断付款金额" prop="buyout_income"
+                                label="备注" prop="remark"
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="分成付款金额" prop="sharing_income"
+                                label="更新时间" prop="updated_at"
                                 >
                         </el-table-column>
-                        <el-table-column label="操作">
-                            <template slot-scope="props">
-                                <el-button type="text" @click='xq(tableData[props.$index].tdate,"1")'>查看详情</el-button>
+                         <el-table-column
+                                label="操作人员" prop="updated"
+                                >
+                        </el-table-column>
+                        <el-table-column label="操作" width="150">
+                            <template slot-scope="props" >
+                                <el-button type="text" @click='xq(tableData[props.$index].record_id)'>查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -76,7 +77,7 @@ export default {
     props:['type'],
             data(){
                 return{
-                    tdate:[],
+                    tdate:'',
                     p:10,
                     page:1,
                     total:0,
@@ -84,11 +85,13 @@ export default {
                 }
             },
             mounted(){
-                this.listData()
+               this.getData()
             },
             methods:{
-                cz(){
-                    this.tdate=[]
+                add(){
+                    this.$router.push({
+                        path:"./Designer_ADD"
+                    })
                 },
                 getRowClass({row, column, rowIndex}) {
                     if (rowIndex === 0) {
@@ -102,34 +105,33 @@ export default {
                 },
                 handleSizeChange(p) { // 每页条数切换
                     this.p = p;
-                    this.listData()
+                    this.getData()
                 },
                 handleCurrentChange(page) {//页码切换
                     this.page = page;
-                    this.listData()
+                    this.getData()
                 },
-                jump(){
-                    this.$router.push({
-                        path:"./Divided",
-                         query:{type:this.type}
+                // jump(){
+                //     this.$router.push({
+                //         path:"./Designer_record"
+                //     })
+                // },
+               
+                xq(data){
+                   this.$router.push({
+                       path:"./look_details",
+                       query:{
+                           record_id:data
+                       }
+                   })
+                },
+                getData(){
+                    let params={tdate:this.tdate,p:this.p,page:this.page}
+                    this.api.ds_offline_settlement_record_list({params}).then((res)=>{
+                        this.total=res.total;
+                        this.tableData=res.data;
                     })
                 },
-                listData(){
-                    let params={type:this.type,p:this.p,page:this.page,tdate_start:this.tdate[0],tdate_end:this.tdate[1],is_confirmed:'1'}
-                    this.api.sharing_data_income_summary({params}).then((res)=>{
-                         this.total=res.total;
-                         this.tableData=res.data;   
-                    })
-                },
-                xq(tdate,num){
-                    this.$router.push({
-                        path:"./datas_details",
-                        query:{type:this.type,
-                                tdate:tdate,
-                                num:num
-                        }
-                    })
-                }
             },
 }
 </script>

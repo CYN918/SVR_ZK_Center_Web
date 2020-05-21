@@ -383,7 +383,7 @@ a{
 .boxImg{
   display: inline-block;
   width:48%;
-  height:353px;
+  height:382px;
   background:rgba(255,255,255,1);
   border-radius:4px;
   padding: 14px 0 14px 14px;
@@ -999,7 +999,7 @@ select{
 .times .el-input__inner{
          width:200px!important
     }
-  .file_ADD .el-upload-list__item-name,.box_right .el-upload-list__item{
+  .file_ADD .el-upload-list__item-name,.box_right .el-upload-list__item,.tit4 .el-upload-list__item-name{
     display: none;
   }  
 

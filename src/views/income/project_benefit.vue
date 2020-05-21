@@ -214,7 +214,7 @@ import loading from '../../components/loading'
                     this.tstart=this.tdate[0],
                     this.tend=this.tdate[1]
                 }
-                let params={p:this.p,page:this.page,settlement:this.settlement,project:this.project,tstart:this.tstart,tend:this.tend}
+                let params={p:this.p,page:this.page,name:this.settlement,project:this.project,tstart:this.tstart,tend:this.tend}
                 this.api.settle_data_settle_summary({params}).then((res)=>{
                     this.total=res.total;
                     this.tableData=res.data;

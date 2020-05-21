@@ -220,6 +220,13 @@
                                 <option value="脚本" selected>脚本</option>
                             </select>
                         </div>
+                        <div class="box_sel" v-if="this.types=='f_sls_lockscreen'">
+                            <span class="tit">制作类型:</span>
+                            <select v-model="pro_type">
+                                <option value="1" selected>高定</option>
+                                <option value="0" selected>微定</option>
+                            </select>
+                        </div>
                          <div class="box_sel" v-if="this.types=='f_sls_picture'">
                             <span class="tit">资源类型:</span>
                             <select v-model="model">
@@ -320,6 +327,7 @@
                 tagsName:'',
                 chenck:false,
                 model:'',
+                pro_type:0,
                 link:'',
                 aaa:0,
                 bbb:0,
@@ -461,8 +469,6 @@
                     if(res.wpid==''){
                         this.$message.error('您上传的非壁纸压缩包，请重新上传')
                         return
-                    }else{
-                        this.attach.wpid = res.wpid;
                     }
                     var image = new Image();
                     var _this=this;
@@ -711,6 +717,7 @@
                 }else{
                     this.size=this.sjSize
                 }
+                this.attach.pro_type = this.pro_type;
                 let formData = new FormData;
                 formData.append('name',this.name);
                 formData.append('open_id',this.open_id)
@@ -829,6 +836,7 @@
                         }else{
                             this.size=this.sjSize
                         }
+                        this.attach.pro_type = this.pro_type;
                         let formData = new FormData;
                         formData.append('type',this.type);
                         formData.append('ispic',(this.chenck==true?1:0));
@@ -855,7 +863,7 @@
                         }else{
                             this.size=this.sjSize
                         }
-                       
+                        this.attach.pro_type = this.pro_type;
                         let formData = new FormData;
                         formData.append('type',this.type);
                         formData.append('name',this.name);
@@ -945,6 +953,7 @@
                             image.src= res.prev_uri;
                     }
                     this.attach = res.attach;
+                    this.pro_type = this.attach.pro_type;
                     if(res.attach.wpid==undefined){
                         this.attach.wpid=res.wpid
                     }
