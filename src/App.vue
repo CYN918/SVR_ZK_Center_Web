@@ -1019,4 +1019,12 @@ select{
   .ant-select-dropdown{
     max-height: 500px!important;
   }
+  .ant-select-selection--multiple{
+    height: 30px!important;
+    overflow: hidden;
+  }
+  .el-select__tags-text{
+    display: block;
+    height: 30px;
+  }
 </style>
