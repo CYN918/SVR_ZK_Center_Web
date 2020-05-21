@@ -309,7 +309,7 @@
             },
             getData(){
                 let params={is_receiver:1};
-                this.api.settle_settlement({params}).then((res)=>{
+                this.api.settle_settlement_list({params}).then((res)=>{
                     this.list=res;
                 })
             },

@@ -323,8 +323,9 @@ import 'ant-design-vue/dist/antd.css'
                 //     this.$message.error('附件不能为空');
                 //     return
                 // }
+                 var arr={};
+                 this.disjunctions=[]
                 for(var i=0;i<this.channels.length;i++){
-                    var arr={};
                     arr.channel=this.channels[i].split('-')[0];
                     arr.interaction=this.channels[i].split('-')[1];
                     this.disjunctions.push(arr)
@@ -354,7 +355,7 @@ import 'ant-design-vue/dist/antd.css'
             },
             getData(){
                 let params={is_receiver:0};
-                this.api.settle_settlement({params}).then((res)=>{
+                this.api.settle_settlement_list({params}).then((res)=>{
                     this.list=res;
                 })
             },
@@ -434,6 +435,7 @@ import 'ant-design-vue/dist/antd.css'
                         return
                     }
                 }
+                this.disjunctions=[]
                 for(var i=0;i<this.channels.length;i++){
                     var arr={};
                     arr.channel=this.channels[i].split('-')[0];

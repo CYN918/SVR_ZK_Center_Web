@@ -33,6 +33,15 @@ html,body{
 a{
   text-decoration:none;
 }
+img{
+  vertical-align: initial!important;
+}
+/* *, *::before, *::after{
+  box-sizing:initial!impo
+} */
+body{
+  background-color: transparent!important;
+}
 #app{
 	width: 100%;
 	min-height: 100%;
@@ -299,7 +308,7 @@ a{
   cursor: pointer;
 }
 .Search input{
-  width:160px;
+  width:200px;
   height:32px;
   padding-left: 40px;
   background:rgba(255,255,255,1);
@@ -1008,10 +1017,6 @@ select{
     width: 400px!important;
   }
   .ant-select-dropdown{
-        max-height: 500px!important;
-        overflow-y:auto;
-    }
-    .el-date-editor .el-range-separator{
-      padding-right: 15px!important;
-    }
+    max-height: 500px!important;
+  }
 </style>
