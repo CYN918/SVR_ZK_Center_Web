@@ -316,7 +316,7 @@
                     <span class='user_name' v-for='(key,index) in SQlist[SQlist.length-1].user'   @mouseenter="delName(SQlist[SQlist.length-1].id,index)" @mouseleave="leaves()">{{key.user_name}}
                             <img src="../../../public/img/del.png" style="width: 16px;opacity:0" :class="{getImg:(project_id==SQlist[SQlist.length-1].id&&indexs==index)}" @click="del(key.user_id,SQlist[SQlist.length-1].id)"/>
                     </span>
-                     <span class="step_add" @click='getBan(99)'><img src="../../../public/img/add_msg.png" style="width: 12px;margin-top: 12px"></span>
+                     <span class="step_add" @click='getBan5(99)'><img src="../../../public/img/add_msg.png" style="width: 12px;margin-top: 12px"></span>
                 </div>
             </div>
         </div>
@@ -518,7 +518,7 @@
                 this.ban1=false;
                 this.ban3=false;
                 this.ban4=false;
-                this.ban5 = false
+                this.ban5 =false
             },
             getBan1(index){
                 this.ban1=true;
@@ -926,7 +926,7 @@
         border-radius:4px;
     }
     .bannerTop{
-        margin-top: 200px;
+        margin-top: 50px;
     }
     .add_name{
         margin-top: 10px;
