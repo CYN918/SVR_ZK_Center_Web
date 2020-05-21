@@ -348,7 +348,7 @@
     .boxImg{
         display: inline-block;
         width:408px;
-        height:141px;
+        height:200px;
         background:rgba(245,247,250,1);
         border-radius:4px;
         border:1px solid rgba(51,119,255,1);
