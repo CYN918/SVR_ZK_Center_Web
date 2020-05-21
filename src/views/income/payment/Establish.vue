@@ -525,7 +525,7 @@ import 'ant-design-vue/dist/antd.css'
     }
     .fillName{
         display: inline-block;
-        width:84px;
+        width:95px;
         height:20px;
         font-size:14px;
         font-family:PingFang-SC-Medium,PingFang-SC;
