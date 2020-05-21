@@ -1,9 +1,9 @@
 <template>
    <div>
         <div class="top_name">
-             <span class="top_txt" @click='fh(-1)'>主题收款&nbsp;/&nbsp;分成管理</span>
+             <span class="top_txt" @click='fh(-1)'>主题收款&nbsp;/&nbsp;数据导入</span>
             <div class="title_left">
-                <span>分成管理</span>
+                <span>数据导入</span>
             </div>
         </div>
         <div class='content'>
@@ -408,6 +408,7 @@ export default {
                  qx(){
                     this.list=false;
                      this. heid();
+                     this.reset()
                 },
                  gb(){
                     this.tj=false;
