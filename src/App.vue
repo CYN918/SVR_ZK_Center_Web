@@ -999,7 +999,7 @@ select{
 .times .el-input__inner{
          width:200px!important
     }
-  .file_ADD .el-upload-list__item-name,.box_right .el-upload-list__item{
+  .file_ADD .el-upload-list__item-name,.box_right .el-upload-list__item,.tit4 .el-upload-list__item-name{
     display: none;
   }  
 
@@ -1007,11 +1007,4 @@ select{
   .htTC .el-input__inner{
     width: 400px!important;
   }
-  .ant-select-dropdown{
-        max-height: 500px!important;
-        overflow-y:auto;
-    }
-    .el-date-editor .el-range-separator{
-      padding-right: 15px!important;
-    }
 </style>
