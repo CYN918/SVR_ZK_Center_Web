@@ -347,7 +347,6 @@ import 'ant-design-vue/dist/antd.css'
                                 this.JSname=res.data;
                             }
                 })
-                }
                
             },
            
