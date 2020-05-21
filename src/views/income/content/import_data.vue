@@ -123,12 +123,14 @@
                     <span class='fc_statuc' style="margin-left:24px">渠道</span>
                       <select v-model='channel'>
                         <option value="">全部</option>
-                        <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
+                        <option :value="item.channel_name" v-for="item in channels">{{item.channel_name}}</option>
                      </select>
-                    <span class='fc_statuc' style="margin:24px">主题名</span>
-                    <input type="text" placeholder="请输入" v-model='theme_name'>
+                    <span class='fc_statuc' style="margin:24px"  v-if='this.$route.query.type==1'>主题名</span>
+                    <input type="text" placeholder="请输入" v-model='theme_name'  v-if='this.$route.query.type==1'>
+                    <span class='fc_statuc' style="margin:24px"  v-if='this.$route.query.type==2'>来电秀名</span>
+                    <input type="text" placeholder="请输入" v-model='call_show_name'  v-if='this.$route.query.type==2'>
                     <span class='fc_statuc' style="margin-left:24px">状态</span>
-                    <select name="" id="" v-model="statu_msg">
+                    <select name="" id="" v-model="status">
                         <option value="1">新增</option>
                         <option value="2">无变化</option>
                         <option value="3">可覆盖</option>
@@ -155,7 +157,7 @@
                                     >
                                 </el-table-column>
                                 <el-table-column label="渠道"
-                                prop="channel"
+                                prop="channel_name"
                                 >
                                
                                 </el-table-column>
@@ -218,16 +220,16 @@
                     <span>渠道</span>
                     <select v-model="channel_change">
                         <option value="">全部</option>
-                        <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
+                        <option :value="item.channel_name" v-for="item in channels">{{item.channel_name}}</option>
                     </select>
                 </div>
-                <div  class='xg_tit' v-if='this.$route.query.type==1'>call_show_name
+                <div  class='xg_tit' v-if='this.$route.query.type==1'>
                     <span>主题名称</span>
                     <input type="text" v-model="theme_name_change">
                 </div>
                  <div  class='xg_tit' v-if='this.$route.query.type==2'>
                     <span>来电秀名称</span>
-                    <input type="text" v-model="call_show_name">
+                    <input type="text" v-model="theme_name_change">
                 </div>
                 <div  class='xg_tit'>
                     <span>收益金额</span>
@@ -245,7 +247,7 @@
                     <span>提示</span>
                 </div>
                 <div>
-                    <span style="margin:0 24px" v-if='ct'>存在与结算数据冲突的数据，提交后存在冲突的数据不会更新</span>
+                    <span style="margin:0 24px" v-if='ct==true'>存在与结算数据冲突的数据，提交后存在冲突的数据不会更新</span>
                     <span style="margin:0 24px" v-if='ct==false'>提交后，将根据该数据更新对应的收益数据，是否确认？</span>
                 </div>
                  <div class="btn_right" style="float:left;">
@@ -280,7 +282,8 @@ export default {
                     channel:'',
                     channels:[],
                     theme_name:"",
-                    statu_msg:"",
+                    call_show_name:"",
+                    status:"",
                     ListData:[],
                     allTotal:"",
                     Create:"",
@@ -291,7 +294,8 @@ export default {
                     channel_change:"",
                     cash:"",
                     id:'',
-                    load:true
+                    load:true,
+                    ct:false
                 }
             },
             mounted(){
@@ -304,7 +308,8 @@ export default {
                reset(){
                    this.channel=''
                    this.theme_name=''
-                   this.statu_msg=''
+                   this.status=''
+                   this.call_show_name=''
                },
                 getRowClass({row, column, rowIndex}) {
                     if (rowIndex === 0) {
@@ -381,7 +386,12 @@ export default {
                    
                 },
                  getData(){
-                    let params={file_id:this.file_id,channel:this.channel,theme_name:this.theme_name,statu_msg:this.statu_msg}
+                     if(this.$route.query.type==1){
+                         var params={file_id:this.file_id,channel:this.channel,theme_name:this.theme_name,status:this.status}
+                     }else{
+                          params={file_id:this.file_id,channel:this.channel,call_show_name:this.call_show_name,status:this.status}
+                     }
+                    
                     this.api.sharing_data_list({params}).then((res)=>{
                         this.ListData=res.data.data;
                         this.allTotal=res.total;
@@ -406,8 +416,14 @@ export default {
                 change(data){
                     this.changed=true;
                     this.time_change=data.tdate
-                    this.theme_name_change=data.theme_name
-                    this.channel_change=data.channel
+                   
+                    if(this.$route.query.type==1){
+                         this.theme_name_change=data.theme_name
+                    }
+                    if(this.$route.query.type==2){
+                        this.theme_name_change=data.call_show_name
+                    }
+                    this.channel_change=data.channel_name
                     this.cash=data.income
                     this.id=data.id
                 },
@@ -478,8 +494,10 @@ export default {
                 upload(){
                     this.tj=true;
                     for(var i =0; i<this.ListData.length;i++){
-                        if(this.ListData[i].status=='4'||this.ListData[i].status=='5'||this.ListData[i].status=='6')
-                        this.ct=true;
+                        if(this.ListData[i].status=='4'||this.ListData[i].status=='5'||this.ListData[i].status=='6'){
+                            this.ct=true;
+                        }
+                        
                     }
                 },
               

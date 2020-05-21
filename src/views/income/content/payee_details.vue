@@ -33,7 +33,7 @@
                             fixed
                             style="width: 100%;color:#000">
                          <el-table-column
-                                label="渠道" prop="channel"
+                                label="渠道" prop="channel_name"
                                 :show-overflow-tooltip="true"
                                >
                         </el-table-column>    
@@ -97,7 +97,7 @@
                         <span class='tit_names'>渠道</span>
                         <select v-model='channel_name' disabled>
                                 <option value="">全部</option>
-                                <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
+                                <option :value="item.channel_name" v-for="item in channels">{{item.channel_name}}</option>
                         </select>
                     </div>
                     <div v-if="this.$route.query.type==1">
@@ -183,10 +183,10 @@ import load from '../../../components/loading'
             this.bj=false;
         },
         BJ(data){
+            console.log(data)
             this.bj=true
             this.time=data.tdate
-            this.channel_name=data.channel
-            
+            this.channel_name=data.channel_name
             if(this.$route.query.type==1){
                 this.theme_name_change=data.theme_name
             }else{

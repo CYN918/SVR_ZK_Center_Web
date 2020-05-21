@@ -107,6 +107,7 @@ data() {
             fcounter:0,
             jd:false,
             attachs:[],
+            disjunctions:[],
     };
 },
     mounted(){
@@ -209,7 +210,6 @@ data() {
         //         this.getData()
         //     },
             getMsg(){
-                console.log(window.location.hash.split("?")[0])
                 let urld = window.location.hash.split("?")[0];
                 if(urld == '#/income/Payment_operation/details'){
                     let routeData = this.$router.resolve({
@@ -219,6 +219,8 @@ data() {
                         tend:this.tend,
                         is_receiver:this.is_receiver,
                         name:this.name,
+                        channels:this.channels,
+                        projects:this.projects
                         }
                     });
                      window.open(routeData.href, '_blank');
@@ -230,7 +232,9 @@ data() {
                             tend:this.tend,
                             is_receiver:this.is_receiver,
                             name:this.name,
-                            type:this.type
+                            type:this.type,
+                            channels:this.channels,
+                            projects:this.projects
                         }
                     });
                     window.open(routeData.href, '_blank');
@@ -242,17 +246,26 @@ data() {
                             tend:this.tend,
                             is_receiver:this.is_receiver,
                             name:this.name,
-                            type:this.type
+                            type:this.type,
+                            channels:this.channels,
+                            projects:this.projects
                         }
                     });
                     window.open(routeData.href, '_blank'); 
                 }
             },
         getData(){
+            var aaa=this.channels.split(',')
+             for(var i=0;i<aaa.length;i++){
+                    var arr={};
+                    arr.channel=aaa[i].split('-')[0];
+                    arr.interaction=aaa[i].split('-')[1];
+                    this.disjunctions.push(arr)
+                }
             if(this.a==undefined){
-                var params={id:this.$route.query.id,is_receiver:this.is_receiver,projects:this.projects,channels:this.channels}
+                var params={id:this.$route.query.id,is_receiver:this.is_receiver,projects:this.projects,disjunctions:JSON.stringify(this.disjunctions)}
             }else{
-                 params={id:this.id,is_receiver:this.is_receiver,projects:this.projects,channels:this.channels}
+                 params={id:this.id,is_receiver:this.is_receiver,projects:this.projects,disjunctions:JSON.stringify(this.disjunctions)}
             }
            
             this.api.settle_data_estimate_list({params}).then((res)=>{

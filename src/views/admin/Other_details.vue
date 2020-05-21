@@ -53,7 +53,7 @@
                                 <template slot-scope="scope">
                                     <div>
                                         <span class="titTableName">渠道:</span>
-                                        <span class="titTableCon">{{channel_themes[scope.$index].channel}}</span>
+                                        <span class="titTableCon">{{channel_themes[scope.$index].channel_name}}</span>
                                     </div>
                                 </template>
                             </el-table-column>

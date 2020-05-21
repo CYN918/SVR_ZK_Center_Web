@@ -27,7 +27,7 @@
                 <div class="btn_right">
                     <span class='cx' @click='getDataList()'>查询</span>
                     <span @click='cz()'>重置</span>
-                    <span @click='dr()'>导入数据</span>
+                    <!-- <span @click='dr()'>导入数据</span> -->
                 </div>      
             </div>
            <div>

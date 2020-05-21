@@ -48,7 +48,7 @@
 
                 </div>
                  <div>
-                    <span class="fillName">渠道</span>
+                    <span class="fillName">渠道场景</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
                         <span  class="text">{{list.check.check1.bind_channel_name}}</span>
                     </div>
@@ -276,7 +276,7 @@
     }
     .fillName{
         display: inline-block;
-        width:84px;
+        width:95px;
         height:20px;
         font-size:14px;
         font-family:PingFang-SC-Medium,PingFang-SC;
