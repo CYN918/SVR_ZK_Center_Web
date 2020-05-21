@@ -354,7 +354,7 @@ import 'ant-design-vue/dist/antd.css'
             },
             getData(){
                 let params={is_receiver:0};
-                this.api.settle_settlement({params}).then((res)=>{
+                this.api.settle_settlement_list({params}).then((res)=>{
                     this.list=res;
                 })
             },
