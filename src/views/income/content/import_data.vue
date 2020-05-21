@@ -229,7 +229,7 @@
                 </div>
                  <div  class='xg_tit' v-if='this.$route.query.type==2'>
                     <span>来电秀名称</span>
-                    <input type="text" v-model="call_show_name">
+                    <input type="text" v-model="theme_name_change">
                 </div>
                 <div  class='xg_tit'>
                     <span>收益金额</span>
@@ -247,8 +247,8 @@
                     <span>提示</span>
                 </div>
                 <div>
-                    <span style="margin:0 24px" v-if='ct'>存在与结算数据冲突的数据，提交后存在冲突的数据不会更新</span>
-                    <span style="margin:0 24px" v-if='ct==false'>提交后，将根据该数据更新对应的收益数据，是否确认？</span>
+                    <span style="margin:0 24px" v-if='ct==false'>存在与结算数据冲突的数据，提交后存在冲突的数据不会更新</span>
+                    <span style="margin:0 24px" v-if='ct'>提交后，将根据该数据更新对应的收益数据，是否确认？</span>
                 </div>
                  <div class="btn_right" style="float:left;">
                                 <span class='cx' @click='ADD()'>确定</span>
@@ -294,7 +294,8 @@ export default {
                     channel_change:"",
                     cash:"",
                     id:'',
-                    load:true
+                    load:true,
+                    ct:true
                 }
             },
             mounted(){
