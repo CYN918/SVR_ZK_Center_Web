@@ -469,11 +469,6 @@
                     if(res.wpid==''){
                         this.$message.error('您上传的非壁纸压缩包，请重新上传')
                         return
-                    }else if(res.wpid == this.attach.wpid){
-                        this.$message.error('壁纸标识重复，请修改.XML文件后上传')
-                        return
-                    }else{
-                        this.attach.wpid = res.wpid;
                     }
                     var image = new Image();
                     var _this=this;
