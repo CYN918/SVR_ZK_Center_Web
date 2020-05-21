@@ -247,8 +247,8 @@
                     <span>提示</span>
                 </div>
                 <div>
-                    <span style="margin:0 24px" v-if='ct==false'>存在与结算数据冲突的数据，提交后存在冲突的数据不会更新</span>
-                    <span style="margin:0 24px" v-if='ct'>提交后，将根据该数据更新对应的收益数据，是否确认？</span>
+                    <span style="margin:0 24px" v-if='ct==true'>存在与结算数据冲突的数据，提交后存在冲突的数据不会更新</span>
+                    <span style="margin:0 24px" v-if='ct==false'>提交后，将根据该数据更新对应的收益数据，是否确认？</span>
                 </div>
                  <div class="btn_right" style="float:left;">
                                 <span class='cx' @click='ADD()'>确定</span>
@@ -295,7 +295,7 @@ export default {
                     cash:"",
                     id:'',
                     load:true,
-                    ct:true
+                    ct:false
                 }
             },
             mounted(){
