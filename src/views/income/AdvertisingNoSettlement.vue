@@ -25,7 +25,25 @@
                     <option value="1">收款数据</option>
                     <option value="0">付款数据</option>
                 </select>
-                 <span  class="ad" v-if="is_receiver==0">渠道</span>
+                 <div style=" display: inline-block;position: relative;" v-if='is_receiver==1'>
+                    <span class="ad">结算方</span>
+                    <input type="text" placeholder="请输入结算方" v-model="name" @change="getName()"/>
+                    <div class='names' v-if="show">
+                        <span v-for="da in JSname" @click='setName(da.name)'>{{da.name}}</span>
+                    </div>
+                </div>
+                <div style=" display: inline-block;position: relative;" v-if='is_receiver==1'> 
+                    <span class="ad">项目</span>
+                     <el-select v-model="projects" multiple placeholder="请选择" class="elSelect">
+                                <el-option
+                                        v-for="item in JSlist"
+                                        :key="item.project_id"
+                                        :label="item.project_name"
+                                        :value="item.project_name">
+                                </el-option>
+                            </el-select>
+                </div>
+                 <span  class="ad" v-if="is_receiver==0">渠道场景</span>
                 <a-tree-select
                             v-if="is_receiver==0"
                                 v-model="channels"
@@ -84,6 +102,14 @@
                             :show-overflow-tooltip="true"
                         >
                         </el-table-column>
+                         <el-table-column
+                                prop="download"
+                                label="下载">
+                        </el-table-column> 
+                         <el-table-column
+                                prop="download_feedback"
+                                label="反馈下载">
+                        </el-table-column>
                         <el-table-column
                                 prop="income"
                                 label="收益"
@@ -130,12 +156,12 @@
                                 
                         >
                         </el-table-column>
-                        <el-table-column
+                        <!-- <el-table-column
                                 prop="channel_name"
                                 label="渠道名"
                                 
                         >
-                        </el-table-column>
+                        </el-table-column> -->
                         <!-- <el-table-column
                                 prop="adid"
                                 label="广告位ID"
@@ -170,19 +196,20 @@
             </div>
             <div v-if="tableData.length>0&&is_receiver==1" class='summary1'>
                 <span>汇总</span>
-                <span></span>
-                <span></span>
-                <span></span>
+                <span>—</span>
+                <span>—</span>
+                <span>—</span>
                 <span>{{exhibition1}}</span>
                 <span>{{exhibition2}}</span>
                 <span>{{click_ratio}}</span>
+                <span>{{exhibition5}}</span>
+                <span>{{exhibition6}}</span>
                 <span>{{exhibition4}}</span>
             </div>
             <div v-if="tableData.length>0&&is_receiver==0" class='summary2' :class='{big:this.$route.query.type!=undefined}'>
                 <span>汇总</span>
                 <span>—</span>
                 <!-- <span>—</span> -->
-                <span  v-if="!this.$route.query.type">—</span>
                 <span>—</span>
                 <span>{{exhibition1}}</span>
                 <span>{{exhibition2}}</span>
@@ -205,7 +232,11 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import Antd from 'ant-design-vue'
+import 'ant-design-vue/dist/antd.css'
  import download from '../../api/commonality'
+ Vue.use(Antd)
     export default {
         name: "advertiser",
         data(){
@@ -217,46 +248,70 @@
                 p:10,
                 page:1,
                 total:0,
-                exhibition1:'',
+                 exhibition1:'',
                 exhibition2:'',
                 click_ratio:'',
                 exhibition4:'',
+                exhibition5:'',
+                exhibition6:'',
                 name:'',
                 channels:[],
                 channelData:[],
                 JSname:[],
-                show:false
+                show:false,
+                SHOW_PARENT:Antd.SHOW_PARENT,
+                projects:[],
+                JSlist:[],
+                disjunctions:[],
             }
         },
         mounted(){
                 if(this.$route.query.name){
                     this.value=[this.$route.query.tstart,this.$route.query.tend];
                     this.search=this.$route.query.name;
+                    this.name=this.$route.query.name;
                     this.is_receiver=this.$route.query.is_receiver;
+                    if(this.$route.query.is_receiver==1){
+                        this.projects=this.$route.query.projects.split(',')
+                    }else{
+                        this.channels=this.$route.query.channels.split(',');
+                    }
+                    
+                    
                 }else{
                     var qt = (new Date((new Date()).getTime() - 1*24*60*60*1000)).toLocaleDateString().split('/');
                     if(Number(qt[1])<10){
                         qt[1]=(0).toString()+qt[1]
 
                     }
-                    if(Number(qt[2])<10){
-                        qt[2]=(0).toString()+qt[2]
-
-                    }
                     var next = (new Date()).toLocaleDateString().split('/');
                     if(Number(next[1])<10){
                         next[1]=(0).toString()+next[1]
                     }
-                    if(Number(next[2])<10){
-                        next[2]=(0).toString()+next[2]
-                    }
                     this.value=[qt.join('-'),next.join('-')];
                 }
                 this.getDataList();
-                this.getqd();
+                
+                if(this.is_receiver==1){
+                    this.getObject()
+                }
+                if(this.is_receiver==0){
+                    this.getqd();
+                }
+                
         },
         methods:{
             change(value){
+                 this.name=''
+                this.channel=''
+                this.project=''
+                this.search=''
+                 if(this.is_receiver==1){
+                    this.getObject()
+                }
+                if(this.is_receiver==0){
+                    this.getqd();
+                }
                 this.getDataList();
             },
             getRowClass({row, column, rowIndex}) {
@@ -268,6 +323,25 @@
             },
             cell({row, column, rowIndex, columnIndex}){
                 return 'padding:15px 14px;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
+            },
+             getName(){     
+                    this.show=true;
+                    this.JSname=[];
+                     let params={is_receiver:this.is_receiver,search:this.name,p:100,page:1}
+                        this.api.settle_settlement_search({params}).then((res)=>{
+                            if(res.data.length == '0'){
+                                this.show = false
+                            }else{
+                                this.JSname=res.data;
+                            }
+                            
+                        })
+            },
+            setName(da){
+                this.name=da;
+                this.show=false;
+                this.getObject();
+                this.getqd()
             },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
@@ -283,34 +357,18 @@
                     this.channelData=res;
                 })
             },
-            
+            getObject(){
+                let params={balance_name:this.name}
+                this.api.adproject_listpage({params}).then((res)=>{
+                    this.JSlist=res.data
+                })
+            },
              downloadImg(){
                 var url = '/settle/data/export'+'?is_receiver='+this.is_receiver+'&name='+this.name+'&search='+this.search+'&channel='+this.channel+'&tstart='+this.value[0]+'&tend='+this.value[1];
                 download.downloadImg(url);
             },
-            getName(){
-                if(this.name!=''){
-                    this.show=true;
-                    this.JSname=[];
-                     let params={is_receiver:this.is_receiver,search:this.name,p:100,page:1}
-                        this.api.settle_settlement_search({params}).then((res)=>{
-                            if(res.data.length == '0'){
-                                this.show = false
-                            }else{
-                                this.JSname=res.data;
-                            }
-                            
-                })
-                }
-               
-                console.log(this.name)
-            },
-            setName(da){
-                this.name=da;
-                this.show=false;
-            },
-            getDataList(num){
-                  for(var i=0;i<this.channels.length;i++){
+             getDataList(num){
+                for(var i=0;i<this.channels.length;i++){
                     var arr={};
                     arr.channel=this.channels[i].split('-')[0];
                     arr.interaction=this.channels[i].split('-')[1];
@@ -318,9 +376,10 @@
                 }
                 if(num!=undefined){
                     this.page=num;
-                   var params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:num,search:this.search,is_receiver:this.is_receiver,name:this.name,disjunctions:JSON.stringify(this.disjunctions)} 
+                         var params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:num,search:this.search,is_receiver:this.is_receiver,name:this.name,disjunctions:JSON.stringify(this.disjunctions),projects:this.projects.join(',')} 
                 }else{
-                     params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,search:this.search,is_receiver:this.is_receiver,name:this.name,disjunctions:JSON.stringify(this.disjunctions)}
+                        params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,search:this.search,is_receiver:this.is_receiver,name:this.name,disjunctions:JSON.stringify(this.disjunctions),projects:this.projects.join(',')}
+
                 }
                 
                 this.api.settle_data_search({params}).then((res)=>{
@@ -337,10 +396,14 @@
                     var a1= 0;
                     var a2= 0;
                     var a4= 0;
+                    var a3 =0;
+                    var a5= 0;
                     for(var i=0;i<this.tableData.length;i++){
                         a1 += parseInt(res.data[i].pv);
                         a2 += parseInt(res.data[i].click);
+                        a3 += parseInt(res.data[i].download);
                         a4 += parseFloat(res.data[i].income);
+                        a5 += parseInt(res.data[i].download_feedback)
                         this.tableData[i].income = parseFloat(this.tableData[i].income / 100).toFixed(2);
                     }
                     this.exhibition1 = parseInt(a1);
@@ -351,10 +414,11 @@
                         sratio =  parseFloat(this.exhibition2 / this.exhibition1 * 100).toFixed(2);
 
                     }
+                    this.exhibition5=a3;
+                    this.exhibition6=a5;
                     this.click_ratio = sratio.toString() +'%';
                     this.exhibition4 = parseFloat(a4 / 100 ).toFixed(2);
                     this.total = res.total;
-                    console.log(this.tableData)
                 })
             },
            
@@ -461,7 +525,7 @@
         font-weight:bold;
         line-height:48px;
         font-family:PingFang-SC-Regular;
-        width: 11.27%;
+        width: 10%;
         padding-left: 17px;
     }
     .summary2 span{
@@ -472,7 +536,7 @@
         font-weight:bold;
         line-height:48px;
         font-family:PingFang-SC-Regular;
-        width: 12.5%;
+        width: 14.1%;
        padding-left: 15px;
 
     }
