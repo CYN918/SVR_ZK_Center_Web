@@ -28,7 +28,7 @@
                  
                 <div style=" display: inline-block;position: relative;" >
                     <span class="ad">结算方</span>
-                    <input type="text" placeholder="请输入结算方" v-model="name" @change="getName()"/>
+                    <input type="text" placeholder="请输入结算方" v-model="name" @input="getName()"/>
                     <div class='names' v-if="show">
                         <span v-for="da in JSname" @click='setName(da.name)'>{{da.name}}</span>
                     </div>
@@ -298,8 +298,8 @@ import 'ant-design-vue/dist/antd.css'
         methods:{
             change(value){
                 this.name=''
-                this.channel=''
-                this.project=''
+                this.channels=[]
+                this.projects=[]
                 this.search=''
                  if(this.is_receiver==1){
                     this.getObject()
@@ -341,7 +341,7 @@ import 'ant-design-vue/dist/antd.css'
             },
             
              downloadImg(){
-                var url = '/settle/data/export'+'?is_receiver='+this.is_receiver+'&name='+this.name+'&search='+this.search+'&channel='+this.channel+'&tstart='+this.value[0]+'&tend='+this.value[1];
+                var url = '/settle/data/export'+'?is_receiver='+this.is_receiver+'&name='+this.name+'&search='+this.search+'&channel='+this.channel+'&tstart='+this.value[0]+'&tend='+this.value[1]+'&projects='+this.projects.join(',')+'&disjunctions='+JSON.stringify(this.disjunctions);
                 download.downloadImg(url);
             },
             getName(){  
@@ -362,6 +362,8 @@ import 'ant-design-vue/dist/antd.css'
            
             setName(da){
                 this.name=da;
+                this.projects=[];
+                this.channels=[];
                 this.show=false;
                 this.getObject();
                 this.getqd()

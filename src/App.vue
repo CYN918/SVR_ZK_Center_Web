@@ -36,9 +36,9 @@ a{
 img{
   vertical-align: initial!important;
 }
-*, *::before, *::after{
-  box-sizing:initial!important
-}
+/* *, *::before, *::after{
+  box-sizing:initial!impo
+} */
 body{
   background-color: transparent!important;
 }
@@ -308,7 +308,7 @@ body{
   cursor: pointer;
 }
 .Search input{
-  width:160px;
+  width:200px;
   height:32px;
   padding-left: 40px;
   background:rgba(255,255,255,1);
@@ -1015,5 +1015,8 @@ select{
 
   .htTC .el-input__inner{
     width: 400px!important;
+  }
+  .ant-select-dropdown{
+    max-height: 500px!important;
   }
 </style>
