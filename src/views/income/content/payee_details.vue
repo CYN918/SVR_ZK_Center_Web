@@ -186,7 +186,7 @@ import load from '../../../components/loading'
             console.log(data)
             this.bj=true
             this.time=data.tdate
-            this.channel_name=data.channel
+            this.channel_name=data.channel_name
             if(this.$route.query.type==1){
                 this.theme_name_change=data.theme_name
             }else{
