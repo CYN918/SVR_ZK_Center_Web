@@ -28,7 +28,7 @@
                  
                 <div style=" display: inline-block;position: relative;">
                     <span class="ad">结算方</span>
-                    <input type="text" placeholder="请输入结算方" v-model="name" @input="getName()"/>
+                    <input type="text" placeholder="请输入结算方" v-model="name" @change="getName" />
                     <div class='names' v-if="show">
                         <span v-for="da in JSname" @click='setName(da.name)'>{{da.name}}</span>
                     </div>
@@ -336,7 +336,8 @@ import 'ant-design-vue/dist/antd.css'
                 var url = '/settle/data/export'+'?is_receiver='+this.is_receiver+'&name='+this.name+'&search='+this.search+'&channel='+this.channel+'&tstart='+this.value[0]+'&tend='+this.value[1];
                 download.downloadImg(url);
             },
-            getName(){     
+            getName(){  
+                if(this.name!=''){
                     this.show=true;
                     this.JSname=[];
                      let params={is_receiver:this.is_receiver,search:this.name,p:100,page:1}
@@ -346,7 +347,8 @@ import 'ant-design-vue/dist/antd.css'
                             }else{
                                 this.JSname=res.data;
                             }
-                })
+                        })
+                }
                
             },
            
