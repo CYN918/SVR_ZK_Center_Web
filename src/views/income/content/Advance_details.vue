@@ -16,7 +16,7 @@
                 <span class='tit_name' style="margin-left:24px">当前预约金余额：{{this.$route.query.ye}}</span>
                 <span  class='tit_name red' v-if="attach_id==0">汇款凭证待补充</span>
                 <span class='up' @click=' updata()' v-if="attach_id==0">上传汇款凭证</span>
-                 <span class='up'  v-if="attach_id==1"  @click='CK()'>查看汇款凭证</span>
+                 <span class='up'  v-if="attach_id!=0"  @click='CK()'>查看汇款凭证</span>
             </div>
            <div>
                  <template>

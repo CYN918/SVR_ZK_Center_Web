@@ -69,7 +69,8 @@
                         </el-table-column>
                          <el-table-column label="操作" prop="">
                              <template slot-scope="props">
-                                 <el-button type="text" @click='updata(tableData[props.$index].project_id)'>上传凭证</el-button>
+                                 <el-button type="text" v-if='tableData[props.$index].attach_id==0' @click='updata(tableData[props.$index].project_id)'>上传凭证</el-button>
+                                <el-button type="text" v-if='tableData[props.$index].attach_id!=0' >查看凭证</el-button>
                                 <el-button type="text"  @click='jump(tableData[props.$index].project_id,tableData[props.$index].open_id,tableData[props.$index].account_name,tableData[props.$index].advance_payment,tableData[props.$index].advance_payment_left)'>查看详情</el-button>
                             </template>
                         </el-table-column>
