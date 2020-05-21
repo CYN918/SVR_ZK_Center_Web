@@ -97,7 +97,7 @@
                         <span class='tit_names'>渠道</span>
                         <select v-model='channel_name' disabled>
                                 <option value="">全部</option>
-                                <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
+                                <option :value="item.channel_name" v-for="item in channels">{{item.channel_name}}</option>
                         </select>
                     </div>
                     <div v-if="this.$route.query.type==1">
