@@ -326,7 +326,6 @@
                             }else{
                                 this.JSname=res.data;
                             }
-                            
                 })
                 }
                
