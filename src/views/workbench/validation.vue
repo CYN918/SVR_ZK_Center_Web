@@ -355,7 +355,7 @@ import pro from '../income/projection'
             getData(){
              
                 let params={is_receiver:this.is_receiver};
-                this.api.settle_settlement({params}).then((res)=>{
+                this.api.settle_settlement_list({params}).then((res)=>{
                     this.list=res;
                 })
             },
