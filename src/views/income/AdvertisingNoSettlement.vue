@@ -186,19 +186,11 @@
             </div>
             <div v-if="tableData.length>0&&is_receiver==0" class='summary2' :class='{big:this.$route.query.type!=undefined}'>
                 <span>汇总</span>
-<<<<<<< HEAD
-                <span></span>
-                <span></span>
-                <span  v-if="!this.$route.query.type"></span>
-                <span  v-if="!this.$route.query.type"></span>
-                <span></span>
-=======
                 <span>—</span>
                 <!-- <span>—</span> -->
                 <span  v-if="!this.$route.query.type">—</span>
                 <span  v-if="!this.$route.query.type">—</span>
                 <span>—</span>
->>>>>>> origin/develop
                 <span>{{exhibition1}}</span>
                 <span>{{exhibition2}}</span>
                 <span>{{click_ratio}}</span>

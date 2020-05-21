@@ -15,6 +15,12 @@
 					<option value="1001">未使用</option>
 					<option value="1201">禁用</option>
 				</select>
+                <span style="font-size:14px;font-family:PingFangSC-Regular;font-weight:400;color:rgba(31,46,77,1);margin-right: 20px;margin-left: 40px;">制作方式</span>
+                <select v-model="pro_type" @click="getWl()">
+					<option value="" selected>全部</option>
+					<option value="1">高定</option>
+					<option value="0">微定</option>
+				</select>
 				<span class="Search_tit" @click="getCon" :class="{activeHeid:this.controlBtn}"><img src="../../../public/img/add_msg.png" style="width: 12px;margin-right: 14px" >添加本地物料</span>
 			</div>
 			<div class="contentImg">
@@ -128,6 +134,11 @@
 								<span class="boxImg_text">来源:</span>
 								<span class="boxImg_content" style="width:100px">{{DL.resource}}</span>
 							</div> -->
+                            <div class='zt'>
+								<span class="boxImg_text">制作方式:</span>
+								<span class="boxImg_content" style="width:100px" v-if="DL.attach.pro_type == 0">微定</span>
+                                <span class="boxImg_content" style="width:100px" v-if="DL.attach.pro_type == 1">高定</span>
+							</div>
                         </div>
 						<div>
 							<span class="boxImg_text">壁纸标识:</span>
@@ -192,6 +203,7 @@
         components:{AM,hin,tag,set,rel},
         data() {
             return {
+                pro_type:'',
                 tagData:false,
                 sc:false,
                 hint:false,
@@ -435,7 +447,7 @@
                 })
             },
             getWl(){
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),op_tags:JSON.stringify(this.listTags),status:this.status}
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),op_tags:JSON.stringify(this.listTags),status:this.status,pro_type:this.pro_type}
                 this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     this.total=res.total;
