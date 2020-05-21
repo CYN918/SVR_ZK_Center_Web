@@ -27,7 +27,7 @@
                 <div class="btn_right">
                     <span class='cx' @click='getDataList()'>查询</span>
                     <span class='cz' @click='cz()'>重置</span>
-                    <span @click='jeqr()' v-if='this.status==0'>确认金额</span>
+                    <span @click='jeqr()' v-if='this.status==0&&this.$route.query.siid==undefined'>确认金额</span>
                     <span v-if='this.status==1&&this.$route.query.siid!=undefined' @click='setData(1)'>审核通过</span>
                     <span v-if='this.status==1&&this.$route.query.siid!=undefined' @click='setDataBH()'>审核不通过</span>
                 </div>      
@@ -155,9 +155,10 @@ export default {
                     load:true
                 }
             },
-            mounted(){
+            created(){
                 this.getDataList()
             },
+            
             methods:{
                 fh(index){
                     this.$router.go(index)
@@ -281,9 +282,10 @@ export default {
                 // },
                 setData(){
                     let formData =new FormData;
+                    formData.append('type',this.$route.query.type)
                     formData.append('id',this.$route.query.siid);
                     formData.append('status',this.$route.query.status);
-                    this.api.demand_settle_audit(formData).then((res)=>{
+                    this.api.demand_audit(formData).then((res)=>{
                              if(res!=false){
                              this.getDataList();
                         }
@@ -295,6 +297,7 @@ export default {
                          return
                      }
                     let formData =new FormData;
+                    formData.append('type',this.$route.query.type)
                     formData.append('id',this.$route.query.siid);
                     formData.append('status',this.$route.query.status);
                     formData.append('note',this.note);
