@@ -33,9 +33,10 @@
                 <div class='btn_sx'>
                     <span class='cx' v-if='pl==false' @click='getData()'>查询</span>
                     <!-- <span class='cz' @click='plcz()' v-if='pl==false'>批量操作</span> -->
-                    <span class='dc' v-if='pl==false'>导出</span>
+                    <!-- <span class='dc' v-if='pl==false'>导出</span> -->
                     <span class='cz'  v-if='pl' @click='updateStatus("aa")'>批量操作</span>
                     <span class='dc' @click='Qxplcz()' v-if='pl'>取消</span>
+                    <span class='dc' @click='Wx()' v-if='pl==false'>壁纸管理</span>
                 </div>
                
         </div>
@@ -92,7 +93,7 @@
                                 </template>
                         </el-table-column>
                          <el-table-column
-                                prop="update_at"
+                                prop="updated_at"
                                 label="更新时间">
                         </el-table-column>
                          <el-table-column
@@ -156,15 +157,16 @@
                 </div>
             </div>
         </div>
+        <loading v-if='load'></loading>
 </div>
 </template>
 
 <script>
-
+import loading from '../../components/loading'
 
 export default {
 
-components: {},
+components: {loading},
 data() {
 
 return {
@@ -183,11 +185,23 @@ return {
         value:[],
         index:'',
         advers:[],
-        yy:""
+        yy:"",
+        load:true
 };
 },
 
 methods: {
+    Wx(){
+        this.$router.push({
+            path:"./journal_nb",
+            query:{
+                channel:this.$route.query.channel,
+                plid:this.$route.query.plid,
+                type:'meizu_first',
+            },
+        })
+
+    },
      pushLib(){
           if(this.index=='aa'){
                     let array={plid:"",adid:"",mfid:"",tags_id:""}
@@ -338,6 +352,7 @@ methods: {
                this.api.pushlib_adver_mfinal_list({params}).then((res)=>{
                    this.tableData=res.data;
                    this.total=res.total;
+                   this.load = false;
                 //    this.$previewRefresh()
                })
            },

@@ -405,7 +405,7 @@
                 contract_id:"",
                 open_id:"",
                 is_internal:false,
-                settle_value:""
+                settle_value:"",
             }
         },
         mounted(){
@@ -500,10 +500,11 @@
                 this.file = file;
                 const isXzip = file.type === 'application/x-zip-compressed';
                 const iszip = file.type === 'application/zip';
-                if (!(isXzip||iszip)) {
+                const isHzip = file.type === '';
+                if (!(isXzip||iszip||isHzip)) {
                     this.$message.error('只支持ZIP格式!');
                 }
-                return isXzip||iszip;
+                return isXzip||iszip||isHzip;
             },
              beforeUpload(file){
                         const isJPG = file.type === 'image/jpeg';
@@ -618,6 +619,10 @@
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
+                    if(res == undefined){
+                        this.$message.error('上传失败')
+                        this.up=false;
+                    }
                     this.attach=res;
                     this.times=100;
                     --this.fcounter;

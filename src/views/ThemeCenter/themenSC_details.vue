@@ -2,11 +2,11 @@
     <div>
         <div class="top">
             <div class="tit_top_url">
-            <span class="log_url" @click="fh()"> 主题素材&nbsp;/</span>
-            <span class="new_url">主题素材详情&nbsp;</span>
+            <span class="log_url" @click="fh()"> {{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='th_icon'?'图标主题素材':this.type=='th_second_page'?'二级页主题素材':'宣传图'}}&nbsp;/</span>
+            <span class="new_url">{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='th_icon'?'图标主题素材':this.type=='th_second_page'?'二级页主题素材':'宣传图'}}详情&nbsp;</span>
         </div>
             <div class="name">
-                <span>主题素材名称:</span>
+                <span>{{this.type=='th_lock_screen'?'锁屏主题素材':this.type=='th_icon'?'图标主题素材':this.type=='th_second_page'?'二级页主题素材':'宣传图'}}名称:</span>
                 <span>{{tableData.name}}</span>
                 <div>
                     <span @click="bj()">编辑</span>
@@ -52,7 +52,13 @@
                     <span class="nameID">预览图</span>
                 </div>
                 <div class="imgID" v-for="item in tableData.previews" v-if="(tableData.previews)!=[]">
-                    <img :src="item">
+                    <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
+                        <div slot="content">
+                            <img :src='item' style="max-width:261px;max-height: 464px"  />
+
+                        </div>
+                        <img :src='item' style="cursor: pointer"  preview="0" />                               
+                    </el-tooltip>
                 </div>
                 <div style="width: 100%;text-align: center" v-if="(tableData.previews)==[]">
                     <img src="../../../public/img/null.png" style="width:48px;margin-top: 150px">
@@ -279,7 +285,7 @@
                         thmid:id,
                     },
                 })
-                window.open(Logistics.href, '_blank','toolbar=yes');
+                window.open(Logistics.href);
             },
 
              seeTheme(id,name,qdid,channel_name,local){
@@ -341,7 +347,6 @@
                 let params={thmid:this.$route.query.thmid};
                 this.api.themes_material_details({params}).then((res)=>{
                     this.tableData=res;
-                    console.log(this.tableData.contract)
                     this.tags=(this.tableData.tags).split(',');
                     this.type=res.type;
                     this. getTheme();

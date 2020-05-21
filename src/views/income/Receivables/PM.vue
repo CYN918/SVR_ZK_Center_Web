@@ -16,9 +16,30 @@
                     <option value="0">信息异常</option>
                     <option value="1">信息待补充</option>
                 </select>
+                <div style=" display: inline-block;position: relative;margin-left:15px;" @mouseleave="focuson()">
+                    <span style="margin-right: 15px;">结算主体</span>
+                    <input type="text" placeholder="请输入结算主体" v-model="balance_name" @input="getName()" @focus='getName()'/>
+                    <div class='names' v-if="show">
+                        <span v-for="da in JSname" @click='setName(da)'>{{da.account_name}}</span>
+                    </div>
+                </div>
+                <div style=" display: inline-block;position: relative;margin-left:15px;margin-right:15px;" @mouseleave="oldblur()">
+                    <span style="margin-right: 15px;">合作公司</span>
+                    <input type="text" placeholder="请输入合作公司" v-model="company_name" @input="oldADD()" />
+                    <div class='names' v-if="old">
+                        <span v-for="da in company" @click='select_check(da)'>{{da.name}}</span>
+                    </div>
+                </div>
+                <span class='select_left'>投放形式</span>
+                <select class='input_left' v-model="put_type">
+                     <option value="" >请选择</option>
+                     <option value="常规业务" >常规业务</option>
+                     <option value="试玩业务" >试玩业务</option>
+                </select>
                 <div class='btn_box'>
                     <span class="cx" @click="getDataList()">查询</span>
                     <span @click='cz()'>重置</span>
+                    <span @click="guideR()" v-if="isShow">导入</span>
                     <!-- <span>监控邮箱</span> -->
                 </div>
             </div>
@@ -74,6 +95,32 @@
             </div>
         </div>
          <loading v-if='load'></loading>
+         <div class="bg" v-if="upTxt">
+            <div class="upText">
+                <div class="titName">
+                    <span>导入数据</span>
+                </div>
+                <div style="overflow-y:auto ">
+                    <el-upload
+                            class="uploadTxt"
+                            action="222"
+                            ref="upload"
+                            :http-request="upLoad"
+                             multiple
+                            :on-remove="handleRemove"
+                            :before-upload="beforeAvatarUploads"
+                            :auto-upload="false"
+                    >
+                        <el-button size="small" type="primary">点击上传</el-button>
+                    </el-upload>
+                    <!-- <a href="text/主题结算数据录入模板.xlsx" target="_blank" style="position: absolute;top:69px;left: 120px">下载模板</a> -->
+                </div>
+                <div class="upTxtBtn">
+                    <span @click="heidUP()">取消</span>
+                    <span @click="submitUpload" style="background: #3377ff;color: #fff;border: 0">确定</span>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -91,12 +138,109 @@ import loading from '../../../components/loading'
                 status:'',
                 search:"",
                 load:true,
+                upTxt:false,
+                userData:{},
+                isShow:true,
+                JSname:[],
+                show:false,
+                balance_id:'',
+                put_type:'',
+                company:[],
+                company_name:'',
+                old:false,
+                company_id:'',
+                balance_name:'',
             }
         },
         mounted(){
-            this.getDataList()
+            this.getDataList();
+            this.getData();
         },
         methods:{
+            getName(){ 
+                if(this.balance_name!=''){
+                    this.show=true;   
+                    let params={is_receiver:'1'}
+                    this.api.settle_settlement_searchall({params}).then((res)=>{
+                        this.JSname=res
+                    })
+                }else{
+                    this.show=false;
+                }     
+            },
+            focuson(){
+                this.show=false;
+            },
+            setName(da){
+                this.balance_id=da.id;
+                this.balance_name = da.account_name;
+                this.show=false;
+            },
+            oldADD(){
+                if(this.company_name!=''){
+                    let params={search:this.company_name}
+                    this.api.adproject_adcompany_list({params}).then((res)=>{
+                        this.company=res; 
+                    })
+                    this.old=true;
+                }else{
+                    this.old=false;
+                }
+            },
+            select_check(da){
+                this.company_name=da.name;
+                this.company_id = da.company_id;
+                this.old=false;
+            },
+            oldblur(){
+                this.old=false;
+            },
+            getData(){
+                let params = {
+                    email:localStorage.getItem('userAd'),
+                };
+                this.api.get_account({params}).then((datas)=>{
+                    this.userData = datas;
+                });
+            },
+            guideR(){
+                if(this.userData.roles[0].role_name=='admin'){
+                    this.upTxt=true;
+                }else{
+                    this.isShow = false;
+                }   
+            },
+            upLoad(file){
+                console.log(file)
+                let formData = new FormData;
+                formData.append('file',file.file);
+                this.api.themes_adproject_import(formData).then((res)=>{
+                    this.getDataList()
+                })
+            },
+            handleRemove(file) {
+               for(var i=0;i<this.fileList.length;i++){
+                   if(this.fileList[i]==file){
+                       this.fileList.splice(i,1);
+                   }
+               }
+               console.log(this.fileList);
+            },
+            beforeAvatarUploads(file) {
+                this.file = file;
+                const iszip = file.name.split('.')[(file.name.split('.')).length-1] === 'xlsx';
+                if (!(iszip)) {
+                    this.$message.error('只支持xlsx格式!');
+                }
+                return iszip;
+            },
+            submitUpload() {
+                this.$refs.upload.submit();
+                this.heidUP();
+            },
+            heidUP(){
+                this.upTxt=false;
+            },
             getRowClass({row, column, rowIndex, columnIndex}) {
                 if (rowIndex === 0) {
                     return 'background:rgba(247,249,252,1);color:rgba(31,46,77,1);text-align:center;font-size:14px;font-weight:blod;font-family:PingFang-SC-Medium;height:56px'
@@ -126,11 +270,15 @@ import loading from '../../../components/loading'
                 this.getDataList()
             },
             getDataList(){
-                let params={p:this.p,page:this.page,search:this.search,status:this.status}
+                let params={p:this.p,page:this.page,search:this.search,status:this.status,company_id:this.company_id,put_type:this.put_type,balance_id:this.balance_id}
                 this.api.adproject_listpage({params}).then((res)=>{
                     this.total=res.total;
                     this.tableData=res.data;
-                    this.load=false
+                    this.load=false;
+                    this.balance_name = '';
+                    this.company_name = '';
+                    this.company_id = '';
+                    this.balance_id = '';
                 })
             },
             jump(data){
@@ -241,7 +389,7 @@ import loading from '../../../components/loading'
         margin-top: 24px;
     }
     .sum input{
-        width:200px;
+        width:140px;
         height:36px;
         padding-left: 8px;
         background:rgba(255,255,255,1);
@@ -261,7 +409,7 @@ import loading from '../../../components/loading'
         text-align: right;
     }
     .sum select{
-        width:200px;
+        width:140px;
         height:36px;
         background:rgba(255,255,255,1);
         border-radius:4px;
@@ -285,4 +433,80 @@ import loading from '../../../components/loading'
    .timesDate .el-input__inner{
        line-height:normal!important;
    }
+   .bg{
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.3);
+        position: fixed;
+        z-index: 9;
+        bottom: 0;
+        right: 0;
+    }
+    .upText{
+        width:460px;
+        height:312px;
+        background:rgba(255,255,255,1);
+        box-shadow:0px 1px 6px 0px rgba(0,0,0,0.06);
+        border-radius:4px;
+        -webkit-box-shadow: 0px 1px 6px 0px rgba(0,0,0,0.06);
+        position: relative;
+        left: 50%;
+        top: 50%;
+        -webkit-transform: translate(-50%,-50%);
+        transform: translate(-50%,-50%);
+    }
+    .titName span{
+        display: inline-block;
+        margin: 20px 20px 24px 20px;
+        font-size:14px;
+        font-family:PingFangSC-Medium,PingFangSC;
+        font-weight:500;
+        color:rgba(31,46,77,1);
+    }
+.uploadTxt{
+    margin-left:20px ;
+}
+.upTxtBtn{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+    .upTxtBtn span{
+        display: inline-block;
+        text-align: center;
+        line-height: 36px;
+        cursor: pointer;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(31,46,77,1);
+        width:80px;
+        height:36px;
+        background:rgba(255,255,255,1);
+        border-radius:4px;
+        border:1px solid rgba(211,219,235,1);
+        float: right;
+        margin:0  24px 24px 0;
+    }
+    a{
+        color: #3377ff;
+    }
+    .names{
+        position: absolute;
+        top:65px;
+        right: 0;
+        height: 200px;
+        width: 100%;
+        overflow-y:auto;
+        background: #fff;
+        z-index: 100;
+        border: 1px solid #ddd;
+    }
+    .names span{
+        text-align: center;
+        display: block;
+        height: 36px;
+        line-height: 36px;
+        border-bottom:1px solid #eee 
+    }
 </style>

@@ -30,7 +30,7 @@
             </div>
             <div>
                 <span class="tit">身份证号</span>
-                <span class="tit_right">{{this.tableData.express_id}}</span>
+                <span class="tit_right">{{this.tableData.id_card}}</span>
             </div>
             <div>
                 <span class="tit">银行卡号</span>
@@ -46,7 +46,7 @@
             </div>
             <div>
                 <span class="tit">银行预留手机号</span>
-                <span class="tit_right">{{}}</span>
+                <span class="tit_right">{{this.tableData.reserve_phone}}</span>
             </div>
             <div>
                 <span class="tit">状态</span>
