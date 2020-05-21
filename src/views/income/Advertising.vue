@@ -32,7 +32,7 @@
                 </select>
                 <div style=" display: inline-block;position: relative;">
                     <span class="ad">结算方</span>
-                    <input type="text" placeholder="请输入结算方" v-model="name" @input="getName" />
+                    <input type="text" placeholder="请输入结算方" v-model="name" @change="getName" />
                     <div class='names' v-if="show">
                         <span v-for="da in JSname" @click='setName(da.name)'>{{da.name}}</span>
                     </div>
@@ -326,7 +326,7 @@
                             }else{
                                 this.JSname=res.data;
                             }
-                })
+                        })
                 }
                
             },
