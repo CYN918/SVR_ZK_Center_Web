@@ -33,7 +33,7 @@
                             fixed
                             style="width: 100%;color:#000">
                          <el-table-column
-                                label="渠道" prop="channel"
+                                label="渠道" prop="channel_name"
                                 :show-overflow-tooltip="true"
                                >
                         </el-table-column>    
