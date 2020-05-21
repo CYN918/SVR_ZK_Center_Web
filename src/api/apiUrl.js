@@ -1801,4 +1801,8 @@ export default {
 	settle_data_ssp_channel_interaction:{
 		url:"settle/data/ssp/channel/interaction",method:'get'
 	},
+	//获取结算方列表
+	settle_settlement_list:{
+		url:'settle/settlement/list',method:'get'
+	},
 }
