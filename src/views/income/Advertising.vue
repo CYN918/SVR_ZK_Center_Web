@@ -26,9 +26,9 @@
                     <option value="0">付款数据</option>
                 </select>
                  
-                <div style=" display: inline-block;position: relative;">
+                <div style=" display: inline-block;position: relative;" >
                     <span class="ad">结算方</span>
-                    <input type="text" placeholder="请输入结算方" v-model="name" @input="getName()"/>
+                    <input type="text" placeholder="请输入结算方" v-model="name" @change="getName()"/>
                     <div class='names' v-if="show">
                         <span v-for="da in JSname" @click='setName(da.name)'>{{da.name}}</span>
                     </div>
@@ -284,13 +284,15 @@ import 'ant-design-vue/dist/antd.css'
                     this.value=[qt.join('-'),next.join('-')];
                 }
                 this.getDataList();
-                
-                if(this.$route.query.is_receiver==1||this.is_receiver==1){
+                if(this.is_receiver==1){
                     this.getObject()
                 }
-                if(this.$route.query.is_receiver==0||this.is_receiver==0){
+                if(this.is_receiver==0){
                     this.getqd();
                 }
+               
+                
+
                 
         },
         methods:{
@@ -299,6 +301,12 @@ import 'ant-design-vue/dist/antd.css'
                 this.channel=''
                 this.project=''
                 this.search=''
+                 if(this.is_receiver==1){
+                    this.getObject()
+                }
+                if(this.is_receiver==0){
+                    this.getqd();
+                }
                 this.getDataList();
             },
             getObject(){
