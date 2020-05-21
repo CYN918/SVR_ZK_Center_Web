@@ -308,7 +308,8 @@ export default {
                reset(){
                    this.channel=''
                    this.theme_name=''
-                   this.statu_msg=''
+                   this.status=''
+                   this.call_show_name=''
                },
                 getRowClass({row, column, rowIndex}) {
                     if (rowIndex === 0) {
