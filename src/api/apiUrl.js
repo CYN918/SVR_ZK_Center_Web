@@ -1845,5 +1845,13 @@ export default {
 	//上传汇款凭证
 	ds_advance_payment_upload_remittance:{
 		url:'ds/advance_payment/upload_remittance',method:"post",isType:{suktip:1}
+	},	
+	//广告源渠道场景列表
+	settle_data_ssp_channel_interaction:{
+		url:"settle/data/ssp/channel/interaction",method:'get'
+	},
+	//获取结算方列表
+	settle_settlement_list:{
+		url:'settle/settlement/list',method:'get'
 	},
 }

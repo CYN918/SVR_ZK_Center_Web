@@ -110,10 +110,8 @@
                 </div>
             </div>
             <div>
-                <span class="tableBox_name">已绑定数据来源主体</span>
-                <div style="display: inline-block" v-for='(value,key) in list.advertisers'>
-                    <span class="textName">{{value}}</span>
-                </div>
+                <span class="tableBox_name">相关渠道</span>
+                <span class="textName">{{list.bind_channel_name}}</span>
             </div>
             <div>
                 <span class="tableBox_name">附件</span>
@@ -159,7 +157,6 @@
                 let params={name:this.$route.query.name,is_receiver:0};
                 this.api.settle_settlement_detail({params}).then((res)=>{
                     this.list=res;
-                    console.log(this.list)
                     this.contracts=res.contracts;
                 })
             },

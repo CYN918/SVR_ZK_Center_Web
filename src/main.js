@@ -15,8 +15,11 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import preview from 'vue-photo-preview'
 import 'vue-photo-preview/dist/skin.css'
+// import Antd from 'ant-design-vue'
+// import 'ant-design-vue/dist/antd.css'
 Vue.use(preview)
 Vue.use(ElementUI)
+// Vue.use(Antd)
 Vue.config.productionTip = false
 axios.defaults.headers.common['Authorization'] = 'Bearer '+localStorage.getItem('token');
 new Vue({

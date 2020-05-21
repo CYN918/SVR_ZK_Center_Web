@@ -33,6 +33,15 @@ html,body{
 a{
   text-decoration:none;
 }
+img{
+  vertical-align: initial!important;
+}
+/* *, *::before, *::after{
+  box-sizing:initial!impo
+} */
+body{
+  background-color: transparent!important;
+}
 #app{
 	width: 100%;
 	min-height: 100%;
@@ -299,7 +308,7 @@ a{
   cursor: pointer;
 }
 .Search input{
-  width:160px;
+  width:200px;
   height:32px;
   padding-left: 40px;
   background:rgba(255,255,255,1);
@@ -1006,5 +1015,16 @@ select{
 
   .htTC .el-input__inner{
     width: 400px!important;
+  }
+  .ant-select-dropdown{
+    max-height: 500px!important;
+  }
+  .ant-select-selection--multiple{
+    height: 30px!important;
+    overflow: hidden;
+  }
+  .el-select__tags-text{
+    display: block;
+    height: 30px;
   }
 </style>
