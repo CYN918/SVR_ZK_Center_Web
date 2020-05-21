@@ -104,9 +104,9 @@
                 </div>
             </div>
             <div  v-if='type=="付款结算"'>
-                <span class="Name">已绑定数据来源主体</span>
+                <span class="Name">结算渠道-场景</span>
                 <div style="display: inline-block">
-                    <span class="text">{{data.blid_channel_name}}</span>
+                    <span class="text">{{data.bind_channel_name}}</span>
                 </div>
             </div>
             <div>
