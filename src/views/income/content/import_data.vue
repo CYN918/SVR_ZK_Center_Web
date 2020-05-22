@@ -539,7 +539,7 @@ export default {
     .btn_right{
         display: inline-block;
         float:right;
-        margin: 24px 24px 0 0;
+        margin: 14px 24px 0 0;
     }
     .btn_right span{
         display: inline-block;
