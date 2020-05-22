@@ -19,7 +19,7 @@
                     </el-date-picker>
                 </div>
                 <span class='fc_statuc'>状态</span>
-                <select v-model="is_confirmed">
+                <select v-model="status">
                     <option value="">全部</option>
                     <option value="0">未确认</option>
                     <option value="1">审核中</option>
@@ -49,10 +49,10 @@
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="状态" prop="is_confirmed"
+                                label="状态" prop="status"
                                 >
                             <template slot-scope="scope">
-                                <span>{{tableData[scope.$index].is_confirmed==0?"待确认":tableData[scope.$index].is_confirmed==1?'审核中':tableData[scope.$index].is_confirmed==2?'已确认':tableData[scope.$index].is_confirmed==-1?'审核不通过，请重新导入数据':''}}</span>
+                                <span>{{tableData[scope.$index].status==0?"待确认":tableData[scope.$index].status==1?'审核中':tableData[scope.$index].status==2?'已确认':tableData[scope.$index].status==-1?'审核不通过，请重新导入数据':''}}</span>
                             </template>
                         </el-table-column>
                         <el-table-column
@@ -66,7 +66,7 @@
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="props">
-                                <el-button type="text" @click='details(tableData[props.$index].tdate,tableData[props.$index].is_confirmed)'>查看详情</el-button>
+                                <el-button type="text" @click='details(tableData[props.$index].tdate)'>查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -98,8 +98,8 @@ export default {
                     p:10,
                     page:1,
                     total:0,
-                    tableData:[{time:2020}],
-                    is_confirmed:"",
+                    tableData:[],
+                    status:"",
                     load:true
                 }
             },

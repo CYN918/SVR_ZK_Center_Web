@@ -270,7 +270,7 @@ export default {
                     page:1,
                     total:0,
                     updator:"",
-                    tableData:[{time:2020}],
+                    tableData:[],
                     is_confirmed:"",
                     exe:false,
                     list:false,
@@ -483,7 +483,8 @@ export default {
                  ADD(){
                     let formData=new FormData;
                     formData.append('file_id',this.file_id);
-                    formData.append('type',this.$route.query.type)
+                    formData.append('type',this.$route.query.type);
+                    formData.append('tdate',this.time);
                     this.api.sharing_data_confirm(formData).then((res)=>{
                         if(res!=false){
                             this.gb();
