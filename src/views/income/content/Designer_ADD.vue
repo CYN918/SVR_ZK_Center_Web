@@ -26,7 +26,7 @@
             </div>
             <div  class='tit3'>
                 <span style=" vertical-align: top;">备注(选填)：</span>
-                <textarea v-model="remark" style="margin-bottom:24px"></textarea>
+                <textarea v-model="remark" style="margin-bottom:24px" maxlength="200" placeholder="最多输入200字"></textarea>
             </div>
             <div class='tit4'>
                 <span style=" vertical-align: top;">结算凭证：</span>
