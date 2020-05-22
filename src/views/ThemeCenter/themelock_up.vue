@@ -98,7 +98,7 @@
                             </el-autocomplete>
                        
                         <template>
-                            <el-checkbox v-model="is_internal" style="margin: 0 10px" :disabled='thmid!=undefined'></el-checkbox>
+                            <el-checkbox v-model="is_internal" style="margin: 0 10px 0 30px" :disabled='thmid!=undefined'></el-checkbox>
                         </template>
                         <span class="sm">与狮圈无关</span>
                 </div>
