@@ -297,17 +297,20 @@ import 'ant-design-vue/dist/antd.css'
         },
         methods:{
             change(value){
+                console.log(value)
                 this.name=''
                 this.channels=[]
                 this.projects=[]
                 this.search=''
                  if(this.is_receiver==1){
-                    this.getObject()
+                    this.getObject();
+                    this.getDataList();
                 }
                 if(this.is_receiver==0){
                     this.getqd();
+                    this.getDataList(3);
                 }
-                this.getDataList();
+                // this.getDataList();
             },
             getObject(){
                 let params={balance_name:this.name}
@@ -367,6 +370,7 @@ import 'ant-design-vue/dist/antd.css'
                 this.getqd()
             },
             getDataList(num){
+                console.log(num)
                 for(var i=0;i<this.channels.length;i++){
                     var arr={};
                     arr.channel=this.channels[i].split('-')[0];
@@ -376,8 +380,51 @@ import 'ant-design-vue/dist/antd.css'
                 if(num!=undefined){
                     this.page=num;
                          var params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:num,search:this.search,is_receiver:this.is_receiver,name:this.name,disjunctions:JSON.stringify(this.disjunctions),projects:this.projects.join(',')} 
-                }else{
+                }else if(num == 3){
                         params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,search:this.search,is_receiver:this.is_receiver,name:this.name,disjunctions:JSON.stringify(this.disjunctions),projects:this.projects.join(',')}
+
+                }else{
+                       params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,search:this.search,is_receiver:this.is_receiver,name:this.name,disjunctions:JSON.stringify(this.disjunctions),projects:this.projects.join(',')}
+                }
+                if(num == 3){
+                    this.api.settle_data_search_pay({params}).then((res)=>{
+                        this.tableData=res.data;
+
+                        // var a1=0;
+                        // var a2=0;
+                        // var a4=0;
+                        // for(var i=0;i<res.data.length;i++){
+                        //     a1+=parseFloat(res.data[i].pv);
+                        //     a2+=parseFloat(res.data[i].click);
+                        //     a4+=parseFloat(res.data[i].income);
+
+                        var a1= 0;
+                        var a2= 0;
+                        var a4= 0;
+                        var a3 =0;
+                        var a5= 0;
+                        for(var i=0;i<this.tableData.length;i++){
+                            a1 += parseInt(res.data[i].pv);
+                            a2 += parseInt(res.data[i].click);
+                            a3 += parseInt(res.data[i].download);
+                            a4 += parseFloat(res.data[i].income);
+                            a5 += parseInt(res.data[i].download_feedback)
+                            this.tableData[i].income = parseFloat(this.tableData[i].income / 100).toFixed(2);
+                        }
+                        this.exhibition1 = parseInt(a1);
+                        this.exhibition2 = parseInt(a2);
+                        
+                        var sratio = 0;
+                        if(this.exhibition1 > 0){
+                            sratio =  parseFloat(this.exhibition2 / this.exhibition1 * 100).toFixed(2);
+
+                        }
+                        this.exhibition5=a3;
+                        this.exhibition6=a5;
+                        this.click_ratio = sratio.toString() +'%';
+                        this.exhibition4 = parseFloat(a4 / 100 ).toFixed(2);
+                        this.total = res.total;
+                    })
 
                 }
                 

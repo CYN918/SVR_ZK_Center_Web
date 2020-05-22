@@ -129,6 +129,7 @@
                                                                         <span>{{(list[scope.$index].song_setting)[prop.$index].start_time+'~'+(list[scope.$index].song_setting)[prop.$index].end_time}}</span>
                                                                     </template>
                                                             </el-table-column>
+                                                            
                                                             <el-table-column
                                                                     prop="count"
                                                                     label="循环播放次数">
@@ -145,6 +146,24 @@
                                          </el-tooltip>
                                     
                             </template>
+                    </el-table-column>
+                    <el-table-column
+                            prop="name"
+                            label="音频名称">
+                            <template slot-scope="scope">
+                                    <span>
+                                            {{list[scope.$index].name!=""?list[scope.$index].name:"--"}}
+                                    </span>
+                                </template>   
+                    </el-table-column>
+                    <el-table-column
+                            prop="online_date"
+                            label="上线时间">
+                            <template slot-scope="scope">
+                                    <span>
+                                            {{list[scope.$index].online_date!=""?list[scope.$index].online_date:"--"}}
+                                    </span>
+                                </template>   
                     </el-table-column>
                     <!-- <el-table-column
                             prop="num"
@@ -675,6 +694,7 @@
         background: #fff;
         margin-top: 196px;
         height:40px;
+        box-sizing: initial;
     }
     .tit_name{
         display: inline-block;

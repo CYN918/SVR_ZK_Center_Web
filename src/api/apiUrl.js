@@ -971,9 +971,13 @@ export default {
 	settle_data_estimate_list:{
 		url:'settle/data/estimate/list',method:'get'
 	},
-	//结算数据列表
+	//结算数据列表收款
 	settle_data_search:{
-		url:'settle/data/search',method:'get'
+		url:'settle/data/search/receive',method:'get'
+	},
+	//结算数据列表付款
+	settle_data_search_pay:{
+		url:'settle/data/search/pay',method:'get'
 	},
 	//获取预估额度
 	settle_data_estimate_amount:{
