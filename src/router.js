@@ -364,6 +364,10 @@ mode['news_add']=news_add
 // mode['Push_account']=Push_account
 import Audio_configuration_management from './views/workbench/Audio_configuration_management'
 mode['Audio_configuration_management']=Audio_configuration_management
+import work_Divided_details from './views/workbench/work_Divided_details'
+mode['work_Divided_details']=work_Divided_details
+import work_Divided_details_money from './views/workbench/work_Divided_details_money'
+mode['work_Divided_details_money']=work_Divided_details_money
 
 
 import axios from 'axios'
@@ -582,6 +586,9 @@ let nb = [
             // {path:'/workbench/Push_the_management',name:'杂志锁屏推送管理',component: mode['Push_the_management'],},
             // {path:'/workbench/Push_account',name:'账号管理',component: mode['Push_account'],},
             {path:'/workbench/Audio_configuration_management',name:'内部音频配置管理',component: mode['Audio_configuration_management'],},
+            {path:'/workbench/work_Divided_details',name:'分成详情',component: mode['work_Divided_details'],},
+            {path:'/workbench/work_Divided_details_money',name:'分成详情金额',component: mode['work_Divided_details_money'],},
+           
             
             
            
