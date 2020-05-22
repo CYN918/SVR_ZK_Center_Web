@@ -16,16 +16,19 @@
                     <option value="0">信息异常</option>
                     <option value="1">信息待补充</option>
                 </select>
-                <div style=" display: inline-block;position: relative;margin-left:15px;" @mouseleave="focuson()">
+                
+                <div style=" display: inline-block;position: relative;margin-left:15px;">
                     <span style="margin-right: 15px;">结算主体</span>
-                    <input type="text" placeholder="请输入结算主体" v-model="balance_name" @input="getName()" @focus='getName()'/>
+                    <input type="text" placeholder="请输入结算主体" v-model="balance_name" @input="getName()" @blur='focuson()' @focus='getName()'/>
                     <div class='names' v-if="show">
                         <span v-for="da in JSname" @click='setName(da)'>{{da.account_name}}</span>
                     </div>
                 </div>
-                <div style=" display: inline-block;position: relative;margin-left:15px;margin-right:15px;" @mouseleave="oldblur()">
+                
+                <div style=" display: inline-block;position: relative;margin-left:15px;margin-right:15px;">
                     <span style="margin-right: 15px;">合作公司</span>
-                    <input type="text" placeholder="请输入合作公司" v-model="company_name" @input="oldADD()" />
+                    <input type="text" placeholder="请输入合作公司" v-model="company_name" @input="oldADD()" @blur='oldblur()'/>
+
                     <div class='names' v-if="old">
                         <span v-for="da in company" @click='select_check(da)'>{{da.name}}</span>
                     </div>
@@ -166,6 +169,7 @@ import loading from '../../../components/loading'
                     })
                 }else{
                     this.show=false;
+
                 }     
             },
             focuson(){
@@ -185,6 +189,7 @@ import loading from '../../../components/loading'
                     this.old=true;
                 }else{
                     this.old=false;
+
                 }
             },
             select_check(da){
