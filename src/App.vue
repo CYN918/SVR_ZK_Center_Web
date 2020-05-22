@@ -36,9 +36,9 @@ a{
 img{
   vertical-align: initial!important;
 }
-/* *, *::before, *::after{
-  box-sizing:initial!impo
-} */
+*, *::before, *::after{
+  box-sizing:initial!important
+}
 body{
   background-color: transparent!important;
 }
@@ -1020,11 +1020,15 @@ select{
     max-height: 500px!important;
   }
   .ant-select-selection--multiple{
-    height: 30px!important;
+    height: 30px!important;min-height: 30px!important;
     overflow: hidden;
   }
   .el-select__tags-text{
-    display: block;
+    display:inline-block;
     height: 30px;
+    
+  }
+  .el-input__inner{
+    padding-right: 0!important;
   }
 </style>

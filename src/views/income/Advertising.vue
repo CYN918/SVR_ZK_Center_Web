@@ -52,7 +52,7 @@
                                         :label="item.project_name"
                                         :value="item.project_name">
                                 </el-option>
-                            </el-select>
+                    </el-select>
                 </div>
                
                 
@@ -563,5 +563,7 @@ import 'ant-design-vue/dist/antd.css'
         line-height: 36px;
         border-bottom:1px solid #eee 
     }
-    
+    .elSelect{
+        width: 350px;
+    }
 </style>
