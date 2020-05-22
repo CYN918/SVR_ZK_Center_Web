@@ -40,6 +40,7 @@
                     <div>
                          <template>
                             <el-table
+                                    :class='{xg2:bg}'
                                     :data="listData.businesses"
                                     header-align="center"
                                     border
@@ -59,15 +60,15 @@
                 </div>
             </div>
             <div class='details_right'>
-                <div>
+                <div :class='{gh:listData.total_amount!=listData2.total_amount}'>
                     <span  class='details_tit'>总结算金额:</span>
                     <span>{{listData2.total_amount}}</span>
                 </div>
-                <div>
+                <div :class='{gh:listData.tdate!=listData2.tdate}'>
                     <span class='details_tit'>结算周期:</span>
                     <span>{{listData2.tdate}}</span>
                 </div>
-                <div>
+                <div :class='{gh:listData.remark!=listData2.remark}'>
                     <span class='details_tit'>备注:</span>
                     <span>{{listData2.remark}}</span>
                 </div>
@@ -81,6 +82,7 @@
                     <div>
                          <template>
                             <el-table
+                                    :class='{gh2:bg}'
                                     :data="listData2.businesses"
                                     header-align="center"
                                     border
@@ -109,7 +111,8 @@
      return {
             tableData:[],
             listData:{},
-            listData2:{}
+            listData2:{},
+            bg:false
      }
    },
    mounted(){
@@ -120,7 +123,12 @@
            let params={record_id:this.$route.query.record_id,log_id:this.$route.query.log_id}
            this.api.ds_offline_settlement_record_log_detail({params}).then((res)=>{
                this.listData=res[0];
-               this.listData2=res[1]
+               this.listData2=res[1];
+               for(var i=0;i<this.listData.businesses.length;i++){
+                   if(this.listData.businesses[i].name!=this.listData2.businesses[i].name||this.listData.businesses[i].amount!=this.listData2.businesses[i].amount){
+                       this.bg=true
+                   }
+               }
            })
        },
        fh(index){
@@ -161,14 +169,17 @@
         font-weight: bold;
     }
     .before{
-        background: #3377ff;
+        background: #F0FAF2;
     }
     .after{
-        background: red;
+        background: #FFEBEB;
     }
     .details_left,.details_right{
         display: inline-block;
         width: 45%;
+    }
+    .details_left>div,.details_right>div{
+        margin-bottom: 24px;
     }
     .details_left span,.details_right span{
         font-size: 14px;
@@ -189,10 +200,9 @@
     }
     .details_tit{
         display: inline-block;
-        width: 75px;
+        width: 90px;
         text-align: right;
         font-size: 14px;
-        margin-bottom: 24px;
         margin-right: 16px;
     }
     a{
@@ -206,5 +216,21 @@
         width: 100%;
         border-bottom: 1px solid #ddd;
     }
-    .xg{background: #3377ff;}
+    .xg{background: #F0FAF2;line-height: 43px;}
+    .gh{
+        background: #FFEBEB;
+        line-height: 43px;
+    }
+    .xg span{
+        color:#2DA641
+    }
+    .gh span{
+        color: #D40000;
+    }
+     .xg2{
+        color:#2DA641!important
+    }
+    .gh2{
+        color: #D40000!important;
+    }
 </style>

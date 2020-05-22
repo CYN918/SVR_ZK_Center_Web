@@ -22,7 +22,9 @@
                 <select v-model="is_confirmed">
                     <option value="">全部</option>
                     <option value="0">未确认</option>
-                    <option value="1">已确认</option>
+                    <option value="1">审核中</option>
+                    <option value="0">已确认</option>
+                    <option value="-1">审核不通过，请重新导入数据</option>
                 </select>
                 <div class="btn_right">
                     <span class='cx' @click='getDataList()'>查询</span>
@@ -50,7 +52,7 @@
                                 label="状态" prop="is_confirmed"
                                 >
                             <template slot-scope="scope">
-                                <span>{{tableData[scope.$index].is_confirmed==0?'未确认':'已确认'}}</span>
+                                <span>{{tableData[scope.$index].is_confirmed==0?"待确认":tableData[scope.$index].is_confirmed==1?'审核中':tableData[scope.$index].is_confirmed==2?'已确认':tableData[scope.$index].is_confirmed==-1?'审核不通过，请重新导入数据':''}}</span>
                             </template>
                         </el-table-column>
                         <el-table-column
