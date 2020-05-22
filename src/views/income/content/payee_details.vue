@@ -1,7 +1,7 @@
 <template>
  <div>
       <div class="top_name">
-             <span class="top_txt" @click='fh(-1)'>主题收款&nbsp;/&nbsp;数据详情</span>
+             <span class="top_txt" @click='fh(-1)'>{{this.$route.query.type==1?'主题收款':'来电秀收款'}}&nbsp;/&nbsp;数据详情</span>
             <div class="title_left">
                 <span>数据详情</span>
                 <span class='time'>{{this.$route.query.tdate}}</span>
