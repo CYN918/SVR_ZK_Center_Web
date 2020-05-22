@@ -1,8 +1,7 @@
 <template>
    <div>
         <div class="top_name">
-            <span class="top_txt" @click='fh(-2)' >{{this.$route.query.type=='1'?'主题付款':'来电秀付款'}}&nbsp;/&nbsp;</span>
-            <span class="top_txt" @click='fh(-1)'  >分成管理&nbsp;/&nbsp;</span>
+            <span class="top_txt" @click='fh(-1)'  v-if='this.$route.query.siid!=undefined'>待处理&nbsp;/&nbsp;</span>
             <span class="top_txt">分成详情</span>
             <div class="title_left">
                 <span>分成详情</span>
@@ -26,8 +25,9 @@
                 <div class="btn_right">
                     <span class='cx' @click='getDataList()'>查询</span>
                     <span class='cz' @click='cz()'>重置</span>
-                    <span @click='jeqr()' v-if='this.status==0'>确认金额</span>
-                    
+                    <!-- <span @click='jeqr()' v-if='this.status==0&&this.$route.query.siid==undefined'>确认金额</span> -->
+                    <span v-if='this.status==1' @click='setData(1)'>审核通过</span>
+                    <span v-if='this.status==1' @click='setDataBH()'>审核不通过</span>
                 </div>      
             </div>
            <div>
@@ -132,7 +132,7 @@
 </template>
 
 <script>
-import load from '../../../components/loading'
+import load from '../../components/loading'
 export default {
     components:{load},
             data(){
@@ -205,7 +205,7 @@ export default {
                 },
                 ck(id,account_name){
                     this.$router.push({
-                        path:"./Divided_details_money",
+                        path:"./work_Divided_details_money",
                         query:{
                             type:this.$route.query.type,
                             open_id:id,

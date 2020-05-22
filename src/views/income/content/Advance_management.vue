@@ -22,9 +22,9 @@
                         >
                     </el-autocomplete>
                   <span class='fc_statuc'>汇款凭证状态：</span>  
-                  <select>
-                      <option value="">全部</option>
-                      <option value="0">待补充</option>
+                  <select v-model='is_remitted' >
+                      <option value="0">全部</option>
+                      <option value="2">待补充</option>
                       <option value="1">已补充</option>
                   </select>
                 <div class="btn_right">
@@ -69,7 +69,8 @@
                         </el-table-column>
                          <el-table-column label="操作" prop="">
                              <template slot-scope="props">
-                                 <el-button type="text" @click='updata(tableData[props.$index].project_id)'>上传凭证</el-button>
+                                 <el-button type="text" v-if='tableData[props.$index].attach_id==0' @click='updata(tableData[props.$index].project_id)'>上传凭证</el-button>
+                                <el-button type="text" v-if='tableData[props.$index].attach_id!=0' @click="CKimg(tableData[props.$index].attach.url)">查看凭证</el-button>
                                 <el-button type="text"  @click='jump(tableData[props.$index].project_id,tableData[props.$index].open_id,tableData[props.$index].account_name,tableData[props.$index].advance_payment,tableData[props.$index].advance_payment_left)'>查看详情</el-button>
                             </template>
                         </el-table-column>
@@ -116,6 +117,9 @@
                 </div>
             </div>
         </div>
+        <div class='bg' v-if='imgs' @click='gb()'>
+            <img :src="url" alt="" class='img'>
+        </div>
         <load v-if="load"></load>
    </div>
 </template>
@@ -140,7 +144,10 @@ export default {
                     id:"",
                     exe:false,
                     file:{},
-                    load:true
+                    load:true,
+                    is_remitted:"0",
+                    imgs:false,
+                    url:"",
                 }
             },
             mounted(){
@@ -152,10 +159,19 @@ export default {
                     this.project_id="";
                     this.open_id="";
                     this.state1='';
+                    this.is_remitted="0"
                 },
                 updata(data){
                     this.exe=true;
                     this.project_id=data
+                },
+                CKimg(url){
+                    this.imgs=true;
+                    this.url=url
+                },
+                gb(){
+                    this.imgs=false;
+                    this.url=''
                 },
                  heid(){
                     this.exe=false;
@@ -208,7 +224,7 @@ export default {
                
                 listData(){
                     this.load=true
-                    let params={open_id:this.open_id,project_id:this.project_id,account_name:this.account_name,p:this.p,page:this.page};
+                    let params={open_id:this.open_id,project_id:this.project_id,account_name:this.account_name,p:this.p,page:this.page,is_remitted:this.is_remitted};
                     this.api.ds_advance_payment_list({params}).then((res)=>{
                         this.tableData=res.data;
                         this.total=res.total;
@@ -304,7 +320,7 @@ export default {
     .btn_right{
         display: inline-block;
         float:right;
-        margin: 24px 24px 0 0;
+        margin: 14px 24px 0 0;
     }
     .btn_right span{
         display: inline-block;
@@ -436,5 +452,13 @@ export default {
     }
     .red{
         color: red;
+    }
+    .img{
+        max-width: 50%;
+        max-height:50% ;
+        position: absolute;
+        top:50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
     }
 </style>
