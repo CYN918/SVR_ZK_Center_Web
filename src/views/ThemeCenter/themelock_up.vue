@@ -110,7 +110,8 @@
                     </select>
                     <span v-if="settle_type" style="width:auto">{{settle_type==1?'买断价格':'分成比例'}}</span>
                     <input type="number" v-if="settle_type==1" v-model="settle_value " style="width:100px" :disabled="thmid!=undefined">
-                    <input type="text" v-if="settle_type==2" v-model="settle_value " style="width:100px" :disabled="thmid!=undefined">
+                    <input type="number" v-if="settle_type==2" v-model="settle_value " style="width:100px" :disabled="thmid!=undefined">
+                    <span style="width:10px" v-if="settle_type==2">%</span>
                 </div>   
                 <div>
                     <span style="vertical-align: top">备注描述</span>
