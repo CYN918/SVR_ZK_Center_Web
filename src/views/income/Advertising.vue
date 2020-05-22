@@ -428,46 +428,49 @@ import 'ant-design-vue/dist/antd.css'
                         this.total = res.total;
                     })
 
+                }else{
+                    this.api.settle_data_search({params}).then((res)=>{
+                        this.tableData=res.data;
+
+                        // var a1=0;
+                        // var a2=0;
+                        // var a4=0;
+                        // for(var i=0;i<res.data.length;i++){
+                        //     a1+=parseFloat(res.data[i].pv);
+                        //     a2+=parseFloat(res.data[i].click);
+                        //     a4+=parseFloat(res.data[i].income);
+
+                        var a1= 0;
+                        var a2= 0;
+                        var a4= 0;
+                        var a3 =0;
+                        var a5= 0;
+                        for(var i=0;i<this.tableData.length;i++){
+                            a1 += parseInt(res.data[i].pv);
+                            a2 += parseInt(res.data[i].click);
+                            a3 += parseInt(res.data[i].download);
+                            a4 += parseFloat(res.data[i].income);
+                            a5 += parseInt(res.data[i].download_feedback)
+                            this.tableData[i].income = parseFloat(this.tableData[i].income / 100).toFixed(2);
+                        }
+                        this.exhibition1 = parseInt(a1);
+                        this.exhibition2 = parseInt(a2);
+                        
+                        var sratio = 0;
+                        if(this.exhibition1 > 0){
+                            sratio =  parseFloat(this.exhibition2 / this.exhibition1 * 100).toFixed(2);
+
+                        }
+                        this.exhibition5=a3;
+                        this.exhibition6=a5;
+                        this.click_ratio = sratio.toString() +'%';
+                        this.exhibition4 = parseFloat(a4 / 100 ).toFixed(2);
+                        this.total = res.total;
+                    })
+
                 }
                 
-                this.api.settle_data_search({params}).then((res)=>{
-                    this.tableData=res.data;
-
-                    // var a1=0;
-                    // var a2=0;
-                    // var a4=0;
-                    // for(var i=0;i<res.data.length;i++){
-                    //     a1+=parseFloat(res.data[i].pv);
-                    //     a2+=parseFloat(res.data[i].click);
-                    //     a4+=parseFloat(res.data[i].income);
-
-                    var a1= 0;
-                    var a2= 0;
-                    var a4= 0;
-                    var a3 =0;
-                    var a5= 0;
-                    for(var i=0;i<this.tableData.length;i++){
-                        a1 += parseInt(res.data[i].pv);
-                        a2 += parseInt(res.data[i].click);
-                        a3 += parseInt(res.data[i].download);
-                        a4 += parseFloat(res.data[i].income);
-                        a5 += parseInt(res.data[i].download_feedback)
-                        this.tableData[i].income = parseFloat(this.tableData[i].income / 100).toFixed(2);
-                    }
-                    this.exhibition1 = parseInt(a1);
-                    this.exhibition2 = parseInt(a2);
-                    
-                    var sratio = 0;
-                    if(this.exhibition1 > 0){
-                        sratio =  parseFloat(this.exhibition2 / this.exhibition1 * 100).toFixed(2);
-
-                    }
-                    this.exhibition5=a3;
-                    this.exhibition6=a5;
-                    this.click_ratio = sratio.toString() +'%';
-                    this.exhibition4 = parseFloat(a4 / 100 ).toFixed(2);
-                    this.total = res.total;
-                })
+                
             },
            
         },
