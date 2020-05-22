@@ -26,7 +26,7 @@
                     <span class='cx' @click='getDataList()'>查询</span>
                     <span class='cz' @click='cz()'>重置</span>
                     <!-- <span @click='jeqr()' v-if='this.status==0&&this.$route.query.siid==undefined'>确认金额</span> -->
-                    <span v-if='this.status==1' @click='setData(1)'>审核通过</span>
+                    <span v-if='this.status==1' @click='setTG()'>审核通过</span>
                     <span v-if='this.status==1' @click='setDataBH()'>审核不通过</span>
                 </div>      
             </div>
@@ -113,20 +113,34 @@
                     </div>
             </div>
         </div>
-         <div class="bg" v-if='bh'>
-        <div class="cont">
-            <div class="tit">
-                <span>驳回</span>
-            </div>
-            <div class="tishi">
-                <textarea placeholder="请输入驳回原因" v-model="note" maxlength="20"></textarea>
-            </div>
-            <div class="btn">
-                <span class="btn_qd" @click="tj()">确定</span>
-                <span  @click="sq()">取消</span>
+        <div class="bg" v-if='bh'>
+            <div class="cont">
+                <div class="tit">
+                    <span>驳回</span>
+                </div>
+                <div class="tishi">
+                    <textarea placeholder="请输入驳回原因" v-model="note" maxlength="20"></textarea>
+                </div>
+                <div class="btn">
+                    <span class="btn_qd" @click="tj()">确定</span>
+                    <span  @click="sq()">取消</span>
+                </div>
             </div>
         </div>
-    </div>
+        <div class='bg' v-if='tg'>
+            <div class='qrbox'>
+                    <div class='tit_name'>
+                        <span>审核通过</span>
+                    </div>
+                    <div class='lr'>
+                        <span>审核通过后，将会按照分成金额给狮圈用户同步增加对应余额。</span>
+                    </div>
+                    <div class='btns'>
+                        <span class='qr' @click='setData()'>确认</span>
+                        <span @click='heidTG()'>取消</span>
+                    </div>
+            </div>
+        </div>
     <load v-if="load"></load>
    </div>
 </template>
@@ -150,7 +164,8 @@ export default {
                     status:'',
                     bh:false,
                     note:"",
-                    load:true
+                    load:true,
+                    tg:false
                 }
             },
             created(){
@@ -196,6 +211,8 @@ export default {
                 heid(){
                     this.show=false
                 },
+                heidTG(){this.tg=false},
+                setTG(){this.tg=true},
                 setDataBH(){
                     this.bh=true
                 },
@@ -286,6 +303,7 @@ export default {
                     this.api.demand_audit(formData).then((res)=>{
                              if(res!=false){
                              this.getDataList();
+                             this. heidTG();
                         }
                     })
                 },

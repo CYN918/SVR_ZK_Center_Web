@@ -113,7 +113,7 @@
                     </div>
             </div>
         </div>
-         <div class="bg" v-if='bh'>
+         <!-- <div class="bg" v-if='bh'>
         <div class="cont">
             <div class="tit">
                 <span>驳回</span>
@@ -126,7 +126,7 @@
                 <span  @click="sq()">取消</span>
             </div>
         </div>
-    </div>
+    </div> -->
     <load v-if="load"></load>
    </div>
 </template>
