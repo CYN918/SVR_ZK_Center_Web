@@ -42,8 +42,7 @@
                                 >
                         </el-table-column>
                         <el-table-column
-                                sortable
-                                label="处理人" prop="creator"
+                                label="操作人员" prop="creator"
                                 >
                         </el-table-column>
                         <el-table-column label="操作" width="150">
@@ -589,6 +588,8 @@ export default {
     }
     .fc_statuc{
         display: inline-block;
+        width: 90px;
+        text-align: right;
         margin-right: 15px;
 
     }

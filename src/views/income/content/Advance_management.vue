@@ -101,6 +101,7 @@
                         action="1"
                         :on-preview="handlePreview"
                         :http-request="uploadFile"
+                        :before-upload="beforeAvatarUpload"
                         multiple
                         >
                         <el-button size="small" type="primary">选择</el-button>
@@ -221,7 +222,16 @@ export default {
                     this.page = page;
                     this.listData()
                 },
-               
+                beforeAvatarUpload(file) {
+                    const isJPG = file.type === 'image/jpeg';
+                    const isPNG = file.type === 'image/png';
+                        
+                    if (!isJPG&&!isPNG) {
+                            this.$message.error('仅允许传一张格式为JPG、PNG的图片，请检查后重试');
+                    }
+                     return isPNG || isJPG ;
+
+            },
                 listData(){
                     this.load=true
                     let params={open_id:this.open_id,project_id:this.project_id,account_name:this.account_name,p:this.p,page:this.page,is_remitted:this.is_remitted};

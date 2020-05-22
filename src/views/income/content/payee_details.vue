@@ -221,6 +221,7 @@ import load from '../../../components/loading'
             let formData=new FormData;
             formData.append('type',this.$route.query.type);
             formData.append('id',this.id);
+            formData.append('tdate',this.time)
             formData.append('income',this.cash)
             this.api.ds_receive_income_edit(formData).then((res)=>{
                 if(res!=false){
