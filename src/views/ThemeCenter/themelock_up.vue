@@ -92,7 +92,7 @@
                                 :disabled="thmid!=undefined"
                                 v-model="state1"
                                 :fetch-suggestions="querySearch"
-                                placeholder="请输入内容"
+                                placeholder="请选择设计师"
                                 @select="handleSelect"
                                 >
                             </el-autocomplete>
