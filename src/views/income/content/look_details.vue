@@ -24,8 +24,8 @@
             </div>
              <div>
                <span  class='boxText1'>结算凭证：</span>
-               <span v-if="data.attach=={}">{{data.attach.name}}</span>
-               <a :href='data.attach.url'  v-if="data.attach=={}" style="color:#3377ff;margin-left:15px">下载</a>
+               <span >{{data.attach.name}}</span>
+               <a :href='data.attach.url'  style="color:#3377ff;margin-left:15px">下载</a>
             </div>
             <div>
                 <span class='boxText1'>结算业务详情</span>

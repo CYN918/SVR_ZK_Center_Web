@@ -9,6 +9,8 @@
             <div>
                  <div class='times'>
                     <el-date-picker
+                    style="width:200px"
+                        @change="getData()"
                         v-model="tdate"
                         type="month"
                         format="yyyy-MM"
@@ -39,6 +41,7 @@
                         </el-table-column>
                         <el-table-column
                                 label="备注" prop="remark"
+                                show-overflow-tooltip
                                 >
                         </el-table-column>
                         <el-table-column

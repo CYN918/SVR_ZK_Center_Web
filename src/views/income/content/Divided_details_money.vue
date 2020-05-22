@@ -87,6 +87,26 @@
                                 label="分成金额" prop="final_income"
                                 >
                         </el-table-column>
+                         <el-table-column
+                                
+                                label="加成比例" prop="gain_share_rate"
+                                >
+                        </el-table-column>
+                         <el-table-column
+                                
+                                label="加成金额" prop="gain_share_income"
+                                >
+                        </el-table-column>
+                         <el-table-column
+                                
+                                label="抵消预付金" prop="advance_payment_income"
+                                >
+                        </el-table-column>
+                         <el-table-column
+                                
+                                label="付款金额" prop="payment_income"
+                                >
+                        </el-table-column>
                     </el-table>
                 </template>
                 <div class="block">
