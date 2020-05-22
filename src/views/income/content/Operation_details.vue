@@ -32,8 +32,8 @@
                 </div>
                 <div >
                     <span class='details_tit'>结算凭证:</span>
-                    <span >{{listData.attach.name}}</span>
-                    <a :href='listData.attach.url'>下载</a>
+                    <span v-if="listData.attach">{{listData.attach.name}}</span>
+                    <a v-if="listData.attach" :href='listData.attach.url'>下载</a>
                 </div>
                 <div>
                     <span class="yw">结算业务详情</span>
@@ -74,8 +74,8 @@
                 </div>
                 <div>
                     <span class='details_tit'>结算凭证:</span>
-                    <span >{{listData2.attch.name}}</span>
-                    <a  :href="listData2.attch.url">下载</a>
+                    <span v-if='listData2.attach'>{{listData2.attach.name}}</span>
+                    <a v-if='listData2.attach' :href="listData2.attach.url">下载</a>
                 </div>
                 <div>
                     <span class='yw'>结算业务详情</span>
