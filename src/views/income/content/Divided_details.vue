@@ -560,4 +560,5 @@ export default {
         color:rgba(255,255,255,1)!important;
         margin-right: 14px!important;
     }
+    
 </style>
