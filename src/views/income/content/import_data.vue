@@ -294,7 +294,8 @@ export default {
                     cash:"",
                     id:'',
                     load:true,
-                    ct:false
+                    ct:false,
+                    tdateTime:""
                 }
             },
             mounted(){
@@ -369,6 +370,7 @@ export default {
                         this.$message.error('结算周期不能为空')
                         return
                     }
+                    this.tdateTime=this.time;
                     let formData=new FormData;
                     formData.append('file',this.file);
                     formData.append('type',this.$route.query.type);
@@ -484,7 +486,7 @@ export default {
                     let formData=new FormData;
                     formData.append('file_id',this.file_id);
                     formData.append('type',this.$route.query.type);
-                    formData.append('tdate',this.time);
+                    formData.append('tdate',this.tdateTime);
                     this.api.sharing_data_confirm(formData).then((res)=>{
                         if(res!=false){
                             this.gb();

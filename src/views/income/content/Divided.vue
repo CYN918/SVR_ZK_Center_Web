@@ -216,9 +216,10 @@ export default {
         background: #3377ff!important;
     }
     .fc_statuc{
+        width: 90px;
+        text-align: center;
         display: inline-block;
         margin-right: 15px;
-
     }
     select{
         width: 200px;
