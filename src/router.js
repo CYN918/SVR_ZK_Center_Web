@@ -826,11 +826,11 @@ localStorage.getItem('letNav');
 //             {title:'消息通知', url:'/userinfo/message'},
 //                 ]},
 // 			{title:'账号权限',url:'1-2',img:'&#xe619;',list:[
-// 			{title:'我的权限',url:'/userinfo/MyPerm'},
+// 			   {title:'我的权限',url:'/userinfo/MyPerm'},
 //             {title:'账号管理',url:'/userinfo/account'},
 //             {title:'角色管理',url:'/userinfo/roleManagement'},
 //             {title:'账号审核',url:'/userinfo/AccounAudit'},
-// 			{title:'流程管理',url:'/userinfo/Process'},
+// 			   {title:'流程管理',url:'/userinfo/Process'},
 //                 ]},
 // 			{title:'意见反馈',url:"1-3",img:'&#xe618;',list:[
 // 			{title:'意见反馈',url:'/userinfo/feedback'}
@@ -868,7 +868,7 @@ localStorage.getItem('letNav');
 //                     {title:'来电秀收款',url:'/income/content/callShow_payee'},
 //                     {title:'来电秀付款',url:'/income/content/call_show'},
 //                     {title:'其他付款',url:'/income/content/Other_payment'},
-//                     {title:'素材付款',url:'/income/content/Material_payment'},
+//                     {title:'杂志锁屏付款',url:'/income/content/Material_payment'},
 //                     {title:'设计师结算',url:'/income/content/Designer_settlement'},                 
 //                 ]}
 //             ]

@@ -58,7 +58,7 @@
                                 label="处理人" prop="updator"
                                 >
                         </el-table-column>
-                        <el-table-column label="操作">
+                        <el-table-column label="操作" width='150'>
                             <template slot-scope="props">
                                 <el-button type="text" @click='details()'>查看详情</el-button>
                             </template>

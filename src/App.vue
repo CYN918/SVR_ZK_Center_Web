@@ -1007,4 +1007,7 @@ select{
   .htTC .el-input__inner{
     width: 400px!important;
   }
+  .el-tooltip__popper {
+    max-width: 800px;
+    }
 </style>

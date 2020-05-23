@@ -36,11 +36,6 @@
                             :cell-style="cell"
                             style="width: 100%;color:#000">
                         <el-table-column
-                                label="项目ID" prop="project_id"
-                                :show-overflow-tooltip="true"
-                               >
-                        </el-table-column>
-                        <el-table-column
                                 v-if='this.$route.query.type==1'
                                 label="素材名称" prop="material_name"
                                 :show-overflow-tooltip="true"
@@ -51,7 +46,13 @@
                                 label="素材名称" prop="fname"
                                 :show-overflow-tooltip="true"
                                         >
+                        </el-table-column>    
+                        <el-table-column
+                                label="项目ID" prop="project_id"
+                                :show-overflow-tooltip="true"
+                               >
                         </el-table-column>
+                        
                         <el-table-column
                                 label="渠道" prop="channel"
                                 >

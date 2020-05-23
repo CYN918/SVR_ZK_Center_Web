@@ -192,5 +192,4 @@ export default {
         border:0!important;
         background: #3377ff!important;
     }
-   
 </style>
