@@ -112,7 +112,7 @@ export default {
                 },
                 cz(){
                     this.tdate='';
-                    this.is_confirmed='';
+                    this.status='';
                 },
                 getRowClass({row, column, rowIndex}) {
                     if (rowIndex === 0) {
@@ -152,7 +152,7 @@ export default {
                 },
                 getDataList(){
                     this.load=true
-                    let params={type:this.$route.query.type,p:this.p,page:this.page,is_confirmed:this.is_confirmed,tdate:this.tdate}
+                    let params={type:this.$route.query.type,p:this.p,page:this.page,status:this.status,tdate:this.tdate}
                     this.api.sharing_data_income_period({params}).then((res)=>{
                         this.total=res.total;
                         this.tableData=res.data; 
