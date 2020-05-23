@@ -1034,4 +1034,7 @@ select{
   .el-tooltip__popper {
     max-width: 800px;
     }
+    .el-date-range-picker__content{
+      width: 44%;
+    }
 </style>
