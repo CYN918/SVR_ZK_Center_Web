@@ -19,7 +19,7 @@
                     </el-date-picker>
                 </div>
                 <span class='fc_statuc'>操作人员</span>
-                <input type="text" v-model="updator">
+                <input type="text" v-model="creator">
                 <div class="btn_right">
                     <span class='cx' @click='getDataList()'>查询</span>
                     <span @click='drText()'>导入</span>
@@ -269,7 +269,7 @@ export default {
                     p:10,
                     page:1,
                     total:0,
-                    updator:"",
+                    creator:"",
                     tableData:[],
                     is_confirmed:"",
                     exe:false,
@@ -332,7 +332,7 @@ export default {
                 },
                 getDataList(){
                     this.load=true
-                    let params={type:this.$route.query.type,tdate:this.tdate,updator:this.updator,p:this.p,page:this.page}
+                    let params={type:this.$route.query.type,tdate:this.tdate,creator:this.creator,p:this.p,page:this.page}
                     this.api.sharing_data_file_list({params}).then((res)=>{
                         this.total=res.total;
                         this.tableData=res.data;
@@ -445,7 +445,7 @@ export default {
                         this.$message.error('收益金额不能为空');
                         return
                     }
-                    if(this.cash<0){
+                    if(this.cash<=0){
                         this.$message.error('收益金额不能小于零');
                         return
                     }
