@@ -172,7 +172,9 @@ import load from '../../../components/loading'
             this.$router.go(index)
         },
         cz(){
-            this
+            this.channel='';
+            this.theme_name='';
+            this.call_show_name=''
         },
          qd(){
             this.api.themes_config_channel().then((res)=>{
@@ -198,7 +200,7 @@ import load from '../../../components/loading'
         getData(){
             this.load=true
             this.all='';
-            let params={tdate:this.$route.query.tdate,type:this.$route.query.type,p:this.p,page:this.page}
+            let params={tdate:this.$route.query.tdate,type:this.$route.query.type,p:this.p,page:this.page,channel:this.channel,thene_name:this.thene_name,call_show_name:this.call_show_name}
             this.api.ds_receive_income_period({params}).then((res)=>{
                 this.total=res.total;
                 this.tableData=res.data;
