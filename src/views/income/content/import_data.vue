@@ -445,7 +445,7 @@ export default {
                         this.$message.error('收益金额不能为空');
                         return
                     }
-                    if(this.cash<0){
+                    if(this.cash<=0){
                         this.$message.error('收益金额不能小于零');
                         return
                     }
