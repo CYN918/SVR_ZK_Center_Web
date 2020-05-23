@@ -2,8 +2,8 @@
  <div>
      <div class="top_name">
             <span class="top_txt" @click='fh(-2)'>素材付款&nbsp;/</span>
-            <span class="top_txt" @click='fh(-1)'>&nbsp;分成管理&nbsp;/</span>
-            <span class="top_txt">&nbsp;价格管理</span>
+            <span class="top_txt" @click='fh(-1)' style="margin-left:0">&nbsp;分成管理&nbsp;/</span>
+            <span class="top_txt" style="margin-left:0">&nbsp;价格管理</span>
             <div class="title_left">
                 <span>价格管理</span>
             </div>
@@ -19,11 +19,8 @@
             </div>
              <div class='tit_box'>
                 <span>素材类型</span>
-                <select>
-                    <option value="">广告图</option>
-                    <option value="">广告模板</option>
-                    <option value="">场景锁屏-壁纸</option>
-                    <option value="">场景锁屏-动效</option>
+                <select disabled>
+                    <option value="" selected>场景锁屏-壁纸</option>
                 </select>
                 <span>分成价格(元)</span>
                 <input type="text">
@@ -35,43 +32,8 @@
             </div>
              <div  class='tit_box'>
                 <span>素材类型</span>
-                <select>
-                    <option value="">广告图</option>
-                    <option value="">广告模板</option>
-                    <option value="">场景锁屏-壁纸</option>
-                    <option value="">场景锁屏-动效</option>
-                </select>
-                <span>分成价格(元)</span>
-                <input type="text">
-                 <span>分成方式</span>
-                <select>
-                    <option value="">ecpm</option>
-                    <option value="">ecpc</option>
-                </select>
-            </div>
-             <div class='tit_box'>
-                <span>素材类型</span>
-                <select>
-                    <option value="">广告图</option>
-                    <option value="">广告模板</option>
-                    <option value="">场景锁屏-壁纸</option>
-                    <option value="">场景锁屏-动效</option>
-                </select>
-                <span>分成价格(元)</span>
-                <input type="text">
-                 <span>分成方式</span>
-                <select>
-                    <option value="">ecpm</option>
-                    <option value="">ecpc</option>
-                </select>
-            </div>
-             <div class='tit_box'>
-                <span>素材类型</span>
-                <select>
-                    <option value="">广告图</option>
-                    <option value="">广告模板</option>
-                    <option value="">场景锁屏-壁纸</option>
-                    <option value="">场景锁屏-动效</option>
+                <select disabled>
+                    <option value="" selected>场景锁屏-动效</option>
                 </select>
                 <span>分成价格(元)</span>
                 <input type="text">

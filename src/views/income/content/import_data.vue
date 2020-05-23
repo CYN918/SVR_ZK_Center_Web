@@ -455,6 +455,7 @@ export default {
                             return
                         }
                         var formData = new FormData;
+                    formData.append('selected_date',this.tdateTime)    
                     formData.append('id',this.id);
                     formData.append('type',this.$route.query.type);
                     formData.append('theme_name',this.theme_name_change);
@@ -469,6 +470,7 @@ export default {
                         }
                        formData = new FormData;
                     formData.append('id',this.id);
+                    formData.append('selected_date',this.tdateTime)    
                     formData.append('type',this.$route.query.type);
                     formData.append('call_show_name',this.theme_name_change);
                     formData.append('tdate',this.time_change);

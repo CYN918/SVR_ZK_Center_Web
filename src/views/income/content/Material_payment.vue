@@ -48,7 +48,7 @@
                                 label="分成付款金额" prop="sharing_income"
                                 >
                         </el-table-column>
-                        <el-table-column label="操作">
+                        <el-table-column label="操作" width='150'>
                             <template slot-scope="props">
                                 <el-button type="text" @click='xq()'>查看详情</el-button>
                             </template>
