@@ -104,13 +104,9 @@
                             <el-button @click="educe(tableData[props.$index].did,tableData[props.$index].check_status,tableData[props.$index].status)" v-if="((tableData[props.$index].status_name=='签字审核'&&tableData[props.$index].status==2)||(tableData[props.$index].status_name=='补充签字'&&tableData[props.$index].status==4))&&tableData[props.$index].emails.indexOf(email)!=-1&&tableData[props.$index].isfinish!='2'">导出表格</el-button>
                             <el-button @click="uploadData(tableData[props.$index].did,tableData[props.$index].status)"  v-if="((tableData[props.$index].status_name=='签字审核'&&tableData[props.$index].status==2)||(tableData[props.$index].status_name=='补充签字'&&tableData[props.$index].status==4))&&tableData[props.$index].emails.indexOf(email)!=-1&&tableData[props.$index].isfinish!='2'">上传文件</el-button>
                             <el-button @click="release(tableData[props.$index].did,tableData[props.$index].demand_type,tableData[props.$index].status)" v-if="tableData[props.$index].status_name=='需求发布'&&tableData[props.$index].emails.indexOf(email)!=-1&&tableData[props.$index].isfinish!=2">发布需求</el-button>
-<<<<<<< HEAD
-                            <el-button @click='push(tableData[props.$index].did,tableData[props.$index].status)' v-if="tableData[props.$index].status_name=='确认入库'&&tableData[props.$index].isfinish!=2&&tableData[props.$index].is_put!=0" >入库确认</el-button>
-=======
                             <el-button @click='push(tableData[props.$index].did,tableData[props.$index].status)' v-if="tableData[props.$index].status_name=='确认入库'&&tableData[props.$index].isfinish!=2&&tableData[props.$index].is_put!=0" >
                                 入库确认
                             </el-button>
->>>>>>> theme_payee
                             <el-button @click='check(tableData[props.$index].demand_type,tableData[props.$index].did,tableData[props.$index].status)' v-if="tableData[props.$index].status_name=='素材入库'">查看素材</el-button>
                             <el-button  @click="AddMaterial(props.$index)" v-if="tableData[props.$index].status_name=='资源准备'&&tableData[props.$index].status==2&&tableData[props.$index].emails.indexOf(email)!=-1&&tableData[props.$index].isfinish!=2">添加素材</el-button>
 
@@ -123,11 +119,7 @@
                             <el-button  @click="getSH(props.$index)" v-if="tableData[props.$index].status_name=='测试验收'&&tableData[props.$index].emails.indexOf(email)!=-1&&tableData[props.$index].isfinish!=2">测试通过</el-button>
                             <el-button  @click="getSH(props.$index)" v-if="(tableData[props.$index].status_name=='物料审核'||tableData[props.$index].status_name=='发布审核')&&tableData[props.$index].emails.indexOf(email)!=-1&&tableData[props.$index].isfinish!=2">审核通过</el-button>
                             <el-button  v-if="tableData[props.$index].status_name=='完成入库'">查看投放结果</el-button>
-<<<<<<< HEAD
-                            <el-button  @click="getBH(props.$index)" v-if="tableData[props.$index].status_name!='完成投放'&&tableData[props.$index].status_name!='需求发布'&&tableData[props.$index].status_name!='提现审核'&&tableData[props.$index].status_name!='签字审核'&&tableData[props.$index].status_name!='结算汇款'&&tableData[props.$index].status_name!='补充签字'&&tableData[props.$index].status_name!='结算完成'&&tableData[props.$index].status_name!='素材入库'&&tableData[props.$index].status_name!='确认入库'&&tableData[props.$index].status_name!='提现完成'&&tableData[props.$index].status!=1&&tableData[props.$index].emails.indexOf(email)!=-1&&tableData[props.$index].demand_type!='收款结算'&&tableData[props.$index].demand_type!='付款结算'&&tableData[props.$index].isfinish!=2&&tableData[props.$index].isfinish!='2'">驳回</el-button>
-=======
                             <el-button  @click="getBH(props.$index)" v-if="tableData[props.$index].status_name!='完成投放'&&tableData[props.$index].status_name!='需求发布'&&tableData[props.$index].status_name!='提现审核'&&tableData[props.$index].status_name!='签字审核'&&tableData[props.$index].status_name!='结算汇款'&&tableData[props.$index].status_name!='补充签字'&&tableData[props.$index].status_name!='素材入库'&&tableData[props.$index].status_name!='确认入库'&&tableData[props.$index].status_name!='提现完成'&&tableData[props.$index].status!=1&&tableData[props.$index].emails.indexOf(email)!=-1&&tableData[props.$index].demand_type!='收款结算'&&tableData[props.$index].demand_type!='付款结算'&&tableData[props.$index].demand_type!='分成金额审核'&&tableData[props.$index].isfinish!=2">驳回</el-button>
->>>>>>> theme_payee
 
                             <el-button   v-if="tableData[props.$index].status_name=='完成入库'">查看投放结果</el-button>
                             <el-button  @click="withdraw(tableData[props.$index].did,tableData[props.$index].status,tableData[props.$index].emails)" v-if="((tableData[props.$index].status_name=='提现审核'||tableData[props.$index].status_name=='结算汇款')&&tableData[props.$index].reject=='0'&&tableData[props.$index].demand_type=='设计师结算')&&(tableData[props.$index].emails.indexOf(email)!=-1)&&tableData[props.$index].isfinish!='2'">查看详情</el-button>
@@ -958,28 +950,6 @@
                         }
                     }
                 }
-<<<<<<< HEAD
-                // if(type=='设计师结算'){
-                //     if(status ==1){
-                //         this.$router.push({
-                //             query:{
-                //                 id:id,
-                //                 status:1,
-                //             },
-                //             path:'/workbench/Billing_details'
-                //         })
-                //     }
-                //     if(status ==3){
-                //         this.$router.push({
-                //             query:{
-                //                 id:id,
-                //                 status:3,
-                //             },
-                //             path:'/workbench/Billing_details'
-                //         })
-                //     }
-                // }
-=======
                 if(type=='设计师结算'){
                     if(status ==1){
                         this.$router.push({
@@ -1008,7 +978,6 @@
                     }
                     
                 }
->>>>>>> theme_payee
 
             },
             getYWSC(id){
