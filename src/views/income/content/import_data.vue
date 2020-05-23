@@ -209,6 +209,7 @@
                     <span>结算周期</span>
                     <el-date-picker
                         class='time_length'
+                         disabled
                         v-model="time_change"
                         type="month"
                         value-format="yyyy-MM"
@@ -433,10 +434,7 @@ export default {
                     this.changed=false
                 },
                 edit(){
-                    if(!this.time_change){
-                        this.$message.error('结算周期不能为空')
-                        return
-                    }
+                   
                     if(!this.channel_change){
                         this.$message.error('渠道不能为空')
                         return
@@ -459,7 +457,6 @@ export default {
                     formData.append('id',this.id);
                     formData.append('type',this.$route.query.type);
                     formData.append('theme_name',this.theme_name_change);
-                    formData.append('tdate',this.time_change);
                     formData.append('channel',this.channel_change);
                     formData.append('income',this.cash)
                     }
@@ -473,7 +470,6 @@ export default {
                     formData.append('selected_date',this.tdateTime)    
                     formData.append('type',this.$route.query.type);
                     formData.append('call_show_name',this.theme_name_change);
-                    formData.append('tdate',this.time_change);
                     formData.append('channel',this.channel_change);
                     formData.append('income',this.cash)
                     }
