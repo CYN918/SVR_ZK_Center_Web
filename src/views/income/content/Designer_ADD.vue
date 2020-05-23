@@ -26,7 +26,7 @@
             </div>
             <div  class='tit3'>
                 <span style=" vertical-align: top;">备注(选填)：</span>
-                <textarea v-model="remark" style="margin-bottom:24px"></textarea>
+                <textarea v-model="remark" style="margin-bottom:24px" maxlength="200" placeholder="最多输入200字"></textarea>
             </div>
             <div class='tit4'>
                 <span style=" vertical-align: top;">结算凭证：</span>
@@ -108,12 +108,8 @@
      }
    },
    mounted(){
-       if(this.$route.query.type!=undefined){
-           this.tdate=this.$route.query.data.tdate;
-           this.total_amount=this.$route.query.data.total_amount;
-           this.remark=this.$route.query.data.remark;
-           this.tableData=this.$route.query.data.businesses;
-           this.attach=this.$route.query.data.attach
+       if(this.$route.query.record_id!=undefined){
+           this.getData();
        }
    },
    methods:{
@@ -138,6 +134,16 @@
        },
        qx(){
            this.$router.go(-1)
+       },
+        getData(){
+           let params={record_id:this.$route.query.record_id}
+           this.api.ds_offline_settlement_record_detail({params}).then((res)=>{
+                this.tdate=res.tdate;
+                this.total_amount=res.total_amount;
+                this.remark=res.remark;
+                this.tableData=res.businesses;
+                this.attach=res.attach
+           })
        },
        setDate(){
            if(this.$route.query.record_id!=undefined){
@@ -196,7 +202,7 @@
            formData.append('remark',this.remark);
            formData.append('attach',JSON.stringify(this.attach));
            formData.append('businesses',JSON.stringify(this.tableData))
-           this.api.ds_offline_settlement_record_edit().then((res)=>{
+           this.api.ds_offline_settlement_record_edit(formData).then((res)=>{
                 if(res!=false){
                    this.qx()
                }

@@ -24,8 +24,8 @@
             </div>
              <div>
                <span  class='boxText1'>结算凭证：</span>
-               <span v-if="data.attach_id">{{data.attach.name}}</span>
-               <a :href='data.attach.url'  v-if="data.attach_id" style="color:#3377ff;margin-left:15px">下载</a>
+               <span v-if="data.attach">{{data.attach.name}}</span>
+               <a v-if="data.attach" :href='data.attach.url'  style="color:#3377ff;margin-left:15px">下载</a>
             </div>
             <div>
                 <span class='boxText1'>结算业务详情</span>
@@ -69,7 +69,7 @@
            this.$router.push({
                path:"./Designer_ADD",
                 query:{
-                    data:this.data
+                   record_id:this.$route.query.record_id
                 }
            })
        },
@@ -83,7 +83,7 @@
             this.$router.push({
                 path:"./Designer_record",
                 query:{
-                    record_id:this.$route.query.data.record_id
+                    record_id:this.$route.query.record_id
                 }
             })
         },

@@ -8,7 +8,7 @@
         <div class='content'>
             <div>
                 <span class='fc_statuc'>项目ID：</span>
-                <input type="text" v-model="porject_id">
+                <input type="text" v-model="project_id">
                 <span class='fc_statuc' v-if='state1==""'>设计师ID：</span>
                 <input type="text" v-model="id" v-if='state1==""'  @change="sJsID()">
                 <span class='fc_statuc'  v-if='id==""'>结算方</span>
@@ -22,9 +22,9 @@
                         >
                     </el-autocomplete>
                   <span class='fc_statuc'>汇款凭证状态：</span>  
-                  <select>
-                      <option value="">全部</option>
-                      <option value="0">待补充</option>
+                  <select v-model='is_remitted' >
+                      <option value="0">全部</option>
+                      <option value="2">待补充</option>
                       <option value="1">已补充</option>
                   </select>
                 <div class="btn_right">
@@ -69,7 +69,8 @@
                         </el-table-column>
                          <el-table-column label="操作" prop="">
                              <template slot-scope="props">
-                                 <el-button type="text" @click='updata(tableData[props.$index].project_id)'>上传凭证</el-button>
+                                 <el-button type="text" v-if='tableData[props.$index].attach_id==0' @click='updata(tableData[props.$index].project_id)'>上传凭证</el-button>
+                                <el-button type="text" v-if='tableData[props.$index].attach_id!=0' @click="CKimg(tableData[props.$index].attach.url)">查看凭证</el-button>
                                 <el-button type="text"  @click='jump(tableData[props.$index].project_id,tableData[props.$index].open_id,tableData[props.$index].account_name,tableData[props.$index].advance_payment,tableData[props.$index].advance_payment_left)'>查看详情</el-button>
                             </template>
                         </el-table-column>
@@ -100,6 +101,7 @@
                         action="1"
                         :on-preview="handlePreview"
                         :http-request="uploadFile"
+                        :before-upload="beforeAvatarUpload"
                         multiple
                         >
                         <el-button size="small" type="primary">选择</el-button>
@@ -116,11 +118,17 @@
                 </div>
             </div>
         </div>
+        <div class='bg' v-if='imgs' @click='gb()'>
+            <img :src="url" alt="" class='img'>
+        </div>
+        <load v-if="load"></load>
    </div>
 </template>
 
 <script>
+import load from '../../../components/loading'
 export default {
+    components:{load},
     props:['type'],
             data(){
                 return{
@@ -130,13 +138,17 @@ export default {
                     total:0,
                     tableData:[{time:2020}],
                     list:[],
-                    porject_id:"",
+                    project_id:"",
                     open_id:"",
                     state1:"",
                     restaurants: [],
                     id:"",
                     exe:false,
                     file:{},
+                    load:true,
+                    is_remitted:"0",
+                    imgs:false,
+                    url:"",
                 }
             },
             mounted(){
@@ -145,13 +157,22 @@ export default {
             methods:{
                 cz(){
                     this.id="";
-                    this.porject_id="";
+                    this.project_id="";
                     this.open_id="";
                     this.state1='';
+                    this.is_remitted="0"
                 },
                 updata(data){
                     this.exe=true;
-                    this.porject_id=data
+                    this.project_id=data
+                },
+                CKimg(url){
+                    this.imgs=true;
+                    this.url=url
+                },
+                gb(){
+                    this.imgs=false;
+                    this.url=''
                 },
                  heid(){
                     this.exe=false;
@@ -166,8 +187,8 @@ export default {
                         return
                     }
                     let formData =new FormData;
-                    formData.append('porject_id',this.porject_id);
-                    formData.append('attach',JSON.stringify(this.file))
+                    formData.append('project_id',this.project_id);
+                    formData.append('attach',JSON.stringify(this.file));
                     this.api.ds_advance_payment_upload_remittance(formData).then((res)=>{
                         if(res!=false){
                             this.heid();
@@ -201,12 +222,23 @@ export default {
                     this.page = page;
                     this.listData()
                 },
-               
+                beforeAvatarUpload(file) {
+                    const isJPG = file.type === 'image/jpeg';
+                    const isPNG = file.type === 'image/png';
+                        
+                    if (!isJPG&&!isPNG) {
+                            this.$message.error('仅允许传一张格式为JPG、PNG的图片，请检查后重试');
+                    }
+                     return isPNG || isJPG ;
+
+            },
                 listData(){
-                    let params={open_id:this.open_id,porject_id:this.porject,account_name:this.account_name,p:this.p,page:this.page};
+                    this.load=true
+                    let params={open_id:this.open_id,project_id:this.project_id,account_name:this.account_name,p:this.p,page:this.page,is_remitted:this.is_remitted};
                     this.api.ds_advance_payment_list({params}).then((res)=>{
                         this.tableData=res.data;
                         this.total=res.total;
+                        this.load=false
                          this.getData();
                          this.getDlist();
                     })
@@ -248,13 +280,17 @@ export default {
                     this.open_id=this.id;
                 },
                  uploadFile(file){
-                    this.file=file.file;
+                     let formData=new FormData;
+                     formData.append('file',file.file)
+                     this.api.file_private_upload(formData).then((res)=>{
+                         this.file=res
+                     })
                 },
-                jump(porject_id,open_id,data,money,ye){
+                jump(project_id,open_id,data,money,ye){
                     this.$router.push({
                         path:"./Advance_details",
                         query:{
-                            porject_id:porject_id,
+                            project_id:project_id,
                             open_id:open_id,
                             account_name:data,
                             money:money,
@@ -294,7 +330,7 @@ export default {
     .btn_right{
         display: inline-block;
         float:right;
-        margin: 24px 24px 0 0;
+        margin: 14px 24px 0 0;
     }
     .btn_right span{
         display: inline-block;
@@ -426,5 +462,13 @@ export default {
     }
     .red{
         color: red;
+    }
+    .img{
+        max-width: 50%;
+        max-height:50% ;
+        position: absolute;
+        top:50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
     }
 </style>

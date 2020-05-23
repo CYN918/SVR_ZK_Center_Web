@@ -5,7 +5,7 @@
               <span class="top_txt" style="margin-left:auto">查看详情</span>
             <div class="title_left">
                 <span>查看详情</span>
-                <span class='time'>项目ID:{{this.$route.query.porject_id}}</span>
+                <span class='time'>项目ID:{{this.$route.query.project_id}}</span>
                 <span class='time'>设计师ID：{{this.$route.query.open_id}}</span>
                 <span class='time'>开户名：{{this.$route.query.account_name}}</span>
             </div>
@@ -16,7 +16,7 @@
                 <span class='tit_name' style="margin-left:24px">当前预约金余额：{{this.$route.query.ye}}</span>
                 <span  class='tit_name red' v-if="attach_id==0">汇款凭证待补充</span>
                 <span class='up' @click=' updata()' v-if="attach_id==0">上传汇款凭证</span>
-                 <span class='up'  v-if="attach_id==1"  @click='CK()'>查看汇款凭证</span>
+                 <span class='up'  v-if="attach_id!=0"  @click='CK()'>查看汇款凭证</span>
             </div>
            <div>
                  <template>
@@ -141,7 +141,7 @@ export default {
                         this.dialogVisible = true;
                 },
                 listData(){
-                    let params={open_id:this.$route.query.open_id,porject_id:this.$route.query.porject_id,account_name:this.$route.query.account_name,p:this.p,page:this.page};
+                    let params={open_id:this.$route.query.open_id,project_id:this.$route.query.project_id,account_name:this.$route.query.account_name,p:this.p,page:this.page};
                     this.api.ds_advance_payment_list({params}).then((res)=>{
                         this.attach_id=res.data[0].attach_id;
                         if(res.data[0].attach){
@@ -172,7 +172,7 @@ export default {
                         return
                     }
                     let formData =new FormData;
-                    formData.append('porject_id',this.$route.query.porject_id);
+                    formData.append('project_id',this.$route.query.project_id);
                     formData.append('attach',JSON.stringify(this.file))
                     this.api.ds_advance_payment_upload_remittance(formData).then((res)=>{
                         if(res!=false){
@@ -183,7 +183,7 @@ export default {
                     })
                 },
                 getDataList(){
-                    let params={open_id:this.$route.query.open_id,project_id:this.$route.query.porject_id,account_name:this.$route.query.account_name,p:this.p,page:this.page}
+                    let params={open_id:this.$route.query.open_id,project_id:this.$route.query.project_id,account_name:this.$route.query.account_name,p:this.p,page:this.page}
                     this.api.ds_advance_payment_detail({params}).then((res)=>{
                         this.total=res.total;
                         this.tableData=res.data;

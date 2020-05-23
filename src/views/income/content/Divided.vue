@@ -19,15 +19,17 @@
                     </el-date-picker>
                 </div>
                 <span class='fc_statuc'>状态</span>
-                <select v-model="is_confirmed">
+                <select v-model="status">
                     <option value="">全部</option>
                     <option value="0">未确认</option>
-                    <option value="1">已确认</option>
+                    <option value="1">审核中</option>
+                    <option value="0">已确认</option>
+                    <option value="-1">审核不通过，请重新导入数据</option>
                 </select>
                 <div class="btn_right">
                     <span class='cx' @click='getDataList()'>查询</span>
                     <span @click='cz()'>重置</span>
-                    <span @click='dr()'>导入数据</span>
+                    <!-- <span @click='dr()'>导入数据</span> -->
                 </div>      
             </div>
            <div>
@@ -47,10 +49,10 @@
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="状态" prop="is_confirmed"
+                                label="状态" prop="status"
                                 >
                             <template slot-scope="scope">
-                                <span>{{tableData[scope.$index].is_confirmed==0?'未确认':'已确认'}}</span>
+                                <span>{{tableData[scope.$index].status==0?"待确认":tableData[scope.$index].status==1?'审核中':tableData[scope.$index].status==2?'已确认':tableData[scope.$index].status==-1?'审核不通过，请重新导入数据':''}}</span>
                             </template>
                         </el-table-column>
                         <el-table-column
@@ -59,12 +61,12 @@
                                 >
                         </el-table-column>
                          <el-table-column
-                                label="处理人" prop="updator"
+                                label="处理人" prop="creator"
                                 >
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="props">
-                                <el-button type="text" @click='details(tableData[props.$index].tdate,tableData[props.$index].is_confirmed)'>查看详情</el-button>
+                                <el-button type="text" @click='details(tableData[props.$index].tdate)'>查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -82,19 +84,23 @@
                  </div>
            </div>
         </div>
+        <load v-if="load"></load>
    </div>
 </template>
 
 <script>
+import load from '../../../components/loading'
 export default {
+    components:{load},
             data(){
                 return{
                     tdate:"",
                     p:10,
                     page:1,
                     total:0,
-                    tableData:[{time:2020}],
-                    is_confirmed:"",
+                    tableData:[],
+                    status:"",
+                    load:true
                 }
             },
             mounted(){
@@ -135,21 +141,22 @@ export default {
                         }
                     })
                 },
-                details(tdate,status){
+                details(tdate){
                     this.$router.push({
                         path:"./Divided_details",
                         query:{
                               tdate:tdate,
                               type:this.$route.query.type,
-                              status:status
                         }
                     })
                 },
                 getDataList(){
+                    this.load=true
                     let params={type:this.$route.query.type,p:this.p,page:this.page,is_confirmed:this.is_confirmed,tdate:this.tdate}
                     this.api.sharing_data_income_period({params}).then((res)=>{
                         this.total=res.total;
                         this.tableData=res.data; 
+                        this.load=false
                     })
                 },
             },
@@ -209,9 +216,10 @@ export default {
         background: #3377ff!important;
     }
     .fc_statuc{
+        width: 90px;
+        text-align: center;
         display: inline-block;
         margin-right: 15px;
-
     }
     select{
         width: 200px;

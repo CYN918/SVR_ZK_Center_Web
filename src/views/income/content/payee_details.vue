@@ -1,7 +1,7 @@
 <template>
  <div>
       <div class="top_name">
-             <span class="top_txt" @click='fh(-1)'>主题收款&nbsp;/&nbsp;数据详情</span>
+             <span class="top_txt" @click='fh(-1)'>{{this.$route.query.type==1?'主题收款':'来电秀收款'}}&nbsp;/&nbsp;数据详情</span>
             <div class="title_left">
                 <span>数据详情</span>
                 <span class='time'>{{this.$route.query.tdate}}</span>
@@ -33,7 +33,7 @@
                             fixed
                             style="width: 100%;color:#000">
                          <el-table-column
-                                label="渠道" prop="channel"
+                                label="渠道" prop="channel_name"
                                 :show-overflow-tooltip="true"
                                >
                         </el-table-column>    
@@ -97,7 +97,7 @@
                         <span class='tit_names'>渠道</span>
                         <select v-model='channel_name' disabled>
                                 <option value="">全部</option>
-                                <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
+                                <option :value="item.channel_name" v-for="item in channels">{{item.channel_name}}</option>
                         </select>
                     </div>
                     <div v-if="this.$route.query.type==1">
@@ -118,11 +118,14 @@
                     </div>
                 </div>
         </div>
+        <load v-if="load"></load>
  </div>
 </template>
 
 <script>
+import load from '../../../components/loading'
  export default {
+     components:{load},
    data () {
      return {
         p:10,
@@ -139,7 +142,8 @@
         theme_name_change:'',
         cash:'',
         id:"",
-        all:""
+        all:"",
+        load:true
      }
    },
    mounted(){
@@ -179,10 +183,10 @@
             this.bj=false;
         },
         BJ(data){
+            console.log(data)
             this.bj=true
             this.time=data.tdate
-            this.channel_name=data.channel
-            
+            this.channel_name=data.channel_name
             if(this.$route.query.type==1){
                 this.theme_name_change=data.theme_name
             }else{
@@ -192,12 +196,15 @@
             this.id=data.id
         },
         getData(){
+            this.load=true
+            this.all='';
             let params={tdate:this.$route.query.tdate,type:this.$route.query.type,p:this.p,page:this.page}
             this.api.ds_receive_income_period({params}).then((res)=>{
                 this.total=res.total;
                 this.tableData=res.data;
+                this.load=false
                 for(var i=0;i<this.tableData.length;i++){
-                    this.all+=this.tableData[i].income
+                   this.all= (this.all-0)+(this.tableData[i].income-0)
                 }
                 this.qd()
             })
@@ -214,6 +221,7 @@
             let formData=new FormData;
             formData.append('type',this.$route.query.type);
             formData.append('id',this.id);
+            formData.append('tdate',this.time)
             formData.append('income',this.cash)
             this.api.ds_receive_income_edit(formData).then((res)=>{
                 if(res!=false){

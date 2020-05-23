@@ -1,9 +1,9 @@
 <template>
    <div>
         <div class="top_name">
-             <span class="top_txt" @click='fh(-1)'>主题收款&nbsp;/&nbsp;分成管理</span>
+             <span class="top_txt" @click='fh(-1)'>主题收款&nbsp;/&nbsp;数据导入</span>
             <div class="title_left">
-                <span>分成管理</span>
+                <span>数据导入</span>
             </div>
         </div>
         <div class='content'>
@@ -42,8 +42,7 @@
                                 >
                         </el-table-column>
                         <el-table-column
-                                sortable
-                                label="处理人" prop="creator"
+                                label="操作人员" prop="creator"
                                 >
                         </el-table-column>
                         <el-table-column label="操作" width="150">
@@ -123,17 +122,20 @@
                     <span class='fc_statuc' style="margin-left:24px">渠道</span>
                       <select v-model='channel'>
                         <option value="">全部</option>
-                        <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
+                        <option :value="item.channel_name" v-for="item in channels">{{item.channel_name}}</option>
                      </select>
-                    <span class='fc_statuc' style="margin:24px">主题名</span>
-                    <input type="text" placeholder="请输入" v-model='theme_name'>
+                    <span class='fc_statuc' style="margin:24px"  v-if='this.$route.query.type==1'>主题名</span>
+                    <input type="text" placeholder="请输入" v-model='theme_name'  v-if='this.$route.query.type==1'>
+                    <span class='fc_statuc' style="margin:24px"  v-if='this.$route.query.type==2'>来电秀名</span>
+                    <input type="text" placeholder="请输入" v-model='call_show_name'  v-if='this.$route.query.type==2'>
                     <span class='fc_statuc' style="margin-left:24px">状态</span>
-                    <select name="" id="" v-model="statu_msg">
+                    <select name="" id="" v-model="status">
                         <option value="1">新增</option>
                         <option value="2">无变化</option>
                         <option value="3">可覆盖</option>
                         <option value="4">与锁定数据有冲突</option>
                         <option value="5">数据异常</option>
+                        <option value="6">主题/来电秀渠道不存在</option>
 
                     </select>
                      <div class="btn_right">
@@ -154,7 +156,7 @@
                                     >
                                 </el-table-column>
                                 <el-table-column label="渠道"
-                                prop="channel"
+                                prop="channel_name"
                                 >
                                
                                 </el-table-column>
@@ -166,7 +168,7 @@
                                 </el-table-column>
                                 <el-table-column
                                        v-if='this.$route.query.type==2'
-                                        label="主题名称" prop="call_show_name"
+                                        label="来电秀名称" prop="call_show_name"
                                         :show-overflow-tooltip="true"
                                         >
                                 </el-table-column>
@@ -179,7 +181,7 @@
                                         label="状态" prop="status_msg"
                                         >
                                          <template slot-scope="props">
-                                            <span :class="{red:ListData[props.$index].status=='4'||ListData[props.$index].status=='5'}">{{ListData[props.$index].status_msg}}</span>
+                                            <span :class="{red:ListData[props.$index].status=='4'||ListData[props.$index].status=='5'||ListData[props.$index].status=='6'}">{{ListData[props.$index].status_msg}}</span>
                                         </template>
                                 </el-table-column>
                                  <el-table-column
@@ -192,7 +194,7 @@
                             </el-table>
                         </template>
                           <div class="btn_right" style="float:left;">
-                                <span class='cx' @click='up()'>确定</span>
+                                <span class='cx' @click='upload()'>确定</span>
                                 <span @click='qx()'>取消</span>
                             </div>   
                 </div>
@@ -217,11 +219,15 @@
                     <span>渠道</span>
                     <select v-model="channel_change">
                         <option value="">全部</option>
-                        <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
+                        <option :value="item.channel_name" v-for="item in channels">{{item.channel_name}}</option>
                     </select>
                 </div>
-                <div  class='xg_tit'>
+                <div  class='xg_tit' v-if='this.$route.query.type==1'>
                     <span>主题名称</span>
+                    <input type="text" v-model="theme_name_change">
+                </div>
+                 <div  class='xg_tit' v-if='this.$route.query.type==2'>
+                    <span>来电秀名称</span>
                     <input type="text" v-model="theme_name_change">
                 </div>
                 <div  class='xg_tit'>
@@ -240,7 +246,7 @@
                     <span>提示</span>
                 </div>
                 <div>
-                    <span style="margin:0 24px" v-if='ct'>存在与结算数据冲突的数据，提交后存在冲突的数据不会更新</span>
+                    <span style="margin:0 24px" v-if='ct==true'>存在与结算数据冲突的数据，提交后存在冲突的数据不会更新</span>
                     <span style="margin:0 24px" v-if='ct==false'>提交后，将根据该数据更新对应的收益数据，是否确认？</span>
                 </div>
                  <div class="btn_right" style="float:left;">
@@ -249,11 +255,14 @@
                 </div>   
             </div>
         </div>
+        <load v-if="load"></load>
    </div>
 </template>
 
 <script>
+import load from '../../../components/loading'
 export default {
+    components:{load},
             data(){
                 return{
                     tdate:"",
@@ -261,7 +270,7 @@ export default {
                     page:1,
                     total:0,
                     updator:"",
-                    tableData:[{time:2020}],
+                    tableData:[],
                     is_confirmed:"",
                     exe:false,
                     list:false,
@@ -272,7 +281,8 @@ export default {
                     channel:'',
                     channels:[],
                     theme_name:"",
-                    statu_msg:"",
+                    call_show_name:"",
+                    status:"",
                     ListData:[],
                     allTotal:"",
                     Create:"",
@@ -282,7 +292,10 @@ export default {
                     theme_name_change:"",
                     channel_change:"",
                     cash:"",
-                    id:''
+                    id:'',
+                    load:true,
+                    ct:false,
+                    tdateTime:""
                 }
             },
             mounted(){
@@ -295,7 +308,8 @@ export default {
                reset(){
                    this.channel=''
                    this.theme_name=''
-                   this.statu_msg=''
+                   this.status=''
+                   this.call_show_name=''
                },
                 getRowClass({row, column, rowIndex}) {
                     if (rowIndex === 0) {
@@ -317,10 +331,12 @@ export default {
                     
                 },
                 getDataList(){
+                    this.load=true
                     let params={type:this.$route.query.type,tdate:this.tdate,updator:this.updator,p:this.p,page:this.page}
                     this.api.sharing_data_file_list({params}).then((res)=>{
                         this.total=res.total;
                         this.tableData=res.data;
+                        this.load=false
                     })
                 },
                  handlePictureCardPreview(file) {
@@ -354,6 +370,7 @@ export default {
                         this.$message.error('结算周期不能为空')
                         return
                     }
+                    this.tdateTime=this.time;
                     let formData=new FormData;
                     formData.append('file',this.file);
                     formData.append('type',this.$route.query.type);
@@ -370,7 +387,12 @@ export default {
                    
                 },
                  getData(){
-                    let params={file_id:this.file_id,channel:this.channel,theme_name:this.theme_name,statu_msg:this.statu_msg}
+                     if(this.$route.query.type==1){
+                         var params={file_id:this.file_id,channel:this.channel,theme_name:this.theme_name,status:this.status}
+                     }else{
+                          params={file_id:this.file_id,channel:this.channel,call_show_name:this.call_show_name,status:this.status}
+                     }
+                    
                     this.api.sharing_data_list({params}).then((res)=>{
                         this.ListData=res.data.data;
                         this.allTotal=res.total;
@@ -387,6 +409,7 @@ export default {
                  qx(){
                     this.list=false;
                      this. heid();
+                     this.reset()
                 },
                  gb(){
                     this.tj=false;
@@ -395,8 +418,14 @@ export default {
                 change(data){
                     this.changed=true;
                     this.time_change=data.tdate
-                    this.theme_name_change=data.theme_name
-                    this.channel_change=data.channel
+                   
+                    if(this.$route.query.type==1){
+                         this.theme_name_change=data.theme_name
+                    }
+                    if(this.$route.query.type==2){
+                        this.theme_name_change=data.call_show_name
+                    }
+                    this.channel_change=data.channel_name
                     this.cash=data.income
                     this.id=data.id
                 },
@@ -404,11 +433,11 @@ export default {
                     this.changed=false
                 },
                 edit(){
-                    if(!this.tdate){
+                    if(!this.time_change){
                         this.$message.error('结算周期不能为空')
                         return
                     }
-                    if(!this.channel){
+                    if(!this.channel_change){
                         this.$message.error('渠道不能为空')
                         return
                     }
@@ -456,7 +485,8 @@ export default {
                  ADD(){
                     let formData=new FormData;
                     formData.append('file_id',this.file_id);
-                    formData.append('type',this.$route.query.type)
+                    formData.append('type',this.$route.query.type);
+                    formData.append('tdate',this.tdateTime);
                     this.api.sharing_data_confirm(formData).then((res)=>{
                         if(res!=false){
                             this.gb();
@@ -464,11 +494,13 @@ export default {
                         }
                     })
                 },
-                up(){
+                upload(){
                     this.tj=true;
                     for(var i =0; i<this.ListData.length;i++){
-                        if(this.ListData[i].status=='4'||this.ListData[i].status=='5')
-                        this.ct=true;
+                        if(this.ListData[i].status=='4'||this.ListData[i].status=='5'||this.ListData[i].status=='6'){
+                            this.ct=true;
+                        }
+                        
                     }
                 },
               
@@ -509,7 +541,7 @@ export default {
     .btn_right{
         display: inline-block;
         float:right;
-        margin: 24px 24px 0 0;
+        margin: 14px 24px 0 0;
     }
     .btn_right span{
         display: inline-block;
@@ -559,6 +591,8 @@ export default {
     }
     .fc_statuc{
         display: inline-block;
+        width: 90px;
+        text-align: right;
         margin-right: 15px;
 
     }
