@@ -2,8 +2,8 @@
    <div>
         <div class="top_name">
              <span class="top_txt" @click='fh(-2)'>素材付款&nbsp;/&nbsp;</span>
-             <span class="top_txt" @click='fh(-1)'>分成管理&nbsp;/&nbsp;</span>
-              <span class="top_txt">分成详情</span>
+             <span class="top_txt" style="margin-left:0" @click='fh(-1)'>分成管理&nbsp;/&nbsp;</span>
+              <span class="top_txt" style="margin-left:0">分成详情</span>
             <div class="title_left">
                 <span>分成详情</span>
                 <span class='time'>{{this.$route.query.tdate}}</span>

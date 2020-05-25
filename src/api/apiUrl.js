@@ -1825,4 +1825,12 @@ export default {
 	sharing_data_income_demand_audit:{
 		url:"sharing/data/income/demand/audit",method:"post",isType:{suktip:1}
 	},
+	//价格管理操作日志
+	analysis_config_sharing_operate_logs:{
+		url:"analysis/config/sharing/operate_logs",method:'get'
+	},
+	//价格配置操作记录详情
+	analysis_config_sharing_operate_logs_detail:{
+		url:"analysis/config/sharing/operate_logs/detail",method:'get'
+	},
 }

@@ -1,7 +1,7 @@
 <template>
    <div>
         <div class="top_name">
-             <span class="top_txt" @click='fh(-1)'>素材付款&nbsp;/&nbsp;分成管理</span>
+             <span class="top_txt" @click='fh(-1)'>杂志锁屏付款&nbsp;/&nbsp;分成管理</span>
             <div class="title_left">
                 <span>分成管理</span>
             </div>
@@ -78,11 +78,14 @@
                  </div>
            </div>
         </div>
+         <load v-if="load"></load>
    </div>
 </template>
 
 <script>
+import load from '../../../components/loading'
 export default {
+        components:{load},
             data(){
                 return{
                     tdate:[],
@@ -91,6 +94,7 @@ export default {
                     total:0,
                     tableData:[{time:2020}],
                     is_confirmed:"",
+                    // load:true
                 }
             },
             mounted(){
@@ -128,12 +132,14 @@ export default {
                        
                     })
                 },
-                getDataList(){
-                    // let params={type:this.$route.query.type,p:this.p,page:this.page,is_confirmed:this.is_confirmed,tdate:this.tdate}
-                    // this.api.sharing_data_income_period({params}).then((res)=>{
-                    //     this.total=res.total;
-                    //     this.tableData=res.data; 
-                    // })
+               getDataList(){
+                    this.load=true
+                    let params={type:3,p:this.p,page:this.page,status:this.status,tdate_start:this.tdate[0],tdate_end:this.tdate[1]}
+                    this.api.sharing_data_income_period({params}).then((res)=>{
+                        this.total=res.total;
+                        this.tableData=res.data; 
+                        this.load=false
+                    })
                 },
                 jg(){
                     this.$router.push({

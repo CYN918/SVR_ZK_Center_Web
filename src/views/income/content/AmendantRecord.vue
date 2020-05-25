@@ -1,10 +1,10 @@
 <template>
    <div>
         <div class="top_name">
-            <span class="top_txt" @click='fh(-1)'>素材付款&nbsp;/</span>
-            <span class="top_txt" @click='fh(-1)'>&nbsp;分成管理&nbsp;/</span>
-            <span class="top_txt" @click='fh(-1)'>&nbsp;价格管理&nbsp;/</span>
-            <span class="top_txt" @click='fh(-1)'>修改记录</span>
+            <span class="top_txt"  @click='fh(-3)'>杂志锁屏付款&nbsp;/</span>
+            <span class="top_txt" style="margin-left:0" @click='fh(-2)'>&nbsp;分成管理&nbsp;/</span>
+            <span class="top_txt" style="margin-left:0" @click='fh(-1)'>&nbsp;价格管理&nbsp;/</span>
+            <span class="top_txt" style="margin-left:0">修改记录</span>
             <div class="title_left">
                 <span>修改记录</span>
             </div>
@@ -22,7 +22,7 @@
                         end-placeholder="结束月份">
                     </el-date-picker>
                     <span style="margin:0 16px 0 24px">操作人员</span>
-                    <input type="text">
+                    <input type="text" v-model="updator">
                 </div>
                 <div class="btn_right">
                     <span class='cx' @click='getDataList()'>查询</span>
@@ -82,6 +82,7 @@ export default {
                     page:1,
                     total:0,
                     tableData:[{time:2020}],
+                    updator:'',
                     is_confirmed:"",
                 }
             },
@@ -121,11 +122,11 @@ export default {
                     })
                 },
                 getDataList(){
-                    // let params={type:this.$route.query.type,p:this.p,page:this.page,is_confirmed:this.is_confirmed,tdate:this.tdate}
-                    // this.api.sharing_data_income_period({params}).then((res)=>{
-                    //     this.total=res.total;
-                    //     this.tableData=res.data; 
-                    // })
+                    let params={updator:this.updator,tdate_start:this.tdate[0],tdate_end:this.tdate[1]}
+                   this.api.analysis_config_sharing_operate_logs({params}).then((res)=>{
+                       this.tableData=res.data;
+                       this.total=res.total
+                   })
                 },
                 jg(){
                     this.$router.push({

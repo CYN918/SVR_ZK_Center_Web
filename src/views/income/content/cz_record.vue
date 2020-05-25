@@ -2,9 +2,9 @@
    <div>
         <div class="top_name">
             <span class="top_txt" @click='fh(-1)'>素材付款&nbsp;/</span>
-            <span class="top_txt" @click='fh(-1)'>&nbsp;分成管理&nbsp;/</span>
-            <span class="top_txt" @click='fh(-1)'>&nbsp;数据管理&nbsp;/</span>
-            <span class="top_txt" @click='fh(-1)'>操作记录</span>
+            <span class="top_txt" style="margin-left:0" @click='fh(-2)'>&nbsp;分成管理&nbsp;/</span>
+            <span class="top_txt" style="margin-left:0" @click='fh(-1)'>&nbsp;数据管理&nbsp;/</span>
+            <span class="top_txt" style="margin-left:0">操作记录</span>
             <div class="title_left">
                 <span>操作记录</span>
             </div>

@@ -68,23 +68,26 @@
                  </div>
            </div>
         </div>
+        <load v-if="load"></load>
    </div>
 </template>
 
 <script>
+import load from '../../../components/loading'
 export default {
-    props:['type'],
+   components:{load},
             data(){
                 return{
                     tdate:[],
                     p:10,
                     page:1,
                     total:0,
-                    tableData:[{time:2020}]
+                    tableData:[{time:2020}],
+                    load:true
                 }
             },
             mounted(){
-               
+               this.listData()
             },
             methods:{
                 cz(){
@@ -102,11 +105,12 @@ export default {
                 },
                 handleSizeChange(p) { // 每页条数切换
                     this.p = p;
+                    this.listData()
                     
                 },
                 handleCurrentChange(page) {//页码切换
                     this.page = page;
-                    
+                     this.listData()
                 },
                 jump(){
                     this.$router.push({
@@ -118,7 +122,16 @@ export default {
                    this.$router.push({
                        path:"./money_detail"
                    })
-                }
+                },
+                listData(){
+                    this.load=true
+                    let params={type:3,p:this.p,page:this.page,tdate_start:this.tdate[0],tdate_end:this.tdate[1],is_confirmed:'1'}
+                    this.api.sharing_data_income_summary({params}).then((res)=>{
+                         this.total=res.total;
+                         this.tableData=res.data;  
+                         this.load=false 
+                    })
+                },
             },
 }
 </script>

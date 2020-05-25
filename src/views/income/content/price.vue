@@ -1,7 +1,7 @@
 <template>
  <div>
      <div class="top_name">
-            <span class="top_txt" @click='fh(-2)'>素材付款&nbsp;/</span>
+            <span class="top_txt" @click='fh(-2)'>杂志锁屏付款&nbsp;/</span>
             <span class="top_txt" @click='fh(-1)' style="margin-left:0">&nbsp;分成管理&nbsp;/</span>
             <span class="top_txt" style="margin-left:0">&nbsp;价格管理</span>
             <div class="title_left">
@@ -10,42 +10,33 @@
         </div>
         <div class='content'>
             <div class='btns'>
-                <span class='bj'>编辑</span>
+                <span class='bj' v-if="set==false" @click="BJ()">编辑</span>
                 <span @click='log()'>修改记录</span>
             </div>
             <div class='tit_box'>
                 <span>默认数据有效率</span>
-                <input type="text">
+                <input type="text" v-model="data.complete" :disabled='set==false'>
             </div>
-             <div class='tit_box'>
+             <div class='tit_box' v-for="(item,index) in data.sharing">
                 <span>素材类型</span>
-                <select disabled>
-                    <option value="" selected>场景锁屏-壁纸</option>
+                <select disabled v-model="data.sharing[index].type">
+                    <option value="ad_picture" >广告图</option>
+                    <option value="ad_template" >广告模板</option>
+                    <option value="sls_dynamic" >场景锁屏-动效</option>
+                    <option value="sls_picture" >场景锁屏-壁纸</option>
                 </select>
-                <span>分成价格(元)</span>
-                <input type="text">
+                <span>分成价格(元)</span> 
+                <input type="text" v-model="data.sharing[index].sharing_price"  :disabled='set==false'>
                  <span>分成方式</span>
-                <select>
-                    <option value="">ecpm</option>
-                    <option value="">ecpc</option>
+                <select v-model="data.sharing[index].sharing_type"  :disabled='set==false'>
+                    <option value="ecpm">ecpm</option>
+                    <option value="ecpc">ecpc</option>
                 </select>
             </div>
-             <div  class='tit_box'>
-                <span>素材类型</span>
-                <select disabled>
-                    <option value="" selected>场景锁屏-动效</option>
-                </select>
-                <span>分成价格(元)</span>
-                <input type="text">
-                 <span>分成方式</span>
-                <select>
-                    <option value="">ecpm</option>
-                    <option value="">ecpc</option>
-                </select>
-            </div>
-            <div class='button'>
-                <span class="bc">保存</span>
-                <span>取消</span>
+            
+            <div class='button'  v-if='set==true'>
+                <span class="bc" @click="changeData()">保存</span>
+                <span @click='qx()'>取消</span>
             </div>
         </div>
  </div>
@@ -55,14 +46,43 @@
  export default {
    data () {
      return {
-
+            data:{},
+            set:false
      }
+   },
+   mounted(){
+       this.DataDateils()
    },
    methods:{
        log(){
            this.$router.push({
                path:"./AmendantRecord"
            })
+       },
+       fh(index){
+           this.$router.go(index)
+       },
+       DataDateils(){
+           this.api.analysis_config_sharing().then((res)=>{
+               this.data=res
+           })
+       },
+       changeData(){
+           let formData = new FormData;
+           formData.append('data',  JSON.stringify(this.data))
+           this.api.analysis_config_sharing_update(formData).then((res)=>{
+               if(res!=false){
+                   this.set=false;
+                   this.DataDateils()
+               }
+           })
+       },
+       BJ(){
+            this.set=true;
+       },
+       qx(){
+           this.set=false;
+            this.DataDateils()
        },
    },
 
