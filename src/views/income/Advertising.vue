@@ -21,9 +21,21 @@
                         value-format="yyyy-MM-dd">
                 </el-date-picker>
                 <span  class="ad">数据类型</span>
-                <select v-model="is_receiver" @change="change(value)">
-                    <option value="1" v-if="isShowS">收款数据</option>
-                    <option value="0" v-if="isShowF">付款数据</option>
+                <select v-model="is_receiver" @change="change(value)" v-if="selectLength == 2">
+                    <option value="1">收款数据</option>
+                    <option value="0">付款数据</option>
+                </select>
+                <select v-model="is_receiver" @change="change(value)" v-if="S && selectLength == 1">
+                    <option value="1">收款数据</option>
+                    <!-- <option value="0">付款数据</option> -->
+                </select>
+                <select v-model="is_receiver" @change="change(value)" v-if="F && selectLength == 1">
+                    <!-- <option value="1">收款数据</option> -->
+                    <option value="0">付款数据</option>
+                </select>
+                <select v-model="is_receiver" @change="change(value)" v-if="selectLength == 0">
+                    <!-- <option value="1">收款数据</option>
+                    <option value="0">付款数据</option> -->
                 </select>
                  
                 <div style=" display: inline-block;position: relative;" >
@@ -245,7 +257,7 @@ import 'ant-design-vue/dist/antd.css'
                 value:[],
                 search:'',
                 tableData:[],
-                is_receiver:1,
+                is_receiver:'',
                 p:10,
                 page:1,
                 total:0,
@@ -265,30 +277,29 @@ import 'ant-design-vue/dist/antd.css'
                 SHOW_PARENT:Antd.SHOW_PARENT,
                 disjunctions:[],
                 control:[],
-                isShowS:true,
-                isShowF:true,
+                S:false,
+                F:false,
+                selectLength:'',
             }
         },
         created(){
             this.control=JSON.parse(localStorage.getItem('control'));
+            var arr = [];
             if(this.control.length!=0){
                 for(var i=0;i<this.control.length;i++){
                     //查询广告结算付款收益
-                    if(this.control[i].uri_key=='uri.settle/data/search/pay'){
-                        this.isShowF = true;
-                    }else{
-                        this.isShowF = false;
-                    }  
-                }
-                for(var i=0;i<this.control.length;i++){
+                    if(this.control[i].uri_key=='uri.settlement.pay.serach'){
+                        arr.push(1)
+                        this.F = true;
+                    }
                     //查询广告结算收款收益
                     if(this.control[i].uri_key=='uri.settlement.receive.serach'){
-                        this.isShowS = true;
-                    }else{
-                        this.isShowS = false;
+                        arr.push(2)
+                        this.S = true;
                     }
                 }
             }
+            this.selectLength = arr.length;
         },
         mounted(){
                 if(this.$route.query.name){
@@ -315,7 +326,7 @@ import 'ant-design-vue/dist/antd.css'
                     }
                     this.value=[qt.join('-'),next.join('-')];
                 }
-                this.getDataList();
+                // this.getDataList();
                 this.getDlist()
                 if(this.is_receiver==1){
                     this.getObject()
