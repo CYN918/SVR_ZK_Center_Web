@@ -346,11 +346,10 @@
                 this.yybq=false;
             },
             see(id,name){
-                console.log(name)
                 let Logistics= this.$router.resolve({
                     path:'./themeSc_details',
                     query:{
-                        // name:name,
+                        name:name,
                         thmid:id,
                     },
                 })

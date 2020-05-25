@@ -238,8 +238,11 @@ import loading from '../../../components/loading'
                 this.$router.go(index);
             },
             cz(){
-                this.search=''
-                this.status=''
+                this.search='';
+                this.status='';
+                this.balance_name = '';
+                this.company_name = '';
+                this.put_type = '';
             },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
