@@ -275,17 +275,17 @@ import 'ant-design-vue/dist/antd.css'
                 for(var i=0;i<this.control.length;i++){
                     //查询广告结算付款收益
                     if(this.control[i].uri_key=='uri.settle/data/search/pay'){
-                        this.isShowF = false;
-                    }else{
                         this.isShowF = true;
+                    }else{
+                        this.isShowF = false;
                     }  
                 }
                 for(var i=0;i<this.control.length;i++){
                     //查询广告结算收款收益
                     if(this.control[i].uri_key=='uri.settlement.receive.serach'){
-                        this.isShowS = false;
-                    }else{
                         this.isShowS = true;
+                    }else{
+                        this.isShowS = false;
                     }
                 }
             }
