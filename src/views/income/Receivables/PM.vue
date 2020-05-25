@@ -272,12 +272,13 @@ import loading from '../../../components/loading'
                 })
             },
             ck(id){
-                this.$router.push({
-                    path:"./PM_details",
+                let Logistics= this.$router.resolve({
+                    path:'./PM_details',
                     query:{
                         project_id:id
-                    }
+                    },
                 })
+                window.open(Logistics.href);
             },
              getDlist(){
                     let params={is_receiver:'1'}
