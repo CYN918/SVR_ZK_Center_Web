@@ -354,7 +354,7 @@
                         thmid:id,
                     },
                 })
-                window.open(Logistics.href);
+                window.open(encodeURI(Logistics.href));
             },
             selectBB(data){
                 this.indexs=data;
