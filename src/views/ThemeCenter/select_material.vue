@@ -423,6 +423,8 @@
         height: 349px;
         margin-right: 44px;
         margin-bottom: 20px;
+        margin-top: 15px;
+        margin-left: 15px;
         background: #e3e7ef;
     }
     .box_top{
@@ -468,5 +470,7 @@
         font-family:PingFangSC-Regular,PingFangSC;
         font-weight:400;
         color:rgba(31,46,77,1);
+        overflow: hidden;
+        height: 30px;
     }
 </style>

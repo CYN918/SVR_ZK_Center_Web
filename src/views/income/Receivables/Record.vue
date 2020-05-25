@@ -11,27 +11,27 @@
         <div class="content">
             <div v-if="data.status==1">
                 <span class="nameTit">结算方名称</span>
-                <span class="cont">{{data.check.statement}}</span>
+                <span class="cont">{{data.check.check1.statement}}</span>
             </div>
             <div v-if="data.status==1">
                 <span class="nameTit">结算方</span>
-                <span  class="cont">{{data.check.name}}</span>
+                <span  class="cont">{{data.check.check1.name}}</span>
             </div>
             <div v-if="data.status==1">
                 <span class="nameTit">结算时间段</span>
-                <span  class="cont">{{data.check.tstart}}至{{data.check.tend}}</span>
+                <span  class="cont">{{data.check.check1.tstart}}至{{data.check.check1.tend}}</span>
             </div>
             <div v-if="data.status==1">
                 <span class="nameTit">预计结算金额</span>
-                <span  class="cont">{{data.check.expect_amount}}</span>
+                <span  class="cont">{{data.check.check1.expect_amount}}</span>
             </div>
             <div v-if="data.status==1">
                 <span class="nameTit">实际结算金额</span>
-                <span  class="cont">{{data.check.real_amount}}</span>
+                <span  class="cont">{{data.check.check1.real_amount}}</span>
             </div>
             <div v-if="data.status==1">
                 <span class="nameTit">备注说明</span>
-                <span  class="cont">{{data.check.note}}</span>
+                <span  class="cont">{{data.check.check1.note}}</span>
             </div>
             <div v-if="data.status==1">
                 <span class="nameTit">附件</span>

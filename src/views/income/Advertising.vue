@@ -22,8 +22,8 @@
                 </el-date-picker>
                 <span  class="ad">数据类型</span>
                 <select v-model="is_receiver" @change="change(value)">
-                    <option value="1">收款数据</option>
-                    <option value="0">付款数据</option>
+                    <option value="1" v-if="isShowS">收款数据</option>
+                    <option value="0" v-if="isShowF">付款数据</option>
                 </select>
                  
                 <div style=" display: inline-block;position: relative;" >
@@ -264,6 +264,30 @@ import 'ant-design-vue/dist/antd.css'
                 JSlist:[],
                 SHOW_PARENT:Antd.SHOW_PARENT,
                 disjunctions:[],
+                control:[],
+                isShowS:true,
+                isShowF:true,
+            }
+        },
+        created(){
+            this.control=JSON.parse(localStorage.getItem('control'));
+            if(this.control.length!=0){
+                for(var i=0;i<this.control.length;i++){
+                    //查询广告结算付款收益
+                    if(this.control[i].uri_key=='uri.settle/data/search/pay'){
+                        this.isShowF = true;
+                    }else{
+                        this.isShowF = false;
+                    }  
+                }
+                for(var i=0;i<this.control.length;i++){
+                    //查询广告结算收款收益
+                    if(this.control[i].uri_key=='uri.settlement.receive.serach'){
+                        this.isShowS = true;
+                    }else{
+                        this.isShowS = false;
+                    }
+                }
             }
         },
         mounted(){
@@ -306,7 +330,7 @@ import 'ant-design-vue/dist/antd.css'
         },
         methods:{
             change(value){
-                console.log(value)
+                // console.log(value)
                 this.name=''
                 this.channels=[]
                 this.projects=[]
@@ -356,26 +380,6 @@ import 'ant-design-vue/dist/antd.css'
                 var url = '/settle/data/export'+'?is_receiver='+this.is_receiver+'&name='+this.name+'&search='+this.search+'&channel='+this.channel+'&tstart='+this.value[0]+'&tend='+this.value[1]+'&projects='+this.projects.join(',')+'&disjunctions='+JSON.stringify(this.disjunctions);
                 download.downloadImg(url);
             },
-            // getName(){     
-            //         this.show=true;
-            //         this.JSname=[];
-            //          let params={is_receiver:this.is_receiver,search:this.name}
-            //             this.api.settle_settlement_list({params}).then((res)=>{
-            //                 if(res.length== '0'){
-            //                     this.show = false
-            //                 }else{
-            //                     this.JSname=res
-            //                 }
-            //             })
-            // },
-           
-            // setName(){
-            //     this.projects=[];
-            //     this.channels=[];
-            //     this.show=false;
-            //     this.getObject();
-            //     this.getqd()
-            // },
             getDataList(num){
                 for(var i=0;i<this.channels.length;i++){
                     var arr={};
