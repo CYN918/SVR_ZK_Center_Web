@@ -243,6 +243,8 @@ import loading from '../../../components/loading'
                 this.balance_name = '';
                 this.company_name = '';
                 this.put_type = '';
+                this.company_id = '';
+                this.balance_id = '';
             },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
