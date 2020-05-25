@@ -77,13 +77,13 @@
                                     <span  class="text" style="overflow: hidden;width: 200px;height: 20px;line-height: 28px">{{this.attach.name}}</span>
                                 </el-tooltip>
                             </div>
-                            <img src="../../../public/img/msg.png" @click="showHint" style="vertical-align: top"/>
+                            <img src="../../../public/img/msg.png" @click="showHint" style="vertical-align: top!important"/>
                             <div class="progress" style="width: 100px;height: 5px;opacity: 0.5;display: inline-block " v-if="initiate" >
                                 <div class="strip" :style="{width:aaa+'%'}" style="background: blue;height: 5px"></div>
                                 <div style="text-align: center;font-size: 10px">当前附件上传{{aaa}}%</div>
                             </div>
                             <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="chenck" v-if="this.types!='f_sls_lockscreen'&&this.types!='f_call_show'" @click="checkSelect()"/><span v-if="this.types!='f_sls_lockscreen'&&this.types!='f_call_show'" style="vertical-align: top">仅图片</span>
-                            <span class="content_xz" @click="dels()" v-if="attach.name!=undefined">删除</span>
+                            <span class="content_xz" @click="dels()" v-if="attach.name!=undefined" style="margin-left: 60px;">删除</span>
                             <div class="upChenck" v-if="this.types!='f_sls_lockscreen'&&this.types!='f_call_show'">
                                 <p>勾选后可直接上传图片、且无需再次上传预览图</p>
                             </div>

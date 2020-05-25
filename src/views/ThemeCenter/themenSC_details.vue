@@ -20,11 +20,12 @@
                 <span class="titCon" v-if="this.$route.query.name!='宣传图'">{{this.tableData.range=='all'?'不限':this.tableData.range}}</span>
                 <span class="titName" style="width: 33px;margin-right: 10px">标签:</span>
                 <div class="tag">
-                    <span v-for="item in tags" class="tagName" v-if="item!=''">{{item}}</span>
-                    <!--<span class="tagADD">-->
-                        <!--<img>-->
-                        <!--标签-->
-                    <!--</span>-->
+                     <el-tooltip class="item" effect="dark"  placement="top">
+                        <div slot="content">
+                             <span v-for="item in tags" class="tagName" v-if="item!=''">{{item}}</span>
+                        </div>
+                        <span class="tagName">...</span>
+                    </el-tooltip>
                 </div>
             </div>
             <div>

@@ -23,11 +23,12 @@
                     <span class="titCon" style="width: 150px">{{tableData.created_at}}</span>
                     <span class="titName" style="width: 33px;margin-right: 10px">标签:</span>
                     <div class="tag">
-                        <span class="tagName" v-for="item in tags" v-if="item!=''">{{item}}</span>
-                        <!--<span class="tagADD">-->
-                        <!--<img>-->
-                        <!--标签-->
-                        <!--</span>-->
+                        <el-tooltip class="item" effect="dark"  placement="top">
+                        <div slot="content">
+                             <span class="tagName" v-for="item in tags" v-if="item!=''">{{item}}</span>
+                        </div>
+                        <span class="tagName">...</span>
+                    </el-tooltip>
                     </div>
                 </div>
                 <div>

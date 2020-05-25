@@ -28,17 +28,25 @@
                 <!--<span class="titCon">{{tableData.ui_version}}</span>-->
                 <span class="titName" style="width: 30px;margin-right: 15px">标签</span>
                 <div class="tag">
-                    <span v-for="item in tags" class="tagName" v-if="item!=''">{{item}}</span>
-                    <!--<span class="tagADD">-->
-                        <!--<img>-->
-                        <!--标签-->
-                    <!--</span>-->
+                    <!-- <span v-for="item in tags" class="tagName" v-if="item!=''">{{item}}</span> -->
+                    <el-tooltip class="item" effect="dark"  placement="top">
+                        <div slot="content">
+                            <span v-for="item in tags" class="tagName" v-if="item!=''">{{item}}</span>
+                        </div>
+                        <span class="tagName">...</span>
+                    </el-tooltip>
+                   
                 </div>
             </div>
             <div>
                 <span class="titName">内容特征:</span>
                 <div class='tag'>
-                    <span v-for="item in feature_category" class="tagName" v-if="item!=''">{{item}}</span>
+                     <el-tooltip class="item" effect="dark"  placement="top">
+                        <div slot="content">
+                            <span v-for="item in feature_category" class="tagName" v-if="item!=''">{{item}}</span>
+                        </div>
+                        <span class="tagName">...</span>
+                    </el-tooltip>
                 </div>
                 <!-- <el-tooltip class="item" effect="dark" placement="right-start">
                     <div slot="content" class="text">
@@ -498,9 +506,6 @@
         display: inline-block;
          max-width: 300px;
         height: 32px;
-        overflow: -moz-scrollbars-none;
-        -ms-overflow-style: none;
-        overflow-y: scroll;
     }
     .tagADD{
         display: inline-block;
