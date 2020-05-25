@@ -18,17 +18,33 @@
                 </select>
                 <div style=" display: inline-block;position: relative;margin-left:15px;">
                     <span style="margin-right: 15px;">结算主体</span>
-                    <input type="text" placeholder="请输入结算主体" v-model="balance_name" @input="getName()" @blur='focuson()' @focus='getName()'/>
+                    <!-- <input type="text" placeholder="请输入结算主体" v-model="balance_name" @input="getName()" @blur='focuson()' @focus='getName()'/>
                     <div class='names' v-if="show">
                         <span v-for="da in JSname" @click='setName(da)'>{{da.account_name}}</span>
-                    </div>
+                    </div> -->
+                     <el-autocomplete
+                        class="inline-input"
+                        v-model="balance_name"
+                        :fetch-suggestions="querySearch"
+                        placeholder="请输入内容"
+                        @select="handleSelect"
+                        >
+                    </el-autocomplete>
                 </div>
                 <div style=" display: inline-block;position: relative;margin-left:15px;margin-right:15px;">
                     <span style="margin-right: 15px;">合作公司</span>
-                    <input type="text" placeholder="请输入合作公司" v-model="company_name" @input="oldADD()" @blur='oldblur()'/>
+                    <!-- <input type="text" placeholder="请输入合作公司" v-model="company_name" @input="oldADD()" @blur='oldblur()'/>
                     <div class='names' v-if="old">
                         <span v-for="da in company" @click='select_check(da)'>{{da.name}}</span>
-                    </div>
+                    </div> -->
+                     <el-autocomplete
+                        class="inline-input"
+                        v-model="company_name"
+                        :fetch-suggestions="querySearch2"
+                        placeholder="请输入内容"
+                        @select="handleSelect2"
+                        >
+                    </el-autocomplete>
                 </div>
                 <span class='select_left'>投放形式</span>
                 <select class='input_left' v-model="put_type">
@@ -150,6 +166,7 @@ import loading from '../../../components/loading'
                 old:false,
                 company_id:'',
                 balance_name:'',
+                restaurants:[],
             }
         },
         mounted(){
@@ -157,40 +174,7 @@ import loading from '../../../components/loading'
             this.getData();
         },
         methods:{
-            getName(){ 
-                if(this.balance_name!=''){
-                    this.show=true;   
-                    let params={is_receiver:'1'}
-                    this.api.settle_settlement_searchall({params}).then((res)=>{
-                        this.JSname=res
-                    })
-                }     
-            },
-            focuson(){
-                this.show=false;
-            },
-            setName(da){
-                this.balance_id=da.id;
-                this.balance_name = da.account_name;
-                this.show=false;
-            },
-            oldADD(){
-                if(this.company_name!=''){
-                    let params={search:this.company_name}
-                    this.api.adproject_adcompany_list({params}).then((res)=>{
-                        this.company=res; 
-                    })
-                    this.old=true;
-                }
-            },
-            select_check(da){
-                this.company_name=da.name;
-                this.company_id = da.company_id;
-                this.old=false;
-            },
-            oldblur(){
-                this.old=false;
-            },
+           
             getData(){
                 let params = {
                     email:localStorage.getItem('userAd'),
@@ -207,7 +191,6 @@ import loading from '../../../components/loading'
                 }   
             },
             upLoad(file){
-                console.log(file)
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.themes_adproject_import(formData).then((res)=>{
@@ -220,7 +203,6 @@ import loading from '../../../components/loading'
                        this.fileList.splice(i,1);
                    }
                }
-               console.log(this.fileList);
             },
             beforeAvatarUploads(file) {
                 this.file = file;
@@ -271,10 +253,12 @@ import loading from '../../../components/loading'
                     this.total=res.total;
                     this.tableData=res.data;
                     this.load=false;
-                    this.balance_name = '';
-                    this.company_name = '';
-                    this.company_id = '';
-                    this.balance_id = '';
+                    // this.balance_name = '';
+                    // this.company_name = '';
+                    // this.company_id = '';
+                    // this.balance_id = '';
+                    this.getDlist();
+                    this.getDlist2()
                 })
             },
             jump(data){
@@ -293,6 +277,52 @@ import loading from '../../../components/loading'
                     }
                 })
             },
+             getDlist(){
+                    let params={is_receiver:'1'}
+                    this.api.settle_settlement_list({params}).then((res)=>{
+                        this.restaurants=res;
+                         this.JSname=res
+
+
+                    })
+                },
+                 querySearch(queryString, cb) {
+                    for(var i =0;i<this.JSname.length;i++){
+                        this.JSname[i].value=this.JSname[i].name
+                       
+                    }
+                    var results = queryString ? this.JSname.filter(this.createFilter(queryString)) : this.JSname;
+                    cb(results);
+                },
+                createFilter(queryString) {
+                    return (JSname) => {
+                    return (JSname.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+                    };
+                },
+                 handleSelect(item) {
+                  this.balance_id=item.id
+                },
+              getDlist2(){
+                    this.api.adproject_adcompany_list().then((res)=>{
+                        this.company=res; 
+                    })
+                },
+                 querySearch2(queryString, cb) {
+                    for(var i =0;i<this.company.length;i++){
+                        this.company[i].value=this.company[i].name
+                       
+                    }
+                    var results = queryString ? this.company.filter(this.createFilter(queryString)) : this.company;
+                    cb(results);
+                },
+                createFilter2(queryString) {
+                    return (company) => {
+                    return (company.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+                    };
+                },
+                 handleSelect2(item) {
+                  this.company_id=item.id
+                },    
             
         }
     }
@@ -504,5 +534,8 @@ import loading from '../../../components/loading'
         height: 36px;
         line-height: 36px;
         border-bottom:1px solid #eee 
+    }
+    .inline-input{
+        margin-right: 14px;
     }
 </style>
