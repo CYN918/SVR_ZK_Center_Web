@@ -271,24 +271,24 @@ import 'ant-design-vue/dist/antd.css'
         },
         created(){
             this.control=JSON.parse(localStorage.getItem('control'));
-            console.log(this.control)
             if(this.control.length!=0){
                 for(var i=0;i<this.control.length;i++){
                     //查询广告结算付款收益
-                    if(this.control[i].uri_key=='settle/data/search/pay'){
-                        this.isShowF = true;
-                    }else{
+                    if(this.control[i].uri_key=='uri.settle/data/search/pay'){
                         this.isShowF = false;
-                    }
+                    }else{
+                        this.isShowF = true;
+                    }  
+                }
+                for(var i=0;i<this.control.length;i++){
                     //查询广告结算收款收益
                     if(this.control[i].uri_key=='uri.settlement.receive.serach'){
-                        this.isShowS = true;
-                    }else{
                         this.isShowS = false;
+                    }else{
+                        this.isShowS = true;
                     }
                 }
             }
-
         },
         mounted(){
                 if(this.$route.query.name){
@@ -330,7 +330,7 @@ import 'ant-design-vue/dist/antd.css'
         },
         methods:{
             change(value){
-                console.log(value)
+                // console.log(value)
                 this.name=''
                 this.channels=[]
                 this.projects=[]
