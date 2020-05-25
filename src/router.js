@@ -882,6 +882,9 @@ localStorage.getItem('letNav');
 //                     {title:'来电秀收款',url:'/income/content/callShow_payee'},
 //                     {title:'来电秀付款',url:'/income/content/call_show'},
 //                     {title:'其他付款',url:'/income/content/Other_payment'},
+
+//                     {title:'狮圈儿提现记录',url:'/income/content/Withdrawal_record'},                   
+//                     {title:'素材付款',url:'/income/content/Material_payment'},
 //                     {title:'杂志锁屏付款',url:'/income/content/Material_payment'},
 //                     {title:'设计师结算',url:'/income/content/Designer_settlement'},                 
 //                 ]}

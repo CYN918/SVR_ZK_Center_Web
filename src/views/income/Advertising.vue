@@ -28,10 +28,18 @@
                  
                 <div style=" display: inline-block;position: relative;" >
                     <span class="ad">结算方</span>
-                    <input type="text" placeholder="请输入结算方" v-model="name" @input="getName()"/>
+                    <!-- <input type="text" placeholder="请输入结算方" v-model="name" @input="getName()"/>
                     <div class='names' v-if="show">
                         <span v-for="da in JSname" @click='setName(da.name)'>{{da.name}}</span>
-                    </div>
+                    </div> -->
+                     <el-autocomplete
+                        class="inline-input"
+                        v-model="name"
+                        :fetch-suggestions="querySearch"
+                        placeholder="请输入内容"
+                        @select="handleSelect"
+                        >
+                    </el-autocomplete>
                 </div>
                 <span  class="ad" v-if="is_receiver==0">渠道场景</span>
                  <a-tree-select
@@ -308,6 +316,7 @@ import 'ant-design-vue/dist/antd.css'
                     this.value=[qt.join('-'),next.join('-')];
                 }
                 this.getDataList();
+                this.getDlist()
                 if(this.is_receiver==1){
                     this.getObject()
                 }
@@ -371,32 +380,7 @@ import 'ant-design-vue/dist/antd.css'
                 var url = '/settle/data/export'+'?is_receiver='+this.is_receiver+'&name='+this.name+'&search='+this.search+'&channel='+this.channel+'&tstart='+this.value[0]+'&tend='+this.value[1]+'&projects='+this.projects.join(',')+'&disjunctions='+JSON.stringify(this.disjunctions);
                 download.downloadImg(url);
             },
-            getName(){  
-                if(this.name!=''){
-                    this.show=true;
-                    this.JSname=[];
-                     let params={is_receiver:this.is_receiver,search:this.name}
-                        this.api.settle_settlement_list({params}).then((res)=>{
-                            if(res.length== '0'){
-                                this.show = false
-                            }else{
-                                this.JSname=res
-                            }
-                        })
-                }
-               
-            },
-           
-            setName(da){
-                this.name=da;
-                this.projects=[];
-                this.channels=[];
-                this.show=false;
-                this.getObject();
-                this.getqd()
-            },
             getDataList(num){
-                console.log(num)
                 for(var i=0;i<this.channels.length;i++){
                     var arr={};
                     arr.channel=this.channels[i].split('-')[0];
@@ -496,8 +480,44 @@ import 'ant-design-vue/dist/antd.css'
                 
                 
             },
+            getDlist(){
+                    let params={is_receiver:this.is_receiver}
+                    this.api.settle_settlement_list({params}).then((res)=>{
+                        this.restaurants=res;
+                         this.JSname=res
+                    })
+                },
+                 querySearch(queryString, cb) {
+                    for(var i =0;i<this.JSname.length;i++){
+                        this.JSname[i].value=this.JSname[i].name
+                       
+                    }
+                    var results = queryString ? this.JSname.filter(this.createFilter(queryString)) : this.JSname;
+                    cb(results);
+                },
+                createFilter(queryString) {
+                    return (JSname) => {
+                    return (JSname.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+                    };
+                    
+                },
+                 handleSelect(item) {
+                  this.balance_id=item.id
+                },
            
         },
+        watch:{
+            name:function(){
+                   if(this.is_receiver==1){
+                    this.getObject()
+                    this.projects=[]
+                }
+                if(this.is_receiver==0){
+                    this.getqd();
+                    this.channels=[]
+                }
+            }
+        }
     }
 </script>
 
