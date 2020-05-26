@@ -15,6 +15,14 @@
                         <option v-for="item in scType" :value="item.type" v-if='video!=undefined&&item.type=="f_sls_lockscreen"'>{{item.name}}</option>
                     </select>
                 </div>
+                <div class="Search_select">
+                    <span class="Search_select_tit">制作方式：</span>
+                    <select v-model="pro_type" @change="getList()">
+                        <option value="" selected>全部</option>
+                        <option value="1">高定</option>
+                        <option value="0">微定</option>
+                    </select>
+                </div>
             </div>
             <div class="contentImg">
                 <div class="label">
@@ -60,6 +68,10 @@
                                 <div>
                                     <span class="boxImg_text">素材状态:</span>
                                     <span class="boxImg_content">{{DL.status==1201?'禁用':'启用'}}</span>
+                                </div>
+                                <div>
+                                    <span class="boxImg_text">制作方式:</span>
+                                    <span class="boxImg_content">{{DL.pro_type==1?'高定':'微定'}}</span>
                                 </div>
                                 <div>
                                     <span class="boxImg_text">更新时间:</span>
@@ -119,6 +131,7 @@
                 listTagData:[],
                 search_tags:[],
                 search_self_tags:[],
+                pro_type:'',
             }
         },
         mounted() {
@@ -133,7 +146,7 @@
                 // this.$parent.heidWL();
             },
             getList(){
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),status:this.status}
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,pro_type:this.pro_type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),status:this.status}
                 this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     console.log(this.IMGList);
