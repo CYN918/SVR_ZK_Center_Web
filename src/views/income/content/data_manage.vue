@@ -46,33 +46,33 @@
                         </el-table-column>
                      
                         <el-table-column
-                                label="渠道" prop="is_confirmed"
+                                label="渠道" prop="channel"
                                 >
                            
                         </el-table-column>
                         <el-table-column
-                                label="数据有效率" prop="is_confirmed"
+                                label="数据有效率" prop="complete"
                                 >
                            
                         </el-table-column>
                         <el-table-column
-                                label="点击量" prop="is_confirmed"
+                                label="点击量" prop="click"
                                 >
                            
                         </el-table-column>
                          <el-table-column
-                                label="曝光量" prop="is_confirmed"
+                                label="曝光量" prop="pv"
                                 >
                            
                         </el-table-column>
                         <el-table-column
-                                label="分成金额" prop="is_confirmed"
+                                label="分成金额" prop="income"
                                 >
                            
                         </el-table-column>
                         <el-table-column label="操作" width='150'>
                             <template slot-scope="props" >
-                                <el-button type="text" @click='bj()'>编辑</el-button>
+                                <el-button type="text" @click='bj(tableData[props.$index].tdate,tableData[props.$index].channel,tableData[props.$index].complete)'>编辑</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -97,22 +97,22 @@
                 </div>
                 <div class='tits'>
                     <span>日期：</span>
-                    <span></span>
+                    <span>{{time}}</span>
                 </div>
                 <div class='tits'>
                     <span>渠道：</span>
-                    <span></span>
+                    <span>{{qd}}</span>
                 </div>
                 <div class='tits'>
                     <span>数据有效率：</span>
-                    <input type="text">
+                    <input type="number" v-model="complete">
                 </div>
                 <div class='tits'>
                     <span>分成金额：</span>
-                    <span></span>
+                    <span>{{money}}</span>
                 </div>
                 <div class='btns'>
-                    <span class='qr'>确认</span>
+                    <span class='qr' @click='Edit()'>确认</span>
                     <span @click='qx()'>取消</span>
                 </div>
             </div>
@@ -128,10 +128,14 @@ export default {
                     p:10,
                     page:1,
                     total:0,
-                    tableData:[{time:2020}],
+                    tableData:[],
                     is_confirmed:"",
                     boxsSize:false,
-                    channel:""
+                    channel:"",
+                    money:"",
+                    complete:"",
+                    time:"",
+                    qd:"",
                 }
             },
             mounted(){
@@ -143,7 +147,7 @@ export default {
                 },
                 cz(){
                     this.tdate='';
-                    this.is_confirmed='';
+                    this.channel='';
                 },
                 getRowClass({row, column, rowIndex}) {
                     if (rowIndex === 0) {
@@ -163,17 +167,40 @@ export default {
                     this.page = page;
                     this.getDataList()
                 },
-                bj(){
-                   this.boxsSize=true
+                bj(tdate,channel,complete){
+                   this.boxsSize=true,
+                   this.time=tdate;
+                   this.qd=channel;
+                   this.complete=complete;
+                   this.getMoney(tdate,channel,complete)
+                },
+                Edit(){
+                    let formData = new FormData;
+                    formData.append('tdate',this.time)
+                    formData.append('channel',this.qd);
+                    formData.append('complete',this.complete)
+                    this.api.ds_income_lock_screen_edit(formData).then((res)=>{
+                        if(res!=false){
+                            this. getDataList();
+                            this.complete=''
+                            this.qx();
+                        }
+                    })
                 },
                 qx(){
                     this.boxsSize=false
                 },
                 getDataList(){
-                    let params={}
+                    let params={tdate_start:this.tdate[0],tdate_end:this.tdate[1],channel:this.channel}
                     this.api.ds_income_lock_screen_list({params}).then((res)=>{
                         this.total=res.total;
                         this.tableData=res.data; 
+                    })
+                },
+                getMoney(tdate,channel,complet){
+                    let params={tdate:tdate,channel:channel,complete:complet}
+                    this.api.ds_income_lock_screen_sharing_income({params}).then((res)=>{
+                        this.money=res.income
                     })
                 },
                 czRecord(){
@@ -289,7 +316,7 @@ export default {
     .tits span{
         display: inline-block;
         width: 120px;
-        text-align: right;
+        text-align: left;
         margin: 24px 0 0 24px;
         font-size: 14px;
     }

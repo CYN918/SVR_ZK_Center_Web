@@ -1837,4 +1837,12 @@ export default {
 	ds_income_lock_screen_list:{
 		url:"ds/income/lock_screen/list",method:"get"
 	},
+	//根据数据有效率获取实时分成金额
+	ds_income_lock_screen_sharing_income:{
+		url:"ds/income/lock_screen/sharing_income",method:"get"
+	},
+	//编辑分成收益详细数据（调整数据有效率）
+	ds_income_lock_screen_edit:{
+		url:"ds/income/lock_screen/edit",method:"post",isType:{suktip:1}
+	},
 }
