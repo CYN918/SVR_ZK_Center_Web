@@ -3,12 +3,12 @@
 <div class="template">
        <div class="top_name">
            <div class="tit_top_url" v-if="type == 'meizu_first'">
-                <span class="log_url" @click="fhs">杂志锁屏推送 &nbsp;/&nbsp;</span>
-                <span class="log_url" @click="fh">推送审核内容管理 &nbsp;/&nbsp;</span>
+                <span class="log_url" @click="fh(-2)">杂志锁屏推送 &nbsp;/&nbsp;</span>
+                <span class="log_url" @click="fh(-1)">推送审核内容管理 &nbsp;/&nbsp;</span>
                 <span class="log_url">壁纸管理</span>
            </div>
                 <span class="top_txts" style="width: 113px;display: inline-block;" v-if="type == 'meizu_first'">壁纸管理</span>
-                <span class="top_txt" @click='fh()' v-if="type != 'meizu_first'">杂志锁屏推送审核管理  /  上线内容管理</span><div v-if="type != 'meizu_first'" style="width:0;height:0;"><br/></div>
+                <span class="top_txt" @click='fh(-1)' v-if="type != 'meizu_first'">杂志锁屏推送审核管理  /  上线内容管理</span><div v-if="type != 'meizu_first'" style="width:0;height:0;"><br/></div>
                 <span class="top_txts" style="width: 113px;display: inline-block;" v-if="type != 'meizu_first'">上线内容管理</span>
                
                
@@ -48,6 +48,10 @@
                             :cell-style="cell"
                             @selection-change="handleSelectionChange"
                             >
+                        <el-table-column
+                                prop="id"
+                                label="序号">
+                        </el-table-column>
                         <el-table-column
                                 label="权重"
                                 v-if="new Date(this.date)<=new Date(new Date().getTime() - 24*60*60*1000)">
@@ -389,8 +393,8 @@ methods: {
         this.rouelForm = rows;
     },
     InputClick(index){
-        if(this.theWeight > 99 || this.theWeight < 0){
-            this.$message.error('权重值范围限制为0~99')
+        if(this.theWeight > 200 || this.theWeight < 0){
+            this.$message.error('权重值范围限制为0~200')
             return false
         }
         let formData =new FormData;
@@ -480,20 +484,23 @@ methods: {
     plcz(){
         this.pl=true;
     },
-    fh(){
-        this.$router.push({
-            path:"./Jounrnal_ys",
-            query:{
-                channel:this.$route.query.channel,
-                plid:this.$route.query.plid,
-            },
-        })
+    fh(index){
+        this.$router.go(index)
     },
-    fhs(){
-        this.$router.push({
-            path:"./journal_list"
-        })
-    },
+    // fh(){
+    //     this.$router.push({
+    //         path:"./journal_list",
+    //         query:{
+    //             channel:this.$route.query.channel,
+    //             plid:this.$route.query.plid,
+    //         },
+    //     })
+    // },
+    // fhs(){
+    //     this.$router.push({
+    //         path:"./journal_list"
+    //     })
+    // },
     Qxplcz(){
         this.pl=false;
        if(this.value.length>0){
