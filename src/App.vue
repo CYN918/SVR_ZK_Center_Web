@@ -36,9 +36,9 @@ a{
 img{
   vertical-align: initial!important;
 }
-*, *::before, *::after{
+/* *, *::before, *::after{
   box-sizing:initial!important
-}
+} */
 body{
   background-color: transparent!important;
 }
