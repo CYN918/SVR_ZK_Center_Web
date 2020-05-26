@@ -45,7 +45,7 @@
                  <a-tree-select
                             v-if="is_receiver==0"
                                 v-model="channels"
-                                style="width: 200px;height:36px;overflow: hidden;vertical-align: bottom;"
+                                style="min-width:200px;max-width:300px;height:36px;overflow: hidden;vertical-align: bottom;"
                                 :tree-data="channelData"
                                 tree-checkable
                                 :show-checked-strategy="SHOW_PARENT"
