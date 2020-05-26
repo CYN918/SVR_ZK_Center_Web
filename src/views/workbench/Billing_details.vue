@@ -322,7 +322,7 @@
                         open_id:this.open_id,account_name:this.account_name,min_cash_money:this.min_cash_money,
                         max_cash_money:this.max_cash_money,contributor_type:this.contributor_type,check_status:this.check_status,start_time:this.start_time,end_time:this.end_time};
                 }
-                if(!this.$route.query.lineStatus){
+                if(this.$route.query.lineStatus==undefined||this.$route.query.status==3){
                         params = {id:this.$route.query.id,p:this.p,page:this.page,all:'0',status:this.status,
                         open_id:this.open_id,account_name:this.account_name,min_cash_money:this.min_cash_money,
                         max_cash_money:this.max_cash_money,contributor_type:this.contributor_type,check_status:this.check_status,start_time:this.start_time,end_time:this.end_time};
