@@ -40,7 +40,7 @@
                     >
                         <template slot-scope="scope">
                             <el-button  type="text"  @click="getShow(scope.$index)"  size="small">编辑</el-button>
-                            <el-button  type="text"  @click.native.prevent="deleteRow(scope.$index, list)"  size="small">删除</el-button>
+                            <el-button  type="text"  @click.native.prevent="deleteRow(scope.row)"  size="small">删除</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -115,8 +115,16 @@
         },
         mounted(){this.getData()},
         methods:{
-            deleteRow(index, rows) {
-                rows.splice(index, 1);
+            deleteRow(rows) {
+                let formData = new FormData;
+                formData.append('id',rows.id);
+                this.api.pushlib_configs_channel_user_delete(formData).then((res)=>{
+                    this.$message({
+                        message: '删除成功',
+                        type: 'success'
+                    });
+                    this.getData();
+                })
             },
             getRowClass({row, column, rowIndex}) {
                 if (rowIndex === 0) {
