@@ -42,6 +42,7 @@ img{
 .el-date-editor .el-range-separator{
   width: 7%;
 }
+
 body{
   background-color: transparent!important;
 }
