@@ -36,9 +36,12 @@ a{
 img{
   vertical-align: initial!important;
 }
-/* *, *::before, *::after{
-  box-sizing:none!important
-} */
+*, *::before, *::after{
+  box-sizing:content-box!important
+}
+.el-input__inner{
+  box-sizing: border-box!important;
+}
 .el-date-editor .el-range-separator{
   width: 7%;
 }
