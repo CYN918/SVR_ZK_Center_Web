@@ -78,14 +78,14 @@
                  </div>
            </div>
         </div>
-         <load v-if="load"></load>
+         <!-- <load v-if="load"></load> -->
    </div>
 </template>
 
 <script>
-import load from '../../../components/loading'
+// import load from '../../../components/loading'
 export default {
-        components:{load},
+        // components:{load},
             data(){
                 return{
                     tdate:[],
@@ -94,11 +94,11 @@ export default {
                     total:0,
                     tableData:[{time:2020}],
                     is_confirmed:"",
-                    // load:true
+                    load:true
                 }
             },
             mounted(){
-                // this.getDataList()
+                this.getDataList()
             },
             methods:{
                  fh(index){
@@ -129,17 +129,22 @@ export default {
                 details(){
                     this.$router.push({
                         path:"./Divided_into_management_details",
+                        query:{
+                            type:3,
+                            tdate:this.tdate,
+                            
+                        }
                        
                     })
                 },
                getDataList(){
-                    this.load=true
-                    let params={type:3,p:this.p,page:this.page,status:this.status,tdate_start:this.tdate[0],tdate_end:this.tdate[1]}
-                    this.api.sharing_data_income_period({params}).then((res)=>{
-                        this.total=res.total;
-                        this.tableData=res.data; 
-                        this.load=false
-                    })
+                    // this.load=true
+                    // let params={type:3,p:this.p,page:this.page,status:this.status,tdate_start:this.tdate[0],tdate_end:this.tdate[1]}
+                    // this.api.sharing_data_income_period({params}).then((res)=>{
+                    //     this.total=res.total;
+                    //     this.tableData=res.data; 
+                    //     this.load=false
+                    // })
                 },
                 jg(){
                     this.$router.push({

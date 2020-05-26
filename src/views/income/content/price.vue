@@ -69,7 +69,8 @@
        },
        changeData(){
            let formData = new FormData;
-           formData.append('data',  JSON.stringify(this.data))
+           formData.append('complete',  this.data.complete)
+           formData.append('sharing', JSON.stringify(this.data.sharing))
            this.api.analysis_config_sharing_update(formData).then((res)=>{
                if(res!=false){
                    this.set=false;
