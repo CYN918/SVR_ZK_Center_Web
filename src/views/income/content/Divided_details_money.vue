@@ -1,8 +1,8 @@
 <template>
    <div>
         <div class="top_name">
-             <span class="top_txt" @click='fh(-3)'>{{this.$route.query.type=='1'?'主题付款':'来电秀付款'}}&nbsp;/&nbsp;</span>
-             <span class="top_txt" @click='fh(-2)'>分成管理&nbsp;/&nbsp;</span>
+             <span class="top_txt"   @click='fh(-3)'>{{this.$route.query.type=='1'?'主题付款':'来电秀付款'}}&nbsp;/&nbsp;</span>
+             <span class="top_txt"   @click='fh(-2)'>分成管理&nbsp;/&nbsp;</span>
              <span class="top_txt" @click='fh(-1)'>分成详情&nbsp;/&nbsp;</span>
               <span class="top_txt">分成金额详情</span>
             <div class="title_left">
@@ -36,12 +36,7 @@
                             :header-cell-style="getRowClass"
                             :cell-style="cell"
                             style="width: 100%;color:#000">
-                        <el-table-column
-                                label="项目ID" prop="project_id"
-                                :show-overflow-tooltip="true"
-                               >
-                        </el-table-column>
-                        <el-table-column
+                         <el-table-column
                                 v-if='this.$route.query.type==1'
                                 label="素材名称" prop="material_name"
                                 :show-overflow-tooltip="true"
@@ -52,7 +47,13 @@
                                 label="素材名称" prop="fname"
                                 :show-overflow-tooltip="true"
                                         >
+                        </el-table-column>    
+                        <el-table-column
+                                label="项目ID" prop="project_id"
+                                :show-overflow-tooltip="true"
+                               >
                         </el-table-column>
+                       
                         <el-table-column
                                 label="渠道" prop="channel"
                                 >
@@ -87,6 +88,26 @@
                                 label="分成金额" prop="final_income"
                                 >
                         </el-table-column>
+                         <el-table-column
+                                
+                                label="加成比例" prop="gain_share_rate"
+                                >
+                        </el-table-column>
+                         <el-table-column
+                                
+                                label="加成金额" prop="gain_share_income"
+                                >
+                        </el-table-column>
+                         <el-table-column
+                                
+                                label="抵消预付金" prop="advance_payment_income"
+                                >
+                        </el-table-column>
+                         <el-table-column
+                                
+                                label="付款金额" prop="payment_income"
+                                >
+                        </el-table-column>
                     </el-table>
                 </template>
                 <div class="block">
@@ -102,11 +123,14 @@
                  </div>
            </div>
         </div>
+        <load v-if="load"></load>
    </div>
 </template>
 
 <script>
+import load from '../../../components/loading'
 export default {
+    components:{load},
             data(){
                 return{
                     value1:"",
@@ -118,7 +142,8 @@ export default {
                     project_id:'',
                     material_name:'',
                     channels:[],
-                    channel:''
+                    channel:'',
+                    load:true,
                 }
             },
             mounted(){
@@ -164,6 +189,7 @@ export default {
                     this.channel=''
                 },
                 getDataList(){
+                    this.load=true
                     var params={}
                     if(this.$route.query.num){
                          params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.$route.query.open_id,project_id:this.project_id,p:this.p,page:this.page,is_confirmed:'1'}   
@@ -174,6 +200,7 @@ export default {
                     this.api.sharing_data_income_detail({params}).then((res)=>{
                         this.total=res.total;
                         this.tableData=res.data;
+                        this.load=false
                         this. qd();
                     })
                 },

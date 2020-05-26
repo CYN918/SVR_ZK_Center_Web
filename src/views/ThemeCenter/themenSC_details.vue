@@ -20,11 +20,12 @@
                 <span class="titCon" v-if="this.$route.query.name!='宣传图'">{{this.tableData.range=='all'?'不限':this.tableData.range}}</span>
                 <span class="titName" style="width: 33px;margin-right: 10px">标签:</span>
                 <div class="tag">
-                    <span v-for="item in tags" class="tagName" v-if="item!=''">{{item}}</span>
-                    <!--<span class="tagADD">-->
-                        <!--<img>-->
-                        <!--标签-->
-                    <!--</span>-->
+                     <el-tooltip class="item" effect="dark"  placement="top">
+                        <div slot="content">
+                             <span v-for="item in tags" class="tagName" v-if="item!=''">{{item}}</span>
+                        </div>
+                        <span class="tagName">...</span>
+                    </el-tooltip>
                 </div>
             </div>
             <div>
@@ -101,7 +102,7 @@
                     </div>
                     <div class="preview_tet">
                         <span>项目ID：</span>
-                        <span  v-if='this.tableData.is_internal==0'>{{this.tableData.project_id}}</span>
+                        <span  v-if='this.tableData.is_internal==0'>{{this.tableData.project_id?this.tableData.project_id:'(通过本地上传)'}}</span>
                         <span v-if='this.tableData.is_internal==1'>无</span>
                     </div>
                     <div class="preview_tet">

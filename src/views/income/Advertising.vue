@@ -21,33 +21,63 @@
                         value-format="yyyy-MM-dd">
                 </el-date-picker>
                 <span  class="ad">数据类型</span>
-                <select v-model="is_receiver" @change="change(value)">
+                <select v-model="is_receiver" @change="change(value)" v-if="selectLength == 2">
                     <option value="1">收款数据</option>
                     <option value="0">付款数据</option>
                 </select>
-                 <span  class="ad" v-if="is_receiver==0">渠道</span>
-                <select v-model="channel"  v-if="is_receiver==0">
-                    <option value="">全部</option>
-                    <option :value="item.channel" v-for="item in channelData">{{item.channel}}</option>
+                <select v-model="is_receiver" @change="change(value)" v-if="S && selectLength == 1">
+                    <option value="1">收款数据</option>
+                    <!-- <option value="0">付款数据</option> -->
                 </select>
-                <div style=" display: inline-block;position: relative;">
+                <select v-model="is_receiver" @change="change(value)" v-if="F && selectLength == 1">
+                    <!-- <option value="1">收款数据</option> -->
+                    <option value="0">付款数据</option>
+                </select>
+                <select v-model="is_receiver" @change="change(value)" v-if="selectLength == 0">
+                    <!-- <option value="1">收款数据</option>
+                    <option value="0">付款数据</option> -->
+                </select>
+                 
+                <div style=" display: inline-block;position: relative;" >
                     <span class="ad">结算方</span>
-                    <input type="text" placeholder="请输入结算方" v-model="name" @input="getName"/>
+                    <!-- <input type="text" placeholder="请输入结算方" v-model="name" @input="getName()"/>
                     <div class='names' v-if="show">
                         <span v-for="da in JSname" @click='setName(da.name)'>{{da.name}}</span>
-                    </div>
+                    </div> -->
+                     <el-autocomplete
+                        class="inline-input"
+                        v-model="name"
+                        :fetch-suggestions="querySearch"
+                        placeholder="请输入内容"
+                        @select="handleSelect"
+                        >
+                    </el-autocomplete>
                 </div>
+                <span  class="ad" v-if="is_receiver==0">渠道场景</span>
+                 <a-tree-select
+                            v-if="is_receiver==0"
+                                v-model="channels"
+                                style="width: 200px;height:36px;overflow: hidden;vertical-align: bottom;"
+                                :tree-data="channelData"
+                                tree-checkable
+                                :show-checked-strategy="SHOW_PARENT"
+                                search-placeholder="Please select"
+                            />
                 <div style=" display: inline-block;position: relative;" v-if='is_receiver==1'> 
                     <span class="ad">项目</span>
-                    <select v-model="project">
-                        <option value="">全部</option>
-                        <option :value="item.project_name" v-for='item in JSlist'>{{item.project_name}}</option>
-                    </select>
+                     <el-select v-model="projects" multiple placeholder="请选择" class="elSelect">
+                                <el-option
+                                        v-for="item in JSlist"
+                                        :key="item.project_id"
+                                        :label="item.project_name"
+                                        :value="item.project_name">
+                                </el-option>
+                    </el-select>
                 </div>
                
                 
-                <span class="ad">搜索</span>
-                <input type="text" placeholder="请输入关键词" v-model="search"/>
+                <!-- <span class="ad">搜索</span>
+                <input type="text" placeholder="请输入关键词" v-model="search"/> -->
                 <span class="cx" @click="getDataList(1)">查询</span>
                 <span class="cx" @click="downloadImg()">导出</span>
             </div>
@@ -57,7 +87,7 @@
                             :header-cell-style="getRowClass"
                             :cell-style="cell"
                             :data="tableData"
-                            height="450"
+                            max-height="450"
                             style="width: 100%">
                         <el-table-column
                                 prop="tdate"
@@ -120,7 +150,7 @@
                             :header-cell-style="getRowClass"
                             :cell-style="cell"
                             :data="tableData"
-                            height="450"
+                            max-height="450"
                             style="width: 100%">
                         <el-table-column
                                 prop="tdate"
@@ -139,25 +169,19 @@
                                 label="投放公司">
                                
                         </el-table-column> -->
-                      
                         <el-table-column
-                                prop="scene"
-                                label="场景"
-                                
-                        >
-                        </el-table-column>
-                          <el-table-column
                                 prop="channel"
                                 label="渠道"
                                 
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="adid"
-                                label="广告位ID"
+                                prop="scene"
+                                label="场景"
                                 
                         >
                         </el-table-column>
+
                         <el-table-column
                                 prop="pv"
                                 label="展示"
@@ -200,7 +224,6 @@
                 <span>—</span>
                 <span>—</span>
                 <span  v-if="!this.$route.query.type">—</span>
-                <span>—</span>
                 <span>{{exhibition1}}</span>
                 <span>{{exhibition2}}</span>
                 <span>{{click_ratio}}</span>
@@ -222,7 +245,11 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import Antd from 'ant-design-vue'
+import 'ant-design-vue/dist/antd.css'
  import download from '../../api/commonality'
+  Vue.use(Antd)
     export default {
         name: "advertiser",
         data(){
@@ -230,7 +257,7 @@
                 value:[],
                 search:'',
                 tableData:[],
-                is_receiver:1,
+                is_receiver:'',
                 p:10,
                 page:1,
                 total:0,
@@ -241,13 +268,38 @@
                 exhibition5:'',
                 exhibition6:'',
                 name:'',
-                channel:"",
+                channels:[],
                 channelData:[],
                 JSname:[],
+                projects:[],
                 show:false,
-                project:"",
                 JSlist:[],
+                SHOW_PARENT:Antd.SHOW_PARENT,
+                disjunctions:[],
+                control:[],
+                S:false,
+                F:false,
+                selectLength:'',
             }
+        },
+        created(){
+            this.control=JSON.parse(localStorage.getItem('control'));
+            var arr = [];
+            if(this.control.length!=0){
+                for(var i=0;i<this.control.length;i++){
+                    //查询广告结算付款收益
+                    if(this.control[i].uri_key=='uri.settlement.pay.serach'){
+                        arr.push(1)
+                        this.F = true;
+                    }
+                    //查询广告结算收款收益
+                    if(this.control[i].uri_key=='uri.settlement.receive.serach'){
+                        arr.push(2)
+                        this.S = true;
+                    }
+                }
+            }
+            this.selectLength = arr.length;
         },
         mounted(){
                 if(this.$route.query.name){
@@ -255,6 +307,13 @@
                     this.search=this.$route.query.name;
                     this.name=this.$route.query.name;
                     this.is_receiver=this.$route.query.is_receiver;
+                    if(this.$route.query.is_receiver==1){
+                        this.projects=this.$route.query.projects.split(',')
+                    }else{
+                        this.channels=this.$route.query.channels.split(',');
+                    }
+                    
+                    
                 }else{
                     var qt = (new Date((new Date()).getTime() - 1*24*60*60*1000)).toLocaleDateString().split('/');
                     if(Number(qt[1])<10){
@@ -267,22 +326,37 @@
                     }
                     this.value=[qt.join('-'),next.join('-')];
                 }
-                this.getDataList();
-                this.getqd();
+                // this.getDataList();
+                this.getDlist()
+                if(this.is_receiver==1){
+                    this.getObject()
+                }
+                if(this.is_receiver==0){
+                    this.getqd();
+                }
+               
+                
+
+                
         },
         methods:{
             change(value){
+                // console.log(value)
                 this.name=''
-                this.channel=''
-                this.project=''
+                this.channels=[]
+                this.projects=[]
                 this.search=''
-                this.getDataList();
+                 if(this.is_receiver==1){
+                    this.getObject();
+                    this.getDataList();
+                }
+                if(this.is_receiver==0){
+                    this.getqd();
+                    this.getDataList(3);
+                }
+                // this.getDataList();
             },
             getObject(){
-                if(!this.name){
-                    this.$message.error('结算方不能为空')
-                    return
-                }
                 let params={balance_name:this.name}
                 this.api.adproject_listpage({params}).then((res)=>{
                     this.JSlist=res.data
@@ -307,86 +381,154 @@
                 this.getDataList()
             },
             getqd(){
-                this.api.settle_data_ssp_channel().then((res)=>{
+                let params={settlement:this.name}
+                this.api.settle_data_ssp_channel_interaction({params}).then((res)=>{
                     this.channelData=res;
                 })
             },
             
              downloadImg(){
-                var url = '/settle/data/export'+'?is_receiver='+this.is_receiver+'&name='+this.name+'&search='+this.search+'&channel='+this.channel+'&tstart='+this.value[0]+'&tend='+this.value[1];
+                var url = '/settle/data/export'+'?is_receiver='+this.is_receiver+'&name='+this.name+'&search='+this.search+'&channel='+this.channel+'&tstart='+this.value[0]+'&tend='+this.value[1]+'&projects='+this.projects.join(',')+'&disjunctions='+JSON.stringify(this.disjunctions);
                 download.downloadImg(url);
             },
-            getName(){     
-                if(this.name!=''){
-                    this.show=true;
-                    this.JSname=[];
-                     let params={is_receiver:this.is_receiver,search:this.name,p:100,page:1}
-                        this.api.settle_settlement_search({params}).then((res)=>{
-                            if(res.data.length == '0'){
-                                this.show = false
-                            }else{
-                                this.JSname=res.data;
-                            }
-                            
-                })
-                }
-               
-            },
-            setName(da){
-                this.name=da;
-                this.show=false;
-                this.getObject()
-            },
             getDataList(num){
+                for(var i=0;i<this.channels.length;i++){
+                    var arr={};
+                    arr.channel=this.channels[i].split('-')[0];
+                    arr.interaction=this.channels[i].split('-')[1];
+                    this.disjunctions.push(arr)
+                }
                 if(num!=undefined){
                     this.page=num;
-                         var params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:num,search:this.search,is_receiver:this.is_receiver,name:this.name,channel:this.channel,project:this.project} 
+                         var params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:num,search:this.search,is_receiver:this.is_receiver,name:this.name,disjunctions:JSON.stringify(this.disjunctions),projects:this.projects.join(',')} 
+                }else if(num == 3){
+                        params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,search:this.search,is_receiver:this.is_receiver,name:this.name,disjunctions:JSON.stringify(this.disjunctions),projects:this.projects.join(',')}
+
                 }else{
-                        params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,search:this.search,is_receiver:this.is_receiver,name:this.name,channel:this.channel,project:this.project}
+                       params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,search:this.search,is_receiver:this.is_receiver,name:this.name,disjunctions:JSON.stringify(this.disjunctions),projects:this.projects.join(',')}
+                }
+                if(num == 3){
+                    this.api.settle_data_search_pay({params}).then((res)=>{
+                        this.tableData=res.data;
+
+                        // var a1=0;
+                        // var a2=0;
+                        // var a4=0;
+                        // for(var i=0;i<res.data.length;i++){
+                        //     a1+=parseFloat(res.data[i].pv);
+                        //     a2+=parseFloat(res.data[i].click);
+                        //     a4+=parseFloat(res.data[i].income);
+
+                        var a1= 0;
+                        var a2= 0;
+                        var a4= 0;
+                        var a3 =0;
+                        var a5= 0;
+                        for(var i=0;i<this.tableData.length;i++){
+                            a1 += parseInt(res.data[i].pv);
+                            a2 += parseInt(res.data[i].click);
+                            a3 += parseInt(res.data[i].download);
+                            a4 += parseFloat(res.data[i].income);
+                            a5 += parseInt(res.data[i].download_feedback)
+                            this.tableData[i].income = parseFloat(this.tableData[i].income / 100).toFixed(2);
+                        }
+                        this.exhibition1 = parseInt(a1);
+                        this.exhibition2 = parseInt(a2);
+                        
+                        var sratio = 0;
+                        if(this.exhibition1 > 0){
+                            sratio =  parseFloat(this.exhibition2 / this.exhibition1 * 100).toFixed(2);
+
+                        }
+                        this.exhibition5=a3;
+                        this.exhibition6=a5;
+                        this.click_ratio = sratio.toString() +'%';
+                        this.exhibition4 = parseFloat(a4 / 100 ).toFixed(2);
+                        this.total = res.total;
+                    })
+
+                }else{
+                    this.api.settle_data_search({params}).then((res)=>{
+                        this.tableData=res.data;
+
+                        // var a1=0;
+                        // var a2=0;
+                        // var a4=0;
+                        // for(var i=0;i<res.data.length;i++){
+                        //     a1+=parseFloat(res.data[i].pv);
+                        //     a2+=parseFloat(res.data[i].click);
+                        //     a4+=parseFloat(res.data[i].income);
+
+                        var a1= 0;
+                        var a2= 0;
+                        var a4= 0;
+                        var a3 =0;
+                        var a5= 0;
+                        for(var i=0;i<this.tableData.length;i++){
+                            a1 += parseInt(res.data[i].pv);
+                            a2 += parseInt(res.data[i].click);
+                            a3 += parseInt(res.data[i].download);
+                            a4 += parseFloat(res.data[i].income);
+                            a5 += parseInt(res.data[i].download_feedback)
+                            this.tableData[i].income = parseFloat(this.tableData[i].income / 100).toFixed(2);
+                        }
+                        this.exhibition1 = parseInt(a1);
+                        this.exhibition2 = parseInt(a2);
+                        
+                        var sratio = 0;
+                        if(this.exhibition1 > 0){
+                            sratio =  parseFloat(this.exhibition2 / this.exhibition1 * 100).toFixed(2);
+
+                        }
+                        this.exhibition5=a3;
+                        this.exhibition6=a5;
+                        this.click_ratio = sratio.toString() +'%';
+                        this.exhibition4 = parseFloat(a4 / 100 ).toFixed(2);
+                        this.total = res.total;
+                    })
 
                 }
                 
-                this.api.settle_data_search({params}).then((res)=>{
-                    this.tableData=res.data;
-
-                    // var a1=0;
-                    // var a2=0;
-                    // var a4=0;
-                    // for(var i=0;i<res.data.length;i++){
-                    //     a1+=parseFloat(res.data[i].pv);
-                    //     a2+=parseFloat(res.data[i].click);
-                    //     a4+=parseFloat(res.data[i].income);
-
-                    var a1= 0;
-                    var a2= 0;
-                    var a4= 0;
-                    var a3 =0;
-                    var a5= 0;
-                    for(var i=0;i<this.tableData.length;i++){
-                        a1 += parseInt(res.data[i].pv);
-                        a2 += parseInt(res.data[i].click);
-                        a3 += parseInt(res.data[i].download);
-                        a4 += parseFloat(res.data[i].income);
-                        a5 += parseInt(res.data[i].download_feedback)
-                        this.tableData[i].income = parseFloat(this.tableData[i].income / 100).toFixed(2);
-                    }
-                    this.exhibition1 = parseInt(a1);
-                    this.exhibition2 = parseInt(a2);
-                    
-                    var sratio = 0;
-                    if(this.exhibition1 > 0){
-                        sratio =  parseFloat(this.exhibition2 / this.exhibition1 * 100).toFixed(2);
-
-                    }
-                    this.exhibition5=a3;
-                    this.exhibition6=a5;
-                    this.click_ratio = sratio.toString() +'%';
-                    this.exhibition4 = parseFloat(a4 / 100 ).toFixed(2);
-                    this.total = res.total;
-                })
+                
             },
+            getDlist(){
+                    let params={is_receiver:this.is_receiver}
+                    this.api.settle_settlement_list({params}).then((res)=>{
+                        this.restaurants=res;
+                         this.JSname=res
+                    })
+                },
+                 querySearch(queryString, cb) {
+                    for(var i =0;i<this.JSname.length;i++){
+                        this.JSname[i].value=this.JSname[i].name
+                       
+                    }
+                    var results = queryString ? this.JSname.filter(this.createFilter(queryString)) : this.JSname;
+                    cb(results);
+                },
+                createFilter(queryString) {
+                    return (JSname) => {
+                    return (JSname.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+                    };
+                    
+                },
+                 handleSelect(item) {
+                  this.balance_id=item.id
+                },
            
         },
+        watch:{
+            name:function(){
+                   if(this.is_receiver==1){
+                    this.getObject()
+                    this.projects=[]
+                }
+                if(this.is_receiver==0){
+                    this.getqd();
+                    this.channels=[]
+                }
+            }
+        }
     }
 </script>
 
@@ -399,6 +541,7 @@
         left: 256px;
         top: 64px;
         z-index: 99;
+        
     }
     .content_table{
         margin-top:200px;
@@ -410,7 +553,7 @@
         font-family:PingFang-SC-Medium;
         font-weight:500;
         color:rgba(31,46,77,1);
-        margin: 0 24px 0 44px;
+        margin: 0 14px 0 24px;
     }
     select{
         width:150px;
@@ -489,7 +632,7 @@
         font-weight:bold;
         line-height:48px;
         font-family:PingFang-SC-Regular;
-        width: 8.5%;
+        width: 10%;
         padding-left: 24px;
     }
     .summary2 span{
@@ -500,7 +643,7 @@
         font-weight:bold;
         line-height:48px;
         font-family:PingFang-SC-Regular;
-        width: 10.1%;
+        width: 12.5%;
        padding-left: 16px;
 
     }
@@ -524,5 +667,8 @@
         height: 36px;
         line-height: 36px;
         border-bottom:1px solid #eee 
+    }
+    .elSelect{
+        width: 350px;
     }
 </style>

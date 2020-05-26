@@ -77,13 +77,13 @@
                                     <span  class="text" style="overflow: hidden;width: 200px;height: 20px;line-height: 28px">{{this.attach.name}}</span>
                                 </el-tooltip>
                             </div>
-                            <img src="../../../public/img/msg.png" @click="showHint" style="vertical-align: top"/>
+                            <img src="../../../public/img/msg.png" @click="showHint" style="vertical-align: top!important"/>
                             <div class="progress" style="width: 100px;height: 5px;opacity: 0.5;display: inline-block " v-if="initiate" >
                                 <div class="strip" :style="{width:aaa+'%'}" style="background: blue;height: 5px"></div>
                                 <div style="text-align: center;font-size: 10px">当前附件上传{{aaa}}%</div>
                             </div>
                             <input type="checkbox" class="AddIMG_sc_cjeckbox" v-model="chenck" v-if="this.types!='f_sls_lockscreen'&&this.types!='f_call_show'" @click="checkSelect()"/><span v-if="this.types!='f_sls_lockscreen'&&this.types!='f_call_show'" style="vertical-align: top">仅图片</span>
-                            <span class="content_xz" @click="dels()" v-if="attach.name!=undefined">删除</span>
+                            <span class="content_xz" @click="dels()" v-if="attach.name!=undefined" style="margin-left: 60px;">删除</span>
                             <div class="upChenck" v-if="this.types!='f_sls_lockscreen'&&this.types!='f_call_show'">
                                 <p>勾选后可直接上传图片、且无需再次上传预览图</p>
                             </div>
@@ -220,6 +220,13 @@
                                 <option value="脚本" selected>脚本</option>
                             </select>
                         </div>
+                        <div class="box_sel" v-if="this.types=='f_sls_lockscreen'">
+                            <span class="tit">制作类型:</span>
+                            <select v-model="pro_type">
+                                <option value="1" selected>高定</option>
+                                <option value="0" selected>微定</option>
+                            </select>
+                        </div>
                          <div class="box_sel" v-if="this.types=='f_sls_picture'">
                             <span class="tit">资源类型:</span>
                             <select v-model="model">
@@ -320,6 +327,7 @@
                 tagsName:'',
                 chenck:false,
                 model:'',
+                pro_type:0,
                 link:'',
                 aaa:0,
                 bbb:0,
@@ -461,8 +469,6 @@
                     if(res.wpid==''){
                         this.$message.error('您上传的非壁纸压缩包，请重新上传')
                         return
-                    }else{
-                        this.attach.wpid = res.wpid;
                     }
                     var image = new Image();
                     var _this=this;
@@ -711,6 +717,7 @@
                 }else{
                     this.size=this.sjSize
                 }
+                this.attach.pro_type = this.pro_type;
                 let formData = new FormData;
                 formData.append('name',this.name);
                 formData.append('open_id',this.open_id)
@@ -829,6 +836,7 @@
                         }else{
                             this.size=this.sjSize
                         }
+                        this.attach.pro_type = this.pro_type;
                         let formData = new FormData;
                         formData.append('type',this.type);
                         formData.append('ispic',(this.chenck==true?1:0));
@@ -855,7 +863,7 @@
                         }else{
                             this.size=this.sjSize
                         }
-                       
+                        this.attach.pro_type = this.pro_type;
                         let formData = new FormData;
                         formData.append('type',this.type);
                         formData.append('name',this.name);
@@ -945,6 +953,7 @@
                             image.src= res.prev_uri;
                     }
                     this.attach = res.attach;
+                    this.pro_type = this.attach.pro_type;
                     if(res.attach.wpid==undefined){
                         this.attach.wpid=res.wpid
                     }

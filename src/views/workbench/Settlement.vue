@@ -45,9 +45,14 @@
 
                 </div>
                  <div v-if="is_receiver==0">
-                    <span class="fillName">渠道</span>
+                    <span class="fillName">结算渠道-场景</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
-                        <span  class="text">{{list.check.check1.bind_channel_name}}</span>
+                         <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                                    <div slot="content">
+                                       <span>{{list.check.check1.bind_channel_name}}</span>
+                                    </div>
+                                    <span  class="text">{{list.check.check1.bind_channel_name}}</span>
+                        </el-tooltip>
                     </div>
 
                 </div>
@@ -302,7 +307,7 @@
     }
     .fillName{
         display: inline-block;
-        width:84px;
+        width:100px;
         height:20px;
         font-size:14px;
         font-family:PingFang-SC-Medium,PingFang-SC;
@@ -318,6 +323,9 @@
         font-weight:400;
         color:rgba(109,119,139,1);
         text-align: left;
+        max-width: 100%;
+        height: 25px;
+        overflow: hidden;
     }
     .fj{display: inline-block;
         font-size:14px;

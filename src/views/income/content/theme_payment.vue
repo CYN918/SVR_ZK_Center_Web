@@ -68,11 +68,14 @@
                  </div>
            </div>
         </div>
+        <load v-if="load"></load>
    </div>
 </template>
 
 <script>
+import load from '../../../components/loading'
 export default {
+    components:{load},
     props:['type'],
             data(){
                 return{
@@ -80,7 +83,8 @@ export default {
                     p:10,
                     page:1,
                     total:0,
-                    tableData:[{time:2020}]
+                    tableData:[{time:2020}],
+                    load:true
                 }
             },
             mounted(){
@@ -115,10 +119,12 @@ export default {
                     })
                 },
                 listData(){
+                    this.load=true
                     let params={type:this.type,p:this.p,page:this.page,tdate_start:this.tdate[0],tdate_end:this.tdate[1],is_confirmed:'1'}
                     this.api.sharing_data_income_summary({params}).then((res)=>{
                          this.total=res.total;
-                         this.tableData=res.data;   
+                         this.tableData=res.data;  
+                         this.load=false 
                     })
                 },
                 xq(tdate,num){
@@ -143,7 +149,7 @@ export default {
         display: inline-block;
         font-size:20px;
         font-family:PingFang-SC-Medium;
-        font-weight:500;
+        font-weight:bold;
         color:rgba(50,50,50,1);
         margin-left: 24px;
         text-align: right;

@@ -125,13 +125,15 @@
             this.getList();
         },
         methods:{
-            YCset(){this.$parent.heidWL();},
+            YCset(){
+                this.$parent.heidWL();
+            },
             messageID(){
                 this.$emit('listenToChildEvent',this.checked,this.date,true);
                 // this.$parent.heidWL();
             },
             getList(){
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag.concat(this.listTagData)),status:this.status}
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),status:this.status}
                 this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     console.log(this.IMGList);
@@ -348,7 +350,7 @@
     .boxImg{
         display: inline-block;
         width:408px;
-        height:141px;
+        height:200px;
         background:rgba(245,247,250,1);
         border-radius:4px;
         border:1px solid rgba(51,119,255,1);

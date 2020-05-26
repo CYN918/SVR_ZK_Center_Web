@@ -40,7 +40,12 @@
                 <span class="titCon">{{tableData.version}}</span>
                 <span class="titName">内容特征:</span>
                 <div class='tag'>
-                    <span v-for="item in feature_category" class="tagName" v-if="item!=''">{{item}}</span>
+                    <el-tooltip class="item" effect="dark"  placement="top">
+                        <div slot="content">
+                            <span v-for="item in feature_category" class="tagName" v-if="item!=''">{{item}}</span>
+                        </div>
+                        <span class="tagName">...</span>
+                    </el-tooltip>
                 </div>
                 <!-- <el-tooltip class="item" effect="dark" placement="right-start">
                     <div slot="content" class="text">
@@ -106,7 +111,12 @@
                 <span class="titCon">￥{{tableData.price}}</span>
                 <span class="titName" style="width: 32px;margin-right: 10px">标签:</span>
                 <div class="tag">
-                    <span v-for="item in tags" class="tagName" v-if="item!=''">{{item}}</span>
+                     <el-tooltip class="item" effect="dark"  placement="top">
+                        <div slot="content">
+                           <span v-for="item in tags" class="tagName" v-if="item!=''">{{item}}</span>
+                        </div>
+                        <span class="tagName">...</span>
+                    </el-tooltip>
                 </div>
             </div>
             <div>
@@ -353,7 +363,7 @@
                         thmid:id,
                     },
                 })
-                window.open(Logistics.href);
+                window.open(encodeURI(Logistics.href));
             },
             selectBB(data){
                 this.indexs=data;
@@ -599,11 +609,9 @@
         display: inline-block;
         max-width: 300px;
         height: 32px;
-        overflow: -moz-scrollbars-none;
-        -ms-overflow-style: none;
-        overflow-y: scroll;
+     
     }
-    .tag::-webkit-scrollbar { width: 0 !important }
+
     .tagADD{
         display: inline-block;
         width:46px;

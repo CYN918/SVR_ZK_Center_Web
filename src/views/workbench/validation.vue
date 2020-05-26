@@ -54,7 +54,7 @@
                     </div>
                 </div>
                  <div v-if="is_receiver==0">
-                    <span class="fillName">渠道</span>
+                    <span class="fillName">结算渠道-场景</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
                        <!-- <el-select v-model="channels" multiple placeholder="请选择" class="elSelect" >
                                 <el-option
@@ -146,8 +146,18 @@
 
                 </div>
                 <div class="fillBtn">
-                    <span class="tj" @click="setData()">确认提交</span>
+                    <span class="tj" @click="dialogVisible = true">确认提交</span>
                     <span @click="fh()" style="margin-right: 330px">取消</span>
+                </div>
+            </div>
+        </div>
+        <div class='bg' v-if="dialogVisible">
+            <div class='upBox' style="padding-top:0px;min-height: 250px;">
+                <div style="text-align: left;border-bottom: 1px solid #ddd;height:45px;line-height:45px;padding-left:15px;font-size: 14px;color: rgba(31,46,77,1);font-weight: 500;">确认提交</div>
+                <div class="uplaod" style="width:50%;padding-left:24px;padding-top: 40px;">确认数据无误并提交？</div>
+                <div class="fillBtn" style="padding-top: 40px;">
+                    <span class="tj" @click="setData()" style="margin:14px 24px 0 24px;">确认</span>
+                    <span @click="dialogVisible = false" >取消</span>
                 </div>
             </div>
         </div>
@@ -221,7 +231,9 @@ import pro from '../income/projection'
                 bind_projects_name:"",
                 bind_channel_name:"",
                 functionality:[],
-                heid:true
+                heid:true,
+                disjunctions:[],
+                dialogVisible: false
             }
         },
         mounted(){
@@ -262,6 +274,13 @@ import pro from '../income/projection'
             this.getList();
         },
         methods:{
+            handleClose(done) {
+                this.$confirm('确认关闭？')
+                .then(_ => {
+                    done();
+                })
+                .catch(_ => {});
+            },
             jump(){
                 this.$router.push({
                     path:"./Administration"
@@ -325,11 +344,19 @@ import pro from '../income/projection'
                 })
             },
            getsettle(){
+              
                if(this.is_receiver==1){
                    var params={is_receiver:this.is_receiver,name:this.name,tstart:this.time[0],tend:this.time[1],projects:this.bind_projects_name};
                }
                if(this.is_receiver==0){
-                    params={is_receiver:this.is_receiver,name:this.name,tstart:this.time[0],tend:this.time[1],channels:this.bind_channel_name};
+                    let aaa=this.bind_channel_name.split(',');
+                    for(var i=0;i<aaa.length;i++){
+                        let arr={};
+                         arr.channel=aaa[i].split('-')[0];
+                        arr.interaction=aaa[i].split('-')[1];
+                        this.disjunctions.push(arr)
+                    }
+                    params={is_receiver:this.is_receiver,name:this.name,tstart:this.time[0],tend:this.time[1],disjunctions:JSON.stringify(this.disjunctions)};
                }
                this.api.settle_data_estimate_amount({params}).then((res)=>{
                    if(res.amount==0){
@@ -346,7 +373,7 @@ import pro from '../income/projection'
             getData(){
              
                 let params={is_receiver:this.is_receiver};
-                this.api.settle_settlement({params}).then((res)=>{
+                this.api.settle_settlement_list({params}).then((res)=>{
                     this.list=res;
                 })
             },
@@ -425,6 +452,7 @@ import pro from '../income/projection'
                 this.api.demand_settle_audit(formData).then((res)=>{
                     if(res!=false){
                         this.upList=false;
+                        this.dialogVisible = false;
                         this.fh();
                     }
                 })

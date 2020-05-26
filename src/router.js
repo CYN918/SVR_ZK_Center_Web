@@ -217,10 +217,53 @@ import Advance_management from './views/income/content/Advance_management'
 mode["Advance_management"]=Advance_management
 import Advance_details from './views/income/content/Advance_details'
 mode['Advance_details']=Advance_details
+
 import withdrawal_details from './views/income/content/withdrawal_details'
 mode['withdrawal_details']=withdrawal_details
 import userDetails from './views/income/content/user_details'
 mode['userDetails']=userDetails
+
+
+import payee from './views/income/content/payee'
+mode['payee']=payee
+import payee_details from './views/income/content/payee_details'
+mode['payee_details']=payee_details
+import import_data from './views/income/content/import_data'
+mode['import_data']=import_data
+import  Material_payment from './views/income/content/Material_payment'
+mode['Material_payment']=Material_payment
+import money_detail from './views/income/content/money_details'
+mode['money_detail']=money_detail
+import money_details_divide from './views/income/content/money_details_divide'
+mode['money_details_divide']=money_details_divide
+import Divided_into_management from './views/income/content/Divided_into_management'
+mode['Divided_into_management']=Divided_into_management
+import Divided_into_management_details from './views/income/content/Divided_into_management_details'
+mode['Divided_into_management_details']=Divided_into_management_details
+import price from './views/income/content/price'
+mode['price']=price
+import AmendantRecord from './views/income/content/AmendantRecord'
+mode['AmendantRecord']=AmendantRecord
+import AmendantRecordDetails from './views/income/content/AmendantRecordDetails'
+mode['AmendantRecordDetails']=AmendantRecordDetails
+import data_manage from './views/income/content/data_manage'
+mode['data_manage']=data_manage
+import cz_record from './views/income/content/cz_record'
+mode['cz_record']=cz_record
+import Designer_settlement from './views/income/content/Designer_settlement'
+mode['Designer_settlement']=Designer_settlement
+import Designer_ADD from './views/income/content/Designer_ADD'
+mode['Designer_ADD']=Designer_ADD
+import Designer_record from './views/income/content/Designer_record'
+mode['Designer_record']=Designer_record
+import look_details from './views/income/content/look_details'
+mode['look_details']=look_details
+import theme_payee from './views/income/content/theme_payee'
+mode['theme_payee']=theme_payee
+import callShow_payee from './views/income/content/callShow_payee'
+mode['callShow_payee']=callShow_payee
+import Operation_details from './views/income/content/Operation_details'
+mode['Operation_details']=Operation_details
 
 
 
@@ -331,6 +374,10 @@ mode['news_add']=news_add
 // mode['Push_account']=Push_account
 import Audio_configuration_management from './views/workbench/Audio_configuration_management'
 mode['Audio_configuration_management']=Audio_configuration_management
+import work_Divided_details from './views/workbench/work_Divided_details'
+mode['work_Divided_details']=work_Divided_details
+import work_Divided_details_money from './views/workbench/work_Divided_details_money'
+mode['work_Divided_details_money']=work_Divided_details_money
 
 
 import axios from 'axios'
@@ -549,6 +596,9 @@ let nb = [
             // {path:'/workbench/Push_the_management',name:'杂志锁屏推送管理',component: mode['Push_the_management'],},
             // {path:'/workbench/Push_account',name:'账号管理',component: mode['Push_account'],},
             {path:'/workbench/Audio_configuration_management',name:'内部音频配置管理',component: mode['Audio_configuration_management'],},
+            {path:'/workbench/work_Divided_details',name:'分成详情',component: mode['work_Divided_details'],},
+            {path:'/workbench/work_Divided_details_money',name:'分成详情金额',component: mode['work_Divided_details_money'],},
+           
             
             
            
@@ -630,6 +680,28 @@ let nb = [
             {path:'/income/content/withdrawal_details',name:'提现申请详情',component:mode['withdrawal_details']},
             {path:'/income/content/userDetails',name:'用户申请详情',component:mode['userDetails']},
             
+
+            {path:'/income/content/payee',name:'收款',component:mode['payee']},
+            {path:'/income/content/payee_details',name:'收款详情',component:mode['payee_details']},
+            {path:'/income/content/import_data',name:'收款导入',component:mode['import_data']},
+            {path:'/income/content/Material_payment',name:'素材付款',component:mode['Material_payment']},
+            {path:'/income/content/money_detail',name:'金额详情',component:mode['money_detail']},
+            {path:'/income/content/money_details_divide',name:'分成金额详情',component:mode['money_details_divide']},
+            {path:'/income/content/Divided_into_management',name:'分成管理',component:mode['Divided_into_management']},
+            {path:'/income/content/Divided_into_management_details',name:'分成详情',component:mode['Divided_into_management_details']},
+            {path:'/income/content/price',name:'价格管理',component:mode['price']},
+            {path:'/income/content/AmendantRecord',name:'修改记录',component:mode['AmendantRecord']},
+            {path:'/income/content/AmendantRecordDetails',name:'修改记录详情',component:mode['AmendantRecordDetails']},
+            {path:'/income/content/data_manage',name:'数据管理',component:mode['data_manage']},
+            {path:'/income/content/cz_record',name:'操作记录',component:mode['cz_record']},
+            {path:'/income/content/Designer_settlement',name:'设计师结算',component:mode['Designer_settlement']},
+            {path:'/income/content/Designer_ADD',name:'设计师结算',component:mode['Designer_ADD']},
+            {path:'/income/content/Designer_record',name:'操作记录',component:mode['Designer_record']},
+            {path:'/income/content/Operation_details',name:'操作记录详情',component:mode['Operation_details']},
+            {path:'/income/content/look_details',name:'查看详情',component:mode['look_details']},
+            {path:'/income/content/theme_payee',name:'主题收款',component:mode['theme_payee']},
+            {path:'/income/content/callShow_payee',name:'来电秀收款',component:mode['callShow_payee']},
+
 
 
         ]},
@@ -768,11 +840,11 @@ localStorage.getItem('letNav');
 //             {title:'消息通知', url:'/userinfo/message'},
 //                 ]},
 // 			{title:'账号权限',url:'1-2',img:'&#xe619;',list:[
-// 			{title:'我的权限',url:'/userinfo/MyPerm'},
+// 			   {title:'我的权限',url:'/userinfo/MyPerm'},
 //             {title:'账号管理',url:'/userinfo/account'},
 //             {title:'角色管理',url:'/userinfo/roleManagement'},
 //             {title:'账号审核',url:'/userinfo/AccounAudit'},
-// 			{title:'流程管理',url:'/userinfo/Process'},
+// 			   {title:'流程管理',url:'/userinfo/Process'},
 //                 ]},
 // 			{title:'意见反馈',url:"1-3",img:'&#xe618;',list:[
 // 			{title:'意见反馈',url:'/userinfo/feedback'}
@@ -806,11 +878,15 @@ localStorage.getItem('letNav');
 //                 {title:"内容业务",url:"3-2",list:[
 //                     {title:'预付金管理',url:'/income/content/Advance_management'},
 //                     {title:'主题付款',url:'/income/content/theme_fk'},
+//                     {title:'主题收款',url:'/income/content/theme_payee'},
+//                     {title:'来电秀收款',url:'/income/content/callShow_payee'},
 //                     {title:'来电秀付款',url:'/income/content/call_show'},
 //                     {title:'其他付款',url:'/income/content/Other_payment'},
-//                     {title:'狮圈儿提现记录',url:'/income/content/Withdrawal_record'},
 
-                   
+//                     {title:'狮圈儿提现记录',url:'/income/content/Withdrawal_record'},                   
+//                     {title:'素材付款',url:'/income/content/Material_payment'},
+//                     {title:'杂志锁屏付款',url:'/income/content/Material_payment'},
+//                     {title:'设计师结算',url:'/income/content/Designer_settlement'},                 
 //                 ]}
 //             ]
 //         },

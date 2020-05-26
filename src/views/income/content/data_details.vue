@@ -144,11 +144,14 @@
                  </div>
            </div>
         </div>
+        <load v-if="load"></load>
    </div>
 </template>
 
 <script>
+import load from '../../../components/loading'
 export default {
+     components:{load},
             data(){
                 return{
                     p:10,
@@ -163,6 +166,7 @@ export default {
                     restaurants: [],
                     state1:"",
                     id:"",
+                    load:true
 
                 }
             },
@@ -214,12 +218,14 @@ export default {
                     })
                 },
                 getDataList(){
+                    this.load=true
                     if(this.num==1){
                         let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.open_id,account_name:this.account_name,project_id:this.project_id,p:this.p,page:this.page,is_confirmed:'1'} 
                         this.api.ds_buyout_income_detail({params}).then((res)=>{
                             this.total=res.total;
                             this.tableData=res.data;
                             this.getData();
+                            this.load=false
                        })
                     }
                     if(this.num==2){
@@ -228,6 +234,7 @@ export default {
                             this.total=res.total;
                             this.tableData=res.data;
                             this.getData();
+                            this.load=false
                         })
                     }
                     
@@ -235,8 +242,6 @@ export default {
                 getData(){
                     this.api.designer_settlement_list().then((res)=>{
                         this.restaurants=res;
-
-
                     })
                 },
                 data(index){
@@ -286,7 +291,7 @@ export default {
         display: inline-block;
         font-size:20px;
         font-family:PingFang-SC-Medium;
-        font-weight:500;
+        font-weight:bold;
         color:rgba(50,50,50,1);
         margin-left: 24px;
         text-align: right;

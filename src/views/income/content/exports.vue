@@ -125,8 +125,8 @@
 
                     </select>
                      <div class="btn_right">
-                                <span class='cx' >查询</span>
-                                <span >重置</span>
+                            <span class='cx' @click='getData()'>查询</span>
+                            <span @click='reset()'>重置</span>
                     </div> 
                 </div>
                 <div>
@@ -266,6 +266,11 @@ export default {
                         return ''
                     }
                 },
+                 reset(){
+                   this.channel=''
+                   this.theme_name=''
+                   this.statu_msg=''
+               },
                 cell({row, column, rowIndex, columnIndex}){
                     return 'padding:15px 14px;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
                 },

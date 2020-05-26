@@ -330,7 +330,7 @@
     .boxName span{
         display: inline-block;
         margin-left: 10px;
-        line-height: 34px;
+        /* line-height: 34px; */
         font-size:12px;
         font-family:PingFangSC;
         font-weight:400;
@@ -342,6 +342,7 @@
         background: #fff;
         padding:0 3% ;
         overflow:hidden ;
+        box-sizing: initial;
 
     }
     .addTags{
