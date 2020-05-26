@@ -20,10 +20,11 @@
                         value-format="yyyy-MM"
                         end-placeholder="结束月份">
                     </el-date-picker>
-                    <span style="margin:0 16px 0 24px">渠道</span>
-                    <select name="" id="">
+                    <span style="margin:0 16px 0 24px">渠道ID</span>
+                    <input type="text" v-model="channel" placeholder="请输入">
+                    <!-- <select name="" id="">
                         <option value="">全部</option>
-                    </select>
+                    </select> -->
                 </div>
                 <div class="btn_right">
                     <span class='cx' @click='getDataList()'>查询</span>
@@ -129,7 +130,8 @@ export default {
                     total:0,
                     tableData:[{time:2020}],
                     is_confirmed:"",
-                    boxsSize:false
+                    boxsSize:false,
+                    channel:""
                 }
             },
             mounted(){
@@ -169,7 +171,7 @@ export default {
                 },
                 getDataList(){
                     let params={type:this.$route.query.type,p:this.p,page:this.page,is_confirmed:this.is_confirmed,tdate:this.tdate}
-                    this.api.sharing_data_income_period({params}).then((res)=>{
+                    this.api.ds_income_lock_screen_list({params}).then((res)=>{
                         this.total=res.total;
                         this.tableData=res.data; 
                     })
