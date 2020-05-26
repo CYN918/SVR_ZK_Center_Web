@@ -102,11 +102,16 @@
                         </el-table-column>
                         <el-table-column
                                 label="银行账号" prop="bank_card_id"
+                                :show-overflow-tooltip="true"
                         >
                         </el-table-column>
                         <el-table-column
-                                label="身份证号码" prop="id_card"
+                                label="证件号码" prop="id_card"
+                                :show-overflow-tooltip="true"
                         >
+                            <template slot-scope="scope">
+                                <span>{{tableData[scope.$index].contributor_type=='个人'?tableData[scope.$index].id_card:tableData[scope.$index].code}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                                 label="状态" prop="check_status_name"
