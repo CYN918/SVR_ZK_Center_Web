@@ -153,7 +153,11 @@ export default {
                 },
                 sj(){
                     this.$router.push({
-                        path:"./data_manage"
+                        path:"./data_manage",
+                         query:{
+                            type:3,
+                            
+                        }
                     })
                 },
             },

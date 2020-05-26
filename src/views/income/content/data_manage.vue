@@ -1,9 +1,9 @@
 <template>
    <div>
         <div class="top_name">
-            <span class="top_txt" @click='fh(-1)'>素材付款&nbsp;/</span>
-            <span class="top_txt" @click='fh(-1)'>&nbsp;分成管理&nbsp;/</span>
-            <span class="top_txt" @click='fh(-1)'>数据管理</span>
+            <span class="top_txt" @click='fh(-2)'>杂志锁屏付款&nbsp;/</span>
+            <span class="top_txt" style="margin-left:0" @click='fh(-1)'>&nbsp;分成管理&nbsp;/</span>
+            <span class="top_txt" style="margin-left:0">数据管理</span>
             <div class="title_left">
                 <span>数据管理</span>
             </div>
@@ -133,7 +133,7 @@ export default {
                 }
             },
             mounted(){
-                // this.getDataList()
+                this.getDataList()
             },
             methods:{
                  fh(index){
@@ -168,11 +168,11 @@ export default {
                     this.boxsSize=false
                 },
                 getDataList(){
-                    // let params={type:this.$route.query.type,p:this.p,page:this.page,is_confirmed:this.is_confirmed,tdate:this.tdate}
-                    // this.api.sharing_data_income_period({params}).then((res)=>{
-                    //     this.total=res.total;
-                    //     this.tableData=res.data; 
-                    // })
+                    let params={type:this.$route.query.type,p:this.p,page:this.page,is_confirmed:this.is_confirmed,tdate:this.tdate}
+                    this.api.sharing_data_income_period({params}).then((res)=>{
+                        this.total=res.total;
+                        this.tableData=res.data; 
+                    })
                 },
                 czRecord(){
                     this.$router.push({

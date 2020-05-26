@@ -1833,4 +1833,8 @@ export default {
 	analysis_config_sharing_operate_logs_detail:{
 		url:"analysis/config/sharing/operate_logs/detail",method:'get'
 	},
+	//分成收益详细数据列表
+	ds_income_lock_screen_list:{
+		url:"ds/income/lock_screen/list",method:"get"
+	},
 }

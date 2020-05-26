@@ -211,22 +211,22 @@ export default {
                     })
                 },
                 getDataList(){
-                    // if(this.num==1){
-                    //     let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.open_id,account_name:this.account_name,project_id:this.project_id,p:this.p,page:this.page,is_confirmed:'1'} 
-                    //     this.api.ds_buyout_income_detail({params}).then((res)=>{
-                    //         this.total=res.total;
-                    //         this.tableData=res.data;
-                    //         this.getData();
-                    //    })
-                    // }
-                    // if(this.num==2){
-                    //     let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.open_id,account_name:this.account_name,p:this.p,page:this.page,is_confirmed:'1'}
-                    //     this.api.sharing_data_income_designer({params}).then((res)=>{
-                    //         this.total=res.total;
-                    //         this.tableData=res.data;
-                    //         this.getData();
-                    //     })
-                    // }
+                    if(this.num==1){
+                        let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.open_id,account_name:this.account_name,project_id:this.project_id,p:this.p,page:this.page,is_confirmed:'1'} 
+                        this.api.ds_buyout_income_detail({params}).then((res)=>{
+                            this.total=res.total;
+                            this.tableData=res.data;
+                            this.getData();
+                       })
+                    }
+                    if(this.num==2){
+                        let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.open_id,account_name:this.account_name,p:this.p,page:this.page,is_confirmed:'1'}
+                        this.api.sharing_data_income_designer({params}).then((res)=>{
+                            this.total=res.total;
+                            this.tableData=res.data;
+                            this.getData();
+                        })
+                    }
                     
                 },
                 getData(){

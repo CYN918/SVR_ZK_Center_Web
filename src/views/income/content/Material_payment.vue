@@ -120,7 +120,10 @@ export default {
                
                 xq(){
                    this.$router.push({
-                       path:"./money_detail"
+                       path:"./money_detail",
+                       query:{
+                           type:3,
+                       }
                    })
                 },
                 listData(){
