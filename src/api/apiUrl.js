@@ -1845,4 +1845,8 @@ export default {
 	ds_income_lock_screen_edit:{
 		url:"ds/income/lock_screen/edit",method:"post",isType:{suktip:1}
 	},
+	//分成收益详细数据操作记录
+	ds_income_lock_screen_detail_operate_logs:{
+		url:'ds/income/lock_screen/detail/operate_logs',method:"get"
+	},
 }

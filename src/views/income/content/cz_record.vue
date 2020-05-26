@@ -22,11 +22,9 @@
                         end-placeholder="结束月份">
                     </el-date-picker>
                     <span style="margin:0 16px 0 24px">渠道</span>
-                    <select name="" id="">
-                        <option value="">全部</option>
-                    </select>
+                    <input type="text" v-model="channel" placeholder="请输入">
                     <span style="margin:0 16px 0 24px">处理人</span>
-                    <input type="text">
+                    <input type="text" v-model="creator">
                 </div>
                 <div class="btn_right">
                     <span class='cx' @click='getDataList()'>查询</span>
@@ -47,27 +45,27 @@
                         </el-table-column>
                      
                         <el-table-column
-                                label="渠道" prop="is_confirmed"
+                                label="渠道" prop="channel"
                                 >
                            
                         </el-table-column>
                         <el-table-column
-                                label="修改前数据有效率" prop="is_confirmed"
+                                label="修改前数据有效率" prop="complete_before"
                                 >
                            
                         </el-table-column>
                         <el-table-column
-                                label="修改后数据有效率" prop="is_confirmed"
+                                label="修改后数据有效率" prop="complete_after"
                                 >
                            
                         </el-table-column>
                          <el-table-column
-                                label="更新时间" prop="is_confirmed"
+                                label="更新时间" prop="created_at"
                                 >
                            
                         </el-table-column>
                         <el-table-column
-                                label="处理人" prop="is_confirmed"
+                                label="处理人" prop="creator"
                                 >
                            
                         </el-table-column>
@@ -99,12 +97,12 @@ export default {
                     page:1,
                     total:0,
                     tableData:[{time:2020}],
-                    is_confirmed:"",
-                   
+                    channel:"",
+                    creator:""
                 }
             },
             mounted(){
-                // this.getDataList()
+                this.getDataList()
             },
             methods:{
                  fh(index){
@@ -112,7 +110,8 @@ export default {
                 },
                 cz(){
                     this.tdate='';
-                    this.is_confirmed='';
+                    this.channel="",
+                    this.creator=""
                 },
                 getRowClass({row, column, rowIndex}) {
                     if (rowIndex === 0) {
@@ -134,11 +133,11 @@ export default {
                 },
               
                 getDataList(){
-                    // let params={type:this.$route.query.type,p:this.p,page:this.page,is_confirmed:this.is_confirmed,tdate:this.tdate}
-                    // this.api.sharing_data_income_period({params}).then((res)=>{
-                    //     this.total=res.total;
-                    //     this.tableData=res.data; 
-                    // })
+                    let params={p:this.p,page:this.page,tdate_start:this.tdate[0],tdate_end:this.tdate[1],channel:this.channel,creator:this.creator}
+                    this.api.ds_income_lock_screen_detail_operate_logs({params}).then((res)=>{
+                        this.total=res.total;
+                        this.tableData=res.data; 
+                    })
                 },
                
             },
