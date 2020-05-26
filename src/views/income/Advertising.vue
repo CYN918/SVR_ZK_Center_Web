@@ -257,7 +257,7 @@ import 'ant-design-vue/dist/antd.css'
                 value:[],
                 search:'',
                 tableData:[],
-                is_receiver:'',
+                is_receiver:1,
                 p:10,
                 page:1,
                 total:0,
@@ -291,11 +291,13 @@ import 'ant-design-vue/dist/antd.css'
                     if(this.control[i].uri_key=='uri.settlement.pay.serach'){
                         arr.push(1)
                         this.F = true;
+                        this.is_receiver = 0;
                     }
                     //查询广告结算收款收益
                     if(this.control[i].uri_key=='uri.settlement.receive.serach'){
                         arr.push(2)
                         this.S = true;
+                        this.is_receiver = 1;
                     }
                 }
             }
@@ -326,7 +328,7 @@ import 'ant-design-vue/dist/antd.css'
                     }
                     this.value=[qt.join('-'),next.join('-')];
                 }
-                // this.getDataList();
+                this.getDataList();
                 this.getDlist()
                 if(this.is_receiver==1){
                     this.getObject()
@@ -407,7 +409,7 @@ import 'ant-design-vue/dist/antd.css'
                 }else{
                        params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,search:this.search,is_receiver:this.is_receiver,name:this.name,disjunctions:JSON.stringify(this.disjunctions),projects:this.projects.join(',')}
                 }
-                if(num == 3){
+                if(this.is_receiver == 0){
                     this.api.settle_data_search_pay({params}).then((res)=>{
                         this.tableData=res.data;
 
