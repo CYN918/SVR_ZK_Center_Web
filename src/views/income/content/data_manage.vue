@@ -170,7 +170,7 @@ export default {
                     this.boxsSize=false
                 },
                 getDataList(){
-                    let params={type:this.$route.query.type,p:this.p,page:this.page,is_confirmed:this.is_confirmed,tdate:this.tdate}
+                    let params={}
                     this.api.ds_income_lock_screen_list({params}).then((res)=>{
                         this.total=res.total;
                         this.tableData=res.data; 
