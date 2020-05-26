@@ -65,6 +65,7 @@
                         <el-table-column
                                 type="selection"
                                :selectable='checkSelect'
+                               v-if="this.$route.query.lineStatus==undefined"
                         >
                         </el-table-column>
                         <el-table-column
@@ -111,7 +112,7 @@
                                 label="状态" prop="check_status_name"
                         >
                         </el-table-column>
-                        <el-table-column label="操作">
+                        <el-table-column label="操作" v-if="this.$route.query.lineStatus==undefined">
                             <template slot-scope="props">
                                 <el-button type="text" @click="xq(tableData[props.$index].open_id)">查看详情</el-button>
                                 <el-button type="text" v-if="tableData[props.$index].check_status=='0'&&status==1&&emails.indexOf(user)!=-1" @click="getSH(tableData[props.$index].open_id)">审核通过</el-button>
