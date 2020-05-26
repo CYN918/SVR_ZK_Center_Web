@@ -49,6 +49,10 @@
                             @selection-change="handleSelectionChange"
                             >
                         <el-table-column
+                                prop="id"
+                                label="序号">
+                        </el-table-column>
+                        <el-table-column
                                 label="权重"
                                 v-if="new Date(this.date)<=new Date(new Date().getTime() - 24*60*60*1000)">
                             <template slot-scope="scope">
@@ -389,8 +393,8 @@ methods: {
         this.rouelForm = rows;
     },
     InputClick(index){
-        if(this.theWeight > 99 || this.theWeight < 0){
-            this.$message.error('权重值范围限制为0~99')
+        if(this.theWeight > 200 || this.theWeight < 0){
+            this.$message.error('权重值范围限制为0~200')
             return false
         }
         let formData =new FormData;
