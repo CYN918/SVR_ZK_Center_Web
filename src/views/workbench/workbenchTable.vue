@@ -181,7 +181,7 @@
                                          <span class="dj" v-if='tableData[props.$index].demand_type=="分成金额审核"&&item.did!=undefined&&item.reject!=1&&item.status==2' >审核通过</span>
                                         <span v-if="tableData[props.$index].status==item.status&&item.key!=0&&((tableData[props.$index].demand_type=='收款结算'&&item.status!=6)||(tableData[props.$index].demand_type=='付款结算'&&item.status!=6)||(item.status_name=='结算汇款'&&tableData[props.$index].demand_type=='设计师结算'&&item.key!=0))&&item.isfinish!=2">待处理</span>
                                         <span class="dj" v-if="item.isfinish==1&&item.status_name!='提现完成'&&item.status_name!='素材入库'&&item.isfinish!=2&&tableData[props.$index].demand_type!='设计师结算'" @click="check(tableData[props.$index].demand_type,tableData[props.$index].did,item.status)">查看详情</span>
-                                        <span class="dj" v-if="(item.status_name=='结算汇款'&&tableData[props.$index].demand_type=='设计师结算'&&item.key==0)||(item.status_name=='提现审核'&&tableData[props.$index].demand_type=='设计师结算')" @click="withdraw(tableData[props.$index].did,item.status,tableData[props.$index].emails,tableData[props.$index],status)">查看详情</span>
+                                        <span class="dj" v-if="(item.status_name=='结算汇款'&&tableData[props.$index].demand_type=='设计师结算'&&item.key==0)||(item.status_name=='提现审核'&&tableData[props.$index].demand_type=='设计师结算')" @click="withdraw(tableData[props.$index].did,item.status,tableData[props.$index].emails,tableData[props.$index].status)">查看详情</span>
                                         <span class="dj" v-if="item.key=='0'&&(tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算')&&item.isfinish!=2" @click="getCK(tableData[props.$index].id,tableData[props.$index].demand_type,item.status,tableData[props.$index].processor)">查看详情</span>
                                         <span class="dj" v-if="(tableData[props.$index].demand_type=='收款结算'||tableData[props.$index].demand_type=='付款结算')&&item.isfinish==2" @click="CKbh(tableData[props.$index].did,item.status)">查看作废原因</span>
                                         <span class="dj" v-if="(tableData[props.$index].demand_type=='业务需求'&&item.status=='4'&&item.key==0&&item.reject!='1'&&item.isfinish!=2)">审核通过</span>
@@ -952,7 +952,7 @@
                     }
                 }
                 if(type=='设计师结算'){
-                    if(status ==1){
+                    if(status==1){
                         this.$router.push({
                             query:{
                                 id:id,
