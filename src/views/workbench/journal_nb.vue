@@ -393,8 +393,8 @@ methods: {
         this.rouelForm = rows;
     },
     InputClick(index){
-        if(this.theWeight > 200 || this.theWeight < 0){
-            this.$message.error('权重值范围限制为0~200')
+        if(this.theWeight > 999 || this.theWeight < 0){
+            this.$message.error('权重值范围限制为0~999')
             return false
         }
         let formData =new FormData;
