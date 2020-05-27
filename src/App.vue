@@ -39,7 +39,7 @@ img{
 *, *::before, *::after{
   box-sizing:content-box!important
 }
-.el-input__inner,.el-textarea__inner{
+.el-input__inner{
   box-sizing: border-box!important;
 }
 .el-date-editor .el-range-separator{
@@ -1040,5 +1040,7 @@ select{
   .el-tooltip__popper {
     max-width: 800px;
     }
-   
+    .el-date-range-picker__content{
+      width: 44%;
+    }
 </style>
