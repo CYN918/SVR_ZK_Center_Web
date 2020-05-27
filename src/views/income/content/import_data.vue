@@ -151,6 +151,13 @@
                                     :header-cell-style="getRowClass"
                                     :cell-style="cell"
                                     style="width: 100%;color:#000">
+                                 <el-table-column
+                                        label="序号" prop="tdate"
+                                    >
+                                    <template slot-scope="scope">
+                                        <span>{{scope.$index+1}}</span>
+                                    </template>
+                                </el-table-column>    
                                 <el-table-column
                                         label="结算周期" prop="tdate"
                                     >
@@ -158,7 +165,6 @@
                                 <el-table-column label="渠道"
                                 prop="channel_name"
                                 >
-                               
                                 </el-table-column>
                                  <el-table-column
                                        v-if='this.$route.query.type==1'
