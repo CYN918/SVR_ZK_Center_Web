@@ -456,7 +456,7 @@ export default {
                     formData.append('tdate',this.tdateTime)    
                     formData.append('id',this.id);
                     formData.append('type',this.$route.query.type);
-                    formData.append('theme_name',encodeURI(this.theme_name_change));
+                    formData.append('theme_name',this.theme_name_change);
                     formData.append('channel',this.channel_change);
                     formData.append('income',this.cash)
                     }
@@ -469,7 +469,7 @@ export default {
                     formData.append('id',this.id);
                     formData.append('tdate',this.tdateTime)    
                     formData.append('type',this.$route.query.type);
-                    formData.append('call_show_name',encodeURI(this.theme_name_change));
+                    formData.append('call_show_name',this.theme_name_change);
                     formData.append('channel',this.channel_change);
                     formData.append('income',this.cash)
                     }
