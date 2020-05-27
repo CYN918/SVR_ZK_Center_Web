@@ -83,11 +83,11 @@ export default {
                     total:0,
                     tableData:[{time:2020}],
                     updator:'',
-                    is_confirmed:"",
+                   
                 }
             },
             mounted(){
-                // this.getDataList()
+                this.getDataList()
             },
             methods:{
                  fh(index){
@@ -95,7 +95,7 @@ export default {
                 },
                 cz(){
                     this.tdate='';
-                    this.is_confirmed='';
+                    this.updator='';
                 },
                 getRowClass({row, column, rowIndex}) {
                     if (rowIndex === 0) {
