@@ -39,7 +39,7 @@ img{
 *, *::before, *::after{
   box-sizing:content-box!important
 }
-.el-input__inner{
+.el-input__inner,.el-textarea__inner{
   box-sizing: border-box!important;
 }
 .el-date-editor .el-range-separator{
