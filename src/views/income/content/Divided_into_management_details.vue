@@ -81,7 +81,7 @@
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="props">
-                                <el-button type="text" @click="ck()" >查看详情</el-button>
+                                <el-button type="text" @click="ck(tableData[props.$index].open_id,tableData[props.$index].account_name)" >查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -142,8 +142,8 @@ export default {
                 },
                 getDetails(){
                     let params={type:this.$route.query.type,tdate:this.$route.query.tdate}
-                    this.api.sharing_data_income_is_confirm({params}).then((res)=>{
-                        this.status=res.is_confirmed;
+                    this.api.sharing_data_income_status({params}).then((res)=>{
+                        this.status=res.status;
                     })
                 },
                 getRowClass({row, column, rowIndex}) {
@@ -164,11 +164,7 @@ export default {
                     this.page = page;
                     this.getDataList()
                 },
-                dr(){
-                    this.$router.push({
-                        path:"./exports"
-                    })
-                },
+
                 jeqr(){
                     this.show=true;
 
@@ -176,20 +172,27 @@ export default {
                 heid(){
                     this.show=false
                 },
-                ck(){
+                ck(id,account_name){
                     this.$router.push({
                         path:"./money_details_divide",
+                         query:{
+                            type:this.$route.query.type,
+                            open_id:id,
+                            tdate:this.$route.query.tdate,
+                            account_name:account_name,
+                            siid:this.$route.query.siid
+                        }
                        
                     })
                 },
                 getDataList(){
-                    // let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.open_id,account_name:this.account_name,p:this.p,page:this.page}
-                    // this.api.sharing_data_income_designer({params}).then((res)=>{
-                    //     this.total=res.total;
-                    //     this.tableData=res.data;
-                    //     this.getData();
-                    //     this.getDetails()
-                    // })
+                    let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.open_id,account_name:this.account_name,p:this.p,page:this.page}
+                    this.api.sharing_data_income_designer({params}).then((res)=>{
+                        this.total=res.total;
+                        this.tableData=res.data;
+                        this.getData();
+                        this.getDetails()
+                    })
                 },
                 getData(){
                     this.api.designer_settlement_list().then((res)=>{
@@ -199,7 +202,8 @@ export default {
                 },
                 cz(){
                     this.account_name='';
-                    this.open_id=''
+                    this.open_id='';
+                    this.state1='';
                 },
                 qrMoney(){
                     let formData =new FormData;
