@@ -1,7 +1,7 @@
 <template>
    <div>
         <div class="top_name">
-             <span class="top_txt" @click='fh(-2)'>素材付款&nbsp;/&nbsp;</span>
+             <span class="top_txt" @click='fh(-2)'>杂志锁屏付款&nbsp;/&nbsp;</span>
              <span class="top_txt" style="margin-left:0" @click='fh(-1)'>分成管理&nbsp;/&nbsp;</span>
               <span class="top_txt" style="margin-left:0">分成详情</span>
             <div class="title_left">
@@ -113,24 +113,28 @@
                     </div>
             </div>
         </div>
+        <load v-if="load"></load>
    </div>
 </template>
 
 <script>
+import load from '../../../components/loading'
 export default {
+     components:{load},
             data(){
                 return{
                     value1:"",
                     p:10,
                     page:1,
                     total:0,
-                    tableData:[{time:2020}],
+                    tableData:[],
                     show:false,
                     list:[],
                     account_name:'',
                     open_id:"",
                     state1:"",
-                    status:''
+                    status:'',
+                    load:true
                 }
             },
             mounted(){
@@ -186,12 +190,14 @@ export default {
                     })
                 },
                 getDataList(){
+                    this.load=true
                     let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.open_id,account_name:this.account_name,p:this.p,page:this.page}
                     this.api.sharing_data_income_designer({params}).then((res)=>{
                         this.total=res.total;
                         this.tableData=res.data;
                         this.getData();
                         this.getDetails()
+                        this.load=false
                     })
                 },
                 getData(){
@@ -389,6 +395,6 @@ export default {
         font-weight: 400!important; 
     }
     .red{
-        color: red;
+        color: red!important;
     }
 </style>

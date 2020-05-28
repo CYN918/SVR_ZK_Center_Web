@@ -2,7 +2,7 @@
    <div>
         <div class="top_name">
             <div class="title_left">
-                <span>素材付款</span>
+                <span>杂志锁屏付款</span>
             </div>
         </div>
         <div class='content'>
@@ -50,7 +50,7 @@
                         </el-table-column>
                         <el-table-column label="操作" width='150'>
                             <template slot-scope="props">
-                                <el-button type="text" @click='xq()'>查看详情</el-button>
+                                <el-button type="text" @click='xq(tableData[props.$index].tdate)'>查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -118,11 +118,12 @@ export default {
                     })
                 },
                
-                xq(){
+                xq(tdate){
                    this.$router.push({
                        path:"./money_detail",
                        query:{
                            type:3,
+                           tdate:tdate
                        }
                    })
                 },

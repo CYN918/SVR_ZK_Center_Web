@@ -133,11 +133,14 @@
                  </div>
            </div>
         </div>
+         <load v-if="load"></load>
    </div>
 </template>
 
 <script>
+import load from '../../../components/loading'
 export default {
+    components:{load},
             data(){
                 return{
                     value1:"",
@@ -151,7 +154,8 @@ export default {
                     m_type:"",
                     channels:[],
                     channel:'',
-                    settle_type:""
+                    settle_type:"",
+                    load:true
                 }
             },
             mounted(){
@@ -199,6 +203,7 @@ export default {
                     this.m_type=''
                 },
                 getDataList(){
+                     this.load=true
                     if(this.$route.query.type!=3){
                            var params={}
                         if(this.$route.query.num){
@@ -209,14 +214,16 @@ export default {
                         this.api.sharing_data_income_detail({params}).then((res)=>{
                             this.total=res.total;
                             this.tableData=res.data;
+                             this.load=false
                             this. qd();
                          })
                     }
                     if(this.$route.query.type==3){
-                        let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.$route.query.open_id,project_id:this.project_id,p:this.p,page:this.page,settle_type:this.settle_type,mid:this.mid,m_type:this.m_type,channel:this.channel}   
+                        let params={type:this.$route.query.type,month:this.$route.query.tdate,open_id:this.$route.query.open_id,project_id:this.project_id,p:this.p,page:this.page,settle_type:this.settle_type,mid:this.mid,m_type:this.m_type,channel:this.channel}   
                         this.api.ds_income_lock_screen_detail({params}).then((res)=>{
                             this.total=res.total;
                             this.tableData=res.data;
+                             this.load=false
                             this. qd();
                         })
                     }

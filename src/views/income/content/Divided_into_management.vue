@@ -94,11 +94,11 @@ export default {
                     total:0,
                     tableData:[{time:2020}],
                     is_confirmed:"",
-                    // load:true
+                    load:true
                 }
             },
             mounted(){
-                // this.getDataList()
+                this.getDataList()
             },
             methods:{
                  fh(index){
