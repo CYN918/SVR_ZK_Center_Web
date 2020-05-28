@@ -697,6 +697,9 @@ export default {
                             if(this.put_type=='1'){
                                 this.scADD2()
                             }
+                            if(this.put_type=='0'){
+                                this.rk=true
+                            }
                             
                                    
                         }
