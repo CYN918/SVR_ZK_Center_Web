@@ -1,7 +1,7 @@
 <template>
    <div>
         <div class="top_name">
-             <span class="top_txt" @click='fh(-1)'>素材付款&nbsp;/&nbsp;金额详情</span>
+             <span class="top_txt" @click='fh(-1)'>杂志锁屏付款&nbsp;/&nbsp;金额详情</span>
             <div class="title_left">
                 <span>金额详情</span>
                 <span class='time'></span>
@@ -81,7 +81,7 @@
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="props">
-                                <el-button type="text" @click="ck()" >查看详情</el-button>
+                                <el-button type="text" @click="ck(tableData[props.$index].open_id,tableData[props.$index].account_name,tableData[props.$index].tdate)" >查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -144,11 +144,15 @@
                  </div>
            </div>
         </div>
+         <load v-if="load"></load>
    </div>
+   
 </template>
 
 <script>
+import load from '../../../components/loading'
 export default {
+    components:{load},
             data(){
                 return{
                     p:10,
@@ -163,6 +167,7 @@ export default {
                     restaurants: [],
                     state1:"",
                     id:"",
+                    load:true
 
                 }
             },
@@ -202,31 +207,37 @@ export default {
                         path:"./Divided_details"
                     })
                 },
-                 ck(){
+                 ck(id,account_name,tdate){
                     this.$router.push({
                         path:"./money_details_divide",
-                        query:{
-                          
+                         query:{
+                            type:this.$route.query.type,
+                            open_id:id,
+                            tdate:tdate,
+                            account_name:account_name,
                         }
                     })
                 },
                 getDataList(){
-                    // if(this.num==1){
-                    //     let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.open_id,account_name:this.account_name,project_id:this.project_id,p:this.p,page:this.page,is_confirmed:'1'} 
-                    //     this.api.ds_buyout_income_detail({params}).then((res)=>{
-                    //         this.total=res.total;
-                    //         this.tableData=res.data;
-                    //         this.getData();
-                    //    })
-                    // }
-                    // if(this.num==2){
-                    //     let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.open_id,account_name:this.account_name,p:this.p,page:this.page,is_confirmed:'1'}
-                    //     this.api.sharing_data_income_designer({params}).then((res)=>{
-                    //         this.total=res.total;
-                    //         this.tableData=res.data;
-                    //         this.getData();
-                    //     })
-                    // }
+                    this.load=true
+                    if(this.num==1){
+                        let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.open_id,account_name:this.account_name,project_id:this.project_id,p:this.p,page:this.page,is_confirmed:'1'} 
+                        this.api.ds_buyout_income_detail({params}).then((res)=>{
+                            this.total=res.total;
+                            this.tableData=res.data;
+                            this.load=false
+                            this.getData();
+                       })
+                    }
+                    if(this.num==2){
+                        let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.open_id,account_name:this.account_name,p:this.p,page:this.page,is_confirmed:'1'}
+                        this.api.sharing_data_income_designer({params}).then((res)=>{
+                            this.total=res.total;
+                            this.tableData=res.data;
+                            this.load=false
+                            this.getData();
+                        })
+                    }
                     
                 },
                 getData(){

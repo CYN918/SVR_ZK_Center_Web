@@ -1,7 +1,7 @@
 <template>
    <div>
         <div class="top_name">
-             <span class="top_txt" @click='fh(-1)'>素材付款&nbsp;/&nbsp;分成管理</span>
+             <span class="top_txt" @click='fh(-1)'>杂志锁屏付款&nbsp;/&nbsp;分成管理</span>
             <div class="title_left">
                 <span>分成管理</span>
             </div>
@@ -60,7 +60,7 @@
                         </el-table-column>
                         <el-table-column label="操作" width='150'>
                             <template slot-scope="props">
-                                <el-button type="text" @click='details()'>查看详情</el-button>
+                                <el-button type="text" @click='details(tableData[props.$index].tdate,tableData[props.$index].siid)'>查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -78,11 +78,14 @@
                  </div>
            </div>
         </div>
+         <load v-if="load"></load>
    </div>
 </template>
 
 <script>
+import load from '../../../components/loading'
 export default {
+        components:{load},
             data(){
                 return{
                     tdate:[],
@@ -91,10 +94,11 @@ export default {
                     total:0,
                     tableData:[{time:2020}],
                     is_confirmed:"",
+                    load:true
                 }
             },
             mounted(){
-                // this.getDataList()
+                this.getDataList()
             },
             methods:{
                  fh(index){
@@ -122,18 +126,25 @@ export default {
                     this.page = page;
                     this.getDataList()
                 },
-                details(){
+                details(tdate,siid){
                     this.$router.push({
                         path:"./Divided_into_management_details",
+                        query:{
+                            type:3,
+                            tdate:tdate,
+                            siid:siid
+                        }
                        
                     })
                 },
-                getDataList(){
-                    // let params={type:this.$route.query.type,p:this.p,page:this.page,is_confirmed:this.is_confirmed,tdate:this.tdate}
-                    // this.api.sharing_data_income_period({params}).then((res)=>{
-                    //     this.total=res.total;
-                    //     this.tableData=res.data; 
-                    // })
+               getDataList(){
+                    this.load=true
+                    let params={type:3,p:this.p,page:this.page,status:this.status,tdate_start:this.tdate[0],tdate_end:this.tdate[1]}
+                    this.api.sharing_data_income_period({params}).then((res)=>{
+                        this.total=res.total;
+                        this.tableData=res.data; 
+                        this.load=false
+                    })
                 },
                 jg(){
                     this.$router.push({
@@ -142,7 +153,11 @@ export default {
                 },
                 sj(){
                     this.$router.push({
-                        path:"./data_manage"
+                        path:"./data_manage",
+                         query:{
+                            type:3,
+                            
+                        }
                     })
                 },
             },
