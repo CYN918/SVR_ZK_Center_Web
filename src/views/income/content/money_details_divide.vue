@@ -56,13 +56,13 @@
                         </el-table-column>
                         <el-table-column
                             
-                                label="素材ID" prop="material_name"
+                                label="素材ID" prop="mid"
                                 :show-overflow-tooltip="true"
                                 >
                         </el-table-column>
                          <el-table-column
                                 
-                                label="素材类型" prop="fname"
+                                label="素材类型" prop="m_type"
                                 :show-overflow-tooltip="true"
                                         >
                         </el-table-column>
@@ -82,42 +82,42 @@
                         </el-table-column>
                         <el-table-column
                               
-                                label="分成方式" prop="theme_name"
+                                label="分成方式" prop="sharing_type"
                                 :show-overflow-tooltip="true"
                                 >
                         </el-table-column>
                         <el-table-column
                                 
-                                label="分成价格" prop="call_show_name"
+                                label="分成价格" prop="sharing_price"
                                 :show-overflow-tooltip="true"
                                         >
                                 </el-table-column>
                          <el-table-column
                                
-                                label="分成金额" prop="income"
+                                label="分成金额" prop="final_income"
                                 >
                         </el-table-column>
                           <el-table-column
                                 
-                                label="加成比例" prop="sharing_rate"
+                                label="加成比例" prop="gain_share_rate"
                                 >
                                 <template slot-scope="scope">
-                                    <span>{{tableData[scope.$index].sharing_rate+'%'}}</span>
+                                    <span>{{tableData[scope.$index].gain_share_rate+'%'}}</span>
                                 </template>
                         </el-table-column>
                           <el-table-column
                                 
-                                label="加成金额" prop="final_income"
+                                label="加成金额" prop="gain_share_income"
                                 >
                         </el-table-column>
                           <el-table-column
                                 
-                                label="抵消预付金" prop="final_income"
+                                label="抵消预付金" prop="advance_payment_income"
                                 >
                         </el-table-column>
                           <el-table-column
                                 
-                                label="付款金额" prop="final_income"
+                                label="付款金额" prop="payment_income"
                                 >
                         </el-table-column>
                     </el-table>

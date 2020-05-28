@@ -88,13 +88,13 @@
                         </el-table-column>
                         <el-table-column
                                 v-if='this.$route.query.type==2'
-                                label="主题名称" prop="call_show_name"
+                                label="来电秀名称" prop="call_show_name"
                                 :show-overflow-tooltip="true"
                                         >
                                 </el-table-column>
                          <el-table-column
                                
-                                label="主题收益" prop="income"
+                                label="收益" prop="income"
                                 >
                         </el-table-column>
                           <el-table-column
