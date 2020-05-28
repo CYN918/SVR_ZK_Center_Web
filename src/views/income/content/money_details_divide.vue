@@ -16,20 +16,25 @@
             <div>
                 <span class='fc_statuc'>项目ID</span>
                 <input type="text" placeholder="请输入" v-model="project_id">
-                <span class='fc_statuc' >素材名称ID</span>
-                <input type="text" placeholder="请输入" v-model="material_name">
+                <span class='fc_statuc' >素材ID</span>
+                <input type="text" placeholder="请输入" v-model="mid">
                 <span class='fc_statuc'>素材类型</span>
-                <select name="" id="">
+                <select name="" id="" v-model="m_type">
                     <option value="">全部</option>
+                    <option value="sls_dynamic">杂志锁屏动效</option>
+                    <option value="sls_picture">杂志锁屏壁纸</option>
                 </select>
                 <span class='fc_statuc'>渠道</span>
-                <select v-model='channel'>
+                <select v-model='channel' v-if="this.$route.query.type!=3">
                     <option value="">全部</option>
                     <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
                 </select>
+                <input type="text" placeholder="请输入" v-model='channel' v-if="this.$route.query.type==3" >
                 <span class='fc_statuc'>结算方式</span>
-                <select name="" id="">
+                <select name="" id="" v-model="settle_type">
                     <option value="">全部</option>
+                    <option value="ecpm">千次曝光计费</option>
+                    <option value="ecpc">点击计费</option>
                 </select>
                 <div class="btn_right">
                     <span class='cx' @click='getDataList()'>查询</span>
@@ -142,9 +147,11 @@ export default {
                     tableData:[{time:2020}],
                     show:false,
                     project_id:'',
-                    material_name:'',
+                    mid:'',
+                    m_type:"",
                     channels:[],
-                    channel:''
+                    channel:'',
+                    settle_type:""
                 }
             },
             mounted(){
@@ -186,22 +193,34 @@ export default {
                 },
                 cz(){
                     this.project_id='';
-                    this.material_name='';
-                    this.channel=''
+                    this.settle_type='';
+                    this.channel='';
+                    this.mid='';
+                    this.m_type=''
                 },
                 getDataList(){
-                    var params={}
-                    if(this.$route.query.num){
-                         params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.$route.query.open_id,project_id:this.project_id,p:this.p,page:this.page,is_confirmed:'1'}   
-                    }else{
-                        params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.$route.query.open_id,project_id:this.project_id,p:this.p,page:this.page}   
+                    if(this.$route.query.type!=3){
+                           var params={}
+                        if(this.$route.query.num){
+                            params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.$route.query.open_id,project_id:this.project_id,p:this.p,page:this.page,is_confirmed:'1',settle_type:this.settle_type,mid:this.mid,m_type:this.m_type,channel:this.channel}   
+                        }else{
+                            params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.$route.query.open_id,project_id:this.project_id,p:this.p,page:this.page,settle_type:this.settle_type,mid:this.mid,m_type:this.m_type,channel:this.channel}   
+                        }
+                        this.api.sharing_data_income_detail({params}).then((res)=>{
+                            this.total=res.total;
+                            this.tableData=res.data;
+                            this. qd();
+                         })
+                    }
+                    if(this.$route.query.type==3){
+                        let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.$route.query.open_id,project_id:this.project_id,p:this.p,page:this.page,settle_type:this.settle_type,mid:this.mid,m_type:this.m_type,channel:this.channel}   
+                        this.api.ds_income_lock_screen_detail({params}).then((res)=>{
+                            this.total=res.total;
+                            this.tableData=res.data;
+                            this. qd();
+                        })
                     }
                    
-                    this.api.sharing_data_income_detail({params}).then((res)=>{
-                        this.total=res.total;
-                        this.tableData=res.data;
-                        this. qd();
-                    })
                 },
                  qd(){
                     this.api.themes_config_channel().then((res)=>{

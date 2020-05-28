@@ -1849,4 +1849,8 @@ export default {
 	ds_income_lock_screen_detail_operate_logs:{
 		url:'ds/income/lock_screen/detail/operate_logs',method:"get"
 	},
+	//杂志锁屏分成金额详情
+	ds_income_lock_screen_detail:{
+		url:"ds/income/lock_screen/detail",method:'get'
+	},
 }
