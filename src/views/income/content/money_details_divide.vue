@@ -71,11 +71,13 @@
                                 >
                         </el-table-column>
                          <el-table-column
-                                label="点击量" prop="channel"
+                         v-if='this.$route.query.type==3'
+                                label="点击量" prop="click"
                                 >
                         </el-table-column>
                          <el-table-column
-                                label="曝光量" prop="channel"
+                         v-if='this.$route.query.type==3'
+                                label="曝光量" prop="pv"
                                 >
                         </el-table-column>
                         <el-table-column
