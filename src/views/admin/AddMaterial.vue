@@ -77,7 +77,7 @@
                                     <span  class="text" style="overflow: hidden;width: 200px;height: 20px;line-height: 28px">{{this.attach.name}}</span>
                                 </el-tooltip>
                             </div>
-                            <img src="../../../public/img/msg.png" @click="showHint" style="vertical-align: top"/>
+                            <img src="../../../public/img/msg.png" @click="showHint" style="vertical-align: top !important;"/>
                             <div class="progress" style="width: 100px;height: 5px;opacity: 0.5;display: inline-block " v-if="initiate" >
                                 <div class="strip" :style="{width:aaa+'%'}" style="background: blue;height: 5px"></div>
                                 <div style="text-align: center;font-size: 10px">当前附件上传{{aaa}}%</div>
