@@ -447,7 +447,18 @@ export default {
                     this.bussiness_types.splice(index,1);
                 },
                 fh(index){
-                    this.$router.go(index)
+                    console.log(index)
+                    if(index == -1){
+                        this.$router.push({
+                            path:"./PM"
+                        })
+                    }else{
+                        this.$router.push({
+                            path:"./Administration"
+                        })
+
+                    }
+                    // this.$router.go(index)
                 },
                 getRowClass({row, column, rowIndex, columnIndex}) {
                     if (rowIndex === 0) {

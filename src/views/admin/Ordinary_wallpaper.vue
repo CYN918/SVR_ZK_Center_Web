@@ -278,9 +278,8 @@
                 this.hqUrl=ddd;
                 console.log(this.bindMid,this.hqUrl);
             },
-            handleSizeChange1() { // 每页条数切换
+            handleSizeChange1(pageSize) { // 每页条数切换
                 this.pageSize = pageSize;
-                console.log(this.pagesize);
                 this.getWl()
             },
             handleCurrentChange1(currentPage) {//页码切换
@@ -368,7 +367,7 @@
                 })
             },
             getWl(){
-                let params={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,status:this.status};
+                let params={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,status:this.status,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData)};
                 this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     for(let i =0;i<this.IMGList.length;i++){

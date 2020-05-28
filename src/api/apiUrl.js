@@ -1867,4 +1867,8 @@ export default {
 	settle_settlement_list:{
 		url:'settle/settlement/list',method:'get'
 	},
+	//账号删除
+	pushlib_configs_channel_user_delete:{
+		url:'pushlib/configs/channel/user/delete',method:'post'
+	},
 }

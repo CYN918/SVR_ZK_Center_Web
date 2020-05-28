@@ -65,6 +65,7 @@
                         <el-table-column
                                 type="selection"
                                :selectable='checkSelect'
+                               v-if="this.$route.query.lineStatus==undefined"
                         >
                         </el-table-column>
                         <el-table-column
@@ -101,17 +102,22 @@
                         </el-table-column>
                         <el-table-column
                                 label="银行账号" prop="bank_card_id"
+                                :show-overflow-tooltip="true"
                         >
                         </el-table-column>
                         <el-table-column
-                                label="身份证号码" prop="id_card"
+                                label="证件号码" prop="id_card"
+                                :show-overflow-tooltip="true"
                         >
+                            <template slot-scope="scope">
+                                <span>{{tableData[scope.$index].contributor_type=='个人'?tableData[scope.$index].id_card:tableData[scope.$index].code}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                                 label="状态" prop="check_status_name"
                         >
                         </el-table-column>
-                        <el-table-column label="操作">
+                        <el-table-column label="操作" v-if="this.$route.query.lineStatus==undefined">
                             <template slot-scope="props">
                                 <el-button type="text" @click="xq(tableData[props.$index].open_id)">查看详情</el-button>
                                 <el-button type="text" v-if="tableData[props.$index].check_status=='0'&&status==1&&emails.indexOf(user)!=-1" @click="getSH(tableData[props.$index].open_id)">审核通过</el-button>
@@ -321,7 +327,7 @@
                         open_id:this.open_id,account_name:this.account_name,min_cash_money:this.min_cash_money,
                         max_cash_money:this.max_cash_money,contributor_type:this.contributor_type,check_status:this.check_status,start_time:this.start_time,end_time:this.end_time};
                 }
-                if(!this.$route.query.lineStatus){
+                if(this.$route.query.lineStatus==undefined||this.$route.query.status==3){
                         params = {id:this.$route.query.id,p:this.p,page:this.page,all:'0',status:this.status,
                         open_id:this.open_id,account_name:this.account_name,min_cash_money:this.min_cash_money,
                         max_cash_money:this.max_cash_money,contributor_type:this.contributor_type,check_status:this.check_status,start_time:this.start_time,end_time:this.end_time};

@@ -189,7 +189,8 @@ export default {
                          this.load=false;
                             this.getAPI() ;
                             this.updata();
-                            this.getTags(res.data)
+                            this.getTags(res.data);
+                            window.scrollTo(0,0);
                      })
             },
             getAPI(){
