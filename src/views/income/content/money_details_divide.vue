@@ -18,8 +18,8 @@
                 <input type="text" placeholder="请输入" v-model="project_id">
                 <span class='fc_statuc' >素材ID</span>
                 <input type="text" placeholder="请输入" v-model="mid">
-                <span class='fc_statuc'>素材类型</span>
-                <select name="" id="" v-model="m_type">
+                <span class='fc_statuc'  v-if="this.$route.query.type==3">素材类型</span>
+                <select name="" id="" v-model="m_type" v-if="this.$route.query.type==3">
                     <option value="">全部</option>
                     <option value="sls_dynamic">杂志锁屏动效</option>
                     <option value="sls_picture">杂志锁屏壁纸</option>
@@ -30,8 +30,8 @@
                     <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
                 </select>
                 <input type="text" placeholder="请输入" v-model='channel' v-if="this.$route.query.type==3" >
-                <span class='fc_statuc'>结算方式</span>
-                <select name="" id="" v-model="settle_type">
+                <span class='fc_statuc'  v-if="this.$route.query.type==3">结算方式</span>
+                <select name="" id="" v-model="settle_type"  v-if="this.$route.query.type==3">
                     <option value="">全部</option>
                     <option value="ecpm">千次曝光计费</option>
                     <option value="ecpc">点击计费</option>
