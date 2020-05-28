@@ -117,15 +117,20 @@
                                 label="状态" prop="check_status_name"
                         >
                         </el-table-column>
-                        <el-table-column label="操作">
+                        <el-table-column label="操作" v-if='this.$route.query.lineStatus==undefined'>
                             <template slot-scope="props">
                                 <el-button type="text" @click="xq(tableData[props.$index].open_id)">查看详情</el-button>
-                                <el-button type="text" v-if="tableData[props.$index].check_status=='0'&&status==1&&emails.indexOf(user)!=-1&&this.$route.query.lineStatus==undefined" @click="getSH(tableData[props.$index].open_id)">审核通过</el-button>
-                                <el-button type="text" v-if="tableData[props.$index].check_status=='0'&&status==1&&emails.indexOf(user)!=-1&&this.$route.query.lineStatus==undefined" @click="getBH(tableData[props.$index].open_id)">驳回</el-button>
+                                <el-button type="text" v-if="tableData[props.$index].check_status=='0'&&status==1&&emails.indexOf(user)!=-1" @click="getSH(tableData[props.$index].open_id)">审核通过</el-button>
+                                <el-button type="text" v-if="tableData[props.$index].check_status=='0'&&status==1&&emails.indexOf(user)!=-1" @click="getBH(tableData[props.$index].open_id)">驳回</el-button>
                                 <el-button type="text" v-if="tableData[props.$index].check_status=='-1'&&status==1" @click="DismissTheReason(tableData[props.$index])">查看驳回原因</el-button>
-                                <el-button type="text" v-if="status==3&&tableData[props.$index].check_status=='2'&&emails.indexOf(user)!=-1&&this.$route.query.lineStatus==undefined" @click="getSH(tableData[props.$index].open_id,tableData[props.$index].contributor_type)">更新为已汇款</el-button>
-                                <el-button type="text" v-if="status==3&&tableData[props.$index].check_status=='2'&&emails.indexOf(user)!=-1&&this.$route.query.lineStatus==undefined" @click="getBH(tableData[props.$index].open_id)">驳回</el-button>
+                                <el-button type="text" v-if="status==3&&tableData[props.$index].check_status=='2'&&emails.indexOf(user)!=-1" @click="getSH(tableData[props.$index].open_id,tableData[props.$index].contributor_type)">更新为已汇款</el-button>
+                                <el-button type="text" v-if="status==3&&tableData[props.$index].check_status=='2'&&emails.indexOf(user)!=-1" @click="getBH(tableData[props.$index].open_id)">驳回</el-button>
                                 <el-button type="text" v-if="tableData[props.$index].check_status=='-3'&&status==3" @click="DismissTheReason(tableData[props.$index],'3')">查看驳回原因</el-button>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="操作" v-if='this.$route.query.lineStatus!=undefined'>
+                            <template slot-scope="props">
+                                <el-button type="text" @click="xq(tableData[props.$index].open_id)">查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
