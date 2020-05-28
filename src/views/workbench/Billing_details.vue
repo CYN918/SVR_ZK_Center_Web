@@ -381,6 +381,7 @@
                 this.bh = false;
             },
             verified(){
+                this.shOpenId=[]
                 for(var i =0;i<this.tableData.length;i++){
                     if(this.tableData[i].check_status==0){
                         this.shOpenId.push(this.tableData[i].open_id);
