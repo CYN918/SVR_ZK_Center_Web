@@ -146,8 +146,18 @@
 
                 </div>
                 <div class="fillBtn">
-                    <span class="tj" @click="setData()">确认提交</span>
+                    <span class="tj" @click="dialogVisible = true">确认提交</span>
                     <span @click="fh()" style="margin-right: 330px">取消</span>
+                </div>
+            </div>
+        </div>
+        <div class='bg' v-if="dialogVisible">
+            <div class='upBox' style="padding-top:0px;min-height: 250px;">
+                <div style="text-align: left;border-bottom: 1px solid #ddd;height:45px;line-height:45px;padding-left:15px;font-size: 14px;color: rgba(31,46,77,1);font-weight: 500;">确认提交</div>
+                <div class="uplaod" style="width:50%;padding-left:24px;padding-top: 40px;">确认数据无误并提交？</div>
+                <div class="fillBtn" style="padding-top: 40px;">
+                    <span class="tj" @click="setData()" style="margin:14px 24px 0 24px;">确认</span>
+                    <span @click="dialogVisible = false" >取消</span>
                 </div>
             </div>
         </div>
@@ -223,6 +233,7 @@ import pro from '../income/projection'
                 functionality:[],
                 heid:true,
                 disjunctions:[],
+                dialogVisible: false
             }
         },
         mounted(){
@@ -263,6 +274,13 @@ import pro from '../income/projection'
             this.getList();
         },
         methods:{
+            handleClose(done) {
+                this.$confirm('确认关闭？')
+                .then(_ => {
+                    done();
+                })
+                .catch(_ => {});
+            },
             jump(){
                 this.$router.push({
                     path:"./Administration"
@@ -434,6 +452,7 @@ import pro from '../income/projection'
                 this.api.demand_settle_audit(formData).then((res)=>{
                     if(res!=false){
                         this.upList=false;
+                        this.dialogVisible = false;
                         this.fh();
                     }
                 })

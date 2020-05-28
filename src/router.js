@@ -887,7 +887,6 @@ localStorage.getItem('letNav');
 //                     {title:'素材付款',url:'/income/content/Material_payment'},
 //                     {title:'杂志锁屏付款',url:'/income/content/Material_payment'},
 //                     {title:'设计师结算',url:'/income/content/Designer_settlement'},                 
-
 //                 ]}
 //             ]
 //         },

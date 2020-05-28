@@ -21,9 +21,21 @@
                         value-format="yyyy-MM-dd">
                 </el-date-picker>
                 <span  class="ad">数据类型</span>
-                <select v-model="is_receiver" @change="change(value)">
+                <select v-model="is_receiver" @change="change(value)" v-if="selectLength == 2">
                     <option value="1">收款数据</option>
                     <option value="0">付款数据</option>
+                </select>
+                <select v-model="is_receiver" @change="change(value)" v-if="S && selectLength == 1">
+                    <option value="1">收款数据</option>
+                    <!-- <option value="0">付款数据</option> -->
+                </select>
+                <select v-model="is_receiver" @change="change(value)" v-if="F && selectLength == 1">
+                    <!-- <option value="1">收款数据</option> -->
+                    <option value="0">付款数据</option>
+                </select>
+                <select v-model="is_receiver" @change="change(value)" v-if="selectLength == 0">
+                    <!-- <option value="1">收款数据</option>
+                    <option value="0">付款数据</option> -->
                 </select>
                  
                 <div style=" display: inline-block;position: relative;" >
@@ -264,7 +276,32 @@ import 'ant-design-vue/dist/antd.css'
                 JSlist:[],
                 SHOW_PARENT:Antd.SHOW_PARENT,
                 disjunctions:[],
+                control:[],
+                S:false,
+                F:false,
+                selectLength:'',
             }
+        },
+        created(){
+            this.control=JSON.parse(localStorage.getItem('control'));
+            var arr = [];
+            if(this.control.length!=0){
+                for(var i=0;i<this.control.length;i++){
+                    //查询广告结算付款收益
+                    if(this.control[i].uri_key=='uri.settlement.pay.serach'){
+                        arr.push(1)
+                        this.F = true;
+                        this.is_receiver = 0;
+                    }
+                    //查询广告结算收款收益
+                    if(this.control[i].uri_key=='uri.settlement.receive.serach'){
+                        arr.push(2)
+                        this.S = true;
+                        this.is_receiver = 1;
+                    }
+                }
+            }
+            this.selectLength = arr.length;
         },
         mounted(){
                 if(this.$route.query.name){
@@ -306,7 +343,7 @@ import 'ant-design-vue/dist/antd.css'
         },
         methods:{
             change(value){
-                console.log(value)
+                // console.log(value)
                 this.name=''
                 this.channels=[]
                 this.projects=[]
@@ -356,26 +393,6 @@ import 'ant-design-vue/dist/antd.css'
                 var url = '/settle/data/export'+'?is_receiver='+this.is_receiver+'&name='+this.name+'&search='+this.search+'&channel='+this.channel+'&tstart='+this.value[0]+'&tend='+this.value[1]+'&projects='+this.projects.join(',')+'&disjunctions='+JSON.stringify(this.disjunctions);
                 download.downloadImg(url);
             },
-            // getName(){     
-            //         this.show=true;
-            //         this.JSname=[];
-            //          let params={is_receiver:this.is_receiver,search:this.name}
-            //             this.api.settle_settlement_list({params}).then((res)=>{
-            //                 if(res.length== '0'){
-            //                     this.show = false
-            //                 }else{
-            //                     this.JSname=res
-            //                 }
-            //             })
-            // },
-           
-            // setName(){
-            //     this.projects=[];
-            //     this.channels=[];
-            //     this.show=false;
-            //     this.getObject();
-            //     this.getqd()
-            // },
             getDataList(num){
                 for(var i=0;i<this.channels.length;i++){
                     var arr={};
@@ -392,7 +409,7 @@ import 'ant-design-vue/dist/antd.css'
                 }else{
                        params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,search:this.search,is_receiver:this.is_receiver,name:this.name,disjunctions:JSON.stringify(this.disjunctions),projects:this.projects.join(',')}
                 }
-                if(num == 3){
+                if(this.is_receiver == 0){
                     this.api.settle_data_search_pay({params}).then((res)=>{
                         this.tableData=res.data;
 

@@ -1849,6 +1849,15 @@ export default {
 	//上传汇款凭证
 	ds_advance_payment_upload_remittance:{
 		url:'ds/advance_payment/upload_remittance',method:"post",isType:{suktip:1}
+	},
+	//获取周期审核状态
+	sharing_data_income_status:{
+		url:"sharing/data/income/status",method:'get'
+	},
+	//审核操作
+	sharing_data_income_demand_audit:{
+		url:"sharing/data/income/demand/audit",method:"post",isType:{suktip:1}
+
 	},	
 	//广告源渠道场景列表
 	settle_data_ssp_channel_interaction:{
@@ -1858,12 +1867,8 @@ export default {
 	settle_settlement_list:{
 		url:'settle/settlement/list',method:'get'
 	},
-	//获取周期审核状态
-	sharing_data_income_status:{
-		url:"sharing/data/income/status",method:'get'
-	},
-	//审核操作
-	sharing_data_income_demand_audit:{
-		url:"sharing/data/income/demand/audit",method:"post",isType:{suktip:1}
+	//账号删除
+	pushlib_configs_channel_user_delete:{
+		url:'pushlib/configs/channel/user/delete',method:'post'
 	},
 }

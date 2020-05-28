@@ -16,6 +16,7 @@
                     <option value="0">信息异常</option>
                     <option value="1">信息待补充</option>
                 </select>
+                
                 <div style=" display: inline-block;position: relative;margin-left:15px;">
                     <span style="margin-right: 15px;">结算主体</span>
                     <!-- <input type="text" placeholder="请输入结算主体" v-model="balance_name" @input="getName()" @blur='focuson()' @focus='getName()'/>
@@ -31,6 +32,7 @@
                         >
                     </el-autocomplete>
                 </div>
+                
                 <div style=" display: inline-block;position: relative;margin-left:15px;margin-right:15px;">
                     <span style="margin-right: 15px;">合作公司</span>
                     <!-- <input type="text" placeholder="请输入合作公司" v-model="company_name" @input="oldADD()" @blur='oldblur()'/>
@@ -236,8 +238,13 @@ import loading from '../../../components/loading'
                 this.$router.go(index);
             },
             cz(){
-                this.search=''
-                this.status=''
+                this.search='';
+                this.status='';
+                this.balance_name = '';
+                this.company_name = '';
+                this.put_type = '';
+                this.company_id = '';
+                this.balance_id = '';
             },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
@@ -270,12 +277,13 @@ import loading from '../../../components/loading'
                 })
             },
             ck(id){
-                this.$router.push({
-                    path:"./PM_details",
+                let Logistics= this.$router.resolve({
+                    path:'./PM_details',
                     query:{
                         project_id:id
-                    }
+                    },
                 })
+                window.open(Logistics.href);
             },
              getDlist(){
                     let params={is_receiver:'1'}
