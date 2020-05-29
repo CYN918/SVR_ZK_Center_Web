@@ -1117,6 +1117,7 @@
         top:50%;
         transform: translate(-50%,-50%);
         padding: 20px;
+        box-sizing: content-box!important;
     }
     .up{
         margin: 20px 30px;
