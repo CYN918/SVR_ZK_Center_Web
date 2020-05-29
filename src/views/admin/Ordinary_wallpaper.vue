@@ -88,15 +88,18 @@
 								<span class="boxImg_content" v-if="DL.attach.size>1024*1024*1024">{{(DL.attach.size/1024/1024/1024).toFixed(2)}}GB</span>
 							</div>
 						</div>
+                        <div>
+                            <div class="xgsc">
+                                <span class="boxImg_text">物料使用记录:</span>
+                                <span class="ck">查看详情</span>
+                            </div>
+                            <div class='zt'>
+                                <span class="boxImg_text">资源类型:</span>
+                                <span class="boxImg_content">{{DL.model}}</span>
+                            </div>
+                        </div>
 
-						<div class="xgsc">
-							<span class="boxImg_text">物料使用记录:</span>
-							<span class="ck">查看详情</span>
-						</div>
-						<div class='zt'>
-							<span class="boxImg_text">资源类型:</span>
-							<span class="boxImg_content">{{DL.model}}</span>
-						</div>
+						
 						<div class="xgsc">
 								<span class="boxImg_text">来源:</span>
                                 <el-popover
