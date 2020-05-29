@@ -590,6 +590,9 @@ export default {
                                     this.$message.error('备注不能为空');
                                     return
                                 }
+                                if(this.materials.length!=this.listData.num){
+                                    this.rk=true
+                                }
                                 list.name=this.name;
                                 list.attach.url=this.listData.file_url;
                                 list.previews.push(this.prev_uri);
@@ -613,6 +616,9 @@ export default {
                                     this.$message.error('预置标签不能为空');
                                     return
                                 }
+                                if(this.materials.length!=this.listData.num){
+                                    this.rk=true
+                                }
                                 
                                 list.name=this.name;
                                 list.attach.url=this.listData.file_url;
@@ -623,7 +629,6 @@ export default {
                                 list.bardian=this.bardian;
                                 this.materials.push(list);
                              }
-                           
                             
                         },
                          scADD(){
@@ -673,6 +678,7 @@ export default {
                                     this.$message.error('预置标签不能为空');
                                     return
                                 }
+                                
                                     list.attach=this.attach;
                                     list.size=this.sjSize;
                                     list.prev_uri=this.prev_uri;
@@ -691,11 +697,16 @@ export default {
                             this.materials.splice(index,1);
                         },
                         storage(){
+                            
                             if(this.put_type=='1'){
                                 this.scADD2()
                             }
-                            console.log(this.materials)
-                            this.rk=true
+                            if(this.put_type=='0'){
+                                
+                                this.rk=true
+                            }
+                            
+                                   
                         }
                 }
 }
