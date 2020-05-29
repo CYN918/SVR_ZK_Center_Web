@@ -379,6 +379,7 @@ a{
 /*}*/
 .box{
   margin-top: 24px;
+  width: 1603px;
 }
 .boxImg{
   white-space: nowrap;
