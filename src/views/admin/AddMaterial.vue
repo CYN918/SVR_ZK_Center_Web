@@ -1206,6 +1206,7 @@
         height:326px;
         background:rgba(247,249,252,1);
         border-radius:4px;
+        overflow-y: scroll;
     }
     .AddIMG_box img ,.AddIMG_box video{
         width:64px;
