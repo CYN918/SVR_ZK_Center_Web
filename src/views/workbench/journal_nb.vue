@@ -19,7 +19,9 @@
                 <span class='qud'>{{this.$route.query.channel}}</span>
                 
                 <span class='userGl' v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)" @click='addWl()' style="margin: 0px 20% 0 0;">添加物料</span>
-                <span class="select" v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)" @click='jump()' style="margin: 0px 1% 0 0;background: rgba(51,119,255,1);color:#ffffff;">一键确认</span>
+                <span class="userGl" v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)" @click='jump()' style="margin: 0px 1% 0 0;">一键确认</span>
+                <!-- <span class="userGl" style="margin: 0px 1% 0 0;">预警设置</span>
+                <span class="userGl" style="margin: 0px 1% 0 0;">测试管理</span> -->
 
         </div>
         <div class='screening'>
