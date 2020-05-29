@@ -391,6 +391,7 @@ export default {
 }
 .navd{
 	height: 100%;
+	white-space: nowrap;
 }
 .navd li{
 	display: inline-block;
