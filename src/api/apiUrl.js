@@ -1899,4 +1899,15 @@ export default {
 	ds_income_lock_screen_detail:{
 		url:"ds/income/lock_screen/detail",method:'get'
 	},
+
+
+	//查询测试日期
+	pushlib_wptest_search:{
+		url:'pushlib/wptest/search',method:'get'
+	},
+
+	//编辑测试管理
+	pushlib_wptest_edit:{
+		url:'pushlib/wptest/edit',method:'post'
+	},
 }

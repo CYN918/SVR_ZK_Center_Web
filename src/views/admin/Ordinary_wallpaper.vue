@@ -99,7 +99,13 @@
 						</div>
 						<div class="xgsc">
 								<span class="boxImg_text">来源:</span>
-								<span class="boxImg_content" style="width:100px">{{DL.resource}}</span>
+                                <el-popover
+                                    placement="top"
+                                    trigger="hover">
+                                    <div>{{DL.resource}}</div>
+                                    <span class="boxImg_content" style="width:100px;display: inline-block;height: 21px;overflow: hidden;position: relative;top:4px;" slot="reference">{{DL.resource}}</span>
+                                </el-popover>
+								
 						</div>
 						<div>
 							<span class="boxImg_text">更新时间:</span>

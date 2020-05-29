@@ -20,8 +20,8 @@
                 
                 <span class='userGl' v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)" @click='addWl()' style="margin: 0px 20% 0 0;">添加物料</span>
                 <span class="userGl" v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)" @click='jump()' style="margin: 0px 1% 0 0;">一键确认</span>
-                <!-- <span class="userGl" style="margin: 0px 1% 0 0;">预警设置</span>
-                <span class="userGl" style="margin: 0px 1% 0 0;">测试管理</span> -->
+                <!-- <span class="userGl" style="margin: 0px 1% 0 0;" @click="getShow()">预警设置</span> -->
+                <span class="userGl" style="margin: 0px 1% 0 0;" @click="opens()">测试管理</span>
 
         </div>
         <div class='screening'>
@@ -306,6 +306,94 @@
         <ADDWL v-if="ADDwl && type=='meizu_first'" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :video="1"></ADDWL>
         <ADDWL v-if="ADDwl && type!='meizu_first'" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material"></ADDWL>
         <loading v-if='load'></loading>
+        <div class='bg' v-if="change">
+            <div class='compile'>
+                <div class='ts'>
+                    <span>预警设置</span>
+                    <el-popover placement="top">
+                        <div>
+                            预警提前天数：提前x天，检测当天配置内容的数量<br/>
+                            预警开始时间：当天开始检测的时间，精确到分<br/>
+                            预警数量：预警的数量依据，若数量低于设置的值，则发起预警通知<br/>
+                            通知人员姓名：用于匹配姓名找到企业微信对应用户，发送预警消息<br/>
+                            根据设置的预警检测提前天数和预警检测开始时间，每小时检测一次对应的数据是否存<br/>
+                            在异常，若存在则发送预警通知
+                        </div>
+                        <img src="../../../public/img/msg.png" style="position: relative;top: 8px;" slot="reference"/>
+                    </el-popover>
+                </div>
+                <div>
+                    <div class='regulation'>
+                        <div>
+                            <span  class='titName'>预警提前天数：</span>
+                            <el-input-number v-model="num" controls-position="right" @change="handleChange" :min="1"></el-input-number>
+                        </div>
+                        <div>
+                            <span  class='titName'>预警开始时间: </span>
+                            <template>
+                                <el-time-picker
+                                    v-model="value1"
+                                    format='HH:mm'
+                                    value-format='HH:mm'
+                                    :picker-options="{
+                                    selectableRange:  '00:00:00 - 23:59:59'
+                                    }"
+                                    placeholder="任意时间点">
+                                </el-time-picker>
+                            </template>
+                        </div>
+                        <div>
+                            <span  class='titName'>预警数量：</span>
+                            <el-input-number v-model="amount" controls-position="right" @change="handleChange" :min="1"></el-input-number>
+                        </div>
+                        <div>
+                            <span  class='titName'>通知人员：</span>
+                            <el-input v-model="content" placeholder="请输入内容"></el-input>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="btn_right" style="float:left;">
+                    <span class='cx' style="margin-bottom:20px" @click='bj()'>确认</span>
+                    <span @click='HeidChange'>取消</span>
+                </div>
+            </div>
+        </div>
+
+        <div class='bg' v-if="Cdialog">
+            <div class='compile'>
+                <div class='ts'>
+                    <span>测试管理</span>
+                    <el-popover placement="top">
+                        <div>
+                            根据测试管理选择日期，将对应日期的内容标记为测试内容
+                        </div>
+                        <img src="../../../public/img/msg.png" style="position: relative;top: 8px;" slot="reference"/>
+                    </el-popover>
+                </div>
+                <div>
+                    <div class='regulation'>
+                        <div>
+                            <span  class='titName'>测试内容日期: </span>
+                            <template>
+                                <el-date-picker
+                                    v-model="dateTime"
+                                    type="date"
+                                    format="yyyy 年 MM 月 dd 日"
+                                    placeholder="选择日期"
+                                    value-format="yyyy-MM-dd"
+                                    >
+                                </el-date-picker>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn_right" style="float:left;">
+                    <span class='cx' style="margin-bottom:20px" @click='ADDc()'>确认</span>
+                    <span @click='gb()'>取消</span>
+                </div>
+            </div>
+        </div>
 </div>
 </template>
 
@@ -324,6 +412,7 @@ return {
        type:this.$route.query.type,
        material:3,
        date:(new Date()).toLocaleDateString().split('/').join('-'),
+       dateTime:'',
        status:'',
        tableData:[],
         page:1,
@@ -355,11 +444,54 @@ return {
         pkgname:'',
         deeplink:'',
         download_url:'',
-        load:true
+        load:true,
+        change:false,
+        num: 1,
+        amount: 1,
+        content:'',
+        value1: new Date(),
+        Cdialog:false,
 };
 },
 
 methods: {
+    getShow(){
+        this.change = true;
+    },
+    HeidChange(){
+        this.change=false
+    },
+    bj(){
+
+    },
+    ADDc(){
+        let formData =new FormData;
+        formData.append('plid',this.$route.query.plid);
+        formData.append('tdate',this.dateTime);
+        this.api.pushlib_wptest_edit(formData).then((res)=>{
+            this.Cdialog = false;
+            this.getData()
+        })
+
+    },
+    opens(){
+        this.Cdialog = true;
+        let params = {plid:this.$route.query.plid}
+        this.api.pushlib_wptest_search({params}).then((res)=>{
+            if(res != false){
+                this.dateTime = res[0].tdate;
+            }else{
+                this.dateTime = '';
+            }
+            
+        })
+    },
+    gb(){
+        this.Cdialog = false;
+    },
+    handleChange(value) {
+        console.log(value);
+    },
      handleClose(done) {
         this.$confirm('确认关闭？')
           .then(_ => {
@@ -385,7 +517,8 @@ methods: {
         document.getElementById('pro'+index).style.display = 'none';
     },
     changeDate(val){
-        this.getData()
+        this.page = 1;
+        this.getData();
     },
     icon_click(index,rows){
         // console.log(rows)
@@ -708,6 +841,74 @@ mounted() {
 }
 </script>
 <style  scoped>
+.bg{
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.3);
+        position: fixed;
+        z-index: 9;
+        bottom: 0;
+        right: 0;
+       
+    }
+    .compile{
+        position: absolute;
+        top:50%;
+        left:50%;
+        width:550px;
+        min-height: 200px;
+        max-height: 800px;
+        overflow-y: auto;
+        background: #fff;
+        transform: translate(-50%,-50%);
+        border-radius: 5px;
+    }
+    .ts{
+        width: 100%;
+        height: 50px;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 20px;
+    }
+    .ts span{
+        font-size: 14px;
+        font-weight: bold;
+        margin-left: 24px;
+        display: inline-block;
+        line-height: 50px;
+
+    }
+    .regulation{
+        padding: 0 24px;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 20px;
+    }
+    .el-input{
+        width: 180px;
+    }
+    .regulation>div{
+        margin-bottom: 16px;
+    }
+    .titName{
+        display: inline-block;
+        width:140px;
+        text-align: right;
+    }
+    .btn_right{
+        display: inline-block;
+        float:right;
+    }
+    .btn_right span{
+        display: inline-block;
+        cursor: pointer;
+        width: 90px;
+        height: 36px;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        line-height: 36px;
+        text-align: center;
+        margin-left: 24px;
+            
+    }
   .top_name{
         height: 80px;
         border: 0;
