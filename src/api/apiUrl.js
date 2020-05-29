@@ -1871,4 +1871,14 @@ export default {
 	pushlib_configs_channel_user_delete:{
 		url:'pushlib/configs/channel/user/delete',method:'post'
 	},
+
+	//查询测试日期
+	pushlib_wptest_search:{
+		url:'pushlib/wptest/search',method:'get'
+	},
+
+	//编辑测试管理
+	pushlib_wptest_edit:{
+		url:'pushlib/wptest/edit',method:'post'
+	},
 }

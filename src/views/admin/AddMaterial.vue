@@ -241,7 +241,7 @@
                         </div>
                          <div class="box_sel" v-if="this.types=='f_sls_picture'">
                             <span class="tit">来源:</span>
-                            <input class="AddIMG_yl_size"  v-model='resource' placeholder="请输入来源(最多6字)" maxlength="6"  >
+                            <input class="AddIMG_yl_size"  v-model='resource' placeholder="请输入来源(最多50字)" maxlength="50"  >
                         </div>
                         <div v-if="model=='H5'" class="link" style="margin-bottom: 10px">
                             <span class="tit">H5链接:</span>
