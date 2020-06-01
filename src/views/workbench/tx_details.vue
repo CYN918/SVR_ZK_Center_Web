@@ -66,7 +66,7 @@
             </div>
             <div>
                 <span class="tit">相关合同</span>
-                <span></span>
+                <span>{{this.tableData.contract}}</span>
             </div>
         </div>
     </div>
