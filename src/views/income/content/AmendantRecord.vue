@@ -38,21 +38,18 @@
                             :cell-style="cell"
                             style="width: 100%;color:#000">
                         <el-table-column
-                                label="变更时间" prop="tdate"
+                                label="变更时间" prop="created_at"
                                >
                         </el-table-column>
                      
                         <el-table-column
-                                label="处理人" prop="is_confirmed"
+                                label="处理人" prop="creator"
                                 >
-                            <template slot-scope="scope">
-                                <span>{{tableData[scope.$index].is_confirmed==0?'未确认':'已确认'}}</span>
-                            </template>
                         </el-table-column>
                         
                         <el-table-column label="操作" width='150'>
                             <template slot-scope="props" >
-                                <el-button type="text" @click='details()'>查看详情</el-button>
+                                <el-button type="text" @click='details(tableData[props.$index].log_id)'>查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -94,8 +91,8 @@ export default {
                     this.$router.go(index)
                 },
                 cz(){
-                    this.tdate='';
-                    this.updator='';
+                    this.tdate=[];
+                    this.creator='';
                 },
                 getRowClass({row, column, rowIndex}) {
                     if (rowIndex === 0) {
@@ -115,10 +112,12 @@ export default {
                     this.page = page;
                     this.getDataList()
                 },
-                details(){
+                details(log_id){
                     this.$router.push({
                         path:"./AmendantRecordDetails",
-                       
+                       query:{
+                           log_id:log_id
+                       }
                     })
                 },
                 getDataList(){

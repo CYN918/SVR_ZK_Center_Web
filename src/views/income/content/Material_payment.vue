@@ -39,14 +39,23 @@
                         <el-table-column
                                 label="总付款金额" prop="total_income"
                                 >
+                                <template slot-scope="scope">
+                                    <span>{{"￥"+tableData[scope.$index].total_income}}</span>
+                                </template>    
                         </el-table-column>
                         <el-table-column
                                 label="买断付款金额" prop="buyout_income"
                                 >
+                                <template slot-scope="scope">
+                                    <span>{{"￥"+tableData[scope.$index].buyout_income}}</span>
+                                </template> 
                         </el-table-column>
                         <el-table-column
                                 label="分成付款金额" prop="sharing_income"
                                 >
+                                <template slot-scope="scope">
+                                    <span>{{"￥"+tableData[scope.$index].sharing_income}}</span>
+                                </template> 
                         </el-table-column>
                         <el-table-column label="操作" width='150'>
                             <template slot-scope="props">

@@ -41,6 +41,9 @@
                         <el-table-column
                                 label="付款金额" prop="total_income"
                                 >
+                                 <template slot-scope="scope">
+                                    <span>{{"￥"+tableData[scope.$index].total_income}}</span>
+                                </template> 
                         </el-table-column>
                         <el-table-column
                                 label="状态" prop="is_confirmed"

@@ -12,10 +12,10 @@
         </div>
         <div class='content'>
             <div class='tit_box'>
-                <span>处理人</span>
-                <span></span>
+                <span style="margin-top:24px">处理人</span>
+                <span>{{list.creator}}</span>
                 <span>更新时间</span>
-                <span></span>
+                <span>{{list.created_at}}</span>
                 <span class='before'>变更前</span>
                 <span class='after'>变更后</span>
             </div>
@@ -86,8 +86,8 @@
        getData(){
            let params={log_id:this.$route.query.log_id}
            this.api.analysis_config_sharing_operate_logs_detail({params}).then((res)=>{
-               this.list=res[0];
-               this.list2=res[1]
+               this.list=res[1];
+               this.list2=res[0]
                
            })
        },
@@ -114,16 +114,19 @@
         display: inline-block;
         margin-left: 24px;
         cursor: pointer;
+        
     }
     .content{
         margin-top: 199px;
         background: #fff;
     }  
-    
+    .tit_box{
+        margin-bottom: 40px;
+    }
    
     .tit_box span{
         display: inline-block;
-        margin:0 16px 30px 24px;
+        margin:0 16px 0px 24px;
 
     }
     .tit_box input{
