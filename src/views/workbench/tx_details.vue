@@ -28,9 +28,13 @@
                 <span class="tit">收款账户名称</span>
                 <span class="tit_right">{{this.tableData.account_name}}</span>
             </div>
-            <div>
+            <div v-if="this.tableData.contributor_type == '个人'">
                 <span class="tit">身份证号</span>
                 <span class="tit_right">{{this.tableData.id_card}}</span>
+            </div>
+            <div v-if="this.tableData.contributor_type == '公司'">
+                <span class="tit">社会信用代码</span>
+                <span class="tit_right">{{this.tableData.code}}</span>
             </div>
             <div>
                 <span class="tit">银行卡号</span>
