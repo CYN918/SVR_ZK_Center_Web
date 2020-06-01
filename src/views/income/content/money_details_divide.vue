@@ -89,7 +89,7 @@
                                 :show-overflow-tooltip="true"
                                 >
                                 <template slot-scope="scope">
-                                    <span v-if="tableData[scope.$index].sharing_type">{{tableData[scope.$index].sharing_type=="cepc"?'点击计费':tableData[scope.$index].sharing_type=='ecpm'?"千次曝光计费":""}}</span>
+                                    <span v-if="tableData[scope.$index].sharing_type">{{tableData[scope.$index].sharing_type=="ecpc"?'点击计费':tableData[scope.$index].sharing_type=='ecpm'?"千次曝光计费":""}}</span>
                                 </template>
                         </el-table-column>
                         <el-table-column
@@ -98,7 +98,7 @@
                                 :show-overflow-tooltip="true"
                                         >
                                 <template slot-scope="scope">
-                                    <span v-if="tableData[scope.$index].sharing_price">{{"￥"+tableData[scope.$index].sharing_pricee}}</span>
+                                    <span v-if="tableData[scope.$index].sharing_price">{{"￥"+tableData[scope.$index].sharing_price}}</span>
                                 </template>    
                                 </el-table-column>
                          <el-table-column
@@ -122,7 +122,7 @@
                                 label="加成金额" prop="gain_share_income"
                                 >
                                 <template slot-scope="scope">
-                                    <span v-if="tableData[scope.$index].gain_share_income">{{"￥"+tableData[scope.$index].gain_share_income}}</span>
+                                    <span>{{"￥"+tableData[scope.$index].gain_share_income}}</span>
                                 </template>    
                         </el-table-column>
                           <el-table-column

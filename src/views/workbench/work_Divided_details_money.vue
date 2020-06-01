@@ -100,7 +100,7 @@
                                 :show-overflow-tooltip="true"
                                 >
                                 <template slot-scope="scope">
-                                    <span v-if="tableData[scope.$index].sharing_type">{{tableData[scope.$index].sharing_type=="cepc"?'点击计费':tableData[scope.$index].sharing_type=='ecpm'?"千次曝光计费":""}}</span>
+                                    <span v-if="tableData[scope.$index].sharing_type">{{tableData[scope.$index].sharing_type=="ecpc"?'点击计费':tableData[scope.$index].sharing_type=='ecpm'?"千次曝光计费":""}}</span>
                                 </template>
                         </el-table-column>
                         <el-table-column
