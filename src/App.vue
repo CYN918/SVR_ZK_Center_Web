@@ -36,12 +36,13 @@ a{
 img{
   vertical-align: initial!important;
 }
-/* *, *::before, *::after{
-  box-sizing:content-box!important
-} */
-.el-input__inner{
+*, *::before, *::after{
+  box-sizing:initial!important
+}
+.el-input__inner,.el-button{
   box-sizing: border-box!important;
 }
+
 .el-date-editor .el-range-separator{
   width: 7%;
 }
@@ -310,7 +311,7 @@ body{
 .Search>img{
   width: 28px;
   position: relative;
-  left: -246px;
+  left: -285px;
   top: 10px;
   cursor: pointer;
 }
