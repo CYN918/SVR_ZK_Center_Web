@@ -303,8 +303,8 @@
                 <el-button @click="cancelTx">取消</el-button>
             </span>
         </el-dialog>
-        <ADDWL v-if="ADDwl && type=='meizu_first'" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :video="1"></ADDWL>
-        <ADDWL v-if="ADDwl && type!='meizu_first'" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material"></ADDWL>
+        <ADDWL v-if="ADDwl && type=='meizu_first'" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :ids='ids' :video="1"></ADDWL>
+        <ADDWL v-if="ADDwl && type!='meizu_first'" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :ids='ids'></ADDWL>
         <loading v-if='load'></loading>
         <div class='bg' v-if="change">
             <div class='compile'>
@@ -451,6 +451,7 @@ return {
         content:'',
         value1: new Date(),
         Cdialog:false,
+        ids:'',
 };
 },
 
@@ -811,17 +812,22 @@ methods: {
                })
            },
            getData(){
-               let params={
-                   p:this.p,
-                   page:this.page,
-                   tdate:this.date,
-                   plid:this.plid,
-                   type:this.$route.query.type,
+                let params={
+                    p:this.p,
+                    page:this.page,
+                    tdate:this.date,
+                    plid:this.plid,
+                    type:this.$route.query.type,
                 }
-               this.api.pushlib_textlink_search({params}).then((res)=>{
-                   this.tableData=res.data;
-                   this.total=res.total;
-                   this.load = false;
+                this.api.pushlib_textlink_search({params}).then((res)=>{
+                    this.tableData=res.data;
+                    this.total=res.total;
+                    this.load = false;
+                    var a = [];
+                    for(let i=0;i<this.tableData.length;i++){
+                        a.push(this.tableData[i].mfid);   
+                    }
+                    this.ids=a.join(';');
                 //    this.$previewRefresh()
                })
            },

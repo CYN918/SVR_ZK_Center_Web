@@ -13,8 +13,9 @@
                     <el-checkbox label="开户名错误"></el-checkbox>
                     <el-checkbox label="银行卡号异常" ></el-checkbox>
                     <el-checkbox label="其他"></el-checkbox>
-                    <textarea style="height:60px" v-model="yy" maxlength="20" placeholder="最多输入20字"></textarea>
+                    
                 </el-checkbox-group>
+                <textarea style="height:60px" v-if='open_id!=undefined' v-model="yy" maxlength="20" placeholder="最多输入20字"></textarea>
             </div>
             <div class="btn">
                 <span class="btn_qd" @click="tj">确定</span>
@@ -36,7 +37,7 @@
             }   
         },
         mounted(){
-            console.log(this.open_id);
+            // console.log(this.open_id);
         },
         methods:{
 
@@ -44,7 +45,7 @@
                 this.$parent.heidBH();
             },
             aaa(){
-                console.log(this.checkList)
+                // console.log(this.checkList)
             },
            tj(){
                 if(this.id!=undefined){
