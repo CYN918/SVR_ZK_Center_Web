@@ -104,8 +104,12 @@
                         >
                         </el-table-column>
                         <el-table-column
-                                label="身份证号码" prop="id_card"
+                                label="身份证号码"
                         >
+                            <template slot-scope="props">
+                                <span v-if="tableData[props.$index].contributor_type=='个人'">{{tableData[props.$index].id_card}}</span>
+                                <span v-if="tableData[props.$index].contributor_type=='公司'">{{tableData[props.$index].code}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                                 label="状态" prop="check_status_name"
