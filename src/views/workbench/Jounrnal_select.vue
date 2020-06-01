@@ -77,6 +77,10 @@
                                     <span class="boxImg_text">更新时间:</span>
                                     <span class="boxImg_content">{{DL.updated_at}}</span>
                                 </div>
+                                <!-- <div v-if="checked.indexOf(DL.mfid) > -1">
+                                    <span class="boxImg_text">上次使用日期:</span>
+                                    <span class="boxImg_content">{{DL.updated_at}}</span>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -103,7 +107,7 @@
 <script>
     export default {
         name: "select_material",
-        props:['material','typeSC',"date",'channel','video'],
+        props:['material','typeSC',"date",'channel','video','ids'],
         data(){
             return {
                 checked:[],
@@ -120,8 +124,6 @@
                 scUrl:'',
                 scType:'',
                 type:'f_sls_lockscreen',
-                mid_list:[],
-                url_list:[],
                 inx:null,
                 inde:null,
                 listData: [],
@@ -136,6 +138,10 @@
         },
         mounted() {
             this.getList();
+            if(this.ids.length>0){
+                this.checked=this.checked.concat(this.ids.split(';'));
+                console.log(this.checked.indexOf('SLS_10780000'))
+            }
         },
         methods:{
             YCset(){
@@ -362,7 +368,7 @@
     }
     .boxImg{
         display: inline-block;
-        width:408px;
+        width:445px;
         height:200px;
         background:rgba(245,247,250,1);
         border-radius:4px;
@@ -417,7 +423,7 @@
         margin-bottom: 15px;
     }
     .boxImg_right_1 .boxImg_text{
-        width: 70px;
+        width: 100px;
         margin-right: 11px;
     }
     .boxImg_right_2 .boxImg_text{
