@@ -109,7 +109,7 @@
                                 :show-overflow-tooltip="true"
                                         >
                                 <template slot-scope="scope">
-                                    <span v-if="tableData[scope.$index].sharing_price">{{"￥"+tableData[scope.$index].sharing_pricee}}</span>
+                                    <span>{{"￥"+tableData[scope.$index].sharing_pricee}}</span>
                                 </template>    
                         </el-table-column>
                         <el-table-column
