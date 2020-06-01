@@ -46,7 +46,10 @@ img{
 .el-date-editor .el-range-separator{
   width: 7%;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> newBranch
 body{
   background-color: transparent!important;
 }
