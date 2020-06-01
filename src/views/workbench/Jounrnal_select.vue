@@ -48,8 +48,8 @@
 
                         <div class="boxCheck">
                             <template>
-                                <el-checkbox-group v-model="checked">
-                                    <el-checkbox :label="DL.mfid" ></el-checkbox>
+                                <el-checkbox-group v-model="checked" >
+                                    <el-checkbox :label="DL.mfid" @change="clcBox(DL.mfid)"></el-checkbox>
                                 </el-checkbox-group>
                             </template>
                         </div>
@@ -140,10 +140,17 @@
             this.getList();
             if(this.ids.length>0){
                 this.checked=this.checked.concat(this.ids.split(';'));
-                console.log(this.checked.indexOf('SLS_10780000'))
             }
         },
         methods:{
+            clcBox(data){
+                let formData =new FormData;
+                formData.append('mfid',data);
+                if(this.video == 1){
+                    formData.append('type','meizu_first');
+                }
+                
+            },
             YCset(){
                 this.$parent.heidWL();
             },
