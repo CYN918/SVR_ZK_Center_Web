@@ -65,7 +65,21 @@
                                 :show-overflow-tooltip="true"
                                >
                         </el-table-column>
-                        
+                         <el-table-column
+                                 v-if='this.$route.query.type==3'
+                                label="素材ID" prop="mid"
+                                :show-overflow-tooltip="true"
+                                >
+                        </el-table-column>
+                        <el-table-column
+                                 v-if='this.$route.query.type==3'
+                                label="素材类型" prop="m_type"
+                                :show-overflow-tooltip="true"
+                                        >
+                                <template slot-scope="scope">
+                                    <span v-if="tableData[scope.$index].m_type">{{tableData[scope.$index].m_type=="sls_dynamic"?'杂志锁屏动效':tableData[scope.$index].m_type=='sls_picture'?'杂志锁屏壁纸':""}}</span>
+                                </template>
+                        </el-table-column>
                         <el-table-column
                                 label="渠道" prop="channel"
                                 >
@@ -79,6 +93,24 @@
                          v-if='this.$route.query.type==3'
                                 label="曝光量" prop="pv"
                                 >
+                        </el-table-column>
+                         <el-table-column
+                                v-if='this.$route.query.type==3'
+                                label="分成方式" prop="sharing_type"
+                                :show-overflow-tooltip="true"
+                                >
+                                <template slot-scope="scope">
+                                    <span v-if="tableData[scope.$index].sharing_type">{{tableData[scope.$index].sharing_type=="ecpc"?'点击计费':tableData[scope.$index].sharing_type=='ecpm'?"千次曝光计费":""}}</span>
+                                </template>
+                        </el-table-column>
+                        <el-table-column
+                                v-if='this.$route.query.type==3'
+                                label="分成价格" prop="sharing_price"
+                                :show-overflow-tooltip="true"
+                                        >
+                                <template slot-scope="scope">
+                                    <span v-if="tableData[scope.$index].sharing_price">{{"￥"+tableData[scope.$index].sharing_pricee}}</span>
+                                </template>    
                         </el-table-column>
                         <el-table-column
                                 v-if='this.$route.query.type==1'
@@ -98,7 +130,7 @@
                                 >
                         </el-table-column>
                           <el-table-column
-                                
+                                v-if='this.$route.query.type!=3'
                                 label="分成比例" prop="sharing_rate"
                                 >
                                 <template slot-scope="scope">

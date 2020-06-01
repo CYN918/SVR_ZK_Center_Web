@@ -22,15 +22,15 @@
                 <select disabled v-model="data.sharing[index].type">
                     <option value="ad_picture" >广告图</option>
                     <option value="ad_template" >广告模板</option>
-                    <option value="sls_dynamic" >场景锁屏-动效</option>
-                    <option value="sls_picture" >场景锁屏-壁纸</option>
+                    <option value="sls_dynamic" >杂志锁屏-动效</option>
+                    <option value="sls_picture" >杂志锁屏-壁纸</option>
                 </select>
                 <span>分成价格(元)</span> 
                 <input type="text" v-model="data.sharing[index].sharing_price"  :disabled='set==false'>
                  <span>分成方式</span>
                 <select v-model="data.sharing[index].sharing_type"  :disabled='set==false'>
-                    <option value="ecpm">ecpm</option>
-                    <option value="ecpc">ecpc</option>
+                    <option value="ecpm">千次曝光计费</option>
+                    <option value="ecpc">点击计费</option>
                 </select>
             </div>
             
