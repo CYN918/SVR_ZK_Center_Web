@@ -286,7 +286,7 @@
                         thmid:id,
                     },
                 })
-                window.open(Logistics.href);
+                window.open(encodeURI(Logistics.href));
             },
 
              seeTheme(id,name,qdid,channel_name,local){
