@@ -368,7 +368,7 @@
     }
     .boxImg{
         display: inline-block;
-        width:445px;
+        width:408px;
         height:200px;
         background:rgba(245,247,250,1);
         border-radius:4px;
