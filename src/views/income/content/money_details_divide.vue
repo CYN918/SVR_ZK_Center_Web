@@ -65,6 +65,9 @@
                                 label="素材类型" prop="m_type"
                                 :show-overflow-tooltip="true"
                                         >
+                                <template slot-scope="scope">
+                                    <span v-if="tableData[scope.$index].m_type">{{tableData[scope.$index].m_type=="sls_dynamic"?'杂志锁屏动效':tableData[scope.$index].m_type=='sls_picture'?'杂志锁屏壁纸':""}}</span>
+                                </template>
                         </el-table-column>
                         <el-table-column
                                 label="渠道" prop="channel"
@@ -85,17 +88,26 @@
                                 label="分成方式" prop="sharing_type"
                                 :show-overflow-tooltip="true"
                                 >
+                                <template slot-scope="scope">
+                                    <span v-if="tableData[scope.$index].sharing_type">{{tableData[scope.$index].sharing_type=="cepc"?'点击计费':tableData[scope.$index].sharing_type=='ecpm'?"千次曝光计费":""}}</span>
+                                </template>
                         </el-table-column>
                         <el-table-column
                                 
                                 label="分成价格" prop="sharing_price"
                                 :show-overflow-tooltip="true"
                                         >
+                                <template slot-scope="scope">
+                                    <span v-if="tableData[scope.$index].sharing_price">{{"￥"+tableData[scope.$index].sharing_pricee}}</span>
+                                </template>    
                                 </el-table-column>
                          <el-table-column
                                
                                 label="分成金额" prop="final_income"
                                 >
+                                 <template slot-scope="scope">
+                                    <span v-if="tableData[scope.$index].final_income">{{"￥"+tableData[scope.$index].final_income}}</span>
+                                </template>    
                         </el-table-column>
                           <el-table-column
                                 
@@ -109,16 +121,25 @@
                                 
                                 label="加成金额" prop="gain_share_income"
                                 >
+                                <template slot-scope="scope">
+                                    <span v-if="tableData[scope.$index].gain_share_income">{{"￥"+tableData[scope.$index].gain_share_income}}</span>
+                                </template>    
                         </el-table-column>
                           <el-table-column
                                 
                                 label="抵消预付金" prop="advance_payment_income"
                                 >
+                                <template slot-scope="scope">
+                                    <span v-if="tableData[scope.$index].advance_payment_income">{{"￥"+tableData[scope.$index].advance_payment_income}}</span>
+                                </template> 
                         </el-table-column>
                           <el-table-column
                                 
                                 label="付款金额" prop="payment_income"
                                 >
+                                 <template slot-scope="scope">
+                                    <span v-if="tableData[scope.$index].payment_income">{{"￥"+tableData[scope.$index].payment_income}}</span>
+                                </template> 
                         </el-table-column>
                     </el-table>
                 </template>
