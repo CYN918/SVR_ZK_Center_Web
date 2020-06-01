@@ -109,7 +109,7 @@
                 </div>
                 <div class='tits'>
                     <span>数据有效率：</span>
-                    <input type="number" v-model="complete">
+                    <input type="number" v-model="complete">%
                 </div>
                 <div class='tits'>
                     <span>分成金额：</span>
