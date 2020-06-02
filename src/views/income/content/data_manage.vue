@@ -54,7 +54,7 @@
                                 label="数据有效率" prop="complete"
                                 >
                             <template slot-scope="scope">
-                                <span v-if="tableData[scope.$index].complete">{{tableData[scope.$index].complete+'%'}}</span>
+                                <span>{{tableData[scope.$index].complete+'%'}}</span>
                             </template>
                         </el-table-column>
                         <el-table-column
@@ -71,7 +71,7 @@
                                 label="分成金额" prop="income"
                                 >
                             <template slot-scope="scope">
-                                <span v-if="tableData[scope.$index].income">{{"￥"+tableData[scope.$index].income}}</span>
+                                <span>{{"￥"+tableData[scope.$index].income}}</span>
                             </template>
                         </el-table-column>
                         <el-table-column label="操作" width='150'>
