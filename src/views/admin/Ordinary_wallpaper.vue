@@ -101,13 +101,11 @@
 
 						
 						<div class="xgsc">
-								<span class="boxImg_text">来源:</span>
-                                <el-popover
-                                    placement="top"
-                                    trigger="hover">
-                                    <div>{{DL.resource}}</div>
-                                    <span class="boxImg_content" style="width:100px;display: inline-block;height: 21px;overflow: hidden;position: relative;top:4px;" slot="reference">{{DL.resource}}</span>
-                                </el-popover>
+                            <span class="boxImg_text">来源:</span>
+                            <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                                <div slot="content" class="text">{{DL.resource}}</div>
+                                <span  class="text" style="overflow: hidden;width: 200px;height: 20px;line-height: 28px">{{DL.resource}}</span>
+                            </el-tooltip>
 								
 						</div>
 						<div>
