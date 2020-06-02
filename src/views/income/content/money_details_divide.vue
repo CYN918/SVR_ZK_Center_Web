@@ -98,7 +98,7 @@
                                 :show-overflow-tooltip="true"
                                         >
                                 <template slot-scope="scope">
-                                    <span v-if="tableData[scope.$index].sharing_price">{{"￥"+tableData[scope.$index].sharing_price}}</span>
+                                    <span>{{"￥"+tableData[scope.$index].sharing_price}}</span>
                                 </template>    
                                 </el-table-column>
                          <el-table-column
@@ -106,7 +106,7 @@
                                 label="分成金额" prop="final_income"
                                 >
                                  <template slot-scope="scope">
-                                    <span v-if="tableData[scope.$index].final_income">{{"￥"+tableData[scope.$index].final_income}}</span>
+                                    <span>{{"￥"+tableData[scope.$index].final_income}}</span>
                                 </template>    
                         </el-table-column>
                           <el-table-column
@@ -130,7 +130,7 @@
                                 label="抵消预付金" prop="advance_payment_income"
                                 >
                                 <template slot-scope="scope">
-                                    <span v-if="tableData[scope.$index].advance_payment_income">{{"￥"+tableData[scope.$index].advance_payment_income}}</span>
+                                    <span>{{"￥"+tableData[scope.$index].advance_payment_income}}</span>
                                 </template> 
                         </el-table-column>
                           <el-table-column
@@ -138,7 +138,7 @@
                                 label="付款金额" prop="payment_income"
                                 >
                                  <template slot-scope="scope">
-                                    <span v-if="tableData[scope.$index].payment_income">{{"￥"+tableData[scope.$index].payment_income}}</span>
+                                    <span>{{"￥"+tableData[scope.$index].payment_income}}</span>
                                 </template> 
                         </el-table-column>
                     </el-table>
