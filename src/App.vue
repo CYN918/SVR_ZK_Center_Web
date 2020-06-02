@@ -37,7 +37,7 @@ img{
   vertical-align: initial!important;
 }
 *, *::before, *::after{
-  box-sizing:initial!important
+  box-sizing:content-box!important
 }
 .el-input__inner,.el-button{
   box-sizing: border-box!important;
