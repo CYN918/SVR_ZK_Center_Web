@@ -58,6 +58,7 @@
                     <span class="cx" @click="getDataList()">查询</span>
                     <span @click='cz()'>重置</span>
                     <span @click="guideR()" v-if="isShow">导入</span>
+                    <span @click="guideC()" v-if="isChow">导出</span>
                     <!-- <span>监控邮箱</span> -->
                 </div>
             </div>
@@ -144,6 +145,7 @@
 
 <script>
 import loading from '../../../components/loading'
+import download from '../../../api/commonality'
     export default {
         components:{loading},
         name: "settlement",
@@ -161,6 +163,7 @@ import loading from '../../../components/loading'
                 isShow:true,
                 JSname:[],
                 show:false,
+                isChow:true,
                 balance_id:'',
                 put_type:'',
                 company:[],
@@ -191,6 +194,15 @@ import loading from '../../../components/loading'
                 }else{
                     this.isShow = false;
                 }   
+            },
+            guideC(){
+                if(this.userData.roles[0].role_name=='admin'){
+                    var url = '/adproject/external/export';
+                    download.downloadImg(url);   
+                }else{
+                    this.isChow = false;
+                }
+
             },
             upLoad(file){
                 let formData = new FormData;
@@ -408,7 +420,7 @@ import loading from '../../../components/loading'
         margin-right: 24px;
     }
     .btn_box span{
-        width: 90px!important;
+        width: 65px!important;
         height: 36px;
         display: inline-block;
         border:1px solid #ddd;
