@@ -65,10 +65,10 @@
                                     <span class="boxImg_text">尺寸:</span>
                                     <span class="boxImg_content">{{DL.size}}</span>
                                 </div>
-                                <div>
+                                <!-- <div>
                                     <span class="boxImg_text">素材状态:</span>
                                     <span class="boxImg_content">{{DL.status==1201?'禁用':'启用'}}</span>
-                                </div>
+                                </div> -->
                                 <div>
                                     <span class="boxImg_text">制作方式:</span>
                                     <span class="boxImg_content">{{DL.pro_type==1?'高定':'微定'}}</span>
@@ -77,10 +77,10 @@
                                     <span class="boxImg_text">更新时间:</span>
                                     <span class="boxImg_content">{{DL.updated_at}}</span>
                                 </div>
-                                <!-- <div v-if="checked.indexOf(DL.mfid) > -1">
+                                <div v-if="checked.indexOf(DL.mfid) > -1">
                                     <span class="boxImg_text">上次使用日期:</span>
-                                    <span class="boxImg_content">{{DL.updated_at}}</span>
-                                </div> -->
+                                    <span class="boxImg_content" v-for="todo in list"><span v-if="todo.mfid == DL.mfid"><span>{{todo.tdate}}</span></span><span v-if="todo.mfid != DL.mfid"><span>--</span></span></span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -134,22 +134,24 @@
                 search_tags:[],
                 search_self_tags:[],
                 pro_type:'',
+                list:[],
             }
         },
         mounted() {
             this.getList();
             if(this.ids.length>0){
                 this.checked=this.checked.concat(this.ids.split(';'));
+                this.clcBox()
             }
         },
         methods:{
-            clcBox(data){
-                let formData =new FormData;
-                formData.append('mfid',data);
-                if(this.video == 1){
-                    formData.append('type','meizu_first');
-                }
-                
+            clcBox(){
+                let params = {mfid:this.checked,plid:this.$route.query.plid,type:this.$route.query.type}
+                this.api.pushlib_textlink_mfid_lastuse({params}).then((res)=>{
+                    if(res != false){
+                        this.list = res;
+                    } 
+                }) 
             },
             YCset(){
                 this.$parent.heidWL();
@@ -159,7 +161,10 @@
                 // this.$parent.heidWL();
             },
             getList(){
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,pro_type:this.pro_type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),status:this.status}
+                let status = [];
+                status.push('1101');
+                status.push('1001');
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,pro_type:this.pro_type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),status:status}
                 this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     console.log(this.IMGList);

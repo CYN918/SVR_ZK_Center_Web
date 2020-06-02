@@ -1883,5 +1883,7 @@ export default {
 	},
 
 	//查询杂志锁屏上次使用时间
-	
+	pushlib_textlink_mfid_lastuse:{
+		url:'pushlib/textlink/mfid/lastuse',method:'get'
+	},
 }
