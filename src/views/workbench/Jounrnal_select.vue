@@ -80,7 +80,10 @@
                                 </div>
                                 <div v-if="checked.indexOf(DL.mfid) > -1">
                                     <span class="boxImg_text">上次使用日期:</span>
-                                    <span class="boxImg_content" v-for="todo in list"><span v-if="todo.mfid == DL.mfid"><span>{{todo.tdate}}</span></span><span v-if="todo.mfid != DL.mfid"><span>--</span></span></span>
+                                    <span class="boxImg_content" v-if="listMfid.indexOf(DL.mfid) < 0">--</span>
+                                    <span class="boxImg_content" v-else v-for="todo in list">
+                                        <span v-if="todo.mfid == DL.mfid">{{todo.tdate}}</span>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -136,6 +139,7 @@
                 search_self_tags:[],
                 pro_type:'',
                 list:[],
+                listMfid:[],
             }
         },
         mounted() {
@@ -151,6 +155,9 @@
                 this.api.pushlib_textlink_mfid_lastuse({params}).then((res)=>{
                     if(res != false){
                         this.list = res;
+                        this.list.forEach(element => {
+                            this.listMfid.push(element.mfid)
+                        })
                     } 
                 }) 
             },
