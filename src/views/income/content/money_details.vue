@@ -4,7 +4,7 @@
              <span class="top_txt" @click='fh(-1)'>杂志锁屏付款&nbsp;/&nbsp;金额详情</span>
             <div class="title_left">
                 <span>金额详情</span>
-                <span class='time'></span>
+                <span class='time'>{{this.$route.query.tdate}}</span>
                 <div>
                     <span class='md' :class="{clicks:this.num==1}" @click='data("1")'>买断数据</span>
                     <span class='fc' :class="{clicks:this.num==2}" @click='data("2")'>分成数据</span>
