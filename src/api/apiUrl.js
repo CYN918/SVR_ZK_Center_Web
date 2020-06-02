@@ -1910,4 +1910,7 @@ export default {
 	pushlib_wptest_edit:{
 		url:'pushlib/wptest/edit',method:'post'
 	},
+
+	//查询杂志锁屏上次使用时间
+	
 }
