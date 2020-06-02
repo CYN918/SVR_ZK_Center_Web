@@ -7,7 +7,7 @@
             <div class="title_left">
                 <span>分成详情</span>
                 <span class='time'>{{this.$route.query.tdate}}</span>
-                <span class='zt' :class='{red:this.status=="0"||this.status==-1}'>({{this.status=="0"?"待确认":this.status==1?'审核中':this.status==2?'已确认':this.status==-1?'审核不通过，请重新导入数据':''}})</span>
+                <span class='zt' :class='{red:this.status=="0"||this.status==-1}'>({{this.status=="0"?"待确认":this.status==1?'审核中':this.status==2?'已确认':this.status==-1?'审核不通过':''}})</span>
             </div>
         </div>
         <div class='content'>

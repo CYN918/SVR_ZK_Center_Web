@@ -49,7 +49,7 @@
                                 label="状态" prop="is_confirmed"
                                 >
                             <template slot-scope="scope">
-                                <span>{{tableData[scope.$index].is_confirmed==0?'未确认':'已确认'}}</span>
+                                <span>{{tableData[scope.$index].status==0?'待确认':tableData[scope.$index].status==1?'审核中':tableData[scope.$index].status==2?'已确认':tableData[scope.$index].status==-1?"审核不通过":""}}</span>
                             </template>
                         </el-table-column>
                         <el-table-column
