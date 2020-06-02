@@ -27,7 +27,7 @@
                     <span class='cx' @click='getDataList()'>查询</span>
                     <span class='cz
                     ' @click='cz()'>重置</span>
-                    <span @click='jeqr()' v-if='this.status==0'>确认金额</span>
+                    <span @click='jeqr()' v-if='this.status==0||this.status==-1'>确认金额</span>
                 </div>      
             </div>
            <div>
