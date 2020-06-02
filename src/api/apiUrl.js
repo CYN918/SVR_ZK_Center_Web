@@ -1915,4 +1915,9 @@ export default {
 	pushlib_textlink_mfid_lastuse:{
 		url:'pushlib/textlink/mfid/lastuse',method:'get'
 	},
+
+	//导出项目管理数据
+	adproject_external_export:{
+		url:'adproject/external/export',method:'get'
+	},
 }
