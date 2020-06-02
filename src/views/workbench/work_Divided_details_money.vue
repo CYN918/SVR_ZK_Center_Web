@@ -109,7 +109,7 @@
                                 :show-overflow-tooltip="true"
                                         >
                                 <template slot-scope="scope">
-                                    <span>{{"￥"+tableData[scope.$index].sharing_pricee}}</span>
+                                    <span>{{"￥"+tableData[scope.$index].sharing_price}}</span>
                                 </template>    
                         </el-table-column>
                         <el-table-column
@@ -125,7 +125,7 @@
                                         >
                                 </el-table-column>
                          <el-table-column
-                               
+                                v-if='this.$route.query.type!=3'
                                 label="收益" prop="income"
                                 >
                         </el-table-column>

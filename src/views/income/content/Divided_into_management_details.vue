@@ -232,7 +232,7 @@ export default {
                     formData.append('tdate',this.$route.query.tdate);
                     this.api.sharing_data_income_confirm(formData).then((res)=>{
                         if(res!=false){
-                            this.getDetails()
+                            this.getDataList()
                             this.heid()
                         }
                     })
