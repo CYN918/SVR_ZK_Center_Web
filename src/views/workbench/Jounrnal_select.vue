@@ -48,8 +48,9 @@
 
                         <div class="boxCheck">
                             <template>
-                                <el-checkbox-group v-model="checked" >
-                                    <el-checkbox :label="DL.mfid" @change="clcBox(DL.mfid)"></el-checkbox>
+                                <el-checkbox-group v-model="checked">
+                                    <el-checkbox :label="DL.mfid" @change="clcBox(DL.mfid)" v-if="ids.split(';').indexOf(DL.mfid) > -1" disabled></el-checkbox>
+                                    <el-checkbox :label="DL.mfid" @change="clcBox(DL.mfid)" v-else></el-checkbox>
                                 </el-checkbox-group>
                             </template>
                         </div>
