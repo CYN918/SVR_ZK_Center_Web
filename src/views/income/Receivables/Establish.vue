@@ -230,6 +230,7 @@
                 this.attachs.splice(index,1)
             },
             ADD(){
+                console.log(this.bind_projects_name)
                 if(this.fcounter != 0)
                 {
                     this.$message.error('文件上传中');
@@ -359,10 +360,10 @@
                     this.$message.error('结算方不能为空');
                     return
                 }
-                if(this.projects.length==0){
-                    this.$message.error('项目不能为空');
-                    return
-                }
+                // if(this.projects.length==0){
+                //     this.$message.error('项目不能为空');
+                //     return
+                // }
                 if(!this.statement){
                     this.$message.error('结算单名称不能为空');
                     return
@@ -405,7 +406,7 @@
                 let formData = new FormData;
                 formData.append('name',this.name);
                 formData.append('statement',this.statement);
-                formData.append('projects',JSON.stringify(this.projects));
+                formData.append('projects',JSON.stringify(this.bind_projects_name));
                 formData.append('is_receiver',this.is_receiver);
                 formData.append('tstart',this.time[0]);
                 formData.append('id',this.$route.query.id);
