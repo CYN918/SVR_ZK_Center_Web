@@ -150,16 +150,30 @@
             }
         },
         methods:{
-            clcBox(){
-                let params = {mfid:this.checked,plid:this.$route.query.plid,type:this.$route.query.type}
-                this.api.pushlib_textlink_mfid_lastuse({params}).then((res)=>{
-                    if(res != false){
-                        this.list = res;
-                        this.list.forEach(element => {
-                            this.listMfid.push(element.mfid)
-                        })
-                    } 
-                }) 
+            clcBox(data){
+                let mfid = [];
+                mfid.push(data);
+                if(this.checked.length == '0'){
+                    let params = {mfid:mfid,plid:this.$route.query.plid,type:this.$route.query.type};
+                    this.api.pushlib_textlink_mfid_lastuse({params}).then((res)=>{
+                        if(res != false){
+                            this.list = res;
+                            this.list.forEach(element => {
+                                this.listMfid.push(element.mfid)
+                            })
+                        } 
+                    })
+                }else{
+                    let params = {mfid:this.checked,plid:this.$route.query.plid,type:this.$route.query.type}
+                    this.api.pushlib_textlink_mfid_lastuse({params}).then((res)=>{
+                        if(res != false){
+                            this.list = res;
+                            this.list.forEach(element => {
+                                this.listMfid.push(element.mfid)
+                            })
+                        } 
+                    })
+                }  
             },
             YCset(){
                 this.$parent.heidWL();
