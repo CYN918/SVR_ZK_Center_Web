@@ -49,7 +49,8 @@
                         <div class="boxCheck">
                             <template>
                                 <el-checkbox-group v-model="checked">
-                                    <el-checkbox :label="DL.mfid" ></el-checkbox>
+                                    <el-checkbox :label="DL.mfid" @change="clcBox(DL.mfid)" v-if="ids.split(';').indexOf(DL.mfid) > -1" disabled></el-checkbox>
+                                    <el-checkbox :label="DL.mfid" @change="clcBox(DL.mfid)" v-else></el-checkbox>
                                 </el-checkbox-group>
                             </template>
                         </div>
@@ -65,10 +66,10 @@
                                     <span class="boxImg_text">尺寸:</span>
                                     <span class="boxImg_content">{{DL.size}}</span>
                                 </div>
-                                <div>
+                                <!-- <div>
                                     <span class="boxImg_text">素材状态:</span>
                                     <span class="boxImg_content">{{DL.status==1201?'禁用':'启用'}}</span>
-                                </div>
+                                </div> -->
                                 <div>
                                     <span class="boxImg_text">制作方式:</span>
                                     <span class="boxImg_content">{{DL.pro_type==1?'高定':'微定'}}</span>
@@ -76,6 +77,13 @@
                                 <div>
                                     <span class="boxImg_text">更新时间:</span>
                                     <span class="boxImg_content">{{DL.updated_at}}</span>
+                                </div>
+                                <div v-if="checked.indexOf(DL.mfid) > -1">
+                                    <span class="boxImg_text">上次使用日期:</span>
+                                    <span class="boxImg_content" v-if="listMfid.indexOf(DL.mfid) < 0">--</span>
+                                    <span class="boxImg_content" v-else v-for="todo in list">
+                                        <span v-if="todo.mfid == DL.mfid">{{todo.tdate}}</span>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -103,7 +111,7 @@
 <script>
     export default {
         name: "select_material",
-        props:['material','typeSC',"date",'channel','video'],
+        props:['material','typeSC',"date",'channel','video','ids'],
         data(){
             return {
                 checked:[],
@@ -120,8 +128,6 @@
                 scUrl:'',
                 scType:'',
                 type:'f_sls_lockscreen',
-                mid_list:[],
-                url_list:[],
                 inx:null,
                 inde:null,
                 listData: [],
@@ -132,12 +138,43 @@
                 search_tags:[],
                 search_self_tags:[],
                 pro_type:'',
+                list:[],
+                listMfid:[],
             }
         },
         mounted() {
             this.getList();
+            if(this.ids.length>0){
+                this.checked=this.checked.concat(this.ids.split(';'));
+                this.clcBox()
+            }
         },
         methods:{
+            clcBox(data){
+                let mfid = [];
+                mfid.push(data);
+                if(this.checked.length == '0'){
+                    let params = {mfid:mfid,plid:this.$route.query.plid,type:this.$route.query.type};
+                    this.api.pushlib_textlink_mfid_lastuse({params}).then((res)=>{
+                        if(res != false){
+                            this.list = res;
+                            this.list.forEach(element => {
+                                this.listMfid.push(element.mfid)
+                            })
+                        } 
+                    })
+                }else{
+                    let params = {mfid:this.checked,plid:this.$route.query.plid,type:this.$route.query.type}
+                    this.api.pushlib_textlink_mfid_lastuse({params}).then((res)=>{
+                        if(res != false){
+                            this.list = res;
+                            this.list.forEach(element => {
+                                this.listMfid.push(element.mfid)
+                            })
+                        } 
+                    })
+                }  
+            },
             YCset(){
                 this.$parent.heidWL();
             },
@@ -146,7 +183,10 @@
                 // this.$parent.heidWL();
             },
             getList(){
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,pro_type:this.pro_type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),status:this.status}
+                let status = [];
+                status.push('1101');
+                status.push('1001');
+                let params ={p:this.pageSize,page:this.currentPage,type:this.type,pro_type:this.pro_type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),status:status}
                 this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     console.log(this.IMGList);
@@ -417,7 +457,7 @@
         margin-bottom: 15px;
     }
     .boxImg_right_1 .boxImg_text{
-        width: 70px;
+        width: 100px;
         margin-right: 11px;
     }
     .boxImg_right_2 .boxImg_text{

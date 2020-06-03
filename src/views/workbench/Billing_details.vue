@@ -106,11 +106,11 @@
                         >
                         </el-table-column>
                         <el-table-column
-                                label="证件号码" prop="id_card"
-                                :show-overflow-tooltip="true"
+                                label="证件号码"
                         >
-                            <template slot-scope="scope">
-                                <span>{{tableData[scope.$index].contributor_type=='个人'?tableData[scope.$index].id_card:tableData[scope.$index].code}}</span>
+                            <template slot-scope="props">
+                                <span v-if="tableData[props.$index].contributor_type=='个人'">{{tableData[props.$index].id_card}}</span>
+                                <span v-if="tableData[props.$index].contributor_type=='公司'">{{tableData[props.$index].code}}</span>
                             </template>
                         </el-table-column>
                         <el-table-column

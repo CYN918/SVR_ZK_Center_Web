@@ -12,6 +12,22 @@
                 </select> -->
                 <span class='qud'>{{this.$route.query.channel}}</span>
                 <!-- <span class='userGl' @click="jump()">账号管理</span> -->
+                <!-- <div class="user">
+                    <div class="sk" :class="{check:is_receiver==0}" @click="switchs(0)">
+                        个性化内容审核
+                    </div>
+                    <div class="fk" :class="{check:is_receiver==1}" @click="switchs(1)">
+                        通用策略审核
+                    </div>
+                    <div class="fk" :class="{check:is_receiver==2}" @click="switchs(2)">
+                        分发服务器
+                    </div>
+                    <div class="fk" :class="{check:is_receiver==3}" @click="switchs(3)">
+                        测试配置
+                    </div>
+
+                </div> -->
+                
         </div>
         <div class='screening'>
                 <!-- <div class="date">
@@ -186,11 +202,16 @@ return {
         index:'',
         advers:[],
         yy:"",
-        load:true
+        load:true,
+        is_receiver:0,
 };
 },
 
 methods: {
+    switchs(num){
+        this.is_receiver=num;
+        this.getData()
+    },
     Wx(){
         this.$router.push({
             path:"./journal_nb",
@@ -372,7 +393,7 @@ mounted() {
 </script>
 <style  scoped>
   .top_name{
-        height: 80px;
+        height: 105px;
         border: 0;
     }
 .top_txts{
@@ -421,7 +442,7 @@ mounted() {
     width: 100%;
     height: 60px;
    left: 256px;
-   top:160px;
+   top:177px;
     background: #fff
 }
 .date{
@@ -569,6 +590,23 @@ mounted() {
         color: rgba(153,153,153,1);
         line-height: 20px!important;
         margin-top: 15px
+    }
+    .sk,.fk{
+        display: inline-block;
+        width:125px;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(31,46,77,0.65);
+        text-align: center;
+        cursor: pointer;
+    }
+    .check{
+        border-bottom:3px solid rgba(51,119,255,1);
+        padding-bottom: 8px;
+    }
+    .user{
+        padding: 0 24px;
     }
    
 </style>
