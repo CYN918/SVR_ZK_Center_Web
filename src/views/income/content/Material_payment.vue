@@ -21,7 +21,7 @@
                 <div class="btn_right">
                     <span class='cx' @click='listData()'>查询</span>
                     <span @click='cz()'>重置</span>
-                    <span @click='jump()'>分成管理</span>
+                    <span @click='jump()' style="position: relative;"><span class='dot' v-if="dot"></span>分成管理</span>
                 </div>      
             </div>
            <div>
@@ -92,7 +92,8 @@ export default {
                     page:1,
                     total:0,
                     tableData:[{time:2020}],
-                    load:true
+                    load:true,
+                    dot:""
                 }
             },
             mounted(){
@@ -143,8 +144,15 @@ export default {
                          this.total=res.total;
                          this.tableData=res.data;  
                          this.load=false 
+                         this.exists()
                     })
                 },
+                exists(){
+                    let params={type:3}
+                    this.api.sharing_data_income_await_exists({params}).then((res)=>{
+                        this.dot=res.is_exist
+                    })
+                }
             },
 }
 </script>
@@ -196,5 +204,14 @@ export default {
         border:0!important;
         background: #3377ff!important;
     }
-   
+    .dot{
+        display: inline-block;
+        width: 15px!important;
+        height: 15px!important;
+        border-radius: 50%!important;
+        background: red;
+        position: absolute;
+        top:-7px;
+        right:-7px
+    }
 </style>

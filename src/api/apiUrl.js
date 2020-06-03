@@ -1900,7 +1900,6 @@ export default {
 		url:"ds/income/lock_screen/detail",method:'get'
 	},
 
-
 	//查询测试日期
 	pushlib_wptest_search:{
 		url:'pushlib/wptest/search',method:'get'
@@ -1919,5 +1918,9 @@ export default {
 	//导出项目管理数据
 	adproject_external_export:{
 		url:'adproject/external/export',method:'get'
+	},
+	//是否有待確認結算周期
+	sharing_data_income_await_exists:{
+		url:"sharing/data/income/await/exists",method:'get'
 	},
 }
