@@ -1853,4 +1853,8 @@ export default {
 	ds_income_lock_screen_detail:{
 		url:"ds/income/lock_screen/detail",method:'get'
 	},
+	//是否有待確認結算周期
+	sharing_data_income_await_exists:{
+		url:"sharing/data/income/await/exists",method:'get'
+	},
 }
