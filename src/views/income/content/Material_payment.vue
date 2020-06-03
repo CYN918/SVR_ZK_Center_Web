@@ -2,7 +2,7 @@
    <div>
         <div class="top_name">
             <div class="title_left">
-                <span>素材付款</span>
+                <span>杂志锁屏付款</span>
             </div>
         </div>
         <div class='content'>
@@ -21,7 +21,7 @@
                 <div class="btn_right">
                     <span class='cx' @click='listData()'>查询</span>
                     <span @click='cz()'>重置</span>
-                    <span @click='jump()'>分成管理</span>
+                    <span @click='jump()' style="position: relative;"><span class='dot' v-if="dots"></span>分成管理</span>
                 </div>      
             </div>
            <div>
@@ -39,18 +39,27 @@
                         <el-table-column
                                 label="总付款金额" prop="total_income"
                                 >
+                                <template slot-scope="scope">
+                                    <span>{{"￥"+tableData[scope.$index].total_income}}</span>
+                                </template>    
                         </el-table-column>
                         <el-table-column
                                 label="买断付款金额" prop="buyout_income"
                                 >
+                                <template slot-scope="scope">
+                                    <span>{{"￥"+tableData[scope.$index].buyout_income}}</span>
+                                </template> 
                         </el-table-column>
                         <el-table-column
                                 label="分成付款金额" prop="sharing_income"
                                 >
+                                <template slot-scope="scope">
+                                    <span>{{"￥"+tableData[scope.$index].sharing_income}}</span>
+                                </template> 
                         </el-table-column>
                         <el-table-column label="操作" width='150'>
                             <template slot-scope="props">
-                                <el-button type="text" @click='xq()'>查看详情</el-button>
+                                <el-button type="text" @click='xq(tableData[props.$index].tdate)'>查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -68,23 +77,27 @@
                  </div>
            </div>
         </div>
+        <load v-if="load"></load>
    </div>
 </template>
 
 <script>
+import load from '../../../components/loading'
 export default {
-    props:['type'],
+   components:{load},
             data(){
                 return{
                     tdate:[],
                     p:10,
                     page:1,
                     total:0,
-                    tableData:[{time:2020}]
+                    tableData:[{time:2020}],
+                    load:true,
+                    dots:""
                 }
             },
             mounted(){
-               
+               this.listData()
             },
             methods:{
                 cz(){
@@ -102,11 +115,12 @@ export default {
                 },
                 handleSizeChange(p) { // 每页条数切换
                     this.p = p;
+                    this.listData()
                     
                 },
                 handleCurrentChange(page) {//页码切换
                     this.page = page;
-                    
+                     this.listData()
                 },
                 jump(){
                     this.$router.push({
@@ -114,10 +128,30 @@ export default {
                     })
                 },
                
-                xq(){
+                xq(tdate){
                    this.$router.push({
-                       path:"./money_detail"
+                       path:"./money_detail",
+                       query:{
+                           type:3,
+                           tdate:tdate
+                       }
                    })
+                },
+                listData(){
+                    this.load=true
+                    let params={type:3,p:this.p,page:this.page,tdate_start:this.tdate[0],tdate_end:this.tdate[1],is_confirmed:'1'}
+                    this.api.sharing_data_income_summary({params}).then((res)=>{
+                         this.total=res.total;
+                         this.tableData=res.data;  
+                         this.load=false 
+                         this.exists()
+                    })
+                },
+                exists(){
+                    let params={type:3}
+                    this.api.sharing_data_income_await_exists({params}).then((res)=>{
+                        this.dots=res.is_exist
+                    })
                 }
             },
 }
@@ -170,5 +204,14 @@ export default {
         border:0!important;
         background: #3377ff!important;
     }
-   
+    .dot{
+        display: inline-block;
+        width: 15px!important;
+        height: 15px!important;
+        border-radius: 50%!important;
+        background: red;
+        position: absolute;
+        top:-7px;
+        right:-7px
+    }
 </style>

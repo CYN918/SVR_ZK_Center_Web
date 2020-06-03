@@ -1891,4 +1891,36 @@ export default {
 	adproject_external_export:{
 		url:'adproject/external/export',method:'get'
 	},
+	//价格管理操作日志
+	analysis_config_sharing_operate_logs:{
+		url:"analysis/config/sharing/operate_logs",method:'get'
+	},
+	//价格配置操作记录详情
+	analysis_config_sharing_operate_logs_detail:{
+		url:"analysis/config/sharing/operate_logs/detail",method:'get'
+	},
+	//分成收益详细数据列表
+	ds_income_lock_screen_list:{
+		url:"ds/income/lock_screen/list",method:"get"
+	},
+	//根据数据有效率获取实时分成金额
+	ds_income_lock_screen_sharing_income:{
+		url:"ds/income/lock_screen/sharing_income",method:"get"
+	},
+	//编辑分成收益详细数据（调整数据有效率）
+	ds_income_lock_screen_edit:{
+		url:"ds/income/lock_screen/edit",method:"post",isType:{suktip:1}
+	},
+	//分成收益详细数据操作记录
+	ds_income_lock_screen_detail_operate_logs:{
+		url:'ds/income/lock_screen/detail/operate_logs',method:"get"
+	},
+	//杂志锁屏分成金额详情
+	ds_income_lock_screen_detail:{
+		url:"ds/income/lock_screen/detail",method:'get'
+	},
+	//是否有待確認結算周期
+	sharing_data_income_await_exists:{
+		url:"sharing/data/income/await/exists",method:'get'
+	},
 }

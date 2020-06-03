@@ -1,10 +1,10 @@
 <template>
    <div>
         <div class="top_name">
-            <span class="top_txt" @click='fh(-1)'>素材付款&nbsp;/</span>
-            <span class="top_txt" @click='fh(-1)'>&nbsp;分成管理&nbsp;/</span>
-            <span class="top_txt" @click='fh(-1)'>&nbsp;价格管理&nbsp;/</span>
-            <span class="top_txt" @click='fh(-1)'>修改记录</span>
+            <span class="top_txt"  @click='fh(-3)'>杂志锁屏付款&nbsp;/</span>
+            <span class="top_txt" style="margin-left:0" @click='fh(-2)'>&nbsp;分成管理&nbsp;/</span>
+            <span class="top_txt" style="margin-left:0" @click='fh(-1)'>&nbsp;价格管理&nbsp;/</span>
+            <span class="top_txt" style="margin-left:0">修改记录</span>
             <div class="title_left">
                 <span>修改记录</span>
             </div>
@@ -22,7 +22,7 @@
                         end-placeholder="结束月份">
                     </el-date-picker>
                     <span style="margin:0 16px 0 24px">操作人员</span>
-                    <input type="text">
+                    <input type="text" v-model="creator">
                 </div>
                 <div class="btn_right">
                     <span class='cx' @click='getDataList()'>查询</span>
@@ -38,21 +38,18 @@
                             :cell-style="cell"
                             style="width: 100%;color:#000">
                         <el-table-column
-                                label="变更时间" prop="tdate"
+                                label="变更时间" prop="created_at"
                                >
                         </el-table-column>
                      
                         <el-table-column
-                                label="处理人" prop="is_confirmed"
+                                label="处理人" prop="creator"
                                 >
-                            <template slot-scope="scope">
-                                <span>{{tableData[scope.$index].is_confirmed==0?'未确认':'已确认'}}</span>
-                            </template>
                         </el-table-column>
                         
                         <el-table-column label="操作" width='150'>
                             <template slot-scope="props" >
-                                <el-button type="text" @click='details()'>查看详情</el-button>
+                                <el-button type="text" @click='details(tableData[props.$index].log_id)'>查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -82,19 +79,20 @@ export default {
                     page:1,
                     total:0,
                     tableData:[{time:2020}],
-                    is_confirmed:"",
+                    creator:'',
+                   
                 }
             },
             mounted(){
-                // this.getDataList()
+                this.getDataList()
             },
             methods:{
                  fh(index){
                     this.$router.go(index)
                 },
                 cz(){
-                    this.tdate='';
-                    this.is_confirmed='';
+                    this.tdate=[];
+                    this.creator='';
                 },
                 getRowClass({row, column, rowIndex}) {
                     if (rowIndex === 0) {
@@ -114,25 +112,27 @@ export default {
                     this.page = page;
                     this.getDataList()
                 },
-                details(){
+                details(log_id){
                     this.$router.push({
                         path:"./AmendantRecordDetails",
-                       
+                       query:{
+                           log_id:log_id
+                       }
                     })
                 },
                 getDataList(){
-                    // let params={type:this.$route.query.type,p:this.p,page:this.page,is_confirmed:this.is_confirmed,tdate:this.tdate}
-                    // this.api.sharing_data_income_period({params}).then((res)=>{
-                    //     this.total=res.total;
-                    //     this.tableData=res.data; 
-                    // })
+                    let params={creator:this.creator,tdate_start:this.tdate[0],tdate_end:this.tdate[1],p:this.p,page:this.page}
+                   this.api.analysis_config_sharing_operate_logs({params}).then((res)=>{
+                       this.tableData=res.data;
+                       this.total=res.total
+                   })
                 },
                 jg(){
                     this.$router.push({
                         path:"./price"
                     })
                 },
-                sj(){},
+              
             },
 }
 </script>

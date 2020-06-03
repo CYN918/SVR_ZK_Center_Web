@@ -2,9 +2,9 @@
    <div>
         <div class="top_name">
              <span class="top_txt" @click='fh(-3)'>素材付款&nbsp;/&nbsp;</span>
-             <span class="top_txt" @click='fh(-2)'>分成管理&nbsp;/&nbsp;</span>
-             <span class="top_txt" @click='fh(-1)'>分成详情&nbsp;/&nbsp;</span>
-              <span class="top_txt">分成金额详情</span>
+             <span class="top_txt"  style="margin-left:0" @click='fh(-2)'>分成管理&nbsp;/&nbsp;</span>
+             <span class="top_txt"  style="margin-left:0" @click='fh(-1)'>分成详情&nbsp;/&nbsp;</span>
+              <span class="top_txt"  style="margin-left:0">分成金额详情</span>
             <div class="title_left">
                 <span>分成金额详情</span>
                 <span class='time'>{{this.$route.query.tdate}}</span>
@@ -16,20 +16,25 @@
             <div>
                 <span class='fc_statuc'>项目ID</span>
                 <input type="text" placeholder="请输入" v-model="project_id">
-                <span class='fc_statuc' >素材名称ID</span>
-                <input type="text" placeholder="请输入" v-model="material_name">
-                <span class='fc_statuc'>素材类型</span>
-                <select name="" id="">
+                <span class='fc_statuc' >素材ID</span>
+                <input type="text" placeholder="请输入" v-model="mid">
+                <span class='fc_statuc'  v-if="this.$route.query.type==3">素材类型</span>
+                <select name="" id="" v-model="m_type" v-if="this.$route.query.type==3">
                     <option value="">全部</option>
+                    <option value="sls_dynamic">杂志锁屏动效</option>
+                    <option value="sls_picture">杂志锁屏壁纸</option>
                 </select>
                 <span class='fc_statuc'>渠道</span>
-                <select v-model='channel'>
+                <select v-model='channel' v-if="this.$route.query.type!=3">
                     <option value="">全部</option>
                     <option :value="item.channel" v-for="item in channels">{{item.channel_name}}</option>
                 </select>
-                <span class='fc_statuc'>结算方式</span>
-                <select name="" id="">
+                <input type="text" placeholder="请输入" v-model='channel' v-if="this.$route.query.type==3" >
+                <span class='fc_statuc'  v-if="this.$route.query.type==3">结算方式</span>
+                <select name="" id="" v-model="settle_type"  v-if="this.$route.query.type==3">
                     <option value="">全部</option>
+                    <option value="ecpm">千次曝光计费</option>
+                    <option value="ecpc">点击计费</option>
                 </select>
                 <div class="btn_right">
                     <span class='cx' @click='getDataList()'>查询</span>
@@ -51,67 +56,90 @@
                         </el-table-column>
                         <el-table-column
                             
-                                label="素材ID" prop="material_name"
+                                label="素材ID" prop="mid"
                                 :show-overflow-tooltip="true"
                                 >
                         </el-table-column>
                          <el-table-column
                                 
-                                label="素材类型" prop="fname"
+                                label="素材类型" prop="m_type"
                                 :show-overflow-tooltip="true"
                                         >
+                                <template slot-scope="scope">
+                                    <span v-if="tableData[scope.$index].m_type">{{tableData[scope.$index].m_type=="sls_dynamic"?'杂志锁屏动效':tableData[scope.$index].m_type=='sls_picture'?'杂志锁屏壁纸':""}}</span>
+                                </template>
                         </el-table-column>
                         <el-table-column
                                 label="渠道" prop="channel"
                                 >
                         </el-table-column>
                          <el-table-column
-                                label="点击量" prop="channel"
+                         v-if='this.$route.query.type==3'
+                                label="点击量" prop="click"
                                 >
                         </el-table-column>
                          <el-table-column
-                                label="曝光量" prop="channel"
+                         v-if='this.$route.query.type==3'
+                                label="曝光量" prop="pv"
                                 >
                         </el-table-column>
                         <el-table-column
                               
-                                label="分成方式" prop="theme_name"
+                                label="分成方式" prop="sharing_type"
                                 :show-overflow-tooltip="true"
                                 >
+                                <template slot-scope="scope">
+                                    <span v-if="tableData[scope.$index].sharing_type">{{tableData[scope.$index].sharing_type=="ecpc"?'点击计费':tableData[scope.$index].sharing_type=='ecpm'?"千次曝光计费":""}}</span>
+                                </template>
                         </el-table-column>
                         <el-table-column
                                 
-                                label="分成价格" prop="call_show_name"
+                                label="分成价格" prop="sharing_price"
                                 :show-overflow-tooltip="true"
                                         >
+                                <template slot-scope="scope">
+                                    <span>{{"￥"+tableData[scope.$index].sharing_price}}</span>
+                                </template>    
                                 </el-table-column>
                          <el-table-column
                                
-                                label="分成金额" prop="income"
+                                label="分成金额" prop="final_income"
                                 >
+                                 <template slot-scope="scope">
+                                    <span>{{"￥"+tableData[scope.$index].final_income}}</span>
+                                </template>    
                         </el-table-column>
                           <el-table-column
                                 
-                                label="加成比例" prop="sharing_rate"
+                                label="加成比例" prop="gain_share_rate"
                                 >
                                 <template slot-scope="scope">
-                                    <span>{{tableData[scope.$index].sharing_rate+'%'}}</span>
+                                    <span>{{tableData[scope.$index].gain_share_rate+'%'}}</span>
                                 </template>
                         </el-table-column>
                           <el-table-column
                                 
-                                label="加成金额" prop="final_income"
+                                label="加成金额" prop="gain_share_income"
                                 >
+                                <template slot-scope="scope">
+                                    <span>{{"￥"+tableData[scope.$index].gain_share_income}}</span>
+                                </template>    
                         </el-table-column>
                           <el-table-column
                                 
-                                label="抵消预付金" prop="final_income"
+                                label="抵消预付金" prop="advance_payment_income"
                                 >
+                                <template slot-scope="scope">
+                                    <span>{{"￥"+tableData[scope.$index].advance_payment_income}}</span>
+                                </template> 
                         </el-table-column>
                           <el-table-column
                                 
-                                label="付款金额" prop="final_income"
+                                label="付款金额" prop="payment_income"
                                 >
+                                 <template slot-scope="scope">
+                                    <span>{{"￥"+tableData[scope.$index].payment_income}}</span>
+                                </template> 
                         </el-table-column>
                     </el-table>
                 </template>
@@ -128,11 +156,14 @@
                  </div>
            </div>
         </div>
+         <load v-if="load"></load>
    </div>
 </template>
 
 <script>
+import load from '../../../components/loading'
 export default {
+    components:{load},
             data(){
                 return{
                     value1:"",
@@ -142,9 +173,12 @@ export default {
                     tableData:[{time:2020}],
                     show:false,
                     project_id:'',
-                    material_name:'',
+                    mid:'',
+                    m_type:"",
                     channels:[],
-                    channel:''
+                    channel:'',
+                    settle_type:"",
+                    load:true
                 }
             },
             mounted(){
@@ -186,22 +220,37 @@ export default {
                 },
                 cz(){
                     this.project_id='';
-                    this.material_name='';
-                    this.channel=''
+                    this.settle_type='';
+                    this.channel='';
+                    this.mid='';
+                    this.m_type=''
                 },
                 getDataList(){
-                    var params={}
-                    if(this.$route.query.num){
-                         params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.$route.query.open_id,project_id:this.project_id,p:this.p,page:this.page,is_confirmed:'1'}   
-                    }else{
-                        params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.$route.query.open_id,project_id:this.project_id,p:this.p,page:this.page}   
+                     this.load=true
+                    if(this.$route.query.type!=3){
+                           var params={}
+                        if(this.$route.query.num){
+                            params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.$route.query.open_id,project_id:this.project_id,p:this.p,page:this.page,is_confirmed:'1',settle_type:this.settle_type,mid:this.mid,m_type:this.m_type,channel:this.channel}   
+                        }else{
+                            params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.$route.query.open_id,project_id:this.project_id,p:this.p,page:this.page,settle_type:this.settle_type,mid:this.mid,m_type:this.m_type,channel:this.channel}   
+                        }
+                        this.api.sharing_data_income_detail({params}).then((res)=>{
+                            this.total=res.total;
+                            this.tableData=res.data;
+                             this.load=false
+                            this. qd();
+                         })
+                    }
+                    if(this.$route.query.type==3){
+                        let params={type:this.$route.query.type,month:this.$route.query.tdate,open_id:this.$route.query.open_id,project_id:this.project_id,p:this.p,page:this.page,settle_type:this.settle_type,mid:this.mid,m_type:this.m_type,channel:this.channel}   
+                        this.api.ds_income_lock_screen_detail({params}).then((res)=>{
+                            this.total=res.total;
+                            this.tableData=res.data;
+                             this.load=false
+                            this. qd();
+                        })
                     }
                    
-                    this.api.sharing_data_income_detail({params}).then((res)=>{
-                        this.total=res.total;
-                        this.tableData=res.data;
-                        this. qd();
-                    })
                 },
                  qd(){
                     this.api.themes_config_channel().then((res)=>{

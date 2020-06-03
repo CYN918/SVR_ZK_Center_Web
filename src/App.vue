@@ -395,8 +395,10 @@ body{
 /*}*/
 .box{
   margin-top: 24px;
+  width: 1603px;
 }
 .boxImg{
+  white-space: nowrap;
   display: inline-block;
   width:48%;
   height:382px;

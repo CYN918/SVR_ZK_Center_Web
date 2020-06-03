@@ -6,7 +6,7 @@
             <div class="title_left">
                 <span>分成详情</span>
                 <span class='time'>{{this.$route.query.tdate}}</span>
-                <span class='zt' :class='{red:this.status==0||this.status==-1}'>({{this.status==0?"待确认":this.status==1?'审核中':this.status==2?'已确认':this.status==-1?'审核不通过，请重新导入数据':''}})</span>
+                <span class='zt' :class='{red:this.status==0||this.status==-1}'>({{this.status==0?"待确认":this.status==1?'审核中':this.status==2?'已确认':this.status==-1?'审核不通过':''}})</span>
             </div>
         </div>
         <div class='content'>
@@ -46,6 +46,9 @@
                         <el-table-column
                                 label="分成金额" prop="final_income"
                                 >
+                                 <template slot-scope="scope">
+                                    <span>{{"￥"+tableData[scope.$index].final_income}}</span>
+                                </template>   
                         </el-table-column>
                         <el-table-column
                                 label="加成比例" prop="gain_share_rate"
@@ -58,20 +61,32 @@
                                 sortable
                                 label="加成金额" prop="gain_share_income"
                                 >
+                                 <template slot-scope="scope">
+                                    <span>{{"￥"+tableData[scope.$index].gain_share_income}}</span>
+                                </template> 
                         </el-table-column>
                          <el-table-column
                                 label="结算金额" prop="total_income"
                                 >
+                                  <template slot-scope="scope">
+                                    <span>{{"￥"+tableData[scope.$index].total_income}}</span>
+                                </template> 
                         </el-table-column>
                          <el-table-column
                                 sortable
                                 label="抵消预约金" prop="advance_payment_income"
                                 >
+                                 <template slot-scope="scope">
+                                    <span>{{"￥"+tableData[scope.$index].advance_payment_income}}</span>
+                                </template> 
                         </el-table-column>
                           <el-table-column
                                 sortable
                                 label="付款金额" prop="payment_income"
                                 >
+                                 <template slot-scope="scope">
+                                    <span>{{"￥"+tableData[scope.$index].payment_income}}</span>
+                                </template> 
                         </el-table-column>
                           <el-table-column
                                 v-if='this.$route.query.status!=0'

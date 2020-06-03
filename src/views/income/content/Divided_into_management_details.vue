@@ -1,13 +1,13 @@
 <template>
    <div>
         <div class="top_name">
-             <span class="top_txt" @click='fh(-2)'>素材付款&nbsp;/&nbsp;</span>
-             <span class="top_txt" @click='fh(-1)'>分成管理&nbsp;/&nbsp;</span>
-              <span class="top_txt">分成详情</span>
+             <span class="top_txt" @click='fh(-2)'>杂志锁屏付款&nbsp;/&nbsp;</span>
+             <span class="top_txt" style="margin-left:0" @click='fh(-1)'>分成管理&nbsp;/&nbsp;</span>
+              <span class="top_txt" style="margin-left:0">分成详情</span>
             <div class="title_left">
                 <span>分成详情</span>
                 <span class='time'>{{this.$route.query.tdate}}</span>
-                <span class='zt' :class='{red:this.status==0}'>({{this.status==0?"未确认":"已确认"}})</span>
+                <span class='zt' :class='{red:this.status=="0"||this.status==-1}'>({{this.status=="0"?"待确认":this.status==1?'审核中':this.status==2?'已确认':this.status==-1?'审核不通过':''}})</span>
             </div>
         </div>
         <div class='content'>
@@ -27,7 +27,7 @@
                     <span class='cx' @click='getDataList()'>查询</span>
                     <span class='cz
                     ' @click='cz()'>重置</span>
-                    <span @click='jeqr()' v-if='this.status==0'>确认金额</span>
+                    <span @click='jeqr()' v-if='this.status==0||this.status==-1'>确认金额</span>
                 </div>      
             </div>
            <div>
@@ -46,6 +46,9 @@
                         <el-table-column
                                 label="分成金额" prop="final_income"
                                 >
+                                 <template slot-scope="scope">
+                                    <span>{{"￥"+tableData[scope.$index].final_income}}</span>
+                                </template>
                         </el-table-column>
                         <el-table-column
                                 label="加成比例" prop="gain_share_rate"
@@ -58,20 +61,32 @@
                                 sortable
                                 label="加成金额" prop="gain_share_income"
                                 >
+                                <template slot-scope="scope">
+                                    <span >{{"￥"+tableData[scope.$index].gain_share_income}}</span>
+                                </template>
                         </el-table-column>
                          <el-table-column
                                 label="结算金额" prop="total_income"
                                 >
+                                 <template slot-scope="scope">
+                                    <span>{{"￥"+tableData[scope.$index].total_income}}</span>
+                                </template>
                         </el-table-column>
                          <el-table-column
                                 sortable
                                 label="抵消预约金" prop="advance_payment_income"
                                 >
+                                  <template slot-scope="scope">
+                                    <span >{{"￥"+tableData[scope.$index].advance_payment_income}}</span>
+                                </template>
                         </el-table-column>
                           <el-table-column
                                 sortable
                                 label="付款金额" prop="payment_income"
                                 >
+                                 <template slot-scope="scope">
+                                    <span>{{"￥"+tableData[scope.$index].payment_income}}</span>
+                                </template>
                         </el-table-column>
                           <el-table-column
                                 v-if='this.$route.query.status!=0'
@@ -81,7 +96,7 @@
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="props">
-                                <el-button type="text" @click="ck()" >查看详情</el-button>
+                                <el-button type="text" @click="ck(tableData[props.$index].open_id,tableData[props.$index].account_name)" >查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -113,24 +128,28 @@
                     </div>
             </div>
         </div>
+        <load v-if="load"></load>
    </div>
 </template>
 
 <script>
+import load from '../../../components/loading'
 export default {
+     components:{load},
             data(){
                 return{
                     value1:"",
                     p:10,
                     page:1,
                     total:0,
-                    tableData:[{time:2020}],
+                    tableData:[],
                     show:false,
                     list:[],
                     account_name:'',
                     open_id:"",
                     state1:"",
-                    status:''
+                    status:'',
+                    load:true
                 }
             },
             mounted(){
@@ -142,8 +161,8 @@ export default {
                 },
                 getDetails(){
                     let params={type:this.$route.query.type,tdate:this.$route.query.tdate}
-                    this.api.sharing_data_income_is_confirm({params}).then((res)=>{
-                        this.status=res.is_confirmed;
+                    this.api.sharing_data_income_status({params}).then((res)=>{
+                        this.status=res.status;
                     })
                 },
                 getRowClass({row, column, rowIndex}) {
@@ -164,11 +183,7 @@ export default {
                     this.page = page;
                     this.getDataList()
                 },
-                dr(){
-                    this.$router.push({
-                        path:"./exports"
-                    })
-                },
+
                 jeqr(){
                     this.show=true;
 
@@ -176,20 +191,29 @@ export default {
                 heid(){
                     this.show=false
                 },
-                ck(){
+                ck(id,account_name){
                     this.$router.push({
                         path:"./money_details_divide",
+                         query:{
+                            type:this.$route.query.type,
+                            open_id:id,
+                            tdate:this.$route.query.tdate,
+                            account_name:account_name,
+                            siid:this.$route.query.siid
+                        }
                        
                     })
                 },
                 getDataList(){
-                    // let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.open_id,account_name:this.account_name,p:this.p,page:this.page}
-                    // this.api.sharing_data_income_designer({params}).then((res)=>{
-                    //     this.total=res.total;
-                    //     this.tableData=res.data;
-                    //     this.getData();
-                    //     this.getDetails()
-                    // })
+                    this.load=true
+                    let params={type:this.$route.query.type,tdate:this.$route.query.tdate,open_id:this.open_id,account_name:this.account_name,p:this.p,page:this.page}
+                    this.api.sharing_data_income_designer({params}).then((res)=>{
+                        this.total=res.total;
+                        this.tableData=res.data;
+                        this.getData();
+                        this.getDetails()
+                        this.load=false
+                    })
                 },
                 getData(){
                     this.api.designer_settlement_list().then((res)=>{
@@ -199,7 +223,8 @@ export default {
                 },
                 cz(){
                     this.account_name='';
-                    this.open_id=''
+                    this.open_id='';
+                    this.state1='';
                 },
                 qrMoney(){
                     let formData =new FormData;
@@ -207,7 +232,7 @@ export default {
                     formData.append('tdate',this.$route.query.tdate);
                     this.api.sharing_data_income_confirm(formData).then((res)=>{
                         if(res!=false){
-                            this.getDetails()
+                            this.getDataList()
                             this.heid()
                         }
                     })
@@ -385,6 +410,6 @@ export default {
         font-weight: 400!important; 
     }
     .red{
-        color: red;
+        color: red!important;
     }
 </style>
