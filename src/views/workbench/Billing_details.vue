@@ -50,7 +50,7 @@
                 </div>
                 <div>
                     <span class="bh" @click="getBH()" v-if='emails.indexOf(user)!=-1&&this.$route.query.lineStatus==undefined'>批量驳回（{{this.openIDList.length}}）</span>
-                    <span class="tg" @click="verified()" v-if='emails.indexOf(user)!=-1&&status==1&&this.$route.query.lineStatus==undefined'>一键通过待审核内容</span>
+                    <span class="tg" @click="verified()" v-if='emails.indexOf(user)!=-1&&(status==1||status==3)&&this.$route.query.lineStatus==undefined'>一键通过待审核内容</span>
                 </div>
             </div>
             <div>
@@ -283,7 +283,7 @@
                 this.$router.go(-1)
             },
            checkSelect(row){
-               if(row.check_status==0){
+               if(row.check_status==0||(this.status==3&&row.check_status==2)){
                    return true
                }else{
                    return false
@@ -383,7 +383,7 @@
             verified(){
                 this.shOpenId=[]
                 for(var i =0;i<this.tableData.length;i++){
-                    if(this.tableData[i].check_status==0){
+                    if(this.tableData[i].check_status==0||(this.status==3&&this.tableData[i].check_status==2)){
                         this.shOpenId.push(this.tableData[i].open_id);
                          this.sh=true;
                     }
