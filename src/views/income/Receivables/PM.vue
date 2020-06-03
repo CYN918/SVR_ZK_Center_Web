@@ -186,23 +186,28 @@ import download from '../../../api/commonality'
                 };
                 this.api.get_account({params}).then((datas)=>{
                     this.userData = datas;
+                    if(this.userData.roles[0].role_name!='admin'){
+                        this.isShow=false
+                    }
                 });
             },
             guideR(){
-                if(this.userData.roles[0].role_name=='admin'){
-                    this.upTxt=true;
-                }else{
-                    this.isShow = false;
-                }   
+                // if(this.userData.roles[0].role_name=='admin'){
+                //     this.upTxt=true;
+                // }else{
+                //     this.isShow = false;
+                // }   
+                this.upTxt=true;
             },
             guideC(){
-                if(this.userData.roles[0].role_name=='admin'){
-                    var url = '/adproject/external/export';
-                    download.downloadImg(url);   
-                }else{
-                    this.isChow = false;
-                }
-
+                // if(this.userData.roles[0].role_name=='admin'){
+                //     var url = '/adproject/external/export';
+                //     download.downloadImg(url);   
+                // }else{
+                //     this.isChow = false;
+                // }
+                var url = '/adproject/external/export';
+                 download.downloadImg(url);   
             },
             upLoad(file){
                 let formData = new FormData;
