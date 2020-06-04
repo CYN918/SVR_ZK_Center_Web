@@ -290,7 +290,7 @@ mounted() {
     .btn_sx{
         display: inline-block;
         float:right;
-        margin: 10px 20% 0 0 
+        margin: 10px 1% 0 0 
     }
     .cx{
         display: inline-block;
