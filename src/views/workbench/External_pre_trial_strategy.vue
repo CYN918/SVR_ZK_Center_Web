@@ -60,10 +60,10 @@
                                 </template>
                         </el-table-column>
                          <el-table-column
-                                prop="status"
+                                prop="audit_status"
                                 label="审核状态">
                                   <template slot-scope="scope">
-                                      <span>{{tableData[scope.$index].adver_status==0?"待审核":tableData[scope.$index].adver_status==1?"审核通过":'审核不通过'}}</span>
+                                      <span>{{tableData[scope.$index].audit_status==0?"待审核":tableData[scope.$index].audit_status==1?"审核通过":'审核不通过'}}</span>
                                 </template>
                         </el-table-column>
                          <el-table-column
@@ -82,7 +82,7 @@
                                 
                         >
                             <template slot-scope="scope">
-                                 <el-button  type="text" size="small" v-if='tableData[scope.$index].adver_status=="0" && pl == false' @click='updateStatus(index,scope.row)'>审核</el-button>
+                                 <el-button  type="text" size="small" v-if='tableData[scope.$index].audit_status=="0" && pl == false' @click='updateStatus(index,scope.row)'>审核</el-button>
                                  <!-- <el-button v-if='tableData[scope.$index].status!="0"' type="text" size="small">修改结果</el-button> -->
                                 <el-button  type="text" size="small" @click="details(scope.$index,scope.row)">查看详情</el-button>
                             </template>
@@ -111,7 +111,7 @@
                         <option value="2">审核不通过</option>
                     </select>
                     <div class='sel_1' v-if="status2=='2'">       
-                        <textarea placeholder="不通过原因,最多20字" maxlength="20" v-model="note"></textarea>
+                        <textarea placeholder="不通过原因,最多20字" maxlength="20" v-model="note" style="width:202px;"></textarea>
                     </div>
                 </div>
                 <div class='sel_btn'>
@@ -283,7 +283,7 @@ mounted() {
   input{
         width: 150px;
         border-radius: 3px;
-        height: 30px!important;
+        height: 35px!important;
         padding-left: 3px!important;
         border: 1px solid rgba(211,219,235,1)!important;
         margin-left: 20px;
@@ -323,6 +323,7 @@ mounted() {
     position: relative;
     width: 100%;
     height: 60px;
+    line-height: 60px;
    top:75px;
     background: #fff;
 }
@@ -333,7 +334,7 @@ mounted() {
     .btn_sx{
         display: inline-block;
         float:right;
-        margin: 10px 20% 0 0 
+        margin: 0px 80px 0 0;
     }
     .cx{
         display: inline-block;
@@ -381,12 +382,12 @@ mounted() {
     }
     .content{
         width: 400px;
-        max-height:400px;
+        max-height:250px;
         position: absolute;
         top:30%;
         left: 50%;
         transform: translate(-50%,-50%);
-        border-radius: 10px;
+        border-radius: 2px;
     }
     .con_tit{
         width: 100%;
@@ -427,6 +428,8 @@ mounted() {
        width: 100%;
        height: 50px;
        text-align: right;
+       position: absolute;
+    bottom: 0px;
    }
    .sel_btn span{
     margin-right: 24px;

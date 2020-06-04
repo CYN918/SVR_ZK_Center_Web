@@ -45,7 +45,7 @@
                </div>
             </div>
         </div>
-        <div v-if="list.mfinal">
+        <div>
             <div class='tits' v-if="this.$route.query.auditType == 'Externalpretrialgx'">
                 <span>杂志锁屏</span>
             </div>
@@ -60,15 +60,15 @@
             </div>
             <div class='details_right2' v-if="this.$route.query.auditType == 'Externalpretrialgx'">
                <div>
-                   <div class='tab_box'>
-                       <span class='tab_box_name'>物料ID</span>
-                       <span class='tab_box_con'>{{list.mfinal.mfid}}</span>
+                   <div class='tab_box' v-if="list.mfinal">
+                       <span class='tab_box_name'>审核ID</span>
+                       <span class='tab_box_con'>{{list.check_md5}}</span>
                    </div>
-                   <div class='tab_box' >
+                   <div class='tab_box' v-if="list.mfinal">
                        <span  class='tab_box_name' style="margin-left:30px">尺寸</span>
                        <span  class='tab_box_con' style="margin-left:30px">{{list.mfinal.size}}</span>
                    </div>
-                    <div class='tab_box' style="border-right:0!important">
+                    <div class='tab_box' style="border-right:0!important" v-if="list.mfinal">
                        <span  class='tab_box_name' style="margin-left:30px">文件大小</span>
                         <span style="margin-left:30px" class="tab_box_con" v-if="(list.mfinal.attach.size/1024).toFixed(0)<1">1kb</span>
 						<span style="margin-left:30px" class="tab_box_con" v-if="list.mfinal.attach.size>1024&&list.mfinal.attach.size<1024*1024">{{(list.mfinal.attach.size/1024).toFixed(0)}}kb</span>
@@ -253,13 +253,13 @@
 
         <div style="margin:0 40px">
             <span class='sh' v-if="list.adver_status==0&&this.$route.query.auditType == 'Externalpretrialgx'" @click='SH()'>审核</span>
-            <span class='sh' v-if="list.adver_status==0&&this.$route.query.auditType == 'Externalpretrialstrategy'" @click='TYSH()'>审核</span>
+            <span class='sh' v-if="tesData.audit_status==0&&this.$route.query.auditType == 'Externalpretrialstrategy'" @click='TYSH()'>审核</span>
             <span class='qx' v-if='list.adver_status==0'  @click='fh(-1)'>取消</span>
             <span @click='fh(-1)' class='qx' v-if='list.adver_status!=0'>返回</span>
         </div>
     </div>
      <div class="bg" v-if="tc">
-        <div class='content'>
+        <div class='content' style="min-height:350px;">
             <div class='con_tit'>
                 <span>审核</span>
             </div>
@@ -301,7 +301,7 @@
                     <option value="2">审核不通过</option>
                 </select>
                 <div class='sel_1' v-if="status2=='2'"> 
-                    <textarea placeholder="不通过原因,最多20字" maxlength="20" v-model="content"></textarea>  
+                    <textarea placeholder="不通过原因,最多20字" maxlength="20" v-model="content" style="width:202px;"></textarea>  
                 </div>
             </div>
             <div class='sel_btn'>
@@ -406,6 +406,7 @@ methods: {
     },
     init(){
         this.tesData = JSON.parse(this.$route.query.row);
+        console.log(this.tesData)
     },  
 },
 
@@ -419,7 +420,7 @@ created() {
 },
 
 mounted() {
-    this.getDetail()
+    // this.getDetail()
 },
 
 }
@@ -647,12 +648,12 @@ mounted() {
     }
     .content{
         width: 400px;
-        max-height:400px;
+        max-height:250px;
         position: absolute;
         top:30%;
         left: 50%;
         transform: translate(-50%,-50%);
-        border-radius: 10px;
+        border-radius: 2px;
     }
     .con_tit{
         width: 100%;
@@ -693,6 +694,8 @@ mounted() {
        width: 100%;
        height: 50px;
        text-align: right;
+       position: absolute;
+    bottom: 0px;
    }
    .sel_btn span{
     margin-right: 24px;

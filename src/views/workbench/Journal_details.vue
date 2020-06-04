@@ -275,7 +275,7 @@
         <div style="margin:0 40px">
             <!-- <span class='sh'>审核</span>
             <span class='qx'>取消</span> -->
-            <span @click='fh(-1)' class='qx'>返回</span>
+            <!-- <span @click='fh(-1)' class='qx'>返回</span> -->
         </div>
     </div>
     <el-dialog
