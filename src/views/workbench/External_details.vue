@@ -160,7 +160,7 @@
                                     <img src="../../../public/img/msgAt.png" style="vertical-align: top !important;margin-top: 20px;"/>
                                 </el-tooltip>
                             </span>
-                            <span class="strategy_box_bottom_reg" v-if="tesData.action">{{tesData.action.show_space_time}}</span>
+                            <span class="strategy_box_bottom_reg" v-if="tesData.targeted_tags">{{tesData.targeted_tags.action.show_space_time}}</span>
                         </li>
                         <li>
                             <span class="strategy_box_bottom_lef">
@@ -170,7 +170,7 @@
                                     <img src="../../../public/img/msgAt.png" style="vertical-align: top !important;margin-top: 20px;"/>
                                 </el-tooltip>
                             </span>
-                            <span class="strategy_box_bottom_reg" v-if="tesData.action">{{tesData.action.show_count}}</span>
+                            <span class="strategy_box_bottom_reg" v-if="tesData.targeted_tags">{{tesData.targeted_tags.action.show_count}}</span>
                         </li>
                         <li>
                             <span class="strategy_box_bottom_lef">
@@ -180,7 +180,7 @@
                                     <img src="../../../public/img/msgAt.png" style="vertical-align: top !important;margin-top: 20px;"/>
                                 </el-tooltip>
                             </span>
-                            <span class="strategy_box_bottom_reg" v-if="tesData.action">{{tesData.action.bright_screen_times}}</span>
+                            <span class="strategy_box_bottom_reg" v-if="tesData.targeted_tags">{{tesData.targeted_tags.action.bright_screen_times}}</span>
                         </li>
                     </ul>
                 </div>
@@ -405,7 +405,7 @@ methods: {
 
     },
     init(){
-        this.tesData = this.$route.query.row;
+        this.tesData = JSON.parse(this.$route.query.row);
     },  
 },
 

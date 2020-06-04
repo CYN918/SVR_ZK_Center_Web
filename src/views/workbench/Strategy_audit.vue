@@ -43,7 +43,7 @@
                             prop="status"
                             label="生效状态">
                                 <template slot-scope="scope">
-                                    <span>{{tableData[scope.$index].status==0?"待审核":tableData[scope.$index].status==1?"审核通过":'审核不通过'}}</span>
+                                    <span>{{tableData[scope.$index].status==0?"未生效":"生效中"}}</span>
                             </template>
                     </el-table-column>
                     <el-table-column
@@ -220,7 +220,7 @@ methods: {
                         tags_id:this.tableData[index].tags_id,
                         auditType:this.$route.query.auditType,
                         channel:this.$route.query.channel,
-                        row:row,
+                        row:JSON.stringify(row),
                         strategy:'Strategyaudit',
                     }
                 })

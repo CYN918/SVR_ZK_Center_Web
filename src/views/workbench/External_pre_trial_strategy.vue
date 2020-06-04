@@ -23,9 +23,8 @@
                 <span class='qdName' v-if='pl==false'>生效状态</span>
                 <select v-model="status" v-if='pl==false'>
                     <option value="">全部</option>
-                    <option value="0">待审核</option>
-                    <option value="1">审核通过</option>
-                    <option value="2">审核不通过</option>
+                    <option value="0">未生效</option>
+                    <option value="1">生效中</option>
                 </select>
                 <div class='btn_sx'>
                     <span class='cx' v-if='pl==false' @click='getData()'>查询</span>
@@ -59,7 +58,7 @@
                                 prop="status"
                                 label="生效状态">
                                   <template slot-scope="scope">
-                                      <span>{{tableData[scope.$index].adver_status==0?"待审核":tableData[scope.$index].adver_status==1?"审核通过":'审核不通过'}}</span>
+                                      <span>{{tableData[scope.$index].status==0?"未生效":"生效中"}}</span>
                                 </template>
                         </el-table-column>
                          <el-table-column
@@ -245,7 +244,7 @@ methods: {
                 adid:this.tableData[index].adid,
                 tags_id:this.tableData[index].tags_id,
                 channel:this.tableData[index].channel,
-                row:row,
+                row:JSON.stringify(row),
                 auditType:'Externalpretrialstrategy'
             }
         })
