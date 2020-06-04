@@ -35,7 +35,7 @@
                 </div>
                
         </div>
-        <div style="margin-top:250px;background:#fff;padding-bottom:30px" class='rePadding'>
+        <div style="margin-top:85px;background:#fff;padding-bottom:30px" class='rePadding'>
              <template>
                     <el-table
                             ref="tab"
@@ -320,13 +320,11 @@ mounted() {
     margin: 10px 20% 0 0 
 }
 .screening{
-    position: fixed;
+    position: relative;
     width: 100%;
     height: 60px;
-   left: 256px;
-   top:183px;
+   top:75px;
     background: #fff;
-    z-index: 8 !important;
 }
 .date{
         margin:10px 12px 0 24px;
