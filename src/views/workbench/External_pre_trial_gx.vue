@@ -55,11 +55,8 @@
                             width="50" style="padding:0 auto!important">
                         </el-table-column>    
                         <el-table-column
-                                prop="num"
+                                prop="check_md5"
                                 label="审核ID">
-                            <template slot-scope="scope">
-                                <span>{{scope.$index+1}}</span>
-                            </template>
                         </el-table-column>
                         <el-table-column
                                 prop="sdkid"
