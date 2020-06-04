@@ -61,7 +61,7 @@ import tags from './tags'
                 search:'',
                 tags:[],
                 tag:[],
-                p:10,
+                p:14,
                 page:1,
                 total:0,
                 list:[],
