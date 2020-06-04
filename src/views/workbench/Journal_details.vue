@@ -2,18 +2,36 @@
 <template>
 <div>
     <div class="top_name">
-            <div class="tit_top_url">
+            <div class="tit_top_url" v-if="this.$route.query.auditType == '2'">
                 <span class="log_url" @click="fh(-1)">杂志锁屏推送 &nbsp;/&nbsp;</span>
                 <span class="log_url" @click="fh(-1)"> 推送审核内容管理 &nbsp;/&nbsp;</span>
                 <span class="log_ur">内容详情</span>
             </div>
-            <div class="tit_top_con">
+            <div class="tit_top_con" v-if="this.$route.query.auditType == '2'">
                 <span class="tit_name">内容详情</span>
-                <span class='cx' @click='updateG()'>更新广告图</span>
+                <!-- <span class='cx' @click='updateG()' v-if="list.adver_status == '0'">更新广告图</span> -->
+            </div>
+            <div class="tit_top_url" v-if="this.$route.query.auditType == '5' && this.$route.query.strategy != 'Strategyaudit'">
+                <span class="log_url" @click="fh(-1)">杂志锁屏推送审核管理 &nbsp;/&nbsp;</span>
+                <span class="log_url" @click="fh(-1)"> 外部审核及锁屏管理 &nbsp;/&nbsp;</span>
+                <span class="log_ur">个性化内容详情</span>
+            </div>
+            <div class="tit_top_con" v-if="this.$route.query.auditType == '5' && this.$route.query.strategy != 'Strategyaudit'">
+                <span class="tit_name">个性化内容详情</span>
+                <!-- <span class='cx' @click='updateG()' v-if="list.adver_status == '0'">更新广告图</span> -->
+            </div>
+            <div class="tit_top_url" v-if="this.$route.query.auditType == '5' && this.$route.query.strategy == 'Strategyaudit'">
+                <span class="log_url" @click="fh(-1)">杂志锁屏推送审核管理 &nbsp;/&nbsp;</span>
+                <span class="log_url" @click="fh(-1)"> 外部审核及锁屏管理 &nbsp;/&nbsp;</span>
+                <span class="log_ur">通用策略详情</span>
+            </div>
+            <div class="tit_top_con" v-if="this.$route.query.auditType == '5' && this.$route.query.strategy == 'Strategyaudit'">
+                <span class="tit_name">通用策略详情</span>
+                <!-- <span class='cx' @click="fh(-1)">返回</span> -->
             </div>
     </div>
     <div class='details'>
-        <div>
+        <div v-if="this.$route.query.strategy != 'Strategyaudit'">
             <div class='tits'>
                 <span>广告内容</span>
             </div>
@@ -46,10 +64,10 @@
             </div>
         </div>
         <div>
-            <div class='tits'>
+            <div class='tits' v-if="this.$route.query.strategy != 'Strategyaudit'">
                 <span>杂志锁屏</span>
             </div>
-            <div class='details_left'>
+            <div class='details_left' v-if="this.$route.query.strategy != 'Strategyaudit'">
                 <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
                     <div slot="content">
                         <img :src='mfinal.prev_uri' style="max-width:261px;max-height: 464px" />
@@ -58,8 +76,12 @@
                     <img :src='mfinal.prev_uri' style="cursor: pointer"  preview="0"/>                               
                 </el-tooltip>
             </div>
-            <div class='details_right2'>
+            <div class='details_right2' v-if="this.$route.query.strategy != 'Strategyaudit'">
                <div>
+                   <!-- <div class='tab_box'>
+                       <span class='tab_box_name'>审核ID</span>
+                       <span class='tab_box_con'>{{list.check_md5}}</span>
+                   </div> -->
                    <div class='tab_box'>
                        <span class='tab_box_name'>物料ID</span>
                        <span class='tab_box_con'>{{mfinal.mfid}}</span>
@@ -84,17 +106,113 @@
 						<span class="tab_box_con" v-if="mfinal.attach&&mfinal.attach.size>1024*1024*1024">{{(mfinal.attach.size/1024/1024/1024).toFixed(2)}}GB</span>
                        <a class='xz' :href='mfinal.attach.url' v-if="mfinal.attach">下载</a>
                    </div>
-                   <div class='tab_box'>
+                   <!-- <div class='tab_box'>
                        <span  class='tab_box_name' style="margin-left:30px">埋点状态</span>
                        <span  class='tab_box_con' style="margin-left:30px">{{mfinal.status_check==0?'暂未上线':"已上线"}}</span>
-                   </div>
+                   </div> -->
                    <div class='tab_box' style="border-right:0!important">
                        <span  class='tab_box_name' style="margin-left:30px">对接上线状态</span>
                        <span  class='tab_box_con' style="margin-left:30px">{{list.status_online==0?'待确定':list.status_online==1?'已上线':'未上线'}}</span>
                    </div>
                </div>
+               
             </div>
-            <div v-if='list.adver_status!=0'>
+            <div v-if="this.$route.query.auditType == '5' &&  this.$route.query.strategy != 'Strategyaudit'">
+                <div class='tits'>
+                    <span>个性化策略</span>
+                </div>
+                <div class="strategy_box">
+                    <ul class="strategy_box_top">
+                        <li>
+                            <span class="strategy_box_top_lef">策略名称</span>
+                            <span class="strategy_box_top_reg">策略内容</span>
+                        </li>
+                    </ul>
+                    <ul class="strategy_box_bottom">
+                        <li>
+                            <span class="strategy_box_bottom_lef">
+                                展示频控
+                                <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                                    <div slot="content" class="text">广告到达设置展示频次上线后停止展示</div>
+                                    <img src="../../../public/img/msgAt.png" style="vertical-align: top !important;margin-top: 20px;"/>
+                                </el-tooltip>
+                            </span>
+                            <span class="strategy_box_bottom_reg">{{adver.freqPv}}</span>
+                        </li>
+                        <li>
+                            <span class="strategy_box_bottom_lef">
+                                点击频控
+                                <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                                    <div slot="content" class="text">广告到达点击频控次数限制后不再展示广告</div>
+                                    <img src="../../../public/img/msgAt.png" style="vertical-align: top !important;margin-top: 20px;"/>
+                                </el-tooltip>
+                            </span>
+                            <span class="strategy_box_bottom_reg">{{adver.freqClick}}</span>
+                        </li>
+                        <li>
+                            <span class="strategy_box_bottom_lef">
+                                地域限制
+                                <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                                    <div slot="content" class="text">控制广告投放地区</div>
+                                    <img src="../../../public/img/msgAt.png" style="vertical-align: top !important;margin-top: 20px;"/>
+                                </el-tooltip>
+                            </span>
+                            <span class="strategy_box_bottom_reg">{{adver.geo}}</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                
+            </div>
+            <div v-if="this.$route.query.auditType == '5' &&  this.$route.query.strategy == 'Strategyaudit'">
+                <div class='tits'>
+                    <span>通用策略</span>
+                </div>
+                <div class="strategy_box">
+                    <ul class="strategy_box_top">
+                        <li>
+                            <span class="strategy_box_top_lef">策略名称</span>
+                            <span class="strategy_box_top_reg">策略内容</span>
+                        </li>
+                    </ul>
+                    <ul class="strategy_box_bottom">
+                        <li>
+                            <span class="strategy_box_bottom_lef">
+                                广告壁纸显示间隔时间
+                                <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                                    <div slot="content" class="text">满足显示间隔时间后亮屏时展示广告壁纸</div>
+                                    <img src="../../../public/img/msgAt.png" style="vertical-align: top !important;margin-top: 20px;"/>
+                                </el-tooltip>
+                            </span>
+                            <span class="strategy_box_bottom_reg" v-if="tesData.targeted_tags">{{tesData.targeted_tags.action.show_space_time}}</span>
+                        </li>
+                        <li>
+                            <span class="strategy_box_bottom_lef">
+                                广告壁纸显示频次控制
+                                <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                                    <div slot="content" class="text">控制用户看到广告壁纸次数，到达上限后不再展示广告壁纸</div>
+                                    <img src="../../../public/img/msgAt.png" style="vertical-align: top !important;margin-top: 20px;"/>
+                                </el-tooltip>
+                            </span>
+                            <span class="strategy_box_bottom_reg" v-if="tesData.targeted_tags">{{tesData.targeted_tags.action.show_count}}</span>
+                        </li>
+                        <li>
+                            <span class="strategy_box_bottom_lef">
+                                壁纸展示间隔次数控制
+                                <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                                    <div slot="content" class="text">通过用户亮灭屏次数，在下次亮屏展示广告壁纸</div>
+                                    <img src="../../../public/img/msgAt.png" style="vertical-align: top !important;margin-top: 20px;"/>
+                                </el-tooltip>
+                            </span>
+                            <span class="strategy_box_bottom_reg" v-if="tesData.targeted_tags">{{tesData.targeted_tags.action.bright_screen_times}}</span>
+                        </li>
+                        
+                    </ul>
+                </div>
+                
+                
+            </div>
+            <div v-if="list.adver_status!=0 &&this.$route.query.auditType == '5' &&  this.$route.query.strategy != 'Strategyaudit'">
                 <div class='tits'>
                     <span>处理结果</span>
                 </div>
@@ -119,7 +237,38 @@
                 </div>
                
             </div>
-             <div v-if='list.adver_status==0' class='wcl'>
+            <div v-if="tesData.audit_status!=0 &&this.$route.query.auditType == '5' &&  this.$route.query.strategy == 'Strategyaudit'">
+                <div class='tits'>
+                    <span>处理结果</span>
+                </div>
+                <div class='jg'>
+                    <div>
+                        <span>审核结果</span>
+                         <span class='jg_con'>{{tesData.audit_status==0?'待审核':tesData.audit_status==1?"审核通过":"审核不通过"}}</span>
+                    </div>
+                    <div>
+                        <span>原因说明</span>
+                         <span class='jg_con' v-if="tesData.note != ''">{{tesData.note}}</span>
+                         <span class='jg_con' v-else>--</span>
+                    </div>
+                    <div>
+                        <span>更新时间</span>
+                         <span class='jg_con'>{{tesData.updated_at}}</span>
+                    </div>
+                    <div style="border:0!important">
+                        <span>操作人员</span>
+                         <span class='jg_con'>{{tesData.updator}}</span>
+                    </div>
+                </div>
+               
+            </div>
+             <div v-if="list.adver_status==0 &&this.$route.query.auditType == '5' &&  this.$route.query.strategy != 'Strategyaudit'" class='wcl'>
+                  <div class='tits' style="text-align: left;color: #000;">
+                    <span style="color: #000;">处理结果</span>
+                </div>
+               <span>暂未处理</span>
+           </div>
+           <div v-if="tesData.audit_status==0 &&this.$route.query.auditType == '5' &&  this.$route.query.strategy == 'Strategyaudit'" class='wcl'>
                   <div class='tits' style="text-align: left;color: #000;">
                     <span style="color: #000;">处理结果</span>
                 </div>
@@ -130,7 +279,7 @@
         <div style="margin:0 40px">
             <!-- <span class='sh'>审核</span>
             <span class='qx'>取消</span> -->
-            <span @click='fh(-1)' class='qx'>返回</span>
+            <!-- <span @click='fh(-1)' class='qx'>返回</span> -->
         </div>
     </div>
     <el-dialog
@@ -190,6 +339,7 @@ data() {
         initiate:false,
         attach:{},
         aaa:0,
+        tesData:'',
     };
 },
 
@@ -294,10 +444,17 @@ methods: {
             this.adver = res.adver;
         })
     },
+    init(){
+        this.tesData = JSON.parse(this.$route.query.row);
+    }
 },
 
 created() {
-    this.getDetail()
+    if(this.$route.query.auditType == '5' &&  this.$route.query.strategy == 'Strategyaudit'){
+        this.init()
+    }else{
+        this.getDetail();
+    }
 },
 
 mounted() {
@@ -346,6 +503,7 @@ mounted() {
         margin-top: 185px;
         background: #fff;
         padding: 0 40px;
+        padding-bottom: 50px;
     }
     .details_left{
         margin: 20px 100px 10px 40px;
@@ -550,6 +708,37 @@ mounted() {
    }
    .wcl span{
        color: #ddd;
+       font-size: 14px;
+   }
+   .strategy_box{
+       width: 100%;
+       min-height: 230px;
+       margin-top: 20px;
+   }
+   .strategy_box_top{
+       height: 53px;
+       line-height: 53px;
+       border: 1px solid #ddd;
+       background: #ddd;
+   }
+   .strategy_box_top > li > span{
+       width: 50%;
+       display: block;
+       float: left;
+       text-align: center;
+       font-size: 16px;
+       font-weight: bold;
+   }
+   .strategy_box_bottom > li{
+       height: 54px;
+       line-height: 54px;
+       border-bottom: 1px solid #ddd;
+   }
+   .strategy_box_bottom > li > span{
+       width: 50%;
+       display: block;
+       float: left;
+       text-align: center;
        font-size: 14px;
    }
 </style>
