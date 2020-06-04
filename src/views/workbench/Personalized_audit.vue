@@ -20,7 +20,7 @@
                 </select>
                 <span class='qdName' v-if='pl==false'>审核ID</span>
                 <input type="text" v-model="check_md5" v-if='pl==false'>
-                <span class='qdName' v-if='pl==false'>视觉审核</span>
+                <span class='qdName' v-if='pl==false'>视觉审核标记</span>
                 <select v-model="check_status" v-if='pl==false'>
                     <option value="">全部</option>
                     <option value="0">无</option>

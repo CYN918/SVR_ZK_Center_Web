@@ -648,7 +648,7 @@ mounted() {
     }
     .content{
         width: 400px;
-        max-height:250px;
+        min-height:200px !important;
         position: absolute;
         top:30%;
         left: 50%;
