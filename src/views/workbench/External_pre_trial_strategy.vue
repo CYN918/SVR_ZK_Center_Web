@@ -48,11 +48,9 @@
                             >
                           
                         <el-table-column
-                                prop="num"
+                                prop="id"
                                 label="审核ID">
-                            <template slot-scope="scope">
-                                <span>{{scope.$index+1}}</span>
-                            </template>
+                            
                         </el-table-column>
                         <el-table-column
                                 prop="status"
