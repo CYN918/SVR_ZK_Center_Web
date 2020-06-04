@@ -20,13 +20,13 @@
                     <option value="2">审核不通过</option>
                 </select>
                 <span class='qdName' v-if='pl==false'>审核ID</span>
-                <input type="text" v-model="id">
+                <input type="text" v-model="check_md5" v-if='pl==false'>
                 <span class='qdName' v-if='pl==false'>视觉审核</span>
                 <select v-model="check_status" v-if='pl==false'>
                     <option value="">全部</option>
-                    <option value="0">待审核</option>
-                    <option value="1">审核通过</option>
-                    <option value="2">审核不通过</option>
+                    <option value="0">无</option>
+                    <option value="1">通过</option>
+                    <option value="2">不通过</option>
                 </select>
                 <div class='btn_sx'>
                     <span class='cx' v-if='pl==false' @click='getData()'>查询</span>
@@ -89,9 +89,9 @@
                         </el-table-column>
                         <el-table-column
                                 prop="check_status"
-                                label="视觉审核">
+                                label="视觉审核标识">
                                   <template slot-scope="scope">
-                                      <span>{{tableData[scope.$index].check_status==0?"待审核":tableData[scope.$index].check_status==1?"审核通过":'审核不通过'}}</span>
+                                      <span>{{tableData[scope.$index].check_status==0?"无":tableData[scope.$index].check_status==1?"通过":'不通过'}}</span>
                                 </template>
                         </el-table-column>
                          <el-table-column
@@ -189,7 +189,7 @@ return {
         advers:[],
         yy:"",
         is_receiver:0,
-        id:'',
+        check_md5:'',
         check_status:'',
 };
 },
@@ -329,14 +329,14 @@ methods: {
 
      getRowClass({row, column, rowIndex}) {
         if (rowIndex === 0) {
-            return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;padding:20px 0px 20px 14px'
+            return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;text-align: center;'
         } 
         else {
             return ''
         }
     },
             cell({row, column, rowIndex, columnIndex}){
-                return 'padding:15px 14px;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
+                return 'text-align: center;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
@@ -391,7 +391,7 @@ methods: {
            getData(){
                let params={p:this.p,page:this.page,
             //    tdate:this.date,
-               channel:this.channel.channel,status:this.status,id:this.id,check_status:this.check_status}
+               channel:this.channel.channel,status:this.status,check_md5:this.check_md5,check_status:this.check_status}
                this.api.pushlib_adver_mfinal_list({params}).then((res)=>{
                    this.tableData=res.data;
                    this.total=res.total;
@@ -418,7 +418,7 @@ mounted() {
 input{
     width: 150px;
     border-radius: 3px;
-    height: 30px!important;
+    height: 35px!important;
     padding-left: 3px!important;
     border: 1px solid rgba(211,219,235,1)!important;
     margin-left: 20px;
@@ -458,6 +458,7 @@ input{
     position: relative;
     width: 100%;
     height: 60px;
+    line-height: 60px;
    top:75px;
     background: #fff;
 }
@@ -468,7 +469,7 @@ input{
     .btn_sx{
         display: inline-block;
         float:right;
-        margin: 10px 20% 0 0 
+        margin: 0px 80px 0 0; 
     }
     .cx{
         display: inline-block;
