@@ -110,10 +110,9 @@
                         <span  v-if='this.tableData.is_internal==0'>{{this.tableData.settlement_info.settle_type==1?'买断结算':this.tableData.settlement_info.settle_type==2?'分成比例':''}}</span>
                         <span v-if='this.tableData.is_internal==1'>无</span>
                     </div>
-                    <div class="preview_tet">
+                    <div class="preview_tet" v-if='this.tableData.is_internal==0'>
                         <span>{{tableData.settlement_info.settle_type==1?"买断价格":tableData.settlement_info.settle_type==2?"分成比例":""}}：</span>
                         <span v-if='this.tableData.is_internal==0'>{{tableData.settlement_info.settle_type==1?'￥'+tableData.settlement_info.settle_value:tableData.settlement_info.settle_type==2?tableData.settlement_info.settle_value+'%':""}}</span>
-                        <span v-if='this.tableData.is_internal==1'>无</span>
                     </div>
                 </div>
                 <div style="width: 100%;text-align: center" v-if="!(this.tableData.settlement_info)">
