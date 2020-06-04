@@ -257,6 +257,7 @@ methods: {
                     query:{
                         channel:this.tableData[index].channel.channel,
                         plid:row.plid,
+                        auditType:this.tableData[index].channel.audit_type
                     },
                 })
              }

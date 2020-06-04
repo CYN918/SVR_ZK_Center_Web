@@ -1891,4 +1891,44 @@ export default {
 	adproject_external_export:{
 		url:'adproject/external/export',method:'get'
 	},
+
+	//分发服务器地址
+	ctrlapi_dispatch_servers:{
+		url:'ctrlapi/dispatch/servers',method:'get'
+	},
+
+	//通用策略信息
+	ctrlapi_tags_action:{
+		url:'ctrlapi/tags/action',method:'get'
+	},
+
+	//获取测试机IMEI
+	ctrlapi_test_imei:{
+		url:'ctrlapi/test/imei',method:'get'
+	},
+
+	//获取通用策略列表
+	ctrlapi_tags_action_search:{
+		url:'ctrlapi/tags/action/search',method:'get'
+	},
+
+	//删除测试机IMEI
+	ctrlapi_test_imei_del:{
+		url:'ctrlapi/test/imei/del',method:'post'
+	},
+
+	//添加测试机
+	ctrlapi_test_imei_add:{
+		url:'ctrlapi/test/imei/add',method:'post'
+	},
+
+	//编辑通用策略信息
+	ctrlapi_tags_action_edit:{
+		url:'ctrlapi/tags/action/edit',method:'post'
+	},
+
+	//审核通用策略信息
+	ctrlapi_tags_action_audit:{
+		url:'ctrlapi/tags/action/audit',method:'post'
+	},
 }
