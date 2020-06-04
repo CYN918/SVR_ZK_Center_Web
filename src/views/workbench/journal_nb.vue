@@ -958,7 +958,7 @@ mounted() {
     font-family: PingFang-SC-Medium;
     font-weight: 500;
     color: rgba(61,73,102,1);
-    margin: 10px 20% 0 0 
+    margin-top: -10px!important
 }
 .screening{
     position: fixed;

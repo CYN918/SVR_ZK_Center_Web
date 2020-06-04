@@ -552,7 +552,7 @@
         display: inline-block;
         margin-right: 20px;
         vertical-align: top;
-        margin-top: 60px;
+        margin-top: 93px;
     }
     .tags{
         max-height: 50px!important;

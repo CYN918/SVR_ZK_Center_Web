@@ -39,7 +39,7 @@ img{
 *, *::before, *::after{
   box-sizing:content-box!important
 }
-.el-input__inner,.el-button{
+.el-input__inner,.el-button,.el-checkbox__inner{
   box-sizing: border-box!important;
 }
 
