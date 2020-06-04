@@ -208,7 +208,7 @@
                 
                 
             </div>
-            <div v-if='list.adver_status!=0'>
+            <div v-if="list.adver_status!=0 &&this.$route.query.auditType == '5' &&  this.$route.query.strategy != 'Strategyaudit'">
                 <div class='tits'>
                     <span>处理结果</span>
                 </div>
@@ -233,7 +233,38 @@
                 </div>
                
             </div>
-             <div v-if='list.adver_status==0' class='wcl'>
+            <div v-if="tesData.audit_status!=0 &&this.$route.query.auditType == '5' &&  this.$route.query.strategy == 'Strategyaudit'">
+                <div class='tits'>
+                    <span>处理结果</span>
+                </div>
+                <div class='jg'>
+                    <div>
+                        <span>审核结果</span>
+                         <span class='jg_con'>{{tesData.audit_status==0?'待审核':tesData.audit_status==1?"审核通过":"审核不通过"}}</span>
+                    </div>
+                    <div>
+                        <span>原因说明</span>
+                         <span class='jg_con' v-if="tesData.note != ''">{{tesData.note}}</span>
+                         <span class='jg_con' v-else>--</span>
+                    </div>
+                    <div>
+                        <span>更新时间</span>
+                         <span class='jg_con'>{{tesData.updated_at}}</span>
+                    </div>
+                    <div style="border:0!important">
+                        <span>操作人员</span>
+                         <span class='jg_con'>{{tesData.updator}}</span>
+                    </div>
+                </div>
+               
+            </div>
+             <div v-if="list.adver_status==0 &&this.$route.query.auditType == '5' &&  this.$route.query.strategy != 'Strategyaudit'" class='wcl'>
+                  <div class='tits' style="text-align: left;color: #000;">
+                    <span style="color: #000;">处理结果</span>
+                </div>
+               <span>暂未处理</span>
+           </div>
+           <div v-if="tesData.audit_status==0 &&this.$route.query.auditType == '5' &&  this.$route.query.strategy == 'Strategyaudit'" class='wcl'>
                   <div class='tits' style="text-align: left;color: #000;">
                     <span style="color: #000;">处理结果</span>
                 </div>
@@ -410,12 +441,7 @@ methods: {
         })
     },
     init(){
-        let params={plid:this.$route.query.plid,channel:this.$route.query.channel}
-        this.api.ctrlapi_tags_action({params}).then((res)=>{
-            if(res != false){
-                this.tesData = res;
-            }
-        })
+        this.tesData = this.$route.query.row;
     }
 },
 
