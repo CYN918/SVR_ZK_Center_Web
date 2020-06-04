@@ -79,6 +79,10 @@
             <div class='details_right2' v-if="this.$route.query.strategy != 'Strategyaudit'">
                <div>
                    <div class='tab_box'>
+                       <span class='tab_box_name'>审核ID</span>
+                       <span class='tab_box_con'>{{list.check_md5}}</span>
+                   </div>
+                   <div class='tab_box'>
                        <span class='tab_box_name'>物料ID</span>
                        <span class='tab_box_con'>{{mfinal.mfid}}</span>
                    </div>
@@ -499,6 +503,7 @@ mounted() {
         margin-top: 185px;
         background: #fff;
         padding: 0 40px;
+        padding-bottom: 50px;
     }
     .details_left{
         margin: 20px 100px 10px 40px;

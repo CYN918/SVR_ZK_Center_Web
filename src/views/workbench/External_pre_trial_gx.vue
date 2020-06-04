@@ -21,7 +21,7 @@
                 </select>
                 <span class='qdName' v-if='pl==false'>审核ID</span>
                 <input type="text" v-model="check_md5" v-if='pl==false'>
-                <span class='qdName' v-if='pl==false'>视觉审核</span>
+                <span class='qdName' v-if='pl==false'>视觉审核标记</span>
                 <select v-model="check_status" v-if='pl==false'>
                     <option value="">全部</option>
                     <option value="0">无</option>
@@ -89,7 +89,7 @@
                         </el-table-column>
                         <el-table-column
                                 prop="check_status"
-                                label="视觉审核标识">
+                                label="视觉审核标记">
                                   <template slot-scope="scope">
                                       <span>{{tableData[scope.$index].check_status==0?"无":tableData[scope.$index].check_status==1?"通过":'不通过'}}</span>
                                 </template>
@@ -517,12 +517,12 @@ input{
     }
     .content{
         width: 400px;
-        max-height:400px;
+        min-height:200px  !important;
         position: absolute;
         top:30%;
         left: 50%;
         transform: translate(-50%,-50%);
-        border-radius: 10px;
+        border-radius: 2px;
     }
     .con_tit{
         width: 100%;
