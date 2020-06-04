@@ -259,7 +259,7 @@
         </div>
     </div>
      <div class="bg" v-if="tc">
-        <div class='content' style="min-height:350px;">
+        <div class='content'>
             <div class='con_tit'>
                 <span>审核</span>
             </div>
@@ -648,7 +648,7 @@ mounted() {
     }
     .content{
         width: 400px;
-        min-height:200px !important;
+        min-height:300px !important;
         position: absolute;
         top:30%;
         left: 50%;
@@ -669,7 +669,7 @@ mounted() {
         font-weight: 500;
     }
     .sel{
-        margin: 20px 0;
+        margin: 50px 0;
     }
     .sel select{
         width: 200px;
