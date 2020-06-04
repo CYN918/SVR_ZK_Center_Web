@@ -141,6 +141,8 @@ methods: {
                     message: '添加成功',
                     type: 'success'
                 });
+            }else{
+                this.loading = false;
             }
         })
             
@@ -164,6 +166,8 @@ methods: {
                     message: '删除成功',
                     type: 'success'
                 });
+            }else{
+                this.loading = false;
             }
         })
 
