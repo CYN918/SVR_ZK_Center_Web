@@ -46,11 +46,18 @@
                 <div class="box">
                     <div class="boxImg" v-for="(DL,index) in IMGList">
 
-                        <div class="boxCheck">
+                        <div class="boxCheck" v-if="ids">
                             <template>
                                 <el-checkbox-group v-model="checked">
                                     <el-checkbox :label="DL.mfid" @change="clcBox(DL.mfid)" v-if="ids.split(';').indexOf(DL.mfid) > -1" disabled></el-checkbox>
                                     <el-checkbox :label="DL.mfid" @change="clcBox(DL.mfid)" v-else></el-checkbox>
+                                </el-checkbox-group>
+                            </template>
+                        </div>
+                         <div class="boxCheck" v-if="!ids">
+                            <template>
+                                <el-checkbox-group v-model="checked">
+                                    <el-checkbox :label="DL.mfid" @change="clcBox(DL.mfid)"></el-checkbox>
                                 </el-checkbox-group>
                             </template>
                         </div>
@@ -66,10 +73,10 @@
                                     <span class="boxImg_text">尺寸:</span>
                                     <span class="boxImg_content">{{DL.size}}</span>
                                 </div>
-                                <!-- <div>
+                                <div v-if="!ids">
                                     <span class="boxImg_text">素材状态:</span>
                                     <span class="boxImg_content">{{DL.status==1201?'禁用':'启用'}}</span>
-                                </div> -->
+                                </div>
                                 <div>
                                     <span class="boxImg_text">制作方式:</span>
                                     <span class="boxImg_content">{{DL.pro_type==1?'高定':'微定'}}</span>
@@ -78,7 +85,7 @@
                                     <span class="boxImg_text">更新时间:</span>
                                     <span class="boxImg_content">{{DL.updated_at}}</span>
                                 </div>
-                                <div v-if="checked.indexOf(DL.mfid) > -1">
+                                <div v-if="checked.indexOf(DL.mfid) > -1&&ids">
                                     <span class="boxImg_text">上次使用日期:</span>
                                     <span class="boxImg_content" v-if="listMfid.indexOf(DL.mfid) < 0">--</span>
                                     <span class="boxImg_content" v-else v-for="todo in list">
@@ -144,7 +151,7 @@
         },
         mounted() {
             this.getList();
-            if(this.ids.length>0){
+            if(this.ids&&this.ids.length>0){
                 this.checked=this.checked.concat(this.ids.split(';'));
                 this.clcBox()
             }
