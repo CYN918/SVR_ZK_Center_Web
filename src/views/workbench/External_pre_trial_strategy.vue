@@ -87,7 +87,7 @@
                             <template slot-scope="scope">
                                  <el-button  type="text" size="small" v-if='tableData[scope.$index].adver_status=="0" && pl == false' @click='updateStatus(index,scope.row)'>审核</el-button>
                                  <!-- <el-button v-if='tableData[scope.$index].status!="0"' type="text" size="small">修改结果</el-button> -->
-                                <el-button  type="text" size="small" @click="details(scope.$index)">查看详情</el-button>
+                                <el-button  type="text" size="small" @click="details(scope.$index,scope.row)">查看详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -236,7 +236,7 @@ methods: {
         this.checkList=[];
         this.yy=''
     }, 
-    details(index){
+    details(index,row){
         this.$router.push({
             path:"./External_details",
             query:{
@@ -245,6 +245,7 @@ methods: {
                 adid:this.tableData[index].adid,
                 tags_id:this.tableData[index].tags_id,
                 channel:this.tableData[index].channel,
+                row:row,
                 auditType:'Externalpretrialstrategy'
             }
         })

@@ -69,7 +69,7 @@
                             
                     >
                         <template slot-scope="scope">
-                            <el-button  type="text" size="small" @click="details(scope.$index)">查看详情</el-button>
+                            <el-button  type="text" size="small" @click="details(scope.$index,scope.row)">查看详情</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -210,7 +210,7 @@ methods: {
             qx(){
                this.tc = false;
            }, 
-           details(index){
+           details(index,row){
                 this.$router.push({
                     path:"./Journal_details",
                     query:{
@@ -220,6 +220,7 @@ methods: {
                         tags_id:this.tableData[index].tags_id,
                         auditType:this.$route.query.auditType,
                         channel:this.$route.query.channel,
+                        row:row,
                         strategy:'Strategyaudit',
                     }
                 })
