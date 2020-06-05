@@ -737,11 +737,11 @@
                         this.$message.error('结算类型价格、比列不能为空')
                         return
                     }
-                     if(this.settle_type==1&&this.settle_value<=0&&this.is_internal==false){
-                        this.$message.error('结算类型价格不能小于零')
+                     if(this.settle_type==1&&this.settle_value<=0&&this.is_internal==false||(this.settle_value.split('.')[0].length>=2&&this.settle_value.split('.')[0].split('')[0]=="0")){
+                        this.$message.error('结算类型价格不能小于零或输入错误')
                         return
                     }
-                     if(this.settle_type==2&&this.is_internal==false&&(this.settle_value<0||this.settle_value>100||!(re.test(this.settle_value)))){
+                     if(this.settle_type==2&&this.is_internal==false&&(this.settle_value<=0||this.settle_value>=100||!(re.test(this.settle_value)))){
                         this.$message.error('比列取值为0-100的正整数')
                         return
                     }
@@ -847,11 +847,11 @@
                         this.$message.error('结算类型价格、比列不能为空')
                         return
                     }
-                      if(this.settle_type==1&&this.settle_value<=0&&this.is_internal==false){
-                        this.$message.error('结算类型价格不能小于零')
+                      if(this.settle_type==1&&this.settle_value<=0&&this.is_internal==false||(this.settle_value.split('.')[0].length>=2&&this.settle_value.split('.')[0].split('')[0]=="0")){
+                        this.$message.error('结算类型价格不能小于零或输入错误')
                         return
                     }
-                     if(this.settle_type==2&&this.is_internal==false&&(this.settle_value<0||this.settle_value>100||!(re.test(this.settle_value)))){
+                     if(this.settle_type==2&&this.is_internal==false&&(this.settle_value<=0||this.settle_value>=100||!(re.test(this.settle_value)))){
                         this.$message.error('比列取值为0-100的正整数')
                         return
                     }
