@@ -1871,6 +1871,26 @@ export default {
 	pushlib_configs_channel_user_delete:{
 		url:'pushlib/configs/channel/user/delete',method:'post'
 	},
+
+	//查询测试日期
+	pushlib_wptest_search:{
+		url:'pushlib/wptest/search',method:'get'
+	},
+
+	//编辑测试管理
+	pushlib_wptest_edit:{
+		url:'pushlib/wptest/edit',method:'post'
+	},
+
+	//查询杂志锁屏上次使用时间
+	pushlib_textlink_mfid_lastuse:{
+		url:'pushlib/textlink/mfid/lastuse',method:'get'
+	},
+
+	//导出项目管理数据
+	adproject_external_export:{
+		url:'adproject/external/export',method:'get'
+	},
 	//价格管理操作日志
 	analysis_config_sharing_operate_logs:{
 		url:"analysis/config/sharing/operate_logs",method:'get'

@@ -864,7 +864,7 @@
     }
     .titName{
         display: inline-block;
-        width:120px;
+        width:130px;
         text-align: right;
     }
     .tit{
