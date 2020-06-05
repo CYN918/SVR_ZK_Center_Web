@@ -737,7 +737,7 @@
                         this.$message.error('结算类型价格、比列不能为空')
                         return
                     }
-                     if(this.settle_type==1&&this.settle_value<0&&this.is_internal==false){
+                     if(this.settle_type==1&&this.settle_value<=0&&this.is_internal==false){
                         this.$message.error('结算类型价格不能小于零')
                         return
                     }
@@ -847,7 +847,7 @@
                         this.$message.error('结算类型价格、比列不能为空')
                         return
                     }
-                      if(this.settle_type==1&&this.settle_value<0&&this.is_internal==false){
+                      if(this.settle_type==1&&this.settle_value<=0&&this.is_internal==false){
                         this.$message.error('结算类型价格不能小于零')
                         return
                     }
