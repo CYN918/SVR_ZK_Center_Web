@@ -73,11 +73,11 @@
                                 label="渠道" prop="channel"
                                 >
                         </el-table-column>
-                         <el-table-column
+                         <!-- <el-table-column
                          v-if='this.$route.query.type==3'
                                 label="点击量" prop="click"
                                 >
-                        </el-table-column>
+                        </el-table-column> -->
                          <el-table-column
                          v-if='this.$route.query.type==3'
                                 label="曝光量" prop="pv"
