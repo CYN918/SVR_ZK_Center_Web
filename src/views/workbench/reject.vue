@@ -109,7 +109,7 @@
         transform: translate(-50%,-50%);
         width:588px;
         min-height:380px;
-        max-height: 450px;
+        max-height: 500px;
         background:rgba(255,255,255,1);
         border-radius:4px;
 
@@ -145,7 +145,7 @@
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);
         resize: none;
-        margin: 23px 0 0 23px;
+        margin: 23px 0 50px 23px;
     }
     .tishi span{
         display: inline-block;
