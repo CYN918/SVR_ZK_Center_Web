@@ -145,7 +145,7 @@
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);
         resize: none;
-        margin: 23px 0 0 23px;
+        margin: 23px 0 50px 23px;
     }
     .tishi span{
         display: inline-block;
