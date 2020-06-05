@@ -696,6 +696,7 @@
                     formData.append('attach',JSON.stringify(this.attach));
                     formData.append('main_preview',this.main_preview);
                 }else{
+                    var re = /^[0-9]+$/ ;
                     if(!this.name){
                         this.$message.error('名称不能为空')
                         return
@@ -734,6 +735,14 @@
                     }
                     if(!this.settle_value&&this.is_internal==false){
                         this.$message.error('结算类型价格、比列不能为空')
+                        return
+                    }
+                     if(this.settle_type==1&&this.settle_value<0&&this.is_internal==false){
+                        this.$message.error('结算类型价格不能小于零')
+                        return
+                    }
+                     if(this.settle_type==2&&this.is_internal==false&&(this.settle_value<0||this.settle_value>100||!(re.test(this.settle_value)))){
+                        this.$message.error('比列取值为0-100的正整数')
                         return
                     }
                     if(this.is_internal==false){
@@ -809,6 +818,7 @@
                     formData.append('attach',JSON.stringify(this.attach));
                     formData.append('main_preview',this.main_preview);
                 }else{
+                    var re = /^[0-9]+$/ ;
                     if(!this.name){
                         this.$message.error('名称不能为空');
                         return
@@ -835,6 +845,14 @@
                     }
                      if(!this.settle_value&&this.is_internal==false){
                         this.$message.error('结算类型价格、比列不能为空')
+                        return
+                    }
+                      if(this.settle_type==1&&this.settle_value<0&&this.is_internal==false){
+                        this.$message.error('结算类型价格不能小于零')
+                        return
+                    }
+                     if(this.settle_type==2&&this.is_internal==false&&(this.settle_value<0||this.settle_value>100||!(re.test(this.settle_value)))){
+                        this.$message.error('比列取值为0-100的正整数')
                         return
                     }
                     if(!this.note){
