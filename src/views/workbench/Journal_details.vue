@@ -51,15 +51,28 @@
                </div>
                <div>
                    <span>广告图URL</span>
-                    <a :href="adver.pict_url" v-if="adver.pict_url">{{adver.pict_url}}</a>
+                   <el-tooltip placement="top" class="tit_txt_2 logs tit_txts" v-if="adver.pict_url">
+                        <div slot="content" class="text">{{adver.pict_url}}</div>
+                        <a :href="adver.pict_url">{{adver.pict_url}}</a>
+                    </el-tooltip>
+                    
+                    <span v-if="adver.pict_url == ''">--</span>
                </div>
                 <div>
                     <span>落地页URL</span>
-                    <a :href="adver.click_url">{{adver.click_url}}</a>
+                    <el-tooltip placement="top" class="tit_txt_2 logs tit_txts" v-if="adver.click_url">
+                        <div slot="content" class="text">{{adver.click_url}}</div>
+                        <a :href="adver.click_url">{{adver.click_url}}</a>
+                    </el-tooltip> 
+                    <span v-if="adver.click_url == ''">--</span>
                </div>
                <div>
                     <span>应用包URL</span>
-                    <a :href="adver.package_url">{{adver.package_url}}</a>
+                    <el-tooltip placement="top" class="tit_txt_2 logs tit_txts" v-if="adver.package_url">
+                        <div slot="content" class="text">{{adver.package_url}}</div>
+                        <a :href="adver.package_url">{{adver.package_url}}</a>
+                    </el-tooltip>
+                    <span v-if="adver.package_url == ''">--</span>
                </div>
             </div>
         </div>
@@ -157,7 +170,12 @@
                                     <img src="../../../public/img/msgAt.png" style="vertical-align: top !important;margin-top: 20px;"/>
                                 </el-tooltip>
                             </span>
-                            <span class="strategy_box_bottom_reg">{{adver.geo}}</span>
+                            <span class="strategy_box_bottom_reg">
+                                <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                                    <div slot="content" class="text">{{adver.geo}}</div>
+                                    <span>{{adver.geo}}</span>
+                                </el-tooltip> 
+                            </span>
                         </li>
                     </ul>
                 </div>
@@ -736,6 +754,8 @@ mounted() {
    }
    .strategy_box_bottom > li > span{
        width: 50%;
+       height: 54px;
+       overflow: hidden;
        display: block;
        float: left;
        text-align: center;

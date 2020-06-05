@@ -34,16 +34,28 @@
             </div>
             <div class='details_right'>
                <div>
-                   <span>广告图URL</span>
-                    <a :href="list.adver.pict_url" v-if='list.adver'>{{list.adver.pict_url}}</a>
+                    <span>广告图URL</span>
+                    <el-tooltip placement="top" class="tit_txt_2 logs tit_txts" v-if='list.adver.pict_url'>
+                        <div slot="content" class="text">{{list.adver.pict_url}}</div>
+                        <a :href="list.adver.pict_url">{{list.adver.pict_url}}</a>
+                    </el-tooltip>
+                    <span v-if="list.adver.pict_url == ''">--</span>
                </div>
                 <div>
                     <span>落地页URL</span>
-                    <a :href="list.adver.click_url" v-if='list.adver'>{{list.adver.click_url}}</a>
+                    <el-tooltip placement="top" class="tit_txt_2 logs tit_txts" v-if='list.adver.click_url'>
+                        <div slot="content" class="text">{{list.adver.click_url}}</div>
+                        <a :href="list.adver.click_url">{{list.adver.click_url}}</a>
+                    </el-tooltip>  
+                    <span v-if="list.adver.click_url == ''">--</span>
                </div>
                <div>
                     <span>应用包URL</span>
-                    <a :href="list.adver.package_url" v-if='list.adver'>{{list.adver.package_url}}</a>
+                    <el-tooltip placement="top" class="tit_txt_2 logs tit_txts" v-if='list.adver.package_url'>
+                        <div slot="content" class="text">{{list.adver.package_url}}</div>
+                        <a :href="list.adver.package_url">{{list.adver.package_url}}</a>
+                    </el-tooltip>
+                    <span v-if="list.adver.package_url == ''">--</span>
                </div>
             </div>
         </div>
@@ -135,7 +147,12 @@
                                     <img src="../../../public/img/msgAt.png" style="vertical-align: top !important;margin-top: 20px;"/>
                                 </el-tooltip>
                             </span>
-                            <span class="strategy_box_bottom_reg" v-if="list.adver">{{list.adver.geo}}</span>
+                            <span class="strategy_box_bottom_reg" v-if="list.adver">
+                                <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                                    <div slot="content" class="text">{{list.adver.geo}}</div>
+                                    <span>{{list.adver.geo}}</span>
+                                </el-tooltip> 
+                            </span>
                         </li>
                     </ul>
                 </div>
@@ -776,6 +793,8 @@ mounted() {
    }
    .strategy_box_bottom > li > span{
        width: 50%;
+       height: 54px;
+       overflow: hidden;
        display: block;
        float: left;
        text-align: center;
