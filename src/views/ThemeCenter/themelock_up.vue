@@ -416,7 +416,7 @@
         methods:{
              getRowClass({row, column, rowIndex, columnIndex}) {
                     if (rowIndex === 0) {
-                        return 'background:rgba(247,249,252,1);color:rgba(31,46,77,1);text-align:center;font-size:14px;font-weight:blod;font-family:PingFang-SC-Medium;height:56px'
+                        return 'background:rgba(247,249,252,1);color:rgba(31,46,77,1);text-align:center;font-size:14px;font-weight:blod;font-family:PingFang-SC-Medium;height:14px'
                     } else {
                         return ''
                     }
@@ -938,13 +938,15 @@
                     this.listS=[];
                 },
                  heidHT(){
-                        this.ht=false;
                         if(this.listS.length=="0"){
-                            this.$$message.error('文件归档号不正确')
+                            this.$message.error('文件归档号不正确')
                             return
                         }
-                        this.contract.push((this.listS[0]).archive_id);
-                        this.contracts=this.contracts.concat(this.listS);
+                        this.ht=false;
+                        if(this.contract.indexOf((this.listS[0]).archive_id)==-1){
+                            this.contract.push((this.listS[0]).archive_id);
+                            this.contracts=this.contracts.concat(this.listS);
+                        }
                         this.contract_id='';
                         this.listS=[];  
                 },

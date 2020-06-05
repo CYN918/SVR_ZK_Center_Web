@@ -157,8 +157,7 @@
                 <div class="imgID" v-for="item in tableData.previews" v-if="tableData.previews!=[]">
                     <el-tooltip placement="right" class="tit_txt_2 logs tit_txts">
                         <div slot="content">
-                            <img :src='item'/>
-
+                            <img :src='item' style="max-width:261px;max-height: 464px" />
                         </div>
                         <img :src='item' style="cursor: pointer"  preview="0" />                               
                     </el-tooltip>
