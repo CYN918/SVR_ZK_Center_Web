@@ -57,11 +57,11 @@
                                 <span>{{tableData[scope.$index].complete+'%'}}</span>
                             </template>
                         </el-table-column>
-                        <el-table-column
+                        <!-- <el-table-column
                                 label="点击量" prop="click"
                                 >
                            
-                        </el-table-column>
+                        </el-table-column> -->
                          <el-table-column
                                 label="曝光量" prop="pv"
                                 >
@@ -109,7 +109,7 @@
                 </div>
                 <div class='tits'>
                     <span>数据有效率：</span>
-                    <input type="number" v-model="complete">%
+                    <input type="number" v-model="complete" @input='getMoney(time,qd,complete)'>%
                 </div>
                 <div class='tits'>
                     <span>分成金额：</span>
@@ -179,6 +179,14 @@ export default {
                    this.getMoney(tdate,channel,complete)
                 },
                 Edit(){
+                    if(!this.complete){
+                        this.$message.error('数据有效率不能为空')
+                        return
+                    }
+                     if(this.complete<0||this.complete>100){
+                        this.$message.error('数据有效率取值为0-100')
+                        return
+                    }
                     let formData = new FormData;
                     formData.append('tdate',this.time)
                     formData.append('channel',this.qd);

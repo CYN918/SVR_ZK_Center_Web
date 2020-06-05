@@ -28,7 +28,7 @@
                 <span>分成价格(元)</span> 
                 <input type="text" v-model="data.sharing[index].sharing_price"  :disabled='set==false'>
                  <span>分成方式</span>
-                <select v-model="data.sharing[index].sharing_type"  :disabled='set==false'>
+                <select v-model="data.sharing[index].sharing_type"  disabled>
                     <option value="ecpm">千次曝光计费</option>
                     <option value="ecpc">点击计费</option>
                 </select>
