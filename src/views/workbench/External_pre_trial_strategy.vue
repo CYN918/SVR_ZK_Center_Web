@@ -382,7 +382,7 @@ mounted() {
     }
     .content{
         width: 400px;
-        max-height:250px;
+        min-height:180px;
         position: absolute;
         top:30%;
         left: 50%;
@@ -428,8 +428,6 @@ mounted() {
        width: 100%;
        height: 50px;
        text-align: right;
-       position: absolute;
-    bottom: 0px;
    }
    .sel_btn span{
     margin-right: 24px;
