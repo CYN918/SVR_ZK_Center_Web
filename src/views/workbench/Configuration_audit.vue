@@ -64,8 +64,10 @@
                     <input type="text" style="width:212px" v-model='imei'>
                 </div>
                 <div class='sel_btn'>
-                    <span class="sel_btn_qd" @click="pushLib()">确定</span>
-                    <span @click='qx()'>取消</span>
+                    <el-button type="primary" @click="pushLib()" :loading="loading">确定</el-button>
+                    <!-- <span class="sel_btn_qd" @click="pushLib()">确定</span> -->
+                    <!-- <span @click='qx()'>取消</span> -->
+                    <el-button @click='qx()' style="margin-right: 15px;">取消</el-button>
                 </div>
             </div>
         </div>
@@ -77,7 +79,7 @@
             <span>确认是否删除?</span>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="confirmDel()">确 定</el-button>
+                <el-button type="primary" @click="confirmDel()" :loading="loading">确 定</el-button>
             </span>
         </el-dialog>
         <loading v-if='load'></loading>
@@ -103,6 +105,7 @@ return {
         imei:'',
         dialogVisible:false,
         row:'',
+        loading:false,
         
 };
 },
@@ -119,27 +122,52 @@ methods: {
         this.tc = true;
     },
     pushLib(){
+        this.loading = true;
         let formData = new FormData
-        formData.append('plid',this.$route.query.plid)
-        formData.append('channel',this.$route.query.channel)
+        if(this.$route.query.plid != undefined){
+            formData.append('plid',this.$route.query.plid)
+        }
+        if(this.$route.query.channel != undefined){
+            formData.append('channel',this.$route.query.channel)
+        }
         formData.append('imei',this.imei)
         this.api.ctrlapi_test_imei_add(formData).then((res)=>{
             if(res!=false){
                 this.tc = false;
-                this.getData()
+                this.getData();
+                this.loading = false;
+                this.imei = '';
+                this.$message({
+                    message: '添加成功',
+                    type: 'success'
+                });
+            }else{
+                this.loading = false;
             }
         })
             
     }, 
     confirmDel(){
+        this.loading = true;
         let formData = new FormData
-        formData.append('plid',this.$route.query.plid)
-        formData.append('channel',this.$route.query.channel)
+        if(this.$route.query.plid != undefined){
+            formData.append('plid',this.$route.query.plid)
+        }
+        if(this.$route.query.channel != undefined){
+            formData.append('channel',this.$route.query.channel)
+        }
         formData.append('imei',this.row.imei)
         this.api.ctrlapi_test_imei_del(formData).then((res)=>{
             if(res!=false){
                 this.dialogVisible = false;
-                this.getData()
+                this.getData();
+                this.loading = false;
+                this.$message({
+                    message: '删除成功',
+                    type: 'success'
+                });
+            }else{
+                this.loading = false;
             }
         })
 
@@ -223,6 +251,7 @@ methods: {
 },
 
 created() {
+    console.log(this.$route.query.plid)
 
 },
 //生命周期 - 挂载完成（可以访问DOM元素）
@@ -240,7 +269,7 @@ mounted() {
     input{
         width: 150px;
         border-radius: 3px;
-        height: 30px!important;
+        height: 35px!important;
         padding-left: 3px!important;
         border: 1px solid rgba(211,219,235,1)!important;
         margin-left: 20px;
@@ -280,6 +309,7 @@ mounted() {
     position: relative;
     width: 100%;
     height: 60px;
+    line-height: 60px;
    top:75px;
     background: #fff;
 }
@@ -290,7 +320,7 @@ mounted() {
     .btn_sx{
         display: inline-block;
         float:right;
-        margin: 10px 1% 0 0 
+        margin: 0px 80px 0 0;
     }
     .cx{
         display: inline-block;

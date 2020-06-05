@@ -7,6 +7,7 @@
             </div>
             <div class="tit_top_con" v-if="this.$route.query.auditType == 'Externalpretrialgx'">
                 <span class="tit_name">个性化内容详情</span>
+                <span class='sh' v-if="list.adver_status==0&&this.$route.query.auditType == 'Externalpretrialgx'" @click='SH()'>审核</span>
             </div>
             <div class="tit_top_url" v-if="this.$route.query.auditType == 'Externalpretrialstrategy'">
                 <span class="log_url" @click="fh(-1)"> 推送审核内容管理 &nbsp;/&nbsp;</span>
@@ -14,6 +15,7 @@
             </div>
             <div class="tit_top_con" v-if="this.$route.query.auditType == 'Externalpretrialstrategy'">
                 <span class="tit_name">通用策略详情</span>
+                <span class='sh' v-if="tesData.audit_status==0&&this.$route.query.auditType == 'Externalpretrialstrategy'" @click='TYSH()'>审核</span>
             </div>
     </div>
     <div class='details' >
@@ -32,20 +34,29 @@
             </div>
             <div class='details_right'>
                <div>
-                   <span>广告图URL</span>
-                    <a :href="list.adver.pict_url" v-if='list.adver'>{{list.adver.pict_url}}</a>
+                    <span>广告图URL</span>
+                    <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                        <div slot="content" class="text">{{list.adver.pict_url}}</div>
+                        <a :href="list.adver.pict_url" v-if='list.adver'>{{list.adver.pict_url}}</a>
+                    </el-tooltip>
                </div>
                 <div>
                     <span>落地页URL</span>
-                    <a :href="list.adver.click_url" v-if='list.adver'>{{list.adver.click_url}}</a>
+                    <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                        <div slot="content" class="text">{{list.adver.click_url}}</div>
+                        <a :href="list.adver.click_url" v-if='list.adver'>{{list.adver.click_url}}</a>
+                    </el-tooltip>  
                </div>
                <div>
                     <span>应用包URL</span>
-                    <a :href="list.adver.package_url" v-if='list.adver'>{{list.adver.package_url}}</a>
+                    <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                        <div slot="content" class="text">{{list.adver.package_url}}</div>
+                        <a :href="list.adver.package_url" v-if='list.adver'>{{list.adver.package_url}}</a>
+                    </el-tooltip>
                </div>
             </div>
         </div>
-        <div v-if="list.mfinal">
+        <div>
             <div class='tits' v-if="this.$route.query.auditType == 'Externalpretrialgx'">
                 <span>杂志锁屏</span>
             </div>
@@ -60,15 +71,15 @@
             </div>
             <div class='details_right2' v-if="this.$route.query.auditType == 'Externalpretrialgx'">
                <div>
-                   <div class='tab_box'>
-                       <span class='tab_box_name'>物料ID</span>
-                       <span class='tab_box_con'>{{list.mfinal.mfid}}</span>
+                   <div class='tab_box' v-if="list.mfinal">
+                       <span class='tab_box_name'>审核ID</span>
+                       <span class='tab_box_con'>{{list.check_md5}}</span>
                    </div>
-                   <div class='tab_box' >
+                   <div class='tab_box' v-if="list.mfinal">
                        <span  class='tab_box_name' style="margin-left:30px">尺寸</span>
                        <span  class='tab_box_con' style="margin-left:30px">{{list.mfinal.size}}</span>
                    </div>
-                    <div class='tab_box' style="border-right:0!important">
+                    <div class='tab_box' style="border-right:0!important" v-if="list.mfinal">
                        <span  class='tab_box_name' style="margin-left:30px">文件大小</span>
                         <span style="margin-left:30px" class="tab_box_con" v-if="(list.mfinal.attach.size/1024).toFixed(0)<1">1kb</span>
 						<span style="margin-left:30px" class="tab_box_con" v-if="list.mfinal.attach.size>1024&&list.mfinal.attach.size<1024*1024">{{(list.mfinal.attach.size/1024).toFixed(0)}}kb</span>
@@ -133,7 +144,12 @@
                                     <img src="../../../public/img/msgAt.png" style="vertical-align: top !important;margin-top: 20px;"/>
                                 </el-tooltip>
                             </span>
-                            <span class="strategy_box_bottom_reg" v-if="list.adver">{{list.adver.geo}}</span>
+                            <span class="strategy_box_bottom_reg" v-if="list.adver">
+                                <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                                    <div slot="content" class="text">{{list.adver.geo}}</div>
+                                    {{list.adver.geo}}
+                                </el-tooltip> 
+                            </span>
                         </li>
                     </ul>
                 </div>
@@ -187,7 +203,7 @@
                 
                 
             </div>
-            <div v-if="list.adver_status!=0&&this.$route.query.auditType == 'Externalpretrialgx'">
+            <div v-if="list.adver_status!=0&&this.$route.query.auditType == 'Externalpretrialgx'" style="padding-bottom: 35px;">
                 <div class='tits'>
                     <span>处理结果</span>
                 </div>
@@ -212,7 +228,7 @@
                 </div>
                
             </div>
-            <div v-if="tesData.audit_status!=0 && this.$route.query.auditType == 'Externalpretrialstrategy'">
+            <div v-if="tesData.audit_status!=0 && this.$route.query.auditType == 'Externalpretrialstrategy'" style="padding-bottom: 35px;">
                 <div class='tits'>
                     <span>处理结果</span>
                 </div>
@@ -251,12 +267,10 @@
            </div>
         </div>
 
-        <div style="margin:0 40px">
-            <span class='sh' v-if="list.adver_status==0&&this.$route.query.auditType == 'Externalpretrialgx'" @click='SH()'>审核</span>
-            <span class='sh' v-if="list.adver_status==0&&this.$route.query.auditType == 'Externalpretrialstrategy'" @click='TYSH()'>审核</span>
+        <!-- <div style="margin:0 40px">
             <span class='qx' v-if='list.adver_status==0'  @click='fh(-1)'>取消</span>
             <span @click='fh(-1)' class='qx' v-if='list.adver_status!=0'>返回</span>
-        </div>
+        </div> -->
     </div>
      <div class="bg" v-if="tc">
         <div class='content'>
@@ -301,7 +315,7 @@
                     <option value="2">审核不通过</option>
                 </select>
                 <div class='sel_1' v-if="status2=='2'"> 
-                    <textarea placeholder="不通过原因,最多20字" maxlength="20" v-model="content"></textarea>  
+                    <textarea placeholder="不通过原因,最多20字" maxlength="20" v-model="content" style="width:202px;"></textarea>  
                 </div>
             </div>
             <div class='sel_btn'>
@@ -406,6 +420,7 @@ methods: {
     },
     init(){
         this.tesData = JSON.parse(this.$route.query.row);
+        console.log(this.tesData)
     },  
 },
 
@@ -419,7 +434,7 @@ created() {
 },
 
 mounted() {
-    this.getDetail()
+    // this.getDetail()
 },
 
 }
@@ -537,7 +552,28 @@ mounted() {
         background: #ddd;
         margin-right:40px; 
     }
-    .sh,.qx{
+    .sh{
+        display: inline-block;
+        cursor: pointer;
+        width: 68px;
+        height: 36px;
+        background: rgba(255,255,255,1);
+        border-radius: 4px;
+        border: 1px solid rgba(211,219,235,1);
+        font-size: 14px;
+        font-family: PingFangSC-Regular;
+        font-weight: 400;
+        color: rgba(61,73,102,1);
+        line-height: 36px;
+        cursor: pointer;
+        text-align: center;
+        float: right;
+        margin-right: 320px;
+        position: relative;
+        bottom: 15px;
+
+    }
+    .qx{
         display: inline-block;
         cursor: pointer;
         margin-right: 24px;
@@ -647,12 +683,12 @@ mounted() {
     }
     .content{
         width: 400px;
-        max-height:400px;
+        min-height:180px;
         position: absolute;
         top:30%;
         left: 50%;
         transform: translate(-50%,-50%);
-        border-radius: 10px;
+        border-radius: 2px;
     }
     .con_tit{
         width: 100%;
@@ -718,7 +754,7 @@ mounted() {
    }
    .wcl{
        position: relative;
-       padding-bottom:30px ;
+       padding-bottom:110px ;
    }
    .wcl>span{
        color: #ddd;
@@ -754,6 +790,8 @@ mounted() {
    }
    .strategy_box_bottom > li > span{
        width: 50%;
+       height: 54px;
+       overflow: hidden;
        display: block;
        float: left;
        text-align: center;

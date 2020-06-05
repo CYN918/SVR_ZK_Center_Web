@@ -54,7 +54,8 @@ return {
 
 methods: {
     switchs(num){
-        this.is_receiver=num;     
+        this.is_receiver=num;    
+        localStorage.setItem('tabNum', num) 
     },
             
 },
@@ -64,6 +65,10 @@ created() {
 },
 //生命周期 - 挂载完成（可以访问DOM元素）
 mounted() {
+    if (localStorage.getItem('tabNum')) {
+        console.log(1)
+        this.is_receiver = localStorage.getItem('tabNum')
+    }
    
 },
 

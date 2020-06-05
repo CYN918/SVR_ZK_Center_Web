@@ -258,7 +258,7 @@ mounted() {
     input{
         width: 150px;
         border-radius: 3px;
-        height: 30px!important;
+        height: 35px!important;
         padding-left: 3px!important;
         border: 1px solid rgba(211,219,235,1)!important;
         margin-left: 20px;
@@ -298,6 +298,7 @@ mounted() {
     position: relative;
     width: 100%;
     height: 60px;
+    line-height: 60px;
    top:75px;
     background: #fff;
 }
@@ -308,7 +309,7 @@ mounted() {
     .btn_sx{
         display: inline-block;
         float:right;
-        margin: 10px 20% 0 0 
+        margin: 0px 80px 0 0;
     }
     .cx{
         display: inline-block;
