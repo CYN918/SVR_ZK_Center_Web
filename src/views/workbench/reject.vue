@@ -109,7 +109,7 @@
         transform: translate(-50%,-50%);
         width:588px;
         min-height:380px;
-        max-height: 450px;
+        max-height: 500px;
         background:rgba(255,255,255,1);
         border-radius:4px;
 
