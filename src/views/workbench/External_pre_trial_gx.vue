@@ -517,7 +517,7 @@ input{
     }
     .content{
         width: 400px;
-        min-height:200px  !important;
+        min-height:180px;
         position: absolute;
         top:30%;
         left: 50%;

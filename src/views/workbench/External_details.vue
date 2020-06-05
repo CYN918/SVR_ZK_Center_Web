@@ -7,6 +7,7 @@
             </div>
             <div class="tit_top_con" v-if="this.$route.query.auditType == 'Externalpretrialgx'">
                 <span class="tit_name">个性化内容详情</span>
+                <span class='sh' v-if="list.adver_status==0&&this.$route.query.auditType == 'Externalpretrialgx'" @click='SH()'>审核</span>
             </div>
             <div class="tit_top_url" v-if="this.$route.query.auditType == 'Externalpretrialstrategy'">
                 <span class="log_url" @click="fh(-1)"> 推送审核内容管理 &nbsp;/&nbsp;</span>
@@ -14,6 +15,7 @@
             </div>
             <div class="tit_top_con" v-if="this.$route.query.auditType == 'Externalpretrialstrategy'">
                 <span class="tit_name">通用策略详情</span>
+                <span class='sh' v-if="tesData.audit_status==0&&this.$route.query.auditType == 'Externalpretrialstrategy'" @click='TYSH()'>审核</span>
             </div>
     </div>
     <div class='details' >
@@ -187,7 +189,7 @@
                 
                 
             </div>
-            <div v-if="list.adver_status!=0&&this.$route.query.auditType == 'Externalpretrialgx'">
+            <div v-if="list.adver_status!=0&&this.$route.query.auditType == 'Externalpretrialgx'" style="padding-bottom: 35px;">
                 <div class='tits'>
                     <span>处理结果</span>
                 </div>
@@ -212,7 +214,7 @@
                 </div>
                
             </div>
-            <div v-if="tesData.audit_status!=0 && this.$route.query.auditType == 'Externalpretrialstrategy'">
+            <div v-if="tesData.audit_status!=0 && this.$route.query.auditType == 'Externalpretrialstrategy'" style="padding-bottom: 35px;">
                 <div class='tits'>
                     <span>处理结果</span>
                 </div>
@@ -251,12 +253,10 @@
            </div>
         </div>
 
-        <div style="margin:0 40px">
-            <span class='sh' v-if="list.adver_status==0&&this.$route.query.auditType == 'Externalpretrialgx'" @click='SH()'>审核</span>
-            <span class='sh' v-if="tesData.audit_status==0&&this.$route.query.auditType == 'Externalpretrialstrategy'" @click='TYSH()'>审核</span>
+        <!-- <div style="margin:0 40px">
             <span class='qx' v-if='list.adver_status==0'  @click='fh(-1)'>取消</span>
             <span @click='fh(-1)' class='qx' v-if='list.adver_status!=0'>返回</span>
-        </div>
+        </div> -->
     </div>
      <div class="bg" v-if="tc">
         <div class='content'>
@@ -538,7 +538,28 @@ mounted() {
         background: #ddd;
         margin-right:40px; 
     }
-    .sh,.qx{
+    .sh{
+        display: inline-block;
+        cursor: pointer;
+        width: 68px;
+        height: 36px;
+        background: rgba(255,255,255,1);
+        border-radius: 4px;
+        border: 1px solid rgba(211,219,235,1);
+        font-size: 14px;
+        font-family: PingFangSC-Regular;
+        font-weight: 400;
+        color: rgba(61,73,102,1);
+        line-height: 36px;
+        cursor: pointer;
+        text-align: center;
+        float: right;
+        margin-right: 320px;
+        position: relative;
+        bottom: 15px;
+
+    }
+    .qx{
         display: inline-block;
         cursor: pointer;
         margin-right: 24px;
@@ -648,7 +669,7 @@ mounted() {
     }
     .content{
         width: 400px;
-        min-height:300px !important;
+        min-height:180px;
         position: absolute;
         top:30%;
         left: 50%;
@@ -669,7 +690,7 @@ mounted() {
         font-weight: 500;
     }
     .sel{
-        margin: 50px 0;
+        margin: 20px 0;
     }
     .sel select{
         width: 200px;
@@ -694,8 +715,6 @@ mounted() {
        width: 100%;
        height: 50px;
        text-align: right;
-       position: absolute;
-    bottom: 0px;
    }
    .sel_btn span{
     margin-right: 24px;
@@ -721,7 +740,7 @@ mounted() {
    }
    .wcl{
        position: relative;
-       padding-bottom:30px ;
+       padding-bottom:110px ;
    }
    .wcl>span{
        color: #ddd;
