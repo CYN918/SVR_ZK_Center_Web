@@ -62,7 +62,7 @@
             </div>
             <div>
                 <span class="tit">处理时间</span>
-                <span class="tit_right">{{this.tableData.endtime}}</span>
+                <span class="tit_right">{{this.tableData.check_time}}</span>
             </div>
             <div>
                 <span class="tit">相关合同</span>
