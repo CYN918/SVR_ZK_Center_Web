@@ -132,7 +132,7 @@
                 this.$router.push({
                     path:"./Record",
                     query:{
-                        data:data,
+                        data:JSON.stringify(data),
                         id:this.$route.query.id
                     }
                 })
