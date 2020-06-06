@@ -55,7 +55,8 @@ return {
 methods: {
     switchs(num){
         this.is_receiver=num;    
-        localStorage.setItem('tabNum', num) 
+        this.mJs.scTop(0);
+        localStorage.setItem('tabNum', num); 
     },
             
 },

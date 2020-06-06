@@ -667,12 +667,15 @@ methods: {
             },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
-                this.getData()
+                this.page = 1;
+                this.getData();
+                
                 
             },
             handleCurrentChange(page) {//页码切换
                 this.page = page;
-                this.getData()
+                this.getData();
+                this.mJs.scTop(0);
             },  
              handleSelectionChange(val) {
                 this.value= val;
@@ -824,6 +827,7 @@ methods: {
                     this.tableData=res.data;
                     this.total=res.total;
                     this.load = false;
+                    this.mJs.scTop(0);
                     var a = [];
                     for(let i=0;i<this.tableData.length;i++){
                         a.push(this.tableData[i].mfid);   
