@@ -417,7 +417,7 @@ return {
        status:'',
        tableData:[],
         page:1,
-        p:10,
+        p:50,
         total:0,
         tc:false,
         status2:"",
