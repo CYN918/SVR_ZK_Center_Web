@@ -108,7 +108,7 @@
                      <span class='titName'>状态</span>
                      <span>{{dataList.check_status_name}}</span>
                 </div>
-                 <div v-if='dataList.check_status==-1'>
+                 <div v-if='dataList.check_status==-3'>
                      <span class='titName'>驳回原因</span>
                     <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
                                     <div slot="content">
