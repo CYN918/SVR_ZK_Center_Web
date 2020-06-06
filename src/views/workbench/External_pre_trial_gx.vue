@@ -119,12 +119,13 @@
                 </template>
                  <div class="block" style="margin-bottom:0">
                     <el-pagination
-                            @size-change="handleSizeChange"
-                            @current-change="handleCurrentChange"
-                            :current-page.sync="page"
-                            :page-size="p"
-                            layout="prev, pager, next,total, jumper"
-                            :total="total">
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page.sync="page"
+                        :page-sizes="[50, 100, 200, 500]"
+                        :page-size="p"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="total">
                     </el-pagination>
                  </div>
         </div>
@@ -177,7 +178,7 @@ return {
        status:'',
        tableData:[],
         page:1,
-        p:10,
+        p:50,
         total:0,
         tc:false,
         status2:1,
