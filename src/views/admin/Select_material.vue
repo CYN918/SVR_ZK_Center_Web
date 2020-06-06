@@ -510,7 +510,7 @@
         width: 100%;
         text-align: right;
        position: fixed;
-        bottom: 30px;
+        /* bottom: 30px; */
         right: 56px;
     }
     .select_btn span{
