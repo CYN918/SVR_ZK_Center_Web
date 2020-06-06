@@ -160,15 +160,16 @@
                 </div>
             </div>
         </div>
+        <loading v-if='load'></loading>
 </div>
 </template>
 
 <script>
 
-
+import loading from '../../components/loading'
 export default {
 
-components: {},
+components: {loading},
 data() {
 
 return {
@@ -192,6 +193,7 @@ return {
         is_receiver:0,
         check_md5:'',
         check_status:'',
+        load:true,
 };
 },
 
@@ -341,11 +343,13 @@ methods: {
             },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
-                this.getData()
+                this.page = 1;
+                this.getData();
             },
             handleCurrentChange(page) {//页码切换
                 this.page = page;
-                this.getData()
+                this.getData();
+                
             },  
              handleSelectionChange(val) {
                 this.value= val;
@@ -390,12 +394,15 @@ methods: {
                 })
            },
            getData(){
+               this.load = true;
                let params={p:this.p,page:this.page,
             //    tdate:this.date,
                channel:this.channel.channel,status:this.status,check_md5:this.check_md5,check_status:this.check_status}
                this.api.pushlib_adver_mfinal_list({params}).then((res)=>{
                    this.tableData=res.data;
                    this.total=res.total;
+                   this.load = false;
+                   this.mJs.scTop(0);
                 //    this.$previewRefresh()
                })
            },
