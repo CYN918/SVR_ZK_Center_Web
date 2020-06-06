@@ -9,31 +9,31 @@
             </div>
         </div>
         <div class="content">
-            <div v-if="data.status==1">
+            <div v-if="data.status>=1&&data.status<=3">
                 <span class="nameTit">结算方名称</span>
                 <span class="cont">{{data.check.check1.statement}}</span>
             </div>
-            <div v-if="data.status==1">
+            <div v-if="data.status>=1&&data.status<=3">
                 <span class="nameTit">结算方</span>
                 <span  class="cont">{{data.check.check1.name}}</span>
             </div>
-            <div v-if="data.status==1">
+            <div v-if="data.status>=1&&data.status<=3">
                 <span class="nameTit">结算时间段</span>
                 <span  class="cont">{{data.check.check1.tstart}}至{{data.check.check1.tend}}</span>
             </div>
-            <div v-if="data.status==1">
+            <div v-if="data.status>=2&&data.status<=3">
                 <span class="nameTit">预计结算金额</span>
-                <span  class="cont">{{data.check.check1.expect_amount}}</span>
+                <span  class="cont" v-if="data.check.check2">{{data.check.check2.expect_amount}}</span>
             </div>
-            <div v-if="data.status==1">
+            <div v-if="data.status<=3">
                 <span class="nameTit">实际结算金额</span>
-                <span  class="cont">{{data.check.check1.real_amount}}</span>
+                <span  class="cont" v-if="data.check.check3">{{data.check.check3.real_amount}}</span>
             </div>
-            <div v-if="data.status==1">
+            <div v-if="data.status<=3">
                 <span class="nameTit">备注说明</span>
-                <span  class="cont">{{data.check.check1.note}}</span>
+                <span  class="cont" v-if="data.check.check3">{{data.check.check3.note}}</span>
             </div>
-            <div v-if="data.status==1">
+            <div v-if="data.status<=3">
                 <span class="nameTit">附件</span>
                 <div style="display: inline-block">
                     <div v-for="item in data.history_attachs">
@@ -43,15 +43,15 @@
                     </div>
                 </div>
             </div>
-            <div v-if="data.status==2">
+            <div v-if="data.status==4">
                 <span class="nameTit">物流账单号</span>
                 <span  class="cont">{{data.invoice.express_id}}</span>
             </div>
-            <div v-if="data.status==2">
+            <div v-if="data.status==4">
                 <span class="nameTit">备注说明</span>
                 <span  class="cont">{{data.invoice.note}}</span>
             </div>
-            <div v-if="data.status==2">
+            <div v-if="data.status==4">
                 <span class="nameTit">附件</span>
                 <div style="display: inline-block">
                     <div v-for="item in data.history_attachs">
@@ -61,19 +61,19 @@
                     </div>
                 </div>
             </div>
-            <div v-if="data.status==3">
+            <div v-if="data.status==5">
                 <span class="nameTit">实际到账金额</span>
                 <span  class="cont">{{data.remit.receive_amount}}</span>
             </div>
-            <div v-if="data.status==3">
+            <div v-if="data.status==5">
                 <span class="nameTit">到账时间</span>
                 <span  class="cont">{{data.remit.receive_tdate}}</span>
             </div>
-            <div v-if="data.status==3">
+            <div v-if="data.status==5">
                 <span class="nameTit">备注说明</span>
                 <span  class="cont">{{data.remit.note}}</span>
             </div>
-            <div v-if="data.status==3">
+            <div v-if="data.status==5">
                 <span class="nameTit">附件</span>
                 <div style="display: inline-block">
                     <div v-for="item in data.history_attachs">
@@ -92,7 +92,7 @@
         name: "record",
         data(){
             return{
-                data:this.$route.query.data,
+                data:JSON.parse(this.$route.query.data),
             }
         },
         methods:{
