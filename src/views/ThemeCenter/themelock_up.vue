@@ -634,7 +634,9 @@
                 let formData = new FormData;
                 formData.append('file',file.file);
                 this.api.file_upload(formData).then((res)=>{
-                    this.pic.push(res.url);
+                    if(this.pic.indexOf(res.url) == -1){
+                        this.pic.push(res.url);
+                    }
                 })
             },
             jump(){
