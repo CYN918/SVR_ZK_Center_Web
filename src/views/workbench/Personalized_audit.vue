@@ -295,7 +295,6 @@ methods: {
             handleCurrentChange(page) {//页码切换
                 this.page = page;
                 this.getData();
-                this.mJs.scTop(0);
             },  
              handleSelectionChange(val) {
                 this.value= val;
@@ -338,6 +337,7 @@ methods: {
                 })
            },
            getData(){
+               this.load = true;
                let params={
                    p:this.p,
                    page:this.page,
