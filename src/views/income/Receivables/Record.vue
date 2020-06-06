@@ -92,7 +92,7 @@
         name: "record",
         data(){
             return{
-                data:this.$route.query.data,
+                data:JSON.parse(this.$route.query.data),
             }
         },
         methods:{
