@@ -116,6 +116,10 @@
                         <el-table-column
                                 label="状态" prop="check_status_name"
                         >
+                            <template slot-scope="scope" >
+                                <span v-if="status==1">{{tableData[scope.$index].check_status==3?'审核通过':tableData[scope.$index].check_status_name}}</span>
+                                <span v-if="status==3">{{tableData[scope.$index].check_status_name}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column label="操作" v-if='this.$route.query.lineStatus==undefined'>
                             <template slot-scope="props">
