@@ -6,11 +6,13 @@ import api from './api/index'
 // import html2canvas from 'html2canvas'
 import VueClipboard from 'vue-clipboard2'
 import VueCropper from 'vue-cropper'
+import mJs from './assets/comm.js'
 Vue.use(VueCropper)
 // Vue.use(html2canvas)
 Vue.use(VueClipboard)
 Vue.prototype.$ajax = axios;
 Vue.prototype.api = api;
+Vue.prototype.mJs = mJs;
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import preview from 'vue-photo-preview'

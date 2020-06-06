@@ -341,11 +341,13 @@ methods: {
             },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
-                this.getData()
+                this.page = 1;
+                this.getData();
             },
             handleCurrentChange(page) {//页码切换
                 this.page = page;
-                this.getData()
+                this.getData();
+                this.mJs.scTop(0);
             },  
              handleSelectionChange(val) {
                 this.value= val;
@@ -396,6 +398,7 @@ methods: {
                this.api.pushlib_adver_mfinal_list({params}).then((res)=>{
                    this.tableData=res.data;
                    this.total=res.total;
+                   this.mJs.scTop(0);
                 //    this.$previewRefresh()
                })
            },
