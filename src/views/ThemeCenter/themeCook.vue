@@ -27,7 +27,7 @@
 
 
                     <img src="../../../public/img/ss.png" class="img"/>
-                    <input type="text" placeholder="搜索主题库" v-model="search"/>
+                    <input type="text" placeholder="关键词搜索" v-model="search"/>
 
                     <span class="tit_name" style="width:30px">渠道</span>
                     <select style="margin-right: 44px" @change="getUI()" v-model="channel">
