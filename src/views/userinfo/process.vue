@@ -270,7 +270,7 @@
                 <select v-model="SQtype" @change="getCallShow()">
                    <option value="1">主题</option>
                    <option value="2">来电秀</option>
-                   <option value="3">素材</option>
+                   <option value="3">杂志锁屏</option>
                 </select>
             </div>
             <div class="steplist">
