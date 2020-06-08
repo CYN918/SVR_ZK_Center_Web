@@ -173,7 +173,7 @@
                     <ul class="strategy_box_bottom">
                         <li>
                             <span class="strategy_box_bottom_lef">
-                                广告壁纸显示间隔时间
+                                广告壁纸显示间隔时间(毫秒)
                                 <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
                                     <div slot="content" class="text">满足显示间隔时间后亮屏时展示广告壁纸</div>
                                     <img src="../../../public/img/msgAt.png" style="vertical-align: top !important;margin-top: 20px;"/>
@@ -193,7 +193,7 @@
                         </li>
                         <li>
                             <span class="strategy_box_bottom_lef">
-                                壁纸展示间隔次数控制
+                                壁纸展示间隔张数
                                 <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
                                     <div slot="content" class="text">通过用户亮灭屏次数，在下次亮屏展示广告壁纸</div>
                                     <img src="../../../public/img/msgAt.png" style="vertical-align: top !important;margin-top: 20px;"/>
