@@ -187,7 +187,8 @@ import download from '../../../api/commonality'
                 this.api.get_account({params}).then((datas)=>{
                     this.userData = datas;
                     if(this.userData.roles[0].role_name!='admin'){
-                        this.isShow=false
+                        this.isShow=false;
+                        this.isChow=false;
                     }
                 });
             },
@@ -206,7 +207,7 @@ import download from '../../../api/commonality'
                 // }else{
                 //     this.isChow = false;
                 // }
-                var url = '/adproject/external/export';
+                var url = '/adproject/external/export'+'?put_type='+this.put_type+'&search='+this.search;
                  download.downloadImg(url);   
             },
             upLoad(file){

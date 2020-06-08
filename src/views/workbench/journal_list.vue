@@ -252,6 +252,7 @@ methods: {
                 })
              }
              if(this.tableData[index].channel.audit_type==2 || this.tableData[index].channel.audit_type==5){
+                localStorage.removeItem('tabNum');
                 this.$router.push({
                     path:"./Jounrnal_ys",
                     query:{
