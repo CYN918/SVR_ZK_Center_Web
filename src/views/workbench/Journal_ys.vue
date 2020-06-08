@@ -68,8 +68,10 @@
         //生命周期 - 挂载完成（可以访问DOM元素）
         mounted() {
             if (localStorage.getItem('tabNum')) {
-                console.log(1)
                 this.is_receiver = localStorage.getItem('tabNum')
+            }
+            if(this.$route.query.auditType){
+                this.is_receiver=0; 
             }
             
         },
