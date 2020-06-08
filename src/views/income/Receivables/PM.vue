@@ -207,7 +207,7 @@ import download from '../../../api/commonality'
                 // }else{
                 //     this.isChow = false;
                 // }
-                var url = '/adproject/external/export';
+                var url = '/adproject/external/export'+'?put_type='+this.put_type+'&search='+this.search;
                  download.downloadImg(url);   
             },
             upLoad(file){

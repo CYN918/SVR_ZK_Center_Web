@@ -11,12 +11,8 @@
         <div class="content">
             <div class="content_left">
                 <span class="tits">文件名搜索</span>
-                <input type='text' v-model='theme_name'/>  
+                <input type='text' v-model='search'/>  
             </div> 
-            <div class="content_left">
-                <span class="tits">壁纸标识</span>
-                <input type='text' v-model='thid'/>  
-            </div>
             <div class="content_top">
                 <span @click="listData">查询</span>
                 <span @click="pop_up">上传</span>
@@ -217,8 +213,7 @@
                 index:'',
                 ta:[],
                 num:[],
-                theme_name:'',
-                thid:'',
+                search:'',
             }
         },
         mounted(){this.listData()},
@@ -358,7 +353,7 @@
                 })
             },
             listData(){
-                let params = {p:this.p,page:this.page,theme_name:this.theme_name,thid:this.thid};
+                let params = {p:this.p,page:this.page,search:this.search};
                 this.api.themes_list({params}).then((res)=>{
                     this.tableData = res.data;
                     this.total = res.total;
@@ -422,7 +417,7 @@
 }
 .content_left{
     float: left;
-    width: 265px;
+    width: 365px;
     height: 84px;
     line-height: 84px;
 }
