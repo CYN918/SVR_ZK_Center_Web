@@ -69,11 +69,7 @@
         mounted() {
             if (localStorage.getItem('tabNum')) {
                 this.is_receiver = localStorage.getItem('tabNum')
-            }
-            if(this.$route.query.auditType){
-                this.is_receiver=0; 
-            }
-            
+            }   
         },
     }
 </script>
