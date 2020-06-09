@@ -1,7 +1,7 @@
 
 <template>
 <div class="template">
-       <div class="top_name">
+       <div class="top_name" v-if="this.$route.query.channel">
            <div class="tit_top_url" v-if="type == 'meizu_first'">
                 <span class="log_url" @click="fh(-2)">杂志锁屏推送 &nbsp;/&nbsp;</span>
                 <span class="log_url" @click="fh(-1)">推送审核内容管理 &nbsp;/&nbsp;</span>
@@ -40,7 +40,7 @@
                 <span class="dated" v-if="new Date(this.date)<=new Date(new Date().getTime() - 24*60*60*1000)">(已过期)</span>
                
         </div>
-        <div style="margin-top:250px;background:#fff" class='rePadding'>
+        <div style="margin-top:85px;background:#fff;padding-bottom:30px" class='rePadding'>
              <template>
                     <el-table
                             ref="tab"
@@ -56,28 +56,30 @@
                         </el-table-column>
                         <el-table-column
                                 label="权重"
-                                v-if="new Date(this.date)<=new Date(new Date().getTime() - 24*60*60*1000)">
+                                v-if="new Date(this.date)<=new Date(new Date().getTime() - 24*60*60*1000) && this.$route.query.channel">
                             <template slot-scope="scope">
                                 <div><span :id='"isShow"+scope.$index'>{{tableData[scope.$index].weight}}</span></div>
                             </template>
                         </el-table-column>   
                         <el-table-column
                                 label="权重"
-                                v-else>
+                                v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000) && this.$route.query.channel">
                             <template slot-scope="scope">
                                 <div><span :id='"isShow"+scope.$index'>{{tableData[scope.$index].weight}}<i class="el-icon-edit" style="font-size: 30px;cursor: pointer;" @click="icon_click(scope.$index,scope.row)"></i></span><span class="box"><input :id='"pro"+scope.$index' v-model="theWeight" @blur="InputClick(scope.$index)"/></span></div>
                             </template>
                         </el-table-column>
                         <el-table-column
                                 prop="count"
-                                label="杂志锁屏">
+                                label="杂志锁屏"
+                                >
                                 <template slot-scope="scope">
                                 <img :src='tableData[scope.$index].mfinal.prev_uri' style="max-width:80px;max-height: 80px;cursor: pointer"  preview="1" />
                             </template>
                         </el-table-column>
                         <el-table-column
                                 prop="mfid"
-                                label="物料ID">
+                                label="物料ID"
+                                v-if="this.$route.query.channel">
                                 
                         </el-table-column>
                         <el-table-column
@@ -98,7 +100,7 @@
                         <el-table-column
                                 label="文字链标题"
                                 :show-overflow-tooltip="true"
-                                v-if="type != 'meizu_first'"
+                                v-if="type != 'meizu_first' && this.$route.query.channel"
                                 >
                                 <template slot-scope="scope">
                                     <span v-if="tableData[scope.$index].title!=''">{{tableData[scope.$index].title}}</span>
@@ -108,7 +110,7 @@
                         <el-table-column
                                 label="文字链内容"
                                 :show-overflow-tooltip="true"
-                                v-if="type != 'meizu_first'"
+                                v-if="type != 'meizu_first' && this.$route.query.channel"
                                 >
                                 <template slot-scope="scope">
                                     <span v-if="tableData[scope.$index].content!=''">{{tableData[scope.$index].content}}</span>
@@ -117,7 +119,7 @@
                         </el-table-column>
                         <el-table-column
                                 label="文字链标识"
-                                v-if="type != 'meizu_first'"
+                                v-if="type != 'meizu_first' && this.$route.query.channel"
                                 >
                                 <template slot-scope="scope">
                                     <span v-if="tableData[scope.$index].click_action!=''">{{tableData[scope.$index].click_action}}</span>
@@ -126,7 +128,7 @@
                         </el-table-column>
                         <el-table-column
                                 label="落地页"
-                                v-if="type != 'meizu_first'"
+                                v-if="type != 'meizu_first' && this.$route.query.channel"
                                 >
                                  <template slot-scope="scope">
                                     <a :href="tableData[scope.$index].url" target="_blank" style="text-decoration: none;color: #66b1ff" v-if="tableData[scope.$index].url!=''">点击查看</a>
@@ -135,7 +137,7 @@
                         </el-table-column>
                         <el-table-column
                                 label="状态"
-                                v-if="type != 'meizu_first'">
+                                v-if="type != 'meizu_first' && this.$route.query.channel">
                                   <template slot-scope="scope">
                                       <span v-if="tableData[scope.$index].status_name == '信息缺失'" style="color:red;">{{tableData[scope.$index].status_name}}</span>
                                       <span v-else>{{tableData[scope.$index].status_name}}</span>
@@ -143,7 +145,16 @@
                         </el-table-column>
                         <el-table-column
                                 label="配置状态"
-                                v-if="type == 'meizu_first'">
+                                v-if="type == 'meizu_first' && this.$route.query.channel">
+                                  <template slot-scope="scope">
+                                      <span v-if="tableData[scope.$index].status == 0">待确认</span>
+                                      <span v-if="tableData[scope.$index].status == 2">已确认</span>
+                                      <span v-if="tableData[scope.$index].status == 3" style="color:red;">已过期</span>
+                                </template>
+                        </el-table-column>
+                        <el-table-column
+                                label="配置状态"
+                                v-else>
                                   <template slot-scope="scope">
                                       <span v-if="tableData[scope.$index].status == 0">待确认</span>
                                       <span v-if="tableData[scope.$index].status == 2">已确认</span>
@@ -152,7 +163,16 @@
                         </el-table-column>
                          <el-table-column
                                 label="审核状态"
-                                v-if="type == 'meizu_first'">
+                                v-if="type == 'meizu_first' && this.$route.query.channel">
+                                  <template slot-scope="scope">
+                                      <span v-if="tableData[scope.$index].audit_status == 0">待审核</span>
+                                      <span v-if="tableData[scope.$index].audit_status == 1">审核通过</span>
+                                      <span v-if="tableData[scope.$index].audit_status == 2" style="color:red;">审核不通过</span>
+                                </template>
+                        </el-table-column>
+                        <el-table-column
+                                label="审核状态"
+                                v-else>
                                   <template slot-scope="scope">
                                       <span v-if="tableData[scope.$index].audit_status == 0">待审核</span>
                                       <span v-if="tableData[scope.$index].audit_status == 1">审核通过</span>
@@ -165,7 +185,8 @@
                         </el-table-column>
                          <el-table-column
                                 prop="creator"
-                                label="操作人员">
+                                label="操作人员"
+                                v-if="this.$route.query.channel">
                                   <template slot-scope="scope">
                                       <span>{{tableData[scope.$index].updator==''?'--':tableData[scope.$index].updator}}</span>
                                 </template>
@@ -173,7 +194,7 @@
                         <el-table-column
                                 label="操作"
                                 
-                                v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)"
+                                v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000) && this.$route.query.channel"
                         >
                             <template slot-scope="scope">
                                  <!-- <el-button  type="text" size="small" v-if='tableData[scope.$index].status=="0"' @click='updateStatus(index)'>审核</el-button> -->
@@ -921,7 +942,7 @@ mounted() {
             
     }
   .top_name{
-        height: 80px;
+        height: 100px;
         border: 0;
     }
 .top_txts{
@@ -966,11 +987,10 @@ mounted() {
     margin-top: -10px!important
 }
 .screening{
-    position: fixed;
+    position: relative;
     width: 100%;
     height: 60px;
-   left: 256px;
-   top:160px;
+   top:75px;
     background: #fff
 }
 .date{

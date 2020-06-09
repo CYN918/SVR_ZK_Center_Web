@@ -25,12 +25,16 @@
                     <div class="fk" :class="{check:is_receiver==3}" @click="switchs(3)">
                         测试配置
                     </div>
+                    <div class="fk" :class="{check:is_receiver==4}" @click="switchs(4)">
+                        上架内容
+                    </div>
                 </div>
         </div>
         <Externalpretrialgx v-if="is_receiver == '0'"></Externalpretrialgx>
         <Externalpretrialstrategy v-if="is_receiver == '1'"></Externalpretrialstrategy>
         <Distributionaudit v-if="is_receiver == '2'"></Distributionaudit>
         <Configurationaudit v-if="is_receiver == '3'"></Configurationaudit>
+        <Journalnb v-if="is_receiver == '4'"></Journalnb>
         
         
 </div>
@@ -41,10 +45,11 @@ import Externalpretrialgx from './External_pre_trial_gx'; //个性化内容审�
 import Externalpretrialstrategy from './External_pre_trial_strategy'; //通用策略审核
 import Distributionaudit from './Distribution_audit'; //分发服务器
 import Configurationaudit from './Configuration_audit'; //测试配置
+import Journalnb from './journal_nb'; //上架内容
 
 export default {
 
-components: {Externalpretrialgx,Externalpretrialstrategy,Distributionaudit,Configurationaudit},
+components: {Externalpretrialgx,Externalpretrialstrategy,Distributionaudit,Configurationaudit,Journalnb},
 data() {
 
 return {
