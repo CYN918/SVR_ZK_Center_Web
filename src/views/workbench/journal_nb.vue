@@ -84,7 +84,7 @@
                         </el-table-column>
                         <el-table-column
                                 
-                                label="壁纸唯一标签">
+                                label="壁纸ID">
                                 <template slot-scope="scope">
                                     <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
                                         <div slot="content">
