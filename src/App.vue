@@ -37,10 +37,10 @@ img{
   vertical-align: initial!important;
 }
 *, *::before, *::after{
-  box-sizing:content-box!important
+  box-sizing:content-box;
 }
-.el-input__inner,.el-button,.el-checkbox__inner{
-  box-sizing: border-box!important;
+.el-input__inner,.el-button,.el-checkbox__inner,.el-textarea__inner,.el-form-item{
+  box-sizing: border-box;
 }
 
 .el-date-editor .el-range-separator{
