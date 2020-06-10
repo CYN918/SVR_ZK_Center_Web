@@ -667,6 +667,7 @@ export default {
     .imgBOX{
         width: 147PX;
         margin-left: 24px;
+        display: inline-block;
     }
     .imgs{
         width:147px;
