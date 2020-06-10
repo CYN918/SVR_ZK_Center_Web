@@ -203,7 +203,7 @@ export default {
                     this.boxsSize=false
                 },
                 getDataList(){
-                    let params={tdate_start:this.tdate[0],tdate_end:this.tdate[1],channel:this.channel}
+                    let params={tdate_start:this.tdate[0],tdate_end:this.tdate[1],channel:this.channel,p:this.p,page:this.page}
                     this.api.ds_income_lock_screen_list({params}).then((res)=>{
                         this.total=res.total;
                         this.tableData=res.data; 
