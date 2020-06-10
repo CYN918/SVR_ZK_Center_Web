@@ -69,7 +69,7 @@
                                 label="来电秀名称" prop="call_show_name"
                                 :show-overflow-tooltip="true"
                                         >
-                                </el-table-column>
+                        </el-table-column>
                          <el-table-column
                                
                                 label="收益金额" prop="income"
