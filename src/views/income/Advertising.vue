@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="box">
         <div class="top_tit">
             <div class="tit_top_url">
                 <span class="log_url">收益管理 &nbsp;/&nbsp;</span>
@@ -63,17 +63,35 @@
                                 :show-checked-strategy="SHOW_PARENT"
                                 search-placeholder="Please select"
                             />
-                <div style=" display: inline-block;position: relative;" v-if='is_receiver==1'> 
-                    <span class="ad">项目</span>
-                     <el-select v-model="projects" multiple placeholder="请选择" class="elSelect">
+                <!-- <div style=" display: inline-block;position: relative;" v-if='is_receiver==1'>  -->
+                    <span class="ad" v-if='is_receiver==1'>项目</span>
+                     <!-- <el-select v-model="projects" multiple placeholder="请选择" class="elSelect">
                                 <el-option
                                         v-for="item in JSlist"
                                         :key="item.project_id"
                                         :label="item.project_name"
                                         :value="item.project_name">
                                 </el-option>
+                    </el-select> -->
+                    <el-select
+                        v-if="is_receiver==1"
+                        v-model="projects"
+                        multiple
+                        filterable
+                        remote
+                        reserve-keyword
+                        placeholder="请输入关键词"
+                        style="min-width:200px;max-width:300px;height:40px;overflow: hidden;vertical-align: bottom;"
+                        :remote-method="remoteMethod"
+                        :loading="loading">
+                        <el-option
+                        v-for="item in options"
+                        :key="item.project_id"
+                        :label="item.project_name"
+                        :value="item.project_name">
+                        </el-option>
                     </el-select>
-                </div>
+                <!-- </div> -->
                
                 
                 <!-- <span class="ad">搜索</span>
@@ -280,6 +298,9 @@ import 'ant-design-vue/dist/antd.css'
                 S:false,
                 F:false,
                 selectLength:'',
+                list: [],
+                options:[],
+                loading: false,
             }
         },
         created(){
@@ -335,13 +356,24 @@ import 'ant-design-vue/dist/antd.css'
                 }
                 if(this.is_receiver==0){
                     this.getqd();
-                }
-               
-                
-
-                
+                }      
         },
         methods:{
+            remoteMethod(query) {
+                console.log(query)
+                if (query != '') {
+                    this.loading = true;
+                    setTimeout(() => {
+                        this.loading = false;
+                        this.options = this.list.filter(item => {
+                        return item.project_name.toLowerCase()
+                            .indexOf(query.toLowerCase()) > -1;
+                        });
+                    }, 200);
+                } else {
+                    this.options = [];
+                }
+            },
             change(value){
                 // console.log(value)
                 this.name=''
@@ -361,7 +393,11 @@ import 'ant-design-vue/dist/antd.css'
             getObject(){
                 let params={balance_name:this.name}
                 this.api.adproject_listpage({params}).then((res)=>{
-                    this.JSlist=res.data
+                    this.JSlist=res.data;
+                    this.options=res.data;
+                    this.list = res.data.map(item => {
+                        return { project_id: `${item.project_id}`, project_name: `${item.project_name}` };
+                    });
                 })
             },
             getRowClass({row, column, rowIndex}) {
@@ -535,6 +571,14 @@ import 'ant-design-vue/dist/antd.css'
 </script>
 
 <style scoped>
+.box >>> .el-select__tags{
+    min-width:200px;
+    max-width:300px !important;
+    height:30px;
+    overflow: hidden;
+    vertical-align: bottom;
+
+}
     .top_tit{
         width:100%;
         height:112px;
