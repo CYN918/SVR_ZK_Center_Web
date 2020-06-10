@@ -40,7 +40,7 @@ img{
   box-sizing:content-box!important;
 }
 .el-input__inner,.el-button,.el-checkbox__inner,.el-textarea__inner,.el-form-item{
-  box-sizing: border-box;
+  box-sizing: border-box !important;
 }
 
 .el-date-editor .el-range-separator{
