@@ -6,7 +6,7 @@
 		</div>
 		<div class="content">
 			<div class="Search">
-				<input type="text" placeholder="输入物料ID快速查询" v-model="search" @input="getWl()"/>
+				<input type="text" placeholder="输入关键词" v-model="search" @input="getWl()"/>
 				<img src="../../../public/img/ss.png" @click="getList()"/>
 				<span style="font-size:14px;font-family:PingFangSC-Regular;font-weight:400;color:rgba(31,46,77,1);margin-right: 20px">状态</span>
 				<select v-model="status" @click="getWl()">
@@ -107,6 +107,10 @@
                                 <span  class="text" style="overflow: hidden;width: 200px;height: 20px;line-height: 28px">{{DL.resource}}</span>
                             </el-tooltip>
 								
+						</div>
+                        <div>
+                            <span class="boxImg_text">MD5:</span>
+                            <span class="boxImg_content">{{DL.attach.md5}}</span>	
 						</div>
 						<div>
 							<span class="boxImg_text">更新时间:</span>

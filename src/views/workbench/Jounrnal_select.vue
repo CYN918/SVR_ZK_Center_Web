@@ -427,7 +427,7 @@
     .boxImg img ,video{
         width:99px;
         height:149px;
-        margin-right: 24px;
+        margin-right: 15px;
     }
     .boxImg_right_1{
         margin-top: 23px;
@@ -464,7 +464,7 @@
         margin-bottom: 15px;
     }
     .boxImg_right_1 .boxImg_text{
-        width: 100px;
+        width: 80px;
         margin-right: 11px;
     }
     .boxImg_right_2 .boxImg_text{

@@ -292,12 +292,15 @@
             </div>
 
         </div>
+        <loading v-if='load'></loading>
     </div>
 </template>
 
 <script>
+    import loading from '../../components/loading'
     import download from '../../api/commonality'
     export default {
+        components: {loading},
         name: "replace",
         data(){
             return{
@@ -316,6 +319,7 @@
                 status:-1,
                 isShow:false,
                 isShow_pv:false,
+                load:true,
             }
         },
         created(){
@@ -398,6 +402,7 @@
             getList(){
                 this.dcl=[];
                 this.cl=[];
+                this.load = true;
                 var s = '{"'+'sdk_id' + '":"'+this.$route.query.sdkid + '"}';
                 if(this.$route.query.sdkid!=undefined){
                     this.search=s;
@@ -407,7 +412,9 @@
                 
                 let params ={tdate:this.$route.query.time,times:this.$route.query.num,p:this.p,page:this.page,search:this.search,source:this.$route.query.source,is_preview:this.is_preview,media_channel:this.$route.query.channel,sdk_id:this.$route.query.sdkid,id_adsrc:this.$route.query.id_adsrc};
                 this.api.replace_pending_list({params}).then((res)=>{
-                    this.tableData = res;
+                    this.tableData = res.data;
+                    this.load = false;
+                    this.mJs.scTop(0);
                     if(this.is_preview == '3'){
                         this.isShow_pv = true;
                         this.isShow = false;
