@@ -45,13 +45,18 @@
                 </el-pagination>
             </div>
         </div>
+        <loading v-if='load'></loading>
     </div>
 
 </template>
 
 <script>
+    import loading from '../../components/loading';
     export default {
         name: "role_management",
+        components: {
+            loading
+        },
         data(){
             return {
                 listShow:false,
@@ -63,6 +68,7 @@
                 search:'',
                 role_type:'0',
                 num:0,
+                load:true,
             }
         },
         mounted(){
@@ -82,9 +88,11 @@
                     this.num=num;
                     this.role_type=num
                 }
+                this.load = true;
                 let params = {search:this.search,p:this.p,page:this.page,role_type:this.role_type};
                 this.api.role_roles({params}).then((res)=>{
                     console.log(res);
+                    this.load = false;
                     this.total = res.total;
                     this.list = res.data;
                     console.log(this.list[0].role_id)
