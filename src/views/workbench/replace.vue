@@ -186,6 +186,7 @@
                 <div id="myChart" @click.stop ref="myChart"></div>
             </div>
         </div>
+        <loading v-if='load'></loading>
     </div>
 
 </template>
@@ -193,7 +194,11 @@
 <script>
     import echarts from 'echarts'
     import download from '../../api/commonality'
+    import loading from '../../components/loading';
     export default {
+        components: {
+            loading
+        },
         name: "replace",
         data(){
             return{
@@ -212,7 +217,8 @@
                 height:'',
                 tableDataList:[],
                 source:'SDK-API',
-                is_preview:'0'
+                is_preview:'0',
+                load:true,
             }
         },
         mounted(){
@@ -261,9 +267,11 @@
                 if(!this.source){
                     this.$message.error('数据源不能为空');
                 }
+                this.load = true;
                 let params ={tdate:this.tdate,times:JSON.stringify(this.number),p:this.p,page:this.page,search:this.search,source:this.source,is_preview:this.is_preview};
                 this.api.replace_sdk_overview({params}).then((res)=>{
-                    this.tableData = res;
+                    this.load = false;
+                    this.tableData = res.data;
                     this.total=res.total;
 
                 })

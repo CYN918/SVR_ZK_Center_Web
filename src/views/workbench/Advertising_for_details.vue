@@ -336,13 +336,18 @@
                 </div>
             </div>
         </div>
+        <loading v-if='load'></loading>
     </div>
 
 </template>
 
 <script>
+    import loading from '../../components/loading';
     export default {
         name: "has_replaced",
+        components: {
+            loading
+        },
         data(){
             return{
                 sdk_type:this.$route.query.sdk_type,
@@ -386,6 +391,7 @@
                 id_adsrc:"",
                 cuWidth: "",
                 cuHeight:"",
+                load:true,
             }
         },
 
@@ -605,6 +611,7 @@
                 //      params ={mid:this.$route.query.id,tdate:this.$route.query.tdate,times:this.$route.query.times,source:this.$route.query.source};
                 // }
                 this.api.replace_res_detail({params}).then((res)=>{
+                    this.load = false;
                     if(res.length == '1'){
                         for(var i=0;i<res.length;i++){
                             res[i].original_res.forEach(element => {
