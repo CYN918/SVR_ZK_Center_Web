@@ -168,10 +168,12 @@
                    
                 </div>
         </div>
+        <loading v-if='load'></loading>
     </div>
 </template>
 
 <script>
+    import loading from '../../components/loading';
     export default {
         name: "ad_-source",
         data(){
@@ -199,8 +201,12 @@
                     value: 'fmsdk',
                     label: 'FMSDK类型'
                 }],
+                load:false,
 
             }
+        },
+        components: {
+            loading
         },
         created(){
             if(this.$route.query.sdk_type){
@@ -284,15 +290,19 @@
                 })
             },
             getData(){
+                this.load = true;
                 let params={tdate:this.value1,media_channel:this.channel,p:this.p,page:this.page,sdk_type:this.sdk_type}
                this.api.replace_channel_audit_statistics({params}).then((res)=>{
+                   this.load = false;
                    this.tableData=res.data;
                    this.total=res.total
                })
             },
             getData_fm(){
+                this.load = true;
                 let params={tdate:this.value1,media_channel:this.channel,p:this.p,page:this.page,sdk_type:this.sdk_type}
                this.api.replace_fm_statistics({params}).then((res)=>{
+                   this.load = false;
                    this.tableData=res.data;
                    this.total=res.total
                })

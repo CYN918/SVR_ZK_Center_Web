@@ -288,6 +288,7 @@
             </div>
           
         </div>
+        <loading v-if='load'></loading>
     </div>
 
 </template>
@@ -295,6 +296,7 @@
 <script>
     import echarts from 'echarts'
     import download from '../../api/commonality'
+    import loading from '../../components/loading';
     export default {
         name: "replace",
         data(){
@@ -320,7 +322,11 @@
                 id_adsrc: '',
                 channelList:[],
                 mediaAdsrc:[],
+                load:true,
             }
+        },
+        components: {
+            loading
         },
         mounted(){
             this.getTimes();
@@ -391,9 +397,12 @@
                 if(!this.source){
                     this.$message.error('数据源不能为空');
                 }
+                this.load=true;
                 let params ={tdate:this.tdate,times:JSON.stringify(this.number),p:this.p,page:this.page,search:this.search,source:this.source,is_preview:this.is_preview,media_channel:this.channel,id_adsrc:this.id_adsrc,sdk_type:this.sdk_type};
                 this.api.replace_sdk_overview({params}).then((res)=>{
-                    this.tableData = res;
+                    console.log(res)
+                    this.load=false;
+                    this.tableData = res.data;
                     this.total=res.total;
 
                 })

@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<topNav :config="topConfig"></topNav>
+		<topNav :config="topConfig" :list="list" v-if="list.length > 0"></topNav>
 		<div class="HomeBox">
 			<img src="../../public/img/index.png" style="overflow: hidden" v-if="type==0"/>
 			<img src="../../public/img/home2.png" style="overflow: hidden" v-if="type==1"/>
@@ -66,11 +66,13 @@
 				<!--</div>-->
 			<!--</div>-->
 		</div>
+		<loading v-if='load'></loading>
 	</div>
 </template>
 
 <script>
 import topNav from '../components/topNav';
+import loading from '../components/loading';
 export default {
 	data() {
 		return {
@@ -82,15 +84,19 @@ export default {
 			},
 			topConfig:{showL:1},
 			dt:{},
+			list:[],
+			load:true,
 		}
 	},
 	components: {
 		topNav,
+		loading
 	},
 	mounted: function () {	
 	// this.get_logs();
 	// this.handle_stat();
 	// this.get_menulog();
+	   this.init();
 	}, 
 	methods: {
 		// handle_stat(){
@@ -115,6 +121,13 @@ export default {
 			window.location.href= '#'+url
 			
 		},
+		init(){
+			this.api.perm_leftnav().then((res)=>{
+				this.load = false;
+				this.list = res;
+				localStorage.setItem('letNav',JSON.stringify(res));
+			})
+		}
 	},
 }
 </script>

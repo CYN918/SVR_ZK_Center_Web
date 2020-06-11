@@ -116,7 +116,7 @@
 import commonality from '../api/commonality';
 export default { 
     name: 'topNav', 
-	props:['config'],
+	props:['config','list'],
     data(){
 		return{
 			navList:[],
@@ -146,13 +146,53 @@ export default {
 	mounted(){
 		this.getMessgNumber();
 		this.name=localStorage.getItem('userName');
-		this.getLefNav();
         this.authority();
         this.type=localStorage.getItem('role');
         if(localStorage.getItem('icon')!=''){
             this.img=localStorage.getItem('icon')
 		};
 		this.getNotice('notify');
+		let res = this.list
+		let navs = [];
+		for(var i=0;i<res.length;i++){
+
+			if(res[i].title=='工作台'&&res[i].children!=0){
+				navs.push({
+					to:'/workbench',
+					name:'工作台'
+				});
+				this.top2=true
+			}
+			if(res[i].title=='数据中心'&&res[i].children!=0){
+				navs.push({
+					to:'/data',
+					name:'数据中心'
+				});
+				this.top3=true
+			}
+			if(res[i].title=='素材中心'&&res[i].children!=0){
+				navs.push({
+					to:'/admin',
+					name:'素材中心'
+				});
+				this.top1=true
+			}
+			if(res[i].title=='收益中心'&&res[i].children!=0){
+				navs.push({
+					to:'/income',
+					name:'收益中心'
+				});
+				this.top4=true
+			}
+			if(res[i].title=='主题中心'&&res[i].children!=0){
+				navs.push({
+					to:'/ThemeCenter',
+					name:'主题中心'
+				});
+				this.top5=true
+			}
+		}
+		this.navList = navs;
 	},
 	methods:{
 		stop(){
@@ -254,52 +294,6 @@ export default {
 		        localStorage.setItem('control',JSON.stringify(res));
 			})
 		},
-        getLefNav(){
-            this.api.perm_leftnav().then((res)=>{
-                let navs = [];
-                for(var i=0;i<res.length;i++){
-
-                    if(res[i].title=='工作台'&&res[i].children!=0){
-                        navs.push({
-                            to:'/workbench',
-							name:'工作台'
-                        });
-                        this.top2=true
-                    }
-                    if(res[i].title=='数据中心'&&res[i].children!=0){
-                        navs.push({
-                            to:'/data',
-                            name:'数据中心'
-                        });
-                        this.top3=true
-                    }
-                    if(res[i].title=='素材中心'&&res[i].children!=0){
-                        navs.push({
-                            to:'/admin',
-                            name:'素材中心'
-                        });
-                        this.top1=true
-                    }
-                    if(res[i].title=='收益中心'&&res[i].children!=0){
-                        navs.push({
-                            to:'/income',
-                            name:'收益中心'
-                        });
-                        this.top4=true
-                    }
-                    if(res[i].title=='主题中心'&&res[i].children!=0){
-                        navs.push({
-                            to:'/ThemeCenter',
-                            name:'主题中心'
-                        });
-                        this.top5=true
-                    }
-				}
-				this.navList = navs;
-                localStorage.setItem('letNav',JSON.stringify(res));
-
-            })
-        },
 		goindex(){
 			window.location.href= '#/index';
 		},

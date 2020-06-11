@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<topNav :config="topConfig"></topNav>
+		<topNav :config="topConfig" :list="list" v-if="list.length > 0"></topNav>
 		<leftNav :navData="letNav"></leftNav>
 		<div class="xqList">		
 			<router-view/>
@@ -22,6 +22,7 @@ export default {
 		return{
 			topConfig:{showL:1},
 			letNav:'',
+			list:JSON.parse(localStorage.getItem('letNav'))
 		}
 	},
 	components: {
