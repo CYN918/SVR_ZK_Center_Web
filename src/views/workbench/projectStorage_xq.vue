@@ -333,12 +333,15 @@
 
                     </div>
             </div>
-        </div>  
+        </div> 
+        <loading v-if='load'></loading> 
     </div>
 </template>
 
 <script>
+import loading from '../../components/loading'
 export default {
+    components: {loading},
                 data(){
                     return{
                         dialogImageUrl: '',
@@ -371,6 +374,7 @@ export default {
                         tag:[],
                         put_type:'',
                         status_type:"",
+                        load:true,
                     }
                 },
                 mounted(){
@@ -430,6 +434,7 @@ export default {
                         getData(){
                             let params={id:this.$route.query.id}
                             this.api.demand_design_project_detail({params}).then((res)=>{
+                                this.load = false;
                                 this.listData=res;
                                 this.type=res.demand.type;        
                                 this.put_type=res.put_type;
