@@ -821,6 +821,11 @@ select{
   max-height: 46px;
   overflow-y: scroll;
 }
+.el-button--primary{
+    color: #FFF;
+    background-color: rgba(51,119,255,1);
+    border-color: rgba(51,119,255,1);
+}
 
 .select_check .el-select__tags::-webkit-scrollbar { width: 0 !important }
 .elSelect .el-select__tags::-webkit-scrollbar { width: 0 !important }

@@ -1,6 +1,6 @@
 
 <template>
-<div >
+<div class="box">
         <div class='screening'>
                 <div class='btn_sx'>
                     <span class='cx' v-if='pl==false' @click='addA()'>添加</span>
