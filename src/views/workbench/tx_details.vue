@@ -69,16 +69,20 @@
                 <span>{{this.tableData.contract}}</span>
             </div>
         </div>
+        <loading v-if='load'></loading>
     </div>
 
 </template>
 
 <script>
+    import loading from '../../components/loading'
     export default {
         name: "money_details",
+        components: {loading},
         data(){
             return{
                 tableData:[],
+                load:true,
             }
         },
         mounted(){
@@ -91,6 +95,7 @@
             getData(){
                 let params = {id:this.$route.query.id,p:10000,page:1,open_id:this.$route.query.open_id};
                 this.api.demand_apply_list({params}).then((res)=>{
+                    this.load = false;
                     this.tableData = res.data[this.$route.query.index];
                         if(this.tableData.contributor_type==1){
                             this.tableData.contributor_type='个人'

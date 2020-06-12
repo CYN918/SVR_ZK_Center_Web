@@ -61,13 +61,16 @@
                     :total="total">
             </el-pagination>
         </div>
+        <loading v-if='load'></loading>
 
     </div>
 </template>
 
 <script>
+    import loading from '../../components/loading'
 
     export default {
+        components:{loading},
 
         name: "billing_details",
         data(){
@@ -81,6 +84,7 @@
                 bh:false,
                 sh:false,
                 apply_id:'',
+                load:true,
             }
         },
         mounted(){
@@ -101,8 +105,10 @@
                 return 'text-align:center;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
             getData(){
+                this.load = true;
                 let params = {id:this.$route.query.id,p:this.p,page:this.page,open_id:this.$route.query.open_id};
                 this.api.demand_apply_list({params}).then((res)=>{
+                    this.load = false;
                     this.tableData = res.data;
                     for(var i = 0;i<this.tableData.length;i++){
                         if(this.tableData[i].contributor_type==1){
