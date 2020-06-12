@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="box">
         <div class="top_tit">
             <div class="tit_top_url">
                 <span class="log_url">收益管理 &nbsp;/&nbsp;</span>
@@ -32,16 +32,33 @@
                         <span v-for="da in JSname" @click='setName(da.name)'>{{da.name}}</span>
                     </div>
                 </div>
-                <div style=" display: inline-block;position: relative;" v-if='is_receiver==1'> 
-                    <span class="ad">项目</span>
-                     <el-select v-model="projects" multiple placeholder="请选择" class="elSelect">
+                <div style=" display: inline-block;position: relative;top:8px;" v-if='is_receiver==1'> 
+                    <span class="ad" style="position: relative;top:-8px;">项目</span>
+                     <!-- <el-select v-model="projects" multiple placeholder="请选择" class="elSelect">
                                 <el-option
                                         v-for="item in JSlist"
                                         :key="item.project_id"
                                         :label="item.project_name"
                                         :value="item.project_name">
                                 </el-option>
-                            </el-select>
+                            </el-select> -->
+                    <el-select
+                        v-model="projects"
+                        multiple
+                        filterable
+                        remote
+                        reserve-keyword
+                        placeholder="请输入关键词"
+                        style="min-width:200px;max-width:300px;height:40px;overflow: hidden;vertical-align: bottom;"
+                        :remote-method="remoteMethod"
+                        :loading="loading">
+                        <el-option
+                        v-for="item in options"
+                        :key="item.project_id"
+                        :label="item.project_name"
+                        :value="item.project_name">
+                        </el-option>
+                    </el-select>
                 </div>
                  <span  class="ad" v-if="is_receiver==0">渠道场景</span>
                 <a-tree-select
@@ -267,6 +284,9 @@ import 'ant-design-vue/dist/antd.css'
                 JSlist:[],
                 disjunctions:[],
                 load:true,
+                list: [],
+                options:[],
+                loading: false,
             }
         },
         mounted(){
@@ -305,6 +325,21 @@ import 'ant-design-vue/dist/antd.css'
                 
         },
         methods:{
+            remoteMethod(query) {
+                console.log(query)
+                if (query != '') {
+                    this.loading = true;
+                    setTimeout(() => {
+                        this.loading = false;
+                        this.options = this.list.filter(item => {
+                        return item.project_name.toLowerCase()
+                            .indexOf(query.toLowerCase()) > -1;
+                        });
+                    }, 200);
+                } else {
+                    this.options = [];
+                }
+            },
             change(value){
                  this.name=''
                 this.channels=[]
@@ -369,6 +404,10 @@ import 'ant-design-vue/dist/antd.css'
                 let params={balance_name:this.name}
                 this.api.adproject_listpage({params}).then((res)=>{
                     this.JSlist=res.data
+                    this.options=res.data;
+                    this.list = res.data.map(item => {
+                        return { project_id: `${item.project_id}`, project_name: `${item.project_name}` };
+                    });
                 })
             },
              downloadImg(){
@@ -437,6 +476,14 @@ import 'ant-design-vue/dist/antd.css'
 </script>
 
 <style scoped>
+.box >>> .el-select__tags{
+    min-width:200px;
+    max-width:300px !important;
+    height:30px;
+    overflow: hidden;
+    vertical-align: bottom;
+
+}
     .top_tit{
         width:100%;
         height:112px;
