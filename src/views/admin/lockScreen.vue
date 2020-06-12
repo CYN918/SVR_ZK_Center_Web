@@ -190,6 +190,7 @@
 					:total="total">
 			</el-pagination>
 		</div>
+        <loading v-if='load'></loading>
 	</div>
 
 </template>
@@ -199,8 +200,9 @@
     import hin from './hintMessage'
     import tag from './tag'
     import set from './Select_material'
+    import loading from '../../components/loading'
     export default {
-        components:{AM,hin,tag,set,rel},
+        components:{AM,hin,tag,set,rel,loading},
         data() {
             return {
                 pro_type:'',
@@ -244,6 +246,7 @@
                 wpid:'',
                 ta:[],
                 ids:'',
+                load:true,
             }
         },
         created(){
@@ -447,9 +450,12 @@
                 })
             },
             getWl(){
+                this.load = true;
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),op_tags:JSON.stringify(this.listTags),status:this.status,pro_type:this.pro_type}
                 this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
+                    this.load = false;
+                    this.mJs.scTop(0);
                     this.total=res.total;
                     this.getTagsList();
                     this.getOperatorTag();
@@ -482,9 +488,12 @@
                         }
                     }
                 }
+                this.load = true;
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),op_tags:JSON.stringify(this.listTags),status:this.status}
                 this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
+                    this.load = false;
+                    this.mJs.scTop(0);
                     for(let i =0;i<this.IMGList.length;i++){
                         if(this.IMGList[i].status=='1101'){
                             this.IMGList[i].status='使用中'
@@ -516,9 +525,12 @@
                         }
                     }
                 }
+                this.load = true;
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),op_tags:JSON.stringify(this.listTags),status:this.status}
                 this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
+                    this.load = false;
+                    this.mJs.scTop(0);
                     for(let i =0;i<this.IMGList.length;i++){
                         if(this.IMGList[i].status=='1101'){
                             this.IMGList[i].status='使用中'
@@ -550,9 +562,12 @@
                         }
                     }
                 }
+                this.load = true;
                 let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),op_tags:JSON.stringify(this.listTags),status:this.status}
                 this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
+                    this.load = false;
+                    this.mJs.scTop(0);
                     for(let i =0;i<this.IMGList.length;i++){
                         if(this.IMGList[i].status=='1101'){
                             this.IMGList[i].status='使用中'
