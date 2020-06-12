@@ -818,7 +818,7 @@ select{
    overflow-y: scroll;
  }
 .elSelect .el-select__tags{
-  max-height: 30px;
+  max-height: 46px;
   overflow-y: scroll;
 }
 .select_check .el-select__tags::-webkit-scrollbar { width: 0 !important }
