@@ -213,14 +213,16 @@
         </div> -->
         <BH v-if="bh"  :id="this.$route.query.id" :open_id="openIDList" :status='this.$route.query.status'></BH>
         <QD v-if="sh" :id="this.$route.query.id" :open_id="shOpenId"  :status='this.$route.query.status'></QD>
+        <loading v-if='load'></loading>
     </div>
 </template>
 <script>
     import BH from './reject'
     import QD from './workBench_auditor'
     import dc from '../../api/commonality'
+    import loading from '../../components/loading'
     export default {
-        components:{BH,QD},
+        components:{BH,QD,loading},
         name: "billing_details",
         data(){
             return{
@@ -246,7 +248,8 @@
                 contributor_type:"",
                 start_time:"",
                 end_time:"",
-                type:'1'
+                type:'1',
+                load:true,
             }
         },
         created(){
@@ -337,7 +340,9 @@
                         open_id:this.open_id,account_name:this.account_name,min_cash_money:this.min_cash_money,
                         max_cash_money:this.max_cash_money,contributor_type:this.contributor_type,check_status:this.check_status,start_time:this.start_time,end_time:this.end_time};
                 }
+                this.load = true;
                 this.api.demand_apply_detail({params}).then((res)=>{
+                    this.load = false;
                     this.tableData = res.data;
                     // this.check_status = res.data.check_status
                     for(var i = 0;i<this.tableData.length;i++){
