@@ -157,7 +157,7 @@
                     <div class="titN">
                        <span>添加入库素材</span>
                    </div>
-                   <div style="max-height:200px;width:100%;overflow-x:auto; overflow-y: hidden;">
+                   <div style="min-height:200px;width:100%;overflow-x:auto; overflow-y: hidden;">
                         <div class='porject_up' @click="adds()">
                                 <img src="img/sc.png" alt="" class='icon'>
                         </div>
@@ -796,7 +796,7 @@ export default {
        height:16px!important  
     }
     .uploads,.uploads_2,.uploads3{
-        height:284px;
+        min-height:284px;
         width: 100%;
         margin-top:16px;
         background:rgba(255,255,255,1);
