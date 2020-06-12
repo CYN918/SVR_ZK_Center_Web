@@ -821,9 +821,7 @@ select{
   max-height: 46px;
   overflow-y: scroll;
 }
-.el-select-dropdown{
-  top: 250px !important;
-}
+
 .select_check .el-select__tags::-webkit-scrollbar { width: 0 !important }
 .elSelect .el-select__tags::-webkit-scrollbar { width: 0 !important }
 .box_2 .el-button--primary{
