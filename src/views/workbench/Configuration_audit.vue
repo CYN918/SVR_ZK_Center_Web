@@ -74,12 +74,11 @@
         <el-dialog
             title="提示"
             :visible.sync="dialogVisible"
-            width="30%"
-            :before-close="handleClose">
+            width="30%">
             <span>确认是否删除?</span>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false">取 消</el-button>
                 <el-button type="primary" @click="confirmDel()" :loading="loading">确 定</el-button>
+                <el-button @click="dialogVisible = false">取 消</el-button>
             </span>
         </el-dialog>
         <loading v-if='load'></loading>
