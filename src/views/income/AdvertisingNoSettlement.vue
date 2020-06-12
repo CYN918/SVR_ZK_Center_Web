@@ -228,6 +228,7 @@
                     :total="total">
             </el-pagination>
         </div>
+        <loading v-if='load'></loading>
     </div>
 </template>
 
@@ -236,9 +237,11 @@ import Vue from 'vue'
 import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
  import download from '../../api/commonality'
+ import loading from '../../components/loading'
  Vue.use(Antd)
     export default {
         name: "advertiser",
+        components: {loading},
         data(){
             return{
                 value:[],
@@ -263,6 +266,7 @@ import 'ant-design-vue/dist/antd.css'
                 projects:[],
                 JSlist:[],
                 disjunctions:[],
+                load:true,
             }
         },
         mounted(){
@@ -329,10 +333,12 @@ import 'ant-design-vue/dist/antd.css'
                     this.JSname=[];
                      let params={is_receiver:this.is_receiver,search:this.name}
                         this.api.settle_settlement_list({params}).then((res)=>{
-                            if(res.data.length == '0'){
+                            console.log(res)
+                            if(res.length == '0'){
                                 this.show = false
                             }else{
                                 this.JSname=res
+                                
                             }
                             
                         })
@@ -366,7 +372,7 @@ import 'ant-design-vue/dist/antd.css'
                 })
             },
              downloadImg(){
-                var url = '/settle/data/export'+'?is_receiver='+this.is_receiver+'&name='+this.name+'&search='+this.search+'&channel='+this.channel+'&tstart='+this.value[0]+'&tend='+this.value[1]+'&projects='+this.projects.join(',')+'&disjunctions='+JSON.stringify(this.disjunctions);
+                var url = '/settle/data/export'+'?is_receiver='+this.is_receiver+'&name='+this.name+'&search='+this.search+'&tstart='+this.value[0]+'&tend='+this.value[1]+'&projects='+this.projects.join(',')+'&disjunctions='+JSON.stringify(this.disjunctions);
                 download.downloadImg(url);
             },
              getDataList(num){
@@ -383,8 +389,10 @@ import 'ant-design-vue/dist/antd.css'
                         params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,search:this.search,is_receiver:this.is_receiver,name:this.name,disjunctions:JSON.stringify(this.disjunctions),projects:this.projects.join(',')}
 
                 }
+                this.load = true;
                 
                 this.api.settle_data_search({params}).then((res)=>{
+                    this.load = false;
                     this.tableData=res.data;
 
                     // var a1=0;
