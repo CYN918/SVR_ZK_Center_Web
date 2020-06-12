@@ -568,7 +568,10 @@ methods: {
             formData.append('content',this.rouelForm.content);
             formData.append('url',this.rouelForm.url);
         }
+        this.load = true;
         this.api.pushlib_textlink_edit_weight(formData).then((res)=>{
+            if(res==false){this.load = false;return}
+            this.load = false;
             document.getElementById('isShow'+index).style.display = 'block';
             document.getElementById('pro'+index).style.display = 'none';
             this.getData()

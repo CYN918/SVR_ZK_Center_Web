@@ -112,12 +112,17 @@
                 </el-pagination>
             </div>
         </div>
+        <loading v-if='load'></loading>
     </div>
 </template>
 
 <script>
     import download from '../../api/commonality'
+    import loading from '../../components/loading';
     export default {
+        components: {
+            loading
+        },
         name: "replace",
         data(){
             return{
@@ -131,6 +136,7 @@
                 p:10,
                 search:'',
                 rank:[],
+                load:true,
             }
         },
         mounted(){
@@ -191,9 +197,11 @@
                 this.cl=[];
                 var s = '{"'+'sdk_id' + '":"'+this.$route.query.sdkid + '"}';
                 this.search=s;
+                this.load = true;
                 let params ={tdate:this.$route.query.time,times:this.$route.query.num,p:this.p,page:this.page,search:this.search,source:this.$route.query.source,is_preview:this.$route.query.is_preview};
                 this.api.replace_pending_list({params}).then((res)=>{
-                    this.tableData = res;
+                    this.load = false;
+                    this.tableData = res.data;
                     for(var i=0;i<this.tableData.length;i++){
                         if(this.tableData[i].new_res.length>0){
                             this.tableData[i].status='已处理';

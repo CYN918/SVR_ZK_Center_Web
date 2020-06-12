@@ -62,6 +62,7 @@
         </div>
 
         <ADD v-if="management"></ADD>
+        <loading v-if='load'></loading>
     </div>
 </div>
 
@@ -69,9 +70,10 @@
 
 <script>
     import tab from './table';
-    import ADD from './ADDuser'
+    import ADD from './ADDuser';
+    import loading from '../../components/loading';
     export default {
-        components:{tab,ADD},
+        components:{tab,ADD,loading},
         name: "account",
         data(){
             return{
@@ -100,6 +102,7 @@
                 rolesList:[],
                 roleID:'',
                 search:'',
+                load:true,
 
             }
         },
@@ -134,8 +137,10 @@
                 this.management=false;
             },
             getList(){
+                this.load = true;
                 let params = {search:this.search}
                 this.api.role_user({params}).then((res)=>{
+                    this.load = false;
                     this.list = res;
                     this.tableData2 = res[0].users;
                     this.roleID =res[0].role_id;

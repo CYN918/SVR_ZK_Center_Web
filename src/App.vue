@@ -818,8 +818,11 @@ select{
    overflow-y: scroll;
  }
 .elSelect .el-select__tags{
-  max-height: 30px;
+  max-height: 46px;
   overflow-y: scroll;
+}
+.el-select-dropdown{
+  top: 250px !important;
 }
 .select_check .el-select__tags::-webkit-scrollbar { width: 0 !important }
 .elSelect .el-select__tags::-webkit-scrollbar { width: 0 !important }

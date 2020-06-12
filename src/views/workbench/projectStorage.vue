@@ -87,13 +87,15 @@
                     </div>
             </div>
         </div>
+        <loading v-if='load'></loading>
     </div>
 
 </template>
 
 <script>
-   
+    import loading from '../../components/loading'
     export default {
+        components: {loading},
         name: "replace",
         data(){
             return{
@@ -104,7 +106,8 @@
                p:10,
                page:1,
                total:0,
-               status:false
+               status:false,
+               load:true,
             }
         },
         mounted(){
@@ -126,6 +129,7 @@
              getData(){
                 let params={did:this.$route.query.did,is_put:'1',p:this.p,page:this.page}
                 this.api.demand_design_project({params}).then((res)=>{
+                    this.load = false;
                     this.tableData=res.project.data;
                     this.total=res.project.total;
                     for(var i=0;i<this.tableData.length;i++){

@@ -26,7 +26,8 @@
                     <div>
                         <span class="tit_txt">设计规范</span>
                         <span v-if="list.design_standard!=null"  class="tit_txt_2 ">{{this.list.design_standard.name}}</span>
-                        <a v-if="list.design_standard!=null" :href="list.design_standard.attach_url" >下载</a>
+                        <span v-if="list.design_standard&&list.design_standard.name == ''"  class="tit_txt_2 ">无</span>
+                        <a v-if="list.design_standard&&list.design_standard.attach_url" :href="list.design_standard.attach_url" >下载</a>
                     </div>
                     <div>
                         <span class="tit_txt">截止时间</span>
@@ -35,9 +36,9 @@
                     </div>
                     <div>
                         <span class="tit_txt">附件</span>
-                        <span v-if="!(list.attach)"  class="tit_txt_2 ">无</span>
-                        <span v-if="list.attach"  class="tit_txt_2 ">{{this.list.attach.name}}</span>
-                        <a v-if="list.attach" :href="list.attach.url" >下载</a>
+                        <span v-if="list.attach != null"  class="tit_txt_2 ">{{this.list.attach.name}}</span>
+                        <span v-if="list.attach&&list.attach.name==''"  class="tit_txt_2 ">无</span>
+                        <a v-if="list.attach_url" :href="list.attach.url" >下载</a>
                     </div>
                     <div>
                         <span class="tit_txt">风格</span>

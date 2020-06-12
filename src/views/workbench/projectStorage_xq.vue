@@ -157,7 +157,7 @@
                     <div class="titN">
                        <span>添加入库素材</span>
                    </div>
-                   <div style="max-height:200px;width:100%;overflow-x:auto; overflow-y: hidden;">
+                   <div style="min-height:200px;width:100%;overflow-x:auto; overflow-y: hidden;">
                         <div class='porject_up' @click="adds()">
                                 <img src="img/sc.png" alt="" class='icon'>
                         </div>
@@ -333,12 +333,15 @@
 
                     </div>
             </div>
-        </div>  
+        </div> 
+        <loading v-if='load'></loading> 
     </div>
 </template>
 
 <script>
+import loading from '../../components/loading'
 export default {
+    components: {loading},
                 data(){
                     return{
                         dialogImageUrl: '',
@@ -371,6 +374,7 @@ export default {
                         tag:[],
                         put_type:'',
                         status_type:"",
+                        load:true,
                     }
                 },
                 mounted(){
@@ -430,6 +434,7 @@ export default {
                         getData(){
                             let params={id:this.$route.query.id}
                             this.api.demand_design_project_detail({params}).then((res)=>{
+                                this.load = false;
                                 this.listData=res;
                                 this.type=res.demand.type;        
                                 this.put_type=res.put_type;
@@ -791,7 +796,7 @@ export default {
        height:16px!important  
     }
     .uploads,.uploads_2,.uploads3{
-        height:284px;
+        min-height:284px;
         width: 100%;
         margin-top:16px;
         background:rgba(255,255,255,1);

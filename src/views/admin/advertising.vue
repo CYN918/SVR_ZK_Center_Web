@@ -118,17 +118,19 @@
 					:total="total">
 			</el-pagination>
 		</div>
+        <loading v-if='load'></loading>
 	</div>
 
 </template>
 <script>
+import loading from '../../components/loading'
 import rel from './relevant_matreial'
 import con from './content_component'
 import hin from './hintMessage'
 import tag from './tag'
 import set from './Select_material'
 export default {
-	components:{con,hin,tag,set,rel},
+	components:{con,hin,tag,set,rel,loading},
     data() {
 		return {
 			sc:false,
@@ -161,7 +163,8 @@ export default {
             listTagData:[],
             search_tags:[],
             controlBtn:true,
-            control:[]
+            control:[],
+            load:true,
 		}
     },
     created(){
@@ -357,11 +360,14 @@ export default {
                         }
                     }
                 }
-			}
+            }
+            this.load = true;
 
             let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),status:this.status}
             this.api.material_search({params}).then((res)=>{
                 this.IMGList=res.data;
+                this.load = false;
+                this.mJs.scTop(0);
                 for(let i =0;i<this.IMGList.length;i++){
                     if(this.IMGList[i].status=='1101'){
                         this.IMGList[i].status='使用中'
@@ -392,11 +398,14 @@ export default {
                        }
                    }
                }
-		   }
+           }
+           this.load = true;
 
             let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),status:this.status}
             this.api.material_search({params}).then((res)=>{
                 this.IMGList=res.data;
+                this.load = false;
+                this.mJs.scTop(0);
                 for(let i =0;i<this.IMGList.length;i++){
                     if(this.IMGList[i].status=='1101'){
                         this.IMGList[i].status='使用中'
@@ -426,10 +435,13 @@ export default {
           this.getList();
         },
 		getList(){
+            this.load = true;
 		    let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,status:this.status}
 		    this.api.material_search({params}).then((res)=>{
 				this.IMGList=res.data;
                 this.total=res.total;
+                this.load = false;
+                this.mJs.scTop(0);
                 this.getTagsList();
                 for(let i =0;i<this.IMGList.length;i++){
                     if(this.IMGList[i].status=='1101'){
