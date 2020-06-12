@@ -484,6 +484,9 @@ import 'ant-design-vue/dist/antd.css'
     vertical-align: bottom;
 
 }
+.box >>> .el-select-dropdown{
+  top: 250px !important;
+}
     .top_tit{
         width:100%;
         height:112px;
