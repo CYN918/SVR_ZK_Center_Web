@@ -1,5 +1,6 @@
 import axios from 'axios'
 import {Message} from 'element-ui'
+import mJs from '../assets/comm.js'
 const generateApiMap = (map) => {
 	let facade = {}
 	for(let el in map){
@@ -45,6 +46,7 @@ const sendApiInstance = (method, url, params, config = {},isType={}) => {
 			if(code!=0){
 				return false;
 			}
+			mJs.scTop(0); 
 			return data;
 		}else{
 			Message({dangerouslyUseHTMLString:true,message: message});
