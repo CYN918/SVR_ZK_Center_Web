@@ -45,8 +45,7 @@
                 </div>
                 <div class="box">
                     <div class="boxImg" v-for="(DL,index) in IMGList">
-
-                        <div class="boxCheck" v-if="ids">
+                        <div class="boxCheck" v-if="ids&&pro_type!=1">
                             <template>
                                 <el-checkbox-group v-model="checked">
                                     <el-checkbox :label="DL.mfid" @change="clcBox(DL.mfid)" v-if="ids.split(';').indexOf(DL.mfid) > -1" disabled></el-checkbox>
@@ -54,10 +53,17 @@
                                 </el-checkbox-group>
                             </template>
                         </div>
-                         <div class="boxCheck" v-if="!ids">
+                        <div class="boxCheck" v-if="!ids&&pro_type!=1">
                             <template>
                                 <el-checkbox-group v-model="checked">
                                     <el-checkbox :label="DL.mfid" @change="clcBox(DL.mfid)"></el-checkbox>
+                                </el-checkbox-group>
+                            </template>
+                        </div> 
+                        <div class="boxCheck" v-if="pro_type==1">
+                            <template>
+                                <el-checkbox-group v-model="checked">
+                                    <el-checkbox :label="DL.mfid"></el-checkbox>
                                 </el-checkbox-group>
                             </template>
                         </div>
@@ -118,7 +124,7 @@
 <script>
     export default {
         name: "select_material",
-        props:['material','typeSC',"date",'channel','video','ids'],
+        props:['material','typeSC',"date",'channel','video','ids','pro_type'],
         data(){
             return {
                 checked:[],
@@ -144,7 +150,6 @@
                 listTagData:[],
                 search_tags:[],
                 search_self_tags:[],
-                pro_type:'',
                 list:[],
                 listMfid:[],
             }
