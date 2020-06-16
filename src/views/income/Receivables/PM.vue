@@ -347,7 +347,7 @@ import download from '../../../api/commonality'
                     };
                 },
                  handleSelect2(item) {
-                  this.company_id=item.id
+                  this.company_id=item.company_id
                 },    
             
         }
