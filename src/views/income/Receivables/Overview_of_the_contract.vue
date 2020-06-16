@@ -74,14 +74,14 @@
                                 label="状态" prop="status_text"
                                 >
                                 <template slot-scope="props">
-                                    <el-button type="text" :class='{red:tableData[props.$index].status==2||tableData[props.$index].status==4}' >{{tableData[props.$index].status_text}}</el-button>
+                                    <span :class='{red:tableData[props.$index].status==2||tableData[props.$index].status==4}' >{{tableData[props.$index].status_text}}</span>
                                 </template>
                         </el-table-column>
                         <el-table-column
                                 label="合同截止日期" prop="contract_end_time"
                                 >
                                 <template slot-scope="props">
-                                    <el-button type="text" >{{setTime(tableData[props.$index].contract_end_time)}}</el-button>
+                                    <span>{{setTime(tableData[props.$index].contract_end_time)}}</span>
                                 </template>
                         </el-table-column>
                         <el-table-column label="开票信息">
@@ -124,8 +124,7 @@
                 </div>
                  <div>
                     <span class='titNames'>信用代码</span>
-                    <span>{{}}</span>
-
+                    <span>{{list.code}}</span>
                 </div>
                  <div>
                     <span class='titNames'>联系人</span>
@@ -137,7 +136,7 @@
                 </div>
                  <div>
                     <span class='titNames'>相关合同编号</span>
-                    <span>{{}}</span>
+                    <span>{{list.contract_id}}</span>
                 </div>
                  <div>
                     <span class='titNames'>备注</span>

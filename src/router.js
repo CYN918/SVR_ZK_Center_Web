@@ -334,6 +334,8 @@ import Offline_details from './views/workbench/Offline_details'
 mode['Offline_details']=Offline_details
 import channel_resource from './views/workbench/channel_resource'
 mode['channel_resource']=channel_resource
+import Pro_type from './views/workbench/Pro_type'
+mode['Pro_type']=Pro_type
 import Channels_for_details from './views/workbench/Channels_for_details'
 mode['Channels_for_details']=Channels_for_details
 import Advertising_source_details from './views/workbench/Advertising_source_details'
@@ -577,6 +579,7 @@ let nb = [
             {path:'/workbench/record',name:'操作记录',component: mode['record'],},
             {path:'/workbench/Offline_details',name:'线下详情',component: mode['Offline_details'],},
             {path:'/workbench/channel_resource',name:'线上审核资源替换',component: mode['channel_resource'],},
+            {path:'/workbench/Pro_type',name:'高定内容时段控制',component: mode['Pro_type'],},
             {path:'/workbench/Channels_for_details',name:'渠道详情',component: mode['Channels_for_details'],},
             {path:'/workbench/Advertising_source_details',name:'渠道源详情',component: mode['Advertising_source_details'],},
             {path:'/workbench/Advertising_for_details',name:'广告详情',component: mode['Advertising_for_details'],},
@@ -817,6 +820,7 @@ localStorage.getItem('letNav');
 //                     {title:'杂志锁屏推送管理',url:'/workbench/journal_list'},
 //                     {title:'线下资源替换',url:'/workbench/Offline_resources'},
 //                     {title:'线上审核资源替换',url:'/workbench/channel_resource'},
+//                     {title:'高定内容时段控制',url:'/workbench/Pro_type'},
 //                     {title:'杂志锁屏物料预审',url:'/workbench/External_pre_trial'},
 //                     {title:'广告内容审核',url:'/workbench/Advertising_review'},
 //                     {title:'TX新闻模板管理',url:'/workbench/news'},
