@@ -30,9 +30,9 @@
         <div class='rePadding'>
             <div class="el-tag-box">
                 <el-tag
-                :key="tag"
-                v-for="tag in dynamicTags">
-                {{tag}}
+                :key="tag.id"
+                v-for="(tag,index) in dynamicTags">
+                时段{{Number(index)+1}}({{tag.stime}}~{{tag.etime}})
                 </el-tag>
                 <el-button class="button-new-tag" size="small" v-if="dynamicTags.length == 0">未设置时间段</el-button>
             </div>
@@ -54,7 +54,7 @@
                         label="杂志锁屏"
                         >
                         <template slot-scope="scope">
-                            <img :src='tableData[scope.$index].mfinal.prev_uri' style="max-width:80px;max-height: 80px;cursor: pointer"  preview="1" />
+                            <img :src='tableData[scope.$index].prev_uri' style="max-width:80px;max-height: 80px;cursor: pointer"  preview="1" />
                         </template>
                     </el-table-column>
                     
@@ -63,9 +63,9 @@
                         <template slot-scope="scope">
                             <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
                                 <div slot="content">
-                                    <div>{{tableData[scope.$index].mfinal.wpid}}</div>
+                                    <div>{{tableData[scope.$index].wpid}}</div>
                                 </div>
-                                <div>{{tableData[scope.$index].mfinal.wpid}}</div>                         
+                                <div>{{tableData[scope.$index].wpid}}</div>                         
                             </el-tooltip>
                         </template>      
                     </el-table-column>  
@@ -195,7 +195,7 @@ export default {
     },
     created() {
         this.init();
-        console.log(this.date)
+        // console.log(this.date)
     },
     //生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {
