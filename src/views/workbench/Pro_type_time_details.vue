@@ -2,7 +2,7 @@
     <div class="template">
         <div class='screening'>
             <span class='qdName'>渠道:</span>
-            <el-select v-model="channel" placeholder="请选择" @change="selectChanged">
+            <el-select v-model="channelTs" placeholder="请选择" @change="selectChanged">
                 <el-option
                     v-for="item in channelList"
                     :key="item.channel"
@@ -91,6 +91,7 @@
 import loading from '../../components/loading'
 import commonality from '../../api/commonality';
 export default {
+    props:['channel','channelList'],
     components: {loading},
     data() {
         return {
@@ -109,16 +110,15 @@ export default {
             endTime:'',
             Cdialog:false,
             ids:'',
-            channel:this.$route.query.channel,
             pro_type:1,
             dynamicTags: [],
             value:[],
             mfid:'',
             wpid:'',
-            channelList:[],
             active:0,
             stime:'',
             etime:'',
+            channelTs:this.channel,
         };
     },
 
@@ -130,7 +130,7 @@ export default {
             this.getData();
         },
         selectChanged(value){
-            this.channel = value;
+            this.active = 0;
             this.getData();
             this.init();
             this.$router.push({
@@ -151,15 +151,6 @@ export default {
                     this.getData();
                 }
                 
-            })
-        },
-        getType(){
-            this.api.superwallpaper_channel().then((res)=>{
-                if(res.length != 0){
-                    this.channelList=res;
-                    // this.channel = res[0].channel;
-                    this.init();
-                }  
             })
         },
         handleChange(value) {
@@ -220,7 +211,7 @@ export default {
     },
     //生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {
-        this.getType();
+        this.init();
     },
 }
 </script>
@@ -548,6 +539,9 @@ export default {
         border: 1px solid #d3dbeb;
         border-radius: 5px;
         cursor: pointer;
+    }
+    .el-tag-box > ul .active{
+        border: 1px solid #1583e2;
     }
     input{
         width: 150px;

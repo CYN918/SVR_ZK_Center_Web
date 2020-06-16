@@ -2,7 +2,7 @@
     <div class="template">
         <div class='screening'>
             <span class='qdName'>渠道:</span>
-            <el-select v-model="channel" placeholder="请选择" @change="selectChanged">
+            <el-select v-model="channelTs" placeholder="请选择" @change="selectChanged">
                 <el-option
                     v-for="item in channelList"
                     :key="item.channel"
@@ -294,6 +294,7 @@ import loading from '../../components/loading'
 import ADDWL from './Jounrnal_select'
 export default {
     components: {ADDWL,loading},
+    props:['channel','channelList'],
     data() {
         return {
             qdLists:[], 
@@ -312,10 +313,8 @@ export default {
             endTime:'',
             Cdialog:false,
             ids:'',
-            channel:this.$route.query.channel,
             pro_type:1,
             value:[],
-            channelList:[],
             mfid:'',
             wpid:'',
             Sd_detail:false,
@@ -328,12 +327,12 @@ export default {
             delObj:{},
             CdialogObj:{},
             detailId:'',
+            channelTs:this.channel,
         };
     },
 
     methods: {
         selectChanged(value){
-            this.channel = value;
             this.getData();
             this.$router.push({
                 path:'./Pro_type',
@@ -371,15 +370,7 @@ export default {
         del_gb(){
             this.del_sd = false;
         },
-        getType(){
-            this.api.superwallpaper_channel().then((res)=>{
-                if(res.length != 0){
-                    this.channelList=res;
-                    this.channel = res[0].channel;
-                    this.getData();
-                }    
-            })
-        },
+        
         jump(id){
             this.Sd_detail = true;
             this.detailId = id;
@@ -517,11 +508,12 @@ export default {
         },           
     },
     created() {
+        
     
     },
     //生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {
-        this.getType();
+        this.getData();
     },
 }
 </script>
