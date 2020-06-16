@@ -1,5 +1,6 @@
 import echarts from 'echarts';
-import axios from 'axios'
+import axios from 'axios';
+import {Message} from 'element-ui'
 export default {
     downloadImg(url){
         var cent = 'center',
@@ -216,6 +217,53 @@ export default {
         second=second < 10 ? ('0' + second) : second; 
         return y + '-' + m + '-' + d; 
     },//日期标准格式化
+
+    compareTime(startTime,stopTime){
+        var intStartTime=0;
+        if(typeof startTime=='string' && startTime.constructor==String ){
+            var  startTimeArray=startTime.split(":");
+            // if(startTimeArray.length ==3){
+            //     intStartTime= startTimeArray[0] *3600+startTimeArray[1] *60+startTimeArray[2];
+            // }else{
+            //     Message({message: '开始时间格式错误',type: 'warning'});
+            //     return false;  
+            // }
+            if(startTimeArray.length ==2){
+                intStartTime= startTimeArray[0] *3600+startTimeArray[1] *60;
+            }else{
+                Message({message: '开始时间格式错误',type: 'warning'});
+                return false;  
+            }
+        }else{
+            Message({message: '开始时间格式错误',type: 'warning'});
+            return false;  
+        }
+        
+        var intStopTime =0;
+        if(typeof stopTime=='string' && stopTime.constructor==String ){
+            var  stopTimeArray=stopTime.split(":");
+            // if(stopTimeArray.length ==3){
+            //     intStopTime =stopTimeArray[0] *3600+stopTimeArray[1] *60+stopTimeArray[2];
+            // }else{
+            //     Message({message: '结束时间格式错误',type: 'warning'});
+            //     return false;  
+            // }
+            if(stopTimeArray.length ==2){
+                intStopTime =stopTimeArray[0] *3600+stopTimeArray[1] *60;
+            }else{
+                Message({message: '结束时间格式错误',type: 'warning'});
+                return false;  
+            }
+            
+        }else{
+            Message({message: '结束时间格式错误',type: 'warning'});
+            return false;  
+        }
+        
+        if(intStopTime<intStartTime){
+            return false;  
+        }
+    },
 
     loginout(){//登出
         window.localStorage.clear();
