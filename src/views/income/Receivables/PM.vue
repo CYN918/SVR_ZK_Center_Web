@@ -280,8 +280,8 @@ import download from '../../../api/commonality'
                     this.load=false;
                     // this.balance_name = '';
                     // this.company_name = '';
-                    // this.company_id = '';
-                    // this.balance_id = '';
+                    this.company_id = '';
+                    this.balance_id = '';
                     this.getDlist();
                     this.getDlist2()
                 })
@@ -347,6 +347,7 @@ import download from '../../../api/commonality'
                     };
                 },
                  handleSelect2(item) {
+                     console.log(item)
                   this.company_id=item.company_id
                 },    
             
