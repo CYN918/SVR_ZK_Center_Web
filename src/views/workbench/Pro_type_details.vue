@@ -306,7 +306,7 @@ export default {
             p:10,
             total:0, 
             ADDwl:false,
-            load:true,
+            load:false,
             change:false,
             startTime: '',
             endTime:'',
@@ -373,7 +373,11 @@ export default {
         },
         getType(){
             this.api.superwallpaper_channel().then((res)=>{
-                this.channelList=res;
+                if(res.length != 0){
+                    this.channelList=res;
+                    this.channel = res[0].channel;
+                    this.getData();
+                }    
             })
         },
         jump(id){
@@ -517,7 +521,6 @@ export default {
     },
     //生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {
-        this.getData();
         this.getType();
     },
 }
