@@ -333,6 +333,7 @@ export default {
 
     methods: {
         selectChanged(value){
+            this.channelTs = value;
             this.getData();
             this.$router.push({
                 path:'./Pro_type',
@@ -496,7 +497,7 @@ export default {
             let params={
                 p:this.p,
                 page:this.page,
-                channel:this.channel,
+                channel:this.channelTs,
                 wpid:this.wpid,
                 mfid:this.mfid,
             }

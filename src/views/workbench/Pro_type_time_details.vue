@@ -130,6 +130,7 @@ export default {
             this.getData();
         },
         selectChanged(value){
+            this.channelTs = value;
             this.active = 0;
             this.getData();
             this.init();
@@ -194,7 +195,7 @@ export default {
                 tdate:this.date,
                 stime:this.stime,
                 etime:this.etime,
-                channel:this.channel,
+                channel:this.channelTs,
                 wpid:this.wpid,
                 mfid:this.mfid,
             }
