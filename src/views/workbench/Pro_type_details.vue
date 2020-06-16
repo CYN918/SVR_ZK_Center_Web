@@ -292,6 +292,7 @@
 <script>
 import loading from '../../components/loading'
 import ADDWL from './Jounrnal_select'
+import commonality from '../../api/commonality';
 export default {
     components: {ADDWL,loading},
     props:['channel','channelList'],
@@ -422,6 +423,11 @@ export default {
             this.change=false
         },
         bj(){
+            let state = commonality.compareTime(this.startTime,this.endTime);
+            if(state ==false){
+                this.$message({message: '开始时间不能大于结束时间',type: 'warning'});
+                return false
+            }
             let formData =new FormData;
             formData.append('id',this.auditId);
             formData.append('tdate',this.date);
