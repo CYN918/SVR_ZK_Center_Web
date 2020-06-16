@@ -29,12 +29,12 @@
         </div>
         <div class='rePadding'>
             <div class="el-tag-box">
-                <el-tag
-                :key="tag.id"
-                v-for="(tag,index) in dynamicTags">
-                时段{{Number(index)+1}}({{tag.stime}}~{{tag.etime}})
-                </el-tag>
-                <el-button class="button-new-tag" size="small" v-if="dynamicTags.length == 0">未设置时间段</el-button>
+                <ul v-if="dynamicTags.length != 0">
+                    <li v-for="(tag,index) in dynamicTags" :key="index" :class="{active:active==index}" @click="ckTag(index,tag)">时段{{Number(index)+1}}({{tag.stime}}~{{tag.etime}})</li>
+                </ul>
+                <ul v-else>
+                    <li>未设置时间段</li>
+                </ul>
             </div>
             <template>
                 <el-table
@@ -103,7 +103,7 @@ export default {
             page:1,
             p:10,
             total:0, 
-            load:true,
+            load:false,
             change:false,
             startTime: new Date(),
             endTime:'',
@@ -116,10 +116,19 @@ export default {
             mfid:'',
             wpid:'',
             channelList:[],
+            active:0,
+            stime:'',
+            etime:'',
         };
     },
 
     methods: {
+        ckTag(index,el){
+            this.active = index;
+            this.stime = el.stime;
+            this.etime = el.etime;
+            this.getData();
+        },
         selectChanged(value){
             this.channel = value;
             this.getData();
@@ -135,12 +144,22 @@ export default {
         init(){
             let params = {channel:this.channel,tdate:this.date}
             this.api.superwallpaper_date_timeframe({params}).then((res)=>{
-                this.dynamicTags = res;
+                if(res.length != 0){
+                    this.stime = res[0].stime;
+                    this.etime = res[0].etime;
+                    this.dynamicTags = res;
+                    this.getData();
+                }
+                
             })
         },
         getType(){
             this.api.superwallpaper_channel().then((res)=>{
-                this.channelList=res;
+                if(res.length != 0){
+                    this.channelList=res;
+                    // this.channel = res[0].channel;
+                    this.init();
+                }  
             })
         },
         handleChange(value) {
@@ -182,6 +201,8 @@ export default {
                 p:this.p,
                 page:this.page,
                 tdate:this.date,
+                stime:this.stime,
+                etime:this.etime,
                 channel:this.channel,
                 wpid:this.wpid,
                 mfid:this.mfid,
@@ -194,12 +215,11 @@ export default {
         },           
     },
     created() {
-        this.init();
+        
         // console.log(this.date)
     },
     //生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {
-        this.getData();
         this.getType();
     },
 }
@@ -517,6 +537,17 @@ export default {
         margin: 0px 20px 20px 20px;
         position: relative;
         top: 10px;
+        height: 50px;
+    }
+    .el-tag-box > ul > li{
+        width: 150px;
+        height: 42px;
+        text-align: center;
+        line-height: 42px;
+        float: left;
+        border: 1px solid #d3dbeb;
+        border-radius: 5px;
+        cursor: pointer;
     }
     input{
         width: 150px;
