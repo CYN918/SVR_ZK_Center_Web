@@ -15,7 +15,13 @@
                         <option v-for="item in scType" :value="item.type" v-if='video!=undefined&&item.type=="f_sls_lockscreen"'>{{item.name}}</option>
                     </select>
                 </div>
-                <div class="Search_select">
+                <div class="Search_select" v-if="pro_type==1">
+                    <span class="Search_select_tit">制作方式：</span>
+                    <select v-model="pro_type" @change="getList()">
+                        <option value="1">高定</option>
+                    </select>
+                </div>
+                <div class="Search_select" v-if="pro_type!=1">
                     <span class="Search_select_tit">制作方式：</span>
                     <select v-model="pro_type" @change="getList()">
                         <option value="" selected>全部</option>
