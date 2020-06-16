@@ -13,8 +13,8 @@
             </div>        
         </div>
         <div>
-            <Protypedetails v-if="is_receiver == '0'"></Protypedetails>
-            <Protypetimedetails v-if="is_receiver == '1'"></Protypetimedetails>
+            <Protypedetails v-if="is_receiver == '0' && channel" :channel="channel" :channelList="channelList"></Protypedetails>
+            <Protypetimedetails v-if="is_receiver == '1' && channel" :channel="channel" :channelList="channelList"></Protypetimedetails>
         </div>
         
     </div>
@@ -28,6 +28,8 @@
         data() {
             return {
                 is_receiver:0,
+                channel:'',
+                channelList:[],
             };
         },
 
@@ -37,16 +39,45 @@
                 this.mJs.scTop(0); 
                 localStorage.setItem('tabNum', num);   
             },
+            getType(){
+                this.api.superwallpaper_channel().then((res)=>{
+                    if(res.length != 0){
+                        this.channel = res[4].channel;
+                        this.channelList = res;
+                    }    
+                })
+            },
+            init(){
+                this.api.superwallpaper_channel().then((res)=>{
+                    if(res.length != 0){
+                        this.channelList = res;
+                    }    
+                })
+            }
         },
         created() {
+            
+            
 
         },
         //生命周期 - 挂载完成（可以访问DOM元素）
         mounted() {
-            if (localStorage.getItem('tabNum')) {
-                this.is_receiver = localStorage.getItem('tabNum')
-            }   
+            // if (localStorage.getItem('tabNum')) {
+            //     this.is_receiver = localStorage.getItem('tabNum')
+            // } 
+            this.getType();
         },
+        
+        watch: {
+            $route(){
+                if(this.$route.query.channel){
+                    this.channel = this.$route.query.channel;
+                    this.init();
+                }else{
+                    this.getType();
+                }
+            },
+        }
     }
 </script>
 <style  scoped>
