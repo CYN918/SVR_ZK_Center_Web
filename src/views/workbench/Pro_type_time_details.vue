@@ -143,13 +143,15 @@ export default {
             })
         },
         init(){
-            let params = {channel:this.channel,tdate:this.date}
+            let params = {channel:this.channelTs,tdate:this.date}
             this.api.superwallpaper_date_timeframe({params}).then((res)=>{
                 if(res.length != 0){
                     this.stime = res[0].stime;
                     this.etime = res[0].etime;
                     this.dynamicTags = res;
                     this.getData();
+                }else{
+                    this.dynamicTags = [];
                 }
                 
             })
