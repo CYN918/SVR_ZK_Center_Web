@@ -97,6 +97,7 @@
                                     format="yyyy 年 MM 月 dd 日"
                                     placeholder="选择日期"
                                     value-format="yyyy-MM-dd"
+                                    :picker-options="pickerOptions0"
                                     @change="changeDate">
                                 </el-date-picker>
                             </template>
@@ -329,6 +330,11 @@ export default {
             CdialogObj:{},
             detailId:'',
             channelTs:this.channel,
+            pickerOptions0: {
+                disabledDate(time) {
+                    return time.getTime() < Date.now() - 8.64e7;//如果没有后面的-8.64e7就是不可以选择今天的
+                }
+            },
         };
     },
 
@@ -425,7 +431,7 @@ export default {
         bj(){
             let state = commonality.compareTime(this.startTime,this.endTime);
             if(state ==false){
-                this.$message({message: '开始时间不能大于结束时间',type: 'warning'});
+                this.$message({message: '结束时间不能小于或等于开始时间',type: 'warning'});
                 return false
             }
             let formData =new FormData;

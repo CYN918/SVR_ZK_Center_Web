@@ -260,7 +260,7 @@ export default {
             return false;  
         }
         
-        if(intStopTime<intStartTime){
+        if(intStopTime<=intStartTime){
             return false;  
         }
     },
