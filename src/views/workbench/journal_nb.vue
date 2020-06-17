@@ -152,15 +152,15 @@
                                       <span v-if="tableData[scope.$index].status == 3" style="color:red;">已过期</span>
                                 </template>
                         </el-table-column>
-                        <el-table-column
+                        <!-- <el-table-column
                                 label="配置状态"
-                                v-else>
+                                v-if="type == 'meizu_first'">
                                   <template slot-scope="scope">
                                       <span v-if="tableData[scope.$index].status == 0">待确认</span>
                                       <span v-if="tableData[scope.$index].status == 2">已确认</span>
                                       <span v-if="tableData[scope.$index].status == 3" style="color:red;">已过期</span>
                                 </template>
-                        </el-table-column>
+                        </el-table-column> -->
                          <el-table-column
                                 label="审核状态"
                                 v-if="type == 'meizu_first' && this.$route.query.channel">
@@ -170,15 +170,15 @@
                                       <span v-if="tableData[scope.$index].audit_status == 2" style="color:red;">审核不通过</span>
                                 </template>
                         </el-table-column>
-                        <el-table-column
+                        <!-- <el-table-column
                                 label="审核状态"
-                                v-else>
+                                v-if="type == 'meizu_first'">
                                   <template slot-scope="scope">
                                       <span v-if="tableData[scope.$index].audit_status == 0">待审核</span>
                                       <span v-if="tableData[scope.$index].audit_status == 1">审核通过</span>
                                       <span v-if="tableData[scope.$index].audit_status == 2" style="color:red;">审核不通过</span>
                                 </template>
-                        </el-table-column>
+                        </el-table-column> -->
                          <el-table-column
                                 prop="updated_at"
                                 label="更新时间">
@@ -325,8 +325,8 @@
                 <el-button @click="cancelTx">取消</el-button>
             </span>
         </el-dialog>
-        <ADDWL v-if="ADDwl && type=='meizu_first'" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :ids='ids' :video="1"></ADDWL>
-        <ADDWL v-if="ADDwl && type!='meizu_first'" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :ids='ids'></ADDWL>
+        <ADDWL v-if="ADDwl && type=='meizu_first'" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :ids='ids' :video="1" :pro_type="pro_type"></ADDWL>
+        <ADDWL v-if="ADDwl && type!='meizu_first'" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :ids='ids' :pro_type="pro_type"></ADDWL>
         <loading v-if='load'></loading>
         <div class='bg' v-if="change">
             <div class='compile'>
@@ -474,6 +474,7 @@ return {
         value1: new Date(),
         Cdialog:false,
         ids:'',
+        pro_type:'',
 };
 },
 

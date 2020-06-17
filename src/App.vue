@@ -821,6 +821,11 @@ select{
   max-height: 46px;
   overflow-y: scroll;
 }
+.el-button--primary{
+    color: #FFF;
+    background-color: rgba(51,119,255,1);
+    border-color: rgba(51,119,255,1);
+}
 
 .select_check .el-select__tags::-webkit-scrollbar { width: 0 !important }
 .elSelect .el-select__tags::-webkit-scrollbar { width: 0 !important }
@@ -1047,4 +1052,19 @@ select{
     .el-date-range-picker__content{
       width: 44%;
     }
+    .el-tag + .el-tag {
+    margin-left: 10px;
+  }
+  .button-new-tag {
+    margin-left: 10px;
+    height: 32px;
+    line-height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .input-new-tag {
+    width: 90px;
+    margin-left: 10px;
+    vertical-align: bottom;
+  }
 </style>

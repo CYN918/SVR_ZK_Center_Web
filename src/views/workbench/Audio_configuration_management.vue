@@ -411,7 +411,7 @@
                 </div>
             </div>
         </div>
-        <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :video='video'></ADDWL>
+        <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :video='video' :pro_type="pro_type"></ADDWL>
         <loading v-if='load'></loading>
  </div>
 </template>
@@ -452,6 +452,7 @@
             mfinal:null,
             audioName:'',
             date:'',
+            pro_type:'',
             }
    },
    mounted(){

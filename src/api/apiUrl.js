@@ -1963,4 +1963,46 @@ export default {
 	ctrlapi_tags_action_audit:{
 		url:'ctrlapi/tags/action/audit',method:'post'
 	},
+
+	//获取高定锁屏壁纸列表
+	superwallpaper_search:{
+		url:'superwallpaper/search',method:'get'
+	},
+
+	//新增高定锁屏壁纸
+	superwallpaper_add:{
+		url:'superwallpaper/add',method:'post'
+	},
+
+	//获取高定时段列表
+	superwallpaper_timeframe:{
+		url:'superwallpaper/timeframe',method:'get'
+	},
+
+	//添加高定时段
+	superwallpaper_timeframe_add:{
+		url:'superwallpaper/timeframe/add',method:'post'
+	},
+
+	//删除高定时段
+	superwallpaper_timeframe_del:{
+		url:'superwallpaper/timeframe/del',method:'post'
+	},
+
+	//删除高定锁屏壁纸
+	superwallpaper_del:{
+		url:'superwallpaper/del',method:'post'
+	},
+
+	//按日期获取渠道高定时段
+	superwallpaper_date_timeframe:{
+		url:'superwallpaper/date/timeframe',method:'get'
+	},
+
+	//获取渠道列表
+	superwallpaper_channel:{
+		url:'superwallpaper/channel',method:'get'
+	},
+
+
 }
