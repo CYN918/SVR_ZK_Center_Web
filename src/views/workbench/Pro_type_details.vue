@@ -431,7 +431,7 @@ export default {
         bj(){
             let state = commonality.compareTime(this.startTime,this.endTime);
             if(state ==false){
-                this.$message({message: '开始时间不能大于结束时间',type: 'warning'});
+                this.$message({message: '结束时间不能小于或等于开始时间',type: 'warning'});
                 return false
             }
             let formData =new FormData;
