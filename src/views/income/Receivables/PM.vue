@@ -322,7 +322,7 @@ import download from '../../../api/commonality'
                 },
                 createFilter(queryString) {
                     return (JSname) => {
-                    return (JSname.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+                    return (JSname.value.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
                     };
                 },
                  handleSelect(item) {
@@ -336,7 +336,6 @@ import download from '../../../api/commonality'
                  querySearch2(queryString, cb) {
                     for(var i =0;i<this.company.length;i++){
                         this.company[i].value=this.company[i].name
-                       
                     }
                     var results = queryString ? this.company.filter(this.createFilter(queryString)) : this.company;
                     cb(results);
