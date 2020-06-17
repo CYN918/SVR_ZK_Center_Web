@@ -372,7 +372,7 @@ export default {
             formData.append('id',this.delObj.id);
             this.api.superwallpaper_timeframe_del(formData).then((res)=>{
                 this.del_sd = false;
-                this.auidSc(this.delObj.id)
+                this.auidSc(this.auditId)
             })
         },
         del_gb(){

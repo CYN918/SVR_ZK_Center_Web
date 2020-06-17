@@ -68,7 +68,7 @@
             if(this.$route.query.channel){
                 this.channel = this.$route.query.channel;
             }
-            console.log(this.$route.query.channel)
+            // console.log(this.$route.query.channel)
             this.getType();
         },
         
