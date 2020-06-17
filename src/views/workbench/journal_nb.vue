@@ -8,7 +8,7 @@
                 <span class="log_url">壁纸管理</span>
            </div>
                 <span class="top_txts" style="width: 113px;display: inline-block;" v-if="type == 'meizu_first'">壁纸管理</span>
-                <span class="top_txt" @click='fh(-1)' v-if="type != 'meizu_first'">杂志锁屏推送审核管理  /  上线内容管理</span><div v-if="type != 'meizu_first'" style="width:0;height:0;"><br/></div>
+                <span class="top_txt" @click='fh(-1)' v-if="type != 'meizu_first'">杂志锁屏推送审核管理  / 子推送库列表 / 上线内容管理</span><div v-if="type != 'meizu_first'" style="width:0;height:0;"><br/></div>
                 <span class="top_txts" style="width: 113px;display: inline-block;" v-if="type != 'meizu_first'">上线内容管理</span>
                
                
@@ -22,6 +22,7 @@
                 <span class="userGl" v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)" @click='jump()' style="margin: 0px 1% 0 0;">一键确认</span>
                 <!-- <span class="userGl" style="margin: 0px 1% 0 0;" @click="getShow()">预警设置</span> -->
                 <span class="userGl" style="margin: 0px 1% 0 0;" @click="opens()">测试管理</span>
+                <span class="userGl" style="margin: 0px 1% 0 0;" @click="copyContent()">复制内容</span>
 
         </div>
         <div class='screening'>
@@ -248,6 +249,38 @@
                 </div>
             </div>
         </div>
+        <div class="bg" v-if="tCopy">
+            <div class='content'>
+                <div class='con_tit'>
+                    <span>复制内容</span>
+                </div>
+                <div class='sel'>
+                    <span class='qdName'>子推送库：</span>
+                    <el-select v-model="valueTs" placeholder="请选择">
+                        <el-option
+                        v-for="item in options"
+                        :key="item.sub_plid"
+                        :label="item.name"
+                        :value="item.sub_plid">
+                        </el-option>
+                    </el-select>
+                </div>
+                <div>
+                    <span class='qdName'>选择日期：</span>
+                    <el-date-picker
+                        v-model="date1"
+                        type="date"
+                        format="yyyy 年 MM 月 dd 日"
+                        placeholder="选择日期"
+                        value-format="yyyy-MM-dd">
+                    </el-date-picker>
+                </div>
+                <div class='sel_btn'>
+                    <span class="sel_btn_qd" @click="pushCopy()">确定</span>
+                    <span @click='qxCopy()'>取消</span>
+                </div>
+            </div>
+        </div>
         <el-dialog
             title="提示"
             :visible.sync="dialogVisible"
@@ -434,6 +467,7 @@ return {
        type:this.$route.query.type,
        material:3,
        date:(new Date()).toLocaleDateString().split('/').join('-'),
+       date1:(new Date()).toLocaleDateString().split('/').join('-'),
        dateTime:'',
        status:'',
        tableData:[],
@@ -475,10 +509,46 @@ return {
         Cdialog:false,
         ids:'',
         pro_type:'',
+        tCopy:false,
+        options:[],
+        valueTs:'',
 };
 },
 
 methods: {
+    copyContent(){
+        this.tCopy = true;
+        this.init();
+    },
+    //查询子推送库列表
+    init(){
+        let params = {plid:this.plid}
+        this.api.pushlib_sub_list({params}).then((res)=>{
+            this.options = res;
+            
+        })
+
+    },
+    pushCopy(){
+        let formData =new FormData;
+        formData.append('plid',this.plid);
+        formData.append('sub_plid',this.$route.query.sub_plid);
+        formData.append('tdate',this.date);
+        formData.append('src_sub_plid',this.valueTs);
+        formData.append('src_tdate',this.date1);
+        this.api.pushlib_sub_copy(formData).then((res)=>{
+            this.$message({
+                message: '复制成功',
+                type: 'success'
+            });
+            this.tCopy = false;
+            this.getData()
+        })
+
+    },
+    qxCopy(){
+        this.tCopy = false;
+    },
     getShow(){
         this.change = true;
     },
@@ -1097,7 +1167,9 @@ mounted() {
    .sel_btn{
        width: 100%;
        height: 50px;
-       text-align: right;
+       text-align: left;
+       margin-top: 35px;
+       border-top: 1px solid #ddd;
    }
    .sel_btn span{
     margin-right: 24px;
@@ -1120,6 +1192,7 @@ mounted() {
        border: 0!important;
     background: rgba(51,119,255,1)!important;
     color: rgba(255,255,255,1)!important;
+    margin-left: 40px;
    }
    .qud{
        display: inline-block;

@@ -2004,5 +2004,25 @@ export default {
 		url:'superwallpaper/channel',method:'get'
 	},
 
+	//获取子推送库列表
+	pushlib_sub_search:{
+		url:'pushlib/sub/search',method:'get'
+	},
+
+	//新增子推送库
+	pushlib_sub_add:{
+		url:'pushlib/sub/add',method:'post'
+	},
+
+	//子推送库列表查询
+	pushlib_sub_list:{
+		url:'pushlib/sub/list',method:'get'
+	},
+
+	//复制子推送库
+	pushlib_sub_copy:{
+		url:'pushlib/sub/copy',method:'post'
+	},
+
 
 }
