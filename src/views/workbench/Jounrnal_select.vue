@@ -21,7 +21,7 @@
                         <option value="1">高定</option>
                     </select>
                 </div>
-                <div class="Search_select" v-if="pro_type!=1">
+                <div class="Search_select" v-if="pro_type!=1 && type != 'f_sls_picture'">
                     <span class="Search_select_tit">制作方式：</span>
                     <select v-model="pro_type" @change="getList()">
                         <option value="" selected>全部</option>
@@ -85,11 +85,11 @@
                                     <span class="boxImg_text">尺寸:</span>
                                     <span class="boxImg_content">{{DL.size}}</span>
                                 </div>
-                                <div v-if="!ids">
+                                <!-- <div v-if="!ids">
                                     <span class="boxImg_text">素材状态:</span>
                                     <span class="boxImg_content">{{DL.status==1201?'禁用':'启用'}}</span>
-                                </div>
-                                <div>
+                                </div> -->
+                                <div v-if="type != 'f_sls_picture'">
                                     <span class="boxImg_text">制作方式:</span>
                                     <span class="boxImg_content">{{DL.pro_type==1?'高定':'微定'}}</span>
                                 </div>
@@ -97,7 +97,7 @@
                                     <span class="boxImg_text">更新时间:</span>
                                     <span class="boxImg_content">{{DL.updated_at}}</span>
                                 </div>
-                                <div v-if="checked.indexOf(DL.mfid) > -1&&ids">
+                                <div v-if="checked.indexOf(DL.mfid) > -1 && pro_type!=1">
                                     <span class="boxImg_text">上次使用日期:</span>
                                     <span class="boxImg_content" v-if="listMfid.indexOf(DL.mfid) < 0">--</span>
                                     <span class="boxImg_content" v-else v-for="todo in list">
@@ -166,6 +166,7 @@
                 this.checked=this.checked.concat(this.ids.split(';'));
                 this.clcBox()
             }
+            console.log(this.ids)
         },
         methods:{
             clcBox(data){
@@ -197,6 +198,10 @@
                 this.$parent.heidWL();
             },
             messageID(){
+                if(this.checked.length == 0){
+                    this.$message({message: '请选择壁纸',type: 'warning'});
+                    return false
+                }
                 this.$emit('listenToChildEvent',this.checked,this.date,true);
                 // this.$parent.heidWL();
             },

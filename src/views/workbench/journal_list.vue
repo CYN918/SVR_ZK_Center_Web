@@ -244,7 +244,7 @@ methods: {
              }
              if(this.tableData[index].channel.audit_type==3){
                 this.$router.push({
-                    path:"./journal_nb",
+                    path:"./journal_child",
                     query:{
                         channel:this.tableData[index].channel.channel,
                         plid:row.plid,
