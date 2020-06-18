@@ -492,6 +492,20 @@ methods: {
 
     },
     pushCopy(){
+        if(!this.valueTs){
+            this.$message({
+                message: '请选择子推送库',
+                type: 'warning'
+            });
+            return false
+        }
+        if(!this.date1){
+            this.$message({
+                message: '请选择时间',
+                type: 'warning'
+            });
+            return false
+        }
         let formData =new FormData;
         formData.append('plid',this.plid);
         formData.append('sub_plid',this.$route.query.sub_plid);
