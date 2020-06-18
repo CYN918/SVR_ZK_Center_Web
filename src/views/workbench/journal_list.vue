@@ -244,9 +244,18 @@ methods: {
                     },
                 })
              }
-             if(this.tableData[index].channel.audit_type==3){
+             if(this.tableData[index].channel.audit_type==3&&this.tableData[index].sub != 0){
                 this.$router.push({
                     path:"./journal_child",
+                    query:{
+                        channel:this.tableData[index].channel.channel,
+                        plid:row.plid,
+                    },
+                })
+             }
+             if(this.tableData[index].channel.audit_type==3&&this.tableData[index].sub == 0){
+                this.$router.push({
+                    path:"./journal_nb",
                     query:{
                         channel:this.tableData[index].channel.channel,
                         plid:row.plid,
