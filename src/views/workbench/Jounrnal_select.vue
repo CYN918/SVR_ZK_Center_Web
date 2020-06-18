@@ -19,13 +19,13 @@
                         <option v-for="item in scType" :value="item.type" v-if='video!=undefined&&item.type=="f_sls_lockscreen"'>{{item.name}}</option>
                     </select>
                 </div>
-                <div class="Search_select" v-if="pro_type==1">
+                <div class="Search_select" v-if="gdsrc==1">
                     <span class="Search_select_tit">制作方式：</span>
                     <select v-model="pro_type" @change="getList()">
                         <option value="1">高定</option>
                     </select>
                 </div>
-                <div class="Search_select" v-if="pro_type!=1 && type != 'f_sls_picture'">
+                <div class="Search_select" v-if="gdsrc!=1 && type != 'f_sls_picture'">
                     <span class="Search_select_tit">制作方式：</span>
                     <select v-model="pro_type" @change="getList()">
                         <option value="" selected>全部</option>
@@ -55,7 +55,7 @@
                 </div>
                 <div class="box" :class="{boxScroll:whether}">
                     <div class="boxImg" v-for="(DL,index) in IMGList">
-                        <div class="boxCheck" v-if="ids&&pro_type!=1">
+                        <div class="boxCheck" v-if="ids&&gdsrc!=1">
                             <template>
                                 <el-checkbox-group v-model="checked">
                                     <el-checkbox :label="DL.mfid" @change="clcBox(DL.mfid)" v-if="ids.split(';').indexOf(DL.mfid) > -1" disabled></el-checkbox>
@@ -63,14 +63,14 @@
                                 </el-checkbox-group>
                             </template>
                         </div>
-                        <div class="boxCheck" v-if="!ids&&pro_type!=1">
+                        <div class="boxCheck" v-if="!ids&&gdsrc!=1">
                             <template>
                                 <el-checkbox-group v-model="checked">
                                     <el-checkbox :label="DL.mfid" @change="clcBox(DL.mfid)"></el-checkbox>
                                 </el-checkbox-group>
                             </template>
                         </div> 
-                        <div class="boxCheck" v-if="pro_type==1">
+                        <div class="boxCheck" v-if="gdsrc==1">
                             <template>
                                 <el-checkbox-group v-model="checked">
                                     <el-checkbox :label="DL.mfid"></el-checkbox>
@@ -101,7 +101,7 @@
                                     <span class="boxImg_text">更新时间:</span>
                                     <span class="boxImg_content">{{DL.updated_at}}</span>
                                 </div>
-                                <div v-if="checked.indexOf(DL.mfid) > -1 && pro_type!=1">
+                                <div v-if="checked.indexOf(DL.mfid) > -1 && gdsrc!=1">
                                     <span class="boxImg_text">上次使用日期:</span>
                                     <span class="boxImg_content" v-if="listMfid.indexOf(DL.mfid) < 0">--</span>
                                     <span class="boxImg_content" v-else v-for="todo in list">
@@ -138,7 +138,7 @@
     export default {
         components: {loading},
         name: "select_material",
-        props:['material','typeSC',"date",'channel','video','ids','pro_type'],
+        props:['material','typeSC',"date",'channel','video','ids','gdsrc'],
         data(){
             return {
                 checked:[],
@@ -168,25 +168,37 @@
                 load:false,
                 whether:false,
                 checkModel:false,
+                pro_type:'',
             }
         },
         mounted() {
-            this.getList();
             if(this.ids&&this.ids.length>0){
                 this.checked=this.checked.concat(this.ids.split(';'));
                 this.clcBox()
             }
+            if(this.gdsrc == 1){
+                this.pro_type = 1;
+                this.getList();
+            }else{
+                this.getList();
+            }
+            // console.log(this.gdsrc)
+            // console.log(this.ids)
         },
         methods:{
             checkAll(){
                 if(this.checkModel){
-                    this.ids.split(';').forEach((item)=>{
-                        if(this.checked.indexOf(item)==-1){
-                            this.checked=this.checked.concat(this.ids.split(';'));
-                        }else{
-                            this.checked=[];
-                        }
-                    })
+                    if(this.ids == ''||this.ids == undefined){
+                        this.checked=[];
+                    }else{
+                        this.ids.split(';').forEach((item)=>{
+                            if(this.checked.indexOf(item)==-1){
+                                this.checked=this.checked.concat(this.ids.split(';'));
+                            }else{
+                                this.checked=[];
+                            }
+                        })
+                    }    
                 }else{
                     this.IMGList.forEach((item)=>{
                         if(this.checked.indexOf(item.mfid)==-1){

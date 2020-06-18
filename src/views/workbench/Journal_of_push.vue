@@ -103,7 +103,7 @@
                     :total="total">
             </el-pagination>
         </div>
-        <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :pro_type="pro_type"></ADDWL>
+        <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :gdsrc="gdsrc"></ADDWL>
         <div class="bg" v-if="tc">
             <div class='content'>
                 <div class='con_tit'>
@@ -160,7 +160,7 @@
                 channel:this.$route.query.channel,
                 yy:"",
                 index:"",
-                pro_type:'',
+                gdsrc:'',
             }
         },
         mounted(){

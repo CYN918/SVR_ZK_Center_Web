@@ -286,7 +286,7 @@
             </div>
         </div>
         <loading v-if='load'></loading>
-        <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :ids='ids' :video="1" :pro_type="pro_type"></ADDWL>
+        <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :ids='ids' :video="1" :gdsrc="gdsrc"></ADDWL>
     </div>
 </template>
 
@@ -315,7 +315,7 @@ export default {
             endTime:'',
             Cdialog:false,
             ids:'',
-            pro_type:1,
+            gdsrc:1,
             value:[],
             mfid:'',
             wpid:'',
