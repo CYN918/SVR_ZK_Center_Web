@@ -191,6 +191,20 @@ export default {
 
         },
         ADDc(){
+            if(!this.valueTs){
+                this.$message({
+                    message: '请选择子推送库',
+                    type: 'warning'
+                });
+                return false
+            }
+            if(!this.dateTime){
+                this.$message({
+                    message: '请选择时间',
+                    type: 'warning'
+                });
+                return false
+            }
             let formData =new FormData;
             formData.append('plid',this.$route.query.plid);
             formData.append('tdate',this.dateTime);
