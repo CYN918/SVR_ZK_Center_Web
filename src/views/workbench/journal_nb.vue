@@ -21,7 +21,7 @@
                 <span class='userGl' v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)" @click='addWl()' style="margin: 0px 20% 0 0;">添加物料</span>
                 <span class="userGl" v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)" @click='jump()' style="margin: 0px 1% 0 0;">一键确认</span>
                 <!-- <span class="userGl" style="margin: 0px 1% 0 0;" @click="getShow()">预警设置</span> -->
-                <span class="userGl" style="margin: 0px 1% 0 0;" @click="copyContent()" v-if="type != 'meizu_first'">复制内容</span>
+                <span class="userGl" style="margin: 0px 1% 0 0;" @click="copyContent()" v-if="type != 'meizu_first' && this.total == 0">复制内容</span>
 
         </div>
         <div class='screening'>
