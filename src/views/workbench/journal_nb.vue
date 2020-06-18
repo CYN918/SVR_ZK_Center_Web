@@ -21,8 +21,7 @@
                 <span class='userGl' v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)" @click='addWl()' style="margin: 0px 20% 0 0;">添加物料</span>
                 <span class="userGl" v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)" @click='jump()' style="margin: 0px 1% 0 0;">一键确认</span>
                 <!-- <span class="userGl" style="margin: 0px 1% 0 0;" @click="getShow()">预警设置</span> -->
-                <span class="userGl" style="margin: 0px 1% 0 0;" @click="opens()">测试管理</span>
-                <span class="userGl" style="margin: 0px 1% 0 0;" @click="copyContent()">复制内容</span>
+                <span class="userGl" style="margin: 0px 1% 0 0;" @click="copyContent()" v-if="type != 'meizu_first'">复制内容</span>
 
         </div>
         <div class='screening'>
@@ -414,41 +413,6 @@
                 </div>
             </div>
         </div>
-
-        <div class='bg' v-if="Cdialog">
-            <div class='compile'>
-                <div class='ts'>
-                    <span>测试管理</span>
-                    <el-popover placement="top">
-                        <div>
-                            根据测试管理选择日期，将对应日期的内容标记为测试内容
-                        </div>
-                        <img src="../../../public/img/msg.png" style="position: relative;top: 8px;" slot="reference"/>
-                    </el-popover>
-                </div>
-                <div>
-                    <div class='regulation'>
-                        <div>
-                            <span  class='titName'>测试内容日期: </span>
-                            <template>
-                                <el-date-picker
-                                    v-model="dateTime"
-                                    type="date"
-                                    format="yyyy 年 MM 月 dd 日"
-                                    placeholder="选择日期"
-                                    value-format="yyyy-MM-dd"
-                                    >
-                                </el-date-picker>
-                            </template>
-                        </div>
-                    </div>
-                </div>
-                <div class="btn_right" style="float:left;">
-                    <span class='cx' style="margin-bottom:20px" @click='ADDc()'>确认</span>
-                    <span @click='gb()'>取消</span>
-                </div>
-            </div>
-        </div>
 </div>
 </template>
 
@@ -468,7 +432,6 @@ return {
        material:3,
        date:(new Date()).toLocaleDateString().split('/').join('-'),
        date1:(new Date()).toLocaleDateString().split('/').join('-'),
-       dateTime:'',
        status:'',
        tableData:[],
         page:1,
@@ -506,7 +469,6 @@ return {
         amount: 1,
         content:'',
         value1: new Date(),
-        Cdialog:false,
         ids:'',
         pro_type:'',
         tCopy:false,
@@ -557,32 +519,7 @@ methods: {
     },
     bj(){
 
-    },
-    ADDc(){
-        let formData =new FormData;
-        formData.append('plid',this.$route.query.plid);
-        formData.append('tdate',this.dateTime);
-        this.api.pushlib_wptest_edit(formData).then((res)=>{
-            this.Cdialog = false;
-            this.getData()
-        })
-
-    },
-    opens(){
-        this.Cdialog = true;
-        let params = {plid:this.$route.query.plid}
-        this.api.pushlib_wptest_search({params}).then((res)=>{
-            if(res != false){
-                this.dateTime = res[0].tdate;
-            }else{
-                this.dateTime = '';
-            }
-            
-        })
-    },
-    gb(){
-        this.Cdialog = false;
-    },
+    },   
     handleChange(value) {
         console.log(value);
     },
