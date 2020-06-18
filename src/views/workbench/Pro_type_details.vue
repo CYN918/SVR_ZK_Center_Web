@@ -227,7 +227,7 @@
                                     label="操作"
                                     width="100">
                                     <template slot-scope="scope">
-                                        <el-button @click="handleClick(scope.row)" type="text" size="small">删除</el-button>
+                                        <el-button v-if="new Date(dataList[scope.$index].tdate)>=new Date(new Date().getTime() - 24*60*60*1000)"  @click="handleClick(scope.row)" type="text" size="small">删除</el-button>
                                     </template>
                                 </el-table-column>
                             </el-table>
