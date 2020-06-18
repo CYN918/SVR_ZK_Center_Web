@@ -4,7 +4,7 @@
             <span class="top_txt" @click='fh(-1)'>杂志锁屏推送审核管理  /  子推送库列表</span><div style="width:0;height:0;"><br/></div>
             <span class="top_txts" style="width: 113px;display: inline-block;">子推送库列表</span>    
             <span class='qud'>{{this.$route.query.channel}}</span>
-            <span class="userGl" style="margin: 0px 19% 0 0;" @click="opens()">测试管理</span>
+            <span class="userGl" style="margin: 0px 19% 0 0;" @click="opens()" v-if="total != 0">测试管理</span>
             <span class='userGl' style="margin: 0px 1% 0 0;" @click="addLd">新建子推送库</span>
         </div>
         <div class='screening'>
@@ -104,7 +104,7 @@
                 </div>
                 <div class='sel'>
                     <span class='qdName'>子推送库：</span>
-                    <el-select v-model="valueTs" placeholder="请选择">
+                    <el-select v-model="valueTs" placeholder="请选择" @change="change">
                         <el-option
                         v-for="item in options"
                         :key="item.sub_plid"
@@ -172,7 +172,10 @@ export default {
         opens(){
             this.Cdialog = true;
             this.init();
-            let params = {plid:this.plid}
+            
+        },
+        change(){
+            let params = {plid:this.plid,sub_plid:this.valueTs}
             this.api.pushlib_wptest_search({params}).then((res)=>{
                 if(res != false){
                     this.dateTime = res[0].tdate;
@@ -180,6 +183,7 @@ export default {
                     this.dateTime = '';
                 }
             })
+
         },
         //查询子推送库列表
         init(){
@@ -208,7 +212,7 @@ export default {
             let formData =new FormData;
             formData.append('plid',this.$route.query.plid);
             formData.append('tdate',this.dateTime);
-            formData.append('src_sub_plid',this.valueTs);
+            formData.append('sub_plid',this.valueTs);
             this.api.pushlib_wptest_edit(formData).then((res)=>{
                 this.Cdialog = false;
                 this.getData()
@@ -289,7 +293,7 @@ export default {
             }
             let formData =new FormData;
             formData.append('plid',this.plid);
-            formData.append('name',this.name);
+            formData.append('sub_plid',this.name);
             formData.append('note',this.des);
             this.api.pushlib_sub_add(formData).then((res)=>{
                 this.tc = false;

@@ -549,6 +549,7 @@ methods: {
         let formData =new FormData;
         formData.append('plid',this.plid);
         formData.append('tdate',this.date);
+        formData.append('sub_plid',this.$route.query.sub_plid);
         if(this.type == 'meizu_first'){
             formData.append('type','meizu_first');
         }
@@ -610,6 +611,7 @@ methods: {
         formData.append('plid',this.$route.query.plid);
         formData.append('tdate',date);
         formData.append('bind_mfid',JSON.stringify(id));
+        formData.append('sub_plid',this.$route.query.sub_plid);
         if(this.type == 'meizu_first'){
             formData.append('type','meizu_first');
         }
@@ -634,6 +636,7 @@ methods: {
                         formData.append('status',this.status2),
                         formData.append('note',this.checkList.join(',')+this.yy) 
                         formData.append('advers',JSON.stringify(this.advers))
+                        formData.append('sub_plid',this.$route.query.sub_plid);
                         this.api.pushlib_adver_mfinal_audit(formData).then((res)=>{
                             if(res!=false){
                                 this.getData();
@@ -654,6 +657,7 @@ methods: {
                       formData.append('status',this.status2),
                         formData.append('note',this.checkList.join(',')+this.yy) 
                         formData.append('advers',JSON.stringify(this.advers))
+                        formData.append('sub_plid',this.$route.query.sub_plid);
                         this.api.pushlib_adver_mfinal_audit(formData).then((res)=>{
                             if(res!=false){
                                 this.getData();
@@ -741,6 +745,7 @@ methods: {
                      array.tdate=this.date;
                    this.textlink.push(array); 
                    formData.append('textlink',JSON.stringify(this.textlink))
+                   formData.append('sub_plid',this.$route.query.sub_plid);
                    if(this.type == 'meizu_first'){
                         formData.append('type','meizu_first');
                     }
@@ -850,6 +855,7 @@ methods: {
                 formData.append('download_url',this.download_url);
                 formData.append('deeplink',this.deeplink);
                 formData.append('click_action_type',this.click_action);
+                formData.append('sub_plid',this.$route.query.sub_plid);
                 formData.append('url',this.url);
                this.api.pushlib_textlink_edit(formData).then((res)=>{  
                     this.textVisible = false;
@@ -868,6 +874,7 @@ methods: {
                     tdate:this.date,
                     plid:this.plid,
                     type:this.$route.query.type,
+                    sub_plid:this.$route.query.sub_plid,
                 }
                 this.api.pushlib_textlink_search({params}).then((res)=>{
                     this.tableData=res.data;
