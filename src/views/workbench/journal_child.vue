@@ -4,7 +4,8 @@
             <span class="top_txt" @click='fh(-1)'>杂志锁屏推送审核管理  /  子推送库列表</span><div style="width:0;height:0;"><br/></div>
             <span class="top_txts" style="width: 113px;display: inline-block;">子推送库列表</span>    
             <span class='qud'>{{this.$route.query.channel}}</span>
-            <span class='userGl' style="margin: 0px 20% 0 0;" @click="addLd">新建子推送库</span>
+            <span class="userGl" style="margin: 0px 19% 0 0;" @click="opens()">测试管理</span>
+            <span class='userGl' style="margin: 0px 1% 0 0;" @click="addLd">新建子推送库</span>
         </div>
         <div class='screening'>
             <span class='qdName'>子推送库ID:</span>
@@ -89,6 +90,40 @@
                     <span @click='qx()'>取消</span>
                 </div>
             </div>
+        </div>
+        <div class='bg' v-if="Cdialog">
+            <div class='compile'>
+                <div class='ts'>
+                    <span>测试管理</span>
+                    <el-popover placement="top">
+                        <div>
+                            根据测试管理选择日期，将对应日期的内容标记为测试内容
+                        </div>
+                        <img src="../../../public/img/msg.png" style="position: relative;top: 8px;" slot="reference"/>
+                    </el-popover>
+                </div>
+                <div>
+                    <div class='regulation'>
+                        <div>
+                            <span  class='titName'>测试内容日期: </span>
+                            <template>
+                                <el-date-picker
+                                    v-model="dateTime"
+                                    type="date"
+                                    format="yyyy 年 MM 月 dd 日"
+                                    placeholder="选择日期"
+                                    value-format="yyyy-MM-dd"
+                                    >
+                                </el-date-picker>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn_right" style="float:left;">
+                    <span class='cx' style="margin-bottom:20px" @click='ADDc()'>确认</span>
+                    <span @click='gb()'>取消</span>
+                </div>
+            </div>
         </div>  
     </div>
 </template>
@@ -115,10 +150,35 @@ export default {
             tc:false,  
             name:'', 
             des:'',
+            Cdialog:false,
+            dateTime:'',
         };
     },
 
     methods: {
+        opens(){
+            this.Cdialog = true;
+            let params = {plid:this.$route.query.plid}
+            this.api.pushlib_wptest_search({params}).then((res)=>{
+                if(res != false){
+                    this.dateTime = res[0].tdate;
+                }else{
+                    this.dateTime = '';
+                }
+            })
+        },
+        ADDc(){
+            let formData =new FormData;
+            formData.append('plid',this.$route.query.plid);
+            formData.append('tdate',this.dateTime);
+            this.api.pushlib_wptest_edit(formData).then((res)=>{
+                this.Cdialog = false;
+                this.getData()
+            })
+        },
+        gb(){
+            this.Cdialog = false;
+        },
         reset(){
             this.channelTs = '';
             this.mfid = '';
