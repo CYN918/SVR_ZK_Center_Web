@@ -206,6 +206,7 @@ methods: {
              })
          },
          ADDlist(){
+             this.load = true;
              if(this.channel.match(/^[\u4e00-\u9fa5]+$/)){
                   this.$message.error('渠道不能为中文')
                  return
@@ -228,6 +229,7 @@ methods: {
              formData.append('channel',this.channel)
              this.api.pushlib_channel_add(formData).then((res)=>{
                  if(res!=false){
+                     this.load = false;
                      this.qx();
                      this.getData();
                  }
