@@ -102,10 +102,21 @@
                         <img src="../../../public/img/msg.png" style="position: relative;top: 8px;" slot="reference"/>
                     </el-popover>
                 </div>
+                <div class='sel'>
+                    <span class='qdName'>子推送库：</span>
+                    <el-select v-model="valueTs" placeholder="请选择">
+                        <el-option
+                        v-for="item in options"
+                        :key="item.sub_plid"
+                        :label="item.name"
+                        :value="item.sub_plid">
+                        </el-option>
+                    </el-select>
+                </div>
                 <div>
                     <div class='regulation'>
                         <div>
-                            <span  class='titName'>测试内容日期: </span>
+                            <span  class='titName' style="width: 90px;margin-right: 7px;">测试内容日期: </span>
                             <template>
                                 <el-date-picker
                                     v-model="dateTime"
@@ -152,13 +163,16 @@ export default {
             des:'',
             Cdialog:false,
             dateTime:'',
+            options:[],
+            valueTs:'',
         };
     },
 
     methods: {
         opens(){
             this.Cdialog = true;
-            let params = {plid:this.$route.query.plid}
+            this.init();
+            let params = {plid:this.plid}
             this.api.pushlib_wptest_search({params}).then((res)=>{
                 if(res != false){
                     this.dateTime = res[0].tdate;
@@ -167,10 +181,20 @@ export default {
                 }
             })
         },
+        //查询子推送库列表
+        init(){
+            let params = {plid:this.plid}
+            this.api.pushlib_sub_list({params}).then((res)=>{
+                this.options = res;
+                
+            })
+
+        },
         ADDc(){
             let formData =new FormData;
             formData.append('plid',this.$route.query.plid);
             formData.append('tdate',this.dateTime);
+            formData.append('src_sub_plid',this.valueTs);
             this.api.pushlib_wptest_edit(formData).then((res)=>{
                 this.Cdialog = false;
                 this.getData()
