@@ -676,10 +676,10 @@
                         this.$message.error('附件不能为空')
                         return
                     }
-                    if(!this.note){
-                        this.$message.error('备注不能为空')
-                        return
-                    }
+                    // if(!this.note){
+                    //     this.$message.error('备注不能为空')
+                    //     return
+                    // }
                     if(this.tags.length==0){
                         this.$message.error('标签不能为空')
                         return
@@ -711,10 +711,10 @@
                         this.$message.error('使用范围不能为空')
                         return
                     }
-                    if(!this.note){
-                        this.$message.error('备注不能为空')
-                        return
-                    }
+                    // if(!this.note){
+                    //     this.$message.error('备注不能为空')
+                    //     return
+                    // }
                     if(this.tags.length==0){
                         this.$message.error('标签不能为空')
                         return
@@ -794,10 +794,10 @@
                         this.$message.error('附件不能为空')
                         return
                     }
-                    if(!this.note){
-                        this.$message.error('备注不能为空')
-                        return
-                    }
+                    // if(!this.note){
+                    //     this.$message.error('备注不能为空')
+                    //     return
+                    // }
                     if(this.tags.length==0){
                         this.$message.error('标签不能为空')
                         return
