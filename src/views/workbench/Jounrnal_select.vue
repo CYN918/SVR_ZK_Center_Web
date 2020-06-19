@@ -10,10 +10,10 @@
             </div>
             <div class="Search">
                 <img src="../../../public/img/ss.png" />
-                <input type="text" placeholder="搜索标签或ID" v-model="search" @input="getList()"/>
+                <input type="text" placeholder="搜索标签或ID" v-model="search" @input="getList1()"/>
                 <div class="Search_select">
                     <span class="Search_select_tit">物料类型：</span>
-                    <select v-model="type" @change="getList()">
+                    <select v-model="type" @change="getList1()">
                         <!-- <option value="">全部</option> -->
                         <option v-for="item in scType" :value="item.type" v-if='video==undefined&&(item.type=="f_sls_lockscreen"||item.type=="f_sls_picture")'>{{item.name}}</option>
                         <option v-for="item in scType" :value="item.type" v-if='video!=undefined&&item.type=="f_sls_lockscreen"'>{{item.name}}</option>
@@ -21,13 +21,13 @@
                 </div>
                 <div class="Search_select" v-if="gdsrc==1">
                     <span class="Search_select_tit">制作方式：</span>
-                    <select v-model="pro_type" @change="getList()">
+                    <select v-model="pro_type" @change="getList1()">
                         <option value="1">高定</option>
                     </select>
                 </div>
                 <div class="Search_select" v-if="gdsrc!=1 && type != 'f_sls_picture'">
                     <span class="Search_select_tit">制作方式：</span>
-                    <select v-model="pro_type" @change="getList()">
+                    <select v-model="pro_type" @change="getList1()">
                         <option value="" selected>全部</option>
                         <option value="1">高定</option>
                         <option value="0">微定</option>
@@ -242,6 +242,10 @@
                 }
                 this.$emit('listenToChildEvent',this.checked,this.date,true);
                 // this.$parent.heidWL();
+            },
+            getList1(){
+                this.page = 1;
+                this.getList();
             },
             getList(){
                 let status = [];
