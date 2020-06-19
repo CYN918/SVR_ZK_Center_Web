@@ -293,7 +293,7 @@ export default {
             }
             let formData =new FormData;
             formData.append('plid',this.plid);
-            formData.append('sub_plid',this.name);
+            formData.append('name',this.name);
             formData.append('note',this.des);
             this.api.pushlib_sub_add(formData).then((res)=>{
                 this.tc = false;
