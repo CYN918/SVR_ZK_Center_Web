@@ -143,7 +143,7 @@
                 let params={p:this.p,page:this.page,is_receiver:0,search:this.search};
                 this.api.settle_settlement_search({params}).then((res)=>{
                     this.tableData=res.data;
-                    console.log(res.data);
+                    // console.log(res.data);
                     this.total=res.total;
                 })
             },

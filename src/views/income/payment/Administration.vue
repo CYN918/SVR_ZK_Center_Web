@@ -244,7 +244,7 @@
                 let params={search:this.search,is_receiver:'0',tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page};
                 this.api.settlemanage_search({params}).then((res)=>{
                     this.tableData=res.data;
-                    console.log(res);
+                    // console.log(res);
                     this.total=res.total;
                     this.load=false
                 })

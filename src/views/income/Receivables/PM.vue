@@ -218,11 +218,13 @@ import download from '../../../api/commonality'
                 })
             },
             handleRemove(file) {
-               for(var i=0;i<this.fileList.length;i++){
-                   if(this.fileList[i]==file){
-                       this.fileList.splice(i,1);
-                   }
-               }
+                if(this.fileList != undefined){
+                    for(var i=0;i<this.fileList.length;i++){
+                        if(this.fileList[i]==file){
+                            this.fileList.splice(i,1);
+                        }
+                    }
+                }  
             },
             beforeAvatarUploads(file) {
                 this.file = file;
