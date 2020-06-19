@@ -171,28 +171,21 @@ export default {
     methods: {
         opens(){
             this.Cdialog = true;
-            this.init();
-            
+            this.init();  
         },
-        change(){
-            let params = {plid:this.plid,sub_plid:this.valueTs}
-            this.api.pushlib_wptest_search({params}).then((res)=>{
-                if(res != false){
-                    this.dateTime = res[0].tdate;
-                }else{
-                    this.dateTime = '';
+        change(value){
+            this.options.forEach((item) => {
+                if(item.sub_plid == value){
+                    this.dateTime = item.tdate;
                 }
             })
-
         },
         //查询子推送库列表
         init(){
             let params = {plid:this.plid}
             this.api.pushlib_sub_list({params}).then((res)=>{
-                this.options = res;
-                
+                this.options = res;  
             })
-
         },
         ADDc(){
             if(!this.valueTs){
