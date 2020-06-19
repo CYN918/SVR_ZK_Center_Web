@@ -579,10 +579,10 @@
                     this.$message.error('上架时间不能大于当前时间');
                     return
                 }
-                if(!this.note){
-                    this.$message.error('备注不能为空')
-                    return
-                }
+                // if(!this.note){
+                //     this.$message.error('备注不能为空')
+                //     return
+                // }
                 if(!this.main_preview){
                     this.$message.error('封面图不能为空')
                     return
@@ -700,10 +700,10 @@
                     this.$message.error('上架时间不能大于当前时间');
                     return
                 }
-                if(!this.note){
-                    this.$message.error('备注不能为空')
-                    return
-                }
+                // if(!this.note){
+                //     this.$message.error('备注不能为空')
+                //     return
+                // }
                 if(!this.main_preview){
                     this.$message.error('封面图不能为空')
                     return

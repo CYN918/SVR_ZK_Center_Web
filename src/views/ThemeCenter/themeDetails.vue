@@ -114,11 +114,11 @@
                 <span class="titCon" style="width: 70%">{{tableData.note}}</span>
             </div>
             <div class="switcher">
-                <a href="#tabs0" :class="{click:isType==0}" @click="changeover('0')">预览图</a>
-                <a href="#tabs1" :class="{click:isType==1}" @click="changeover('1')">相关主题素材</a>
-                <a href="#tabs2" :class="{click:isType==2}" @click="changeover('2')">收益数据</a>
-                <a href="#tabs3" :class="{click:isType==3}" @click="changeover('3')">上架记录</a>
-                <a href="#tabs4" :class="{click:isType==4}" @click="changeover('4')">相关合同</a>
+                <a href="#tabs0" :class="{click:isType=='0'}" @click="changeover('0')">预览图</a>
+                <a href="#tabs1" :class="{click:isType=='1'}" @click="changeover('1')">相关主题素材</a>
+                <a href="#tabs2" :class="{click:isType=='2'}" @click="changeover('2')">收益数据</a>
+                <a href="#tabs3" :class="{click:isType=='3'}" @click="changeover('3')">上架记录</a>
+                <a href="#tabs4" :class="{click:isType=='4'}" @click="changeover('4')">相关合同</a>
             </div>
         </div>
         <div style="margin-top: 360px">
@@ -318,7 +318,7 @@
         name: "theme-details",
         data(){
             return{
-                isType:0,
+                isType:'0',
                 isUPload:1,
                 time:[],
                 isTime:"w",
