@@ -2044,5 +2044,25 @@ export default {
 		url:'pushlib/sub/copy',method:'post'
 	},
 
+	//收益占比总览
+	ds_data_income_rate:{
+		url:'ds/data/income/rate',method:'get'
+	},
+
+	//收益趋势总览
+	ds_data_income_tendency:{
+		url:'ds/data/income/tendency',method:'get'
+	},
+
+	//狮圈儿数据趋势总览
+	ds_data_income_shiquaner_year:{
+		url:'ds/data/income/shiquaner/year',method:'get'
+	},
+
+	//狮圈儿提现金额占比
+	ds_data_income_shiquaner_summary:{
+		url:'ds/data/income/shiquaner/summary',method:'get'
+	},
+
 
 }
