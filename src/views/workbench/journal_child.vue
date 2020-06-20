@@ -217,6 +217,7 @@ export default {
                             this.detailsObj = item;
                             this.valueTs = item.sub_plid;
                             this.dateTime = item.tdate;
+                            this.ctrl_id = item.ctrl_id;
                         }
                     })
                 }
