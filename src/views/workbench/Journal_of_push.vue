@@ -30,7 +30,7 @@
                 </div> -->
                 <span class='qud'>{{this.$route.query.channel}}</span>
                 <div class="action_btn">
-                    <span class="manage" @click="jumps()" v-if="!(new Date(this.date)<new Date(new Date().getTime() - 24*60*60*1000))">管理</span>
+                    <span class="manage" @click="jumps()" v-if="!(new Date(this.date)<new Date(new Date().getTime() - 24*60*60*1000))&&dataList.length!=0" >管理</span>
                     <span class="select" @click="getWl()" v-if="!(new Date(this.date)<new Date(new Date().getTime() - 24*60*60*1000))" style="margin-right:20px">
                         <img src="../../../public/img/add.png" style="width: 16px;display: inline-block;position: relative;top:50%;transform: translateY(-90%);margin-right: 10px">
                         从物料库选择
@@ -172,9 +172,9 @@
                 this.$router.go(-1)
             },
             jumps(){
-                if(this.dataList.length==0){
-                    return
-                }
+                // if(this.dataList.length==0){
+                //     return
+                // }
                 this.$router.push({
                     path:"./journal_Administrator",
                     query:{

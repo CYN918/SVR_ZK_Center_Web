@@ -280,7 +280,6 @@
             handleSizeChange1(p) { // 每页条数切换
                 this.p = p;
                 this.checkModel = false;
-                this.checked = [];
                 console.log(this.p);
                 this.getList()
                 if(p != 6){
@@ -291,7 +290,6 @@
             },
             handleCurrentChange1(page) {//页码切换
                 this.checkModel = false;
-                this.checked = [];
                 console.log(page);
                 this.page = page;
                 this.getList()
