@@ -17,6 +17,7 @@
                         <option :value="item.channel" v-for="item in qdLists">{{item.channel}}</option>
                 </select> -->
                 <span class='qud'>{{this.$route.query.channel}}</span>
+                <span class='qud1' v-if="this.$route.query.sub_plid">{{this.$route.query.sub_plid}}</span>
                 
                 <span class='userGl' v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)" @click='addWl()' style="margin: 0px 20% 0 0;">添加物料</span>
                 <span class="userGl" v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)" @click='jump()' style="margin: 0px 1% 0 0;">一键确认</span>
@@ -1184,6 +1185,19 @@ mounted() {
        margin-left: 10px;
        position: absolute;
        left: 173px;
+       top:47px
+   }
+   .qud1{
+       display: inline-block;
+       padding: 5px;
+       border:1px solid  rgba(51,119,255,1);
+       text-align: center;
+       color: rgba(51,119,255,1);
+       border-radius: 5px;
+       line-height: 1!important;
+       margin-left: 10px;
+       position: absolute;
+       left: 270px;
        top:47px
    }
     .top_txt{

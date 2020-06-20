@@ -235,6 +235,9 @@ export default {
             let formData =new FormData;
             formData.append('plid',this.$route.query.plid);
             formData.append('tdate',this.dateTime);
+            if(this.detailsObj.ctrl_id){
+                formData.append('ctrl_id',this.detailsObj.ctrl_id);
+            }
             formData.append('sub_plid',this.valueTs);
             this.api.pushlib_wptest_edit(formData).then((res)=>{
                 this.Cdialog = false;
