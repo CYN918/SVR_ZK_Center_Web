@@ -38,7 +38,7 @@
                             label="策略ID">        
                         </el-table-column>
                         <el-table-column 
-                            prop=""    
+                            prop="note"    
                             label="备注">
                         </el-table-column>
                         <el-table-column

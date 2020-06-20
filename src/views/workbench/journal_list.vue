@@ -246,7 +246,8 @@ methods: {
                 this.$router.push({
                     path:"./Journal_of_push",
                     query:{
-                        channel:this.tableData[index].channel.channel
+                        channel:this.tableData[index].channel.channel,
+                        plid:row.plid,
                     },
                 })
              }
