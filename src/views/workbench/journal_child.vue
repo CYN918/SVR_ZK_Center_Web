@@ -203,6 +203,9 @@ export default {
                 if(item.sub_plid == value){
                     this.ctrl_id = item.ctrl_id;
                 }
+                if(item.ctrl_id != ''){
+                    this.options.push(item)
+                }
             })
             
         },
