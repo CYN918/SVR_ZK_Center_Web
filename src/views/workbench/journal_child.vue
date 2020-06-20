@@ -26,8 +26,16 @@
                     :header-cell-style="getRowClass"
                     :cell-style="cell">
                         <el-table-column
-                            prop="sub_plid"
                             label="子推送库ID">
+                            <template slot-scope="scope">
+                                <span>
+                                    {{tableData[scope.$index].sub_plid}}
+                                    <el-tooltip placement="top" class="tit_txt_2 logs tit_txts" v-if="tableData[scope.$index].is_test == 1">
+                                        <div slot="content" class="text">测试中{{tableData[scope.$index].tdate}}</div>
+                                        <img src="../../../public/img/tishi.png" style="vertical-align: top !important;margin-top: 3px;width: 20px;height: 20px;"/>
+                                    </el-tooltip>
+                                </span>
+                            </template>
                         </el-table-column>  
                         <el-table-column
                             prop="name"
@@ -102,31 +110,46 @@
                         <img src="../../../public/img/msg.png" style="position: relative;top: 8px;" slot="reference"/>
                     </el-popover>
                 </div>
-                <div class='sel'>
-                    <span class='qdName'>子推送库：</span>
-                    <el-select v-model="valueTs" placeholder="请选择" @change="change">
-                        <el-option
-                        v-for="item in options"
-                        :key="item.sub_plid"
-                        :label="item.name"
-                        :value="item.sub_plid">
-                        </el-option>
-                    </el-select>
+                <div class="bg_txbox">
+                    <p>当前测试内容</p>
+                    <div class="bg_txbox_detail" v-if="Object.keys(detailsObj).length != 0">
+                        <ul>
+                            <li><span>子推送库：</span><span>{{detailsObj.sub_plid}}</span></li>
+                            <li><span>选择日期：</span><span>{{detailsObj.tdate}}</span></li>
+                        </ul>
+                    </div>
+                    <div class="bg_txbox_detail" v-if="Object.keys(detailsObj).length == 0" style="text-align: center;">
+                        无测试内容
+                    </div>
                 </div>
-                <div>
-                    <div class='regulation'>
-                        <div>
-                            <span  class='titName' style="width: 90px;margin-right: 7px;">测试内容日期: </span>
-                            <template>
-                                <el-date-picker
-                                    v-model="dateTime"
-                                    type="date"
-                                    format="yyyy 年 MM 月 dd 日"
-                                    placeholder="选择日期"
-                                    value-format="yyyy-MM-dd"
-                                    >
-                                </el-date-picker>
-                            </template>
+                <div class="bg_txbox">
+                    <p>更改测试内容</p>
+                    <div class='sel'>
+                        <span class='qdName'>子推送库：</span>
+                        <el-select v-model="valueTs" placeholder="请选择" @change="change">
+                            <el-option
+                            v-for="item in options"
+                            :key="item.sub_plid"
+                            :label="item.name"
+                            :value="item.sub_plid">
+                            </el-option>
+                        </el-select>
+                    </div>
+                    <div class="bg_txbox">
+                        <div class='regulation'>
+                            <div>
+                                <span  class='titName' style="width: 90px;margin-right: 7px;">测试内容日期: </span>
+                                <template>
+                                    <el-date-picker
+                                        v-model="dateTime"
+                                        type="date"
+                                        format="yyyy 年 MM 月 dd 日"
+                                        placeholder="选择日期"
+                                        value-format="yyyy-MM-dd"
+                                        >
+                                    </el-date-picker>
+                                </template>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -165,6 +188,7 @@ export default {
             dateTime:'',
             options:[],
             valueTs:'',
+            detailsObj:{},
         };
     },
 
@@ -174,17 +198,23 @@ export default {
             this.init();  
         },
         change(value){
-            this.options.forEach((item) => {
-                if(item.sub_plid == value){
-                    this.dateTime = item.tdate;
-                }
-            })
+            
         },
         //查询子推送库列表
         init(){
             let params = {plid:this.plid}
             this.api.pushlib_sub_list({params}).then((res)=>{
-                this.options = res;  
+                if(res != false){
+                    this.options = res;
+                    res.forEach((item) => {
+                        if(item.is_test == 1){
+                            this.detailsObj = item;
+                            this.valueTs = item.sub_plid;
+                            this.dateTime = item.tdate;
+                        }
+                    })
+                }
+                  
             })
         },
         ADDc(){
@@ -655,6 +685,28 @@ export default {
         font-size: 14px;
         font-family: PingFangSC-Regular;
         font-weight: 400;
+    }
+    .bg_txbox{
+        margin: 0 auto;     
+    }
+    .bg_txbox > p{
+        margin: 0 auto;
+        width: 95%;
+        color: rgba(0, 0, 0, 0.65);
+        font-size: 14px;
+        font-weight: bold;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 15px;
+    }
+    .bg_txbox_detail{
+        margin: 0 auto;
+        width: 95%;
+        min-height: 65px;
+    }
+    .bg_txbox_detail > ul > li{
+        height: 30px;
+        line-height: 30px;
+        margin-top: 15px;
     }
    
 </style>
