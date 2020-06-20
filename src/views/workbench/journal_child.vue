@@ -195,16 +195,13 @@ export default {
 
     methods: {
         opens(){
-            this.Cdialog = true;
-            this.init();  
+            this.Cdialog = true;    
+            this.init();
         },
         change(value){
             this.options.forEach((item) => {
                 if(item.sub_plid == value){
                     this.ctrl_id = item.ctrl_id;
-                }
-                if(item.ctrl_id != ''){
-                    this.options.push(item)
                 }
             })
             
@@ -224,6 +221,16 @@ export default {
                         }
                         if(item.ctrl_id != ''){
                             this.options.push(item)
+                            for(var i=0; i<this.options.length; i++){
+                                for(var j=i+1; j<this.options.length; j++){
+                                    if(this.options[i].sub_plid==this.options[j].sub_plid){         //第一个等同于第二个，splice方法删除第二个
+                                        this.options.splice(j,1);
+                                        j--;
+                                    }
+                                }
+                            }
+                            return this.options;
+                            console.log(this.options)
                         }
                     })
                 }
