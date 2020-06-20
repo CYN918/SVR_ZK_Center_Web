@@ -211,13 +211,16 @@ export default {
             let params = {plid:this.plid}
             this.api.pushlib_sub_list({params}).then((res)=>{
                 if(res != false){
-                    this.options = res;
+                    // this.options = res;
                     res.forEach((item) => {
                         if(item.is_test == 1){
                             this.detailsObj = item;
                             this.valueTs = item.sub_plid;
                             this.dateTime = item.tdate;
                             this.ctrl_id = item.ctrl_id;
+                        }
+                        if(item.ctrl_id != ''){
+                            this.options.push(item)
                         }
                     })
                 }
