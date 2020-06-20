@@ -246,8 +246,6 @@ export default {
                         console.log(this.control[i].uri_key)
                         if(this.control[i].uri_key=='uri.tools.adver.project.edit'){
                             this.sx=true
-                        }else{
-                            this.sx=false
                         }
                     }
                   this.timeDate(new Date());

@@ -66,7 +66,10 @@
                                 label="权重"
                                 v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000) && this.$route.query.channel">
                             <template slot-scope="scope">
-                                <div><span :id='"isShow"+scope.$index'>{{tableData[scope.$index].weight}}<i class="el-icon-edit" style="font-size: 30px;cursor: pointer;" @click="icon_click(scope.$index,scope.row)"></i></span><span class="box"><input :id='"pro"+scope.$index' v-model="theWeight" @blur="InputClick(scope.$index)"/></span></div>
+                                <div class="qzCk" @mouseover="leaver(scope.$index)">
+                                    <div :id='"isShow"+scope.$index'>{{tableData[scope.$index].weight}}<i class="el-icon-edit" style="font-size: 30px;cursor: pointer;" @click="icon_click(scope.$index,scope.row)"></i></div>
+                                    <div class="boxT"><input :id='"pro"+scope.$index' v-model="theWeight" @blur="InputClick(scope.$index)"/></div>
+                                </div>
                             </template>
                         </el-table-column>
                         <el-table-column
@@ -193,10 +196,9 @@
                                 </template>
                         </el-table-column>
                         <el-table-column
-                                label="操作"
-                                
-                                v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000) && this.$route.query.channel"
-                        >
+                                fixed="right"
+                                label="操作" 
+                                v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000) && this.$route.query.channel">
                             <template slot-scope="scope">
                                  <!-- <el-button  type="text" size="small" v-if='tableData[scope.$index].status=="0"' @click='updateStatus(index)'>审核</el-button> -->
                                  <!-- <el-button v-if='tableData[scope.$index].status!="0"' type="text" size="small">修改结果</el-button> -->
@@ -577,6 +579,9 @@ methods: {
         document.getElementById('pro'+index).style.display = 'block';
         this.theWeight = rows.weight;
         this.rouelForm = rows;
+    },
+    leaver(index){
+
     },
     InputClick(index){
         if(this.theWeight > 999 || this.theWeight < 0){
@@ -1226,15 +1231,15 @@ mounted() {
         color: rgba(61,73,102,1);
         margin: 10px 20% 0 0;
     }
-    .box{
+    .boxT{
         display: block;
         width: 100%;
         height: 100%;  
     }
-    .box > input{
+    .boxT > input{
         display: none;
         width: 80px;
-    height: 25px;
+        height: 25px;
     }
     .template >>> .el-textarea{
         width: 100%;
