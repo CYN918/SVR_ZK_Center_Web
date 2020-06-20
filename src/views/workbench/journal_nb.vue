@@ -123,6 +123,7 @@
                         </el-table-column>
                         <el-table-column
                                 label="文字链标识"
+                                :show-overflow-tooltip="true"
                                 v-if="type != 'meizu_first' && this.$route.query.channel"
                                 >
                                 <template slot-scope="scope">
