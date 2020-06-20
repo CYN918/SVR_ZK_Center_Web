@@ -211,7 +211,11 @@
                 let mfid = [];
                 mfid.push(data);
                 if(this.checked.length == '0'){
-                    let params = {mfid:mfid,plid:this.$route.query.plid,type:this.$route.query.type};
+                    let params = {mfid:mfid,plid:this.$route.query.plid,type:this.$route.query.type}; 
+                    if(this.$route.query.sub_plid){
+                        params.sub_plid = this.$route.query.sub_plid
+                    }
+                    
                     this.api.pushlib_textlink_mfid_lastuse({params}).then((res)=>{
                         if(res != false){
                             this.list = res;
@@ -222,6 +226,9 @@
                     })
                 }else{
                     let params = {mfid:this.checked,plid:this.$route.query.plid,type:this.$route.query.type}
+                    if(this.$route.query.sub_plid){
+                        params.sub_plid = this.$route.query.sub_plid
+                    }
                     this.api.pushlib_textlink_mfid_lastuse({params}).then((res)=>{
                         if(res != false){
                             this.list = res;
