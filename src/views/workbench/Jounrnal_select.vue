@@ -3,27 +3,31 @@
         <div class="content" >
             <div class="tit_name">
                 <span>从物料库添加</span>
+                <div class="select_btn">
+                    <span class="select_btn_left" @click="messageID">确定</span>
+                    <span @click="YCset">取消</span>
+                </div>
             </div>
             <div class="Search">
                 <img src="../../../public/img/ss.png" />
-                <input type="text" placeholder="搜索标签或ID" v-model="search" @input="getList()"/>
+                <input type="text" placeholder="搜索标签或ID" v-model="search" @input="getList1()"/>
                 <div class="Search_select">
                     <span class="Search_select_tit">物料类型：</span>
-                    <select v-model="type" @change="getList()">
+                    <select v-model="type" @change="getList1()">
                         <!-- <option value="">全部</option> -->
                         <option v-for="item in scType" :value="item.type" v-if='video==undefined&&(item.type=="f_sls_lockscreen"||item.type=="f_sls_picture")'>{{item.name}}</option>
                         <option v-for="item in scType" :value="item.type" v-if='video!=undefined&&item.type=="f_sls_lockscreen"'>{{item.name}}</option>
                     </select>
                 </div>
-                <div class="Search_select" v-if="pro_type==1">
+                <div class="Search_select" v-if="gdsrc==1">
                     <span class="Search_select_tit">制作方式：</span>
-                    <select v-model="pro_type" @change="getList()">
+                    <select v-model="pro_type" @change="getList1()">
                         <option value="1">高定</option>
                     </select>
                 </div>
-                <div class="Search_select" v-if="pro_type!=1">
+                <div class="Search_select" v-if="gdsrc!=1 && type != 'f_sls_picture'">
                     <span class="Search_select_tit">制作方式：</span>
-                    <select v-model="pro_type" @change="getList()">
+                    <select v-model="pro_type" @change="getList1()">
                         <option value="" selected>全部</option>
                         <option value="1">高定</option>
                         <option value="0">微定</option>
@@ -49,9 +53,9 @@
                     <span class="tagsAll" v-if="this.class1==false" @click="getTag1">查看更多</span>
                     <span class="tagsAll" v-if="this.class1==true" @click="heidTag1">收起</span>
                 </div>
-                <div class="box">
+                <div class="box" :class="{boxScroll:whether}">
                     <div class="boxImg" v-for="(DL,index) in IMGList">
-                        <div class="boxCheck" v-if="ids&&pro_type!=1">
+                        <div class="boxCheck" v-if="ids&&gdsrc!=1">
                             <template>
                                 <el-checkbox-group v-model="checked">
                                     <el-checkbox :label="DL.mfid" @change="clcBox(DL.mfid)" v-if="ids.split(';').indexOf(DL.mfid) > -1" disabled></el-checkbox>
@@ -59,14 +63,14 @@
                                 </el-checkbox-group>
                             </template>
                         </div>
-                        <div class="boxCheck" v-if="!ids&&pro_type!=1">
+                        <div class="boxCheck" v-if="!ids&&gdsrc!=1">
                             <template>
                                 <el-checkbox-group v-model="checked">
                                     <el-checkbox :label="DL.mfid" @change="clcBox(DL.mfid)"></el-checkbox>
                                 </el-checkbox-group>
                             </template>
                         </div> 
-                        <div class="boxCheck" v-if="pro_type==1">
+                        <div class="boxCheck" v-if="gdsrc==1">
                             <template>
                                 <el-checkbox-group v-model="checked">
                                     <el-checkbox :label="DL.mfid"></el-checkbox>
@@ -85,11 +89,11 @@
                                     <span class="boxImg_text">尺寸:</span>
                                     <span class="boxImg_content">{{DL.size}}</span>
                                 </div>
-                                <div v-if="!ids">
+                                <!-- <div v-if="!ids">
                                     <span class="boxImg_text">素材状态:</span>
                                     <span class="boxImg_content">{{DL.status==1201?'禁用':'启用'}}</span>
-                                </div>
-                                <div>
+                                </div> -->
+                                <div v-if="type != 'f_sls_picture'">
                                     <span class="boxImg_text">制作方式:</span>
                                     <span class="boxImg_content">{{DL.pro_type==1?'高定':'微定'}}</span>
                                 </div>
@@ -97,7 +101,7 @@
                                     <span class="boxImg_text">更新时间:</span>
                                     <span class="boxImg_content">{{DL.updated_at}}</span>
                                 </div>
-                                <div v-if="checked.indexOf(DL.mfid) > -1&&ids">
+                                <div v-if="checked.indexOf(DL.mfid) > -1 && gdsrc!=1">
                                     <span class="boxImg_text">上次使用日期:</span>
                                     <span class="boxImg_content" v-if="listMfid.indexOf(DL.mfid) < 0">--</span>
                                     <span class="boxImg_content" v-else v-for="todo in list">
@@ -109,36 +113,39 @@
                     </div>
                 </div>
                 <div class="block">
+                    <div class="ckBox">
+                        <input type="checkbox" v-model="checkModel" @click="checkAll"/>
+                        <span>全选</span>
+                    </div>
                     <el-pagination
-                            @size-change="handleSizeChange1"
-                            @current-change="handleCurrentChange1"
-                            :current-page.sync="currentPage"
-                            :page-size="pageSize"
-                            layout="prev, pager, next,total, jumper"
-                            :total="total">
+                        @size-change="handleSizeChange1"
+                        @current-change="handleCurrentChange1"
+                        :current-page="page"
+                        :page-sizes="[6, 12, 18, 24]"
+                        :page-size="p"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="total">
                     </el-pagination>
-                </div>
-                <div class="select_btn">
-                    <span class="select_btn_left" @click="messageID">确定</span>
-                    <span @click="YCset">取消</span>
                 </div>
             </div>
         </div>
+        <loading v-if='load'></loading>
     </div>
 </template>
 
 <script>
+    import loading from '../../components/loading'
     export default {
+        components: {loading},
         name: "select_material",
-        props:['material','typeSC',"date",'channel','video','ids','pro_type'],
+        props:['material','typeSC',"date",'channel','video','ids','gdsrc'],
         data(){
             return {
                 checked:[],
                 radioSize:'',
-                pageSize: 6,
-                currentPage:1,
+                page:1,
+                p:6,
                 total: 0,
-                p: 1,
                 preset_tags:[],
                 self_tags:[],
                 IMGList:[],
@@ -158,21 +165,57 @@
                 search_self_tags:[],
                 list:[],
                 listMfid:[],
+                load:false,
+                whether:false,
+                checkModel:false,
+                pro_type:'',
             }
         },
         mounted() {
-            this.getList();
             if(this.ids&&this.ids.length>0){
                 this.checked=this.checked.concat(this.ids.split(';'));
                 this.clcBox()
             }
+            if(this.gdsrc == 1){
+                this.pro_type = 1;
+                this.getList();
+            }else{
+                this.getList();
+            }
+            // console.log(this.gdsrc)
+            // console.log(this.ids)
         },
         methods:{
+            checkAll(){
+                if(this.checkModel){
+                    if(this.ids == ''||this.ids == undefined){
+                        this.checked=[];
+                    }else{
+                        this.ids.split(';').forEach((item)=>{
+                            if(this.checked.indexOf(item)==-1){
+                                this.checked=this.checked.concat(this.ids.split(';'));
+                            }else{
+                                this.checked=[];
+                            }
+                        })
+                    }    
+                }else{
+                    this.IMGList.forEach((item)=>{
+                        if(this.checked.indexOf(item.mfid)==-1){
+                            this.checked.push(item.mfid)
+                        }
+                    })
+                }
+            },
             clcBox(data){
                 let mfid = [];
                 mfid.push(data);
                 if(this.checked.length == '0'){
-                    let params = {mfid:mfid,plid:this.$route.query.plid,type:this.$route.query.type};
+                    let params = {mfid:mfid,plid:this.$route.query.plid,type:this.$route.query.type}; 
+                    if(this.$route.query.sub_plid){
+                        params.sub_plid = this.$route.query.sub_plid
+                    }
+                    
                     this.api.pushlib_textlink_mfid_lastuse({params}).then((res)=>{
                         if(res != false){
                             this.list = res;
@@ -183,6 +226,9 @@
                     })
                 }else{
                     let params = {mfid:this.checked,plid:this.$route.query.plid,type:this.$route.query.type}
+                    if(this.$route.query.sub_plid){
+                        params.sub_plid = this.$route.query.sub_plid
+                    }
                     this.api.pushlib_textlink_mfid_lastuse({params}).then((res)=>{
                         if(res != false){
                             this.list = res;
@@ -197,18 +243,28 @@
                 this.$parent.heidWL();
             },
             messageID(){
+                if(this.checked.length == 0){
+                    this.$message({message: '请选择壁纸',type: 'warning'});
+                    return false
+                }
                 this.$emit('listenToChildEvent',this.checked,this.date,true);
                 // this.$parent.heidWL();
+            },
+            getList1(){
+                this.page = 1;
+                this.getList();
             },
             getList(){
                 let status = [];
                 status.push('1101');
                 status.push('1001');
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,pro_type:this.pro_type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),status:status}
+                this.load = true;
+                let params ={p:this.p,page:this.page,type:this.type,pro_type:this.pro_type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),status:status}
                 this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     console.log(this.IMGList);
                     this.total=res.total;
+                    this.load = false;
                     this.getTagsList();
                     this.getType();
                     this.listData=this.listData.concat(res.data);
@@ -228,14 +284,21 @@
                     this.self_tags = da.data.self_tags
                 })
             },
-            handleSizeChange1() { // 每页条数切换
-                this.pageSize = pageSize;
-                console.log(this.pagesize);
+            handleSizeChange1(p) { // 每页条数切换
+                this.p = p;
+                this.checkModel = false;
+                console.log(this.p);
                 this.getList()
+                if(p != 6){
+                    this.whether = true;
+                }else{
+                    this.whether = false; 
+                }
             },
-            handleCurrentChange1(currentPage) {//页码切换
-                console.log(currentPage);
-                this.currentPage = currentPage;
+            handleCurrentChange1(page) {//页码切换
+                this.checkModel = false;
+                console.log(page);
+                this.page = page;
                 this.getList()
             },
             getTag(){
@@ -267,7 +330,7 @@
                     }
                 }
 
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),status:this.status}
+                let params ={p:this.p,page:this.page,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),status:this.status}
                 this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     this.total=res.total;
@@ -291,7 +354,7 @@
                     }
                 }
 
-                let params ={p:this.pageSize,page:this.currentPage,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),status:this.status}
+                let params ={p:this.p,page:this.page,type:this.type,search:this.search,search_tags:JSON.stringify(this.listTag),search_self_tags:JSON.stringify(this.listTagData),status:this.status}
                 this.api.mfinal_search({params}).then((res)=>{
                     this.IMGList=res.data;
                     this.total=res.total;
@@ -315,26 +378,28 @@
     .content{
         position: absolute;
         width:1416px;
-        height:912px;
-        background:rgba(255,255,255,1);
-        border-radius:4px;
+        height:820px;
+        background: #F5F5F5;
+        border-radius: 4px;
         top:-125px;
         left: 50%;
         transform: translateX(-50%);
-        overflow-y: auto;
+        /* overflow-y: auto; */
     }
     .tit_name{
-        height: 55px;
+        height: 54px;
+        line-height: 54px;
+        background: #FFFFFF;
         border: 1px solid #E6E9F0;
     }
     .tit_name span{
         display: inline-block;
-        line-height: 55px;
         margin-left: 24px;
-        font-size:12px;
-        font-family:PingFangSC-Regular;
-        font-weight:400;
-        color:rgba(0,0,0,1);
+        font-family: PingFangSC-Regular;
+        font-size: 14px;
+        color: #1F2E4D;
+        font-weight: bold;
+        float: left;
     }
     .Search_select{
         display: inline-block;
@@ -361,7 +426,8 @@
     }
     .Search{
         margin-left: 0!important;
-        margin-bottom: 34px;
+        /* margin-bottom: 34px; */
+        background: #FFFFFF;
     }
     .Search img{
         width: 28px;
@@ -380,12 +446,47 @@
         margin-top: 29px;
     }
     .label{
-        margin-left: 0!important;
+        background: #FFFFFF;
+        padding: 9px 26px 9px 26px;
+        margin: 0 !important;
     }
-    .block{margin-bottom: 30px}
+    .block{
+        height: 84px;
+        background: #FFFFFF;
+        box-shadow: 0 -2px 6px 0 rgba(0,0,0,0.10);
+        border-radius: 0 0 4px 4px;
+        position: fixed;
+        bottom: 0;
+        margin-bottom: 0px;
+        width: 1416px;
+    }
+    .block .ckBox{
+        width: 100px;
+        height: 84px;
+        float: left;
+        line-height: 84px;
+    }
+    .block .ckBox input{
+        height: 24px;
+        width: 24px;
+        border-radius: 4px;
+        position: relative;
+        top: 8px;
+    }
+    .block .ckBox span{
+        font-family: PingFangSC-Medium;
+        font-size: 14px;
+        color: #1F2E4D;
+        font-weight: bold;
+        margin: 0px 0px 10px 15px;
+    }
+    .block >>> .el-pagination{
+        margin-top: 21px !important;
+        float: right;
+    }
     .labelName{
         display: inline-block;
-        padding:5px 10px;
+        padding:0px 10px;
         border-radius:5px;
         font-size:14px;
         font-family:PingFang-SC-Medium;
@@ -395,6 +496,13 @@
         text-align: center;
         cursor: pointer;
     }
+    .contentImg .label .active{
+        padding: 0 !important;
+        width: 40px;
+        height: 24px;
+        text-align: center;
+        line-height: 24px;
+    }
     .label_txt{
         font-size:14px;
         font-family:PingFang-SC-Medium;
@@ -403,7 +511,7 @@
         margin-right: 16px;
     }
     .contentImg{
-        margin: 0 26px;
+        /* margin: 0 26px; */
     }
     .active{
         background:rgba(255,255,255,1);
@@ -419,22 +527,22 @@
         margin-left: 0!important;
     }
     .boxImg{
-        display: inline-block;
-        width:408px;
-        height:200px;
-        background:rgba(245,247,250,1);
+        float: left;
+        width:411px;
+        height:177px;
         border-radius:4px;
-        border:1px solid rgba(51,119,255,1);
-        padding: 18px 0 18px 30px;
+        background: #FFFFFF;
+        /* border: 1px solid #3377FF; */
+        padding: 14px 0 14px 20px;
         box-shadow:0px 0px 10px 0px rgba(153,153,153,0.14);
-        margin: 0 13px 20px 0!important;
+        margin: 0px 5px 20px 26px!important;
     }
-    .boxImg:nth-child(2n){
+    /* .boxImg:nth-child(2n){
         margin: 0 13px 20px 0!important;
     }
     .boxImg:nth-child(3n){
         margin: 0 0 20px 0!important;
-    }
+    } */
     .boxImg img ,video{
         width:99px;
         height:149px;
@@ -486,6 +594,31 @@
         color:rgba(19,159,248,1);
         cursor: pointer;
     }
+    .box{
+        width: 1416px;
+        height: 474px;
+        overflow: hidden;
+    }
+    .boxScroll{
+        overflow-y: scroll;
+    }
+    .boxScroll::-webkit-scrollbar {/*滚动条整体样式*/
+        width: 10px;     /*高宽分别对应横竖滚动条的尺寸*/
+        height: 1px;
+    }
+    .boxScroll::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        background: #D1D1D1;
+    }
+
+    .boxScroll::-webkit-scrollbar-track {/*滚动条里面轨道*/
+        -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        border-radius: 10px;
+        background: #EEEEEE;
+    }
+
+
     .box_box{
         display:inline-block;
         background:rgba(255,255,255,1);
@@ -536,7 +669,8 @@
     }
     .select_btn{
         text-align: right;
-        margin-right: 26px;
+        float: right;
+        margin: 9px 26px 9px 0px;
     }
     .select_btn span{
         display: inline-block;

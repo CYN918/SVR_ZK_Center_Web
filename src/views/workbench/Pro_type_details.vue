@@ -227,7 +227,7 @@
                                     label="操作"
                                     width="100">
                                     <template slot-scope="scope">
-                                        <el-button @click="handleClick(scope.row)" type="text" size="small">删除</el-button>
+                                        <el-button v-if="new Date(dataList[scope.$index].tdate)>=new Date(new Date().getTime() - 24*60*60*1000)"  @click="handleClick(scope.row)" type="text" size="small">删除</el-button>
                                     </template>
                                 </el-table-column>
                             </el-table>
@@ -286,7 +286,7 @@
             </div>
         </div>
         <loading v-if='load'></loading>
-        <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :ids='ids' :video="1" :pro_type="pro_type"></ADDWL>
+        <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :ids='ids' :video="1" :gdsrc="gdsrc"></ADDWL>
     </div>
 </template>
 
@@ -315,7 +315,7 @@ export default {
             endTime:'',
             Cdialog:false,
             ids:'',
-            pro_type:1,
+            gdsrc:1,
             value:[],
             mfid:'',
             wpid:'',

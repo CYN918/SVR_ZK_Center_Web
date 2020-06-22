@@ -125,8 +125,10 @@
                     </select>
                 </div>
                 <div class='sel_btn'>
-                    <span class="sel_btn_qd" @click='ADDlist()'>确定</span>
-                    <span @click='qx()'>取消</span>
+                    <el-button type="primary" :loading="loadSure" @click='ADDlist()'>确定</el-button>
+                    <!-- <span class="sel_btn_qd" @click='ADDlist()'>确定</span> -->
+                    <!-- <span @click='qx()'>取消</span> -->
+                    <el-button @click='qx()' style="margin-right:15px;">取消</el-button>
                 </div>
             </div>
     </div>
@@ -150,7 +152,8 @@ data() {
             qdLists:[],
             name:"",
             audit_type:"",
-            load:true
+            load:true,
+            loadSure:false,
     };
 },
 
@@ -206,6 +209,7 @@ methods: {
              })
          },
          ADDlist(){
+             this.loadSure = true;
              if(this.channel.match(/^[\u4e00-\u9fa5]+$/)){
                   this.$message.error('渠道不能为中文')
                  return
@@ -230,6 +234,10 @@ methods: {
                  if(res!=false){
                      this.qx();
                      this.getData();
+                     this.loadSure = false;
+                 }else{
+                     this.tc = false;
+                     this.loadSure = false;
                  }
              })
          },
@@ -238,11 +246,21 @@ methods: {
                 this.$router.push({
                     path:"./Journal_of_push",
                     query:{
-                        channel:this.tableData[index].channel.channel
+                        channel:this.tableData[index].channel.channel,
+                        plid:row.plid,
                     },
                 })
              }
-             if(this.tableData[index].channel.audit_type==3){
+             if(this.tableData[index].channel.audit_type==3&&this.tableData[index].sub != 0){
+                this.$router.push({
+                    path:"./journal_child",
+                    query:{
+                        channel:this.tableData[index].channel.channel,
+                        plid:row.plid,
+                    },
+                })
+             }
+             if(this.tableData[index].channel.audit_type==3&&this.tableData[index].sub == 0){
                 this.$router.push({
                     path:"./journal_nb",
                     query:{

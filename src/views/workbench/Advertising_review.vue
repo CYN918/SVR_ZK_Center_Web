@@ -243,6 +243,7 @@ export default {
             created(){
                  this.control=JSON.parse(localStorage.getItem('control'));
                     for(var i= 0 ;i<this.control.length;i++){
+                        console.log(this.control[i].uri_key)
                         if(this.control[i].uri_key=='uri.tools.adver.project.edit'){
                             this.sx=true
                         }

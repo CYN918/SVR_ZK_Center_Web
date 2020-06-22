@@ -8,7 +8,7 @@
                 <span class="log_url">壁纸管理</span>
            </div>
                 <span class="top_txts" style="width: 113px;display: inline-block;" v-if="type == 'meizu_first'">壁纸管理</span>
-                <span class="top_txt" @click='fh(-1)' v-if="type != 'meizu_first'">杂志锁屏推送审核管理  /  上线内容管理</span><div v-if="type != 'meizu_first'" style="width:0;height:0;"><br/></div>
+                <span class="top_txt" @click='fh(-1)' v-if="type != 'meizu_first'">杂志锁屏推送审核管理  / 子推送库列表 / 上线内容管理</span><div v-if="type != 'meizu_first'" style="width:0;height:0;"><br/></div>
                 <span class="top_txts" style="width: 113px;display: inline-block;" v-if="type != 'meizu_first'">上线内容管理</span>
                
                
@@ -17,11 +17,12 @@
                         <option :value="item.channel" v-for="item in qdLists">{{item.channel}}</option>
                 </select> -->
                 <span class='qud'>{{this.$route.query.channel}}</span>
+                <span class='qud1' v-if="this.$route.query.sub_plid">{{this.$route.query.sub_plid}}</span>
                 
                 <span class='userGl' v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)" @click='addWl()' style="margin: 0px 20% 0 0;">添加物料</span>
                 <span class="userGl" v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)" @click='jump()' style="margin: 0px 1% 0 0;">一键确认</span>
                 <!-- <span class="userGl" style="margin: 0px 1% 0 0;" @click="getShow()">预警设置</span> -->
-                <span class="userGl" style="margin: 0px 1% 0 0;" @click="opens()">测试管理</span>
+                <span class="userGl" style="margin: 0px 1% 0 0;" @click="copyContent()" v-if="type != 'meizu_first' && this.total == 0">复制内容</span>
 
         </div>
         <div class='screening'>
@@ -65,7 +66,10 @@
                                 label="权重"
                                 v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000) && this.$route.query.channel">
                             <template slot-scope="scope">
-                                <div><span :id='"isShow"+scope.$index'>{{tableData[scope.$index].weight}}<i class="el-icon-edit" style="font-size: 30px;cursor: pointer;" @click="icon_click(scope.$index,scope.row)"></i></span><span class="box"><input :id='"pro"+scope.$index' v-model="theWeight" @blur="InputClick(scope.$index)"/></span></div>
+                                <div class="qzCk" @mouseover="leaver(scope.$index)">
+                                    <div :id='"isShow"+scope.$index'>{{tableData[scope.$index].weight}}<i class="el-icon-edit" style="font-size: 30px;cursor: pointer;" @click="icon_click(scope.$index,scope.row)"></i></div>
+                                    <div class="boxT"><input :id='"pro"+scope.$index' v-model="theWeight" @blur="InputClick(scope.$index)"/></div>
+                                </div>
                             </template>
                         </el-table-column>
                         <el-table-column
@@ -119,6 +123,7 @@
                         </el-table-column>
                         <el-table-column
                                 label="文字链标识"
+                                :show-overflow-tooltip="true"
                                 v-if="type != 'meizu_first' && this.$route.query.channel"
                                 >
                                 <template slot-scope="scope">
@@ -192,10 +197,9 @@
                                 </template>
                         </el-table-column>
                         <el-table-column
-                                label="操作"
-                                
-                                v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000) && this.$route.query.channel"
-                        >
+                                fixed="right"
+                                label="操作" 
+                                v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000) && this.$route.query.channel">
                             <template slot-scope="scope">
                                  <!-- <el-button  type="text" size="small" v-if='tableData[scope.$index].status=="0"' @click='updateStatus(index)'>审核</el-button> -->
                                  <!-- <el-button v-if='tableData[scope.$index].status!="0"' type="text" size="small">修改结果</el-button> -->
@@ -245,6 +249,38 @@
                 <div class='sel_btn'>
                     <span class="sel_btn_qd" @click="pushLib()">确定</span>
                     <span @click='qx()'>取消</span>
+                </div>
+            </div>
+        </div>
+        <div class="bg" v-if="tCopy">
+            <div class='content'>
+                <div class='con_tit'>
+                    <span>复制内容</span>
+                </div>
+                <div class='sel'>
+                    <span class='qdName'>子推送库：</span>
+                    <el-select v-model="valueTs" placeholder="请选择">
+                        <el-option
+                        v-for="item in options"
+                        :key="item.sub_plid"
+                        :label="item.name"
+                        :value="item.sub_plid">
+                        </el-option>
+                    </el-select>
+                </div>
+                <div>
+                    <span class='qdName'>选择日期：</span>
+                    <el-date-picker
+                        v-model="date1"
+                        type="date"
+                        format="yyyy 年 MM 月 dd 日"
+                        placeholder="选择日期"
+                        value-format="yyyy-MM-dd">
+                    </el-date-picker>
+                </div>
+                <div class='sel_btn'>
+                    <span class="sel_btn_qd" @click="pushCopy()">确定</span>
+                    <span @click='qxCopy()'>取消</span>
                 </div>
             </div>
         </div>
@@ -325,8 +361,8 @@
                 <el-button @click="cancelTx">取消</el-button>
             </span>
         </el-dialog>
-        <ADDWL v-if="ADDwl && type=='meizu_first'" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :ids='ids' :video="1" :pro_type="pro_type"></ADDWL>
-        <ADDWL v-if="ADDwl && type!='meizu_first'" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :ids='ids' :pro_type="pro_type"></ADDWL>
+        <ADDWL v-if="ADDwl && type=='meizu_first'" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :ids='ids' :video="1" :gdsrc="gdsrc"></ADDWL>
+        <ADDWL v-if="ADDwl && type!='meizu_first'" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :ids='ids' :gdsrc="gdsrc"></ADDWL>
         <loading v-if='load'></loading>
         <div class='bg' v-if="change">
             <div class='compile'>
@@ -381,41 +417,6 @@
                 </div>
             </div>
         </div>
-
-        <div class='bg' v-if="Cdialog">
-            <div class='compile'>
-                <div class='ts'>
-                    <span>测试管理</span>
-                    <el-popover placement="top">
-                        <div>
-                            根据测试管理选择日期，将对应日期的内容标记为测试内容
-                        </div>
-                        <img src="../../../public/img/msg.png" style="position: relative;top: 8px;" slot="reference"/>
-                    </el-popover>
-                </div>
-                <div>
-                    <div class='regulation'>
-                        <div>
-                            <span  class='titName'>测试内容日期: </span>
-                            <template>
-                                <el-date-picker
-                                    v-model="dateTime"
-                                    type="date"
-                                    format="yyyy 年 MM 月 dd 日"
-                                    placeholder="选择日期"
-                                    value-format="yyyy-MM-dd"
-                                    >
-                                </el-date-picker>
-                            </template>
-                        </div>
-                    </div>
-                </div>
-                <div class="btn_right" style="float:left;">
-                    <span class='cx' style="margin-bottom:20px" @click='ADDc()'>确认</span>
-                    <span @click='gb()'>取消</span>
-                </div>
-            </div>
-        </div>
 </div>
 </template>
 
@@ -434,7 +435,7 @@ return {
        type:this.$route.query.type,
        material:3,
        date:(new Date()).toLocaleDateString().split('/').join('-'),
-       dateTime:'',
+       date1:(new Date()).toLocaleDateString().split('/').join('-'),
        status:'',
        tableData:[],
         page:1,
@@ -472,13 +473,64 @@ return {
         amount: 1,
         content:'',
         value1: new Date(),
-        Cdialog:false,
         ids:'',
-        pro_type:'',
+        gdsrc:'',
+        tCopy:false,
+        options:[],
+        valueTs:'',
 };
 },
 
 methods: {
+    copyContent(){
+        this.tCopy = true;
+        this.init();
+    },
+    //查询子推送库列表
+    init(){
+        let params = {plid:this.plid}
+        this.api.pushlib_sub_list({params}).then((res)=>{
+            this.options = res;
+            
+        })
+
+    },
+    pushCopy(){
+        if(!this.valueTs){
+            this.$message({
+                message: '请选择子推送库',
+                type: 'warning'
+            });
+            return false
+        }
+        if(!this.date1){
+            this.$message({
+                message: '请选择时间',
+                type: 'warning'
+            });
+            return false
+        }
+        let formData =new FormData;
+        formData.append('plid',this.plid);
+        if(this.$route.query.sub_plid != undefined){
+            formData.append('sub_plid',this.$route.query.sub_plid);
+        }
+        formData.append('tdate',this.date);
+        formData.append('src_sub_plid',this.valueTs);
+        formData.append('src_tdate',this.date1);
+        this.api.pushlib_sub_copy(formData).then((res)=>{
+            this.$message({
+                message: '复制成功',
+                type: 'success'
+            });
+            this.tCopy = false;
+            this.getData()
+        })
+
+    },
+    qxCopy(){
+        this.tCopy = false;
+    },
     getShow(){
         this.change = true;
     },
@@ -487,32 +539,7 @@ methods: {
     },
     bj(){
 
-    },
-    ADDc(){
-        let formData =new FormData;
-        formData.append('plid',this.$route.query.plid);
-        formData.append('tdate',this.dateTime);
-        this.api.pushlib_wptest_edit(formData).then((res)=>{
-            this.Cdialog = false;
-            this.getData()
-        })
-
-    },
-    opens(){
-        this.Cdialog = true;
-        let params = {plid:this.$route.query.plid}
-        this.api.pushlib_wptest_search({params}).then((res)=>{
-            if(res != false){
-                this.dateTime = res[0].tdate;
-            }else{
-                this.dateTime = '';
-            }
-            
-        })
-    },
-    gb(){
-        this.Cdialog = false;
-    },
+    },   
     handleChange(value) {
         console.log(value);
     },
@@ -528,6 +555,9 @@ methods: {
         let formData =new FormData;
         formData.append('plid',this.plid);
         formData.append('tdate',this.date);
+        if(this.$route.query.sub_plid != undefined){
+            formData.append('sub_plid',this.$route.query.sub_plid);
+        }
         if(this.type == 'meizu_first'){
             formData.append('type','meizu_first');
         }
@@ -551,6 +581,9 @@ methods: {
         this.theWeight = rows.weight;
         this.rouelForm = rows;
     },
+    leaver(index){
+
+    },
     InputClick(index){
         if(this.theWeight > 999 || this.theWeight < 0){
             this.$message.error('权重值范围限制为0~999')
@@ -563,6 +596,9 @@ methods: {
         formData.append('weight',this.theWeight);
         if(this.type == 'meizu_first'){
             formData.append('type','meizu_first');
+        }
+        if(this.$route.query.sub_plid != undefined){
+            formData.append('sub_plid',this.$route.query.sub_plid);
         }
         if(this.type != 'meizu_first'){
             formData.append('title',this.rouelForm.title);
@@ -589,6 +625,9 @@ methods: {
         formData.append('plid',this.$route.query.plid);
         formData.append('tdate',date);
         formData.append('bind_mfid',JSON.stringify(id));
+        if(this.$route.query.sub_plid != undefined){
+            formData.append('sub_plid',this.$route.query.sub_plid);
+        }
         if(this.type == 'meizu_first'){
             formData.append('type','meizu_first');
         }
@@ -613,6 +652,9 @@ methods: {
                         formData.append('status',this.status2),
                         formData.append('note',this.checkList.join(',')+this.yy) 
                         formData.append('advers',JSON.stringify(this.advers))
+                        if(this.$route.query.sub_plid != undefined){
+                            formData.append('sub_plid',this.$route.query.sub_plid);
+                        }
                         this.api.pushlib_adver_mfinal_audit(formData).then((res)=>{
                             if(res!=false){
                                 this.getData();
@@ -633,6 +675,9 @@ methods: {
                       formData.append('status',this.status2),
                         formData.append('note',this.checkList.join(',')+this.yy) 
                         formData.append('advers',JSON.stringify(this.advers))
+                        if(this.$route.query.sub_plid != undefined){
+                            formData.append('sub_plid',this.$route.query.sub_plid);
+                        }
                         this.api.pushlib_adver_mfinal_audit(formData).then((res)=>{
                             if(res!=false){
                                 this.getData();
@@ -720,6 +765,9 @@ methods: {
                      array.tdate=this.date;
                    this.textlink.push(array); 
                    formData.append('textlink',JSON.stringify(this.textlink))
+                   if(this.$route.query.sub_plid != undefined){
+                        formData.append('sub_plid',this.$route.query.sub_plid);
+                    }
                    if(this.type == 'meizu_first'){
                         formData.append('type','meizu_first');
                     }
@@ -829,6 +877,9 @@ methods: {
                 formData.append('download_url',this.download_url);
                 formData.append('deeplink',this.deeplink);
                 formData.append('click_action_type',this.click_action);
+                if(this.$route.query.sub_plid != undefined){
+                    formData.append('sub_plid',this.$route.query.sub_plid);
+                }
                 formData.append('url',this.url);
                this.api.pushlib_textlink_edit(formData).then((res)=>{  
                     this.textVisible = false;
@@ -841,13 +892,18 @@ methods: {
            },
            getData(){
                this.load = true;
-                let params={
+               console.log(this.$route.query.sub_plid)
+               let params={
                     p:this.p,
                     page:this.page,
                     tdate:this.date,
                     plid:this.plid,
                     type:this.$route.query.type,
                 }
+               if(this.$route.query.sub_plid != undefined){
+                   params.sub_plid = this.$route.query.sub_plid
+               }
+                
                 this.api.pushlib_textlink_search({params}).then((res)=>{
                     this.tableData=res.data;
                     this.total=res.total;
@@ -1097,7 +1153,9 @@ mounted() {
    .sel_btn{
        width: 100%;
        height: 50px;
-       text-align: right;
+       text-align: left;
+       margin-top: 35px;
+       border-top: 1px solid #ddd;
    }
    .sel_btn span{
     margin-right: 24px;
@@ -1120,6 +1178,7 @@ mounted() {
        border: 0!important;
     background: rgba(51,119,255,1)!important;
     color: rgba(255,255,255,1)!important;
+    margin-left: 40px;
    }
    .qud{
        display: inline-block;
@@ -1132,6 +1191,19 @@ mounted() {
        margin-left: 10px;
        position: absolute;
        left: 173px;
+       top:47px
+   }
+   .qud1{
+       display: inline-block;
+       padding: 5px;
+       border:1px solid  rgba(51,119,255,1);
+       text-align: center;
+       color: rgba(51,119,255,1);
+       border-radius: 5px;
+       line-height: 1!important;
+       margin-left: 10px;
+       position: absolute;
+       left: 270px;
        top:47px
    }
     .top_txt{
@@ -1160,15 +1232,15 @@ mounted() {
         color: rgba(61,73,102,1);
         margin: 10px 20% 0 0;
     }
-    .box{
+    .boxT{
         display: block;
         width: 100%;
         height: 100%;  
     }
-    .box > input{
+    .boxT > input{
         display: none;
         width: 80px;
-    height: 25px;
+        height: 25px;
     }
     .template >>> .el-textarea{
         width: 100%;

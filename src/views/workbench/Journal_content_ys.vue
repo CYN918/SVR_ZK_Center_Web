@@ -336,6 +336,7 @@ methods: {
                    this.tableData=res.data;
                    this.total=res.total;
                    this.load = false;
+                   this.mJs.scTop(0);
                 //    this.$previewRefresh()
                })
            },

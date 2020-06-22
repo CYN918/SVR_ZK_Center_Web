@@ -2004,5 +2004,45 @@ export default {
 		url:'superwallpaper/channel',method:'get'
 	},
 
+	//获取子推送库列表
+	pushlib_sub_search:{
+		url:'pushlib/sub/search',method:'get'
+	},
+
+	//新增子推送库
+	pushlib_sub_add:{
+		url:'pushlib/sub/add',method:'post'
+	},
+
+	//子推送库列表查询
+	pushlib_sub_list:{
+		url:'pushlib/sub/list',method:'get'
+	},
+
+	//复制子推送库
+	pushlib_sub_copy:{
+		url:'pushlib/sub/copy',method:'post'
+	},
+
+	//收益占比总览
+	ds_data_income_rate:{
+		url:'ds/data/income/rate',method:'get'
+	},
+
+	//收益趋势总览
+	ds_data_income_tendency:{
+		url:'ds/data/income/tendency',method:'get'
+	},
+
+	//狮圈儿数据趋势总览
+	ds_data_income_shiquaner_year:{
+		url:'ds/data/income/shiquaner/year',method:'get'
+	},
+
+	//狮圈儿提现金额占比
+	ds_data_income_shiquaner_summary:{
+		url:'ds/data/income/shiquaner/summary',method:'get'
+	},
+
 
 }
