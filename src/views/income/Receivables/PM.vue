@@ -157,7 +157,7 @@ import download from '../../../api/commonality'
                 p:10,
                 status:'',
                 search:"",
-                load:true,
+                load:false,
                 upTxt:false,
                 userData:{},
                 isShow:true,
@@ -275,6 +275,7 @@ import download from '../../../api/commonality'
                 this.getDataList()
             },
             getDataList(){
+                this.load = true;
                 let params={p:this.p,page:this.page,search:this.search,status:this.status,company_id:this.company_id,put_type:this.put_type,balance_id:this.balance_id}
                 this.api.adproject_listpage({params}).then((res)=>{
                     this.total=res.total;
