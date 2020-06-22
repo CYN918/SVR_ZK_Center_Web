@@ -529,13 +529,17 @@
                 </div>
             </div>
         </div>
+        <loading v-if='load'></loading>
   </div>
 </template>
 
 <script>
+import loading from '../../../components/loading'
 export default {
+            components:{loading},
             data(){
                 return{
+                    load:false,
                     ht:false,
                     sw:false,
                     js:false,
@@ -675,6 +679,7 @@ export default {
                     return 'text-align:center;color:rgba(61,73,102,1);font-size:14px;font-weight:400;font-family:PingFangSC-Regula;'
                 },
                 getDataList(){
+                    this.load = true;
                     let params={project_id:this.$route.query.project_id}
                     this.api.adproject_detail({params}).then((res)=>{
                         this.approve_id=res.approve_id;
@@ -716,6 +721,7 @@ export default {
                         this.put_type=res.put_type;
                         this.getType();
                         this.getJS();
+                        this.load = false;
                     })
                 },
                 getType(index){
