@@ -5,7 +5,7 @@
             <span class="top_txts" style="width: 113px;display: inline-block;">子推送库列表</span>    
             <span class='qud'>{{this.$route.query.channel}}</span>
             <span class="userGl" style="margin: 0px 19% 0 0;" @click="opens()" v-if="total != 0">测试管理</span>
-            <span class='userGl' style="margin: 0px 1% 0 0;" @click="addLd">新建子推送库</span>
+            <span class='userGl1' @click="addLd">新建子推送库</span>
         </div>
         <div class='screening'>
             <span class='qdName'>子推送库ID:</span>
@@ -470,6 +470,25 @@ export default {
         font-weight: 500;
         color: rgba(61,73,102,1);
         margin-top: -10px!important
+    }
+    .userGl1{
+        float: right;
+        display: inline-block;
+        height: 36px;
+        text-align: center;
+        line-height: 36px;
+        cursor: pointer;
+        border-radius: 4px;
+        border: 1px solid rgba(211,219,235,1);
+        width: 144px;
+        background: rgba(242,246,252,1);
+        font-size: 14px;
+        font-family: PingFang-SC-Medium;
+        font-weight: 500;
+        color: rgba(61,73,102,1);
+        margin-top: -10px!important;
+        position: absolute;
+        right: 28%;
     }
     .screening{
         position: relative;
