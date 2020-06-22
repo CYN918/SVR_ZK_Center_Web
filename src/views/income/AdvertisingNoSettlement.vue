@@ -27,10 +27,18 @@
                 </select>
                  <div style=" display: inline-block;position: relative;" v-if='is_receiver==1'>
                     <span class="ad">结算方</span>
-                    <input type="text" placeholder="请输入结算方" v-model="name" @input="getName()"/>
+                    <!-- <input type="text" placeholder="请输入结算方" v-model="name" @input="getName()"/>
                     <div class='names' v-if="show">
                         <span v-for="da in JSname" @click='setName(da.name)'>{{da.name}}</span>
-                    </div>
+                    </div> -->
+                    <el-autocomplete
+                        class="inline-input"
+                        v-model="name"
+                        :fetch-suggestions="querySearch"
+                        placeholder="请输入内容"
+                        @select="handleSelect"
+                        >
+                    </el-autocomplete>
                 </div>
                 <div style=" display: inline-block;position: relative;top:8px;" v-if='is_receiver==1'> 
                     <span class="ad" style="position: relative;top:-8px;">项目</span>
@@ -322,9 +330,26 @@ import 'ant-design-vue/dist/antd.css'
                 if(this.is_receiver==0){
                     this.getqd();
                 }
-                
+                this.getName()
         },
         methods:{
+            querySearch(queryString, cb) {
+                for(var i =0;i<this.JSname.length;i++){
+                    this.JSname[i].value=this.JSname[i].name
+                    
+                }
+                var results = queryString ? this.JSname.filter(this.createFilter(queryString)) : this.JSname;
+                cb(results);
+            },
+            createFilter(queryString) {
+                return (JSname) => {
+                return (JSname.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+                };
+                
+            },
+                handleSelect(item) {
+                this.name=item.name
+            },
             remoteMethod(query) {
                 console.log(query)
                 if (query != '') {
@@ -368,7 +393,6 @@ import 'ant-design-vue/dist/antd.css'
                     this.JSname=[];
                      let params={is_receiver:this.is_receiver,search:this.name}
                         this.api.settle_settlement_list({params}).then((res)=>{
-                            console.log(res)
                             if(res.length == '0'){
                                 this.show = false
                             }else{
