@@ -19,9 +19,9 @@
                     <input type="text" placeholder="给主题起个名字" style=" margin-top: 26px;" v-model="name" maxlength="10" v-if="this.$route.query.thid==undefined">
                     <input type="text" placeholder="给主题起个名字" style=" margin-top: 26px;" disabled="disabled" v-model="name" maxlength="10" v-if="this.$route.query.thid!=undefined">
                 </div>
-                <div style="margin-bottom: 0">
+                <div style="margin-bottom: 0;height: 120px;">
                     <span >主题包</span>
-                    <div style="display: inline-block;vertical-align: top">
+                    <div style="display: inline-block;vertical-align: top;width: 80%;">
                         <div class="upBag">
                             <img src="../../../public/img/upbag.png"/>
                         </div>
@@ -35,7 +35,7 @@
                                 >
                             <el-button size="small" type="primary">点击上传</el-button>
                         </el-upload>
-                        <div style="display: inline-block">
+                        <div style="height: 100px;float:left;">
                             <div style="margin-bottom: 3px;margin-top:3px ">
                                 <span style="font-size:14px;font-family:PingFangSC;font-weight:400;color:rgba(61,73,102,1);">上传主题包</span>
                             </div>
@@ -46,7 +46,23 @@
                                 <span>{{attach.name}}</span>
                                 <span class="content_xz" @click="dels()" v-if="this.attach.name!=undefined">删除</span>
                             </div>
-                            <el-progress :percentage="this.times" v-if="up"></el-progress>
+                            <div class="progress-bar" v-if="up">
+                                <div class="ztFileName">
+                                    <img class="flieImg" src="../../../public/img/paperclip.png"/>
+                                    <span>{{ztFileName}}</span>
+                                    <img class="delImg" src="../../../public/img/Shape.png" @click="delexprot()"/>
+                                </div>
+                                <div class="progress">
+                                    <el-progress :percentage="this.times"></el-progress>
+                                </div>
+                                <div class="progress-jd">
+                                    <span class="progress-jd-left" v-if="isFileSize != ''">{{isFileSize}}MB/{{ztFileSize}}MB</span>
+                                    <span class="progress-jd-left" v-if="isFileSize == ''">0.00MB/{{ztFileSize}}MB</span>
+                                    <span class="progress-jd-right" v-if="isSeed == ''">0.00MB/s</span>
+                                    <span class="progress-jd-right" v-if="isSeed != ''">{{isSeed}}MB/s</span>
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -252,7 +268,12 @@
                 result2:[],
                 result3:[],
                 result4:[],
-                feature_category:''
+                feature_category:'',
+                ztFileSize:'',
+                isFileSize:'',
+                ztFileName:'',
+                fileList3:[],
+                isSeed:'',
             }
         },
 
@@ -332,7 +353,10 @@
             },
             beforeAvatarUploads(file) {
                 this.file = file;
-                console.log(this.file)
+                // console.log(this.file.lastModifiedDate)
+                this.ztFileSize = (this.file.size / 1024 / 1024).toFixed(2);//mb
+                this.ztFileName = this.file.name;
+                // console.log(this.ztFileSize)
                 const isXzip = file.type === 'application/x-zip-compressed';
                 const iszip = file.type === 'application/zip';
                 const isHzip = file.type === '';
@@ -644,20 +668,102 @@
                     }
                 },100);
             },
+            delexprot(){
+                let originRenderFile = this.fileList3[0];
+			    originRenderFile.xhr.abort();
+            },
+            initTime(t) {
+                let d=new Date(t).getTime(new Date(t));
+                let time= new Date(d + 8 * 3600 * 1000).toJSON().substr(0, 19).replace('T', ' ').replace(/\./g, '-');
+                return time;
+            },
             upLoad(file){
                 this.up=true;
-                this.times=0;
+                // this.times=0;
                 ++this.fcounter;
-                this.scope();
+                // this.scope();
                 this.attach={};
                 let formData = new FormData;
                 formData.append('file',file.file);
-                this.api.file_upload(formData).then((res)=>{
-                    this.attach=res;
-                    this.times=100;
-                    --this.fcounter;
+                let xhr = new XMLHttpRequest();
+                this.fileList3.unshift({type:'up',file_name:file.name,bf:0,xhr:xhr})
+                let uploadProgress = (evt)=>{		
+                    if(evt.lengthComputable) {
+                        let percent = Math.round(evt.loaded * 100 / evt.total);
+			            percent = percent>98?98:percent;
+                        this.times = Math.floor(percent);
+                        this.isFileSize = ((this.ztFileSize)*(this.times/100)).toFixed(2);
+                        var date1 = new Date(this.initTime(new Date())).getTime()/1000;
+                        var date2 = new Date(this.initTime(this.file.lastModifiedDate)).getTime()/1000;
+                        var total = date1 - date2;
+                        var day = Math.floor(total / 86400);
+                        var hour = Math.floor(total%86400/3600);
+                        var min = Math.floor(total%86400%3600/60);
+                        let second  = Math.floor(total%86400%3600%60);
+                        this.isSeed = (this.isFileSize/second).toFixed(2);
+                    }
+                };
+
+                let uploadComplete = (data)=>{
+                    if(data.currentTarget.response){
+                        let opd = JSON.parse(data.currentTarget.response);
+                        
+                        if(opd.code!=0){
+                            this.$message.error({message: opd.data});
+                            return
+                        }
+                        this.attach=opd.data;
+                        // this.times=100;
+                        --this.fcounter;
+                        this.up=false;
+                        this.$message({message: '文件上传成功',type: 'success'});
+
+                    }
+                    
+                
+                        
+
+                    
+                };
+
+                let uploadFailed = ()=>{
+                    this.$message.error({message: '文件上传失败请稍后重试'});	
+                    this.up=false;			
+                };
+
+                let uploadCanceled = ()=>{
+                    this.$message({message: '取消成功'});
                     this.up=false;
-                })
+                    
+                };
+                xhr.upload.addEventListener("progress",uploadProgress, false);
+                xhr.addEventListener("load",uploadComplete, false);
+                xhr.addEventListener("error",uploadFailed, false);
+                xhr.addEventListener("abort",uploadCanceled, false);
+                xhr.open("POST", window.basrurl+"file/upload");
+                xhr.setRequestHeader("Authorization", 'Bearer '+localStorage.getItem('token'));
+                xhr.send(formData);
+                
+                
+
+
+
+                // this.$ajax.post(window.basrurl+'file/upload', formData,{
+                // // this.api.file_upload(formData,{
+                //     headers:{
+                //         'Content-Type': 'multipart/form-data',
+                //     },
+                //     onUploadProgress: progressEvent =>{
+                //         this.times = (progressEvent.loaded / progressEvent.total * 100 | 0);
+                //         this.isFileSize = (this.ztFileSize)*(this.times/100);
+                //     }
+                //     }).then((res)=>{
+                //         console.log(res)
+                //     this.attach=res.data.data;
+                //     // this.times=100;
+                //     --this.fcounter;
+                //     this.up=false;
+                // })
             },
             upYl(file){
                 let formData = new FormData;
@@ -665,7 +771,6 @@
                 this.api.file_upload(formData).then((res)=>{
                     if(this.pic.indexOf(res.url) == -1){
                         this.pic.unshift(res.url);
-                        this.main_preview = this.pic[this.pic.length-1]
                     }
                 })
             },
@@ -737,9 +842,8 @@
         margin-right: 50px;
     }
     .upBag{
-        display: inline-block;
         position: relative;
-        top:-24px;
+        top:-8px;
         width:98px;
         height:98px;
         background:rgba(0,0,0,0.02);
@@ -747,6 +851,45 @@
         border:1px solid rgba(0,0,0,0.15);
         text-align: center;
         margin-right: 17px;
+        float: left;
+    }
+    .progress-bar{
+        width: 365px;
+    }
+    .progress{
+        width: 362px;
+        height: 15px;
+        padding-left: 19px;
+    }
+    .progress-jd-left{
+        padding-left: 19px;
+        float: left;
+        font-family: PingFangSC-Regular;
+        font-size: 12px;
+        color: #8F9BB3;
+        text-align: left;
+        line-height: 22px;
+    }
+    .progress-jd-right{
+        float: right;
+        font-family: PingFangSC-Regular;
+        font-size: 12px;
+        color: #8F9BB3;
+        text-align: left;
+        line-height: 22px;
+    }
+    .progress-bar >>> .el-progress-bar{
+        width: 347px;
+    }
+    .progress-bar >>> .el-progress__text{
+        position: relative;
+        top: -36px;
+        left: 295px;
+        font-family: PingFangSC-Regular;
+        font-size: 14px;
+        color: #8F9BB3;
+        text-align: left;
+        line-height: 22px;
     }
     .upBag img{
         display: inline-block;
@@ -1059,5 +1202,34 @@
     }
     .colour .el-select{
         width: 412px;
+    }
+    .ztFileName{
+        width: 365px;
+        height: 22px;
+    }
+    .ztFileName .flieImg{
+        float: left;
+        width: 14px;
+        height: 14px;
+        text-align: center;
+        margin-top: 5px;
+    }
+    .ztFileName span{
+        float: left;
+        font-family: PingFangSC-Regular;
+        font-size: 14px;
+        color: #8F9BB3;
+        text-align: left;
+        line-height: 22px;
+        margin-left: 5px;
+    }
+    .ztFileName .delImg{
+        float: right;
+        width: 10px;
+        height: 10px;
+        text-align: center;
+        margin-top: 5px;
+        cursor: pointer;
+
     }
 </style>
