@@ -608,7 +608,7 @@ export default {
                 }
             },
             mounted(){
-                this.getDataList()
+                this.getDataList();
             },
             methods:{
                 getTag(b){
@@ -1193,17 +1193,18 @@ export default {
         background: #fff;
         min-height: 671px;
         margin-top:195px ;
+        padding-bottom: 30px;
     }
     .select_box >>> .el-table__body-wrapper{
         overflow-y: scroll;
-        height: 65px !important;
+        min-height: 48px !important;
     }
     .select_box >>> .el-table{
-        height: 146px !important;
+        min-height: 129px !important;
     }
-    .select_box >>> .el-table__body{
+    /* .select_box >>> .el-table__body{
         height: 65px;
-    }
+    } */
     .select_tit{
         width: 100%;
         height: 48px;
@@ -1534,6 +1535,7 @@ export default {
         line-height: 25px;
         text-align: center;
         color: #1890ff;
+        cursor: pointer;
     }
     .oldBox{
         width: 268px;
