@@ -261,7 +261,7 @@
                                     prop="address"
                                     width="50"
                             >
-                                <template slot-scope="scope" v-if='this.type==2'>
+                                <template slot-scope="scope" v-if='type==2'>
                                     <img src="../../../../public/img/dels.png" style="cursor: pointer" @click="del(scope.$index)"/>
                                 </template>
                             </el-table-column>
