@@ -56,8 +56,10 @@
                                     <el-progress :percentage="this.times"></el-progress>
                                 </div>
                                 <div class="progress-jd">
-                                    <span class="progress-jd-left">{{isFileSize}}MB/{{ztFileSize}}MB</span>
-                                    <span class="progress-jd-right">{{isSeed}}MB/s</span>
+                                    <span class="progress-jd-left" v-if="isFileSize != ''">{{isFileSize}}MB/{{ztFileSize}}MB</span>
+                                    <span class="progress-jd-left" v-if="isFileSize == ''">0.00MB/{{ztFileSize}}MB</span>
+                                    <span class="progress-jd-right" v-if="isSeed == ''">0.00MB/s</span>
+                                    <span class="progress-jd-right" v-if="isSeed != ''">{{isSeed}}MB/s</span>
                                 </div>
                             </div>
                             
