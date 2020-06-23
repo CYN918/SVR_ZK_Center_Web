@@ -41,7 +41,7 @@
                 <div>
                     <span class="fillName">结算方</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
-                        <select v-model="name" :disabled='id!=undefined'>
+                        <select v-model="name" @change="changeJiesuan($event)" :disabled='id!=undefined'>
                             <option v-for="item in list" :value="item.name">{{item.name}}</option>
                         </select>
                         <span class="click" @click="massgae()">查看结算方信息</span>
@@ -204,7 +204,8 @@
                 JSlist:[],
                 projects:[],
                 id:this.$route.query.id,
-                bind_projects_name:""
+                bind_projects_name:"",
+                balance_id:'',
             }
         },
         mounted(){
@@ -214,6 +215,16 @@
             }
         },
         methods:{
+            changeJiesuan(event){
+                
+                this.list.forEach(item => {
+                    if(item.name == event.target.value){
+                        this.balance_id = item.id;
+                        console.log(this.balance_id)
+                    }
+                })
+
+            },
             jump(){
                 this.$router.push({
                     path:"./Administration"
@@ -327,6 +338,7 @@
                 formData.append('real_amount',this.real_amount);
                 formData.append('note',this.note);
                 formData.append('status',this.step);
+                formData.append('balance_id',this.balance_id);
                 formData.append('attachs',JSON.stringify(this.attachs));
                 this.api.settlemanage_check_add(formData).then((res)=>{
                    if(res!=false){
