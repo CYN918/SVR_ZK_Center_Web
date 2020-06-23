@@ -22,7 +22,8 @@ const createApiInstance = (config = {}) => {
 	}
     if(window.location.host=='c2.zookingsoft.com'){
         basrurl = 'https://c2.zookingsoft.com/api';
-    }
+	}
+	window.basrurl = basrurl;
 	const _config = {
 		withCredentials: true, // 跨域
 		baseURL: basrurl,		

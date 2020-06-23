@@ -33,8 +33,8 @@
                 </select>   
 
             </div>
-            <!-- <div class='select_box_2'>
-                <span class='select_left'>结算主体：<span class="err" v-if='state1&&balance_id==""'>(结算主体不存在，数据无效)</span></span>
+            <div class='select_box_2'>
+                <!-- <span class='select_left'>结算主体：<span class="err" v-if='state1&&balance_id==""'>(结算主体不存在，数据无效)</span></span>
                  <el-autocomplete
                         :class='{examine:this.type==1}' 
                         :disabled="type==1"
@@ -44,7 +44,7 @@
                         placeholder="请输入内容"
                         @select="handleSelect"
                         >
-                    </el-autocomplete>
+                    </el-autocomplete> -->
                  <span class='select_left'>上线时间：</span>
                   <el-date-picker
                     v-if='type==2'
@@ -60,7 +60,7 @@
                  <select name="" id="" class='input_left' v-model='ad_type2'  v-if='ad_type&&this.list2.length>0&&this.type==2' @change='getType(2)' >
                     <option :value="item" v-for="item in list2">{{item}}</option>
                 </select>
-            </div> -->
+            </div>
             <div class='select_box_3' :class="{top:ad_type2&&this.list3.length==0}">
                 <span class='select_left'>投放形式</span>
                  <input type="text" class='input_left examine' v-model='put_type' v-if='type==1' disabled>
@@ -1026,50 +1026,62 @@ export default {
                     this.loading = true;
                     if(this.bussiness_types.length=='0'){
                         this.$message.error('商务模式不能为空')
+                        this.loading = false;
                         return
                     }
                    if(!this.put_type){
                         this.$message.error('投放形式不能为空')
+                        this.loading = false;
                         return
                     }
                      if(!this.project_name){
                         this.$message.error('项目名称不能为空')
+                        this.loading = false;
                         return
                     }
                      if(this.companys.length == '0'){
                         this.$message.error('合作公司不能为空')
+                        this.loading = false;
                         return
                     }
                      if(this.settlements.length == '0'){
                         this.$message.error('结算主体不能为空')
+                        this.loading = false;
                         return
                     }
                      if(!this.online_time){
                         this.$message.error('上线时间不能为空')
+                        this.loading = false;
                         return
                     }
                      if(!this.ad_type){
                         this.$message.error('广告类型一级分类不能为空')
+                        this.loading = false;
                         return
                     }
                      if(this.list2.length>0&&!this.ad_type2){
                         this.$message.error('广告类型二级分类不能为空')
+                        this.loading = false;
                         return
                     }
                      if(this.list3.length>0&&!this.ad_type3){
                         this.$message.error('广告类型三级分类不能为空')
+                        this.loading = false;
                         return
                     }
                      if(!this.report_media){
                         this.$message.error('报备媒体不能为空')
+                        this.loading = false;
                         return
                     }
                      if(!this.report_space_id){
                         this.$message.error('报备广告位不能为空')
+                        this.loading = false;
                         return
                     }
                      if(!this.report_ad_id){
                         this.$message.error('广告主id不能为空')
+                        this.loading = false;
                         return
                     }
                     //  if(!this.report_link){
@@ -1082,18 +1094,22 @@ export default {
                     // }
                      if(!this.ad_req_pv){
                         this.$message.error('请求量不能为空')
+                        this.loading = false;
                         return
                     }
                      if(!this.ad_show_pv){
                         this.$message.error('展示量不能为空')
+                        this.loading = false;
                         return
                     }
                      if(!this.ad_click_pv){
                         this.$message.error('点击量不能为空')
+                        this.loading = false;
                         return
                     }
                      if(!this.ad_download_pv){
                         this.$message.error('下载量不能为空')
+                        this.loading = false;
                         return
                     }
                     //  if(!this.note){
