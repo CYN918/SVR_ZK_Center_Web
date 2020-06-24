@@ -958,7 +958,7 @@ export default {
                         obj.starttime=this.starttime;
                         obj.name=this.state1;
                         obj.balance_id = this.balance_id;
-                        obj.project_id = this.project_id;
+                        obj.project_id = this.$route.query.project_id;
                         if(this.num==1){
                             this.settlements.push(obj)
                         }
