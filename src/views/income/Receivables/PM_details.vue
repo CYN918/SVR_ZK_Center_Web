@@ -432,7 +432,7 @@
                 </div>
                 <div>
                     <span>结算模式：</span>
-                    <select name="" id="" class='datetime' v-model="balance_type">
+                    <select name="" id="" class='datetime' v-model="balance_type" @change="changeBalance()">
                         <option value="未知">未知</option>
                         <option value="以zk数据为准">以zk数据为准</option>
                         <option value="以广告主反馈数据为准（包括后台）">以广告主反馈数据为准（包括后台）</option>
@@ -774,7 +774,11 @@ export default {
                         }
                     });
                 },
-
+                changeBalance(){
+                    if(this.balance_type == '未知'){
+                        this.fix_price = 0;
+                    }
+                }
                 checkCompany(res){
                     let bResult = false;
                     this.company = res;
