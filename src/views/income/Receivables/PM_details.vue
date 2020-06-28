@@ -518,7 +518,7 @@
                 </div>
                 <div>
                     <span class='select_left'>合作公司：</span>
-                    <input type="text" class='input_left' @focus='focuson()'  v-model='company_name' @input='focuson()'>
+                    <input type="text" class='input_left' @focus='focuson()'  v-model='company_name' @input='focuson()' @blur='getCompanys("check_company")'>
                     <ul v-if='old' class="oldBox">
                         <li v-for='(item,index) in company' @click='select_check(index)'>{{item.name}}</li>
                     </ul>
@@ -760,6 +760,36 @@ export default {
                  handleRemove(file, fileList) {
                     
                 },
+
+                getCompanys(command){
+                    console.log("command:" + command);
+                    let params={search:this.company_name}
+                    this.api.adproject_adcompany_list({params}).then((res)=>{
+                        switch(command){
+                            case 'check_company':
+                                this.checkCompany(res);
+                                break;
+                            case 'focuson':
+                                break;
+                        }
+                    });
+                },
+
+                checkCompany(res){
+                    let bResult = false;
+                    this.company = res;
+                    if(this.company.length <= 0){
+                        bResult = false;
+                    }
+                    
+                    for(var i = 0; i < this.company.length; i++){
+                        if(this.company[i].name == this.company_name){
+                            bResult = true;
+                        }
+                    }
+                    return bResult;
+                },
+
                 focuson(){
                     let params={search:this.company_name}
                     this.api.adproject_adcompany_list({params}).then((res)=>{
@@ -771,11 +801,8 @@ export default {
                         }else{
                             this.OLDname=false
                         }
-                       
-                        
                     })
                    this.old=true;
-                   
                 },
 
                 select_check(index){
@@ -929,6 +956,10 @@ export default {
                         if(this.balance_type!="未知"&&this.fix_price<='0'){
 
                             this.$message.error('固价价格不能小于0')
+                            return
+                        }
+                        if(this.endtime != '' && this.endtime < this.starttime){
+                            this.$message.error('结束时间不能小于开始时间')
                             return
                         }
                         var obj={};
