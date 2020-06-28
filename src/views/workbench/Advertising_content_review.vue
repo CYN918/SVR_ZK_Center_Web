@@ -12,6 +12,7 @@
                     <option value="1" >魅族开屏</option>
                     <option value="2" >魅族信息流</option>
                     <option value="3" >金立开屏</option>
+                    <option value="4" >MG渠道</option>
                 </select>
                 <span class='tits'>三方广告源ID：</span>
                 <select v-model="sdk_id" @change="ganged()">
