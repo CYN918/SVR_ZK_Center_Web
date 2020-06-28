@@ -931,6 +931,10 @@ export default {
                             this.$message.error('固价价格不能小于0')
                             return
                         }
+                        if(this.endtime < this.starttime){
+                            this.$message.error('结束时间不能小于开始时间')
+                            return
+                        }
                         var obj={};
                         obj.endtime=this.endtime;
                         obj.starttime=this.starttime;
