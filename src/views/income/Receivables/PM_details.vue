@@ -518,7 +518,7 @@
                 </div>
                 <div>
                     <span class='select_left'>合作公司：</span>
-                    <input type="text" class='input_left' @focus='focuson()'  v-model='company_name' @input='focuson()' @blur='getCompanys(checkCompany())'>
+                    <input type="text" class='input_left' @focus='focuson()'  v-model='company_name' @input='focuson()' @blur='getCompanys("check_company")'>
                     <ul v-if='old' class="oldBox">
                         <li v-for='(item,index) in company' @click='select_check(index)'>{{item.name}}</li>
                     </ul>
@@ -761,12 +761,18 @@ export default {
                     
                 },
 
-                getCompanys(callback){
-                    // console.log("componay");
-                    // let params={search:this.company_name}
-                    // this.api.adproject_adcompany_list({params}).then((res)=>{
-                    //     callback(res);
-                    // });
+                getCompanys(command){
+                    console.log("command:" + command);
+                    let params={search:this.company_name}
+                    this.api.adproject_adcompany_list({params}).then((res)=>{
+                        switch(command){
+                            case 'check_company':
+                                this.checkCompany(res);
+                                break;
+                            case 'focuson':
+                                break;
+                        }
+                    });
                 },
 
                 checkCompany(res){
@@ -776,7 +782,7 @@ export default {
                         bResult = false;
                     }
                     
-                    for(var i = 0; i <this.company.length; i++){
+                    for(var i = 0; i < this.company.length; i++){
                         if(this.company[i].name == this.company_name){
                             bResult = true;
                         }
