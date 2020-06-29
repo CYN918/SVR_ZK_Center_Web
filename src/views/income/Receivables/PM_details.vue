@@ -20,12 +20,6 @@
             <div class='select_box_1'>
                 <span class='select_left'>项目名称：<span class="err" v-if="name_valid==0">(存在项目重名，数据无效)</span></span>
                  <input type="text" class='input_left' :class='{examine:this.type==1}' :disabled="type==1" v-model='project_name' >
-                <!-- <span class='select_left'>合作公司：<span class="err" v-if='!this.company_id&&this.company_name!=""'>(合作公司不存在，数据无效)</span></span>
-                <input type="text" class='input_left' @focus='focuson()'  v-model='company_name' @input='focuson()' :class='{examine:this.type==1}' :disabled="type==1">
-                <ul v-if='old'>
-                    <li @click='oldADD(company_name)' v-if="company_name && OLDname==false">新增"{{company_name}}"为合作公司</li>
-                    <li v-for='(item,index) in company' @click='select_check(index)'>{{item.name}}</li>
-                 </ul> -->
                 <span class='select_left' style="width:100%">广告类型：一级分类 </span>
                 <input type="text" class='input_left examine' v-model='ad_type' v-if='type==1' disabled>
                 <select v-model='ad_type' class='input_left' @change='getType(1)' :class='{examine:this.type==1}' v-if="type==2">
@@ -34,17 +28,6 @@
 
             </div>
             <div class='select_box_2'>
-                <!-- <span class='select_left'>结算主体：<span class="err" v-if='state1&&balance_id==""'>(结算主体不存在，数据无效)</span></span>
-                 <el-autocomplete
-                        :class='{examine:this.type==1}' 
-                        :disabled="type==1"
-                        class="inline-input"
-                        v-model="state1"
-                        :fetch-suggestions="querySearch"
-                        placeholder="请输入内容"
-                        @select="handleSelect"
-                        >
-                    </el-autocomplete> -->
                  <span class='select_left'>上线时间：</span>
                   <el-date-picker
                     v-if='type==2'
@@ -690,11 +673,6 @@ export default {
                         this.contracts=res.contracts;
                         this.project_name=res.project_name;
                         this.company_id=res.company_id;
-                        // if(res.company_id){
-                        //      this.company_name=res.company.name;
-                        // }else{
-                        //      this.company_name=res.company_name;
-                        // }
                         this.balance_id=res.balance_id;
                         if(this.balance_id){
                             this.state1=res.balance.name
@@ -866,29 +844,29 @@ export default {
                     return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
                     };
                 },
-                swEdit(str){
+                swEdit(str, index){
                     if(str == 'sw'){
-                        this.endtime = this.bussiness_types[this.index].endtime;
-                        this.starttime = this.bussiness_types[this.index].starttime;
-                        this.cost_type = this.bussiness_types[this.index].cost_type;
-                        this.profit_share_ratio = this.bussiness_types[this.index].profit_share_ratio;
-                        this.balance_type = this.bussiness_types[this.index].balance_type;
-                        this.fix_price = this.bussiness_types[this.index].fix_price;
+                        this.endtime = this.bussiness_types[index].endtime;
+                        this.starttime = this.bussiness_types[index].starttime;
+                        this.cost_type = this.bussiness_types[index].cost_type;
+                        this.profit_share_ratio = this.bussiness_types[index].profit_share_ratio;
+                        this.balance_type = this.bussiness_types[index].balance_type;
+                        this.fix_price = this.bussiness_types[index].fix_price;
                     }
                     if(str == 'hz'){
-                        this.endtime=this.companys[this.index].endtime;
-                        this.starttime=this.companys[this.index].starttime;
-                        this.company_name=this.companys[this.index].name;
+                        this.endtime=this.companys[index].endtime;
+                        this.starttime=this.companys[index].starttime;
+                        this.company_name=this.companys[index].name;
                     }
                     if(str == 'js'){
-                        this.endtime=this.settlements[this.index].endtime;
-                        this.starttime=this.settlements[this.index].starttime;
-                        this.state1 = this.settlements[this.index].name;
+                        this.endtime=this.settlements[index].endtime;
+                        this.starttime=this.settlements[index].starttime;
+                        this.state1 = this.settlements[index].name;
                     }
                 },
                 swADD(str,num,index){
                     console.log(str, num, index);
-                    this.num = num;
+                    this.num=num;
                     this.index = index;
                     if(str == 'sw'){
                         this.sw=true;
@@ -900,7 +878,7 @@ export default {
                         this.js = true;
                     }  
                     if(num == 2){
-                        return this.swEdit(str);
+                        return this.swEdit(str, index);
                     }
                     if(str == 'sw'){
                         this.endtime = '';
