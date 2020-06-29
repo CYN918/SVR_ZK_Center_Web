@@ -518,7 +518,7 @@
                 </div>
                 <div>
                     <span class='select_left'>合作公司：</span>
-                    <input type="text" class='input_left' @focus='focuson()'  v-model='company_name' @input='focuson()' @blur='getCompanys("check_company")'>
+                    <input type="text" class='input_left' @focus='focuson()'  v-model='company_name' @input='focuson()' @blur='getCompanys(checkCompany)'>
                     <ul v-if='old' class="oldBox">
                         <li v-for='(item,index) in company' @click='select_check(index)'>{{item.name}}</li>
                     </ul>
@@ -761,17 +761,11 @@ export default {
                     
                 },
 
-                getCompanys(command){
-                    console.log("command:" + command);
+                getCompanys(callback){
+                    console.log("command:" + callback);
                     let params={search:this.company_name}
                     this.api.adproject_adcompany_list({params}).then((res)=>{
-                        switch(command){
-                            case 'check_company':
-                                this.checkCompany(res);
-                                break;
-                            case 'focuson':
-                                break;
-                        }
+                        callback(res)
                     });
                 },
                 changeBalance(){
@@ -872,8 +866,30 @@ export default {
                     return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
                     };
                 },
+                swEdit(str){
+                    if(str == 'sw'){
+                        this.endtime = this.bussiness_types[this.index].endtime;
+                        this.starttime = this.bussiness_types[this.index].starttime;
+                        this.cost_type = this.bussiness_types[this.index].cost_type;
+                        this.profit_share_ratio = this.bussiness_types[this.index].profit_share_ratio;
+                        this.balance_type = this.bussiness_types[this.index].balance_type;
+                        this.fix_price = this.bussiness_types[this.index].fix_price;
+                    }
+                    if(str == 'hz'){
+                        this.endtime=this.companys[this.index].endtime;
+                        this.starttime=this.companys[this.index].starttime;
+                        this.company_name=this.companys[this.index].name;
+                    }
+                    if(str == 'js'){
+                        this.endtime=this.settlements[this.index].endtime;
+                        this.starttime=this.settlements[this.index].starttime;
+                        this.state1 = this.settlements[this.index].name;
+                    }
+                },
                 swADD(str,num,index){
-                    console.log(str,num,index)
+                    console.log(str, num, index);
+                    this.num = num;
+                    this.index = index;
                     if(str == 'sw'){
                         this.sw=true;
                     }
@@ -883,29 +899,26 @@ export default {
                     if(str == 'js'){
                         this.js = true;
                     }  
-                    this.num=num;
-                    this.index=index;
-                    if(str == 'sw'&&num==2){
-                        this.endtime=this.bussiness_types[this.index].endtime;
-                        this.starttime=this.bussiness_types[this.index].starttime;
-                        this.cost_type=this.bussiness_types[this.index].cost_type;
-                        this.profit_share_ratio=this.bussiness_types[this.index].profit_share_ratio;
-                        this.balance_type=this.bussiness_types[this.index].balance_type;
-                        this.fix_price=this.bussiness_types[this.index].fix_price;
+                    if(num == 2){
+                        return this.swEdit(str);
                     }
-                    if(str == 'hz'&&num==2){
-                        this.endtime=this.companys[this.index].endtime;
-                        this.starttime=this.companys[this.index].starttime;
-                        this.state1=this.companys[this.index].name;
-                        
-                        
+                    if(str == 'sw'){
+                        this.endtime = '';
+                        this.starttime = '';
+                        this.cost_type = '';
+                        this.profit_share_ratio = '';
+                        this.balance_type = '';
+                        this.fix_price = '';
                     }
-                    if(str == 'js'&&num==2){
-                        
-                        this.endtime=this.settlements[this.index].endtime;
-                        this.starttime=this.settlements[this.index].starttime;
-                        this.company_name=this.settlements[this.index].name;
-                        
+                    if(str == 'hz'){
+                        this.endtime = '';
+                        this.starttime = '';
+                        this.company_name = '';
+                    }
+                    if(str == 'js'){
+                        this.endtime = '';
+                        this.starttime = '';
+                        this.state1 = '';
                     }
                 },
                 swHeid(str){
