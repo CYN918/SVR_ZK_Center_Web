@@ -501,10 +501,11 @@
                 </div>
                 <div>
                     <span class='select_left'>合作公司：</span>
-                    <input type="text" class='input_left' @focus='focuson()'  v-model='company_name' @input='focuson()' @blur='getCompanys(checkCompany)'>
+                    <input type="text" class='input_left' @focus='focuson()'  v-model='company_name' @input='focuson()'>
                     <ul v-if='old' class="oldBox">
                         <li v-for='(item,index) in company' @click='select_check(index)'>{{item.name}}</li>
                     </ul>
+                    
                 </div>
                 <div class='btns' style="box-shadow:0 0 0 #fff">
                     <span class='bc' style="margin-left:95px" @click='push("hz")'>确定</span>
@@ -738,24 +739,26 @@ export default {
                  handleRemove(file, fileList) {
                     
                 },
+                changeBalance(){
+                    if(this.balance_type == '未知'){
+                        this.fix_price = 0;
+                    }
+                },
 
                 getCompanys(callback){
+                    this.old = false;
                     console.log("command:" + callback);
                     let params={search:this.company_name}
                     this.api.adproject_adcompany_list({params}).then((res)=>{
                         callback(res)
                     });
                 },
-                changeBalance(){
-                    if(this.balance_type == '未知'){
-                        this.fix_price = 0;
-                    }
-                },
                 checkCompany(res){
                     let bResult = false;
                     this.company = res;
                     if(this.company.length <= 0){
                         bResult = false;
+                        return;
                     }
                     
                     for(var i = 0; i < this.company.length; i++){
@@ -767,18 +770,22 @@ export default {
                 },
 
                 focuson(){
+                    this.OLDname=false;
                     let params={search:this.company_name}
                     this.api.adproject_adcompany_list({params}).then((res)=>{
                         this.company=res;
                         if(this.company.length>0){
                              for(var i=0 ;i<this.company.length;i++){
-                                this.OLDname=(this.company[i].name==this.company_name);
+                                this.OLDname = (this.company[i].name == this.company_name);
                             }
                         }else{
                             this.OLDname=false
                         }
+                        if(this.OLDname){
+                            this.old = false;
+                        }
                     })
-                   this.old=true;
+                    this.old=true;
                 },
 
                 select_check(index){
