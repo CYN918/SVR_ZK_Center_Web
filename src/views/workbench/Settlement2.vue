@@ -1,5 +1,6 @@
 <template>
     <div class="bg">
+        <pro v-if='budget' :name='list.check.check1.name' :tstart='list.check.check1.tstart' :id="id" :tend='list.check.check1.tend' :is_receiver='this.is_receiver' :a='a' :fj='fj' :projects='list.check.check1.bind_projects_name' :channels='list.check.check1.bind_channel_name'></pro>
         <div class="tableBox">
             <div style="text-align: center;margin-bottom: 40px;max-width: 893px;border-bottom: 1px solid #ddd;position: relative;left: 50%;transform: translateX(-50%)">
                 <div style="margin-right: 350px;text-align: center;display: inline-block" v-if="heid">
@@ -97,7 +98,9 @@
 </template>
 
 <script>
+    import pro from '../income/projection'
     export default {
+        components:{pro},
         name: "establish",
         props:['skID','skType','processor'],
         data(){
@@ -106,13 +109,24 @@
                         express_id:"",
                         note:"",
                         attachs:"",
-                    }},
+                    },
+                    check:{check1:{statement:'',
+                                bind_projects_name:'',
+                                bind_channel_name:'',
+                                tend:'',
+                                tstart:'',},
+                            },
+                    },
                 control:[],
                 type:'',
+                id:'',
+                a:0,
                 userNames:true,
                 isShow: false,
                 functionality:[],
-                heid:true
+                heid:true,
+                is_receiver:'',
+                budget:false,
             }
         },
         mounted(){
@@ -133,15 +147,26 @@
             //         }
             //     }
             // }
-             this.functionality=JSON.parse(localStorage.getItem('control'));
+            this.id = this.skID;
+            console.log('id:' + this.id);
+            
+            this.functionality=JSON.parse(localStorage.getItem('control'));
             for(var j=0;j<this.functionality.length;j++){
                 if(this.functionality[j].uri_key=='uri.settlement.opt.audit.add'){
                     this.heid=false
                 }
             }
+            
             this.getData()
         },
         methods:{
+            detail(){
+                console.log('detail');
+                this.budget=true;
+            },
+            heidDetail(){
+                this.budget=false;
+            },
             fh(){
                 this.$parent.heidFkCK();
             },
