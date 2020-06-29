@@ -12,7 +12,7 @@
                 <input type="text" placeholder="搜索关键词" v-model="balance_name">
                 <span>项目名称</span>
                 <input type="text" placeholder="搜索关键词" v-model="project_name">
-                <!-- <span>结算主体</span>
+                <!-- <span>结算方</span>
                 <input type="text" placeholder="搜索关键词" v-model="search"> -->
                 <span>状态：</span>
                 <select v-model="status">
@@ -52,7 +52,7 @@
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="结算主体" prop="balance_name"
+                                label="结算方" prop="balance_name"
                                 show-overflow-tooltip
                                 >
                         </el-table-column>

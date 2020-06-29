@@ -36,7 +36,7 @@
                             :cell-style="cell"
                             style="width: 100%;color:#000">
                         <el-table-column
-                                label="结算主体" prop="settlement"
+                                label="结算方" prop="settlement"
                                 fixed
                                 width="150"
                                 

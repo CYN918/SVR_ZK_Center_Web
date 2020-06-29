@@ -18,8 +18,8 @@
                 </select>
                 
                 <div style=" display: inline-block;position: relative;margin-left:15px;">
-                    <span style="margin-right: 15px;">结算主体</span>
-                    <!-- <input type="text" placeholder="请输入结算主体" v-model="balance_name" @input="getName()" @blur='focuson()' @focus='getName()'/>
+                    <span style="margin-right: 15px;">结算方</span>
+                    <!-- <input type="text" placeholder="请输入结算方" v-model="balance_name" @input="getName()" @blur='focuson()' @focus='getName()'/>
                     <div class='names' v-if="show">
                         <span v-for="da in JSname" @click='setName(da)'>{{da.account_name}}</span>
                     </div> -->

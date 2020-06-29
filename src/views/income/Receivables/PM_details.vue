@@ -61,12 +61,12 @@
     
             <div>
                <span class='sw' >
-                   结算主体
+                   结算方
                    <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
                         <div slot="content" class="text">不同规则的生效时间和失效时间必须连续</div>
                         <img src="../../../../public/img/msgAt.png" style="vertical-align: top !important;margin-top: 5px;"/>
                     </el-tooltip>
-                   <span class="err" v-if='state1&&balance_id==""'>(结算主体不存在，数据无效)</span>
+                   <span class="err" v-if='state1&&balance_id==""'>(结算方不存在，数据无效)</span>
                 </span>
            </div>
             <div>
@@ -1079,7 +1079,7 @@ export default {
                         return
                     }
                      if(this.settlements.length == '0'){
-                        this.$message.error('结算主体不能为空')
+                        this.$message.error('结算方不能为空')
                         this.loading = false;
                         return
                     }
