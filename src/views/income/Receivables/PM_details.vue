@@ -961,7 +961,7 @@ export default {
                             return
                         }
                         if(this.endtime != '' && this.endtime < this.starttime){
-                            this.$message.error('结束时间不能小于开始时间')
+                            this.$message.error('失效时间不能小于生效时间')
                             return
                         }
                         var obj={};
