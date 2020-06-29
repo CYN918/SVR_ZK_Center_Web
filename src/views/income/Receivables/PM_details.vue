@@ -831,7 +831,7 @@ export default {
                 },
                 getJS(){
                     let params={is_receiver:'1'}
-                    this.api.settle_settlement_searchall({params}).then((res)=>{
+                    this.api.settle_settlement_list({params}).then((res)=>{
                         this.JSlist=res
                     })
                 },
