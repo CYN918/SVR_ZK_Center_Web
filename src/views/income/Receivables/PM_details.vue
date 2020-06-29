@@ -29,15 +29,15 @@
             </div>
             <div class='select_box_2'>
                  <span class='select_left'>上线时间：</span>
-                  <el-date-picker
-                    v-if='type==2'
+                  <!--<el-date-picker
+                    v-if='type==2' 
                     v-model="online_time"
                     class='datetimes'
                     type="datetime"
                     value-format='yyyy-MM-dd-HH-mm-ss'
                     placeholder="选择日期时间">
-                </el-date-picker>
-                <input type="text" v-model="online_time" class='input_left examine' v-if='type==1' disabled >
+                </el-date-picker>-->
+                <input type="text" v-model="online_time" class='input_left examine'  disabled >
                 <span class='select_left' v-if='ad_type&&this.list2.length>0'>二级分类</span>
                  <input type="text" class='input_left examine' v-model='ad_type2' v-if='ad_type2&&type==1' disabled>
                  <select name="" id="" class='input_left' v-model='ad_type2'  v-if='ad_type&&this.list2.length>0&&this.type==2' @change='getType(2)' >
