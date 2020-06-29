@@ -87,7 +87,7 @@
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="结算主体" prop="balance_name"
+                                label="结算方" prop="balance_name"
                                 show-overflow-tooltip
                                 >
                         </el-table-column>

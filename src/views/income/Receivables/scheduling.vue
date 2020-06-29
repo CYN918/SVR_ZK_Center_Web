@@ -42,7 +42,7 @@
                             :cell-style="cell"
                             style="width: 100%;color:#000">
                         <el-table-column
-                                label="结算主体" prop="project_id"
+                                label="结算方" prop="project_id"
                                >
                         </el-table-column>
                         <el-table-column

@@ -102,7 +102,7 @@
                         </el-table-column>
                         <el-table-column
                                 prop="advertiser"
-                                label="投放公司">
+                                label="合作公司">
                         </el-table-column>
                         <el-table-column
                                 prop="project"
@@ -166,7 +166,7 @@
                         <el-table-column
                                 prop="advertiser"
                                  v-if="!this.$route.query.type"
-                                label="投放公司">
+                                label="合作公司">
                                
                         </el-table-column> -->
                           <el-table-column
