@@ -3,10 +3,10 @@
         <div class="top_tit">
             <div class="tit_top_url">
                 <span class="log_url">收益管理 &nbsp;/&nbsp;</span>
-                <span class="log_url">广告结算数据</span>
+                <span class="log_url">广告业务结算数据</span>
             </div>
             <div class="tit_top_con">
-                <span class="tit_name">广告结算数据</span>
+                <span class="tit_name">广告业务结算数据</span>
             </div>
         </div>
         <div class="content_table">
