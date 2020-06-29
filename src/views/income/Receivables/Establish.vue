@@ -41,44 +41,10 @@
                 <div>
                     <span class="fillName">结算方</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
-                        <select v-model="name" @change="changeJiesuan($event)" :disabled='id!=undefined'>
+                        <select v-model="name" @change="changeJiesuan($event)" :disabled='id!=undefined' >
                             <option v-for="item in list" :value="item.name">{{item.name}}</option>
                         </select>
                         <span class="click" @click="massgae()">查看结算方信息</span>
-                    </div>
-                </div>
-                 <div>
-                    <span class="fillName">项目</span>
-                    <div style="display: inline-block;width: 593px;text-align: left">
-                        <div class="input">
-                             <el-select v-model="projects" multiple placeholder="请选择" class="elSelect" disabled v-if='id==undefined&&name == ""&&time==""'>
-                                <el-option
-                                        v-for="item in JSlist"
-                                        :key="item.project_name"
-                                        :label="item.project_name"
-                                        :value="item.project_id">
-                                </el-option>
-                            </el-select>
-                            <el-select v-model="projects" multiple placeholder="请选择" class="elSelect" v-if='id==undefined&&name != ""&&time!=""'>
-                                <el-option
-                                        v-for="item in JSlist"
-                                        :key="item.project_name"
-                                        :label="item.project_name"
-                                        :value="item.project_id">
-                                </el-option>
-                            </el-select>
-                            <el-select v-model="projects" multiple placeholder="请选择" class="elSelect" disabled v-if='id==undefined&&name != ""&&time==""'>
-                                <el-option
-                                        v-for="item in JSlist"
-                                        :key="item.project_name"
-                                        :label="item.project_name"
-                                        :value="item.project_id">
-                                </el-option>
-                            </el-select>
-                            <input type="text" v-model="bind_projects_name" disabled v-if='id!=undefined'>
-                        </div>
-                        
-                       
                     </div>
                 </div>
                 <div>
@@ -116,6 +82,40 @@
                                     <img src='../../../../public/img/TBC.png' v-if="this.step==1" style="margin-left: 6px;cursor: pointer;width:16px"/>
                                     <img src='../../../../public/img/confirmed.png' v-if="this.step>1" style="margin-left: 6px;cursor: pointer;width:16px"/>
                         </el-tooltip> -->
+                    </div>
+                </div>
+                 <div>
+                    <span class="fillName">项目</span>
+                    <div style="display: inline-block;width: 593px;text-align: left">
+                        <div class="input">
+                             <el-select v-model="projects" multiple placeholder="请选择" class="elSelect" disabled v-if='id==undefined&&name == ""&&time==""'>
+                                <el-option
+                                        v-for="item in JSlist"
+                                        :key="item.project_name"
+                                        :label="item.project_name"
+                                        :value="item.project_id">
+                                </el-option>
+                            </el-select>
+                            <el-select v-model="projects" multiple placeholder="请选择" class="elSelect" v-if='id==undefined&&name != ""&&time!=""'>
+                                <el-option
+                                        v-for="item in JSlist"
+                                        :key="item.project_name"
+                                        :label="item.project_name"
+                                        :value="item.project_id">
+                                </el-option>
+                            </el-select>
+                            <el-select v-model="projects" multiple placeholder="请选择" class="elSelect" disabled v-if='id==undefined&&name != ""&&time==""'>
+                                <el-option
+                                        v-for="item in JSlist"
+                                        :key="item.project_name"
+                                        :label="item.project_name"
+                                        :value="item.project_id">
+                                </el-option>
+                            </el-select>
+                            <input type="text" v-model="bind_projects_name" disabled v-if='id!=undefined'>
+                        </div>
+                        
+                       
                     </div>
                 </div>
                 <div v-if='this.step>=2'>
@@ -223,7 +223,9 @@
                         console.log(this.balance_id)
                     }
                 })
-
+                if(this.time){
+                    this.getObject();//修改项目
+                }
             },
             jump(){
                 this.$router.push({
