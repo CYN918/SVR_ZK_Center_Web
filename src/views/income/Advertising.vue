@@ -530,7 +530,7 @@ import 'ant-design-vue/dist/antd.css'
                 
             },
             getDlist(){
-                    let params={is_receiver:this.is_receiver}
+                    let params={is_receiver:this.is_receiver,status:''}
                     this.api.settle_settlement_list({params}).then((res)=>{
                         this.restaurants=res;
                          this.JSname=res

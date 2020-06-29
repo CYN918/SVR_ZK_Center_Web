@@ -391,7 +391,7 @@ import 'ant-design-vue/dist/antd.css'
              getName(){     
                     this.show=true;
                     this.JSname=[];
-                     let params={is_receiver:this.is_receiver,search:this.name}
+                     let params={is_receiver:this.is_receiver, search:this.name, status:''}
                         this.api.settle_settlement_list({params}).then((res)=>{
                             if(res.length == '0'){
                                 this.show = false
