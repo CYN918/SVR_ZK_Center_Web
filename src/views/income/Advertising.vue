@@ -38,7 +38,7 @@
                     <option value="0">付款数据</option> -->
                 </select>
                  
-                <div style=" display: inline-block;position: relative;" >
+                <div style="display:inline-block;position: relative;">
                     <span class="ad">结算方</span>
                     <!-- <input type="text" placeholder="请输入结算方" v-model="name" @input="getName()"/>
                     <div class='names' v-if="show">
@@ -54,7 +54,7 @@
                     </el-autocomplete>
                 </div>
                 <span  class="ad" v-if="is_receiver==0">渠道场景</span>
-                 <a-tree-select
+                <a-tree-select
                             v-if="is_receiver==0"
                                 v-model="channels"
                                 style="min-width:200px;max-width:300px;height:36px;overflow: hidden;vertical-align: bottom;"
