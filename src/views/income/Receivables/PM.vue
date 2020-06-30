@@ -18,8 +18,8 @@
                 </select>
                 
                 <div style=" display: inline-block;position: relative;margin-left:15px;">
-                    <span style="margin-right: 15px;">结算主体</span>
-                    <!-- <input type="text" placeholder="请输入结算主体" v-model="balance_name" @input="getName()" @blur='focuson()' @focus='getName()'/>
+                    <span style="margin-right: 15px;">结算方</span>
+                    <!-- <input type="text" placeholder="请输入结算方" v-model="balance_name" @input="getName()" @blur='focuson()' @focus='getName()'/>
                     <div class='names' v-if="show">
                         <span v-for="da in JSname" @click='setName(da)'>{{da.account_name}}</span>
                     </div> -->
@@ -157,7 +157,7 @@ import download from '../../../api/commonality'
                 p:10,
                 status:'',
                 search:"",
-                load:true,
+                load:false,
                 upTxt:false,
                 userData:{},
                 isShow:true,
@@ -275,6 +275,7 @@ import download from '../../../api/commonality'
                 this.getDataList()
             },
             getDataList(){
+                this.load = true;
                 let params={p:this.p,page:this.page,search:this.search,status:this.status,company_id:this.company_id,put_type:this.put_type,balance_id:this.balance_id}
                 this.api.adproject_listpage({params}).then((res)=>{
                     this.total=res.total;

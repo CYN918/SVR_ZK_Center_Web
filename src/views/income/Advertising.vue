@@ -38,7 +38,7 @@
                     <option value="0">付款数据</option> -->
                 </select>
                  
-                <div style=" display: inline-block;position: relative;" >
+                <div style="display:inline-block;position: relative;">
                     <span class="ad">结算方</span>
                     <!-- <input type="text" placeholder="请输入结算方" v-model="name" @input="getName()"/>
                     <div class='names' v-if="show">
@@ -54,7 +54,7 @@
                     </el-autocomplete>
                 </div>
                 <span  class="ad" v-if="is_receiver==0">渠道场景</span>
-                 <a-tree-select
+                <a-tree-select
                             v-if="is_receiver==0"
                                 v-model="channels"
                                 style="min-width:200px;max-width:300px;height:36px;overflow: hidden;vertical-align: bottom;"
@@ -120,7 +120,7 @@
                         </el-table-column>
                         <el-table-column
                                 prop="advertiser"
-                                label="投放公司">
+                                label="合作公司">
                         </el-table-column>
                         <el-table-column
                                 prop="project"
@@ -184,7 +184,7 @@
                         <!-- <el-table-column
                                 prop="advertiser"
                                  v-if="!this.$route.query.type"
-                                label="投放公司">
+                                label="合作公司">
                                
                         </el-table-column> -->
                         <el-table-column
@@ -530,7 +530,7 @@ import 'ant-design-vue/dist/antd.css'
                 
             },
             getDlist(){
-                    let params={is_receiver:this.is_receiver}
+                    let params={is_receiver:this.is_receiver,status:''}
                     this.api.settle_settlement_list({params}).then((res)=>{
                         this.restaurants=res;
                          this.JSname=res

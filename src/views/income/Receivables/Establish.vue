@@ -41,35 +41,32 @@
                 <div>
                     <span class="fillName">结算方</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
-                        <select v-model="name" @change='getObject()' :disabled='id!=undefined'>
+                        <select v-model="name" @change="changeJiesuan($event)" :disabled='id!=undefined' >
                             <option v-for="item in list" :value="item.name">{{item.name}}</option>
                         </select>
                         <span class="click" @click="massgae()">查看结算方信息</span>
                     </div>
                 </div>
-                 <div>
-                    <span class="fillName">项目</span>
-                    <div style="display: inline-block;width: 593px;text-align: left">
-                        <div class="input">
-                             <el-select v-model="projects" multiple placeholder="请选择" class="elSelect" v-if='id==undefined'>
-                                <el-option
-                                        v-for="item in JSlist"
-                                        :key="item.project_name"
-                                        :label="item.project_name"
-                                        :value="item.project_id">
-                                </el-option>
-                            </el-select>
-                            <input type="text" v-model="bind_projects_name" disabled v-if='id!=undefined'>
-                        </div>
-                       
-                    </div>
-                </div>
                 <div>
                     <span class="fillName">结算时间段</span>
                     <div style="display: inline-block;width: 593px;text-align: left">
-                        <div class="fillTime">
+                        <div class="fillTime" v-if="name != ''">
                             <el-date-picker
                                    :disabled='id!=undefined'
+                                    v-model="time"
+                                    type="daterange"
+                                    range-separator="至"
+                                    start-placeholder="开始日期"
+                                    end-placeholder="结束日期"
+                                    format="yyyy-MM-dd"
+                                    value-format="yyyy-MM-dd"
+                                    @change='getObject()'
+                            >
+                            </el-date-picker>
+                        </div>
+                        <div class="fillTime" v-if="name == ''">
+                            <el-date-picker
+                                   :disabled='id==undefined'
                                     v-model="time"
                                     type="daterange"
                                     range-separator="至"
@@ -85,6 +82,40 @@
                                     <img src='../../../../public/img/TBC.png' v-if="this.step==1" style="margin-left: 6px;cursor: pointer;width:16px"/>
                                     <img src='../../../../public/img/confirmed.png' v-if="this.step>1" style="margin-left: 6px;cursor: pointer;width:16px"/>
                         </el-tooltip> -->
+                    </div>
+                </div>
+                 <div>
+                    <span class="fillName">项目</span>
+                    <div style="display: inline-block;width: 593px;text-align: left">
+                        <div class="input">
+                             <el-select v-model="projects" multiple placeholder="请选择" class="elSelect" disabled v-if='id==undefined&&name == ""&&time==""'>
+                                <el-option
+                                        v-for="item in JSlist"
+                                        :key="item.project_name"
+                                        :label="item.project_name"
+                                        :value="item.project_id">
+                                </el-option>
+                            </el-select>
+                            <el-select v-model="projects" multiple placeholder="请选择" class="elSelect" v-if='id==undefined&&name != ""&&time!=""'>
+                                <el-option
+                                        v-for="item in JSlist"
+                                        :key="item.project_name"
+                                        :label="item.project_name"
+                                        :value="item.project_id">
+                                </el-option>
+                            </el-select>
+                            <el-select v-model="projects" multiple placeholder="请选择" class="elSelect" disabled v-if='id==undefined&&name != ""&&time==""'>
+                                <el-option
+                                        v-for="item in JSlist"
+                                        :key="item.project_name"
+                                        :label="item.project_name"
+                                        :value="item.project_id">
+                                </el-option>
+                            </el-select>
+                            <input type="text" v-model="bind_projects_name" disabled v-if='id!=undefined'>
+                        </div>
+                        
+                       
                     </div>
                 </div>
                 <div v-if='this.step>=2'>
@@ -173,7 +204,8 @@
                 JSlist:[],
                 projects:[],
                 id:this.$route.query.id,
-                bind_projects_name:""
+                bind_projects_name:"",
+                balance_id:'',
             }
         },
         mounted(){
@@ -183,6 +215,18 @@
             }
         },
         methods:{
+            changeJiesuan(event){
+                
+                this.list.forEach(item => {
+                    if(item.name == event.target.value){
+                        this.balance_id = item.id;
+                        console.log(this.balance_id)
+                    }
+                })
+                if(this.time){
+                    this.getObject();//修改项目
+                }
+            },
             jump(){
                 this.$router.push({
                     path:"./Administration"
@@ -296,6 +340,7 @@
                 formData.append('real_amount',this.real_amount);
                 formData.append('note',this.note);
                 formData.append('status',this.step);
+                formData.append('balance_id',this.balance_id);
                 formData.append('attachs',JSON.stringify(this.attachs));
                 this.api.settlemanage_check_add(formData).then((res)=>{
                    if(res!=false){
@@ -429,7 +474,11 @@
                     this.$message.error('结算方不能为空')
                     return
                 }
-                let params={balance_name:this.name}
+                if(!this.time){
+                    this.$message.error('结算时间段不能为空')
+                    return
+                }
+                let params={balance_name:this.name,settle_start_time:this.time[0],settle_end_time:this.time[1]}
                 this.api.adproject_listpage({params}).then((res)=>{
                     this.JSlist=res.data
                 })

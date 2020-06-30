@@ -137,6 +137,7 @@
             }
         },
         mounted(){
+            console.log("mounted");
             this.purview=JSON.parse(localStorage.getItem('letNav'));
             for(var i=0;i<this.purview.length;i++){
                 if(this.purview[i].title=='收益中心'){
@@ -171,6 +172,7 @@
         },
         methods:{
              detail(){
+                console.log('detail');
                 this.budget=true;
             },
              heidDetail(){

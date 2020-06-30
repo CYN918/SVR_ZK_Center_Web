@@ -111,6 +111,7 @@ data() {
     };
 },
     mounted(){
+        console.log('id2:' + this.id);
         this.getData();
         this.authority=JSON.parse(localStorage.getItem('control'));
         for(var i=0;i<this.authority.length;i++){

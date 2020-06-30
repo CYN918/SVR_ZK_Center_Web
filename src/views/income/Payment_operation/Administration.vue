@@ -110,8 +110,9 @@
 </template>
 
 <script>
-    
+    import abs from '../payment/ABolish'
     export default {
+        components:{abs},
 
         name: "administration",
         data(){

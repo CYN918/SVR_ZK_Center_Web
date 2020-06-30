@@ -20,12 +20,6 @@
             <div class='select_box_1'>
                 <span class='select_left'>项目名称：<span class="err" v-if="name_valid==0">(存在项目重名，数据无效)</span></span>
                  <input type="text" class='input_left' :class='{examine:this.type==1}' :disabled="type==1" v-model='project_name' >
-                <span class='select_left'>合作公司：<span class="err" v-if='!this.company_id&&this.company_name!=""'>(合作公司不存在，数据无效)</span></span>
-                <input type="text" class='input_left' @focus='focuson()'  v-model='company_name' @input='focuson()' :class='{examine:this.type==1}' :disabled="type==1">
-                <ul v-if='old'>
-                    <li @click='oldADD(company_name)' v-if="company_name && OLDname==false">新增"{{company_name}}"为合作公司</li>
-                    <li v-for='(item,index) in company' @click='select_check(index)'>{{item.name}}</li>
-                 </ul>
                 <span class='select_left' style="width:100%">广告类型：一级分类 </span>
                 <input type="text" class='input_left examine' v-model='ad_type' v-if='type==1' disabled>
                 <select v-model='ad_type' class='input_left' @change='getType(1)' :class='{examine:this.type==1}' v-if="type==2">
@@ -34,27 +28,16 @@
 
             </div>
             <div class='select_box_2'>
-                <span class='select_left'>结算主体：<span class="err" v-if='state1&&balance_id==""'>(结算主体不存在，数据无效)</span></span>
-                 <el-autocomplete
-                        :class='{examine:this.type==1}' 
-                        :disabled="type==1"
-                        class="inline-input"
-                        v-model="state1"
-                        :fetch-suggestions="querySearch"
-                        placeholder="请输入内容"
-                        @select="handleSelect"
-                        >
-                    </el-autocomplete>
                  <span class='select_left'>上线时间：</span>
-                  <el-date-picker
-                    v-if='type==2'
+                  <!--<el-date-picker
+                    v-if='type==2' 
                     v-model="online_time"
                     class='datetimes'
                     type="datetime"
                     value-format='yyyy-MM-dd-HH-mm-ss'
                     placeholder="选择日期时间">
-                </el-date-picker>
-                <input type="text" v-model="online_time" class='input_left examine' v-if='type==1' disabled >
+                </el-date-picker>-->
+                <input type="text" v-model="online_time" class='input_left examine'  disabled >
                 <span class='select_left' v-if='ad_type&&this.list2.length>0'>二级分类</span>
                  <input type="text" class='input_left examine' v-model='ad_type2' v-if='ad_type2&&type==1' disabled>
                  <select name="" id="" class='input_left' v-model='ad_type2'  v-if='ad_type&&this.list2.length>0&&this.type==2' @change='getType(2)' >
@@ -75,63 +58,137 @@
                      <option :value="item" v-for="item in list3">{{item}}</option>
                 </select>
             </div>
-           <div>
-               <span class='sw' >商务模式</span>
+    
+            <div>
+               <span class='sw' >
+                   结算方
+                   <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                        <div slot="content" class="text">不同规则的生效时间和失效时间必须连续</div>
+                        <img src="../../../../public/img/msgAt.png" style="vertical-align: top !important;margin-top: 5px;"/>
+                    </el-tooltip>
+                   <span class="err" v-if='state1&&balance_id==""'>(结算方不存在，数据无效)</span>
+                </span>
            </div>
-           <div>
+            <div>
                <template>
                     <el-table
-                            :data="bussiness_types"
-                            header-align="center"
-                            :header-cell-style="getRowClass"
-                            :cell-style="cell"
-                            style="margin-right:24px;color:#000">
-                        <el-table-column
-                                label="生效时间" prop="starttime"
-                               >
-                        </el-table-column>
-                        <el-table-column
-                                label="失效时间" prop="endtime"
-                                >
-                                 <template slot-scope="scope">
-                                    <span v-if='bussiness_types[scope.$index].endtime'>{{bussiness_types[scope.$index].endtime}}</span>
-                                    <span v-if='bussiness_types[scope.$index].endtime==""'>-</span>
-                                </template>
-                        </el-table-column>
-                        <el-table-column
-                                label="计费方式" prop="cost_type">
-                        
-                        </el-table-column>
-                        <el-table-column
-                                label="分成模式(ZK)" prop="profit_share_ratio"
-                                >
-                        </el-table-column>
-                        <el-table-column
-                                label="结算模式" prop="balance_type"
-                                >
-                        </el-table-column>
-                         <el-table-column
-                                label="固价价格" prop="fix_price"
-                                >
-                        </el-table-column>
-                         <el-table-column
-                                label="修改时间" prop="updated_at"
-                                >
-                        </el-table-column>
-                        <el-table-column label="操作人员" prop="updator">
-                            
-                        </el-table-column>
-                         <el-table-column label="操作" v-if='this.type==2'>
+                        :data="settlements"
+                        header-align="center"
+                        :height="tabHight"
+                        :header-cell-style="getRowClass"
+                        :cell-style="cell"
+                        style="margin-right:24px;color:#000">
+                        <el-table-column label="生效时间" prop="starttime"></el-table-column>
+                        <el-table-column label="失效时间" prop="endtime">
                             <template slot-scope="scope">
-                                <el-button type="text" @click='swADD(2,scope.$index)'>编辑</el-button>
-                                <el-button type="text" @click='sc(scope.$index)'>删除</el-button>
+                                <span v-if='settlements[scope.$index].endtime'>{{settlements[scope.$index].endtime}}</span>
+                                <span v-if='settlements[scope.$index].endtime==""'>-</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="结算方名称" prop="name"></el-table-column>
+                        <el-table-column label="修改时间" prop="updated_at"></el-table-column>
+                        <el-table-column label="操作人员" prop="updator"></el-table-column>
+                        <el-table-column label="操作" v-if='this.type==2'>
+                            <template slot-scope="scope">
+                                <el-button type="text" @click='swADD("js",2,scope.$index)'>编辑</el-button>
+                                <el-button type="text" @click='sc("js",scope.$index)'>删除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
                 </template>
                 <div class='SWADD'  v-if='type==2'>
-                    <span @click='swADD(1)'>+添加</span>
+                    <span @click='swADD("js",1)'>+添加</span>
                 </div>
+                <div class="ckQb" v-if="settlements.length > 1 && type!=2 && Tclass==false" @click="getTag(1)">查看全部</div>
+                <div class="ckQb" v-if="settlements.length > 1 && type!=2 && Tclass==true" @click="heidTag(1)">收起</div>
+           </div>
+            <div>
+               <span class='sw' >
+                   合作公司
+                   <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                        <div slot="content" class="text">不同规则的生效时间和失效时间必须连续</div>
+                        <img src="../../../../public/img/msgAt.png" style="vertical-align: top !important;margin-top: 5px;"/>
+                    </el-tooltip>
+                   <span class="err" v-if='!this.company_id&&this.company_name!=""'>(合作公司不存在，数据无效)</span>
+                </span>
+           </div>
+            <div>
+               <template>
+                    <el-table
+                        :data="companys"
+                        header-align="center"
+                        :height="tabHight1"
+                        :header-cell-style="getRowClass"
+                        :cell-style="cell"
+                        style="margin-right:24px;color:#000">
+                        <el-table-column label="生效时间" prop="starttime"></el-table-column>
+                        <el-table-column label="失效时间" prop="endtime">
+                            <template slot-scope="scope">
+                                <span v-if='companys[scope.$index].endtime'>{{companys[scope.$index].endtime}}</span>
+                                <span v-if='companys[scope.$index].endtime==""'>-</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="合作公司名称" prop="name"></el-table-column>
+                        <el-table-column label="修改时间" prop="updated_at"></el-table-column>
+                        <el-table-column label="操作人员" prop="updator"></el-table-column>
+                        <el-table-column label="操作" v-if='this.type==2'>
+                            <template slot-scope="scope">
+                                <el-button type="text" @click='swADD("hz",2,scope.$index)'>编辑</el-button>
+                                <el-button type="text" @click='sc("hz",scope.$index)'>删除</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </template>
+                <div class='SWADD'  v-if='type==2'>
+                    <span @click='swADD("hz",1)'>+添加</span>
+                </div>
+                <div class="ckQb" v-if="companys.length > 1 && type!=2 && Tclass1==false" @click="getTag(2)">查看全部</div>
+                <div class="ckQb" v-if="companys.length > 1 && type!=2 && Tclass1==true" @click="heidTag(2)">收起</div>
+           </div>
+           <div>
+               <span class='sw' >
+                   商务模式
+                   <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
+                        <div slot="content" class="text">不同规则的生效时间和失效时间必须连续</div>
+                        <img src="../../../../public/img/msgAt.png" style="vertical-align: top !important;margin-top: 5px;"/>
+                    </el-tooltip>
+                </span>
+           </div>
+           <div>
+               <template>
+                    <el-table
+                        :data="bussiness_types"
+                        header-align="center"
+                        :height="tabHight2"
+                        :header-cell-style="getRowClass"
+                        :cell-style="cell"
+                        style="margin-right:24px;color:#000">
+                        <el-table-column label="生效时间" prop="starttime"></el-table-column>
+                        <el-table-column label="失效时间" prop="endtime">
+                            <template slot-scope="scope">
+                                <span v-if='bussiness_types[scope.$index].endtime'>{{bussiness_types[scope.$index].endtime}}</span>
+                                <span v-if='bussiness_types[scope.$index].endtime==""'>-</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="计费方式" prop="cost_type"></el-table-column>
+                        <el-table-column label="分成模式(ZK)" prop="profit_share_ratio"></el-table-column>
+                        <el-table-column label="结算模式" prop="balance_type"></el-table-column>
+                        <el-table-column label="固价价格" prop="fix_price"></el-table-column>
+                        <el-table-column label="修改时间" prop="updated_at"></el-table-column>
+                        <el-table-column label="操作人员" prop="updator"></el-table-column>
+                        <el-table-column label="操作" v-if='this.type==2'>
+                            <template slot-scope="scope">
+                                <el-button type="text" @click='swADD("sw",2,scope.$index)'>编辑</el-button>
+                                <el-button type="text" @click='sc("sw",scope.$index)'>删除</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </template>
+                <div class='SWADD'  v-if='type==2'>
+                    <span @click='swADD("sw",1)'>+添加</span>
+                </div>
+                <div class="ckQb" v-if="bussiness_types.length > 1 && type!=2 && Tclass2==false" @click="getTag(3)">查看全部</div>
+                <div class="ckQb" v-if="bussiness_types.length > 1 && type!=2 && Tclass2==true" @click="heidTag(3)">收起</div>
            </div>
 
         </div>
@@ -187,7 +244,7 @@
                                     prop="address"
                                     width="50"
                             >
-                                <template slot-scope="scope" v-if='this.type==2'>
+                                <template slot-scope="scope" v-if='type==2'>
                                     <img src="../../../../public/img/dels.png" style="cursor: pointer" @click="del(scope.$index)"/>
                                 </template>
                             </el-table-column>
@@ -274,7 +331,8 @@
             </div>
         </div>
         <div class='btns' v-if="type==2">
-                <span class='bc' @click="projectBj()">保存</span>
+                <!-- <span class='bc' @click="projectBj()">保存</span> -->
+                <el-button type="primary" :loading="loading" class='bc' @click="projectBj()">保存</el-button>
                 <span @click='setType()'>取消</span>
         </div>
          <div class="bg" v-if="ht">
@@ -357,7 +415,7 @@
                 </div>
                 <div>
                     <span>结算模式：</span>
-                    <select name="" id="" class='datetime' v-model="balance_type">
+                    <select name="" id="" class='datetime' v-model="balance_type" @change='changeBalance()'>
                         <option value="未知">未知</option>
                         <option value="以zk数据为准">以zk数据为准</option>
                         <option value="以广告主反馈数据为准（包括后台）">以广告主反馈数据为准（包括后台）</option>
@@ -368,83 +426,217 @@
                     <input type='number' placeholder="请输入" class='datetime' v-model="fix_price" v-if='balance_type!="未知"'>
                 </div>
                 <div class='btns' style="box-shadow:0 0 0 #fff">
-                    <span class='bc' style="margin-left:95px" @click='push()'>确定</span>
-                    <span @click="swHeid()">取消</span>
+                    <span class='bc' style="margin-left:95px" @click='push("sw")'>确定</span>
+                    <span @click="swHeid('sw')">取消</span>
                 </div>
             </div>
         </div>
+
+        <div class='bg' v-if='js'>
+            <div class='swBox' style="height: 350px;">
+                <div class="content_tit">
+                    <span>{{this.num==1?'添加':'编辑'}}</span>
+                </div>
+                <div>
+                    <span>生效时间：</span>
+                    <el-date-picker
+                        v-model="starttime"
+                        class='datetimes'
+                        type="date"
+                        value-format='yyyy-MM-dd'
+                        placeholder="选择日期时间">
+                    </el-date-picker>
+                </div>
+                <div>
+                    <span>失效时间：</span>
+                    <el-date-picker
+                        v-model="endtime"
+                        class='datetimes'
+                        value-format='yyyy-MM-dd'
+                        type="date"
+                        placeholder="选择日期时间">
+                    </el-date-picker>
+                </div>
+                <div>
+                    <span class='select_left'>结算方：</span>
+                    <el-autocomplete
+                        class="inline-input"
+                        v-model="state1"
+                        :fetch-suggestions="querySearch"
+                        placeholder="请输入内容"
+                        @select="handleSelect">
+                    </el-autocomplete>
+                </div>
+                <div class='btns' style="box-shadow:0 0 0 #fff">
+                    <span class='bc' style="margin-left:95px" @click='push("js")'>确定</span>
+                    <span @click="swHeid('js')">取消</span>
+                </div>
+            </div>
+        </div>
+
+        <div class='bg' v-if='hz'>
+            <div class='swBox' style="height: 350px;">
+                <div class="content_tit">
+                    <span>{{this.num==1?'添加':'编辑'}}</span>
+                </div>
+                <div>
+                    <span>生效时间：</span>
+                    <el-date-picker
+                        v-model="starttime"
+                        class='datetimes'
+                        type="date"
+                        value-format='yyyy-MM-dd'
+                        placeholder="选择日期时间">
+                    </el-date-picker>
+                </div>
+                <div>
+                    <span>失效时间：</span>
+                    <el-date-picker
+                        v-model="endtime"
+                        class='datetimes'
+                        value-format='yyyy-MM-dd'
+                        type="date"
+                        placeholder="选择日期时间">
+                    </el-date-picker>
+                </div>
+                <div>
+                    <span class='select_left'>合作公司：</span>
+                    <input type="text" class='input_left' @focus='focuson()'  v-model='company_name' @input='focuson()'>
+                    <ul v-if='old' class="oldBox">
+                        <li v-for='(item,index) in company' @click='select_check(index)'>{{item.name}}</li>
+                    </ul>
+                    
+                </div>
+                <div class='btns' style="box-shadow:0 0 0 #fff">
+                    <span class='bc' style="margin-left:95px" @click='push("hz")'>确定</span>
+                    <span @click="swHeid('hz')">取消</span>
+                </div>
+            </div>
+        </div>
+        <loading v-if='load'></loading>
   </div>
 </template>
 
 <script>
+import loading from '../../../components/loading'
 export default {
+            components:{loading},
             data(){
                 return{
+                    load:false,
                     ht:false,
                     sw:false,
-                       level:"",
-                       list:[],
-                       list2:[],
-                       list3:[],
-                       one:"",
-                       two:"",
-                       three:"",
-                       tableData:[],
-                       online_time:"",
-                       old:false,
-                       company:[],
-                       company_name:"",
-                       listData:{},
-                       project_name:"",
-                       company_id:"",
-                       ad_type:"",
-                       ad_type2:"",
-                       ad_type3:"",
-                       bussiness_types:[],
-                       attachements:[],
-                       contracts:[],
-                       contract:[],
-                       report_media:"",
-                       report_ad_id:"",
-                       report_space_id:'', 
-                       report_link:"",
-                       ad_req_pv:"",
-                       ad_click_pv:"",
-                       ad_show_pv:"",
-                       ad_download_pv:"",
-                       note:"",
-                       report_link_auto_update:'0',
-                       contract_id:'',
-                       listS:[],
-                       state1:"",
-                       balance_id:'',
-                       JSlist:[],
-                       endtime:"",
-                       starttime:"",
-                       cost_type:"",
-                       profit_share_ratio:"",
-                       balance_type:"",
-                       fix_price:"",
-                       index:'',
-                       num:"",
-                       times:"",
-                       up:false,
-                       type:"1",
-                       approve_id:"",
-                       name_valid:"",
-                       OLDname:true,
-                       put_type:"",
+                    js:false,
+                    hz:false,
+                    level:"",
+                    list:[],
+                    list2:[],
+                    list3:[],
+                    one:"",
+                    two:"",
+                    three:"",
+                    tableData:[],
+                    online_time:"",
+                    old:false,
+                    company:[],
+                    company_name:"",
+                    listData:{},
+                    project_name:"",
+                    company_id:"",
+                    ad_type:"",
+                    ad_type2:"",
+                    ad_type3:"",
+                    bussiness_types:[],
+                    settlements:[],
+                    companys:[],
+                    attachements:[],
+                    contracts:[],
+                    contract:[],
+                    report_media:"",
+                    report_ad_id:"",
+                    report_space_id:'', 
+                    report_link:"",
+                    ad_req_pv:"",
+                    ad_click_pv:"",
+                    ad_show_pv:"",
+                    ad_download_pv:"",
+                    note:"",
+                    report_link_auto_update:'0',
+                    contract_id:'',
+                    listS:[],
+                    state1:"",
+                    balance_id:'',
+                    JSlist:[],
+                    endtime:"",
+                    starttime:"",
+                    cost_type:"",
+                    profit_share_ratio:"",
+                    balance_type:"",
+                    fix_price:"",
+                    index:'',
+                    num:"",
+                    times:"",
+                    up:false,
+                    type:"1",
+                    approve_id:"",
+                    name_valid:"",
+                    OLDname:true,
+                    put_type:"",
+                    tabHight:129,
+                    tabHight1:129,
+                    tabHight2:129,
+                    Tclass:false,
+                    Tclass1:false,
+                    Tclass2:false,
+                    loading:false,
                 }
             },
             mounted(){
-                this.getDataList()
+                this.getDataList();
             },
             methods:{
+                getTag(b){
+                    if(b == 1){
+                        this.tabHight = 225;
+                        this.Tclass = true;
+                    } 
+                    if(b == 2){
+                        this.tabHight1 = 225;
+                        this.Tclass1 = true;
+                    } 
+                    if(b == 3){
+                        this.tabHight2 = 225;
+                        this.Tclass2 = true;
+                    }   
+                },
+                heidTag(b){
+                    if(b == 1){
+                        this.tabHight = 129;
+                        this.Tclass = false;
+                    }
+                    if(b == 2){
+                        this.tabHight1 = 129;
+                        this.Tclass1 = false;
+                    } 
+                    if(b == 3){
+                        this.tabHight2 = 129;
+                        this.Tclass2 = false;
+                    } 
+                },
                 bg(){
                     this.type=2;
                 },
-                sc(index){
-                    this.bussiness_types.splice(index,1);
+                sc(str,index){
+                    console.log(str,index)
+                    if(str == 'sw'){
+                        this.bussiness_types.splice(index,1);
+                    }
+                    if(str == 'hz'){
+                        this.companys.splice(index,1);
+                    }
+                    if(str == 'js'){
+                        this.settlements.splice(index,1);
+                    }        
                 },
                 fh(index){
                     console.log(index)
@@ -471,19 +663,17 @@ export default {
                     return 'text-align:center;color:rgba(61,73,102,1);font-size:14px;font-weight:400;font-family:PingFangSC-Regula;'
                 },
                 getDataList(){
+                    this.load = true;
                     let params={project_id:this.$route.query.project_id}
                     this.api.adproject_detail({params}).then((res)=>{
                         this.approve_id=res.approve_id;
                         this.bussiness_types=res.bussiness_types;
+                        this.settlements = res.settlements;
+                        this.companys = res.companys;
                         this.attachements=res.attachements;
                         this.contracts=res.contracts;
                         this.project_name=res.project_name;
                         this.company_id=res.company_id;
-                        if(res.company_id){
-                             this.company_name=res.company.name;
-                        }else{
-                             this.company_name=res.company_name;
-                        }
                         this.balance_id=res.balance_id;
                         if(this.balance_id){
                             this.state1=res.balance.name
@@ -510,6 +700,7 @@ export default {
                         this.put_type=res.put_type;
                         this.getType();
                         this.getJS();
+                        this.load = false;
                     })
                 },
                 getType(index){
@@ -548,22 +739,53 @@ export default {
                  handleRemove(file, fileList) {
                     
                 },
+                changeBalance(){
+                    if(this.balance_type == '未知'){
+                        this.fix_price = 0;
+                    }
+                },
+
+                getCompanys(callback){
+                    this.old = false;
+                    console.log("command:" + callback);
+                    let params={search:this.company_name}
+                    this.api.adproject_adcompany_list({params}).then((res)=>{
+                        callback(res)
+                    });
+                },
+                checkCompany(res){
+                    let bResult = false;
+                    this.company = res;
+                    if(this.company.length <= 0){
+                        bResult = false;
+                        return;
+                    }
+                    
+                    for(var i = 0; i < this.company.length; i++){
+                        if(this.company[i].name == this.company_name){
+                            bResult = true;
+                        }
+                    }
+                    return bResult;
+                },
+
                 focuson(){
+                    this.OLDname=false;
                     let params={search:this.company_name}
                     this.api.adproject_adcompany_list({params}).then((res)=>{
                         this.company=res;
                         if(this.company.length>0){
                              for(var i=0 ;i<this.company.length;i++){
-                                this.OLDname=(this.company[i].name==this.company_name);
+                                this.OLDname = (this.company[i].name == this.company_name);
                             }
                         }else{
                             this.OLDname=false
                         }
-                       
-                        
+                        if(this.OLDname){
+                            this.old = false;
+                        }
                     })
-                   this.old=true;
-                   
+                    this.old=true;
                 },
 
                 select_check(index){
@@ -609,7 +831,7 @@ export default {
                 },
                 getJS(){
                     let params={is_receiver:'1'}
-                    this.api.settle_settlement_searchall({params}).then((res)=>{
+                    this.api.settle_settlement_list({params}).then((res)=>{
                         this.JSlist=res
                     })
                 },
@@ -629,80 +851,185 @@ export default {
                     return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
                     };
                 },
-                swADD(num,index){
-                    this.sw=true;
-                    this.num=num;
-                    this.index=index;
-                    if(num==2){
-                         this.endtime=this.bussiness_types[this.index].endtime;
-                        this.starttime=this.bussiness_types[this.index].starttime;
-                        this.cost_type=this.bussiness_types[this.index].cost_type;
-                        this.profit_share_ratio=this.bussiness_types[this.index].profit_share_ratio;
-                        this.balance_type=this.bussiness_types[this.index].balance_type;
-                        this.fix_price=this.bussiness_types[this.index].fix_price;
+                swEdit(str, index){
+                    if(str == 'sw'){
+                        this.endtime = this.bussiness_types[index].endtime;
+                        this.starttime = this.bussiness_types[index].starttime;
+                        this.cost_type = this.bussiness_types[index].cost_type;
+                        this.profit_share_ratio = this.bussiness_types[index].profit_share_ratio;
+                        this.balance_type = this.bussiness_types[index].balance_type;
+                        this.fix_price = this.bussiness_types[index].fix_price;
+                    }
+                    if(str == 'hz'){
+                        this.endtime=this.companys[index].endtime;
+                        this.starttime=this.companys[index].starttime;
+                        this.company_name=this.companys[index].name;
+                    }
+                    if(str == 'js'){
+                        this.endtime=this.settlements[index].endtime;
+                        this.starttime=this.settlements[index].starttime;
+                        this.state1 = this.settlements[index].name;
                     }
                 },
-                swHeid(){
-                    this.sw=false;
+                swADD(str,num,index){
+                    console.log(str, num, index);
+                    this.num=num;
+                    this.index = index;
+                    if(str == 'sw'){
+                        this.sw=true;
+                    }
+                    if(str == 'hz'){
+                        this.hz = true;
+                    }
+                    if(str == 'js'){
+                        this.js = true;
+                    }  
+                    if(num == 2){
+                        return this.swEdit(str, index);
+                    }
+                    if(str == 'sw'){
+                        this.endtime = '';
+                        this.starttime = '';
+                        this.cost_type = '';
+                        this.profit_share_ratio = '';
+                        this.balance_type = '';
+                        this.fix_price = '';
+                    }
+                    if(str == 'hz'){
+                        this.endtime = '';
+                        this.starttime = '';
+                        this.company_name = '';
+                    }
+                    if(str == 'js'){
+                        this.endtime = '';
+                        this.starttime = '';
+                        this.state1 = '';
+                    }
+                },
+                swHeid(str){
+                    if(str == 'sw'){
+                        this.sw=false;
+                        this.cost_type="";
+                        this.profit_share_ratio="";
+                        this.balance_type="";
+                        this.fix_price="";
+                        this.num='';
+                        this.index=''
+                    }
+                    if(str == 'js'){
+                        this.js = false;
+                    }
+                    if(str == 'hz'){
+                        this.hz = false;
+                    }
+                    
                     this.endtime="";
                     this.starttime="";
-                    this.cost_type="";
-                    this.profit_share_ratio="";
-                    this.balance_type="";
-                    this.fix_price="";
-                    this.num='';
-                    this.index=''
+                    
                 },
-                push(){
+                push(str){
+                    console.log(str)
                     var patt= new RegExp(/^(100|[1-9]?\d(\.\d\d?\d?)?)%$|0$/);
-                     if(!this.starttime){
+                    if(!this.starttime){
                         this.$message.error('生效时间不能为空')
                         return
                     }
-                     if(!this.cost_type){
-                        this.$message.error('计费方式不能为空')
-                        return
-                    }
-                     if(!this.profit_share_ratio){
-                        this.$message.error('分成模式不能为空')
-                        return
-                    }
-                    if(!(patt.test(this.profit_share_ratio))){
-                        this.$message.error('分成模式内容异常，请输入百分比，例如30%')
-                        return
-                    }
-                     if(!this.balance_type){
-                        this.$message.error('结算模式不能为空')
-                        return
-                    }
-                     if(this.balance_type!="未知"&&!this.fix_price){
-                        this.$message.error('固价价格不能为空')
-                        return
-                    }
-                     if(this.balance_type!="未知"&&this.fix_price<='0'){
+                    if(str == 'sw'){
+                        if(!this.cost_type){
+                            this.$message.error('计费方式不能为空')
+                            return
+                        }
+                        if(!this.profit_share_ratio){
+                            this.$message.error('分成模式不能为空')
+                            return
+                        }
+                        if(!(patt.test(this.profit_share_ratio))){
+                            this.$message.error('分成模式内容异常，请输入百分比，例如30%')
+                            return
+                        }
+                        if(!this.balance_type){
+                            this.$message.error('结算模式不能为空')
+                            return
+                        }
+                        if(this.balance_type!="未知"&&!this.fix_price){
+                            this.$message.error('固价价格不能为空')
+                            return
+                        }
+                        if(this.balance_type!="未知"&&this.fix_price<='0'){
 
-                        this.$message.error('固价价格不能小于0')
-                        return
+                            this.$message.error('固价价格不能小于0')
+                            return
+                        }
+                        if(this.endtime != '' && this.endtime < this.starttime){
+                            this.$message.error('失效时间不能小于生效时间')
+                            return
+                        }
+                        var obj={};
+                        obj.endtime=this.endtime;
+                        obj.starttime=this.starttime;
+                        obj.cost_type=this.cost_type;
+                        obj.profit_share_ratio=this.profit_share_ratio;
+                        obj.balance_type=this.balance_type;
+                        obj.fix_price=this.fix_price;
+                        if(this.num==1){
+                            this.bussiness_types.push(obj)
+                        }
+                        if(this.num==2){
+                            this.bussiness_types.splice(this.index,1,obj)
+                            // this.bussiness_types[this.index]=obj;
+                            // console.log(this.bussiness_types)
+                        }
+                        this.swHeid(str)
                     }
+                    if(str == 'js'){
+                        if(!this.state1){
+                            this.$message.error('结算方名称不能为空')
+                            return
+                        }
+                        var obj={};
+                        obj.endtime=this.endtime;
+                        obj.starttime=this.starttime;
+                        obj.name=this.state1;
+                        obj.balance_id = this.balance_id;
+                        obj.project_id = this.$route.query.project_id;
+                        if(this.num==1){
+                            this.settlements.push(obj)
+                        }
+                        if(this.num==2){
+                            this.settlements.splice(this.index,1,obj)
+                            // this.settlements[this.index]=obj;
+                            // console.log(this.settlements)
+                        }
+                        this.swHeid(str)
+
+                    }
+                    if(str == 'hz'){
+                        if(!this.company_name){
+                            this.$message.error('合作公司不能为空')
+                            return
+                        }
+                        var obj={};
+                        obj.endtime=this.endtime;
+                        obj.starttime=this.starttime;
+                        obj.name=this.company_name;
+                        obj.company_id = this.company_id;
+                        if(this.num==1){
+                            this.companys.push(obj)
+                        }
+                        if(this.num==2){
+                            this.companys.splice(this.index,1,obj)
+                            // this.companys[this.index]=obj;
+                            // console.log(this.companys)
+                        }
+                        this.swHeid(str)
+
+                    }
+                    
+                    
                     if(this.endtime==null){
                         this.endtime="";
                     }
-                    var obj={};
-                    obj.endtime=this.endtime;
-                    obj.starttime=this.starttime;
-                    obj.cost_type=this.cost_type;
-                    obj.profit_share_ratio=this.profit_share_ratio;
-                    obj.balance_type=this.balance_type;
-                    obj.fix_price=this.fix_price;
-                    if(this.num==1){
-                        this.bussiness_types.push(obj)
-                    }
-                    if(this.num==2){
-                        this.bussiness_types.splice(this.index,1,obj)
-                        // this.bussiness_types[this.index]=obj;
-                        // console.log(this.bussiness_types)
-                    }
-                    this.swHeid()
+                    
                 },
                  time(){
                     var _this=this;
@@ -730,52 +1057,65 @@ export default {
                     this.getDataList()
                 },
                 projectBj(){
-                    if(this.bussiness_types.length==''){
+                    this.loading = true;
+                    if(this.bussiness_types.length=='0'){
                         this.$message.error('商务模式不能为空')
+                        this.loading = false;
                         return
                     }
                    if(!this.put_type){
                         this.$message.error('投放形式不能为空')
+                        this.loading = false;
                         return
                     }
                      if(!this.project_name){
                         this.$message.error('项目名称不能为空')
+                        this.loading = false;
                         return
                     }
-                     if(!this.company_id){
+                     if(this.companys.length == '0'){
                         this.$message.error('合作公司不能为空')
+                        this.loading = false;
                         return
                     }
-                    //  if(!this.balance_id){
-                    //     this.$message.error('结算主体不能为空')
-                    //     return
-                    // }
+                     if(this.settlements.length == '0'){
+                        this.$message.error('结算方不能为空')
+                        this.loading = false;
+                        return
+                    }
                      if(!this.online_time){
                         this.$message.error('上线时间不能为空')
+                        this.loading = false;
                         return
                     }
                      if(!this.ad_type){
                         this.$message.error('广告类型一级分类不能为空')
+                        this.loading = false;
                         return
                     }
                      if(this.list2.length>0&&!this.ad_type2){
                         this.$message.error('广告类型二级分类不能为空')
+                        this.loading = false;
                         return
                     }
                      if(this.list3.length>0&&!this.ad_type3){
                         this.$message.error('广告类型三级分类不能为空')
+                        this.loading = false;
                         return
                     }
                      if(!this.report_media){
                         this.$message.error('报备媒体不能为空')
+                        this.loading = false;
                         return
                     }
                      if(!this.report_space_id){
                         this.$message.error('报备广告位不能为空')
+                        this.loading = false;
                         return
                     }
                      if(!this.report_ad_id){
                         this.$message.error('广告主id不能为空')
+                        this.loading = false;
                         return
                     }
                     //  if(!this.report_link){
@@ -788,18 +1128,22 @@ export default {
                     // }
                      if(!this.ad_req_pv){
                         this.$message.error('请求量不能为空')
+                        this.loading = false;
                         return
                     }
                      if(!this.ad_show_pv){
                         this.$message.error('展示量不能为空')
+                        this.loading = false;
                         return
                     }
                      if(!this.ad_click_pv){
                         this.$message.error('点击量不能为空')
+                        this.loading = false;
                         return
                     }
                      if(!this.ad_download_pv){
                         this.$message.error('下载量不能为空')
+                        this.loading = false;
                         return
                     }
                     //  if(!this.note){
@@ -808,6 +1152,8 @@ export default {
                     // }
                     let formData =new FormData;
                     formData.append('bussiness_types',JSON.stringify(this.bussiness_types));
+                    formData.append('companys',JSON.stringify(this.companys));
+                    formData.append('settlements',JSON.stringify(this.settlements));
                     formData.append('attachements',JSON.stringify(this.attachements))
                     formData.append('contracts',JSON.stringify(this.contracts))
                     formData.append('put_type',this.put_type)
@@ -832,8 +1178,10 @@ export default {
                     this.api.adproject_edit(formData).then((res)=>{
                         if(res!=false){
                             this.type=1;
-                            this.getDataList()
+                            this.getDataList();
+                            this.loading = false;
                         }
+                        this.loading = false;
                     })
                 },
             },
@@ -879,7 +1227,18 @@ export default {
         background: #fff;
         min-height: 671px;
         margin-top:195px ;
+        padding-bottom: 30px;
     }
+    .select_box >>> .el-table__body-wrapper{
+        overflow-y: scroll;
+        min-height: 48px !important;
+    }
+    .select_box >>> .el-table{
+        min-height: 129px !important;
+    }
+    /* .select_box >>> .el-table__body{
+        height: 65px;
+    } */
     .select_tit{
         width: 100%;
         height: 48px;
@@ -946,17 +1305,23 @@ export default {
     }
     .select_left{
         display: block;
-        width:100%;
+        /* width:100%; */
         height:20px;
         font-size:14px;
         font-family:PingFang SC;
         font-weight:400;
         line-height:20px;
-        color:rgba(50,50,51,1);
+        color: rgba(0, 0, 0, 0.65);
         margin: 24px 0 8px 0;
     }
     .inline-input{
-        width:100%;
+        width:268px;
+    }
+    .input_left{
+        width: 268px;
+        border-radius: 3px;
+        height: 40px;
+        border: 1px solid #d3dbeb;
     }
     .select_box>div,.fj>div{
         margin:0 24px;
@@ -981,10 +1346,6 @@ export default {
     .datetimes{
         border:0!important
     }
-     .input_left{
-         
-         display: block;
-     }
      .sw{
          display: inline-block;
          font-size:16px;
@@ -1202,5 +1563,23 @@ export default {
     .top{
         position:relative;
         top:-84px
+    }
+    .ckQb{
+        height: 25px;
+        line-height: 25px;
+        text-align: center;
+        color: #1890ff;
+        cursor: pointer;
+    }
+    .oldBox{
+        width: 268px;
+        max-height: 400px;
+        overflow-y: auto;
+        position: absolute;
+        top: 225px;
+        left: 105px;
+        background: #fff;
+        box-shadow: 3px 5px 3px 3px #ddd;
+        z-index: 6;
     }
 </style>
