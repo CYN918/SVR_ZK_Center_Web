@@ -25,6 +25,9 @@
 html,body,div,h1,ul,li,a,p,img{
 	margin: 0;padding: 0;border: none;
 }
+.top{
+  z-index: 7!important;
+}
 html,body{
 	width: 100%;
 	min-height: 100%;
