@@ -872,7 +872,7 @@ export default {
                     }
                 },
                 swADD(str,num,index){
-                    console.log(str, num, index);
+                    console.log(str, num, index,row);
                     this.num=num;
                     this.index = index;
                     if(str == 'sw'){

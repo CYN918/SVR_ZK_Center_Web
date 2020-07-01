@@ -15,7 +15,7 @@
         <div class="tableBox">
             <div>
                 <span class="titName">结算方名称</span>
-                <input type="text" class="input" v-model="name">
+                <input type="text" class="input" v-model="name" :disabled="true">
             </div>
             <!--<div>-->
                 <!--<span  class="titName">生成对账时间</span>-->
