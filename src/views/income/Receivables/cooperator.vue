@@ -77,11 +77,14 @@
             </div>
            
         </div>
+        <loading v-if='load'></loading>
     </div>
 </template>
 
 <script>
+    import loading from '../../../components/loading'
     export default {
+        components:{loading},
         name: "settlement",
         data(){
             return{
@@ -94,6 +97,7 @@
                 company_name:"",
                 search:"",
                 company_id:"",
+                load:true,
             }
         },
         mounted(){
@@ -168,10 +172,12 @@
                 this.getDataList()
             },
             getDataList(){
+                this.load = true;
                 let params={p:this.p,page:this.page,search:this.search}
                 this.api.adproject_adcompany_listpage({params}).then((res)=>{
                        this.total=res.total;
                        this.tableData=res.data; 
+                       this.load = false;
                 })
             },
             jump(data){

@@ -15,7 +15,7 @@
         <div class="tableBox">
             <div>
                 <span class="titName">结算方名称</span>
-                <input type="text" class="input" v-model="name">
+                <input type="text" class="input" v-model="name" :disabled="true">
             </div>
             <!--<div>-->
                 <!--<span  class="titName">生成对账时间</span>-->
@@ -54,7 +54,7 @@
                 <span  class="titName" style="vertical-align: top">备注<span style="color: #acadb0">(选填)</span></span>
                 <textarea v-model="note"></textarea>
             </div>
-            <!-- <div style="margin-bottom:20px">
+            <div style="margin-bottom:20px">
                 <span  class="titName" >相关合同<span style="color: #acadb0">(选填)</span></span>
                 <span class="ADDs" @click="ADDht">添加合同</span>
                 <div style="width: 714px;margin-left: 140px" class="contract">
@@ -122,7 +122,7 @@
                     </template>
                 </div>
 
-            </div> -->
+            </div>
             <div style="margin-bottom:20px">
                 <span  class="titName" >附件<span style="color: #acadb0">(选填)</span></span>
                 <span class="ADDs" @click="ADDfj()">上传</span>
@@ -134,11 +134,11 @@
                 </div>
             </div>
             <div class="ADDbtn">
-                <span class="tj" @click="ADDdata()">添加</span>
+                <span class="tj" @click="ADDdata()">保存</span>
                 <span @click="fh(-1)">取消</span>
             </div>
         </div>
-        <!-- <div class="bg" v-if="ht">
+        <div class="bg" v-if="ht">
             <div class="content">
                 <div class="content_tit">
                     <span>添加合同</span>
@@ -175,7 +175,7 @@
                     <span @click="heidHTs()">取消</span>
                 </div>
             </div>
-        </div> -->
+        </div>
         <div class="bg" v-if="fj">
             <div class="content">
                 <div class="content_tit">
