@@ -137,6 +137,7 @@
                     <el-table
                             :data="tableData"
                             header-align="center"
+                            height="500"
                             :header-cell-style="getRowClass"
                             :cell-style="cell"
                             style="width: 100%;color:#000">
@@ -169,7 +170,7 @@
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="商务模式" prop="balance_type"
+                                label="商务模式" prop="bussiness_types_name"
                                 show-overflow-tooltip
                                 >
                         </el-table-column>
@@ -286,12 +287,12 @@ import Loading from '@/components/loading'
                     this.list=res;
                     this.contracts=res.contracts;
                     this.isLoading = false;
-                    // this.getContract()
+                    this.getContract(res.id)
                 })
             },
-             getContract(){
-                let params={is_receiver:1,balance_name:this.list.name}
-                this.api.settle_data_project_contracts({params}).then((res)=>{
+             getContract(id){
+                let params={is_receiver:1,balance_id:id}
+                this.api.adproject_listpage({params}).then((res)=>{
                     this.tableData=res.data
                 })
             },
