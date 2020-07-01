@@ -62,6 +62,74 @@
                     </div>
                 </div>
             </div>
+            <div>
+                <span class="tableBox_name" style="vertical-align: top">相关合同<span style="color: #acadb0">(选填)</span></span>
+                <div style="padding:0 24px">
+                    <template>
+                        <el-table
+                                :data="contracts"
+                                style="width: 100%"
+                                :header-cell-style="getRowClass"
+                                :cell-style="cell"
+                        >
+                            <el-table-column
+                                    prop="date"
+                                    show-overflow-tooltip
+                            >
+                                <template slot-scope="scope">
+                                    <div v-for="(item,key) in (contracts[scope.$index])">
+                                        <span class="titTableName">文件归档号:</span>
+                                        <span class="titTableCon">{{item.archive_id}}</span>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                            <el-table-column
+                                    prop="name"
+                                    show-overflow-tooltip
+                            >
+                                <template slot-scope="scope">
+                                    <div v-for="(item,key) in (contracts[scope.$index])">
+                                        <span class="titTableName">合同编号:</span>
+                                        <span class="titTableCon">{{item.contract_id}}</span>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                            <el-table-column
+                                    prop="address"
+                                    width="100"
+                            >
+                                <template slot-scope="scope">
+                                    <div v-for="(item,key) in (contracts[scope.$index])">
+                                        <span v-if="item.status=='1'" style="color:#39BD65">{{item.status_text}}</span>
+                                        <span v-if="item.status=='0'" style="color:#FFA033">{{item.status_text}}</span>
+                                        <span v-if="item.status=='2'" style="color:#F05656">{{item.status_text}}</span>
+                                        <span v-if="item.status=='3'" style="color:#1F2E4D">{{item.status_text}}</span>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                            <!-- <el-table-column
+                                    prop="address"
+                                    width="50"
+                            >
+                                <template slot-scope="scope" >
+                                    <img src="../../../../public/img/dels.png" style="cursor: pointer" @click="del(scope.$index)"/>
+                                </template>
+                            </el-table-column> -->
+                            <el-table-column type="expand">
+                                <template slot-scope="scope">
+                                    <div v-for="(data,key) in (contracts[scope.$index])">
+                                        <div v-for="da in data.contract_files">
+                                            <span style="display: inline-block;width: 50%">{{da.name}}</span>
+                                            <a :href="da.url" target="_blank" style="display: inline-block;width: 50%;text-align: right">下载</a>
+                                        </div>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </template>
+                </div>
+
+            </div>
              <div>
                 <span class="tableBox_name" style="vertical-align: top">项目合同信息及绑定数据来源</span>
                 <div style="padding:0 24px">
@@ -72,7 +140,7 @@
                             :header-cell-style="getRowClass"
                             :cell-style="cell"
                             style="width: 100%;color:#000">
-                        <el-table-column
+                        <!-- <el-table-column
                                 label="合同归档号" prop="archive_id"
                                >
                         </el-table-column>
@@ -80,17 +148,17 @@
                                 label="合同编号" prop="contract_id"
                                 show-overflow-tooltip
                                >
-                        </el-table-column>
+                        </el-table-column> -->
                         <el-table-column
                                 label="项目名称" prop="project_name"
                                 show-overflow-tooltip
                                 >
                         </el-table-column>
-                        <el-table-column
+                        <!-- <el-table-column
                                 label="结算方" prop="balance_name"
                                 show-overflow-tooltip
                                 >
-                        </el-table-column>
+                        </el-table-column> -->
                         <el-table-column
                                 label="合作公司" prop="company_name"
                                 show-overflow-tooltip
@@ -105,7 +173,7 @@
                                 show-overflow-tooltip
                                 >
                         </el-table-column>
-                        <el-table-column
+                        <!-- <el-table-column
                                 label="状态" prop="status_text"
                                 >
                               
@@ -121,7 +189,7 @@
                             <template slot-scope="props">
                                 <el-button type="text"  @click='CK(tableData[props.$index].archive_id)'>查看</el-button>
                             </template>
-                        </el-table-column>
+                        </el-table-column> -->
                     </el-table>
                 </template>
                 </div>
@@ -172,7 +240,7 @@ import Loading from '@/components/loading'
         data(){
             return{
                 list:{},
-                // contracts:[],
+                contracts:[],
                 isLoading: true,
                 tableData:[],
                 ht:false,
@@ -216,7 +284,7 @@ import Loading from '@/components/loading'
                 let params={name:this.$route.query.name,is_receiver:1};
                 this.api.settle_settlement_detail({params}).then((res)=>{
                     this.list=res;
-                    // this.contracts=res.contracts;
+                    this.contracts=res.contracts;
                     this.isLoading = false;
                     this.getContract()
                 })

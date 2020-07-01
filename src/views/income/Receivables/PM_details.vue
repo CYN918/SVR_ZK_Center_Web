@@ -45,13 +45,13 @@
                 </select>
             </div>
             <div class='select_box_3' :class="{top:ad_type2&&this.list3.length==0}">
-                <span class='select_left'>投放形式</span>
+                <!-- <span class='select_left'>投放形式</span>
                  <input type="text" class='input_left examine' v-model='put_type' v-if='type==1' disabled>
                  <select class='input_left' v-model="put_type"  v-if='this.type==2' >
                      <option value="" >请选择</option>
                      <option value="常规业务" >常规业务</option>
                      <option value="试玩业务" >试玩业务</option>
-                </select>
+                </select> -->
                 <span class='select_left'  v-if='ad_type2&&this.list3.length>0'>三级分类</span>
                  <input type="text" class='input_left examine' v-model='ad_type3' v-if='ad_type3&&type==1' disabled>
                  <select name="" id="" class='input_left' v-model="ad_type3"  v-if='ad_type2&&this.list3.length>0&&this.type==2' >
@@ -196,7 +196,7 @@
             <div  class='select_tit'>
                 <span style="margin-left:24px">相关合同 <span class="err">(待补充)</span></span>
             </div>
-            <div  v-if='type==2'><span class="ADDs" @click="ADDht()">添加合同</span></div>
+            <!-- <div  v-if='type==2'><span class="ADDs" @click="ADDht()">添加合同</span></div> -->
              <div  class="contract">
                     <template>
                         <el-table
@@ -240,14 +240,14 @@
                                     </div>
                                 </template>
                             </el-table-column>
-                            <el-table-column
+                            <!-- <el-table-column
                                     prop="address"
                                     width="50"
                             >
                                 <template slot-scope="scope" v-if='type==2'>
                                     <img src="../../../../public/img/dels.png" style="cursor: pointer" @click="del(scope.$index)"/>
                                 </template>
-                            </el-table-column>
+                            </el-table-column> -->
                             <el-table-column type="expand">
                                 <template slot-scope="scope">
                                     <div>

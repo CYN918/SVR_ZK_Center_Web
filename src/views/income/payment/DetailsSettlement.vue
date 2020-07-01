@@ -42,7 +42,7 @@
                 <span class="Name">备注</span>
                 <span class="text">{{data.note}}</span>
             </div>
-            <div v-if='type=="付款结算"'>
+            <!-- <div v-if='type=="付款结算"'>
                 <span class="Name" style="vertical-align: top">相关合同</span>
                 <div style="display: inline-block">
                     <div style="width: 714px;mxa-height:216px;overflow-y:auto;border: 1px solid #D9D9D9;margin-left:185px" class="contract">
@@ -102,11 +102,87 @@
                         </template>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div  v-if='type=="付款结算"'>
                 <span class="Name">结算渠道-场景</span>
                 <div style="display: inline-block">
                     <span class="text">{{data.bind_channel_name}}</span>
+                </div>
+            </div>
+            <div>
+                <span class="Name">相关渠道</span>
+                <div style="display: inline-block">
+                    <span class="text">{{data.bind_channel_name}}</span>
+                </div>
+            </div>
+            <div>
+                <span class="Name" style="vertical-align: top">相关合同</span>
+                <div style="padding:0 24px">
+                    <template>
+                            <el-table
+                                    :data="contracts"
+                                    style="width: 100%"
+                                    :header-cell-style="getRowClass"
+                                    :cell-style="cell"
+                            >
+                                <el-table-column
+                                        prop="date"
+                                        label="合同归档号"
+                                        show-overflow-tooltip
+                                >
+                                    <template slot-scope="scope">
+                                        <div v-for="(item,key) in (contracts[scope.$index])">
+                                            <span class="titTableCon">{{item.archive_id}}</span>
+                                        </div>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column
+                                        prop="name"
+                                        label="合同编号"
+                                        show-overflow-tooltip
+                                >
+                                    <template slot-scope="scope">
+                                        <div v-for="(item,key) in (contracts[scope.$index])">
+                                            <span class="titTableCon">{{item.contract_id}}</span>
+                                        </div>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column
+                                        prop="address"
+                                        label="状态"
+                                        width="100"
+                                >
+                                    <template slot-scope="scope">
+                                        <div v-for="(item,key) in (contracts[scope.$index])">
+                                            <span v-if="item.status=='1'" style="color:#39BD65">{{item.status_text}}</span>
+                                            <span v-if="item.status=='0'" style="color:#FFA033">{{item.status_text}}</span>
+                                            <span v-if="item.status=='2'" style="color:#F05656">{{item.status_text}}</span>
+                                            <span v-if="item.status=='3'" style="color:#1F2E4D">{{item.status_text}}</span>
+                                        </div>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column
+                                        label="合同截止日期" prop="contract_end_time"
+                                        >
+                                        
+                                        <template slot-scope="scope">
+                                            <div v-for="(item,key) in (contracts[scope.$index])">
+                                                <span class="titTableCon">{{setTime(item.contract_end_time)}}</span>
+                                            </div>
+                                        </template>
+                                </el-table-column> 
+                                <!-- <el-table-column type="expand">
+                                    <template slot-scope="scope">
+                                        <div v-for="(data,key) in (contracts[scope.$index])">
+                                            <div v-for="da in data.contract_files">
+                                                <span style="display: inline-block;width: 50%">{{da.name}}</span>
+                                                <a :href="da.url" target="_blank" style="display: inline-block;width: 50%;text-align: right">下载</a>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </el-table-column> -->
+                            </el-table>
+                        </template>
                 </div>
             </div>
             <div>
@@ -225,6 +301,7 @@
                 this.api.settle_settlement_detail({params}).then((res)=>{
                     this.data=res;
                     this.contracts=res.contracts;
+                    console.log(this.contracts)
                     if(this.type=='收款结算'){
                         this.getContract()
                     }

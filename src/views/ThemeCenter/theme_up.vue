@@ -771,7 +771,6 @@
                 this.api.file_upload(formData).then((res)=>{
                     if(this.pic.indexOf(res.url) == -1){
                         this.pic.unshift(res.url);
-                        this.main_preview = this.pic[this.pic.length-1]
                     }
                 })
             },

@@ -71,11 +71,14 @@
                     :total="total">
             </el-pagination>
         </div>
+        <loading v-if='load'></loading>
     </div>
 </template>
 
 <script>
+    import loading from '../../../components/loading'
     export default {
+        components:{loading},
         name: "receiver-management",
         data(){
             return{
@@ -85,6 +88,7 @@
                 tableData:[{pv:0}],
                 search:'',
                 status:0,
+                load:true,
             }
         },
         mounted(){
@@ -140,11 +144,13 @@
                 })
             },
             dataList(){
+                this.load = true;
                 let params={p:this.p,page:this.page,is_receiver:1,search:this.search};
                 this.api.settle_settlement_search({params}).then((res)=>{
                     this.tableData=res.data;
                     console.log(res.data);
                     this.total=res.total;
+                    this.load = false;
                 })
             },
             change(name,status){

@@ -214,6 +214,7 @@
                 
             },
             getDate(){
+                this.load = true;
                 let params={is_receiver:1,p:this.p,page:this.page,status:this.status,archive_id:this.archive_id,balance_name:this.balance_name,project_name:this.project_name}
                 this.api.settle_data_project_contracts({params}).then((res)=>{
                     this.total=res.total;

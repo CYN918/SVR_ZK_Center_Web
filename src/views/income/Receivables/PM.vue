@@ -48,12 +48,12 @@
                         >
                     </el-autocomplete>
                 </div>
-                <span class='select_left'>投放形式</span>
+                <!-- <span class='select_left'>投放形式</span>
                 <select class='input_left' v-model="put_type">
                      <option value="" >请选择</option>
                      <option value="常规业务" >常规业务</option>
                      <option value="试玩业务" >试玩业务</option>
-                </select>
+                </select> -->
                 <div class='btn_box'>
                     <span class="cx" @click="getDataList()">查询</span>
                     <span @click='cz()'>重置</span>
