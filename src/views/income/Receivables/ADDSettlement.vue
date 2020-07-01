@@ -198,11 +198,14 @@
                 </div>
             </div>
         </div>
+        <loading v-if='load'></loading>
     </div>
 </template>
 
 <script>
+    import loading from '../../../components/loading'
     export default {
+        components:{loading},
         name: "a-d-d-settlement",
         data(){
             return{
@@ -227,6 +230,7 @@
                 auto:'',
                 times:"",
                 up:false,
+                load:true,
             }
         },
         mounted(){
@@ -400,6 +404,7 @@
                     this.note=res.note;
                     this.contracts=res.contracts;
                     this.attachs=res.attachs;
+                    this.load = false;
                 })
             },
             setData(){
