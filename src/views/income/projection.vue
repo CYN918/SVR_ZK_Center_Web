@@ -256,13 +256,17 @@ data() {
                 }
             },
         getData(){
-            var aaa=this.channels.split(',')
-             for(var i=0;i<aaa.length;i++){
+            if(this.channels != undefined){
+                var aaa=this.channels.split(',')
+                for(var i=0;i<aaa.length;i++){
                     var arr={};
                     arr.channel=aaa[i].split('-')[0];
                     arr.interaction=aaa[i].split('-')[1];
                     this.disjunctions.push(arr)
                 }
+
+            }
+            
             if(this.a==undefined){
                 var params={id:this.$route.query.id,is_receiver:this.is_receiver,projects:this.projects,disjunctions:JSON.stringify(this.disjunctions)}
             }else{
