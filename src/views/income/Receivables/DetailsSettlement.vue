@@ -125,6 +125,7 @@
                             header-align="center"
                             :header-cell-style="getRowClass"
                             :cell-style="cell"
+                            height="300"
                             style="width: 100%;color:#000">
                         <!-- <el-table-column
                                 label="合同归档号" prop="archive_id"
@@ -155,7 +156,7 @@
                                 >
                         </el-table-column>
                         <el-table-column
-                                label="商务模式" prop="balance_type"
+                                label="商务模式" prop="bussiness_types_name"
                                 show-overflow-tooltip
                                 >
                         </el-table-column>
@@ -216,16 +217,16 @@
                 this.api.settle_settlement_detail({params}).then((res)=>{
                     this.data=res;
                     this.contracts=res.contracts;
-                    this.getContract()
+                    this.getContract(res.id)
                 })
             },
-             getContract(){
+             getContract(id){
                  if(!this.data.name){
                      this.$message.error('结算方名称不能为空');
                      return
                  }
-                let params={is_receiver:1,balance_name:this.data.name}
-                this.api.settle_data_project_contracts({params}).then((res)=>{
+                let params={is_receiver:1,balance_id:id}
+                this.api.adproject_listpage({params}).then((res)=>{
                     this.tableData=res.data
                 })
             },
