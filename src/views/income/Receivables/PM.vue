@@ -54,12 +54,23 @@
                      <option value="常规业务" >常规业务</option>
                      <option value="试玩业务" >试玩业务</option>
                 </select> -->
-                <div class='btn_box'>
-                    <span class="cx" @click="getDataList()">查询</span>
-                    <span @click='cz()'>重置</span>
+                <!-- <div class='btn_box'> -->
+                    <!-- <span class="cx" @click="getDataList()">查询</span> -->
+                    <!-- <span @click='cz()'>重置</span>
                     <span @click="guideR()" v-if="isShow">导入</span>
-                    <span @click="guideC()" v-if="isChow">导出</span>
+                    <span @click="guideC()" v-if="isChow">导出</span> -->
                     <!-- <span>监控邮箱</span> -->
+                <!-- </div> -->
+                <div style="display: inline-block;float: right;margin-top: 25px;">
+                    <span  class="clear" @click="getDataList()">查询</span>
+                    <span class='fk'>... 
+                        <ul>
+                            <li @click='cz()'>重置</li>
+                            <li @click='guideR()' v-if="isShow">导入</li>
+                            <li @click='guideC()' v-if="isChow">导出</li>
+                        </ul>
+                    </span>
+                    <!-- <span class="sf" @click="jump()" :class="{Jurisdiction:this.controlBtn}">收款结算方管理</span> -->
                 </div>
             </div>
             <div>
@@ -572,5 +583,50 @@ import download from '../../../api/commonality'
     }
     .inline-input{
         margin-right: 14px;
+    }
+    .clear,.fk{
+        display: inline-block;
+        line-height: 36px;
+        text-align: center;
+        cursor: pointer;
+        width:68px;
+        height:36px;
+        background:rgba(51,119,255,1);
+        border-radius:4px;
+        font-size:14px;
+        font-family:PingFangSC-Regular,PingFangSC;
+        font-weight:400;
+        color:rgba(255,255,255,1);
+        margin-right: 24px;
+    }
+    .fk{
+        background: #fff!important;
+        border:1px solid rgb(197, 197, 197);
+        color:#000;
+        position: relative;
+    }
+    .fk:hover ul{
+        display: block;
+    }    
+    .clear{
+        width:96px!important;
+    }
+    ul{
+        position: absolute;
+        top:37px;
+        left: -25px;
+        width: 120px;
+        box-shadow: 3px 3px 5px #ddd;
+        background: #fff;
+        border-radius: 5px;
+        display: none;
+        z-index: 6666;
+    }
+    li{
+        color: #000;
+    }
+    li:hover{
+        background: #3377ff;
+        color: #fff;
     }
 </style>
