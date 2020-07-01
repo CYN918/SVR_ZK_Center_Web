@@ -109,14 +109,16 @@
                 </div>
             </div>
         </div>
+        <loading v-if='load'></loading>
     </div>
 </template>
 
 <script>
     import DS from './DetailsSettlement'
     import pro from '../projection'
+    import loading from '../../../components/loading'
     export default {
-        components:{DS,pro},
+        components:{DS,pro,loading},
         data(){
             return{
                 list:{check:{check1:{},check2:{},check3:{}}},
@@ -125,6 +127,7 @@
                 msg:false,
                 budget:false,
                 fj:{},
+                load:true,
             }
         },
         created(){
@@ -210,7 +213,8 @@
                 let params={is_receiver:0,id:this.$route.query.id};
                 this.api.settlemanage_detail({params}).then((res)=>{
                     this.list=res;
-                     this.fj=res.check.check2;
+                    this.fj=res.check.check2;
+                    this.load = false;
                 })
             },
         }
@@ -291,7 +295,7 @@
         text-align: right!important;
     }
     .text{
-        display: inline-block;
+        /* display: inline-block; */
         font-size:14px;
         font-family:PingFangSC-Regular,PingFangSC;
         font-weight:400;
