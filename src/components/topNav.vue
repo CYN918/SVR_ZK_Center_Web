@@ -336,7 +336,7 @@ export default {
 	height:63px;
 	background:rgba(255,255,255,1);
 	border-bottom: 2px solid #f3f9fc;
-	box-shadow:0px 6px 12px 0px rgba(230,233,240,0.3);
+	/* box-shadow:0px 6px 12px 0px rgba(230,233,240,0.3); */
 }
 .log,.log1{
 	cursor: pointer;
