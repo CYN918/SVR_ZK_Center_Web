@@ -286,7 +286,7 @@ import Loading from '@/components/loading'
                     this.list=res;
                     this.contracts=res.contracts;
                     this.isLoading = false;
-                    this.getContract()
+                    // this.getContract()
                 })
             },
              getContract(){

@@ -276,6 +276,12 @@ import download from '../../../api/commonality'
             },
             getDataList(){
                 this.load = true;
+                if(this.balance_name == ''){
+                    this.balance_id = ''
+                }
+                if(this.company_name == ''){
+                    this.company_id = ''
+                }
                 let params={p:this.p,page:this.page,search:this.search,status:this.status,company_id:this.company_id,put_type:this.put_type,balance_id:this.balance_id}
                 this.api.adproject_listpage({params}).then((res)=>{
                     this.total=res.total;
@@ -283,8 +289,8 @@ import download from '../../../api/commonality'
                     this.load=false;
                     // this.balance_name = '';
                     // this.company_name = '';
-                    this.company_id = '';
-                    this.balance_id = '';
+                    // this.company_id = '';
+                    // this.balance_id = '';
                     this.getDlist();
                     this.getDlist2()
                 })

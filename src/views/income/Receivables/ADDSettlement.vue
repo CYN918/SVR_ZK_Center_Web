@@ -13,7 +13,11 @@
             </div>
         </div>
         <div class="tableBox">
-            <div>
+            <div v-if="this.$route.query.name==undefined">
+                <span class="titName">结算方名称</span>
+                <input type="text" class="input" v-model="name">
+            </div>
+            <div v-if="this.$route.query.name!=undefined">
                 <span class="titName">结算方名称</span>
                 <input type="text" class="input" v-model="name" :disabled="true">
             </div>
@@ -198,7 +202,7 @@
                 </div>
             </div>
         </div>
-        <loading v-if='load'></loading>
+        <loading v-if='load&&this.$route.query.name!=undefined'></loading>
     </div>
 </template>
 
