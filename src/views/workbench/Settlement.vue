@@ -319,7 +319,7 @@
         text-align: right!important;
     }
     .text{
-        display: inline-block;
+        /* display: inline-block; */
         font-size:14px;
         font-family:PingFangSC-Regular,PingFangSC;
         font-weight:400;
