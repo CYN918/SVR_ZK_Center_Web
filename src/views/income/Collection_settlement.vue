@@ -1,13 +1,17 @@
 <template>
     <div >
         <div class='screening'>
-            <div class="date">
+            <span class="tlename">年月筛选</span>
+            <div class="date"> 
                 <el-date-picker
-                    v-model="date"
-                    type="date"
-                    format="yyyy 年 MM 月 dd 日"
-                    placeholder="选择日期"
-                    value-format="yyyy-MM">
+                    class='time_length'
+                    v-model="tdate"
+                    type="monthrange"
+                    range-separator="至"
+                    start-placeholder="开始月份"
+                    value-format="yyyy-MM"
+                    end-placeholder="结束月份"
+                    @change="changeDate">
                 </el-date-picker>
             </div>
         </div>
@@ -71,12 +75,12 @@
         components: {loading},
         data() {
             return { 
-                date:(new Date()).toLocaleDateString().split('/').join('-'),
+                tdate:'',
                 tableData:[],
                 page:1,
                 p:50,
                 total:0,
-                load:true,
+                load:false,
             };
         },
         methods: {
@@ -106,27 +110,25 @@
                     
             details(index){
                 this.$router.push({
-                    path:"./External_details",
+                    path:"./add_nb_detail",
                     query:{
-                        plid:this.tableData[index].plid,
-                        mfid:this.tableData[index].mfid,
-                        adid:this.tableData[index].adid,
-                        tags_id:this.tableData[index].tags_id,
-                        auditType:'Externalpretrialgx'
+                        is_receiver:1,
                     }
                 })
             },
             getData(){
                 this.load = true;
-                let params={p:this.p,page:this.page,tdate:this.date,}
-                this.api.pushlib_adver_mfinal_list({params}).then((res)=>{
+                let params={p:this.p,page:this.page,is_receiver:1,start_month:this.tdate[0],end_month:this.tdate[1]}
+                this.api.settle_estimate_list({params}).then((res)=>{
                     this.tableData=res.data;
                     this.total=res.total;
                     this.load = false;
                     this.mJs.scTop(0);
-                    //    this.$previewRefresh()
                 })
             },
+            changeDate(){
+                this.getData();
+            }
                     
         },
 
@@ -147,6 +149,9 @@
         height: 35px!important;
         padding-left: 3px!important;
         border: 1px solid rgba(211,219,235,1)!important;
+        margin-left: 20px;
+    }
+    .tlename{
         margin-left: 20px;
     }
     .qdName{

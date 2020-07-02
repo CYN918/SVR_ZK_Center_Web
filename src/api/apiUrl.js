@@ -2044,5 +2044,10 @@ export default {
 		url:'ds/data/income/shiquaner/summary',method:'get'
 	},
 
+	//计提数据列表（总览）
+	settle_estimate_list:{
+		url:'settle/estimate/list',method:'get'
+	},
+
 
 }
