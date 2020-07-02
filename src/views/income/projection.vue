@@ -211,21 +211,27 @@ data() {
         //         this.getData()
         //     },
             getMsg(){
-                let urld = window.location.hash.split("?")[0];
-                if(urld == '#/income/Payment_operation/details'){
-                    let routeData = this.$router.resolve({
-                    path:"../AdvertisingNoSettlement",
-                    query:{
-                        tstart:this.tstart,
-                        tend:this.tend,
-                        is_receiver:this.is_receiver,
-                        name:this.name,
-                        channels:this.channels,
-                        projects:this.projects
-                        }
-                    });
-                     window.open(routeData.href, '_blank');
-                }else if(urld == '#/workbench/ALL'){
+                let leftNav = JSON.parse(localStorage.getItem('letNav'));
+                var arr = [];
+                leftNav.forEach(element => {
+                    if(element.default == "/income/user_info"){
+                        element.children.forEach(item => {
+                            if(item.title == "收益数据"){
+                                item.list.forEach(ds => {
+                                    if(ds.url == "/income/Advertising"){
+                                        arr.push(1)
+                                    }
+                                    if(ds.url == "/income/AdvertisingNoSettlement"){
+                                        arr.push(2)
+                                    }
+                                })
+                            }
+                        })
+                    } 
+                });
+                console.log(arr)
+                console.log(arr.length)
+                if(arr[0] == 1){
                     let routeData = this.$router.resolve({
                     path:'/income/Advertising',
                     query:{
@@ -239,9 +245,24 @@ data() {
                         }
                     });
                     window.open(routeData.href, '_blank');
-                }else{
+                }
+                if(arr[0] == 2){
                     let routeData = this.$router.resolve({
-                    path:'../Advertising',
+                    path:"../AdvertisingNoSettlement",
+                    query:{
+                        tstart:this.tstart,
+                        tend:this.tend,
+                        is_receiver:this.is_receiver,
+                        name:this.name,
+                        channels:this.channels,
+                        projects:this.projects
+                        }
+                    });
+                     window.open(routeData.href, '_blank');
+                }
+                if(arr.length == 2){
+                    let routeData = this.$router.resolve({
+                    path:'/income/Advertising',
                     query:{
                             tstart:this.tstart,
                             tend:this.tend,
@@ -252,8 +273,51 @@ data() {
                             projects:this.projects
                         }
                     });
-                    window.open(routeData.href, '_blank'); 
+                    window.open(routeData.href, '_blank');
                 }
+                // let urld = window.location.hash.split("?")[0];
+                // if(urld == '#/income/Payment_operation/details'){
+                //     let routeData = this.$router.resolve({
+                //     path:"../AdvertisingNoSettlement",
+                //     query:{
+                //         tstart:this.tstart,
+                //         tend:this.tend,
+                //         is_receiver:this.is_receiver,
+                //         name:this.name,
+                //         channels:this.channels,
+                //         projects:this.projects
+                //         }
+                //     });
+                //      window.open(routeData.href, '_blank');
+                // }else if(urld == '#/workbench/ALL'){
+                //     let routeData = this.$router.resolve({
+                //     path:'/income/Advertising',
+                //     query:{
+                //             tstart:this.tstart,
+                //             tend:this.tend,
+                //             is_receiver:this.is_receiver,
+                //             name:this.name,
+                //             type:this.type,
+                //             channels:this.channels,
+                //             projects:this.projects
+                //         }
+                //     });
+                //     window.open(routeData.href, '_blank');
+                // }else{
+                //     let routeData = this.$router.resolve({
+                //     path:'../Advertising',
+                //     query:{
+                //             tstart:this.tstart,
+                //             tend:this.tend,
+                //             is_receiver:this.is_receiver,
+                //             name:this.name,
+                //             type:this.type,
+                //             channels:this.channels,
+                //             projects:this.projects
+                //         }
+                //     });
+                //     window.open(routeData.href, '_blank'); 
+                // }
             },
         getData(){
             if(this.channels != undefined){
