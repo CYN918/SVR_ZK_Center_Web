@@ -2,9 +2,9 @@
     <div class="template">
        <div class="top_name">
             <span class="top_txt" @click='fh(-1)' v-if="this.$route.query.is_receiver == 1">计提数据管理  / 收款计提数据详情</span><div style="width:0;height:0;"><br/></div>
-            <span class="top_txts" style="width: 113px;display: inline-block;" v-if="this.$route.query.is_receiver == 1">收款计提数据详情</span>
+            <span class="top_txts" style="width: 150px;display: inline-block;" v-if="this.$route.query.is_receiver == 1">收款计提数据详情</span>
             <span class="top_txt" @click='fh(-1)' v-if="this.$route.query.is_receiver == 0">计提数据管理  / 付款计提数据详情</span><div style="width:0;height:0;"><br/></div>
-            <span class="top_txts" style="width: 113px;display: inline-block;" v-if="this.$route.query.is_receiver == 0">付款计提数据详情</span>
+            <span class="top_txts" style="width: 150px;display: inline-block;" v-if="this.$route.query.is_receiver == 0">付款计提数据详情</span>
             
             <span class='qud1'>{{this.$route.query.tdate}}</span>
             <div class="btn_right">
@@ -12,7 +12,7 @@
                 <span @click='jump()' class="add" style="position: relative;">添加至计提数据</span>
             </div>
         </div>
-        <div style="margin-top:85px;background:#fff;padding-bottom:30px" class='rePadding'>
+        <div style="margin-top:175px;background:#fff;padding-bottom:30px" class='rePadding'>
             <template>
                 <el-table
                     ref="multipleTable"
@@ -20,24 +20,27 @@
                     tooltip-effect="dark"
                     style="width: 100%"
                     :header-cell-style="getRowClass"
-                    :cell-style="cell"
-                    @selection-change="handleSelectionChange">
+                    :cell-style="cell"> 
                     <el-table-column
-                        type="selection"
-                        width="55">
-                    </el-table-column> 
-                    <el-table-column
-                        prop="count"
+                        prop="id"
                         label="结算单ID">
                     </el-table-column>
                     <el-table-column
-                        prop="mfid"
-                        label="结算单名称">    
+                        prop="demand_name"
+                        :show-overflow-tooltip="true"
+                        label="结算单名称"> 
+                        <template slot-scope="scope">
+                            <span>{{tableData[scope.$index].check.check1.statement}}</span>
+                        </template>    
                     </el-table-column>
-                    <el-table-column    
+                    <el-table-column 
+                        prop="status"
+                        :show-overflow-tooltip="true"   
                         label="结算时间段">
-                        
-                            
+                        <template slot-scope="scope">
+                            <span>{{(tableData[scope.$index].check.check1.tstart).split('-').join('/')}}至</span>
+                            <span>{{(tableData[scope.$index].check.check1.tend).split('-').join('/')}}</span>
+                        </template>      
                     </el-table-column>
                     <el-table-column
                         prop="check.expect_amount"
@@ -54,12 +57,33 @@
                         </template>
                     </el-table-column>
                     <el-table-column
+                        v-if="this.$route.query.is_receiver == 1"
                         prop="remit.receive_amount"
                         label="实际到账金额">
                         <template slot-scope="scope" v-if="tableData[scope.$index].remit!=null">
                             <span :class="{red:tableData[scope.$index].remit.receive_amount!=tableData[scope.$index].check.check2.real_amount}">{{(tableData[scope.$index].remit.receive_amount).toLocaleString("zh-Hans-CN",{style:'currency',currency:'CNY'})}}</span>
                         </template>
-                    </el-table-column>      
+                    </el-table-column> 
+                    <el-table-column
+                        v-if="this.$route.query.is_receiver == 0"
+                        prop="remit.receive_amount"
+                        label="实际出账金额">
+                        <template slot-scope="scope" v-if="tableData[scope.$index].remit!=null">
+                            <span :class="{red:tableData[scope.$index].remit.receive_amount!=tableData[scope.$index].check.check2.real_amount}">{{(tableData[scope.$index].remit.receive_amount).toLocaleString("zh-Hans-CN",{style:'currency',currency:'CNY'})}}</span>
+                        </template>
+                    </el-table-column> 
+                    <el-table-column
+                        fixed="right"
+                        label="操作">
+                        <template slot-scope="scope">
+                            <el-button
+                            @click.native.prevent="deleteRow(scope.$index, tableData)"
+                            type="text"
+                            size="small">
+                            移除
+                            </el-button>
+                        </template>
+                    </el-table-column>     
                 </el-table>
             </template>
             <div class="block">
@@ -73,7 +97,8 @@
                     :total="total">
                 </el-pagination>
             </div>
-        </div>   
+        </div>  
+        <loading v-if='load'></loading>  
     </div>
 </template>
 
@@ -90,9 +115,31 @@
                 p:10,
                 total:0,
                 input:'',
+                load:true,
             }
         },
-        methods: {  
+        methods: { 
+            jump(){
+                this.$router.push({
+                    path:"./add_nb",
+                    query:{
+                        is_receiver:this.$route.query.is_receiver,
+                        tdate:this.$route.query.tdate,
+                        type:'add_jt',
+                    }
+                })
+
+            },
+            deleteRow(index, rows){
+                let formData =new FormData;
+                formData.append('id',rows[index].id);
+                this.api.settle_estimate_delete(formData).then((res)=>{
+                    if(res != false){
+                        this.getData();
+                    } 
+                })
+
+            },
             fh(index){
                 this.$router.go(index)
             },
@@ -116,28 +163,21 @@
             handleCurrentChange(page) {//页码切换
                 this.page = page;
                 this.getData();
-            },  
-            handleSelectionChange(val) {
-                this.value= val;
             },    
             getData(){
                 this.load = true;
                 let params={
                     p:this.p,
                     page:this.page,
-                    tdate:this.date,
-                    plid:this.plid,
-                    type:this.$route.query.type,
+                    month:this.$route.query.tdate,
+                    is_receiver:this.$route.query.is_receiver,
                 } 
-                this.api.pushlib_textlink_search({params}).then((res)=>{
+                this.api.settle_estimate_monthly_item({params}).then((res)=>{
                     this.tableData=res.data;
                     this.total=res.total;
                     this.load = false;
                     this.mJs.scTop(0);
                 })
-            },
-            handleSelectionChange(val){
-
             },
             changeDate(){
 
@@ -151,7 +191,7 @@
         },
         //生命周期 - 挂载完成（可以访问DOM元素）
         mounted() {
-            // this.getData()
+            this.getData()
         },
 
     }
@@ -210,10 +250,10 @@
         text-align: right;
     }
     .btn_right{
-        display: inline-block;
         float:right;
-        padding-top: 10px;
-        padding-right: 15px;
+        position: absolute;
+        bottom: 20px;
+        right: 300px;
     }
     .btn_right span{
         display: inline-block;
@@ -482,6 +522,9 @@
     }
     .tlename{
         margin-left: 20px;
+    }
+    .red{
+        color: red;
     }
    
 </style>

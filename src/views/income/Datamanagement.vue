@@ -32,11 +32,13 @@
                         type="month"
                         format="yyyy-MM"
                         value-format="yyyy-MM"
-                        placeholder="选择月">
+                        placeholder="选择月"
+                        @change="changeDate">
                     </el-date-picker>
                 </div>
                 <div class='sel_btn'>
-                    <el-button type="primary" :loading="loadSure" @click='ADDlist()' style="margin-left:15px;">确定</el-button>
+                    <el-button type="primary" :loading="loadSure" @click='ADDlist()' style="margin-left:15px;" v-if="isShow&&tdate">确定</el-button>
+                    <el-button type="primary" :loading="loadSure" @click='ADDlist()' style="margin-left:15px;" v-else disabled>确定</el-button>
                     <el-button @click='qx()' style="margin-right:15px;">取消</el-button>
                 </div>
             </div>
@@ -56,6 +58,7 @@
                 tc:false,
                 loadSure:false,
                 tdate:'',
+                isShow:true,
             }
         },
         mounted(){
@@ -75,16 +78,30 @@
             qx(){
                 this.tc = false;
             },
-            ADDlist(){
-                console.log(this.tdate)
-                this.loadSure = true;
+            changeDate(){
+                this.isShow = false;
+                let formData =new FormData;
+                formData.append('is_receiver',this.is_receiver);
+                formData.append('month',this.tdate);
+                this.api.settle_estimate_is_exist(formData).then((res)=>{
+                    this.isShow = true;
+                    if(res == false){
+                        // this.tc = false;
+                        this.tdate = '';
+                        this.isShow = false;
+                    } 
+                })
+
+            },
+            ADDlist(){  
                 this.$router.push({
                     path:"./add_nb",
                     query:{
                         tdate:this.tdate,
+                        is_receiver:this.is_receiver,
                     }
-                })
-            }
+                })      
+            },
         },
     }
 </script>

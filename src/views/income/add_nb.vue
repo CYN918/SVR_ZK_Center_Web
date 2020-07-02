@@ -1,9 +1,12 @@
 <template>
     <div class="template">
-       <div class="top_name">
-            <span class="top_txt" @click='fh(-1)'>计提数据管理  / 新增计提数据</span><div style="width:0;height:0;"><br/></div>
-            <span class="top_txts" style="width: 113px;display: inline-block;">新增计提数据</span>
-            
+       <div class="top_name">   
+            <span class="top_txt" @click='fh(-1)' v-if="this.$route.query.type == 'add_jt'&&this.$route.query.is_receiver == 1">计提数据管理   /   收款计提数据详情   /   添加计提数据</span><div style="width:0;height:0;"><br/></div>
+            <span class="top_txts" style="width: 113px;display: inline-block;" v-if="this.$route.query.type == 'add_jt'&&this.$route.query.is_receiver == 1">添加计提数据</span>
+            <span class="top_txt" @click='fh(-1)' v-if="this.$route.query.type == 'add_jt'&&this.$route.query.is_receiver == 0">计提数据管理   /   付款计提数据详情   /   添加计提数据</span><div style="width:0;height:0;"><br/></div>
+            <span class="top_txts" style="width: 113px;display: inline-block;" v-if="this.$route.query.type == 'add_jt'&&this.$route.query.is_receiver == 0">添加计提数据</span>
+            <span class="top_txt" @click='fh(-1)'  v-if="this.$route.query.type != 'add_jt'">计提数据管理  / 新增计提数据</span><div style="width:0;height:0;"><br/></div>
+            <span class="top_txts" style="width: 113px;display: inline-block;"  v-if="this.$route.query.type != 'add_jt'">新增计提数据</span>
             <span class='qud1'>{{this.$route.query.tdate}}</span>
         </div>
         <div class='screening'>
@@ -20,9 +23,9 @@
                 </el-date-picker>
             </div>  
             <span class="tlename">结算单ID：</span>   
-            <el-input v-model="input" placeholder="请输入内容"></el-input>
+            <el-input v-model="id" placeholder="请输入内容"></el-input>
             <span class="tlename">结算单名称：</span>   
-            <el-input v-model="input" placeholder="请输入内容"></el-input>
+            <el-input v-model="statement" placeholder="请输入内容"></el-input>
             <div class="btn_right">
                 <span class='cx' @click='getData()'>查询</span>
                 <span @click='cz()'>重置</span>
@@ -44,17 +47,25 @@
                         width="55">
                     </el-table-column> 
                     <el-table-column
-                        prop="count"
+                        prop="id"
                         label="结算单ID">
                     </el-table-column>
                     <el-table-column
-                        prop="mfid"
-                        label="结算单名称">    
+                        prop="demand_name"
+                        :show-overflow-tooltip="true"
+                        label="结算单名称"> 
+                        <template slot-scope="scope">
+                            <span>{{tableData[scope.$index].check.check1.statement}}</span>
+                        </template>   
                     </el-table-column>
-                    <el-table-column    
+                    <el-table-column 
+                        prop="status"
+                        :show-overflow-tooltip="true"   
                         label="结算时间段">
-                        
-                            
+                        <template slot-scope="scope">
+                            <span>{{(tableData[scope.$index].check.check1.tstart).split('-').join('/')}}至</span>
+                            <span>{{(tableData[scope.$index].check.check1.tend).split('-').join('/')}}</span>
+                        </template>      
                     </el-table-column>
                     <el-table-column
                         prop="check.expect_amount"
@@ -90,7 +101,8 @@
                     :total="total">
                 </el-pagination>
             </div>
-        </div>   
+        </div> 
+        <loading v-if='load'></loading>  
     </div>
 </template>
 
@@ -106,23 +118,43 @@
                 page:1,
                 p:10,
                 total:0,
-                input:'',
+                id:'',
+                load:true,
+                statement:'',
+                multipleSelection:[],
             }
         },
-        methods: {  
+        methods: {
+            cz(){
+                this.tdate = '';
+                this.id = '';
+                this.statement = '';
+            },
+            jump(){
+                let formData =new FormData;
+                formData.append('is_receiver',this.$route.query.is_receiver);
+                formData.append('month',this.$route.query.tdate);
+                formData.append('settle_id',JSON.stringify(this.unique(this.multipleSelection)));
+                this.api.settle_estimate_add(formData).then((res)=>{
+                    if(res != false){
+                        this.getData();
+                    } 
+                })
+
+            },
             fh(index){
                 this.$router.go(index)
             },
             getRowClass({row, column, rowIndex}) {
                 if (rowIndex === 0) {
-                    return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;padding:20px 0px 20px 14px'
+                    return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;'
                 } 
                 else {
                     return ''
                 }
             },
             cell({row, column, rowIndex, columnIndex}){
-                return 'padding:15px 14px;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
+                return 'color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
@@ -135,26 +167,37 @@
                 this.getData();
             },  
             handleSelectionChange(val) {
-                this.value= val;
-            },    
+                val.forEach(element => {
+                    this.multipleSelection.push(element.id)
+                });
+            },
+            unique(arr){
+                for(var i=0; i<arr.length; i++){
+                    for(var j=i+1; j<arr.length; j++){
+                        if(arr[i]==arr[j]){         //第一个等同于第二个，splice方法删除第二个
+                            arr.splice(j,1);
+                            j--;
+                        }
+                    }
+                }
+                return arr;
+            }, 
             getData(){
                 this.load = true;
                 let params={
                     p:this.p,
                     page:this.page,
-                    tdate:this.date,
-                    plid:this.plid,
-                    type:this.$route.query.type,
+                    is_receiver:this.$route.query.is_receiver,
+                    tdate:this.tdate,
+                    statement:this.statement,
+                    id:this.id
                 } 
-                this.api.pushlib_textlink_search({params}).then((res)=>{
+                this.api.settle_estimate_settle_list({params}).then((res)=>{
                     this.tableData=res.data;
                     this.total=res.total;
                     this.load = false;
                     this.mJs.scTop(0);
                 })
-            },
-            handleSelectionChange(val){
-
             },
             changeDate(){
 
@@ -168,7 +211,7 @@
         },
         //生命周期 - 挂载完成（可以访问DOM元素）
         mounted() {
-            // this.getData()
+            this.getData()
         },
 
     }
@@ -499,6 +542,9 @@
     }
     .tlename{
         margin-left: 20px;
+    }
+    .red{
+        color: red;
     }
    
 </style>

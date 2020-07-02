@@ -24,19 +24,19 @@
                 :header-cell-style="getRowClass"
                 :cell-style="cell">  
                     <el-table-column
-                        prop="check_md5"
+                        prop="month"
                         label="年月份">
                     </el-table-column>
                     <el-table-column
-                        prop="sdkid"
+                        prop="estimate_amount"
                         label="计提金额">
-                        <template slot-scope="scope">
-                            <img  style="max-width:80px;max-height: 80px;cursor: pointer" v-if="tableData[scope.$index].adver" :src='tableData[scope.$index].adver.pict_url' preview="0" />
-                        </template>
                     </el-table-column>
                     <el-table-column
                         prop="updated_at"
                         label="更新时间">
+                        <template slot-scope="scope">
+                            <span>{{tableData[scope.$index].updated_at==''?'--':tableData[scope.$index].updated_at}}</span>
+                        </template>
                     </el-table-column>
                     <el-table-column
                         prop="updator"
@@ -58,7 +58,7 @@
                     @size-change="handleSizeChange"
                     @current-change="handleCurrentChange"
                     :current-page.sync="page"
-                    :page-sizes="[100, 200, 300, 400]"
+                    :page-sizes="[50, 100, 150, 200]"
                     :page-size="p"
                     layout="total, sizes, prev, pager, next, jumper"
                     :total="total">
@@ -113,6 +113,7 @@
                     path:"./add_nb_detail",
                     query:{
                         is_receiver:0,
+                        tdate:this.tableData[index].month,
                     }
                 })
             },
