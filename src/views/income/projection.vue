@@ -248,7 +248,7 @@ data() {
                 }
                 if(arr[0] == 2){
                     let routeData = this.$router.resolve({
-                    path:"../AdvertisingNoSettlement",
+                    path:"/income/AdvertisingNoSettlement",
                     query:{
                         tstart:this.tstart,
                         tend:this.tend,

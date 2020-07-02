@@ -21,9 +21,21 @@
                         value-format="yyyy-MM-dd">
                 </el-date-picker>
                 <span  class="ad">数据类型</span>
-                <select v-model="is_receiver" @change="change(value)">
+                <select v-model="is_receiver" @change="change(value)" v-if="selectLength == 2">
                     <option value="1">收款数据</option>
                     <option value="0">付款数据</option>
+                </select>
+                <select v-model="is_receiver" @change="change(value)" v-if="S && selectLength == 1">
+                    <option value="1">收款数据</option>
+                    <!-- <option value="0">付款数据</option> -->
+                </select>
+                <select v-model="is_receiver" @change="change(value)" v-if="F && selectLength == 1">
+                    <!-- <option value="1">收款数据</option> -->
+                    <option value="0">付款数据</option>
+                </select>
+                <select v-model="is_receiver" @change="change(value)" v-if="selectLength == 0">
+                    <!-- <option value="1">收款数据</option>
+                    <option value="0">付款数据</option> -->
                 </select>
                  <div style=" display: inline-block;position: relative;" v-if='is_receiver==1'>
                     <span class="ad">结算方</span>
@@ -295,7 +307,32 @@ import 'ant-design-vue/dist/antd.css'
                 list: [],
                 options:[],
                 loading: false,
+                control:[],
+                S:false,
+                F:false,
+                selectLength:'',
             }
+        },
+        created(){
+            this.control=JSON.parse(localStorage.getItem('control'));
+            var arr = [];
+            if(this.control.length!=0){
+                for(var i=0;i<this.control.length;i++){
+                    //查询广告结算付款收益
+                    if(this.control[i].uri_key=='uri.settlement.pay.serach'){
+                        arr.push(1)
+                        this.F = true;
+                        this.is_receiver = 0;
+                    }
+                    //查询广告结算收款收益
+                    if(this.control[i].uri_key=='uri.settlement.receive.serach'){
+                        arr.push(2)
+                        this.S = true;
+                        this.is_receiver = 1;
+                    }
+                }
+            }
+            this.selectLength = arr.length;
         },
         mounted(){
                 if(this.$route.query.name){
@@ -448,54 +485,113 @@ import 'ant-design-vue/dist/antd.css'
                 if(num!=undefined){
                     this.page=num;
                          var params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:num,search:this.search,is_receiver:this.is_receiver,name:this.name,disjunctions:JSON.stringify(this.disjunctions),projects:this.projects.join(',')} 
-                }else{
+                }else if(num == 3){
                         params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,search:this.search,is_receiver:this.is_receiver,name:this.name,disjunctions:JSON.stringify(this.disjunctions),projects:this.projects.join(',')}
 
+                }else{
+                       params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,search:this.search,is_receiver:this.is_receiver,name:this.name,disjunctions:JSON.stringify(this.disjunctions),projects:this.projects.join(',')}
                 }
                 this.load = true;
+                if(this.is_receiver == 0){
+                    this.api.settle_data_search_pay({params}).then((res)=>{
+                        this.tableData=res.data;
+
+                        // var a1=0;
+                        // var a2=0;
+                        // var a4=0;
+                        // for(var i=0;i<res.data.length;i++){
+                        //     a1+=parseFloat(res.data[i].pv);
+                        //     a2+=parseFloat(res.data[i].click);
+                        //     a4+=parseFloat(res.data[i].income);
+
+                        var a1= 0;
+                        var a2= 0;
+                        var a4= 0;
+                        var a3 =0;
+                        var a5= 0;
+                        for(var i=0;i<this.tableData.length;i++){
+                            a1 += parseInt(res.data[i].pv);
+                            a2 += parseInt(res.data[i].click);
+                            a3 += parseInt(res.data[i].download);
+                            a4 += parseFloat(res.data[i].income);
+                            a5 += parseInt(res.data[i].download_feedback)
+                            this.tableData[i].income = parseFloat(this.tableData[i].income / 100).toFixed(2);
+                        }
+                        this.exhibition1 = parseInt(a1);
+                        this.exhibition2 = parseInt(a2);
+                        
+                        var sratio = 0;
+                        if(this.exhibition1 > 0){
+                            sratio =  parseFloat(this.exhibition2 / this.exhibition1 * 100).toFixed(2);
+
+                        }
+                        this.exhibition5=a3;
+                        this.exhibition6=a5;
+                        this.click_ratio = sratio.toString() +'%';
+                        this.exhibition4 = parseFloat(a4 / 100 ).toFixed(2);
+                        this.total = res.total;
+                        this.load =false;
+                    })
+
+                }else{
+                    this.api.settle_data_search({params}).then((res)=>{
+                        this.tableData=res.data;
+
+                        // var a1=0;
+                        // var a2=0;
+                        // var a4=0;
+                        // for(var i=0;i<res.data.length;i++){
+                        //     a1+=parseFloat(res.data[i].pv);
+                        //     a2+=parseFloat(res.data[i].click);
+                        //     a4+=parseFloat(res.data[i].income);
+
+                        var a1= 0;
+                        var a2= 0;
+                        var a4= 0;
+                        var a3 =0;
+                        var a5= 0;
+                        for(var i=0;i<this.tableData.length;i++){
+                            a1 += parseInt(res.data[i].pv);
+                            a2 += parseInt(res.data[i].click);
+                            a3 += parseInt(res.data[i].download);
+                            a4 += parseFloat(res.data[i].income);
+                            a5 += parseInt(res.data[i].download_feedback)
+                            this.tableData[i].income = parseFloat(this.tableData[i].income / 100).toFixed(2);
+                        }
+                        this.exhibition1 = parseInt(a1);
+                        this.exhibition2 = parseInt(a2);
+                        
+                        var sratio = 0;
+                        if(this.exhibition1 > 0){
+                            sratio =  parseFloat(this.exhibition2 / this.exhibition1 * 100).toFixed(2);
+
+                        }
+                        this.exhibition5=a3;
+                        this.exhibition6=a5;
+                        this.click_ratio = sratio.toString() +'%';
+                        this.exhibition4 = parseFloat(a4 / 100 ).toFixed(2);
+                        this.total = res.total;
+                        this.load = false;
+                    })
+
+                }
                 
-                this.api.settle_data_search({params}).then((res)=>{
-                    this.load = false;
-                    this.tableData=res.data;
-
-                    // var a1=0;
-                    // var a2=0;
-                    // var a4=0;
-                    // for(var i=0;i<res.data.length;i++){
-                    //     a1+=parseFloat(res.data[i].pv);
-                    //     a2+=parseFloat(res.data[i].click);
-                    //     a4+=parseFloat(res.data[i].income);
-
-                    var a1= 0;
-                    var a2= 0;
-                    var a4= 0;
-                    var a3 =0;
-                    var a5= 0;
-                    for(var i=0;i<this.tableData.length;i++){
-                        a1 += parseInt(res.data[i].pv);
-                        a2 += parseInt(res.data[i].click);
-                        a3 += parseInt(res.data[i].download);
-                        a4 += parseFloat(res.data[i].income);
-                        a5 += parseInt(res.data[i].download_feedback)
-                        this.tableData[i].income = parseFloat(this.tableData[i].income / 100).toFixed(2);
-                    }
-                    this.exhibition1 = parseInt(a1);
-                    this.exhibition2 = parseInt(a2);
-                    
-                    var sratio = 0;
-                    if(this.exhibition1 > 0){
-                        sratio =  parseFloat(this.exhibition2 / this.exhibition1 * 100).toFixed(2);
-
-                    }
-                    this.exhibition5=a3;
-                    this.exhibition6=a5;
-                    this.click_ratio = sratio.toString() +'%';
-                    this.exhibition4 = parseFloat(a4 / 100 ).toFixed(2);
-                    this.total = res.total;
-                })
+                
             },
            
         },
+        watch:{
+            name:function(){
+                   if(this.is_receiver==1){
+                    this.getObject()
+                    this.projects=[]
+                }
+                if(this.is_receiver==0){
+                    this.getqd();
+                    this.channels=[]
+                }
+            }
+        }
     }
 </script>
 
