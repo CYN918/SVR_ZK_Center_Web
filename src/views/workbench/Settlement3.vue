@@ -22,29 +22,29 @@
             <div style="text-align: center" class="fill">
                 <div v-if="!heid">
                     <span class="fillName">结算单名称</span>
-                    <div style="display: inline-block;width: 300px;text-align: left" v-if='list.check.check1'>
-                        <span class="text">{{list.check.check1.statement}}</span>
+                    <div style="display: inline-block;width: 300px;text-align: left" v-if='check1'>
+                        <span class="text">{{check1.statement}}</span>
                     </div>
 
                 </div>
                 <div v-if="is_receiver==0&&!heid">
                     <span class="fillName">渠道</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
-                        <span  class="text">{{list.check.check1.bind_channel_name}}</span>
+                        <span  class="text">{{check1.bind_channel_name}}</span>
                     </div>
 
                 </div>
                 <div v-if="is_receiver==1&&!heid">
                     <span class="fillName">项目</span>
                     <div style="display: inline-block;width: 300px;text-align: left">
-                        <span  class="text">{{list.check.check1.bind_projects_name}}</span>
+                        <span  class="text">{{check1.bind_projects_name}}</span>
                     </div>
 
                 </div>
                 <div  v-if="!heid">
                     <span class="fillName">结算时间段</span>
-                    <div style="display: inline-block;width: 300px;text-align: left" v-if='list.check.check1'>
-                        <span  class="text">{{list.check.check1.tstart}}-{{list.check.check1.tend}}</span>
+                    <div style="display: inline-block;width: 300px;text-align: left" v-if='check1'>
+                        <span  class="text">{{check1.tstart}}-{{check1.tend}}</span>
                     </div>
 
                 </div>
@@ -99,11 +99,14 @@
                 </div>
             </div>
         </div>
+        <pro v-if='budget' :name='check1.name' :tstart='check1.tstart' :id="id" :tend='check1.tend' :is_receiver='this.is_receiver' :a='a' :fj='fj' :projects='check1.bind_projects_name' :channels='check1.bind_channel_name'></pro>
     </div>
 </template>
 
 <script>
+    import pro from '../income/projection'
     export default {
+        components:{pro},
         name: "establish",
         props:['skID','skType',"processor"],
         data(){
@@ -121,7 +124,12 @@
                 userNames:true,
                 isShow: false,
                 functionality:[],
-                heid:true
+                heid:true,
+                check1:{},
+                budget:false,
+                a:0,
+                id:"",
+                fj:{},
             }
         },
         mounted(){
@@ -148,6 +156,7 @@
                     this.heid=false
                 }
             }
+            this.id=this.skID,
             this.getData();
 
         },
@@ -182,7 +191,16 @@
                 let params={is_receiver:this.is_receiver,id:this.skID};
                 this.api.settlemanage_detail({params}).then((res)=>{
                     this.list=res;
+                    this.check1 = res.check.check1;
+                    this.fj=res.check.check2;
                 })
+            },
+            detail(){
+                console.log('detail');
+                this.budget=true;
+            },
+            heidDetail(){
+                this.budget=false;
             },
         }
     }
