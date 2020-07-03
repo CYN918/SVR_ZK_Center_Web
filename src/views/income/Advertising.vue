@@ -324,11 +324,6 @@ import 'ant-design-vue/dist/antd.css'
                 }
             }
             this.selectLength = arr.length;
-            if(this.$route.query.is_receiver == 0){
-                document.getElementById('teshu').style.display = 'inline-block';
-            }else{
-                document.getElementById('teshu').style.display = 'none';
-            }
         },
         mounted(){
                 if(this.$route.query.name){
@@ -359,9 +354,11 @@ import 'ant-design-vue/dist/antd.css'
                 this.getDlist()
                 if(this.is_receiver==1){
                     this.getObject()
+                    document.getElementById('teshu').style.display = 'none';
                 }
                 if(this.is_receiver==0){
                     this.getqd();
+                    document.getElementById('teshu').style.display = 'inline-block';
                 }      
         },
         methods:{
@@ -731,7 +728,6 @@ import 'ant-design-vue/dist/antd.css'
         width: 350px;
     }
     #teshu{
-        display: none;
         min-width:200px;
         max-width:300px;
         height:36px;
