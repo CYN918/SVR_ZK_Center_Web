@@ -131,6 +131,7 @@
                 load:true,
                 settle_name:'',
                 multipleSelection:[],
+                settle_ids:[],
             }
         },
         methods: {
@@ -150,10 +151,14 @@
                 let formData =new FormData;
                 formData.append('is_receiver',this.$route.query.is_receiver);
                 formData.append('month',this.$route.query.tdate);
-                formData.append('settle_ids',JSON.stringify(this.unique(this.multipleSelection)));
+                formData.append('settle_ids',JSON.stringify(this.settle_ids));
                 this.api.settle_estimate_add(formData).then((res)=>{
                     if(res != false){
                         this.getData();
+                        this.$message({
+                            message: res,
+                            type: 'success'
+                        });
                     } 
                 })
 
@@ -183,9 +188,12 @@
                 this.getData();
             },  
             handleSelectionChange(val) {
-                val.forEach(element => {
-                    this.multipleSelection.push(element.id)
+                this.multipleSelection = val;
+                let arr = [];
+                this.multipleSelection.forEach(element => {
+                    arr.push(element.id)
                 });
+                this.settle_ids = this.unique(arr)
             },
             unique(arr){
                 for(var i=0; i<arr.length; i++){
