@@ -66,7 +66,7 @@
                     @size-change="handleSizeChange"
                     @current-change="handleCurrentChange"
                     :current-page.sync="page"
-                    :page-sizes="[50, 100, 150, 200]"
+                    :page-sizes="[10, 50, 100, 200]"
                     :page-size="p"
                     layout="total, sizes, prev, pager, next, jumper"
                     :total="total">
@@ -86,7 +86,7 @@
                 tdate:'',
                 tableData:[],
                 page:1,
-                p:50,
+                p:10,
                 total:0,
                 load:false,
             };
