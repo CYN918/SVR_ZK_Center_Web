@@ -124,6 +124,12 @@ import projection from './views/income/projection'
 mode['projection']=projection
 import Administrations from './views/income/AdvanceCharge/Administration'
 mode['Administrations']=Administrations
+import Datamanagement from './views/income/Datamanagement'
+mode['Datamanagement']=Datamanagement
+import Addnb from './views/income/add_nb'
+mode['Addnb']=Addnb
+import Addnbdetail from './views/income/add_nb_detail'
+mode['Addnbdetail']=Addnbdetail
 import YFdetails from './views/income/AdvanceCharge/YFdetails'
 mode['YFdetails']=YFdetails
 import change from './views/income/AdvanceCharge/change'
@@ -320,6 +326,8 @@ import journal_list from './views/workbench/journal_list'
 mode['journal_list']=journal_list
 import journal_nb from './views/workbench/journal_nb'
 mode['journal_nb']=journal_nb
+import journal_overseas from './views/workbench/journal_overseas'
+mode['journal_overseas']=journal_overseas
 import journal_child from './views/workbench/journal_child'
 mode['journal_child']=journal_child
 import journal_Administrator from './views/workbench/Jounrnal_Administrator'
@@ -576,6 +584,7 @@ let nb = [
             {path:'/workbench/journal_Administrator',name:'杂志锁屏推送管理',component: mode['journal_Administrator'],},
             {path:'/workbench/journal_list',name:'杂志锁屏推送管理列表',component: mode['journal_list'],},
             {path:'/workbench/journal_nb',name:'内部杂志锁屏推送管理列表',component: mode['journal_nb'],},
+            {path:'/workbench/journal_overseas',name:'海外杂志锁屏管理 ',component: mode['journal_overseas'],},
             {path:'/workbench/journal_child',name:'子推送库列表',component: mode['journal_child']},
             {path:'/workbench/wb_Journal',name:'外部杂志锁屏推送管理',component: mode['wb_Journal'],},
             {path:'/workbench/Offline_resources',name:'线下资源替换',component: mode['Offline_resources'],},
@@ -636,6 +645,9 @@ let nb = [
             {path:'/income/Receivables/Record',name:'变更记录',component:mode['Record']},
             {path:'/income/Receivables/DetailsSettlement',name:'结算方详情',component:mode['detailsSettlement']},
             {path:'/income/AdvanceCharge/Administration',name:'预付款管理',component:mode['Administrations']},
+            {path:'/income/Datamanagement',name:'计提数据管理',component:mode['Datamanagement']},
+            {path:'/income/add_nb',name:'新增计提数据',component:mode['Addnb']},
+            {path:'/income/add_nb_detail',name:'计提数据详情',component:mode['Addnbdetail']},
             {path:'/income/AdvanceCharge/YFdetails',name:'预付款详情',component:mode['YFdetails']},
             {path:'/income/AdvanceCharge/change',name:'预付款变更详情',component:mode['change']},
             {path:'/income/AdvanceCharge/ADD',name:'添加记录',component:mode['ADD']},
@@ -880,6 +892,8 @@ localStorage.getItem('letNav');
 //                     {title:'付款结算',url:'/income/payment/Administration'},
 //                     {title:'广告业务付款结算',url:'/income/Payment_operation/Administration'},
 //                     {title:'预付款管理',url:'/income/AdvanceCharge/Administration'},
+//                     {title:'计提数据管理',url:'/income/Datamanagement'},
+//                     {title:' 新增计提数据',url:'/income/add_nb'},
 //                     {title:'特殊款管理',url:'/income/SpecialFunds/SpecialFunds_Administration'},
 //                 ]},
 //                 {title:"内容业务",url:"3-2",list:[

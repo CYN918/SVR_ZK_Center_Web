@@ -2044,5 +2044,35 @@ export default {
 		url:'ds/data/income/shiquaner/summary',method:'get'
 	},
 
+	//计提数据列表（总览）
+	settle_estimate_list:{
+		url:'settle/estimate/list',method:'get'
+	},
+
+	//新建计提金额数据
+	settle_estimate_add:{
+		url:'settle/estimate/add',method:'post'
+	},
+
+	//检测当月计提金额是否已创建
+	settle_estimate_is_exist:{
+		url:'settle/estimate/is_exist',method:'post'
+	},
+
+	//移除结算单
+	settle_estimate_delete:{
+		url:'settle/estimate/delete',method:'post'
+	},
+
+	//计提数据列表（每月）
+	settle_estimate_monthly_item:{
+		url:'settle/estimate/monthly/item',method:'get'
+	},
+
+	//获取可用结算单
+	settle_estimate_settle_list:{
+		url:'settle/estimate/settle_list',method:'get'
+	},
+
 
 }

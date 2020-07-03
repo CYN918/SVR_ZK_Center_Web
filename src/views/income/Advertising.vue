@@ -21,19 +21,19 @@
                         value-format="yyyy-MM-dd">
                 </el-date-picker>
                 <span  class="ad">数据类型</span>
-                <select v-model="is_receiver" @change="change(value)" v-if="selectLength == 2">
+                <select v-model="is_receiver" @change="onChangeStripe" v-if="selectLength == 2">
                     <option value="1">收款数据</option>
                     <option value="0">付款数据</option>
                 </select>
-                <select v-model="is_receiver" @change="change(value)" v-if="S && selectLength == 1">
+                <select v-model="is_receiver" @change="onChangeStripe" v-if="S && selectLength == 1">
                     <option value="1">收款数据</option>
                     <!-- <option value="0">付款数据</option> -->
                 </select>
-                <select v-model="is_receiver" @change="change(value)" v-if="F && selectLength == 1">
+                <select v-model="is_receiver" @change="onChangeStripe" v-if="F && selectLength == 1">
                     <!-- <option value="1">收款数据</option> -->
                     <option value="0">付款数据</option>
                 </select>
-                <select v-model="is_receiver" @change="change(value)" v-if="selectLength == 0">
+                <select v-model="is_receiver" @change="onChangeStripe" v-if="selectLength == 0">
                     <!-- <option value="1">收款数据</option>
                     <option value="0">付款数据</option> -->
                 </select>
@@ -55,14 +55,12 @@
                 </div>
                 <span  class="ad" v-if="is_receiver==0">渠道场景</span>
                 <a-tree-select
-                            v-if="is_receiver==0"
-                                v-model="channels"
-                                style="min-width:200px;max-width:300px;height:36px;overflow: hidden;vertical-align: bottom;"
-                                :tree-data="channelData"
-                                tree-checkable
-                                :show-checked-strategy="SHOW_PARENT"
-                                search-placeholder="Please select"
-                            />
+                    id="teshu"         
+                    v-model="channels"
+                    :tree-data="channelData"
+                    tree-checkable
+                    :show-checked-strategy="SHOW_PARENT"
+                    search-placeholder="Please select"/>
                 <!-- <div style=" display: inline-block;position: relative;" v-if='is_receiver==1'>  -->
                     <span class="ad" v-if='is_receiver==1'>项目</span>
                      <!-- <el-select v-model="projects" multiple placeholder="请选择" class="elSelect">
@@ -356,9 +354,11 @@ import 'ant-design-vue/dist/antd.css'
                 this.getDlist()
                 if(this.is_receiver==1){
                     this.getObject()
+                    document.getElementById('teshu').style.display = 'none';
                 }
                 if(this.is_receiver==0){
                     this.getqd();
+                    document.getElementById('teshu').style.display = 'inline-block';
                 }      
         },
         methods:{
@@ -377,19 +377,23 @@ import 'ant-design-vue/dist/antd.css'
                     this.options = [];
                 }
             },
-            change(value){
-                // console.log(value)
+            onChangeStripe(e){
+                console.log(e.target.value)
                 this.name=''
                 this.channels=[]
                 this.projects=[]
                 this.search=''
-                 if(this.is_receiver==1){
+                 if(e.target.value==1){
                     this.getObject();
                     this.getDataList();
+                    this.getDlist();
+                    document.getElementById('teshu').style.display = 'none';
                 }
-                if(this.is_receiver==0){
+                if(e.target.value==0){
                     this.getqd();
                     this.getDataList(3);
+                    this.getDlist();
+                    document.getElementById('teshu').style.display = 'inline-block';
                 }
                 // this.getDataList();
             },
@@ -722,5 +726,12 @@ import 'ant-design-vue/dist/antd.css'
     }
     .elSelect{
         width: 350px;
+    }
+    #teshu{
+        min-width:200px;
+        max-width:300px;
+        height:36px;
+        overflow: hidden;
+        vertical-align: bottom;
     }
 </style>

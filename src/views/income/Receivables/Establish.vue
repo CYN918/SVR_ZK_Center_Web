@@ -168,9 +168,11 @@
                     </div>
 
                 </div>
-                <div class="fillBtn">
-                    <span class="tj" @click="ADD">确认提交</span>
-                    <span @click="fh(-1)" style="margin-right: 330px">取消</span>
+                <div class="fillBtn" style="padding-bottom: 55px;">
+                    <!-- <span class="tj" @click="ADD">确认提交</span>
+                    <span @click="fh(-1)" style="margin-right: 330px">取消</span> -->
+                    <el-button type="primary" :loading="loadSure" @click='ADD'>确认提交</el-button>
+                    <el-button @click='fh(-1)' style="margin-right: 330px">取消</el-button>
                 </div>
             </div>
         </div>
@@ -206,6 +208,7 @@
                 id:this.$route.query.id,
                 bind_projects_name:"",
                 balance_id:'',
+                loadSure:false,
             }
         },
         mounted(){
@@ -329,6 +332,7 @@
                         return
                     }
                 }
+                this.loadSure = true;
                 let formData = new FormData;
                 formData.append('name',this.name);
                 formData.append('statement',this.statement);
@@ -344,6 +348,7 @@
                 formData.append('attachs',JSON.stringify(this.attachs));
                 this.api.settlemanage_check_add(formData).then((res)=>{
                    if(res!=false){
+                       this.loadSure = false;
                        this.fh(-1);
                    }
                 })

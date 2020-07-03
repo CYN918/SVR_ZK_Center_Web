@@ -145,9 +145,11 @@
                     </div>
 
                 </div>
-                <div class="fillBtn">
-                    <span class="tj" @click="ADD">确认提交</span>
-                    <span @click="fh(-1)" style="margin-right: 330px">取消</span>
+                <div class="fillBtn" style="padding-bottom: 55px;">
+                    <!-- <span class="tj" @click="ADD">确认提交</span>
+                    <span @click="fh(-1)" style="margin-right: 330px">取消</span> -->
+                    <el-button type="primary" :loading="loadSure" @click='ADD'>确认提交</el-button>
+                    <el-button @click='fh(-1)' style="margin-right: 330px">取消</el-button>
                 </div>
             </div>
         </div>
@@ -187,7 +189,8 @@ import 'ant-design-vue/dist/antd.css'
                 id:this.$route.query.id,
                 bind_channel_name:'',
                 SHOW_PARENT:Antd.SHOW_PARENT,
-                disjunctions:[]
+                disjunctions:[],
+                loadSure:false,
             }
         },
         mounted(){
@@ -323,9 +326,9 @@ import 'ant-design-vue/dist/antd.css'
                 //     this.$message.error('附件不能为空');
                 //     return
                 // }
-                 var arr={};
-                 this.disjunctions=[]
+                this.loadSure = true;
                 for(var i=0;i<this.channels.length;i++){
+                    var arr={};
                     arr.channel=this.channels[i].split('-')[0];
                     arr.interaction=this.channels[i].split('-')[1];
                     this.disjunctions.push(arr)
@@ -344,6 +347,7 @@ import 'ant-design-vue/dist/antd.css'
                 formData.append('attachs',JSON.stringify(this.attachs));
                 this.api.settlemanage_check_add(formData).then((res)=>{
                     if(res!=false){
+                        this.loadSure = false;
                         this.fh(-1);
                     }
                 })
