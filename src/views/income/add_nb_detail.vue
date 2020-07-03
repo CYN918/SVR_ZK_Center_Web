@@ -135,6 +135,10 @@
                 formData.append('id',rows[index].id);
                 this.api.settle_estimate_delete(formData).then((res)=>{
                     if(res != false){
+                        this.$message({
+                            message: '移除成功',
+                            type: 'success'
+                        });
                         this.getData();
                     } 
                 })
