@@ -110,6 +110,7 @@
 
 <script>
     import loading from '../../components/loading'
+    import download from '../../api/commonality'
     export default {
 
         components: {loading},
