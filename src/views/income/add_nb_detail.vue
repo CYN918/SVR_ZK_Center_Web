@@ -194,7 +194,7 @@
 
             },
             cz(){
-                var url = '/settle/estimate/export'+'?is_receiver='+this.$route.query.is_receiver+'&month='+this.$route.query.month;
+                var url = '/settle/estimate/export'+'?is_receiver='+this.$route.query.is_receiver+'&month='+this.$route.query.tdate;
                 download.downloadImg(url);
             }
                     
