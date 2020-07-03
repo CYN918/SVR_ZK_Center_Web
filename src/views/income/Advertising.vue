@@ -321,6 +321,11 @@ import 'ant-design-vue/dist/antd.css'
                 }
             }
             this.selectLength = arr.length;
+            if(this.$route.query.is_receiver == 0){
+                document.getElementById('teshu').style.display = 'inline-block';
+            }else{
+                document.getElementById('teshu').style.display = 'none';
+            }
         },
         mounted(){
                 if(this.$route.query.name){
