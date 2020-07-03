@@ -109,7 +109,7 @@
                         <div slot="content" class="text">不同规则的生效时间和失效时间必须连续</div>
                         <img src="../../../../public/img/msgAt.png" style="vertical-align: top !important;margin-top: 5px;"/>
                     </el-tooltip>
-                   <span class="err" v-if='!this.company_id&&this.company_name!=""'>(合作公司不存在，数据无效)</span>
+                   <span class="err" v-if='this.companys.length == 0'>(合作公司不存在，数据无效)</span>
                 </span>
            </div>
             <div>
@@ -152,6 +152,7 @@
                         <div slot="content" class="text">不同规则的生效时间和失效时间必须连续</div>
                         <img src="../../../../public/img/msgAt.png" style="vertical-align: top !important;margin-top: 5px;"/>
                     </el-tooltip>
+                    <span class="err" v-if='this.bussiness_types.length == 0'>(商务模式不存在，数据无效)</span>
                 </span>
            </div>
            <div>
