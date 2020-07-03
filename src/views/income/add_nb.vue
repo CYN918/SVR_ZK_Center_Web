@@ -13,13 +13,13 @@
             <span class="tlename">结算时间段：</span>
             <div class="date">
                 <el-date-picker
-                    class='time_length'
                     v-model="tdate"
-                    type="monthrange"
+                    type="daterange"
                     range-separator="至"
-                    start-placeholder="开始月份"
-                    value-format="yyyy-MM"
-                    end-placeholder="结束月份">
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期"
+                    format="yyyy-MM-dd"
+                    value-format="yyyy-MM-dd">
                 </el-date-picker>
             </div>  
             <span class="tlename">结算单ID：</span>   
@@ -216,8 +216,8 @@
                     settle_name:this.settle_name,
                 } 
                 if(this.tdate){
-                    params.start_month = this.tdate[0];
-                    params.end_month = this.tdate[1];
+                    params.tstart = this.tdate[0];
+                    params.tend = this.tdate[1];
                 }
                 this.api.settle_estimate_settle_list({params}).then((res)=>{
                     this.tableData=res.data;

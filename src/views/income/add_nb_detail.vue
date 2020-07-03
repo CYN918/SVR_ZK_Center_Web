@@ -33,6 +33,12 @@
                             <span>{{tableData[scope.$index].check.check1.statement}}</span>
                         </template>    
                     </el-table-column>
+                    <el-table-column
+                        prop="status_name"
+                        
+                        label="状态"> 
+                        
+                    </el-table-column>
                     <el-table-column 
                         prop="status"
                         :show-overflow-tooltip="true"   
@@ -185,6 +191,10 @@
             },
             changeDate(){
 
+            },
+            cz(){
+                var url = '/settle/estimate/export'+'?is_receiver='+this.$route.query.is_receiver+'&month='+this.$route.query.month;
+                download.downloadImg(url);
             }
                     
         },
