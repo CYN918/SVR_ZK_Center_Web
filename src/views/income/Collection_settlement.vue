@@ -127,7 +127,12 @@
             },
             getData(){
                 this.load = true;
-                let params={p:this.p,page:this.page,is_receiver:1,start_month:this.tdate[0],end_month:this.tdate[1]}
+                let params={p:this.p,page:this.page,is_receiver:1}
+                if(this.tdate){
+                    params.start_month = this.tdate[0];
+                    params.end_month = this.tdate[1];
+                }
+                
                 this.api.settle_estimate_list({params}).then((res)=>{
                     this.tableData=res.data;
                     this.total=res.total;

@@ -212,11 +212,13 @@
                     p:this.p,
                     page:this.page,
                     is_receiver:this.$route.query.is_receiver,
-                    start_month:this.tdate[0],
-                    end_month:this.tdate[1],
                     settle_id:this.settle_id,
                     settle_name:this.settle_name,
                 } 
+                if(this.tdate){
+                    params.start_month = this.tdate[0];
+                    params.end_month = this.tdate[1];
+                }
                 this.api.settle_estimate_settle_list({params}).then((res)=>{
                     this.tableData=res.data;
                     this.total=res.total;
