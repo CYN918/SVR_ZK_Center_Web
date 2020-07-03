@@ -86,7 +86,7 @@
                         label="实际到账金额"
                         v-if="this.$route.query.is_receiver == 1">
                         <template slot-scope="scope" v-if="tableData[scope.$index].remit!=null">
-                            <span :class="{red:tableData[scope.$index].remit.receive_amount!=tableData[scope.$index].check.check2.real_amount}">{{(tableData[scope.$index].remit.receive_amount).toLocaleString("zh-Hans-CN",{style:'currency',currency:'CNY'})}}</span>
+                            <span :class="{red:tableData[scope.$index].remit.receive_amount!=tableData[scope.$index].check.check2.expect_amount}">{{(tableData[scope.$index].remit.receive_amount).toLocaleString("zh-Hans-CN",{style:'currency',currency:'CNY'})}}</span>
                         </template>
                     </el-table-column> 
                     <el-table-column
@@ -94,7 +94,7 @@
                         label="实际出账金额"
                         v-if="this.$route.query.is_receiver == 0">
                         <template slot-scope="scope" v-if="tableData[scope.$index].remit!=null">
-                            <span :class="{red:tableData[scope.$index].remit.receive_amount!=tableData[scope.$index].check.check2.real_amount}">{{(tableData[scope.$index].remit.receive_amount).toLocaleString("zh-Hans-CN",{style:'currency',currency:'CNY'})}}</span>
+                            <span :class="{red:tableData[scope.$index].remit.receive_amount!=tableData[scope.$index].check.check2.expect_amount}">{{(tableData[scope.$index].remit.receive_amount).toLocaleString("zh-Hans-CN",{style:'currency',currency:'CNY'})}}</span>
                         </template>
                     </el-table-column>      
                 </el-table>
