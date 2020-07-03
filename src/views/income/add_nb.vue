@@ -23,9 +23,9 @@
                 </el-date-picker>
             </div>  
             <span class="tlename">结算单ID：</span>   
-            <el-input v-model="id" placeholder="请输入内容"></el-input>
+            <el-input v-model="settle_id" placeholder="请输入内容"></el-input>
             <span class="tlename">结算单名称：</span>   
-            <el-input v-model="statement" placeholder="请输入内容"></el-input>
+            <el-input v-model="settle_name" placeholder="请输入内容"></el-input>
             <div class="btn_right">
                 <span class='cx' @click='getData()'>查询</span>
                 <span @click='cz()'>重置</span>
@@ -83,7 +83,16 @@
                     </el-table-column>
                     <el-table-column
                         prop="remit.receive_amount"
-                        label="实际到账金额">
+                        label="实际到账金额"
+                        v-if="this.$route.query.is_receiver == 1">
+                        <template slot-scope="scope" v-if="tableData[scope.$index].remit!=null">
+                            <span :class="{red:tableData[scope.$index].remit.receive_amount!=tableData[scope.$index].check.check2.real_amount}">{{(tableData[scope.$index].remit.receive_amount).toLocaleString("zh-Hans-CN",{style:'currency',currency:'CNY'})}}</span>
+                        </template>
+                    </el-table-column> 
+                    <el-table-column
+                        prop="remit.receive_amount"
+                        label="实际出账金额"
+                        v-if="this.$route.query.is_receiver == 0">
                         <template slot-scope="scope" v-if="tableData[scope.$index].remit!=null">
                             <span :class="{red:tableData[scope.$index].remit.receive_amount!=tableData[scope.$index].check.check2.real_amount}">{{(tableData[scope.$index].remit.receive_amount).toLocaleString("zh-Hans-CN",{style:'currency',currency:'CNY'})}}</span>
                         </template>
@@ -118,9 +127,9 @@
                 page:1,
                 p:10,
                 total:0,
-                id:'',
+                settle_id:'',
                 load:true,
-                statement:'',
+                settle_name:'',
                 multipleSelection:[],
             }
         },
@@ -131,6 +140,13 @@
                 this.statement = '';
             },
             jump(){
+                if(this.multipleSelection.length == 0){
+                    this.$message({
+                        message: '请勾选计提数据',
+                        type: 'warning'
+                    });
+                    return false
+                }
                 let formData =new FormData;
                 formData.append('is_receiver',this.$route.query.is_receiver);
                 formData.append('month',this.$route.query.tdate);
@@ -188,9 +204,10 @@
                     p:this.p,
                     page:this.page,
                     is_receiver:this.$route.query.is_receiver,
-                    tdate:this.tdate,
-                    statement:this.statement,
-                    id:this.id
+                    start_month:this.tdate[0],
+                    end_month:this.tdate[1],
+                    settle_id:this.settle_id,
+                    settle_name:this.settle_name,
                 } 
                 this.api.settle_estimate_settle_list({params}).then((res)=>{
                     this.tableData=res.data;

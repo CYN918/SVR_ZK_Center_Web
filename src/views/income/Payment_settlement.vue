@@ -33,7 +33,7 @@
                     </el-table-column>
                     <el-table-column
                         prop="receive_amount"
-                        label="实际到账金额">
+                        label="实际出账金额">
                     </el-table-column>
                     <el-table-column
                         prop="float_rate"
