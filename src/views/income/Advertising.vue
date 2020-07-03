@@ -55,14 +55,12 @@
                 </div>
                 <span  class="ad" v-if="is_receiver==0">渠道场景</span>
                 <a-tree-select
-                            v-if="is_receiver==0"
-                                v-model="channels"
-                                style="min-width:200px;max-width:300px;height:36px;overflow: hidden;vertical-align: bottom;"
-                                :tree-data="channelData"
-                                tree-checkable
-                                :show-checked-strategy="SHOW_PARENT"
-                                search-placeholder="Please select"
-                            />
+                    id="teshu"         
+                    v-model="channels"
+                    :tree-data="channelData"
+                    tree-checkable
+                    :show-checked-strategy="SHOW_PARENT"
+                    search-placeholder="Please select"/>
                 <!-- <div style=" display: inline-block;position: relative;" v-if='is_receiver==1'>  -->
                     <span class="ad" v-if='is_receiver==1'>项目</span>
                      <!-- <el-select v-model="projects" multiple placeholder="请选择" class="elSelect">
@@ -383,12 +381,14 @@ import 'ant-design-vue/dist/antd.css'
                  if(e.target.value==1){
                     this.getObject();
                     this.getDataList();
-                    this.getDlist()
+                    this.getDlist();
+                    document.getElementById('teshu').style.display = 'none';
                 }
                 if(e.target.value==0){
                     this.getqd();
                     this.getDataList(3);
-                    this.getDlist()
+                    this.getDlist();
+                    document.getElementById('teshu').style.display = 'inline-block';
                 }
                 // this.getDataList();
             },
@@ -718,5 +718,13 @@ import 'ant-design-vue/dist/antd.css'
     }
     .elSelect{
         width: 350px;
+    }
+    #teshu{
+        display: none;
+        min-width:200px;
+        max-width:300px;
+        height:36px;
+        overflow: hidden;
+        vertical-align: bottom;
     }
 </style>
