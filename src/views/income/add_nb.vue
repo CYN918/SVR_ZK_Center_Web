@@ -134,7 +134,7 @@
                 let formData =new FormData;
                 formData.append('is_receiver',this.$route.query.is_receiver);
                 formData.append('month',this.$route.query.tdate);
-                formData.append('settle_id',JSON.stringify(this.unique(this.multipleSelection)));
+                formData.append('settle_ids',JSON.stringify(this.unique(this.multipleSelection)));
                 this.api.settle_estimate_add(formData).then((res)=>{
                     if(res != false){
                         this.getData();
