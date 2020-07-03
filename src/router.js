@@ -326,6 +326,8 @@ import journal_list from './views/workbench/journal_list'
 mode['journal_list']=journal_list
 import journal_nb from './views/workbench/journal_nb'
 mode['journal_nb']=journal_nb
+import journal_overseas from './views/workbench/journal_overseas'
+mode['journal_overseas']=journal_overseas
 import journal_child from './views/workbench/journal_child'
 mode['journal_child']=journal_child
 import journal_Administrator from './views/workbench/Jounrnal_Administrator'
@@ -582,6 +584,7 @@ let nb = [
             {path:'/workbench/journal_Administrator',name:'杂志锁屏推送管理',component: mode['journal_Administrator'],},
             {path:'/workbench/journal_list',name:'杂志锁屏推送管理列表',component: mode['journal_list'],},
             {path:'/workbench/journal_nb',name:'内部杂志锁屏推送管理列表',component: mode['journal_nb'],},
+            {path:'/workbench/journal_overseas',name:'海外杂志锁屏管理 ',component: mode['journal_overseas'],},
             {path:'/workbench/journal_child',name:'子推送库列表',component: mode['journal_child']},
             {path:'/workbench/wb_Journal',name:'外部杂志锁屏推送管理',component: mode['wb_Journal'],},
             {path:'/workbench/Offline_resources',name:'线下资源替换',component: mode['Offline_resources'],},
