@@ -2,7 +2,7 @@
     <div>
         <div class="top">
             <div class="top_tit">
-                <span>计提数管理</span>
+                <span>计提数据管理</span>
             </div>
             <div class="user">
                 <div style="float:left;">
