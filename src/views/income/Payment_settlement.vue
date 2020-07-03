@@ -32,6 +32,14 @@
                         label="计提金额">
                     </el-table-column>
                     <el-table-column
+                        prop="receive_amount"
+                        label="实际到账金额">
+                    </el-table-column>
+                    <el-table-column
+                        prop="float_rate"
+                        label="浮动比例">
+                    </el-table-column>
+                    <el-table-column
                         prop="updated_at"
                         label="更新时间">
                         <template slot-scope="scope">
