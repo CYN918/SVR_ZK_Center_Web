@@ -359,7 +359,20 @@
             heidWL(){
                 this.ADDwl = false;
             },
-            listenToChildEvent(id,date){
+            array_diff(a, b) {
+                for (var i = 0; i < b.length; i++) {
+                    for (var j = 0; j < a.length; j++) {
+                        if (a[j] == b[i]) {
+                            a.splice(j, 1);
+                            j = j - 1;
+                        }
+                    }
+                }
+                return a;
+            },
+            listenToChildEvent(id,date,ids){
+                console.log(this.array_diff(id, this.ids.split(';')))
+                let arr = this.array_diff(id, this.ids.split(';'));
                 let formData =new FormData;
                 formData.append('plid',this.$route.query.plid);
                 formData.append('tdate',date);
