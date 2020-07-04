@@ -128,7 +128,7 @@ export default {
 				tonek=false;
 			}	
 			if(tonek) {// 判断是否登录
-				if(localStorage.getItem('status') != 0 
+				if(localStorage.getItem('status') == 0 
 					|| localStorage.getItem('status') =='undefined'){
 					return ;
 				}
