@@ -122,11 +122,23 @@ export default {
 			
 		},
 		init(){
-			this.api.perm_leftnav().then((res)=>{
-				this.load = false;
-				this.list = res;
-				localStorage.setItem('letNav',JSON.stringify(res));
-			})
+			let tonek = localStorage.getItem('token');
+			if(+localStorage.getItem('logintime')+(24*60*60*1000)<=Date.parse(new Date())){
+				localStorage.setItem("token","");
+				tonek=false;
+			}	
+			if(tonek) {// 判断是否登录
+				if(localStorage.getItem('status') != 0 
+					|| localStorage.getItem('status') =='undefined'){
+					return ;
+				}
+				
+				this.api.perm_leftnav().then((res)=>{
+					this.load = false;
+					this.list = res;
+					localStorage.setItem('letNav',JSON.stringify(res));
+				});
+			}
 		}
 	},
 }
