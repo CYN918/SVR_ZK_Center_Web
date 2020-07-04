@@ -1093,18 +1093,13 @@ router.beforeEach((to, from, next) => {
             }
             console.log('user status');
             if(msg.data.data.user.status=='0' 
-            || !msg.data.data.user.status){
+                || !msg.data.data.user.status
+                // || msg.data.data.user.status  != 3
+                ){
                 // alert("没有权限，请联系管理员添加角色或启用账号");
                 next({ path: '/erro'});
                 return;
             }
-            api.account_apply_status().then((datas)=>{					
-                if(datas.status != 3){
-                    next({ path: '/erro'});
-                    return
-                }
-                next({ path: '/index'});
-            })
             next({ path: '/index'});
 		}).catch(()=>{
             alert("账户异常，请退出账户重新登录");

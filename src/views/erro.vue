@@ -52,7 +52,7 @@
 			width="30%"
 			left
 			:before-close="handleClose">
-			<span>权限申请已通过，请重新登录</span>
+			<span>权限申请已通过！</span>
 			<span slot="footer" class="dialog-footer">
 				<el-button type="primary" @click="sure3">确 定</el-button>
 			</span>
