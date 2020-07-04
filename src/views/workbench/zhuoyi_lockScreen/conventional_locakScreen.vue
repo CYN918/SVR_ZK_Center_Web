@@ -125,7 +125,7 @@
                                     active-color="#3377ff"
                                     inactive-color="#e6e9f0"
                                     v-model="scope.row.is_copyright"
-                                    @change='change(scope.$index,scope.row.is_copyright)'>
+                                    @change='changeStatus(scope.$index,scope.row.is_copyright)'>
                                 </el-switch>
                                 <span v-if="scope.row.mfinal.type != 'f_sls_picture'">--</span>
                             </template>
@@ -383,7 +383,7 @@
                 })
                 .catch(_ => {});
             },
-            change(a,b){
+            changeStatus(a,b){
                 this.api.pushlib_textlink_iscopyright_edit({tdate:this.tableData[a].tdate,is_copyright:b,sub_plid:this.sub_plid,plid:this.plid,mfid:this.tableData[a].mfinal.mfid}).then((res)=>{
                     if(res != false){
                         this.getData();
@@ -445,11 +445,25 @@
             heidWL(){
                 this.ADDwl = false;
             },
-            listenToChildEvent(id,date){
+            array_diff(a, b) {
+                for (var i = 0; i < b.length; i++) {
+                    for (var j = 0; j < a.length; j++) {
+                        if (a[j] == b[i]) {
+                            a.splice(j, 1);
+                            j = j - 1;
+                        }
+                    }
+                }
+                return a;
+            },
+
+            listenToChildEvent(id,date,ids){
+                console.log(this.array_diff(id, this.ids.split(';')))
+                let arr = this.array_diff(id, this.ids.split(';'));
                 let formData =new FormData;
                 formData.append('plid',this.$route.query.plid);
                 formData.append('tdate',date);
-                formData.append('bind_mfid',JSON.stringify(id));
+                formData.append('bind_mfid',JSON.stringify(arr));
                 formData.append('ad_type','1');
                 if(this.$route.query.sub_plid != undefined){
                     formData.append('sub_plid',this.$route.query.sub_plid);

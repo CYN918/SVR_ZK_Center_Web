@@ -247,8 +247,8 @@
                     this.$message({message: '请选择壁纸',type: 'warning'});
                     return false
                 }
-                this.$emit('listenToChildEvent',this.checked,this.date,true);
-                // this.$parent.heidWL();
+                this.$emit('listenToChildEvent',this.checked,this.date,this.ids,true);
+                this.$parent.heidWL();
             },
             getList1(){
                 this.page = 1;
