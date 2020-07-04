@@ -255,6 +255,7 @@ methods: {
              }
              //卓易杂志锁屏
              if(this.tableData[index].channel.audit_type==3&&this.tableData[index].sub != 0){
+                localStorage.removeItem('tabNum');
                 this.$router.push({
                     path:"./journal_child",
                     query:{
@@ -264,6 +265,7 @@ methods: {
                 })
              }
              if(this.tableData[index].channel.audit_type==3&&this.tableData[index].sub == 0){
+                localStorage.removeItem('tabNum');
                 this.$router.push({
                     path:"./zhuoyi_lockScreen/journal_zy",
                     query:{
