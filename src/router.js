@@ -1106,7 +1106,8 @@ router.beforeEach((to, from, next) => {
                 return;
             }
             console.log('user status');
-            if(msg.data.data.user.status=='0'){
+            if(msg.data.data.user.status=='0' 
+            || !msg.data.data.user.status){
                 // alert("没有权限，请联系管理员添加角色或启用账号");
                 next({ path: '/erro'});
                 return;
