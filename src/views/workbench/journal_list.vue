@@ -253,6 +253,7 @@ methods: {
                     },
                 })
              }
+             //卓易杂志锁屏
              if(this.tableData[index].channel.audit_type==3&&this.tableData[index].sub != 0){
                 this.$router.push({
                     path:"./journal_child",
@@ -264,14 +265,15 @@ methods: {
              }
              if(this.tableData[index].channel.audit_type==3&&this.tableData[index].sub == 0){
                 this.$router.push({
-                    path:"./journal_nb",
+                    path:"./zhuoyi_lockScreen/journal_zy",
                     query:{
                         channel:this.tableData[index].channel.channel,
                         plid:row.plid,
                     },
                 })
              }
-             if(this.tableData[index].channel.audit_type==2 || this.tableData[index].channel.audit_type==5){
+             //魅族杂志首屏
+             if(this.tableData[index].channel.audit_type==2||this.tableData[index].channel.audit_type==5){
                 localStorage.removeItem('tabNum');
                 this.$router.push({
                     path:"./Jounrnal_ys",
