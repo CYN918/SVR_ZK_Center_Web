@@ -1,47 +1,23 @@
-
 <template>
-<div class="template">
-       <div class="top_name">
-           <div class="tit_top_url">
-                <span class="log_url" @click="fh(-2)">杂志锁屏推送 &nbsp;/&nbsp;</span>
-                <span class="log_url" @click="fh(-1)">推送审核内容管理 &nbsp;/&nbsp;</span>
-                <span class="log_url">壁纸管理</span>
-           </div>
-                <span class="top_txts" style="width: 113px;display: inline-block;">壁纸管理</span>
-               
-               
-               
-                <!-- <span class='qdName'>渠道</span>
-                <select v-model="channel">
-                        <option :value="item.channel" v-for="item in qdLists">{{item.channel}}</option>
-                </select> -->
-                <span class='qud'>{{this.$route.query.channel}}</span>
-                
-                
-                <span class='userGl' v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)" @click='addWl()' style="margin: 0px 20% 0 0;">添加物料</span>
-                <span class="userGl" v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)" @click='jump()' style="margin: 0px 1% 0 0;">一键确认</span>
-                <!-- <span class="userGl" style="margin: 0px 1% 0 0;" @click="getShow()">预警设置</span> -->
-                
-
-        </div>
+    <div>
         <div class='screening'>
-                <div class="date">
-                    <el-date-picker
-                            v-model="date"
-                            type="date"
-                            format="yyyy 年 MM 月 dd 日"
-                            placeholder="选择日期"
-                            value-format="yyyy-MM-dd"
-                            @change="changeDate">
-                    </el-date-picker>
-                </div>
-                <span class='qdName'>数量:</span>
-                <span>{{this.total}}</span>
-                <span class="dated" v-if="new Date(this.date)<=new Date(new Date().getTime() - 24*60*60*1000)">(已过期)</span>
-               
+            <div class="date">
+                <el-date-picker
+                    v-model="date"
+                    type="date"
+                    format="yyyy 年 MM 月 dd 日"
+                    placeholder="选择日期"
+                    value-format="yyyy-MM-dd"
+                    @change="changeDate">
+                </el-date-picker>
+            </div>
+            <span class='qdName'>数量:</span>
+            <span>{{this.total}}</span>
+            <span class="dated" v-if="new Date(this.date)<=new Date(new Date().getTime() - 24*60*60*1000)">(已过期)</span>  
+            <span class='userGl' v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)" @click='addWl()' style="margin: 0px 1% 0 0;">添加物料</span>   
         </div>
         <div style="margin-top:85px;background:#fff;padding-bottom:30px" class='rePadding'>
-             <template>
+            <template>
                     <el-table
                             ref="tab"
                             :data="tableData"
@@ -100,42 +76,61 @@
                                 
                         </el-table-column>
                         <el-table-column
-                                label="配置状态">
-                                  <template slot-scope="scope">
-                                      <span v-if="tableData[scope.$index].status == 0">待确认</span>
-                                      <span v-if="tableData[scope.$index].status == 2">已确认</span>
-                                      <span v-if="tableData[scope.$index].status == 3" style="color:red;">已过期</span>
+                                label="文字链标题"
+                                :show-overflow-tooltip="true">
+                                <template slot-scope="scope">
+                                    <span v-if="tableData[scope.$index].title!=''">{{tableData[scope.$index].title}}</span>
+                                    <span v-if="tableData[scope.$index].title==''">--</span>
+                                </template>
+                        </el-table-column>  
+                        <el-table-column
+                                label="文字链内容"
+                                :show-overflow-tooltip="true">
+                                <template slot-scope="scope">
+                                    <span v-if="tableData[scope.$index].content!=''">{{tableData[scope.$index].content}}</span>
+                                    <span v-if="tableData[scope.$index].content==''">--</span>
                                 </template>
                         </el-table-column>
-                        
-                         <el-table-column
-                                label="审核状态">
-                                  <template slot-scope="scope">
-                                      <span v-if="tableData[scope.$index].audit_status == 0">待审核</span>
-                                      <span v-if="tableData[scope.$index].audit_status == 1">审核通过</span>
-                                      <span v-if="tableData[scope.$index].audit_status == 2" style="color:red;">审核不通过</span>
+                        <el-table-column
+                                label="文字链标识"
+                                :show-overflow-tooltip="true">
+                                <template slot-scope="scope">
+                                    <span v-if="tableData[scope.$index].click_action!=''">{{tableData[scope.$index].click_action}}</span>
+                                    <span v-if="tableData[scope.$index].click_action==''">--</span>
                                 </template>
                         </el-table-column>
-                        
+                        <el-table-column
+                                label="落地页">
+                                 <template slot-scope="scope">
+                                    <a :href="tableData[scope.$index].url" target="_blank" style="text-decoration: none;color: #66b1ff" v-if="tableData[scope.$index].url!=''">点击查看</a>
+                                    <a  v-if="tableData[scope.$index].url==''">-</a>
+                                </template>
+                        </el-table-column>
+                        <el-table-column
+                                label="状态">
+                                  <template slot-scope="scope">
+                                      <span v-if="tableData[scope.$index].status_name == '信息缺失'" style="color:red;">{{tableData[scope.$index].status_name}}</span>
+                                      <span v-else>{{tableData[scope.$index].status_name}}</span>
+                                </template>
+                        </el-table-column>
                          <el-table-column
                                 prop="updated_at"
                                 label="更新时间">
                         </el-table-column>
                          <el-table-column
                                 prop="creator"
-                                label="操作人员"
-                                v-if="this.$route.query.channel">
+                                label="操作人员">
                                   <template slot-scope="scope">
                                       <span>{{tableData[scope.$index].updator==''?'--':tableData[scope.$index].updator}}</span>
                                 </template>
                         </el-table-column>
                         <el-table-column
-                                fixed="right"
                                 label="操作" 
                                 v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)">
                             <template slot-scope="scope">
                                  <!-- <el-button  type="text" size="small" v-if='tableData[scope.$index].status=="0"' @click='updateStatus(index)'>审核</el-button> -->
                                  <!-- <el-button v-if='tableData[scope.$index].status!="0"' type="text" size="small">修改结果</el-button> -->
+                                <el-button  type="text" size="small" @click="details(scope.row)">管理文字链</el-button>
                                 <el-button  type="text" size="small" @click="deleteRow(scope.$index, scope.row)">移除</el-button>
                             </template>
                         </el-table-column>
@@ -184,38 +179,7 @@
                 </div>
             </div>
         </div>
-        <div class="bg" v-if="tCopy">
-            <div class='content'>
-                <div class='con_tit'>
-                    <span>复制内容</span>
-                </div>
-                <div class='sel'>
-                    <span class='qdName'>子推送库：</span>
-                    <el-select v-model="valueTs" placeholder="请选择">
-                        <el-option
-                        v-for="item in options"
-                        :key="item.sub_plid"
-                        :label="item.name"
-                        :value="item.sub_plid">
-                        </el-option>
-                    </el-select>
-                </div>
-                <div>
-                    <span class='qdName'>选择日期：</span>
-                    <el-date-picker
-                        v-model="date1"
-                        type="date"
-                        format="yyyy 年 MM 月 dd 日"
-                        placeholder="选择日期"
-                        value-format="yyyy-MM-dd">
-                    </el-date-picker>
-                </div>
-                <div class='sel_btn'>
-                    <span class="sel_btn_qd" @click="pushCopy()">确定</span>
-                    <span @click='qxCopy()'>取消</span>
-                </div>
-            </div>
-        </div>
+        
         <el-dialog
             title="提示"
             :visible.sync="dialogVisible"
@@ -228,18 +192,7 @@
                 <el-button @click="dialogVisible = false">取 消</el-button>
             </span>
         </el-dialog>
-        <el-dialog
-            title="一键确认"
-            :visible.sync="confirmVisible"
-            :showClose="showClo"
-            :before-close="handleClose"
-            width="30%">
-            <span>将所有待确认状态的内容状态更新为已确认(已确认的内容会按排期下发到客户端)</span>
-            <span slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="confirmSur">确 认</el-button>
-                <el-button @click="confirmVisible = false">取 消</el-button>
-            </span>
-        </el-dialog>
+        
         <el-dialog
             title="管理文字链"
             :visible.sync="textVisible"
@@ -293,8 +246,7 @@
                 <el-button @click="cancelTx">取消</el-button>
             </span>
         </el-dialog>
-        <ADDWL v-if="ADDwl && type=='meizu_first'" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :ids='ids' :video="1" :gdsrc="gdsrc"></ADDWL>
-        <ADDWL v-if="ADDwl && type!='meizu_first'" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :ids='ids' :gdsrc="gdsrc"></ADDWL>
+        <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :ids='ids' :gdsrc="gdsrc"></ADDWL>
         <loading v-if='load'></loading>
         <div class='bg' v-if="change">
             <div class='compile'>
@@ -309,7 +261,7 @@
                             根据设置的预警检测提前天数和预警检测开始时间，每小时检测一次对应的数据是否存<br/>
                             在异常，若存在则发送预警通知
                         </div>
-                        <img src="../../../public/img/msg.png" style="position: relative;top: 8px;" slot="reference"/>
+                        <img src="../../../../public/img/msg.png" style="position: relative;top: 8px;" slot="reference"/>
                     </el-popover>
                 </div>
                 <div>
@@ -349,321 +301,247 @@
                 </div>
             </div>
         </div>
-</div>
+    </div>
 </template>
 
 <script>
-import loading from '../../components/loading'
-import ADDWL from './Jounrnal_select'
-export default {
+    import loading from '../../../components/loading'
+    import ADDWL from '../Jounrnal_select'
+    export default {
+        components: {ADDWL,loading},
+        data() {
+            return {
+                qdLists:[], 
+                plid:this.$route.query.plid,
+                channel:this.$route.query.channel,
+                type:this.$route.query.type,
+                material:3,
+                date:(new Date()).toLocaleDateString().split('/').join('-'),
+                status:'',
+                tableData:[],
+                page:1,
+                p:10,
+                total:0,
+                tc:false,
+                status2:"",
+                checkList:[],
+                pl:false,
+                value:[],
+                index:'',
+                advers:[],
+                yy:"",
+                dialogVisible: false,  
+                ADDwl:false,
+                textVisible:false,
+                isShow:true,
+                title: '',
+                content: '',
+                click_action:-1,
+                url: '',
+                theWeight:'',
+                rouelForm:{},
+                textlink:[],
+                rows:{},
+                rowData:{},
+                pkgname:'',
+                deeplink:'',
+                download_url:'',
+                load:true,
+                change:false,
+                num: 1,
+                amount: 1,
+                content:'',
+                value1: new Date(),
+                ids:'',
+                gdsrc:'', 
+                showClo:false,     
+            };
+        },
+        methods: {
+            getShow(){
+                this.change = true;
+            },
+            HeidChange(){
+                this.change=false
+            },
+            bj(){
 
-components: {ADDWL,loading},
-data() {
-
-return {
-       qdLists:[], 
-       plid:this.$route.query.plid,
-       channel:this.$route.query.channel,
-       type:this.$route.query.type,
-       material:3,
-       date:(new Date()).toLocaleDateString().split('/').join('-'),
-       date1:(new Date()).toLocaleDateString().split('/').join('-'),
-       status:'',
-       tableData:[],
-        page:1,
-        p:10,
-        total:0,
-        tc:false,
-        status2:"",
-        checkList:[],
-        pl:false,
-        value:[],
-        index:'',
-        advers:[],
-        yy:"",
-        dialogVisible: false,
-        confirmVisible:false,
-        showClo:false,
-        ADDwl:false,
-        textVisible:false,
-        isShow:true,
-        title: '',
-        content: '',
-        click_action:-1,
-        url: '',
-        theWeight:'',
-        rouelForm:{},
-        textlink:[],
-        rows:{},
-        rowData:{},
-        pkgname:'',
-        deeplink:'',
-        download_url:'',
-        load:true,
-        change:false,
-        num: 1,
-        amount: 1,
-        content:'',
-        value1: new Date(),
-        ids:'',
-        gdsrc:'',
-        tCopy:false,
-        options:[],
-        valueTs:'',
-};
-},
-
-methods: {
-    copyContent(){
-        this.tCopy = true;
-        this.init();
-    },
-    //查询子推送库列表
-    init(){
-        let params = {plid:this.plid}
-        this.api.pushlib_sub_list({params}).then((res)=>{
-            this.options = res;
-            
-        })
-
-    },
-    pushCopy(){
-        if(!this.valueTs){
-            this.$message({
-                message: '请选择子推送库',
-                type: 'warning'
-            });
-            return false
-        }
-        if(!this.date1){
-            this.$message({
-                message: '请选择时间',
-                type: 'warning'
-            });
-            return false
-        }
-        let formData =new FormData;
-        formData.append('plid',this.plid);
-        if(this.$route.query.sub_plid != undefined){
-            formData.append('sub_plid',this.$route.query.sub_plid);
-        }
-        formData.append('tdate',this.date);
-        formData.append('src_sub_plid',this.valueTs);
-        formData.append('src_tdate',this.date1);
-        this.api.pushlib_sub_copy(formData).then((res)=>{
-            this.$message({
-                message: '复制成功',
-                type: 'success'
-            });
-            this.tCopy = false;
-            this.getData()
-        })
-
-    },
-    qxCopy(){
-        this.tCopy = false;
-    },
-    getShow(){
-        this.change = true;
-    },
-    HeidChange(){
-        this.change=false
-    },
-    bj(){
-
-    },   
-    handleChange(value) {
-        console.log(value);
-    },
-     handleClose(done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {});
-      },
-    //一键确认
-    confirmSur(){
-        let formData =new FormData;
-        formData.append('plid',this.plid);
-        formData.append('tdate',this.date);
-        if(this.$route.query.sub_plid != undefined){
-            formData.append('sub_plid',this.$route.query.sub_plid);
-        }
-        if(this.type == 'meizu_first'){
-            formData.append('type','meizu_first');
-        }
-        this.api.pushlib_textlink_audit(formData).then((res)=>{
-            this.confirmVisible = false;
-            this.getData()
-        })
-    },
-    dJ(index){
-        document.getElementById('isShow'+index).style.display = 'block';
-        document.getElementById('pro'+index).style.display = 'none';
-    },
-    changeDate(val){
-        this.page = 1;
-        this.getData();
-    },
-    icon_click(index,rows){
-        // console.log(rows)
-        document.getElementById('isShow'+index).style.display = 'none';
-        document.getElementById('pro'+index).style.display = 'block';
-        this.theWeight = rows.weight;
-        this.rouelForm = rows;
-    },
-    leaver(index){
-
-    },
-    InputClick(index){
-        if(this.theWeight > 999 || this.theWeight < 0){
-            this.$message.error('权重值范围限制为0~999')
-            return false
-        }
-        let formData =new FormData;
-        formData.append('plid',this.rouelForm.plid);
-        formData.append('tdate',this.date);
-        formData.append('mfid',this.rouelForm.mfid);
-        formData.append('weight',this.theWeight);
-        if(this.type == 'meizu_first'){
-            formData.append('type','meizu_first');
-        }
-        if(this.$route.query.sub_plid != undefined){
-            formData.append('sub_plid',this.$route.query.sub_plid);
-        }
-        if(this.type != 'meizu_first'){
-            formData.append('title',this.rouelForm.title);
-            formData.append('content',this.rouelForm.content);
-            formData.append('url',this.rouelForm.url);
-        }
-        this.load = true;
-        this.api.pushlib_textlink_edit_weight(formData).then((res)=>{
-            if(res==false){this.load = false;return}
-            this.load = false;
-            document.getElementById('isShow'+index).style.display = 'block';
-            document.getElementById('pro'+index).style.display = 'none';
-            this.getData()
-        })
-    },
-    addWl(){
-       this.ADDwl = true;
-    },
-    heidWL(){
-        this.ADDwl = false;
-    },
-    listenToChildEvent(id,date){
-        let formData =new FormData;
-        formData.append('plid',this.$route.query.plid);
-        formData.append('tdate',date);
-        formData.append('bind_mfid',JSON.stringify(id));
-        if(this.$route.query.sub_plid != undefined){
-            formData.append('sub_plid',this.$route.query.sub_plid);
-        }
-        if(this.type == 'meizu_first'){
-            formData.append('type','meizu_first');
-        }
-        this.api.pushlib_textlink_add(formData).then((res)=>{
-            this.heidWL();
-            this.getData()
-        })
-    },
-     pushLib(){
-          if(this.index=='aa'){
-                    let array={plid:"",adid:"",mfid:""}
-                    for(var i=0;i<this.value.length;i++){
-                            array.plid=this.value[i].plid;
-                            array.adid=this.value[i].adid;
-                            array.mfid=this.value[i].mfid;
-                            this.advers.push(array);
-                        }
-                        if(!this.status2){
-                             this.$message.error('状态不能为空')
-                        }
-                        let formData =new FormData;
-                        formData.append('status',this.status2),
-                        formData.append('note',this.checkList.join(',')+this.yy) 
-                        formData.append('advers',JSON.stringify(this.advers))
-                        if(this.$route.query.sub_plid != undefined){
-                            formData.append('sub_plid',this.$route.query.sub_plid);
-                        }
-                        this.api.pushlib_adver_mfinal_audit(formData).then((res)=>{
-                            if(res!=false){
-                                this.getData();
-                                this.qx();
-                                this.Qxplcz();
-                            }
-                    })
-               }else{
-                   let array={plid:"",adid:"",mfid:""}
-                     array.plid=this.tableData[this.index].plid;
-                     array.adid=this.tableData[this.index].adid;
-                     array.mfid=this.tableData[this.index].mfid;
-                    this.advers.push(array);
-                       if(!this.status2){
-                             this.$message.error('状态不能为空')
-                        }
-                     let formData =new FormData;
-                      formData.append('status',this.status2),
-                        formData.append('note',this.checkList.join(',')+this.yy) 
-                        formData.append('advers',JSON.stringify(this.advers))
-                        if(this.$route.query.sub_plid != undefined){
-                            formData.append('sub_plid',this.$route.query.sub_plid);
-                        }
-                        this.api.pushlib_adver_mfinal_audit(formData).then((res)=>{
-                            if(res!=false){
-                                this.getData();
-                                this.qx();
-                                this.Qxplcz();
-                            }
-                    })
-               }
-            
-           },   
-    plcz(){
-        this.pl=true;
-    },
-    fh(index){
-        this.$router.go(index)
-    },
-    // fh(){
-    //     this.$router.push({
-    //         path:"./journal_list",
-    //         query:{
-    //             channel:this.$route.query.channel,
-    //             plid:this.$route.query.plid,
-    //         },
-    //     })
-    // },
-    // fhs(){
-    //     this.$router.push({
-    //         path:"./journal_list"
-    //     })
-    // },
-    Qxplcz(){
-        this.pl=false;
-       if(this.value.length>0){
-            this.tableData.map((option) => {
-                    this.$refs.tab.toggleRowSelection(option);
+            },   
+            handleChange(value) {
+                console.log(value);
+            },
+            handleClose(done) {
+                this.$confirm('确认关闭？')
+                .then(_ => {
+                    done();
                 })
-       }else{
-           this.value=[];
-       }
-       
-    },
-    getChannel(){
-                    this.api.pushlib_configs_channel().then((res)=>{
-                        this.qdLists=res;
-                    })
-    },
-     getRowClass({row, column, rowIndex}) {
-        if (rowIndex === 0) {
-            return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;padding:20px 0px 20px 14px'
-        } 
-        else {
-            return ''
-        }
-    },
+                .catch(_ => {});
+            },
+            
+            dJ(index){
+                document.getElementById('isShow'+index).style.display = 'block';
+                document.getElementById('pro'+index).style.display = 'none';
+            },
+            changeDate(val){
+                this.page = 1;
+                this.getData();
+            },
+            icon_click(index,rows){
+                // console.log(rows)
+                document.getElementById('isShow'+index).style.display = 'none';
+                document.getElementById('pro'+index).style.display = 'block';
+                this.theWeight = rows.weight;
+                this.rouelForm = rows;
+            },
+            leaver(index){
+
+            },
+            InputClick(index){
+                if(this.theWeight > 999 || this.theWeight < 0){
+                    this.$message.error('权重值范围限制为0~999')
+                    return false
+                }
+                let formData =new FormData;
+                formData.append('plid',this.rouelForm.plid);
+                formData.append('tdate',this.date);
+                formData.append('mfid',this.rouelForm.mfid);
+                formData.append('weight',this.theWeight);
+                if(this.type == 'meizu_first'){
+                    formData.append('type','meizu_first');
+                }
+                if(this.$route.query.sub_plid != undefined){
+                    formData.append('sub_plid',this.$route.query.sub_plid);
+                }
+                if(this.type != 'meizu_first'){
+                    formData.append('title',this.rouelForm.title);
+                    formData.append('content',this.rouelForm.content);
+                    formData.append('url',this.rouelForm.url);
+                }
+                this.load = true;
+                this.api.pushlib_textlink_edit_weight(formData).then((res)=>{
+                    if(res==false){this.load = false;return}
+                    this.load = false;
+                    document.getElementById('isShow'+index).style.display = 'block';
+                    document.getElementById('pro'+index).style.display = 'none';
+                    this.getData()
+                })
+            },
+            addWl(){
+                this.ADDwl = true;
+            },
+            heidWL(){
+                this.ADDwl = false;
+            },
+            listenToChildEvent(id,date){
+                let formData =new FormData;
+                formData.append('plid',this.$route.query.plid);
+                formData.append('tdate',date);
+                formData.append('bind_mfid',JSON.stringify(id));
+                formData.append('ad_type','1');
+                if(this.$route.query.sub_plid != undefined){
+                    formData.append('sub_plid',this.$route.query.sub_plid);
+                }
+                this.api.pushlib_textlink_add(formData).then((res)=>{
+                    this.heidWL();
+                    this.getData()
+                })
+            },
+            pushLib(){
+                if(this.index=='aa'){
+                            let array={plid:"",adid:"",mfid:""}
+                            for(var i=0;i<this.value.length;i++){
+                                    array.plid=this.value[i].plid;
+                                    array.adid=this.value[i].adid;
+                                    array.mfid=this.value[i].mfid;
+                                    this.advers.push(array);
+                                }
+                                if(!this.status2){
+                                    this.$message.error('状态不能为空')
+                                }
+                                let formData =new FormData;
+                                formData.append('status',this.status2),
+                                formData.append('note',this.checkList.join(',')+this.yy) 
+                                formData.append('advers',JSON.stringify(this.advers))
+                                if(this.$route.query.sub_plid != undefined){
+                                    formData.append('sub_plid',this.$route.query.sub_plid);
+                                }
+                                this.api.pushlib_adver_mfinal_audit(formData).then((res)=>{
+                                    if(res!=false){
+                                        this.getData();
+                                        this.qx();
+                                        this.Qxplcz();
+                                    }
+                            })
+                    }else{
+                        let array={plid:"",adid:"",mfid:""}
+                            array.plid=this.tableData[this.index].plid;
+                            array.adid=this.tableData[this.index].adid;
+                            array.mfid=this.tableData[this.index].mfid;
+                            this.advers.push(array);
+                            if(!this.status2){
+                                    this.$message.error('状态不能为空')
+                                }
+                            let formData =new FormData;
+                            formData.append('status',this.status2),
+                                formData.append('note',this.checkList.join(',')+this.yy) 
+                                formData.append('advers',JSON.stringify(this.advers))
+                                if(this.$route.query.sub_plid != undefined){
+                                    formData.append('sub_plid',this.$route.query.sub_plid);
+                                }
+                                this.api.pushlib_adver_mfinal_audit(formData).then((res)=>{
+                                    if(res!=false){
+                                        this.getData();
+                                        this.qx();
+                                        this.Qxplcz();
+                                    }
+                            })
+                    }
+                    
+                },   
+            plcz(){
+                this.pl=true;
+            },
+            fh(index){
+                this.$router.go(index)
+            },
+            // fh(){
+            //     this.$router.push({
+            //         path:"./journal_list",
+            //         query:{
+            //             channel:this.$route.query.channel,
+            //             plid:this.$route.query.plid,
+            //         },
+            //     })
+            // },
+            // fhs(){
+            //     this.$router.push({
+            //         path:"./journal_list"
+            //     })
+            // },
+            Qxplcz(){
+                this.pl=false;
+            if(this.value.length>0){
+                    this.tableData.map((option) => {
+                            this.$refs.tab.toggleRowSelection(option);
+                        })
+            }else{
+                this.value=[];
+            }
+            
+            },
+            getChannel(){
+                this.api.pushlib_configs_channel().then((res)=>{
+                    this.qdLists=res;
+                })
+            },
+            getRowClass({row, column, rowIndex}) {
+                if (rowIndex === 0) {
+                    return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;padding:20px 0px 20px 14px'
+                } 
+                else {
+                    return ''
+                }
+            },
             cell({row, column, rowIndex, columnIndex}){
                 return 'padding:15px 14px;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
             },
@@ -678,16 +556,14 @@ methods: {
                 this.page = page;
                 this.getData();
             },  
-             handleSelectionChange(val) {
+            handleSelectionChange(val) {
                 this.value= val;
-             },  
-             jump(){
-                 this.confirmVisible = true;          
-             },
-             remove(){
-                 this.dialogVisible = true;
-             },
-             surRemove(){
+            },  
+            
+            remove(){
+                this.dialogVisible = true;
+            },
+            surRemove(){
                 //  console.log(this.rows)
                 let formData =new FormData;
                  
@@ -708,13 +584,13 @@ methods: {
                         this.getData();
                     })
 
-             },
-             deleteRow(index, rows) {
-                 this.dialogVisible = true;
-                 this.rows = rows;
+            },
+            deleteRow(index, rows) {
+                this.dialogVisible = true;
+                this.rows = rows;
                  
-                },
-              updateStatus(index){
+            },
+            updateStatus(index){
                 this.advers=[];
                 if(index=='aa'&&this.value.length==0){
                     return
@@ -728,13 +604,13 @@ methods: {
               
                
                
-           }, 
+            }, 
             qx(){
                this.tc=false;
                this.status2='';
                this.checkList=[];
-           }, 
-           details(row){
+            }, 
+            details(row){
                 this.textVisible = true;
                 this.rowData = row;
                 this.title = row.title;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
@@ -744,12 +620,12 @@ methods: {
                 this.deeplink = row.deeplink;
                 this.pkgname = row.pkgname;
                 this.download_url = row.download_url;
-           },
-           cancelTx(){
+            },
+            cancelTx(){
                this.textVisible = false;
                this.form = {};
-           },
-           savePage(){
+            },
+            savePage(){
             //    var reg = /(http|https):\/\/([\w.]+\/?)\S*/;
                 if(this.click_action==-1){
                     this.$message.warning('标识不能为空');
@@ -821,8 +697,8 @@ methods: {
                     this.click_action = '';
                     this.url = '';        
                })
-           },
-           getData(){
+            },
+            getData(){
                this.load = true;
                console.log(this.$route.query.sub_plid)
                let params={
@@ -831,6 +707,7 @@ methods: {
                     tdate:this.date,
                     plid:this.plid,
                     type:this.$route.query.type,
+                    ad_type:1,
                 }
                if(this.$route.query.sub_plid != undefined){
                    params.sub_plid = this.$route.query.sub_plid
@@ -848,33 +725,23 @@ methods: {
                     this.ids=a.join(';');
                 //    this.$previewRefresh()
                })
-           },
+            },
+
+        },
+        created() {
+        
+
+        },
+        //生命周期 - 挂载完成（可以访问DOM元素）
+        mounted() {
+            //  this.getChannel();
+            this.getData()
             
-},
+        },
 
-created() {
-   
-
-},
-//生命周期 - 挂载完成（可以访问DOM元素）
-mounted() {
-    //  this.getChannel();
-     this.getData()
-},
-
-}
+    }
 </script>
 <style  scoped>
-.bg{
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.3);
-        position: fixed;
-        z-index: 9;
-        bottom: 0;
-        right: 0;
-       
-    }
     .compile{
         position: absolute;
         top:50%;
@@ -930,62 +797,16 @@ mounted() {
         border-radius: 3px;
         line-height: 36px;
         text-align: center;
-        margin-left: 24px;
-            
+        margin-left: 24px;       
     }
-  .top_name{
-        height: 100px;
-        border: 0;
+    .screening{
+        position: relative;
+        width: 100%;
+        height: 60px;
+        top:75px;
+        background: #fff
     }
-.top_txts{
-    margin-left: 24px;
-    font-size: 18px;
-    font-family: PingFang-SC;
-    font-weight: 500;
-    line-height: 30px;
-    color: rgba(31,46,77,1);
-    display: block;
-    margin-top: 10px;
-}
-.qdName{
-    display: inline-block;
-    font-size: 14px;
-    font-family: PingFang-SC-Medium;
-    font-weight: 500;
-    color: rgba(50,50,50,1);
-    margin-left: 40px
-}
- select{
-    margin-left: 20px;
-    width: 200px;
-    height: 36px;
-    border-radius: 5px;
-}
-.userGl{
-    float: right;
-    display: inline-block;
-    height: 36px;
-    text-align: center;
-    line-height: 36px;
-    cursor: pointer;
-    border-radius: 4px;
-    border: 1px solid rgba(211,219,235,1);
-    width: 144px;
-    background: rgba(242,246,252,1);
-    font-size: 14px;
-    font-family: PingFang-SC-Medium;
-    font-weight: 500;
-    color: rgba(61,73,102,1);
-    margin-top: -10px!important
-}
-.screening{
-    position: relative;
-    width: 100%;
-    height: 60px;
-   top:75px;
-    background: #fff
-}
-.date{
+    .date{
         margin:10px 12px 0 24px;
         display: inline-block;
     }
@@ -1011,14 +832,14 @@ mounted() {
         margin-right: 20px;
     }
     .cz,.dc{
-            display: inline-block;
+        display: inline-block;
         height: 36px;
         text-align: center;
         line-height: 36px;
         cursor: pointer;
         border-radius: 4px;
         border: 1px solid rgba(211,219,235,1);
-            width: 144px;
+        width: 144px;
         background: rgba(242,246,252,1);
         border: 1px solid rgba(211,219,235,1);
         font-size: 14px;
@@ -1030,7 +851,7 @@ mounted() {
         width: 68px!important;
         margin-left: 20px
     }
-     .bg{
+    .bg{
         position: fixed;
         top:0;
         left: 0;
@@ -1076,76 +897,41 @@ mounted() {
           display: block!important;
       margin: 0 0 15px 0 !important
     }
-     .bb span{
+    .bb span{
         vertical-align: top;
     }
-   .bb textarea{
+    .bb textarea{
        padding: 5px
-   }
-   .sel_btn{
+    }
+    .sel_btn{
        width: 100%;
        height: 50px;
        text-align: left;
        margin-top: 35px;
        border-top: 1px solid #ddd;
-   }
-   .sel_btn span{
-    margin-right: 24px;
-    display: inline-block;
-    width: 68px;
-    height: 36px;
-    background: rgba(255,255,255,1);
-    border-radius: 4px;
-    border: 1px solid rgba(211,219,235,1);
-    font-size: 14px;
-    font-family: PingFangSC-Regular;
-    font-weight: 400;
-    color: rgba(61,73,102,1);
-    line-height: 36px;
-    cursor: pointer;
-    text-align: center;
-    margin-top: 7px
-   }
-   .sel_btn_qd{
-       border: 0!important;
-    background: rgba(51,119,255,1)!important;
-    color: rgba(255,255,255,1)!important;
-    margin-left: 40px;
-   }
-   .qud{
-       display: inline-block;
-       padding: 5px;
-       border:1px solid  rgba(51,119,255,1);
-       text-align: center;
-       color: rgba(51,119,255,1);
-       border-radius: 5px;
-       line-height: 1!important;
-       margin-left: 10px;
-       position: absolute;
-       left: 173px;
-       top:47px
-   }
-   .qud1{
-       display: inline-block;
-       padding: 5px;
-       border:1px solid  rgba(51,119,255,1);
-       text-align: center;
-       color: rgba(51,119,255,1);
-       border-radius: 5px;
-       line-height: 1!important;
-       margin-left: 10px;
-       position: absolute;
-       left: 270px;
-       top:47px
-   }
-    .top_txt{
-        cursor: pointer; margin-left: 24px;
-        font-size: 12px;
-        font-family: PingFang-SC-Regular;
+    }
+    .sel_btn span{
+        margin-right: 24px;
+        display: inline-block;
+        width: 68px;
+        height: 36px;
+        background: rgba(255,255,255,1);
+        border-radius: 4px;
+        border: 1px solid rgba(211,219,235,1);
+        font-size: 14px;
+        font-family: PingFangSC-Regular;
         font-weight: 400;
-        color: rgba(153,153,153,1);
-        line-height: 20px!important;
-        margin-top: 15px
+        color: rgba(61,73,102,1);
+        line-height: 36px;
+        cursor: pointer;
+        text-align: center;
+        margin-top: 7px
+    }
+    .sel_btn_qd{
+        border: 0!important;
+        background: rgba(51,119,255,1)!important;
+        color: rgba(255,255,255,1)!important;
+        margin-left: 40px;
     }
     .select{
         float: right;
@@ -1174,14 +960,30 @@ mounted() {
         width: 80px;
         height: 25px;
     }
-    .template >>> .el-textarea{
-        width: 100%;
+    .qdName{
+        display: inline-block;
+        font-size: 14px;
+        font-family: PingFang-SC-Medium;
+        font-weight: 500;
+        color: rgba(50,50,50,1);
+        margin-left: 40px
     }
-    .template >>> select{
-        margin-left: 0px;
+    .userGl{
+        float: right;
+        display: inline-block;
+        height: 36px;
+        text-align: center;
+        line-height: 36px;
+        cursor: pointer;
+        border-radius: 4px;
+        border: 1px solid rgba(211,219,235,1);
+        width: 144px;
+        background: rgba(242,246,252,1);
+        font-size: 14px;
+        font-family: PingFang-SC-Medium;
+        font-weight: 500;
+        color: rgba(61,73,102,1);
+        margin-top: 10px!important
     }
-    .template >>> .el-button--primary{
-        background: #155BD4;
-    }
-   
+
 </style>

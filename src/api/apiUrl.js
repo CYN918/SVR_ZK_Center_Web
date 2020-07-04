@@ -185,6 +185,10 @@ export default {
 	edit_account_status:{
 		url:'/edit_account_status',method:'post',isType:{suktip:1}
 	},
+	/*编辑是否显示版权来源*/
+	pushlib_textlink_iscopyright_edit:{
+		url:'pushlib/textlink/iscopyright/edit',method:'post',isType:{suktip:1}
+	},
 	/* 修改外帐号*/
 	edit_external_account:{
 		url:'/edit_external_account',method:'post',isType:{suktip:1,reload:1}	
