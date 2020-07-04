@@ -231,6 +231,7 @@
                 click_action:-1,
                 material:3,
                 gdsrc:'',
+                textlink:[],
             };
         },
 
@@ -332,6 +333,7 @@
                      array.tdate=this.date;
                    this.textlink.push(array); 
                    formData.append('textlink',JSON.stringify(this.textlink))
+                   formData.append('plid',this.plid)
                    if(this.$route.query.sub_plid != undefined){
                         formData.append('sub_plid',this.$route.query.sub_plid);
                     }
