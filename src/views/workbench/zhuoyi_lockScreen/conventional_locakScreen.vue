@@ -113,16 +113,22 @@
                                       <span v-else>{{tableData[scope.$index].status_name}}</span>
                                 </template>
                         </el-table-column>
-                         <el-table-column
-                                prop="updated_at"
-                                label="更新时间">
-                        </el-table-column>
-                         <el-table-column
-                                prop="creator"
-                                label="操作人员">
-                                  <template slot-scope="scope">
-                                      <span>{{tableData[scope.$index].updator==''?'--':tableData[scope.$index].updator}}</span>
-                                </template>
+                        <el-table-column
+                            prop="is_copyright"
+                            
+                            label="版权来源">
+                            <template slot-scope="scope">
+                                <el-switch
+                                    v-if="scope.row.mfinal.type == 'f_sls_picture'"
+                                    :active-value="1"
+                                    :inactive-value="0"
+                                    active-color="#3377ff"
+                                    inactive-color="#e6e9f0"
+                                    v-model="scope.row.is_copyright"
+                                    @change='change(scope.$index,scope.row.is_copyright)'>
+                                </el-switch>
+                                <span v-if="scope.row.mfinal.type != 'f_sls_picture'">--</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                                 label="操作" 
@@ -376,6 +382,13 @@
                     done();
                 })
                 .catch(_ => {});
+            },
+            change(a,b){
+                this.api.pushlib_textlink_iscopyright_edit({tdate:this.tableData[a].tdate,is_copyright:b,sub_plid:this.sub_plid,plid:this.plid,mfid:this.tableData[a].mfinal.mfid}).then((res)=>{
+                    if(res != false){
+                        this.getData();
+                    }
+                })
             },
             
             dJ(index){
