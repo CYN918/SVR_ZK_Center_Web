@@ -552,7 +552,7 @@ import 'ant-design-vue/dist/antd.css'
                 },
                 createFilter(queryString) {
                     return (JSname) => {
-                    return (JSname.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+                    return (JSname.value.toLowerCase().indexOf(queryString.toLowerCase()) != -1);
                     };
                     
                 },
