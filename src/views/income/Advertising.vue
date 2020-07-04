@@ -257,6 +257,7 @@
                     :total="total">
             </el-pagination>
         </div>
+        <loading v-if='load'></loading>
     </div>
 </template>
 
@@ -265,8 +266,10 @@ import Vue from 'vue'
 import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
  import download from '../../api/commonality'
+ import loading from '../../components/loading'
   Vue.use(Antd)
     export default {
+        components: {loading},
         name: "advertiser",
         data(){
             return{
@@ -299,6 +302,7 @@ import 'ant-design-vue/dist/antd.css'
                 list: [],
                 options:[],
                 loading: false,
+                load:true,
             }
         },
         created(){
@@ -449,9 +453,11 @@ import 'ant-design-vue/dist/antd.css'
                 }else{
                        params = {tstart:this.value[0],tend:this.value[1],p:this.p,page:this.page,search:this.search,is_receiver:this.is_receiver,name:this.name,disjunctions:JSON.stringify(this.disjunctions),projects:this.projects.join(',')}
                 }
+                this.load = true;
                 if(this.is_receiver == 0){
                     this.api.settle_data_search_pay({params}).then((res)=>{
                         this.tableData=res.data;
+                        this.load = false;
 
                         // var a1=0;
                         // var a2=0;

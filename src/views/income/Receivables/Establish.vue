@@ -277,7 +277,7 @@
                 this.attachs.splice(index,1)
             },
             ADD(){
-                console.log(this.bind_projects_name)
+                console.log(this.projects)
                 if(this.fcounter != 0)
                 {
                     this.$message.error('文件上传中');
