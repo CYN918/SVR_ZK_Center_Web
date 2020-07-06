@@ -100,12 +100,13 @@
                             <template slot-scope="scope">
                                 <el-switch
                                     v-if="scope.row.mfinal.type == 'f_sls_picture'"
+                                    class="tablescope"
                                     :active-value="1"
                                     :inactive-value="0"
                                     active-color="#3377ff"
                                     inactive-color="#e6e9f0"
                                     v-model="scope.row.is_copyright"
-                                    @change='change(scope.$index,scope.row.is_copyright)'>
+                                    @change='changeStatus(scope.$index,scope.row.is_copyright)'>
                                 </el-switch>
                                 <span v-if="scope.row.mfinal.type != 'f_sls_picture'">--</span>
                             </template>
@@ -346,7 +347,7 @@
             changeDate(){
                 this.$parent.getData2();
             },
-            change(a,b){
+            changeStatus(a,b){
                 this.api.pushlib_textlink_iscopyright_edit({tdate:this.tableData[a].tdate,is_copyright:b,sub_plid:this.sub_plid,plid:this.plid,mfid:this.tableData[a].mfinal.mfid}).then((res)=>{
                     if(res != false){
                         this.$parent.getData2();
@@ -479,5 +480,41 @@
         color: rgba(61,73,102,1);
         margin-top: 10px!important
     }
+    .tablescope >>> .el-switch__label--left {
+        position: relative;
+        left: 33px;
+        color: #fff;
+        z-index: -1111;
+      }
+      .tablescope >>> .el-switch__label--left span{
+          width: 50px;
+      }
+      .tablescope >>> .el-switch__core{
+        width: 70px !important;
+      }
+      .tablescope >>> .el-switch__label--left{
+          margin-right: -25px;
+      }
+      .tablescope >>> .el-switch__label--right {
+        position: relative;
+        right: 62px;
+        color: #fff;
+        z-index: -1111;
+      }
+      .tablescope >>> .el-switch__label--right span{
+          width: 50px;
+      }
+      .tablescope >>> .el-switch__label--right.is-active {
+        z-index: 1111;
+        color: #fff !important;
+      }
+      .tablescope >>> .el-switch__label--left.is-active {
+        z-index: 1;
+        color: #9c9c9c !important;
+      }
+      .tablescope >>> .el-switch__core{
+          margin-left: -25px;
+
+      }
 
 </style>

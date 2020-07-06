@@ -1020,7 +1020,7 @@
         color: #fff !important;
       }
       .tablescope >>> .el-switch__label--left.is-active {
-        z-index: 1111;
+        z-index: 1;
         color: #9c9c9c !important;
       }
       .tablescope >>> .el-switch__core{
