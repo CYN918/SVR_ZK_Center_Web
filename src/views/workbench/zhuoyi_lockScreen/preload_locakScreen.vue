@@ -419,6 +419,7 @@
                 this.api.pushlib_textlink_search({params}).then((res)=>{
                     this.tableData=res.data;
                     this.total=res.total;
+                    localStorage.setItem('preload', this.total);
                     this.load = false;
                     this.mJs.scTop(0);
                     var a = [];

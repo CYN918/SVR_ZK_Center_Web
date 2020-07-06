@@ -12,7 +12,7 @@
             
             <span class="userGl" v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)" @click='jump()' style="margin: 0px 20% 0 0;">一键确认</span>
             <!-- <span class="userGl" style="margin: 0px 1% 0 0;" @click="getShow()">预警设置</span> -->
-            <span class="userGl" style="margin: 0px 1% 0 0;" @click="copyContent()">复制内容</span>
+            <span class="userGl" style="margin: 0px 1% 0 0;" @click="copyContent()" v-if="conventional == 0&&preload == 0">复制内容</span>
             <div class="user">
                 <div class="sk" :class="{check:is_receiver==0}" @click="switchs(0)">
                     常规壁纸管理
@@ -87,6 +87,8 @@
                 valueTs:'',
                 options:[],  
                 plid:this.$route.query.plid,
+                conventional:localStorage.getItem('conventional'),
+                preload:localStorage.getItem('preload'),
             };
         },
         methods: {
@@ -95,6 +97,9 @@
                 this.mJs.scTop(0); 
                 localStorage.setItem('tabNum', num);   
             },  
+            init(num){
+                console.log(num)
+            },
             jump(){
                 this.confirmVisible = true;          
             },  
@@ -175,8 +180,7 @@
             },   
         },
         created() {
-        
-
+            
         },
         //生命周期 - 挂载完成（可以访问DOM元素）
         mounted() {
