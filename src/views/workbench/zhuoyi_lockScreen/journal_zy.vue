@@ -180,6 +180,12 @@
             },   
         },
         created() {
+            if (localStorage.getItem('conventional')) {
+                this.conventional = localStorage.getItem('conventional')
+            }
+            if (localStorage.getItem('preload')) {
+                this.preload = localStorage.getItem('preload')
+            }
             
         },
         //生命周期 - 挂载完成（可以访问DOM元素）
