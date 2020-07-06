@@ -3,7 +3,7 @@
 <div class="template">
        <div class="top_name">
                 
-                <span class="top_txt" @click='fh(-1)'>杂志锁屏推送审核管理  / 上线内容管理</span><div style="width:0;height:0;"><br/></div>
+                <span class="top_txt" @click='fh(-1)'>杂志锁屏推送审核管理  / 下发内容管理</span><div style="width:0;height:0;"><br/></div>
                 <span class="top_txts" style="width: 113px;display: inline-block;">上线内容管理</span>
                
                
@@ -78,7 +78,7 @@
                                 label="物料ID">
                                 
                         </el-table-column>
-                        <el-table-column
+                        <!-- <el-table-column
                                 
                                 label="壁纸ID">
                                 <template slot-scope="scope">
@@ -92,8 +92,8 @@
                                 
                             </template>
                                 
-                        </el-table-column>
-                        <el-table-column
+                        </el-table-column> -->
+                        <!-- <el-table-column
                                 label="文字链标题"
                                 :show-overflow-tooltip="true">
                                 <template slot-scope="scope">
@@ -116,7 +116,7 @@
                                     <span v-if="tableData[scope.$index].click_action!=''">{{tableData[scope.$index].click_action}}</span>
                                     <span v-if="tableData[scope.$index].click_action==''">--</span>
                                 </template>
-                        </el-table-column>
+                        </el-table-column> -->
                         <el-table-column
                                 label="落地页">
                                  <template slot-scope="scope">
@@ -124,6 +124,26 @@
                                     <a  v-if="tableData[scope.$index].url==''">-</a>
                                 </template>
                         </el-table-column>
+                        <!-- <el-table-column
+                            prop="is_copyright"
+                            
+                            label="版权来源">
+                            <template slot-scope="scope">
+                                <el-switch
+                                    v-if="scope.row.mfinal.type == 'f_sls_picture'"
+                                    class="tablescope"
+                                    :active-value="1"
+                                    :inactive-value="0"
+                                    active-color="#3377ff"
+                                    inactive-color="#e6e9f0"
+                                    v-model="scope.row.is_copyright"
+                                    inactive-text="隐藏"
+                                    active-text="显示"
+                                    @change='changeStatus(scope.$index,scope.row.is_copyright)'>
+                                </el-switch>
+                                <span v-if="scope.row.mfinal.type != 'f_sls_picture'">--</span>
+                            </template>
+                        </el-table-column> -->
                         <el-table-column
                                 label="状态">
                                   <template slot-scope="scope">
@@ -139,14 +159,6 @@
                                       <span v-if="tableData[scope.$index].status == 3" style="color:red;">已过期</span>
                                 </template>
                         </el-table-column>
-                        <!-- <el-table-column
-                                label="配置状态">
-                                  <template slot-scope="scope">
-                                      <span v-if="tableData[scope.$index].status == 0">待确认</span>
-                                      <span v-if="tableData[scope.$index].status == 2">已确认</span>
-                                      <span v-if="tableData[scope.$index].status == 3" style="color:red;">已过期</span>
-                                </template>
-                        </el-table-column> -->
                          <el-table-column
                                 label="审核状态">
                                   <template slot-scope="scope">
@@ -155,14 +167,6 @@
                                       <span v-if="tableData[scope.$index].audit_status == 2" style="color:red;">审核不通过</span>
                                 </template>
                         </el-table-column>
-                        <!-- <el-table-column
-                                label="审核状态">
-                                  <template slot-scope="scope">
-                                      <span v-if="tableData[scope.$index].audit_status == 0">待审核</span>
-                                      <span v-if="tableData[scope.$index].audit_status == 1">审核通过</span>
-                                      <span v-if="tableData[scope.$index].audit_status == 2" style="color:red;">审核不通过</span>
-                                </template>
-                        </el-table-column> -->
                          <el-table-column
                                 prop="updated_at"
                                 label="更新时间">
@@ -175,7 +179,6 @@
                                 </template>
                         </el-table-column>
                         <el-table-column
-                                fixed="right"
                                 label="操作" 
                                 v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)">
                             <template slot-scope="scope">
@@ -323,7 +326,7 @@
                             根据设置的预警检测提前天数和预警检测开始时间，每小时检测一次对应的数据是否存<br/>
                             在异常，若存在则发送预警通知
                         </div>
-                        <img src="../../../public/img/msg.png" style="position: relative;top: 8px;" slot="reference"/>
+                        <img src="../../../../public/img/msg.png" style="position: relative;top: 8px;" slot="reference"/>
                     </el-popover>
                 </div>
                 <div>
@@ -367,8 +370,8 @@
 </template>
 
 <script>
-import loading from '../../components/loading'
-import ADDWL from './Jounrnal_select'
+import loading from '../../../components/loading'
+import ADDWL from '../Jounrnal_select'
 export default {
 
 components: {ADDWL,loading},
@@ -434,7 +437,10 @@ methods: {
     },
     bj(){
 
-    },   
+    }, 
+    changeStatus(a,b){
+        
+    },  
     handleChange(value) {
         console.log(value);
     },
@@ -1108,5 +1114,41 @@ mounted() {
     .template >>> .el-button--primary{
         background: #155BD4;
     }
+    .tablescope >>> .el-switch__label--left {
+        position: relative;
+        left: 33px;
+        color: #fff;
+        z-index: -1111;
+      }
+      .tablescope >>> .el-switch__label--left span{
+          width: 50px;
+      }
+      .tablescope >>> .el-switch__core{
+        width: 70px !important;
+      }
+      .tablescope >>> .el-switch__label--left{
+          margin-right: -25px;
+      }
+      .tablescope >>> .el-switch__label--right {
+        position: relative;
+        right: 62px;
+        color: #fff;
+        z-index: -1111;
+      }
+      .tablescope >>> .el-switch__label--right span{
+          width: 50px;
+      }
+      .tablescope >>> .el-switch__label--right.is-active {
+        z-index: 1111;
+        color: #fff !important;
+      }
+      .tablescope >>> .el-switch__label--left.is-active {
+        z-index: 1;
+        color: #9c9c9c !important;
+      }
+      .tablescope >>> .el-switch__core{
+          margin-left: -25px;
+
+      }
    
 </style>
