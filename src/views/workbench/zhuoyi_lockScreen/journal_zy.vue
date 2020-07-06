@@ -12,7 +12,7 @@
             
             <span class="userGl" v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)" @click='jump()' style="margin: 0px 20% 0 0;">一键确认</span>
             <!-- <span class="userGl" style="margin: 0px 1% 0 0;" @click="getShow()">预警设置</span> -->
-            <span class="userGl" style="margin: 0px 1% 0 0;" @click="copyContent()" v-if="conventional == 0&&preload == 0">复制内容</span>
+            <span class="userGl" style="margin: 0px 1% 0 0;" @click="copyContent()" v-if="total == 0&&total1 == 0">复制内容</span>
             <div class="user">
                 <div class="sk" :class="{check:is_receiver==0}" @click="switchs(0)">
                     常规壁纸管理
@@ -66,16 +66,18 @@
                 </div>
             </div>
         </div>
-        <ConventionalLocakscreen v-if="is_receiver == 0"></ConventionalLocakscreen> 
-        <PreloadLocakscreen v-if="is_receiver == 1"></PreloadLocakscreen>   
+        <ConventionalLocakscreen v-if="is_receiver == 0" :tableData="tableData" :total="total" :idse="ids"></ConventionalLocakscreen> 
+        <PreloadLocakscreen v-if="is_receiver == 1" :tableData="tableData1" :total="total1" :idse="ids1"></PreloadLocakscreen>  
+        <loading v-if='load'></loading> 
     </div>
 </template>
 
 <script>
     import ConventionalLocakscreen from './conventional_locakScreen';
     import PreloadLocakscreen from './preload_locakScreen';
+    import loading from '../../../components/loading'
     export default {
-        components: {ConventionalLocakscreen,PreloadLocakscreen},
+        components: {ConventionalLocakscreen,PreloadLocakscreen,loading},
         data() {
             return {
                 date:(new Date()).toLocaleDateString().split('/').join('-'),
@@ -87,8 +89,15 @@
                 valueTs:'',
                 options:[],  
                 plid:this.$route.query.plid,
-                conventional:localStorage.getItem('conventional'),
-                preload:localStorage.getItem('preload'),
+                page:1,
+                p:10,
+                tableData:[],
+                total:0,
+                tableData1:[],
+                total1:0,
+                load:false,
+                ids:'',
+                ids1:'',
             };
         },
         methods: {
@@ -97,8 +106,76 @@
                 this.mJs.scTop(0); 
                 localStorage.setItem('tabNum', num);   
             },  
-            init(num){
-                console.log(num)
+            getData1(p,page){
+                console.log(p,page)
+                if(p != undefined){
+                    this.p = p;
+                }
+                if(page != undefined){
+                    this.page = page;
+                }
+               this.load = true;
+               let params={
+                    p:this.p,
+                    page:this.page,
+                    tdate:this.date,
+                    plid:this.plid,
+                    type:this.$route.query.type,
+                    ad_type:1,
+                }
+               if(this.$route.query.sub_plid != undefined){
+                   params.sub_plid = this.$route.query.sub_plid
+               }
+                
+                this.api.pushlib_textlink_search({params}).then((res)=>{
+                    this.tableData=res.data;
+                    this.total=res.total;
+                    this.load = false;
+                    this.mJs.scTop(0);
+                    
+                    var a = [];
+                    for(let i=0;i<this.tableData.length;i++){
+                        a.push(this.tableData[i].mfid);   
+                    }
+                    this.ids=a.join(';');
+                //    this.$previewRefresh()
+               })
+            },
+            getData2(p,page){
+                console.log(p,page)
+                if(p != undefined){
+                    this.p = p;
+                }
+                if(page != undefined){
+                    this.page = page;
+                }
+               this.load = true;
+               console.log(this.$route.query.sub_plid)
+               let params={
+                    p:this.p,
+                    page:this.page,
+                    tdate:this.date,
+                    plid:this.plid,
+                    type:this.$route.query.type,
+                    ad_type:2,
+                }
+               if(this.$route.query.sub_plid != undefined){
+                   params.sub_plid = this.$route.query.sub_plid
+               }
+                
+                this.api.pushlib_textlink_search({params}).then((res)=>{
+                    this.tableData1=res.data;
+                    this.total1=res.total;
+                    localStorage.setItem('preload', this.total);
+                    this.load = false;
+                    this.mJs.scTop(0);
+                    var a = [];
+                    for(let i=0;i<this.tableData.length;i++){
+                        a.push(this.tableData[i].mfid);   
+                    }
+                    this.ids1=a.join(';');
+                //    this.$previewRefresh()
+               })
             },
             jump(){
                 this.confirmVisible = true;          
@@ -193,6 +270,8 @@
             if (localStorage.getItem('tabNum')) {
                 this.is_receiver = localStorage.getItem('tabNum')
             }  
+            this.getData1();
+            this.getData2();
         },
     }
 </script>

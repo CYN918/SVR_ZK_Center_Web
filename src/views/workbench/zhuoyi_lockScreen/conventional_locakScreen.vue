@@ -255,8 +255,8 @@
                 <el-button @click="cancelTx">取消</el-button>
             </span>
         </el-dialog>
-        <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :ids='ids' :gdsrc="gdsrc"></ADDWL>
-        <loading v-if='load'></loading>
+        <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :ids='idse' :gdsrc="gdsrc"></ADDWL>
+        
         <div class='bg' v-if="change">
             <div class='compile'>
                 <div class='ts'>
@@ -314,10 +314,10 @@
 </template>
 
 <script>
-    import loading from '../../../components/loading'
     import ADDWL from '../Jounrnal_select'
     export default {
-        components: {ADDWL,loading},
+        components: {ADDWL},
+        props:['tableData','total','idse'],
         data() {
             return {
                 qdLists:[], 
@@ -328,10 +328,10 @@
                 material:3,
                 date:(new Date()).toLocaleDateString().split('/').join('-'),
                 status:'',
-                tableData:[],
                 page:1,
                 p:10,
-                total:0,
+                
+                
                 tc:false,
                 status2:"",
                 checkList:[],
@@ -356,13 +356,13 @@
                 pkgname:'',
                 deeplink:'',
                 download_url:'',
-                load:true,
+                
                 change:false,
                 num: 1,
                 amount: 1,
                 content:'',
                 value1: new Date(),
-                ids:'',
+                
                 gdsrc:'', 
                 showClo:false,     
             };
@@ -390,7 +390,7 @@
             changeStatus(a,b){
                 this.api.pushlib_textlink_iscopyright_edit({tdate:this.tableData[a].tdate,is_copyright:b,sub_plid:this.sub_plid,plid:this.plid,mfid:this.tableData[a].mfinal.mfid}).then((res)=>{
                     if(res != false){
-                        this.getData();
+                        this.$parent.getData1();
                     }
                 })
             },
@@ -401,7 +401,7 @@
             },
             changeDate(val){
                 this.page = 1;
-                this.getData();
+                this.$parent.getData1(this.p,this.page);
             },
             icon_click(index,rows){
                 // console.log(rows)
@@ -440,7 +440,7 @@
                     this.load = false;
                     document.getElementById('isShow'+index).style.display = 'block';
                     document.getElementById('pro'+index).style.display = 'none';
-                    this.getData()
+                    this.$parent.getData1();
                 })
             },
             addWl(){
@@ -462,8 +462,8 @@
             },
 
             listenToChildEvent(id,date,ids){
-                console.log(this.array_diff(id, this.ids.split(';')))
-                let arr = this.array_diff(id, this.ids.split(';'));
+                console.log(this.array_diff(id, ids.split(';')))
+                let arr = this.array_diff(id, ids.split(';'));
                 let formData =new FormData;
                 formData.append('plid',this.$route.query.plid);
                 formData.append('tdate',date);
@@ -474,7 +474,7 @@
                 }
                 this.api.pushlib_textlink_add(formData).then((res)=>{
                     this.heidWL();
-                    this.getData()
+                    this.$parent.getData1();
                 })
             },
             pushLib(){
@@ -498,7 +498,7 @@
                                 }
                                 this.api.pushlib_adver_mfinal_audit(formData).then((res)=>{
                                     if(res!=false){
-                                        this.getData();
+                                        this.$parent.getData1();
                                         this.qx();
                                         this.Qxplcz();
                                     }
@@ -521,7 +521,7 @@
                                 }
                                 this.api.pushlib_adver_mfinal_audit(formData).then((res)=>{
                                     if(res!=false){
-                                        this.getData();
+                                        this.$parent.getData1();
                                         this.qx();
                                         this.Qxplcz();
                                     }
@@ -579,13 +579,13 @@
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
                 this.page = 1;
-                this.getData();
+                this.$parent.getData1(this.p,this.page);
                 
                 
             },
             handleCurrentChange(page) {//页码切换
                 this.page = page;
-                this.getData();
+                this.$parent.getData1(this.p,this.page);
             },  
             handleSelectionChange(val) {
                 this.value= val;
@@ -613,7 +613,7 @@
                     }
                     this.api.pushlib_textlink_del(formData).then((res)=>{
                         this.dialogVisible = false;
-                        this.getData();
+                        this.$parent.getData1();
                     })
 
             },
@@ -723,42 +723,14 @@
                 formData.append('url',this.url);
                this.api.pushlib_textlink_edit(formData).then((res)=>{  
                     this.textVisible = false;
-                    this.getData();
+                    this.$parent.getData1();
                     this.title = '';
                     this.content = '';
                     this.click_action = '';
                     this.url = '';        
                })
             },
-            getData(){
-               this.load = true;
-               console.log(this.$route.query.sub_plid)
-               let params={
-                    p:this.p,
-                    page:this.page,
-                    tdate:this.date,
-                    plid:this.plid,
-                    type:this.$route.query.type,
-                    ad_type:1,
-                }
-               if(this.$route.query.sub_plid != undefined){
-                   params.sub_plid = this.$route.query.sub_plid
-               }
-                
-                this.api.pushlib_textlink_search({params}).then((res)=>{
-                    this.tableData=res.data;
-                    this.total=res.total;
-                    this.load = false;
-                    this.mJs.scTop(0);
-                    localStorage.setItem('conventional', this.total);
-                    var a = [];
-                    for(let i=0;i<this.tableData.length;i++){
-                        a.push(this.tableData[i].mfid);   
-                    }
-                    this.ids=a.join(';');
-                //    this.$previewRefresh()
-               })
-            },
+            
 
         },
         created() {
@@ -768,7 +740,7 @@
         //生命周期 - 挂载完成（可以访问DOM元素）
         mounted() {
             //  this.getChannel();
-            this.getData()
+            // this.getData()
             
         },
 

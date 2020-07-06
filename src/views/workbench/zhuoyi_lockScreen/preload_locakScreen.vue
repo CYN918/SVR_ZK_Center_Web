@@ -199,24 +199,24 @@
                 <el-button @click="dialogVisible = false">取 消</el-button>
             </span>
         </el-dialog>
-        <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :ids='ids' :gdsrc="gdsrc"></ADDWL>
-        <loading v-if='load'></loading>
+        <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :ids='idse' :gdsrc="gdsrc"></ADDWL>
+       
     </div>
 
 </template>
 
 <script>
-    import loading from '../../../components/loading'
     import ADDWL from '../Jounrnal_select'
     export default {
-        components: {ADDWL,loading},
+        components: {ADDWL},
+        props:['tableData','total','idse'],
         data() {
             return {
                 date:(new Date()).toLocaleDateString().split('/').join('-'),
-                tableData:[],
+               
                 page:1,
                 p:10,
-                total:0,  
+               
                 plid:this.$route.query.plid,
                 channel:this.$route.query.channel,
                 type:this.$route.query.type,
@@ -225,7 +225,7 @@
                 ADDwl:false,
                 textVisible:false,
                 dialogVisible: false,
-                load:true,
+                
                 rows:{},
                 showClo:false,
                 click_action:-1,
@@ -306,7 +306,7 @@
                 formData.append('url',this.url);
                this.api.pushlib_textlink_edit(formData).then((res)=>{  
                     this.textVisible = false;
-                    this.getData();
+                    this.$parent.getData2();
                     this.title = '';
                     this.content = '';
                     this.click_action = '';
@@ -339,17 +339,17 @@
                     }
                     this.api.pushlib_textlink_del(formData).then((res)=>{
                         this.dialogVisible = false;
-                        this.getData();
+                        this.$parent.getData2();
                     })
 
             },
             changeDate(){
-                this.getData();
+                this.$parent.getData2();
             },
             change(a,b){
                 this.api.pushlib_textlink_iscopyright_edit({tdate:this.tableData[a].tdate,is_copyright:b,sub_plid:this.sub_plid,plid:this.plid,mfid:this.tableData[a].mfinal.mfid}).then((res)=>{
                     if(res != false){
-                        this.getData();
+                        this.$parent.getData2();
                     }
                 })
             },
@@ -371,8 +371,8 @@
                 return a;
             },
             listenToChildEvent(id,date,ids){
-                console.log(this.array_diff(id, this.ids.split(';')))
-                let arr = this.array_diff(id, this.ids.split(';'));
+                console.log(this.array_diff(id, ids.split(';')))
+                let arr = this.array_diff(id, ids.split(';'));
                 let formData =new FormData;
                 formData.append('plid',this.$route.query.plid);
                 formData.append('tdate',date);
@@ -383,7 +383,7 @@
                 }
                 this.api.pushlib_textlink_add(formData).then((res)=>{
                     this.heidWL();
-                    this.getData()
+                    this.$parent.getData2();
                 })
             },
             cancelTx(){
@@ -401,35 +401,7 @@
                 this.pkgname = row.pkgname;
                 this.download_url = row.download_url;
             },
-            getData(){
-               this.load = true;
-               console.log(this.$route.query.sub_plid)
-               let params={
-                    p:this.p,
-                    page:this.page,
-                    tdate:this.date,
-                    plid:this.plid,
-                    type:this.$route.query.type,
-                    ad_type:2,
-                }
-               if(this.$route.query.sub_plid != undefined){
-                   params.sub_plid = this.$route.query.sub_plid
-               }
-                
-                this.api.pushlib_textlink_search({params}).then((res)=>{
-                    this.tableData=res.data;
-                    this.total=res.total;
-                    localStorage.setItem('preload', this.total);
-                    this.load = false;
-                    this.mJs.scTop(0);
-                    var a = [];
-                    for(let i=0;i<this.tableData.length;i++){
-                        a.push(this.tableData[i].mfid);   
-                    }
-                    this.ids=a.join(';');
-                //    this.$previewRefresh()
-               })
-            },
+            
             getRowClass({row, column, rowIndex}) {
                 if (rowIndex === 0) {
                     return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;padding:20px 0px 20px 14px'
@@ -444,13 +416,13 @@
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
                 this.page = 1;
-                this.getData();
+                this.$parent.getData2(this.p,this.page);
                 
                 
             },
             handleCurrentChange(page) {//页码切换
                 this.page = page;
-                this.getData();
+                this.$parent.getData2(this.p,this.page);
             },  
             handleSelectionChange(val) {
                 this.value= val;
@@ -464,7 +436,7 @@
         },
         //生命周期 - 挂载完成（可以访问DOM元素）
         mounted() {
-            this.getData();
+            // this.getData();
             
         },
 
