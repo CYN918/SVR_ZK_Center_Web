@@ -288,6 +288,16 @@ methods: {
                     },
                 })
              }
+             //海外首屏壁纸管理
+             if(this.tableData[index].channel.audit_type==7){
+                this.$router.push({
+                     path:"./haiwai_lockScreen/journal_sp",
+                    query:{
+                        channel:this.tableData[index].channel.channel,
+                        plid:row.plid,
+                    },
+                })
+             }
             if(this.tableData[index].channel.audit_type==4){
                 this.$router.push({
                      path:"./Audio_configuration_management",
