@@ -334,7 +334,6 @@ import 'ant-design-vue/dist/antd.css'
                     this.is_receiver=this.$route.query.is_receiver;
                     if(this.$route.query.is_receiver==1){
                         this.projects=this.$route.query.projects.split(',')
-                        console.log(this.projects)
                     }else{
                         this.channels=this.$route.query.channels.split(',');
                     }
@@ -439,7 +438,6 @@ import 'ant-design-vue/dist/antd.css'
                 download.downloadImg(url);
             },
             getDataList(num){
-                console.log(this.projects)
                 for(var i=0;i<this.channels.length;i++){
                     var arr={};
                     arr.channel=this.channels[i].split('-')[0];
