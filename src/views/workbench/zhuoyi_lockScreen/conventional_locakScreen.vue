@@ -120,11 +120,14 @@
                             <template slot-scope="scope">
                                 <el-switch
                                     v-if="scope.row.mfinal.type == 'f_sls_picture'"
+                                    class="tablescope"
                                     :active-value="1"
                                     :inactive-value="0"
                                     active-color="#3377ff"
                                     inactive-color="#e6e9f0"
                                     v-model="scope.row.is_copyright"
+                                    inactive-text="隐藏"
+                                    active-text="显示"
                                     @change='changeStatus(scope.$index,scope.row.is_copyright)'>
                                 </el-switch>
                                 <span v-if="scope.row.mfinal.type != 'f_sls_picture'">--</span>
@@ -320,6 +323,7 @@
                 qdLists:[], 
                 plid:this.$route.query.plid,
                 channel:this.$route.query.channel,
+                sub_plid:this.$route.query.sub_plid,
                 type:this.$route.query.type,
                 material:3,
                 date:(new Date()).toLocaleDateString().split('/').join('-'),
@@ -746,6 +750,7 @@
                     this.total=res.total;
                     this.load = false;
                     this.mJs.scTop(0);
+                    localStorage.setItem('conventional', this.total);
                     var a = [];
                     for(let i=0;i<this.tableData.length;i++){
                         a.push(this.tableData[i].mfid);   
@@ -1013,5 +1018,45 @@
         color: rgba(61,73,102,1);
         margin-top: 10px!important
     }
+  
+     .tablescope >>> .el-switch__label--left {
+        position: relative;
+        left: 33px;
+        color: #fff;
+        z-index: -1111;
+      }
+      .tablescope >>> .el-switch__label--left span{
+          width: 50px;
+      }
+      .tablescope >>> .el-switch__core{
+        width: 70px !important;
+      }
+      .tablescope >>> .el-switch__label--left{
+          margin-right: -25px;
+      }
+      .tablescope >>> .el-switch__label--right {
+        position: relative;
+        right: 62px;
+        color: #fff;
+        z-index: -1111;
+      }
+      .tablescope >>> .el-switch__label--right span{
+          width: 50px;
+      }
+      .tablescope >>> .el-switch__label--right.is-active {
+        z-index: 1111;
+        color: #fff !important;
+      }
+      .tablescope >>> .el-switch__label--left.is-active {
+        z-index: 1111;
+        color: #9c9c9c !important;
+      }
+      .tablescope >>> .el-switch__core{
+          margin-left: -25px;
+
+      }
+
+
+
 
 </style>
