@@ -634,6 +634,7 @@ methods: {
                      array.tdate=this.date;
                    this.textlink.push(array); 
                    formData.append('textlink',JSON.stringify(this.textlink))
+                   formData.append('plid',this.plid)
                     this.api.pushlib_textlink_del(formData).then((res)=>{
                         this.dialogVisible = false;
                         this.getData();
