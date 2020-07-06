@@ -314,6 +314,8 @@ export default {
             this.getData();
         }, 
         details(row){
+            localStorage.removeItem('conventional');
+            localStorage.removeItem('preload');
             this.$router.push({
                 path:"./zhuoyi_lockScreen/journal_zy",
                 query:{
