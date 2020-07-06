@@ -104,7 +104,13 @@
             switchs(num){
                 this.is_receiver=num; 
                 this.mJs.scTop(0); 
-                localStorage.setItem('tabNum', num);   
+                localStorage.setItem('tabNum', num);  
+                if(num == 0){
+                    this.getData1()
+                } 
+                if(num == 1){
+                    this.getData2()
+                }
             },  
             getData1(p,page){
                 console.log(p,page)
@@ -199,8 +205,13 @@
                     formData.append('type','meizu_first');
                 }
                 this.api.pushlib_textlink_audit(formData).then((res)=>{
+                    this.$message({
+                        message: '一键确认成功',
+                        type: 'success'
+                    });
                     this.confirmVisible = false;
-                    this.getData()
+                    this.getData1()
+                    this.getData2()
                 })
             },   
             copyContent(){
