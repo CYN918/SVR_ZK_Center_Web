@@ -2,13 +2,9 @@
 <template>
 <div class="template">
        <div class="top_name">
-           <div class="tit_top_url">
-                <span class="log_url" @click="fh(-2)">杂志锁屏推送 &nbsp;/&nbsp;</span>
-                <span class="log_url" @click="fh(-1)">推送审核内容管理 &nbsp;/&nbsp;</span>
-                <span class="log_url">壁纸管理</span>
-           </div>
-                <span class="top_txts" style="width: 113px;display: inline-block;">壁纸管理</span>
-               
+                
+                <span class="top_txt" @click='fh(-1)'>杂志锁屏推送审核管理  / 下发内容管理</span><div style="width:0;height:0;"><br/></div>
+                <span class="top_txts" style="width: 113px;display: inline-block;">上线内容管理</span>
                
                
                 <!-- <span class='qdName'>渠道</span>
@@ -17,11 +13,9 @@
                 </select> -->
                 <span class='qud'>{{this.$route.query.channel}}</span>
                 
-                
                 <span class='userGl' v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)" @click='addWl()' style="margin: 0px 20% 0 0;">添加物料</span>
                 <span class="userGl" v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)" @click='jump()' style="margin: 0px 1% 0 0;">一键确认</span>
                 <!-- <span class="userGl" style="margin: 0px 1% 0 0;" @click="getShow()">预警设置</span> -->
-                
 
         </div>
         <div class='screening'>
@@ -84,7 +78,7 @@
                                 label="物料ID">
                                 
                         </el-table-column>
-                        <el-table-column
+                        <!-- <el-table-column
                                 
                                 label="壁纸ID">
                                 <template slot-scope="scope">
@@ -98,6 +92,64 @@
                                 
                             </template>
                                 
+                        </el-table-column> -->
+                        <!-- <el-table-column
+                                label="文字链标题"
+                                :show-overflow-tooltip="true">
+                                <template slot-scope="scope">
+                                    <span v-if="tableData[scope.$index].title!=''">{{tableData[scope.$index].title}}</span>
+                                    <span v-if="tableData[scope.$index].title==''">--</span>
+                                </template>
+                        </el-table-column>  
+                        <el-table-column
+                                label="文字链内容"
+                                :show-overflow-tooltip="true">
+                                <template slot-scope="scope">
+                                    <span v-if="tableData[scope.$index].content!=''">{{tableData[scope.$index].content}}</span>
+                                    <span v-if="tableData[scope.$index].content==''">--</span>
+                                </template>
+                        </el-table-column>
+                        <el-table-column
+                                label="文字链标识"
+                                :show-overflow-tooltip="true">
+                                <template slot-scope="scope">
+                                    <span v-if="tableData[scope.$index].click_action!=''">{{tableData[scope.$index].click_action}}</span>
+                                    <span v-if="tableData[scope.$index].click_action==''">--</span>
+                                </template>
+                        </el-table-column> -->
+                        <el-table-column
+                                label="落地页">
+                                 <template slot-scope="scope">
+                                    <a :href="tableData[scope.$index].url" target="_blank" style="text-decoration: none;color: #66b1ff" v-if="tableData[scope.$index].url!=''">点击查看</a>
+                                    <a  v-if="tableData[scope.$index].url==''">-</a>
+                                </template>
+                        </el-table-column>
+                        <!-- <el-table-column
+                            prop="is_copyright"
+                            
+                            label="版权来源">
+                            <template slot-scope="scope">
+                                <el-switch
+                                    v-if="scope.row.mfinal.type == 'f_sls_picture'"
+                                    class="tablescope"
+                                    :active-value="1"
+                                    :inactive-value="0"
+                                    active-color="#3377ff"
+                                    inactive-color="#e6e9f0"
+                                    v-model="scope.row.is_copyright"
+                                    inactive-text="隐藏"
+                                    active-text="显示"
+                                    @change='changeStatus(scope.$index,scope.row.is_copyright)'>
+                                </el-switch>
+                                <span v-if="scope.row.mfinal.type != 'f_sls_picture'">--</span>
+                            </template>
+                        </el-table-column> -->
+                        <el-table-column
+                                label="状态">
+                                  <template slot-scope="scope">
+                                      <span v-if="tableData[scope.$index].status_name == '信息缺失'" style="color:red;">{{tableData[scope.$index].status_name}}</span>
+                                      <span v-else>{{tableData[scope.$index].status_name}}</span>
+                                </template>
                         </el-table-column>
                         <el-table-column
                                 label="配置状态">
@@ -107,7 +159,6 @@
                                       <span v-if="tableData[scope.$index].status == 3" style="color:red;">已过期</span>
                                 </template>
                         </el-table-column>
-                        
                          <el-table-column
                                 label="审核状态">
                                   <template slot-scope="scope">
@@ -116,26 +167,24 @@
                                       <span v-if="tableData[scope.$index].audit_status == 2" style="color:red;">审核不通过</span>
                                 </template>
                         </el-table-column>
-                        
                          <el-table-column
                                 prop="updated_at"
                                 label="更新时间">
                         </el-table-column>
                          <el-table-column
                                 prop="creator"
-                                label="操作人员"
-                                v-if="this.$route.query.channel">
+                                label="操作人员">
                                   <template slot-scope="scope">
                                       <span>{{tableData[scope.$index].updator==''?'--':tableData[scope.$index].updator}}</span>
                                 </template>
                         </el-table-column>
                         <el-table-column
-                                fixed="right"
                                 label="操作" 
                                 v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)">
                             <template slot-scope="scope">
                                  <!-- <el-button  type="text" size="small" v-if='tableData[scope.$index].status=="0"' @click='updateStatus(index)'>审核</el-button> -->
                                  <!-- <el-button v-if='tableData[scope.$index].status!="0"' type="text" size="small">修改结果</el-button> -->
+                                <el-button  type="text" size="small" @click="details(scope.row)">管理文字链</el-button>
                                 <el-button  type="text" size="small" @click="deleteRow(scope.$index, scope.row)">移除</el-button>
                             </template>
                         </el-table-column>
@@ -184,38 +233,7 @@
                 </div>
             </div>
         </div>
-        <div class="bg" v-if="tCopy">
-            <div class='content'>
-                <div class='con_tit'>
-                    <span>复制内容</span>
-                </div>
-                <div class='sel'>
-                    <span class='qdName'>子推送库：</span>
-                    <el-select v-model="valueTs" placeholder="请选择">
-                        <el-option
-                        v-for="item in options"
-                        :key="item.sub_plid"
-                        :label="item.name"
-                        :value="item.sub_plid">
-                        </el-option>
-                    </el-select>
-                </div>
-                <div>
-                    <span class='qdName'>选择日期：</span>
-                    <el-date-picker
-                        v-model="date1"
-                        type="date"
-                        format="yyyy 年 MM 月 dd 日"
-                        placeholder="选择日期"
-                        value-format="yyyy-MM-dd">
-                    </el-date-picker>
-                </div>
-                <div class='sel_btn'>
-                    <span class="sel_btn_qd" @click="pushCopy()">确定</span>
-                    <span @click='qxCopy()'>取消</span>
-                </div>
-            </div>
-        </div>
+        
         <el-dialog
             title="提示"
             :visible.sync="dialogVisible"
@@ -293,8 +311,7 @@
                 <el-button @click="cancelTx">取消</el-button>
             </span>
         </el-dialog>
-        <ADDWL v-if="ADDwl && type=='meizu_first'" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :ids='ids' :video="1" :gdsrc="gdsrc"></ADDWL>
-        <ADDWL v-if="ADDwl && type!='meizu_first'" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :ids='ids' :gdsrc="gdsrc"></ADDWL>
+        <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :ids='ids' :gdsrc="gdsrc"></ADDWL>
         <loading v-if='load'></loading>
         <div class='bg' v-if="change">
             <div class='compile'>
@@ -309,7 +326,7 @@
                             根据设置的预警检测提前天数和预警检测开始时间，每小时检测一次对应的数据是否存<br/>
                             在异常，若存在则发送预警通知
                         </div>
-                        <img src="../../../public/img/msg.png" style="position: relative;top: 8px;" slot="reference"/>
+                        <img src="../../../../public/img/msg.png" style="position: relative;top: 8px;" slot="reference"/>
                     </el-popover>
                 </div>
                 <div>
@@ -353,8 +370,8 @@
 </template>
 
 <script>
-import loading from '../../components/loading'
-import ADDWL from './Jounrnal_select'
+import loading from '../../../components/loading'
+import ADDWL from '../Jounrnal_select'
 export default {
 
 components: {ADDWL,loading},
@@ -364,7 +381,6 @@ return {
        qdLists:[], 
        plid:this.$route.query.plid,
        channel:this.$route.query.channel,
-       type:this.$route.query.type,
        material:3,
        date:(new Date()).toLocaleDateString().split('/').join('-'),
        date1:(new Date()).toLocaleDateString().split('/').join('-'),
@@ -407,62 +423,12 @@ return {
         value1: new Date(),
         ids:'',
         gdsrc:'',
-        tCopy:false,
         options:[],
         valueTs:'',
 };
 },
 
 methods: {
-    copyContent(){
-        this.tCopy = true;
-        this.init();
-    },
-    //查询子推送库列表
-    init(){
-        let params = {plid:this.plid}
-        this.api.pushlib_sub_list({params}).then((res)=>{
-            this.options = res;
-            
-        })
-
-    },
-    pushCopy(){
-        if(!this.valueTs){
-            this.$message({
-                message: '请选择子推送库',
-                type: 'warning'
-            });
-            return false
-        }
-        if(!this.date1){
-            this.$message({
-                message: '请选择时间',
-                type: 'warning'
-            });
-            return false
-        }
-        let formData =new FormData;
-        formData.append('plid',this.plid);
-        if(this.$route.query.sub_plid != undefined){
-            formData.append('sub_plid',this.$route.query.sub_plid);
-        }
-        formData.append('tdate',this.date);
-        formData.append('src_sub_plid',this.valueTs);
-        formData.append('src_tdate',this.date1);
-        this.api.pushlib_sub_copy(formData).then((res)=>{
-            this.$message({
-                message: '复制成功',
-                type: 'success'
-            });
-            this.tCopy = false;
-            this.getData()
-        })
-
-    },
-    qxCopy(){
-        this.tCopy = false;
-    },
     getShow(){
         this.change = true;
     },
@@ -471,7 +437,10 @@ methods: {
     },
     bj(){
 
-    },   
+    }, 
+    changeStatus(a,b){
+        
+    },  
     handleChange(value) {
         console.log(value);
     },
@@ -487,12 +456,6 @@ methods: {
         let formData =new FormData;
         formData.append('plid',this.plid);
         formData.append('tdate',this.date);
-        if(this.$route.query.sub_plid != undefined){
-            formData.append('sub_plid',this.$route.query.sub_plid);
-        }
-        if(this.type == 'meizu_first'){
-            formData.append('type','meizu_first');
-        }
         this.api.pushlib_textlink_audit(formData).then((res)=>{
             this.confirmVisible = false;
             this.getData()
@@ -526,17 +489,9 @@ methods: {
         formData.append('tdate',this.date);
         formData.append('mfid',this.rouelForm.mfid);
         formData.append('weight',this.theWeight);
-        if(this.type == 'meizu_first'){
-            formData.append('type','meizu_first');
-        }
-        if(this.$route.query.sub_plid != undefined){
-            formData.append('sub_plid',this.$route.query.sub_plid);
-        }
-        if(this.type != 'meizu_first'){
-            formData.append('title',this.rouelForm.title);
-            formData.append('content',this.rouelForm.content);
-            formData.append('url',this.rouelForm.url);
-        }
+        formData.append('title',this.rouelForm.title);
+        formData.append('content',this.rouelForm.content);
+        formData.append('url',this.rouelForm.url);
         this.load = true;
         this.api.pushlib_textlink_edit_weight(formData).then((res)=>{
             if(res==false){this.load = false;return}
@@ -564,18 +519,12 @@ methods: {
         return a;
     },
     listenToChildEvent(id,date,ids){
-         console.log(this.array_diff(id, ids.split(';')))
+        console.log(this.array_diff(id, ids.split(';')))
         let arr = this.array_diff(id, ids.split(';'));
         let formData =new FormData;
         formData.append('plid',this.$route.query.plid);
         formData.append('tdate',date);
         formData.append('bind_mfid',JSON.stringify(arr));
-        if(this.$route.query.sub_plid != undefined){
-            formData.append('sub_plid',this.$route.query.sub_plid);
-        }
-        if(this.type == 'meizu_first'){
-            formData.append('type','meizu_first');
-        }
         this.api.pushlib_textlink_add(formData).then((res)=>{
             this.heidWL();
             this.getData()
@@ -597,9 +546,6 @@ methods: {
                         formData.append('status',this.status2),
                         formData.append('note',this.checkList.join(',')+this.yy) 
                         formData.append('advers',JSON.stringify(this.advers))
-                        if(this.$route.query.sub_plid != undefined){
-                            formData.append('sub_plid',this.$route.query.sub_plid);
-                        }
                         this.api.pushlib_adver_mfinal_audit(formData).then((res)=>{
                             if(res!=false){
                                 this.getData();
@@ -620,9 +566,6 @@ methods: {
                       formData.append('status',this.status2),
                         formData.append('note',this.checkList.join(',')+this.yy) 
                         formData.append('advers',JSON.stringify(this.advers))
-                        if(this.$route.query.sub_plid != undefined){
-                            formData.append('sub_plid',this.$route.query.sub_plid);
-                        }
                         this.api.pushlib_adver_mfinal_audit(formData).then((res)=>{
                             if(res!=false){
                                 this.getData();
@@ -711,12 +654,6 @@ methods: {
                    this.textlink.push(array); 
                    formData.append('textlink',JSON.stringify(this.textlink))
                    formData.append('plid',this.plid)
-                   if(this.$route.query.sub_plid != undefined){
-                        formData.append('sub_plid',this.$route.query.sub_plid);
-                    }
-                   if(this.type == 'meizu_first'){
-                        formData.append('type','meizu_first');
-                    }
                     this.api.pushlib_textlink_del(formData).then((res)=>{
                         this.dialogVisible = false;
                         this.getData();
@@ -823,9 +760,6 @@ methods: {
                 formData.append('download_url',this.download_url);
                 formData.append('deeplink',this.deeplink);
                 formData.append('click_action_type',this.click_action);
-                if(this.$route.query.sub_plid != undefined){
-                    formData.append('sub_plid',this.$route.query.sub_plid);
-                }
                 formData.append('url',this.url);
                this.api.pushlib_textlink_edit(formData).then((res)=>{  
                     this.textVisible = false;
@@ -838,7 +772,6 @@ methods: {
            },
            getData(){
                this.load = true;
-               console.log(this.$route.query.sub_plid)
                let params={
                     p:this.p,
                     page:this.page,
@@ -846,9 +779,6 @@ methods: {
                     plid:this.plid,
                     type:this.$route.query.type,
                 }
-               if(this.$route.query.sub_plid != undefined){
-                   params.sub_plid = this.$route.query.sub_plid
-               }
                 
                 this.api.pushlib_textlink_search({params}).then((res)=>{
                     this.tableData=res.data;
@@ -1197,5 +1127,41 @@ mounted() {
     .template >>> .el-button--primary{
         background: #155BD4;
     }
+    .tablescope >>> .el-switch__label--left {
+        position: relative;
+        left: 33px;
+        color: #fff;
+        z-index: -1111;
+      }
+      .tablescope >>> .el-switch__label--left span{
+          width: 50px;
+      }
+      .tablescope >>> .el-switch__core{
+        width: 70px !important;
+      }
+      .tablescope >>> .el-switch__label--left{
+          margin-right: -25px;
+      }
+      .tablescope >>> .el-switch__label--right {
+        position: relative;
+        right: 62px;
+        color: #fff;
+        z-index: -1111;
+      }
+      .tablescope >>> .el-switch__label--right span{
+          width: 50px;
+      }
+      .tablescope >>> .el-switch__label--right.is-active {
+        z-index: 1111;
+        color: #fff !important;
+      }
+      .tablescope >>> .el-switch__label--left.is-active {
+        z-index: 1;
+        color: #9c9c9c !important;
+      }
+      .tablescope >>> .el-switch__core{
+          margin-left: -25px;
+
+      }
    
 </style>

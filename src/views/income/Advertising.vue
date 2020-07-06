@@ -269,6 +269,7 @@ import 'ant-design-vue/dist/antd.css'
  import loading from '../../components/loading'
   Vue.use(Antd)
     export default {
+        components: {loading},
         name: "advertiser",
         data(){
             return{
@@ -301,7 +302,7 @@ import 'ant-design-vue/dist/antd.css'
                 list: [],
                 options:[],
                 loading: false,
-                load:true,
+                load:false,
             }
         },
         created(){
@@ -456,6 +457,7 @@ import 'ant-design-vue/dist/antd.css'
                 if(this.is_receiver == 0){
                     this.api.settle_data_search_pay({params}).then((res)=>{
                         this.tableData=res.data;
+                        this.load = false;
 
                         // var a1=0;
                         // var a2=0;
