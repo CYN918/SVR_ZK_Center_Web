@@ -1,0 +1,943 @@
+
+<template>
+<div class="template">
+       <div class="top_name">
+                
+                <span class="top_txt" @click='fh(-1)'>杂志锁屏推送审核管理  / 下发内容管理</span><div style="width:0;height:0;"><br/></div>
+                <span class="top_txts" style="width: 113px;display: inline-block;">上线内容管理</span>
+               
+               
+                <!-- <span class='qdName'>渠道</span>
+                <select v-model="channel">
+                        <option :value="item.channel" v-for="item in qdLists">{{item.channel}}</option>
+                </select> -->
+                <span class='qud'>{{this.$route.query.channel}}</span>
+                
+                <span class='userGl' v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)" @click='addWl()' style="margin: 0px 20% 0 0;">添加物料</span>
+                <span class="userGl" v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)" @click='jump()' style="margin: 0px 1% 0 0;">一键确认</span>
+                <!-- <span class="userGl" style="margin: 0px 1% 0 0;" @click="getShow()">预警设置</span> -->
+
+        </div>
+        <div class='screening'>
+                <div class="date">
+                    <el-date-picker
+                            v-model="date"
+                            type="date"
+                            format="yyyy 年 MM 月 dd 日"
+                            placeholder="选择日期"
+                            value-format="yyyy-MM-dd"
+                            @change="changeDate">
+                    </el-date-picker>
+                </div>
+                <span class='qdName'>数量:</span>
+                <span>{{this.total}}</span>
+                <span class="dated" v-if="new Date(this.date)<=new Date(new Date().getTime() - 24*60*60*1000)">(已过期)</span>
+               
+        </div>
+        <div style="margin-top:85px;background:#fff;padding-bottom:30px" class='rePadding'>
+             <template>
+                    <el-table
+                            ref="tab"
+                            :data="tableData"
+                            style="width: 100%"
+                            :header-cell-style="getRowClass"
+                            :cell-style="cell"
+                            @selection-change="handleSelectionChange"
+                            >
+                        <el-table-column
+                                prop="id"
+                                label="序号">
+                        </el-table-column>
+                        <el-table-column
+                                label="权重"
+                                v-if="new Date(this.date)<=new Date(new Date().getTime() - 24*60*60*1000)">
+                            <template slot-scope="scope">
+                                <div><span :id='"isShow"+scope.$index'>{{tableData[scope.$index].weight}}</span></div>
+                            </template>
+                        </el-table-column>   
+                        <el-table-column
+                                label="权重"
+                                v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)">
+                            <template slot-scope="scope">
+                                <div class="qzCk" @mouseover="leaver(scope.$index)">
+                                    <div :id='"isShow"+scope.$index'>{{tableData[scope.$index].weight}}<i class="el-icon-edit" style="font-size: 30px;cursor: pointer;" @click="icon_click(scope.$index,scope.row)"></i></div>
+                                    <div class="boxT"><input :id='"pro"+scope.$index' v-model="theWeight" @blur="InputClick(scope.$index)"/></div>
+                                </div>
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                                prop="count"
+                                label="杂志锁屏"
+                                >
+                                <template slot-scope="scope">
+                                <img :src='tableData[scope.$index].mfinal.prev_uri' style="max-width:80px;max-height: 80px;cursor: pointer"  preview="1" />
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                                prop="mfid"
+                                label="物料ID">
+                                
+                        </el-table-column>
+                        <el-table-column
+                                label="配置状态">
+                                  <template slot-scope="scope">
+                                      <span v-if="tableData[scope.$index].status == 0">待确认</span>
+                                      <span v-if="tableData[scope.$index].status == 2">已确认</span>
+                                      <span v-if="tableData[scope.$index].status == 3" style="color:red;">已过期</span>
+                                </template>
+                        </el-table-column>
+                         <el-table-column
+                                label="审核状态">
+                                  <template slot-scope="scope">
+                                      <span v-if="tableData[scope.$index].audit_status == 0">待审核</span>
+                                      <span v-if="tableData[scope.$index].audit_status == 1">审核通过</span>
+                                      <span v-if="tableData[scope.$index].audit_status == 2" style="color:red;">审核不通过</span>
+                                </template>
+                        </el-table-column>
+                         <el-table-column
+                                prop="updated_at"
+                                label="更新时间">
+                        </el-table-column>
+                         <el-table-column
+                                prop="creator"
+                                label="操作人员">
+                                  <template slot-scope="scope">
+                                      <span>{{tableData[scope.$index].updator==''?'--':tableData[scope.$index].updator}}</span>
+                                </template>
+                        </el-table-column>
+                        <el-table-column
+                                label="操作" 
+                                v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)">
+                            <template slot-scope="scope">
+                                
+                                <el-button  type="text" size="small" @click="deleteRow(scope.$index, scope.row)">移除</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </template>
+                 <div class="block">
+                    <el-pagination
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page.sync="page"
+                        :page-sizes="[10, 50, 100, 200]"
+                        :page-size="p"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="total">
+                    </el-pagination>
+                 </div>
+        </div>
+        <div class="bg" v-if="tc">
+            <div class='content'>
+                <div class='con_tit'>
+                    <span>更新状态</span>
+                </div>
+                <div class='sel'>
+                    <select v-model="status2">
+                        <option value="1">已上线</option>
+                        <option value="2">拒绝上线</option>
+                    </select>
+                    <div class='sel_1' v-if="status2=='拒绝上线'">
+                        <el-checkbox-group v-model="checkList">
+                            <el-checkbox label="测试不通过" class='aaa'></el-checkbox>
+                            <el-checkbox label="内容差"  class='aaa'></el-checkbox>
+                            <el-checkbox label="屏蔽竞品"  class='aaa'></el-checkbox>
+                            <el-checkbox label="其他"  class='aaa bb'>
+                                <template>
+                                    <span style="margin-right:10px">其他</span>
+                                    <textarea placeholder="最多20字" maxlength="20"  v-model="yy"></textarea>
+                                </template>
+                            </el-checkbox>
+                        </el-checkbox-group>
+                        
+                    </div>
+                </div>
+                <div class='sel_btn'>
+                    <span class="sel_btn_qd" @click="pushLib()">确定</span>
+                    <span @click='qx()'>取消</span>
+                </div>
+            </div>
+        </div>
+        
+        <el-dialog
+            title="提示"
+            :visible.sync="dialogVisible"
+            :showClose="showClo"
+            :before-close="handleClose"
+            width="30%">
+            <span>确认将该物料从该投放库移除吗?</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="surRemove">确 认</el-button>
+                <el-button @click="dialogVisible = false">取 消</el-button>
+            </span>
+        </el-dialog>
+        <el-dialog
+            title="一键确认"
+            :visible.sync="confirmVisible"
+            :showClose="showClo"
+            :before-close="handleClose"
+            width="30%">
+            <span>将所有待确认状态的内容状态更新为已确认(已确认的内容会按排期下发到客户端)</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="confirmSur">确 认</el-button>
+                <el-button @click="confirmVisible = false">取 消</el-button>
+            </span>
+        </el-dialog>
+        
+        <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :ids='ids' :gdsrc="gdsrc"></ADDWL>
+        <loading v-if='load'></loading>
+        <div class='bg' v-if="change">
+            <div class='compile'>
+                <div class='ts'>
+                    <span>预警设置</span>
+                    <el-popover placement="top">
+                        <div>
+                            预警提前天数：提前x天，检测当天配置内容的数量<br/>
+                            预警开始时间：当天开始检测的时间，精确到分<br/>
+                            预警数量：预警的数量依据，若数量低于设置的值，则发起预警通知<br/>
+                            通知人员姓名：用于匹配姓名找到企业微信对应用户，发送预警消息<br/>
+                            根据设置的预警检测提前天数和预警检测开始时间，每小时检测一次对应的数据是否存<br/>
+                            在异常，若存在则发送预警通知
+                        </div>
+                        <img src="../../../../public/img/msg.png" style="position: relative;top: 8px;" slot="reference"/>
+                    </el-popover>
+                </div>
+                <div>
+                    <div class='regulation'>
+                        <div>
+                            <span  class='titName'>预警提前天数：</span>
+                            <el-input-number v-model="num" controls-position="right" @change="handleChange" :min="1"></el-input-number>
+                        </div>
+                        <div>
+                            <span  class='titName'>预警开始时间: </span>
+                            <template>
+                                <el-time-picker
+                                    v-model="value1"
+                                    format='HH:mm'
+                                    value-format='HH:mm'
+                                    :picker-options="{
+                                    selectableRange:  '00:00:00 - 23:59:59'
+                                    }"
+                                    placeholder="任意时间点">
+                                </el-time-picker>
+                            </template>
+                        </div>
+                        <div>
+                            <span  class='titName'>预警数量：</span>
+                            <el-input-number v-model="amount" controls-position="right" @change="handleChange" :min="1"></el-input-number>
+                        </div>
+                        <div>
+                            <span  class='titName'>通知人员：</span>
+                            <el-input v-model="content" placeholder="请输入内容"></el-input>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="btn_right" style="float:left;">
+                    <span class='cx' style="margin-bottom:20px" @click='bj()'>确认</span>
+                    <span @click='HeidChange'>取消</span>
+                </div>
+            </div>
+        </div>
+</div>
+</template>
+
+<script>
+import loading from '../../../components/loading'
+import ADDWL from '../Jounrnal_select'
+export default {
+
+components: {ADDWL,loading},
+data() {
+
+return {
+       qdLists:[], 
+       plid:this.$route.query.plid,
+       channel:this.$route.query.channel,
+       material:3,
+       date:(new Date()).toLocaleDateString().split('/').join('-'),
+       date1:(new Date()).toLocaleDateString().split('/').join('-'),
+       status:'',
+       tableData:[],
+        page:1,
+        p:10,
+        total:0,
+        tc:false,
+        status2:"",
+        checkList:[],
+        pl:false,
+        value:[],
+        index:'',
+        advers:[],
+        yy:"",
+        dialogVisible: false,
+        confirmVisible:false,
+        showClo:false,
+        ADDwl:false,
+        isShow:true,
+        title: '',
+        content: '',
+        click_action:-1,
+        url: '',
+        theWeight:'',
+        rouelForm:{},
+        textlink:[],
+        rows:{},
+        rowData:{},
+        pkgname:'',
+        deeplink:'',
+        download_url:'',
+        load:true,
+        change:false,
+        num: 1,
+        amount: 1,
+        content:'',
+        value1: new Date(),
+        ids:'',
+        gdsrc:'',
+        options:[],
+        valueTs:'',
+};
+},
+
+methods: {
+    getShow(){
+        this.change = true;
+    },
+    HeidChange(){
+        this.change=false
+    },
+    bj(){
+
+    }, 
+    changeStatus(a,b){
+        
+    },  
+    handleChange(value) {
+        console.log(value);
+    },
+     handleClose(done) {
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+      },
+    //一键确认
+    confirmSur(){
+        let formData =new FormData;
+        formData.append('plid',this.plid);
+        formData.append('tdate',this.date);
+        this.api.pushlib_textlink_audit(formData).then((res)=>{
+            this.confirmVisible = false;
+            this.getData()
+        })
+    },
+    dJ(index){
+        document.getElementById('isShow'+index).style.display = 'block';
+        document.getElementById('pro'+index).style.display = 'none';
+    },
+    changeDate(val){
+        this.page = 1;
+        this.getData();
+    },
+    icon_click(index,rows){
+        // console.log(rows)
+        document.getElementById('isShow'+index).style.display = 'none';
+        document.getElementById('pro'+index).style.display = 'block';
+        this.theWeight = rows.weight;
+        this.rouelForm = rows;
+    },
+    leaver(index){
+
+    },
+    InputClick(index){
+        if(this.theWeight > 999 || this.theWeight < 0){
+            this.$message.error('权重值范围限制为0~999')
+            return false
+        }
+        let formData =new FormData;
+        formData.append('plid',this.rouelForm.plid);
+        formData.append('tdate',this.date);
+        formData.append('mfid',this.rouelForm.mfid);
+        formData.append('weight',this.theWeight);
+        formData.append('title',this.rouelForm.title);
+        formData.append('content',this.rouelForm.content);
+        formData.append('url',this.rouelForm.url);
+        this.load = true;
+        this.api.pushlib_textlink_edit_weight(formData).then((res)=>{
+            if(res==false){this.load = false;return}
+            this.load = false;
+            document.getElementById('isShow'+index).style.display = 'block';
+            document.getElementById('pro'+index).style.display = 'none';
+            this.getData()
+        })
+    },
+    addWl(){
+       this.ADDwl = true;
+    },
+    heidWL(){
+        this.ADDwl = false;
+    },
+    listenToChildEvent(id,date){
+        let formData =new FormData;
+        formData.append('plid',this.$route.query.plid);
+        formData.append('tdate',date);
+        formData.append('bind_mfid',JSON.stringify(id));
+        this.api.pushlib_textlink_add(formData).then((res)=>{
+            this.heidWL();
+            this.getData()
+        })
+    },
+     pushLib(){
+          if(this.index=='aa'){
+                    let array={plid:"",adid:"",mfid:""}
+                    for(var i=0;i<this.value.length;i++){
+                            array.plid=this.value[i].plid;
+                            array.adid=this.value[i].adid;
+                            array.mfid=this.value[i].mfid;
+                            this.advers.push(array);
+                        }
+                        if(!this.status2){
+                             this.$message.error('状态不能为空')
+                        }
+                        let formData =new FormData;
+                        formData.append('status',this.status2),
+                        formData.append('note',this.checkList.join(',')+this.yy) 
+                        formData.append('advers',JSON.stringify(this.advers))
+                        this.api.pushlib_adver_mfinal_audit(formData).then((res)=>{
+                            if(res!=false){
+                                this.getData();
+                                this.qx();
+                                this.Qxplcz();
+                            }
+                    })
+               }else{
+                   let array={plid:"",adid:"",mfid:""}
+                     array.plid=this.tableData[this.index].plid;
+                     array.adid=this.tableData[this.index].adid;
+                     array.mfid=this.tableData[this.index].mfid;
+                    this.advers.push(array);
+                       if(!this.status2){
+                             this.$message.error('状态不能为空')
+                        }
+                     let formData =new FormData;
+                      formData.append('status',this.status2),
+                        formData.append('note',this.checkList.join(',')+this.yy) 
+                        formData.append('advers',JSON.stringify(this.advers))
+                        this.api.pushlib_adver_mfinal_audit(formData).then((res)=>{
+                            if(res!=false){
+                                this.getData();
+                                this.qx();
+                                this.Qxplcz();
+                            }
+                    })
+               }
+            
+           },   
+    plcz(){
+        this.pl=true;
+    },
+    fh(index){
+        this.$router.go(index)
+    },
+    // fh(){
+    //     this.$router.push({
+    //         path:"./journal_list",
+    //         query:{
+    //             channel:this.$route.query.channel,
+    //             plid:this.$route.query.plid,
+    //         },
+    //     })
+    // },
+    // fhs(){
+    //     this.$router.push({
+    //         path:"./journal_list"
+    //     })
+    // },
+    Qxplcz(){
+        this.pl=false;
+       if(this.value.length>0){
+            this.tableData.map((option) => {
+                    this.$refs.tab.toggleRowSelection(option);
+                })
+       }else{
+           this.value=[];
+       }
+       
+    },
+    getChannel(){
+                    this.api.pushlib_configs_channel().then((res)=>{
+                        this.qdLists=res;
+                    })
+    },
+     getRowClass({row, column, rowIndex}) {
+        if (rowIndex === 0) {
+            return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;padding:20px 0px 20px 14px'
+        } 
+        else {
+            return ''
+        }
+    },
+            cell({row, column, rowIndex, columnIndex}){
+                return 'padding:15px 14px;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
+            },
+            handleSizeChange(p) { // 每页条数切换
+                this.p = p;
+                this.page = 1;
+                this.getData();
+                
+                
+            },
+            handleCurrentChange(page) {//页码切换
+                this.page = page;
+                this.getData();
+            },  
+             handleSelectionChange(val) {
+                this.value= val;
+             },  
+             jump(){
+                 this.confirmVisible = true;          
+             },
+             remove(){
+                 this.dialogVisible = true;
+             },
+             surRemove(){
+                //  console.log(this.rows)
+                let formData =new FormData;
+                 
+                let array={plid:"",mfid:"",tdate:""}
+                     array.plid=this.rows.plid;
+                     array.mfid=this.rows.mfid;
+                     array.tdate=this.date;
+                   this.textlink.push(array); 
+                   formData.append('textlink',JSON.stringify(this.textlink))
+                   formData.append('plid',this.plid)
+                    this.api.pushlib_textlink_del(formData).then((res)=>{
+                        this.dialogVisible = false;
+                        this.getData();
+                    })
+
+             },
+             deleteRow(index, rows) {
+                 this.dialogVisible = true;
+                 this.rows = rows;
+                 
+                },
+              updateStatus(index){
+                this.advers=[];
+                if(index=='aa'&&this.value.length==0){
+                    return
+                }
+               this.tc=true;
+               if(index==''){
+                   this.index=0;
+               }else{
+                   this.index=index;
+               }
+              
+               
+               
+           }, 
+            qx(){
+               this.tc=false;
+               this.status2='';
+               this.checkList=[];
+           }, 
+           
+           
+           getData(){
+               this.load = true;
+               let params={
+                    p:this.p,
+                    page:this.page,
+                    tdate:this.date,
+                    plid:this.plid,
+                    type:this.$route.query.type,
+                }
+                
+                this.api.pushlib_textlink_search({params}).then((res)=>{
+                    this.tableData=res.data;
+                    this.total=res.total;
+                    this.load = false;
+                    this.mJs.scTop(0);
+                    var a = [];
+                    for(let i=0;i<this.tableData.length;i++){
+                        a.push(this.tableData[i].mfid);   
+                    }
+                    this.ids=a.join(';');
+                //    this.$previewRefresh()
+               })
+           },
+            
+},
+
+created() {
+   
+
+},
+//生命周期 - 挂载完成（可以访问DOM元素）
+mounted() {
+    //  this.getChannel();
+     this.getData()
+},
+
+}
+</script>
+<style  scoped>
+.bg{
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.3);
+        position: fixed;
+        z-index: 9;
+        bottom: 0;
+        right: 0;
+       
+    }
+    .compile{
+        position: absolute;
+        top:50%;
+        left:50%;
+        width:550px;
+        min-height: 200px;
+        max-height: 800px;
+        overflow-y: auto;
+        background: #fff;
+        transform: translate(-50%,-50%);
+        border-radius: 5px;
+    }
+    .ts{
+        width: 100%;
+        height: 50px;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 20px;
+    }
+    .ts span{
+        font-size: 14px;
+        font-weight: bold;
+        margin-left: 24px;
+        display: inline-block;
+        line-height: 50px;
+
+    }
+    .regulation{
+        padding: 0 24px;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 20px;
+    }
+    .el-input{
+        width: 180px;
+    }
+    .regulation>div{
+        margin-bottom: 16px;
+    }
+    .titName{
+        display: inline-block;
+        width:140px;
+        text-align: right;
+    }
+    .btn_right{
+        display: inline-block;
+        float:right;
+    }
+    .btn_right span{
+        display: inline-block;
+        cursor: pointer;
+        width: 90px;
+        height: 36px;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        line-height: 36px;
+        text-align: center;
+        margin-left: 24px;
+            
+    }
+  .top_name{
+        height: 100px;
+        border: 0;
+    }
+.top_txts{
+    margin-left: 24px;
+    font-size: 18px;
+    font-family: PingFang-SC;
+    font-weight: 500;
+    line-height: 30px;
+    color: rgba(31,46,77,1);
+    display: block;
+    margin-top: 10px;
+}
+.qdName{
+    display: inline-block;
+    font-size: 14px;
+    font-family: PingFang-SC-Medium;
+    font-weight: 500;
+    color: rgba(50,50,50,1);
+    margin-left: 40px
+}
+ select{
+    margin-left: 20px;
+    width: 200px;
+    height: 36px;
+    border-radius: 5px;
+}
+.userGl{
+    float: right;
+    display: inline-block;
+    height: 36px;
+    text-align: center;
+    line-height: 36px;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 1px solid rgba(211,219,235,1);
+    width: 144px;
+    background: rgba(242,246,252,1);
+    font-size: 14px;
+    font-family: PingFang-SC-Medium;
+    font-weight: 500;
+    color: rgba(61,73,102,1);
+    margin-top: -10px!important
+}
+.screening{
+    position: relative;
+    width: 100%;
+    height: 60px;
+   top:75px;
+    background: #fff
+}
+.date{
+        margin:10px 12px 0 24px;
+        display: inline-block;
+    }
+    .btn_sx{
+        display: inline-block;
+        float:right;
+        margin: 10px 20% 0 0 
+    }
+    .cx{
+        display: inline-block;
+        height: 36px;
+        text-align: center;
+        line-height: 36px;
+        cursor: pointer;
+        border-radius: 4px;
+        border: 1px solid rgba(211,219,235,1);
+        width: 68px;
+        background: rgba(51,119,255,1);
+        font-size: 14px;
+        font-family: PingFangSC-Regular;
+        font-weight: 400;
+        color: rgba(255,255,255,1);
+        margin-right: 20px;
+    }
+    .cz,.dc{
+            display: inline-block;
+        height: 36px;
+        text-align: center;
+        line-height: 36px;
+        cursor: pointer;
+        border-radius: 4px;
+        border: 1px solid rgba(211,219,235,1);
+            width: 144px;
+        background: rgba(242,246,252,1);
+        border: 1px solid rgba(211,219,235,1);
+        font-size: 14px;
+        font-family: PingFang-SC-Medium;
+        font-weight: 500;
+        color: rgba(61,73,102,1);
+    }
+    .dc{
+        width: 68px!important;
+        margin-left: 20px
+    }
+     .bg{
+        position: fixed;
+        top:0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.3);
+    }
+    .content{
+        width: 400px;
+        max-height:400px;
+        position: absolute;
+        top:30%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        border-radius: 10px;
+    }
+    .con_tit{
+        width: 100%;
+        height: 40px;
+        border-bottom: 1px solid #ddd;
+    }
+    .con_tit span{
+        display: inline;
+        margin-left: 24px;
+        display: inline-block;
+        line-height: 40px;
+        font-size: 18px;
+        font-weight: 500;
+    }
+    .sel{
+        margin: 20px 0;
+    }
+    .sel select{
+        width: 200px;
+        height: 36px;
+        margin-left: 24px;
+        border-radius: 5px;
+    }
+    .sel_1{
+        margin: 30px 0 0px 24px;
+    }
+    .aaa{
+          display: block!important;
+      margin: 0 0 15px 0 !important
+    }
+     .bb span{
+        vertical-align: top;
+    }
+   .bb textarea{
+       padding: 5px
+   }
+   .sel_btn{
+       width: 100%;
+       height: 50px;
+       text-align: left;
+       margin-top: 35px;
+       border-top: 1px solid #ddd;
+   }
+   .sel_btn span{
+    margin-right: 24px;
+    display: inline-block;
+    width: 68px;
+    height: 36px;
+    background: rgba(255,255,255,1);
+    border-radius: 4px;
+    border: 1px solid rgba(211,219,235,1);
+    font-size: 14px;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(61,73,102,1);
+    line-height: 36px;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 7px
+   }
+   .sel_btn_qd{
+       border: 0!important;
+    background: rgba(51,119,255,1)!important;
+    color: rgba(255,255,255,1)!important;
+    margin-left: 40px;
+   }
+   .qud{
+       display: inline-block;
+       padding: 5px;
+       border:1px solid  rgba(51,119,255,1);
+       text-align: center;
+       color: rgba(51,119,255,1);
+       border-radius: 5px;
+       line-height: 1!important;
+       margin-left: 10px;
+       position: absolute;
+       left: 173px;
+       top:47px
+   }
+   .qud1{
+       display: inline-block;
+       padding: 5px;
+       border:1px solid  rgba(51,119,255,1);
+       text-align: center;
+       color: rgba(51,119,255,1);
+       border-radius: 5px;
+       line-height: 1!important;
+       margin-left: 10px;
+       position: absolute;
+       left: 270px;
+       top:47px
+   }
+    .top_txt{
+        cursor: pointer; margin-left: 24px;
+        font-size: 12px;
+        font-family: PingFang-SC-Regular;
+        font-weight: 400;
+        color: rgba(153,153,153,1);
+        line-height: 20px!important;
+        margin-top: 15px
+    }
+    .select{
+        float: right;
+        display: inline-block;
+        height: 36px;
+        text-align: center;
+        line-height: 36px;
+        cursor: pointer;
+        border-radius: 4px;
+        border: 1px solid rgba(211,219,235,1);
+        width: 144px;
+        background: rgba(242,246,252,1);
+        font-size: 14px;
+        font-family: PingFang-SC-Medium;
+        font-weight: 500;
+        color: rgba(61,73,102,1);
+        margin: 10px 20% 0 0;
+    }
+    .boxT{
+        display: block;
+        width: 100%;
+        height: 100%;  
+    }
+    .boxT > input{
+        display: none;
+        width: 80px;
+        height: 25px;
+    }
+    .template >>> .el-textarea{
+        width: 100%;
+    }
+    .template >>> select{
+        margin-left: 0px;
+    }
+    .template >>> .el-button--primary{
+        background: #155BD4;
+    }
+    .tablescope >>> .el-switch__label--left {
+        position: relative;
+        left: 33px;
+        color: #fff;
+        z-index: -1111;
+      }
+      .tablescope >>> .el-switch__label--left span{
+          width: 50px;
+      }
+      .tablescope >>> .el-switch__core{
+        width: 70px !important;
+      }
+      .tablescope >>> .el-switch__label--left{
+          margin-right: -25px;
+      }
+      .tablescope >>> .el-switch__label--right {
+        position: relative;
+        right: 62px;
+        color: #fff;
+        z-index: -1111;
+      }
+      .tablescope >>> .el-switch__label--right span{
+          width: 50px;
+      }
+      .tablescope >>> .el-switch__label--right.is-active {
+        z-index: 1111;
+        color: #fff !important;
+      }
+      .tablescope >>> .el-switch__label--left.is-active {
+        z-index: 1;
+        color: #9c9c9c !important;
+      }
+      .tablescope >>> .el-switch__core{
+          margin-left: -25px;
+
+      }
+   
+</style>
