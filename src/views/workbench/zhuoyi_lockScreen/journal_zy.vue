@@ -256,7 +256,8 @@
                         type: 'success'
                     });
                     this.tCopy = false;
-                    this.getData()
+                    this.getData1()
+                    this.getData2()
                 })
 
             },
