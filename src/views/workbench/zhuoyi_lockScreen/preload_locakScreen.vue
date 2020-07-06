@@ -106,6 +106,8 @@
                                     active-color="#3377ff"
                                     inactive-color="#e6e9f0"
                                     v-model="scope.row.is_copyright"
+                                    inactive-text="隐藏"
+                                    active-text="显示"
                                     @change='changeStatus(scope.$index,scope.row.is_copyright)'>
                                 </el-switch>
                                 <span v-if="scope.row.mfinal.type != 'f_sls_picture'">--</span>
