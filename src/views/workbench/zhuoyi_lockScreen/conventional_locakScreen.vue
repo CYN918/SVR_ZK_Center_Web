@@ -613,6 +613,7 @@
                     }
                     this.api.pushlib_textlink_del(formData).then((res)=>{
                         this.dialogVisible = false;
+                        this.textlink = [];
                         this.$parent.getData1();
                     })
 
