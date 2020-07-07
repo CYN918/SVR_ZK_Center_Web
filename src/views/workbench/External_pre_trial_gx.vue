@@ -193,7 +193,7 @@ return {
         is_receiver:0,
         check_md5:'',
         check_status:'',
-        load:true,
+        load:false,
 };
 },
 

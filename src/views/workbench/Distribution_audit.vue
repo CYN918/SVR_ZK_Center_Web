@@ -46,7 +46,7 @@ return {
         page:1,
         p:10,
         total:0,
-        load:true,
+        load:false,
 };
 },
 
@@ -75,6 +75,7 @@ methods: {
              
            
            getData(){
+               this.load = true;
                let params={
                    p:this.p,
                    page:this.page,
