@@ -74,13 +74,6 @@
                         </el-table-column>
                         <el-table-column
                                 prop=""
-                                label="AI标签">
-                                 <template slot-scope="scope">
-                                 <span v-for='val in tableData[scope.$index].ai_tags'>{{val.tags_name+"("+val.confidence+"%)"}},</span>
-                                </template>
-                        </el-table-column>
-                        <el-table-column
-                                prop=""
                                 label="分类">
                                  <template slot-scope="scope">
 
@@ -91,6 +84,13 @@
                                     @click='sgtData(da,tableData[scope.$index].mid,num,scope.$index)'
                                     >{{da.tags_name}}</span>
 
+                                </template>
+                        </el-table-column>
+                        <el-table-column
+                                prop=""
+                                label="AI标签">
+                                 <template slot-scope="scope">
+                                 <span v-for='val in tableData[scope.$index].ai_tags'>{{val.tags_name+"("+val.confidence+"%)"}},</span>
                                 </template>
                         </el-table-column>
                         <el-table-column
@@ -137,7 +137,7 @@ export default {
                 tableData:[{a:'1'}],
                 sdk_id:"",
                 id_adsrc:"",
-                p:10,
+                p:50,
                 page:1,
                 total:"",
                 process:"",
