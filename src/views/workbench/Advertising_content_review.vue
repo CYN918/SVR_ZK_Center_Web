@@ -74,13 +74,6 @@
                         </el-table-column>
                         <el-table-column
                                 prop=""
-                                label="AI标签">
-                                 <template slot-scope="scope">
-                                 <span v-for='val in tableData[scope.$index].ai_tags'>{{val.tags_name+"("+val.confidence+"%)"}},</span>
-                                </template>
-                        </el-table-column>
-                        <el-table-column
-                                prop=""
                                 label="分类">
                                  <template slot-scope="scope">
 
@@ -93,6 +86,13 @@
 
                                 </template>
                         </el-table-column>
+                        <el-table-column
+                                prop=""
+                                label="AI标签">
+                                 <template slot-scope="scope">
+                                 <span v-for='val in tableData[scope.$index].ai_tags'>{{val.tags_name+"("+val.confidence+"%)"}},</span>
+                                </template>
+                        </el-table-column>  
                         <el-table-column
                                 prop=""
                                 width='90'
@@ -137,7 +137,7 @@ export default {
                 tableData:[{a:'1'}],
                 sdk_id:"",
                 id_adsrc:"",
-                p:10,
+                p:50,
                 page:1,
                 total:"",
                 process:"",
@@ -301,6 +301,7 @@ export default {
                 formData.append('advers',JSON.stringify(this.advers));
                 this.api.adver_tags_audit(formData).then((res)=>{
                     if(res!=false){
+                        this.mJs.scTop(0);
                         this.advers=[];
                         this.getData();
                         this.heid();
