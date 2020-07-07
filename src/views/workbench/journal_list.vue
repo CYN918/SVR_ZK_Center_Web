@@ -122,8 +122,8 @@
                         <option value="3">内部杂志锁屏管理</option>
                         <option value="4">内部音频配置管理</option>
                         <option value="5">外部审核及锁屏管理</option>
-                        <!-- <option value="6">海外画报壁纸管理</option>
-                        <option value="7">海外首屏壁纸管理</option> -->
+                        <option value="6">海外画报壁纸管理</option>
+                        <option value="7">海外首屏壁纸管理</option>
                     </select>
                 </div>
                 <div class='sel_btn'>
@@ -167,8 +167,8 @@ methods: {
         if(n.audit_type ==3){return '内部杂志锁屏管理'}
         if(n.audit_type ==4){return '内部音频配置管理'}
         if(n.audit_type ==5){return '外部审核及锁屏管理'}
-        // if(n.audit_type ==6){return '海外画报壁纸管理'}
-        // if(n.audit_type ==7){return '海外首屏壁纸管理'}
+        if(n.audit_type ==6){return '海外画报壁纸管理'}
+        if(n.audit_type ==7){return '海外首屏壁纸管理'}
         
     },
          getRowClass({row, column, rowIndex}) {
@@ -289,15 +289,15 @@ methods: {
                 })
              }
              //海外首屏壁纸管理
-            //  if(this.tableData[index].channel.audit_type==7){
-            //     this.$router.push({
-            //          path:"./haiwai_lockScreen/journal_sp",
-            //         query:{
-            //             channel:this.tableData[index].channel.channel,
-            //             plid:row.plid,
-            //         },
-            //     })
-            //  }
+             if(this.tableData[index].channel.audit_type==7){
+                this.$router.push({
+                     path:"./haiwai_lockScreen/journal_sp",
+                    query:{
+                        channel:this.tableData[index].channel.channel,
+                        plid:row.plid,
+                    },
+                })
+             }
             if(this.tableData[index].channel.audit_type==4){
                 this.$router.push({
                      path:"./Audio_configuration_management",
@@ -307,15 +307,15 @@ methods: {
                     },
                 })
              }
-            //  if(this.tableData[index].channel.audit_type==6){
-            //     this.$router.push({
-            //         path:"./haiwai_lockScreen/journal_overseas",
-            //         query:{
-            //             channel:this.tableData[index].channel.channel,
-            //             plid:row.plid,
-            //         },
-            //     })
-            //  }
+             if(this.tableData[index].channel.audit_type==6){
+                this.$router.push({
+                    path:"./haiwai_lockScreen/journal_overseas",
+                    query:{
+                        channel:this.tableData[index].channel.channel,
+                        plid:row.plid,
+                    },
+                })
+             }
             
          },
          SetUser(){
