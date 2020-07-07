@@ -120,15 +120,16 @@
                 </div>
             </div>
         </div>
+        <loading v-if='load'></loading>
 </div>
 </template>
 
 <script>
 
-
+import loading from '../../components/loading'
 export default {
 
-components: {},
+components: {loading},
 data() {
 
 return {
@@ -153,6 +154,7 @@ return {
         id:'',
         audit_status:'',
         note:'',
+        load:false,
 };
 },
 
@@ -248,6 +250,7 @@ methods: {
         })
     },
     getData(){
+        this.load = true;
         let params={
             p:this.p,
             page:this.page,
@@ -260,6 +263,7 @@ methods: {
         this.api.ctrlapi_tags_action_search({params}).then((res)=>{
             this.tableData=res.data;
             this.total=res.total;
+            this.load = false
         //    this.$previewRefresh()
         })
     },

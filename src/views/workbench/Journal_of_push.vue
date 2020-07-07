@@ -103,7 +103,7 @@
                     :total="total">
             </el-pagination>
         </div>
-        <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :gdsrc="gdsrc"></ADDWL>
+        <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :gdsrc="gdsrc" :material="material" ></ADDWL>
         <div class="bg" v-if="tc">
             <div class='content'>
                 <div class='con_tit'>
@@ -161,6 +161,7 @@
                 yy:"",
                 index:"",
                 gdsrc:'',
+                material:3,
             }
         },
         mounted(){

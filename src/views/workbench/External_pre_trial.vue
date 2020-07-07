@@ -45,7 +45,7 @@ import Externalpretrialgx from './External_pre_trial_gx'; //个性化内容审�
 import Externalpretrialstrategy from './External_pre_trial_strategy'; //通用策略审核
 import Distributionaudit from './Distribution_audit'; //分发服务器
 import Configurationaudit from './Configuration_audit'; //测试配置
-import Journalnb from './journal_nb'; //上架内容
+import Journalnb from './journal_sj'; //上架内容
 
 export default {
 

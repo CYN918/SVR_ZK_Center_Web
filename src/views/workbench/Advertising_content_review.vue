@@ -92,7 +92,11 @@
                                  <template slot-scope="scope">
                                  <span v-for='val in tableData[scope.$index].ai_tags'>{{val.tags_name+"("+val.confidence+"%)"}},</span>
                                 </template>
+<<<<<<< HEAD
                         </el-table-column>
+=======
+                        </el-table-column>  
+>>>>>>> new_v3
                         <el-table-column
                                 prop=""
                                 width='90'
@@ -301,6 +305,7 @@ export default {
                 formData.append('advers',JSON.stringify(this.advers));
                 this.api.adver_tags_audit(formData).then((res)=>{
                     if(res!=false){
+                        this.mJs.scTop(0);
                         this.advers=[];
                         this.getData();
                         this.heid();

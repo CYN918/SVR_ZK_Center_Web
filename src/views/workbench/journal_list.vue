@@ -269,7 +269,7 @@ methods: {
              if(this.tableData[index].channel.audit_type==3&&this.tableData[index].sub == 0){
                 localStorage.removeItem('tabNum');
                 this.$router.push({
-                    path:"./zhuoyi_lockScreen/journal_zy",
+                    path:"./zhuoyi_locakScreen/journal_zy",
                     query:{
                         channel:this.tableData[index].channel.channel,
                         plid:row.plid,
@@ -291,7 +291,7 @@ methods: {
              //海外首屏壁纸管理
             //  if(this.tableData[index].channel.audit_type==7){
             //     this.$router.push({
-            //          path:"./haiwai_lockScreen/journal_sp",
+            //          path:"./haiwai_locakScreen/journal_sp",
             //         query:{
             //             channel:this.tableData[index].channel.channel,
             //             plid:row.plid,
@@ -309,7 +309,7 @@ methods: {
              }
             //  if(this.tableData[index].channel.audit_type==6){
             //     this.$router.push({
-            //         path:"./haiwai_lockScreen/journal_overseas",
+            //         path:"./haiwai_locakScreen/journal_overseas",
             //         query:{
             //             channel:this.tableData[index].channel.channel,
             //             plid:row.plid,
