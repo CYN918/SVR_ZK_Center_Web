@@ -345,7 +345,6 @@
                 textVisible:false,
                 isShow:true,
                 title: '',
-                content: '',
                 click_action:-1,
                 url: '',
                 theWeight:'',
