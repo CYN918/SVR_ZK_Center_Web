@@ -411,7 +411,7 @@
                 </div>
             </div>
         </div>
-        <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :video='video' :gdsrc="gdsrc"></ADDWL>
+        <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :video='video' :gdsrc="gdsrc" :ids='ids'></ADDWL>
         <loading v-if='load'></loading>
  </div>
 </template>
@@ -453,6 +453,7 @@
             audioName:'',
             date:'',
             gdsrc:'',
+            ids:'',
             }
    },
    mounted(){

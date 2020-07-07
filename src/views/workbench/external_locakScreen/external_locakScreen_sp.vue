@@ -1,10 +1,7 @@
 <template>
     <div class="template">
-        <div class="top_name">        
-            <span class="top_txts" style="width: 113px;display: inline-block;">首屏壁纸审核</span>
-        </div>
         <div class='screening'>
-            <div class="date">
+            <div class="date" v-if='pl==false'>
                 <el-date-picker
                     v-model="date"
                     type="date"
@@ -14,9 +11,20 @@
                     @change="changeDate">
                 </el-date-picker>
             </div>
-            <span class='qdName'>数量:</span>
-            <span>{{this.total}}</span>
-            <span class="dated" v-if="new Date(this.date)<=new Date(new Date().getTime() - 24*60*60*1000)">(已过期)</span>    
+            <span class='qdName' v-if='pl==false'>状态</span>
+            <select v-model="status" v-if='pl==false'>
+                <option value="">全部</option>
+                <option value="0">待审核</option>
+                <option value="1">审核通过</option>
+                <option value="2">审核不通过</option>
+            </select> 
+            <div class='btn_sx'>
+                <span class='cx' v-if='pl==false' @click='getData()'>查询</span>
+                <span class='cz' @click='plcz()' v-if='pl==false'>批量操作</span>
+                <!-- <span class='dc' v-if='pl==false'>导出</span> -->
+                <span class='cz'  v-if='pl' @click='updateStatus("aa")'>批量审核</span>
+                <span class='dc' @click='Qxplcz()' v-if='pl'>取消</span>
+            </div> 
         </div>
         <div style="margin-top:85px;background:#fff;padding-bottom:30px" class='rePadding'>
             <template>
@@ -27,6 +35,12 @@
                     :header-cell-style="getRowClass"
                     :cell-style="cell"
                     @selection-change="handleSelectionChange">
+                    <el-table-column
+                        type="selection"
+                        v-if='pl'
+                        :selectable='checkboxT'
+                        width="50" style="padding:0 auto!important">
+                    </el-table-column>
                     <el-table-column
                         prop="id"
                         label="序号">
@@ -62,10 +76,11 @@
                         </template>
                     </el-table-column>
                     <el-table-column
-                        label="操作" 
-                        v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)">
+                        label="操作">
                         <template slot-scope="scope"> 
-                            <el-button  type="text" size="small" @click="deleteRow(scope.$index, scope.row)">审核</el-button>
+                            <el-button  type="text" size="small" @click="updateStatus(scope.$index, scope.row)">审核</el-button>
+                            <el-button  type="text" size="small" @click="download(scope.$index, scope.row)">下载</el-button>
+                            <el-button  type="text" size="small" @click="checkreason(scope.$index, scope.row)">查看原因</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -130,14 +145,33 @@
                 total:0,
                 tc:false,
                 status2:"",
+                status:'',
                 checkList:[],
                 value:[],
-                yy:"",          
+                yy:"",   
+                load:false,  
+                pl:false,     
             };
         },
         methods: {
             changeDate(){
 
+            },
+            plcz(){
+                this.pl=true;
+            },
+            download(){
+
+            },
+            checkreason(){
+
+            },
+            checkboxT(row, rowIndex){
+                if(row.adver_status!=0){
+                    return false;//禁用
+                }else{
+                    return true;//不禁用
+                }
             },
             pushLib(){
                 if(this.index=='aa'){
@@ -184,7 +218,17 @@
                         })
                 }
                 
-            },   
+            },  
+            Qxplcz(){
+                this.pl=false;
+                if(this.value.length>0){
+                    this.tableData.map((option) => {
+                        this.$refs.tab.toggleRowSelection(option);
+                    })
+                }else{
+                    this.value=[];
+                }
+            }, 
             getRowClass({row, column, rowIndex}) {
                 if (rowIndex === 0) {
                     return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;padding:20px 0px 20px 14px'
@@ -261,7 +305,7 @@
         },
         //生命周期 - 挂载完成（可以访问DOM元素）
         mounted() {
-            this.getData()
+            // this.getData()
         },
 
     }
@@ -355,7 +399,8 @@
         font-family: PingFang-SC-Medium;
         font-weight: 500;
         color: rgba(50,50,50,1);
-        margin-left: 40px
+        margin-left: 40px;
+        margin-right: 15px;
     }
     select{
         margin-left: 20px;
@@ -394,7 +439,7 @@
     .btn_sx{
         display: inline-block;
         float:right;
-        margin: 10px 20% 0 0 
+        margin: 10px 1% 0 0 
     }
     .cx{
         display: inline-block;
