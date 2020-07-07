@@ -113,7 +113,6 @@
                 }
             },  
             getData1(p,page){
-                console.log(p,page)
                 if(p != undefined){
                     this.p = p;
                 }
@@ -148,7 +147,6 @@
                })
             },
             getData2(p,page){
-                console.log(p,page)
                 if(p != undefined){
                     this.p = p;
                 }
@@ -156,7 +154,6 @@
                     this.page = page;
                 }
                this.load = true;
-               console.log(this.$route.query.sub_plid)
                let params={
                     p:this.p,
                     page:this.page,
