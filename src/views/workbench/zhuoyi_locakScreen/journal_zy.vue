@@ -81,7 +81,6 @@
         data() {
             return {
                 date:(new Date()).toLocaleDateString().split('/').join('-'),
-                date1:(new Date()).toLocaleDateString().split('/').join('-'),
                 is_receiver:0,
                 confirmVisible:false,
                 showClo:false,
@@ -112,12 +111,15 @@
                     this.getData2()
                 }
             },  
-            getData1(p,page){
+            getData1(p,page,date){
                 if(p != undefined){
                     this.p = p;
                 }
                 if(page != undefined){
                     this.page = page;
+                }
+                if(date != undefined){
+                    this.date = date;
                 }
                this.load = true;
                let params={
@@ -146,12 +148,15 @@
                 //    this.$previewRefresh()
                })
             },
-            getData2(p,page){
+            getData2(p,page,date){
                 if(p != undefined){
                     this.p = p;
                 }
                 if(page != undefined){
                     this.page = page;
+                }
+                if(date != undefined){
+                    this.date = date;
                 }
                this.load = true;
                let params={
