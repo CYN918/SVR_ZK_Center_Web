@@ -231,10 +231,21 @@
                 
                 rows:{},
                 showClo:false,
-                click_action:-1,
+                title:'',
                 material:3,
                 gdsrc:'',
                 textlink:[],
+                click_action:-1,
+                url: '',
+                theWeight:'',
+                rouelForm:{},
+                textlink:[],
+                rows:{},
+                rowData:{},
+                pkgname:'',
+                deeplink:'',
+                download_url:'',
+                content:'',
             };
         },
 
