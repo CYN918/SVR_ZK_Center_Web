@@ -92,11 +92,7 @@
                                  <template slot-scope="scope">
                                  <span v-for='val in tableData[scope.$index].ai_tags'>{{val.tags_name+"("+val.confidence+"%)"}},</span>
                                 </template>
-<<<<<<< HEAD
-                        </el-table-column>
-=======
                         </el-table-column>  
->>>>>>> new_v3
                         <el-table-column
                                 prop=""
                                 width='90'
