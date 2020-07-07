@@ -184,6 +184,7 @@
                             <template slot-scope="scope">
                                  <!-- <el-button  type="text" size="small" v-if='tableData[scope.$index].status=="0"' @click='updateStatus(index)'>审核</el-button> -->
                                  <!-- <el-button v-if='tableData[scope.$index].status!="0"' type="text" size="small">修改结果</el-button> -->
+                                <el-button  type="text" size="small" @click="checkreason(scope.$index, scope.row)">查看原因</el-button>
                                 <el-button  type="text" size="small" @click="details(scope.row)">管理文字链</el-button>
                                 <el-button  type="text" size="small" @click="deleteRow(scope.$index, scope.row)">移除</el-button>
                             </template>
@@ -438,6 +439,9 @@ methods: {
     bj(){
 
     }, 
+    checkreason(){
+
+    },
     changeStatus(a,b){
         
     },  

@@ -315,7 +315,7 @@ export default {
         }, 
         details(row){
             this.$router.push({
-                path:"./zhuoyi_lockScreen/journal_zy",
+                path:"./zhuoyi_locakScreen/journal_zy",
                 query:{
                     channel:this.channel,
                     plid:this.plid,

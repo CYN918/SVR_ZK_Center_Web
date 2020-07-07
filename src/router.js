@@ -326,8 +326,10 @@ import journal_list from './views/workbench/journal_list'
 mode['journal_list']=journal_list
 import journal_nb from './views/workbench/journal_nb'
 mode['journal_nb']=journal_nb
-import journal_zy from './views/workbench/zhuoyi_lockScreen/journal_zy'
+import journal_zy from './views/workbench/zhuoyi_locakScreen/journal_zy'
 mode['journal_zy']=journal_zy
+import external_hw from './views/workbench/external_locakScreen/external_hw'
+mode['external_hw']=external_hw
 import journal_overseas from './views/workbench/haiwai_locakScreen/journal_overseas'
 mode['journal_overseas']=journal_overseas
 import journal_sp from './views/workbench/haiwai_locakScreen/journal_sp'
@@ -588,9 +590,10 @@ let nb = [
             {path:'/workbench/journal_Administrator',name:'杂志锁屏推送管理',component: mode['journal_Administrator'],},
             {path:'/workbench/journal_list',name:'杂志锁屏推送管理列表',component: mode['journal_list'],},
             {path:'/workbench/journal_nb',name:'内部杂志锁屏推送管理列表',component: mode['journal_nb'],},
-            {path:'/workbench/zhuoyi_lockScreen/journal_zy',name:'卓易杂志锁屏',component: mode['journal_zy']},
-            {path:'/workbench/haiwai_lockScreen/journal_overseas',name:'海外杂志锁屏管理 ',component: mode['journal_overseas'],},
-            {path:'/workbench/haiwai_lockScreen/journal_sp',name:'海外首屏壁纸管理 ',component: mode['journal_sp'],},
+            {path:'/workbench/zhuoyi_locakScreen/journal_zy',name:'卓易杂志锁屏',component: mode['journal_zy']},
+            {path:'/workbench/zhuoyi_locakScreen/external_hw',name:'壁纸资源审核',component: mode['external_hw']},
+            {path:'/workbench/haiwai_locakScreen/journal_overseas',name:'海外杂志锁屏管理 ',component: mode['journal_overseas'],},
+            {path:'/workbench/haiwai_locakScreen/journal_sp',name:'海外首屏壁纸管理 ',component: mode['journal_sp'],},
             {path:'/workbench/journal_child',name:'子推送库列表',component: mode['journal_child']},
             {path:'/workbench/wb_Journal',name:'外部杂志锁屏推送管理',component: mode['wb_Journal'],},
             {path:'/workbench/Offline_resources',name:'线下资源替换',component: mode['Offline_resources'],},
@@ -843,6 +846,7 @@ localStorage.getItem('letNav');
 //                     {title:'线上审核资源替换',url:'/workbench/channel_resource'},
 //                     {title:'高定内容时段控制',url:'/workbench/Pro_type'},
 //                     {title:'杂志锁屏物料预审',url:'/workbench/External_pre_trial'},
+//                     {title:'壁纸资源审核',url:'/workbench/zhuoyi_locakScreen/external_hw'},
 //                     {title:'广告内容审核',url:'/workbench/Advertising_review'},
 //                     {title:'TX新闻模板管理',url:'/workbench/news'},
 //                     ],
