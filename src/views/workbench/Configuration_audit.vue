@@ -233,6 +233,7 @@ methods: {
         this.row = row;      
     },
     getData(){
+        this.load = true;
         let params={
             p:this.p,
             page:this.page,
