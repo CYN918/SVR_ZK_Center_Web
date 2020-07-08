@@ -87,7 +87,7 @@
                         <template slot-scope="scope"> 
                             <el-button  type="text" size="small" @click="updateStatus(scope.$index, scope.row)">审核</el-button>
                             <!-- <el-button  type="text" size="small" @click="download(scope.$index, scope.row)">下载</el-button> -->
-                            <el-button  type="text" size="small" @click="checkreason(scope.$index, scope.row)">查看原因</el-button>
+                            <el-button  type="text" size="small" v-if="tableData[scope.$index].audit_status == 2" @click="checkreason(scope.$index, scope.row)">查看原因</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -196,7 +196,7 @@
                         formData.append('status',this.status2),
                         formData.append('note',this.checkList.join(',')+this.yy) 
                         formData.append('advers',JSON.stringify(this.advers))
-                        this.api.pushlib_adver_mfinal_audit(formData).then((res)=>{
+                        this.api.pushlib_oversea_audit(formData).then((res)=>{
                             if(res!=false){
                                 this.getData();
                                 this.qx();
@@ -216,7 +216,7 @@
                         formData.append('status',this.status2),
                             formData.append('note',this.checkList.join(',')+this.yy) 
                             formData.append('advers',JSON.stringify(this.advers))
-                            this.api.pushlib_adver_mfinal_audit(formData).then((res)=>{
+                            this.api.pushlib_oversea_audit(formData).then((res)=>{
                                 if(res!=false){
                                     this.getData();
                                     this.qx();
@@ -287,7 +287,7 @@
                     page:this.page,
                     tdate:this.date,
                     plid:this.plid,
-                    type:this.$route.query.type,
+                    
                 }
                 
                 this.api.pushlib_textlink_search({params}).then((res)=>{

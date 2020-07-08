@@ -109,7 +109,7 @@
                                 label="操作" 
                                 v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)">
                             <template slot-scope="scope">
-                                <el-button  type="text" size="small" @click="checkreason(scope.$index, scope.row)">查看原因</el-button>
+                                <el-button  type="text" size="small" v-if="tableData[scope.$index].audit_status == 2" @click="checkreason(scope.$index, scope.row)">查看原因</el-button>
                                 <el-button  type="text" size="small" @click="deleteRow(scope.$index, scope.row)">移除</el-button>
                             </template>
                         </el-table-column>

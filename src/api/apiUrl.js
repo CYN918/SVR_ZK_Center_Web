@@ -2078,5 +2078,15 @@ export default {
 		url:'settle/estimate/settle_list',method:'get'
 	},
 
+	//壁纸资源审核
+	pushlib_oversea_audit:{
+		url:'pushlib/oversea/audit',method:'post'
+	},
+
+	//海外文字链接口
+	pushlib_oversea_textlink_list:{
+		url:'pushlib/oversea/textlink/list',method:'get'
+	},
+
 
 }
