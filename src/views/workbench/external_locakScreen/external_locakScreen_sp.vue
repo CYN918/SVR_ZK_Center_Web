@@ -176,10 +176,8 @@
             },
             pushLib(){
                 if(this.index=='aa'){
-                    let array={plid:"",adid:"",mfid:""}
+                    let array={mfid:""}
                     for(var i=0;i<this.value.length;i++){
-                            array.plid=this.value[i].plid;
-                            array.adid=this.value[i].adid;
                             array.mfid=this.value[i].mfid;
                             this.advers.push(array);
                         }
@@ -191,7 +189,7 @@
                         formData.append('plid',this.plid),
                         formData.append('tdate',this.date),
                         formData.append('audit_note',this.checkList.join(',')+this.yy) 
-                        formData.append('mfid',this.advers)
+                        formData.append('mfid',JSON.stringify(this.advers))
                         this.api.pushlib_oversea_audit(formData).then((res)=>{
                             if(res!=false){
                                 this.getData();
@@ -200,9 +198,7 @@
                             }
                     })
                 }else{
-                    let array={plid:"",adid:"",mfid:""}
-                        array.plid=this.tableData[this.index].plid;
-                        array.adid=this.tableData[this.index].adid;
+                    let array={mfid:""}
                         array.mfid=this.tableData[this.index].mfid;
                         this.advers.push(array);
                         if(!this.status2){
@@ -213,7 +209,7 @@
                         formData.append('plid',this.plid),
                         formData.append('tdate',this.date),
                         formData.append('audit_note',this.checkList.join(',')+this.yy) 
-                        formData.append('mfid',this.advers)
+                        formData.append('mfid',JSON.stringify(this.advers))
                             this.api.pushlib_oversea_audit(formData).then((res)=>{
                                 if(res!=false){
                                     this.getData();
