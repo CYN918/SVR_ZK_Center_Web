@@ -4,18 +4,15 @@
             <span class="top_txt"></span><div style="width:0;height:0;"><br/></div>
             <span class="top_txts" style="width: 113px;display: inline-block;">壁纸资源审核</span>
             <div class="user">
-                <div class="sk" :class="{check:is_receiver==0}" @click="switchs(0)">
-                    首屏资源审核
-                </div>
-                <div class="fk" :class="{check:is_receiver==1}" @click="switchs(1)">
-                    画报资源审核
+                <div class="sk" v-for="(item,index) in list" :class="{check:is_receiver==index}" @click="switchs(index,item.plid)">
+                    {{item.name}}
                 </div>
             </div>
         </div> 
         
         
-        <externalLocakScreenSp v-if="is_receiver == 0"></externalLocakScreenSp> 
-        <externalLocakScreenHb v-if="is_receiver == 1"></externalLocakScreenHb>  
+        <externalLocakScreenSp v-if="is_receiver == 1&&plid" :plid="plid"></externalLocakScreenSp> 
+        <externalLocakScreenHb v-if="is_receiver == 0&&plid" :plid="plid"></externalLocakScreenHb>  
         
     </div>
 </template>
@@ -28,6 +25,8 @@
         data() {
             return {      
                 is_receiver:0,
+                list:[],
+                plid:'',
             };
         },
         methods: {
@@ -35,10 +34,16 @@
                 this.is_receiver=num; 
                 this.mJs.scTop(0); 
                 localStorage.setItem('tabNum', num);  
+                this.plid = this.list[num].plid;
             },
             init(){
                 this.api.pushlib_search().then((res)=>{
                     console.log(res)
+                    this.list = res.data;
+                    if(this.list.length != 0){
+                        this.plid = this.list[0].plid;
+                        console.log(this.plid)
+                    }
 
                 })
             }  
@@ -51,9 +56,7 @@
         },
         //生命周期 - 挂载完成（可以访问DOM元素）
         mounted() {
-            if (localStorage.getItem('tabNum')) {
-                this.is_receiver = localStorage.getItem('tabNum')
-            }  
+           
             this.init();
         },
     }

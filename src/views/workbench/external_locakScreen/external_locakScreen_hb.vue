@@ -106,23 +106,24 @@
         </div>
         <div class="bg" v-if="tc">
             <div class='content'>
+                
                 <div class='con_tit'>
-                    <span>更新状态</span>
+                    <span>审核</span>
                 </div>
                 <div class='sel'>
-                    <select v-model="status2">
-                        <option value="1">已上线</option>
-                        <option value="2">拒绝上线</option>
+                    <select v-model="status2" style="margin-left:24px;">
+                        <option value="1">审核通过</option>
+                        <option value="2">审核不通过</option>
                     </select>
-                    <div class='sel_1' v-if="status2=='拒绝上线'">
+                    <div class='sel_1' v-if="status2=='2'">
                         <el-checkbox-group v-model="checkList">
                             <el-checkbox label="测试不通过" class='aaa'></el-checkbox>
                             <el-checkbox label="内容差"  class='aaa'></el-checkbox>
                             <el-checkbox label="屏蔽竞品"  class='aaa'></el-checkbox>
-                            <el-checkbox label="其他"  class='aaa bb'>
+                            <el-checkbox label=""  class='aaa bb'>
                                 <template>
                                     <span style="margin-right:10px">其他</span>
-                                    <textarea placeholder="最多20字" maxlength="20"  v-model="yy"></textarea>
+                                    <textarea placeholder="最多20字" maxlength="20" v-model="yy"></textarea>
                                 </template>
                             </el-checkbox>
                         </el-checkbox-group>
@@ -133,6 +134,7 @@
                     <span class="sel_btn_qd" @click="pushLib()">确定</span>
                     <span @click='qx()'>取消</span>
                 </div>
+            
             </div>
         </div> 
         <loading v-if='load'></loading>    
@@ -142,6 +144,7 @@
 <script>
     import loading from '../../../components/loading'
     export default {
+        props:['plid'],
         components: {loading},
         data() {
             return { 
@@ -174,7 +177,7 @@
 
             },
             checkboxT(row, rowIndex){
-                if(row.adver_status!=0){
+                if(row.audit_status!=0){
                     return false;//禁用
                 }else{
                     return true;//不禁用
@@ -193,9 +196,11 @@
                             this.$message.error('状态不能为空')
                         }
                         let formData =new FormData;
-                        formData.append('status',this.status2),
-                        formData.append('note',this.checkList.join(',')+this.yy) 
-                        formData.append('advers',JSON.stringify(this.advers))
+                        formData.append('audit_status',this.status2),
+                        formData.append('plid',this.plid),
+                        formData.append('tdate',this.date),
+                        formData.append('audit_note',this.checkList.join(',')+this.yy) 
+                        formData.append('mfid',this.advers)
                         this.api.pushlib_oversea_audit(formData).then((res)=>{
                             if(res!=false){
                                 this.getData();
@@ -213,9 +218,11 @@
                                 this.$message.error('状态不能为空')
                             }
                         let formData =new FormData;
-                        formData.append('status',this.status2),
-                            formData.append('note',this.checkList.join(',')+this.yy) 
-                            formData.append('advers',JSON.stringify(this.advers))
+                        formData.append('audit_status',this.status2),
+                        formData.append('plid',this.plid),
+                        formData.append('tdate',this.date),
+                            formData.append('audit_note',this.checkList.join(',')+this.yy) 
+                            formData.append('mfid',this.advers)
                             this.api.pushlib_oversea_audit(formData).then((res)=>{
                                 if(res!=false){
                                     this.getData();
@@ -287,6 +294,7 @@
                     page:this.page,
                     tdate:this.date,
                     plid:this.plid,
+                    audit_status:this.status,
                     
                 }
                 
@@ -312,7 +320,7 @@
         },
         //生命周期 - 挂载完成（可以访问DOM元素）
         mounted() {
-            // this.getData()
+            this.getData()
         },
 
     }
