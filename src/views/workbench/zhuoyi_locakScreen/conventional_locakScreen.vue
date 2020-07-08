@@ -400,7 +400,7 @@
             },
             changeDate(val){
                 this.page = 1;
-                this.$parent.getData1(this.p,this.page);
+                this.$parent.getData1(this.p,this.page,this.date);
             },
             icon_click(index,rows){
                 // console.log(rows)

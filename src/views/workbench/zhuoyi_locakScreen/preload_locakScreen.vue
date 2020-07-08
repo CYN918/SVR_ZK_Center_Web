@@ -359,7 +359,8 @@
 
             },
             changeDate(){
-                this.$parent.getData2();
+                this.page = 1;
+                this.$parent.getData2(this.p,this.page,this.date);
             },
             changeStatus(a,b){
                 this.api.pushlib_textlink_iscopyright_edit({tdate:this.tableData[a].tdate,is_copyright:b,sub_plid:this.sub_plid,plid:this.plid,mfid:this.tableData[a].mfinal.mfid}).then((res)=>{

@@ -63,27 +63,67 @@
                 </div>
                  <div class="set">
                     <span>角色</span>
-                    <select v-model="role" @change="getRoleUser()" disabled v-if="this.name=='编辑'">
+                    <!-- <select v-model="role" @change="getRoleUser()" disabled v-if="this.name=='编辑'">
                         <option v-for='(item,index) in user' :value="item.role_id" >{{item.role_name}}</option>
                     </select>
                      <select v-model="role" @change="getRoleUser()" v-if="this.name=='添加'">
                         <option v-for='(item,index) in user' :value="item.role_id" >{{item.role_name}}</option>
-                    </select>
+                    </select> -->
+                    <el-select v-model="role" @change="getRoleUser()" disabled v-if="this.name=='编辑'" placeholder="请选择">
+                        <el-option
+                            v-for="item in user"
+                            :key="item.role_name"
+                            :label="item.role_name"
+                            :value="item.role_name">
+                        </el-option>
+                    </el-select>
+                    <el-select v-model="role" @change="getRoleUser()" v-if="this.name=='添加'" placeholder="请选择">
+                        <el-option
+                            v-for="item in user"
+                            :key="item.role_name"
+                            :label="item.role_name"
+                            :value="item.role_name">
+                        </el-option>
+                    </el-select>
                 </div>
                 <div class="set">
                     <span>账号</span>
-                    <select v-model="email" disabled v-if="this.name=='编辑'">
+                    <!-- <select v-model="email" disabled v-if="this.name=='编辑'">
                         <option :value="da.email" v-for='(da,key) in userEmail'>{{da.email}}</option>
                     </select>
                     <select v-model="email" v-if="this.name=='添加'">
                         <option :value="da.email" v-for='(da,key) in userEmail'>{{da.email}}</option>
-                    </select>
+                    </select> -->
+                    <el-select v-model="email"  disabled v-if="this.name=='编辑'" placeholder="请选择">
+                        <el-option
+                            v-for="da in userEmail"
+                            :key="da.email"
+                            :label="da.email"
+                            :value="da.email">
+                        </el-option>
+                    </el-select>
+                    <el-select v-model="email" v-if="this.name=='添加'" placeholder="请选择">
+                        <el-option
+                            v-for="da in userEmail"
+                            :key="da.email"
+                            :label="da.email"
+                            :value="da.email">
+                        </el-option>
+                    </el-select>
                 </div>
                 <div class="set">
                     <span>分配渠道</span>
-                    <select v-model="channel">
+                    <!-- <select v-model="channel">
                         <option :value="item.channel" v-for="item in qdLists">{{item.channel}}</option>
-                    </select>
+                    </select> -->
+                    <el-select v-model="channel" multiple placeholder="请选择">
+                        <el-option
+                            v-for="item in qdLists"
+                            :key="item.channel"
+                            :label="item.channel"
+                            :value="item.channel">
+                        </el-option>
+                    </el-select>
                 </div>
                 <div class="bg_btn">
                     <span class="qd" @click="addUser()">确定</span>
@@ -299,6 +339,9 @@
         background:rgba(255,255,255,1);
         border-radius:4px;
         border:1px solid rgba(211,219,235,1);
+    }
+    .set .el-select{
+        width: 350px;
     }
     .set select{
         width:200px;
