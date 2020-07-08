@@ -184,7 +184,7 @@
                             <template slot-scope="scope">
                                  <!-- <el-button  type="text" size="small" v-if='tableData[scope.$index].status=="0"' @click='updateStatus(index)'>审核</el-button> -->
                                  <!-- <el-button v-if='tableData[scope.$index].status!="0"' type="text" size="small">修改结果</el-button> -->
-                                <el-button  type="text" size="small" @click="checkreason(scope.$index, scope.row)">查看原因</el-button>
+                                <el-button  type="text" size="small" v-if="tableData[scope.$index].audit_status == 2" @click="checkreason(scope.$index, scope.row)">查看原因</el-button>
                                 <el-button  type="text" size="small" @click="details(scope.row)">管理文字链</el-button>
                                 <el-button  type="text" size="small" @click="deleteRow(scope.$index, scope.row)">移除</el-button>
                             </template>
@@ -269,43 +269,57 @@
             <el-form label-width="120px">
                 <el-form-item label="标识:">
                     <select v-model="click_action">
-                        <option value="-1">请选择</option>
-                        <option value="3">无</option>
-                        <option value="0">点击查看</option>
-                        <option value="1">打开应用</option>
-                        <option value="2">下载应用</option>
+                        <option value="3">本地资源</option>
+                        <option value="0">三方资源</option>
                     </select>
                 </el-form-item>
-                <el-form-item label="标题:" v-if="click_action != '-1'&&click_action != '3'">
+                <el-form-item label="分类:" v-if="click_action == '3'">
+                    <select v-model="click_action">
+                        <option value="3">本地资源</option>
+                        <option value="0">三方资源</option>
+                    </select>
+                </el-form-item>
+                <el-form-item label="标题:" v-if="click_action == '3'">
                     <el-input type="text" maxlength="13"  placeholder="最多13字" show-word-limit v-model="title"></el-input>
                 </el-form-item>
-                <el-form-item label="内容描述:" v-if="click_action != '-1'&&click_action != '3'">
+                <el-form-item label="内容描述:" v-if="click_action == '3'">
                     <el-input type="textarea" maxlength="44"  placeholder="最多44字" show-word-limit  v-model="content"></el-input>
                 </el-form-item>
-                 <el-form-item label="标题(选填):" v-if="click_action == '3'">
-                    <el-input type="text" maxlength="13"  placeholder="最多13字" show-word-limit v-model="title"></el-input>
-                </el-form-item>
-                <el-form-item label="内容描述(选填):" v-if="click_action == '3'">
-                    <el-input type="textarea" maxlength="44"  placeholder="最多44字" show-word-limit  v-model="content"></el-input>
-                </el-form-item>
-                <el-form-item label="跳转链接:" v-if="click_action == '0'">
+                <el-form-item label="跳转链接:" v-if="click_action == '3'">
                     <el-input v-model="url"></el-input>
                 </el-form-item>
-                <el-form-item label="包名(选填):" v-if="click_action == '1'">
-                    <el-input v-model="pkgname"></el-input>
-                </el-form-item>
-                <el-form-item label="拉活链接:" v-if="click_action == '1'">
-                    <el-input v-model="deeplink"></el-input>
-                </el-form-item>
-                <el-form-item label="下载链接:" v-if="click_action == '1'">
-                    <el-input v-model="download_url"></el-input>
-                </el-form-item>
-                <el-form-item label="包名:" v-if="click_action == '2'">
-                    <el-input v-model="pkgname"></el-input>
-                </el-form-item>
-                <el-form-item label="下载链接:" v-if="click_action == '2'">
-                    <el-input v-model="download_url"></el-input>
-                </el-form-item>
+                <el-table
+                    :data="threeData"
+                    border
+                    stripe
+                    ref="threeData"
+                    v-if="click_action == '0'"
+                    @row-click="singleElection">
+                    <el-table-column label="" width="65">
+                        <template slot-scope="scope">
+                            <el-radio class="radio" v-model="templateSelection" :label="scope.$index">&nbsp;</el-radio>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="标题"  :show-overflow-tooltip="true">
+                        <template slot-scope="scope">
+                            <span v-if="threeData[scope.$index].title!=''">{{threeData[scope.$index].title}}</span>
+                            <span v-if="threeData[scope.$index].title==''">--</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="内容摘要" :show-overflow-tooltip="true">
+                        <template slot-scope="scope">
+                            <span v-if="threeData[scope.$index].content!=''">{{threeData[scope.$index].content}}</span>
+                            <span v-if="threeData[scope.$index].content==''">--</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="落地页">
+                        <template slot-scope="scope">
+                            <a :href="threeData[scope.$index].url" target="_blank" style="text-decoration: none;color: #66b1ff" v-if="threeData[scope.$index].url!=''">点击查看</a>
+                            <a  v-if="threeData[scope.$index].url==''">-</a>
+                        </template>
+                    </el-table-column>
+                </el-table>
+                
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button type="primary" @click="savePage">保存</el-button>
@@ -406,7 +420,7 @@ return {
         isShow:true,
         title: '',
         content: '',
-        click_action:-1,
+        click_action:3,
         url: '',
         theWeight:'',
         rouelForm:{},
@@ -426,10 +440,15 @@ return {
         gdsrc:'',
         options:[],
         valueTs:'',
+        threeData:[],
+        templateSelection:'',
 };
 },
 
 methods: {
+    singleElection (row) {
+        console.log(row)
+    },
     getShow(){
         this.change = true;
     },

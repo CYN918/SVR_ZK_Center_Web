@@ -35,7 +35,13 @@
                 this.is_receiver=num; 
                 this.mJs.scTop(0); 
                 localStorage.setItem('tabNum', num);  
-            },  
+            },
+            init(){
+                this.api.pushlib_search().then((res)=>{
+                    console.log(res)
+
+                })
+            }  
             
                
         },
@@ -48,6 +54,7 @@
             if (localStorage.getItem('tabNum')) {
                 this.is_receiver = localStorage.getItem('tabNum')
             }  
+            this.init();
         },
     }
 </script>
