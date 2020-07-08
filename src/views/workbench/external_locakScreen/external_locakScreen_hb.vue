@@ -198,7 +198,7 @@
                         formData.append('plid',this.plid),
                         formData.append('tdate',this.date),
                         formData.append('audit_note',this.checkList.join(',')+this.yy) 
-                        formData.append('mfid',JSON.stringify(this.advers))
+                        formData.append('mfids',JSON.stringify(this.advers))
                         this.api.pushlib_oversea_audit(formData).then((res)=>{
                             if(res!=false){
                                 this.getData();
@@ -218,7 +218,7 @@
                         formData.append('plid',this.plid),
                         formData.append('tdate',this.date),
                             formData.append('audit_note',this.checkList.join(',')+this.yy) 
-                            formData.append('mfid',JSON.stringify(this.advers))
+                            formData.append('mfids',JSON.stringify(this.advers))
                             this.api.pushlib_oversea_audit(formData).then((res)=>{
                                 if(res!=false){
                                     this.getData();
