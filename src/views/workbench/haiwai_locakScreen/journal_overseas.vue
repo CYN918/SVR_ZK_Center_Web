@@ -274,8 +274,8 @@
                     </select>
                 </el-form-item>
                 <el-form-item label="分类:" v-if="click_action == '0'">
-                    <select v-model="classFl">
-                        <option value="3">本地资源</option>
+                    <select v-model="classFl"   @change="changeCk($event)">
+                        <option value="1">本地资源</option>
                         <option value="0">三方资源</option>
                     </select>
                 </el-form-item>
@@ -447,6 +447,22 @@ return {
 },
 
 methods: {
+    changeCk(event){
+        console.log(event.target.value)
+        
+        let params={
+            type:this.classFl,
+        }
+        
+        this.api.pushlib_oversea_textlink_list({params}).then((res)=>{
+            this.threeData=res.data;
+            
+        })
+
+        
+
+    },
+    
     singleElection (row) {
         console.log(row)
     },
@@ -746,6 +762,14 @@ methods: {
                        this.$message.warning('跳转链接不能为空!')
                        return false
                    }
+                    if(!this.classFl){
+                        this.$message({
+                            message: '请选择分类',
+                            type: 'warning'
+                        });
+                        return false
+
+                    }
 
                }else if(this.click_action == 1){
                    var click_action_title = '打开应用'
@@ -774,6 +798,7 @@ methods: {
                }else if(this.click_action == 3){
                    var click_action_title ='无'
                }
+              
                 let formData =new FormData;
                 formData.append('plid',this.plid);
                 formData.append('mfid',this.rowData.mfid);
