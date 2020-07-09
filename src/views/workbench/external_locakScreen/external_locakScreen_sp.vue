@@ -39,7 +39,7 @@
                         type="selection"
                         v-if='pl'
                         :selectable='checkboxT'
-                        width="50" style="padding:0 auto!important">
+                        width="50">
                     </el-table-column>
                     <el-table-column
                         prop="id"
@@ -253,14 +253,14 @@
             }, 
             getRowClass({row, column, rowIndex}) {
                 if (rowIndex === 0) {
-                    return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;padding:20px 0px 20px 14px'
+                    return 'background:#f7f9fc;color:#1F2E4D;font-size:14px;font-weight:bold;height:48px;font-family:PingFang-SC-Regular;text-align: center;'
                 } 
                 else {
                     return ''
                 }
             },
             cell({row, column, rowIndex, columnIndex}){
-                return 'padding:15px 14px;color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;'
+                return 'color:#3d4966;font-size:14px;font-weight:400;font-family:PingFang-SC-Regular;text-align: center;'
             },
             handleSizeChange(p) { // 每页条数切换
                 this.p = p;
