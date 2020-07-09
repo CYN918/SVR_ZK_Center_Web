@@ -78,7 +78,7 @@
                     <el-table-column
                         label="操作">
                         <template slot-scope="scope"> 
-                            <el-button  type="text" size="small" @click="updateStatus(scope.$index, scope.row)">审核</el-button>
+                            <el-button  type="text" size="small" @click="updateStatus(scope.$index, scope.row)" v-if="tableData[scope.$index].audit_status == 0">审核</el-button>
                             <el-button  type="text" size="small" @click="download(scope.$index, scope.row)">下载</el-button>
                             <el-button  type="text" size="small" v-if="tableData[scope.$index].audit_status == 2" @click="checkreason(scope.$index, scope.row)">查看原因</el-button>
                         </template>
@@ -128,6 +128,19 @@
                 </div>
             </div>
         </div> 
+        <div class="bg" v-if="view">
+            <div class='content'>
+                <div class='con_tit'>
+                    <span>查看原因</span>
+                </div>
+                <div class='sel'>
+                    <span>{{audit_note}}</span>
+                </div>
+                <div class='sel_btn'>
+                    <span @click='qxView()'>取消</span>
+                </div>
+            </div>
+        </div>
         <loading v-if='load'></loading>    
     </div>
 </template>
@@ -151,21 +164,27 @@
                 value:[],
                 yy:"",   
                 load:false,  
-                pl:false,     
+                pl:false,  
+                view:false,   
+                audit_note:'',
             };
         },
         methods: {
             changeDate(){
 
             },
+            qxView(){
+                this.view = false;
+            },
             plcz(){
                 this.pl=true;
             },
-            download(){
-
+            download(index,row){
+                window.open(row.mfinal.attach_uri);
             },
-            checkreason(){
-
+            checkreason(index,row){
+                this.view = true;
+                this.audit_note = row.audit_note;
             },
             checkboxT(row, rowIndex){
                 if(row.audit_status!=0){
@@ -195,6 +214,7 @@
                                 this.getData();
                                 this.qx();
                                 this.Qxplcz();
+                                this.advers=[];
                             }
                     })
                 }else{
@@ -215,6 +235,7 @@
                                     this.getData();
                                     this.qx();
                                     this.Qxplcz();
+                                    this.advers=[];
                                 }
                         })
                 }

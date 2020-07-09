@@ -3,8 +3,8 @@
 <div class="template">
        <div class="top_name">
                 
-                <span class="top_txt" @click='fh(-1)'>杂志锁屏推送审核管理  / 下发内容管理</span><div style="width:0;height:0;"><br/></div>
-                <span class="top_txts" style="width: 113px;display: inline-block;">上线内容管理</span>
+                <span class="top_txt" @click='fh(-1)'>杂志锁屏推送审核管理  / 壁纸管理</span><div style="width:0;height:0;"><br/></div>
+                <span class="top_txts" style="width: 113px;display: inline-block;">壁纸管理</span>
                
                
                 <!-- <span class='qdName'>渠道</span>
