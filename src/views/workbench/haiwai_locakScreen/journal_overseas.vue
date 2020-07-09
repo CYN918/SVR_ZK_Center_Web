@@ -180,6 +180,7 @@
                         </el-table-column>
                         <el-table-column
                                 label="操作" 
+                                fixed="right"
                                 v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)">
                             <template slot-scope="scope">
                                  <!-- <el-button  type="text" size="small" v-if='tableData[scope.$index].status=="0"' @click='updateStatus(index)'>审核</el-button> -->
@@ -275,8 +276,7 @@
                 </el-form-item>
                 <el-form-item label="分类:" v-if="click_action == '0'">
                     <select v-model="classFl"   @change="changeCk($event)">
-                        <option value="1">本地资源</option>
-                        <option value="0">三方资源</option>
+                        <option v-for="(item,key) in arrObj" :value="key">{{item}}</option>
                     </select>
                 </el-form-item>
                 <el-form-item label="标题:" v-if="click_action == '3'">
@@ -288,37 +288,49 @@
                 <el-form-item label="跳转链接:" v-if="click_action == '3'">
                     <el-input v-model="url"></el-input>
                 </el-form-item>
-                <el-table
-                    :data="threeData"
-                    border
-                    stripe
-                    ref="threeData"
-                    v-if="click_action == '0'"
-                    @row-click="singleElection">
-                    <el-table-column label="" width="65">
-                        <template slot-scope="scope">
-                            <el-radio class="radio" v-model="templateSelection" :label="scope.$index">&nbsp;</el-radio>
-                        </template>
-                    </el-table-column>
-                    <el-table-column label="标题"  :show-overflow-tooltip="true">
-                        <template slot-scope="scope">
-                            <span v-if="threeData[scope.$index].title!=''">{{threeData[scope.$index].title}}</span>
-                            <span v-if="threeData[scope.$index].title==''">--</span>
-                        </template>
-                    </el-table-column>
-                    <el-table-column label="内容摘要" :show-overflow-tooltip="true">
-                        <template slot-scope="scope">
-                            <span v-if="threeData[scope.$index].content!=''">{{threeData[scope.$index].content}}</span>
-                            <span v-if="threeData[scope.$index].content==''">--</span>
-                        </template>
-                    </el-table-column>
-                    <el-table-column label="落地页">
-                        <template slot-scope="scope">
-                            <a :href="threeData[scope.$index].url" target="_blank" style="text-decoration: none;color: #66b1ff" v-if="threeData[scope.$index].url!=''">点击查看</a>
-                            <a  v-if="threeData[scope.$index].url==''">-</a>
-                        </template>
-                    </el-table-column>
-                </el-table>
+                <div v-if="click_action == '0'">
+                    <el-table
+                        :data="threeData"
+                        height="400"
+                        border
+                        stripe
+                        ref="threeData"
+                        @row-click="singleElection">
+                        <el-table-column label="" width="65">
+                            <template slot-scope="scope">
+                                <el-radio class="radio" v-model="templateSelection" :label="scope.$index">&nbsp;</el-radio>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="标题"  :show-overflow-tooltip="true">
+                            <template slot-scope="scope">
+                                <span v-if="threeData[scope.$index].title!=''">{{threeData[scope.$index].title}}</span>
+                                <span v-if="threeData[scope.$index].title==''">--</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="内容摘要" :show-overflow-tooltip="true">
+                            <template slot-scope="scope">
+                                <span v-if="threeData[scope.$index].content!=''">{{threeData[scope.$index].content}}</span>
+                                <span v-if="threeData[scope.$index].content==''">--</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="落地页">
+                            <template slot-scope="scope">
+                                <a :href="threeData[scope.$index].url" target="_blank" style="text-decoration: none;color: #66b1ff" v-if="threeData[scope.$index].url!=''">点击查看</a>
+                                <a  v-if="threeData[scope.$index].url==''">-</a>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                    <!-- <el-pagination
+                        @size-change="handleSizeChange1"
+                        @current-change="handleCurrentChange1"
+                        :current-page.sync="page"
+                        :page-size="p"
+                        layout="total, prev, pager, next"
+                        :total="total1">
+                    </el-pagination> -->
+
+                </div>
+                
                 
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -326,7 +338,7 @@
                 <el-button @click="cancelTx">取消</el-button>
             </span>
         </el-dialog>
-        <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :ids='ids' :gdsrc="gdsrc"></ADDWL>
+        <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :ids='ids' :gdsrc="gdsrc" :audit_type="6"></ADDWL>
         <loading v-if='load'></loading>
         <div class='bg' v-if="change">
             <div class='compile'>
@@ -443,24 +455,38 @@ return {
         threeData:[],
         templateSelection:'',
         classFl:'',
+        arrObj:{},
+        total1:0,
 };
 },
 
 methods: {
+    handleSizeChange1(val) {
+        console.log(`每页 ${val} 条`);
+      },
+      handleCurrentChange1(val) {
+        console.log(`当前页: ${val}`);
+      },
     changeCk(event){
-        console.log(event.target.value)
-        
         let params={
             type:this.classFl,
-        }
-        
+        }  
         this.api.pushlib_oversea_textlink_list({params}).then((res)=>{
-            this.threeData=res.data;
-            
+            console.log(res)
+            this.threeData=res;   
+            // this.total1 = res.length;    
         })
-
-        
-
+    },
+    init(){
+        this.api.pushlib_oversea_textlink_type_list().then((res)=>{
+            if(res != false){
+                this.arrObj = res;
+                // for(let key in obj){
+                //     console.log(key + '---' + obj[key])
+                //     this.textlinkData.push(obj[key])
+                // }      
+            }    
+        })
     },
     
     singleElection (row) {
@@ -736,6 +762,7 @@ methods: {
                 this.deeplink = row.deeplink;
                 this.pkgname = row.pkgname;
                 this.download_url = row.download_url;
+                this.init();
            },
            cancelTx(){
                this.textVisible = false;

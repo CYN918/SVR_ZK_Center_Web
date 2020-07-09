@@ -107,6 +107,7 @@
                         </el-table-column>
                         <el-table-column
                                 label="操作" 
+                                fixed="right"
                                 v-if="new Date(this.date)>=new Date(new Date().getTime() - 24*60*60*1000)">
                             <template slot-scope="scope">
                                 <el-button  type="text" size="small" v-if="tableData[scope.$index].audit_status == 2" @click="checkreason(scope.$index, scope.row)">查看原因</el-button>
@@ -184,7 +185,7 @@
             </span>
         </el-dialog>
         
-        <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :ids='ids' :gdsrc="gdsrc"></ADDWL>
+        <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :ids='ids' :gdsrc="gdsrc" :video="1"></ADDWL>
         <loading v-if='load'></loading>
         <div class='bg' v-if="change">
             <div class='compile'>

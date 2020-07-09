@@ -350,6 +350,7 @@ import 'ant-design-vue/dist/antd.css'
                         this.loadSure = false;
                         this.fh(-1);
                     }
+                    this.loadSure = false;
                 })
 
             },

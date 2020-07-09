@@ -15,8 +15,9 @@
                     <span class="Search_select_tit">物料类型：</span>
                     <select v-model="type" @change="getList1()">
                         <!-- <option value="">全部</option> -->
-                        <option v-for="item in scType" :value="item.type" v-if='video==undefined&&(item.type=="f_sls_lockscreen"||item.type=="f_sls_picture")'>{{item.name}}</option>
+                        <option v-for="item in scType" :value="item.type" v-if='video==undefined&&audit_type==undefined&&(item.type=="f_sls_lockscreen"||item.type=="f_sls_picture")'>{{item.name}}</option>
                         <option v-for="item in scType" :value="item.type" v-if='video!=undefined&&item.type=="f_sls_lockscreen"'>{{item.name}}</option>
+                        <option v-for="item in scType" :value="item.type" v-if='video==undefined&&audit_type==6&&item.type=="f_sls_picture"'>{{item.name}}</option>
                     </select>
                 </div>
                 <div class="Search_select" v-if="gdsrc==1">
@@ -138,7 +139,7 @@
     export default {
         components: {loading},
         name: "select_material",
-        props:['material','typeSC',"date",'channel','video','ids','gdsrc'],
+        props:['material','typeSC',"date",'channel','video','ids','gdsrc','audit_type'],
         data(){
             return {
                 checked:[],
@@ -182,8 +183,12 @@
             }else{
                 this.getList();
             }
+            if(this.audit_type == 6){
+                this.type = 'f_sls_picture';
+            }
             // console.log(this.gdsrc)
             // console.log(this.ids)
+            console.log(this.video)
         },
         methods:{
             checkAll(){

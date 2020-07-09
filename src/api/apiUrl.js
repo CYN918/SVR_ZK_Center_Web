@@ -2108,5 +2108,10 @@ export default {
 		url:'pushlib/oversea/textlink/list',method:'get'
 	},
 
+	//分类api
+	pushlib_oversea_textlink_type_list:{
+		url:'pushlib/oversea/textlink/type/list',method:'get'
+	},
+
 
 }
