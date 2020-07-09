@@ -134,10 +134,10 @@
                     <span>查看原因</span>
                 </div>
                 <div class='sel'>
-                    <span>{{audit_note}}</span>
+                    <span style="margin-left: 24px;">{{audit_note}}</span>
                 </div>
                 <div class='sel_btn'>
-                    <span @click='qxView()'>取消</span>
+                    <span @click='qxView()' style="margin-left: 24px;">取消</span>
                 </div>
             </div>
         </div>
