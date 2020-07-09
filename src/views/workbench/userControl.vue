@@ -30,7 +30,7 @@
                             label="账号">
                     </el-table-column>
                     <el-table-column
-                            prop="channel.channel"
+                            prop="channel"
                             label="渠道">
                     </el-table-column>
 

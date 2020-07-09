@@ -80,10 +80,10 @@
                         </el-table-column>
                         
                         <el-table-column
-                                label="落地页">
+                                label="文字链">
                                  <template slot-scope="scope">
-                                    <a :href="tableData[scope.$index].url" target="_blank" style="text-decoration: none;color: #66b1ff" v-if="tableData[scope.$index].url!=''">点击查看</a>
-                                    <a  v-if="tableData[scope.$index].url==''">-</a>
+                                    <span @click='checkAdd(scope.$index, scope.row)' style="cursor: pointer;color: #3377ff;">点击查看</span>
+                                    
                                 </template>
                         </el-table-column>
                         <el-table-column
@@ -105,13 +105,6 @@
                                 </el-switch>
                                 <span v-if="scope.row.mfinal.type != 'f_sls_picture'">--</span>
                             </template>
-                        </el-table-column>
-                        <el-table-column
-                                label="状态">
-                                  <template slot-scope="scope">
-                                      <span v-if="tableData[scope.$index].status_name == '信息缺失'" style="color:red;">{{tableData[scope.$index].status_name}}</span>
-                                      <span v-else>{{tableData[scope.$index].status_name}}</span>
-                                </template>
                         </el-table-column>
                         <el-table-column
                                 label="配置状态">
@@ -167,6 +160,30 @@
                  </div>
         </div>
         
+        <div class="bg" v-if="template">
+            <div class='content' style="width: 600px;">
+                <div class='con_tit'>
+                    <span>查看文字链</span>
+                    <i class="el-icon-close" @click="closeBg" style="float: right;margin-right: 20px;margin-top: 10px;font-size: 24px;"></i>
+                </div>
+                <div class='sel'>
+                    <span style="margin-left: 24px;width: 100px;">标题：</span>
+                    <span>{{title}}</span>
+                    
+                    
+                </div>
+                <div class='sel'>
+                    <span style="margin-left: 24px;width: 100px;">内容描述：</span>
+                    <span>{{content}}</span>
+
+                </div>
+                <div class='sel'>
+                    <span style="margin-left: 24px;width: 100px;">跳转链接：</span>
+                    <span>{{url}}</span>
+                </div>
+            </div>
+        </div>
+
         <div class="bg" v-if="view">
             <div class='content'>
                 <div class='con_tit'>
@@ -350,16 +367,28 @@ return {
         total1:0,
         view:false,
         audit_note:'',
+        template:false,
 };
 },
 
 methods: {
+    closeBg(){
+        this.template = false;
+    },
     handleSizeChange1(val) {
         console.log(`每页 ${val} 条`);
-      },
-      handleCurrentChange1(val) {
+    },
+    handleCurrentChange1(val) {
         console.log(`当前页: ${val}`);
-      },
+    },
+    checkAdd(index,row){
+        console.log(row)
+        this.template = true;
+        this.url = row.url;
+        this.title = row.title;
+        this.content = row.content;
+
+    },
     changeCk(event){
         let params={
             type:this.classFl,
