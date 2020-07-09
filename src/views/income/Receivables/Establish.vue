@@ -351,6 +351,7 @@
                        this.loadSure = false;
                        this.fh(-1);
                    }
+                   this.loadSure = false;
                 })
 
             },
