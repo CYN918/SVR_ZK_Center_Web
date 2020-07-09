@@ -78,45 +78,7 @@
                                 label="物料ID">
                                 
                         </el-table-column>
-                        <!-- <el-table-column
-                                
-                                label="壁纸ID">
-                                <template slot-scope="scope">
-                                    <el-tooltip placement="top" class="tit_txt_2 logs tit_txts">
-                                        <div slot="content">
-                                            <div>{{tableData[scope.$index].mfinal.wpid}}</div>
-
-                                        </div>
-                                        <div>{{tableData[scope.$index].mfinal.wpid}}</div>                         
-                                    </el-tooltip>
-                                
-                            </template>
-                                
-                        </el-table-column> -->
-                        <!-- <el-table-column
-                                label="文字链标题"
-                                :show-overflow-tooltip="true">
-                                <template slot-scope="scope">
-                                    <span v-if="tableData[scope.$index].title!=''">{{tableData[scope.$index].title}}</span>
-                                    <span v-if="tableData[scope.$index].title==''">--</span>
-                                </template>
-                        </el-table-column>  
-                        <el-table-column
-                                label="文字链内容"
-                                :show-overflow-tooltip="true">
-                                <template slot-scope="scope">
-                                    <span v-if="tableData[scope.$index].content!=''">{{tableData[scope.$index].content}}</span>
-                                    <span v-if="tableData[scope.$index].content==''">--</span>
-                                </template>
-                        </el-table-column>
-                        <el-table-column
-                                label="文字链标识"
-                                :show-overflow-tooltip="true">
-                                <template slot-scope="scope">
-                                    <span v-if="tableData[scope.$index].click_action!=''">{{tableData[scope.$index].click_action}}</span>
-                                    <span v-if="tableData[scope.$index].click_action==''">--</span>
-                                </template>
-                        </el-table-column> -->
+                        
                         <el-table-column
                                 label="落地页">
                                  <template slot-scope="scope">
@@ -124,7 +86,7 @@
                                     <a  v-if="tableData[scope.$index].url==''">-</a>
                                 </template>
                         </el-table-column>
-                        <!-- <el-table-column
+                        <el-table-column
                             prop="is_copyright"
                             
                             label="版权来源">
@@ -143,7 +105,7 @@
                                 </el-switch>
                                 <span v-if="scope.row.mfinal.type != 'f_sls_picture'">--</span>
                             </template>
-                        </el-table-column> -->
+                        </el-table-column>
                         <el-table-column
                                 label="状态">
                                   <template slot-scope="scope">
@@ -204,34 +166,17 @@
                     </el-pagination>
                  </div>
         </div>
-        <div class="bg" v-if="tc">
+        
+        <div class="bg" v-if="view">
             <div class='content'>
                 <div class='con_tit'>
-                    <span>更新状态</span>
+                    <span>查看原因</span>
                 </div>
                 <div class='sel'>
-                    <select v-model="status2">
-                        <option value="1">已上线</option>
-                        <option value="2">拒绝上线</option>
-                    </select>
-                    <div class='sel_1' v-if="status2=='拒绝上线'">
-                        <el-checkbox-group v-model="checkList">
-                            <el-checkbox label="测试不通过" class='aaa'></el-checkbox>
-                            <el-checkbox label="内容差"  class='aaa'></el-checkbox>
-                            <el-checkbox label="屏蔽竞品"  class='aaa'></el-checkbox>
-                            <el-checkbox label="其他"  class='aaa bb'>
-                                <template>
-                                    <span style="margin-right:10px">其他</span>
-                                    <textarea placeholder="最多20字" maxlength="20"  v-model="yy"></textarea>
-                                </template>
-                            </el-checkbox>
-                        </el-checkbox-group>
-                        
-                    </div>
+                    <span style="margin-left: 24px;">{{audit_note}}</span>
                 </div>
                 <div class='sel_btn'>
-                    <span class="sel_btn_qd" @click="pushLib()">确定</span>
-                    <span @click='qx()'>取消</span>
+                    <span @click='qxView()' style="margin-left: 24px;">取消</span>
                 </div>
             </div>
         </div>
@@ -268,7 +213,7 @@
             :close-on-click-modal='false'
             :before-close="handleClose">
             <el-form label-width="120px">
-                <el-form-item label="标识:">
+                <el-form-item label="文字链类型:">
                     <select v-model="click_action">
                         <option value="3">本地资源</option>
                         <option value="0">三方资源</option>
@@ -340,59 +285,7 @@
         </el-dialog>
         <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :ids='ids' :gdsrc="gdsrc" :audit_type="6"></ADDWL>
         <loading v-if='load'></loading>
-        <div class='bg' v-if="change">
-            <div class='compile'>
-                <div class='ts'>
-                    <span>预警设置</span>
-                    <el-popover placement="top">
-                        <div>
-                            预警提前天数：提前x天，检测当天配置内容的数量<br/>
-                            预警开始时间：当天开始检测的时间，精确到分<br/>
-                            预警数量：预警的数量依据，若数量低于设置的值，则发起预警通知<br/>
-                            通知人员姓名：用于匹配姓名找到企业微信对应用户，发送预警消息<br/>
-                            根据设置的预警检测提前天数和预警检测开始时间，每小时检测一次对应的数据是否存<br/>
-                            在异常，若存在则发送预警通知
-                        </div>
-                        <img src="../../../../public/img/msg.png" style="position: relative;top: 8px;" slot="reference"/>
-                    </el-popover>
-                </div>
-                <div>
-                    <div class='regulation'>
-                        <div>
-                            <span  class='titName'>预警提前天数：</span>
-                            <el-input-number v-model="num" controls-position="right" @change="handleChange" :min="1"></el-input-number>
-                        </div>
-                        <div>
-                            <span  class='titName'>预警开始时间: </span>
-                            <template>
-                                <el-time-picker
-                                    v-model="value1"
-                                    format='HH:mm'
-                                    value-format='HH:mm'
-                                    :picker-options="{
-                                    selectableRange:  '00:00:00 - 23:59:59'
-                                    }"
-                                    placeholder="任意时间点">
-                                </el-time-picker>
-                            </template>
-                        </div>
-                        <div>
-                            <span  class='titName'>预警数量：</span>
-                            <el-input-number v-model="amount" controls-position="right" @change="handleChange" :min="1"></el-input-number>
-                        </div>
-                        <div>
-                            <span  class='titName'>通知人员：</span>
-                            <el-input v-model="content" placeholder="请输入内容"></el-input>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="btn_right" style="float:left;">
-                    <span class='cx' style="margin-bottom:20px" @click='bj()'>确认</span>
-                    <span @click='HeidChange'>取消</span>
-                </div>
-            </div>
-        </div>
+        
 </div>
 </template>
 
@@ -416,7 +309,6 @@ return {
         page:1,
         p:10,
         total:0,
-        tc:false,
         status2:"",
         checkList:[],
         pl:false,
@@ -443,7 +335,6 @@ return {
         deeplink:'',
         download_url:'',
         load:true,
-        change:false,
         num: 1,
         amount: 1,
         content:'',
@@ -457,6 +348,8 @@ return {
         classFl:'',
         arrObj:{},
         total1:0,
+        view:false,
+        audit_note:'',
 };
 },
 
@@ -492,21 +385,22 @@ methods: {
     singleElection (row) {
         console.log(row)
     },
-    getShow(){
-        this.change = true;
+    
+    
+    qxView(){
+        this.view = false;
     },
-    HeidChange(){
-        this.change=false
-    },
-    bj(){
-
-    }, 
-    checkreason(){
-
+    checkreason(index,row){
+        this.view = true;
+        this.audit_note = row.audit_note;
     },
     changeStatus(a,b){
-        
-    },  
+        this.api.pushlib_textlink_iscopyright_edit({tdate:this.tableData[a].tdate,is_copyright:b,sub_plid:this.sub_plid,plid:this.plid,mfid:this.tableData[a].mfinal.mfid}).then((res)=>{
+            if(res != false){
+                this.$parent.getData1();
+            }
+        })
+    },
     handleChange(value) {
         console.log(value);
     },
@@ -596,52 +490,7 @@ methods: {
             this.getData()
         })
     },
-     pushLib(){
-          if(this.index=='aa'){
-                    let array={plid:"",adid:"",mfid:""}
-                    for(var i=0;i<this.value.length;i++){
-                            array.plid=this.value[i].plid;
-                            array.adid=this.value[i].adid;
-                            array.mfid=this.value[i].mfid;
-                            this.advers.push(array);
-                        }
-                        if(!this.status2){
-                             this.$message.error('状态不能为空')
-                        }
-                        let formData =new FormData;
-                        formData.append('status',this.status2),
-                        formData.append('note',this.checkList.join(',')+this.yy) 
-                        formData.append('advers',JSON.stringify(this.advers))
-                        this.api.pushlib_adver_mfinal_audit(formData).then((res)=>{
-                            if(res!=false){
-                                this.getData();
-                                this.qx();
-                                this.Qxplcz();
-                            }
-                    })
-               }else{
-                   let array={plid:"",adid:"",mfid:""}
-                     array.plid=this.tableData[this.index].plid;
-                     array.adid=this.tableData[this.index].adid;
-                     array.mfid=this.tableData[this.index].mfid;
-                    this.advers.push(array);
-                       if(!this.status2){
-                             this.$message.error('状态不能为空')
-                        }
-                     let formData =new FormData;
-                      formData.append('status',this.status2),
-                        formData.append('note',this.checkList.join(',')+this.yy) 
-                        formData.append('advers',JSON.stringify(this.advers))
-                        this.api.pushlib_adver_mfinal_audit(formData).then((res)=>{
-                            if(res!=false){
-                                this.getData();
-                                this.qx();
-                                this.Qxplcz();
-                            }
-                    })
-               }
-            
-           },   
+     
     plcz(){
         this.pl=true;
     },
@@ -732,26 +581,9 @@ methods: {
                  this.rows = rows;
                  
                 },
-              updateStatus(index){
-                this.advers=[];
-                if(index=='aa'&&this.value.length==0){
-                    return
-                }
-               this.tc=true;
-               if(index==''){
-                   this.index=0;
-               }else{
-                   this.index=index;
-               }
               
-               
-               
-           }, 
-            qx(){
-               this.tc=false;
-               this.status2='';
-               this.checkList=[];
-           }, 
+           
+           
            details(row){
                 this.textVisible = true;
                 this.rowData = row;

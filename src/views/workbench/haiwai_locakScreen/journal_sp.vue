@@ -184,6 +184,19 @@
                 <el-button @click="confirmVisible = false">取 消</el-button>
             </span>
         </el-dialog>
+        <div class="bg" v-if="view">
+            <div class='content'>
+                <div class='con_tit'>
+                    <span>查看原因</span>
+                </div>
+                <div class='sel'>
+                    <span>{{audit_note}}</span>
+                </div>
+                <div class='sel_btn'>
+                    <span @click='qxView()'>取消</span>
+                </div>
+            </div>
+        </div>
         
         <ADDWL v-if="ADDwl" @listenToChildEvent="listenToChildEvent" :date="date" :channel='channel' :material="material" :ids='ids' :gdsrc="gdsrc" :video="1"></ADDWL>
         <loading v-if='load'></loading>
@@ -298,6 +311,8 @@ return {
         gdsrc:'',
         options:[],
         valueTs:'',
+        view:false,
+        audit_note:'',
 };
 },
 
@@ -311,12 +326,13 @@ methods: {
     bj(){
 
     }, 
-    checkreason(){
-
+    qxView(){
+        this.view = false;
     },
-    changeStatus(a,b){
-        
-    },  
+    checkreason(index,row){
+        this.view = true;
+        this.audit_note = row.audit_note;
+    },
     handleChange(value) {
         console.log(value);
     },
